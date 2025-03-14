@@ -15,17 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package ru.tech.imageresizershrinker.core.crash.components
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import kotlin.system.exitProcess
 
@@ -111,5 +116,30 @@ private const val defFlags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
         Intent.FLAG_ACTIVITY_CLEAR_TASK
 
 abstract class CrashHandler : M3Activity() {
-    fun getCrashReason(): String = intent.getStringExtra(INTENT_DATA_NAME) ?: ""
+    private fun getCrashReason(): String = intent.getStringExtra(INTENT_DATA_NAME) ?: ""
+
+    fun getCrashInfo(): CrashInfo {
+        val crashReason = getCrashReason()
+        val exceptionName = crashReason.split("\n\n")[0].trim()
+        val stackTrace = crashReason.split("\n\n").drop(1).joinToString("\n\n")
+
+        val title = "[Bug] App Crash: $exceptionName"
+        val deviceInfo =
+            "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: $AppVersion (${BuildConfig.VERSION_CODE})\n\n"
+        val body = "$deviceInfo$stackTrace"
+
+        return CrashInfo(
+            title = title,
+            body = body,
+            exceptionName = exceptionName,
+            stackTrace = stackTrace
+        )
+    }
 }
+
+data class CrashInfo(
+    val title: String,
+    val body: String,
+    val exceptionName: String,
+    val stackTrace: String
+)

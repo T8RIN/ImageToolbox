@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -86,6 +85,7 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -102,12 +102,12 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
     isSearching: Boolean,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
-    sendMediaAsResult: (List<Uri>) -> Unit,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
     selectedAlbumIndex: Long,
     onSearchingChange: (Boolean) -> Unit
 ) {
+    val context = LocalComponentActivity.current
     val layoutDirection = LocalLayoutDirection.current
 
     val albumsState by component.albumsState.collectAsState()
@@ -214,7 +214,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                             onClick = {
                                 if (enabled) {
                                     scope.launch {
-                                        sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
+                                        context.sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
                                     }
                                 }
                             },

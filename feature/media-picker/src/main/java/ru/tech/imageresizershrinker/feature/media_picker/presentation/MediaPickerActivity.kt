@@ -16,32 +16,10 @@
  */
 package ru.tech.imageresizershrinker.feature.media_picker.presentation
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.retainedComponent
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
-import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toClipData
-import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
-import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
-import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import javax.inject.Inject
@@ -52,86 +30,11 @@ class MediaPickerActivity : M3Activity() {
     @Inject
     lateinit var componentFactory: MediaPickerComponent.Factory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val component = retainedComponent(factory = componentFactory::invoke)
-
-        val allowMultiple = intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-
-        val title = if (allowMultiple) {
-            getString(R.string.pick_multiple_media)
-        } else {
-            getString(R.string.pick_single_media)
-        }
-        setContentWithWindowSizeClass {
-            ImageToolboxCompositionLocals(
-                settingsState = component.settingsState.toUiState(
-                    allEmojis = Emoji.allIcons(),
-                    allIconShapes = IconShapeDefaults.shapes,
-                    onGetEmojiColorTuple = component::getColorTupleFromEmoji
-                )
-            ) {
-                ImageToolboxThemeSurface {
-                    val dynamicTheme = LocalDynamicThemeState.current
-                    MediaPickerRootContent(
-                        component = component,
-                        title = title,
-                        allowedMedia = intent.type.allowedMedia,
-                        allowMultiple = allowMultiple
-                    )
-                    ConfettiHost()
-                    ToastHost()
-
-                    val scope = rememberCoroutineScope()
-                    SideEffect {
-                        intent.getIntExtra(ColorSchemeName, Color.Transparent.toArgb()).takeIf {
-                            it != Color.Transparent.toArgb()
-                        }?.let {
-                            scope.launch {
-                                while (dynamicTheme.colorTuple.value.primary != Color(it)) {
-                                    dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
-                                    delay(500L)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    private val component: MediaPickerComponent by lazy {
+        retainedComponent(factory = componentFactory::invoke)
     }
 
+    @Composable
+    override fun Content() = MediaPickerRootContent(component)
 
-    internal fun sendMediaAsResult(selectedMedia: List<Uri>) {
-        val newIntent = Intent(
-            if (selectedMedia.size == 1) Intent.ACTION_SEND
-            else Intent.ACTION_SEND_MULTIPLE
-        ).apply {
-            if (selectedMedia.size == 1) {
-                data = selectedMedia.first()
-                clipData = selectedMedia.toClipData()
-                putExtra(
-                    Intent.EXTRA_STREAM,
-                    selectedMedia.first()
-                )
-            } else {
-                clipData = selectedMedia.toClipData()
-                putParcelableArrayListExtra(
-                    Intent.EXTRA_STREAM,
-                    ArrayList(selectedMedia)
-                )
-            }
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        setResult(RESULT_OK, newIntent)
-
-        finish()
-    }
-
-    private val String?.pickImage: Boolean get() = this?.startsWith("image") == true
-    private val String?.pickVideo: Boolean get() = this?.startsWith("video") == true
-    private val String?.allowedMedia: AllowedMedia
-        get() = if (pickImage) AllowedMedia.Photos(this?.takeLastWhile { it != '/' })
-        else if (pickVideo) AllowedMedia.Videos
-        else AllowedMedia.Both
 }

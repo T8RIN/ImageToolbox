@@ -17,192 +17,79 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
-import android.Manifest
 import android.content.Intent
-import android.os.Build
-import android.os.Environment
-import android.provider.Settings
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
+import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberCurrentLifecycleEvent
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
-internal fun MediaPickerActivity.MediaPickerRootContent(
-    component: MediaPickerComponent,
-    title: String,
-    allowedMedia: AllowedMedia,
-    allowMultiple: Boolean,
-) {
-    var isPermissionAllowed by remember {
-        mutableStateOf(true)
-    }
-    var isManagePermissionAllowed by remember {
-        mutableStateOf(true)
-    }
-    var invalidator by remember {
-        mutableIntStateOf(0)
+internal fun MediaPickerRootContent(component: MediaPickerComponent) {
+    val context = LocalComponentActivity.current
+    val allowMultiple = context.intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+
+    val title = if (allowMultiple) {
+        stringResource(R.string.pick_multiple_media)
+    } else {
+        stringResource(R.string.pick_single_media)
     }
 
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+    ImageToolboxCompositionLocals(
+        settingsState = component.settingsState.toUiState(
+            allEmojis = Emoji.allIcons(),
+            allIconShapes = IconShapeDefaults.shapes,
+            onGetEmojiColorTuple = component::getColorTupleFromEmoji
+        )
     ) {
-        invalidator++
-    }
-
-    val requestManagePermission = {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            launcher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
-        }
-    }
-
-    val lifecycleEvent = rememberCurrentLifecycleEvent()
-    LaunchedEffect(lifecycleEvent, invalidator) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val permission = Manifest.permission.READ_MEDIA_IMAGES
-            isPermissionAllowed = hasPermissionAllowed(permission)
-            isManagePermissionAllowed =
-                Environment.isExternalStorageManager() || isInstalledFromPlayStore()
-            if (!hasPermissionAllowed(permission)) {
-                ActivityCompat.requestPermissions(
-                    this@MediaPickerRootContent,
-                    arrayOf(permission),
-                    0
-                )
-            } else {
-                component.init(allowedMedia)
-            }
-        }
-    }
-    Scaffold(
-        topBar = {
-            EnhancedTopAppBar(
-                title = {
-                    Text(
-                        text = title,
-                        modifier = Modifier.marquee()
-                    )
-                },
-                navigationIcon = {
-                    EnhancedIconButton(
-                        onClick = ::finish,
-                        containerColor = Color.Transparent
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.close)
-                        )
-                    }
-                },
-                actions = {
-                    TopAppBarEmoji()
-                },
-                drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
+        ImageToolboxThemeSurface {
+            val dynamicTheme = LocalDynamicThemeState.current
+            MediaPickerRootContentImpl(
+                component = component,
+                title = title,
+                allowedMedia = context.intent.type.allowedMedia,
+                allowMultiple = allowMultiple
             )
-        }
-    ) {
-        AnimatedContent(
-            targetState = isPermissionAllowed,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-        ) { havePermissions ->
-            if (havePermissions) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    MediaPickerRootContentImpl(
-                        allowedMedia = allowedMedia,
-                        allowMultiple = allowMultiple,
-                        component = component,
-                        sendMediaAsResult = ::sendMediaAsResult,
-                        isManagePermissionAllowed = isManagePermissionAllowed,
-                        onRequestManagePermission = requestManagePermission
-                    )
-                    LaunchedEffect(Unit) {
-                        component.init(allowedMedia = allowedMedia)
-                    }
-                }
-            } else {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.BrokenImageAlt,
-                        contentDescription = null,
-                        modifier = Modifier.size(108.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(id = R.string.no_permissions),
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    EnhancedButton(
-                        onClick = {
-                            ActivityCompat.requestPermissions(
-                                this@MediaPickerRootContent,
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-                                } else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                0
-                            )
-                            invalidator++
+            ConfettiHost()
+            ToastHost()
+
+            val scope = rememberCoroutineScope()
+            SideEffect {
+                context.intent.getIntExtra(ColorSchemeName, Color.Transparent.toArgb()).takeIf {
+                    it != Color.Transparent.toArgb()
+                }?.let {
+                    scope.launch {
+                        while (dynamicTheme.colorTuple.value.primary != Color(it)) {
+                            dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
+                            delay(500L)
                         }
-                    ) {
-                        Text(stringResource(id = R.string.request))
                     }
                 }
             }
         }
     }
 }
+
+private val String?.pickImage: Boolean get() = this?.startsWith("image") == true
+private val String?.pickVideo: Boolean get() = this?.startsWith("video") == true
+private val String?.allowedMedia: AllowedMedia
+    get() = if (pickImage) AllowedMedia.Photos(this?.takeLastWhile { it != '/' })
+    else if (pickVideo) AllowedMedia.Videos
+    else AllowedMedia.Both

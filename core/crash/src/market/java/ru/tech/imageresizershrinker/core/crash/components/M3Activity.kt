@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -33,6 +34,8 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.crash.CrashActivity
@@ -43,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
+import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 @AndroidEntryPoint
@@ -57,6 +61,11 @@ abstract class M3Activity : AppCompatActivity() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     private val settingsState: SettingsState by _settingsState
+
+    @Composable
+    abstract fun Content()
+
+    open fun onFirstLaunch() = Unit
 
     @JvmName("getSettingsState1")
     fun getSettingsState(): SettingsState = settingsState
@@ -89,16 +98,15 @@ abstract class M3Activity : AppCompatActivity() {
             activityToBeLaunched = CrashActivity::class.java,
         )
 
-        lifecycleScope.launch {
-            settingsProvider
-                .getSettingsStateFlow()
-                .collect { state ->
-                    _settingsState.update { state }
-                    handleSystemBarsBehavior()
-                    handleSecureMode()
-                    updateFirebaseParams()
-                }
-        }
+        settingsProvider
+            .getSettingsStateFlow()
+            .onEach { state ->
+                _settingsState.update { state }
+                handleSystemBarsBehavior()
+                handleSecureMode()
+                updateFirebaseParams()
+            }
+            .launchIn(lifecycleScope)
 
         adjustFontSize(settingsState.fontScale)
 
@@ -107,6 +115,12 @@ abstract class M3Activity : AppCompatActivity() {
         handleSystemBarsBehavior()
 
         handleSecureMode()
+
+        if (savedInstanceState == null) onFirstLaunch()
+
+        setContentWithWindowSizeClass {
+            Content()
+        }
     }
 
     private fun updateFirebaseParams() {

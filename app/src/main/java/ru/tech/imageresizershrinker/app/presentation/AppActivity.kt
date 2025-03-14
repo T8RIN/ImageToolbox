@@ -18,12 +18,11 @@
 package ru.tech.imageresizershrinker.app.presentation
 
 import android.content.Intent
-import android.os.Bundle
+import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
-import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import javax.inject.Inject
@@ -38,15 +37,10 @@ class AppActivity : M3Activity() {
         retainedComponent(factory = rootComponentFactory::invoke)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    @Composable
+    override fun Content() = RootContent(component = component)
 
-        if (savedInstanceState == null) parseImage(intent)
-
-        setContentWithWindowSizeClass {
-            RootContent(component = component)
-        }
-    }
+    override fun onFirstLaunch() = parseImage(intent)
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
