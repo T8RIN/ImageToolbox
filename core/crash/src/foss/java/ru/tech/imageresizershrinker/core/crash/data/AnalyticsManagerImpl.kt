@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.crash.data
 
-import ru.tech.imageresizershrinker.core.domain.AnalyticsManager
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 
 internal object AnalyticsManagerImpl : AnalyticsManager {
 
