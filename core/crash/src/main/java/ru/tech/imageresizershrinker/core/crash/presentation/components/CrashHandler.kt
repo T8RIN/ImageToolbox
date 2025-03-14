@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig.FLAVOR
 import ru.tech.imageresizershrinker.core.resources.BuildConfig.VERSION_CODE
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersion
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getDisplayName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.encodeEscaped
 
 interface CrashHandler {
 
@@ -96,7 +97,9 @@ data class CrashInfo(
     val stackTrace: String
 ) {
     val textToSend = listOf(title, body).joinToString(DELIMITER)
-    val githubLink = "$ISSUE_TRACKER/new?title=$title&body=$body"
+
+    val githubLink =
+        "$ISSUE_TRACKER/new?title=${title.encodeEscaped()}&body=${body.encodeEscaped()}"
 }
 
 private const val DELIMITER = "\n\n"

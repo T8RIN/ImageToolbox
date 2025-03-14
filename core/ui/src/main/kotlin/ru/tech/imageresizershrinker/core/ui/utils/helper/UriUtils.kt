@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.net.URLDecoder
+import java.net.URLEncoder
 
 
 fun Uri?.toUiPath(
@@ -120,6 +121,15 @@ fun String.decodeEscaped(): String {
     } else {
         @Suppress("DEPRECATION")
         URLDecoder.decode(URLDecoder.decode(this))
+    }
+}
+
+fun String.encodeEscaped(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        URLEncoder.encode(this, Charsets.UTF_8)
+    } else {
+        @Suppress("DEPRECATION")
+        URLEncoder.encode(this)
     }
 }
 
