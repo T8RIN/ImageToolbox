@@ -22,3 +22,6 @@ assignees: ''
 **Smartphone (please complete the following information):**
  - Device: 
  - OS:
+ - Locale:
+ - App Version:
+ - FOSS or Market: 
