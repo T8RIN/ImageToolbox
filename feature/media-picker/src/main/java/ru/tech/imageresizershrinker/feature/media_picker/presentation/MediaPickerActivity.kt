@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.crash.M3Activity
+import ru.tech.imageresizershrinker.core.ui.utils.M3Activity
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import javax.inject.Inject

@@ -26,6 +26,7 @@ android.namespace = "ru.tech.imageresizershrinker.core.ui"
 dependencies {
     api(projects.core.resources)
     api(projects.core.domain)
+    implementation(projects.core.di)
     implementation(projects.core.settings)
 
     // Navigation

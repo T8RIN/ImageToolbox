@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.core.crash.di
 
-android.namespace = "ru.tech.imageresizershrinker.core.crash"
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.crash.data.AnalyticsManagerImpl
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
+import javax.inject.Singleton
 
-dependencies {
-    implementation(projects.core.ui)
-    implementation(projects.core.settings)
+@Module
+@InstallIn(SingletonComponent::class)
+internal object CrashModule {
 
-    "marketImplementation"(libs.firebase.crashlytics.ktx)
-    "marketImplementation"(libs.firebase.analytics.ktx)
+    @Provides
+    @Singleton
+    fun analyticsManager(): AnalyticsManager = AnalyticsManagerImpl
+
 }

@@ -15,21 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash.data
+package ru.tech.imageresizershrinker.core.domain.remote
 
-import ru.tech.imageresizershrinker.core.crash.domain.AnalyticsHelper
+interface AnalyticsManager {
 
-private object AnalyticsHelperImpl : AnalyticsHelper {
+    val allowCollectCrashlytics: Boolean
 
-    override var allowCollectCrashlytics: Boolean = false
+    val allowCollectAnalytics: Boolean
 
-    override var allowCollectAnalytics: Boolean = false
+    fun updateAnalyticsCollectionEnabled(value: Boolean)
 
-    override fun updateAnalyticsCollectionEnabled(value: Boolean) = Unit
+    fun updateAllowCollectCrashlytics(value: Boolean)
 
-    override fun updateAllowCollectCrashlytics(value: Boolean) = Unit
+    fun sendReport(throwable: Throwable)
 
-    override fun sendReport(throwable: Throwable) = Unit
 }
-
-internal fun analyticsHelper(): AnalyticsHelper = AnalyticsHelperImpl

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash
+package ru.tech.imageresizershrinker.core.ui.utils
 
 import android.content.Context
 import android.content.res.Configuration
@@ -43,12 +43,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.core.crash.data.analyticsHelper
-import ru.tech.imageresizershrinker.core.crash.di.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.settings.di.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.model.asColorTuple
@@ -60,7 +60,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 abstract class M3Activity : AppCompatActivity() {
 
-    private val analyticsHelper = analyticsHelper()
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
 
     @Inject
     lateinit var dispatchersHolder: DispatchersHolder
@@ -96,7 +97,6 @@ abstract class M3Activity : AppCompatActivity() {
             }
             handleSystemBarsBehavior()
             handleSecureMode()
-            updateFirebaseParams()
         }
         val newOverride = Configuration(newBase.resources?.configuration)
         settingsState.fontScale?.let { newOverride.fontScale = it }
@@ -136,14 +136,12 @@ abstract class M3Activity : AppCompatActivity() {
 
         if (savedInstanceState == null) onFirstLaunch()
 
-        setContentWithWindowSizeClass {
-            Content()
-        }
+        setContentWithWindowSizeClass { Content() }
     }
 
-    private fun updateFirebaseParams() {
-        analyticsHelper.updateAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
-        analyticsHelper.updateAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
+    private fun updateFirebaseParams() = analyticsManager.apply {
+        updateAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        updateAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
     }
 
     private var recreationJob: Job? by smartJob()
@@ -219,8 +217,9 @@ abstract class M3Activity : AppCompatActivity() {
         }
     }
 
+    companion object {
+        private val NAV_BARS = WindowInsetsCompat.Type.navigationBars()
+        private val SYSTEM_BARS = WindowInsetsCompat.Type.systemBars()
+        private val STATUS_BARS = WindowInsetsCompat.Type.statusBars()
+    }
 }
-
-private val NAV_BARS = WindowInsetsCompat.Type.navigationBars()
-private val SYSTEM_BARS = WindowInsetsCompat.Type.systemBars()
-private val STATUS_BARS = WindowInsetsCompat.Type.statusBars()

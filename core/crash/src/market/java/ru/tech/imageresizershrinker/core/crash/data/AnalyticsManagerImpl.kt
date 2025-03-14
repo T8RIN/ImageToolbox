@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.core.crash.data
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import ru.tech.imageresizershrinker.core.crash.domain.AnalyticsHelper
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 
-private object AnalyticsHelperImpl : AnalyticsHelper {
+internal object AnalyticsManagerImpl : AnalyticsManager {
 
     override var allowCollectCrashlytics: Boolean = false
 
@@ -46,5 +46,3 @@ private object AnalyticsHelperImpl : AnalyticsHelper {
     }
 
 }
-
-internal fun analyticsHelper(): AnalyticsHelper = AnalyticsHelperImpl

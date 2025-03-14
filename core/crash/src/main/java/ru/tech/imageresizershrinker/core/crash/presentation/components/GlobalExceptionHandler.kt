@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.core.crash.presentation.components
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import ru.tech.imageresizershrinker.core.crash.data.analyticsHelper
-import ru.tech.imageresizershrinker.core.crash.domain.AnalyticsHelper
+import ru.tech.imageresizershrinker.core.crash.di.CrashModule
 import ru.tech.imageresizershrinker.core.crash.presentation.CrashActivity
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 import kotlin.system.exitProcess
 
 private class GlobalExceptionHandler<T : CrashHandler> private constructor(
@@ -56,7 +56,7 @@ private class GlobalExceptionHandler<T : CrashHandler> private constructor(
         ).addFlags(defFlags)
     )
 
-    companion object : AnalyticsHelper by analyticsHelper() {
+    companion object : AnalyticsManager by CrashModule.analyticsManager() {
 
         fun <T : CrashHandler> initialize(
             applicationContext: Context,

@@ -21,10 +21,10 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.crash.M3Activity
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashHandler
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashRootContent
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.ui.utils.M3Activity
 import javax.inject.Inject
 
 @AndroidEntryPoint
