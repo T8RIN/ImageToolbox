@@ -174,7 +174,7 @@
                 <data android:mimeType="*/pdf" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.crash.CrashActivity" />
+        <activity android:name=".core.crash.presentation.CrashActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

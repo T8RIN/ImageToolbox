@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash
+package ru.tech.imageresizershrinker.core.crash.presentation.components
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import ru.tech.imageresizershrinker.core.crash.presentation.CrashActivity
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter

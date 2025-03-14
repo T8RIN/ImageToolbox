@@ -21,14 +21,21 @@ import android.app.Application
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import dagger.hilt.android.HiltAndroidApp
 import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
+import ru.tech.imageresizershrinker.core.crash.presentation.components.applyGlobalExceptionHandler
 
 
 @HiltAndroidApp
 class ImageToolboxApplication : Application() {
 
     init {
-        registerSecurityProviders()
         DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
+
+        registerSecurityProviders()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        applyGlobalExceptionHandler()
     }
 
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,26 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package ru.tech.imageresizershrinker.feature.media_picker.presentation
 
+package ru.tech.imageresizershrinker.core.crash.presentation
+
+import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.retainedComponent
+import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.M3Activity
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.components.MediaPickerRootContent
-import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
+import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashHandler
+import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashRootContent
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MediaPickerActivity : M3Activity() {
+class CrashActivity : M3Activity(), CrashHandler {
 
     @Inject
-    lateinit var componentFactory: MediaPickerComponent.Factory
-
-    private val component: MediaPickerComponent by lazy {
-        retainedComponent(factory = componentFactory::invoke)
-    }
+    lateinit var imageGetter: ImageGetter<Bitmap, ExifInterface>
 
     @Composable
-    override fun Content() = MediaPickerRootContent(component)
+    override fun Content() = CrashRootContent()
 
 }

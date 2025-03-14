@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash
+package ru.tech.imageresizershrinker.core.crash.components
 
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
+import ru.tech.imageresizershrinker.core.crash.AnalyticsHelper
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface SettingsStateEntryPoint {
-    val settingsManager: SettingsManager
+private object AnalyticsHelperImpl : AnalyticsHelper {
+
+    override var allowCollectCrashlytics: Boolean = false
+
+    override var allowCollectAnalytics: Boolean = false
+
+    override fun setAnalyticsCollectionEnabled(value: Boolean) = Unit
+
+    override fun setAllowCollectCrashlytics(value: Boolean) = Unit
+
+    override fun sendReport(throwable: Throwable) = Unit
 }
+
+internal fun analyticsHelper(): AnalyticsHelper = AnalyticsHelperImpl

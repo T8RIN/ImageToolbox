@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash.components
+package ru.tech.imageresizershrinker.core.crash
 
 import android.content.Context
 import android.content.res.Configuration
@@ -26,11 +26,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.DynamicColorsOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -40,14 +43,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.core.crash.CrashActivity
-import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
+import ru.tech.imageresizershrinker.core.crash.data.analyticsHelper
+import ru.tech.imageresizershrinker.core.crash.di.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.asColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -55,6 +59,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class M3Activity : AppCompatActivity() {
+
+    private val analyticsHelper = analyticsHelper()
 
     @Inject
     lateinit var dispatchersHolder: DispatchersHolder
@@ -103,11 +109,6 @@ abstract class M3Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        GlobalExceptionHandler.initialize(
-            applicationContext = applicationContext,
-            activityToBeLaunched = CrashActivity::class.java,
-        )
-
         settingsProvider
             .getSettingsStateFlow()
             .onEach { state ->
@@ -115,6 +116,13 @@ abstract class M3Activity : AppCompatActivity() {
                 handleSystemBarsBehavior()
                 handleSecureMode()
                 updateFirebaseParams()
+                val colorTuple = state.appColorTuple.asColorTuple()
+                DynamicColors.applyToActivitiesIfAvailable(
+                    this@M3Activity.application,
+                    DynamicColorsOptions.Builder()
+                        .setContentBasedSource(colorTuple.primary.toArgb())
+                        .build()
+                )
             }
             .launchIn(activityScope)
 
@@ -134,8 +142,8 @@ abstract class M3Activity : AppCompatActivity() {
     }
 
     private fun updateFirebaseParams() {
-        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
-        GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
+        analyticsHelper.updateAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        analyticsHelper.updateAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
     }
 
     private var recreationJob: Job? by smartJob()
@@ -158,7 +166,7 @@ abstract class M3Activity : AppCompatActivity() {
         handleSecureMode()
     }
 
-    private fun handleSystemBarsBehavior() {
+    private fun handleSystemBarsBehavior() = runOnUiThread {
         windowInsetsController?.apply {
             when (settingsState.systemBarsVisibility) {
                 SystemBarsVisibility.Auto -> {
@@ -198,7 +206,7 @@ abstract class M3Activity : AppCompatActivity() {
         }
     }
 
-    private fun handleSecureMode() {
+    private fun handleSecureMode() = runOnUiThread {
         if (settingsState.isSecureMode) {
             window?.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE,

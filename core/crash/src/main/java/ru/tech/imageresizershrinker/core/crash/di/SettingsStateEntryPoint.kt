@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash
+package ru.tech.imageresizershrinker.core.crash.di
 
-import android.graphics.Bitmap
-import androidx.compose.runtime.Composable
-import androidx.exifinterface.media.ExifInterface
-import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.crash.components.CrashHandler
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import javax.inject.Inject
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 
-@AndroidEntryPoint
-class CrashActivity : CrashHandler() {
-
-    @Inject
-    lateinit var imageGetter: ImageGetter<Bitmap, ExifInterface>
-
-    @Composable
-    override fun Content() = CrashRootContent()
-
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface SettingsStateEntryPoint {
+    val settingsManager: SettingsManager
 }
