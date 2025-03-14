@@ -32,15 +32,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.crash.CrashActivity
 import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
@@ -48,16 +51,23 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class M3Activity : AppCompatActivity() {
+
+    @Inject
+    lateinit var dispatchersHolder: DispatchersHolder
+
+    private lateinit var settingsProvider: SettingsProvider
+
+    private val activityScope: CoroutineScope
+        get() = lifecycleScope + dispatchersHolder.defaultDispatcher
 
     private val windowInsetsController: WindowInsetsControllerCompat?
         get() = window?.let {
             WindowCompat.getInsetsController(it, it.decorView)
         }
-
-    private lateinit var settingsProvider: SettingsProvider
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     private val settingsState: SettingsState by _settingsState
@@ -106,7 +116,7 @@ abstract class M3Activity : AppCompatActivity() {
                 handleSecureMode()
                 updateFirebaseParams()
             }
-            .launchIn(lifecycleScope)
+            .launchIn(activityScope)
 
         adjustFontSize(settingsState.fontScale)
 
@@ -131,7 +141,7 @@ abstract class M3Activity : AppCompatActivity() {
     private var recreationJob: Job? by smartJob()
 
     override fun recreate() {
-        recreationJob = lifecycleScope.launch {
+        recreationJob = activityScope.launch {
             delay(200L)
             super.recreate()
         }
