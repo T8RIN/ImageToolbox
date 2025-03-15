@@ -124,7 +124,7 @@ internal fun Screen.isBetaFeature(): Boolean = when (this) {
     else -> false
 }
 
-internal fun Screen.simpleName(): String? = when (this) {
+internal fun Screen.simpleName(): String = when (this) {
     is ApngTools -> "APNG_Tools"
     is Cipher -> "Cipher"
     is Compare -> "Compare"
@@ -142,7 +142,7 @@ internal fun Screen.simpleName(): String? = when (this) {
     is JxlTools -> "JXL_Tools"
     is LimitResize -> "Limit_Resize"
     is LoadNetImage -> "Load_Net_Image"
-    is Main -> null
+    is Main -> "Main"
     is PdfTools -> "PDF_Tools"
     is PickColorFromImage -> "Pick_Color_From_Image"
     is RecognizeText -> "Recognize_Text"

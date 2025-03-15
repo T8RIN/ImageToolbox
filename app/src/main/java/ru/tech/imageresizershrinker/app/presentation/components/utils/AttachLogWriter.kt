@@ -20,6 +20,8 @@ package ru.tech.imageresizershrinker.app.presentation.components.utils
 import android.app.Application
 import com.t8rin.logger.Logger
 import com.t8rin.logger.attachLogWriter
+import com.t8rin.logger.makeLog
+import ru.tech.imageresizershrinker.core.crash.presentation.components.DeviceInfo
 import ru.tech.imageresizershrinker.core.resources.R
 
 internal fun Application.attachLogWriter() {
@@ -29,4 +31,5 @@ internal fun Application.attachLogWriter() {
         logsFilename = "image_toolbox_logs.txt",
         maxFileSize = null
     )
+    DeviceInfo.get().makeLog("Device Info")
 }

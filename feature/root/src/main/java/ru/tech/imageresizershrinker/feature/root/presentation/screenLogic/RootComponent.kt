@@ -37,6 +37,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -427,6 +428,7 @@ class RootComponent @AssistedInject internal constructor(
         componentScope.launch {
             delay(100)
             hideSelectDialog()
+            screen.simpleName.makeLog("Navigator")
             navController.pushNew(screen)
         }
     }
@@ -435,6 +437,7 @@ class RootComponent @AssistedInject internal constructor(
         if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
             navigateBack()
         }
+        screen.simpleName.makeLog("Navigator")
         navController.pushNew(screen)
     }
 
@@ -445,6 +448,7 @@ class RootComponent @AssistedInject internal constructor(
             observer.onBack(childStack.items.lastOrNull()?.configuration)
         }
         hideSelectDialog()
+        "Pop".makeLog("Navigator")
         navController.pop()
     }
 

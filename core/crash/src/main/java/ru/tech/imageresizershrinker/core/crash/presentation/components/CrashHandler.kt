@@ -48,15 +48,7 @@ interface CrashHandler {
 
         val title = "[Bug] App Crash: $exceptionName"
 
-        val device = "$MODEL ($BRAND - $DEVICE)"
-
-        val sdk = "$SDK_INT (Android $RELEASE)"
-
-        val appVersion = "$AppVersion ($VERSION_CODE)"
-
-        val flavor = FLAVOR
-
-        val locale = AppCompatDelegate.getApplicationLocales().getDisplayName()
+        val (device, sdk, appVersion, flavor, locale) = DeviceInfo.get()
 
         val deviceInfo = listOf(
             "Device: $device",
@@ -86,6 +78,36 @@ interface CrashHandler {
             val stackTrace = Log.getStackTraceString(throwable)
 
             return listOf(exceptionName, stackTrace).joinToString(DELIMITER)
+        }
+    }
+}
+
+data class DeviceInfo private constructor(
+    val device: String,
+    val sdk: String,
+    val appVersion: String,
+    val flavor: String,
+    val locale: String
+) {
+    companion object {
+        fun get(): DeviceInfo {
+            val device = "$MODEL ($BRAND - $DEVICE)"
+
+            val sdk = "$SDK_INT (Android $RELEASE)"
+
+            val appVersion = "$AppVersion ($VERSION_CODE)"
+
+            val flavor = FLAVOR
+
+            val locale = AppCompatDelegate.getApplicationLocales().getDisplayName()
+
+            return DeviceInfo(
+                device = device,
+                sdk = sdk,
+                appVersion = appVersion,
+                flavor = flavor,
+                locale = locale
+            )
         }
     }
 }

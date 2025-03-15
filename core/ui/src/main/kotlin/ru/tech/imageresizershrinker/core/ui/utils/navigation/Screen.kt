@@ -49,7 +49,7 @@ sealed class Screen(
     val isBetaFeature: Boolean
         get() = isBetaFeature()
 
-    val simpleName: String?
+    val simpleName: String
         get() = simpleName()
 
     val icon: ImageVector?
