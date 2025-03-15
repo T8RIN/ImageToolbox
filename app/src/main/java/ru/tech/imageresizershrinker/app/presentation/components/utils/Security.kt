@@ -26,17 +26,16 @@ import org.bouncycastle.operator.DefaultAlgorithmNameFinder
 import ru.tech.imageresizershrinker.core.domain.model.CipherType
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import java.security.Security
-import kotlin.text.all
 
 internal fun registerSecurityProviders() {
-    Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-    Security.addProvider(BouncyCastleProvider())
-
-    HashingType.registerSecurityMessageDigests(
-        Security.getAlgorithms("MessageDigest").filterNotNull()
-    )
-
     CoroutineScope(Dispatchers.Default).launch {
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
+        Security.addProvider(BouncyCastleProvider())
+
+        HashingType.registerSecurityMessageDigests(
+            Security.getAlgorithms("MessageDigest").filterNotNull()
+        )
+
         val finder = DefaultAlgorithmNameFinder()
 
         CipherType.registerSecurityCiphers(
