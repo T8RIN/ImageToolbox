@@ -487,4 +487,9 @@ sealed class Setting(
         title = R.string.tool_exit_confirmation,
         subtitle = R.string.tool_exit_confirmation_sub
     )
+
+    data object SendLogs : Setting(
+        title = R.string.send_logs,
+        subtitle = R.string.send_logs_sub
+    )
 }

@@ -1607,4 +1607,6 @@
     <string name="pick_audio_to_start">Pick audio to start</string>
     <string name="pick_audio">Pick Audio</string>
     <string name="no_covers_found">No Covers Found</string>
+    <string name="send_logs">Send Logs</string>
+    <string name="send_logs_sub">Click to share app logs file, this can help me to spot the problem and fix issues</string>
 </resources>

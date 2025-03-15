@@ -29,7 +29,6 @@ import coil3.request.allowHardware
 import coil3.request.maxBitmapSize
 import coil3.size.Size
 import coil3.svg.SvgDecoder
-import coil3.util.DebugLogger
 import coil3.util.Logger
 import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
@@ -46,6 +45,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import oupson.apng.coil.AnimatedPngDecoder
 import ru.tech.imageresizershrinker.core.data.coil.Base64Fetcher
+import ru.tech.imageresizershrinker.core.data.coil.CoilLogger
 import ru.tech.imageresizershrinker.core.data.coil.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
@@ -72,8 +72,7 @@ internal object ImageLoaderModule {
         .also(SingletonImageLoader::setUnsafe)
 
     @Provides
-    fun provideCoilLogger(): Logger? = if (BuildConfig.DEBUG) DebugLogger()
-    else null
+    fun provideCoilLogger(): Logger = CoilLogger()
 
     @Provides
     fun provideComponentRegistry(): ComponentRegistry = ComponentRegistry.Builder()

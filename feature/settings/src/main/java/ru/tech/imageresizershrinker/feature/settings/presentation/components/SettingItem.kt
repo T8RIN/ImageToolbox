@@ -546,6 +546,10 @@ internal fun SettingItem(
             Setting.EnableToolExitConfirmation -> {
                 EnableToolExitConfirmationSettingItem(onClick = component::toggleEnableToolExitConfirmation)
             }
+
+            Setting.SendLogs -> {
+                SendLogsSettingItem()
+            }
         }
     }
 }

@@ -63,6 +63,7 @@ sealed class SettingsGroup(
         titleId = R.string.contact_me,
         settingsList = listOf(
             Setting.Author,
+            Setting.SendLogs,
             Setting.Donate
         ),
         initialState = true
@@ -414,7 +415,7 @@ sealed class SettingsGroup(
                 Updates,
                 AboutApp
             ).filter {
-                !(it is SettingsGroup.Firebase && BuildConfig.FLAVOR == "foss")
+                !(it is Firebase && BuildConfig.FLAVOR == "foss")
             }
         }
     }

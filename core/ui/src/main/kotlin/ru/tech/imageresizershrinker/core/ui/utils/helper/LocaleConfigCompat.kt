@@ -21,11 +21,11 @@ import android.app.LocaleConfig
 import android.content.Context
 import android.content.res.XmlResourceParser
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.XmlRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.LocaleListCompat
+import com.t8rin.logger.makeLog
 import org.xmlpull.v1.XmlPullParser
 import java.io.FileNotFoundException
 import java.util.Locale
@@ -81,7 +81,9 @@ class LocaleConfigCompat(context: Context) {
             val resourceId = try {
                 getLocaleConfigResourceId(context)
             } catch (e: Throwable) {
-                Log.w(TAG, "The resource file pointed to by the given resource ID isn't found.", e)
+                "The resource file pointed to by the given resource ID isn't found.".makeLog(TAG)
+
+                ResourcesCompat.ID_NULL
             }
             if (resourceId == ResourcesCompat.ID_NULL) {
                 status = STATUS_NOT_SPECIFIED
@@ -92,7 +94,7 @@ class LocaleConfigCompat(context: Context) {
                     status = STATUS_SUCCESS
                 } catch (e: Throwable) {
                     val resourceEntryName = resources.getResourceEntryName(resourceId)
-                    Log.w(TAG, "Failed to parse XML configuration from $resourceEntryName", e)
+                    "Failed to parse XML configuration from $resourceEntryName".makeLog(TAG)
                     status = STATUS_PARSING_FAILED
                 }
             }

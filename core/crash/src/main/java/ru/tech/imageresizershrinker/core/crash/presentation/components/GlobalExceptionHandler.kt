@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.core.crash.presentation.components
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.crash.di.CrashModule
 import ru.tech.imageresizershrinker.core.crash.presentation.CrashActivity
 import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
@@ -38,7 +38,8 @@ private class GlobalExceptionHandler<T : CrashHandler> private constructor(
         sendReport(p1)
 
         runCatching {
-            Log.e(this.toString(), p1.stackTraceToString())
+            p1.makeLog("FATAL_EXCEPTION")
+
             applicationContext.launchActivity(activityToBeLaunched, p1)
             exitProcess(0)
         }.getOrElse {

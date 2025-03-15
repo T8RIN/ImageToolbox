@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.app.presentation.components
 import android.app.Application
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import dagger.hilt.android.HiltAndroidApp
+import ru.tech.imageresizershrinker.app.presentation.components.utils.attachLogWriter
 import ru.tech.imageresizershrinker.app.presentation.components.utils.registerSecurityProviders
 import ru.tech.imageresizershrinker.core.crash.presentation.components.applyGlobalExceptionHandler
 
@@ -35,6 +36,7 @@ class ImageToolboxApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        attachLogWriter()
         applyGlobalExceptionHandler()
     }
 

@@ -31,6 +31,7 @@ import coil3.size.Size
 import coil3.toBitmap
 import com.awxkee.jxlcoder.coil.enableJxlAnimation
 import com.github.awxkee.avifcoil.decoder.animation.enableAvifAnimation
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -230,7 +231,10 @@ internal class AndroidImageGetter @Inject constructor(
 
         runSuspendCatching {
             imageLoader.execute(request).image?.toBitmap()
-        }.onFailure(onFailure).getOrNull()
+        }.onFailure {
+            it.makeLog("ImageGetter")
+            onFailure(it)
+        }.getOrNull()
     }
 
 }
