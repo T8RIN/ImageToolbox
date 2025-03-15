@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.PicturePickerMode
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -80,6 +81,8 @@ private class ImagePickerImpl(
                     context.getString(R.string.file_provider),
                     file
                 )
+            }.onFailure {
+                it.makeLog("Image Picker")
             }.onSuccess {
                 onCreateTakePhotoUri(it)
                 takePhoto.launch(it)
@@ -148,6 +151,8 @@ private class ImagePickerImpl(
             )
         }
 
+        mode.makeLog("Image Picker Start")
+
         runCatching {
             when (mode) {
                 ImagePickerMode.PhotoPickerSingle -> singlePhotoPickerAction()
@@ -164,9 +169,12 @@ private class ImagePickerImpl(
                 ImagePickerMode.EmbeddedMultiple -> embeddedAction()
             }
         }.onFailure {
+            it.makeLog("Image Picker Failure")
             if (it is SecurityException && mode == ImagePickerMode.CameraCapture) {
                 onFailure(CameraException)
             } else onFailure(it)
+        }.onSuccess {
+            mode.makeLog("Image Picker Success")
         }
     }
 

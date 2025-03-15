@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import com.t8rin.logger.makeLog
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanCustomCode
 import io.github.g00fy2.quickie.config.BarcodeFormat
@@ -44,7 +45,7 @@ private class BarcodeScannerImpl(
             setShowTorchToggle(true)
             setShowCloseButton(true)
             setKeepScreenOn(true)
-        }
+        }.makeLog("Barcode Scanner")
 
         scannerLauncher.launch(config)
     }
@@ -65,6 +66,8 @@ fun rememberBarcodeScanner(
     val essentials = rememberLocalEssentials()
 
     val scannerLauncher = rememberLauncherForActivityResult(ScanCustomCode()) { result ->
+        result.makeLog("Barcode Scanner")
+
         when (result) {
             is QRResult.QRError -> essentials.showFailureToast(result.exception)
 

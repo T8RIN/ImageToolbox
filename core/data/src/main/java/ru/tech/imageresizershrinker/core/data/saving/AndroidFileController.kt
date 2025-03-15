@@ -26,6 +26,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -97,6 +98,22 @@ internal class AndroidFileController @Inject constructor(
         get() = settingsState.saveFolderUri.getPath(context)
 
     override suspend fun save(
+        saveTarget: SaveTarget,
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String?,
+    ): SaveResult {
+        val result = saveImpl(
+            saveTarget = saveTarget,
+            keepOriginalMetadata = keepOriginalMetadata,
+            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+        )
+
+        Triple(result, keepOriginalMetadata, oneTimeSaveLocationUri).makeLog("File Controller save")
+
+        return result
+    }
+
+    private suspend fun saveImpl(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String?,
@@ -320,9 +337,14 @@ internal class AndroidFileController @Inject constructor(
     override suspend fun readBytes(
         uri: String,
     ): ByteArray = withContext(ioDispatcher) {
-        context.contentResolver.openInputStream(uri.toUri())?.use {
-            it.buffered().readBytes()
-        } ?: ByteArray(0)
+        runSuspendCatching {
+            context.contentResolver.openInputStream(uri.toUri())?.use {
+                it.buffered().readBytes()
+            }
+        }.onFailure {
+            uri.makeLog("File Controller read")
+            it.makeLog("File Controller read")
+        }.getOrNull() ?: ByteArray(0)
     }
 
     override suspend fun writeBytes(
@@ -332,7 +354,11 @@ internal class AndroidFileController @Inject constructor(
         runSuspendCatching {
             context.openWriteableStream(
                 uri = uri.toUri(),
-                onFailure = { throw it }
+                onFailure = {
+                    uri.makeLog("File Controller write")
+                    it.makeLog("File Controller write")
+                    throw it
+                }
             )?.let { stream ->
                 StreamWriteable(stream).use { block(it) }
             }
@@ -342,6 +368,8 @@ internal class AndroidFileController @Inject constructor(
                 savingPath = ""
             )
         }.onFailure {
+            uri.makeLog("File Controller write")
+            it.makeLog("File Controller write")
             return@withContext SaveResult.Error.Exception(it)
         }
 

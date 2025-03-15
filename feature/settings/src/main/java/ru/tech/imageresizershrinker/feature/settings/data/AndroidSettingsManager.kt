@@ -24,6 +24,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -175,7 +176,7 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map {
-        it.toSettingsState(default)
+        it.toSettingsState(default).makeLog("App Settings")
     }.onEach { currentSettings = it }
 
     override fun getNeedToShowTelegramGroupDialog(): Flow<Boolean> = getSettingsStateFlow().map {

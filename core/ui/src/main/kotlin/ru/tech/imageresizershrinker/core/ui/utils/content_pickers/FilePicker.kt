@@ -29,6 +29,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 private data class FilePickerImpl(
@@ -41,12 +42,18 @@ private data class FilePickerImpl(
 ) : FilePicker {
 
     override fun pickFile() {
+        (type to mimeTypes).makeLog("File Picker Start")
         runCatching {
             when (type) {
                 FileType.Single -> openDocument.launch(mimeTypes.toTypedArray())
                 FileType.Multiple -> openDocumentMultiple.launch(mimeTypes.toTypedArray())
             }
-        }.onFailure(onFailure)
+        }.onFailure {
+            it.makeLog("File Picker Failure")
+            onFailure(it)
+        }.onSuccess {
+            (type to mimeTypes).makeLog("File Picker Success")
+        }
     }
 
 }
