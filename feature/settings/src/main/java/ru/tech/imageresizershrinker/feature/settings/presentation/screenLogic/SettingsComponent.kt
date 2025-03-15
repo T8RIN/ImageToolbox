@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
@@ -75,6 +76,7 @@ class SettingsComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
+    private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -463,6 +465,15 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }
+
+    fun shareLogs() = settingsScope {
+        shareProvider.shareData(
+            writeData = {
+                it.writeBytes(settingsManager.createLogsExport())
+            },
+            filename = settingsManager.createLogsFilename()
+        )
+    }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

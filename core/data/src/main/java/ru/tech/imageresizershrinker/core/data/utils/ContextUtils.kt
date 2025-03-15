@@ -30,7 +30,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import java.io.OutputStream
-import kotlin.io.use
 
 fun Context.isExternalStorageWritable(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) true
@@ -43,7 +42,7 @@ fun Context.isExternalStorageWritable(): Boolean {
 suspend fun Context.copyMetadata(
     initialExif: ExifInterface?,
     fileUri: Uri?,
-    keepMetadata: Boolean,
+    keepOriginalMetadata: Boolean,
     originalUri: Uri
 ) = runSuspendCatching {
     if (initialExif != null) {
@@ -52,7 +51,7 @@ suspend fun Context.copyMetadata(
             initialExif.copyTo(ex)
             ex.saveAttributes()
         }
-    } else if (keepMetadata) {
+    } else if (keepOriginalMetadata) {
         val newUri = originalUri.tryRequireOriginal(this)
         val exif = contentResolver
             .openFileDescriptor(newUri, "r")

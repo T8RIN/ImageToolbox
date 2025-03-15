@@ -548,7 +548,7 @@ internal fun SettingItem(
             }
 
             Setting.SendLogs -> {
-                SendLogsSettingItem()
+                SendLogsSettingItem(onClick = component::shareLogs)
             }
         }
     }

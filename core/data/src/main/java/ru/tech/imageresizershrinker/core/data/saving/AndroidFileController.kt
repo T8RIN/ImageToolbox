@@ -177,7 +177,7 @@ internal class AndroidFileController @Inject constructor(
                         context.copyMetadata(
                             initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
                             fileUri = originalUri,
-                            keepMetadata = keepOriginalMetadata,
+                            keepOriginalMetadata = keepOriginalMetadata,
                             originalUri = originalUri
                         )
                     }
@@ -255,7 +255,7 @@ internal class AndroidFileController @Inject constructor(
                 context.copyMetadata(
                     initialExif = initialExif,
                     fileUri = savingFolder.fileUri,
-                    keepMetadata = keepOriginalMetadata,
+                    keepOriginalMetadata = keepOriginalMetadata,
                     originalUri = saveTarget.originalUri.toUri()
                 )
 
@@ -417,7 +417,7 @@ internal class AndroidFileController @Inject constructor(
             context.copyMetadata(
                 initialExif = metadata,
                 fileUri = imageUri.toUri(),
-                keepMetadata = false,
+                keepOriginalMetadata = false,
                 originalUri = imageUri.toUri()
             )
         }

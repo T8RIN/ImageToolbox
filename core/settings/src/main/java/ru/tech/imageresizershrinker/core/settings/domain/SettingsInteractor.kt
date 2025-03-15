@@ -224,6 +224,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun createCustomFontsExport(): ByteArray
 
     suspend fun toggleEnableToolExitConfirmation()
+
+    suspend fun createLogsExport(): ByteArray
+
+    fun createLogsFilename(): String
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

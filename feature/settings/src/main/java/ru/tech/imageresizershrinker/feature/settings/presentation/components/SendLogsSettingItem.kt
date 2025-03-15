@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.logger.Logger
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -36,6 +35,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun SendLogsSettingItem(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ContainerShapeDefaults.centerShape,
     color: Color = MaterialTheme.colorScheme.mixedContainer.copy(0.9f),
@@ -44,7 +44,7 @@ fun SendLogsSettingItem(
     PreferenceItem(
         contentColor = contentColor,
         shape = shape,
-        onClick = Logger::shareLogs,
+        onClick = onClick,
         startIcon = Icons.Rounded.LogoDev,
         title = stringResource(R.string.send_logs),
         subtitle = stringResource(R.string.send_logs_sub),

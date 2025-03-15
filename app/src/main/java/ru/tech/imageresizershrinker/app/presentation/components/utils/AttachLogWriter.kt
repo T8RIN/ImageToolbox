@@ -30,5 +30,6 @@ internal fun Application.attachLogWriter() {
         //TODO: isSyncCreate = true,
         maxFileSize = null
     )
+
     //TODO: DeviceInfo.get().makeLog("Device Info")
 }

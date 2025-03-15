@@ -19,12 +19,13 @@ package ru.tech.imageresizershrinker.feature.settings.data
 
 import android.content.Context
 import android.graphics.Typeface
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.t8rin.logger.makeLog
+import com.t8rin.logger.Logger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -147,6 +148,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_FULLSCREEN_SE
 import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.feature.settings.data.keys.toSettingsState
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -176,7 +178,7 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map {
-        it.toSettingsState(default).makeLog("App Settings")
+        it.toSettingsState(default)
     }.onEach { currentSettings = it }
 
     override fun getNeedToShowTelegramGroupDialog(): Flow<Boolean> = getSettingsStateFlow().map {
@@ -456,6 +458,38 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun getInitialOcrMode(): Int = dataStore.data.first().let {
         it[INITIAL_OCR_MODE] ?: 1
+    }
+
+    override suspend fun createLogsExport(): ByteArray = withContext(ioDispatcher) {
+        val logsFile = Logger.getLogsFile().toFile()
+        val settingsFile = createBackupFile()
+
+        val out = ByteArrayOutputStream()
+
+        ZipOutputStream(out).use { zipOut ->
+            FileInputStream(logsFile).use { fis ->
+                val zipEntry = ZipEntry(logsFile.name)
+                zipOut.putNextEntry(zipEntry)
+                fis.copyTo(zipOut)
+                zipOut.closeEntry()
+            }
+            ByteArrayInputStream(settingsFile).use { bis ->
+                val zipEntry = ZipEntry(createBackupFilename())
+                zipOut.putNextEntry(zipEntry)
+                bis.copyTo(zipOut)
+                zipOut.closeEntry()
+            }
+        }
+
+        out.toByteArray()
+    }
+
+    override fun createLogsFilename(): String {
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date())
+        return "image_toolbox_logs_$timeStamp.zip"
     }
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {
