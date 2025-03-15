@@ -1586,4 +1586,7 @@
     <string name="audio_cover_extractor">Audiohoezen extraheren</string>
     <string name="no_barcode_found">Geen barcode aangetroffen</string>
     <string name="generated_barcode_will_be_here">Gegenereerde barcode komt hier</string>
+    <string name="pick_audio_to_start">Kies audio om te starten</string>
+    <string name="pick_audio">Audio kiezen</string>
+    <string name="no_covers_found">Geen hoezen gevonden</string>
 </resources>
