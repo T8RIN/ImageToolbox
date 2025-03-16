@@ -88,7 +88,7 @@ fun FilterReorderSheet(
                                 filter = filter,
                                 onFilterChange = {},
                                 modifier = Modifier
-                                    .draggableHandle(
+                                    .longPressDraggableHandle(
                                         onDragStarted = {
                                             haptics.longPress()
                                         },

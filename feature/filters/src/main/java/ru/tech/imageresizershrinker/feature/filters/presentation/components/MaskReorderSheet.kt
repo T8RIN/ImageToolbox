@@ -88,7 +88,7 @@ fun MaskReorderSheet(
                                 mask = mask,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .draggableHandle(
+                                    .longPressDraggableHandle(
                                         onDragStarted = {
                                             haptics.longPress()
                                         },

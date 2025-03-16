@@ -153,7 +153,7 @@ fun ScreenOrderSettingItem(
                             PreferenceItem(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .draggableHandle(
+                                    .longPressDraggableHandle(
                                         onDragStarted = {
                                             haptics.longPress()
                                         },
