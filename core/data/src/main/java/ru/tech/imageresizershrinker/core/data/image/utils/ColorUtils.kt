@@ -41,4 +41,13 @@ object ColorUtils {
     inline val ColorModel.alpha: Float
         get() = toColor().alpha
 
+    inline fun Color.toAbgr() = run {
+        Color(
+            red = alpha,
+            green = blue,
+            blue = green,
+            alpha = red,
+            colorSpace = colorSpace
+        ).toArgb()
+    }
 }

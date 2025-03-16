@@ -21,16 +21,21 @@ import android.app.Application
 import com.t8rin.logger.Logger
 import com.t8rin.logger.attachLogWriter
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.crash.presentation.components.DeviceInfo
 import ru.tech.imageresizershrinker.core.resources.R
 
 internal fun Application.attachLogWriter() {
-    Logger.attachLogWriter(
-        context = this@attachLogWriter,
-        fileProvider = getString(R.string.file_provider),
-        logsFilename = "image_toolbox_logs.txt",
-        isSyncCreate = true,
-        maxFileSize = null
-    )
-    DeviceInfo.get().makeLog("Device Info")
+    CoroutineScope(Dispatchers.Main).launch {
+        Logger.attachLogWriter(
+            context = this@attachLogWriter,
+            fileProvider = getString(R.string.file_provider),
+            logsFilename = "image_toolbox_logs.txt",
+            isSyncCreate = true,
+            maxFileSize = null
+        )
+        DeviceInfo.get().makeLog("Device Info")
+    }
 }

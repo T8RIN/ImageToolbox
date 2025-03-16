@@ -28,7 +28,7 @@ class UiHorizontalWindStaggerFilter(
     override val value: Triple<Float, Int, ColorModel> = Triple(
         first = 0.2f,
         second = 90,
-        third = Color.Black.toModel()
+        third = Color.Transparent.toModel()
     )
 ) : UiFilter<Triple<Float, Int, ColorModel>>(
     title = R.string.horizontal_wind_stagger,
