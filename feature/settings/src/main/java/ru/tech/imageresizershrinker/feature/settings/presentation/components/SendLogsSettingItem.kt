@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.LogoDev
+import androidx.compose.material.icons.automirrored.rounded.MobileScreenShare
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,7 +45,7 @@ fun SendLogsSettingItem(
         contentColor = contentColor,
         shape = shape,
         onClick = onClick,
-        startIcon = Icons.Rounded.LogoDev,
+        startIcon = Icons.AutoMirrored.Rounded.MobileScreenShare,
         title = stringResource(R.string.send_logs),
         subtitle = stringResource(R.string.send_logs_sub),
         color = color,
