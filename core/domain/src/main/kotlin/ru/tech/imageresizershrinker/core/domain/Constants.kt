@@ -29,10 +29,10 @@ const val PARTNER_FREE_SOFTWARE = "https://t.me/FreeApkexe"
 const val JAVA_FORMAT_SPECIFICATION =
     "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html"
 
-const val BitcoinWallet = "17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq"
-const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
+const val BitcoinWallet = "165Nzr8ubANv5HxF7NfzcmuoxkZ2ot9ivz"
+const val USDTWallet = "0x687089179eB52189f0ba0D41199b71Aab76436E3"
 const val TONSpaceWallet = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
-const val TONWallet = "UQB44LtN0zArKGcWTbNxU7zAkGYunVs1rkn_VsLq71G4bdmK"
+const val TONWallet = "UQA2sdNsEisOWwjMwrIWZ136hN2k2gh_pHyBKtYvgCoAimab"
 
 const val USER_AGENT =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"

@@ -379,7 +379,7 @@
     <string name="crop_description">Pictures will be center cropped to entered size. Canvas will be expanded with given background color if image is smaller than entered dimensions.</string>
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
-    <string name="usdt" translatable="false">USDT</string>
+    <string name="usdt" translatable="false">USDT (BNB)</string>
     <string name="image_stitching">Image Stitching</string>
     <string name="image_stitching_sub">Combine the given images to get one big one</string>
     <string name="pick_at_least_two_images">Pick at least 2 images</string>
