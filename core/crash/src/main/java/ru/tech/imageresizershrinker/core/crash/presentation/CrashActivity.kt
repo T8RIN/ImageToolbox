@@ -17,13 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.crash.presentation
 
-import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
-import androidx.exifinterface.media.ExifInterface
+import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashHandler
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashRootContent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.crash.presentation.screenLogic.CrashComponent
 import ru.tech.imageresizershrinker.core.ui.utils.M3Activity
 import javax.inject.Inject
 
@@ -31,9 +30,18 @@ import javax.inject.Inject
 class CrashActivity : M3Activity(), CrashHandler {
 
     @Inject
-    lateinit var imageGetter: ImageGetter<Bitmap, ExifInterface>
+    lateinit var componentFactory: CrashComponent.Factory
+
+    private val component: CrashComponent by lazy {
+        retainedComponent { componentContext ->
+            componentFactory(
+                componentContext = componentContext,
+                crashInfo = getCrashInfo()
+            )
+        }
+    }
 
     @Composable
-    override fun Content() = CrashRootContent()
+    override fun Content() = CrashRootContent(component = component)
 
 }

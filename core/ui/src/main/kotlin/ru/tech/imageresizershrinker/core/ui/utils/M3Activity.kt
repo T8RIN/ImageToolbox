@@ -84,9 +84,6 @@ abstract class M3Activity : AppCompatActivity() {
 
     open fun onFirstLaunch() = Unit
 
-    @JvmName("obtainSettingsState")
-    fun getSettingsState(): SettingsState = settingsState
-
     override fun attachBaseContext(newBase: Context) {
         newBase.entryPoint<SettingsStateEntryPoint> {
             settingsProvider = settingsManager

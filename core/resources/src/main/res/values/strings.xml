@@ -445,7 +445,7 @@
     <string name="pdf_to_images_sub">Convert PDF to Images in given output format</string>
     <string name="images_to_pdf_sub">Pack given Images into output PDF file</string>
     <string name="mask_filter">Mask Filter</string>
-    <string name="mask_filter_sub">Apply filter chains on given masked areas, each mask area can determine it\'s own set of filters</string>
+    <string name="mask_filter_sub">Apply filter chains on given masked areas, each mask area can determine its own set of filters</string>
     <string name="masks">Masks</string>
     <string name="add_mask">Add Mask</string>
     <string name="mask_indexed">Mask %d</string>
@@ -1129,7 +1129,7 @@
     <string name="added_filter_template">Added filter template with name \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Filter Preview</string>
     <string name="qr_code">QR Code</string>
-    <string name="qr_code_sub">Scan QR code and get it\'s content or paste your string to generate new one</string>
+    <string name="qr_code_sub">Scan QR code and get its content or paste your string to generate new one</string>
     <string name="code_content">Code Content</string>
     <string name="scan_qr_code_to_replace_content">Scan QR Code to replace content in field, or type something to generate new QR Code</string>
     <string name="qr_description">QR Description</string>
@@ -1539,8 +1539,8 @@
     <string name="calculate">Calculate</string>
     <string name="text_hash">Text Hash</string>
     <string name="checksum">Checksum</string>
-    <string name="pick_file_to_checksum">Pick file to calculate it\'s checksum based on selected algorithm</string>
-    <string name="enter_text_to_checksum">Enter text to calculate it\'s checksum based on selected algorithm</string>
+    <string name="pick_file_to_checksum">Pick file to calculate its checksum based on selected algorithm</string>
+    <string name="enter_text_to_checksum">Enter text to calculate its checksum based on selected algorithm</string>
     <string name="source_checksum">Source Checksum</string>
     <string name="checksum_to_compare">Checksum To Compare</string>
     <string name="match">Match!</string>
@@ -1567,7 +1567,7 @@
     <string name="fit_width">Fit Width</string>
     <string name="fit_height">Fit Height</string>
     <string name="batch_compare">Batch Compare</string>
-    <string name="pick_files_to_checksum">Pick file/files to calculate it\'s checksum based on selected algorithm</string>
+    <string name="pick_files_to_checksum">Pick file/files to calculate its checksum based on selected algorithm</string>
     <string name="pick_files">Pick Files</string>
     <string name="pick_directory">Pick Directory</string>
     <string name="head_length_scale">Head Length Scale</string>
@@ -1599,7 +1599,7 @@
     <string name="barcode_type">Barcode Type</string>
     <string name="enforce_bw">Enforce B/W</string>
     <string name="enforce_bw_sub">Barcode Image will be fully black and white and not colored by app\'s theme</string>
-    <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get it\'s content or paste your text to generate new one</string>
+    <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get its content or paste your text to generate new one</string>
     <string name="no_barcode_found">No Barcode Found</string>
     <string name="generated_barcode_will_be_here">Generated Barcode Will Be Here</string>
     <string name="audio_cover_extractor">Audio Cover Extractor</string>
@@ -1609,4 +1609,6 @@
     <string name="no_covers_found">No Covers Found</string>
     <string name="send_logs">Send Logs</string>
     <string name="send_logs_sub">Click to share app logs file, this can help me to spot the problem and fix issues</string>
+    <string name="crash_title">Oops… Something went wrong</string>
+    <string name="crash_subtitle">You can contact me using options below and I will try to find solution.\n(Do not forget to attach logs)</string>
 </resources>

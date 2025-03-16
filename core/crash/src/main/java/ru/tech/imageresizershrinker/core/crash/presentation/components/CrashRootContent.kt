@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.crash.presentation.components
 
 import android.content.Intent
-import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,6 +36,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.MobileScreenShare
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.RestartAlt
@@ -45,7 +45,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -54,43 +53,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.exifinterface.media.ExifInterface
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.extractPrimaryColor
-import ru.tech.imageresizershrinker.core.crash.presentation.CrashActivity
+import ru.tech.imageresizershrinker.core.crash.presentation.screenLogic.CrashComponent
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.Github
 import ru.tech.imageresizershrinker.core.resources.icons.ImageToolboxBroken
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.Black
 import ru.tech.imageresizershrinker.core.ui.theme.Blue
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
-internal fun CrashActivity.CrashRootContent() {
-    val crashInfo = remember { getCrashInfo() }
+internal fun CrashRootContent(component: CrashComponent) {
+    val context = LocalComponentActivity.current
+    val crashInfo = component.crashInfo
 
     ImageToolboxCompositionLocals(
-        settingsState = getSettingsState().toUiState(
+        settingsState = component.settingsState.toUiState(
             allEmojis = Emoji.allIcons(),
             allIconShapes = IconShapeDefaults.shapes,
-            onGetEmojiColorTuple = imageGetter::getColorTupleFromEmoji
+            onGetEmojiColorTuple = component::getColorTupleFromEmoji
         )
     ) {
         val essentials = rememberLocalEssentials()
@@ -98,7 +99,7 @@ internal fun CrashActivity.CrashRootContent() {
             essentials.copyToClipboard(crashInfo.textToSend)
             essentials.showToast(
                 icon = Icons.Rounded.ContentCopy,
-                message = getString(R.string.copied),
+                message = context.getString(R.string.copied),
             )
         }
 
@@ -113,22 +114,60 @@ internal fun CrashActivity.CrashRootContent() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val isNightMode = LocalSettingsState.current.isNightMode
                 Spacer(modifier = Modifier.height(16.dp))
-                Icon(
-                    imageVector = Icons.Outlined.ImageToolboxBroken,
-                    contentDescription = null,
+                Column(
                     modifier = Modifier
-                        .size(80.dp)
-                        .statusBarsPadding()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.something_went_wrong_emphasis),
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    fontSize = 22.sp,
-                    modifier = Modifier.padding(16.dp)
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .container(
+                            shape = RoundedCornerShape(size = 20.dp),
+                            resultPadding = 16.dp,
+                            color = takeColorFromScheme {
+                                if (isNightMode) {
+                                    errorContainer.blend(surfaceContainerLow, 0.75f)
+                                } else {
+                                    errorContainer.blend(surfaceContainerLow, 0.65f)
+                                }
+                            }
+                        ),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val contentColor = takeColorFromScheme {
+                        if (isNightMode) {
+                            onError.blend(onSurface, 0.75f)
+                        } else {
+                            error.blend(onSurface, 0.6f)
+                        }
+                    }
+
+                    Icon(
+                        imageVector = Icons.Outlined.ImageToolboxBroken,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .statusBarsPadding(),
+                        tint = contentColor
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(R.string.crash_title),
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 22.sp,
+                        lineHeight = 26.sp,
+                        color = contentColor
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.crash_subtitle),
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp,
+                        lineHeight = 20.sp,
+                        color = contentColor
+                    )
+                }
                 Spacer(modifier = Modifier.height(24.dp))
                 val screenWidth = LocalScreenSize.current.width - 32.dp
                 Row(
@@ -147,7 +186,7 @@ internal fun CrashActivity.CrashRootContent() {
                             .padding(end = 8.dp)
                             .weight(1f)
                             .width(screenWidth / 2f)
-                            .height(50.dp),
+                            .height(48.dp),
                         containerColor = Blue,
                         contentColor = White,
                         borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -178,7 +217,7 @@ internal fun CrashActivity.CrashRootContent() {
                         modifier = Modifier
                             .weight(1f)
                             .width(screenWidth / 2f)
-                            .height(50.dp),
+                            .height(48.dp),
                         containerColor = Black,
                         contentColor = White,
                         borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -202,7 +241,34 @@ internal fun CrashActivity.CrashRootContent() {
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                EnhancedButton(
+                    onClick = {
+                        copyCrashInfo()
+                        component.shareLogs()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .height(48.dp),
+                    contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.MobileScreenShare,
+                            contentDescription = stringResource(R.string.send_logs)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        AutoSizeText(
+                            text = stringResource(id = R.string.send_logs),
+                            maxLines = 1
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(24.dp))
                 ExpandableItem(
                     shape = RoundedCornerShape(24.dp),
                     modifier = Modifier
@@ -253,11 +319,8 @@ internal fun CrashActivity.CrashRootContent() {
                     modifier = Modifier
                         .weight(1f, false),
                     onClick = {
-                        startActivity(
-                            Intent(
-                                this@CrashRootContent,
-                                AppActivityClass
-                            )
+                        context.startActivity(
+                            Intent(context, AppActivityClass)
                         )
                     },
                     content = {
@@ -290,9 +353,3 @@ internal fun CrashActivity.CrashRootContent() {
         }
     }
 }
-
-private suspend fun ImageGetter<Bitmap, ExifInterface>.getColorTupleFromEmoji(
-    emojiUri: String
-): ColorTuple? = getImage(data = emojiUri)
-    ?.extractPrimaryColor()
-    ?.let { ColorTuple(it) }
