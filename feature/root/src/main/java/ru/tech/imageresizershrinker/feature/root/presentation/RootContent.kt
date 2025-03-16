@@ -25,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
@@ -61,10 +60,8 @@ fun RootContent(
 
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState(
-            allEmojis = Emoji.allIcons(),
             allIconShapes = IconShapeDefaults.shapes,
-            randomEmojiKey = randomEmojiKey,
-            onGetEmojiColorTuple = component::getColorTupleFromEmoji
+            randomEmojiKey = randomEmojiKey
         ),
         toastHostState = component.toastHostState,
         simpleSettingsInteractor = component.simpleSettingsInteractor

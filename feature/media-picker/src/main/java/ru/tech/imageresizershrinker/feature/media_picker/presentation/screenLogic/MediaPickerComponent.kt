@@ -16,14 +16,10 @@
  */
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic
 
-import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,7 +33,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -57,7 +52,6 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaState
 
 class MediaPickerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,
     dispatchersHolder: DispatchersHolder
@@ -235,13 +229,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
             val endDate: DateExt = first().timestamp.getDateExt()
             getDateHeader(startDate, endDate)
         } else ""
-
-    suspend fun getColorTupleFromEmoji(
-        emojiUri: String
-    ): ColorTuple? = imageGetter
-        .getImage(data = emojiUri)
-        ?.extractPrimaryColor()
-        ?.let { ColorTuple(it) }
 
     private var mediaFilterJob: Job? by smartJob()
 

@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.crash.presentation.screenLogic.CrashComponent
 import ru.tech.imageresizershrinker.core.domain.TELEGRAM_GROUP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.Github
 import ru.tech.imageresizershrinker.core.resources.icons.ImageToolboxBroken
 import ru.tech.imageresizershrinker.core.resources.icons.Telegram
@@ -89,9 +88,7 @@ internal fun CrashRootContent(component: CrashComponent) {
 
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState(
-            allEmojis = Emoji.allIcons(),
-            allIconShapes = IconShapeDefaults.shapes,
-            onGetEmojiColorTuple = component::getColorTupleFromEmoji
+            allIconShapes = IconShapeDefaults.shapes
         )
     ) {
         val essentials = rememberLocalEssentials()

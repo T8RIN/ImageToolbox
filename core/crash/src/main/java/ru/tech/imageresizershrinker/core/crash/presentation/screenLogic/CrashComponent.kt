@@ -20,10 +20,7 @@ package ru.tech.imageresizershrinker.core.crash.presentation.screenLogic
 import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashInfo
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -41,7 +37,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 class CrashComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val crashInfo: CrashInfo,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -69,13 +64,6 @@ class CrashComponent @AssistedInject internal constructor(
             )
         }
     }
-
-    suspend fun getColorTupleFromEmoji(
-        emojiUri: String
-    ): ColorTuple? = imageGetter
-        .getImage(data = emojiUri)
-        ?.extractPrimaryColor()
-        ?.let { ColorTuple(it) }
 
     @AssistedFactory
     fun interface Factory {

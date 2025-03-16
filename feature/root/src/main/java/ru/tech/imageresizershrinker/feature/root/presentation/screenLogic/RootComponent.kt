@@ -17,14 +17,12 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -35,8 +33,6 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -52,7 +48,6 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
@@ -77,7 +72,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
     fileController: FileController,
@@ -380,13 +374,6 @@ class RootComponent @AssistedInject internal constructor(
             settingsManager.toggleAllowBetas()
         }
     }
-
-    suspend fun getColorTupleFromEmoji(
-        emojiUri: String
-    ): ColorTuple? = imageGetter
-        .getImage(data = emojiUri)
-        ?.extractPrimaryColor()
-        ?.let { ColorTuple(it) }
 
     fun onWantGithubReview() {
         _showGithubReviewDialog.update { true }

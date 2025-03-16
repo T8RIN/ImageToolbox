@@ -29,7 +29,6 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
@@ -54,9 +53,7 @@ internal fun MediaPickerRootContent(component: MediaPickerComponent) {
 
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState(
-            allEmojis = Emoji.allIcons(),
-            allIconShapes = IconShapeDefaults.shapes,
-            onGetEmojiColorTuple = component::getColorTupleFromEmoji
+            allIconShapes = IconShapeDefaults.shapes
         )
     ) {
         ImageToolboxThemeSurface {

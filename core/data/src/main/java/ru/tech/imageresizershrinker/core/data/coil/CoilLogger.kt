@@ -22,7 +22,7 @@ import coil3.util.Logger
 import com.t8rin.logger.makeLog
 import com.t8rin.logger.Logger as RealLogger
 
-class CoilLogger : Logger {
+internal class CoilLogger : Logger {
 
     private val delegate = DebugLogger()
 

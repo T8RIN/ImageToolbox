@@ -25,6 +25,7 @@ import coil3.decode.ImageSource
 import coil3.fetch.SourceFetchResult
 import coil3.request.Options
 import coil3.size.Size
+import coil3.size.pxOrElse
 import coil3.svg.SvgDecoder
 import coil3.svg.isSvg
 
@@ -33,10 +34,17 @@ internal class UpscaleSvgDecoder(
     private val options: Options
 ) : Decoder {
 
-    override suspend fun decode(): DecodeResult? = SvgDecoder(
+    override suspend fun decode(): DecodeResult = SvgDecoder(
         source = source,
-        options = options.copy(size = Size(2048, 2048))
+        options = options.copy(
+            size = options.size.coerceAtLeast(2048)
+        )
     ).decode()
+
+    private fun Size.coerceAtLeast(size: Int): Size = Size(
+        width = width.pxOrElse { 0 }.coerceAtLeast(size),
+        height = height.pxOrElse { 0 }.coerceAtLeast(size)
+    )
 
 
     class Factory : Decoder.Factory {

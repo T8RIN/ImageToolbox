@@ -34,9 +34,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.toBitmap
 import com.t8rin.dynamic.theme.ColorBlindType
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
+import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -47,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
@@ -158,11 +163,11 @@ fun UiSettingsState.isFirstLaunch(
 
 @Composable
 fun SettingsState.toUiState(
-    allEmojis: ImmutableList<Uri>,
     allIconShapes: ImmutableList<IconShape>,
-    onGetEmojiColorTuple: suspend (String) -> ColorTuple?,
     randomEmojiKey: Any? = null,
 ): UiSettingsState {
+    val allEmojis = Emoji.allIcons()
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -189,10 +194,16 @@ fun SettingsState.toUiState(
     ) {
         derivedStateOf {
             if (useEmojiAsPrimaryColor) {
-                scope.launch {
-                    selectedEmojiIndex?.let {
-                        emojiColorTuple = onGetEmojiColorTuple(
-                            allEmojis[it].toString()
+                selectedEmojiIndex?.let { index ->
+                    scope.launch {
+                        context.imageLoader.execute(
+                            ImageRequest.Builder(context)
+                                .target {
+                                    emojiColorTuple =
+                                        ColorTuple(it.toBitmap().extractPrimaryColor())
+                                }
+                                .data(allEmojis[index].toString())
+                                .build()
                         )
                     }
                 }
@@ -293,7 +304,7 @@ fun SettingsState.toUiState(
         }
     }
 
-    return remember(this) {
+    return remember(this, selectedEmoji) {
         derivedStateOf {
             UiSettingsState(
                 isNightMode = isNightMode,
