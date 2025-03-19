@@ -1589,4 +1589,7 @@
     <string name="pick_audio">选择音频</string>
     <string name="no_covers_found">未找到专辑封面</string>
     <string name="send_logs">发送日志</string>
+    <string name="send_logs_sub">点击分享应用程序日志文件，这可以帮助我发现问题并解决问题</string>
+    <string name="crash_title">哎呀……出问题了</string>
+    <string name="crash_subtitle">你可以使用下面的选项与我联系，我会尽力找到解决方案。\n（别忘了附上日志文件）</string>
 </resources>
