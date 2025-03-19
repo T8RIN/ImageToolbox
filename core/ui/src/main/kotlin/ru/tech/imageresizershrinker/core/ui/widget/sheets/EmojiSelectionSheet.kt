@@ -69,7 +69,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.emoji.EmojiData
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton

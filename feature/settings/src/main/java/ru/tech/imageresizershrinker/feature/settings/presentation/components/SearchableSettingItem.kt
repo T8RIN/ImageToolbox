@@ -36,12 +36,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.settings.presentation.model.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.model.Setting
 import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGroup
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
 
@@ -66,7 +66,7 @@ internal fun SearchableSettingItem(
         val settingState = LocalSettingsState.current
         val iconShape = remember(settingState.iconShape) {
             derivedStateOf {
-                settingState.iconShape?.takeOrElseFrom(IconShapeDefaults.shapes)
+                settingState.iconShape?.takeOrElseFrom(IconShape.entries)
             }
         }.value
 

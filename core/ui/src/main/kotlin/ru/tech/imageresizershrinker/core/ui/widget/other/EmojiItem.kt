@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 

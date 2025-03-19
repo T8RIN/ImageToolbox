@@ -66,8 +66,8 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiNativeStackBlurFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.Line

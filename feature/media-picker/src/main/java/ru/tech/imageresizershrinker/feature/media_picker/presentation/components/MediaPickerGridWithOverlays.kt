@@ -84,7 +84,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -429,7 +429,8 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                                 onSearchingChange(true)
                                 filterMedia()
                             },
-                            shape = MaterialStarShape
+                            shape = MaterialStarShape,
+                            pressedShape = MaterialStarShape
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,

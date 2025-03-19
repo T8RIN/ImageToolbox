@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -32,10 +33,13 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEdi
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberEditPresetsController
+import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 
@@ -44,7 +48,7 @@ fun ImageToolboxCompositionLocals(
     settingsState: UiSettingsState,
     toastHostState: ToastHostState = rememberToastHostState(),
     simpleSettingsInteractor: SimpleSettingsInteractor? = null,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     val editPresetsController = rememberEditPresetsController()
     val confettiHostState = rememberConfettiHostState()
@@ -78,7 +82,15 @@ fun ImageToolboxCompositionLocals(
 
     CompositionLocalProvider(
         *values.value,
-        content = content
+        content = {
+            ImageToolboxThemeSurface {
+                content()
+
+                ConfettiHost()
+
+                ToastHost()
+            }
+        }
     )
 }
 

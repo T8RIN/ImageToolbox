@@ -49,10 +49,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.settings.presentation.model.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -136,7 +135,7 @@ fun IconShapeSettingItem(
             ),
             contentPadding = PaddingValues(16.dp)
         ) {
-            itemsIndexed(IconShapeDefaults.shapes) { index, iconShape ->
+            itemsIndexed(IconShape.entries) { index, iconShape ->
                 val selected by remember(index, value) {
                     derivedStateOf {
                         index == value

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.shapes
+package ru.tech.imageresizershrinker.core.resources.shapes
 
 import android.graphics.Matrix
 import androidx.compose.ui.geometry.Size
@@ -27,21 +27,25 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-val SquircleShape: Shape = object : Shape {
+val SimpleHeartShape: Shape = object : Shape {
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val baseWidth = 1000f
-        val baseHeight = 1000f
+        val baseWidth = 24f
+        val baseHeight = 24f
 
         val path = Path().apply {
-            moveTo(0f, 500f)
-            cubicTo(0f, 88.25f, 88.25f, 0f, 500f, 0f)
-            cubicTo(911.75f, 0f, 1000f, 88.25f, 1000f, 500f)
-            cubicTo(1000f, 911.75f, 911.75f, 1000f, 500f, 1000f)
-            cubicTo(88.25f, 1000f, 0f, 911.75f, 0f, 500f)
+            moveTo(12.0f, 21.35f)
+            relativeLineTo(-1.45f, -1.32f)
+            cubicTo(5.4f, 15.36f, 2.0f, 12.28f, 2.0f, 8.5f)
+            cubicTo(2.0f, 5.42f, 4.42f, 3.0f, 7.5f, 3.0f)
+            relativeCubicTo(1.74f, 0.0f, 3.41f, 0.81f, 4.5f, 2.09f)
+            cubicTo(13.09f, 3.81f, 14.76f, 3.0f, 16.5f, 3.0f)
+            cubicTo(19.58f, 3.0f, 22.0f, 5.42f, 22.0f, 8.5f)
+            relativeCubicTo(0.0f, 3.78f, -3.4f, 6.86f, -8.55f, 11.54f)
+            lineTo(12.0f, 21.35f)
             close()
         }
 
@@ -49,9 +53,11 @@ val SquircleShape: Shape = object : Shape {
             path
                 .asAndroidPath()
                 .apply {
-                    transform(Matrix().apply {
-                        setScale(size.width / baseWidth, size.height / baseHeight)
-                    })
+                    transform(
+                        Matrix().apply {
+                            setScale(size.width / baseWidth, size.height / baseHeight)
+                        }
+                    )
                 }
                 .asComposePath()
         )

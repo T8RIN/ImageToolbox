@@ -42,8 +42,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cool
 import ru.tech.imageresizershrinker.core.resources.icons.Robot
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton

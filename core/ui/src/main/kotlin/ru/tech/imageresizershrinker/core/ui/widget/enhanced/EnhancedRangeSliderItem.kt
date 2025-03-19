@@ -71,8 +71,8 @@ import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText

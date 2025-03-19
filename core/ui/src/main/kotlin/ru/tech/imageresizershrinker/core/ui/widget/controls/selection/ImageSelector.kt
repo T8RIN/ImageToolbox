@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker

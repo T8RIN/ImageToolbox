@@ -72,7 +72,6 @@ import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogi
 @Composable
 internal fun MediaPickerRootContentImpl(
     component: MediaPickerComponent,
-    title: String,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean
 ) {
@@ -124,7 +123,11 @@ internal fun MediaPickerRootContentImpl(
             EnhancedTopAppBar(
                 title = {
                     Text(
-                        text = title,
+                        text = if (allowMultiple) {
+                            stringResource(R.string.pick_multiple_media)
+                        } else {
+                            stringResource(R.string.pick_single_media)
+                        },
                         modifier = Modifier.marquee()
                     )
                 },

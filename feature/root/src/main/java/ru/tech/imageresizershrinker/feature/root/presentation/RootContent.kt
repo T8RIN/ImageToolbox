@@ -18,67 +18,32 @@
 package ru.tech.imageresizershrinker.feature.root.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.root.presentation.components.RootDialogs
 import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.AppExitDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.HandleUpdateSearching
 import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.SuccessRestoreBackup
+import ru.tech.imageresizershrinker.feature.root.presentation.components.utils.uiSettingsState
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 
 @Composable
 fun RootContent(
     component: RootComponent
 ) {
-    var randomEmojiKey by remember {
-        mutableIntStateOf(0)
-    }
-
-    val currentDestination = component.childStack.subscribeAsState().value.items
-    LaunchedEffect(currentDestination) {
-        delay(200L) // Delay for transition
-        randomEmojiKey++
-    }
-
-    if (component.settingsState.appOpenCount >= 2 && component.settingsState.showUpdateDialogOnStartup) {
-        LaunchedEffect(Unit) {
-            delay(500)
-            component.tryGetUpdate()
-        }
-    }
-
     ImageToolboxCompositionLocals(
-        settingsState = component.settingsState.toUiState(
-            allIconShapes = IconShapeDefaults.shapes,
-            randomEmojiKey = randomEmojiKey
-        ),
+        settingsState = component.uiSettingsState(),
         toastHostState = component.toastHostState,
         simpleSettingsInteractor = component.simpleSettingsInteractor
     ) {
-        ImageToolboxThemeSurface {
-            AppExitDialog(component)
+        AppExitDialog(component)
 
-            ScreenSelector(component)
+        ScreenSelector(component)
 
-            RootDialogs(component)
+        RootDialogs(component)
 
-            SuccessRestoreBackup(component)
+        SuccessRestoreBackup(component)
 
-            ConfettiHost()
-
-            ToastHost()
-        }
+        HandleUpdateSearching(component)
     }
-
 }

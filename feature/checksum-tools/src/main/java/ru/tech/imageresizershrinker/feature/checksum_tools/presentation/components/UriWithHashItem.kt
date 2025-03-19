@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 

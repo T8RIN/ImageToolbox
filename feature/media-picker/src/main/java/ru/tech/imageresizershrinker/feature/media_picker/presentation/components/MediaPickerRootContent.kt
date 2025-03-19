@@ -19,71 +19,30 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation.component
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.res.stringResource
-import com.t8rin.dynamic.theme.ColorTuple
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
 internal fun MediaPickerRootContent(component: MediaPickerComponent) {
     val context = LocalComponentActivity.current
-    val allowMultiple = context.intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-
-    val title = if (allowMultiple) {
-        stringResource(R.string.pick_multiple_media)
-    } else {
-        stringResource(R.string.pick_single_media)
-    }
 
     ImageToolboxCompositionLocals(
-        settingsState = component.settingsState.toUiState(
-            allIconShapes = IconShapeDefaults.shapes
-        )
+        settingsState = component.settingsState.toUiState()
     ) {
-        ImageToolboxThemeSurface {
-            val dynamicTheme = LocalDynamicThemeState.current
-            MediaPickerRootContentImpl(
-                component = component,
-                title = title,
-                allowedMedia = context.intent.type.allowedMedia,
-                allowMultiple = allowMultiple
-            )
-            ConfettiHost()
-            ToastHost()
+        MediaPickerRootContentImpl(
+            component = component,
+            allowedMedia = context.intent.type.allowedMedia,
+            allowMultiple = context.intent.allowMultiple
+        )
 
-            val scope = rememberCoroutineScope()
-            SideEffect {
-                context.intent.getIntExtra(ColorSchemeName, Color.Transparent.toArgb()).takeIf {
-                    it != Color.Transparent.toArgb()
-                }?.let {
-                    scope.launch {
-                        while (dynamicTheme.colorTuple.value.primary != Color(it)) {
-                            dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
-                            delay(500L)
-                        }
-                    }
-                }
-            }
-        }
+        ObserveColorSchemeExtra()
     }
 }
 
+private val Intent.allowMultiple get() = getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
 private val String?.pickImage: Boolean get() = this?.startsWith("image") == true
 private val String?.pickVideo: Boolean get() = this?.startsWith("video") == true
 private val String?.allowedMedia: AllowedMedia

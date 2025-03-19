@@ -32,25 +32,25 @@ import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
-import ru.tech.imageresizershrinker.core.ui.shapes.ArrowShape
-import ru.tech.imageresizershrinker.core.ui.shapes.BookmarkShape
-import ru.tech.imageresizershrinker.core.ui.shapes.BurgerShape
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.shapes.DropletShape
-import ru.tech.imageresizershrinker.core.ui.shapes.EggShape
-import ru.tech.imageresizershrinker.core.ui.shapes.ExplosionShape
-import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
-import ru.tech.imageresizershrinker.core.ui.shapes.MapShape
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.core.ui.shapes.OctagonShape
-import ru.tech.imageresizershrinker.core.ui.shapes.OvalShape
-import ru.tech.imageresizershrinker.core.ui.shapes.PentagonShape
-import ru.tech.imageresizershrinker.core.ui.shapes.PillShape
-import ru.tech.imageresizershrinker.core.ui.shapes.ShieldShape
-import ru.tech.imageresizershrinker.core.ui.shapes.ShurikenShape
-import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape
-import ru.tech.imageresizershrinker.core.ui.shapes.SquircleShape
-import ru.tech.imageresizershrinker.core.ui.shapes.toShape
+import ru.tech.imageresizershrinker.core.resources.shapes.ArrowShape
+import ru.tech.imageresizershrinker.core.resources.shapes.BookmarkShape
+import ru.tech.imageresizershrinker.core.resources.shapes.BurgerShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.DropletShape
+import ru.tech.imageresizershrinker.core.resources.shapes.EggShape
+import ru.tech.imageresizershrinker.core.resources.shapes.ExplosionShape
+import ru.tech.imageresizershrinker.core.resources.shapes.KotlinShape
+import ru.tech.imageresizershrinker.core.resources.shapes.MapShape
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.resources.shapes.OctagonShape
+import ru.tech.imageresizershrinker.core.resources.shapes.OvalShape
+import ru.tech.imageresizershrinker.core.resources.shapes.PentagonShape
+import ru.tech.imageresizershrinker.core.resources.shapes.PillShape
+import ru.tech.imageresizershrinker.core.resources.shapes.ShieldShape
+import ru.tech.imageresizershrinker.core.resources.shapes.ShurikenShape
+import ru.tech.imageresizershrinker.core.resources.shapes.SmallMaterialStarShape
+import ru.tech.imageresizershrinker.core.resources.shapes.SquircleShape
+import ru.tech.imageresizershrinker.core.settings.presentation.utils.toShape
 
 @Composable
 fun outlineProperties(): List<CropOutlineProperty> = remember {

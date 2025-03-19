@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LinkPreview
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable

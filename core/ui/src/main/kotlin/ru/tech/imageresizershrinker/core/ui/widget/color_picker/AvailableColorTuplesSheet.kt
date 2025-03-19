@@ -80,9 +80,9 @@ import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.resources.icons.Theme
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.presentation.model.defaultColorTuple
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog

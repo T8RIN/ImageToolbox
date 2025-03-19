@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.shapes
+package ru.tech.imageresizershrinker.core.resources.shapes
 
-import ru.tech.imageresizershrinker.core.ui.utils.helper.PathShape
 
-private const val PillPathData =
-    "M48 20.4342C48 9.14772 38.8281 0 27.5193 0C21.8632 0 16.743 2.28863 13.036 5.98382L5.99744 13.1154C2.29384 16.814 0 21.9225 0 27.5658C0 38.8523 9.16854 48 20.4807 48C26.1368 48 31.257 45.7114 34.964 42.0162L42.0026 34.8846C45.7096 31.186 48 26.0775 48 20.4342Z"
+private const val BookmarkPathData =
+    "M10 0C4.47715 0 0 4.47715 0 10V44.3522C0 46.1924 0.832489 48.0327 4 47.9996C5.04582 47.9996 11.1957 46.5617 16.3492 45.3564C18.5872 44.833 20.6375 44.3535 22 44.0549C22.5203 43.9314 23 44.0549 23 44.0549C26.0208 44.6465 29.2917 45.4016 32.2846 46.0925C36.4967 47.0648 40.158 47.91 41.796 47.9935L42.0617 47.9925C45.2368 47.8668 46 46.0449 46 43.8424V10C46 4.47715 41.5228 0 36 0H10Z"
 
-val PillShape = PathShape(PillPathData)
+val BookmarkShape = PathShape(BookmarkPathData)

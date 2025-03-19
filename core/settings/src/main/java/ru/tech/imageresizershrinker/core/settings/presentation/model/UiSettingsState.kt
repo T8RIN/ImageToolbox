@@ -163,10 +163,10 @@ fun UiSettingsState.isFirstLaunch(
 
 @Composable
 fun SettingsState.toUiState(
-    allIconShapes: ImmutableList<IconShape>,
     randomEmojiKey: Any? = null,
 ): UiSettingsState {
     val allEmojis = Emoji.allIcons()
+    val allIconShapes: ImmutableList<IconShape> = IconShape.entries
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()

@@ -54,10 +54,10 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem

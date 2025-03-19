@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.shapes
+package ru.tech.imageresizershrinker.core.resources.shapes
 
 import android.graphics.Matrix
 import androidx.compose.ui.geometry.Size
@@ -27,27 +27,22 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-val PentagonShape: Shape = object : Shape {
+val KotlinShape: Shape = object : Shape {
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val baseWidth = 1224.1858f
-        val baseHeight = 1137.3882f
+        val baseWidth = 1000f
+        val baseHeight = 1000f
 
         val path = Path().apply {
-            moveTo(521.133f, 28.588f)
-            cubicTo(575.7829f, -9.5293f, 648.4028f, -9.5293f, 703.0528f, 28.588f)
-            lineTo(1156.1332f, 344.6029f)
-            cubicTo(1214.148f, 385.0671f, 1238.4572f, 458.9902f, 1215.7808f, 525.9892f)
-            lineTo(1045.41f, 1029.3625f)
-            cubicTo(1023.5555f, 1093.9333f, 962.9716f, 1137.3882f, 894.8026f, 1137.3882f)
-            lineTo(329.3832f, 1137.3882f)
-            cubicTo(261.2142f, 1137.3882f, 200.6302f, 1093.9333f, 178.7757f, 1029.3625f)
-            lineTo(8.405f, 525.9893f)
-            cubicTo(-14.2714f, 458.9903f, 10.0377f, 385.0671f, 68.0526f, 344.6029f)
-            lineTo(521.133f, 28.588f)
+            moveTo(0f, 0f)
+            lineTo(1000f, 0f)
+            lineTo(473.5f, 500f)
+            lineTo(1000f, 1000f)
+            lineTo(0f, 1000f)
+            lineTo(0f, 0f)
             close()
         }
 

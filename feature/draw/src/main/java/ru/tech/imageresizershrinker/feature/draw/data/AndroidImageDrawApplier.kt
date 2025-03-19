@@ -60,8 +60,8 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.createFilter
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedBitmapOnPath
 import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedTextOnPath

@@ -74,9 +74,9 @@ import ru.tech.imageresizershrinker.core.resources.icons.DashedLine
 import ru.tech.imageresizershrinker.core.resources.icons.DotDashedLine
 import ru.tech.imageresizershrinker.core.resources.icons.StampedLine
 import ru.tech.imageresizershrinker.core.resources.icons.ZigzagLine
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.settings.presentation.model.IconShape
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -272,7 +272,7 @@ fun DrawLineStyleSelector(
 
             Column {
                 val shapes = remember {
-                    IconShapeDefaults.shapes.dropLast(1)
+                    IconShape.entries.dropLast(1)
                 }
                 Column(
                     modifier = Modifier

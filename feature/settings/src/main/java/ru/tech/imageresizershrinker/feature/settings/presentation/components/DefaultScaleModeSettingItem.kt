@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ScaleModeSelector
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 
 @Composable

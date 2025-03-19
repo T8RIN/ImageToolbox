@@ -52,9 +52,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
@@ -85,7 +85,7 @@ fun PreferenceRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
 ) {
-    val shape = shapeByInteraction(
+    val animatedShape = shapeByInteraction(
         shape = shape,
         pressedShape = RoundedCornerShape(6.dp),
         interactionSource = interactionSource
@@ -115,7 +115,7 @@ fun PreferenceRow(
                 if (drawContainer) {
                     Modifier.container(
                         color = color,
-                        shape = shape,
+                        shape = animatedShape,
                         resultPadding = 0.dp,
                         autoShadowElevation = autoShadowElevation
                     )

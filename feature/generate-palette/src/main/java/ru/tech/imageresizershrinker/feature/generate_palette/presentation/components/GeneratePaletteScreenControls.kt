@@ -78,7 +78,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
 import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
@@ -88,6 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container

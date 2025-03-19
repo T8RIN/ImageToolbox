@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.icons.Firebase
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeDefaults
 
 @Composable
 fun TitleItem(

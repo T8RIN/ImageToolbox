@@ -54,11 +54,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
@@ -100,16 +100,16 @@ fun PreferenceItemOverload(
             ) else it
         }
     ) {
-        val shape = shapeByInteraction(
+        val animatedShape = shapeByInteraction(
             shape = shape,
             pressedShape = pressedShape,
             interactionSource = interactionSource
         )
         Card(
-            shape = shape,
+            shape = animatedShape,
             modifier = modifier
                 .container(
-                    shape = shape,
+                    shape = animatedShape,
                     resultPadding = 0.dp,
                     color = color,
                     autoShadowElevation = autoShadowElevation
@@ -122,7 +122,7 @@ fun PreferenceItemOverload(
         ) {
             Row(
                 modifier = Modifier
-                    .clip(shape)
+                    .clip(animatedShape)
                     .then(
                         onClick
                             ?.let {

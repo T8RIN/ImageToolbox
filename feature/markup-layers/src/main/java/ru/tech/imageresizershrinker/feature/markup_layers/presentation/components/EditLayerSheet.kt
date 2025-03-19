@@ -61,8 +61,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEditLarge
+import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
-import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverseByLuma
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
