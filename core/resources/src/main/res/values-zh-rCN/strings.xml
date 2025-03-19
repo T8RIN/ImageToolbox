@@ -137,8 +137,8 @@
     <string name="vibrance">色相</string>
     <string name="crosshatch">扫描线</string>
     <string name="sobel_edge">线框</string>
-    <string name="start">开始</string>
-    <string name="end">结束</string>
+    <string name="start">左侧</string>
+    <string name="end">右侧</string>
     <string name="box_blur">方框模糊</string>
     <string name="bilaterial_blur">双边模糊</string>
     <string name="options_arrangement">功能管理</string>
@@ -474,7 +474,7 @@
     <string name="full_filter_sub">对给定的单张或多张图片应用任意滤镜链</string>
     <string name="free_drawing_sub">绘制路径作为输入值</string>
     <string name="inverse_fill_type_sub">如果启用，将过滤掉所有非屏蔽区域并代替默认行为</string>
-    <string name="start_position">头部</string>
+    <string name="start_position">左侧</string>
     <string name="highlighter">概要</string>
     <string name="buttons_shadow">按钮</string>
     <string name="rect_sub">绘制从起点到终点的矩形</string>
@@ -489,14 +489,14 @@
     <string name="full_filter">全滤镜</string>
     <string name="double_arrow_sub">从给定路径绘制双箭头</string>
     <string name="add_mask">添加滤镜</string>
-    <string name="end_position">尾部</string>
+    <string name="end_position">右侧</string>
     <string name="outlined_rect">轮廓图</string>
     <string name="mask_preview_sub">绘制的滤镜遮罩将进行渲染，以显示大致效果</string>
     <string name="privacy_blur">隐私模糊</string>
     <string name="fabs_shadow_sub">启用浮动操作按钮后的阴影绘制</string>
     <string name="oval_sub">从起点到终点绘制椭圆形</string>
     <string name="mask_indexed">遮罩%d</string>
-    <string name="center_position">中心</string>
+    <string name="center_position">居中</string>
     <string name="buttons_shadow_sub">启用默认按钮后的阴影绘制</string>
     <string name="draw_path_mode">绘制路径模式</string>
     <string name="vibration">震动</string>
@@ -1590,6 +1590,6 @@
     <string name="no_covers_found">未找到专辑封面</string>
     <string name="send_logs">发送日志</string>
     <string name="send_logs_sub">点击分享应用程序日志文件，这可以帮助我发现问题并解决问题</string>
-    <string name="crash_title">哎呀……出问题了</string>
+    <string name="crash_title">哎呀……出错了</string>
     <string name="crash_subtitle">你可以使用下面的选项与我联系，我会尽力找到解决方案。\n（别忘了附上日志文件）</string>
 </resources>
