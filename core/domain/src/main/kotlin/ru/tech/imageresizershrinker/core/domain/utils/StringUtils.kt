@@ -75,5 +75,3 @@ private fun diffHelper(
     }
     return lookup.getOrElse(key) { "" to "" }
 }
-
-val String.Companion.Empty: String get() = ""
