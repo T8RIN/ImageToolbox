@@ -1588,4 +1588,5 @@
     <string name="pick_audio_to_start">选择音频以开始</string>
     <string name="pick_audio">选择音频</string>
     <string name="no_covers_found">未找到专辑封面</string>
+    <string name="send_logs">发送日志</string>
 </resources>
