@@ -1582,10 +1582,14 @@
     <string name="collection_mesh_gradients">網格梯度集合</string>
     <string name="points_customization">自訂點</string>
     <string name="no_barcode_found">找不到條碼</string>
-    <string name="generated_barcode_will_be_here">產生的條碼將在這裡</string>
-    <string name="audio_cover_extractor_sub">從音訊檔案匯出專輯封面圖片，支援常見的格式</string>
+    <string name="generated_barcode_will_be_here">產生的條碼將展示在此處</string>
+    <string name="audio_cover_extractor_sub">從音訊檔案匯出專輯封面圖片，支援大多數常見的格式</string>
     <string name="audio_cover_extractor">音訊封面匯出器</string>
     <string name="pick_audio_to_start">選取音訊以開始</string>
     <string name="pick_audio">選取音訊</string>
     <string name="no_covers_found">找不到封面</string>
+    <string name="send_logs">傳送日誌</string>
+    <string name="send_logs_sub">點擊以分享應用程式日誌檔案，這可以幫助我發現並解決問題</string>
+    <string name="crash_title">哎呀…發生了一些錯誤</string>
+    <string name="crash_subtitle">您可以使用下方的選項聯絡我，我將嘗試找到解決方案。（不要忘記附加日誌）</string>
 </resources>
