@@ -509,7 +509,7 @@
     <string name="overwrite_files">Dosyaların Üzerine Yaz</string>
     <string name="overwrite_files_sub">Orijinal dosya, seçilen klasöre kaydetmek yerine yenisiyle değiştirilecek, bu seçenek için görüntü kaynağının \"Gezgin\" veya GetContent olması gerekir, bunu açtığınızda otomatik olarak ayarlanacaktır</string>
     <string name="empty">Boş</string>
-    <string name="suffix">Son ek</string>
+    <string name="suffix">Son Ek</string>
     <string name="scale_mode">Ölçek modu</string>
     <string name="bilinear">Çift doğrusal</string>
     <string name="catmull">Catmull</string>
@@ -1074,8 +1074,8 @@
     <string name="equalize_histogram_hsv">HSV Histogramını Eşitle</string>
     <string name="equalize_histogram">Histogramı Eşitle</string>
     <string name="enter_percentage">Yüzde Gir</string>
-    <string name="allow_enter_by_text_field">Metin Alanıyla Girmeye İzin Ver</string>
-    <string name="allow_enter_by_text_field_sub">Ön ayar seçiminin arkasındaki metin alanını etkinleştirir, böylece anında giriş yapılabilir</string>
+    <string name="allow_enter_by_text_field">Metin Kutucuğu ile Değer Girmeye İzin Ver</string>
+    <string name="allow_enter_by_text_field_sub">Hızlı değer girmek için ön ayar seçiminden önce metin kutucuğunu etkinleştirir</string>
     <string name="scale_color_space">Renk Uzayını Ölçeklendir</string>
     <string name="linear">Doğrusal</string>
     <string name="equalize_histogram_pixelation">Histogram Pikselizasyonunu Eşitle</string>
@@ -1324,8 +1324,8 @@
     <string name="golden_forest">Altın Orman</string>
     <string name="greenish">Yeşilimsi</string>
     <string name="retro_yellow">Retro Sarı</string>
-    <string name="links_preview">Bağlantı Önizlemesi</string>
-    <string name="links_preview_sub">Metin elde edebileceğiniz yerlerde (QR Kod, OCR vb.) bağlantı önizleme alma özelliğini etkinleştirir</string>
+    <string name="links_preview">Bağlantı Ön İzleme</string>
+    <string name="links_preview_sub">Metinleri seçebileceğiniz durumlarda (Karekod, OCR vb.) bağlantılarn ön izleme özelliğini etkinleştirir</string>
     <string name="links">Bağlantılar</string>
     <string name="ico_size_warning">Ico Dosyaları yalnızca maksimum 256*256 boyutunda kaydedilebilir, daha büyük değerler sonuç görüntüsünde zorlanacaktır</string>
     <string name="gif_type_to_webp">GIF\'ten WEBP\'e</string>
@@ -1347,11 +1347,11 @@
     <string name="formatted_timestamp_sub">Çıktı dosya adında temel milisaniye yerine zaman damgası biçimlendirmesini etkinleştir</string>
     <string name="enable_timestamps_to_format_them">Biçimlerini seçmek için zaman damgalarını etkinleştir</string>
     <string name="one_time_save_location">Tek Seferlik Kaydetme Konumu</string>
-    <string name="one_time_save_location_sub">Hemen hemen tüm seçeneklerde kaydet düğmesine uzun basarak kullanabileceğiniz tek seferlik kaydetme konumlarını görüntüle ve düzenle</string>
+    <string name="one_time_save_location_sub">Neredeyse bütün durumlarda kaydet düğmesine uzun basarak kullanabileceğiniz tek seferlik kaydetme konumlarını görüntüle ve düzenle</string>
     <string name="recently_used">Son Kullanılanlar</string>
     <string name="ci_channel">CI Kanalı</string>
     <string name="group">Grup</string>
-    <string name="image_toolbox_in_telegram">Telegram\'da ImageToolbox 🎉</string>
+    <string name="image_toolbox_in_telegram">ImageToolbox Telegram\'da 🎉</string>
     <string name="image_toolbox_in_telegram_sub">İstediğiniz her şeyi tartışabileceğiniz sohbetimize katılın ve beta sürümleri ile duyuruları paylaştığım CI kanalına göz atın</string>
     <string name="ci_channel_sub">Uygulamanın yeni sürümleri hakkında bildirim alın ve duyuruları okuyun</string>
     <string name="fit_description">Bir görüntüyü verilen boyutlara uydurun ve arka plana bulanıklık veya renk uygulayın</string>
@@ -1468,8 +1468,8 @@
     <string name="material_2_sub">Material 2 tabanlı kaydırıcı, modern değil, basit ve anlaşılır</string>
     <string name="material_you_slider_sub">Modern Material You kaydırıcısı, fütüristik, taze, erişilebilir</string>
     <string name="apply">Uygula</string>
-    <string name="center_align_dialog_buttons">Diyalog Düğmelerini Ortala</string>
-    <string name="center_align_dialog_buttons_sub">Mümkünse diyalog düğmeleri sol taraf yerine merkezde konumlandırılacaktır</string>
+    <string name="center_align_dialog_buttons">Diyalog Butonlarını Ortala</string>
+    <string name="center_align_dialog_buttons_sub">Diyalog butonları mümkün olduğunda sol taraf yerine merkezde konumlandırılsın</string>
     <string name="open_source_licenses">Açık Kaynak Lisansları</string>
     <string name="open_source_licenses_sub">Bu uygulamada kullanılan açık kaynak kütüphanelerinin lisanslarını görüntüle</string>
     <string name="area">Alan</string>
