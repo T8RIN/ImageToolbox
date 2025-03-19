@@ -49,8 +49,6 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathP
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.toUiPathPaint
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
-import kotlin.collections.minus
-import kotlin.collections.plus
 
 class AddMaskSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,

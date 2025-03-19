@@ -21,9 +21,9 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.net.Uri
-import androidx.compose.runtime.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -201,7 +201,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            getDrawingBitmap()?.let { localBitmap ->
+            getDrawingBitmap().let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -302,7 +302,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         }
     }
 
-    private suspend fun getDrawingBitmap(): Bitmap? = withContext(defaultDispatcher) {
+    private suspend fun getDrawingBitmap(): Bitmap = withContext(defaultDispatcher) {
         coroutineScope {
             deactivateAllLayers()
             delay(500)
@@ -313,9 +313,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             layers.setHasAlpha(true)
             val background = imageGetter.getImage(data = _uri.value)
                 ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
-                ImageBitmap(width, height).asAndroidBitmap()
-                    .applyCanvas { drawColor(color) }
-            }
+                    ImageBitmap(width, height).asAndroidBitmap()
+                        .applyCanvas { drawColor(color) }
+                }
 
             background?.overlay(layers) ?: layers
         }
@@ -351,7 +351,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun shareBitmap(onComplete: () -> Unit) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            getDrawingBitmap()?.let {
+            getDrawingBitmap().let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -375,7 +375,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            getDrawingBitmap()?.let { image ->
+            getDrawingBitmap().let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(

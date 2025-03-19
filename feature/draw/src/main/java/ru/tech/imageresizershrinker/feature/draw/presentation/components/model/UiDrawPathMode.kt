@@ -119,6 +119,7 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     DrawPathMode.Free -> UiDrawPathMode.Free
     DrawPathMode.Lasso -> UiDrawPathMode.Lasso
     DrawPathMode.Line -> UiDrawPathMode.Line
@@ -126,6 +127,7 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     DrawPathMode.OutlinedOval -> UiDrawPathMode.OutlinedOval
     is DrawPathMode.OutlinedPolygon -> UiDrawPathMode.OutlinedPolygon(
         vertices = vertices,
@@ -147,6 +149,7 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     is DrawPathMode.Polygon -> UiDrawPathMode.Polygon(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
@@ -174,6 +177,7 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     UiDrawPathMode.Free -> DrawPathMode.Free
     UiDrawPathMode.Lasso -> DrawPathMode.Lasso
     UiDrawPathMode.Line -> DrawPathMode.Line
@@ -181,6 +185,7 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     UiDrawPathMode.OutlinedOval -> DrawPathMode.OutlinedOval
     is UiDrawPathMode.OutlinedPolygon -> DrawPathMode.OutlinedPolygon(
         vertices = vertices,
@@ -202,6 +207,7 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
         sizeScale = sizeScale,
         angle = angle
     )
+
     is UiDrawPathMode.Polygon -> DrawPathMode.Polygon(
         vertices = vertices,
         rotationDegrees = rotationDegrees,

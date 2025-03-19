@@ -49,7 +49,8 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.element
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.PolygonParamsSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.RectParamsSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.StarParamsSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.*
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.getIcon
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.saveState
 
 @Composable
 fun DrawPathModeSelector(

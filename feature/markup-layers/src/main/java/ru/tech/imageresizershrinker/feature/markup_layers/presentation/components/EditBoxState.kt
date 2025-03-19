@@ -17,8 +17,10 @@
 
 package ru.tech.imageresizershrinker.feature.markup_layers.presentation.components
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpSize
@@ -95,10 +97,10 @@ class EditBoxState(
         scale = (scale * zoomChange).fastCoerceIn(0.3f, 10f)
         val panChange = (offsetChange * scale).rotateBy(rotation)
 
-        val contentSize = contentSize.rotateBy(rotation)
+        val rotatedSize = contentSize.rotateBy(rotation)
 
-        val extraWidth = (parentMaxWidth - contentSize.width * scale).absoluteValue
-        val extraHeight = (parentMaxHeight - contentSize.height * scale).absoluteValue
+        val extraWidth = (parentMaxWidth - rotatedSize.width * scale).absoluteValue
+        val extraHeight = (parentMaxHeight - rotatedSize.height * scale).absoluteValue
 
         val maxX = extraWidth / 2 // + contentSize.width * scale / 2
         val maxY = extraHeight / 2 // + contentSize.height * scale / 2

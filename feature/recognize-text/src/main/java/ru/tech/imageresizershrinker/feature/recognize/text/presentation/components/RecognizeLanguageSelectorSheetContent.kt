@@ -51,7 +51,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
-import kotlin.collections.indexOf
 
 @Composable
 internal fun RecognizeLanguageSelectorSheetContent(

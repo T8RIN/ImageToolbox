@@ -436,7 +436,6 @@ private fun Modifier.sliderSemantics(
 }
 
 
-
 @Stable
 private fun Modifier.sliderTapModifier(
     state: CustomSliderState,

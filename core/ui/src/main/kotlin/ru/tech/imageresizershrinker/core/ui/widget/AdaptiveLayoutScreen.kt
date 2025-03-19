@@ -214,11 +214,11 @@ fun AdaptiveLayoutScreen(
                         )
                         val cutout =
                             if (!placeImagePreview && addHorizontalCutoutPaddingIfNoPreview) {
-                            WindowInsets
-                                .displayCutout
-                                .asPaddingValues()
-                                .calculateStartPadding(direction)
-                        } else 0.dp
+                                WindowInsets
+                                    .displayCutout
+                                    .asPaddingValues()
+                                    .calculateStartPadding(direction)
+                            } else 0.dp
 
                         val listState = rememberLazyListState()
                         var isScrolled by rememberSaveable(canShowScreenData) {

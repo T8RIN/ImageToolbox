@@ -53,7 +53,7 @@ private fun diffHelper(
 ): Pair<String, String> {
     val key = (a.length.toLong()) shl 32 or b.length.toLong()
     if (!lookup.containsKey(key)) {
-        var value: Pair<String, String> = if (a.isEmpty() || b.isEmpty()) {
+        val value: Pair<String, String> = if (a.isEmpty() || b.isEmpty()) {
             a to b
         } else if (a[0] == b[0]) {
             diffHelper(
@@ -71,7 +71,7 @@ private fun diffHelper(
                 bb.first to (b[0].toString() + bb.second)
             }
         }
-        lookup.put(key, value)
+        lookup[key] = value
     }
     return lookup.getOrElse(key) { "" to "" }
 }

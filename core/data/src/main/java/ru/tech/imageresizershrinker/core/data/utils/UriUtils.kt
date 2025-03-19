@@ -31,7 +31,6 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.resources.R
 import java.net.URLDecoder
 import java.util.LinkedList
-import kotlin.io.use
 
 fun ImageModel.toUri(): Uri? = when (data) {
     is Uri -> data as Uri

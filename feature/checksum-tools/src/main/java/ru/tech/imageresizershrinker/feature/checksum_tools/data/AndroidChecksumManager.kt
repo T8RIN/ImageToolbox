@@ -31,7 +31,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.io.Readable
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumManager
 import ru.tech.imageresizershrinker.feature.checksum_tools.domain.ChecksumSource
 import javax.inject.Inject
-import kotlin.text.encodeToByteArray
 
 internal class AndroidChecksumManager @Inject constructor(
     @ApplicationContext private val context: Context,

@@ -41,11 +41,13 @@ import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -165,67 +167,67 @@ internal fun MarkupLayersNoDataControls(
         },
         sheetContent = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
-                    Row(
-                        Modifier
-                            .padding(16.dp)
-                            .container(shape = RoundedCornerShape(24.dp))
-                    ) {
-                        RoundedTextField(
-                            value = width.takeIf { it != 0 }?.toString() ?: "",
-                            onValueChange = {
-                                width = it.restrict(8192).toIntOrNull() ?: 0
-                            },
-                            shape = RoundedCornerShape(12.dp),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            label = {
-                                Text(stringResource(R.string.width, " "))
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(
-                                    start = 8.dp,
-                                    top = 8.dp,
-                                    bottom = 4.dp,
-                                    end = 4.dp
-                                )
-                        )
-                        RoundedTextField(
-                            value = height.takeIf { it != 0 }?.toString() ?: "",
-                            onValueChange = {
-                                height = it.restrict(8192).toIntOrNull() ?: 0
-                            },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            shape = RoundedCornerShape(12.dp),
-                            label = {
-                                Text(stringResource(R.string.height, " "))
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(
-                                    start = 4.dp,
-                                    top = 8.dp,
-                                    bottom = 4.dp,
-                                    end = 8.dp
-                                ),
-                        )
-                    }
-                    ColorRowSelector(
-                        value = sheetBackgroundColor,
-                        onValueChange = { sheetBackgroundColor = it },
-                        icon = Icons.Rounded.FormatColorFill,
+                Row(
+                    Modifier
+                        .padding(16.dp)
+                        .container(shape = RoundedCornerShape(24.dp))
+                ) {
+                    RoundedTextField(
+                        value = width.takeIf { it != 0 }?.toString() ?: "",
+                        onValueChange = {
+                            width = it.restrict(8192).toIntOrNull() ?: 0
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        label = {
+                            Text(stringResource(R.string.width, " "))
+                        },
                         modifier = Modifier
+                            .weight(1f)
                             .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                bottom = 16.dp
+                                start = 8.dp,
+                                top = 8.dp,
+                                bottom = 4.dp,
+                                end = 4.dp
                             )
-                            .container(RoundedCornerShape(24.dp))
+                    )
+                    RoundedTextField(
+                        value = height.takeIf { it != 0 }?.toString() ?: "",
+                        onValueChange = {
+                            height = it.restrict(8192).toIntOrNull() ?: 0
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        label = {
+                            Text(stringResource(R.string.height, " "))
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(
+                                start = 4.dp,
+                                top = 8.dp,
+                                bottom = 4.dp,
+                                end = 8.dp
+                            ),
                     )
                 }
+                ColorRowSelector(
+                    value = sheetBackgroundColor,
+                    onValueChange = { sheetBackgroundColor = it },
+                    icon = Icons.Rounded.FormatColorFill,
+                    modifier = Modifier
+                        .padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        )
+                        .container(RoundedCornerShape(24.dp))
+                )
+            }
         },
         visible = showBackgroundDrawingSetup,
         onDismiss = {

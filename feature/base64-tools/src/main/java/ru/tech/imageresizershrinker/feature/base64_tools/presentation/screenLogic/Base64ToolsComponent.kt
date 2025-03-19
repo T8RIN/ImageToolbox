@@ -49,7 +49,6 @@ import ru.tech.imageresizershrinker.feature.base64_tools.domain.Base64Converter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.toString
 
 class Base64ToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,

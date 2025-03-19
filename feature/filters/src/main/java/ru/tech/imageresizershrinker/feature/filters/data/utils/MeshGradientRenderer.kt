@@ -15,19 +15,44 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused")
+
 package ru.tech.imageresizershrinker.feature.filters.data.utils
 
-import android.opengl.GLES20.*
+import android.opengl.GLES20.GL_COLOR_BUFFER_BIT
+import android.opengl.GLES20.GL_COMPILE_STATUS
+import android.opengl.GLES20.GL_DEPTH_BUFFER_BIT
+import android.opengl.GLES20.GL_FLOAT
+import android.opengl.GLES20.GL_FRAGMENT_SHADER
+import android.opengl.GLES20.GL_TRIANGLES
+import android.opengl.GLES20.GL_VERTEX_SHADER
+import android.opengl.GLES20.glAttachShader
+import android.opengl.GLES20.glClear
+import android.opengl.GLES20.glClearColor
+import android.opengl.GLES20.glCompileShader
+import android.opengl.GLES20.glCreateProgram
+import android.opengl.GLES20.glCreateShader
+import android.opengl.GLES20.glDeleteShader
+import android.opengl.GLES20.glDisableVertexAttribArray
+import android.opengl.GLES20.glDrawArrays
+import android.opengl.GLES20.glEnableVertexAttribArray
+import android.opengl.GLES20.glGetAttribLocation
+import android.opengl.GLES20.glGetShaderiv
+import android.opengl.GLES20.glGetUniformLocation
+import android.opengl.GLES20.glLinkProgram
+import android.opengl.GLES20.glShaderSource
+import android.opengl.GLES20.glUniform1f
+import android.opengl.GLES20.glUniform2f
+import android.opengl.GLES20.glUniform3fv
+import android.opengl.GLES20.glUseProgram
+import android.opengl.GLES20.glVertexAttribPointer
+import android.opengl.GLES20.glViewport
 import android.opengl.GLSurfaceView.Renderer
-import java.lang.RuntimeException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
-import kotlin.also
-import kotlin.apply
-import kotlin.run
 
 
 // from https://www.shadertoy.com/view/wdyczG, Created by hahnzhu in 2020-10-20
