@@ -34,7 +34,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalle
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
-fun UpdateSheet(
+internal fun UpdateSheetImpl(
     changelog: String,
     tag: String,
     visible: Boolean,

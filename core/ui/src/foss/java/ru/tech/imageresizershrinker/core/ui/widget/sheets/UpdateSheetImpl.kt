@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.sheets
 import androidx.compose.runtime.Composable
 
 @Composable
-fun UpdateSheet(
+internal fun UpdateSheetImpl(
     changelog: String,
     tag: String,
     visible: Boolean,
