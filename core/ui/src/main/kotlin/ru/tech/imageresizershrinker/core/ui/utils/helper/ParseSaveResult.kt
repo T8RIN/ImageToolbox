@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.firstOfType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.Companion.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 

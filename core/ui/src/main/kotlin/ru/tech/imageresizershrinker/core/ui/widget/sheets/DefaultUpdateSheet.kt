@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget
+package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,10 +34,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -50,14 +47,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.HtmlText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun UpdateSheet(
+internal fun DefaultUpdateSheet(
     changelog: String,
     tag: String,
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    val context = LocalContext.current
-
     EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
@@ -90,27 +85,31 @@ fun UpdateSheet(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Column(Modifier.verticalScroll(rememberScrollState())) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            val linkHandler = LocalUriHandler.current
                             HtmlText(
                                 html = changelog.trimIndent(),
-                                modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp)
-                            ) { uri ->
-                                context.startActivity(Intent(Intent.ACTION_VIEW, uri.toUri()))
-                            }
+                                modifier = Modifier.padding(
+                                    start = 24.dp,
+                                    end = 24.dp,
+                                    top = 24.dp
+                                ),
+                                onHyperlinkClick = linkHandler::openUri
+                            )
                         }
                     }
                 }
             }
         },
         confirmButton = {
+            val linkHandler = LocalUriHandler.current
             EnhancedButton(
                 onClick = {
-                    context.startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("$APP_RELEASES/tag/${tag}")
-                        )
-                    )
+                    linkHandler.openUri("$APP_RELEASES/tag/${tag}")
                 }
             ) {
                 AutoSizeText(stringResource(id = R.string.update))

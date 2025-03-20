@@ -22,8 +22,8 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEdi
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
-import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.UpdateSheet
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.FirstLaunchSetupDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.dialogs.GithubReviewDialog

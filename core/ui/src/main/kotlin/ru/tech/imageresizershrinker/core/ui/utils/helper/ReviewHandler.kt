@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,19 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
-import android.app.Activity
 import android.content.Context
-import com.google.android.play.core.review.ReviewManagerFactory
 
-object ReviewHandler {
+interface ReviewHandler {
 
-    val showNotShowAgainButton: Boolean = false
+    val showNotShowAgainButton: Boolean
 
     fun showReview(
         context: Context,
         onComplete: () -> Unit = {}
-    ) {
-        runCatching {
-            val reviewManager = ReviewManagerFactory.create(context)
+    )
 
-            reviewManager
-                .requestReviewFlow()
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        reviewManager
-                            .launchReviewFlow(context as Activity, it.result)
-                            .addOnCompleteListener {
-                                onComplete()
-                            }
-                    }
-                }
-        }
-    }
+    fun notShowReviewAgain(context: Context)
 
-    fun notShowReviewAgain(context: Context) = Unit
+    companion object : ReviewHandler by ReviewHandlerImpl
 
 }

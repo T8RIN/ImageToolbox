@@ -30,15 +30,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 
-object ReviewHandler {
+internal object ReviewHandlerImpl : ReviewHandler {
     private val Context.dataStore by preferencesDataStore("saves_count")
     private val SAVES_COUNT = intPreferencesKey("SAVES_COUNT")
     private val NOT_SHOW_AGAIN = booleanPreferencesKey("NOT_SHOW_AGAIN")
 
     private val _showNotShowAgainButton = mutableStateOf(false)
-    val showNotShowAgainButton: Boolean by _showNotShowAgainButton
+    override val showNotShowAgainButton: Boolean by _showNotShowAgainButton
 
-    fun showReview(
+    override fun showReview(
         context: Context,
         onComplete: () -> Unit = {}
     ) {
@@ -68,7 +68,7 @@ object ReviewHandler {
         }
     }
 
-    fun notShowReviewAgain(context: Context) {
+    override fun notShowReviewAgain(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             context.dataStore.edit {
                 it[NOT_SHOW_AGAIN] = true
