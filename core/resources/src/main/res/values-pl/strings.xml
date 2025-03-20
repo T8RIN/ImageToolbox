@@ -1589,4 +1589,8 @@
     <string name="no_covers_found">Brak okładek</string>
     <string name="pick_audio_to_start">Wybierz dźwięk, aby rozpocząć</string>
     <string name="pick_audio">Wybierz dźwięk</string>
+    <string name="send_logs">Wyślij dzienniki</string>
+    <string name="send_logs_sub">Kliknij, aby udostępnić plik dziennika aplikacji, pomoże mi to wykryć i naprawić problem.</string>
+    <string name="crash_title">Ups... Coś poszło nie tak</string>
+    <string name="crash_subtitle">Możesz skontaktować się ze mną, korzystając z poniższych opcji, a ja postaram się znaleźć rozwiązanie.\n(Nie zapomnij załączyć dziennika)</string>
 </resources>
