@@ -25,8 +25,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
@@ -64,15 +62,8 @@ private class DocumentScannerImpl(
 
 }
 
-@Stable
-@Immutable
-interface DocumentScanner {
-    fun scan()
-}
-
-
 @Composable
-fun rememberDocumentScanner(
+internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
     val scope = rememberCoroutineScope()

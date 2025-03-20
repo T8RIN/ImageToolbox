@@ -40,7 +40,7 @@ internal object ReviewHandlerImpl : ReviewHandler {
 
     override fun showReview(
         context: Context,
-        onComplete: () -> Unit = {}
+        onComplete: () -> Unit
     ) {
         val activity = context.findActivity() ?: return
 

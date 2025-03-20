@@ -23,14 +23,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
@@ -48,12 +47,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
@@ -71,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ClickableActionIcon
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -208,22 +205,16 @@ fun DocumentScannerContent(
                 }
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .container(
                         resultPadding = 0.dp,
-                        shape = CircleShape,
+                        shape = RoundedCornerShape(20.dp),
                         color = MaterialTheme.colorScheme.surfaceContainerLow
                     )
-                    .padding(6.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(8.dp),
             ) {
-                val density = LocalDensity.current
-                var height by remember {
-                    mutableStateOf(0.dp)
-                }
                 EnhancedButton(
                     onClick = {
                         component.sharePdf(showConfetti)
@@ -235,15 +226,8 @@ fun DocumentScannerContent(
                         start = 12.dp,
                         end = 20.dp
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .onSizeChanged {
-                            height = max(height, with(density) { it.height.toDp() })
-                        }
-                        .then(
-                            if (height > 0.dp) Modifier.height(height)
-                            else Modifier
-                        )
+                    shape = ContainerShapeDefaults.topShape,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Share,
@@ -255,7 +239,7 @@ fun DocumentScannerContent(
                         maxLines = 2
                     )
                 }
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.height(4.dp))
                 EnhancedButton(
                     onClick = {
                         savePdfLauncher.launch(component.generatePdfFilename())
@@ -266,15 +250,8 @@ fun DocumentScannerContent(
                         start = 16.dp,
                         end = 20.dp
                     ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .onSizeChanged {
-                            height = max(height, with(density) { it.height.toDp() })
-                        }
-                        .then(
-                            if (height > 0.dp) Modifier.height(height)
-                            else Modifier
-                        )
+                    shape = ContainerShapeDefaults.bottomShape,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.PictureAsPdf,
