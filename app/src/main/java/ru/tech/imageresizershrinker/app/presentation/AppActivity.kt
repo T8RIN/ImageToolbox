@@ -21,14 +21,14 @@ import android.content.Intent
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.retainedComponent
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.ui.utils.M3Activity
+import ru.tech.imageresizershrinker.core.ui.utils.ComposeActivity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
 import ru.tech.imageresizershrinker.feature.root.presentation.screenLogic.RootComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AppActivity : M3Activity() {
+class AppActivity : ComposeActivity() {
 
     @Inject
     lateinit var rootComponentFactory: RootComponent.Factory

@@ -26,6 +26,7 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.t8rin.logger.Logger
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -461,6 +462,8 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun createLogsExport(): ByteArray = withContext(ioDispatcher) {
+        "Start Logs Export".makeLog("SettingsManager")
+
         val logsFile = Logger.getLogsFile().toFile()
         val settingsFile = createBackupFile()
 

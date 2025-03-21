@@ -58,7 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
 @AndroidEntryPoint
-abstract class M3Activity : AppCompatActivity() {
+abstract class ComposeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var analyticsManager: AnalyticsManager
@@ -115,7 +115,7 @@ abstract class M3Activity : AppCompatActivity() {
                 updateFirebaseParams()
                 val colorTuple = state.appColorTuple.asColorTuple()
                 DynamicColors.applyToActivitiesIfAvailable(
-                    this@M3Activity.application,
+                    this@ComposeActivity.application,
                     DynamicColorsOptions.Builder()
                         .setContentBasedSource(colorTuple.primary.toArgb())
                         .build()

@@ -23,11 +23,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashHandler
 import ru.tech.imageresizershrinker.core.crash.presentation.components.CrashRootContent
 import ru.tech.imageresizershrinker.core.crash.presentation.screenLogic.CrashComponent
-import ru.tech.imageresizershrinker.core.ui.utils.M3Activity
+import ru.tech.imageresizershrinker.core.ui.utils.ComposeActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CrashActivity : M3Activity(), CrashHandler {
+class CrashActivity : ComposeActivity(), CrashHandler {
 
     @Inject
     lateinit var componentFactory: CrashComponent.Factory
