@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,46 +19,32 @@ package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.compone
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.ShaderBrush
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.meshGradient
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
-internal fun GradientPreview(
-    brush: ShaderBrush?,
+internal fun MeshGradientPreview(
+    meshGradientState: UiMeshGradientState,
     gradientAlpha: Float,
     allowPickingImage: Boolean?,
     gradientSize: IntegerSize,
-    onSizeChanged: (Size) -> Unit,
     imageAspectRatio: Float,
     selectedUri: Uri
 ) {
-    val alpha by animateFloatAsState(
-        if (brush == null) 1f
-        else gradientAlpha
-    )
-    val solidBrush = SolidColor(MaterialTheme.colorScheme.surfaceContainer)
+    val alpha by animateFloatAsState(gradientAlpha)
     AnimatedContent(
         targetState = if (allowPickingImage == true) {
             imageAspectRatio
@@ -70,7 +56,7 @@ internal fun GradientPreview(
         }
     ) { aspectRatio ->
         Box {
-            Box(
+            Spacer(
                 modifier = Modifier
                     .aspectRatio(aspectRatio)
                     .clip(MaterialTheme.shapes.medium)
@@ -79,36 +65,20 @@ internal fun GradientPreview(
                             Modifier.transparencyChecker()
                         } else Modifier
                     )
-                    .drawBehind {
-                        drawRect(
-                            brush = brush ?: solidBrush,
-                            alpha = alpha
-                        )
-                    }
-                    .onGloballyPositioned {
-                        onSizeChanged(
-                            Size(
-                                it.size.width.toFloat(),
-                                it.size.height.toFloat()
-                            )
-                        )
-                    }
-                    .zIndex(2f),
-                contentAlignment = Alignment.Center
-            ) {
-                AnimatedVisibility(visible = brush == null) {
-                    Icon(
-                        imageVector = Icons.Rounded.BrokenImageAlt,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(0.5f)
+                    .meshGradient(
+                        points = meshGradientState.points,
+                        resolutionX = meshGradientState.resolutionX,
+                        resolutionY = meshGradientState.resolutionY,
+                        alpha = alpha
                     )
-                }
-            }
+                    .zIndex(2f)
+            )
             if (allowPickingImage == true) {
                 Picture(
                     model = selectedUri,
                     modifier = Modifier.matchParentSize(),
-                    shape = MaterialTheme.shapes.medium
+                    shape = MaterialTheme.shapes.medium,
+                    size = 1500
                 )
             }
         }

@@ -183,7 +183,6 @@ fun WatermarkingContent(
             }
             if (component.internalBitmap != null) {
                 ShowOriginalButton(
-                    canShow = true,
                     onStateChange = {
                         showOriginal = it
                     }

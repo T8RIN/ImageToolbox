@@ -93,7 +93,6 @@ fun ToneCurvesEditOption(
                 )
             }
             ShowOriginalButton(
-                canShow = true,
                 onStateChange = {
                     showOriginal = it
                 }

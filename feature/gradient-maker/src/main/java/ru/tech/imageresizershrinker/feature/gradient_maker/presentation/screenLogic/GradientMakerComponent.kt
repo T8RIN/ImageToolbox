@@ -90,6 +90,15 @@ class GradientMakerComponent @AssistedInject internal constructor(
         }
     }
 
+    private val _allowPickingImage: MutableState<Boolean?> = mutableStateOf(
+        if (initialUris.isNullOrEmpty()) null
+        else true
+    )
+    val allowPickingImage by _allowPickingImage
+
+    private val _showOriginal: MutableState<Boolean> = mutableStateOf(false)
+    val showOriginal by _showOriginal
+
     private var _gradientState = UiGradientState()
     private val gradientState: UiGradientState get() = _gradientState
 
@@ -371,8 +380,12 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun setIsMeshGradient(value: Boolean) {
-        _isMeshGradient.update { value }
+    fun setIsMeshGradient(
+        isMeshGradient: Boolean,
+        allowPickingImage: Boolean
+    ) {
+        _isMeshGradient.update { isMeshGradient }
+        _allowPickingImage.update { allowPickingImage }
     }
 
     fun addColorStop(
@@ -437,6 +450,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
             _gradientState = UiGradientState()
             _meshGradientState = UiMeshGradientState()
             _isMeshGradient.update { false }
+            _allowPickingImage.update { null }
             registerChangesCleared()
         }
     }
@@ -463,6 +477,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         uris: List<Uri>,
         onFailure: (Throwable) -> Unit = {}
     ) {
+        _allowPickingImage.update { true }
         _uris.update { uris }
         uris.firstOrNull()?.let { updateSelectedUri(it, onFailure) }
     }
@@ -583,6 +598,10 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat? = if (uris.size < 2) imageFormat
     else null
+
+    fun setShowOriginal(value: Boolean) {
+        _showOriginal.update { value }
+    }
 
     @AssistedFactory
     fun interface Factory {

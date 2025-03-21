@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
 fun ShowOriginalButton(
-    canShow: Boolean,
+    canShow: Boolean = true,
     onStateChange: (Boolean) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
