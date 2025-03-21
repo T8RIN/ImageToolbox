@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.data.image.utils.compressor
 
 import android.graphics.Bitmap
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
+import com.radzivon.bartoshyk.avif.coder.HeifQualityArg
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import ru.tech.imageresizershrinker.core.data.image.utils.ImageCompressorBackend
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -31,17 +32,14 @@ internal data class HeicBackend(
         image: Bitmap,
         quality: Quality
     ): ByteArray {
-        val heicQuality = quality as? Quality.Heic ?: Quality.Heic()
-
         return HeifCoder().encodeHeic(
             bitmap = image,
-            quality = heicQuality.qualityValue,
+            quality = HeifQualityArg.Quality(quality.qualityValue),
             preciseMode = if (isLossless) {
                 PreciseMode.LOSSLESS
             } else {
                 PreciseMode.LOSSY
-            },
-            crf = heicQuality.constantRateFactor
+            }
         )
     }
 
