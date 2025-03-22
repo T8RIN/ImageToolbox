@@ -46,6 +46,7 @@ internal fun CrashRootContent(component: CrashComponent) {
     val context = LocalComponentActivity.current
     val crashInfo = component.crashInfo
 
+
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState()
     ) {
