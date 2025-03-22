@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("SpellCheckingInspection")
+
 package ru.tech.imageresizershrinker.core.domain.image.model
 
 sealed class MetadataTag(
@@ -163,6 +165,13 @@ sealed class MetadataTag(
     override fun compareTo(other: MetadataTag): Int = key.compareTo(other.key)
 
     override fun toString(): String = key
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is MetadataTag) return false
+        return other.key == key
+    }
+
+    override fun hashCode(): Int = key.hashCode()
 
     companion object {
         const val TAG_BITS_PER_SAMPLE: String = "BitsPerSample"
