@@ -58,7 +58,7 @@ dependencyResolutionManagement {
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "Image_Toolbox"
+rootProject.name = "ImageToolbox"
 
 include(":app")
 
