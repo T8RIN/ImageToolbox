@@ -120,12 +120,11 @@ fun CollageMakerContent(
 
     LaunchedEffect(component.initialUris) {
         component.initialUris?.takeIf { it.isNotEmpty() }?.let {
-            if (it.size in 2..10) {
+            if (it.size in 1..10) {
                 component.updateUris(it)
             } else {
                 essentials.showToast(
-                    message = if (it.size > 10) context.getString(R.string.pick_up_to_ten_images)
-                    else context.getString(R.string.pick_at_least_two_images),
+                    message = context.getString(R.string.pick_up_to_ten_images),
                     icon = Icons.Outlined.AutoAwesomeMosaic
                 )
             }
@@ -133,7 +132,7 @@ fun CollageMakerContent(
     }
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        if (uris.size in 2..10) {
+        if (uris.size in 1..10) {
             component.updateUris(uris)
         } else {
             essentials.showToast(
