@@ -1,7 +1,7 @@
 [versions]
 androidMinSdk = "21"
-androidTargetSdk = "36"
-androidCompileSdk = "36"
+androidTargetSdk = "35"
+androidCompileSdk = "35"
 
 versionName = "3.2.1-alpha02"
 versionCode = "173"
