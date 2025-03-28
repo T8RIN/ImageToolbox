@@ -1575,4 +1575,5 @@
     <string name="pixel_by_pixel">Pixel Por Pixel</string>
     <string name="highlight_color">Destacar Cor</string>
     <string name="pixel_comparison_type">Tipo de Comparação de Pixels</string>
+    <string name="scan_barcode">Escanear Código de Barras</string>
 </resources>
