@@ -71,7 +71,7 @@
 </br>
 </br>
 
-<img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=social"/>
+<img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=social" style="width: 280px; height: 30px;"/>
 
 </br>
 </br>
