@@ -20,34 +20,66 @@
     <img alt="material" src="https://custom-icon-badges.demolab.com/badge/material%20you-lightblue?style=for-the-badge&logoColor=333&logo=material-you"/></a>
   </br>
   </br>
- <a href=""><img src="https://tokei.rs/b1/github/t8rin/imageToolbox?category=code&color=orange&style=for-the-badge"/></a>
-  <a href="https://github.com/T8RIN/ImageToolbox/actions">
-  <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
-  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=37ABB5">
-  <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=for-the-badge"/>
-  </br>
-  </br>
-  <a href="https://hits.sh/github.com/t8rin/ImageResizer/">
-      <img alt="Hits" src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Views&extraCount=7500&color=ff3f6f"/></a>
-  <a href="https://github.com/t8rin/ImageResizer/releases">
-      <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=orange&style=for-the-badge"/>
-  </a>
-  <a href="https://github.com/t8rin/ImageResizer/stargazers">
-      <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge"/>
-  </a>
-  </br>
-  <a href="https://github.com/t8rin/imageresizer/releases/latest">
-      <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=github&style=for-the-badge"/>
-  </a>
-   <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
-      <img src="https://img.shields.io/endpoint?color=purple&logo=google-play&style=for-the-badge&label=Play%20store&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dru.tech.imageresizershrinker%26l%3DAndroid%26m%3D%24version"/>
-  </a>
-  <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
-      <img src="https://img.shields.io/f-droid/v/ru.tech.imageresizershrinker?color=purple&include_prereleases&logo=FDROID&style=for-the-badge"/>
-  </a>
+  
+ <img src="https://img.shields.io/badge/192.9K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
+
+<img src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnNvdXJjZS1jb21taXQ8L3RpdGxlPjxwYXRoIGQ9Ik0xNywxMkMxNywxNC40MiAxNS4yOCwxNi40NCAxMywxNi45VjIxSDExVjE2LjlDOC43MiwxNi40NCA3LDE0LjQyIDcsMTJDNyw5LjU4IDguNzIsNy41NiAxMSw3LjFWM0gxM1Y3LjFDMTUuMjgsNy41NiAxNyw5LjU4IDE3LDEyTTEyLDlBMywzIDAgMCwwIDksMTJBMywzIDAgMCwwIDEyLDE1QTMsMyAwIDAsMCAxNSwxMkEzLDMgMCAwLDAgMTIsOVoiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg==&labelColor=07ab4e">
+ 
+<img src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=8ce2ff&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPndlaWdodDwvdGl0bGU+PHBhdGggZD0iTTEyLDNBNCw0IDAgMCwxIDE2LDdDMTYsNy43MyAxNS44MSw4LjQxIDE1LjQ2LDlIMThDMTguOTUsOSAxOS43NSw5LjY3IDE5Ljk1LDEwLjU2QzIxLjk2LDE4LjU3IDIyLDE4Ljc4IDIyLDE5QTIsMiAwIDAsMSAyMCwyMUg0QTIsMiAwIDAsMSAyLDE5QzIsMTguNzggMi4wNCwxOC41NyA0LjA1LDEwLjU2QzQuMjUsOS42NyA1LjA1LDkgNiw5SDguNTRDOC4xOSw4LjQxIDgsNy43MyA4LDdBNCw0IDAgMCwxIDEyLDNNMTIsNUEyLDIgMCAwLDAgMTAsN0EyLDIgMCAwLDAgMTIsOUEyLDIgMCAwLDAgMTQsN0EyLDIgMCAwLDAgMTIsNVoiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg==&labelColor=0782ab">
+ 
 </br>
-    </br>
-   <a href="https://hellogithub.com/repository/4c5f2fae4eb545ab87cad9ffd19870ca" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4c5f2fae4eb545ab87cad9ffd19870ca&claim_uid=ubtZe5aXVz0n2QA&theme=dark" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+</br>
+
+<a href="https://hits.sh/github.com/t8rin/ImageResizer/">
+
+  <img src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Page%20Views&extraCount=7500&color=ff3f6f&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctaWNvbiIgc3R5bGU9IndpZHRoOiAxZW07IGhlaWdodDogMWVtO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZmlsbDojZmZmZmZmO292ZXJmbG93OiBoaWRkZW47IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGQ9Ik01MTIgMzg0YTEyOCAxMjggMCAwIDAtMTI4IDEyOCAxMjggMTI4IDAgMCAwIDEyOCAxMjggMTI4IDEyOCAwIDAgMCAxMjgtMTI4IDEyOCAxMjggMCAwIDAtMTI4LTEyOG0wIDM0MS4zMzMzMzNhMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMtMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMCAwIDEgMjEzLjMzMzMzMy0yMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAwIDAgMSAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMgMjEzLjMzMzMzM20wLTUzMy4zMzMzMzNDMjk4LjY2NjY2NyAxOTIgMTE2LjQ4IDMyNC42OTMzMzMgNDIuNjY2NjY3IDUxMmM3My44MTMzMzMgMTg3LjMwNjY2NyAyNTYgMzIwIDQ2OS4zMzMzMzMgMzIwczM5NS41Mi0xMzIuNjkzMzMzIDQ2OS4zMzMzMzMtMzIwYy03My44MTMzMzMtMTg3LjMwNjY2Ny0yNTYtMzIwLTQ2OS4zMzMzMzMtMzIweiIgZmlsbD0iIi8%2BPC9zdmc%2B&labelColor=870b2a"/>
+  
+</a>
+  
+<a href="https://github.com/t8rin/ImageResizer/releases">
+  
+  <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
+  
+</a>
+  
+<a href="https://github.com/t8rin/ImageResizer/stargazers">
+  
+  <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge&labelColor=a1a116&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnN0YXI8L3RpdGxlPjxwYXRoIGQ9Ik0xMiwxNy4yN0wxOC4xOCwyMUwxNi41NCwxMy45N0wyMiw5LjI0TDE0LjgxLDguNjJMMTIsMkw5LjE5LDguNjJMMiw5LjI0TDcuNDUsMTMuOTdMNS44MiwyMUwxMiwxNy4yN1oiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg=="/>
+  
+</a>
+  
+</br>
+
+<a href="https://github.com/t8rin/imageresizer/releases/latest">
+
+  <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
+  
+</a>
+
+<a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
+
+  <img src="https://img.shields.io/endpoint?color=a1168e&logo=google-play&style=for-the-badge&label=Play%20store&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dru.tech.imageresizershrinker%26l%3DAndroid%26m%3D%24version&labelColor=700f63"/>
+  
+</a>
+
+<a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
+
+  <img src="https://img.shields.io/f-droid/v/ru.tech.imageresizershrinker?color=a1168e&include_prereleases&logo=FDROID&style=for-the-badge&labelColor=700f63"/>
+  
+</a>
+
+</br>
+</br>
+
+<img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=social"/>
+
+</br>
+</br>
+
+  <a href="https://hellogithub.com/repository/4c5f2fae4eb545ab87cad9ffd19870ca" target="_blank">
+    <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4c5f2fae4eb545ab87cad9ffd19870ca&claim_uid=ubtZe5aXVz0n2QA&theme=dark" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" />
+  </a>
+  
 
 </p>
 
