@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.domain
 
-interface ImageTextReader<Image> {
+interface ImageTextReader {
 
     suspend fun getTextFromImage(
         type: RecognitionType,
@@ -25,17 +25,7 @@ interface ImageTextReader<Image> {
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,
-        imageUri: String,
-        onProgress: (Int) -> Unit
-    ): TextRecognitionResult
-
-    suspend fun getTextFromImage(
-        type: RecognitionType,
-        languageCode: String,
-        segmentationMode: SegmentationMode,
-        ocrEngineMode: OcrEngineMode,
-        parameters: TessParams,
-        image: Image?,
+        model: Any?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult
 

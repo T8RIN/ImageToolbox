@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.recognize.text.di
 
-import android.graphics.Bitmap
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,6 +34,6 @@ internal interface RecognizeTextModule {
     @Binds
     fun provideImageTextReader(
         reader: AndroidImageTextReader
-    ): ImageTextReader<Bitmap>
+    ): ImageTextReader
 
 }

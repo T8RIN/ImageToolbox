@@ -91,7 +91,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     @Assisted val initialType: Screen.RecognizeText.Type?,
     @Assisted onGoBack: () -> Unit,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageTextReader: ImageTextReader<Bitmap>,
+    private val imageTextReader: ImageTextReader,
     private val settingsManager: SettingsManager,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
@@ -102,7 +102,6 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
-    //TODO: Needs refactor
 
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
@@ -310,30 +309,15 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     _left.update { uris.size }
 
                     uris.forEach { uri ->
-                        imageTextReader.getTextFromImage(
-                            type = recognitionType,
-                            languageCode = selectedLanguages.joinToString("+") { it.code },
-                            segmentationMode = segmentationMode,
-                            image = imageGetter.getImage(uri)?.let { bitmap ->
-                                imageTransformer.transform(
-                                    transformations = getTransformations().map(CoilTransformation::asDomain),
-                                    image = bitmap
-                                )
-                            },
-                            parameters = params,
-                            ocrEngineMode = ocrEngineMode,
-                            onProgress = { }
-                        ).also { result ->
-                            result.appendToStringBuilder(
-                                builder = txtString,
-                                uri = uri,
-                                onRequestDownload = { data ->
-                                    _downloadDialogData.update { data.map(DownloadData::toUi) }
-                                    return@launch
-                                }
-                            )
-                            _done.update { it + 1 }
-                        }
+                        uri.readText().appendToStringBuilder(
+                            builder = txtString,
+                            uri = uri,
+                            onRequestDownload = { data ->
+                                _downloadDialogData.update { data.map(DownloadData::toUi) }
+                                return@launch
+                            }
+                        )
+                        _done.update { it + 1 }
                     }
 
                     onResult(
@@ -357,59 +341,42 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     uris.forEach { uri ->
                         runSuspendCatching {
                             imageGetter.getImage(uri.toString())
-                        }.getOrNull()?.let {
-                            imageTextReader.getTextFromImage(
-                                type = recognitionType,
-                                languageCode = selectedLanguages.joinToString("+") { it.code },
-                                segmentationMode = segmentationMode,
-                                image = imageGetter.getImage(uri)?.let { bitmap ->
-                                    imageTransformer.transform(
-                                        transformations = getTransformations().map(
-                                            CoilTransformation::asDomain
-                                        ),
-                                        image = bitmap
-                                    )
-                                },
-                                parameters = params,
-                                ocrEngineMode = ocrEngineMode,
-                                onProgress = { }
-                            ).also { result ->
-                                val txtString = when (result) {
-                                    is TextRecognitionResult.Error -> {
-                                        result.throwable.message ?: ""
-                                    }
-
-                                    is TextRecognitionResult.NoData -> {
-                                        _downloadDialogData.update { result.data.map(DownloadData::toUi) }
-                                        return@launch
-                                    }
-
-                                    is TextRecognitionResult.Success -> {
-                                        result.data.text.ifEmpty { getString(R.string.picture_has_no_text) }
-                                    }
+                        }.getOrNull()?.let { data ->
+                            val txtString = when (val result = data.image.readText()) {
+                                is TextRecognitionResult.Error -> {
+                                    result.throwable.message ?: ""
                                 }
 
-                                results.add(
-                                    fileController.save(
-                                        ImageSaveTarget(
-                                            imageInfo = it.imageInfo,
-                                            originalUri = uri.toString(),
-                                            sequenceNumber = null,
-                                            metadata = it.metadata?.apply {
-                                                setAttribute(
-                                                    MetadataTag.UserComment,
-                                                    txtString.takeIf { it.isNotEmpty() }
-                                                )
-                                            },
-                                            data = ByteArray(0),
-                                            readFromUriInsteadOfData = true
-                                        ),
-                                        keepOriginalMetadata = false,
-                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                                    )
-                                )
-                                _done.update { it + 1 }
+                                is TextRecognitionResult.NoData -> {
+                                    _downloadDialogData.update { result.data.map(DownloadData::toUi) }
+                                    return@launch
+                                }
+
+                                is TextRecognitionResult.Success -> {
+                                    result.data.text.ifEmpty { getString(R.string.picture_has_no_text) }
+                                }
                             }
+
+                            results.add(
+                                fileController.save(
+                                    ImageSaveTarget(
+                                        imageInfo = data.imageInfo,
+                                        originalUri = uri.toString(),
+                                        sequenceNumber = null,
+                                        metadata = data.metadata?.apply {
+                                            setAttribute(
+                                                MetadataTag.UserComment,
+                                                txtString.takeIf { it.isNotEmpty() }
+                                            )
+                                        },
+                                        data = ByteArray(0),
+                                        readFromUriInsteadOfData = true
+                                    ),
+                                    keepOriginalMetadata = false,
+                                    oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                                )
+                            )
+                            _done.update { it + 1 }
                         }
                     }
 
@@ -488,27 +455,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit
     ) {
         recognitionJob = componentScope.launch {
-            if (_type.value !is Screen.RecognizeText.Type.Extraction) return@launch
+            val type = _type.value
+            if (type !is Screen.RecognizeText.Type.Extraction) return@launch
             delay(400L)
             _textLoadingProgress.update { 0 }
-            imageTextReader.getTextFromImage(
-                type = recognitionType,
-                languageCode = selectedLanguages.joinToString("+") { it.code },
-                segmentationMode = segmentationMode,
-                image = previewBitmap?.let { bitmap ->
-                    imageTransformer.transform(
-                        transformations = getTransformations().map {
-                            it.asDomain()
-                        },
-                        image = bitmap
-                    )
-                },
-                parameters = params,
-                ocrEngineMode = ocrEngineMode,
-                onProgress = { progress ->
-                    _textLoadingProgress.update { progress }
-                }
-            ).also { result ->
+            type.uri?.readText()?.also { result ->
                 when (result) {
                     is TextRecognitionResult.Error -> {
                         onFailure(result.throwable)
@@ -707,20 +658,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     _left.update { uris.size }
 
                     uris.forEach { uri ->
-                        imageTextReader.getTextFromImage(
-                            type = recognitionType,
-                            languageCode = selectedLanguages.joinToString("+") { it.code },
-                            segmentationMode = segmentationMode,
-                            image = imageGetter.getImage(uri)?.let { bitmap ->
-                                imageTransformer.transform(
-                                    transformations = getTransformations().map(CoilTransformation::asDomain),
-                                    image = bitmap
-                                )
-                            },
-                            parameters = params,
-                            ocrEngineMode = ocrEngineMode,
-                            onProgress = { }
-                        ).also { result ->
+                        uri.readText().also { result ->
                             result.appendToStringBuilder(
                                 builder = txtString,
                                 uri = uri,
@@ -752,23 +690,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     uris.forEach { uri ->
                         runSuspendCatching {
                             imageGetter.getImage(uri.toString())
-                        }.getOrNull()?.let {
-                            imageTextReader.getTextFromImage(
-                                type = recognitionType,
-                                languageCode = selectedLanguages.joinToString("+") { it.code },
-                                segmentationMode = segmentationMode,
-                                image = imageGetter.getImage(uri)?.let { bitmap ->
-                                    imageTransformer.transform(
-                                        transformations = getTransformations().map(
-                                            CoilTransformation::asDomain
-                                        ),
-                                        image = bitmap
-                                    )
-                                },
-                                parameters = params,
-                                ocrEngineMode = ocrEngineMode,
-                                onProgress = { }
-                            ).also { result ->
+                        }.getOrNull()?.let { data ->
+                            data.image.readText().also { result ->
                                 val txtString = when (result) {
                                     is TextRecognitionResult.Error -> {
                                         result.throwable.message ?: ""
@@ -784,7 +707,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                                     }
                                 }
 
-                                val exif = it.metadata?.apply {
+                                val exif = data.metadata?.apply {
                                     setAttribute(
                                         MetadataTag.UserComment,
                                         txtString.takeIf { it.isNotEmpty() }
@@ -799,7 +722,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                                     },
                                     filename = filenameCreator.constructImageFilename(
                                         saveTarget = ImageSaveTarget(
-                                            imageInfo = it.imageInfo.copy(originalUri = uri.toString()),
+                                            imageInfo = data.imageInfo.copy(originalUri = uri.toString()),
                                             originalUri = uri.toString(),
                                             metadata = exif,
                                             sequenceNumber = null,
@@ -938,6 +861,27 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         recognitionJob?.cancel()
         recognitionJob = null
         _isSaving.update { false }
+    }
+
+    private suspend fun Any.readText(): TextRecognitionResult {
+        return imageTextReader.getTextFromImage(
+            type = recognitionType,
+            languageCode = selectedLanguages.joinToString("+") { it.code },
+            segmentationMode = segmentationMode,
+            model = imageGetter.getImage(this)?.let { bitmap ->
+                imageTransformer.transform(
+                    transformations = getTransformations().map(CoilTransformation::asDomain),
+                    image = bitmap
+                )
+            },
+            parameters = params,
+            ocrEngineMode = ocrEngineMode,
+            onProgress = { progress ->
+                _textLoadingProgress.update { progress }
+            }
+        ).also {
+            _textLoadingProgress.update { -1 }
+        }
     }
 
     @AssistedFactory

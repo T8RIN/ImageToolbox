@@ -59,7 +59,7 @@ internal class AndroidImageTextReader @Inject constructor(
     @ApplicationContext private val context: Context,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, ImageTextReader<Bitmap> {
+) : DispatchersHolder by dispatchersHolder, ImageTextReader {
 
     init {
         RecognitionType.entries.forEach {
@@ -73,29 +73,19 @@ internal class AndroidImageTextReader @Inject constructor(
         segmentationMode: SegmentationMode,
         ocrEngineMode: OcrEngineMode,
         parameters: TessParams,
-        imageUri: String,
-        onProgress: (Int) -> Unit
-    ): TextRecognitionResult = getTextFromImage(
-        type = type,
-        languageCode = languageCode,
-        segmentationMode = segmentationMode,
-        ocrEngineMode = ocrEngineMode,
-        parameters = parameters,
-        image = imageGetter.getImage(imageUri)?.image,
-        onProgress = onProgress
-    )
-
-    override suspend fun getTextFromImage(
-        type: RecognitionType,
-        languageCode: String,
-        segmentationMode: SegmentationMode,
-        ocrEngineMode: OcrEngineMode,
-        parameters: TessParams,
-        image: Bitmap?,
+        model: Any?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(defaultDispatcher) {
+        val empty = TextRecognitionResult.Success(RecognitionData("", 0))
 
-        if (image == null) return@withContext TextRecognitionResult.Success(RecognitionData("", 0))
+        if (model == null) return@withContext empty
+
+        val image = if (model is Bitmap) {
+            model
+        } else {
+            imageGetter.getImage(model) ?: return@withContext empty
+        }
+
 
         val needToDownload = getNeedToDownloadLanguages(type, languageCode)
 
