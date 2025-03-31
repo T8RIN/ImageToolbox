@@ -336,7 +336,7 @@ fun WebpToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.type == null) to isPortrait,
+                isNoData = component.type == null,
                 onSecondaryButtonClick = {
                     when (component.type) {
                         is Screen.WebpTools.Type.WebpToImage -> pickSingleWebpLauncher.pickFile()
@@ -426,7 +426,6 @@ fun WebpToolsContent(
                 }
             }
         },
-        isPortrait = isPortrait,
         canShowScreenData = component.type != null
     )
 

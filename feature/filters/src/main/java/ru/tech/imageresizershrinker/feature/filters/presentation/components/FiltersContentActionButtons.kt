@@ -79,7 +79,7 @@ internal fun FiltersContentActionButtons(
         mutableStateOf(false)
     }
     BottomButtonsBlock(
-        targetState = (component.basicFilterState.uris.isNullOrEmpty() && component.maskingFilterState.uri == null) to isPortrait,
+        isNoData = component.basicFilterState.uris.isNullOrEmpty() && component.maskingFilterState.uri == null,
         onSecondaryButtonClick = {
             when (filterType) {
                 is Screen.Filter.Type.Basic -> imagePicker.pickImage()

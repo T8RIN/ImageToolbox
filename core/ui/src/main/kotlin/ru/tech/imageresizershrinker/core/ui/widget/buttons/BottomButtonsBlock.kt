@@ -59,6 +59,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,14 +70,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
-//TODO: Refactor from pair
 @Composable
 fun BottomButtonsBlock(
-    targetState: Pair<Boolean, Boolean>,
+    isNoData: Boolean,
     onSecondaryButtonClick: () -> Unit,
     onSecondaryButtonLongClick: (() -> Unit)? = null,
     secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
@@ -93,13 +94,14 @@ fun BottomButtonsBlock(
     isPrimaryButtonEnabled: Boolean = true,
     showColumnarFabInRow: Boolean = false,
 ) {
+    val isPortrait by isPortraitOrientationAsState()
     AnimatedContent(
-        targetState = targetState,
+        targetState = isNoData to isPortrait,
         transitionSpec = {
             fadeIn() + slideInVertically { it / 2 } togetherWith fadeOut() + slideOutVertically { it / 2 }
         }
-    ) { (isNull, inside) ->
-        if (isNull) {
+    ) { (isEmptyState, inside) ->
+        if (isEmptyState) {
             val button = @Composable {
                 Row(
                     modifier = Modifier
@@ -119,14 +121,19 @@ fun BottomButtonsBlock(
                         onLongClick = onSecondaryButtonLongClick,
                         content = {
                             Spacer(Modifier.width(16.dp))
-                            Icon(secondaryButtonIcon, null)
+                            Icon(
+                                imageVector = secondaryButtonIcon,
+                                contentDescription = null
+                            )
                             Spacer(Modifier.width(16.dp))
                             Text(secondaryButtonText)
                             Spacer(Modifier.width(16.dp))
                         }
                     )
                     if (showColumnarFabInRow && columnarFab != null) {
-                        Column { columnarFab() }
+                        Column(
+                            content = columnarFab
+                        )
                     }
                 }
             }

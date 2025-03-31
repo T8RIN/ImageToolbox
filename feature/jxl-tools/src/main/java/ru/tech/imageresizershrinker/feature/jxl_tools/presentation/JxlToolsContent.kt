@@ -33,7 +33,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isJxl
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -175,8 +174,6 @@ fun JxlToolsContent(
         else component.onGoBack()
     }
 
-    val isPortrait by isPortraitOrientationAsState()
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
@@ -239,7 +236,6 @@ fun JxlToolsContent(
         noDataControls = {
             JxlToolsNoDataControls(::pickImage)
         },
-        isPortrait = isPortrait,
         canShowScreenData = component.type != null
     )
 

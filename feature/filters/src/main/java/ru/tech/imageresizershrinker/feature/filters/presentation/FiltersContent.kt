@@ -263,14 +263,13 @@ fun FiltersContent(
             )
         },
         forceImagePreviewToMax = showOriginal,
-        isPortrait = isPortrait,
         controls = {
             FiltersContentControls(component)
         },
-        buttons = { actions ->
+        buttons = { bottomActions ->
             FiltersContentActionButtons(
                 component = component,
-                actions = actions,
+                actions = bottomActions,
                 imagePicker = imagePicker,
                 pickSingleImagePicker = pickSingleImagePicker,
                 selectionFilterPicker = selectionFilterPicker

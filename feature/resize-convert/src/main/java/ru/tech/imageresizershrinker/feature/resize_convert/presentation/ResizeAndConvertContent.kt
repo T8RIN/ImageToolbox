@@ -336,7 +336,7 @@ fun ResizeAndConvertContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -383,8 +383,7 @@ fun ResizeAndConvertContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        isPortrait = isPortrait
+        }
     )
 
     ResetDialog(

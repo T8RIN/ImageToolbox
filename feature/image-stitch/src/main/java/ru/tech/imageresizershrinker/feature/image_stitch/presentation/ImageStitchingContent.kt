@@ -266,8 +266,8 @@ fun ImageStitchingContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
+                isNoData = component.uris.isNullOrEmpty(),
                 isPrimaryButtonVisible = component.previewBitmap != null,
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -300,8 +300,7 @@ fun ImageStitchingContent(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        canShowScreenData = !component.uris.isNullOrEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = !component.uris.isNullOrEmpty()
     )
 
     LoadingDialog(

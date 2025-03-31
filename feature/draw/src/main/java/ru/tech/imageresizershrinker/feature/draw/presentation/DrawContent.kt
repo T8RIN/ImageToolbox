@@ -207,7 +207,6 @@ fun DrawContent(
             )
         },
         onGoBack = onBack,
-        isPortrait = isPortrait,
         shouldDisableBackHandler = component.drawBehavior is DrawBehavior.None,
         actions = {
             secondaryControls()
@@ -331,7 +330,7 @@ fun DrawContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.drawBehavior is DrawBehavior.None) to isPortrait,
+                isNoData = component.drawBehavior is DrawBehavior.None,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true

@@ -221,7 +221,6 @@ fun EraseBackgroundContent(
             )
         },
         onGoBack = onBack,
-        isPortrait = isPortrait,
         shouldDisableBackHandler = !component.haveChanges,
         actions = {
             secondaryControls()
@@ -451,7 +450,7 @@ fun EraseBackgroundContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.bitmap == null) to isPortrait,
+                isNoData = component.bitmap == null,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true

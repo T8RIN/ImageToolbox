@@ -126,7 +126,6 @@ fun ColorToolsContent(
         },
         buttons = {},
         placeImagePreview = false,
-        canShowScreenData = true,
-        isPortrait = isPortrait
+        canShowScreenData = true
     )
 }

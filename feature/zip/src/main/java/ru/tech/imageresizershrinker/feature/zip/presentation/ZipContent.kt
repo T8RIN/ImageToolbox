@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -68,8 +67,6 @@ fun ZipContent(
         isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
-    val isPortrait by isPortraitOrientationAsState()
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !(component.uris.isNotEmpty() && component.byteArray != null),
         title = {
@@ -97,7 +94,7 @@ fun ZipContent(
         },
         buttons = {
             BottomButtonsBlock(
-                targetState = component.uris.isEmpty() to isPortrait,
+                isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = filePicker::pickFile,
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
@@ -117,8 +114,7 @@ fun ZipContent(
                 }
             )
         },
-        canShowScreenData = component.uris.isNotEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = component.uris.isNotEmpty()
     )
 
     ExitWithoutSavingDialog(

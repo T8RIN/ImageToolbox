@@ -199,7 +199,7 @@ fun ImageSplitterContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isEmpty()) to isPortrait,
+                isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -234,8 +234,7 @@ fun ImageSplitterContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        isPortrait = isPortrait
+        }
     )
 
     ExitWithoutSavingDialog(

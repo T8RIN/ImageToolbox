@@ -77,7 +77,7 @@ internal fun RecognizeTextButtons(
         )
     }
     BottomButtonsBlock(
-        targetState = (type == null) to isPortrait,
+        isNoData = type == null,
         onSecondaryButtonClick = multipleImagePicker::pickImage,
         onSecondaryButtonLongClick = {
             showOneTimeImagePickingDialog = true

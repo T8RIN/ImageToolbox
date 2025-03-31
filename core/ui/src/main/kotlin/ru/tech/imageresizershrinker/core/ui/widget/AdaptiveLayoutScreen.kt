@@ -73,6 +73,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -97,7 +98,6 @@ fun AdaptiveLayoutScreen(
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
     forceImagePreviewToMax: Boolean = false,
-    isPortrait: Boolean,
     contentPadding: Dp = 20.dp,
     showImagePreviewAsStickyHeader: Boolean = true,
     autoClearFocus: Boolean = true,
@@ -111,6 +111,7 @@ fun AdaptiveLayoutScreen(
         )
     )
 ) {
+    val isPortrait by isPortraitOrientationAsState()
     val settingsState = LocalSettingsState.current
 
     var imageState by rememberImageState()

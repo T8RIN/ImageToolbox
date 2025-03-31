@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.ImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -54,7 +53,6 @@ internal fun JxlToolsButtons(
         null -> null
     } ?: emptyList()
 
-    val isPortrait by isPortraitOrientationAsState()
     val essentials = rememberLocalEssentials()
 
     val save: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -70,7 +68,7 @@ internal fun JxlToolsButtons(
         mutableStateOf(false)
     }
     BottomButtonsBlock(
-        targetState = (component.type == null) to isPortrait,
+        isNoData = component.type == null,
         onSecondaryButtonClick = onPickImage,
         isPrimaryButtonVisible = component.canSave,
         onPrimaryButtonClick = {

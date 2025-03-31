@@ -248,7 +248,7 @@ fun WatermarkingContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isEmpty()) to isPortrait,
+                isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -279,7 +279,6 @@ fun WatermarkingContent(
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)
         },
-        isPortrait = isPortrait,
         canShowScreenData = component.uris.isNotEmpty()
     )
 

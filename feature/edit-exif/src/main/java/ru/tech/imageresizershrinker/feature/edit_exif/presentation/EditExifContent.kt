@@ -85,7 +85,6 @@ fun EditExifContent(
 
     AutoContentBasedColors(component.uri)
 
-    var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val imagePicker = rememberImagePicker(onSuccess = component::setUri)
@@ -231,7 +230,7 @@ fun EditExifContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uri == Uri.EMPTY) to isPortrait,
+                isNoData = component.uri == Uri.EMPTY,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -263,9 +262,7 @@ fun EditExifContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        forceImagePreviewToMax = showOriginal,
-        isPortrait = isPortrait
+        }
     )
 
     ExitWithoutSavingDialog(

@@ -237,7 +237,7 @@ fun FormatConversionContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -284,8 +284,7 @@ fun FormatConversionContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        isPortrait = isPortrait
+        }
     )
 
     val transformations by remember(component.imageInfo) {

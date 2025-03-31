@@ -57,7 +57,7 @@ internal fun GradientMakerBottomButtons(
         mutableStateOf(false)
     }
     BottomButtonsBlock(
-        targetState = (component.allowPickingImage == null) to isPortrait,
+        isNoData = component.allowPickingImage == null,
         onSecondaryButtonClick = imagePicker::pickImage,
         isSecondaryButtonVisible = component.allowPickingImage == true,
         isPrimaryButtonVisible = component.brush != null,

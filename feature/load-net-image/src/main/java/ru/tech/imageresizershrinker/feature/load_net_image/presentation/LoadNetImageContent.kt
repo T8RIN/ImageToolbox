@@ -20,11 +20,9 @@ package ru.tech.imageresizershrinker.feature.load_net_image.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
@@ -42,8 +40,6 @@ fun LoadNetImageContent(
     component: LoadNetImageComponent
 ) {
     AutoContentBasedColors(component.bitmap)
-
-    val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -79,8 +75,7 @@ fun LoadNetImageContent(
                 actions = actions
             )
         },
-        canShowScreenData = true,
-        isPortrait = isPortrait
+        canShowScreenData = true
     )
 
     LoadingDialog(

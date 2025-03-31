@@ -273,8 +273,8 @@ fun ImageStackingContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
+                isNoData = component.stackImages.isEmpty(),
                 isPrimaryButtonVisible = component.stackImages.isNotEmpty(),
-                targetState = (component.stackImages.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -307,8 +307,7 @@ fun ImageStackingContent(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        canShowScreenData = component.stackImages.isNotEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = component.stackImages.isNotEmpty()
     )
 
     LoadingDialog(

@@ -214,7 +214,7 @@ fun Base64ToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.base64String.isEmpty() && isPortrait) to isPortrait,
+                isNoData = component.base64String.isEmpty() && isPortrait,
                 isPrimaryButtonVisible = isPortrait || component.base64String.isNotEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
@@ -243,8 +243,7 @@ fun Base64ToolsContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = true,
-        isPortrait = isPortrait,
+        canShowScreenData = true
     )
 
     LoadingDialog(

@@ -288,7 +288,7 @@ fun DocumentScannerContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = component.uris.isEmpty() to isPortrait,
+                isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = {
                     runCatching {
                         documentScanner.scan()
@@ -320,8 +320,7 @@ fun DocumentScannerContent(
                 formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
         },
-        canShowScreenData = component.uris.isNotEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = component.uris.isNotEmpty()
     )
 
     ExitWithoutSavingDialog(

@@ -207,7 +207,6 @@ fun MarkupLayersContent(
             }
         },
         onGoBack = onBack,
-        isPortrait = isPortrait,
         shouldDisableBackHandler = component.backgroundBehavior is BackgroundBehavior.None,
         actions = {
             MarkupLayersActions(
@@ -356,7 +355,7 @@ fun MarkupLayersContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.backgroundBehavior is BackgroundBehavior.None) to isPortrait,
+                isNoData = component.backgroundBehavior is BackgroundBehavior.None,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true

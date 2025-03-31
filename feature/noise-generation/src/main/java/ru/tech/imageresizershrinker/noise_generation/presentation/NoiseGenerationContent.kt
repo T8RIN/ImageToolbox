@@ -42,7 +42,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
@@ -71,8 +70,6 @@ fun NoiseGenerationContent(
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
-
-    val isPortrait by isPortraitOrientationAsState()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         component.saveNoise(
@@ -174,7 +171,7 @@ fun NoiseGenerationContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = false to isPortrait,
+                isNoData = false,
                 isSecondaryButtonVisible = false,
                 onSecondaryButtonClick = {},
                 onPrimaryButtonClick = {
@@ -194,8 +191,7 @@ fun NoiseGenerationContent(
                 formatForFilenameSelection = component.getFormatForFilenameSelection()
             )
         },
-        canShowScreenData = true,
-        isPortrait = isPortrait
+        canShowScreenData = true
     )
 
     LoadingDialog(

@@ -269,7 +269,7 @@ fun GeneratePaletteContent(
             }
 
             BottomButtonsBlock(
-                targetState = (useMaterialYouPalette == null || component.bitmap == null) to isPortrait,
+                isNoData = useMaterialYouPalette == null || component.bitmap == null,
                 onSecondaryButtonClick = pickImage,
                 isPrimaryButtonVisible = false,
                 onPrimaryButtonClick = {},
@@ -297,8 +297,7 @@ fun GeneratePaletteContent(
         noDataControls = {
             preferences()
         },
-        canShowScreenData = useMaterialYouPalette != null && component.bitmap != null,
-        isPortrait = isPortrait
+        canShowScreenData = useMaterialYouPalette != null && component.bitmap != null
     )
 
     var colorPickerValue by rememberSaveable(stateSaver = ColorSaver) {

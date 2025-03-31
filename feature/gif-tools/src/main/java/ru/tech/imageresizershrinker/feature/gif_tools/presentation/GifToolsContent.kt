@@ -248,7 +248,7 @@ fun GifToolsContent(
             }
 
             BottomButtonsBlock(
-                targetState = (component.type == null) to isPortrait,
+                isNoData = component.type == null,
                 onSecondaryButtonClick = {
                     when (component.type) {
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
@@ -302,7 +302,6 @@ fun GifToolsContent(
                 }
             )
         },
-        isPortrait = isPortrait,
         canShowScreenData = component.type != null
     )
 

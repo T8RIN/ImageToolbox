@@ -234,7 +234,7 @@ fun DeleteExifContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -264,8 +264,7 @@ fun DeleteExifContent(
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)
         },
-        canShowScreenData = !component.uris.isNullOrEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = !component.uris.isNullOrEmpty()
     )
 
     LoadingDialog(

@@ -296,7 +296,7 @@ fun WeightResizeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -333,8 +333,7 @@ fun WeightResizeContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        isPortrait = isPortrait
+        }
     )
 
     LoadingDialog(

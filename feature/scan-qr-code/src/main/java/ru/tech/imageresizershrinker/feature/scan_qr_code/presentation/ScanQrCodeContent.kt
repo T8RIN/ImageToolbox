@@ -50,7 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -127,7 +127,7 @@ fun ScanQrCodeContent(
             )
         }
 
-    val isLandscape by isLandscapeOrientationAsState()
+    val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -185,7 +185,7 @@ fun ScanQrCodeContent(
         },
         showImagePreviewAsStickyHeader = false,
         imagePreview = {
-            if (isLandscape) {
+            if (!isPortrait) {
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = true,
@@ -194,7 +194,7 @@ fun ScanQrCodeContent(
             }
         },
         controls = {
-            if (!isLandscape) {
+            if (isPortrait) {
                 Spacer(modifier = Modifier.height(20.dp))
                 QrCodePreview(
                     captureController = captureController,
@@ -215,7 +215,7 @@ fun ScanQrCodeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (params.content.isEmpty() && !isLandscape) to !isLandscape,
+                isNoData = params.content.isEmpty() && isPortrait,
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
@@ -229,10 +229,10 @@ fun ScanQrCodeContent(
                     showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (!isLandscape) actions()
+                    if (isPortrait) actions()
                 },
                 showColumnarFabInRow = true,
-                isPrimaryButtonVisible = !isLandscape || params.content.isNotEmpty(),
+                isPrimaryButtonVisible = isPortrait || params.content.isNotEmpty(),
                 columnarFab = {
                     EnhancedFloatingActionButton(
                         onClick = analyzerImagePicker::pickImage,
@@ -269,8 +269,7 @@ fun ScanQrCodeContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = true,
-        isPortrait = !isLandscape
+        canShowScreenData = true
     )
 
     LoadingDialog(

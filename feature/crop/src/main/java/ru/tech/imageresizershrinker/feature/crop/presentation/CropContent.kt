@@ -152,7 +152,6 @@ fun CropContent(
             )
         },
         onGoBack = onBack,
-        isPortrait = isPortrait,
         shouldDisableBackHandler = component.bitmap == null,
         actions = {
             var job by remember { mutableStateOf<Job?>(null) }
@@ -314,7 +313,7 @@ fun CropContent(
             }
             var job by remember { mutableStateOf<Job?>(null) }
             BottomButtonsBlock(
-                targetState = (component.bitmap == null) to isPortrait,
+                isNoData = component.bitmap == null,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true

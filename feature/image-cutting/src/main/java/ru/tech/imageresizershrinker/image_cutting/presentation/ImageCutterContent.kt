@@ -215,7 +215,7 @@ fun ImageCutterContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -307,8 +307,7 @@ fun ImageCutterContent(
             if (!component.isImageLoading) {
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
-        },
-        isPortrait = isPortrait
+        }
     )
 
     ExitWithoutSavingDialog(

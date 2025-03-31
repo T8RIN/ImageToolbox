@@ -423,7 +423,7 @@ fun ApngToolsContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.type == null) to isPortrait,
+                isNoData = component.type == null,
                 onSecondaryButtonClick = {
                     when (component.type) {
                         is Screen.ApngTools.Type.ApngToImage -> pickSingleApngLauncher.pickFile()
@@ -527,7 +527,6 @@ fun ApngToolsContent(
                 }
             }
         },
-        isPortrait = isPortrait,
         canShowScreenData = component.type != null
     )
 

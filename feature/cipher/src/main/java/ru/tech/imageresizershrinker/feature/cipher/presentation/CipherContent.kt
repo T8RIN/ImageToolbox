@@ -144,7 +144,7 @@ fun CipherContent(
         actions = {},
         buttons = {
             BottomButtonsBlock(
-                targetState = (component.uri == null) to isPortrait,
+                isNoData = component.uri == null,
                 onSecondaryButtonClick = filePicker::pickFile,
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
@@ -194,7 +194,6 @@ fun CipherContent(
         imagePreview = {},
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
-        isPortrait = isPortrait,
         showActionsInTopAppBar = false
     )
 

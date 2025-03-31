@@ -27,7 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
@@ -39,7 +39,7 @@ internal fun LoadNetImageActionButtons(
     component: LoadNetImageComponent,
     actions: @Composable RowScope.() -> Unit
 ) {
-    val isLandscape by isLandscapeOrientationAsState()
+    val isPortrait by isPortraitOrientationAsState()
     val essentials = rememberLocalEssentials()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -56,7 +56,7 @@ internal fun LoadNetImageActionButtons(
         mutableStateOf(listOf<Uri>())
     }
     BottomButtonsBlock(
-        targetState = false to !isLandscape,
+        isNoData = false,
         onSecondaryButtonClick = {
             component.cacheImages {
                 editSheetData = it
@@ -72,7 +72,7 @@ internal fun LoadNetImageActionButtons(
             showFolderSelectionDialog = true
         },
         actions = {
-            if (!isLandscape) actions()
+            if (isPortrait) actions()
         }
     )
     OneTimeSaveLocationSelectionDialog(

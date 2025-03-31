@@ -40,7 +40,6 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +49,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -72,8 +70,6 @@ fun ChecksumToolsContent(
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
-
-    val isPortrait by isPortraitOrientationAsState()
 
     val pagerState = rememberPagerState { ChecksumPage.ENTRIES_COUNT }
 
@@ -114,7 +110,6 @@ fun ChecksumToolsContent(
         addHorizontalCutoutPaddingIfNoPreview = false,
         showImagePreviewAsStickyHeader = false,
         canShowScreenData = true,
-        isPortrait = isPortrait,
         underTopAppBarContent = {
             ChecksumToolsTabs(pagerState)
         },

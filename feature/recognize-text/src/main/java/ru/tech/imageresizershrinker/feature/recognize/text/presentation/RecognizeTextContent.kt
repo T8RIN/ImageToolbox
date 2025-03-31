@@ -321,7 +321,6 @@ fun RecognizeTextContent(
             if (component.type == null) 12.dp
             else 20.dp
         ).value,
-        isPortrait = isPortrait,
         canShowScreenData = type != null
     )
 

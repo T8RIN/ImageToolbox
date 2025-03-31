@@ -183,7 +183,6 @@ fun CollageMakerContent(
             )
         },
         onGoBack = onBack,
-        isPortrait = isPortrait,
         shouldDisableBackHandler = !component.haveChanges,
         actions = { scaffoldState ->
             var editSheetData by remember {
@@ -455,7 +454,7 @@ fun CollageMakerContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
+                isNoData = component.uris.isNullOrEmpty(),
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)

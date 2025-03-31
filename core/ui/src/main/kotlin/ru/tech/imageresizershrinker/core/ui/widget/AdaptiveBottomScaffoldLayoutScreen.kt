@@ -52,6 +52,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,6 +67,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
@@ -81,7 +83,6 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     title: @Composable () -> Unit,
     onGoBack: () -> Unit,
     shouldDisableBackHandler: Boolean,
-    isPortrait: Boolean,
     actions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit,
     modifier: Modifier = Modifier,
     topAppBarPersistentActions: @Composable RowScope.(BottomSheetScaffoldState) -> Unit = {},
@@ -96,6 +97,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     autoClearFocus: Boolean = true,
     enableNoDataScroll: Boolean = true
 ) {
+    val isPortrait by isPortraitOrientationAsState()
     val screenWidthPx = LocalScreenSize.current.widthPx
 
     val settingsState = LocalSettingsState.current

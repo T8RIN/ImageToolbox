@@ -246,8 +246,8 @@ fun LimitsResizeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
+                isNoData = component.uris.isNullOrEmpty(),
                 isPrimaryButtonVisible = component.canSave,
-                targetState = (component.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -280,8 +280,7 @@ fun LimitsResizeContent(
                 TopAppBarEmoji()
             }
         },
-        canShowScreenData = component.bitmap != null,
-        isPortrait = isPortrait
+        canShowScreenData = component.bitmap != null
     )
 
     LoadingDialog(

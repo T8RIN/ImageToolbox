@@ -264,7 +264,7 @@ fun AudioCoverExtractorContent(
             }
 
             BottomButtonsBlock(
-                targetState = covers.isEmpty() to isPortrait,
+                isNoData = covers.isEmpty(),
                 isPrimaryButtonEnabled = canSave,
                 onSecondaryButtonClick = audioPicker::pickFile,
                 isPrimaryButtonVisible = covers.isNotEmpty(),
@@ -286,8 +286,7 @@ fun AudioCoverExtractorContent(
                 onSaveRequest = save
             )
         },
-        canShowScreenData = covers.isNotEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = covers.isNotEmpty()
     )
 
     ExitWithoutSavingDialog(

@@ -170,7 +170,7 @@ fun SvgMakerContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = component.uris.isEmpty() to isPortrait,
+                isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = imagePicker::pickImage,
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
@@ -198,8 +198,7 @@ fun SvgMakerContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = component.uris.isNotEmpty(),
-        isPortrait = isPortrait
+        canShowScreenData = component.uris.isNotEmpty()
     )
 
     ResetDialog(

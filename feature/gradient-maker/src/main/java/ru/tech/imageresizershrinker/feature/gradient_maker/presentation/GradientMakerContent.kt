@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -82,11 +81,8 @@ fun GradientMakerContent(
 
     val pickImage = imagePicker::pickImage
 
-    val isPortrait by isPortraitOrientationAsState()
-
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
-        isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
         title = {
             TopAppBarTitle(

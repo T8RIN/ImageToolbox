@@ -319,7 +319,7 @@ fun SingleEditContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                targetState = (component.uri == Uri.EMPTY) to isPortrait,
+                isNoData = component.uri == Uri.EMPTY,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
@@ -353,8 +353,7 @@ fun SingleEditContent(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        forceImagePreviewToMax = showOriginal,
-        isPortrait = isPortrait
+        forceImagePreviewToMax = showOriginal
     )
 
     ResetDialog(
