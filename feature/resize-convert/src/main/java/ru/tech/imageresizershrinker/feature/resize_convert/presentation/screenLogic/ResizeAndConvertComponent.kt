@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.clearAllAttributes
+import ru.tech.imageresizershrinker.core.domain.image.clearAttribute
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -520,8 +521,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun clearExif() {
-        val tempExif = _exif.value?.clearAllAttributes()
-        _exif.update { tempExif }
+        updateExif(_exif.value?.clearAllAttributes())
     }
 
     fun updateExif(metadata: Metadata?) {
@@ -530,18 +530,14 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun removeExifTag(tag: MetadataTag) {
-        val exifInterface = _exif.value
-        exifInterface?.clearAttribute(tag)
-        updateExif(exifInterface)
+        updateExif(_exif.value?.clearAttribute(tag))
     }
 
     fun updateExifByTag(
         tag: MetadataTag,
         value: String
     ) {
-        val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag, value)
-        updateExif(exifInterface)
+        updateExif(_exif.value?.setAttribute(tag, value))
     }
 
     fun cancelSaving() {

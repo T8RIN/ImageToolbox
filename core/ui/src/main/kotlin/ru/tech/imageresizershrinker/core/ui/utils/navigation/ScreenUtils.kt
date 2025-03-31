@@ -39,6 +39,7 @@ import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.core.net.toUri
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -226,7 +227,7 @@ internal object UriSerializer : KSerializer<AndroidUri> {
 
     override fun deserialize(
         decoder: Decoder
-    ): AndroidUri = AndroidUri.parse(decoder.decodeString())
+    ): AndroidUri = decoder.decodeString().toUri()
 
     override fun serialize(
         encoder: Encoder,
@@ -322,5 +323,5 @@ internal object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 67
+    override val FEATURES_COUNT = 70
 }

@@ -27,9 +27,16 @@ interface Metadata {
     fun setAttribute(
         tag: MetadataTag,
         value: String?
-    )
+    ): Metadata
+}
 
-    fun clearAttribute(tag: MetadataTag)
+fun Metadata.clearAttribute(
+    tag: MetadataTag
+) = apply {
+    setAttribute(
+        tag = tag,
+        value = null
+    )
 }
 
 fun Metadata.clearAttributes(

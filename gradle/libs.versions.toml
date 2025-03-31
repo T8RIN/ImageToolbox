@@ -8,7 +8,7 @@ versionCode = "173"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "3.5.0"
+imageToolboxLibs = "3.5.2"
 trickle = "1.2.2"
 evaluator = "1.0.0"
 quickie = "1.14.0"
@@ -34,7 +34,6 @@ shadowGadgets = "2.3.1"
 firebaseCrashlyticsKtx = "19.4.2"
 konfettiCompose = "2.0.5"
 shadowsPlus = "1.0.4"
-exifinterface = "1.4.0"
 firebaseAnalyticsKtx = "22.4.0"
 google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
@@ -135,7 +134,6 @@ toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeVersion" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }

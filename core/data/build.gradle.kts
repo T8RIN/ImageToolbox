@@ -47,7 +47,6 @@ dependencies {
 
     implementation(libs.moshi)
 
-    api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
 
     api(libs.toolbox.logger)

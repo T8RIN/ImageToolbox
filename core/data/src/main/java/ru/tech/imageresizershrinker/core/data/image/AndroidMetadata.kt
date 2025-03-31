@@ -17,32 +17,30 @@
 
 package ru.tech.imageresizershrinker.core.data.image
 
-import androidx.exifinterface.media.ExifInterface
+import com.t8rin.tiff.efix.UnicodeExifInterface
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import java.io.FileDescriptor
 
 private data class ExifInterfaceMetadata(
-    private val exifInterface: ExifInterface
+    private val exifInterface: UnicodeExifInterface
 ) : Metadata {
 
     override fun saveAttributes() = exifInterface.saveAttributes()
 
-    override fun getAttribute(tag: MetadataTag): String? = exifInterface.getAttribute(tag.key)
+    override fun getAttribute(
+        tag: MetadataTag
+    ): String? = exifInterface.getAttribute(tag.key)
 
     override fun setAttribute(
         tag: MetadataTag,
         value: String?
-    ) = exifInterface.setAttribute(tag.key, value)
+    ): Metadata = apply {
+        exifInterface.setAttribute(tag.key, value)
+    }
 
-    override fun clearAttribute(
-        tag: MetadataTag
-    ) = setAttribute(
-        tag = tag,
-        value = null
-    )
 }
 
-internal fun ExifInterface.toMetadata(): Metadata = ExifInterfaceMetadata(this)
+internal fun UnicodeExifInterface.toMetadata(): Metadata = ExifInterfaceMetadata(this)
 
-internal fun FileDescriptor.toMetadata(): Metadata = ExifInterface(this).toMetadata()
+internal fun FileDescriptor.toMetadata(): Metadata = UnicodeExifInterface(this).toMetadata()
