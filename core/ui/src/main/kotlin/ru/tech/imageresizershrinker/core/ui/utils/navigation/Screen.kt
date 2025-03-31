@@ -21,6 +21,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
@@ -33,6 +34,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
+import ru.tech.imageresizershrinker.core.resources.icons.Exif
+import ru.tech.imageresizershrinker.core.resources.icons.ImageText
 import ru.tech.imageresizershrinker.core.resources.icons.Jpg
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
@@ -326,12 +329,60 @@ sealed class Screen(
 
     @Serializable
     data class RecognizeText(
-        val uri: Uri? = null
+        @SerialName("dataType") val type: Type? = null
     ) : Screen(
         id = 17,
         title = R.string.recognize_text,
         subtitle = R.string.recognize_text_sub
-    )
+    ) {
+        @Serializable
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int
+        ) {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is Extraction -> Icons.Outlined.ImageText
+                    is WriteToFile -> Icons.Outlined.FilePresent
+                    is WriteToMetadata -> Icons.Outlined.Exif
+                }
+
+            @Serializable
+            data class Extraction(
+                val uri: Uri? = null
+            ) : Type(
+                title = R.string.recognize_text,
+                subtitle = R.string.recognize_text_sub
+            )
+
+            @Serializable
+            data class WriteToFile(
+                val uris: List<Uri>? = null
+            ) : Type(
+                title = R.string.ocr_write_to_file,
+                subtitle = R.string.ocr_write_to_file_sub
+            )
+
+            @Serializable
+            data class WriteToMetadata(
+                val uris: List<Uri>? = null
+            ) : Type(
+                title = R.string.ocr_write_to_metadata,
+                subtitle = R.string.ocr_write_to_metadata_sub
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        Extraction(),
+                        WriteToFile(),
+                        WriteToMetadata()
+                    )
+                }
+            }
+        }
+    }
 
     @Serializable
     data class GradientMaker(

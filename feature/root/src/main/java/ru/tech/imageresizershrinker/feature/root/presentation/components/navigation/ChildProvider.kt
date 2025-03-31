@@ -400,7 +400,7 @@ internal class ChildProvider @Inject constructor(
         is Screen.RecognizeText -> RecognizeText(
             recognizeTextComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri,
+                initialType = config.type,
                 onGoBack = ::navigateBack
             )
         )

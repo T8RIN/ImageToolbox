@@ -65,6 +65,7 @@ internal class AndroidFilenameCreator @Inject constructor(
 
     override fun constructImageFilename(
         saveTarget: ImageSaveTarget<*>,
+        oneTimePrefix: String?,
         forceNotAddSizeInFilename: Boolean
     ): String {
         val extension = saveTarget.extension
@@ -84,7 +85,7 @@ internal class AndroidFilenameCreator @Inject constructor(
                 R.string.height
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
-        var prefix = settingsState.filenamePrefix
+        var prefix = oneTimePrefix ?: settingsState.filenamePrefix
         var suffix = settingsState.filenameSuffix
 
         if (prefix.isNotEmpty()) prefix = "${prefix}_"
@@ -140,5 +141,7 @@ internal class AndroidFilenameCreator @Inject constructor(
         extension: String,
         length: Int
     ): String = "${randomStringGenerator.generate(length)}.${extension}"
+
+    override fun getFilename(uri: String): String = uri.toUri().getFilename(context) ?: ""
 
 }

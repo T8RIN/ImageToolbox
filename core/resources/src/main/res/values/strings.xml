@@ -1611,4 +1611,8 @@
     <string name="send_logs_sub">Click to share app logs file, this can help me to spot the problem and fix issues</string>
     <string name="crash_title">Oops… Something went wrong</string>
     <string name="crash_subtitle">You can contact me using options below and I will try to find solution.\n(Do not forget to attach logs)</string>
+    <string name="ocr_write_to_file">Write To File</string>
+    <string name="ocr_write_to_file_sub">Extract text from batch of images and store it in the one text file</string>
+    <string name="ocr_write_to_metadata">Write To Metadata</string>
+    <string name="ocr_write_to_metadata_sub">Extract text from each image and place it in EXIF info of relative photos</string>
 </resources>

@@ -23,6 +23,7 @@ interface FilenameCreator {
 
     fun constructImageFilename(
         saveTarget: ImageSaveTarget<*>,
+        oneTimePrefix: String? = null,
         forceNotAddSizeInFilename: Boolean = false
     ): String
 
@@ -30,5 +31,7 @@ interface FilenameCreator {
         extension: String,
         length: Int = 32
     ): String
+
+    fun getFilename(uri: String): String
 
 }

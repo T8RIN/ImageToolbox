@@ -98,6 +98,30 @@ internal fun ScreenPreference(
             } else basePreference()
         }
 
+        is Screen.WebpTools -> {
+            if (screen.type != null) {
+                PreferenceItem(
+                    onClick = { navigate(screen) },
+                    startIcon = screen.type.icon,
+                    title = stringResource(screen.type.title),
+                    subtitle = stringResource(screen.type.subtitle),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else basePreference()
+        }
+
+        is Screen.RecognizeText -> {
+            if (screen.type != null) {
+                PreferenceItem(
+                    onClick = { navigate(screen) },
+                    startIcon = screen.type.icon,
+                    title = stringResource(screen.type.title),
+                    subtitle = stringResource(screen.type.subtitle),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else basePreference()
+        }
+
         else -> basePreference()
     }
 }

@@ -108,7 +108,11 @@ internal class AndroidFileController @Inject constructor(
             oneTimeSaveLocationUri = oneTimeSaveLocationUri
         )
 
-        Triple(result, keepOriginalMetadata, oneTimeSaveLocationUri).makeLog("File Controller save")
+        Triple(
+            first = result,
+            second = keepOriginalMetadata,
+            third = oneTimeSaveLocationUri
+        ).makeLog("File Controller save")
 
         return result
     }

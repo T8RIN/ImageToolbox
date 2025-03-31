@@ -22,12 +22,27 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Save
@@ -35,18 +50,24 @@ import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInterne
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
+import androidx.compose.material.icons.rounded.FileOpen
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -66,6 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -75,15 +97,21 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
-import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
@@ -106,6 +134,9 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 fun RecognizeTextContent(
     component: RecognizeTextComponent
 ) {
+    val type = component.type
+    val isExtraction = type is Screen.RecognizeText.Type.Extraction
+
     val text = component.recognitionData?.text?.takeIf {
         it.isNotEmpty()
     }
@@ -132,10 +163,10 @@ fun RecognizeTextContent(
         )
     }
 
-    LaunchedEffect(component.initialUri) {
-        component.initialUri?.let {
-            component.updateUri(
-                uri = it,
+    LaunchedEffect(component.initialType) {
+        component.initialType?.let {
+            component.updateType(
+                type = it,
                 onImageSet = startRecognition
             )
         }
@@ -143,10 +174,12 @@ fun RecognizeTextContent(
 
     val imageLoader = LocalImageLoader.current
     AutoContentBasedColors(
-        model = component.uri,
+        model = type,
         selector = {
+            val uri = (it as? Screen.RecognizeText.Type.Extraction)?.uri
+
             imageLoader.execute(
-                ImageRequest.Builder(context).data(it).build()
+                ImageRequest.Builder(context).data(uri).build()
             ).image?.toBitmap()
         }
     )
@@ -160,30 +193,100 @@ fun RecognizeTextContent(
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
     val imagePicker = rememberImagePicker(imagePickerMode) { list ->
-        list.firstOrNull()?.let {
-            component.updateUri(
-                uri = it,
-                onImageSet = startRecognition
-            )
+        component.updateType(
+            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull()),
+            onImageSet = startRecognition
+        )
+    }
+
+    val writeToFilePicker = rememberImagePicker { uris: List<Uri> ->
+        component.updateType(
+            type = Screen.RecognizeText.Type.WriteToFile(uris),
+            onImageSet = startRecognition
+        )
+    }
+
+    val writeToMetadataPicker = rememberImagePicker { uris: List<Uri> ->
+        component.updateType(
+            type = Screen.RecognizeText.Type.WriteToMetadata(uris),
+            onImageSet = startRecognition
+        )
+    }
+
+    var tempSelectionUris by rememberSaveable {
+        mutableStateOf<List<Uri>?>(null)
+    }
+
+    LaunchedEffect(component.isSelectionTypeSheetVisible) {
+        if (!component.isSelectionTypeSheetVisible) tempSelectionUris = null
+    }
+
+    val multipleImagePicker = rememberImagePicker { uris: List<Uri> ->
+        when {
+            type is Screen.RecognizeText.Type.Extraction || (uris.size == 1) -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.Extraction(uris.firstOrNull()),
+                    onImageSet = startRecognition
+                )
+            }
+
+            type is Screen.RecognizeText.Type.WriteToFile -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToFile(uris),
+                    onImageSet = startRecognition
+                )
+            }
+
+            type is Screen.RecognizeText.Type.WriteToMetadata -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToMetadata(uris),
+                    onImageSet = startRecognition
+                )
+            }
+
+            type == null -> {
+                tempSelectionUris = uris
+                component.showSelectionTypeSheet()
+            }
+        }
+    }
+
+    val addImagesImagePicker = rememberImagePicker { uris: List<Uri> ->
+        when (type) {
+            is Screen.RecognizeText.Type.WriteToFile -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToFile(
+                        type.uris?.plus(uris)?.distinct()
+                    ),
+                    onImageSet = startRecognition
+                )
+            }
+
+            is Screen.RecognizeText.Type.WriteToMetadata -> {
+                component.updateType(
+                    type = Screen.RecognizeText.Type.WriteToMetadata(
+                        type.uris?.plus(uris)?.distinct()
+                    ),
+                    onImageSet = startRecognition
+                )
+            }
+
+            else -> Unit
         }
     }
 
     val captureImageLauncher = rememberImagePicker(ImagePickerMode.CameraCapture) { list ->
-        list.firstOrNull()?.let {
-            component.updateUri(
-                uri = it,
-                onImageSet = startRecognition
-            )
-        }
+        component.updateType(
+            type = Screen.RecognizeText.Type.Extraction(list.firstOrNull()),
+            onImageSet = startRecognition
+        )
     }
 
     val captureImage = captureImageLauncher::pickImage
 
-    val pickImage = imagePicker::pickImage
-
     AutoFilePicker(
-        onAutoPick = pickImage,
-        isPickedAlready = component.initialUri != null
+        onAutoPick = multipleImagePicker::pickImage,
+        isPickedAlready = component.initialType != null
     )
 
     val isPortrait by isPortraitOrientationAsState()
@@ -196,13 +299,6 @@ fun RecognizeTextContent(
                 message = context.getString(R.string.copied),
             )
         }
-    }
-
-    val shareText: () -> Unit = {
-        component.shareText(
-            text = editedText,
-            onComplete = showConfetti
-        )
     }
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
@@ -263,18 +359,21 @@ fun RecognizeTextContent(
         shouldDisableBackHandler = true,
         title = {
             AnimatedContent(
-                targetState = component.recognitionData
-            ) { data ->
+                targetState = component.recognitionData to type
+            ) { (data, type) ->
                 TopAppBarTitle(
                     title = if (data == null) {
-                        stringResource(R.string.recognize_text)
+                        when (type) {
+                            null -> stringResource(R.string.recognize_text)
+                            else -> stringResource(type.title)
+                        }
                     } else {
                         stringResource(
                             R.string.accuracy,
                             data.accuracy
                         )
                     },
-                    input = component.uri,
+                    input = type,
                     isLoading = component.isTextLoading,
                     size = null
                 )
@@ -282,82 +381,128 @@ fun RecognizeTextContent(
         },
         onGoBack = component.onGoBack,
         topAppBarPersistentActions = {
-            if (component.uri == null) TopAppBarEmoji()
+            if (type == null) TopAppBarEmoji()
             ZoomButton(
                 onClick = { showZoomSheet = true },
-                visible = component.uri != null,
+                visible = isExtraction
             )
         },
         actions = {
             ShareButton(
-                onShare = shareText,
-                enabled = isHaveText
-            )
-            EnhancedIconButton(
-                onClick = saveText,
-                enabled = !text.isNullOrEmpty()
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Save,
-                    contentDescription = null
-                )
-            }
-        },
-        imagePreview = {
-            Box(
-                modifier = Modifier
-                    .container()
-                    .padding(4.dp)
-                    .animateContentSize(
-                        alignment = Alignment.Center
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Picture(
-                    model = component.previewBitmap,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.aspectRatio(
-                        component.previewBitmap?.safeAspectRatio ?: 1f
-                    ),
-                    transformations = component.getTransformations(),
-                    shape = MaterialTheme.shapes.medium,
-                    isLoadingFromDifferentPlace = component.isImageLoading
-                )
-            }
-        },
-        controls = {
-            ImageTransformBar(
-                onRotateLeft = component::rotateBitmapLeft,
-                onFlip = component::flipImage,
-                onRotateRight = component::rotateBitmapRight
-            ) {
-                if (imagePickerMode != ImagePickerMode.CameraCapture) {
-                    EnhancedIconButton(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                        onClick = captureImage
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.CameraAlt,
-                            contentDescription = stringResource(R.string.camera)
+                onShare = {
+                    if (isExtraction) {
+                        component.shareText(
+                            text = editedText,
+                            onComplete = showConfetti
+                        )
+                    } else {
+                        component.shareData(
+                            onComplete = showConfetti,
+                            onRequestDownload = { data ->
+                                downloadDialogData = data.map(DownloadData::toUi)
+                            }
                         )
                     }
-                    Spacer(Modifier.weight(1f))
-                }
+                },
+                enabled = isHaveText || !isExtraction
+            )
+            if (isExtraction) {
                 EnhancedIconButton(
-                    containerColor = MaterialTheme.colorScheme.mixedContainer,
-                    contentColor = MaterialTheme.colorScheme.onMixedContainer,
-                    onClick = {
-                        showCropper = true
-                    }
+                    onClick = saveText,
+                    enabled = !text.isNullOrEmpty()
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.CropSmall,
-                        contentDescription = stringResource(R.string.crop)
+                        imageVector = Icons.Outlined.Save,
+                        contentDescription = null
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
+        },
+        imagePreview = {
+            if (isExtraction) {
+                Box(
+                    modifier = Modifier
+                        .container()
+                        .padding(4.dp)
+                        .animateContentSize(
+                            alignment = Alignment.Center
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Picture(
+                        model = component.previewBitmap,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.aspectRatio(
+                            component.previewBitmap?.safeAspectRatio ?: 1f
+                        ),
+                        transformations = component.getTransformations(),
+                        shape = MaterialTheme.shapes.medium,
+                        isLoadingFromDifferentPlace = component.isImageLoading
+                    )
+                }
+            } else {
+                UrisPreview(
+                    modifier = Modifier
+                        .then(
+                            if (!isPortrait) {
+                                Modifier
+                                    .layout { measurable, constraints ->
+                                        val placeable = measurable.measure(
+                                            constraints = constraints.copy(
+                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                            )
+                                        )
+                                        layout(placeable.width, placeable.height) {
+                                            placeable.place(0, 0)
+                                        }
+                                    }
+                                    .verticalScroll(rememberScrollState())
+                            } else Modifier
+                        )
+                        .padding(vertical = 24.dp),
+                    uris = component.uris,
+                    isPortrait = true,
+                    onRemoveUri = component::removeUri,
+                    onAddUris = addImagesImagePicker::pickImage
+                )
+            }
+        },
+        showImagePreviewAsStickyHeader = isExtraction,
+        controls = {
+            if (isExtraction) {
+                ImageTransformBar(
+                    onRotateLeft = component::rotateBitmapLeft,
+                    onFlip = component::flipImage,
+                    onRotateRight = component::rotateBitmapRight
+                ) {
+                    if (imagePickerMode != ImagePickerMode.CameraCapture) {
+                        EnhancedIconButton(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            onClick = captureImage
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.CameraAlt,
+                                contentDescription = stringResource(R.string.camera)
+                            )
+                        }
+                        Spacer(Modifier.weight(1f))
+                    }
+                    EnhancedIconButton(
+                        containerColor = MaterialTheme.colorScheme.mixedContainer,
+                        contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                        onClick = {
+                            showCropper = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.CropSmall,
+                            contentDescription = stringResource(R.string.crop)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             FilterSelectionBar(
                 addedFilters = component.filtersAdded,
                 onContrastClick = component::toggleContrastFilter,
@@ -384,24 +529,26 @@ fun RecognizeTextContent(
                 onImportLanguages = onImportLanguages,
                 onExportLanguages = onExportLanguages
             )
-            LinkPreviewList(
-                text = editedText ?: "",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            OCRTextPreviewItem(
-                text = editedText,
-                onTextEdit = {
-                    if (editedText != null) {
-                        editedText = it
-                    }
-                },
-                isLoading = component.isTextLoading,
-                loadingProgress = component.textLoadingProgress,
-                accuracy = component.recognitionData?.accuracy ?: 0
-            )
+            if (isExtraction) {
+                LinkPreviewList(
+                    text = editedText ?: "",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OCRTextPreviewItem(
+                    text = editedText,
+                    onTextEdit = {
+                        if (editedText != null) {
+                            editedText = it
+                        }
+                    },
+                    isLoading = component.isTextLoading,
+                    loadingProgress = component.textLoadingProgress,
+                    accuracy = component.recognitionData?.accuracy ?: 0
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             RecognitionTypeSelector(
                 value = component.recognitionType,
@@ -440,41 +587,204 @@ fun RecognizeTextContent(
             var showOneTimeImagePickingDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            val save: (oneTimeSaveLocationUri: String?) -> Unit = {
+                component.save(
+                    oneTimeSaveLocationUri = it,
+                    onResult = essentials::parseSaveResults,
+                    onRequestDownload = { data ->
+                        downloadDialogData = data.map(DownloadData::toUi)
+                    }
+                )
+            }
             BottomButtonsBlock(
-                targetState = (component.uri == null) to isPortrait,
-                onSecondaryButtonClick = pickImage,
+                targetState = (type == null) to isPortrait,
+                onSecondaryButtonClick = multipleImagePicker::pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
                 },
-                onPrimaryButtonClick = copyText,
-                primaryButtonIcon = Icons.Rounded.CopyAll,
-                isPrimaryButtonVisible = isHaveText,
+                onPrimaryButtonClick = {
+                    if (isExtraction) {
+                        copyText()
+                    } else {
+                        save(null)
+                    }
+                },
+                onPrimaryButtonLongClick = {
+                    if (isExtraction) {
+                        copyText()
+                    } else {
+                        showFolderSelectionDialog = true
+                    }
+                },
+                primaryButtonIcon = if (isExtraction) {
+                    Icons.Rounded.CopyAll
+                } else {
+                    Icons.Rounded.Save
+                },
+                isPrimaryButtonVisible = if (isExtraction) isHaveText else type != null,
                 actions = {
                     if (isPortrait) it()
-                }
+                },
+                showNullDataButtonAsContainer = true
+            )
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = save
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },
-                picker = Picker.Single,
-                imagePicker = imagePicker,
+                picker = Picker.Multiple,
+                imagePicker = multipleImagePicker,
                 visible = showOneTimeImagePickingDialog
             )
         },
         noDataControls = {
-            ImageNotPickedWidget(onPickImage = pickImage)
+            val types = remember {
+                Screen.RecognizeText.Type.entries
+            }
+            val preference1 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[0].title),
+                    subtitle = stringResource(types[0].subtitle),
+                    startIcon = types[0].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = imagePicker::pickImage
+                )
+            }
+            val preference2 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[1].title),
+                    subtitle = stringResource(types[1].subtitle),
+                    startIcon = types[1].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        if (component.isSelectionTypeSheetVisible) {
+                            component.updateType(
+                                type = Screen.RecognizeText.Type.WriteToFile(tempSelectionUris),
+                                onImageSet = startRecognition
+                            )
+                            component.hideSelectionTypeSheet()
+                        } else {
+                            writeToFilePicker.pickImage()
+                        }
+                    }
+                )
+            }
+            val preference3 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[2].title),
+                    subtitle = stringResource(types[2].subtitle),
+                    startIcon = types[2].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        if (component.isSelectionTypeSheetVisible) {
+                            component.updateType(
+                                type = Screen.RecognizeText.Type.WriteToMetadata(tempSelectionUris),
+                                onImageSet = startRecognition
+                            )
+                            component.hideSelectionTypeSheet()
+                        } else {
+                            writeToMetadataPicker.pickImage()
+                        }
+                    }
+                )
+            }
+
+            if (isPortrait) {
+                Column {
+                    preference1()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference2()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3()
+                }
+            } else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier.padding(
+                            WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                                .asPaddingValues()
+                        )
+                    ) {
+                        preference1.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference2.withModifier(modifier = Modifier.weight(1f))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                }
+            }
+
+            EnhancedModalBottomSheet(
+                visible = component.isSelectionTypeSheetVisible,
+                onDismiss = {
+                    if (!it) component.hideSelectionTypeSheet()
+                },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = component::hideSelectionTypeSheet,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    ) {
+                        Text(stringResource(id = R.string.close))
+                    }
+                },
+                sheetContent = {
+                    SideEffect {
+                        if (tempSelectionUris == null) {
+                            component.hideSelectionTypeSheet()
+                        }
+                    }
+
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Adaptive(250.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 12.dp,
+                            alignment = Alignment.CenterHorizontally
+                        ),
+                        verticalItemSpacing = 12.dp,
+                        contentPadding = PaddingValues(12.dp),
+                    ) {
+                        item {
+                            preference2()
+                        }
+                        item {
+                            preference3()
+                        }
+                    }
+                },
+                title = {
+                    TitleItem(
+                        text = stringResource(id = R.string.pick_file),
+                        icon = Icons.Rounded.FileOpen
+                    )
+                }
+            )
         },
+        insetsForNoData = WindowInsets(0),
+        contentPadding = animateDpAsState(
+            if (component.type == null) 12.dp
+            else 20.dp
+        ).value,
         isPortrait = isPortrait,
-        canShowScreenData = component.uri != null
+        canShowScreenData = type != null
     )
 
-    ZoomModalSheet(
-        data = component.uri,
-        visible = showZoomSheet,
-        onDismiss = {
-            showZoomSheet = false
-        },
-        transformations = component.getTransformations()
-    )
+    if (type is Screen.RecognizeText.Type.Extraction) {
+        ZoomModalSheet(
+            data = type.uri,
+            visible = showZoomSheet,
+            onDismiss = {
+                showZoomSheet = false
+            },
+            transformations = component.getTransformations()
+        )
+    }
 
     if (downloadDialogData.isNotEmpty()) {
         var progress by rememberSaveable(downloadDialogData) {
@@ -531,7 +841,10 @@ fun RecognizeTextContent(
     )
 
     LoadingDialog(
-        visible = component.isExporting,
-        canCancel = false
+        visible = component.isExporting || component.isSaving,
+        done = component.done,
+        left = component.left,
+        onCancelLoading = component::cancelSaving,
+        canCancel = component.isSaving
     )
 }
