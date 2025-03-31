@@ -41,12 +41,12 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
-import coil3.ImageLoader
 import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalAsyncImageModelEqualityDelegate
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageScope
+import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.request.crossfade
@@ -59,7 +59,6 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
@@ -68,7 +67,6 @@ fun Picture(
     model: Any?,
     modifier: Modifier = Modifier,
     transformations: List<Transformation>? = null,
-    manualImageLoader: ImageLoader? = null,
     contentDescription: String? = null,
     shape: Shape = RectangleShape,
     contentScale: ContentScale = ContentScale.Crop,
@@ -98,7 +96,7 @@ fun Picture(
 
     var shimmerVisible by rememberSaveable { mutableStateOf(true) }
 
-    val imageLoader = manualImageLoader ?: LocalImageLoader.current
+    val imageLoader = context.imageLoader
 
     val hdrTransformation = remember(context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {

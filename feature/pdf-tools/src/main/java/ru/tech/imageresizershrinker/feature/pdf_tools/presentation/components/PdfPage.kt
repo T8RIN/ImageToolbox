@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
-import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -61,8 +60,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.createBitmap
 import coil3.Image
 import coil3.asImage
+import coil3.imageLoader
 import coil3.memory.MemoryCache
 import coil3.request.ImageRequest
 import coil3.toBitmap
@@ -73,7 +74,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 
 @Composable
@@ -91,10 +91,9 @@ internal fun PdfPage(
     cacheKey: MemoryCache.Key,
 ) {
     val context = LocalContext.current
-    val imageLoader = LocalImageLoader.current
     val imageLoadingScope = rememberCoroutineScope()
 
-    val cacheValue: Image? = imageLoader.memoryCache?.get(cacheKey)?.image
+    val cacheValue: Image? = context.imageLoader.memoryCache?.get(cacheKey)?.image
 
     var bitmap: Image? by remember { mutableStateOf(cacheValue) }
     if (bitmap == null) {
@@ -109,10 +108,9 @@ internal fun PdfPage(
                                     width = page.width,
                                     height = page.height
                                 ).flexibleResize(renderWidth, renderHeight)
-                                val destinationBitmap = Bitmap.createBitmap(
-                                    size.width,
-                                    size.height,
-                                    Bitmap.Config.ARGB_8888
+                                val destinationBitmap = createBitmap(
+                                    width = size.width,
+                                    height = size.height
                                 )
                                 page.render(
                                     destinationBitmap,

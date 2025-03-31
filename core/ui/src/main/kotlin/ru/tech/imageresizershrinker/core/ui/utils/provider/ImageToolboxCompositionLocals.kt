@@ -26,7 +26,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import coil3.imageLoader
 import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
@@ -73,7 +72,6 @@ fun ImageToolboxCompositionLocals(
                 LocalSimpleSettingsInteractor providesOrNull simpleSettingsInteractor,
                 LocalEditPresetsController provides editPresetsController,
                 LocalConfettiHostState provides confettiHostState,
-                LocalImageLoader provides context.imageLoader,
                 LocalHapticFeedback provides customHapticFeedback,
                 LocalScreenSize provides screenSize
             ).toTypedArray()

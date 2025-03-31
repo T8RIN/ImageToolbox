@@ -23,12 +23,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.platform.LocalContext
+import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.toBitmap
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 
 @Composable
 fun <T : Any> AutoContentBasedColors(
@@ -36,12 +36,11 @@ fun <T : Any> AutoContentBasedColors(
     allowChangeColor: Boolean = true
 ) {
     val context = LocalContext.current
-    val imageLoader = LocalImageLoader.current
 
     AutoContentBasedColors(
         model = model,
         selector = {
-            imageLoader.execute(
+            context.imageLoader.execute(
                 ImageRequest.Builder(context).data(model).build()
             ).image?.toBitmap()
         },

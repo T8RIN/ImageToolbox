@@ -40,19 +40,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import coil3.request.ImageRequest
-import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
@@ -178,17 +174,7 @@ fun ImagePreviewGrid(
         }
     )
 
-    val context = LocalContext.current
-    val imageLoader = LocalImageLoader.current
-
     AutoContentBasedColors(
-        model = selectedUri,
-        selector = { uri ->
-            imageLoader.execute(
-                ImageRequest.Builder(context)
-                    .data(uri.toUri())
-                    .build()
-            ).image?.toBitmap()
-        }
+        model = selectedUri
     )
 }

@@ -47,10 +47,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
+import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 
 @Composable
@@ -92,7 +92,7 @@ fun EmojiItem(
                     .build()
             }
         }.value,
-        imageLoader = LocalImageLoader.current,
+        imageLoader = context.imageLoader,
         filterQuality = FilterQuality.High
     )
 

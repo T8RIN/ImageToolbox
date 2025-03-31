@@ -56,6 +56,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
+import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
@@ -69,7 +71,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.density
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.Line
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
@@ -215,7 +216,11 @@ internal fun ImageBitmap.clipBitmap(
 
 internal fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()
-    return Bitmap.createBitmap(image.width, image.height, image.safeConfig).applyCanvas {
+    return createBitmap(
+        width = image.width,
+        height = image.height,
+        config = image.safeConfig
+    ).applyCanvas {
         drawBitmap(image, Matrix(), null)
         drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     }.asImageBitmap()
@@ -464,10 +469,9 @@ internal fun NativeCanvas.drawRepeatedImageOnPath(
     var pathImage by remember(strokeWidth, canvasSize) {
         mutableStateOf<Bitmap?>(null)
     }
-    val imageLoader = LocalImageLoader.current
     LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize, invalidations) {
         if (pathImage == null) {
-            pathImage = imageLoader.execute(
+            pathImage = context.imageLoader.execute(
                 ImageRequest.Builder(context)
                     .data(drawMode.imageData)
                     .size(strokeWidth.toPx(canvasSize).roundToInt())

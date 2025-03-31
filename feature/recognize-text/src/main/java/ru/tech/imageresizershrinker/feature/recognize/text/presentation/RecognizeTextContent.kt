@@ -43,17 +43,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil3.request.ImageRequest
-import coil3.toBitmap
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -84,8 +80,6 @@ fun RecognizeTextContent(
 
     val isHaveText = component.editedText.orEmpty().isNotEmpty()
 
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -104,22 +98,12 @@ fun RecognizeTextContent(
         }
     }
 
-    val imageLoader = LocalImageLoader.current
     AutoContentBasedColors(
-        model = type,
-        selector = {
-            val uri = (it as? Screen.RecognizeText.Type.Extraction)?.uri
-
-            imageLoader.execute(
-                ImageRequest.Builder(context).data(uri).build()
-            ).image?.toBitmap()
-        }
+        model = (type as? Screen.RecognizeText.Type.Extraction)?.uri
     )
 
     LaunchedEffect(component.previewBitmap, component.filtersAdded) {
-        if (component.previewBitmap != null) {
-            startRecognition()
-        }
+        if (component.previewBitmap != null) startRecognition()
     }
 
     val multipleImagePicker = rememberImagePicker { uris: List<Uri> ->
