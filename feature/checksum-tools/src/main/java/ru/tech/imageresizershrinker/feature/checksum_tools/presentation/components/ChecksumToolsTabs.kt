@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -40,12 +39,11 @@ import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabPosition
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabIndicatorScope
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,6 +60,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -104,19 +103,19 @@ internal fun ChecksumToolsTabs(
             )
         )
 
-        val indicator: @Composable (tabPositions: List<TabPosition>) -> Unit = { tabPositions ->
-            if (pagerState.currentPage < tabPositions.size) {
-                val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                TabRowDefaults.PrimaryIndicator(
-                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                    width = width,
-                    height = 4.dp,
-                    shape = RoundedCornerShape(
-                        topStart = 100f,
-                        topEnd = 100f
-                    )
+        val indicator: @Composable TabIndicatorScope.() -> Unit = {
+            TabRowDefaults.PrimaryIndicator(
+                modifier = Modifier.tabIndicatorOffset(
+                    selectedTabIndex = pagerState.currentPage,
+                    matchContentSize = true
+                ),
+                width = Dp.Unspecified,
+                height = 4.dp,
+                shape = RoundedCornerShape(
+                    topStart = 100f,
+                    topEnd = 100f
                 )
-            }
+            )
         }
 
         val tabs: @Composable () -> Unit = {
@@ -177,7 +176,7 @@ internal fun ChecksumToolsTabs(
         var disableScroll by remember { mutableStateOf(false) }
 
         if (disableScroll) {
-            TabRow(
+            PrimaryTabRow(
                 modifier = modifier.padding(horizontal = 8.dp),
                 divider = {},
                 containerColor = Color.Transparent,
@@ -187,7 +186,7 @@ internal fun ChecksumToolsTabs(
             )
         } else {
             val screenWidth = LocalScreenSize.current.widthPx
-            ScrollableTabRow(
+            PrimaryScrollableTabRow(
                 modifier = modifier.layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
                     if (!disableScroll) {

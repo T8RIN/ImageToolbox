@@ -23,7 +23,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -65,11 +64,10 @@ import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -89,6 +87,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -221,24 +220,24 @@ fun AddFiltersSheet(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        ScrollableTabRow(
+                        PrimaryScrollableTabRow(
                             divider = {},
                             edgePadding = 16.dp,
                             containerColor = EnhancedBottomSheetDefaults.barContainerColor,
                             selectedTabIndex = pagerState.currentPage,
-                            indicator = { tabPositions ->
-                                if (pagerState.currentPage < tabPositions.size) {
-                                    val width by animateDpAsState(targetValue = tabPositions[pagerState.currentPage].contentWidth)
-                                    TabRowDefaults.PrimaryIndicator(
-                                        modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
-                                        width = width,
-                                        height = 4.dp,
-                                        shape = RoundedCornerShape(
-                                            topStart = 100f,
-                                            topEnd = 100f
-                                        )
+                            indicator = {
+                                TabRowDefaults.PrimaryIndicator(
+                                    modifier = Modifier.tabIndicatorOffset(
+                                        selectedTabIndex = pagerState.currentPage,
+                                        matchContentSize = true
+                                    ),
+                                    width = Dp.Unspecified,
+                                    height = 4.dp,
+                                    shape = RoundedCornerShape(
+                                        topStart = 100f,
+                                        topEnd = 100f
                                     )
-                                }
+                                )
                             }
                         ) {
                             tabs.forEachIndexed { index, (icon, title) ->
