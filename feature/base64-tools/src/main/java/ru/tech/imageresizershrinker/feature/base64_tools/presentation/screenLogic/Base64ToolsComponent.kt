@@ -55,7 +55,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
     @Assisted initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController,
     private val converter: Base64Converter,

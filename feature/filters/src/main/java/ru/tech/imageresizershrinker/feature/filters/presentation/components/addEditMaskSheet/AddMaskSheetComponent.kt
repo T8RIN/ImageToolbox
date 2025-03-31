@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import dagger.assisted.Assisted
@@ -53,7 +52,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFi
 class AddMaskSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,

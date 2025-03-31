@@ -103,7 +103,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             _isSaving.update { true }
             onComplete(
                 fileController.save(
-                    saveTarget = ImageSaveTarget<ExifInterface>(
+                    saveTarget = ImageSaveTarget(
                         imageInfo = ImageInfo(
                             width = bitmap.width,
                             height = bitmap.height

@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
-import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -45,7 +44,7 @@ import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Inject
 
 internal class AndroidFilterMaskApplier @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
 ) : FilterMaskApplier<Bitmap, Path, Color> {

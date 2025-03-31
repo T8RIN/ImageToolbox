@@ -40,7 +40,7 @@ import javax.inject.Inject
 internal class AndroidSvgManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val randomStringGenerator: RandomStringGenerator,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, SvgManager {
 

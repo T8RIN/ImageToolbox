@@ -72,7 +72,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -213,7 +213,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                     )
                     onStandaloneGradientSaveResult(
                         fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
+                            saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
                                 originalUri = "Gradient",
                                 sequenceNumber = null,
@@ -244,7 +244,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                         )
                         results.add(
                             fileController.save(
-                                saveTarget = ImageSaveTarget<ExifInterface>(
+                                saveTarget = ImageSaveTarget(
                                     imageInfo = imageInfo,
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,

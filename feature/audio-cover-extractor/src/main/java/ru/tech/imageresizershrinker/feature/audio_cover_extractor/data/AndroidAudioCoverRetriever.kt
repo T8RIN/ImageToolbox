@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.audio_cover_extractor.data
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -41,7 +40,7 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager
 ) : AudioCoverRetriever,

@@ -21,19 +21,18 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 
-//TODO: Needs refactor
-interface ImageGetter<I, M> {
+interface ImageGetter<I> {
 
     suspend fun getImage(
         uri: String,
         originalSize: Boolean = true,
         onFailure: (Throwable) -> Unit = {}
-    ): ImageData<I, M>?
+    ): ImageData<I>?
 
     fun getImageAsync(
         uri: String,
         originalSize: Boolean = true,
-        onGetImage: (ImageData<I, M>) -> Unit,
+        onGetImage: (ImageData<I>) -> Unit,
         onFailure: (Throwable) -> Unit
     )
 
@@ -41,7 +40,7 @@ interface ImageGetter<I, M> {
         uri: String,
         transformations: List<Transformation<I>>,
         originalSize: Boolean = true
-    ): ImageData<I, M>?
+    ): ImageData<I>?
 
     suspend fun getImageWithTransformations(
         data: Any,

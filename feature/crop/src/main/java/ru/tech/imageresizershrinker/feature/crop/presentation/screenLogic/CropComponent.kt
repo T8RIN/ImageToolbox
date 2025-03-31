@@ -59,7 +59,7 @@ class CropComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -159,7 +159,7 @@ class CropComponent @AssistedInject internal constructor(
 
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,

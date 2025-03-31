@@ -63,7 +63,7 @@ internal interface ImageModule {
     @Binds
     fun provideImageGetter(
         getter: AndroidImageGetter
-    ): ImageGetter<Bitmap, ExifInterface>
+    ): ImageGetter<Bitmap>
 
     @Singleton
     @Binds

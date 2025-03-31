@@ -55,7 +55,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val htmlImageParser: HtmlImageParser,
@@ -132,7 +132,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
                 if ((index + 1) in positions) {
                     imageGetter.getImage(data = url)?.let { bitmap ->
                         fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
+                            saveTarget = ImageSaveTarget(
                                 imageInfo = ImageInfo(
                                     width = bitmap.width,
                                     height = bitmap.height,

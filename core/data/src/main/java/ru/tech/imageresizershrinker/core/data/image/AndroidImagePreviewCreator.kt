@@ -42,7 +42,7 @@ import kotlin.math.roundToInt
 
 internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     settingsProvider: SettingsProvider,

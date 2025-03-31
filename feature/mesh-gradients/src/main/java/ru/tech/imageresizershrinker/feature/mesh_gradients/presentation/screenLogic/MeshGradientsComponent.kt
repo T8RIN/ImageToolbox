@@ -43,7 +43,7 @@ class MeshGradientsComponent @AssistedInject constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     remoteResourcesStore: RemoteResourcesStore
 ) : BaseComponent(dispatchersHolder, componentContext) {

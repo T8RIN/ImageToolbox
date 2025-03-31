@@ -62,7 +62,7 @@ class ImageCutterComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCutter: ImageCutter<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,

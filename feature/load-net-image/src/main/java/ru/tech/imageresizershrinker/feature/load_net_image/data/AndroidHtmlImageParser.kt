@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.load_net_image.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -38,7 +37,7 @@ import javax.inject.Inject
 internal class AndroidHtmlImageParser @Inject constructor(
     @ApplicationContext private val context: Context,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : HtmlImageParser, DispatchersHolder by dispatchersHolder {
 

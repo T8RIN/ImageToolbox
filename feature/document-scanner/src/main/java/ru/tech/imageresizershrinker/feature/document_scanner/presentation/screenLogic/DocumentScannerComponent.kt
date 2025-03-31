@@ -61,7 +61,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val pdfManager: PdfManager<Bitmap>,
     dispatchersHolder: DispatchersHolder

@@ -55,7 +55,7 @@ import javax.inject.Inject
 
 internal class AndroidJxlConverter @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageShareProvider: ShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder

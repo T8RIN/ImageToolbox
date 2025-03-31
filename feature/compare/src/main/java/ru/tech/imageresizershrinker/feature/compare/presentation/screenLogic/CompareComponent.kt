@@ -62,7 +62,7 @@ class CompareComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -204,7 +204,7 @@ class CompareComponent @AssistedInject internal constructor(
             getResultImage()?.let { localBitmap ->
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,

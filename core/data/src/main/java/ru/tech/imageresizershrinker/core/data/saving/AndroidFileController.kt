@@ -25,7 +25,6 @@ import android.net.Uri
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +45,7 @@ import ru.tech.imageresizershrinker.core.data.utils.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.data.utils.openWriteableStream
 import ru.tech.imageresizershrinker.core.data.utils.toUiPath
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.json.JsonParser
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
@@ -126,7 +126,7 @@ internal class AndroidFileController @Inject constructor(
             return@withContext SaveResult.Error.MissingPermissions
         }
 
-        val data = if (saveTarget is ImageSaveTarget<*> && saveTarget.readFromUriInsteadOfData) {
+        val data = if (saveTarget is ImageSaveTarget && saveTarget.readFromUriInsteadOfData) {
             readBytes(saveTarget.originalUri)
         } else {
             saveTarget.data
@@ -179,7 +179,7 @@ internal class AndroidFileController @Inject constructor(
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(data)
                         context.copyMetadata(
-                            initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
+                            initialExif = (saveTarget as? ImageSaveTarget)?.metadata,
                             fileUri = originalUri,
                             keepOriginalMetadata = keepOriginalMetadata,
                             originalUri = originalUri
@@ -233,10 +233,10 @@ internal class AndroidFileController @Inject constructor(
                     documentFile = null
                 }
 
-                var initialExif: ExifInterface? = null
+                var initialExif: Metadata? = null
 
-                val newSaveTarget = if (saveTarget is ImageSaveTarget<*>) {
-                    initialExif = saveTarget.metadata as ExifInterface?
+                val newSaveTarget = if (saveTarget is ImageSaveTarget) {
+                    initialExif = saveTarget.metadata
 
                     saveTarget.copy(
                         filename = filenameCreator.constructImageFilename(
@@ -413,18 +413,16 @@ internal class AndroidFileController @Inject constructor(
         }.getOrNull()
     }
 
-    override suspend fun <M> writeMetadata(
+    override suspend fun writeMetadata(
         imageUri: String,
-        metadata: M?
+        metadata: Metadata?
     ) {
-        if (metadata is ExifInterface?) {
-            context.copyMetadata(
-                initialExif = metadata,
-                fileUri = imageUri.toUri(),
-                keepOriginalMetadata = false,
-                originalUri = imageUri.toUri()
-            )
-        }
+        context.copyMetadata(
+            initialExif = metadata,
+            fileUri = imageUri.toUri(),
+            keepOriginalMetadata = false,
+            originalUri = imageUri.toUri()
+        )
     }
 
     override suspend fun listFilesInDirectory(

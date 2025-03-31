@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackingParams
 import javax.inject.Inject
 
 internal class AndroidImageStacker @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder

@@ -60,7 +60,7 @@ internal class AndroidImageGetter @Inject constructor(
     private val imageLoader: ImageLoader,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap, ExifInterface> {
+) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap> {
 
     private var settingsState: SettingsState = SettingsState.Default
 
@@ -77,7 +77,7 @@ internal class AndroidImageGetter @Inject constructor(
         uri: String,
         originalSize: Boolean,
         onFailure: (Throwable) -> Unit
-    ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
+    ): ImageData<Bitmap>? = withContext(defaultDispatcher) {
         getImageImpl(
             data = uri,
             size = null,
@@ -98,7 +98,7 @@ internal class AndroidImageGetter @Inject constructor(
                     originalUri = uri,
                     resizeType = settingsState.defaultResizeType
                 ),
-                metadata = exif
+                metadata = exif?.toMetadata()
             )
         }
     }
@@ -137,7 +137,7 @@ internal class AndroidImageGetter @Inject constructor(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
+    ): ImageData<Bitmap>? = withContext(defaultDispatcher) {
         getImageImpl(
             data = uri,
             transformations = transformations,
@@ -157,7 +157,7 @@ internal class AndroidImageGetter @Inject constructor(
                     originalUri = uri,
                     resizeType = settingsState.defaultResizeType
                 ),
-                metadata = exif
+                metadata = exif?.toMetadata()
             )
         }
     }
@@ -175,7 +175,7 @@ internal class AndroidImageGetter @Inject constructor(
     override fun getImageAsync(
         uri: String,
         originalSize: Boolean,
-        onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
+        onGetImage: (ImageData<Bitmap>) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
         CoroutineScope(imageLoader.defaults.decoderCoroutineContext).launch {

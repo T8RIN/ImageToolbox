@@ -38,7 +38,7 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {

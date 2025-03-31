@@ -71,7 +71,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -204,7 +204,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             getDrawingBitmap().let { localBitmap ->
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,

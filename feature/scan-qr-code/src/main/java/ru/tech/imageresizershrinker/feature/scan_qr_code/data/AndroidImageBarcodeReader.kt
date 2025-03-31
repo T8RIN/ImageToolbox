@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.scan_qr_code.data
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import io.github.g00fy2.quickie.extensions.readQrCode
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -31,7 +30,7 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 internal class AndroidImageBarcodeReader @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : ImageBarcodeReader, DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {

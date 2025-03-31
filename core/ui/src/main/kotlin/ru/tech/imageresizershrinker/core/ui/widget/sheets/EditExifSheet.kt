@@ -59,6 +59,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
@@ -78,7 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun EditExifSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    exif: ExifInterface?,
+    exif: Metadata?,
     onClearExif: () -> Unit,
     onUpdateTag: (MetadataTag, String) -> Unit,
     onRemoveTag: (MetadataTag) -> Unit

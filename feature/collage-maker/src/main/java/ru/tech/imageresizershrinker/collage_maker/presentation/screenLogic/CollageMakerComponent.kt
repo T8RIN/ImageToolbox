@@ -150,7 +150,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
                         imageFormat = imageFormat
                     )
                     val result = fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
                             originalUri = "",
                             sequenceNumber = null,

@@ -33,7 +33,7 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 internal class AndroidImageCutter @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : ImageCutter<Bitmap>, DispatchersHolder by dispatchersHolder {
 

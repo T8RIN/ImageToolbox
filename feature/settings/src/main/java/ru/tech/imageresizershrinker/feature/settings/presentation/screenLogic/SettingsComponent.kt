@@ -72,7 +72,7 @@ class SettingsComponent @AssistedInject internal constructor(
     @Assisted val isUpdateAvailable: Value<Boolean>,
     @Assisted val onGoBack: (() -> Unit)?,
     @Assisted initialSearchQuery: String,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,

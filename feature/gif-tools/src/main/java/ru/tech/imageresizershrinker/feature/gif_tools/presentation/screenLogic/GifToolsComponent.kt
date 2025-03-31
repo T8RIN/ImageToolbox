@@ -62,7 +62,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     @Assisted val initialType: Screen.GifTools.Type?,
     @Assisted val onGoBack: () -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val gifConverter: GifConverter,
@@ -256,7 +256,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 )
                                 results.add(
                                     fileController.save(
-                                        saveTarget = ImageSaveTarget<ExifInterface>(
+                                        saveTarget = ImageSaveTarget(
                                             imageInfo = imageInfo,
                                             originalUri = uri,
                                             sequenceNumber = _done.value + 1,
@@ -382,7 +382,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     private fun webpFilename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
-        ImageSaveTarget<ExifInterface>(
+        ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Webp.Lossless,
                 originalUri = uri
@@ -398,7 +398,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     private fun jxlFilename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
-        ImageSaveTarget<ExifInterface>(
+        ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Jxl.Lossless,
                 originalUri = uri

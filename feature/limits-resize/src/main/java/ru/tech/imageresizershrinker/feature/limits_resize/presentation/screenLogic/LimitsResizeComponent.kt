@@ -61,7 +61,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: LimitsImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -207,7 +207,7 @@ class LimitsResizeComponent @AssistedInject internal constructor(
                 }?.let { localBitmap ->
                     results.add(
                         fileController.save(
-                            ImageSaveTarget<ExifInterface>(
+                            ImageSaveTarget(
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
                                     height = localBitmap.height

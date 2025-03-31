@@ -153,7 +153,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
     private fun filename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
-        ImageSaveTarget<ExifInterface>(
+        ImageSaveTarget(
             imageInfo = ImageInfo(
                 originalUri = uri
             ),

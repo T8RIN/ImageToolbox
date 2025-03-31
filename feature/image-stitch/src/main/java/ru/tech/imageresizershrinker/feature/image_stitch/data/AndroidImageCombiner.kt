@@ -59,7 +59,7 @@ import kotlin.math.max
 
 internal class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,

@@ -89,7 +89,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.RecognizeText.Type?,
     @Assisted onGoBack: () -> Unit,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageTextReader: ImageTextReader<Bitmap>,
     private val settingsManager: SettingsManager,
     private val imageTransformer: ImageTransformer<Bitmap>,
@@ -418,7 +418,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     ): SaveTarget = FileSaveTarget(
         originalUri = "",
         filename = filenameCreator.constructImageFilename(
-            ImageSaveTarget<ExifInterface>(
+            ImageSaveTarget(
                 imageInfo = ImageInfo(),
                 originalUri = "",
                 sequenceNumber = null,

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving
+package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+interface Metadata {
+    fun saveAttributes()
 
-interface FilenameCreator {
+    fun getAttribute(tag: String): String?
 
-    fun constructImageFilename(
-        saveTarget: ImageSaveTarget,
-        oneTimePrefix: String? = null,
-        forceNotAddSizeInFilename: Boolean = false
-    ): String
+    fun setAttribute(
+        tag: String,
+        value: String?
+    )
 
-    fun constructRandomFilename(
-        extension: String,
-        length: Int = 32
-    ): String
-
-    fun getFilename(uri: String): String
-
+    fun removeAttribute(tag: String)
 }

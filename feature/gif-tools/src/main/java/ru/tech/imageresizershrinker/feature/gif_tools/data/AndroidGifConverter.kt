@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
@@ -59,7 +58,7 @@ import javax.inject.Inject
 
 
 internal class AndroidGifConverter @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageShareProvider: ShareProvider<Bitmap>,
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder

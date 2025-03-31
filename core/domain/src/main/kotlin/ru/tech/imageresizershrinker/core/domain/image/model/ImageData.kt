@@ -17,32 +17,34 @@
 
 package ru.tech.imageresizershrinker.core.domain.image.model
 
-interface ImageData<I, M> {
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
+
+interface ImageData<I> {
     val image: I
     val imageInfo: ImageInfo
-    val metadata: M?
+    val metadata: Metadata?
 
     fun copy(
         image: I = this.image,
         imageInfo: ImageInfo = this.imageInfo,
-        metadata: M? = this.metadata,
-    ): ImageData<I, M> = ImageData(image, imageInfo, metadata)
+        metadata: Metadata? = this.metadata,
+    ): ImageData<I> = ImageData(image, imageInfo, metadata)
 
     operator fun component1() = image
     operator fun component2() = imageInfo
     operator fun component3() = metadata
 
     companion object {
-        operator fun <I, M> invoke(
+        operator fun <I> invoke(
             image: I,
             imageInfo: ImageInfo,
-            metadata: M? = null,
-        ): ImageData<I, M> = ImageDataWrapper(image, imageInfo, metadata)
+            metadata: Metadata? = null,
+        ): ImageData<I> = ImageDataWrapper(image, imageInfo, metadata)
     }
 }
 
-private class ImageDataWrapper<I, M>(
+private class ImageDataWrapper<I>(
     override val image: I,
     override val imageInfo: ImageInfo,
-    override val metadata: M? = null,
-) : ImageData<I, M>
+    override val metadata: Metadata? = null,
+) : ImageData<I>

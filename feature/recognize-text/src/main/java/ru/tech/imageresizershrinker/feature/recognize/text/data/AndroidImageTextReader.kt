@@ -56,7 +56,7 @@ import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     @ApplicationContext private val context: Context,
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder

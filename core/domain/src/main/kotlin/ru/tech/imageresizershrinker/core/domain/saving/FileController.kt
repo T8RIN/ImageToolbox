@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
@@ -54,9 +55,9 @@ interface FileController {
         kClass: KClass<O>,
     ): O?
 
-    suspend fun <M> writeMetadata(
+    suspend fun writeMetadata(
         imageUri: String,
-        metadata: M?
+        metadata: Metadata?
     )
 
     suspend fun listFilesInDirectory(treeUri: String): List<String>

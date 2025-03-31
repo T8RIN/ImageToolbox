@@ -61,7 +61,7 @@ import kotlin.math.roundToInt
 
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     dispatchersHolder: DispatchersHolder,

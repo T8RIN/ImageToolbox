@@ -64,7 +64,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val watermarkApplier: WatermarkApplier<Bitmap>,
     dispatchersHolder: DispatchersHolder
@@ -164,7 +164,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
 
                     results.add(
                         fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
+                            saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,

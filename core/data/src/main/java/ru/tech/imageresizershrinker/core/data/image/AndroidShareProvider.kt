@@ -24,7 +24,6 @@ import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
@@ -47,7 +46,7 @@ import javax.inject.Inject
 
 internal class AndroidShareProvider @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val filenameCreator: Lazy<FilenameCreator>,
     resourceManager: ResourceManager,
@@ -81,7 +80,7 @@ internal class AndroidShareProvider @Inject constructor(
         filename: String?
     ): String? = withContext(ioDispatcher) {
         runSuspendCatching {
-            val saveTarget = ImageSaveTarget<ExifInterface>(
+            val saveTarget = ImageSaveTarget(
                 imageInfo = imageInfo,
                 originalUri = imageInfo.originalUri ?: "share",
                 sequenceNumber = null,

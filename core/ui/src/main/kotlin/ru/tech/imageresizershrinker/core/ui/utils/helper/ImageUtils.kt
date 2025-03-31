@@ -33,6 +33,7 @@ import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
@@ -44,7 +45,7 @@ object ImageUtils {
 
     fun Drawable.toBitmap(): Bitmap = toBitmap(config = getSuitableConfig())
 
-    fun ExifInterface.toMap(): Map<MetadataTag, String> {
+    fun Metadata.toMap(): Map<MetadataTag, String> {
         val hashMap = HashMap<MetadataTag, String>()
         MetadataTag.entries.forEach { tag ->
             getAttribute(tag.key)?.let { hashMap[tag] = it }

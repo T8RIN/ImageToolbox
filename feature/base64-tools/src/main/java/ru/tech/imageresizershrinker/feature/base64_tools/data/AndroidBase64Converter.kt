@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.base64_tools.data
 
 import android.graphics.Bitmap
 import android.util.Base64
-import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -32,7 +31,7 @@ import ru.tech.imageresizershrinker.feature.base64_tools.domain.Base64Converter
 import javax.inject.Inject
 
 internal class AndroidBase64Converter @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,

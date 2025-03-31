@@ -26,7 +26,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -55,7 +54,7 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap>
 ) : FavoriteFiltersInteractor {
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->

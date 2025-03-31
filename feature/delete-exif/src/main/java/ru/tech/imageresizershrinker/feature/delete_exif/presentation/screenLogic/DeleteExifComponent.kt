@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -54,7 +53,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val filenameCreator: FilenameCreator,
@@ -156,7 +155,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
                 runSuspendCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
-                    val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
+                    val metadata = if (selectedTags.isNotEmpty()) {
                         it.metadata?.apply {
                             selectedTags.forEach { tag ->
                                 setAttribute(tag.key, null)
@@ -254,13 +253,14 @@ class DeleteExifComponent @AssistedInject internal constructor(
                 imageGetter.getImage(
                     uri.toString()
                 )?.let {
-                    val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
+                    val metadata = if (selectedTags.isNotEmpty()) {
                         it.metadata?.apply {
                             selectedTags.forEach { tag ->
                                 setAttribute(tag.key, null)
                             }
                         }
                     } else null
+
                     shareProvider.cacheData(
                         writeData = { w ->
                             w.writeBytes(

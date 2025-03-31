@@ -64,7 +64,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val apngConverter: ApngConverter,
@@ -241,7 +241,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
 
                                     results.add(
                                         fileController.save(
-                                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                            saveTarget = ImageSaveTarget(
                                                 imageInfo = imageInfo,
                                                 originalUri = uri,
                                                 sequenceNumber = _done.value + 1,
@@ -334,7 +334,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private fun jxlFilename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
-        ImageSaveTarget<ExifInterface>(
+        ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Jxl.Lossless,
                 originalUri = uri

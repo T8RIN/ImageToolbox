@@ -64,7 +64,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -270,7 +270,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
 
                                 results.add(
                                     fileController.save(
-                                        saveTarget = ImageSaveTarget<ExifInterface>(
+                                        saveTarget = ImageSaveTarget(
                                             imageInfo = imageInfo,
                                             originalUri = uri,
                                             sequenceNumber = _done.value + 1,
@@ -359,7 +359,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
         uri: String,
         format: ImageFormat
     ): String = filenameCreator.constructImageFilename(
-        ImageSaveTarget<ExifInterface>(
+        ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = format,
                 originalUri = uri

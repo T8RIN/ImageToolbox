@@ -77,7 +77,7 @@ import android.graphics.Paint as NativePaint
 internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 

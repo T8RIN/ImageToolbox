@@ -75,7 +75,7 @@ class FiltersComponent @AssistedInject internal constructor(
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
@@ -281,7 +281,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
                     results.add(
                         fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
+                            saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
@@ -576,7 +576,7 @@ class FiltersComponent @AssistedInject internal constructor(
                 )?.let { localBitmap ->
                     onComplete(
                         fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
+                            saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
                                     height = localBitmap.height

@@ -64,7 +64,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import dagger.assisted.Assisted
@@ -386,7 +385,7 @@ internal fun FilterTemplateCreationSheet(
 
 class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,

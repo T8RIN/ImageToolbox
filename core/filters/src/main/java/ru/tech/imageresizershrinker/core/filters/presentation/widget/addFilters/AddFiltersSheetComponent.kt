@@ -23,7 +23,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
@@ -71,7 +70,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteInteractor: FavoriteFiltersInteractor,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -226,7 +225,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             )
             onComplete(
                 fileController.save(
-                    saveTarget = ImageSaveTarget<ExifInterface>(
+                    saveTarget = ImageSaveTarget(
                         imageInfo = imageInfo,
                         originalUri = "",
                         sequenceNumber = null,
@@ -379,7 +378,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                 )
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = imageInfo,
                             originalUri = "",
                             sequenceNumber = null,

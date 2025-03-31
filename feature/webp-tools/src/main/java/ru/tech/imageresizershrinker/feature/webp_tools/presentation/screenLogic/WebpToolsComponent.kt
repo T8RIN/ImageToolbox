@@ -59,7 +59,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val webpConverter: WebpConverter,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -228,7 +228,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
 
                                     results.add(
                                         fileController.save(
-                                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                            saveTarget = ImageSaveTarget(
                                                 imageInfo = imageInfo,
                                                 originalUri = uri,
                                                 sequenceNumber = _done.value + 1,

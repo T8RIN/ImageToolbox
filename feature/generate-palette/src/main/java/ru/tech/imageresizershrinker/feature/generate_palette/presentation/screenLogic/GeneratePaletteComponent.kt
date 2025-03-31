@@ -37,7 +37,7 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

@@ -31,7 +31,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class SpotHealFilter @AssistedInject internal constructor(
     @Assisted override val value: Triple<ImageModel, Float, Int>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap>
 ) : Transformation<Bitmap>, Filter.SpotHeal {
 
     override val cacheKey: String

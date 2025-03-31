@@ -53,7 +53,7 @@ internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: Lazy<ShareProvider<Bitmap>>,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder

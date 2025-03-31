@@ -58,7 +58,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val fileController: FileController,
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
@@ -183,7 +183,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
             getErasedBitmap(true)?.let { localBitmap ->
                 onComplete(
                     fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
+                        saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,

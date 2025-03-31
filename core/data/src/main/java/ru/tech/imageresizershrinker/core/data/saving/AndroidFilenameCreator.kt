@@ -64,7 +64,7 @@ internal class AndroidFilenameCreator @Inject constructor(
 
 
     override fun constructImageFilename(
-        saveTarget: ImageSaveTarget<*>,
+        saveTarget: ImageSaveTarget,
         oneTimePrefix: String?,
         forceNotAddSizeInFilename: Boolean
     ): String {
