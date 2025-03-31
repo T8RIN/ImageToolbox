@@ -43,7 +43,7 @@ internal class AndroidResourceManager @Inject constructor(
         language: String
     ): String = context.getStringLocalized(
         resId = resId,
-        locale = Locale(language)
+        locale = Locale.forLanguageTag(language)
     )
 
     override fun getStringLocalized(
@@ -52,7 +52,7 @@ internal class AndroidResourceManager @Inject constructor(
         vararg formatArgs: Any
     ): String = context.getStringLocalized(
         resId = resId,
-        locale = Locale(language),
+        locale = Locale.forLanguageTag(language),
         formatArgs = formatArgs
     )
 
@@ -71,5 +71,5 @@ internal class AndroidResourceManager @Inject constructor(
         vararg formatArgs: Any
     ): String = createConfigurationContext(
         Configuration(resources.configuration).apply { setLocale(locale) }
-    ).getString(resId, *formatArgs).toString()
+    ).getString(resId, *formatArgs)
 }

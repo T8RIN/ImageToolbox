@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.ClipData
@@ -45,6 +46,7 @@ import androidx.core.app.PendingIntentCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
@@ -441,7 +443,7 @@ object ContextUtils {
         val text = item?.text?.toString()
         text?.let {
             runCatching {
-                onPastedColor(android.graphics.Color.parseColor(it))
+                onPastedColor(it.toColorInt())
             }.getOrElse {
                 onPastedColorFailure(getString(R.string.clipboard_paste_invalid_color_code))
             }
@@ -580,6 +582,7 @@ object ContextUtils {
     fun Context.canPinShortcuts(): Boolean =
         ShortcutManagerCompat.isRequestPinShortcutSupported(this)
 
+    @SuppressLint("MissingPermission")
     fun Context.isNetworkAvailable(): Boolean {
         val connectivityManager =
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
