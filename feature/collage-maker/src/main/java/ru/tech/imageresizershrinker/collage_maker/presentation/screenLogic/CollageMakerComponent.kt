@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.collages.CollageType
 import dagger.assisted.Assisted

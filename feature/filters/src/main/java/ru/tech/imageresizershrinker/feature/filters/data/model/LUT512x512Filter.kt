@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import com.t8rin.trickle.Trickle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

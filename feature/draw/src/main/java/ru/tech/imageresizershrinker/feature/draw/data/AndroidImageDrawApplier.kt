@@ -46,7 +46,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
-import androidx.exifinterface.media.ExifInterface
+import androidx.core.graphics.createBitmap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.tech.imageresizershrinker.core.data.utils.density
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
@@ -92,11 +92,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
             }
 
             is DrawBehavior.Background -> {
-                Bitmap.createBitmap(
-                    drawBehavior.width,
-                    drawBehavior.height,
-                    Bitmap.Config.ARGB_8888
-                ).apply {
+                createBitmap(drawBehavior.width, drawBehavior.height).apply {
                     val canvas = Canvas(this)
                     val paint = NativePaint().apply {
                         color = drawBehavior.color
@@ -192,10 +188,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         val filter = filterProvider.filterToTransformation(
                             createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
                                 Triple(
-                                    first = Bitmap.createBitmap(
+                                    first = createBitmap(
                                         canvasSize.width,
-                                        canvasSize.height,
-                                        Bitmap.Config.ARGB_8888
+                                        canvasSize.height
                                     ).applyCanvas {
                                         drawColor(Color.Black.toArgb())
                                         drawPath(
@@ -531,7 +526,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
         val config = safeConfig.toSoftware()
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, config)
+        val finalBitmap = createBitmap(image.width, image.height, config)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(image, Matrix(), null)
         canvas.drawBitmap(overlay.toSoftware(), 0f, 0f, null)

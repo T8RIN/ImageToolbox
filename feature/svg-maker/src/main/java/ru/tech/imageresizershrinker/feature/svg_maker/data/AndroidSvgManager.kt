@@ -21,7 +21,6 @@ package ru.tech.imageresizershrinker.feature.svg_maker.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid.SvgListener
 import dagger.hilt.android.qualifiers.ApplicationContext

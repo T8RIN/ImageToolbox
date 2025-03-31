@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted

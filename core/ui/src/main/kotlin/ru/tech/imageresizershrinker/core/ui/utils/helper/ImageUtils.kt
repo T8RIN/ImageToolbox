@@ -31,9 +31,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.scale
 import androidx.core.text.isDigitsOnly
-import androidx.exifinterface.media.ExifInterface
-import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
@@ -44,14 +43,6 @@ import java.util.Locale
 object ImageUtils {
 
     fun Drawable.toBitmap(): Bitmap = toBitmap(config = getSuitableConfig())
-
-    fun Metadata.toMap(): Map<MetadataTag, String> {
-        val hashMap = HashMap<MetadataTag, String>()
-        MetadataTag.entries.forEach { tag ->
-            getAttribute(tag.key)?.let { hashMap[tag] = it }
-        }
-        return hashMap
-    }
 
     fun MetadataTag.localizedName(
         context: Context,
@@ -283,9 +274,7 @@ object ImageUtils {
                 true
             )
         } else {
-            Bitmap.createScaledBitmap(
-                this, width, height, true
-            )
+            this.scale(width, height)
         }
     }
 

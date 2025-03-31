@@ -34,6 +34,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.clearAttributes
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
@@ -156,11 +157,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
                     val metadata = if (selectedTags.isNotEmpty()) {
-                        it.metadata?.apply {
-                            selectedTags.forEach { tag ->
-                                setAttribute(tag.key, null)
-                            }
-                        }
+                        it.metadata?.clearAttributes(selectedTags)
                     } else null
 
                     results.add(
@@ -254,11 +251,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
                     uri.toString()
                 )?.let {
                     val metadata = if (selectedTags.isNotEmpty()) {
-                        it.metadata?.apply {
-                            selectedTags.forEach { tag ->
-                                setAttribute(tag.key, null)
-                            }
-                        }
+                        it.metadata?.clearAttributes(selectedTags)
                     } else null
 
                     shareProvider.cacheData(

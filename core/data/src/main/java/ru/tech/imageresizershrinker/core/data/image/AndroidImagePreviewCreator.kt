@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
 import android.os.Build
-import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

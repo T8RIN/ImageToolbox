@@ -21,7 +21,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuffXfermode
-import androidx.exifinterface.media.ExifInterface
+import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.utils.drawBitmap
 import ru.tech.imageresizershrinker.core.data.image.utils.toPorterDuffMode
@@ -67,10 +67,10 @@ internal class AndroidImageStacker @Inject constructor(
             return@withContext null
         }
 
-        val outputBitmap = Bitmap.createBitmap(
-            resultSize.width,
-            resultSize.height,
-            getSuitableConfig()
+        val outputBitmap = createBitmap(
+            width = resultSize.width,
+            height = resultSize.height,
+            config = getSuitableConfig()
         )
 
         val canvas = Canvas(outputBitmap)

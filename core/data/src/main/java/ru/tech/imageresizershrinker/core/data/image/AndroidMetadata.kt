@@ -19,27 +19,30 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
+import java.io.FileDescriptor
 
-private data class AndroidMetadata(
+private data class ExifInterfaceMetadata(
     private val exifInterface: ExifInterface
 ) : Metadata {
 
     override fun saveAttributes() = exifInterface.saveAttributes()
 
-    override fun getAttribute(tag: String): String? = exifInterface.getAttribute(tag)
+    override fun getAttribute(tag: MetadataTag): String? = exifInterface.getAttribute(tag.key)
 
     override fun setAttribute(
-        tag: String,
+        tag: MetadataTag,
         value: String?
-    ) = exifInterface.setAttribute(tag, value)
+    ) = exifInterface.setAttribute(tag.key, value)
 
-    override fun removeAttribute(
-        tag: String
+    override fun clearAttribute(
+        tag: MetadataTag
     ) = setAttribute(
         tag = tag,
         value = null
     )
-
 }
 
-internal fun ExifInterface.toMetadata(): Metadata = AndroidMetadata(this)
+internal fun ExifInterface.toMetadata(): Metadata = ExifInterfaceMetadata(this)
+
+internal fun FileDescriptor.toMetadata(): Metadata = ExifInterface(this).toMetadata()

@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.clearAllAttributes
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -563,13 +564,8 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun clearExif() {
-        val tempExif = _exif.value
-        MetadataTag.entries.forEach {
-            tempExif?.setAttribute(it.key, null)
-        }
-        _exif.update {
-            tempExif
-        }
+        val tempExif = _exif.value?.clearAllAttributes()
+        _exif.update { tempExif }
         registerChanges()
     }
 
@@ -580,7 +576,7 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     fun removeExifTag(tag: MetadataTag) {
         val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag.key, null)
+        exifInterface?.clearAttribute(tag)
         updateExif(exifInterface)
     }
 
@@ -589,7 +585,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         value: String,
     ) {
         val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag.key, value)
+        exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)
     }
 

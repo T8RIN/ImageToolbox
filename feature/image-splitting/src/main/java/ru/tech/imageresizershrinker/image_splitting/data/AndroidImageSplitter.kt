@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.image_splitting.data
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext

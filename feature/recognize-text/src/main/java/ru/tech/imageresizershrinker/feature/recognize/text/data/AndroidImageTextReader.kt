@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.data
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.googlecode.tesseract.android.TessBaseAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.isActive

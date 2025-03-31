@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.exifinterface.media.ExifInterface
 import com.arkivanov.decompose.ComponentContext
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
@@ -385,7 +384,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                                             sequenceNumber = null,
                                             metadata = it.metadata?.apply {
                                                 setAttribute(
-                                                    MetadataTag.UserComment.key,
+                                                    MetadataTag.UserComment,
                                                     txtString.takeIf { it.isNotEmpty() }
                                                 )
                                             },
@@ -771,7 +770,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
                                 val exif = it.metadata?.apply {
                                     setAttribute(
-                                        MetadataTag.UserComment.key,
+                                        MetadataTag.UserComment,
                                         txtString.takeIf { it.isNotEmpty() }
                                     )
                                 }

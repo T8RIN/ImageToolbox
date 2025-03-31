@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.opencv_tools.image_comparison.ImageDiffTool

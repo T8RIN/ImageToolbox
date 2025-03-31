@@ -22,7 +22,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import coil3.ImageLoader
 import coil3.gif.repeatCount
 import coil3.request.ImageRequest
@@ -85,21 +84,19 @@ internal class AndroidImageGetter @Inject constructor(
             onFailure = onFailure
         )?.let { bitmap ->
             val newUri = uri.toUri().tryRequireOriginal(context)
-
-            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
-            ImageData(
-                image = bitmap,
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)],
-                    originalUri = uri,
-                    resizeType = settingsState.defaultResizeType
-                ),
-                metadata = exif?.toMetadata()
-            )
+            context.contentResolver.openFileDescriptor(newUri, "r").use {
+                ImageData(
+                    image = bitmap,
+                    imageInfo = ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = ImageFormat[getExtension(uri)],
+                        originalUri = uri,
+                        resizeType = settingsState.defaultResizeType
+                    ),
+                    metadata = it?.fileDescriptor?.toMetadata()
+                )
+            }
         }
     }
 
@@ -145,20 +142,19 @@ internal class AndroidImageGetter @Inject constructor(
             addSizeToRequest = originalSize
         )?.let { bitmap ->
             val newUri = uri.toUri().tryRequireOriginal(context)
-            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
-            ImageData(
-                image = bitmap,
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)],
-                    originalUri = uri,
-                    resizeType = settingsState.defaultResizeType
-                ),
-                metadata = exif?.toMetadata()
-            )
+            context.contentResolver.openFileDescriptor(newUri, "r").use {
+                ImageData(
+                    image = bitmap,
+                    imageInfo = ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = ImageFormat[getExtension(uri)],
+                        originalUri = uri,
+                        resizeType = settingsState.defaultResizeType
+                    ),
+                    metadata = it?.fileDescriptor?.toMetadata()
+                )
+            }
         }
     }
 

@@ -17,15 +17,40 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
+
 interface Metadata {
     fun saveAttributes()
 
-    fun getAttribute(tag: String): String?
+    fun getAttribute(tag: MetadataTag): String?
 
     fun setAttribute(
-        tag: String,
+        tag: MetadataTag,
         value: String?
     )
 
-    fun removeAttribute(tag: String)
+    fun clearAttribute(tag: MetadataTag)
+}
+
+fun Metadata.clearAttributes(
+    attributes: List<MetadataTag>
+): Metadata = apply {
+    attributes.forEach(::clearAttribute)
+}
+
+fun Metadata.clearAllAttributes() = clearAttributes(attributes = MetadataTag.entries)
+
+fun Metadata.toMap(): Map<MetadataTag, String> = mutableMapOf<MetadataTag, String>().apply {
+    MetadataTag.entries.forEach { tag ->
+        getAttribute(tag)?.let { put(tag, it) }
+    }
+}
+
+fun Metadata.copyTo(metadata: Metadata): Metadata {
+    MetadataTag.entries.forEach { attr ->
+        getAttribute(attr).let { metadata.setAttribute(attr, it) }
+    }
+    metadata.saveAttributes()
+
+    return metadata
 }

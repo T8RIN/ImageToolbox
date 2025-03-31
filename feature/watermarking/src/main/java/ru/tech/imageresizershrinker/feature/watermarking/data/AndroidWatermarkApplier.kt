@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
-import androidx.exifinterface.media.ExifInterface
 import coil3.transform.RoundedCornersTransformation
 import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage

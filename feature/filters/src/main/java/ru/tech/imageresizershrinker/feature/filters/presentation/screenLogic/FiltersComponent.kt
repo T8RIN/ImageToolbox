@@ -26,7 +26,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext

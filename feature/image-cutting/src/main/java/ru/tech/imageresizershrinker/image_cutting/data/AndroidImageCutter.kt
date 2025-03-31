@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.image_cutting.data
 
 import android.graphics.Bitmap
 import androidx.core.graphics.applyCanvas
-import androidx.exifinterface.media.ExifInterface
+import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.safeConfig
@@ -53,7 +53,7 @@ internal class AndroidImageCutter @Inject constructor(
     override suspend fun cutAndMerge(
         image: Bitmap,
         params: CutParams
-    ): Bitmap? = withContext(defaultDispatcher) {
+    ): Bitmap = withContext(defaultDispatcher) {
         runSuspendCatching {
             val verticalStart = params.vertical.takeIf { it != PivotPair(0f, 1f) }
                 ?.let { (it.start * image.width).roundToInt() }
@@ -180,7 +180,7 @@ internal class AndroidImageCutter @Inject constructor(
         val mergedWidth = parts.maxOf { it.width }
         val mergedHeight = parts.sumOf { it.height }
 
-        Bitmap.createBitmap(mergedWidth, mergedHeight, source.safeConfig)
+        createBitmap(mergedWidth, mergedHeight, source.safeConfig)
             .applyCanvas {
                 var offsetY = 0f
                 for (part in parts) {
@@ -257,7 +257,7 @@ internal class AndroidImageCutter @Inject constructor(
         val mergedWidth = parts.sumOf { it.width }
         val mergedHeight = parts.maxOf { it.height }
 
-        Bitmap.createBitmap(mergedWidth, mergedHeight, source.safeConfig)
+        createBitmap(mergedWidth, mergedHeight, source.safeConfig)
             .applyCanvas {
                 var offsetX = 0f
                 for (part in parts) {

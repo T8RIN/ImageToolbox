@@ -24,11 +24,11 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
-import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.data.image.toMetadata
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
-import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
+import ru.tech.imageresizershrinker.core.domain.image.clearAllAttributes
+import ru.tech.imageresizershrinker.core.domain.image.copyTo
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import java.io.OutputStream
@@ -49,39 +49,25 @@ suspend fun Context.copyMetadata(
 ) = runSuspendCatching {
     if (initialExif != null) {
         getFileDescriptorFor(fileUri)?.use {
-            val ex = ExifInterface(it.fileDescriptor)
-            initialExif.copyTo(ex.toMetadata())
-            ex.saveAttributes()
+            initialExif.copyTo(it.fileDescriptor.toMetadata())
         }
     } else if (keepOriginalMetadata) {
         val newUri = originalUri.tryRequireOriginal(this)
         val exif = contentResolver
             .openFileDescriptor(newUri, "r")
-            ?.use { ExifInterface(it.fileDescriptor) }
+            ?.use { it.fileDescriptor.toMetadata() }
 
         getFileDescriptorFor(fileUri)?.use {
-            val ex = ExifInterface(it.fileDescriptor).toMetadata()
-            exif?.toMetadata()?.copyTo(ex)
-            ex.saveAttributes()
+            exif?.copyTo(it.fileDescriptor.toMetadata())
         }
     } else {
         getFileDescriptorFor(fileUri)?.use {
-            val ex = ExifInterface(it.fileDescriptor)
-            MetadataTag.entries.forEach { tag ->
-                ex.setAttribute(tag.key, null)
+            it.fileDescriptor.toMetadata().apply {
+                clearAllAttributes()
+                saveAttributes()
             }
-            ex.saveAttributes()
         }
     }
-}
-
-suspend infix fun Metadata.copyTo(
-    newExif: Metadata
-) = coroutineScope {
-    MetadataTag.entries.forEach { attr ->
-        getAttribute(attr.key).let { newExif.setAttribute(attr.key, it) }
-    }
-    newExif.saveAttributes()
 }
 
 fun Context.openWriteableStream(

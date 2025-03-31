@@ -22,7 +22,6 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlAnimatedEncoder
 import com.awxkee.jxlcoder.JxlAnimatedImage
 import com.awxkee.jxlcoder.JxlChannelsConfiguration

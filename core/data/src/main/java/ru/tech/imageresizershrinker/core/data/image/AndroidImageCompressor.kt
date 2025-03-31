@@ -22,7 +22,6 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import com.t8rin.trickle.Trickle
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
