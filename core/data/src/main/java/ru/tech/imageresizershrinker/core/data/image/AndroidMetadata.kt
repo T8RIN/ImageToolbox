@@ -26,7 +26,9 @@ private data class ExifInterfaceMetadata(
     private val exifInterface: UnicodeExifInterface
 ) : Metadata {
 
-    override fun saveAttributes() = exifInterface.saveAttributes()
+    override fun saveAttributes(): Metadata = apply {
+        exifInterface.saveAttributes()
+    }
 
     override fun getAttribute(
         tag: MetadataTag

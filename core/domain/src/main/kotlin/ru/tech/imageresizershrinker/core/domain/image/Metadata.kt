@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package ru.tech.imageresizershrinker.core.domain.image
 
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 
 interface Metadata {
-    fun saveAttributes()
+    fun saveAttributes(): Metadata
 
     fun getAttribute(tag: MetadataTag): String?
 
@@ -30,7 +32,16 @@ interface Metadata {
     ): Metadata
 }
 
-fun Metadata.clearAttribute(
+inline operator fun Metadata.get(
+    tag: MetadataTag
+): String? = getAttribute(tag)
+
+inline operator fun Metadata.set(
+    tag: MetadataTag,
+    value: String?
+): Metadata = setAttribute(tag, value)
+
+inline fun Metadata.clearAttribute(
     tag: MetadataTag
 ) = apply {
     setAttribute(
@@ -39,21 +50,22 @@ fun Metadata.clearAttribute(
     )
 }
 
-fun Metadata.clearAttributes(
+inline fun Metadata.clearAttributes(
     attributes: List<MetadataTag>
 ): Metadata = apply {
     attributes.forEach(::clearAttribute)
 }
 
-fun Metadata.clearAllAttributes() = clearAttributes(attributes = MetadataTag.entries)
+inline fun Metadata.clearAllAttributes(): Metadata =
+    clearAttributes(attributes = MetadataTag.entries)
 
-fun Metadata.toMap(): Map<MetadataTag, String> = mutableMapOf<MetadataTag, String>().apply {
+inline fun Metadata.toMap(): Map<MetadataTag, String> = mutableMapOf<MetadataTag, String>().apply {
     MetadataTag.entries.forEach { tag ->
         getAttribute(tag)?.let { put(tag, it) }
     }
 }
 
-fun Metadata.copyTo(metadata: Metadata): Metadata {
+inline fun Metadata.copyTo(metadata: Metadata): Metadata {
     MetadataTag.entries.forEach { attr ->
         getAttribute(attr).let { metadata.setAttribute(attr, it) }
     }
