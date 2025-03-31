@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 
+//TODO: Needs refactor
 interface ImageGetter<I, M> {
 
     suspend fun getImage(

@@ -134,6 +134,7 @@ import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.
 fun RecognizeTextContent(
     component: RecognizeTextComponent
 ) {
+    //TODO: Needs refactor
     val type = component.type
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
 

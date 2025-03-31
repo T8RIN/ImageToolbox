@@ -101,6 +101,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+    //TODO: Needs refactor
 
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
