@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActi
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
+//TODO: Refactor from pair
 @Composable
 fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,

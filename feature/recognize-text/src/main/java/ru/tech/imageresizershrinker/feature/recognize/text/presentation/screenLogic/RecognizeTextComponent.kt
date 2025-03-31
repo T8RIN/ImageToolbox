@@ -79,6 +79,8 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionTyp
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -136,6 +138,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     private val _recognitionData = mutableStateOf<RecognitionData?>(null)
     val recognitionData by _recognitionData
+
+    val text: String? get() = recognitionData?.text?.takeIf { it.isNotEmpty() }
+
+    private val _editedText = mutableStateOf(text)
+    val editedText by _editedText
 
     private val _textLoadingProgress: MutableState<Int> = mutableIntStateOf(-1)
     val textLoadingProgress by _textLoadingProgress
@@ -206,15 +213,22 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     private var loadingJob: Job? by smartJob()
 
-    private val _isSelectionTypeSheetVisible = mutableStateOf(false)
-    val isSelectionTypeSheetVisible by _isSelectionTypeSheetVisible
+    private val _selectionSheetData = mutableStateOf(emptyList<Uri>())
+    val selectionSheetData by _selectionSheetData
 
-    fun showSelectionTypeSheet() {
-        _isSelectionTypeSheetVisible.update { true }
+    private val _downloadDialogData = mutableStateOf<List<UiDownloadData>>(emptyList())
+    val downloadDialogData by _downloadDialogData
+
+    fun clearDownloadDialogData() {
+        _downloadDialogData.update { emptyList() }
+    }
+
+    fun showSelectionTypeSheet(uris: List<Uri>) {
+        _selectionSheetData.update { uris }
     }
 
     fun hideSelectionTypeSheet() {
-        _isSelectionTypeSheetVisible.update { false }
+        _selectionSheetData.update { emptyList() }
     }
 
     private fun loadLanguages(
@@ -230,15 +244,15 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             }
             val data = imageTextReader.getLanguages(recognitionType)
             _selectedLanguages.update { ocrLanguages ->
-                val list = ocrLanguages.toMutableList()
-                data.forEach { ocrLanguage ->
-                    ocrLanguages.indexOfFirst {
-                        it.code == ocrLanguage.code
-                    }.takeIf { it != -1 }?.let { index ->
-                        list[index] = ocrLanguage
+                ocrLanguages.toMutableList().also { oldList ->
+                    data.forEach { ocrLanguage ->
+                        ocrLanguages.indexOfFirst {
+                            it.code == ocrLanguage.code
+                        }.takeIf { it != -1 }?.let { index ->
+                            oldList[index] = ocrLanguage
+                        }
                     }
                 }
-                list
             }
             _languages.update { data }
             onComplete()
@@ -285,7 +299,6 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     fun save(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit,
-        onRequestDownload: (List<DownloadData>) -> Unit,
     ) {
         recognitionJob = componentScope.launch {
             delay(400)
@@ -314,8 +327,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                             result.appendToStringBuilder(
                                 builder = txtString,
                                 uri = uri,
-                                onRequestDownload = {
-                                    onRequestDownload(it)
+                                onRequestDownload = { data ->
+                                    _downloadDialogData.update { data.map(DownloadData::toUi) }
                                     return@launch
                                 }
                             )
@@ -367,7 +380,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                                     }
 
                                     is TextRecognitionResult.NoData -> {
-                                        onRequestDownload(result.data)
+                                        _downloadDialogData.update { result.data.map(DownloadData::toUi) }
                                         return@launch
                                     }
 
@@ -472,8 +485,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun startRecognition(
-        onFailure: (Throwable) -> Unit,
-        onRequestDownload: (List<DownloadData>) -> Unit
+        onFailure: (Throwable) -> Unit
     ) {
         recognitionJob = componentScope.launch {
             if (_type.value !is Screen.RecognizeText.Type.Extraction) return@launch
@@ -503,11 +515,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     }
 
                     is TextRecognitionResult.NoData -> {
-                        onRequestDownload(result.data)
+                        _downloadDialogData.update { result.data.map(DownloadData::toUi) }
                     }
 
                     is TextRecognitionResult.Success -> {
                         _recognitionData.update { result.data }
+                        _editedText.update { text }
                     }
                 }
             }
@@ -560,6 +573,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             }
             _selectedLanguages.update { ocrLanguages }
             _recognitionData.update { null }
+            _editedText.update { null }
             recognitionJob?.cancel()
             _textLoadingProgress.update { -1 }
         }
@@ -665,11 +679,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         _ocrEngineMode.update { mode }
     }
 
-    fun shareText(
-        text: String?,
+    fun shareEditedText(
         onComplete: () -> Unit
     ) {
-        text?.let {
+        editedText?.let {
             shareProvider.shareText(
                 value = it,
                 onComplete = onComplete
@@ -677,9 +690,12 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
+    fun updateEditedText(text: String) {
+        _editedText.update { text }
+    }
+
     fun shareData(
-        onComplete: () -> Unit,
-        onRequestDownload: (List<DownloadData>) -> Unit
+        onComplete: () -> Unit
     ) {
         recognitionJob = componentScope.launch {
             delay(400)
@@ -708,8 +724,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                             result.appendToStringBuilder(
                                 builder = txtString,
                                 uri = uri,
-                                onRequestDownload = {
-                                    onRequestDownload(it)
+                                onRequestDownload = { data ->
+                                    _downloadDialogData.update { data.map(DownloadData::toUi) }
                                     return@launch
                                 }
                             )
@@ -759,7 +775,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                                     }
 
                                     is TextRecognitionResult.NoData -> {
-                                        onRequestDownload(result.data)
+                                        _downloadDialogData.update { result.data.map(DownloadData::toUi) }
                                         return@launch
                                     }
 
