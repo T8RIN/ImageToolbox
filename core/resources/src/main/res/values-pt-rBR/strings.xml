@@ -430,7 +430,7 @@
     <string name="pdf_to_images_sub">Converta PDF em imagens em determinado formato de saída</string>
     <string name="images_to_pdf_sub">Empacote as imagens fornecidas no arquivo PDF de saída</string>
     <string name="mask_filter">Filtro de máscara</string>
-    <string name="mask_filter_sub">Aplique um conjunto de filtros à determinadas áreas com máscara, cada área com máscara pode determinar seu próprio conjunto de filtros</string>
+    <string name="mask_filter_sub">Aplicar cadeias de filtros em determinadas áreas mascaradas; cada área de máscara pode determinar seu próprio conjunto de filtros</string>
     <string name="masks">Máscaras</string>
     <string name="add_mask">Adicionar máscara</string>
     <string name="mask_indexed">Máscara %d</string>
@@ -1110,7 +1110,7 @@
     <string name="added_filter_template">Modelo de filtro adicionado com o nome \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Pré-visualização do filtro</string>
     <string name="qr_code">Código QR</string>
-    <string name="qr_code_sub">Digitalize o código QR e obtenha seu conteúdo ou cole seu texto para gerar uma nova</string>
+    <string name="qr_code_sub">Digitalize um código QR e obtenha seu conteúdo ou cole seu texto para gerar um código</string>
     <string name="code_content">Conteúdo do código</string>
     <string name="scan_qr_code_to_replace_content">Digitalize o código QR para substituir o conteúdo no campo ou digite algo para gerar um novo código QR</string>
     <string name="qr_description">Descrição do código QR</string>
@@ -1359,7 +1359,7 @@
     <string name="pick_filter_info">Escolha o filtro abaixo para usá-lo como pincel em seu desenho</string>
     <string name="fit_to_bounds_sub">Combine o modo de redimensionamento de corte com esse parâmetro para obter o comportamento desejado (Cortar/Ajustar à proporção)</string>
     <string name="no_favorite_options_selected">Não há opções favoritas selecionadas, adicione-as na página de ferramentas</string>
-    <string name="pick_file_to_checksum">Escolha o arquivo para calcular sua soma de verificação com base no algoritmo selecionado</string>
+    <string name="pick_file_to_checksum">Escolha um arquivo para calcular sua soma de verificação com base no algoritmo selecionado</string>
     <string name="import_font">Importar Fonte (TTF/OTF)</string>
     <string name="wrong_font">Somente fontes TTF podem ser importadas</string>
     <string name="options">Opções</string>
@@ -1367,7 +1367,7 @@
     <string name="webp_tools_sub">Converta imagens em imagens animadas WEBP ou extraia quadros de uma animação WEBP</string>
     <string name="match_sub">Os checksums são iguais, é seguro</string>
     <string name="checksum_to_compare">Checksum para Comparação</string>
-    <string name="enter_text_to_checksum">Insira o texto para calcular sua soma de verificação com base no algoritmo selecionado</string>
+    <string name="enter_text_to_checksum">Insira um texto para calcular sua soma de verificação com base no algoritmo selecionado</string>
     <string name="checksum_tools_sub">Compare checksums, calcule hashes, crie cadeias hexadecimais de arquivos usando diferentes algoritmos de hashing</string>
     <string name="default_draw_path_mode">Modo de Desenho de Caminho Padrão</string>
     <string name="ci_channel_sub">Receba notificações sobre novas versões do aplicativo e leia os anúncios</string>
@@ -1548,7 +1548,7 @@
     <string name="fit_width">Ajustar Largura</string>
     <string name="fit_height">Ajustar Altura</string>
     <string name="batch_compare">Comparação em Lote</string>
-    <string name="pick_files_to_checksum">Escolha um ou mais arquivos para calcular a checksum com base no algoritmo selecionado</string>
+    <string name="pick_files_to_checksum">Escolha o(s) arquivo(s) para calcular sua soma de verificação com base no algoritmo selecionado</string>
     <string name="pick_directory">Selecionar Pasta</string>
     <string name="pick_files">Selecionar Arquivos</string>
     <string name="format_pattern">Formato Padrão</string>
@@ -1576,4 +1576,20 @@
     <string name="highlight_color">Destacar Cor</string>
     <string name="pixel_comparison_type">Tipo de Comparação de Pixels</string>
     <string name="scan_barcode">Escanear Código de Barras</string>
+    <string name="height_ratio">Proporção de Altura</string>
+    <string name="barcode_type">Tipo de Código de Barras</string>
+    <string name="enforce_bw">Forçar P/B</string>
+    <string name="enforce_bw_sub">A imagem do código de barras será totalmente em preto e branco e não será colorida pelo tema do aplicativo</string>
+    <string name="barcodes_sub">Escaneie qualquer código de barras (QR, EAN, AZTEC, ...) e obtenha seu conteúdo ou cole seu texto para gerar um código</string>
+    <string name="no_barcode_found">Nenhum Código Encontrado</string>
+    <string name="generated_barcode_will_be_here">O código de Barras Gerado Estará Aqui</string>
+    <string name="audio_cover_extractor">Extrator de Capa de Álbum</string>
+    <string name="audio_cover_extractor_sub">Extraia imagens de capas de álbuns de arquivos de áudio, com suporte aos formatos mais comuns</string>
+    <string name="pick_audio_to_start">Escolha um áudio para iniciar</string>
+    <string name="pick_audio">Selecionar Áudio</string>
+    <string name="no_covers_found">Nenhuma Capa Encontrada</string>
+    <string name="send_logs">Enviar Registros</string>
+    <string name="send_logs_sub">Clique para compartilhar o arquivo de registros do aplicativo, isso pode me ajudar a identificar e corrigir o problema</string>
+    <string name="crash_title">Ops... Algo deu errado</string>
+    <string name="crash_subtitle">Você pode entrar em contato comigo usando as opções abaixo e tentarei encontrar uma solução\n(Não se esqueça de anexar os registros).</string>
 </resources>
