@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
+import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
@@ -74,10 +75,11 @@ class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
+    private val analyticsManager: AnalyticsManager,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
-    resourceManager: ResourceManager
+    resourceManager: ResourceManager,
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
 
     private val _backupRestoredEvents: Channel<Boolean> = Channel(Channel.BUFFERED)
@@ -415,7 +417,7 @@ class RootComponent @AssistedInject internal constructor(
         componentScope.launch {
             delay(100)
             hideSelectDialog()
-            screen.simpleName.makeLog("Navigator")
+            screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
             navController.pushNew(screen)
         }
     }
@@ -424,7 +426,7 @@ class RootComponent @AssistedInject internal constructor(
         if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
             navigateBack()
         }
-        screen.simpleName.makeLog("Navigator")
+        screen.simpleName.makeLog("Navigator").also(analyticsManager::registerScreenOpen)
         navController.pushNew(screen)
     }
 

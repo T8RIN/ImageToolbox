@@ -29,4 +29,6 @@ interface AnalyticsManager {
 
     fun sendReport(throwable: Throwable)
 
+    fun registerScreenOpen(screenName: String)
+
 }

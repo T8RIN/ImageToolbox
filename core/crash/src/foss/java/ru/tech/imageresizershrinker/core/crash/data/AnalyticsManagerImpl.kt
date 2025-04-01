@@ -30,4 +30,6 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
     override fun updateAllowCollectCrashlytics(value: Boolean) = Unit
 
     override fun sendReport(throwable: Throwable) = Unit
+
+    override fun registerScreenOpen(screenName: String) = Unit
 }

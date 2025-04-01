@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.crash.data
 
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
@@ -42,6 +44,14 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
         if (allowCollectCrashlytics) {
             Firebase.crashlytics.recordException(throwable)
             Firebase.crashlytics.sendUnsentReports()
+        }
+    }
+
+    override fun registerScreenOpen(screenName: String) {
+        if (allowCollectAnalytics) {
+            Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, screenName)
+            }
         }
     }
 
