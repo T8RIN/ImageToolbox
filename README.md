@@ -929,6 +929,16 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
+# 🔒 Signing Certificate Hashes
+
+SHA-256: `20d7689de0874f00015ea3e31fa067c15c03457d362d41d5e793db3a864fa534`
+
+SHA-1: `d69eacb30eeae804e8b72d2384c3c616b1906785`
+
+MD5: `db6f6b76c503d31099e4754e676353cf`
+
+For more info, see [wiki](https://github.com/T8RIN/ImageToolbox/wiki/FAQ#how-can-i-verify-my-download-of-imagetoolbox-is-legitimate)
+
 # ⚖️ License
 
 ```xml
