@@ -433,11 +433,12 @@ class RootComponent @AssistedInject internal constructor(
     private val backEventsObservers: MutableList<BackEventObserver> = mutableListOf()
 
     fun navigateBack() {
+        val closedScreen = childStack.items.lastOrNull()?.configuration
         backEventsObservers.forEach { observer ->
-            observer.onBack(childStack.items.lastOrNull()?.configuration)
+            observer.onBack(closedScreen)
         }
         hideSelectDialog()
-        "Pop".makeLog("Navigator")
+        "Pop ${closedScreen?.simpleName}".makeLog("Navigator")
         navController.pop()
     }
 
