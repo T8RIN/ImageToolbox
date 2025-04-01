@@ -130,6 +130,7 @@ toolbox-histogram = { module = "com.github.T8RIN.ImageToolboxLibs:histogram", ve
 toolbox-uCrop = { module = "com.github.T8RIN.ImageToolboxLibs:ucrop", version.ref = "imageToolboxLibs" }
 toolbox-opencvTools = { module = "com.github.T8RIN.ImageToolboxLibs:opencv-tools", version.ref = "imageToolboxLibs" }
 toolbox-curves = { module = "com.github.T8RIN.ImageToolboxLibs:curves", version.ref = "imageToolboxLibs" }
+toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
