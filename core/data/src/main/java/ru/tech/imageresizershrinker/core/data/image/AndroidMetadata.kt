@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.data.image
 
-import com.t8rin.tiff.efix.UnicodeExifInterface
+import com.t8rin.exif.UnicodeExifInterface
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import java.io.FileDescriptor
