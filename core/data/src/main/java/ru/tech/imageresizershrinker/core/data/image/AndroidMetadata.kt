@@ -17,13 +17,13 @@
 
 package ru.tech.imageresizershrinker.core.data.image
 
-import com.t8rin.exif.UnicodeExifInterface
+import com.t8rin.exif.ExifInterface
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import java.io.FileDescriptor
 
 private data class ExifInterfaceMetadata(
-    private val exifInterface: UnicodeExifInterface
+    private val exifInterface: ExifInterface
 ) : Metadata {
 
     override fun saveAttributes(): Metadata = apply {
@@ -43,6 +43,6 @@ private data class ExifInterfaceMetadata(
 
 }
 
-internal fun UnicodeExifInterface.toMetadata(): Metadata = ExifInterfaceMetadata(this)
+internal fun ExifInterface.toMetadata(): Metadata = ExifInterfaceMetadata(this)
 
-internal fun FileDescriptor.toMetadata(): Metadata = UnicodeExifInterface(this).toMetadata()
+internal fun FileDescriptor.toMetadata(): Metadata = ExifInterface(this).toMetadata()
