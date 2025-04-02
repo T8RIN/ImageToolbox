@@ -1593,4 +1593,8 @@
     <string name="send_logs_sub">Kliknij, aby udostępnić plik dziennika aplikacji, pomoże mi to wykryć i naprawić problem.</string>
     <string name="crash_title">Ups... Coś poszło nie tak</string>
     <string name="crash_subtitle">Możesz skontaktować się ze mną, korzystając z poniższych opcji, a ja postaram się znaleźć rozwiązanie.\n(Nie zapomnij załączyć dziennika)</string>
+    <string name="ocr_write_to_file">Zapisz do pliku</string>
+    <string name="ocr_write_to_file_sub">Wyodrębnianie tekstu z partii obrazów i zapisywanie go w jednym pliku tekstowym</string>
+    <string name="ocr_write_to_metadata">Zapisz do metadanych</string>
+    <string name="ocr_write_to_metadata_sub">Wyodrębnianie tekstu z każdego obrazu i umieszczanie go w informacjach EXIF powiązanych zdjęć</string>
 </resources>

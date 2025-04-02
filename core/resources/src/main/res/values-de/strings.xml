@@ -1066,7 +1066,7 @@
     <string name="add_favorites">Favoriten hinzufügen</string>
     <string name="no_favorite_options_selected">Keine bevorzugten Optionen ausgewählt, füge sie auf der Seite Tools hinzu</string>
     <string name="open_edit_instead_of_preview_sub">Wenn du ein Bild auswählst, um es in ImageToolbox zu öffnen (Vorschau), wird anstatt der Vorschau das Auswahlblatt \"Bearbeiten\" geöffnet</string>
-    <string name="qr_code_sub">Scanne den QR-Code und rufen seinen Inhalt ab oder füge deine Zeichenfolge ein, um einen neuen zu erstellen</string>
+    <string name="qr_code_sub">Scanne den QR-Code und rufe seinen Inhalt ab oder füge deine Zeichenfolge ein, um einen neuen zu erstellen</string>
     <string name="scan_qr_code_to_replace_content">QR-Code scannen, um den Inhalt im Feld zu ersetzen, oder etwas eingeben, um einen neuen QR-Code zu generieren</string>
     <string name="tag_jpeg_interchange_format_length">JPEG Austauschformat Länge</string>
     <string name="tag_y_cb_cr_coefficients">Y Cb Cr Koeffizienten</string>
@@ -1576,4 +1576,5 @@
     <string name="pixel_by_pixel">Pixel für Pixel</string>
     <string name="highlight_color">Hervorhebungsfarbe</string>
     <string name="pixel_comparison_type">Pixel-Vergleichstyp</string>
+    <string name="ocr_write_to_file">In Datei schreiben</string>
 </resources>
