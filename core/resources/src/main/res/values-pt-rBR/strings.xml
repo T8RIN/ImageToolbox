@@ -1592,4 +1592,8 @@
     <string name="send_logs_sub">Clique para compartilhar o arquivo de registros do aplicativo, isso pode me ajudar a identificar e corrigir o problema</string>
     <string name="crash_title">Ops... Algo deu errado</string>
     <string name="crash_subtitle">Você pode entrar em contato comigo usando as opções abaixo e tentarei encontrar uma solução\n(Não se esqueça de anexar os registros).</string>
+    <string name="ocr_write_to_metadata_sub">Extraia o texto de cada imagem e coloque-o nas informações EXIF das respectivas fotos</string>
+    <string name="ocr_write_to_file">Gravar em Arquivo</string>
+    <string name="ocr_write_to_metadata">Gravar nos Metadados</string>
+    <string name="ocr_write_to_file_sub">Extraia o texto de um lote de imagens e armazene-o em um único arquivo de texto</string>
 </resources>
