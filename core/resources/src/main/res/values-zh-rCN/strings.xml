@@ -1592,4 +1592,8 @@
     <string name="send_logs_sub">点击分享应用程序日志文件，这可以帮助我发现问题并解决问题</string>
     <string name="crash_title">哎呀……出错了</string>
     <string name="crash_subtitle">你可以使用下面的选项与我联系，我会尽力找到解决方案。\n（别忘了附上日志文件）</string>
+    <string name="ocr_write_to_file">写入文件</string>
+    <string name="ocr_write_to_metadata">写入元数据</string>
+    <string name="ocr_write_to_metadata_sub">从每张图片中提取文本，并将其放置在相应图片的EXIF信息中。</string>
+    <string name="ocr_write_to_file_sub">从一批图片中提取文本，并将其存储在一个文本文件中</string>
 </resources>
