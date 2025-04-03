@@ -1577,4 +1577,11 @@
     <string name="highlight_color">Hervorhebungsfarbe</string>
     <string name="pixel_comparison_type">Pixel-Vergleichstyp</string>
     <string name="ocr_write_to_file">In Datei schreiben</string>
+    <string name="scan_barcode">Barcode scannen</string>
+    <string name="height_ratio">Höhenverhältnis</string>
+    <string name="barcode_type">Barcode-Typ</string>
+    <string name="enforce_bw">Erzwinge Schwarz/Weiß</string>
+    <string name="enforce_bw_sub">Barcode-Bild wird vollständig schwarz-weiß und nicht durch das App-Thema eingefärbt</string>
+    <string name="barcodes_sub">Jeden Barcode (QR, EAN, AZTEC, ...) scannen und seinen Inhalt abrufen oder Ihren Text einfügen, um einen neuen zu erstellen</string>
+    <string name="no_barcode_found">Kein Barcode gefunden</string>
 </resources>
