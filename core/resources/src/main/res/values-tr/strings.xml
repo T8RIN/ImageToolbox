@@ -1582,4 +1582,12 @@
     <string name="barcodes_sub">Herhangi bir Barkodu (QR, EAN, AZTEC, …) tara ve içeriğini al veya yeni bir tane oluşturmak için metnini yapıştır</string>
     <string name="no_barcode_found">Barkod Bulunamadı</string>
     <string name="generated_barcode_will_be_here">Oluşturulan Barkod Burada Olacak</string>
+    <string name="audio_cover_extractor">Ses Kapak Çıkarıcı</string>
+    <string name="audio_cover_extractor_sub">Ses dosyalarından albüm kapağı görüntülerini çıkarın, en yaygın formatlar desteklenir</string>
+    <string name="pick_audio_to_start">Ses seçerek başlayın</string>
+    <string name="pick_audio">Ses seç</string>
+    <string name="no_covers_found">Kapak bulunamadı</string>
+    <string name="send_logs">Günlükleri gönder</string>
+    <string name="send_logs_sub">Dosya günlüklerini paylaşmak için tıklayın, bu sorunları bulmam ve düzeltmeme yardımcı olabilir</string>
+    <string name="crash_title">Bir şeyler ters gitti</string>
 </resources>
