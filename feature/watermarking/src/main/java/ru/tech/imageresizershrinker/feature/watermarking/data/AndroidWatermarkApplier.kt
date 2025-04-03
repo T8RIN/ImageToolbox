@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("UnnecessaryVariable")
+
 package ru.tech.imageresizershrinker.feature.watermarking.data
 
 import android.content.Context
@@ -47,14 +49,12 @@ import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Position
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
 import ru.tech.imageresizershrinker.feature.watermarking.domain.TextParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -167,15 +167,13 @@ internal class AndroidWatermarkApplier @Inject constructor(
             }
 
             is WatermarkingType.Stamp.Time -> {
-                val timestamp = SimpleDateFormat(type.format, Locale.getDefault()).format(Date())
-
                 drawStamp(
                     image = image,
                     alpha = params.alpha,
                     overlayMode = params.overlayMode,
                     position = type.position,
                     params = type.params,
-                    text = timestamp,
+                    text = timestamp(type.format),
                     padding = type.padding
                 )
             }

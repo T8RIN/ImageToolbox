@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.model.HashingType
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.model.SystemBarsVisibility
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -153,9 +154,6 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
@@ -323,13 +321,8 @@ internal class AndroidSettingsManager @Inject constructor(
         registerAppOpen()
     }
 
-    override fun createBackupFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "image_toolbox_$timeStamp.$BackupFileExtension"
-    }
+    override fun createBackupFilename(): String =
+        "image_toolbox_${timestamp()}.$BackupFileExtension"
 
     override suspend fun setFont(font: DomainFontFamily) = edit {
         it[SELECTED_FONT] = font.asString()
@@ -487,13 +480,7 @@ internal class AndroidSettingsManager @Inject constructor(
         out.toByteArray()
     }
 
-    override fun createLogsFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "image_toolbox_logs_$timeStamp.zip"
-    }
+    override fun createLogsFilename(): String = "image_toolbox_logs_${timestamp()}.zip"
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {
         it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data

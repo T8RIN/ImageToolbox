@@ -56,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Green
@@ -69,9 +70,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic.ZipComponent
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 internal fun ColumnScope.ZipControls(
@@ -152,12 +150,7 @@ internal fun ColumnScope.ZipControls(
                     if (it > 1) "($it)"
                     else ""
                 }
-                val timeStamp = SimpleDateFormat(
-                    "yyyy-MM-dd_HH-mm-ss",
-                    Locale.getDefault()
-                ).format(Date())
-
-                mutableStateOf("ZIP${count}_$timeStamp.zip")
+                mutableStateOf("ZIP${count}_${timestamp()}.zip")
             }
             RoundedTextField(
                 modifier = Modifier

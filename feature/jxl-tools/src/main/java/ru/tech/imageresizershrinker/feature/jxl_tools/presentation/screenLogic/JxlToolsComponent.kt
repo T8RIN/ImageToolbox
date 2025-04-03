@@ -46,14 +46,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.AnimatedJxlParams
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class JxlToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -460,14 +458,9 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                 onFailure(it)
                             }
                         )?.also { byteArray ->
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val jxlName = "JXL_$timeStamp"
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
-                                filename = "$jxlName.jxl",
+                                filename = "JXL_${timestamp()}.jxl",
                                 onComplete = onComplete
                             )
                         }

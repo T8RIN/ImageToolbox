@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FontFamily
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
@@ -41,9 +42,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentia
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.PickFontFamilySheet
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun ChangeFontSettingItem(
@@ -87,12 +85,7 @@ fun ChangeFontSettingItem(
         onRemoveFont = onRemoveFont,
         onExportFonts = {
             runCatching {
-                val timeStamp = SimpleDateFormat(
-                    "yyyy-MM-dd_HH-mm-ss",
-                    Locale.getDefault()
-                ).format(Date())
-
-                exportFontsLauncher.launch("FONTS_EXPORT_$timeStamp.zip")
+                exportFontsLauncher.launch("FONTS_EXPORT_${timestamp()}.zip")
             }.onFailure {
                 essentials.showActivateFilesToast()
             }

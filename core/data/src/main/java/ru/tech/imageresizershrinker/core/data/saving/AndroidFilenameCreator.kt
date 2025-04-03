@@ -31,12 +31,11 @@ import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -108,10 +107,7 @@ internal class AndroidFilenameCreator @Inject constructor(
         }
 
         val timeStamp = if (settingsState.useFormattedFilenameTimestamp) {
-            SimpleDateFormat(
-                "yyyy-MM-dd_HH-mm-ss",
-                Locale.getDefault()
-            ).format(Date()) + "_${randomNumber()}"
+            "${timestamp()}_${randomNumber()}"
         } else Date().time.toString()
 
         var body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {

@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -80,9 +81,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 @Composable
@@ -178,16 +176,17 @@ fun OneTimeSaveLocationSelectionDialog(
                             if (item?.uri == settingsState.saveFolderUri?.toString()) {
                                 context.getString(R.string.default_value)
                             } else {
-                                "${
-                                    item?.date?.let {
-                                        SimpleDateFormat(
-                                            "dd MMMM yyyy",
-                                            Locale.getDefault()
-                                        ).format(
-                                            Date(it)
-                                        )
-                                    } ?: ""
-                                } ${item?.count?.takeIf { it > 0 }?.let { "($it)" } ?: ""}".trim()
+                                val time = item?.date?.let {
+                                    timestamp(
+                                        format = "dd MMMM yyyy",
+                                        date = it
+                                    )
+                                } ?: ""
+
+                                "$time ${
+                                    item?.count?.takeIf { it > 0 }
+                                        ?.let { "($it)" } ?: ""
+                                }".trim()
                                     .takeIf { it.isNotEmpty() }
                             }
                         }

@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -58,9 +59,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class AddFiltersSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -269,11 +267,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun createTemplateFilename(templateFilter: TemplateFilter): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "template(${templateFilter.name})$timeStamp.imtbx_template"
+        return "template(${templateFilter.name})${timestamp()}.imtbx_template"
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {

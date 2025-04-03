@@ -47,14 +47,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class GifToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -294,12 +292,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val gifName = "GIF_$timeStamp"
-                            onGifSaveResult(gifName)
+                            onGifSaveResult("GIF_${timestamp()}")
                         }
                     }
                 }
@@ -493,14 +486,9 @@ class GifToolsComponent @AssistedInject internal constructor(
                             },
                             onFailure = { }
                         )?.also { byteArray ->
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val gifName = "GIF_$timeStamp"
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
-                                filename = "$gifName.gif",
+                                filename = "GIF_${timestamp()}.gif",
                                 onComplete = onComplete
                             )
                         }

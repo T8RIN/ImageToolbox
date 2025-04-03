@@ -43,15 +43,13 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ScanResult
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.coroutineScope
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.random.Random
 
 class DocumentScannerComponent @AssistedInject internal constructor(
@@ -184,10 +182,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     }
 
     fun generatePdfFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
         return "PDF_$timeStamp.pdf"
     }
 

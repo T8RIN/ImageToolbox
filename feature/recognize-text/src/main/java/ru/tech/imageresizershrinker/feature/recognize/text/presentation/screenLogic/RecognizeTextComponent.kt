@@ -57,8 +57,10 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.toggle
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiContrastFilter
@@ -81,9 +83,6 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.TessParams
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.TextRecognitionResult
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import coil3.transform.Transformation as CoilTransformation
 
 class RecognizeTextComponent @AssistedInject internal constructor(
@@ -599,30 +598,26 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun setCropMask(cropOutlineProperty: CropOutlineProperty) {
-        _cropProperties.value =
-            _cropProperties.value.copy(cropOutlineProperty = cropOutlineProperty)
+        _cropProperties.update { it.copy(cropOutlineProperty = cropOutlineProperty) }
     }
 
     suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
 
     fun toggleContrastFilter() {
         _filtersAdded.update {
-            if (contrastFilterInstance in it) it - contrastFilterInstance
-            else it + contrastFilterInstance
+            it.toggle(contrastFilterInstance)
         }
     }
 
     fun toggleThresholdFilter() {
         _filtersAdded.update {
-            if (thresholdFilterInstance in it) it - thresholdFilterInstance
-            else it + thresholdFilterInstance
+            it.toggle(thresholdFilterInstance)
         }
     }
 
     fun toggleSharpnessFilter() {
         _filtersAdded.update {
-            if (sharpenFilterInstance in it) it - sharpenFilterInstance
-            else it + sharpenFilterInstance
+            it.toggle(sharpenFilterInstance)
         }
     }
 
@@ -798,26 +793,14 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     uri = uri.toString(),
                     block = { it.writeBytes(fileController.readBytes(zipUri)) }
                 ).also(onResult).onSuccess(::registerSave)
-                _isExporting.value = false
             }
+            _isExporting.value = false
         }
     }
 
-    fun generateExportFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "image_toolbox_ocr_languages_$timeStamp.zip"
-    }
+    fun generateExportFilename(): String = "image_toolbox_ocr_languages_${timestamp()}.zip"
 
-    fun generateTextFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "OCR_$timeStamp.txt"
-    }
+    fun generateTextFilename(): String = "OCR_${timestamp()}.txt"
 
     fun importLanguagesFrom(
         uri: Uri,

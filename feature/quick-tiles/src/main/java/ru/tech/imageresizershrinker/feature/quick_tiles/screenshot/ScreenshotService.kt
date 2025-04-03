@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.postToast
@@ -55,9 +56,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ResultCode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ScreenshotAction
 import ru.tech.imageresizershrinker.core.ui.utils.helper.getTileScreenAction
 import ru.tech.imageresizershrinker.core.ui.utils.helper.putTileScreenAction
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -158,14 +156,9 @@ class ScreenshotService : Service() {
                 }
             } else {
                 runBlocking {
-                    val timeStamp = SimpleDateFormat(
-                        "yyyy-MM-dd_HH-mm-ss",
-                        Locale.getDefault()
-                    ).format(Date())
-
                     fileController.save(
                         saveTarget = FileSaveTarget(
-                            filename = "screenshot-$timeStamp.png",
+                            filename = "screenshot-${timestamp()}.png",
                             originalUri = "screenshot",
                             imageFormat = ImageFormat.Png.Lossless,
                             data = imageCompressor.compress(

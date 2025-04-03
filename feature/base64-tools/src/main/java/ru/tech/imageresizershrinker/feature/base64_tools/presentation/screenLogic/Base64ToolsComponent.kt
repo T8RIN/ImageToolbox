@@ -40,14 +40,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.base64_tools.domain.Base64Converter
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class Base64ToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -231,13 +229,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun generateTextFilename(): String {
-        val timeStamp = SimpleDateFormat(
-            "yyyy-MM-dd_HH-mm-ss",
-            Locale.getDefault()
-        ).format(Date())
-        return "Base64_$timeStamp.txt"
-    }
+    fun generateTextFilename(): String = "Base64_${timestamp()}.txt"
 
     fun shareText(onSuccess: () -> Unit) {
         base64String.takeIf { it.isNotEmpty() }?.let { data ->

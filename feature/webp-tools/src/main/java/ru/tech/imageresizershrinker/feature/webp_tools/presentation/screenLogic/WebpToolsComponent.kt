@@ -43,14 +43,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.webp_tools.domain.WebpConverter
 import ru.tech.imageresizershrinker.feature.webp_tools.domain.WebpParams
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class WebpToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -267,11 +265,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            onWebpSaveResult("WEBP_$timeStamp")
+                            onWebpSaveResult("WEBP_${timestamp()}")
                             registerSave()
                         }
                     }
@@ -378,14 +372,9 @@ class WebpToolsComponent @AssistedInject internal constructor(
                             },
                             onFailure = {}
                         )?.also { byteArray ->
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val webpName = "WEBP_$timeStamp"
                             shareProvider.cacheByteArray(
                                 byteArray = byteArray,
-                                filename = "$webpName.webp",
+                                filename = "WEBP_${timestamp()}.webp",
                             )?.let {
                                 onComplete(listOf(it.toUri()))
                             }

@@ -48,14 +48,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
+import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class ApngToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -280,11 +278,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            onApngSaveResult("APNG_$timeStamp")
+                            onApngSaveResult("APNG_${timestamp()}")
                             registerSave()
                         }
                     }
@@ -448,14 +442,9 @@ class ApngToolsComponent @AssistedInject internal constructor(
                             },
                             onFailure = {}
                         )?.also { byteArray ->
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val apngName = "APNG_$timeStamp"
                             shareProvider.cacheByteArray(
                                 byteArray = byteArray,
-                                filename = "$apngName.png"
+                                filename = "APNG_${timestamp()}.png"
                             )?.let {
                                 onComplete(listOf(it.toUri()))
                             }
