@@ -18,6 +18,10 @@
 package ru.tech.imageresizershrinker.feature.watermarking.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,9 +32,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material.icons.outlined.Tune
+import androidx.compose.material.icons.rounded.DisabledVisible
+import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -54,6 +62,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
 import ru.tech.imageresizershrinker.feature.watermarking.domain.copy
+import ru.tech.imageresizershrinker.feature.watermarking.domain.digitalParams
+import ru.tech.imageresizershrinker.feature.watermarking.domain.isStamp
 import kotlin.math.roundToInt
 
 @Composable
@@ -77,16 +87,25 @@ fun WatermarkParamsSelectionGroup(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                AnimatedVisibility(visible = !value.isRepeated && value.watermarkingType !is WatermarkingType.Stamp) {
+                val params by rememberUpdatedState(value)
+                val digitalParams = params.watermarkingType.digitalParams()
+                val isInvisible = digitalParams?.isInvisible == true
+                val isNotStampAndInvisible = !params.watermarkingType.isStamp() && !isInvisible
+
+                AnimatedVisibility(
+                    visible = !params.isRepeated && isNotStampAndInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     Column {
                         EnhancedSliderItem(
-                            value = value.positionX,
+                            value = params.positionX,
                             title = stringResource(id = R.string.offset_x),
                             internalStateTransformation = {
                                 it.roundToTwoDigits()
                             },
                             onValueChange = {
-                                onValueChange(value.copy(positionX = it))
+                                onValueChange(params.copy(positionX = it))
                             },
                             valueRange = 0f..1f,
                             shape = RoundedCornerShape(20.dp),
@@ -94,13 +113,13 @@ fun WatermarkParamsSelectionGroup(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         EnhancedSliderItem(
-                            value = value.positionY,
+                            value = params.positionY,
                             title = stringResource(id = R.string.offset_y),
                             internalStateTransformation = {
                                 it.roundToTwoDigits()
                             },
                             onValueChange = {
-                                onValueChange(value.copy(positionY = it))
+                                onValueChange(params.copy(positionY = it))
                             },
                             valueRange = 0f..1f,
                             shape = RoundedCornerShape(20.dp),
@@ -110,56 +129,76 @@ fun WatermarkParamsSelectionGroup(
                     }
                 }
 
-                AnimatedVisibility(visible = value.watermarkingType !is WatermarkingType.Stamp) {
+                AnimatedVisibility(
+                    visible = isNotStampAndInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
                     EnhancedSliderItem(
-                        value = value.rotation,
+                        value = params.rotation,
                         icon = Icons.Outlined.TextRotationAngleup,
                         title = stringResource(id = R.string.angle),
                         valueRange = 0f..360f,
-                        internalStateTransformation = { it.roundToInt() },
+                        internalStateTransformation = Float::roundToInt,
                         onValueChange = {
-                            onValueChange(value.copy(rotation = it.roundToInt()))
+                            onValueChange(params.copy(rotation = it.roundToInt()))
                         },
                         shape = RoundedCornerShape(20.dp),
                         color = MaterialTheme.colorScheme.surface
                     )
                 }
 
-                AlphaSelector(
-                    value = value.alpha,
-                    onValueChange = {
-                        onValueChange(value.copy(alpha = it))
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surface
-                )
-
-                AnimatedVisibility(visible = value.watermarkingType !is WatermarkingType.Stamp) {
-                    PreferenceRowSwitch(
-                        title = stringResource(id = R.string.repeat_watermark),
-                        subtitle = stringResource(id = R.string.repeat_watermark_sub),
-                        checked = value.isRepeated,
-                        startIcon = Icons.Rounded.Repeat,
-                        onClick = {
-                            onValueChange(value.copy(isRepeated = it))
+                AnimatedVisibility(
+                    visible = !isInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    AlphaSelector(
+                        value = params.alpha,
+                        onValueChange = {
+                            onValueChange(params.copy(alpha = it))
                         },
+                        modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(20.dp),
                         color = MaterialTheme.colorScheme.surface
                     )
                 }
 
-                BlendingModeSelector(
-                    value = value.overlayMode,
-                    onValueChange = {
-                        onValueChange(
-                            value.copy(overlayMode = it)
+                AnimatedVisibility(
+                    visible = isNotStampAndInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Column {
+                        PreferenceRowSwitch(
+                            title = stringResource(id = R.string.repeat_watermark),
+                            subtitle = stringResource(id = R.string.repeat_watermark_sub),
+                            checked = params.isRepeated,
+                            startIcon = Icons.Rounded.Repeat,
+                            onClick = {
+                                onValueChange(params.copy(isRepeated = it))
+                            },
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        BlendingModeSelector(
+                            value = params.overlayMode,
+                            onValueChange = {
+                                onValueChange(
+                                    params.copy(overlayMode = it)
+                                )
+                            }
                         )
                     }
-                )
+                }
 
-                AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Text) {
-                    val type = value.watermarkingType as? WatermarkingType.Text
+                AnimatedVisibility(
+                    visible = params.watermarkingType is WatermarkingType.Text && !isInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    val type = params.watermarkingType as? WatermarkingType.Text
                         ?: return@AnimatedVisibility
 
                     Column {
@@ -167,11 +206,9 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.font.toUiFont(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
-                                            type.params.copy(
-                                                font = it.type
-                                            )
+                                            params = type.params.copy(font = it.type)
                                         )
                                     )
                                 )
@@ -186,11 +223,9 @@ fun WatermarkParamsSelectionGroup(
                             },
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
-                                            type.params.copy(
-                                                size = it
-                                            )
+                                            params = type.params.copy(size = it)
                                         )
                                     )
                                 )
@@ -204,11 +239,9 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.color.toColor(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
-                                            type.params.copy(
-                                                color = it.toArgb()
-                                            )
+                                            params = type.params.copy(color = it.toArgb())
                                         )
                                     )
                                 )
@@ -225,11 +258,9 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.backgroundColor.toColor(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
-                                            type.params.copy(
-                                                backgroundColor = it.toArgb()
-                                            )
+                                            params = type.params.copy(backgroundColor = it.toArgb())
                                         )
                                     )
                                 )
@@ -244,8 +275,12 @@ fun WatermarkParamsSelectionGroup(
                     }
                 }
 
-                AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Image) {
-                    val type = value.watermarkingType as? WatermarkingType.Image
+                AnimatedVisibility(
+                    visible = params.watermarkingType is WatermarkingType.Image && !isInvisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    val type = params.watermarkingType as? WatermarkingType.Image
                         ?: return@AnimatedVisibility
 
                     EnhancedSliderItem(
@@ -256,7 +291,7 @@ fun WatermarkParamsSelectionGroup(
                         },
                         onValueChange = {
                             onValueChange(
-                                value.copy(
+                                params.copy(
                                     watermarkingType = type.copy(size = it)
                                 )
                             )
@@ -267,8 +302,58 @@ fun WatermarkParamsSelectionGroup(
                     )
                 }
 
-                AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Stamp) {
-                    val type = value.watermarkingType as? WatermarkingType.Stamp
+                AnimatedVisibility(
+                    visible = !params.watermarkingType.isStamp(),
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    Column {
+                        PreferenceRowSwitch(
+                            title = stringResource(id = R.string.invisible_mode),
+                            subtitle = stringResource(id = R.string.invisible_mode_sub),
+                            checked = isInvisible,
+                            startIcon = Icons.Rounded.DisabledVisible,
+                            onClick = {
+                                onValueChange(
+                                    params.copy(
+                                        digitalParams = digitalParams?.copy(
+                                            isInvisible = !isInvisible
+                                        )
+                                    )
+                                )
+                            },
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        AnimatedVisibility(visible = isInvisible) {
+                            PreferenceRowSwitch(
+                                title = stringResource(id = R.string.use_lsb),
+                                subtitle = stringResource(id = R.string.use_lsb_sub),
+                                checked = digitalParams?.isLSB ?: false,
+                                startIcon = Icons.Rounded.GraphicEq,
+                                onClick = {
+                                    onValueChange(
+                                        params.copy(
+                                            digitalParams = digitalParams?.copy(
+                                                isLSB = !digitalParams.isLSB
+                                            )
+                                        )
+                                    )
+                                },
+                                shape = RoundedCornerShape(20.dp),
+                                color = MaterialTheme.colorScheme.surface,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
+                }
+
+                AnimatedVisibility(
+                    visible = params.watermarkingType.isStamp(),
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    val type = params.watermarkingType as? WatermarkingType.Stamp
                         ?: return@AnimatedVisibility
 
                     Column {
@@ -276,7 +361,7 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.font.toUiFont(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             params = type.params.copy(
                                                 font = it.type
@@ -291,7 +376,7 @@ fun WatermarkParamsSelectionGroup(
                             value = type.position,
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             position = it
                                         )
@@ -309,7 +394,7 @@ fun WatermarkParamsSelectionGroup(
                             },
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             padding = it
                                         )
@@ -329,7 +414,7 @@ fun WatermarkParamsSelectionGroup(
                             },
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             params = type.params.copy(
                                                 size = it
@@ -347,7 +432,7 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.color.toColor(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             params = type.params.copy(
                                                 color = it.toArgb()
@@ -368,7 +453,7 @@ fun WatermarkParamsSelectionGroup(
                             value = type.params.backgroundColor.toColor(),
                             onValueChange = {
                                 onValueChange(
-                                    value.copy(
+                                    params.copy(
                                         watermarkingType = type.copy(
                                             params = type.params.copy(
                                                 backgroundColor = it.toArgb()

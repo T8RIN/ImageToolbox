@@ -45,11 +45,11 @@ internal fun CutParamsSelector(
     value: CutParams,
     onValueChange: (CutParams) -> Unit
 ) {
-    val value by rememberUpdatedState(value)
+    val params by rememberUpdatedState(value)
 
     Column {
         EnhancedRangeSliderItem(
-            value = value.vertical?.let { it.start..it.end } ?: 0f..1f,
+            value = params.vertical?.let { it.start..it.end } ?: 0f..1f,
             valueRange = 0f..1f,
             icon = Icons.Rounded.BorderVertical,
             title = stringResource(R.string.vertical_pivot_line),
@@ -58,7 +58,7 @@ internal fun CutParamsSelector(
             },
             onValueChange = {
                 onValueChange(
-                    value.copy(
+                    params.copy(
                         vertical = PivotPair(
                             start = it.start,
                             end = it.endInclusive
@@ -71,10 +71,10 @@ internal fun CutParamsSelector(
                     title = stringResource(R.string.inverse_selection),
                     subtitle = stringResource(R.string.inverse_vertical_selection_sub),
                     startIcon = Icons.Rounded.SelectInverse,
-                    checked = value.inverseVertical,
+                    checked = params.inverseVertical,
                     onClick = {
                         onValueChange(
-                            value.copy(
+                            params.copy(
                                 inverseVertical = it
                             )
                         )
@@ -91,7 +91,7 @@ internal fun CutParamsSelector(
         )
         Spacer(Modifier.height(8.dp))
         EnhancedRangeSliderItem(
-            value = value.horizontal?.let { it.start..it.end } ?: 0f..1f,
+            value = params.horizontal?.let { it.start..it.end } ?: 0f..1f,
             valueRange = 0f..1f,
             icon = Icons.Rounded.BorderHorizontal,
             title = stringResource(R.string.horizontal_pivot_line),
@@ -100,7 +100,7 @@ internal fun CutParamsSelector(
             },
             onValueChange = {
                 onValueChange(
-                    value.copy(
+                    params.copy(
                         horizontal = PivotPair(
                             start = it.start,
                             end = it.endInclusive
@@ -113,10 +113,10 @@ internal fun CutParamsSelector(
                     title = stringResource(R.string.inverse_selection),
                     subtitle = stringResource(R.string.inverse_horizontal_selection_sub),
                     startIcon = Icons.Rounded.SelectInverse,
-                    checked = value.inverseHorizontal,
+                    checked = params.inverseHorizontal,
                     onClick = {
                         onValueChange(
-                            value.copy(
+                            params.copy(
                                 inverseHorizontal = it
                             )
                         )

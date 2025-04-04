@@ -71,21 +71,21 @@ fun TessParamsSelector(
             )
         },
         expandableContent = {
-            val value by rememberUpdatedState(value)
+            val params by rememberUpdatedState(value)
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                val size = value.tessParamList.size
+                val size = params.tessParamList.size
 
-                value.tessParamList.forEachIndexed { index, (key, paramValue) ->
+                params.tessParamList.forEachIndexed { index, (key, paramValue) ->
                     if (paramValue is Int) {
                         EnhancedSliderItem(
                             value = paramValue,
                             onValueChange = { newValue ->
                                 onValueChange(
-                                    value.update(key) {
+                                    params.update(key) {
                                         newValue.roundToInt()
                                     }
                                 )
@@ -105,7 +105,7 @@ fun TessParamsSelector(
                             checked = paramValue,
                             onClick = { checked ->
                                 onValueChange(
-                                    value.update(key) { checked }
+                                    params.update(key) { checked }
                                 )
                             },
                             shape = ContainerShapeDefaults.shapeForIndex(index, size),
@@ -116,8 +116,8 @@ fun TessParamsSelector(
                     }
                 }
 
-                var tempTessParams by rememberSaveable(value.tessCustomParams) {
-                    mutableStateOf(value.tessCustomParams)
+                var tempTessParams by rememberSaveable(params.tessCustomParams) {
+                    mutableStateOf(params.tessCustomParams)
                 }
                 Column(
                     modifier = Modifier
@@ -140,7 +140,7 @@ fun TessParamsSelector(
                         onLoseFocusTransformation = {
                             tempTessParams.trim().also {
                                 onValueChange(
-                                    value.update(newCustomParams = it)
+                                    params.update(newCustomParams = it)
                                 )
                                 tempTessParams = it
                             }
@@ -150,7 +150,7 @@ fun TessParamsSelector(
                                 EnhancedIconButton(
                                     onClick = {
                                         onValueChange(
-                                            value.update(newCustomParams = tempTessParams)
+                                            params.update(newCustomParams = tempTessParams)
                                         )
                                     }
                                 ) {

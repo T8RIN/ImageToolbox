@@ -49,12 +49,14 @@ sealed interface WatermarkingType {
     data class Text(
         val params: TextParams,
         val text: String,
+        val digitalParams: DigitalParams
     ) : WatermarkingType {
         companion object {
             val Default by lazy {
                 Text(
                     params = TextParams.Default,
-                    text = "Watermark"
+                    text = "Watermark",
+                    digitalParams = DigitalParams.Default
                 )
             }
         }
@@ -62,13 +64,15 @@ sealed interface WatermarkingType {
 
     data class Image(
         val imageData: Any,
-        val size: Float
+        val size: Float,
+        val digitalParams: DigitalParams
     ) : WatermarkingType {
         companion object {
             val Default by lazy {
                 Image(
                     size = 0.1f,
-                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg"
+                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg",
+                    digitalParams = DigitalParams.Default
                 )
             }
         }
@@ -168,4 +172,44 @@ data class TextParams(
             )
         }
     }
+}
+
+data class DigitalParams(
+    val isInvisible: Boolean,
+    val isLSB: Boolean
+) {
+    companion object {
+        val Default by lazy {
+            DigitalParams(
+                isInvisible = false,
+                isLSB = true
+            )
+        }
+    }
+}
+
+fun WatermarkingType.isStamp() = this is WatermarkingType.Stamp
+
+fun WatermarkingType.digitalParams(): DigitalParams? = when (this) {
+    is WatermarkingType.Image -> digitalParams
+    is WatermarkingType.Text -> digitalParams
+    else -> null
+}
+
+fun WatermarkParams.copy(
+    digitalParams: DigitalParams? = this.watermarkingType.digitalParams()
+): WatermarkParams = when (watermarkingType) {
+    is WatermarkingType.Image -> copy(
+        watermarkingType = watermarkingType.copy(
+            digitalParams = digitalParams ?: watermarkingType.digitalParams
+        )
+    )
+
+    is WatermarkingType.Text -> copy(
+        watermarkingType = watermarkingType.copy(
+            digitalParams = digitalParams ?: watermarkingType.digitalParams
+        )
+    )
+
+    else -> this
 }

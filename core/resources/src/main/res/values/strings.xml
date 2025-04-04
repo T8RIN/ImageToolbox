@@ -1615,4 +1615,8 @@
     <string name="ocr_write_to_file_sub">Extract text from batch of images and store it in the one text file</string>
     <string name="ocr_write_to_metadata">Write To Metadata</string>
     <string name="ocr_write_to_metadata_sub">Extract text from each image and place it in EXIF info of relative photos</string>
+    <string name="invisible_mode">Invisible Mode</string>
+    <string name="invisible_mode_sub">Use steganography to create eye invisible watermarks inside bytes of your images</string>
+    <string name="use_lsb">Use LSB</string>
+    <string name="use_lsb_sub">LSB (Less Significant Bit) steganography method will be used, FD (Frequency Domain) otherwise</string>
 </resources>

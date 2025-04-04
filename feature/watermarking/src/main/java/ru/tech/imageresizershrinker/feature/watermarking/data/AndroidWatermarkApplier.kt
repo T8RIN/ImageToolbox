@@ -33,9 +33,11 @@ import coil3.transform.RoundedCornersTransformation
 import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
 import com.watermark.androidwm.bean.WatermarkText
+import com.watermark.androidwm.listener.BuildFinishListener
 import com.watermark.androidwm.utils.BitmapUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.utils.drawBitmap
 import ru.tech.imageresizershrinker.core.data.image.utils.toAndroidBlendMode
@@ -51,11 +53,13 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontType
+import ru.tech.imageresizershrinker.feature.watermarking.domain.DigitalParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.TextParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
 import javax.inject.Inject
+import kotlin.coroutines.resume
 import kotlin.math.roundToInt
 
 internal class AndroidWatermarkApplier @Inject constructor(
@@ -115,7 +119,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             )
                         }
                     }
-                    ?.watermark?.outputImage
+                    .generateImage(type.digitalParams)
             }
 
             is WatermarkingType.Image -> {
@@ -150,7 +154,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                                 )
                             }
                         }
-                        ?.watermark?.outputImage
+                        .generateImage(type.digitalParams)
                 }
             }
 
@@ -178,6 +182,22 @@ internal class AndroidWatermarkApplier @Inject constructor(
                 )
             }
         }
+    }
+
+    private suspend fun WatermarkBuilder.generateImage(
+        params: DigitalParams
+    ): Bitmap? = if (params.isInvisible) {
+        suspendCancellableCoroutine { cont ->
+            setInvisibleWMListener(
+                params.isLSB,
+                object : BuildFinishListener<Bitmap> {
+                    override fun onSuccess(image: Bitmap) = cont.resume(image)
+                    override fun onFailure(reason: String) = cont.resume(null)
+                }
+            )
+        }
+    } else {
+        watermark?.outputImage
     }
 
     private suspend fun drawStamp(
