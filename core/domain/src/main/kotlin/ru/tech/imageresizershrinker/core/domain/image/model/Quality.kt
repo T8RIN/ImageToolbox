@@ -103,7 +103,7 @@ sealed class Quality(
     ) : Quality(compressionLevel)
 
     data class Tiff(
-        val compressionScheme: Int = 0
+        val compressionScheme: Int = 7
     ) : Quality(compressionScheme)
 
     data class Base(
