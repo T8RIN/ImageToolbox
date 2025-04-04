@@ -428,13 +428,15 @@ or click one of the badges below.
     - Scan filters from the app to get them on your device
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
-- Extract Text From Images
+- Extract Text From Images (OCR)
     - 120+ languages
     - 3 Type of data: Fast, Standard, Best
     - Segmentation Mode Selection
     - Engine Mode Selection
     - Custom Tesseract options entering
     - Multiple languages at the same time
+    - Reading from batch of images to file
+    - Placing in EXIF metadata of batch images
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
@@ -448,6 +450,7 @@ or click one of the badges below.
     - Image
     - Stamp
     - Timestamp
+    - Digital (Steganography)
 - Drawing on Image/Background
     - Pen
     - Neon
