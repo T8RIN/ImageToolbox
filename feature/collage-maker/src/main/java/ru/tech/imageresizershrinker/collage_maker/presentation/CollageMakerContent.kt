@@ -39,6 +39,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatLineSpacing
+import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RoundedCorner
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
@@ -306,7 +307,7 @@ fun CollageMakerContent(
                                 spacing = component.spacing,
                                 cornerRadius = component.cornerRadius,
                                 aspectRatio = 1f / component.aspectRatio.value,
-                                outputScaleRatio = 2f
+                                outputScaleRatio = component.outputScaleRatio
                             )
                         }
                     }
@@ -428,6 +429,25 @@ fun CollageMakerContent(
                             bottom = 10.dp
                         ),
                     icon = Icons.Rounded.RoundedCorner,
+                    shape = RoundedCornerShape(24.dp)
+                )
+                EnhancedSliderItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = component.outputScaleRatio,
+                    title = stringResource(R.string.output_image_scale),
+                    valueRange = 0.5f..4f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = component::setOutputScaleRatio,
+                    sliderModifier = Modifier
+                        .padding(
+                            top = 14.dp,
+                            start = 12.dp,
+                            end = 12.dp,
+                            bottom = 10.dp
+                        ),
+                    icon = Icons.Rounded.PhotoSizeSelectSmall,
                     shape = RoundedCornerShape(24.dp)
                 )
                 QualitySelector(

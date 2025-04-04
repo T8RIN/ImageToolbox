@@ -85,6 +85,9 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _collageBitmap = mutableStateOf<Bitmap?>(null)
     private val collageBitmap by _collageBitmap
 
+    private val _outputScaleRatio = mutableFloatStateOf(2f)
+    val outputScaleRatio by _outputScaleRatio
+
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
@@ -125,6 +128,11 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
+    }
+
+    fun setOutputScaleRatio(ratio: Float) {
+        _outputScaleRatio.update { ratio }
         registerChanges()
     }
 
