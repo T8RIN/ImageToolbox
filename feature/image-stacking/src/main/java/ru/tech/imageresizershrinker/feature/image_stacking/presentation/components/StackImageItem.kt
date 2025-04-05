@@ -208,14 +208,7 @@ fun StackImageItem(
                         title = stringResource(R.string.scale),
                         titleIcon = Icons.Outlined.PhotoSizeSelectLarge,
                         itemContentText = {
-                            when (it) {
-                                StackImage.Scale.None -> stringResource(R.string.none)
-                                StackImage.Scale.Fill -> stringResource(R.string.fill)
-                                StackImage.Scale.Fit -> stringResource(R.string.fit)
-                                StackImage.Scale.FitWidth -> stringResource(R.string.fit_width)
-                                StackImage.Scale.FitHeight -> stringResource(R.string.fit_height)
-                                StackImage.Scale.Crop -> stringResource(R.string.crop)
-                            }
+                            it.title()
                         },
                         color = Color.Unspecified,
                         shape = ContainerShapeDefaults.bottomShape
@@ -224,4 +217,14 @@ fun StackImageItem(
             }
         }
     }
+}
+
+@Composable
+private fun StackImage.Scale.title(): String = when (this) {
+    StackImage.Scale.None -> stringResource(R.string.none)
+    StackImage.Scale.Fill -> stringResource(R.string.fill)
+    StackImage.Scale.Fit -> stringResource(R.string.fit)
+    StackImage.Scale.FitWidth -> stringResource(R.string.fit_width)
+    StackImage.Scale.FitHeight -> stringResource(R.string.fit_height)
+    StackImage.Scale.Crop -> stringResource(R.string.crop)
 }
