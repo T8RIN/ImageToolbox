@@ -259,6 +259,7 @@ fun ScaleModeSelector(
         }
     }
 
+    //TODO: Add selection from here, also from anywhere where i have such sheets
     EnhancedModalBottomSheet(
         sheetContent = {
             Column(
