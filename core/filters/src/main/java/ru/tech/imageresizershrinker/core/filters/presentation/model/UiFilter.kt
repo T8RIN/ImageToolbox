@@ -200,7 +200,8 @@ sealed class UiFilter<T>(
                     UiDragoFilter(),
                     UiClaheOklabFilter(),
                     UiClaheOklchFilter(),
-                    UiClaheJzazbzFilter()
+                    UiClaheJzazbzFilter(),
+                    UiAutoRemoveRedEyesFilter()
                 ),
                 listOf(
                     UiNoiseFilter(),

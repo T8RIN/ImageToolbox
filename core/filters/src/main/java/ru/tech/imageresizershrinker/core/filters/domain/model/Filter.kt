@@ -264,6 +264,7 @@ interface Filter<Value> : VisibilityOwner {
     interface SobelSimple : SimpleFilter
     interface LaplacianSimple : SimpleFilter
     interface MotionBlur : TripleFilter<Int, Float, BlurEdgeMode>
+    interface AutoRemoveRedEyes : Filter<Float>
 }
 
 interface SimpleFilter : Filter<Unit>

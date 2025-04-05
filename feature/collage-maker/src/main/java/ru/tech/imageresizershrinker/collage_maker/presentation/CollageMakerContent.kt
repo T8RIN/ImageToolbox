@@ -306,7 +306,7 @@ fun CollageMakerContent(
                                 backgroundColor = component.backgroundColor,
                                 spacing = component.spacing,
                                 cornerRadius = component.cornerRadius,
-                                aspectRatio = 1f / component.aspectRatio.value,
+                                aspectRatio = component.aspectRatio.value,
                                 outputScaleRatio = component.outputScaleRatio
                             )
                         }
