@@ -911,7 +911,7 @@ on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 
 # ❤️ Find this repository useful?
 
-Support it by joining **[stargazers](https://github.com/t8rin/ImageResizer/stargazers)** for this
+Support it by joining **[stargazers](https://github.com/t8rin/ImageToolbox/stargazers)** for this
 repository. :star: <br>
 And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 
