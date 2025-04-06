@@ -1037,7 +1037,7 @@
     <string name="welch_sub">یک تابع پنجره طراحی‌شده برای ارائه وضوح فرکانس بالا با کاهش نشتی طیفی، که اغلب در برنامه‌های پردازش سیگنال استفاده می‌شود</string>
     <string name="bleach_bypass">بایپس بلیچ</string>
     <string name="image_for_histogram">این تصویر برای تولید هیستوگرام‌های RGB و روشنایی استفاده خواهد شد</string>
-    <string name="drag_handle_width">کشیدن عرض دستگیره</string>
+    <string name="drag_handle_width">دستگیره را فشار دهید</string>
     <string name="checksum_tools_sub">مقایسه چکسام‌ها، محاسبه هش‌ها و ایجاد رشته‌های هگز از فایل‌ها با استفاده از الگوریتم‌های مختلف هشینگ</string>
     <string name="tag_jpeg_interchange_format_length">طول فرمت تبادل JPEG</string>
     <string name="tag_file_source">منبع فایل</string>
@@ -1095,4 +1095,26 @@
     <string name="system_bars_visibility">قابلیت مشاهده نوارهای سیستم</string>
     <string name="show_system_bars_by_swipe">نمایش نوارهای سیستم با کشیدن</string>
     <string name="soft_glow">نور ملایم</string>
+    <string name="tag_image_unique_id">شناسه یکتای تصویر</string>
+    <string name="tag_focal_plane_y_resolution">وضوح محور Y در صفحه کانونی</string>
+    <string name="tag_focal_plane_resolution_unit">واحد وضوح صفحه کانونی</string>
+    <string name="tag_exposure_index">شاخص نوردهی</string>
+    <string name="tag_sensing_method">روش حسگر</string>
+    <string name="tag_cfa_pattern">الگو CFA</string>
+    <string name="tag_custom_rendered">پردازش سفارشی شده</string>
+    <string name="tag_exposure_mode">حالت نوردهی</string>
+    <string name="tag_digital_zoom_ratio">نسبت بزرگ‌نمایی دیجیتال</string>
+    <string name="tag_focal_length_in_35mm_film">فاصله کانونی در فیلم ۳۵ میلی‌متری</string>
+    <string name="tag_scene_capture_type">نوع ثبت صحنه</string>
+    <string name="tag_contrast">کنتراست</string>
+    <string name="tag_saturation">اشباع</string>
+    <string name="tag_device_setting_description">دستگاه تنظیم توضیحات</string>
+    <string name="tag_subject_distance_range">محدوده فاصله سوژه</string>
+    <string name="tag_body_serial_number">شماره سریال بدنه</string>
+    <string name="tag_lens_specification">مشخصات لنز</string>
+    <string name="tag_lens_make">سازنده لنز</string>
+    <string name="tag_lens_model">مدل لنز</string>
+    <string name="tag_lens_serial_number">شماره سریال لنز</string>
+    <string name="tag_gps_dop">دقت موقعیت مکانی</string>
+    <string name="tag_gps_speed_ref">مرجع سرعت موقعیت مکانی</string>
 </resources>
