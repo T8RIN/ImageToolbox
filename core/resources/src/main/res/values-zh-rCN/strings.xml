@@ -1596,4 +1596,9 @@
     <string name="ocr_write_to_metadata">写入元数据</string>
     <string name="ocr_write_to_metadata_sub">从每张图片中提取文本，并将其放置在相应图片的EXIF信息中。</string>
     <string name="ocr_write_to_file_sub">从一批图片中提取文本，并将其存储在一个文本文件中</string>
+    <string name="invisible_mode">隐身模式</string>
+    <string name="invisible_mode_sub">使用隐写术在你的图像字节内创建肉眼不可见的水印</string>
+    <string name="use_lsb">使用LSB</string>
+    <string name="use_lsb_sub">将使用最低有效位（LSB）隐写术方法，否则将使用频域（FD）方法</string>
+    <string name="auto_remove_red_eyes">自动去除红眼</string>
 </resources>
