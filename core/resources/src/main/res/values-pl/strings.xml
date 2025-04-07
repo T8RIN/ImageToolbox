@@ -1597,4 +1597,9 @@
     <string name="ocr_write_to_file_sub">Wyodrębnianie tekstu z partii obrazów i zapisywanie go w jednym pliku tekstowym</string>
     <string name="ocr_write_to_metadata">Zapisz do metadanych</string>
     <string name="ocr_write_to_metadata_sub">Wyodrębnianie tekstu z każdego obrazu i umieszczanie go w informacjach EXIF powiązanych zdjęć</string>
+    <string name="invisible_mode">Tryb niewidzialności</string>
+    <string name="invisible_mode_sub">Używaj techniki steganografii do tworzenia niewidocznych dla oka znaków wodnych w bajtach obrazów</string>
+    <string name="use_lsb">Używaj LSB</string>
+    <string name="use_lsb_sub">Zastosowana zostanie metoda steganografii LSB (Less Significant Bit - mniej znaczący bit), w przeciwnym razie użyta zostanie metoda FD (Frequency Domain - domena częstotliwości)</string>
+    <string name="auto_remove_red_eyes">Automatyczne usuwanie czerwonych oczu</string>
 </resources>
