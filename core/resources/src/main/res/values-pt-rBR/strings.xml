@@ -1596,4 +1596,9 @@
     <string name="ocr_write_to_file">Gravar em Arquivo</string>
     <string name="ocr_write_to_metadata">Gravar nos Metadados</string>
     <string name="ocr_write_to_file_sub">Extraia o texto de um lote de imagens e armazene-o em um único arquivo de texto</string>
+    <string name="auto_remove_red_eyes">Remover Olhos Vermelhos Automaticamente</string>
+    <string name="use_lsb_sub">O método de esteganografia LSB (Less Significant Bit, bit menos significativo) será usado, caso contrário, FD (Frequency Domain, domínio de frequência)</string>
+    <string name="use_lsb">Usar LSB</string>
+    <string name="invisible_mode_sub">Usar esteganografia para criar marcas d\'água invisíveis aos olhos dentro de bytes de suas imagens</string>
+    <string name="invisible_mode">Modo Invisível</string>
 </resources>
