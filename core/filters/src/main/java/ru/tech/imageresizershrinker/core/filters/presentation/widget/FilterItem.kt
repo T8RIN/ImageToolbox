@@ -24,6 +24,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,10 +34,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.rounded.DragHandle
+import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
@@ -70,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedDropdownMenu
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
@@ -84,6 +88,7 @@ fun <T> FilterItem(
     onLongPress: (() -> Unit)? = null,
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
+    onCreateTemplate: (() -> Unit)?,
     backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge,
     canHide: Boolean = true
@@ -161,52 +166,77 @@ fun <T> FilterItem(
                                 EnhancedDropdownMenu(
                                     expanded = showPopup,
                                     onDismissRequest = { showPopup = false },
-                                    shape = MaterialTheme.shapes.extraLarge
+                                    shape = RoundedCornerShape(20.dp)
                                 ) {
-                                    EnhancedButton(
+                                    Column(
                                         modifier = Modifier
+                                            .width(IntrinsicSize.Max)
                                             .padding(horizontal = 8.dp)
-                                            .width(164.dp),
-                                        onClick = {
-                                            onRemove()
-                                            showPopup = false
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.tertiary
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.RemoveCircleOutline,
-                                            contentDescription = stringResource(R.string.remove)
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(R.string.remove))
-                                    }
-                                    Spacer(Modifier.height(4.dp))
-                                    EnhancedButton(
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp)
-                                            .width(164.dp),
-                                        onClick = {
-                                            filter.isVisible = !isVisible
-                                            onFilterChange(filter.value as Any)
-                                            showPopup = false
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.primary
-                                    ) {
-                                        Icon(
-                                            imageVector = if (isVisible) {
-                                                Icons.Outlined.VisibilityOff
-                                            } else {
-                                                Icons.Rounded.Visibility
+                                        EnhancedButton(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onClick = {
+                                                onRemove()
+                                                showPopup = false
                                             },
-                                            contentDescription = stringResource(R.string.remove)
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(
-                                            stringResource(
-                                                if (isVisible) R.string.hide
-                                                else R.string.show
+                                            shape = ContainerShapeDefaults.topShape,
+                                            containerColor = MaterialTheme.colorScheme.secondary
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.RemoveCircleOutline,
+                                                contentDescription = stringResource(R.string.create_template)
                                             )
-                                        )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.remove))
+                                        }
+                                        Spacer(Modifier.height(4.dp))
+                                        EnhancedButton(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onClick = {
+                                                filter.isVisible = !isVisible
+                                                onFilterChange(filter.value as Any)
+                                                showPopup = false
+                                            },
+                                            shape = onCreateTemplate?.let {
+                                                ContainerShapeDefaults.centerShape
+                                            } ?: ContainerShapeDefaults.bottomShape,
+                                            containerColor = MaterialTheme.colorScheme.primary
+                                        ) {
+                                            Icon(
+                                                imageVector = if (isVisible) {
+                                                    Icons.Outlined.VisibilityOff
+                                                } else {
+                                                    Icons.Rounded.Visibility
+                                                },
+                                                contentDescription = stringResource(R.string.remove)
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(
+                                                stringResource(
+                                                    if (isVisible) R.string.hide
+                                                    else R.string.show
+                                                )
+                                            )
+                                        }
+                                        onCreateTemplate?.let {
+                                            Spacer(Modifier.height(4.dp))
+                                            EnhancedButton(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                onClick = {
+                                                    onCreateTemplate()
+                                                    showPopup = false
+                                                },
+                                                shape = ContainerShapeDefaults.bottomShape,
+                                                containerColor = MaterialTheme.colorScheme.tertiary
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.Extension,
+                                                    contentDescription = stringResource(R.string.remove)
+                                                )
+                                                Spacer(Modifier.width(8.dp))
+                                                Text(stringResource(R.string.create_template))
+                                            }
+                                        }
                                     }
                                 }
                             }

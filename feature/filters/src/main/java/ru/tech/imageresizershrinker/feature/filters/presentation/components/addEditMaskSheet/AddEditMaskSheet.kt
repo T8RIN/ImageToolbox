@@ -33,7 +33,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -155,11 +154,10 @@ fun AddEditMaskSheet(
         },
         enableBackHandler = component.paths.isEmpty() && component.filterList.isEmpty()
     ) {
-        DisposableEffect(Unit) {
+        component.AttachLifecycle()
+
+        LaunchedEffect(Unit) {
             invalidations++
-            onDispose {
-                component.resetState()
-            }
         }
         var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 

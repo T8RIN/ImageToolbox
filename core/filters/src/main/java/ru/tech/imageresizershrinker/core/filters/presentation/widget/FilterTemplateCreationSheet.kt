@@ -46,7 +46,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -108,7 +107,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 
 @Composable
-internal fun FilterTemplateCreationSheet(
+fun FilterTemplateCreationSheet(
     component: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
@@ -179,11 +178,8 @@ internal fun FilterTemplateCreationSheet(
         },
         enableBackHandler = !canSave
     ) {
-        DisposableEffect(Unit) {
-            onDispose {
-                component.resetState()
-            }
-        }
+        component.AttachLifecycle()
+
         var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 
         var selectedUri by rememberSaveable {
@@ -326,7 +322,8 @@ internal fun FilterTemplateCreationSheet(
                                                     component.removeFilterAtIndex(
                                                         index
                                                     )
-                                                }
+                                                },
+                                                onCreateTemplate = null
                                             )
                                         }
                                         AddFilterButton(
@@ -379,7 +376,8 @@ internal fun FilterTemplateCreationSheet(
     ExitWithoutSavingDialog(
         onExit = onDismiss,
         onDismiss = { showExitDialog = false },
-        visible = showExitDialog
+        visible = showExitDialog,
+        placeAboveAll = true
     )
 }
 
@@ -510,6 +508,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
         cancelImageLoading()
         _previewBitmap.update { null }
         bitmapUri = null
+        isInitialValueSetAlready = false
         addFiltersSheetComponent.resetState()
     }
 

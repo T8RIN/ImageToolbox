@@ -40,14 +40,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.ImageHistogram
+import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -70,6 +78,12 @@ internal fun FiltersContentControls(
     val essentials = rememberLocalEssentials()
 
     val filterType = component.filterType
+
+    var showTemplateCreationSheet by rememberSaveable(filterType) {
+        mutableStateOf(false)
+    }
+
+    val context = LocalContext.current
 
     val histogramItem = @Composable {
         PreferenceItemOverload(
@@ -139,14 +153,33 @@ internal fun FiltersContentControls(
                                         showDragHandle = false,
                                         onRemove = {
                                             component.removeFilterAtIndex(index)
+                                        },
+                                        onCreateTemplate = {
+                                            showTemplateCreationSheet = true
+                                            component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                                TemplateFilter(
+                                                    name = context.getString(filter.title),
+                                                    filters = listOf(filter)
+                                                )
+                                            )
                                         }
                                     )
                                 }
                                 AddFilterButton(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
                                     onClick = component::showAddFiltersSheet,
-                                    modifier = Modifier.padding(
-                                        horizontal = 16.dp
-                                    )
+                                    onCreateTemplate = {
+                                        showTemplateCreationSheet = true
+                                        component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                            TemplateFilter(
+                                                name = context.getString(
+                                                    filterList.firstOrNull()?.title
+                                                        ?: R.string.template_filter
+                                                ),
+                                                filters = filterList
+                                            )
+                                        )
+                                    }
                                 )
                             }
                         }
@@ -228,7 +261,20 @@ internal fun FiltersContentControls(
                                         onRemove = {
                                             component.removeMaskAtIndex(index)
                                         },
-                                        addMaskSheetComponent = component.addMaskSheetComponent
+                                        addMaskSheetComponent = component.addMaskSheetComponent,
+                                        onCreateTemplate = {
+                                            showTemplateCreationSheet = true
+                                            component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                                TemplateFilter(
+                                                    name = context.getString(
+                                                        mask.filters.firstOrNull()
+                                                            ?.toUiFilter()?.title
+                                                            ?: R.string.template_filter
+                                                    ),
+                                                    filters = mask.filters
+                                                )
+                                            )
+                                        }
                                     )
                                 }
                                 EnhancedButton(
@@ -293,6 +339,12 @@ internal fun FiltersContentControls(
             Spacer(Modifier.height(8.dp))
         }
 
-        else -> null
+        else -> Unit
     }
+
+    FilterTemplateCreationSheet(
+        component = component.filterTemplateCreationSheetComponent,
+        visible = showTemplateCreationSheet,
+        onDismiss = { showTemplateCreationSheet = false }
+    )
 }

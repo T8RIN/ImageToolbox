@@ -17,14 +17,17 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -32,23 +35,41 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 
 @Composable
 fun AddFilterButton(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.mixedContainer,
     onClick: () -> Unit,
+    onCreateTemplate: (() -> Unit)? = null
 ) {
-    EnhancedButton(
-        containerColor = containerColor,
-        onClick = onClick,
-        modifier = modifier
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.Rounded.AutoFixHigh,
-            contentDescription = stringResource(R.string.add_filter)
-        )
-        Spacer(Modifier.width(8.dp))
-        Text(stringResource(id = R.string.add_filter))
+        onCreateTemplate?.let {
+            EnhancedIconButton(
+                onClick = onCreateTemplate,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Extension,
+                    contentDescription = null
+                )
+            }
+        }
+
+        EnhancedButton(
+            containerColor = containerColor,
+            onClick = onClick
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.AutoFixHigh,
+                contentDescription = stringResource(R.string.add_filter)
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(stringResource(id = R.string.add_filter))
+        }
     }
 }

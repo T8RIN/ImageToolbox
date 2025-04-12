@@ -71,9 +71,11 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
@@ -135,6 +137,10 @@ fun FilterEditOption(
             }
         }
 
+        var showTemplateCreationSheet by rememberSaveable {
+            mutableStateOf(false)
+        }
+
         FullscreenEditOption(
             showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap == bitmap,
@@ -185,6 +191,15 @@ fun FilterEditOption(
                                     showDragHandle = false,
                                     onRemove = {
                                         removeAt(index)
+                                    },
+                                    onCreateTemplate = {
+                                        showTemplateCreationSheet = true
+                                        filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                            TemplateFilter(
+                                                name = context.getString(filter.title),
+                                                filters = listOf(filter)
+                                            )
+                                        )
                                     }
                                 )
                             }
@@ -201,6 +216,12 @@ fun FilterEditOption(
                                 Text(stringResource(R.string.add_filter))
                             }
                         }
+
+                        FilterTemplateCreationSheet(
+                            component = filterTemplateCreationSheetComponent,
+                            visible = showTemplateCreationSheet,
+                            onDismiss = { showTemplateCreationSheet = false }
+                        )
                     }
                 }
             },

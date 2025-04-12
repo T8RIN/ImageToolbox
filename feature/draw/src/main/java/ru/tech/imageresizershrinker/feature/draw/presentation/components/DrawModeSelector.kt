@@ -374,7 +374,8 @@ fun DrawModeSelector(
                             },
                             backgroundColor = MaterialTheme.colorScheme.surface,
                             shape = RoundedCornerShape(16.dp),
-                            canHide = false
+                            canHide = false,
+                            onCreateTemplate = null
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         EnhancedButton(

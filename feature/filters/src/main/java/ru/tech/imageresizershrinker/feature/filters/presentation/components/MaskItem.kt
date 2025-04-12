@@ -83,6 +83,7 @@ fun MaskItem(
     backgroundColor: Color = Color.Unspecified,
     showDragHandle: Boolean,
     onLongPress: (() -> Unit)? = null,
+    onCreateTemplate: (() -> Unit)?,
     onRemove: () -> Unit,
     imageUri: Uri? = null,
     previousMasks: List<UiFilterMask> = emptyList(),
@@ -254,7 +255,8 @@ fun MaskItem(
                                                         }
                                                 )
                                             )
-                                        }
+                                        },
+                                        onCreateTemplate = onCreateTemplate
                                     )
                                 }
                                 AddFilterButton(

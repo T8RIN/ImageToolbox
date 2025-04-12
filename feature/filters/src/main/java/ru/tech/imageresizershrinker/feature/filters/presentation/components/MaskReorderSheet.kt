@@ -111,7 +111,8 @@ fun MaskReorderSheet(
                                 titleText = stringResource(R.string.mask_indexed, index + 1),
                                 showDragHandle = maskList.size >= 2,
                                 onRemove = {},
-                                addMaskSheetComponent = null
+                                addMaskSheetComponent = null,
+                                onCreateTemplate = null
                             )
                         }
                     }

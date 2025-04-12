@@ -108,7 +108,8 @@ fun FilterReorderSheet(
                                 ),
                                 previewOnly = true,
                                 showDragHandle = filterList.size >= 2,
-                                onRemove = {}
+                                onRemove = {},
+                                onCreateTemplate = null
                             )
                         }
                     }

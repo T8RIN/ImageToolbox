@@ -163,6 +163,7 @@ internal fun TemplateFilterSelectionItem(
         endIcon = {
             EnhancedIconButton(
                 onClick = onInfoClick,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier.offset(8.dp)
             ) {
                 Icon(

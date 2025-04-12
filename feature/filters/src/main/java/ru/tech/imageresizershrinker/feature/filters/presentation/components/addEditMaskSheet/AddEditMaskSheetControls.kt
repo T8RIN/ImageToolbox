@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -61,9 +60,11 @@ import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.domain.model.pt
+import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterReorderSheet
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTemplateCreationSheet
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -91,7 +92,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.model.t
 
 
 @Composable
-internal fun LazyItemScope.AddEditMaskSheetControls(
+internal fun AddEditMaskSheetControls(
     component: AddMaskSheetComponent,
     imageState: ImageHeaderState,
     domainDrawPathMode: DrawPathMode,
@@ -305,8 +306,12 @@ internal fun LazyItemScope.AddEditMaskSheetControls(
         }
     ) { notEmpty ->
         if (notEmpty) {
+            var showTemplateCreationSheet by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             Column(
-                Modifier
+                modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .container(MaterialTheme.shapes.extraLarge)
             ) {
@@ -339,22 +344,45 @@ internal fun LazyItemScope.AddEditMaskSheetControls(
                             },
                             showDragHandle = false,
                             onRemove = {
-                                component.removeFilterAtIndex(
-                                    index
+                                component.removeFilterAtIndex(index)
+                            },
+                            onCreateTemplate = {
+                                showTemplateCreationSheet = true
+                                component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                    TemplateFilter(
+                                        name = context.getString(filter.title),
+                                        filters = listOf(filter)
+                                    )
                                 )
                             }
                         )
                     }
                     AddFilterButton(
+                        modifier = Modifier.padding(horizontal = 16.dp),
                         onClick = {
                             showAddFilterSheet = true
                         },
-                        modifier = Modifier.padding(
-                            horizontal = 16.dp
-                        )
+                        onCreateTemplate = {
+                            showTemplateCreationSheet = true
+                            component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
+                                TemplateFilter(
+                                    name = context.getString(
+                                        component.filterList.firstOrNull()?.title
+                                            ?: R.string.template_filter
+                                    ),
+                                    filters = component.filterList
+                                )
+                            )
+                        }
                     )
                 }
             }
+
+            FilterTemplateCreationSheet(
+                component = component.filterTemplateCreationSheetComponent,
+                visible = showTemplateCreationSheet,
+                onDismiss = { showTemplateCreationSheet = false }
+            )
         } else {
             AddFilterButton(
                 onClick = {

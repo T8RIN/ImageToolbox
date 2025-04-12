@@ -38,6 +38,7 @@ fun ExitWithoutSavingDialog(
     onExit: () -> Unit,
     onDismiss: () -> Unit,
     visible: Boolean,
+    placeAboveAll: Boolean = false,
     text: String = stringResource(R.string.image_not_saved_sub),
     title: String = stringResource(R.string.image_not_saved),
     icon: ImageVector = Icons.Outlined.Save
@@ -52,6 +53,7 @@ fun ExitWithoutSavingDialog(
         EnhancedAlertDialog(
             visible = visible,
             onDismissRequest = onDismiss,
+            placeAboveAll = placeAboveAll,
             dismissButton = {
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,

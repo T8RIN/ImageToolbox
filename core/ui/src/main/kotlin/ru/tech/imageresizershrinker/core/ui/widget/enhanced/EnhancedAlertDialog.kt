@@ -81,6 +81,7 @@ fun EnhancedAlertDialog(
     icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
     text: @Composable (() -> Unit)? = null,
+    placeAboveAll: Boolean = false,
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
     iconContentColor: Color = AlertDialogDefaults.iconContentColor,
@@ -91,6 +92,7 @@ fun EnhancedAlertDialog(
     BasicEnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismissRequest,
+        placeAboveAll = placeAboveAll,
         content = {
             val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
 
@@ -147,6 +149,7 @@ fun BasicEnhancedAlertDialog(
     visible: Boolean,
     onDismissRequest: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    placeAboveAll: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
@@ -164,7 +167,7 @@ fun BasicEnhancedAlertDialog(
     }
 
     if (visibleAnimated) {
-        FullscreenPopup {
+        FullscreenPopup(placeAboveAll = placeAboveAll) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center

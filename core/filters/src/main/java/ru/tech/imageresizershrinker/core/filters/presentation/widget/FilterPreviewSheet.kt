@@ -239,6 +239,7 @@ internal fun FilterPreviewSheet(
                                                 component.setPreviewData(null)
                                             } else component.removeFilterAtIndex(index)
                                         },
+                                        onCreateTemplate = null,
                                         onFilterChange = { value ->
                                             component.updateFilter(value, index)
                                         }

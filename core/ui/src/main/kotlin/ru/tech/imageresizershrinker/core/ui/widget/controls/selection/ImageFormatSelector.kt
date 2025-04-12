@@ -119,15 +119,17 @@ fun ImageFormatSelector(
                     shape = RoundedCornerShape(24.dp),
                     color = backgroundColor
                 )
-                .padding(vertical = 8.dp)
                 .animateContentSize()
                 .alpha(if (enabled) 1f else 0.5f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = stringResource(R.string.image_format),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium
             )
@@ -281,6 +283,7 @@ fun ImageFormatSelector(
                     allowAlpha = false
                 )
             }
+            Spacer(Modifier.height(4.dp))
         }
         if (!enabled) {
             Surface(

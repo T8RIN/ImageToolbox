@@ -70,7 +70,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -290,11 +289,7 @@ fun AddFiltersSheet(
             }
         },
         sheetContent = {
-            DisposableEffect(Unit) {
-                onDispose {
-                    component.resetState()
-                }
-            }
+            component.AttachLifecycle()
 
             AnimatedContent(
                 modifier = Modifier.weight(1f, false),

@@ -17,12 +17,15 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -78,13 +81,16 @@ abstract class BaseComponent(
         _haveChanges.update { true }
     }
 
+    private var resetJob by smartJob()
+
     protected open fun debouncedImageCalculation(
         onFinish: suspend () -> Unit = {},
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
         imageCalculationJob = componentScope.launch(
-            CoroutineExceptionHandler { _, _ ->
+            CoroutineExceptionHandler { _, t ->
+                t.makeLog()
                 _isImageLoading.update { false }
             } + defaultDispatcher
         ) {
@@ -100,6 +106,28 @@ abstract class BaseComponent(
             _isImageLoading.update { false }
 
             onFinish()
+        }
+    }
+
+    private fun cancelResetState() {
+        resetJob?.cancel()
+        resetJob = null
+    }
+
+    private fun resetStateDelayed() {
+        resetJob = componentScope.launch {
+            delay(1500)
+            resetState()
+        }
+    }
+
+    @Composable
+    fun AttachLifecycle() {
+        DisposableEffect(Unit) {
+            cancelResetState()
+            onDispose {
+                resetStateDelayed()
+            }
         }
     }
 
