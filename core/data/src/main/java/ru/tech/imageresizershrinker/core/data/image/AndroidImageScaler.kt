@@ -22,8 +22,10 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -50,6 +52,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 import com.awxkee.aire.ScaleColorSpace as AireScaleColorSpace
+import androidx.core.graphics.scale
 
 internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,
@@ -78,44 +81,48 @@ internal class AndroidImageScaler @Inject constructor(
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
 
-        when (resizeType) {
-            ResizeType.Explicit -> {
-                createScaledBitmap(
-                    image = image,
-                    width = widthInternal,
-                    height = heightInternal,
-                    imageScaleMode = imageScaleMode
-                )
-            }
+        runSuspendCatching {
+            when (resizeType) {
+                ResizeType.Explicit -> {
+                    createScaledBitmap(
+                        image = image,
+                        width = widthInternal,
+                        height = heightInternal,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
 
-            is ResizeType.Flexible -> {
-                flexibleResize(
-                    image = image,
-                    width = widthInternal,
-                    height = heightInternal,
-                    resizeAnchor = resizeType.resizeAnchor,
-                    imageScaleMode = imageScaleMode
-                )
-            }
+                is ResizeType.Flexible -> {
+                    flexibleResize(
+                        image = image,
+                        width = widthInternal,
+                        height = heightInternal,
+                        resizeAnchor = resizeType.resizeAnchor,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
 
-            is ResizeType.CenterCrop -> {
-                resizeType.performCenterCrop(
-                    image = image,
-                    targetWidth = widthInternal,
-                    targetHeight = heightInternal,
-                    imageScaleMode = imageScaleMode
-                )
-            }
+                is ResizeType.CenterCrop -> {
+                    resizeType.performCenterCrop(
+                        image = image,
+                        targetWidth = widthInternal,
+                        targetHeight = heightInternal,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
 
-            is ResizeType.Fit -> {
-                resizeType.performFitResize(
-                    image = image,
-                    targetWidth = widthInternal,
-                    targetHeight = heightInternal,
-                    imageScaleMode = imageScaleMode
-                )
+                is ResizeType.Fit -> {
+                    resizeType.performFitResize(
+                        image = image,
+                        targetWidth = widthInternal,
+                        targetHeight = heightInternal,
+                        imageScaleMode = imageScaleMode
+                    )
+                }
             }
-        }
+        }.onFailure {
+            it.makeLog("AndroidImageScaler")
+        }.getOrNull() ?: image
     }
 
     override suspend fun scaleUntilCanShow(
@@ -226,29 +233,24 @@ internal class AndroidImageScaler @Inject constructor(
             )
         )
 
-        Bitmap.createBitmap(
-            targetWidth,
-            targetHeight,
-            drawImage.safeConfig
-        ).apply {
-            setHasAlpha(true)
-        }.applyCanvas {
-            drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-            canvasColor?.let {
-                drawColor(it)
-            } ?: blurredBitmap?.let {
+        createBitmap(targetWidth, targetHeight, drawImage.safeConfig).apply { setHasAlpha(true) }
+            .applyCanvas {
+                drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+                canvasColor?.let {
+                    drawColor(it)
+                } ?: blurredBitmap?.let {
+                    drawBitmap(
+                        blurredBitmap,
+                        (width - blurredBitmap.width) / 2f,
+                        (height - blurredBitmap.height) / 2f,
+                        null
+                    )
+                }
                 drawBitmap(
-                    blurredBitmap,
-                    (width - blurredBitmap.width) / 2f,
-                    (height - blurredBitmap.height) / 2f,
-                    null
+                    bitmap = drawImage,
+                    position = position
                 )
             }
-            drawBitmap(
-                bitmap = drawImage,
-                position = position
-            )
-        }
     }
 
     private suspend fun ResizeType.CenterCrop.performCenterCrop(
@@ -314,29 +316,24 @@ internal class AndroidImageScaler @Inject constructor(
             )
         } else null
 
-        Bitmap.createBitmap(
-            targetWidth,
-            targetHeight,
-            drawImage.safeConfig
-        ).apply {
-            setHasAlpha(true)
-        }.applyCanvas {
-            drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-            canvasColor?.let {
-                drawColor(it)
-            } ?: blurredBitmap?.let {
+        createBitmap(targetWidth, targetHeight, drawImage.safeConfig).apply { setHasAlpha(true) }
+            .applyCanvas {
+                drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+                canvasColor?.let {
+                    drawColor(it)
+                } ?: blurredBitmap?.let {
+                    drawBitmap(
+                        blurredBitmap,
+                        (width - blurredBitmap.width) / 2f,
+                        (height - blurredBitmap.height) / 2f,
+                        null
+                    )
+                }
                 drawBitmap(
-                    blurredBitmap,
-                    (width - blurredBitmap.width) / 2f,
-                    (height - blurredBitmap.height) / 2f,
-                    null
+                    bitmap = drawImage,
+                    position = position
                 )
             }
-            drawBitmap(
-                bitmap = drawImage,
-                position = position
-            )
-        }
     }
 
     private suspend fun createScaledBitmap(
@@ -347,13 +344,13 @@ internal class AndroidImageScaler @Inject constructor(
     ): Bitmap = withContext(defaultDispatcher) {
         if (width == image.width && height == image.height) return@withContext image
 
-        val image = image.toSoftware()
+        val softwareImage = image.toSoftware()
 
         if (imageScaleMode is ImageScaleMode.Base) {
-            return@withContext if (width < image.width && height < image.width) {
-                BitmapCompat.createScaledBitmap(image, width, height, null, true)
+            return@withContext if (width < softwareImage.width && height < softwareImage.width) {
+                BitmapCompat.createScaledBitmap(softwareImage, width, height, null, true)
             } else {
-                Bitmap.createScaledBitmap(image, width, height, true)
+                softwareImage.scale(width, height)
             }
         }
 
@@ -362,7 +359,7 @@ internal class AndroidImageScaler @Inject constructor(
         } ?: defaultImageScaleMode
 
         Aire.scale(
-            bitmap = image,
+            bitmap = softwareImage,
             dstWidth = width,
             dstHeight = height,
             scaleMode = mode.toResizeFunction(),
