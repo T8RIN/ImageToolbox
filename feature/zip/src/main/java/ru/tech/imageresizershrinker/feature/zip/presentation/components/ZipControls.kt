@@ -96,7 +96,7 @@ internal fun ColumnScope.ZipControls(
 
     val additionalFilePicker = rememberFilePicker(onSuccess = component::addUris)
 
-    AnimatedVisibility(visible = component.byteArray != null) {
+    AnimatedVisibility(visible = component.compressedArchiveUri != null) {
         LaunchedEffect(lazyListState) {
             lazyListState.animateScrollToItem(0)
         }
@@ -145,7 +145,7 @@ internal fun ColumnScope.ZipControls(
                 lineHeight = 14.sp,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
-            var name by rememberSaveable(component.byteArray, component.uris) {
+            var name by rememberSaveable(component.compressedArchiveUri, component.uris) {
                 val count = component.uris.size.let {
                     if (it > 1) "($it)"
                     else ""
@@ -204,13 +204,9 @@ internal fun ColumnScope.ZipControls(
                 }
                 EnhancedButton(
                     onClick = {
-                        component.byteArray?.let {
-                            component.shareFile(
-                                it = it,
-                                filename = name,
-                                onComplete = showConfetti
-                            )
-                        }
+                        component.shareFile(
+                            onComplete = showConfetti
+                        )
                     },
                     modifier = Modifier
                         .padding(start = 8.dp)

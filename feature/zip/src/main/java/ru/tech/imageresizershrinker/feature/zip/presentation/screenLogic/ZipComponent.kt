@@ -57,8 +57,8 @@ class ZipComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
 
-    private val _byteArray = mutableStateOf<ByteArray?>(null)
-    val byteArray by _byteArray
+    private val _compressedArchiveUri = mutableStateOf<String?>(null)
+    val compressedArchiveUri by _compressedArchiveUri
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -89,7 +89,7 @@ class ZipComponent @AssistedInject internal constructor(
             runSuspendCatching {
                 _done.update { 0 }
                 _left.update { uris.size }
-                _byteArray.value = zipManager.zip(
+                _compressedArchiveUri.value = zipManager.zip(
                     files = uris.map { it.toString() },
                     onProgress = {
                         _done.update { it + 1 }
@@ -101,7 +101,7 @@ class ZipComponent @AssistedInject internal constructor(
     }
 
     private fun resetCalculatedData() {
-        _byteArray.value = null
+        _compressedArchiveUri.value = null
     }
 
     fun saveResultTo(
@@ -110,10 +110,10 @@ class ZipComponent @AssistedInject internal constructor(
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            _byteArray.value?.let { byteArray ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(byteArray) }
+            _compressedArchiveUri.value?.let { byteArray ->
+                fileController.transferBytes(
+                    fromUri = byteArray,
+                    toUri = uri.toString(),
                 ).also(onResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
@@ -121,23 +121,22 @@ class ZipComponent @AssistedInject internal constructor(
     }
 
     fun shareFile(
-        it: ByteArray,
-        filename: String,
         onComplete: () -> Unit
     ) {
-        savingJob = componentScope.launch {
-            _done.update { 0 }
-            _left.update { 0 }
+        compressedArchiveUri?.let { uri ->
+            savingJob = componentScope.launch {
+                _done.update { 0 }
+                _left.update { 0 }
 
-            _isSaving.value = true
-            shareProvider.shareByteArray(
-                byteArray = it,
-                filename = filename,
-                onComplete = {
-                    _isSaving.value = false
-                    onComplete()
-                }
-            )
+                _isSaving.value = true
+                shareProvider.shareUri(
+                    uri = uri,
+                    onComplete = {
+                        _isSaving.value = false
+                        onComplete()
+                    }
+                )
+            }
         }
     }
 

@@ -28,7 +28,9 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
+import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.resources.R
+import java.io.OutputStream
 import java.net.URLDecoder
 import java.util.LinkedList
 
@@ -169,4 +171,8 @@ fun String.decodeEscaped(): String {
         @Suppress("DEPRECATION")
         URLDecoder.decode(URLDecoder.decode(this))
     }
+}
+
+fun Writeable.outputStream(): OutputStream = object : OutputStream() {
+    override fun write(b: Int) = writeBytes(byteArrayOf(b.toByte()))
 }

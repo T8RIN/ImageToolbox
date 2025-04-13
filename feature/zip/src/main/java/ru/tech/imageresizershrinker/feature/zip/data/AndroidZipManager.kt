@@ -18,32 +18,34 @@
 package ru.tech.imageresizershrinker.feature.zip.data
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.outputStream
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 import java.io.BufferedInputStream
-import java.io.BufferedOutputStream
-import java.io.ByteArrayOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 
 internal class AndroidZipManager @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ZipManager {
 
     override suspend fun zip(
         files: List<String>,
         onProgress: () -> Unit
-    ): ByteArray = withContext(defaultDispatcher) {
-        ByteArrayOutputStream().apply {
-            use { out ->
-                ZipOutputStream(BufferedOutputStream(out)).use { output ->
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(
+            writeData = { writeable ->
+                ZipOutputStream(writeable.outputStream()).use { output ->
                     files.forEach { file ->
                         withContext(ioDispatcher) {
                             context.contentResolver.openInputStream(file.toUri()).use { input ->
@@ -57,8 +59,9 @@ internal class AndroidZipManager @Inject constructor(
                         onProgress()
                     }
                 }
-            }
-        }.toByteArray()
+            },
+            filename = files.firstOrNull()?.toUri()?.getFilename() ?: "temp.zip"
+        ) ?: throw IllegalArgumentException("Cached to null file")
     }
 
     private fun Uri.getFilename(): String = DocumentFile.fromSingleUri(context, this)?.name ?: ""

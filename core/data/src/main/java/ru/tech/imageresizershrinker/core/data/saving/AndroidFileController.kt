@@ -380,6 +380,21 @@ internal class AndroidFileController @Inject constructor(
         return@withContext SaveResult.Error.Exception(IllegalStateException())
     }
 
+    override suspend fun transferBytes(
+        fromUri: String,
+        toUri: String
+    ): SaveResult = writeBytes(
+        uri = toUri,
+        block = { output ->
+            context.contentResolver.openInputStream(fromUri.toUri())?.buffered()?.use { input ->
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                while (input.read(buffer) != -1) {
+                    output.writeBytes(buffer)
+                }
+            } ?: throw IllegalAccessException("File inaccessible")
+        }
+    )
+
     override suspend fun <O : Any> saveObject(
         key: String,
         value: O,

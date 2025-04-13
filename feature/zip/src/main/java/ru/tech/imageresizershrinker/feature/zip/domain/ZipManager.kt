@@ -22,6 +22,6 @@ interface ZipManager {
     suspend fun zip(
         files: List<String>,
         onProgress: () -> Unit
-    ): ByteArray
+    ): String
 
 }

@@ -53,7 +53,7 @@ fun ZipContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (component.uris.isNotEmpty() && component.byteArray != null) {
+        if (component.uris.isNotEmpty() && component.compressedArchiveUri != null) {
             showExitDialog = true
         } else component.onGoBack()
     }
@@ -68,7 +68,7 @@ fun ZipContent(
     )
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !(component.uris.isNotEmpty() && component.byteArray != null),
+        shouldDisableBackHandler = !(component.uris.isNotEmpty() && component.compressedArchiveUri != null),
         title = {
             Text(
                 text = stringResource(R.string.zip),
