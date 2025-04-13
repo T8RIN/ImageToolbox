@@ -155,9 +155,9 @@ class DocumentScannerComponent @AssistedInject internal constructor(
         savingJob = componentScope.launch {
             _isSaving.value = true
             getPdfUri()?.let { pdfUri ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(fileController.readBytes(pdfUri.toString())) }
+                fileController.transferBytes(
+                    fromUri = pdfUri.toString(),
+                    toUri = uri.toString(),
                 ).also(onResult).onSuccess(::registerSave)
                 _isSaving.value = false
             }
@@ -167,18 +167,16 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     private suspend fun createPdfUri(): Uri? {
         _done.value = 0
         _left.value = uris.size
-        val byteArray = pdfManager.convertImagesToPdf(
-            imageUris = uris.map { it.toString() },
-            onProgressChange = {
-                _done.value = it
-            },
-            scaleSmallImagesToLarge = false,
-            preset = Preset.Original
-        )
-        return shareProvider.cacheByteArray(
-            byteArray = byteArray,
-            filename = generatePdfFilename()
-        )?.toUri()
+        return runSuspendCatching {
+            pdfManager.convertImagesToPdf(
+                imageUris = uris.map { it.toString() },
+                onProgressChange = {
+                    _done.value = it
+                },
+                scaleSmallImagesToLarge = false,
+                preset = Preset.Original
+            )
+        }.getOrNull()?.toUri()
     }
 
     fun generatePdfFilename(): String {

@@ -35,14 +35,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
+import ru.tech.imageresizershrinker.core.data.utils.outputStream
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -52,6 +53,7 @@ internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
 
@@ -60,7 +62,7 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
         preset: Preset.Percentage
-    ): ByteArray = withContext(encodingDispatcher) {
+    ): String = withContext(encodingDispatcher) {
         val pdfDocument = PdfDocument()
 
         val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
@@ -97,13 +99,12 @@ internal class AndroidPdfManager @Inject constructor(
             onProgressChange(index)
         }
 
-        val out = ByteArrayOutputStream()
-        pdfDocument.writeTo(out)
-
-        return@withContext out.toByteArray().also {
-            out.flush()
-            out.close()
-        }
+        shareProvider.cacheData(
+            writeData = {
+                pdfDocument.writeTo(it.outputStream())
+            },
+            filename = "temp.pdf"
+        ) ?: throw IllegalAccessException("No PDF created")
     }
 
     override suspend fun convertPdfToImages(

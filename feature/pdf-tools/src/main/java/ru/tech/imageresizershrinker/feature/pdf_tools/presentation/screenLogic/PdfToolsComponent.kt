@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -80,7 +81,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _pdfType: MutableState<Screen.PdfTools.Type?> = mutableStateOf(null)
     val pdfType: Screen.PdfTools.Type? by _pdfType
 
-    private val _byteArray = mutableStateOf<ByteArray?>(null)
+    private val _outputPdfUri = mutableStateOf<String?>(null)
 
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
@@ -103,7 +104,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     }
 
     private fun resetCalculatedData() {
-        _byteArray.value = null
+        _outputPdfUri.value = null
     }
 
     fun savePdfTo(
@@ -112,10 +113,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            _byteArray.value?.let { byteArray ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(byteArray) }
+            _outputPdfUri.value?.let { pdfUri ->
+                fileController.transferBytes(
+                    fromUri = pdfUri,
+                    toUri = uri.toString()
                 ).also(onResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
@@ -261,14 +262,16 @@ class PdfToolsComponent @AssistedInject internal constructor(
         savingJob = componentScope.launch {
             _isSaving.value = true
             _left.value = imagesToPdfState?.size ?: 0
-            _byteArray.value = pdfManager.convertImagesToPdf(
-                imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
-                onProgressChange = {
-                    _done.value = it
-                },
-                scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                preset = _presetSelected.value
-            )
+            _outputPdfUri.value = runSuspendCatching {
+                pdfManager.convertImagesToPdf(
+                    imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
+                    onProgressChange = {
+                        _done.value = it
+                    },
+                    scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+                    preset = _presetSelected.value
+                )
+            }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
             registerChanges()
             onComplete()
             _isSaving.value = false
@@ -289,19 +292,20 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 is Screen.PdfTools.Type.ImagesToPdf -> {
                     _isSaving.value = true
                     _left.value = imagesToPdfState?.size ?: 0
-                    pdfManager.convertImagesToPdf(
-                        imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
-                        onProgressChange = {
-                            _done.value = it
-                        },
-                        scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                        preset = _presetSelected.value
-                    ).let {
-                        shareProvider.shareByteArray(
-                            byteArray = it,
-                            filename = generatePdfFilename() + ".pdf",
-                            onComplete = onComplete
-                        )
+                    runSuspendCatching {
+                        pdfManager.convertImagesToPdf(
+                            imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
+                            onProgressChange = {
+                                _done.value = it
+                            },
+                            scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+                            preset = _presetSelected.value
+                        ).let {
+                            shareProvider.shareUri(
+                                uri = it,
+                                onComplete = onComplete
+                            )
+                        }
                     }
                     onComplete()
                 }
