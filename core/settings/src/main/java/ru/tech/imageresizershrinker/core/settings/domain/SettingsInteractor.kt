@@ -221,13 +221,11 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun removeCustomFont(font: DomainFontFamily.Custom)
 
-    suspend fun createCustomFontsExport(): ByteArray
+    suspend fun createCustomFontsExport(): String?
 
     suspend fun toggleEnableToolExitConfirmation()
 
-    suspend fun createLogsExport(): ByteArray
-
-    fun createLogsFilename(): String
+    suspend fun createLogsExport(): String
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

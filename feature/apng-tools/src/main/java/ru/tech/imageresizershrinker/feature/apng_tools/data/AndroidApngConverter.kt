@@ -34,6 +34,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import oupson.apng.decoder.ApngDecoder
 import oupson.apng.encoder.ApngEncoder
+import ru.tech.imageresizershrinker.core.data.utils.outputStream
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -46,13 +47,12 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 
 internal class AndroidApngConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageShareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
@@ -71,7 +71,7 @@ internal class AndroidApngConverter @Inject constructor(
                 currentCoroutineContext().cancel(null)
                 return@decodeAsync
             }
-            imageShareProvider.cacheImage(
+            shareProvider.cacheImage(
                 image = frame,
                 imageInfo = ImageInfo(
                     width = frame.width,
@@ -88,8 +88,7 @@ internal class AndroidApngConverter @Inject constructor(
         params: ApngParams,
         onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray? = withContext(defaultDispatcher) {
-        val out = ByteArrayOutputStream()
+    ): String? = withContext(defaultDispatcher) {
         val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
             IntegerSize(width, height)
         }
@@ -99,43 +98,46 @@ internal class AndroidApngConverter @Inject constructor(
             return@withContext null
         }
 
-        val encoder = ApngEncoder(
-            outputStream = out,
-            width = size.width,
-            height = size.height,
-            numberOfFrames = imageUris.size
-        ).apply {
-            setOptimiseApng(false)
-            setRepetitionCount(params.repeatCount)
-            setCompressionLevel(params.quality.qualityValue)
-        }
-        imageUris.forEach { uri ->
-            imageGetter.getImage(
-                data = uri,
-                size = size
-            )?.let {
-                encoder.writeFrame(
-                    btm = imageScaler.scaleImage(
-                        image = imageScaler.scaleImage(
-                            image = it,
-                            width = size.width,
-                            height = size.height,
-                            resizeType = ResizeType.Flexible
-                        ),
-                        width = size.width,
-                        height = size.height,
-                        resizeType = ResizeType.CenterCrop(
-                            canvasColor = Color.Transparent.toArgb()
+        shareProvider.cacheData(
+            writeData = { writeable ->
+                val encoder = ApngEncoder(
+                    outputStream = writeable.outputStream(),
+                    width = size.width,
+                    height = size.height,
+                    numberOfFrames = imageUris.size
+                ).apply {
+                    setOptimiseApng(false)
+                    setRepetitionCount(params.repeatCount)
+                    setCompressionLevel(params.quality.qualityValue)
+                }
+                imageUris.forEach { uri ->
+                    imageGetter.getImage(
+                        data = uri,
+                        size = size
+                    )?.let {
+                        encoder.writeFrame(
+                            btm = imageScaler.scaleImage(
+                                image = imageScaler.scaleImage(
+                                    image = it,
+                                    width = size.width,
+                                    height = size.height,
+                                    resizeType = ResizeType.Flexible
+                                ),
+                                width = size.width,
+                                height = size.height,
+                                resizeType = ResizeType.CenterCrop(
+                                    canvasColor = Color.Transparent.toArgb()
+                                )
+                            ),
+                            delay = params.delay.toFloat()
                         )
-                    ),
-                    delay = params.delay.toFloat()
-                )
-            }
-            onProgress()
-        }
-        encoder.writeEnd()
-
-        out.toByteArray()
+                    }
+                    onProgress()
+                }
+                encoder.writeEnd()
+            },
+            filename = "temp_apng.png"
+        )
     }
 
     override suspend fun convertApngToJxl(

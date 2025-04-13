@@ -128,7 +128,7 @@ internal class AndroidShareProvider @Inject constructor(
                 )
                 onComplete()
             }.onFailure {
-                val uri = cacheData(
+                val newUri = cacheData(
                     writeData = {
                         it.copyFrom(
                             UriReadable(
@@ -143,7 +143,7 @@ internal class AndroidShareProvider @Inject constructor(
                         )
                 )
                 shareUriImpl(
-                    uri = uri ?: return@onFailure,
+                    uri = newUri ?: return@onFailure,
                     type = type
                 )
                 onComplete()

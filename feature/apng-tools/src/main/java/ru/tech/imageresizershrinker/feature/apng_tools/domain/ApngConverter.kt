@@ -34,7 +34,7 @@ interface ApngConverter {
         params: ApngParams,
         onFailure: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray?
+    ): String?
 
     suspend fun convertApngToJxl(
         apngUris: List<String>,

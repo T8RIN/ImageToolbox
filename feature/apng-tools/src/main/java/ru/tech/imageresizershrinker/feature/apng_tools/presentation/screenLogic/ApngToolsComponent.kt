@@ -108,7 +108,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
     val jxlQuality by _jxlQuality
 
-    private var apngData: ByteArray? = null
+    private var _outputApngUri: String? = null
 
     fun setType(type: Screen.ApngTools.Type) {
         when (type) {
@@ -166,7 +166,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
         collectionJob = null
         _type.update { null }
         _convertedImageUris.update { emptyList() }
-        apngData = null
+        _outputApngUri = null
         savingJob = null
         updateParams(ApngParams.Default)
         registerChangesCleared()
@@ -191,14 +191,14 @@ class ApngToolsComponent @AssistedInject internal constructor(
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
-            apngData?.let { byteArray ->
-                fileController.writeBytes(
-                    uri = uri.toString(),
-                    block = { it.writeBytes(byteArray) }
+            _outputApngUri?.let { apngUri ->
+                fileController.transferBytes(
+                    fromUri = apngUri,
+                    toUri = uri.toString(),
                 ).also(onResult).onSuccess(::registerSave)
             }
             _isSaving.value = false
-            apngData = null
+            _outputApngUri = null
         }
     }
 
@@ -267,7 +267,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
 
                 is Screen.ApngTools.Type.ImageToApng -> {
                     _left.value = type.imageUris?.size ?: -1
-                    apngData = type.imageUris?.map { it.toString() }?.let { list ->
+                    _outputApngUri = type.imageUris?.map { it.toString() }?.let { list ->
                         apngConverter.createApngFromImageUris(
                             imageUris = list,
                             params = params,
@@ -441,13 +441,8 @@ class ApngToolsComponent @AssistedInject internal constructor(
                                 _done.update { it + 1 }
                             },
                             onFailure = {}
-                        )?.also { byteArray ->
-                            shareProvider.cacheByteArray(
-                                byteArray = byteArray,
-                                filename = "APNG_${timestamp()}.png"
-                            )?.let {
-                                onComplete(listOf(it.toUri()))
-                            }
+                        )?.also { uri ->
+                            onComplete(listOf(uri.toUri()))
                         }
                     }
                 }

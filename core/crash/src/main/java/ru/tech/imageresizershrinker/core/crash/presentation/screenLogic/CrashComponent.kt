@@ -56,11 +56,9 @@ class CrashComponent @AssistedInject internal constructor(
 
     fun shareLogs() {
         componentScope.launch {
-            shareProvider.shareData(
-                writeData = {
-                    it.writeBytes(settingsManager.createLogsExport())
-                },
-                filename = settingsManager.createLogsFilename()
+            shareProvider.shareUri(
+                uri = settingsManager.createLogsExport(),
+                onComplete = {}
             )
         }
     }

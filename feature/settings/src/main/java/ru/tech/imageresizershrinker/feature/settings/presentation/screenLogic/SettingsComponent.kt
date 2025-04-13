@@ -248,9 +248,9 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit,
     ) = settingsScope {
-        fileController.writeBytes(
-            uri = uri.toString(),
-            block = { it.writeBytes(createCustomFontsExport()) }
+        fileController.transferBytes(
+            fromUri = createCustomFontsExport().toString(),
+            toUri = uri.toString()
         ).also(onResult)
     }
 
@@ -466,11 +466,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }
 
     fun shareLogs() = settingsScope {
-        shareProvider.shareData(
-            writeData = {
-                it.writeBytes(settingsManager.createLogsExport())
-            },
-            filename = settingsManager.createLogsFilename()
+        shareProvider.shareUri(
+            uri = settingsManager.createLogsExport(),
+            onComplete = {}
         )
     }
 

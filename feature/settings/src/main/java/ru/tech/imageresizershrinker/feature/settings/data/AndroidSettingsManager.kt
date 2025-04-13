@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.settings.data
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Typeface
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -27,6 +28,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.t8rin.logger.Logger
 import com.t8rin.logger.makeLog
+import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -37,9 +39,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.data.utils.outputStream
 import ru.tech.imageresizershrinker.core.domain.BackupFileExtension
 import ru.tech.imageresizershrinker.core.domain.GlobalStorageName
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
@@ -151,7 +155,6 @@ import ru.tech.imageresizershrinker.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.feature.settings.data.keys.toSettingsState
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipEntry
@@ -162,6 +165,7 @@ import kotlin.random.Random
 internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
+    private val shareProvider: Lazy<ShareProvider<Bitmap>>,
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
 
@@ -225,9 +229,9 @@ internal class AndroidSettingsManager @Inject constructor(
         it[APP_COLOR_TUPLE] = colorTuple
     }
 
-    override suspend fun setPresets(newPresets: List<Int>) = edit {
+    override suspend fun setPresets(newPresets: List<Int>) = edit { preferences ->
         if (newPresets.size > 3) {
-            it[PRESETS] = newPresets
+            preferences[PRESETS] = newPresets
                 .map { it.coerceIn(10..500) }
                 .toSortedSet()
                 .toList()
@@ -454,33 +458,34 @@ internal class AndroidSettingsManager @Inject constructor(
         it[INITIAL_OCR_MODE] ?: 1
     }
 
-    override suspend fun createLogsExport(): ByteArray = withContext(ioDispatcher) {
+    override suspend fun createLogsExport(): String = withContext(ioDispatcher) {
         "Start Logs Export".makeLog("SettingsManager")
 
         val logsFile = Logger.getLogsFile().toFile()
         val settingsFile = createBackupFile()
 
-        val out = ByteArrayOutputStream()
+        shareProvider.get().cacheData(
+            writeData = { writeable ->
+                val out = writeable.outputStream()
 
-        ZipOutputStream(out).use { zipOut ->
-            FileInputStream(logsFile).use { fis ->
-                val zipEntry = ZipEntry(logsFile.name)
-                zipOut.putNextEntry(zipEntry)
-                fis.copyTo(zipOut)
-                zipOut.closeEntry()
-            }
-            ByteArrayInputStream(settingsFile).use { bis ->
-                val zipEntry = ZipEntry(createBackupFilename())
-                zipOut.putNextEntry(zipEntry)
-                bis.copyTo(zipOut)
-                zipOut.closeEntry()
-            }
-        }
-
-        out.toByteArray()
+                ZipOutputStream(out).use { zipOut ->
+                    FileInputStream(logsFile).use { fis ->
+                        val zipEntry = ZipEntry(logsFile.name)
+                        zipOut.putNextEntry(zipEntry)
+                        fis.copyTo(zipOut)
+                        zipOut.closeEntry()
+                    }
+                    ByteArrayInputStream(settingsFile).use { bis ->
+                        val zipEntry = ZipEntry(createBackupFilename())
+                        zipOut.putNextEntry(zipEntry)
+                        bis.copyTo(zipOut)
+                        zipOut.closeEntry()
+                    }
+                }
+            },
+            filename = "image_toolbox_logs_${timestamp()}.zip"
+        ) ?: ""
     }
-
-    override fun createLogsFilename(): String = "image_toolbox_logs_${timestamp()}.zip"
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {
         it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data
@@ -561,8 +566,8 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setOneTimeSaveLocations(
         value: List<OneTimeSaveLocation>
-    ) = edit {
-        it[ONE_TIME_SAVE_LOCATIONS] = value.filter {
+    ) = edit { preferences ->
+        preferences[ONE_TIME_SAVE_LOCATIONS] = value.filter {
             it.uri.isNotEmpty() && it.date != null
         }.distinctBy { it.uri }.joinToString(", ")
     }
@@ -570,7 +575,7 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleRecentColor(
         color: ColorModel,
         forceExclude: Boolean,
-    ) = edit {
+    ) = edit { preferences ->
         val current = currentSettings.recentColors
         val newColors = if (color in current) {
             if (forceExclude) {
@@ -582,13 +587,13 @@ internal class AndroidSettingsManager @Inject constructor(
             listOf(color) + current
         }
 
-        it[RECENT_COLORS] = newColors.take(30).map { it.colorInt.toString() }.toSet()
+        preferences[RECENT_COLORS] = newColors.take(30).map { it.colorInt.toString() }.toSet()
     }
 
     override suspend fun toggleFavoriteColor(
         color: ColorModel,
         forceExclude: Boolean
-    ) = edit {
+    ) = edit { preferences ->
         val current = currentSettings.favoriteColors
         val newColors = if (color in current) {
             if (forceExclude) {
@@ -600,7 +605,7 @@ internal class AndroidSettingsManager @Inject constructor(
             listOf(color) + current
         }
 
-        it[FAVORITE_COLORS] = newColors.map { it.colorInt.toString() }.joinToString("/")
+        preferences[FAVORITE_COLORS] = newColors.joinToString("/") { it.colorInt.toString() }
     }
 
     override suspend fun toggleOpenEditInsteadOfPreview() = toggle(
@@ -668,7 +673,7 @@ internal class AndroidSettingsManager @Inject constructor(
             current + screenId
         }
 
-        it[FAVORITE_SCREENS] = newScreens.joinToString("/") { it.toString() }
+        it[FAVORITE_SCREENS] = newScreens.joinToString("/")
     }
 
     override suspend fun toggleIsLinkPreviewEnabled() = toggle(
@@ -698,8 +703,8 @@ internal class AndroidSettingsManager @Inject constructor(
         it[IS_TELEGRAM_GROUP_OPENED] = true
     }
 
-    override suspend fun setDefaultResizeType(resizeType: ResizeType) = edit {
-        it[DEFAULT_RESIZE_TYPE] = ResizeType.entries.indexOfFirst {
+    override suspend fun setDefaultResizeType(resizeType: ResizeType) = edit { preferences ->
+        preferences[DEFAULT_RESIZE_TYPE] = ResizeType.entries.indexOfFirst {
             it::class.isInstance(resizeType)
         }
     }
@@ -742,8 +747,8 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleSettingsGroupVisibility(
         key: Int,
         value: Boolean
-    ) = edit {
-        it[SETTINGS_GROUP_VISIBILITY] =
+    ) = edit { preferences ->
+        preferences[SETTINGS_GROUP_VISIBILITY] =
             currentSettings.settingGroupsInitialVisibility.toMutableMap().run {
                 this[key] = value
                 map {
@@ -758,8 +763,8 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun updateFavoriteColors(
         colors: List<ColorModel>
-    ) = edit {
-        it[FAVORITE_COLORS] = colors.map { it.colorInt.toString() }.joinToString("/")
+    ) = edit { preferences ->
+        preferences[FAVORITE_COLORS] = colors.joinToString("/") { it.colorInt.toString() }
     }
 
     override suspend fun setBackgroundColorForNoAlphaFormats(
@@ -832,22 +837,23 @@ internal class AndroidSettingsManager @Inject constructor(
         setCustomFonts(currentSettings.customFonts - font)
     }
 
-    override suspend fun createCustomFontsExport(): ByteArray = withContext(ioDispatcher) {
-        val out = ByteArrayOutputStream()
-
-        ZipOutputStream(out).use { zipOut ->
-            val dir = File(context.filesDir, "customFonts")
-            dir.listFiles()?.forEach { file ->
-                FileInputStream(file).use { fis ->
-                    val zipEntry = ZipEntry(file.name)
-                    zipOut.putNextEntry(zipEntry)
-                    fis.copyTo(zipOut)
-                    zipOut.closeEntry()
+    override suspend fun createCustomFontsExport(): String? = withContext(ioDispatcher) {
+        shareProvider.get().cacheData(
+            writeData = { writeable ->
+                ZipOutputStream(writeable.outputStream()).use { zipOut ->
+                    val dir = File(context.filesDir, "customFonts")
+                    dir.listFiles()?.forEach { file ->
+                        FileInputStream(file).use { fis ->
+                            val zipEntry = ZipEntry(file.name)
+                            zipOut.putNextEntry(zipEntry)
+                            fis.copyTo(zipOut)
+                            zipOut.closeEntry()
+                        }
+                    }
                 }
-            }
-        }
-
-        out.toByteArray()
+            },
+            filename = "fonts_export.zip"
+        )
     }
 
     override suspend fun toggleEnableToolExitConfirmation() = toggle(
@@ -863,7 +869,7 @@ internal class AndroidSettingsManager @Inject constructor(
         this[key] = !value
     }
 
-    suspend fun toggle(
+    private suspend fun toggle(
         key: Preferences.Key<Boolean>,
         defaultValue: Boolean,
     ) = edit {
@@ -873,7 +879,7 @@ internal class AndroidSettingsManager @Inject constructor(
         )
     }
 
-    suspend fun edit(
+    private suspend fun edit(
         transform: suspend (MutablePreferences) -> Unit
     ) {
         dataStore.edit(transform)
