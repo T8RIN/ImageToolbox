@@ -168,5 +168,4 @@ internal class AndroidApngConverter @Inject constructor(
                 it.readBytes()
             }
 
-
 }
