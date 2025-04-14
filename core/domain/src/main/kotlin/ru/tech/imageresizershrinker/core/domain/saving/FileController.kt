@@ -50,6 +50,11 @@ interface FileController {
         toUri: String
     ): SaveResult
 
+    suspend fun transferBytes(
+        fromUri: String,
+        to: Writeable
+    ): SaveResult
+
     suspend fun <O : Any> saveObject(
         key: String,
         value: O,

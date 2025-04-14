@@ -395,6 +395,31 @@ internal class AndroidFileController @Inject constructor(
         }
     )
 
+    override suspend fun transferBytes(
+        fromUri: String,
+        to: Writeable
+    ): SaveResult = withContext(ioDispatcher) {
+        runSuspendCatching {
+            context.contentResolver.openInputStream(fromUri.toUri())?.buffered()?.use { input ->
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                while (input.read(buffer) != -1) {
+                    to.writeBytes(buffer)
+                }
+            } ?: throw IllegalAccessException("File inaccessible")
+        }.onSuccess {
+            return@withContext SaveResult.Success(
+                message = null,
+                savingPath = ""
+            )
+        }.onFailure {
+            to.makeLog("File Controller write")
+            it.makeLog("File Controller write")
+            return@withContext SaveResult.Error.Exception(it)
+        }
+
+        return@withContext SaveResult.Error.Exception(IllegalStateException())
+    }
+
     override suspend fun <O : Any> saveObject(
         key: String,
         value: O,

@@ -24,6 +24,7 @@ import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
@@ -241,7 +242,7 @@ internal class AndroidShareProvider @Inject constructor(
                     )
                 }
             }
-        }.getOrNull()?.toString()
+        }.onFailure { it.makeLog("cacheData") }.getOrNull()?.toString()
     }
 
     override suspend fun shareData(
