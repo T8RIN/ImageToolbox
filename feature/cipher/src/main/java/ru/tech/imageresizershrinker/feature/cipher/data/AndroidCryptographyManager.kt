@@ -46,23 +46,27 @@ internal class AndroidCryptographyManager @Inject constructor(
     private fun createKey(
         password: String,
         type: CipherType
-    ): Key {
-        val key = hashingType(type.name).computeBytesFromReadable(StringReadable(password))
-
-        return if ("PBE" in type.name) {
-            val keySpec = PBEKeySpec(password.toCharArray())
-            val factory = SecretKeyFactory.getInstance(type.cipher)
-            factory.generateSecret(keySpec)
-        } else SecretKeySpec(key, type.cipher)
+    ): Key = if ("PBE" in type.name) {
+        SecretKeyFactory
+            .getInstance(type.cipher)
+            .generateSecret(
+                PBEKeySpec(password.toCharArray())
+            )
+    } else {
+        hashingType(type.name)
+            .computeBytesFromReadable(StringReadable(password))
+            .let { key ->
+                SecretKeySpec(key, type.cipher)
+            }
     }
 
     override fun generateRandomString(length: Int): String {
         val sr = SecureRandom()
-        val sb = StringBuilder(length)
-        repeat(length) {
-            sb.append(CHARS[sr.nextInt(CHARS.length)])
+        return buildString {
+            repeat(length) {
+                append(CHARS[sr.nextInt(CHARS.length)])
+            }
         }
-        return sb.toString()
     }
 
     override suspend fun decrypt(
