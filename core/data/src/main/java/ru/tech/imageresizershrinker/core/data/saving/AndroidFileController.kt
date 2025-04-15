@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.core.data.saving
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -71,7 +70,7 @@ import kotlin.reflect.KClass
 internal class AndroidFileController @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsManager: SettingsManager,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val filenameCreator: FilenameCreator,
     private val jsonParser: JsonParser,
     dispatchersHolder: DispatchersHolder,

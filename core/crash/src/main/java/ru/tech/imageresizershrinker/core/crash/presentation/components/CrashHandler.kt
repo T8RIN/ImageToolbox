@@ -82,6 +82,7 @@ interface CrashHandler {
     }
 }
 
+@Suppress("DataClassPrivateConstructor")
 data class DeviceInfo private constructor(
     val device: String,
     val sdk: String,

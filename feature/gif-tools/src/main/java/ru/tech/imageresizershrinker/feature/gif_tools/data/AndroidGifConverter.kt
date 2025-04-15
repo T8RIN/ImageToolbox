@@ -24,6 +24,7 @@ import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
@@ -42,7 +43,7 @@ import ru.tech.imageresizershrinker.core.data.utils.safeConfig
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -59,7 +60,7 @@ import javax.inject.Inject
 
 internal class AndroidGifConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageShareProvider: ShareProvider<Bitmap>,
+    private val imageShareProvider: ImageShareProvider<Bitmap>,
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, GifConverter {
@@ -172,7 +173,7 @@ internal class AndroidGifConverter @Inject constructor(
     }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
-        return Bitmap.createBitmap(width, height, safeConfig.toSoftware()).applyCanvas {
+        return createBitmap(width, height, safeConfig.toSoftware()).applyCanvas {
             drawBitmap(this@overlay, Matrix(), null)
             drawBitmap(overlay.toSoftware(), 0f, 0f, null)
         }

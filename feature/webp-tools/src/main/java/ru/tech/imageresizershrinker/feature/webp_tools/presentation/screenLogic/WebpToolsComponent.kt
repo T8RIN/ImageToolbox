@@ -59,7 +59,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val webpConverter: WebpConverter,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     defaultDispatchersHolder: DispatchersHolder
 ) : BaseComponent(defaultDispatchersHolder, componentContext) {
 

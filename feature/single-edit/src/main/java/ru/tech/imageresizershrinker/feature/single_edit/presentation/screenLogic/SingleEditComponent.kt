@@ -42,9 +42,9 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.clearAllAttributes
 import ru.tech.imageresizershrinker.core.domain.image.clearAttribute
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
@@ -92,7 +92,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder,

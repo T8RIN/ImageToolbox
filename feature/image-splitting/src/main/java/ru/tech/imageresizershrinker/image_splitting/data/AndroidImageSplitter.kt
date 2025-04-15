@@ -23,7 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 internal class AndroidImageSplitter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : ImageSplitter, DispatchersHolder by dispatchersHolder {
 

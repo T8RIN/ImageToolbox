@@ -31,7 +31,7 @@ import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -54,7 +54,7 @@ class NoiseGenerationComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder,
     private val noiseGenerator: NoiseGenerator<Bitmap>,
     private val fileController: FileController,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
 ) : BaseComponent(dispatchersHolder, componentContext) {

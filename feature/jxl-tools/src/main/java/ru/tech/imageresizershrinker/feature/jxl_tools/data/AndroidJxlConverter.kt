@@ -39,7 +39,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -55,7 +55,7 @@ import javax.inject.Inject
 internal class AndroidJxlConverter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageShareProvider: ShareProvider<Bitmap>,
+    private val imageShareProvider: ImageShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, JxlConverter {

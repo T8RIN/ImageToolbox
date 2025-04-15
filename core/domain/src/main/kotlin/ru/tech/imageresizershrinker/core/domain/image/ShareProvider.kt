@@ -17,28 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 
-interface ShareProvider<I> {
-
-    suspend fun shareImage(
-        imageInfo: ImageInfo,
-        image: I,
-        onComplete: () -> Unit
-    )
-
-    suspend fun cacheImage(
-        image: I,
-        imageInfo: ImageInfo,
-        filename: String? = null
-    ): String?
-
-    suspend fun shareImages(
-        uris: List<String>,
-        imageLoader: suspend (String) -> Pair<I, ImageInfo>?,
-        onProgressChange: (Int) -> Unit
-    )
+interface ShareProvider {
 
     suspend fun cacheByteArray(
         byteArray: ByteArray,

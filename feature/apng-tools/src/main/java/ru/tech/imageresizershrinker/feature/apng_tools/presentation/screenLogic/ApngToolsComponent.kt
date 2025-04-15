@@ -65,7 +65,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val apngConverter: ApngConverter,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     defaultDispatchersHolder: DispatchersHolder
 ) : BaseComponent(defaultDispatchersHolder, componentContext) {
 

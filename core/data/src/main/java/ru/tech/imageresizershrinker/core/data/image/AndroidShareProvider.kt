@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.core.data.saving.io.UriReadable
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
@@ -54,7 +55,7 @@ internal class AndroidShareProvider @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder,
     ResourceManager by resourceManager,
-    ShareProvider<Bitmap> {
+    ShareProvider, ImageShareProvider<Bitmap> {
 
     override suspend fun shareImages(
         uris: List<String>,

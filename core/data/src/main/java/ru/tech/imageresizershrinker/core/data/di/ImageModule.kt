@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import javax.inject.Singleton
@@ -74,6 +75,12 @@ internal interface ImageModule {
     @Binds
     fun provideShareProvider(
         provider: AndroidShareProvider
-    ): ShareProvider<Bitmap>
+    ): ShareProvider
+
+    @Singleton
+    @Binds
+    fun provideImageShareProvider(
+        provider: AndroidShareProvider
+    ): ImageShareProvider<Bitmap>
 
 }

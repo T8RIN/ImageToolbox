@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.data.utils.outputStream
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -52,7 +52,7 @@ import javax.inject.Inject
 
 internal class AndroidApngConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder

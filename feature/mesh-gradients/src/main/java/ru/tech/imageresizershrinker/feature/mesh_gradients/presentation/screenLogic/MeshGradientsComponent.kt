@@ -30,7 +30,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesStore
@@ -41,7 +41,7 @@ class MeshGradientsComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     remoteResourcesStore: RemoteResourcesStore

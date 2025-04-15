@@ -25,7 +25,7 @@ import org.jsoup.Jsoup
 import ru.tech.imageresizershrinker.core.domain.USER_AGENT
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
@@ -36,7 +36,7 @@ import javax.inject.Inject
 
 internal class AndroidHtmlImageParser @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : HtmlImageParser, DispatchersHolder by dispatchersHolder {

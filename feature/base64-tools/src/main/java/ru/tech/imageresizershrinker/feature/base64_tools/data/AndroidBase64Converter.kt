@@ -33,7 +33,7 @@ import javax.inject.Inject
 internal class AndroidBase64Converter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : Base64Converter, DispatchersHolder by dispatchersHolder {

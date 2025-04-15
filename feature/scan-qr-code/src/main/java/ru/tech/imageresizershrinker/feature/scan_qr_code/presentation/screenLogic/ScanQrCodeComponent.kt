@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -56,7 +56,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     @Assisted uriToAnalyze: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val fileController: FileController,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
     private val imageBarcodeReader: ImageBarcodeReader,

@@ -63,7 +63,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     private val gifConverter: GifConverter,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

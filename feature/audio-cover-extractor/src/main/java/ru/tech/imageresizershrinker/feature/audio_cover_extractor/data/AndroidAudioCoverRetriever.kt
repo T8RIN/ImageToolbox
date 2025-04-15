@@ -39,7 +39,7 @@ import javax.inject.Inject
 internal class AndroidAudioCoverRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager

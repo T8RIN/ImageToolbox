@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.zip.presentation.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -43,7 +42,7 @@ class ZipComponent @AssistedInject internal constructor(
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     private val zipManager: ZipManager,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {

@@ -56,7 +56,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {

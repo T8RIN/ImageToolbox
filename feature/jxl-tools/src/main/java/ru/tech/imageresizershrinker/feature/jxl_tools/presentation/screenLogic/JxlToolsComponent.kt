@@ -60,7 +60,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     private val jxlConverter: JxlConverter,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder

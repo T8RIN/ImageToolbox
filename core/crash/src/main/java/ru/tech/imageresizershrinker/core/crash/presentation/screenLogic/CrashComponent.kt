@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.crash.presentation.screenLogic
 
-import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
@@ -38,7 +37,7 @@ class CrashComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val crashInfo: CrashInfo,
     private val settingsManager: SettingsManager,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

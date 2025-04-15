@@ -19,7 +19,6 @@
 
 package ru.tech.imageresizershrinker.feature.svg_maker.presentation.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -51,7 +50,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     private val svgManager: SvgManager,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder

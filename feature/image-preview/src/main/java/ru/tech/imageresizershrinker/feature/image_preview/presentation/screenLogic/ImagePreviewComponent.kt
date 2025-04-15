@@ -43,7 +43,7 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder

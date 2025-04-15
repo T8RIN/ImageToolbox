@@ -25,6 +25,7 @@ import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -53,7 +54,7 @@ internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
 
@@ -128,20 +129,16 @@ internal class AndroidPdfManager @Inject constructor(
                         val bitmap: Bitmap
                         pdfRenderer.openPage(pageIndex).use { page ->
                             bitmap = imageScaler.scaleUntilCanShow(
-                                Bitmap.createBitmap(
+                                createBitmap(
                                     (page.width * (preset.value / 100f)).roundToInt(),
-                                    (page.height * (preset.value / 100f)).roundToInt(),
-                                    Bitmap.Config.ARGB_8888
+                                    (page.height * (preset.value / 100f)).roundToInt()
                                 )
                             )!!
                             page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                         }
 
-                        val renderedBitmap = Bitmap.createBitmap(
-                            bitmap.width,
-                            bitmap.height,
-                            getSuitableConfig(bitmap)
-                        )
+                        val renderedBitmap =
+                            createBitmap(bitmap.width, bitmap.height, getSuitableConfig(bitmap))
                         Canvas(renderedBitmap).apply {
                             drawColor(Color.White.toArgb())
                             drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })

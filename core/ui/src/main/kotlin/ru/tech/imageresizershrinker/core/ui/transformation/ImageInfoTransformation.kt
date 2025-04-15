@@ -25,8 +25,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
@@ -44,7 +44,7 @@ class ImageInfoTransformation @AssistedInject internal constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ImageShareProvider<Bitmap>
 ) : CoilTransformation(), Transformation<Bitmap> {
 
     override val cacheKey: String

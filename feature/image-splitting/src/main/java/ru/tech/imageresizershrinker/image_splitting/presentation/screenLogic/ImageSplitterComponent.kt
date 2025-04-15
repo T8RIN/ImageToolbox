@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.image_splitting.presentation.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -50,7 +49,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
     private val imageSplitter: ImageSplitter,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

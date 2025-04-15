@@ -95,7 +95,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
     resourceManager: ResourceManager,

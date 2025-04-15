@@ -57,7 +57,7 @@ import javax.inject.Inject
 internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     @ApplicationContext private val context: Context,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageTextReader {
 

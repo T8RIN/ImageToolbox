@@ -39,7 +39,7 @@ import androidx.core.net.toUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
@@ -65,7 +65,7 @@ class ScreenshotService : Service() {
     lateinit var fileController: FileController
 
     @Inject
-    lateinit var shareProvider: ShareProvider<Bitmap>
+    lateinit var shareProvider: ImageShareProvider<Bitmap>
 
     @Inject
     lateinit var imageCompressor: ImageCompressor<Bitmap>

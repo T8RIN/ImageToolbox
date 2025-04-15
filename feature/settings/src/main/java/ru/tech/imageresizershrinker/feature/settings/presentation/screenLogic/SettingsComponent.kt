@@ -75,7 +75,7 @@ class SettingsComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

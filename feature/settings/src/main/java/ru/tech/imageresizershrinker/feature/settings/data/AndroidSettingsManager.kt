@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.data
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Typeface
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -165,7 +164,7 @@ import kotlin.random.Random
 internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
-    private val shareProvider: Lazy<ShareProvider<Bitmap>>,
+    private val shareProvider: Lazy<ShareProvider>,
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
 

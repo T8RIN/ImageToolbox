@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.zip.data
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
@@ -35,7 +34,7 @@ import javax.inject.Inject
 
 internal class AndroidZipManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val shareProvider: ShareProvider<Bitmap>,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ZipManager {
 
