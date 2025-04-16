@@ -60,6 +60,7 @@
         android:allowBackup="true"
         android:colorMode="wideColorGamut"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:hasFragileUserData="true"
