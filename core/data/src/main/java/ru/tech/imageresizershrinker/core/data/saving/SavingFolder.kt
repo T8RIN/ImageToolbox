@@ -47,7 +47,7 @@ internal data class SavingFolder private constructor(
             if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val type = saveTarget.mimeType
-                    val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
+                    val path = "${Environment.DIRECTORY_DOCUMENTS}/ImageToolbox"
                     val contentValues = ContentValues().apply {
                         put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                         put(
@@ -73,7 +73,7 @@ internal data class SavingFolder private constructor(
                     val imagesDir = File(
                         Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_DOCUMENTS
-                        ), "ResizedImages"
+                        ), "ImageToolbox"
                     )
                     if (!imagesDir.exists()) imagesDir.mkdir()
 

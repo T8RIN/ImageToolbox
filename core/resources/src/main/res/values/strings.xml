@@ -65,7 +65,7 @@
     <string name="no_palette">Cannot generate palette for given image</string>
     <string name="original">Original</string>
     <string name="folder">Output folder</string>
-    <string name="default_folder" translatable="false">Documents/ResizedImages</string>
+    <string name="default_folder" translatable="false">Documents/ImageToolbox</string>
     <string name="def">Default</string>
     <string name="custom">Custom</string>
     <string name="unspecified">Unspecified</string>
