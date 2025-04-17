@@ -102,6 +102,7 @@ fun ToneCurvesEditOption(
         var isDefault by remember(editorState) {
             mutableStateOf(editorState.isDefault())
         }
+
         FullscreenEditOption(
             showControls = false,
             canGoBack = isDefault,
