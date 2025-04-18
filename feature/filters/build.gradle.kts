@@ -34,4 +34,5 @@ dependencies {
     implementation(libs.trickle)
     implementation(libs.toolbox.gpuimage)
     implementation(libs.toolbox.opencvTools)
+    implementation(libs.toolbox.curves)
 }

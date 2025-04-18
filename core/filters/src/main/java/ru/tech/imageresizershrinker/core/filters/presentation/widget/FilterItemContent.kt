@@ -29,6 +29,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianPara
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.ToneCurvesParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.BooleanItem
@@ -43,6 +44,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.PairItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.TripleItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.WaterParamsItem
 
@@ -176,6 +178,15 @@ internal fun <T> FilterItemContent(
 
             is LinearGaussianParams -> {
                 LinearGaussianParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is ToneCurvesParams -> {
+                ToneCurvesParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

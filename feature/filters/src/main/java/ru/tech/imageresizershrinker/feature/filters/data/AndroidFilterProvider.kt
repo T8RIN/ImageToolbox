@@ -246,6 +246,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SunriseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SwirlDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ThresholdFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ToneCurvesFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TopHatFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TriToneFilter
@@ -490,7 +491,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.SoftElegance -> SoftEleganceFilter(value, lutFilterFactory)
                 is Filter.SoftEleganceVariant -> SoftEleganceVariantFilter(value, lutFilterFactory)
                 is Filter.PaletteTransferVariant -> paletteTransferVariantFilterFactory(value)
-                is Filter.CubeLut -> CubeLutFilter(value, context)
+                is Filter.CubeLut -> CubeLutFilter(context, value)
                 is Filter.BleachBypass -> BleachBypassFilter(value, lutFilterFactory)
                 is Filter.Candlelight -> CandlelightFilter(value, lutFilterFactory)
                 is Filter.DropBlues -> DropBluesFilter(value, lutFilterFactory)
@@ -516,7 +517,8 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.SobelSimple -> SobelSimpleFilter(value)
                 is Filter.LaplacianSimple -> LaplacianSimpleFilter(value)
                 is Filter.MotionBlur -> MotionBlurFilter(value)
-                is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(value, context)
+                is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(context, value)
+                is Filter.ToneCurves -> ToneCurvesFilter(context, value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

@@ -25,8 +25,8 @@ import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class AutoRemoveRedEyesFilter(
+    private val context: Context,
     override val value: Float = 150f,
-    private val context: Context
 ) : Transformation<Bitmap>, Filter.AutoRemoveRedEyes {
 
     override val cacheKey: String

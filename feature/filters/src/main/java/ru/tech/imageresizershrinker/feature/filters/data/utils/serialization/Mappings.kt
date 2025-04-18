@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftPar
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.ToneCurvesParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import kotlin.collections.component1
@@ -149,6 +150,12 @@ internal fun Any.toPair(): Pair<String, String>? {
                 edgeMode.name,
                 transferFunction.name
             ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ToneCurvesParams -> {
+            ToneCurvesParams::class.simpleName!! to controlPoints.joinToString(PROPERTIES_SEPARATOR) {
+                it.joinToString(ADDITIONAL_PROPERTIES_SEPARATOR)
+            }
         }
 
         else -> null
@@ -297,6 +304,18 @@ internal fun Pair<String, String>.fromPair(): Any? {
             )
         }
 
+        name == ToneCurvesParams::class.simpleName -> {
+            val controlPoints = value.split(PROPERTIES_SEPARATOR).map { valueString ->
+                valueString.split(ADDITIONAL_PROPERTIES_SEPARATOR).map {
+                    it.toFloatOrNull() ?: 0f
+                }
+            }
+
+            ToneCurvesParams(
+                controlPoints = controlPoints
+            )
+        }
+
         else -> null
     }
 }
@@ -332,3 +351,4 @@ internal fun String.fromPart(type: String): Any {
 }
 
 private const val PROPERTIES_SEPARATOR = "$"
+private const val ADDITIONAL_PROPERTIES_SEPARATOR = "*"
