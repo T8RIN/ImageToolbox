@@ -418,7 +418,8 @@ or click one of the badges below.
     - [x] Enhanced Zoom Blur
     - [x] Simple Sobel
     - [x] Simple Laplacian
-    - [x] Auto Red Eyes remover 
+    - [x] Auto Red Eyes remover
+    - [x] Tone Curves 
 
   </details>
 
