@@ -29,8 +29,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -39,7 +37,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
@@ -57,7 +54,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toCoil
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 class AddFiltersSheetComponent @AssistedInject internal constructor(
@@ -72,11 +68,6 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     private val remoteResourcesStore: RemoteResourcesStore,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
-
-    private val _previewModel: MutableState<ImageModel> = mutableStateOf(
-        R.drawable.filter_preview_source.toImageModel()
-    )
-    val previewModel: ImageModel by _previewModel
 
     private val _previewData: MutableState<List<UiFilter<*>>?> = mutableStateOf(null)
     val previewData by _previewData
@@ -99,10 +90,6 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
             onFailure = {},
             downloadOnlyNewData = false
         )
-        favoriteInteractor
-            .getFilterPreviewModel().onEach { data ->
-                _previewModel.update { data }
-            }.launchIn(componentScope)
     }
 
     fun setFilterPreviewModel(uri: String) {

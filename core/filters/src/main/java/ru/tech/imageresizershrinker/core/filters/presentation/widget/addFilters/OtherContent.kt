@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiState
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterSelectionItem
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -87,7 +88,7 @@ internal fun OtherContent(
     previewBitmap: Bitmap?,
 ) {
     val context = LocalContext.current
-    val previewModel = component.previewModel
+    val previewModel = LocalFilterPreviewModel.current
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
@@ -306,8 +307,7 @@ internal fun OtherContent(
                         onFailure = essentials::showFailureToast,
                         downloadOnlyNewData = downloadOnlyNewData
                     )
-                },
-                previewModel = previewModel
+                }
             )
         }
     }

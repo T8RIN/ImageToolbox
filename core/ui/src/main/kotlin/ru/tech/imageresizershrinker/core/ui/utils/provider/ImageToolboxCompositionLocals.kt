@@ -26,6 +26,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
@@ -36,6 +37,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxThemeSurface
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -46,6 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 fun ImageToolboxCompositionLocals(
     settingsState: UiSettingsState,
     toastHostState: ToastHostState = rememberToastHostState(),
+    filterPreviewModel: ImageModel? = null,
     simpleSettingsInteractor: SimpleSettingsInteractor? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -56,14 +59,15 @@ fun ImageToolboxCompositionLocals(
     val screenSize = rememberScreenSize()
 
     val values = remember(
+        context,
         toastHostState,
         settingsState,
         simpleSettingsInteractor,
         editPresetsController,
         confettiHostState,
-        context,
         customHapticFeedback,
-        screenSize
+        screenSize,
+        filterPreviewModel
     ) {
         derivedStateOf {
             listOfNotNull(
@@ -71,6 +75,7 @@ fun ImageToolboxCompositionLocals(
                 LocalSettingsState provides settingsState,
                 LocalSimpleSettingsInteractor providesOrNull simpleSettingsInteractor,
                 LocalEditPresetsController provides editPresetsController,
+                LocalFilterPreviewModel providesOrNull filterPreviewModel,
                 LocalConfettiHostState provides confettiHostState,
                 LocalHapticFeedback provides customHapticFeedback,
                 LocalScreenSize provides screenSize

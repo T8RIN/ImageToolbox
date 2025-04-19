@@ -84,8 +84,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
@@ -113,7 +113,7 @@ fun FilterTemplateCreationSheet(
     onDismiss: () -> Unit,
     initialTemplateFilter: TemplateFilter? = null
 ) {
-    val previewModel = component.previewModel
+    val previewModel = LocalFilterPreviewModel.current
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -396,10 +396,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
         )
     )
 
-    private val _previewModel: MutableState<ImageModel> = mutableStateOf(
-        R.drawable.filter_preview_source.toImageModel()
-    )
-    val previewModel: ImageModel by _previewModel
+    private val _previewModel: MutableState<ImageModel> = mutableStateOf(ImageModel(""))
 
     private val _filterList: MutableState<List<UiFilter<*>>> = mutableStateOf(emptyList())
     val filterList by _filterList
@@ -427,7 +424,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
         debouncedImageCalculation {
             _previewBitmap.update {
                 imageGetter.getImageWithTransformations(
-                    data = bitmapUri ?: previewModel.data,
+                    data = bitmapUri ?: _previewModel.value.data,
                     transformations = filterList.map { filterProvider.filterToTransformation(it) },
                     size = IntegerSize(1000, 1000)
                 )

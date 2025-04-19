@@ -77,12 +77,12 @@ import coil3.transform.Transformation
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -108,8 +108,7 @@ internal fun FilterTemplateInfoSheet(
     onRemoveTemplateFilter: (TemplateFilter) -> Unit,
     onShareFile: (content: String) -> Unit,
     onRequestTemplateFilename: () -> String,
-    onRequestFilterMapping: (UiFilter<*>) -> Transformation,
-    previewModel: ImageModel
+    onRequestFilterMapping: (UiFilter<*>) -> Transformation
 ) {
     EnhancedModalBottomSheet(
         visible = visible,
@@ -197,8 +196,7 @@ internal fun FilterTemplateInfoSheet(
                                 .offset(y = (-48).dp)
                                 .size(64.dp),
                             templateFilter = templateFilter,
-                            onRequestFilterMapping = onRequestFilterMapping,
-                            previewModel = previewModel
+                            onRequestFilterMapping = onRequestFilterMapping
                         )
                     }
                 }
@@ -279,8 +277,7 @@ internal fun FilterTemplateInfoSheet(
                             )
                             .aspectRatio(1f),
                         templateFilter = templateFilter,
-                        onRequestFilterMapping = onRequestFilterMapping,
-                        previewModel = previewModel
+                        onRequestFilterMapping = onRequestFilterMapping
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(stringResource(R.string.delete_template_warn))
@@ -392,10 +389,10 @@ internal fun FilterTemplateInfoSheet(
 internal fun TemplateFilterPreviewItem(
     modifier: Modifier,
     onRequestFilterMapping: (UiFilter<*>) -> Transformation,
-    templateFilter: TemplateFilter,
-    previewModel: ImageModel
+    templateFilter: TemplateFilter
 ) {
     val context = LocalContext.current
+    val previewModel = LocalFilterPreviewModel.current
     val model = remember(templateFilter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)

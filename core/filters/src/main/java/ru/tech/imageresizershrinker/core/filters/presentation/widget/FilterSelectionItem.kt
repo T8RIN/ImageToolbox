@@ -65,7 +65,6 @@ import coil3.request.transformations
 import coil3.toBitmap
 import coil3.transform.Transformation
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -75,7 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkAvailable
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
@@ -99,12 +98,12 @@ internal fun FilterSelectionItem(
     modifier: Modifier,
     cubeLutRemoteResources: RemoteResources? = null,
     cubeLutDownloadProgress: RemoteResourcesDownloadProgress? = null,
-    onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> },
-    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() }
+    onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> }
 ) {
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val previewModel = LocalFilterPreviewModel.current
     val model = remember(filter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)
@@ -243,7 +242,6 @@ internal fun FilterSelectionItem(
                     forceUpdate = forceUpdateP
                     downloadOnlyNewData = downloadOnlyNewDataP
                 },
-                previewModel = previewModel,
                 onRequestFilterMapping = onRequestFilterMapping,
                 onClick = onClick
             )

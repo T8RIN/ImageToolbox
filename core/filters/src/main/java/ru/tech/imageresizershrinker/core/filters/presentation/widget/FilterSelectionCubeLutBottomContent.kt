@@ -80,12 +80,12 @@ import coil3.request.error
 import coil3.request.transformations
 import coil3.transform.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
-import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResources
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiCubeLutFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -106,11 +106,11 @@ internal fun FilterSelectionCubeLutBottomContent(
         forceUpdate: Boolean,
         downloadOnlyNewData: Boolean
     ) -> Unit,
-    previewModel: ImageModel,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation),
     onClick: (UiCubeLutFilter) -> Unit
 ) {
     cubeLutRemoteResources?.let { resources ->
+        val previewModel = LocalFilterPreviewModel.current
         val context = LocalContext.current
 
         var showSelection by rememberSaveable {

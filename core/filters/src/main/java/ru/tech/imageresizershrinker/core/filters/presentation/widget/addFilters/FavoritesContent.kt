@@ -69,7 +69,6 @@ internal fun FavoritesContent(
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?
 ) {
-    val previewModel = component.previewModel
     val onRequestFilterMapping = component::filterToTransformation
     val favoriteFilters by component.favoritesFlow.collectAsUiState()
     val essentials = rememberLocalEssentials()
@@ -197,8 +196,7 @@ internal fun FavoritesContent(
                                     onFailure = essentials::showFailureToast,
                                     downloadOnlyNewData = downloadOnlyNewData
                                 )
-                            },
-                            previewModel = previewModel
+                            }
                         )
                     }
                 }

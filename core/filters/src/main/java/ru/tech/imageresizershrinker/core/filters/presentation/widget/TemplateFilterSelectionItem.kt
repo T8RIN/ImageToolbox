@@ -55,7 +55,6 @@ import coil3.request.transformations
 import coil3.toBitmap
 import coil3.transform.Transformation
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -63,7 +62,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
@@ -78,10 +77,10 @@ internal fun TemplateFilterSelectionItem(
     onRequestFilterMapping: (UiFilter<*>) -> Transformation,
     onInfoClick: () -> Unit,
     shape: Shape,
-    modifier: Modifier,
-    previewModel: ImageModel = remember { R.drawable.filter_preview_source.toImageModel() }
+    modifier: Modifier
 ) {
     val context = LocalContext.current
+    val previewModel = LocalFilterPreviewModel.current
     val model = remember(templateFilter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)

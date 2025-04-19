@@ -34,6 +34,7 @@ fun RootContent(
     ImageToolboxCompositionLocals(
         settingsState = component.uiSettingsState(),
         toastHostState = component.toastHostState,
+        filterPreviewModel = component.filterPreviewModel,
         simpleSettingsInteractor = component.simpleSettingsInteractor
     ) {
         AppExitDialog(component)

@@ -65,7 +65,6 @@ internal fun TemplatesContent(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
 ) {
     val templateFilters by component.templatesFlow.collectAsUiState()
-    val previewModel = component.previewModel
     val onRequestFilterMapping = component::filterToTransformation
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -134,8 +133,7 @@ internal fun TemplatesContent(
                             index = index,
                             size = templateFilters.size
                         ),
-                        modifier = Modifier.animateItem(),
-                        previewModel = previewModel
+                        modifier = Modifier.animateItem()
                     )
                     FilterTemplateInfoSheet(
                         visible = showFilterTemplateInfoSheet,
@@ -176,7 +174,6 @@ internal fun TemplatesContent(
                                 onComplete = showConfetti
                             )
                         },
-                        previewModel = previewModel,
                         component = filterTemplateCreationSheetComponent
                     )
                 }

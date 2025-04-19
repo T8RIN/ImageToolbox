@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.root.presentation.screenLogic
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -49,10 +50,12 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
+import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.PerformanceClass
 import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
@@ -60,6 +63,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteracto
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.toSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -76,6 +80,7 @@ class RootComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
     private val analyticsManager: AnalyticsManager,
+    favoriteFiltersInteractor: FavoriteFiltersInteractor,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
@@ -156,6 +161,10 @@ class RootComponent @AssistedInject internal constructor(
     private val _changelog = mutableStateOf("")
     val changelog by _changelog
 
+    private val _filterPreviewModel: MutableState<ImageModel> =
+        mutableStateOf(R.drawable.filter_preview_source.toImageModel())
+    val filterPreviewModel by _filterPreviewModel
+
     val toastHostState = ToastHostState()
 
     init {
@@ -186,6 +195,11 @@ class RootComponent @AssistedInject internal constructor(
                 )
             }
         }
+
+        favoriteFiltersInteractor
+            .getFilterPreviewModel().onEach { data ->
+                _filterPreviewModel.update { data }
+            }.launchIn(componentScope)
     }
 
     fun toggleShowUpdateDialog() {

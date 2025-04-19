@@ -27,6 +27,7 @@ import com.t8rin.curves.ImageCurvesEditorState
 import ru.tech.imageresizershrinker.core.filters.domain.model.ToneCurvesParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 
 @Composable
 internal fun ToneCurvesParamsItem(
@@ -45,12 +46,14 @@ internal fun ToneCurvesParamsItem(
             mutableStateOf<Bitmap?>(null)
         }
 
+        val previewModel = LocalFilterPreviewModel.current
+
         val context = LocalContext.current
 
-        LaunchedEffect(context) {
+        LaunchedEffect(context, previewModel) {
             bitmap = context.imageLoader.execute(
                 ImageRequest.Builder(context)
-                    .data(R.drawable.filter_preview_source)
+                    .data(previewModel.data)
                     .build()
             ).image?.toBitmap()
         }
