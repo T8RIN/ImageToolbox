@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.WindowInsets
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
@@ -110,21 +110,19 @@ internal fun MainDrawerContent(
         }
     }
 
-    if ((sideSheetState.isOpen || sideSheetState.isAnimationRunning) && isSheetSlideable) {
-        PredictiveBackHandler { progress ->
-            try {
-                progress.collect { event ->
-                    if (event.progress <= 0.05f) {
-                        clean()
-                    }
-                    predictiveBackProgress = event.progress
-                }
+    PredictiveBackObserver(
+        onProgress = {
+            predictiveBackProgress = it
+        },
+        onClean = { isCompleted ->
+            if (isCompleted) {
                 sideSheetState.close()
-            } catch (_: Throwable) {
-                clean()
             }
-        }
-    }
+            clean()
+        },
+        enabled = (sideSheetState.isOpen || sideSheetState.isAnimationRunning) && isSheetSlideable
+    )
+
     val autoElevation by animateDpAsState(
         if (settingsState.drawContainerShadows) 16.dp
         else 0.dp

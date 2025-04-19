@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
@@ -63,10 +62,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 fun EnhancedModalBottomSheet(
@@ -327,21 +326,19 @@ private fun EnhancedModalSheetImpl(
             contentColor = contentColor,
             scrimColor = scrimColor,
             content = {
-                if (visible && enableBackHandler) {
-                    PredictiveBackHandler { progress ->
-                        try {
-                            progress.collect { event ->
-                                if (event.progress <= 0.05f) {
-                                    clean()
-                                }
-                                predictiveBackProgress = event.progress
-                            }
+                PredictiveBackObserver(
+                    onProgress = { progress ->
+                        predictiveBackProgress = progress
+                    },
+                    onClean = { isCompleted ->
+                        if (isCompleted) {
                             onVisibleChange(false)
-                        } catch (_: CancellationException) {
-                            clean()
+                            delay(400)
                         }
-                    }
-                }
+                        clean()
+                    },
+                    enabled = visible && enableBackHandler
+                )
                 content()
             },
         )
@@ -390,5 +387,7 @@ object EnhancedBottomSheetDefaults {
         durationMillis = 600,
         easing = FancyTransitionEasing
     )
+
+    val dragHandleHeight: Dp = 4.dp
 
 }

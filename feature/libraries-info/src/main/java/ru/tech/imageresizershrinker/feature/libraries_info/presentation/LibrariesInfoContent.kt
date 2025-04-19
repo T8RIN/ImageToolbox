@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.libraries_info.presentation
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -70,6 +69,7 @@ import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -253,19 +253,18 @@ fun LibrariesInfoContent(
                                 }
                             }
                         }
-                        PredictiveBackHandler { progress ->
-                            try {
-                                progress.collect { event ->
-                                    if (event.progress <= 0.05f) {
-                                        predictiveBackProgress = 0f
-                                    }
-                                    predictiveBackProgress = event.progress
+                        PredictiveBackObserver(
+                            onProgress = {
+                                predictiveBackProgress = it
+                            },
+                            onClean = { isCompleted ->
+                                if (isCompleted) {
+                                    component.selectLibrary(null)
+                                    delay(400)
                                 }
-                                component.selectLibrary(null)
-                            } catch (_: Throwable) {
                                 predictiveBackProgress = 0f
                             }
-                        }
+                        )
                     } else {
                         Spacer(Modifier.fillMaxSize())
                     }

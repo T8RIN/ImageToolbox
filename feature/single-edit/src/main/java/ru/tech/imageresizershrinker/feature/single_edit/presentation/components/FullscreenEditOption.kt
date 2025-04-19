@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -74,6 +73,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
@@ -335,19 +335,18 @@ fun FullscreenEditOption(
         }
         if (visible) {
             if (canGoBack) {
-                PredictiveBackHandler { progress ->
-                    try {
-                        progress.collect { event ->
-                            if (event.progress <= 0.05f) {
-                                predictiveBackProgress = 0f
-                            }
-                            predictiveBackProgress = event.progress
+                PredictiveBackObserver(
+                    onProgress = {
+                        predictiveBackProgress = it
+                    },
+                    onClean = { isCompleted ->
+                        if (isCompleted) {
+                            internalOnDismiss()
+                            delay(400)
                         }
-                        internalOnDismiss()
-                    } catch (_: Throwable) {
                         predictiveBackProgress = 0f
                     }
-                }
+                )
             } else {
                 ExitBackHandler(onBack = internalOnDismiss)
             }

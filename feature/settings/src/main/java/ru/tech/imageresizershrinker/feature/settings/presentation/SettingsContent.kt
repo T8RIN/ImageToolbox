@@ -45,6 +45,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -84,7 +85,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.model.SettingsGro
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -109,6 +109,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.Se
 @Composable
 fun SettingsContent(
     component: SettingsComponent,
+    disableBottomInsets: Boolean = false,
     appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
@@ -126,20 +127,26 @@ fun SettingsContent(
     val loading = component.isFilteringSettings
 
     val padding = WindowInsets.navigationBars
+        .union(WindowInsets.displayCutout)
+        .let { insets ->
+            if (disableBottomInsets) {
+                insets.only(
+                    WindowInsetsSides.Horizontal + WindowInsetsSides.Top
+                )
+            } else {
+                insets
+            }
+        }
         .asPaddingValues()
-        .plus(
-            WindowInsets.displayCutout
-                .asPaddingValues()
-                .run {
-                    PaddingValues(
-                        top = 8.dp,
-                        bottom = calculateBottomPadding() + 8.dp,
-                        end = calculateEndPadding(layoutDirection) + 8.dp,
-                        start = if (isStandaloneScreen) calculateStartPadding(layoutDirection) + 8.dp
-                        else 8.dp
-                    )
-                }
-        )
+        .run {
+            PaddingValues(
+                top = 8.dp,
+                bottom = calculateBottomPadding() + 8.dp,
+                end = calculateEndPadding(layoutDirection) + 8.dp,
+                start = if (isStandaloneScreen) calculateStartPadding(layoutDirection) + 8.dp
+                else 8.dp
+            )
+        }
 
     val focus = LocalFocusManager.current
     val isKeyboardVisible by isKeyboardVisibleAsState()

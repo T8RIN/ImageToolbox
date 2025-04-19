@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
 import android.net.Uri
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -98,6 +97,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -426,21 +426,19 @@ internal fun MediaImagePager(
                 }
             }
 
-            if (visible) {
-                PredictiveBackHandler { backProgress ->
-                    try {
-                        backProgress.collect { event ->
-                            if (event.progress <= 0.05f) {
-                                predictiveBackProgress = 0f
-                            }
-                            predictiveBackProgress = event.progress
-                        }
+            PredictiveBackObserver(
+                onProgress = {
+                    predictiveBackProgress = it
+                },
+                onClean = { isCompleted ->
+                    if (isCompleted) {
                         onDismiss()
-                    } catch (_: Throwable) {
-                        predictiveBackProgress = 0f
+                        delay(400)
                     }
-                }
-            }
+                    predictiveBackProgress = 0f
+                },
+                enabled = visible
+            )
         }
     }
 }

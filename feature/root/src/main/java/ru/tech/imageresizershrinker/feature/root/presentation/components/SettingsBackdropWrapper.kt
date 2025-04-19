@@ -17,11 +17,12 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
@@ -34,11 +35,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -47,17 +46,16 @@ import com.smarttoolfactory.gesture.detectPointerTransformGestures
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.domain.model.FastSettingsSide
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsContent
 import ru.tech.imageresizershrinker.feature.settings.presentation.screenLogic.SettingsComponent
-import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 internal fun SettingsBackdropWrapper(
@@ -66,7 +64,7 @@ internal fun SettingsBackdropWrapper(
     settingsComponent: SettingsComponent,
     children: @Composable () -> Unit
 ) {
-    var shape by remember { mutableStateOf<RoundedCornerShape>(RoundedCornerShape(0.dp)) }
+    var shape by remember { mutableStateOf(RoundedCornerShape(0.dp)) }
     val scaffoldState = rememberBackdropScaffoldState(
         initialValue = BackdropValue.Concealed,
         animationSpec = tween(
@@ -104,7 +102,6 @@ internal fun SettingsBackdropWrapper(
             }
     }
 
-    val scope = rememberCoroutineScope()
     val isTargetRevealed = scaffoldState.targetValue == BackdropValue.Revealed
 
     BackdropScaffold(
@@ -115,7 +112,6 @@ internal fun SettingsBackdropWrapper(
         },
         appBar = {},
         frontLayerContent = {
-
             val alpha by animateFloatAsState(
                 if (isTargetRevealed) 1f else 0f
             )
@@ -162,37 +158,35 @@ internal fun SettingsBackdropWrapper(
                     canExpandSettings = canExpandSettings
                 )
 
+                val progress = scaffoldState.progress(
+                    from = BackdropValue.Revealed,
+                    to = BackdropValue.Concealed
+                ) * 20f
+
                 EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
                     drawStroke = false,
+                    bendAngle = (-15f * (1f - progress)).coerceAtMost(0f),
                     modifier = Modifier.alpha(alpha)
                 )
             }
         },
         backLayerContent = {
             if (canExpandSettings && (scaffoldState.isRevealed || isTargetRevealed)) {
-                if (isTargetRevealed) {
-                    PredictiveBackHandler { progress ->
-                        try {
-                            progress.collect { event ->
-                                if (event.progress <= 0.05f) {
-                                    clean()
-                                }
-                                predictiveBackProgress = event.progress * 1.3f
-                            }
-                            scope.launch {
-                                scaffoldState.conceal()
-                                clean()
-                            }
-                        } catch (_: CancellationException) {
-                            clean()
-                        }
-                    }
-                }
+                PredictiveBackObserver(
+                    onProgress = {
+                        predictiveBackProgress = it * 1.3f
+                    },
+                    onClean = { isCompleted ->
+                        if (isCompleted) scaffoldState.conceal()
+                        clean()
+                    },
+                    enabled = isTargetRevealed
+                )
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .clip(shape)
+                        .fillMaxWidth()
+                        .height(LocalScreenSize.current.height)
                         .alpha(1f - animatedPredictiveBackProgress)
                 ) {
                     SettingsContent(
@@ -205,13 +199,10 @@ internal fun SettingsBackdropWrapper(
         headerHeight = 70.dp,
         persistentAppBar = false,
         frontLayerElevation = 0.dp,
-        backLayerBackgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        backLayerBackgroundColor = MaterialTheme.colorScheme.surface,
         frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
         frontLayerScrimColor = Color.Transparent,
-        frontLayerShape = animateShape(
-            if (scaffoldState.isRevealed) shape
-            else RoundedCornerShape(0.dp)
-        ),
+        frontLayerShape = RoundedCornerShape(0.dp),
         gesturesEnabled = scaffoldState.isRevealed
     )
 }

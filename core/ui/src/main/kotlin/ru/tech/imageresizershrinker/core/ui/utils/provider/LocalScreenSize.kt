@@ -28,12 +28,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.t8rin.dynamic.theme.observeAsState
@@ -61,9 +60,9 @@ private fun Density.ScreenSize(
 
 @Composable
 fun rememberScreenSize(): ScreenSize {
-    val configuration = LocalConfiguration.current
+    val windowInfo = LocalWindowInfo.current
 
-    var constraints by remember(configuration) {
+    var constraints by remember(windowInfo) {
         mutableStateOf<Constraints?>(null)
     }
 
@@ -81,12 +80,13 @@ fun rememberScreenSize(): ScreenSize {
 
     val density = LocalDensity.current
 
-    return remember(constraints, configuration, density) {
+    return remember(constraints, windowInfo, density) {
         derivedStateOf {
             with(density) {
                 ScreenSize(
-                    width = constraints?.maxWidth?.toDp() ?: configuration.screenWidthDp.dp,
-                    height = constraints?.maxHeight?.toDp() ?: configuration.screenHeightDp.dp,
+                    width = constraints?.maxWidth?.toDp() ?: windowInfo.containerSize.height.toDp(),
+                    height = constraints?.maxHeight?.toDp()
+                        ?: windowInfo.containerSize.width.toDp(),
                 )
             }
         }

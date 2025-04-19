@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.net.Uri
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -99,6 +98,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -460,22 +460,20 @@ fun ImagePager(
                 onNavigate = onNavigate
             )
 
-            if (visible) {
-                PredictiveBackHandler { backProgress ->
-                    try {
-                        backProgress.collect { event ->
-                            if (event.progress <= 0.05f) {
-                                predictiveBackProgress = 0f
-                            }
-                            predictiveBackProgress = event.progress
-                        }
+            PredictiveBackObserver(
+                onProgress = {
+                    predictiveBackProgress = it
+                },
+                onClean = { isCompleted ->
+                    if (isCompleted) {
                         onDismiss()
                         onUriSelected(null)
-                    } catch (_: Throwable) {
-                        predictiveBackProgress = 0f
+                        delay(400)
                     }
-                }
-            }
+                    predictiveBackProgress = 0f
+                },
+                enabled = visible
+            )
         }
     }
 }

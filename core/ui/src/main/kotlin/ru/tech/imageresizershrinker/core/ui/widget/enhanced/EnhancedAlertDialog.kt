@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
-import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -69,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
@@ -223,21 +223,19 @@ fun BasicEnhancedAlertDialog(
             }
 
             if (onDismissRequest != null) {
-                PredictiveBackHandler(enabled = visible) { progress ->
-                    try {
-                        progress.collect { event ->
-                            if (event.progress <= 0.05f) {
-                                scale = 1f
-                            }
-                            scale = (1f - event.progress * 1.5f).coerceAtLeast(0.75f)
+                PredictiveBackObserver(
+                    onProgress = { progress ->
+                        scale = (1f - progress * 1.5f).coerceAtLeast(0.75f)
+                    },
+                    onClean = { isCompleted ->
+                        if (isCompleted) {
+                            onDismissRequest()
+                            delay(400)
                         }
-                        onDismissRequest()
-                        delay(400)
                         scale = 1f
-                    } catch (_: Throwable) {
-                        scale = 1f
-                    }
-                }
+                    },
+                    enabled = visible
+                )
             }
         }
     }
