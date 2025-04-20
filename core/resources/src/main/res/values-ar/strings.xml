@@ -254,7 +254,7 @@
     <string name="draw_on_background_sub">اختر لون الخلفية وارسم فوقه</string>
     <string name="background_color">لون الخلفية</string>
     <string name="cipher">الشفرة</string>
-    <string name="cipher_sub">تشفير وفك تشفير أي ملف (ليس فقط الصورة) بناءً على تشفير AES algorithm</string>
+    <string name="cipher_sub">تشفير وفك تشفير أي ملف (ليس فقط الصورة) بناءً على تشفير خوارزمية AES</string>
     <string name="pick_file">اختر الملف</string>
     <string name="encrypt">تشفير</string>
     <string name="decrypt">فك تشفير</string>
