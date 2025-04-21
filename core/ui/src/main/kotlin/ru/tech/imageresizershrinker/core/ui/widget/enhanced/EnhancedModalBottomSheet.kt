@@ -303,8 +303,10 @@ private fun EnhancedModalSheetImpl(
                         val progress = animatedPredictiveBackProgress
                         scaleX = calculatePredictiveBackScaleX(progress)
                         scaleY = calculatePredictiveBackScaleY(progress)
-                        transformOrigin =
-                            TransformOrigin(0.5f, (sheetOffset + sheetHeight) / sheetHeight)
+                        transformOrigin = TransformOrigin(
+                            pivotFractionX = 0.5f,
+                            pivotFractionY = (sheetOffset + sheetHeight) / sheetHeight
+                        )
                     }
                 }
                 .offset(y = (settingsState.borderWidth + 1.dp))
