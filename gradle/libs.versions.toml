@@ -18,7 +18,7 @@ logger = "1.0.2"
 
 avifCoder = "2.1.0"
 avifCoderCoil = "2.1.0"
-aire = "0.15.6"
+aire = "0.16.0"
 jxlCoder = "2.4.0.7"
 jxlCoderCoil = "2.4.0.7"
 jpegliCoder = "1.0.1"
