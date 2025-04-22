@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearTentBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 11 to TransferFunc.SRGB,
+    override val value: Pair<Float, TransferFunc> = 11f to TransferFunc.SRGB,
 ) : Transformation<Bitmap>, Filter.LinearTentBlur {
 
     override val cacheKey: String
@@ -39,7 +39,7 @@ internal class LinearTentBlurFilter(
         size: IntegerSize,
     ): Bitmap = Aire.linearTentBlur(
         bitmap = input,
-        radius = value.first.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
+        sigma = value.first.roundTo(NEAREST_ODD_ROUNDING),
         transferFunction = value.second.toFunc()
     )
 

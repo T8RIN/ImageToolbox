@@ -37,7 +37,7 @@ internal class TentBlurFilter(
         size: IntegerSize,
     ): Bitmap = Aire.tentBlur(
         bitmap = input,
-        radius = value.roundTo(NEAREST_ODD_ROUNDING).toInt()
+        sigma = value.roundTo(NEAREST_ODD_ROUNDING)
     )
 
 }

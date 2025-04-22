@@ -207,8 +207,8 @@ interface Filter<Value> : VisibilityOwner {
     interface EqualizeHistogramAdaptiveHSV : TripleFilter<Int, Int, Int>
     interface EqualizeHistogramAdaptiveHSL : TripleFilter<Int, Int, Int>
     interface LinearBoxBlur : PairFilter<Int, TransferFunc>
-    interface LinearTentBlur : PairFilter<Int, TransferFunc>
-    interface LinearGaussianBoxBlur : PairFilter<Int, TransferFunc>
+    interface LinearTentBlur : PairFilter<Float, TransferFunc>
+    interface LinearGaussianBoxBlur : PairFilter<Float, TransferFunc>
     interface LinearStackBlur : PairFilter<Int, TransferFunc>
     interface GaussianBoxBlur : Filter<Float>
     interface LinearFastGaussianBlurNext : TripleFilter<Int, TransferFunc, BlurEdgeMode>

@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "36"
 androidCompileSdk = "36"
 
-versionName = "3.2.1-alpha02"
-versionCode = "173"
+versionName = "3.2.1-alpha03"
+versionCode = "174"
 
 jvmTarget = "17"
 
@@ -18,7 +18,7 @@ logger = "1.0.2"
 
 avifCoder = "2.1.0"
 avifCoderCoil = "2.1.0"
-aire = "0.15.6"
+aire = "0.16.0"
 jxlCoder = "2.4.0.7"
 jxlCoderCoil = "2.4.0.7"
 jpegliCoder = "1.0.1"
@@ -42,7 +42,7 @@ detektCompose = "0.4.22"
 decompose = "3.3.0"
 
 kotlin = "2.1.20"
-agp = "8.9.1"
+agp = "8.9.2"
 hilt = "2.56.2"
 gms = "4.4.2"
 
@@ -67,7 +67,7 @@ documentfile = "1.0.1"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.0-alpha11"
 
-material = "1.13.0-alpha12"
+material = "1.13.0-alpha13"
 jsoup = "1.19.1"
 
 mlkitDocumentScanner = "16.0.0-beta1"

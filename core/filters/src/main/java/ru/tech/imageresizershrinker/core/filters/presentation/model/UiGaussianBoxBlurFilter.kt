@@ -28,7 +28,7 @@ class UiGaussianBoxBlurFilter(
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.radius,
+            title = R.string.sigma,
             valueRange = 1f..300f,
             roundTo = 0
         )

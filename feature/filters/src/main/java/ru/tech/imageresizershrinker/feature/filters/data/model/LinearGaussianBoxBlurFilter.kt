@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.feature.filters.data.utils.toFunc
 
 internal class LinearGaussianBoxBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 10 to TransferFunc.SRGB
+    override val value: Pair<Float, TransferFunc> = 10f to TransferFunc.SRGB
 ) : Transformation<Bitmap>, Filter.LinearGaussianBoxBlur {
 
     override val cacheKey: String
@@ -37,7 +37,7 @@ internal class LinearGaussianBoxBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearGaussianBoxBlur(
         bitmap = input,
-        radius = value.first,
+        sigma = value.first,
         transferFunction = value.second.toFunc()
     )
 

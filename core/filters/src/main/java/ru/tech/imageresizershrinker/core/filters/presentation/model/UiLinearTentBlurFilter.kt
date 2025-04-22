@@ -24,13 +24,13 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiLinearTentBlurFilter(
-    override val value: Pair<Int, TransferFunc> = 11 to TransferFunc.SRGB
-) : UiFilter<Pair<Int, TransferFunc>>(
+    override val value: Pair<Float, TransferFunc> = 11f to TransferFunc.SRGB
+) : UiFilter<Pair<Float, TransferFunc>>(
     title = R.string.linear_tent_blur,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.radius,
+            title = R.string.sigma,
             valueRange = 1f..300f,
             roundTo = NEAREST_ODD_ROUNDING
         ),
