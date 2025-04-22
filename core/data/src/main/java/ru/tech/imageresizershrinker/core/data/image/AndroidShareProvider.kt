@@ -264,6 +264,7 @@ internal class AndroidShareProvider @Inject constructor(
                 onComplete = onComplete
             )
         }
+
         onComplete()
     }
 
