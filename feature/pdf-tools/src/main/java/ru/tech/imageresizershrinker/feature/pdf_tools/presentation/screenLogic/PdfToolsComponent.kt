@@ -55,6 +55,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.PdfTools.Type?,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val pdfManager: PdfManager<Bitmap>,
@@ -457,6 +458,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialType: Screen.PdfTools.Type?,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit
         ): PdfToolsComponent
     }
 

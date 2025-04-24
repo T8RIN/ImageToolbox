@@ -376,7 +376,8 @@ fun ApngToolsContent(
                         images = type.imageUris,
                         onReorder = component::reorderImageUris,
                         onNeedToAddImage = addImagesToPdfPicker::pickImage,
-                        onNeedToRemoveImageAt = component::removeImageAt
+                        onNeedToRemoveImageAt = component::removeImageAt,
+                        onNavigate = component.onNavigate
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     ApngParamsSelector(

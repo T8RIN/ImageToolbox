@@ -199,7 +199,8 @@ fun ImageStackingContent(
                     }.value,
                     onReorder = component::reorderUris,
                     onNeedToAddImage = addImages,
-                    onNeedToRemoveImageAt = component::removeImageAt
+                    onNeedToRemoveImageAt = component::removeImageAt,
+                    onNavigate = component.onNavigate
                 )
                 StackingParamsSelector(
                     value = component.stackingParams,

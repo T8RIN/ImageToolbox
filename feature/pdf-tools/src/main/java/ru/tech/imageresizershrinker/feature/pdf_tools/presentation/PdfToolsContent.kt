@@ -352,7 +352,8 @@ fun PdfToolsContent(
                             images = component.imagesToPdfState,
                             onReorder = component::reorderImagesToPdf,
                             onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
-                            onNeedToRemoveImageAt = component::removeImageToPdfAt
+                            onNeedToRemoveImageAt = component::removeImageToPdfAt,
+                            onNavigate = component.onNavigate
                         )
                         Spacer(Modifier.height(8.dp))
                         PresetSelector(

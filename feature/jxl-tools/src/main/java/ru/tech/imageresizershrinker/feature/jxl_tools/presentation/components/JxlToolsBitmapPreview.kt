@@ -103,7 +103,8 @@ internal fun JxlToolsBitmapPreview(
                                             }
                                     )
                                 )
-                            }
+                            },
+                            onNavigate = component.onNavigate
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                     }

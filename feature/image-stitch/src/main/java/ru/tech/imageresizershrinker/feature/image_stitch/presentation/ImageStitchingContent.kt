@@ -197,7 +197,8 @@ fun ImageStitchingContent(
                     images = component.uris,
                     onReorder = component::updateUris,
                     onNeedToAddImage = addImages,
-                    onNeedToRemoveImageAt = component::removeImageAt
+                    onNeedToRemoveImageAt = component::removeImageAt,
+                    onNavigate = component.onNavigate
                 )
                 ImageScaleSelector(
                     modifier = Modifier.padding(top = 8.dp),

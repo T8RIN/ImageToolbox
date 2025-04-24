@@ -23,6 +23,7 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -31,6 +32,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -611,6 +613,37 @@ object ContextUtils {
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(shareIntent)
+    }
+
+    fun Context.shareUris(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+
+        val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+            putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            type = MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(
+                    getExtension(uris.first())
+                ) ?: "*/*"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(shareIntent)
+    }
+
+    private fun Context.getExtension(uri: Uri): String? {
+        val filename = getFilename(uri) ?: ""
+        if (filename.endsWith(".qoi")) return "qoi"
+        if (filename.endsWith(".jxl")) return "jxl"
+        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) {
+            MimeTypeMap.getSingleton()
+                .getExtensionFromMimeType(
+                    contentResolver.getType(uri)
+                )
+        } else {
+            MimeTypeMap.getFileExtensionFromUrl(uri.toString()).lowercase(Locale.getDefault())
+        }
     }
 
     val Context.density: Density

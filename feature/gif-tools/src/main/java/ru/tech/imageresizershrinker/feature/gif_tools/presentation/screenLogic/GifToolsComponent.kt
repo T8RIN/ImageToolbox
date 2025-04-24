@@ -58,6 +58,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.GifTools.Type?,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
@@ -567,6 +568,7 @@ class GifToolsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialType: Screen.GifTools.Type?,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): GifToolsComponent
     }
 

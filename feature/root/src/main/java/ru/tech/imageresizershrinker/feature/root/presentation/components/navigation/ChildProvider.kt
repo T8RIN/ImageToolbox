@@ -297,7 +297,8 @@ internal class ChildProvider @Inject constructor(
             gifToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
@@ -350,7 +351,8 @@ internal class ChildProvider @Inject constructor(
             jxlToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
@@ -385,7 +387,8 @@ internal class ChildProvider @Inject constructor(
             pdfToolsComponentFactory(
                 componentContext = componentContext,
                 initialType = config.type,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 

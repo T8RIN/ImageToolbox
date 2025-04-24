@@ -19,13 +19,14 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import android.net.Uri
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -75,16 +75,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareUris
 import ru.tech.imageresizershrinker.core.ui.utils.helper.sortedByType
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import sh.calvin.reorderable.ReorderableItem
@@ -97,7 +102,8 @@ fun ImageReorderCarousel(
     modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
     onNeedToAddImage: () -> Unit,
-    onNeedToRemoveImageAt: (Int) -> Unit
+    onNeedToRemoveImageAt: (Int) -> Unit,
+    onNavigate: (Screen) -> Unit
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
@@ -118,6 +124,10 @@ fun ImageReorderCarousel(
             data.value = images ?: emptyList()
             listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
         }
+    }
+
+    var previewUri by rememberSaveable {
+        mutableStateOf<Uri?>(null)
     }
 
     Column(
@@ -239,9 +249,12 @@ fun ImageReorderCarousel(
             }
         }
         Box {
+            val showButton = (images?.size ?: 0) > 2 && !state.isAnyItemDragging
             LazyRow(
                 state = listState,
-                modifier = Modifier.animateContentSize(),
+                modifier = Modifier
+                    .fadingEdges(scrollableState = listState)
+                    .animateContentSize(),
                 contentPadding = PaddingValues(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -254,20 +267,17 @@ fun ImageReorderCarousel(
                         key = uri.toString() + uri.hashCode()
                     ) { isDragging ->
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
+                        val shape = animateShape(
+                            if (showButton) ContainerShapeDefaults.topShape
+                            else ContainerShapeDefaults.defaultShape
+                        )
+
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Box(
                                 modifier = Modifier
                                     .size(120.dp)
-                                    .longPressDraggableHandle(
-                                        onDragStarted = {
-                                            haptics.longPress()
-                                        },
-                                        onDragStopped = {
-                                            onReorder(data.value)
-                                        }
-                                    )
                                     .scale(
                                         animateFloatAsState(
                                             if (isDragging) 1.05f
@@ -275,9 +285,18 @@ fun ImageReorderCarousel(
                                         ).value
                                     )
                                     .container(
-                                        shape = RoundedCornerShape(16.dp),
+                                        shape = shape,
                                         color = Color.Transparent,
                                         resultPadding = 0.dp
+                                    )
+                                    .clickable { previewUri = uri }
+                                    .longPressDraggableHandle(
+                                        onDragStarted = {
+                                            haptics.longPress()
+                                        },
+                                        onDragStopped = {
+                                            onReorder(data.value)
+                                        }
                                     )
                             ) {
                                 Picture(
@@ -287,13 +306,12 @@ fun ImageReorderCarousel(
                                     contentScale = ContentScale.Fit
                                 )
                                 Box(
-                                    Modifier
+                                    modifier = Modifier
                                         .size(120.dp)
                                         .background(
-                                            color = MaterialTheme.colorScheme.surfaceContainer.copy(
-                                                alpha = alpha
-                                            ),
-                                            shape = RoundedCornerShape(16.dp)
+                                            MaterialTheme.colorScheme
+                                                .surfaceContainer
+                                                .copy(alpha)
                                         ),
                                     contentAlignment = Alignment.Center
                                 ) {
@@ -306,17 +324,23 @@ fun ImageReorderCarousel(
                                 }
                             }
                             BoxAnimatedVisibility(
-                                visible = (images?.size ?: 0) > 2 && !state.isAnyItemDragging,
-                                enter = scaleIn() + fadeIn(),
-                                exit = scaleOut() + fadeOut()
+                                visible = showButton,
+                                enter = expandVertically(tween(300)) + fadeIn(),
+                                exit = shrinkVertically(tween(300)) + fadeOut(),
+                                modifier = Modifier.width(120.dp)
                             ) {
                                 EnhancedButton(
                                     contentPadding = PaddingValues(),
                                     onClick = { onNeedToRemoveImageAt(index) },
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                        0.5f
+                                    ),
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    shape = ContainerShapeDefaults.bottomShape,
                                     modifier = Modifier
-                                        .padding(top = 8.dp)
+                                        .padding(top = 4.dp)
                                         .height(30.dp)
+                                        .width(120.dp)
                                 ) {
                                     Text(stringResource(R.string.remove), fontSize = 11.sp)
                                 }
@@ -325,41 +349,19 @@ fun ImageReorderCarousel(
                     }
                 }
             }
-            val edgeHeight by animateDpAsState(
-                120.dp + if (!state.isAnyItemDragging && (images?.size
-                        ?: 0) > 2
-                ) 50.dp else 0.dp
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .width(12.dp)
-                    .height(edgeHeight)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to MaterialTheme
-                                .colorScheme
-                                .surfaceContainerLow,
-                            1f to Color.Transparent
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .width(12.dp)
-                    .height(edgeHeight)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to Color.Transparent,
-                            1f to MaterialTheme
-                                .colorScheme
-                                .surfaceContainerLow
-                        )
-                    )
-            )
         }
     }
+
+    val context = LocalContext.current
+    ImagePager(
+        visible = previewUri != null,
+        selectedUri = previewUri,
+        uris = images,
+        onNavigate = onNavigate,
+        onUriSelected = { previewUri = it },
+        onShare = { context.shareUris(listOf(it)) },
+        onDismiss = { previewUri = null }
+    )
 }
 
 private val SortType.title: String

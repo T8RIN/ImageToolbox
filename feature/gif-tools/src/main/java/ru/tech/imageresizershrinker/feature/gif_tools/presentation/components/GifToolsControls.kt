@@ -57,7 +57,8 @@ internal fun GifToolsControls(component: GifToolsComponent) {
                 images = type.imageUris,
                 onReorder = component::reorderImageUris,
                 onNeedToAddImage = addImagesToGifPicker::pickImage,
-                onNeedToRemoveImageAt = component::removeImageAt
+                onNeedToRemoveImageAt = component::removeImageAt,
+                onNavigate = component.onNavigate
             )
             Spacer(modifier = Modifier.height(8.dp))
             GifParamsSelector(

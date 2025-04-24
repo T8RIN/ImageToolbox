@@ -57,6 +57,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialType: Screen.JxlTools.Type?,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val jxlConverter: JxlConverter,
     private val fileController: FileController,
     private val filenameCreator: FilenameCreator,
@@ -527,6 +528,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialType: Screen.JxlTools.Type?,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): JxlToolsComponent
     }
 
