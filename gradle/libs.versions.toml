@@ -80,7 +80,7 @@ bouncycastle = "1.80"
 ffmpeg-metadata-retriever = "1.0.19"
 
 firebaseCrashlyticsGradle = "3.0.3"
-aboutlibrariesGradle = "12.0.0-a05"
+aboutlibrariesGradle = "12.1.0-rc01"
 moduleGraphGradle = "0.12.0"
 
 [libraries]
