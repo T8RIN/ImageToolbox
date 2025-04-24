@@ -114,13 +114,10 @@ Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for F
 # ✈️ Telegram Links
 
 </br>
-<a href="https://t.me/t8rin_imagetoolbox">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox" alt="Telegram">
-  </a>
 
-  <a href="https://t.me/t8rin_imagetoolbox_ci">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=29626B&colorB=B5DFE8&logo=telegram&logoColor=B5DFE8&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
-  </a>
+  [![ImageToolbox Chat](https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox%20Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox)](https://t.me/t8rin_imagetoolbox)
+[![CI Telegram](https://img.shields.io/endpoint?&style=for-the-badge&colorA=29626B&colorB=B5DFE8&logo=telegram&logoColor=B5DFE8&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci)](https://t.me/t8rin_imagetoolbox_ci)
+
 
   </br>
   </br>
