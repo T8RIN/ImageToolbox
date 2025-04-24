@@ -58,6 +58,9 @@ internal class AndroidPdfManager @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
 
+    private val pagesCache = hashMapOf<String, List<IntegerSize>>()
+
+
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
@@ -80,6 +83,10 @@ internal class AndroidPdfManager @Inject constructor(
             } else image
         }
 
+        val paint = Paint().apply {
+            isAntiAlias = true
+        }
+
         bitmaps.forEachIndexed { index, imageBitmap ->
             val pageInfo = PdfDocument.PageInfo.Builder(
                 imageBitmap.width,
@@ -87,13 +94,10 @@ internal class AndroidPdfManager @Inject constructor(
                 index
             ).create()
             val page = pdfDocument.startPage(pageInfo)
-            val canvas = page.canvas
-            canvas.drawBitmap(
+            page.canvas.drawBitmap(
                 imageBitmap,
                 0f, 0f,
-                Paint().apply {
-                    isAntiAlias = true
-                }
+                paint
             )
             pdfDocument.finishPage(page)
             delay(10L)
@@ -161,37 +165,34 @@ internal class AndroidPdfManager @Inject constructor(
                 uri.toUri(),
                 "r"
             )?.use { fileDescriptor ->
-                List(PdfRenderer(fileDescriptor).pageCount) { it }
+                val renderer = PdfRenderer(fileDescriptor)
+
+                List(renderer.pageCount) { it }
             }
         }.getOrNull() ?: emptyList()
     }
 
-    private val pagesBuf = hashMapOf<String, List<IntegerSize>>()
     override suspend fun getPdfPageSizes(
         uri: String
     ): List<IntegerSize> = withContext(decodingDispatcher) {
-        if (!pagesBuf[uri].isNullOrEmpty()) {
-            pagesBuf[uri]!!
-        } else {
-            runCatching {
-                context.contentResolver.openFileDescriptor(
-                    uri.toUri(),
-                    "r"
-                )?.use { fileDescriptor ->
-                    val r = PdfRenderer(fileDescriptor)
-                    List(r.pageCount) {
-                        val page = r.openPage(it)
-                        page.run {
-                            IntegerSize(width, height)
-                        }.also {
-                            page.close()
-                        }
+        pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
+            context.contentResolver.openFileDescriptor(
+                uri.toUri(),
+                "r"
+            )?.use { fileDescriptor ->
+                val renderer = PdfRenderer(fileDescriptor)
+                List(renderer.pageCount) {
+                    val page = renderer.openPage(it)
+                    page.run {
+                        IntegerSize(width, height)
                     }.also {
-                        pagesBuf[uri] = it
+                        page.close()
                     }
+                }.also {
+                    pagesCache[uri] = it
                 }
-            }.getOrNull() ?: emptyList()
-        }
+            }
+        }.getOrNull() ?: emptyList()
     }
 
     private suspend fun calculateCombinedImageDimensionsAndBitmaps(

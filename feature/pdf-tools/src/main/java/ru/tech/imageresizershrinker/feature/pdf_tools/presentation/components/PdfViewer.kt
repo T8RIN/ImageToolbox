@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
-import android.annotation.SuppressLint
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
@@ -56,6 +55,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -66,6 +67,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.memory.MemoryCache
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -80,14 +82,15 @@ import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.feature.pdf_tools.data.createPdfRenderer
 import kotlin.math.sqrt
 
 
-@SuppressLint("ProduceStateDoesNotAssignValue")
 @Composable
 fun PdfViewer(
     uriState: Uri?,
@@ -106,7 +109,23 @@ fun PdfViewer(
     orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical,
     contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp)
 ) {
-    val showError: (Throwable) -> Unit = {}
+    val essentials = rememberLocalEssentials()
+
+    var showPasswordRequestDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    var pdfPassword by rememberSaveable {
+        mutableStateOf<String?>(null)
+    }
+
+    val showError: (Throwable) -> Unit = {
+        it.makeLog("PdfViewer")
+        essentials.showFailureToast(it)
+        if (it is SecurityException) {
+            showPasswordRequestDialog = true
+        }
+    }
 
     AnimatedContent(
         targetState = uriState
@@ -127,9 +146,11 @@ fun PdfViewer(
                         runCatching {
                             val input = context.contentResolver.openFileDescriptor(uri, "r")
                             pagesSize.clear()
-                            val renderer = input?.let {
-                                PdfRenderer(it)
-                            }?.also {
+                            val renderer = input?.createPdfRenderer(
+                                password = pdfPassword,
+                                onFailure = showError,
+                                onPasswordRequest = { showPasswordRequestDialog = true }
+                            )?.also {
                                 onGetPagesCount(it.pageCount)
                                 repeat(it.pageCount) { index ->
                                     it.openPage(index).use { page ->
