@@ -136,7 +136,6 @@ fun PdfToolsContent(
 
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var showSelectionPdfPicker by rememberSaveable { mutableStateOf(false) }
-
     LaunchedEffect(showSelectionPdfPicker) {
         if (!showSelectionPdfPicker) tempSelectionUri = null
     }
