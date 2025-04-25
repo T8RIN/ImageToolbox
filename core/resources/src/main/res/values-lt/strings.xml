@@ -22,7 +22,7 @@
     <string name="no_updates">Naujinimų nerasta</string>
     <string name="updates">Naujinimai</string>
     <string name="search_here">Ieškokite čia</string>
-    <string name="check_updates_sub">Jei įjungta, naujinimo dialogas bus rodomas paleidžiant programėlę.</string>
+    <string name="check_updates_sub">Jei įjungta, naujinimo dialogo langas bus rodomas paleidžiant programėlę.</string>
     <string name="lut_library_update_sub">Atnaujinti LUT kolekciją (į eilę bus įtraukti tik nauji), kurią galėsite taikyti atsisiuntę.</string>
     <string name="tg_chat_sub">Aptarkite programėlę ir gaukite kitų naudotojų atsiliepimų. Čia taip pat galite gauti beta versijos naujinimų ir įžvalgų.</string>
     <string name="check_for_updates">Tikrinti, ar yra naujinimų</string>
@@ -33,9 +33,26 @@
     <string name="resize_type">Keisti dydžio tipą</string>
     <string name="by_bytes_resize">Keisti dydį pagal svorį</string>
     <string name="max_bytes">Didžiausias dydis vienetu KB</string>
-    <string name="donation_sub">Ši programa yra visiškai nemokama, bet jei norite palaikyti projekto kūrimą, galite spustelėti čia.</string>
+    <string name="donation_sub">Ši programa yra visiškai nemokama, bet jei norite paremti projekto kūrimą, galite spustelėti čia.</string>
     <string name="contact_me">Susisiekite su manimi</string>
     <string name="donation">Aukojimas</string>
     <string name="search_option">Paieška</string>
     <string name="search_option_sub">Suteikia galimybę ieškoti visų pagrindiniame ekrane esančių įrankių.</string>
+    <string name="image_toolbox_in_telegram_sub">Junkitės prie mūsų pokalbio, kuriame galite aptarti viską, ką norite, ir taip pat pažvelkite į CI kanalą, kuriame skelbiu beta versijas ir skelbimus.</string>
+    <string name="reset_settings_sub">Tai sugrąžins jūsų nustatymus į numatytąsias reikšmes. Atkreipkite dėmesį, kad to negalima anuliuoti be pirmiau minėto atsarginės kopijos failo.</string>
+    <string name="send_logs">Siųsti žurnalus</string>
+    <string name="send_logs_sub">Spustelėkite norint bendrinti programėlės žurnalų failą. Tai gali padėti man pastebėti ir išspręsti problemas.</string>
+    <string name="close">Užverti</string>
+    <string name="reset">Nustatyti iš naujo</string>
+    <string name="check_source_code">Šaltinio kodas</string>
+    <string name="about_app">Apie programėlę</string>
+    <string name="tg_chat">„Telegram“ pokalbis</string>
+    <string name="restore">Atkurti</string>
+    <string name="restore_sub">Atkurkite programėlės nustatymus iš anksčiau sugeneruoto failo.</string>
+    <string name="allow_betas">Leisti beta versijų</string>
+    <string name="ci_channel">CI kanalas</string>
+    <string name="group">Grupė</string>
+    <string name="image_toolbox_in_telegram">„Image Toolbox“ programėlėje „Telegram“ 🎉</string>
+    <string name="ci_channel_sub">Gaukite pranešimų apie naujas programėlės versijas ir skaitykite skelbimus.</string>
+    <string name="crash_subtitle">Galite susisiekti su manimi naudojant žemiau nurodytas parinktis ir aš bandysiu surasti sprendimą.\n\n(Nepamirškite pridėti žurnalus).</string>
 </resources>
