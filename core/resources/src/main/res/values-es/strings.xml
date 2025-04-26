@@ -286,7 +286,7 @@
     <string name="found_s">Encontrado %1$s</string>
     <string name="draw_on_background_sub">Elija el color de fondo y dibuje encima</string>
     <string name="features_sub">Cifrado de archivos basado en contraseña. Los archivos procedidos pueden almacenarse en el directorio seleccionado o compartirse. Los archivos descifrados también se pueden abrir directamente.</string>
-    <string name="implementation_sub">AES-256, modo GCM, sin relleno, IV aleatorios de 12 bytes. Las claves se utilizan como hash SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, modo GCM, sin relleno, IV aleatorios de 12 bytes. (Por defecto, pero puedes seleccionar el algoritmo necesario) Las claves se utilizan como hashes SHA-3 (256 bits).</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">No se puede cambiar el arreglo mientras la agrupación de opciones está habilitada</string>
     <string name="skip">Saltar</string>
     <string name="paint_alpha">Pintura alfa</string>
@@ -520,9 +520,9 @@
     <string name="frequency_y">Frecuencia Y</string>
     <string name="simple_effects">Efectos simples</string>
     <string name="polaroid">Polaroid</string>
-    <string name="tritonomaly">Tritonomalia</string>
-    <string name="deutaromaly">Deutaromalia</string>
-    <string name="protonomaly">Protonomalia</string>
+    <string name="tritonomaly">Tritanomalía</string>
+    <string name="deutaromaly">Deuteranomalía</string>
+    <string name="protonomaly">Protanomalía</string>
     <string name="vintage">Antiguo</string>
     <string name="browni">Brownie</string>
     <string name="coda_chrome">Coda Cromo</string>
@@ -530,7 +530,7 @@
     <string name="warm">Cálido</string>
     <string name="cool">Fresco</string>
     <string name="tritanopia">Tritanopía</string>
-    <string name="deutaronotopia">Deutaronotopía</string>
+    <string name="deutaronotopia">Deuteranopía</string>
     <string name="protanopia">Protanopía</string>
     <string name="achromatomaly">Acromatomalia</string>
     <string name="achromatopsia">Acromatopsia</string>
@@ -1218,4 +1218,8 @@
     <string name="fluent_switch">Fluido</string>
     <string name="tag_device_setting_description">Descripción de ajustes de dispositivo</string>
     <string name="reset_curves_sub">Las curvas serán reestablecidas al valor predeterminado</string>
+    <string name="open_edit_instead_of_preview_sub">Cuando seleccionas una imagen para abrir (vista previa) en ImageToolbox, la hoja de selección de edición se abrirá en vez de mostrar la vista previa</string>
+    <string name="barcodes_sub">Escanea cualquier código de barras (QR, EAN, AZTEC, ...) y obtén su contenido o pega tu texto para generar uno nuevo</string>
+    <string name="lanczos2_jinc_sub">Una variante del filtro Lanczos 2 que usa la función jinc, proveyendo interpolación de alta calidad con distorsiones mínimas</string>
+    <string name="compose_switch_sub">Usa el interruptor Jetpack Compose Material You, no es tan bonito como el basado en vista</string>
 </resources>
