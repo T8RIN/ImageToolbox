@@ -22,9 +22,15 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 interface PdfManager<I> {
 
-    suspend fun getPdfPages(uri: String): List<Int>
+    suspend fun getPdfPages(
+        uri: String,
+        password: String?
+    ): List<Int>
 
-    suspend fun getPdfPageSizes(uri: String): List<IntegerSize>
+    suspend fun getPdfPageSizes(
+        uri: String,
+        password: String?
+    ): List<IntegerSize>
 
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
@@ -35,6 +41,8 @@ interface PdfManager<I> {
 
     suspend fun convertPdfToImages(
         pdfUri: String,
+        password: String?,
+        onFailure: (Throwable) -> Unit,
         pages: List<Int>?,
         preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,

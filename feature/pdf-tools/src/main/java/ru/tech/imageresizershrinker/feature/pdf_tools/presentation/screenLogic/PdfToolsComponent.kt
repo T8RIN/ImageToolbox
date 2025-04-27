@@ -100,6 +100,14 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _showOOMWarning: MutableState<Boolean> = mutableStateOf(false)
     val showOOMWarning by _showOOMWarning
 
+    private val _done: MutableState<Int> = mutableIntStateOf(0)
+    val done by _done
+
+    private val _left: MutableState<Int> = mutableIntStateOf(1)
+    val left by _left
+
+    private var _pdfPassword: String? = null
+
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
@@ -173,11 +181,15 @@ class PdfToolsComponent @AssistedInject internal constructor(
         }
         componentScope.launch {
             newUri?.let {
-                val pages = pdfManager.getPdfPages(newUri.toString())
+                val pages = pdfManager.getPdfPages(
+                    uri = newUri.toString(),
+                    password = _pdfPassword
+                )
+
                 _pdfToImageState.update {
                     PdfToImageState(
                         uri = newUri,
-                        pagesCount = pages.size,
+                        pagesCount = pages.size.coerceAtLeast(1),
                         selectedPages = pages
                     )
                 }
@@ -190,6 +202,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
         resetCalculatedData()
     }
 
+    fun updatePdfPassword(password: String?) {
+        _pdfPassword = password
+    }
+
     fun clearAll() {
         _pdfType.update { null }
         _pdfPreviewUri.update { null }
@@ -198,15 +214,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _presetSelected.update { Preset.Original }
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
+        _pdfPassword = null
         resetCalculatedData()
         registerChangesCleared()
     }
-
-    private val _done: MutableState<Int> = mutableIntStateOf(0)
-    val done by _done
-
-    private val _left: MutableState<Int> = mutableIntStateOf(1)
-    val left by _left
 
     fun savePdfToImages(
         oneTimeSaveLocationUri: String?,
@@ -252,6 +263,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 onComplete = {
                     _isSaving.value = false
                     onComplete(results.onSuccess(::registerSave))
+                },
+                password = _pdfPassword,
+                onFailure = {
+                    onComplete(listOf(SaveResult.Error.Exception(it)))
                 }
             )
         }
@@ -285,7 +300,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
     }
 
     fun preformSharing(
-        onComplete: () -> Unit
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
     ) {
         savingJob = componentScope.launch {
             _isSaving.value = true
@@ -304,11 +320,11 @@ class PdfToolsComponent @AssistedInject internal constructor(
                         ).let {
                             shareProvider.shareUri(
                                 uri = it,
-                                onComplete = onComplete
+                                onComplete = onSuccess
                             )
                         }
                     }
-                    onComplete()
+                    onSuccess()
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {
@@ -348,8 +364,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
                             onComplete = {
                                 _isSaving.value = false
                                 shareProvider.shareUris(uris.filterNotNull())
-                                onComplete()
-                            }
+                                onSuccess()
+                            },
+                            password = _pdfPassword,
+                            onFailure = onFailure
                         )
                     }
                 }
@@ -358,7 +376,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     type.pdfUri?.toString()?.let {
                         shareProvider.shareUri(
                             uri = it,
-                            onComplete = onComplete
+                            onComplete = onSuccess
                         )
                     }
                 }
@@ -402,8 +420,11 @@ class PdfToolsComponent @AssistedInject internal constructor(
         presetSelectionJob = componentScope.launch {
             runSuspendCatching {
                 _pdfToImageState.value?.let { (uri, _, selectedPages) ->
-                    val pagesSize = pdfManager.getPdfPageSizes(uri.toString())
-                        .filterIndexed { index, _ -> index in selectedPages }
+                    val pagesSize = pdfManager.getPdfPageSizes(
+                        uri = uri.toString(),
+                        password = _pdfPassword
+                    ).filterIndexed { index, _ -> index in selectedPages }
+
                     _showOOMWarning.update {
                         pagesSize.maxOf { size ->
                             size.width * (preset.value / 100f) * size.height * (preset.value / 100f) * 4
@@ -429,6 +450,13 @@ class PdfToolsComponent @AssistedInject internal constructor(
             }
         }
         checkForOOM()
+    }
+
+    fun updatePdfToImagePagesCount(pagesCount: Int) {
+        _pdfToImageState.update { state ->
+            if (state != null) checkForOOM()
+            state?.copy(pagesCount = pagesCount)
+        }
     }
 
     fun updatePdfToImageSelection(ints: List<Int>) {

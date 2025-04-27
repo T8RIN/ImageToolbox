@@ -94,6 +94,7 @@ import kotlin.math.sqrt
 @Composable
 fun PdfViewer(
     uriState: Uri?,
+    onForceClearType: () -> Unit,
     modifier: Modifier,
     selectAllToggle: MutableState<Boolean> = remember {
         mutableStateOf(false)
@@ -106,6 +107,7 @@ fun PdfViewer(
     selectedPages: List<Int> = emptyList(),
     updateSelectedPages: (List<Int>) -> Unit = {},
     spacing: Dp = 8.dp,
+    onGetCorrectPassword: (String?) -> Unit = {},
     orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical,
     contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp)
 ) {
@@ -121,9 +123,10 @@ fun PdfViewer(
 
     val showError: (Throwable) -> Unit = {
         it.makeLog("PdfViewer")
-        essentials.showFailureToast(it)
         if (it is SecurityException) {
             showPasswordRequestDialog = true
+        } else {
+            essentials.showFailureToast(it)
         }
     }
 
@@ -141,29 +144,32 @@ fun PdfViewer(
                 val rendererScope = rememberCoroutineScope()
                 val mutex = remember { Mutex() }
                 val pagesSize = remember { mutableStateListOf<IntegerSize>() }
-                val renderer by produceState<PdfRenderer?>(null, uri) {
+                val renderer by produceState<PdfRenderer?>(null, uri, pdfPassword) {
                     rendererScope.launch(Dispatchers.IO) {
                         runCatching {
-                            val input = context.contentResolver.openFileDescriptor(uri, "r")
-                            pagesSize.clear()
-                            val renderer = input?.createPdfRenderer(
-                                password = pdfPassword,
-                                onFailure = showError,
-                                onPasswordRequest = { showPasswordRequestDialog = true }
-                            )?.also {
-                                onGetPagesCount(it.pageCount)
-                                repeat(it.pageCount) { index ->
-                                    it.openPage(index).use { page ->
-                                        val size = IntegerSize(
-                                            width = page.width,
-                                            height = page.height
-                                        ).flexibleResize(width, height)
+                            mutex.withLock {
+                                val input = context.contentResolver.openFileDescriptor(uri, "r")
+                                pagesSize.clear()
+                                val renderer = input?.createPdfRenderer(
+                                    password = pdfPassword,
+                                    onFailure = showError,
+                                    onPasswordRequest = { showPasswordRequestDialog = true }
+                                )?.also {
+                                    onGetCorrectPassword(pdfPassword)
+                                    onGetPagesCount(it.pageCount)
+                                    repeat(it.pageCount) { index ->
+                                        it.openPage(index).use { page ->
+                                            val size = IntegerSize(
+                                                width = page.width,
+                                                height = page.height
+                                            ).flexibleResize(width, height)
 
-                                        pagesSize.add(size)
+                                            pagesSize.add(size)
+                                        }
                                     }
                                 }
+                                value = renderer
                             }
-                            value = renderer
                         }.onFailure(showError)
                     }
                     awaitDispose {
@@ -442,6 +448,18 @@ fun PdfViewer(
             }
         }
     }
+
+    PdfPasswordRequestDialog(
+        isVisible = showPasswordRequestDialog,
+        onDismiss = {
+            showPasswordRequestDialog = false
+            onForceClearType()
+        },
+        onFillPassword = {
+            showPasswordRequestDialog = false
+            pdfPassword = it
+        }
+    )
 }
 
 enum class PdfViewerOrientation {

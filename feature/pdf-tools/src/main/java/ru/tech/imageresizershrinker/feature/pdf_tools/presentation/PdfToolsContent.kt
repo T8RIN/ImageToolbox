@@ -241,16 +241,25 @@ fun PdfToolsContent(
             component = component,
             scrollBehavior = scrollBehavior,
             onGoBack = onBack,
+            onForceClearType = component::clearAll,
             isPortrait = isPortrait,
             actionButtons = { pdfType ->
+                val visible by rememberCanSaveOrShare(
+                    selectedPages = component.pdfToImageState?.selectedPages,
+                    pdfType = pdfType
+                )
+
                 AnimatedVisibility(
-                    visible = pdfType != null,
+                    visible = visible,
                     enter = fadeIn() + scaleIn() + expandHorizontally(),
                     exit = fadeOut() + scaleOut() + shrinkHorizontally()
                 ) {
                     ShareButton(
                         onShare = {
-                            component.preformSharing(showConfetti)
+                            component.preformSharing(
+                                onSuccess = showConfetti,
+                                onFailure = essentials::showFailureToast
+                            )
                         }
                     )
                 }
@@ -283,11 +292,11 @@ fun PdfToolsContent(
                     )
                 }
                 if (pdfType !is Screen.PdfTools.Type.Preview) {
-                    val visible by remember(component.pdfToImageState?.selectedPages, pdfType) {
-                        derivedStateOf {
-                            (component.pdfToImageState?.selectedPages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
-                        }
-                    }
+                    val visible by rememberCanSaveOrShare(
+                        selectedPages = component.pdfToImageState?.selectedPages,
+                        pdfType = pdfType
+                    )
+
                     if (visible) {
                         if (isPortrait) {
                             Spacer(modifier = Modifier.width(8.dp))
@@ -505,4 +514,14 @@ fun PdfToolsContent(
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
+}
+
+@Composable
+private fun rememberCanSaveOrShare(
+    selectedPages: List<Int>?,
+    pdfType: Screen.PdfTools.Type?
+) = remember(selectedPages, pdfType) {
+    derivedStateOf {
+        (selectedPages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
+    }
 }

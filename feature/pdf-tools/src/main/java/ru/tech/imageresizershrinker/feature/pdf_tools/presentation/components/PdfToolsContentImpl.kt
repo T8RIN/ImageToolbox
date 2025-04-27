@@ -65,10 +65,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -101,6 +99,7 @@ internal fun PdfToolsContentImpl(
     component: PdfToolsComponent,
     scrollBehavior: TopAppBarScrollBehavior,
     onGoBack: () -> Unit,
+    onForceClearType: () -> Unit,
     actionButtons: @Composable RowScope.(pdfType: Screen.PdfTools.Type?) -> Unit,
     onPickContent: (Screen.PdfTools.Type) -> Unit,
     onSelectPdf: () -> Unit,
@@ -319,6 +318,7 @@ internal fun PdfToolsContentImpl(
                                         PdfViewer(
                                             modifier = Modifier.fillMaxWidth(),
                                             uriState = component.pdfPreviewUri,
+                                            onForceClearType = onForceClearType,
                                             contentPadding = PaddingValues(
                                                 start = 20.dp + WindowInsets.displayCutout
                                                     .asPaddingValues()
@@ -335,16 +335,13 @@ internal fun PdfToolsContentImpl(
                                             } else Modifier,
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
-                                            var pagesCount by remember {
-                                                mutableIntStateOf(1)
-                                            }
+                                            val pagesCount =
+                                                component.pdfToImageState?.pagesCount ?: 1
                                             PdfViewer(
                                                 modifier = if (isPortrait) {
                                                     Modifier
                                                         .height(
-                                                            (130.dp * pagesCount).coerceAtMost(
-                                                                420.dp
-                                                            )
+                                                            (130.dp * pagesCount).coerceAtMost(420.dp)
                                                         )
                                                         .fillMaxWidth()
                                                 } else {
@@ -355,7 +352,9 @@ internal fun PdfToolsContentImpl(
                                                         .asPaddingValues()
                                                         .calculateStartPadding(direction)
                                                 ),
-                                                onGetPagesCount = { pagesCount = it },
+                                                onGetCorrectPassword = component::updatePdfPassword,
+                                                onForceClearType = onForceClearType,
+                                                onGetPagesCount = component::updatePdfToImagePagesCount,
                                                 uriState = component.pdfToImageState?.uri,
                                                 orientation = PdfViewerOrientation.Grid,
                                                 enableSelection = true,

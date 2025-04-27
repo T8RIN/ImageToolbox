@@ -9,12 +9,12 @@ import android.os.ext.SdkExtensions
 fun ParcelFileDescriptor.createPdfRenderer(
     password: String?,
     onFailure: (Throwable) -> Unit,
-    onPasswordRequest: () -> Unit
+    onPasswordRequest: (() -> Unit)?
 ): PdfRenderer? {
     val hasNewPdf = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
             && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.S) >= 13
 
-    return try {
+    return runCatching {
         if (hasNewPdf) {
             runCatching {
                 @Suppress("NewApi")
@@ -23,17 +23,16 @@ fun ParcelFileDescriptor.createPdfRenderer(
                     LoadParams.Builder().setPassword(password).build()
                 )
             }.onFailure {
-                if (it is SecurityException) onPasswordRequest()
+                if (it is SecurityException) onPasswordRequest?.invoke() ?: throw it
+                else throw it
             }.getOrNull()
         } else {
             PdfRenderer(this)
         }
-    } catch (throwable: Throwable) {
+    }.onFailure { throwable ->
         when (throwable) {
-            is SecurityException -> onPasswordRequest()
+            is SecurityException -> onPasswordRequest?.invoke() ?: onFailure(throwable)
             else -> onFailure(throwable)
         }
-
-        null
-    }
+    }.getOrNull()
 }

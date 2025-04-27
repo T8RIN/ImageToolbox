@@ -1620,4 +1620,7 @@
     <string name="use_lsb">Use LSB</string>
     <string name="use_lsb_sub">LSB (Less Significant Bit) steganography method will be used, FD (Frequency Domain) otherwise</string>
     <string name="auto_remove_red_eyes">Auto Remove Red Eyes</string>
+    <string name="password">Password</string>
+    <string name="unlock">Unlock</string>
+    <string name="pdf_is_protected">PDF is protected</string>
 </resources>

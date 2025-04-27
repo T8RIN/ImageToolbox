@@ -60,7 +60,6 @@ internal class AndroidPdfManager @Inject constructor(
 
     private val pagesCache = hashMapOf<String, List<IntegerSize>>()
 
-
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
@@ -114,6 +113,8 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun convertPdfToImages(
         pdfUri: String,
+        password: String?,
+        onFailure: (Throwable) -> Unit,
         pages: List<Int>?,
         preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,
@@ -123,8 +124,12 @@ internal class AndroidPdfManager @Inject constructor(
         context.contentResolver.openFileDescriptor(
             pdfUri.toUri(), "r"
         )?.use { fileDescriptor ->
-            withContext(defaultDispatcher) {
-                val pdfRenderer = PdfRenderer(fileDescriptor)
+            withContext(defaultDispatcher) default@{
+                val pdfRenderer = fileDescriptor.createPdfRenderer(
+                    password = password,
+                    onFailure = onFailure,
+                    onPasswordRequest = null
+                ) ?: return@default onFailure(NullPointerException("File cannot be read"))
 
                 onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
 
@@ -158,29 +163,40 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun getPdfPages(
-        uri: String
+        uri: String,
+        password: String?
     ): List<Int> = withContext(decodingDispatcher) {
         runCatching {
             context.contentResolver.openFileDescriptor(
                 uri.toUri(),
                 "r"
             )?.use { fileDescriptor ->
-                val renderer = PdfRenderer(fileDescriptor)
+                val renderer = fileDescriptor.createPdfRenderer(
+                    password = password,
+                    onFailure = {},
+                    onPasswordRequest = null
+                )
 
-                List(renderer.pageCount) { it }
+                List(renderer?.pageCount ?: 0) { it }
             }
         }.getOrNull() ?: emptyList()
     }
 
     override suspend fun getPdfPageSizes(
-        uri: String
+        uri: String,
+        password: String?
     ): List<IntegerSize> = withContext(decodingDispatcher) {
         pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
             context.contentResolver.openFileDescriptor(
                 uri.toUri(),
                 "r"
             )?.use { fileDescriptor ->
-                val renderer = PdfRenderer(fileDescriptor)
+                val renderer = fileDescriptor.createPdfRenderer(
+                    password = password,
+                    onFailure = {},
+                    onPasswordRequest = null
+                ) ?: return@withContext emptyList()
+
                 List(renderer.pageCount) {
                     val page = renderer.openPage(it)
                     page.run {
