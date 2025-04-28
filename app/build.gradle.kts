@@ -112,7 +112,7 @@ android {
     }
 
     aboutLibraries {
-        excludeFields = arrayOf("generated")
+        export.excludeFields.addAll("generated")
     }
 
     buildFeatures {

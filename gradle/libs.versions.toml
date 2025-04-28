@@ -74,7 +74,6 @@ mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.1"
 moshi = "1.15.2"
-aboutlibraries = "12.0.0-a02+compose_1_8"
 junit = "4.13.2"
 bouncycastle = "1.80"
 ffmpeg-metadata-retriever = "1.0.19"
@@ -82,7 +81,7 @@ pdfviewer = "1.0.0-alpha08"
 fragmentCompose = "1.8.6"
 
 firebaseCrashlyticsGradle = "3.0.3"
-aboutlibrariesGradle = "12.0.0-a05"
+aboutlibraries = "12.1.0-rc04"
 moduleGraphGradle = "0.12.0"
 
 [libraries]
@@ -195,7 +194,7 @@ kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serializa
 ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibrariesGradle" }
+aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibraries" }
 compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Used in convention plugins

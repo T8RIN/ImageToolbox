@@ -82,7 +82,7 @@ interface CrashHandler {
     }
 }
 
-@Suppress("DataClassPrivateConstructor")
+@ConsistentCopyVisibility
 data class DeviceInfo private constructor(
     val device: String,
     val sdk: String,
