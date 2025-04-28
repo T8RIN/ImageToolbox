@@ -317,7 +317,7 @@ fun WebpToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onWebpSaveResult = saveWebpLauncher::create,
+                    onWebpSaveResult = saveWebpLauncher::make,
                     onResult = essentials::parseSaveResults
                 )
             }

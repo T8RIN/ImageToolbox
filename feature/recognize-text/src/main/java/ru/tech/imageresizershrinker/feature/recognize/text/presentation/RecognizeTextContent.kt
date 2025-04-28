@@ -238,7 +238,7 @@ fun RecognizeTextContent(
             if (isExtraction) {
                 EnhancedIconButton(
                     onClick = {
-                        saveLauncher.create(component.generateTextFilename())
+                        saveLauncher.make(component.generateTextFilename())
                     },
                     enabled = !component.text.isNullOrEmpty()
                 ) {

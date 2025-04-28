@@ -239,7 +239,7 @@ fun DocumentScannerContent(
                 Spacer(Modifier.height(4.dp))
                 EnhancedButton(
                     onClick = {
-                        savePdfLauncher.create(component.generatePdfFilename())
+                        savePdfLauncher.make(component.generatePdfFilename())
                     },
                     contentPadding = PaddingValues(
                         top = 8.dp,

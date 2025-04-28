@@ -404,7 +404,7 @@ fun ApngToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onApngSaveResult = saveApngLauncher::create,
+                    onApngSaveResult = saveApngLauncher::make,
                     onResult = essentials::parseSaveResults
                 )
             }

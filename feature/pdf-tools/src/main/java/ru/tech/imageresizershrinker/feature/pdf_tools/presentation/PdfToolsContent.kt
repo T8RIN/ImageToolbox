@@ -320,7 +320,7 @@ fun PdfToolsContent(
                             onClick = {
                                 if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
                                     component.convertImagesToPdf {
-                                        savePdfLauncher.create(component.generatePdfFilename())
+                                        savePdfLauncher.make(component.generatePdfFilename())
                                     }
                                 } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
                                     savePdfToImages(null)

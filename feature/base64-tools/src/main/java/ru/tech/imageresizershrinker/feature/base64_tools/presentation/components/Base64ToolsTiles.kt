@@ -228,7 +228,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
 
                     Tile(
                         onClick = {
-                            saveLauncher.create(component.generateTextFilename())
+                            saveLauncher.make(component.generateTextFilename())
                         },
                         icon = Icons.Outlined.Save,
                         textRes = R.string.save_base_64

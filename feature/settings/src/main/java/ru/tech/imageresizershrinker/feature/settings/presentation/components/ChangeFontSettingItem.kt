@@ -78,7 +78,7 @@ fun ChangeFontSettingItem(
         onAddFont = onAddFont,
         onRemoveFont = onRemoveFont,
         onExportFonts = {
-            exportFontsLauncher.create("FONTS_EXPORT_${timestamp()}.zip")
+            exportFontsLauncher.make("FONTS_EXPORT_${timestamp()}.zip")
         }
     )
 }

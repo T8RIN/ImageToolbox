@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.core.ui.utils.content_pickers
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -11,26 +10,24 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 
-private data class FileCreatorImpl(
-    val context: Context,
+private data class FileMakerImpl(
     val createDocument: ManagedActivityResultLauncher<String, Uri?>,
     val onFailure: (Throwable) -> Unit
-) : FileCreator {
+) : FileMaker {
 
-    override fun create(name: String) {
-        "File Creator Start".makeLog()
+    override fun make(name: String) {
+        "File Make Start".makeLog()
         runCatching {
             createDocument.launch(name)
         }.onFailure {
-            it.makeLog("File Creator Failure")
+            it.makeLog("File Make Failure")
             onFailure(it)
         }.onSuccess {
-            "File Creator Success".makeLog()
+            "File Make Success".makeLog()
         }
     }
 
@@ -39,8 +36,8 @@ private data class FileCreatorImpl(
 
 @Stable
 @Immutable
-interface FileCreator {
-    fun create(name: String)
+interface FileMaker {
+    fun make(name: String)
 }
 
 @Composable
@@ -48,9 +45,7 @@ fun rememberFileCreator(
     mimeType: String = DefaultMimeType,
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
-): FileCreator {
-    val context = LocalContext.current
-
+): FileMaker {
     val createDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(mimeType),
         onResult = { uri ->
@@ -65,8 +60,7 @@ fun rememberFileCreator(
 
     return remember(createDocument) {
         derivedStateOf {
-            FileCreatorImpl(
-                context = context,
+            FileMakerImpl(
                 createDocument = createDocument,
                 onFailure = {
                     onFailure()

@@ -364,7 +364,7 @@ internal fun FilterTemplateInfoSheet(
                         shape = ContainerShapeDefaults.bottomShape,
                         startIcon = Icons.Rounded.Save,
                         onClick = {
-                            saveLauncher.create(onRequestTemplateFilename())
+                            saveLauncher.make(onRequestTemplateFilename())
                         },
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )

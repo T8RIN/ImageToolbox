@@ -279,7 +279,7 @@ internal fun CipherControls(component: CipherComponent) {
                 ) {
                     EnhancedButton(
                         onClick = {
-                            saveLauncher.create(name)
+                            saveLauncher.make(name)
                         },
                         modifier = Modifier
                             .padding(end = 8.dp)

@@ -113,7 +113,7 @@ internal fun RecognizeTextControls(
     }
 
     val onExportLanguages: () -> Unit = {
-        exportLanguagesPicker.create(component.generateExportFilename())
+        exportLanguagesPicker.make(component.generateExportFilename())
     }
 
     val onImportLanguages: () -> Unit = importLanguagesPicker::pickFile

@@ -227,7 +227,7 @@ fun GifToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onGifSaveResult = saveGifLauncher::create,
+                    onGifSaveResult = saveGifLauncher::make,
                     onResult = essentials::parseSaveResults
                 )
             }

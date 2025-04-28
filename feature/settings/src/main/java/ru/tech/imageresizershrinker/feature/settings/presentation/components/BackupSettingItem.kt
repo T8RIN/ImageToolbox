@@ -42,7 +42,7 @@ fun BackupSettingItem(
 
     PreferenceItem(
         onClick = {
-            backupSavingLauncher.create(onCreateBackupFilename())
+            backupSavingLauncher.make(onCreateBackupFilename())
         },
         shape = shape,
         modifier = modifier,

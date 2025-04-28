@@ -338,7 +338,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         shape = ContainerShapeDefaults.defaultShape,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         onClick = {
-                            createLauncher.create("$imageString.${formatForFilenameSelection.extension}")
+                            createLauncher.make("$imageString.${formatForFilenameSelection.extension}")
                         },
                         modifier = Modifier
                             .fillMaxWidth()

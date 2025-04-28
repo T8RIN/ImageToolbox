@@ -172,7 +172,7 @@ internal fun ColumnScope.ZipControls(
             ) {
                 EnhancedButton(
                     onClick = {
-                        saveLauncher.create(name)
+                        saveLauncher.make(name)
                     },
                     modifier = Modifier
                         .padding(end = 8.dp)
