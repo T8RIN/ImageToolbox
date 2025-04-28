@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.utils.content_pickers
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -400,9 +399,8 @@ fun rememberImagePicker(
                     onFailure()
 
                     when (it) {
-                        is ActivityNotFoundException -> essentials.showActivateFilesToast()
                         is CameraException -> requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-                        else -> essentials.showFailureToast(it)
+                        else -> essentials.handleFileSystemFailure(it)
                     }
                 }
             )

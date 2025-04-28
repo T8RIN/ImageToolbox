@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.content_pickers
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -111,11 +110,7 @@ fun rememberFilePicker(
                 openDocumentMultiple = openDocumentMultiple,
                 onFailure = {
                     onFailure()
-
-                    when (it) {
-                        is ActivityNotFoundException -> essentials.showActivateFilesToast()
-                        else -> essentials.showFailureToast(it)
-                    }
+                    essentials.handleFileSystemFailure(it)
                 }
             )
         }

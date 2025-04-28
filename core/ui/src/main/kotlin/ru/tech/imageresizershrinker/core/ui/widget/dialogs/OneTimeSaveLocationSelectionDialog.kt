@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 
 import android.content.Intent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -69,6 +67,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -293,27 +292,25 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                 }
                 val currentFolderUri = selectedSaveFolderUri?.toUri() ?: settingsState.saveFolderUri
-                val launcher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.OpenDocumentTree(),
-                    onResult = { uri ->
-                        uri?.let {
-                            context.contentResolver.takePersistableUriPermission(
-                                it,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            )
-                            tempSelectedSaveFolderUri = it.toString()
-                            selectedSaveFolderUri = it.toString()
-                        }
+                val launcher = rememberFolderOpener(
+                    onSuccess = { uri ->
+                        context.contentResolver.takePersistableUriPermission(
+                            uri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
+                        tempSelectedSaveFolderUri = uri.toString()
+                        selectedSaveFolderUri = uri.toString()
                     }
                 )
+
                 PreferenceItem(
                     title = stringResource(id = R.string.add_new_folder),
                     startIcon = Icons.Outlined.CreateNewFolder,
                     shape = ContainerShapeDefaults.bottomShape,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     onClick = {
-                        launcher.launch(currentFolderUri)
+                        launcher.open(currentFolderUri)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

@@ -26,14 +26,11 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.showFailureToast
+import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 private class DocumentScannerImpl(
     private val context: ComponentActivity,
@@ -66,24 +63,25 @@ private class DocumentScannerImpl(
 internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
     val context = LocalComponentActivity.current
 
     val scannerLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
+        contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            GmsDocumentScanningResult.fromActivityResultIntent(result.data)?.apply {
-                onSuccess(
-                    ScanResult(
-                        imageUris = pages?.let { pages ->
-                            pages.map { it.imageUri }
-                        } ?: emptyList(),
-                        pdfUri = pdf?.uri
+            runCatching {
+                GmsDocumentScanningResult.fromActivityResultIntent(result.data)?.apply {
+                    onSuccess(
+                        ScanResult(
+                            imageUris = pages?.let { pages ->
+                                pages.map { it.imageUri }
+                            } ?: emptyList(),
+                            pdfUri = pdf?.uri
+                        )
                     )
-                )
-            }
+                }
+            }.onFailure(essentials::showFailureToast)
         }
     }
 
@@ -91,14 +89,7 @@ internal fun rememberDocumentScannerImpl(
         DocumentScannerImpl(
             context = context,
             scannerLauncher = scannerLauncher,
-            onFailure = {
-                scope.launch {
-                    toastHostState.showFailureToast(
-                        context = context,
-                        throwable = it
-                    )
-                }
-            }
+            onFailure = essentials::showFailureToast
         )
     }
 }

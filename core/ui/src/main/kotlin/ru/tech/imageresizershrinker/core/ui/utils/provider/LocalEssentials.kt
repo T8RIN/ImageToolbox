@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.Context
 import android.os.Build
@@ -107,9 +108,7 @@ data class LocalEssentials internal constructor(
         duration = duration
     )
 
-    fun showFailureToast(
-        throwable: Throwable
-    ) {
+    fun showFailureToast(throwable: Throwable) {
         coroutineScope.launch {
             toastHostState.showFailureToast(
                 context = context,
@@ -132,12 +131,11 @@ data class LocalEssentials internal constructor(
         showConfetti(ToastDuration(4500L))
     }
 
-    fun showActivateFilesToast() {
-        showToast(
-            message = context.getString(R.string.activate_files),
-            icon = Icons.Outlined.FolderOff,
-            duration = ToastDuration.Long
-        )
+    fun handleFileSystemFailure(throwable: Throwable) {
+        when (throwable) {
+            is ActivityNotFoundException -> showActivateFilesToast()
+            else -> showFailureToast(throwable)
+        }
     }
 
     fun parseSaveResult(saveResult: SaveResult) {
@@ -214,5 +212,13 @@ data class LocalEssentials internal constructor(
                 ClipData.newPlainText(null, "")
             )
         }
+    }
+
+    private fun showActivateFilesToast() {
+        showToast(
+            message = context.getString(R.string.activate_files),
+            icon = Icons.Outlined.FolderOff,
+            duration = ToastDuration.Long
+        )
     }
 }

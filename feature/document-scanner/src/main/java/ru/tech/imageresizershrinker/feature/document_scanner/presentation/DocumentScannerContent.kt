@@ -146,13 +146,7 @@ fun DocumentScannerContent(
                 Spacer(Modifier.height(16.dp))
                 ClickableActionIcon(
                     icon = Icons.TwoTone.DocumentScanner,
-                    onClick = {
-                        runCatching {
-                            documentScanner.scan()
-                        }.onFailure {
-                            essentials.showActivateFilesToast()
-                        }
-                    }
+                    onClick = documentScanner::scan
                 )
                 Text(
                     text = stringResource(R.string.click_to_start_scanning),
@@ -183,13 +177,7 @@ fun DocumentScannerContent(
                 uris = component.uris,
                 isPortrait = isPortrait,
                 onRemoveUri = component::removeImageUri,
-                onAddUris = {
-                    runCatching {
-                        additionalDocumentScanner.scan()
-                    }.onFailure {
-                        essentials.showActivateFilesToast()
-                    }
-                },
+                onAddUris = additionalDocumentScanner::scan,
                 addUrisContent = { width ->
                     Icon(
                         imageVector = Icons.Rounded.AddPhotoAlternate,
@@ -286,13 +274,7 @@ fun DocumentScannerContent(
             }
             BottomButtonsBlock(
                 isNoData = component.uris.isEmpty(),
-                onSecondaryButtonClick = {
-                    runCatching {
-                        documentScanner.scan()
-                    }.onFailure {
-                        essentials.showActivateFilesToast()
-                    }
-                },
+                onSecondaryButtonClick = documentScanner::scan,
                 secondaryButtonIcon = Icons.Rounded.DocumentScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onPrimaryButtonClick = {

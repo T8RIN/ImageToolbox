@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.image_preview.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -77,6 +75,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
@@ -121,23 +120,12 @@ fun ImagePreviewContent(
     var previousFolder by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
-    val openDirectoryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocumentTree(),
-        onResult = { treeUri ->
-            treeUri?.let { uri ->
-                previousFolder = uri
-                component.updateUrisFromTree(uri)
-            }
+    val openDirectoryLauncher = rememberFolderOpener(
+        onSuccess = { uri ->
+            previousFolder = uri
+            component.updateUrisFromTree(uri)
         }
     )
-
-    val pickDirectory: () -> Unit = {
-        runCatching {
-            openDirectoryLauncher.launch(previousFolder)
-        }.onFailure {
-            essentials.showActivateFilesToast()
-        }
-    }
 
     val pickImage = imagePicker::pickImage
 
@@ -357,7 +345,9 @@ fun ImagePreviewContent(
                         )
                     } else {
                         EnhancedFloatingActionButton(
-                            onClick = pickDirectory,
+                            onClick = {
+                                openDirectoryLauncher.open(previousFolder)
+                            },
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             content = {
                                 Icon(

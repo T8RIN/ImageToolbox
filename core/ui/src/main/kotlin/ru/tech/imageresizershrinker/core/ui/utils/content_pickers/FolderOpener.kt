@@ -13,20 +13,20 @@ import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 
-private data class FileMakerImpl(
-    val createDocument: ManagedActivityResultLauncher<String, Uri?>,
+private data class FolderOpenerImpl(
+    val openDocumentTree: ManagedActivityResultLauncher<Uri?, Uri?>,
     val onFailure: (Throwable) -> Unit
-) : FileMaker {
+) : FolderOpener {
 
-    override fun make(name: String) {
-        "File Make Start".makeLog()
+    override fun open(initialLocation: Uri?) {
+        "Folder Open Start".makeLog()
         runCatching {
-            createDocument.launch(name)
+            openDocumentTree.launch(initialLocation)
         }.onFailure {
-            it.makeLog("File Make Failure")
+            it.makeLog("Folder Open Failure")
             onFailure(it)
         }.onSuccess {
-            "File Make Success".makeLog()
+            "Folder Open Success".makeLog()
         }
     }
 
@@ -35,18 +35,17 @@ private data class FileMakerImpl(
 
 @Stable
 @Immutable
-interface FileMaker {
-    fun make(name: String)
+interface FolderOpener {
+    fun open(initialLocation: Uri? = null)
 }
 
 @Composable
-fun rememberFileCreator(
-    mimeType: String = DefaultMimeType,
+fun rememberFolderOpener(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
-): FileMaker {
-    val createDocument = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument(mimeType),
+): FolderOpener {
+    val openDocumentTree = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocumentTree(),
         onResult = { uri ->
             uri?.takeIf {
                 it != Uri.EMPTY
@@ -57,10 +56,10 @@ fun rememberFileCreator(
     )
     val essentials = rememberLocalEssentials()
 
-    return remember(createDocument) {
+    return remember(openDocumentTree) {
         derivedStateOf {
-            FileMakerImpl(
-                createDocument = createDocument,
+            FolderOpenerImpl(
+                openDocumentTree = openDocumentTree,
                 onFailure = {
                     onFailure()
                     essentials.handleFileSystemFailure(it)
@@ -69,5 +68,3 @@ fun rememberFileCreator(
         }
     }.value
 }
-
-private const val DefaultMimeType = "*/*"

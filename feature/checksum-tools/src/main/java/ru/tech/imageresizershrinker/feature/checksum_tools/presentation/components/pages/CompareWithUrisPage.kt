@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.pages
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -52,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.FileType
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PagerScrollPanel
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -78,23 +77,12 @@ internal fun ColumnScope.CompareWithUrisPage(
 
     val isFilesLoading = component.filesLoadingProgress >= 0
 
-    val openDirectoryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocumentTree(),
-        onResult = { treeUri ->
-            treeUri?.let { uri ->
-                previousFolder = uri
-                component.setDataForBatchComparisonFromTree(uri)
-            }
+    val openDirectoryLauncher = rememberFolderOpener(
+        onSuccess = { uri ->
+            previousFolder = uri
+            component.setDataForBatchComparisonFromTree(uri)
         }
     )
-
-    val pickDirectory: () -> Unit = {
-        runCatching {
-            openDirectoryLauncher.launch(previousFolder)
-        }.onFailure {
-            essentials.showActivateFilesToast()
-        }
-    }
 
     val filePicker = rememberFilePicker(
         type = FileType.Multiple,
@@ -128,7 +116,9 @@ internal fun ColumnScope.CompareWithUrisPage(
         )
         PreferenceRow(
             title = stringResource(R.string.pick_directory),
-            onClick = pickDirectory,
+            onClick = {
+                openDirectoryLauncher.open(previousFolder)
+            },
             shape = RoundedCornerShape(
                 topStart = 4.dp,
                 bottomStart = 4.dp,

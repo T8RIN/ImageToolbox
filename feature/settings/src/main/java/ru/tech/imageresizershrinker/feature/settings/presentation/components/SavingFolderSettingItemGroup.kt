@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import android.content.Intent
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -41,9 +39,9 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -54,23 +52,20 @@ fun SavingFolderSettingItemGroup(
 ) {
     Column(modifier) {
         val context = LocalContext.current
-        val essentials = rememberLocalEssentials()
 
         val settingsState = LocalSettingsState.current
         val currentFolderUri = settingsState.saveFolderUri
-        val launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenDocumentTree(),
-            onResult = { uri ->
-                uri?.let {
-                    context.contentResolver.takePersistableUriPermission(
-                        it,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    )
-                    onValueChange(it)
-                }
+        val launcher = rememberFolderOpener(
+            onSuccess = { uri ->
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+                onValueChange(uri)
             }
         )
+
         PreferenceItem(
             shape = ContainerShapeDefaults.topShape,
             onClick = { onValueChange(null) },
@@ -98,11 +93,7 @@ fun SavingFolderSettingItemGroup(
         PreferenceItem(
             shape = ContainerShapeDefaults.bottomShape,
             onClick = {
-                runCatching {
-                    launcher.launch(currentFolderUri)
-                }.onFailure {
-                    essentials.showActivateFilesToast()
-                }
+                launcher.open(currentFolderUri)
             },
             title = stringResource(R.string.custom),
             subtitle = currentFolderUri.toUiPath(
