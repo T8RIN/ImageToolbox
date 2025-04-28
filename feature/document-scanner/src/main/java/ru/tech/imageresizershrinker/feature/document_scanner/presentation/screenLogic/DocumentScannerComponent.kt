@@ -174,7 +174,8 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                     _done.value = it
                 },
                 scaleSmallImagesToLarge = false,
-                preset = Preset.Original
+                preset = Preset.Original,
+                tempFilename = generatePdfFilename()
             )
         }.getOrNull()?.toUri()
     }

@@ -64,7 +64,8 @@ internal class AndroidPdfManager @Inject constructor(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
-        preset: Preset.Percentage
+        preset: Preset.Percentage,
+        tempFilename: String
     ): String = withContext(encodingDispatcher) {
         val pdfDocument = PdfDocument()
 
@@ -107,7 +108,7 @@ internal class AndroidPdfManager @Inject constructor(
             writeData = {
                 pdfDocument.writeTo(it.outputStream())
             },
-            filename = "temp.pdf"
+            filename = tempFilename
         ) ?: throw IllegalAccessException("No PDF created")
     }
 

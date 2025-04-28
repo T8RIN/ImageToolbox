@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
@@ -61,6 +62,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val pdfManager: PdfManager<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -285,7 +287,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
                         _done.value = it
                     },
                     scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                    preset = _presetSelected.value
+                    preset = _presetSelected.value,
+                    tempFilename = "${generatePdfFilename()}.pdf"
                 )
             }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
             registerChanges()
@@ -316,7 +319,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
                                 _done.value = it
                             },
                             scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                            preset = _presetSelected.value
+                            preset = _presetSelected.value,
+                            tempFilename = "${generatePdfFilename()}.pdf"
                         ).let {
                             shareProvider.shareUri(
                                 uri = it,
@@ -374,8 +378,14 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
                 is Screen.PdfTools.Type.Preview -> {
                     type.pdfUri?.toString()?.let {
-                        shareProvider.shareUri(
-                            uri = it,
+                        shareProvider.shareData(
+                            writeData = { writeable ->
+                                fileController.transferBytes(
+                                    fromUri = it,
+                                    to = writeable
+                                )
+                            },
+                            filename = filenameCreator.getFilename(it),
                             onComplete = onSuccess
                         )
                     }
