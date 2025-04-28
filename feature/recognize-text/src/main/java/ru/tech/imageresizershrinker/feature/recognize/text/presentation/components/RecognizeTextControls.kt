@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +43,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.ImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -86,15 +85,13 @@ internal fun RecognizeTextControls(
 
     val captureImage = captureImageLauncher::pickImage
 
-    val exportLanguagesPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/zip"),
-        onResult = {
-            it?.let { uri ->
-                component.exportLanguagesTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val exportLanguagesPicker = rememberFileCreator(
+        mimeType = "application/zip",
+        onSuccess = { uri ->
+            component.exportLanguagesTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -116,7 +113,7 @@ internal fun RecognizeTextControls(
     }
 
     val onExportLanguages: () -> Unit = {
-        exportLanguagesPicker.launch(component.generateExportFilename())
+        exportLanguagesPicker.create(component.generateExportFilename())
     }
 
     val onImportLanguages: () -> Unit = importLanguagesPicker::pickFile

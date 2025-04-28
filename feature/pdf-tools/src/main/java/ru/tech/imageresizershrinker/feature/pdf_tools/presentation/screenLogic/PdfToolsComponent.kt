@@ -288,7 +288,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     },
                     scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                     preset = _presetSelected.value,
-                    tempFilename = "${generatePdfFilename()}.pdf"
+                    tempFilename = generatePdfFilename()
                 )
             }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
             registerChanges()
@@ -299,7 +299,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun generatePdfFilename(): String {
         val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
-        return "PDF_$timeStamp"
+        return "PDF_$timeStamp.pdf"
     }
 
     fun preformSharing(
@@ -320,7 +320,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                             },
                             scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                             preset = _presetSelected.value,
-                            tempFilename = "${generatePdfFilename()}.pdf"
+                            tempFilename = generatePdfFilename()
                         ).let {
                             shareProvider.shareUri(
                                 uri = it,

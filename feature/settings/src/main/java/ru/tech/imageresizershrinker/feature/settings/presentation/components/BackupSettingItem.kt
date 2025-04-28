@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.UploadFile
@@ -29,7 +27,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -40,23 +38,11 @@ fun BackupSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val essentials = rememberLocalEssentials()
+    val backupSavingLauncher = rememberFileCreator(onSuccess = onCreateBackup)
 
-    val backupSavingLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("*/*"),
-        onResult = {
-            it?.let { uri ->
-                onCreateBackup(uri)
-            }
-        }
-    )
     PreferenceItem(
         onClick = {
-            runCatching {
-                backupSavingLauncher.launch(onCreateBackupFilename())
-            }.onFailure {
-                essentials.showActivateFilesToast()
-            }
+            backupSavingLauncher.create(onCreateBackupFilename())
         },
         shape = shape,
         modifier = modifier,

@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.feature.gif_tools.presentation
 
 import android.content.Context
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
@@ -36,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
@@ -163,15 +162,13 @@ fun GifToolsContent(
         }
     }
 
-    val saveGifLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("image/gif"),
-        onResult = {
-            it?.let { uri ->
-                component.saveGifTo(
-                    uri = uri,
-                    onResult = essentials::parseSaveResult
-                )
-            }
+    val saveGifLauncher = rememberFileCreator(
+        mimeType = "image/gif",
+        onSuccess = { uri ->
+            component.saveGifTo(
+                uri = uri,
+                onResult = essentials::parseSaveResult
+            )
         }
     )
 
@@ -230,13 +227,7 @@ fun GifToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onGifSaveResult = { name ->
-                        runCatching {
-                            saveGifLauncher.launch("$name.gif")
-                        }.onFailure {
-                            essentials.showActivateFilesToast()
-                        }
-                    },
+                    onGifSaveResult = saveGifLauncher::create,
                     onResult = essentials::parseSaveResults
                 )
             }

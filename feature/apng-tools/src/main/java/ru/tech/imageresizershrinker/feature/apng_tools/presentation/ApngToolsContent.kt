@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.apng_tools.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -74,6 +72,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isApng
@@ -169,15 +168,13 @@ fun ApngToolsContent(
         }
     }
 
-    val saveApngLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("image/apng"),
-        onResult = {
-            it?.let { uri ->
-                component.saveApngTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val saveApngLauncher = rememberFileCreator(
+        mimeType = "image/apng",
+        onSuccess = { uri ->
+            component.saveApngTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -407,13 +404,7 @@ fun ApngToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onApngSaveResult = { name ->
-                        runCatching {
-                            saveApngLauncher.launch("$name.png")
-                        }.onFailure {
-                            essentials.showActivateFilesToast()
-                        }
-                    },
+                    onApngSaveResult = saveApngLauncher::create,
                     onResult = essentials::parseSaveResults
                 )
             }

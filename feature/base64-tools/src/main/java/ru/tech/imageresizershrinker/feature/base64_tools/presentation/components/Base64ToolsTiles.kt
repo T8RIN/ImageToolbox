@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Base64
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -76,8 +77,8 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
     val pasteTile: @Composable RowScope.(shape: Shape) -> Unit = { shape ->
         Tile(
             onClick = {
-                essentials.getTextFromClipboard { text ->
-                    val text = text.trimToBase64()
+                essentials.getTextFromClipboard { raw ->
+                    val text = raw.trimToBase64()
 
                     if (text.isBase64()) {
                         component.setBase64(text)
@@ -215,22 +216,20 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                         textRes = R.string.share_base_64
                     )
 
-                    val saveLauncher = rememberLauncherForActivityResult(
-                        ActivityResultContracts.CreateDocument("text/plain")
-                    ) { uri ->
-                        uri?.let {
+                    val saveLauncher = rememberFileCreator(
+                        mimeType = "text/plain",
+                        onSuccess = { uri ->
                             component.saveContentToTxt(
                                 uri = uri,
                                 onResult = essentials::parseFileSaveResult
                             )
                         }
-                    }
-                    val saveText: () -> Unit = {
-                        saveLauncher.launch(component.generateTextFilename())
-                    }
+                    )
 
                     Tile(
-                        onClick = saveText,
+                        onClick = {
+                            saveLauncher.create(component.generateTextFilename())
+                        },
                         icon = Icons.Outlined.Save,
                         textRes = R.string.save_base_64
                     )

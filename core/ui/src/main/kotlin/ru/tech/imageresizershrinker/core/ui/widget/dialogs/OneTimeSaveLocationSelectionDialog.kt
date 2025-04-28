@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocati
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -321,15 +322,14 @@ fun OneTimeSaveLocationSelectionDialog(
                 )
 
                 if (formatForFilenameSelection != null) {
-                    val createLauncher = rememberLauncherForActivityResult(
-                        contract = ActivityResultContracts.CreateDocument(formatForFilenameSelection.mimeType),
-                        onResult = { uri ->
-                            uri?.let {
-                                onSaveRequest?.invoke(it.toString())
-                                onDismiss()
-                            }
+                    val createLauncher = rememberFileCreator(
+                        mimeType = formatForFilenameSelection.mimeType,
+                        onSuccess = { uri ->
+                            onSaveRequest?.invoke(uri.toString())
+                            onDismiss()
                         }
                     )
+
                     val imageString = stringResource(R.string.image)
                     PreferenceItem(
                         title = stringResource(id = R.string.custom_filename),
@@ -338,7 +338,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         shape = ContainerShapeDefaults.defaultShape,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         onClick = {
-                            createLauncher.launch("$imageString.${formatForFilenameSelection.extension}")
+                            createLauncher.create("$imageString.${formatForFilenameSelection.extension}")
                         },
                         modifier = Modifier
                             .fillMaxWidth()

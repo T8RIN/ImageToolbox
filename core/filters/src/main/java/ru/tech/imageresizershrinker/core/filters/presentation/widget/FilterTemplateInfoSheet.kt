@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -82,6 +80,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -285,13 +284,10 @@ internal fun FilterTemplateInfoSheet(
             }
         )
 
-        val saveLauncher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.CreateDocument("*/*"),
-            onResult = {
-                it?.let { uri ->
-                    showShareDialog = false
-                    onSaveFile(uri, filterContent)
-                }
+        val saveLauncher = rememberFileCreator(
+            onSuccess = { uri ->
+                showShareDialog = false
+                onSaveFile(uri, filterContent)
             }
         )
 
@@ -368,7 +364,7 @@ internal fun FilterTemplateInfoSheet(
                         shape = ContainerShapeDefaults.bottomShape,
                         startIcon = Icons.Rounded.Save,
                         onClick = {
-                            saveLauncher.launch(onRequestTemplateFilename())
+                            saveLauncher.create(onRequestTemplateFilename())
                         },
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )

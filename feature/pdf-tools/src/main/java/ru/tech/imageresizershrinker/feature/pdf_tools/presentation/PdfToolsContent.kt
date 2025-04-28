@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandIn
@@ -71,6 +69,7 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -115,15 +114,13 @@ fun PdfToolsContent(
         else component.onGoBack()
     }
 
-    val savePdfLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/pdf"),
-        onResult = {
-            it?.let { uri ->
-                component.savePdfTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val savePdfLauncher = rememberFileCreator(
+        mimeType = "application/pdf",
+        onSuccess = { uri ->
+            component.savePdfTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -322,13 +319,8 @@ fun PdfToolsContent(
                         EnhancedFloatingActionButton(
                             onClick = {
                                 if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
-                                    val name = component.generatePdfFilename()
                                     component.convertImagesToPdf {
-                                        runCatching {
-                                            savePdfLauncher.launch("$name.pdf")
-                                        }.onFailure {
-                                            essentials.showActivateFilesToast()
-                                        }
+                                        savePdfLauncher.create(component.generatePdfFilename())
                                     }
                                 } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
                                     savePdfToImages(null)

@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.webp_tools.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -69,6 +67,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -122,15 +121,13 @@ fun WebpToolsContent(
         }
     }
 
-    val saveWebpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("image/webp"),
-        onResult = {
-            it?.let { uri ->
-                component.saveWebpTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val saveWebpLauncher = rememberFileCreator(
+        mimeType = "image/webp",
+        onSuccess = { uri ->
+            component.saveWebpTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -320,13 +317,7 @@ fun WebpToolsContent(
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
-                    onWebpSaveResult = { name ->
-                        runCatching {
-                            saveWebpLauncher.launch("$name.webp")
-                        }.onFailure {
-                            essentials.showActivateFilesToast()
-                        }
-                    },
+                    onWebpSaveResult = saveWebpLauncher::create,
                     onResult = essentials::parseSaveResults
                 )
             }

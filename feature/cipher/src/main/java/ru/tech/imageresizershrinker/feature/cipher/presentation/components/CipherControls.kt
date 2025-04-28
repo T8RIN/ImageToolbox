@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.presentation.components
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -68,6 +66,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -91,15 +90,12 @@ internal fun CipherControls(component: CipherComponent) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val saveLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("*/*"),
-        onResult = {
-            it?.let { uri ->
-                component.saveCryptographyTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val saveLauncher = rememberFileCreator(
+        onSuccess = { uri ->
+            component.saveCryptographyTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -283,11 +279,7 @@ internal fun CipherControls(component: CipherComponent) {
                 ) {
                     EnhancedButton(
                         onClick = {
-                            runCatching {
-                                saveLauncher.launch(name)
-                            }.onFailure {
-                                essentials.showActivateFilesToast()
-                            }
+                            saveLauncher.create(name)
                         },
                         modifier = Modifier
                             .padding(end = 8.dp)

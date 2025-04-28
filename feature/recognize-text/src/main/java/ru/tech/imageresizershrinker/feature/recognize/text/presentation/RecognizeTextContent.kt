@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -46,6 +44,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -166,20 +165,15 @@ fun RecognizeTextContent(
 
     val isPortrait by isPortraitOrientationAsState()
 
-    val saveLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("text/plain")
-    ) { uri ->
-        uri?.let {
+    val saveLauncher = rememberFileCreator(
+        mimeType = "text/plain",
+        onSuccess = { uri ->
             component.saveContentToTxt(
                 uri = uri,
                 onResult = essentials::parseFileSaveResult
             )
         }
-    }
-
-    val saveText: () -> Unit = {
-        saveLauncher.launch(component.generateTextFilename())
-    }
+    )
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -243,7 +237,9 @@ fun RecognizeTextContent(
             )
             if (isExtraction) {
                 EnhancedIconButton(
-                    onClick = saveText,
+                    onClick = {
+                        saveLauncher.create(component.generateTextFilename())
+                    },
                     enabled = !component.text.isNullOrEmpty()
                 ) {
                     Icon(

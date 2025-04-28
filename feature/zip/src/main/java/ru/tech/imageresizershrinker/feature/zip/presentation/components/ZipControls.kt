@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.zip.presentation.components
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -61,6 +59,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -82,15 +81,13 @@ internal fun ColumnScope.ZipControls(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val saveLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/zip"),
-        onResult = {
-            it?.let { uri ->
-                component.saveResultTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val saveLauncher = rememberFileCreator(
+        mimeType = "application/zip",
+        onSuccess = { uri ->
+            component.saveResultTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -175,11 +172,7 @@ internal fun ColumnScope.ZipControls(
             ) {
                 EnhancedButton(
                     onClick = {
-                        runCatching {
-                            saveLauncher.launch(name)
-                        }.onFailure {
-                            essentials.showActivateFilesToast()
-                        }
+                        saveLauncher.create(name)
                     },
                     modifier = Modifier
                         .padding(end = 8.dp)

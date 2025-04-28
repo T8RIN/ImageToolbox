@@ -293,7 +293,7 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            onGifSaveResult("GIF_${timestamp()}")
+                            onGifSaveResult("GIF_${timestamp()}.gif")
                         }
                     }
                 }

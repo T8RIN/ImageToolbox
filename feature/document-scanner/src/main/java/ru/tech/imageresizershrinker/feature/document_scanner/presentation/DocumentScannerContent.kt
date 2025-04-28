@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -51,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberDocumentScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -90,15 +89,13 @@ fun DocumentScannerContent(
         else component.onGoBack()
     }
 
-    val savePdfLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/pdf"),
-        onResult = {
-            it?.let { uri ->
-                component.savePdfTo(
-                    uri = uri,
-                    onResult = essentials::parseFileSaveResult
-                )
-            }
+    val savePdfLauncher = rememberFileCreator(
+        mimeType = "application/pdf",
+        onSuccess = { uri ->
+            component.savePdfTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
         }
     )
 
@@ -242,7 +239,7 @@ fun DocumentScannerContent(
                 Spacer(Modifier.height(4.dp))
                 EnhancedButton(
                     onClick = {
-                        savePdfLauncher.launch(component.generatePdfFilename())
+                        savePdfLauncher.create(component.generatePdfFilename())
                     },
                     contentPadding = PaddingValues(
                         top = 8.dp,

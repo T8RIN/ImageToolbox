@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -38,7 +36,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.FontFamily
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.PickFontFamilySheet
@@ -57,13 +55,9 @@ fun ChangeFontSettingItem(
     val settingsState = LocalSettingsState.current
     var showFontSheet by rememberSaveable { mutableStateOf(false) }
 
-    val essentials = rememberLocalEssentials()
-
-    val exportFontsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/zip"),
-        onResult = {
-            it?.let(onExportFonts)
-        }
+    val exportFontsLauncher = rememberFileCreator(
+        mimeType = "application/zip",
+        onSuccess = onExportFonts
     )
 
     PreferenceItem(
@@ -84,11 +78,7 @@ fun ChangeFontSettingItem(
         onAddFont = onAddFont,
         onRemoveFont = onRemoveFont,
         onExportFonts = {
-            runCatching {
-                exportFontsLauncher.launch("FONTS_EXPORT_${timestamp()}.zip")
-            }.onFailure {
-                essentials.showActivateFilesToast()
-            }
+            exportFontsLauncher.create("FONTS_EXPORT_${timestamp()}.zip")
         }
     )
 }

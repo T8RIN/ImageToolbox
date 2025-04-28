@@ -278,7 +278,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            onApngSaveResult("APNG_${timestamp()}")
+                            onApngSaveResult("APNG_${timestamp()}.png")
                             registerSave()
                         }
                     }

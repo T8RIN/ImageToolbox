@@ -265,7 +265,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
                                 onResult(listOf(SaveResult.Error.Exception(it)))
                             }
                         )?.also {
-                            onWebpSaveResult("WEBP_${timestamp()}")
+                            onWebpSaveResult("WEBP_${timestamp()}.webp")
                             registerSave()
                         }
                     }
