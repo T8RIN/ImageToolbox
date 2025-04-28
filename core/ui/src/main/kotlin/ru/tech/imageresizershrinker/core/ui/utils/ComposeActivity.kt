@@ -113,13 +113,7 @@ abstract class ComposeActivity : AppCompatActivity() {
                 handleSystemBarsBehavior()
                 handleSecureMode()
                 updateFirebaseParams()
-                val colorTuple = state.appColorTuple.asColorTuple()
-                DynamicColors.applyToActivitiesIfAvailable(
-                    this@ComposeActivity.application,
-                    DynamicColorsOptions.Builder()
-                        .setContentBasedSource(colorTuple.primary.toArgb())
-                        .build()
-                )
+                applyDynamicColors()
             }
             .launchIn(activityScope)
 
@@ -134,6 +128,16 @@ abstract class ComposeActivity : AppCompatActivity() {
         if (savedInstanceState == null) onFirstLaunch()
 
         setContentWithWindowSizeClass { Content() }
+    }
+
+    fun applyDynamicColors() {
+        val colorTuple = settingsState.appColorTuple.asColorTuple()
+        DynamicColors.applyToActivityIfAvailable(
+            this@ComposeActivity,
+            DynamicColorsOptions.Builder()
+                .setContentBasedSource(colorTuple.primary.toArgb())
+                .build()
+        )
     }
 
     private fun updateFirebaseParams() = analyticsManager.apply {

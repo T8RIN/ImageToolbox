@@ -17,8 +17,12 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
+import android.app.Activity
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import androidx.annotation.RequiresExtension
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -47,6 +51,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -66,10 +71,18 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
+import androidx.fragment.compose.AndroidFragment
+import androidx.pdf.viewer.fragment.PdfViewerFragmentV2
 import coil3.memory.MemoryCache
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -81,12 +94,15 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
+import ru.tech.imageresizershrinker.core.domain.utils.safeCast
+import ru.tech.imageresizershrinker.core.ui.utils.ComposeActivity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.feature.pdf_tools.data.canUseNewPdf
 import ru.tech.imageresizershrinker.feature.pdf_tools.data.createPdfRenderer
 import kotlin.math.sqrt
 
@@ -130,322 +146,368 @@ fun PdfViewer(
         }
     }
 
+    val loading = @Composable {
+        Box(
+            modifier = modifier.animateContentSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingIndicator()
+        }
+    }
+
     AnimatedContent(
         targetState = uriState
     ) { uri ->
         if (uri != null) {
-            val listState = rememberLazyListState()
-            BoxWithConstraints(modifier = modifier.animateContentSize()) {
-                val density = LocalDensity.current
-                val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
-                val height = (width * sqrt(2f)).toInt()
+            if (canUseNewPdf() && orientation == PdfViewerOrientation.Vertical) {
+                var fragmentReference by remember {
+                    mutableStateOf<PdfViewerDelegate?>(null)
+                }
+                val loadingState = fragmentReference?.loadingState?.collectAsState()?.value
 
-                val context = LocalContext.current
-                val rendererScope = rememberCoroutineScope()
-                val mutex = remember { Mutex() }
-                val pagesSize = remember { mutableStateListOf<IntegerSize>() }
-                val renderer by produceState<PdfRenderer?>(null, uri, pdfPassword) {
-                    rendererScope.launch(Dispatchers.IO) {
-                        runCatching {
-                            mutex.withLock {
-                                val input = context.contentResolver.openFileDescriptor(uri, "r")
-                                pagesSize.clear()
-                                val renderer = input?.createPdfRenderer(
-                                    password = pdfPassword,
-                                    onFailure = showError,
-                                    onPasswordRequest = { showPasswordRequestDialog = true }
-                                )?.also {
-                                    onGetCorrectPassword(pdfPassword)
-                                    onGetPagesCount(it.pageCount)
-                                    repeat(it.pageCount) { index ->
-                                        it.openPage(index).use { page ->
-                                            val size = IntegerSize(
-                                                width = page.width,
-                                                height = page.height
-                                            ).flexibleResize(width, height)
 
-                                            pagesSize.add(size)
-                                        }
-                                    }
-                                }
-                                value = renderer
-                            }
-                        }.onFailure(showError)
+                LaunchedEffect(fragmentReference) {
+                    fragmentReference?.apply {
+                        PdfViewerDelegate.searchToggle.collect {
+                            @Suppress("RestrictedApi")
+                            isTextSearchActive = !isTextSearchActive
+                        }
                     }
-                    awaitDispose {
-                        val currentRenderer = value
+                }
+
+                AndroidFragment<PdfViewerDelegate>(
+                    arguments = bundleOf("documentUri" to uri),
+                    modifier = modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surface),
+                    onUpdate = {
+                        fragmentReference = it
+                    }
+                )
+
+                if (loadingState == true) loading()
+
+            } else {
+                val listState = rememberLazyListState()
+                BoxWithConstraints(modifier = modifier.animateContentSize()) {
+                    val density = LocalDensity.current
+                    val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
+                    val height = (width * sqrt(2f)).toInt()
+
+                    val context = LocalContext.current
+                    val rendererScope = rememberCoroutineScope()
+                    val mutex = remember { Mutex() }
+                    val pagesSize = remember { mutableStateListOf<IntegerSize>() }
+                    val renderer by produceState<PdfRenderer?>(null, uri, pdfPassword) {
                         rendererScope.launch(Dispatchers.IO) {
-                            mutex.withLock {
-                                currentRenderer?.close()
-                            }
-                        }
-                    }
-                }
-                val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
+                            runCatching {
+                                mutex.withLock {
+                                    val input = context.contentResolver.openFileDescriptor(uri, "r")
+                                    pagesSize.clear()
+                                    val renderer = input?.createPdfRenderer(
+                                        password = pdfPassword,
+                                        onFailure = showError,
+                                        onPasswordRequest = { showPasswordRequestDialog = true }
+                                    )?.also {
+                                        onGetCorrectPassword(pdfPassword)
+                                        onGetPagesCount(it.pageCount)
+                                        repeat(it.pageCount) { index ->
+                                            it.openPage(index).use { page ->
+                                                val size = IntegerSize(
+                                                    width = page.width,
+                                                    height = page.height
+                                                ).flexibleResize(width, height)
 
-                val key by remember(uri, selectedPages) {
-                    derivedStateOf {
-                        uri to selectedPages
-                    }
-                }
-                val selectedItems = remember(key) {
-                    mutableStateOf(selectedPages.toSet())
-                }
-                LaunchedEffect(selectedItems.value) {
-                    updateSelectedPages(selectedItems.value.toList())
-                }
-                LaunchedEffect(selectAllToggle.value) {
-                    if (selectAllToggle.value) {
-                        selectedItems.update {
-                            List(pageCount) { it }.toSet()
-                        }
-                        selectAllToggle.value = false
-                    }
-                }
-                LaunchedEffect(deselectAllToggle.value) {
-                    if (deselectAllToggle.value) {
-                        selectedItems.update { emptySet() }
-                        deselectAllToggle.value = false
-                    }
-                }
-
-                if (orientation == PdfViewerOrientation.Vertical) {
-                    LazyColumnScrollbar(
-                        state = listState,
-                        settings = ScrollbarSettings(
-                            thumbUnselectedColor = MaterialTheme.colorScheme.primary,
-                            thumbSelectedColor = MaterialTheme.colorScheme.primary,
-                            scrollbarPadding = 0.dp,
-                            thumbThickness = 10.dp,
-                            selectionMode = ScrollbarSelectionMode.Full,
-                            thumbShape = RoundedCornerShape(
-                                topStartPercent = 100,
-                                bottomStartPercent = 100
-                            ),
-                            hideDelayMillis = 1500
-                        ),
-                        indicatorContent = { index, _ ->
-                            val text by remember(index, pageCount, listState) {
-                                derivedStateOf {
-                                    val first = listState.layoutInfo.visibleItemsInfo.firstOrNull()
-                                    val last = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-                                    first?.takeIf {
-                                        it.index == 0
-                                    }?.let { 1 } ?: ((last?.index ?: index) + 1)
-                                }
-                            }
-                            Text(
-                                text = "$text / $pageCount",
-                                modifier = Modifier
-                                    .padding(6.dp)
-                                    .container(
-                                        shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.secondaryContainer
-                                    )
-                                    .padding(start = 6.dp, end = 6.dp, top = 2.dp, bottom = 2.dp),
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        }
-                    ) {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                                .clipToBounds()
-                                .zoomable(
-                                    rememberZoomState(10f)
-                                ),
-                            contentPadding = contentPadding,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            items(
-                                count = pageCount,
-                                key = { index -> "$uri-$index" }
-                            ) { index ->
-                                if (index == 0) {
-                                    Spacer(Modifier.height(16.dp))
-                                } else Spacer(Modifier.height(spacing))
-
-                                val cacheKey =
-                                    MemoryCache.Key("$uri-${pagesSize[index]}-$index")
-                                val selected by remember(selectedItems.value) {
-                                    derivedStateOf {
-                                        selectedItems.value.contains(index)
-                                    }
-                                }
-
-                                PdfPage(
-                                    selected = selected,
-                                    selectionEnabled = enableSelection,
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                        .then(
-                                            if (enableSelection) {
-                                                Modifier.toggleable(
-                                                    value = selected,
-                                                    interactionSource = remember { MutableInteractionSource() },
-                                                    indication = null,
-                                                    onValueChange = { value ->
-                                                        if (value) {
-                                                            selectedItems.update { it - index }
-                                                        } else {
-                                                            selectedItems.update { it + index }
-                                                        }
-                                                    }
-                                                )
-                                            } else Modifier
-                                        ),
-                                    renderWidth = pagesSize[index].width,
-                                    renderHeight = pagesSize[index].height,
-                                    index = index,
-                                    mutex = mutex,
-                                    renderer = renderer,
-                                    cacheKey = cacheKey
-                                )
-                                if (index == pageCount - 1) {
-                                    Spacer(Modifier.height(16.dp))
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    val state = rememberLazyGridState()
-                    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
-                    LaunchedEffect(autoScrollSpeed.value) {
-                        if (autoScrollSpeed.value != 0f) {
-                            while (isActive) {
-                                state.scrollBy(autoScrollSpeed.value)
-                                delay(10)
-                            }
-                        }
-                    }
-                    val isLandscape by isLandscapeOrientationAsState()
-                    if (isLandscape) {
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(120.dp),
-                            state = state,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .dragHandler(
-                                    key = key,
-                                    lazyGridState = state,
-                                    isVertical = true,
-                                    haptics = LocalHapticFeedback.current,
-                                    selectedItems = selectedItems,
-                                    autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
-                                ),
-                            verticalArrangement = Arrangement.spacedBy(
-                                spacing,
-                                Alignment.CenterVertically
-                            ),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                spacing,
-                                Alignment.CenterHorizontally
-                            ),
-                            contentPadding = PaddingValues(12.dp),
-                        ) {
-                            items(
-                                count = pageCount,
-                                key = { index -> "$uri-$index" }
-                            ) { index ->
-                                val cacheKey = MemoryCache.Key("$uri-120-$index")
-                                val selected by remember(selectedItems.value) {
-                                    derivedStateOf {
-                                        selectedItems.value.contains(index).also {
-                                            updateSelectedPages(selectedItems.value.toList())
+                                                pagesSize.add(size)
+                                            }
                                         }
                                     }
+                                    value = renderer
                                 }
+                            }.onFailure(showError)
+                        }
+                        awaitDispose {
+                            val currentRenderer = value
+                            rendererScope.launch(Dispatchers.IO) {
+                                mutex.withLock {
+                                    currentRenderer?.close()
+                                }
+                            }
+                        }
+                    }
+                    val pageCount by remember(renderer) {
+                        derivedStateOf {
+                            renderer?.pageCount ?: 0
+                        }
+                    }
 
-                                val size = 120.dp
-                                PdfPage(
-                                    selected = selected,
-                                    selectionEnabled = enableSelection,
+                    val key by remember(uri, selectedPages) {
+                        derivedStateOf {
+                            uri to selectedPages
+                        }
+                    }
+                    val selectedItems = remember(key) {
+                        mutableStateOf(selectedPages.toSet())
+                    }
+                    LaunchedEffect(selectedItems.value) {
+                        updateSelectedPages(selectedItems.value.toList())
+                    }
+                    LaunchedEffect(selectAllToggle.value) {
+                        if (selectAllToggle.value) {
+                            selectedItems.update {
+                                List(pageCount) { it }.toSet()
+                            }
+                            selectAllToggle.value = false
+                        }
+                    }
+                    LaunchedEffect(deselectAllToggle.value) {
+                        if (deselectAllToggle.value) {
+                            selectedItems.update { emptySet() }
+                            deselectAllToggle.value = false
+                        }
+                    }
+
+                    if (orientation == PdfViewerOrientation.Vertical) {
+                        LazyColumnScrollbar(
+                            state = listState,
+                            settings = ScrollbarSettings(
+                                thumbUnselectedColor = MaterialTheme.colorScheme.primary,
+                                thumbSelectedColor = MaterialTheme.colorScheme.primary,
+                                scrollbarPadding = 0.dp,
+                                thumbThickness = 10.dp,
+                                selectionMode = ScrollbarSelectionMode.Full,
+                                thumbShape = RoundedCornerShape(
+                                    topStartPercent = 100,
+                                    bottomStartPercent = 100
+                                ),
+                                hideDelayMillis = 1500
+                            ),
+                            indicatorContent = { index, _ ->
+                                val text by remember(index, pageCount, listState) {
+                                    derivedStateOf {
+                                        val first =
+                                            listState.layoutInfo.visibleItemsInfo.firstOrNull()
+                                        val last =
+                                            listState.layoutInfo.visibleItemsInfo.lastOrNull()
+                                        first?.takeIf {
+                                            it.index == 0
+                                        }?.let { 1 } ?: ((last?.index ?: index) + 1)
+                                    }
+                                }
+                                Text(
+                                    text = "$text / $pageCount",
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .aspectRatio(1f),
-                                    index = index,
-                                    renderWidth = with(density) { size.roundToPx() },
-                                    renderHeight = with(density) { size.roundToPx() },
-                                    mutex = mutex,
-                                    renderer = renderer,
-                                    cacheKey = cacheKey
+                                        .padding(6.dp)
+                                        .container(
+                                            shape = CircleShape,
+                                            color = MaterialTheme.colorScheme.secondaryContainer
+                                        )
+                                        .padding(
+                                            start = 6.dp,
+                                            end = 6.dp,
+                                            top = 2.dp,
+                                            bottom = 2.dp
+                                        ),
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
+                            }
+                        ) {
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                                    .clipToBounds()
+                                    .zoomable(
+                                        rememberZoomState(10f)
+                                    ),
+                                contentPadding = contentPadding,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                items(
+                                    count = pageCount,
+                                    key = { index -> "$uri-$index" }
+                                ) { index ->
+                                    if (index == 0) {
+                                        Spacer(Modifier.height(16.dp))
+                                    } else Spacer(Modifier.height(spacing))
+
+                                    val cacheKey =
+                                        MemoryCache.Key("$uri-${pagesSize[index]}-$index")
+                                    val selected by remember(selectedItems.value) {
+                                        derivedStateOf {
+                                            selectedItems.value.contains(index)
+                                        }
+                                    }
+
+                                    PdfPage(
+                                        selected = selected,
+                                        selectionEnabled = enableSelection,
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .then(
+                                                if (enableSelection) {
+                                                    Modifier.toggleable(
+                                                        value = selected,
+                                                        interactionSource = remember { MutableInteractionSource() },
+                                                        indication = null,
+                                                        onValueChange = { value ->
+                                                            if (value) {
+                                                                selectedItems.update { it - index }
+                                                            } else {
+                                                                selectedItems.update { it + index }
+                                                            }
+                                                        }
+                                                    )
+                                                } else Modifier
+                                            ),
+                                        renderWidth = pagesSize[index].width,
+                                        renderHeight = pagesSize[index].height,
+                                        index = index,
+                                        mutex = mutex,
+                                        renderer = renderer,
+                                        cacheKey = cacheKey
+                                    )
+                                    if (index == pageCount - 1) {
+                                        Spacer(Modifier.height(16.dp))
+                                    }
+                                }
                             }
                         }
                     } else {
-                        LazyHorizontalGrid(
-                            rows = GridCells.Adaptive(120.dp),
-                            state = state,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .dragHandler(
-                                    key = key,
-                                    lazyGridState = state,
-                                    isVertical = false,
-                                    haptics = LocalHapticFeedback.current,
-                                    selectedItems = selectedItems,
-                                    autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                        val state = rememberLazyGridState()
+                        val autoScrollSpeed: MutableState<Float> =
+                            remember { mutableFloatStateOf(0f) }
+                        LaunchedEffect(autoScrollSpeed.value) {
+                            if (autoScrollSpeed.value != 0f) {
+                                while (isActive) {
+                                    state.scrollBy(autoScrollSpeed.value)
+                                    delay(10)
+                                }
+                            }
+                        }
+                        val isLandscape by isLandscapeOrientationAsState()
+                        if (isLandscape) {
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(120.dp),
+                                state = state,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .dragHandler(
+                                        key = key,
+                                        lazyGridState = state,
+                                        isVertical = true,
+                                        haptics = LocalHapticFeedback.current,
+                                        selectedItems = selectedItems,
+                                        autoScrollSpeed = autoScrollSpeed,
+                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                    ),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    spacing,
+                                    Alignment.CenterVertically
                                 ),
-                            verticalArrangement = Arrangement.spacedBy(
-                                space = spacing,
-                                alignment = Alignment.CenterVertically
-                            ),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                space = spacing,
-                                alignment = Alignment.CenterHorizontally
-                            ),
-                            contentPadding = PaddingValues(12.dp),
-                        ) {
-                            items(
-                                count = pageCount,
-                                key = { index -> "$uri-$index" }
-                            ) { index ->
-
-                                val cacheKey = MemoryCache.Key("$uri-120-$index")
-                                val selected by remember(selectedItems.value) {
-                                    derivedStateOf {
-                                        selectedItems.value.contains(index).also {
-                                            updateSelectedPages(selectedItems.value.toList())
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    spacing,
+                                    Alignment.CenterHorizontally
+                                ),
+                                contentPadding = PaddingValues(12.dp),
+                            ) {
+                                items(
+                                    count = pageCount,
+                                    key = { index -> "$uri-$index" }
+                                ) { index ->
+                                    val cacheKey = MemoryCache.Key("$uri-120-$index")
+                                    val selected by remember(selectedItems.value) {
+                                        derivedStateOf {
+                                            selectedItems.value.contains(index).also {
+                                                updateSelectedPages(selectedItems.value.toList())
+                                            }
                                         }
                                     }
+
+                                    val size = 120.dp
+                                    PdfPage(
+                                        selected = selected,
+                                        selectionEnabled = enableSelection,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .aspectRatio(1f),
+                                        index = index,
+                                        renderWidth = with(density) { size.roundToPx() },
+                                        renderHeight = with(density) { size.roundToPx() },
+                                        mutex = mutex,
+                                        renderer = renderer,
+                                        cacheKey = cacheKey
+                                    )
                                 }
-                                PdfPage(
-                                    selected = selected,
-                                    selectionEnabled = enableSelection,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .aspectRatio(1f),
-                                    index = index,
-                                    renderWidth = with(density) { 120.dp.roundToPx() },
-                                    renderHeight = with(density) { 120.dp.roundToPx() },
-                                    mutex = mutex,
-                                    renderer = renderer,
-                                    cacheKey = cacheKey
-                                )
+                            }
+                        } else {
+                            LazyHorizontalGrid(
+                                rows = GridCells.Adaptive(120.dp),
+                                state = state,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .dragHandler(
+                                        key = key,
+                                        lazyGridState = state,
+                                        isVertical = false,
+                                        haptics = LocalHapticFeedback.current,
+                                        selectedItems = selectedItems,
+                                        autoScrollSpeed = autoScrollSpeed,
+                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                    ),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    space = spacing,
+                                    alignment = Alignment.CenterVertically
+                                ),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = spacing,
+                                    alignment = Alignment.CenterHorizontally
+                                ),
+                                contentPadding = PaddingValues(12.dp),
+                            ) {
+                                items(
+                                    count = pageCount,
+                                    key = { index -> "$uri-$index" }
+                                ) { index ->
+
+                                    val cacheKey = MemoryCache.Key("$uri-120-$index")
+                                    val selected by remember(selectedItems.value) {
+                                        derivedStateOf {
+                                            selectedItems.value.contains(index).also {
+                                                updateSelectedPages(selectedItems.value.toList())
+                                            }
+                                        }
+                                    }
+                                    PdfPage(
+                                        selected = selected,
+                                        selectionEnabled = enableSelection,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .aspectRatio(1f),
+                                        index = index,
+                                        renderWidth = with(density) { 120.dp.roundToPx() },
+                                        renderHeight = with(density) { 120.dp.roundToPx() },
+                                        mutex = mutex,
+                                        renderer = renderer,
+                                        cacheKey = cacheKey
+                                    )
+                                }
                             }
                         }
                     }
-                }
-                if (pageCount == 0) {
-                    Box(
-                        modifier = Modifier.matchParentSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingIndicator()
+                    if (pageCount == 0) {
+                        Box(
+                            modifier = Modifier.matchParentSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingIndicator()
+                        }
                     }
                 }
             }
         } else {
-            Box(
-                modifier = modifier.animateContentSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                LoadingIndicator()
-            }
+            loading()
         }
     }
 
@@ -464,4 +526,36 @@ fun PdfViewer(
 
 enum class PdfViewerOrientation {
     Vertical, Grid
+}
+
+@Suppress("RestrictedApi")
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
+internal class PdfViewerDelegate : PdfViewerFragmentV2() {
+    private val _loadingState = MutableStateFlow<Boolean?>(true)
+    val loadingState: StateFlow<Boolean?> = _loadingState
+
+    override fun onLoadDocumentSuccess() {
+        super.onLoadDocumentSuccess()
+        _loadingState.value = false
+    }
+
+    override fun onLoadDocumentError(error: Throwable) {
+        super.onLoadDocumentError(error)
+        _loadingState.value = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        requireActivity().safeCast<Activity, ComposeActivity>()?.applyDynamicColors()
+
+        super.onCreate(savedInstanceState)
+    }
+
+    companion object {
+        private val _searchToggle: Channel<Unit> = Channel(Channel.BUFFERED)
+        val searchToggle: Flow<Unit> = _searchToggle.receiveAsFlow()
+
+        fun toggleSearch() {
+            _searchToggle.trySend(Unit)
+        }
+    }
 }

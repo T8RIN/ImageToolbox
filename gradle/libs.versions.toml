@@ -78,12 +78,16 @@ aboutlibraries = "12.0.0-a02+compose_1_8"
 junit = "4.13.2"
 bouncycastle = "1.80"
 ffmpeg-metadata-retriever = "1.0.19"
+pdfviewer = "1.0.0-alpha08"
+fragmentCompose = "1.8.6"
 
 firebaseCrashlyticsGradle = "3.0.3"
 aboutlibrariesGradle = "12.0.0-a05"
 moduleGraphGradle = "0.12.0"
 
 [libraries]
+androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
+androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
 ffmpeg-metadata-retriever-core = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-core", version.ref = "ffmpeg-metadata-retriever" }
 ffmpeg-metadata-retriever-native = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native", version.ref = "ffmpeg-metadata-retriever" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }

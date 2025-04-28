@@ -20,7 +20,7 @@
 
     <uses-sdk
         android:minSdkVersion="21"
-        tools:overrideLibrary="com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.google.mlkit.vision.segmentation.subject" />
+        tools:overrideLibrary="com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.google.mlkit.vision.segmentation.subject, androidx.pdf,androidx.pdf.viewer.fragment, androidx.pdf.document.service" />
 
     <uses-feature
         android:name="android.hardware.camera"

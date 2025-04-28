@@ -54,6 +54,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FileOpen
@@ -92,6 +93,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
+import ru.tech.imageresizershrinker.feature.pdf_tools.data.canUseNewPdf
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
 @Composable
@@ -204,6 +206,21 @@ internal fun PdfToolsContentImpl(
                                 Icon(
                                     imageVector = Icons.Rounded.Close,
                                     contentDescription = stringResource(R.string.close)
+                                )
+                            }
+                        }
+                    }
+
+                    if (canUseNewPdf()) {
+                        AnimatedVisibility(
+                            visible = component.pdfType is Screen.PdfTools.Type.Preview
+                        ) {
+                            EnhancedIconButton(
+                                onClick = PdfViewerDelegate::toggleSearch
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = stringResource(R.string.search_here)
                                 )
                             }
                         }

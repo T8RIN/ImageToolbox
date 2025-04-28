@@ -23,3 +23,8 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.pdf_tools"
+
+dependencies {
+    implementation(libs.androidx.pdfviewer.fragment)
+    implementation(libs.androidx.fragment.compose)
+}

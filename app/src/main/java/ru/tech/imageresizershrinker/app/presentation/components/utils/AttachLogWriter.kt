@@ -17,23 +17,75 @@
 
 package ru.tech.imageresizershrinker.app.presentation.components.utils
 
+import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.Application
+import android.content.Context.ACTIVITY_SERVICE
+import android.os.Build.VERSION.SDK_INT
 import com.t8rin.logger.Logger
 import com.t8rin.logger.attachLogWriter
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.crash.presentation.components.DeviceInfo
 import ru.tech.imageresizershrinker.core.resources.R
 
+
 internal fun Application.attachLogWriter() {
-    Logger.attachLogWriter(
-        context = this@attachLogWriter,
-        fileProvider = getString(R.string.file_provider),
-        logsFilename = "image_toolbox_logs.txt",
-        startupLog = Logger.Log(
-            tag = "Device Info",
-            message = "--${DeviceInfo.get()}--",
-            level = Logger.Level.Info
-        ),
-        isSyncCreate = false,
-        maxFileSize = null
-    )
+    if (isMain()) {
+        Logger.attachLogWriter(
+            context = this@attachLogWriter,
+            fileProvider = getString(R.string.file_provider),
+            logsFilename = "image_toolbox_logs.txt",
+            startupLog = Logger.Log(
+                tag = "Device Info",
+                message = "--${DeviceInfo.get()}--",
+                level = Logger.Level.Info
+            ),
+            isSyncCreate = false,
+            maxFileSize = null
+        )
+    }
+}
+
+private fun Application.isMain(): Boolean =
+    getProcessName().makeLog("Current Process") == packageName
+
+
+@SuppressLint("PrivateApi")
+private fun Application.getProcessName(): String? {
+    if (SDK_INT >= 28) {
+        return Application.getProcessName()
+    }
+
+    // Try using ActivityThread to determine the current process name.
+    try {
+        val activityThread = Class.forName(
+            "android.app.ActivityThread",
+            false,
+            this::class.java.getClassLoader()
+        )
+        val packageName: Any?
+        val currentProcessName = activityThread.getDeclaredMethod("currentProcessName")
+        currentProcessName.isAccessible = true
+        packageName = currentProcessName.invoke(null)
+        if (packageName is String) {
+            return packageName
+        }
+    } catch (exception: Throwable) {
+        exception.makeLog()
+    }
+
+    // Fallback to the most expensive way
+    val pid: Int = android.os.Process.myPid()
+    val am = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+
+    val processes = am.runningAppProcesses
+    if (processes != null && processes.isNotEmpty()) {
+        for (process in processes) {
+            if (process.pid == pid) {
+                return process.processName
+            }
+        }
+    }
+
+    return null
 }
