@@ -54,7 +54,7 @@ internal fun CutParamsSelector(
             icon = Icons.Rounded.BorderVertical,
             title = stringResource(R.string.vertical_pivot_line),
             internalStateTransformation = {
-                it.start.roundTo(2)..it.endInclusive.roundTo(2)
+                it.start.roundTo(3)..it.endInclusive.roundTo(3)
             },
             onValueChange = {
                 onValueChange(
@@ -96,7 +96,7 @@ internal fun CutParamsSelector(
             icon = Icons.Rounded.BorderHorizontal,
             title = stringResource(R.string.horizontal_pivot_line),
             internalStateTransformation = {
-                it.start.roundTo(2)..it.endInclusive.roundTo(2)
+                it.start.roundTo(3)..it.endInclusive.roundTo(3)
             },
             onValueChange = {
                 onValueChange(
