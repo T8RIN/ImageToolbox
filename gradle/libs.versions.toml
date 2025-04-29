@@ -68,7 +68,7 @@ uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.0-alpha11"
 
 material = "1.13.0-alpha13"
-jsoup = "1.19.1"
+jsoup = "1.20.1"
 
 mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
