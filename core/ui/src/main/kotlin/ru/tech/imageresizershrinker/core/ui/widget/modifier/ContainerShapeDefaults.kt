@@ -213,7 +213,10 @@ fun animateShape(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessMediumLow
     ),
-): Shape = rememberAnimatedShape(targetValue, animationSpec)
+): Shape = rememberAnimatedShape(
+    currentShape = targetValue,
+    animationSpec = animationSpec
+)
 
 @Composable
 fun shapeByInteraction(
@@ -251,8 +254,8 @@ fun shapeByInteraction(
     if (targetShape is RoundedCornerShape) {
         return key(shape, pressedShape) {
             rememberAnimatedShape(
-                targetShape,
-                animationSpec,
+                currentShape = targetShape,
+                animationSpec = animationSpec,
             )
         }
     }
