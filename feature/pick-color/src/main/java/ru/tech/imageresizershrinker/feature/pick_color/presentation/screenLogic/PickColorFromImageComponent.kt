@@ -29,7 +29,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 
@@ -38,7 +37,6 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -60,7 +58,6 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
     val color: Color by _color
 
     private val _uri = mutableStateOf<Uri?>(null)
-    val uri by _uri
 
     fun setUri(
         uri: Uri,
@@ -69,21 +66,11 @@ class PickColorFromImageComponent @AssistedInject internal constructor(
         _uri.value = uri
         componentScope.launch {
             runSuspendCatching {
-                updateBitmap(
-                    imageGetter.getImage(
-                        data = uri,
-                        originalSize = false
-                    )
+                _bitmap.value = imageGetter.getImage(
+                    data = uri,
+                    size = 4000
                 )
             }.onFailure(onFailure)
-        }
-    }
-
-    private fun updateBitmap(bitmap: Bitmap?) {
-        componentScope.launch {
-            _isImageLoading.value = true
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            _isImageLoading.value = false
         }
     }
 
