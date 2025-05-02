@@ -1601,4 +1601,7 @@
     <string name="use_lsb">Usar LSB</string>
     <string name="invisible_mode_sub">Usar esteganografia para criar marcas d\'água invisíveis aos olhos dentro de bytes de suas imagens</string>
     <string name="invisible_mode">Modo Invisível</string>
+    <string name="password">Senha</string>
+    <string name="unlock">Desbloquear</string>
+    <string name="pdf_is_protected">O PDF está protegido</string>
 </resources>
