@@ -1603,4 +1603,5 @@
     <string name="auto_remove_red_eyes">自动去除红眼</string>
     <string name="password">密码</string>
     <string name="unlock">解锁</string>
+    <string name="pdf_is_protected">PDF已受保护</string>
 </resources>
