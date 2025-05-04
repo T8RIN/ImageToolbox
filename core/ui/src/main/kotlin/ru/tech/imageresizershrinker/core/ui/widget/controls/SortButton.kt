@@ -114,8 +114,16 @@ fun SortButton(
 private val SortType.title: String
     @Composable
     get() = when (this) {
-        SortType.Date -> stringResource(R.string.sort_by_date)
-        SortType.DateReversed -> stringResource(R.string.sort_by_date_reversed)
+        SortType.DateModified -> stringResource(R.string.sort_by_date_modified)
+        SortType.DateModifiedReversed -> stringResource(R.string.sort_by_date_modified_reversed)
         SortType.Name -> stringResource(R.string.sort_by_name)
         SortType.NameReversed -> stringResource(R.string.sort_by_name_reversed)
+        SortType.Size -> stringResource(R.string.sort_by_size)
+        SortType.SizeReversed -> stringResource(R.string.sort_by_size_reversed)
+        SortType.MimeType -> stringResource(R.string.sort_by_mime_type)
+        SortType.MimeTypeReversed -> stringResource(R.string.sort_by_mime_type_reversed)
+        SortType.Extension -> stringResource(R.string.sort_by_extension)
+        SortType.ExtensionReversed -> stringResource(R.string.sort_by_extension_reversed)
+        SortType.DateAdded -> stringResource(R.string.sort_by_date_added)
+        SortType.DateAddedReversed -> stringResource(R.string.sort_by_date_added_reversed)
     }

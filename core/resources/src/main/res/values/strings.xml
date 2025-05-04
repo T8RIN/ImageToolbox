@@ -861,10 +861,10 @@
     <string name="compression_type">Compression Type</string>
     <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$d means slowest decoding, whereas %2$d - fastest, this setting may increase output image size</string>
     <string name="sorting">Sorting</string>
-    <string name="sort_by_date">Sort By Date</string>
-    <string name="sort_by_date_reversed">Sort By Date (Reversed)</string>
-    <string name="sort_by_name">Sort By Name</string>
-    <string name="sort_by_name_reversed">Sort By Name (Reversed)</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_date_reversed">Date (Reversed)</string>
+    <string name="sort_by_name">Name</string>
+    <string name="sort_by_name_reversed">Name (Reversed)</string>
     <string name="channels_configuration">Channels Configuration</string>
     <string name="header_today">Today</string>
     <string name="header_yesterday">Yesterday</string>
@@ -1624,4 +1624,14 @@
     <string name="unlock">Unlock</string>
     <string name="pdf_is_protected">PDF is protected</string>
     <string name="operation_almost_complete">Operation almost complete. Cancelling now will require restarting it</string>
+    <string name="sort_by_date_modified">Date Modified</string>
+    <string name="sort_by_date_modified_reversed">Date Modified (Reversed)</string>
+    <string name="sort_by_size">Size</string>
+    <string name="sort_by_size_reversed">Size (Reversed)</string>
+    <string name="sort_by_mime_type">MIME Type</string>
+    <string name="sort_by_mime_type_reversed">MIME Type (Reversed)</string>
+    <string name="sort_by_extension">Extension</string>
+    <string name="sort_by_extension_reversed">Extension (Reversed)</string>
+    <string name="sort_by_date_added">Date Added</string>
+    <string name="sort_by_date_added_reversed">Date Added (Reversed)</string>
 </resources>

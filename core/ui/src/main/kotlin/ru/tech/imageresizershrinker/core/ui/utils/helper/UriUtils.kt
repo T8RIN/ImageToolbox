@@ -21,6 +21,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
@@ -81,42 +83,100 @@ private fun Uri.lastModified(context: Context): Long? = with(context.contentReso
     return null
 }
 
+private fun Uri.addedTime(context: Context): Long? =
+    getLongColumn(context, MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
+
+
+private fun Uri.getLongColumn(context: Context, column: String): Long? =
+    context.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val index = cursor.getColumnIndex(column)
+            if (index != -1 && !cursor.isNull(index)) cursor.getLong(index) else null
+        } else null
+    }
+
+private fun Uri.getStringColumn(context: Context, column: String): String? =
+    context.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val index = cursor.getColumnIndex(column)
+            if (index != -1 && !cursor.isNull(index)) cursor.getString(index) else null
+        } else null
+    }
+
+
 suspend fun List<Uri>.sortedByType(
     sortType: SortType,
     context: Context
 ): List<Uri> = coroutineScope {
     when (sortType) {
-        SortType.Date -> sortedByDate(context)
-        SortType.DateReversed -> sortedByDate(context = context, isDescending = true)
+        SortType.DateModified -> sortedByDateModified(context)
+        SortType.DateModifiedReversed -> sortedByDateModified(context, true)
         SortType.Name -> sortedByName(context)
-        SortType.NameReversed -> sortedByName(context = context, isDescending = true)
+        SortType.NameReversed -> sortedByName(context, true)
+        SortType.Size -> sortedBySize(context)
+        SortType.SizeReversed -> sortedBySize(context, true)
+        SortType.MimeType -> sortedByMimeType(context)
+        SortType.MimeTypeReversed -> sortedByMimeType(context, true)
+        SortType.Extension -> sortedByExtension(context)
+        SortType.ExtensionReversed -> sortedByExtension(context, true)
+        SortType.DateAdded -> sortedByDateAdded(context)
+        SortType.DateAddedReversed -> sortedByDateAdded(context, true)
     }
 }
 
-private fun List<Uri>.sortedByDate(
-    context: Context,
-    isDescending: Boolean = false
-): List<Uri> = if (isDescending) {
-    sortedByDescending {
-        it.lastModified(context)
-    }
+private inline fun <T : Comparable<T>> List<Uri>.sortedByKey(
+    descending: Boolean,
+    crossinline selector: (Uri) -> T?
+): List<Uri> = if (descending) {
+    sortedByDescending { selector(it) }
 } else {
-    sortedBy {
-        it.lastModified(context)
-    }
+    sortedBy { selector(it) }
 }
+
+private fun List<Uri>.sortedByExtension(
+    context: Context,
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    context.getFilename(it)?.substringAfterLast(
+        delimiter = '.',
+        missingDelimiterValue = ""
+    )?.lowercase()
+}
+
+private fun List<Uri>.sortedByDateModified(
+    context: Context,
+    descending: Boolean = false
+) = sortedByKey(descending) { it.lastModified(context) }
 
 private fun List<Uri>.sortedByName(
     context: Context,
-    isDescending: Boolean = false
-): List<Uri> = if (isDescending) {
-    sortedByDescending {
-        context.getFilename(it)
-    }
-} else {
-    sortedBy {
-        context.getFilename(it)
-    }
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    context.getFilename(it)
+}
+
+private fun List<Uri>.sortedBySize(
+    context: Context,
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getLongColumn(context, OpenableColumns.SIZE)
+}
+
+private fun List<Uri>.sortedByMimeType(
+    context: Context,
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getStringColumn(
+        context = context,
+        column = DocumentsContract.Document.COLUMN_MIME_TYPE
+    )
+}
+
+private fun List<Uri>.sortedByDateAdded(
+    context: Context,
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.addedTime(context)
 }
 
 fun ImageModel.toUri(): Uri? = when (data) {

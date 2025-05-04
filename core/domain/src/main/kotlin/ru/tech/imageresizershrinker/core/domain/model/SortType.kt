@@ -18,5 +18,10 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 enum class SortType {
-    Date, DateReversed, Name, NameReversed
+    DateModified, DateModifiedReversed,
+    Name, NameReversed,
+    Size, SizeReversed,
+    MimeType, MimeTypeReversed,
+    Extension, ExtensionReversed,
+    DateAdded, DateAddedReversed
 }
