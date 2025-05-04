@@ -33,7 +33,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCircularProg
 fun WantCancelLoadingDialog(
     visible: Boolean,
     onCancelLoading: () -> Unit,
-    onDismissDialog: () -> Unit
+    onDismissDialog: () -> Unit,
+    isForSaving: Boolean = true
 ) {
     EnhancedAlertDialog(
         visible = visible,
@@ -49,7 +50,12 @@ fun WantCancelLoadingDialog(
             Text(stringResource(id = R.string.loading))
         },
         text = {
-            Text(stringResource(R.string.saving_almost_complete))
+            Text(
+                text = stringResource(
+                    if (isForSaving) R.string.saving_almost_complete
+                    else R.string.operation_almost_complete
+                )
+            )
         },
         dismissButton = {
             EnhancedButton(

@@ -27,13 +27,14 @@ import com.arkivanov.decompose.ComponentContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.toList
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -54,9 +55,6 @@ class ImagePreviewComponent @AssistedInject internal constructor(
             initialUris?.let(::updateUris)
         }
     }
-
-    private val _isLoadingImages = mutableStateOf(false)
-    val isLoadingImages by _isLoadingImages
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -108,23 +106,35 @@ class ImagePreviewComponent @AssistedInject internal constructor(
         _imageFrames.update { imageFrames }
     }
 
-    private var treeJob: Job? by smartJob {
-        _isLoadingImages.update { false }
+    fun updateUrisFromTree(uri: Uri) {
+        asyncUpdateUris {
+            _uris.update { emptyList() }
+
+            fileController.listFilesInDirectoryAsFlow(uri.toString())
+                .mapNotNull { uri ->
+                    val excluded = listOf(
+                        "xml", "mov", "zip", "apk", "mp4", "mp3", "pdf", "ldb", "ttf", "gz", "rar"
+                    )
+                    if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
+
+                    imageGetter.getImage(
+                        data = uri,
+                        size = 10
+                    )?.let { uri.toUri() }
+                }
+                .onEach { uri ->
+                    _uris.update { it.orEmpty() + uri }
+                }
+                .toList()
+        }
     }
 
-    fun updateUrisFromTree(uri: Uri) {
-        treeJob = componentScope.launch {
-            _isLoadingImages.update { true }
-            fileController.listFilesInDirectory(uri.toString()).mapNotNull { uri ->
-                val excluded = listOf(
-                    "xml", "mov", "zip", "apk", "mp4", "mp3", "pdf", "ldb", "ttf", "gz", "rar"
-                )
-                if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
-
-                if (imageGetter.getImage(uri, 10) != null) uri.toUri()
-                else null
-            }.let(::updateUris)
-            _isLoadingImages.update { false }
+    fun asyncUpdateUris(
+        onFinish: suspend () -> Unit = {},
+        action: suspend (List<Uri>?) -> List<Uri>
+    ) {
+        debouncedImageCalculation(delay = 100, onFinish = onFinish) {
+            _uris.value = action(_uris.value)
         }
     }
 

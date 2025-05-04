@@ -26,7 +26,11 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.resources.R
@@ -46,7 +50,17 @@ private fun isDirectory(mimeType: String): Boolean {
 
 internal suspend fun Context.listFilesInDirectory(
     rootUri: Uri
-): List<Uri> = coroutineScope {
+): List<Uri> = listFilesInDirectoryAsFlowImpl(rootUri).filterIsInstance<DirUri.All>().first().uris
+
+internal fun Context.listFilesInDirectoryProgressive(
+    rootUri: Uri
+): Flow<Uri> = listFilesInDirectoryAsFlowImpl(rootUri)
+    .filterIsInstance<DirUri.Entry>()
+    .map { it.uri }
+
+private fun Context.listFilesInDirectoryAsFlowImpl(
+    rootUri: Uri
+): Flow<DirUri> = callbackFlow {
     var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
         rootUri,
         DocumentsContract.getTreeDocumentId(rootUri)
@@ -78,18 +92,27 @@ internal suspend fun Context.listFilesInDirectory(
                     val newNode = DocumentsContract.buildChildDocumentsUriUsingTree(rootUri, docId)
                     dirNodes.add(newNode)
                 } else {
+                    val uri = DocumentsContract.buildDocumentUriUsingTree(rootUri, docId)
+
+                    channel.send(DirUri.Entry(uri))
+
                     files.add(
-                        DocumentsContract.buildDocumentUriUsingTree(
-                            rootUri,
-                            docId
-                        ) to lastModified
+                        uri to lastModified
                     )
                 }
             }
         }
     }
 
-    files.sortedByDescending { it.second }.map { it.first }
+    files.sortedByDescending { it.second }.map { it.first }.also {
+        channel.send(DirUri.All(it))
+        channel.close()
+    }
+}
+
+private sealed interface DirUri {
+    data class Entry(val uri: Uri) : DirUri
+    data class All(val uris: List<Uri>) : DirUri
 }
 
 fun Uri.fileSize(context: Context): Long? {

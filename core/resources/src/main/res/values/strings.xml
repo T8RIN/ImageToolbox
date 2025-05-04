@@ -1623,4 +1623,5 @@
     <string name="password">Password</string>
     <string name="unlock">Unlock</string>
     <string name="pdf_is_protected">PDF is protected</string>
+    <string name="operation_almost_complete">Operation almost complete. Cancelling now will require restarting it</string>
 </resources>

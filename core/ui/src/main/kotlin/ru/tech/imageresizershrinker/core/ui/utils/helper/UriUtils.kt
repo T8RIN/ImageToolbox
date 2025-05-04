@@ -55,7 +55,7 @@ fun Uri?.toUiPath(
         }
 } ?: default
 
-fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
+private fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
     val query = query(this@lastModified, null, null, null, null)
 
     query?.use { cursor ->
@@ -87,22 +87,36 @@ suspend fun List<Uri>.sortedByType(
 ): List<Uri> = coroutineScope {
     when (sortType) {
         SortType.Date -> sortedByDate(context)
-        SortType.DateReversed -> sortedByDate(context).reversed()
+        SortType.DateReversed -> sortedByDate(context = context, isDescending = true)
         SortType.Name -> sortedByName(context)
-        SortType.NameReversed -> sortedByName(context).reversed()
+        SortType.NameReversed -> sortedByName(context = context, isDescending = true)
     }
 }
 
-fun List<Uri>.sortedByDate(
-    context: Context
-): List<Uri> = sortedBy {
-    it.lastModified(context)
+private fun List<Uri>.sortedByDate(
+    context: Context,
+    isDescending: Boolean = false
+): List<Uri> = if (isDescending) {
+    sortedByDescending {
+        it.lastModified(context)
+    }
+} else {
+    sortedBy {
+        it.lastModified(context)
+    }
 }
 
-fun List<Uri>.sortedByName(
-    context: Context
-): List<Uri> = sortedBy {
-    context.getFilename(it)
+private fun List<Uri>.sortedByName(
+    context: Context,
+    isDescending: Boolean = false
+): List<Uri> = if (isDescending) {
+    sortedByDescending {
+        context.getFilename(it)
+    }
+} else {
+    sortedBy {
+        context.getFilename(it)
+    }
 }
 
 fun ImageModel.toUri(): Uri? = when (data) {

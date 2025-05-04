@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.app.presentation.components.utils
 
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,8 +30,7 @@ import java.security.Security
 
 internal fun registerSecurityProviders() {
     CoroutineScope(Dispatchers.Default).launch {
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-        Security.addProvider(BouncyCastleProvider())
+        initBouncyCastle()
 
         HashingType.registerSecurityMessageDigests(
             Security.getAlgorithms("MessageDigest").filterNotNull()
@@ -65,5 +65,31 @@ internal fun registerSecurityProviders() {
                 }
             }
         )
+    }
+}
+
+private fun initBouncyCastle() {
+    try {
+        val baseName = BouncyCastleProvider.PROVIDER_NAME
+        val modifiedName = "${baseName}2"
+
+        Class.forName("org.bouncycastle.jce.provider.BouncyCastleProvider")
+            .getDeclaredField("PROVIDER_NAME")
+            .apply {
+                isAccessible = true
+                set(null, modifiedName)
+            }
+
+        val default = Security.getProvider(baseName)
+        Security.removeProvider(baseName)
+
+        Security.addProvider(BouncyCastleProvider())
+
+        Security.addProvider(default)
+
+        "PROVIDER_NAME успешно изменен на: $modifiedName".makeLog()
+    } catch (e: Exception) {
+        e.makeLog()
+        "Не удалось изменить PROVIDER_NAME".makeLog()
     }
 }

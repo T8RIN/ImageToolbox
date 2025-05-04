@@ -20,12 +20,14 @@ package ru.tech.imageresizershrinker.feature.image_preview.presentation
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -49,6 +52,7 @@ import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -57,16 +61,19 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -77,7 +84,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.sortedByType
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import ru.tech.imageresizershrinker.core.ui.widget.controls.SortButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitBackHandler
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
@@ -89,6 +98,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarTyp
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePreviewGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -115,7 +125,7 @@ fun ImagePreviewContent(
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
-    val isLoadingImages = component.isLoadingImages
+    val isLoadingImages = component.isImageLoading
 
     var previousFolder by rememberSaveable {
         mutableStateOf<Uri?>(null)
@@ -138,12 +148,16 @@ fun ImagePreviewContent(
         mutableStateOf(false)
     }
 
+    var gridInvalidations by remember {
+        mutableIntStateOf(0)
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
@@ -151,16 +165,39 @@ fun ImagePreviewContent(
                 mutableStateOf(false)
             }
 
-            Column(Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 EnhancedTopAppBar(
                     type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
                     title = {
-                        Text(
-                            text = stringResource(R.string.image_preview),
-                            textAlign = TextAlign.Center,
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.marquee()
-                        )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.image_preview)
+                            )
+                            AnimatedVisibility(!component.uris.isNullOrEmpty()) {
+                                Badge(
+                                    content = {
+                                        val prefix = if (isLoadingImages) "~" else ""
+                                        Text(
+                                            text = "$prefix${component.uris.orEmpty().size}"
+                                        )
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiary,
+                                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .padding(bottom = 12.dp)
+                                        .scaleOnTap {
+                                            showConfetti()
+                                        }
+                                )
+                            }
+                        }
                     },
                     navigationIcon = {
                         EnhancedIconButton(
@@ -177,10 +214,33 @@ fun ImagePreviewContent(
                         val isCanSelectAll =
                             component.uris?.size != selectedUris.size && component.uris != null
 
-                        AnimatedVisibility(
-                            visible = !isCanSelectAll && !isCanClear || selectedUris.isEmpty()
-                        ) {
-                            TopAppBarEmoji()
+                        AnimatedContent(
+                            targetState = (!isCanSelectAll && !isCanClear) to selectedUris.isEmpty(),
+                            modifier = Modifier.size(40.dp)
+                        ) { (notSelection, haveUris) ->
+                            if (notSelection && haveUris) {
+                                TopAppBarEmoji()
+                            } else if (haveUris) {
+                                val context = LocalContext.current
+
+                                SortButton(
+                                    modifier = Modifier.size(40.dp),
+                                    iconSize = 24.dp,
+                                    containerColor = Color.Transparent,
+                                    contentColor = MaterialTheme.colorScheme.onSurface,
+                                    onSortTypeSelected = { sortType ->
+                                        component.asyncUpdateUris(
+                                            onFinish = { gridInvalidations++ },
+                                            action = {
+                                                it.orEmpty().sortedByType(
+                                                    sortType = sortType,
+                                                    context = context
+                                                )
+                                            }
+                                        )
+                                    }
+                                )
+                            }
                         }
 
                         AnimatedVisibility(
@@ -237,13 +297,36 @@ fun ImagePreviewContent(
                         }
                     }
                 )
-                AnimatedVisibility(
-                    visible = !isLoadingImages,
+                AnimatedContent(
+                    targetState = !component.uris.isNullOrEmpty() || isLoadingImages,
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    },
                     modifier = Modifier.weight(1f)
-                ) {
-                    if (component.uris.isNullOrEmpty()) {
+                ) { canShowGrid ->
+                    if (canShowGrid) {
+                        Crossfade(gridInvalidations) { key ->
+                            key(key) {
+                                ImagePreviewGrid(
+                                    data = component.uris,
+                                    onAddImages = component::updateUris,
+                                    onShareImage = {
+                                        component.shareImages(
+                                            uriList = listOf(element = it),
+                                            onComplete = showConfetti
+                                        )
+                                    },
+                                    onRemove = component::removeUri,
+                                    initialShowImagePreviewDialog = initialShowImagePreviewDialog,
+                                    onNavigate = component.onNavigate,
+                                    imageFrames = component.imageFrames,
+                                    onFrameSelectionChange = component::updateImageFrames
+                                )
+                            }
+                        }
+                    } else {
                         Column(
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxSize()
                                 .verticalScroll(rememberScrollState()),
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -263,22 +346,6 @@ fun ImagePreviewContent(
                                 )
                             )
                         }
-                    } else {
-                        ImagePreviewGrid(
-                            data = component.uris,
-                            onAddImages = component::updateUris,
-                            onShareImage = {
-                                component.shareImages(
-                                    uriList = listOf(element = it),
-                                    onComplete = showConfetti
-                                )
-                            },
-                            onRemove = component::removeUri,
-                            initialShowImagePreviewDialog = initialShowImagePreviewDialog,
-                            onNavigate = component.onNavigate,
-                            imageFrames = component.imageFrames,
-                            onFrameSelectionChange = component::updateImageFrames
-                        )
                     }
                 }
             }
@@ -385,7 +452,8 @@ fun ImagePreviewContent(
 
     LoadingDialog(
         visible = isLoadingImages,
-        canCancel = false
+        onCancelLoading = component::cancelImageLoading,
+        isForSaving = false
     )
 
     ExitWithoutSavingDialog(

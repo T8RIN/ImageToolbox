@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving
 
+import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -71,5 +72,7 @@ interface FileController {
     )
 
     suspend fun listFilesInDirectory(treeUri: String): List<String>
+
+    fun listFilesInDirectoryAsFlow(treeUri: String): Flow<String>
 
 }

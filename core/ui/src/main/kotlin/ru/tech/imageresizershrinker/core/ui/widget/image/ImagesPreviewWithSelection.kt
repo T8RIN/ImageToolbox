@@ -153,7 +153,7 @@ fun ImagesPreviewWithSelection(
     }
 
     val screenWidth = LocalScreenSize.current.width
-    val modifier = modifier ?: if (isPortrait) {
+    val gridModifier = modifier ?: if (isPortrait) {
         Modifier.height(
             (130.dp * imageUris.size).coerceAtMost(420.dp)
         )
@@ -181,7 +181,7 @@ fun ImagesPreviewWithSelection(
         } else Modifier
     )
 
-    Box(modifier = modifier) {
+    Box(modifier = gridModifier) {
         if (isPortrait) {
             LazyHorizontalGrid(
                 rows = GridCells.Adaptive(horizontalCellSize),

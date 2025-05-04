@@ -27,7 +27,9 @@ import androidx.documentfile.provider.DocumentFile
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,6 +43,7 @@ import ru.tech.imageresizershrinker.core.data.utils.getFilename
 import ru.tech.imageresizershrinker.core.data.utils.getPath
 import ru.tech.imageresizershrinker.core.data.utils.isExternalStorageWritable
 import ru.tech.imageresizershrinker.core.data.utils.listFilesInDirectory
+import ru.tech.imageresizershrinker.core.data.utils.listFilesInDirectoryProgressive
 import ru.tech.imageresizershrinker.core.data.utils.openWriteableStream
 import ru.tech.imageresizershrinker.core.data.utils.toUiPath
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -469,5 +472,9 @@ internal class AndroidFileController @Inject constructor(
     ): List<String> = withContext(ioDispatcher) {
         context.listFilesInDirectory(treeUri.toUri()).map { it.toString() }
     }
+
+    override fun listFilesInDirectoryAsFlow(
+        treeUri: String
+    ): Flow<String> = context.listFilesInDirectoryProgressive(treeUri.toUri()).map(Uri::toString)
 
 }

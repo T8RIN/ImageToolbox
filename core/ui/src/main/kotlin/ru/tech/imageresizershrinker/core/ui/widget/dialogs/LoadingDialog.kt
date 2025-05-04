@@ -40,7 +40,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 fun LoadingDialog(
     visible: Boolean,
     onCancelLoading: () -> Unit = {},
-    canCancel: Boolean = true
+    canCancel: Boolean = true,
+    isForSaving: Boolean = true
 ) {
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
     BasicEnhancedAlertDialog(
@@ -70,7 +71,8 @@ fun LoadingDialog(
         onCancelLoading = onCancelLoading,
         onDismissDialog = {
             showWantDismissDialog = false
-        }
+        },
+        isForSaving = isForSaving
     )
     KeepScreenOn()
 }

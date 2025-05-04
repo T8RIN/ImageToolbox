@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,12 +40,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -73,15 +69,12 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareUris
 import ru.tech.imageresizershrinker.core.ui.utils.helper.sortedByType
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.longPress
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.press
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePager
@@ -91,7 +84,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -107,6 +99,8 @@ fun ImageReorderCarousel(
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
+
+    val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
     val state = rememberReorderableLazyListState(
@@ -162,91 +156,27 @@ fun ImageReorderCarousel(
                 )
             }
 
-            var showSortTypeSelection by rememberSaveable {
-                mutableStateOf(false)
-            }
-
-            EnhancedIconButton(
-                onClick = {
-                    showSortTypeSelection = true
-                },
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                forceMinimumInteractiveComponentSize = false,
+            val scope = rememberCoroutineScope()
+            SortButton(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(30.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.FilterAlt,
-                    contentDescription = stringResource(R.string.filter),
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-            EnhancedModalBottomSheet(
-                visible = showSortTypeSelection,
-                onDismiss = { showSortTypeSelection = it },
-                title = {
-                    TitleItem(
-                        text = stringResource(R.string.sorting),
-                        icon = Icons.Rounded.FilterAlt
-                    )
-                },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = {
-                            showSortTypeSelection = false
-                        },
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ) {
-                        Text(stringResource(R.string.close))
-                    }
-                }
-            ) {
-                val context = LocalContext.current
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    val items = remember {
-                        SortType.entries
-                    }
-                    val scope = rememberCoroutineScope()
+                onSortTypeSelected = { sortType ->
+                    scope.launch(Dispatchers.Default) {
+                        val newValue = images
+                            .orEmpty()
+                            .sortedByType(
+                                sortType = sortType,
+                                context = context
+                            )
 
-                    items.forEachIndexed { index, item ->
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .container(
-                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                        index,
-                                        items.size
-                                    ),
-                                    resultPadding = 0.dp
-                                )
-                                .hapticsClickable {
-                                    scope.launch(Dispatchers.IO) {
-                                        val newValue = images
-                                            ?.sortedByType(
-                                                sortType = item,
-                                                context = context
-                                            )
-                                            ?.reversed() ?: emptyList()
-                                        withContext(Dispatchers.Main.immediate) {
-                                            data.value = newValue
-                                            onReorder(newValue)
-                                            showSortTypeSelection = false
-                                        }
-                                    }
-                                }
-                        ) {
-                            TitleItem(text = item.title)
+                        withContext(Dispatchers.Main.immediate) {
+                            data.value = newValue
+                            onReorder(newValue)
                         }
                     }
                 }
-            }
+            )
         }
         Box {
             val showButton = (images?.size ?: 0) > 2 && !state.isAnyItemDragging
@@ -352,7 +282,6 @@ fun ImageReorderCarousel(
         }
     }
 
-    val context = LocalContext.current
     ImagePager(
         visible = previewUri != null,
         selectedUri = previewUri,
@@ -363,12 +292,3 @@ fun ImageReorderCarousel(
         onDismiss = { previewUri = null }
     )
 }
-
-private val SortType.title: String
-    @Composable
-    get() = when (this) {
-        SortType.Date -> stringResource(R.string.sort_by_date)
-        SortType.DateReversed -> stringResource(R.string.sort_by_date_reversed)
-        SortType.Name -> stringResource(R.string.sort_by_name)
-        SortType.NameReversed -> stringResource(R.string.sort_by_name_reversed)
-    }
