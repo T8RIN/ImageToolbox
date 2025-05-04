@@ -29,6 +29,7 @@ import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.SortType
+import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.sortedByKey
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.net.URLDecoder
@@ -109,28 +110,19 @@ suspend fun List<Uri>.sortedByType(
     context: Context
 ): List<Uri> = coroutineScope {
     when (sortType) {
-        SortType.DateModified -> sortedByDateModified(context)
-        SortType.DateModifiedReversed -> sortedByDateModified(context, true)
-        SortType.Name -> sortedByName(context)
-        SortType.NameReversed -> sortedByName(context, true)
-        SortType.Size -> sortedBySize(context)
-        SortType.SizeReversed -> sortedBySize(context, true)
-        SortType.MimeType -> sortedByMimeType(context)
-        SortType.MimeTypeReversed -> sortedByMimeType(context, true)
-        SortType.Extension -> sortedByExtension(context)
-        SortType.ExtensionReversed -> sortedByExtension(context, true)
-        SortType.DateAdded -> sortedByDateAdded(context)
-        SortType.DateAddedReversed -> sortedByDateAdded(context, true)
+        SortType.DateModified -> sortedByDateModified(context = context)
+        SortType.DateModifiedReversed -> sortedByDateModified(context = context, descending = true)
+        SortType.Name -> sortedByName(context = context)
+        SortType.NameReversed -> sortedByName(context = context, descending = true)
+        SortType.Size -> sortedBySize(context = context)
+        SortType.SizeReversed -> sortedBySize(context = context, descending = true)
+        SortType.MimeType -> sortedByMimeType(context = context)
+        SortType.MimeTypeReversed -> sortedByMimeType(context = context, descending = true)
+        SortType.Extension -> sortedByExtension(context = context)
+        SortType.ExtensionReversed -> sortedByExtension(context = context, descending = true)
+        SortType.DateAdded -> sortedByDateAdded(context = context)
+        SortType.DateAddedReversed -> sortedByDateAdded(context = context, descending = true)
     }
-}
-
-private inline fun <T : Comparable<T>> List<Uri>.sortedByKey(
-    descending: Boolean,
-    crossinline selector: (Uri) -> T?
-): List<Uri> = if (descending) {
-    sortedByDescending { selector(it) }
-} else {
-    sortedBy { selector(it) }
 }
 
 private fun List<Uri>.sortedByExtension(

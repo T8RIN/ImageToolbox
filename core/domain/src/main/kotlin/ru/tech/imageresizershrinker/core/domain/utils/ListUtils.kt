@@ -61,4 +61,13 @@ object ListUtils {
     inline fun <E> List<E>.leftFrom(index: Int): E = getOrNull(index - 1) ?: get(lastIndex)
 
     inline fun <E> List<E>.rightFrom(index: Int): E = getOrNull(index + 1) ?: get(0)
+
+    inline fun <E, T : Comparable<T>> List<E>.sortedByKey(
+        descending: Boolean,
+        crossinline selector: (E) -> T?
+    ): List<E> = if (descending) {
+        sortedByDescending { selector(it) }
+    } else {
+        sortedBy { selector(it) }
+    }
 }
