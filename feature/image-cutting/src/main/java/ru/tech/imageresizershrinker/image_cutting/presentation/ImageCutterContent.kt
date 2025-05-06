@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
@@ -43,7 +42,6 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -79,8 +77,6 @@ fun ImageCutterContent(
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
-
-    val context = LocalContext.current
 
     val imagePicker = rememberImagePicker(onSuccess = component::updateUris)
 
@@ -134,10 +130,8 @@ fun ImageCutterContent(
                         editSheetData = it
                     }
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage {
-                        manager.copyToClipboard(it.asClip(context))
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 }
             )
             ProcessImagesPreferenceSheet(

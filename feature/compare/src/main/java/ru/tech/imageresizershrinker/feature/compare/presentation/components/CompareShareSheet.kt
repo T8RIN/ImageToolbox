@@ -47,8 +47,6 @@ import androidx.compose.ui.unit.dp
 import coil3.transform.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -69,12 +67,10 @@ internal fun CompareShareSheet(
     onVisibleChange: (Boolean) -> Unit,
     onSaveBitmap: (ImageFormat, String?) -> Unit,
     onShare: (ImageFormat) -> Unit,
-    onCopy: (ImageFormat, LocalEssentials) -> Unit,
+    onCopy: (ImageFormat) -> Unit,
     previewData: Any?,
     transformations: List<Transformation>
 ) {
-    val essentials = rememberLocalEssentials()
-
     EnhancedModalBottomSheet(
         sheetContent = {
             var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png.Lossless) }
@@ -149,7 +145,7 @@ internal fun CompareShareSheet(
                             .padding(horizontal = 16.dp),
                         shape = centerShape,
                         onClick = {
-                            onCopy(imageFormat, essentials)
+                            onCopy(imageFormat)
                         },
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         endIcon = Icons.Rounded.ContentCopy

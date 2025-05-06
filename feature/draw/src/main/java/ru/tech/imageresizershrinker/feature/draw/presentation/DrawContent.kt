@@ -61,9 +61,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.rememberAppColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -94,8 +92,6 @@ fun DrawContent(
     component: DrawComponent,
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalComponentActivity.current
-
     val themeState = LocalDynamicThemeState.current
 
     val appColorTuple = rememberAppColorTuple()
@@ -240,11 +236,8 @@ fun DrawContent(
                     onShare = {
                         component.shareBitmap(showConfetti)
                     },
-                    onCopy = { manager ->
-                        component.cacheCurrentImage { uri ->
-                            manager.copyToClipboard(uri.asClip(context))
-                            showConfetti()
-                        }
+                    onCopy = {
+                        component.cacheCurrentImage(essentials::copyToClipboard)
                     },
                     onEdit = {
                         component.cacheCurrentImage { uri ->

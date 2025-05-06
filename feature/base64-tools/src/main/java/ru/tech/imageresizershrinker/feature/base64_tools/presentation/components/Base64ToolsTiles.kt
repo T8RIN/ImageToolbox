@@ -185,10 +185,6 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                             }
                             if (component.base64String.isBase64()) {
                                 essentials.copyToClipboard(text)
-                                essentials.showToast(
-                                    message = context.getString(R.string.copied),
-                                    icon = Icons.Rounded.CopyAll
-                                )
                             } else {
                                 essentials.showToast(
                                     message = context.getString(R.string.copy_not_a_valid_base_64),

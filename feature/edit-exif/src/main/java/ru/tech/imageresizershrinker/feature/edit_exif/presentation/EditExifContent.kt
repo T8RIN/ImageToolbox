@@ -46,7 +46,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberFileSize
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -80,7 +79,6 @@ fun EditExifContent(
     val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
-    val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.uri)
 
@@ -145,13 +143,10 @@ fun EditExifContent(
             ShareButton(
                 enabled = component.uri != Uri.EMPTY,
                 onShare = {
-                    component.shareBitmap(showConfetti)
+                    component.shareBitmap(essentials::showConfetti)
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage { uri ->
-                        manager.copyToClipboard(uri.asClip(context))
-                        showConfetti()
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 },
                 onEdit = {
                     component.cacheCurrentImage { uri ->

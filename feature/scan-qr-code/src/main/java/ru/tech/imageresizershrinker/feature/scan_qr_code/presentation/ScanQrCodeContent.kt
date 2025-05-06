@@ -43,13 +43,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.shreyaspatil.capturable.controller.CaptureController
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -162,20 +162,18 @@ fun ScanQrCodeContent(
                 enabled = params.content.isNotEmpty(),
                 onShare = {
                     scope.launch {
-                        val bitmap = captureController.captureAsync().await().asAndroidBitmap()
                         component.shareImage(
-                            bitmap = bitmap,
+                            bitmap = captureController.bitmap(),
                             onComplete = showConfetti
                         )
                     }
                 },
-                onCopy = { manager ->
+                onCopy = {
                     scope.launch {
-                        val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        component.cacheImage(bitmap) { uri ->
-                            manager.copyToClipboard(uri.asClip(context))
-                            showConfetti()
-                        }
+                        component.cacheImage(
+                            bitmap = captureController.bitmap(),
+                            onComplete = essentials::copyToClipboard
+                        )
                     }
                 }
             )
@@ -278,3 +276,5 @@ fun ScanQrCodeContent(
     )
 
 }
+
+private suspend fun CaptureController.bitmap(): Bitmap = captureAsync().await().asAndroidBitmap()

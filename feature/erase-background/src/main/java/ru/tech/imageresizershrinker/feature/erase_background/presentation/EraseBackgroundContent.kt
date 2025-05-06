@@ -71,9 +71,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSim
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
@@ -116,7 +114,6 @@ fun EraseBackgroundContent(
     component: EraseBackgroundComponent,
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
@@ -259,11 +256,8 @@ fun EraseBackgroundContent(
                     onShare = {
                         component.shareBitmap(showConfetti)
                     },
-                    onCopy = { manager ->
-                        component.cacheCurrentImage { uri ->
-                            manager.copyToClipboard(uri.asClip(context))
-                            showConfetti()
-                        }
+                    onCopy = {
+                        component.cacheCurrentImage(essentials::copyToClipboard)
                     },
                     onEdit = {
                         component.cacheCurrentImage { uri ->

@@ -31,8 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -54,8 +52,6 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLo
 fun GradientMakerContent(
     component: GradientMakerComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -122,11 +118,8 @@ fun GradientMakerContent(
                 onShare = {
                     component.shareBitmaps(showConfetti)
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage { uri ->
-                        manager.copyToClipboard(uri.asClip(context))
-                        showConfetti()
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 },
                 onEdit = {
                     component.cacheImages {

@@ -46,9 +46,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -77,8 +75,6 @@ fun Base64ToolsContent(
     AutoContentBasedColors(component.uri)
 
     val isPortrait by isPortraitOrientationAsState()
-
-    val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -130,11 +126,8 @@ fun Base64ToolsContent(
                 onShare = {
                     component.shareBitmap(showConfetti)
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage { uri ->
-                        manager.copyToClipboard(uri.asClip(context))
-                        showConfetti()
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 },
                 onEdit = {
                     component.cacheCurrentImage { uri ->

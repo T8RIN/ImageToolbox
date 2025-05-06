@@ -28,11 +28,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
@@ -48,7 +46,6 @@ internal fun MarkupLayersTopAppBarActions(
     scaffoldState: BottomSheetScaffoldState
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
@@ -82,11 +79,8 @@ internal fun MarkupLayersTopAppBarActions(
             onShare = {
                 component.shareBitmap(showConfetti)
             },
-            onCopy = { manager ->
-                component.cacheCurrentImage { uri ->
-                    manager.copyToClipboard(uri.asClip(context))
-                    showConfetti()
-                }
+            onCopy = {
+                component.cacheCurrentImage(essentials::copyToClipboard)
             },
             onEdit = {
                 component.cacheCurrentImage { uri ->

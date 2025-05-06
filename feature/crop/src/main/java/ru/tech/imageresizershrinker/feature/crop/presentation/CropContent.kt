@@ -57,9 +57,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -92,8 +90,6 @@ import ru.tech.imageresizershrinker.feature.crop.presentation.screenLogic.CropCo
 fun CropContent(
     component: CropComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -212,11 +208,8 @@ fun CropContent(
                             editSheetData = listOf(uri)
                         }
                     },
-                    onCopy = { manager ->
-                        component.cacheCurrentImage { uri ->
-                            manager.copyToClipboard(uri.asClip(context))
-                            showConfetti()
-                        }
+                    onCopy = {
+                        component.cacheCurrentImage(essentials::copyToClipboard)
                     }
                 )
                 ProcessImagesPreferenceSheet(

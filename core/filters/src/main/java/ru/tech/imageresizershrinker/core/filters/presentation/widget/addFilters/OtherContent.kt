@@ -53,7 +53,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiCubeLutFilter
@@ -62,7 +61,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.utils.collectAsUiS
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterSelectionItem
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalFilterPreviewModel
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
@@ -87,7 +85,6 @@ internal fun OtherContent(
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
 ) {
-    val context = LocalContext.current
     val previewModel = LocalFilterPreviewModel.current
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -224,13 +221,8 @@ internal fun OtherContent(
                                     onShare = {
                                         component.shareNeutralLut(showConfetti)
                                     },
-                                    onCopy = { manager ->
-                                        component.cacheNeutralLut { uri ->
-                                            manager.copyToClipboard(
-                                                uri.asClip(context)
-                                            )
-                                            showConfetti()
-                                        }
+                                    onCopy = {
+                                        component.cacheNeutralLut(essentials::copyToClipboard)
                                     }
                                 )
                                 EnhancedIconButton(
@@ -243,9 +235,7 @@ internal fun OtherContent(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Save,
-                                        contentDescription = stringResource(
-                                            R.string.save
-                                        )
+                                        contentDescription = stringResource(R.string.save)
                                     )
                                 }
 

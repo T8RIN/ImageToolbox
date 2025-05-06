@@ -23,8 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
@@ -35,7 +33,6 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.screenLo
 internal fun RowScope.LoadNetImageAdaptiveActions(
     component: LoadNetImageComponent
 ) {
-    val context = LocalContext.current
     val essentials = rememberLocalEssentials()
 
     ShareButton(
@@ -43,11 +40,8 @@ internal fun RowScope.LoadNetImageAdaptiveActions(
         onShare = {
             component.performSharing(essentials::showConfetti)
         },
-        onCopy = { manager ->
-            component.cacheCurrentImage { uri ->
-                manager.copyToClipboard(uri.asClip(context))
-                essentials.showConfetti()
-            }
+        onCopy = {
+            component.cacheCurrentImage(essentials::copyToClipboard)
         }
     )
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }

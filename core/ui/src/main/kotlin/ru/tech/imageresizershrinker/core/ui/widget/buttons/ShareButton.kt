@@ -41,8 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalEssentials
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -56,7 +54,7 @@ fun ShareButton(
     enabled: Boolean = true,
     onShare: () -> Unit,
     onEdit: (() -> Unit)? = null,
-    onCopy: ((LocalEssentials) -> Unit)? = null
+    onCopy: (() -> Unit)? = null
 ) {
     var showSelectionDialog by rememberSaveable {
         mutableStateOf(false)
@@ -99,8 +97,6 @@ fun ShareButton(
             )
         },
         text = {
-            val essentials = rememberLocalEssentials()
-
             val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier
@@ -131,7 +127,7 @@ fun ShareButton(
                         startIcon = Icons.Rounded.ContentCopy,
                         onClick = {
                             showSelectionDialog = false
-                            onCopy(essentials)
+                            onCopy()
                         },
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered
                     )

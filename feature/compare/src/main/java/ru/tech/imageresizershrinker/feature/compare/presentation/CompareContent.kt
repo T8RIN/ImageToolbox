@@ -52,7 +52,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -239,13 +238,11 @@ fun CompareContent(
             )
             showShareSheet = false
         },
-        onCopy = { imageFormat, manager ->
+        onCopy = { imageFormat ->
             component.cacheCurrentImage(
-                imageFormat = imageFormat
-            ) { uri ->
-                manager.copyToClipboard(uri.asClip(context))
-                showConfetti()
-            }
+                imageFormat = imageFormat,
+                onComplete = essentials::copyToClipboard
+            )
         },
         previewData = previewBitmap,
         transformations = transformations

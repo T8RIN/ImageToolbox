@@ -36,9 +36,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -77,8 +75,6 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.screenLogi
 fun WatermarkingContent(
     component: WatermarkingComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -143,11 +139,8 @@ fun WatermarkingContent(
                 onShare = {
                     component.shareBitmaps(showConfetti)
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage { uri ->
-                        manager.copyToClipboard(uri.asClip(context))
-                        showConfetti()
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 },
                 onEdit = {
                     component.cacheImages {

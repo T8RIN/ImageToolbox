@@ -41,8 +41,6 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.animate
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -66,8 +64,6 @@ import ru.tech.imageresizershrinker.noise_generation.presentation.screenLogic.No
 fun NoiseGenerationContent(
     component: NoiseGenerationComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -86,11 +82,8 @@ fun NoiseGenerationContent(
             onShare = {
                 component.shareNoise(showConfetti)
             },
-            onCopy = { manager ->
-                component.cacheCurrentNoise { uri ->
-                    manager.copyToClipboard(uri.asClip(context))
-                    showConfetti()
-                }
+            onCopy = {
+                component.cacheCurrentNoise(essentials::copyToClipboard)
             },
             onEdit = {
                 component.cacheCurrentNoise {

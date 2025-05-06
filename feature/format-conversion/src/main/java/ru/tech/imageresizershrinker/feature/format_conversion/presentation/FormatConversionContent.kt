@@ -41,7 +41,6 @@ import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
@@ -155,11 +154,8 @@ fun FormatConversionContent(
                 onShare = {
                     component.shareBitmaps(showConfetti)
                 },
-                onCopy = { manager ->
-                    component.cacheCurrentImage { uri ->
-                        manager.copyToClipboard(uri.asClip(context))
-                        showConfetti()
-                    }
+                onCopy = {
+                    component.cacheCurrentImage(essentials::copyToClipboard)
                 },
                 onEdit = {
                     component.cacheImages {

@@ -20,10 +20,12 @@ package ru.tech.imageresizershrinker.core.ui.utils.provider
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
+import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -41,6 +43,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.createScreenShortcut
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseFileSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
@@ -178,8 +181,19 @@ data class LocalEssentials internal constructor(
         }
     }
 
+    fun copyToClipboard(uri: Uri) {
+        coroutineScope.launch {
+            clipboard.setClipEntry(uri.asClip(context))
+            showConfetti()
+        }
+    }
+
     fun copyToClipboard(text: CharSequence) {
         copyToClipboard(ClipEntry(text.toClipData()))
+        showToast(
+            message = context.getString(R.string.copied),
+            icon = Icons.Rounded.CopyAll
+        )
     }
 
     fun getTextFromClipboard(
