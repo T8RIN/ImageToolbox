@@ -16,7 +16,7 @@ documentScanner = "1.3.7"
 fadingEdges = "1.0.4"
 logger = "1.0.2"
 
-avifCoder = "2.1.1"
+avifCoder = "2.1.2"
 avifCoderCoil = "2.1.1"
 aire = "0.16.0"
 jxlCoder = "2.4.0.7"
