@@ -48,8 +48,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -159,9 +159,8 @@ fun MeshGradientsContent(
                                         )
                                         Spacer(Modifier.height(2.dp))
                                         Text(
-                                            text = readableByteCount(
-                                                meshGradientDownloadProgress?.currentTotalSize
-                                                    ?: 0
+                                            text = rememberHumanFileSize(
+                                                meshGradientDownloadProgress?.currentTotalSize ?: 0
                                             ),
                                             maxLines = 1,
                                             textAlign = TextAlign.Center,

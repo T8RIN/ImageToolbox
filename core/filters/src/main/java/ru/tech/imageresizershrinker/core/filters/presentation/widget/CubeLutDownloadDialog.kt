@@ -37,8 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.remote.RemoteResourcesDownloadProgress
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -114,7 +114,7 @@ internal fun CubeLutDownloadDialog(
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = readableByteCount(cubeLutDownloadProgress?.currentTotalSize ?: 0),
+                    text = rememberHumanFileSize(cubeLutDownloadProgress?.currentTotalSize ?: 0),
                     maxLines = 1,
                     textAlign = TextAlign.Center,
                     fontSize = 10.sp,

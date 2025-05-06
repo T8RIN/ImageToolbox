@@ -214,3 +214,8 @@ fun Uri.isJxl(context: Context): Boolean {
     return context.getFilename(this).toString().endsWith(".jxl")
         .or(context.contentResolver.getType(this)?.contains("jxl") == true)
 }
+
+fun Uri.isGif(context: Context): Boolean {
+    return context.getFilename(this).toString().endsWith(".gif")
+        .or(context.contentResolver.getType(this)?.contains("gif") == true)
+}

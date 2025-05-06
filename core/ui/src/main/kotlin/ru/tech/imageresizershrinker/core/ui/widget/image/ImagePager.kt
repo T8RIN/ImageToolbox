@@ -65,7 +65,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -81,7 +80,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -97,7 +95,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.resources.icons.EditAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
@@ -373,14 +371,8 @@ fun ImagePager(
                         }
                     )
                 }
-                val context = LocalContext.current
-                val selectedUriFilename by remember(selectedUri) {
-                    derivedStateOf {
-                        selectedUri?.let {
-                            context.getFilename(it)
-                        }
-                    }
-                }
+
+                val selectedUriFilename = selectedUri?.let { rememberFilename(it) }
                 val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
 
                 AnimatedVisibility(

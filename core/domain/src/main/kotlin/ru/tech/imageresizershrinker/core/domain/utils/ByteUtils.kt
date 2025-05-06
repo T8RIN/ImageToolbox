@@ -22,7 +22,7 @@ import java.text.StringCharacterIterator
 import java.util.Locale
 
 
-fun readableByteCount(bytes: Long): String {
+fun humanFileSize(bytes: Long): String {
     var tempBytes = bytes
     if (-1024 < tempBytes && tempBytes < 1024) {
         return "$tempBytes B"

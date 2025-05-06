@@ -26,6 +26,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.provider.OpenableColumns
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +36,7 @@ import androidx.core.graphics.scale
 import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
+import ru.tech.imageresizershrinker.core.domain.utils.humanFileSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import java.util.Locale
@@ -228,7 +230,7 @@ object ImageUtils {
         it in possibleConfigs
     } ?: Bitmap.Config.ARGB_8888
 
-    fun Uri.fileSize(context: Context): Long? {
+    private fun Uri.fileSize(context: Context): Long? {
         runCatching {
             context.contentResolver
                 .query(this, null, null, null, null, null)
@@ -242,6 +244,37 @@ object ImageUtils {
                 }
         }
         return null
+    }
+
+    @Composable
+    fun rememberFileSize(uri: Uri?): Long {
+        val context = LocalContext.current
+
+        return remember(uri, context) {
+            derivedStateOf {
+                uri?.fileSize(context) ?: 0L
+            }
+        }.value
+    }
+
+    @Composable
+    fun rememberHumanFileSize(uri: Uri): String {
+        val size = rememberFileSize(uri)
+
+        return remember(size, uri) {
+            derivedStateOf {
+                humanFileSize(size)
+            }
+        }.value
+    }
+
+    @Composable
+    fun rememberHumanFileSize(byteCount: Long): String {
+        return remember(byteCount) {
+            derivedStateOf {
+                humanFileSize(byteCount)
+            }
+        }.value
     }
 
     object Dimens {

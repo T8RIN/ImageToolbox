@@ -53,22 +53,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.CipherType
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.domain.utils.toInt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
@@ -86,7 +84,6 @@ import kotlin.random.Random
 internal fun CipherControls(component: CipherComponent) {
     val settingsState = LocalSettingsState.current
     val isPortrait by isPortraitOrientationAsState()
-    val context = LocalContext.current
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -98,6 +95,10 @@ internal fun CipherControls(component: CipherComponent) {
             )
         }
     )
+
+    val filename = component.uri?.let {
+        rememberFilename(it)
+    }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         if (isPortrait) Spacer(Modifier.height(20.dp))
@@ -140,9 +141,7 @@ internal fun CipherControls(component: CipherComponent) {
         Spacer(Modifier.height(16.dp))
         PreferenceItem(
             modifier = Modifier,
-            title = component.uri?.let {
-                context.getFilename(it)
-            } ?: stringResource(R.string.something_went_wrong),
+            title = filename ?: stringResource(R.string.something_went_wrong),
             onClick = null,
             titleFontStyle = LocalTextStyle.current.copy(
                 lineHeight = 16.sp,
@@ -151,9 +150,7 @@ internal fun CipherControls(component: CipherComponent) {
             subtitle = component.uri?.let {
                 stringResource(
                     id = R.string.size,
-                    readableByteCount(
-                        it.fileSize(context) ?: 0L
-                    )
+                    rememberHumanFileSize(it)
                 )
             },
             startIcon = Icons.AutoMirrored.Rounded.InsertDriveFile
@@ -245,15 +242,13 @@ internal fun CipherControls(component: CipherComponent) {
                     lineHeight = 14.sp,
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
-                var name by rememberSaveable(component.byteArray) {
+                var name by rememberSaveable(component.byteArray, filename) {
                     mutableStateOf(
                         if (component.isEncrypt) {
                             "enc-"
                         } else {
                             "dec-"
-                        } + (component.uri?.let {
-                            context.getFilename(it)
-                        } ?: Random.nextInt())
+                        } + (filename ?: Random.nextInt())
                     )
                 }
                 RoundedTextField(

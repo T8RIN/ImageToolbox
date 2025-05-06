@@ -24,15 +24,18 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 
 @Composable
 fun <T : Any> TopAppBarTitle(
@@ -64,12 +67,12 @@ fun <T : Any> TopAppBarTitle(
             } else {
                 AnimatedContent(originalSize) { originalSize ->
                     val readableOriginal = if ((originalSize ?: 0) > 0) {
-                        readableByteCount(originalSize ?: 0)
+                        rememberHumanFileSize(originalSize ?: 0)
                     } else {
                         "? B"
                     }
                     val readableCompressed = if (size > 0) {
-                        readableByteCount(size)
+                        rememberHumanFileSize(size)
                     } else {
                         "(...)"
                     }
@@ -83,21 +86,36 @@ fun <T : Any> TopAppBarTitle(
                             else -> Green
                         }
                     }
-                    Text(
-                        text = buildAnnotatedString {
-                            append(
-                                if (originalSize == null || isSizesEqual) {
-                                    stringResource(R.string.size, readableCompressed)
-                                } else ""
-                            )
-                            originalSize?.takeIf { !isSizesEqual }?.let {
-                                append(readableOriginal)
-                                append(" -> ")
-                                withStyle(LocalTextStyle.current.toSpanStyle().copy(color)) {
-                                    append(readableCompressed)
+
+                    val textStyle = LocalTextStyle.current
+                    val sizeString = stringResource(R.string.size, readableCompressed)
+
+                    val text by remember(
+                        originalSize,
+                        isSizesEqual,
+                        sizeString,
+                        readableOriginal,
+                        readableCompressed,
+                        textStyle
+                    ) {
+                        derivedStateOf {
+                            buildAnnotatedString {
+                                append(
+                                    if (originalSize == null || isSizesEqual) sizeString else ""
+                                )
+                                originalSize?.takeIf { !isSizesEqual }?.let {
+                                    append(readableOriginal)
+                                    append(" -> ")
+                                    withStyle(textStyle.toSpanStyle().copy(color)) {
+                                        append(readableCompressed)
+                                    }
                                 }
                             }
                         }
+                    }
+
+                    Text(
+                        text = text
                     )
                 }
             }
@@ -117,8 +135,8 @@ fun <T : Any> TopAppBarTitle(
                     Text(it)
                 }
             } else {
-                val readableOriginal = readableByteCount(originalSize ?: 0)
-                val readableCompressed = readableByteCount(size)
+                val readableOriginal = rememberHumanFileSize(originalSize ?: 0)
+                val readableCompressed = rememberHumanFileSize(size)
                 val isSizesEqual =
                     size == originalSize || readableCompressed == readableOriginal
                 val color = takeColorFromScheme {
@@ -128,21 +146,36 @@ fun <T : Any> TopAppBarTitle(
                         else -> Green
                     }
                 }
-                Text(
-                    text = buildAnnotatedString {
-                        append(
-                            if (originalSize == null || isSizesEqual) {
-                                stringResource(R.string.size, readableCompressed)
-                            } else ""
-                        )
-                        originalSize?.takeIf { !isSizesEqual }?.let {
-                            append(readableOriginal)
-                            append(" -> ")
-                            withStyle(LocalTextStyle.current.toSpanStyle().copy(color)) {
-                                append(readableCompressed)
+
+                val textStyle = LocalTextStyle.current
+                val sizeString = stringResource(R.string.size, readableCompressed)
+
+                val text by remember(
+                    originalSize,
+                    isSizesEqual,
+                    sizeString,
+                    readableOriginal,
+                    readableCompressed,
+                    textStyle
+                ) {
+                    derivedStateOf {
+                        buildAnnotatedString {
+                            append(
+                                if (originalSize == null || isSizesEqual) sizeString else ""
+                            )
+                            originalSize?.takeIf { !isSizesEqual }?.let {
+                                append(readableOriginal)
+                                append(" -> ")
+                                withStyle(textStyle.toSpanStyle().copy(color)) {
+                                    append(readableCompressed)
+                                }
                             }
                         }
                     }
+                }
+
+                Text(
+                    text = text
                 )
             }
         }

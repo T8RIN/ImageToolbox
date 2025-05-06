@@ -38,10 +38,14 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.core.app.PendingIntentCompat
@@ -180,7 +184,7 @@ object ContextUtils {
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
     private fun Context.getInstallerPackageName(packageName: String): String? {
-        kotlin.runCatching {
+        runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                 return packageManager.getInstallSourceInfo(packageName).installingPackageName
             @Suppress("DEPRECATION")
@@ -196,6 +200,28 @@ object ContextUtils {
     } else {
         DocumentFile.fromSingleUri(this, uri)?.name
     }?.decodeEscaped()
+
+    @Composable
+    fun rememberFilename(uri: Uri): String? {
+        val context = LocalContext.current
+
+        return remember(context, uri) {
+            derivedStateOf {
+                context.getFilename(uri)
+            }
+        }.value
+    }
+
+    @Composable
+    fun rememberFileExtension(uri: Uri): String? {
+        val context = LocalContext.current
+
+        return remember(context, uri) {
+            derivedStateOf {
+                context.getExtension(uri)
+            }
+        }.value
+    }
 
     fun Activity.parseImageFromIntent(
         intent: Intent?,
@@ -632,7 +658,7 @@ object ContextUtils {
         startActivity(shareIntent)
     }
 
-    private fun Context.getExtension(uri: Uri): String? {
+    fun Context.getExtension(uri: Uri): String? {
         val filename = getFilename(uri) ?: ""
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"

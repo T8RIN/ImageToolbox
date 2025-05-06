@@ -32,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -40,8 +39,8 @@ import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberFileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -124,7 +123,7 @@ fun DeleteExifContent(
                 title = stringResource(R.string.delete_exif),
                 input = component.bitmap,
                 isLoading = component.isImageLoading,
-                size = component.selectedUri?.fileSize(LocalContext.current) ?: 0L
+                size = rememberFileSize(component.selectedUri)
             )
         },
         onGoBack = {

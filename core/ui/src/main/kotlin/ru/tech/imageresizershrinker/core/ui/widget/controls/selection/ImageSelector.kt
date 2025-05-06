@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -50,7 +49,7 @@ import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -137,12 +136,10 @@ fun FileSelector(
 ) {
     val pickFileLauncher = rememberFilePicker(onSuccess = onValueChange)
 
-    val context = LocalContext.current
-
     PreferenceItemOverload(
         title = title,
         subtitle = if (subtitle == null && value != null) {
-            context.getFilename(value.toUri())
+            rememberFilename(value.toUri())
         } else subtitle,
         onClick = pickFileLauncher::pickFile,
         autoShadowElevation = autoShadowElevation,

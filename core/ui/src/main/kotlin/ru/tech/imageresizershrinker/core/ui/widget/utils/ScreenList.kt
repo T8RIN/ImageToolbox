@@ -17,22 +17,17 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.utils
 
-import android.content.ContentResolver
-import android.content.Context
 import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.domain.model.ExtraDataType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getExtension
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import java.util.Locale
 
 @Composable
 internal fun List<Uri>.screenList(
@@ -46,7 +41,7 @@ internal fun List<Uri>.screenList(
     ): Boolean {
         if (this == null) return false
 
-        val extension = context.getExtension(toString()) ?: return false
+        val extension = context.getExtension(this) ?: return false
 
         return extensions.any(extension::contains)
     }
@@ -306,20 +301,4 @@ internal fun List<Uri>.screenList(
             }.sortedWith(compareBy(nullsLast()) { s -> favoriteScreens.find { it == s.id } })
         }
     }
-}
-
-private fun Context.getExtension(
-    uri: String
-): String? {
-    val filename = getFilename(uri.toUri()) ?: ""
-    if (filename.endsWith(".qoi")) return "qoi"
-    if (filename.endsWith(".jxl")) return "jxl"
-    return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
-        MimeTypeMap.getSingleton()
-            .getExtensionFromMimeType(
-                contentResolver.getType(uri.toUri())
-            )
-    } else {
-        MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
-    }?.replace(".", "")
 }

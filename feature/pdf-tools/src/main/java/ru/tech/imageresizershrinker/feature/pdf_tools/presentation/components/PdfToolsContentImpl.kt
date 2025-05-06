@@ -72,7 +72,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -81,7 +80,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -112,8 +111,6 @@ internal fun PdfToolsContentImpl(
     val selectAllToggle = remember { mutableStateOf(false) }
     val deselectAllToggle = remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-
     Column(Modifier.fillMaxSize()) {
         EnhancedTopAppBar(
             type = EnhancedTopAppBarType.Large,
@@ -126,7 +123,7 @@ internal fun PdfToolsContentImpl(
                 ) { (pdfType, previewUri) ->
                     Text(
                         text = previewUri?.let {
-                            context.getFilename(it)
+                            rememberFilename(it)
                         } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
                         textAlign = TextAlign.Center
                     )

@@ -69,7 +69,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -83,7 +82,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFileExtension
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
@@ -412,14 +411,7 @@ private fun ImageItem(
                 aboveImageContent(index)
 
                 if (showExtension) {
-                    val context = LocalContext.current
-                    val extension by remember(uri) {
-                        derivedStateOf {
-                            uri.toUri().let { uri ->
-                                context.getFilename(uri)?.takeLastWhile { it != '.' }?.uppercase()
-                            }
-                        }
-                    }
+                    val extension = rememberFileExtension(uri.toUri())?.uppercase()
 
                     extension?.let {
                         Row(

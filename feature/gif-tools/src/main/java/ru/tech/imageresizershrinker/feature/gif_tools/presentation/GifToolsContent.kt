@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.gif_tools.presentation
 
-import android.content.Context
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.WindowInsets
@@ -37,7 +36,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isGif
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
@@ -308,11 +307,6 @@ fun GifToolsContent(
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
-}
-
-private fun Uri.isGif(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".gif")
-        .or(context.contentResolver.getType(this)?.contains("gif") == true)
 }
 
 private val GifToolsComponent.canSave: Boolean

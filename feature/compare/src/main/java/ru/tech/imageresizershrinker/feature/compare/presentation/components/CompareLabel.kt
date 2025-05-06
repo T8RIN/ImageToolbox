@@ -25,16 +25,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
 
 @Composable
 internal fun BoxScope.CompareLabel(
@@ -48,12 +47,9 @@ internal fun BoxScope.CompareLabel(
         visible = enabled && uri != null,
         modifier = modifier.align(alignment)
     ) {
-        val context = LocalContext.current
         Text(
-            text = remember(uri) {
-                uri?.let { context.getFilename(it) }
-                    ?: context.getString(R.string.filename)
-            },
+            text = uri?.let { rememberFilename(it) }
+                ?: stringResource(R.string.filename),
             modifier = Modifier
                 .background(
                     color = MaterialTheme.colorScheme.scrim.copy(0.4f),

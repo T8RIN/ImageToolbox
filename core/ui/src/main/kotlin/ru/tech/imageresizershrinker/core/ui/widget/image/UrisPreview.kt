@@ -41,7 +41,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,7 +49,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -94,8 +92,6 @@ fun UrisPreview(
     showScrimForNonSuccess: Boolean = true,
     filenameSource: (index: Int) -> Uri = { uris[it] }
 ) {
-    val context = LocalContext.current
-
     BoxWithConstraints {
         val size = uris.size + 1f
 
@@ -192,11 +188,8 @@ fun UrisPreview(
                                     ),
                                 )
                             }
-                            val filename by remember(filenameSource, index) {
-                                derivedStateOf {
-                                    context.getFilename(filenameSource(index))
-                                }
-                            }
+                            val filename = rememberFilename(filenameSource(index))
+
                             filename?.let {
                                 AutoSizeText(
                                     text = it,

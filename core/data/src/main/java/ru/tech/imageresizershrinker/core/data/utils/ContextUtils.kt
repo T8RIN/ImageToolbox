@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.data.image.toMetadata
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.clearAllAttributes
 import ru.tech.imageresizershrinker.core.domain.image.copyTo
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
+import ru.tech.imageresizershrinker.core.domain.utils.humanFileSize
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import java.io.OutputStream
 
@@ -103,7 +103,7 @@ internal fun Context.cacheSize(): String = runCatching {
     externalCacheDirs?.forEach { file ->
         size += file?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     }
-    readableByteCount(size)
+    humanFileSize(size)
 }.getOrNull() ?: "0 B"
 
 

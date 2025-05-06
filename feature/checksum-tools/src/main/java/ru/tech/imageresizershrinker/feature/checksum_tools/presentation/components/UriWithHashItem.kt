@@ -28,17 +28,15 @@ import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.data.utils.fileSize
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 
 @Composable
@@ -48,15 +46,9 @@ internal fun UriWithHashItem(
 ) {
     val (uri, checksum) = uriWithHash
 
-    val context = LocalContext.current
+    val filename = rememberFilename(uri) ?: stringResource(R.string.filename)
 
-    val filename = remember {
-        context.getFilename(uri)
-            ?: context.getString(R.string.filename)
-    }
-    val fileSize = remember {
-        readableByteCount(uri.fileSize(context) ?: 0L)
-    }
+    val fileSize = rememberHumanFileSize(uri)
 
     Column(
         modifier = Modifier.fillMaxWidth(),

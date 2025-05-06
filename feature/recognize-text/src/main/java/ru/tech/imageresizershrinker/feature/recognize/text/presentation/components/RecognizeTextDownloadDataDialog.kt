@@ -26,7 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
+import ru.tech.imageresizershrinker.core.domain.utils.humanFileSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -63,7 +63,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
                         ?: RecognitionType.Standard,
                     languageCode = downloadDialogData.joinToString(separator = "+") { it.languageCode },
                     onProgress = { p, size ->
-                        dataRemaining = readableByteCount(size)
+                        dataRemaining = humanFileSize(size)
                         progress = p
                     },
                     onComplete = {
