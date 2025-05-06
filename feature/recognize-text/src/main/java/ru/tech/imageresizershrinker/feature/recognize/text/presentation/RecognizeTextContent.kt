@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.componen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognizeTextDownloadDataDialog
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognizeTextNoDataControls
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
 
 
 @Composable
@@ -174,6 +175,8 @@ fun RecognizeTextContent(
             )
         }
     )
+
+    var showCropper by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -300,7 +303,10 @@ fun RecognizeTextContent(
         },
         showImagePreviewAsStickyHeader = isExtraction,
         controls = {
-            RecognizeTextControls(component)
+            RecognizeTextControls(
+                component = component,
+                onShowCropper = { showCropper = true }
+            )
         },
         buttons = { actions ->
             RecognizeTextButtons(
@@ -328,5 +334,18 @@ fun RecognizeTextContent(
         left = component.left,
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
+    )
+
+    CropEditOption(
+        visible = showCropper,
+        onDismiss = { showCropper = false },
+        useScaffold = isPortrait,
+        bitmap = component.previewBitmap,
+        onGetBitmap = component::updateBitmap,
+        cropProperties = component.cropProperties,
+        setCropAspectRatio = component::setCropAspectRatio,
+        setCropMask = component::setCropMask,
+        selectedAspectRatio = component.selectedAspectRatio,
+        loadImage = component::loadImage
     )
 }

@@ -28,10 +28,6 @@ import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -46,23 +42,21 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.localImagePick
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LinkPreviewList
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
-import ru.tech.imageresizershrinker.feature.single_edit.presentation.components.CropEditOption
 
 @Composable
 internal fun RecognizeTextControls(
-    component: RecognizeTextComponent
+    component: RecognizeTextComponent,
+    onShowCropper: () -> Unit
 ) {
     val type = component.type
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
     val imagePickerMode = localImagePickerMode(Picker.Single)
-    val isPortrait by isPortraitOrientationAsState()
 
     val context = LocalContext.current
     val essentials = rememberLocalEssentials()
@@ -137,31 +131,16 @@ internal fun RecognizeTextControls(
                 }
                 Spacer(Modifier.weight(1f))
             }
-            var showCropper by rememberSaveable { mutableStateOf(false) }
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.mixedContainer,
                 contentColor = MaterialTheme.colorScheme.onMixedContainer,
-                onClick = {
-                    showCropper = true
-                }
+                onClick = onShowCropper
             ) {
                 Icon(
                     imageVector = Icons.Rounded.CropSmall,
                     contentDescription = stringResource(R.string.crop)
                 )
             }
-            CropEditOption(
-                visible = showCropper,
-                onDismiss = { showCropper = false },
-                useScaffold = isPortrait,
-                bitmap = component.previewBitmap,
-                onGetBitmap = component::updateBitmap,
-                cropProperties = component.cropProperties,
-                setCropAspectRatio = component::setCropAspectRatio,
-                setCropMask = component::setCropMask,
-                selectedAspectRatio = component.selectedAspectRatio,
-                loadImage = component::loadImage
-            )
         }
         Spacer(modifier = Modifier.height(8.dp))
     }
