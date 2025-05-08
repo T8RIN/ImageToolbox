@@ -20,8 +20,10 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -37,9 +39,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
@@ -79,6 +84,105 @@ fun Picture(
     onState: ((AsyncImagePainter.State) -> Unit)? = null,
     alignment: Alignment = Alignment.Center,
     alpha: Float = DefaultAlpha,
+    colorFilter: ColorFilter? = if (model is ImageVector) {
+        ColorFilter.tint(LocalContentColor.current)
+    } else null,
+    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
+    shimmerEnabled: Boolean = true,
+    crossfadeEnabled: Boolean = true,
+    allowHardware: Boolean = true,
+    showTransparencyChecker: Boolean = true,
+    isLoadingFromDifferentPlace: Boolean = false,
+    enableUltraHDRSupport: Boolean = false,
+    size: Int? = null,
+    contentPadding: PaddingValues = PaddingValues()
+) {
+    when (model) {
+        is Painter -> {
+            Image(
+                painter = model,
+                contentDescription = contentDescription,
+                modifier = modifier,
+                alignment = alignment,
+                contentScale = contentScale,
+                alpha = alpha,
+                colorFilter = colorFilter
+            )
+        }
+
+        is ImageBitmap -> {
+            Image(
+                bitmap = model,
+                contentDescription = contentDescription,
+                modifier = modifier,
+                alignment = alignment,
+                contentScale = contentScale,
+                alpha = alpha,
+                colorFilter = colorFilter
+            )
+        }
+
+        is ImageVector -> {
+            Image(
+                imageVector = model,
+                contentDescription = contentDescription ?: model.name,
+                modifier = modifier,
+                alignment = alignment,
+                contentScale = contentScale,
+                alpha = alpha,
+                colorFilter = colorFilter
+            )
+        }
+
+        else -> {
+            CoilPicture(
+                model = model,
+                modifier = modifier,
+                transformations = transformations,
+                contentDescription = contentDescription,
+                shape = shape,
+                contentScale = contentScale,
+                loading = loading,
+                success = success,
+                error = error,
+                onLoading = onLoading,
+                onSuccess = onSuccess,
+                onError = onError,
+                onState = onState,
+                alignment = alignment,
+                alpha = alpha,
+                colorFilter = colorFilter,
+                filterQuality = filterQuality,
+                shimmerEnabled = shimmerEnabled,
+                crossfadeEnabled = crossfadeEnabled,
+                allowHardware = allowHardware,
+                showTransparencyChecker = showTransparencyChecker,
+                isLoadingFromDifferentPlace = isLoadingFromDifferentPlace,
+                enableUltraHDRSupport = enableUltraHDRSupport,
+                size = size,
+                contentPadding = contentPadding
+            )
+        }
+    }
+}
+
+@Composable
+private fun CoilPicture(
+    model: Any?,
+    modifier: Modifier = Modifier,
+    transformations: List<Transformation>? = null,
+    contentDescription: String? = null,
+    shape: Shape = RectangleShape,
+    contentScale: ContentScale = ContentScale.Crop,
+    loading: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Loading) -> Unit)? = null,
+    success: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
+    error: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
+    onLoading: ((AsyncImagePainter.State.Loading) -> Unit)? = null,
+    onSuccess: ((AsyncImagePainter.State.Success) -> Unit)? = null,
+    onError: ((AsyncImagePainter.State.Error) -> Unit)? = null,
+    onState: ((AsyncImagePainter.State) -> Unit)? = null,
+    alignment: Alignment = Alignment.Center,
+    alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     shimmerEnabled: Boolean = true,
@@ -90,6 +194,7 @@ fun Picture(
     size: Int? = null,
     contentPadding: PaddingValues = PaddingValues()
 ) {
+
     val context = LocalComponentActivity.current
 
     var errorOccurred by rememberSaveable { mutableStateOf(false) }
@@ -201,5 +306,4 @@ fun Picture(
             errorOccurred = false
         }
     }
-
 }

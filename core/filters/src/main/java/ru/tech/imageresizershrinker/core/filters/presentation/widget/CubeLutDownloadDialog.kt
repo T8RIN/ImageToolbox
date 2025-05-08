@@ -57,7 +57,7 @@ internal fun CubeLutDownloadDialog(
         icon = {
             Icon(
                 imageVector = Icons.Outlined.TableChart,
-                contentDescription = null
+                contentDescription = "lut"
             )
         },
         title = { Text(stringResource(id = R.string.cube_lut)) },

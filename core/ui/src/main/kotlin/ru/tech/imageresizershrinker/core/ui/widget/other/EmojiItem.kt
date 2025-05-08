@@ -114,7 +114,7 @@ fun EmojiItem(
             Box {
                 Icon(
                     painter = painter,
-                    contentDescription = null,
+                    contentDescription = emoji,
                     modifier = remember(size) {
                         Modifier
                             .size(size + 4.dp)
@@ -125,17 +125,14 @@ fun EmojiItem(
                 )
                 Icon(
                     painter = painter,
-                    contentDescription = null,
-                    modifier = remember(
-                        key1 = size,
-                        calculation = {
-                            Modifier
-                                .size(size + 4.dp)
-                                .clip(CloverShape)
-                        }
-                    )
-                        .shimmer(shimmering)
-                        .padding(2.dp),
+                    contentDescription = emoji,
+                    modifier = remember(size, shimmering) {
+                        Modifier
+                            .size(size + 4.dp)
+                            .clip(CloverShape)
+                            .shimmer(shimmering)
+                            .padding(2.dp)
+                    },
                     tint = Color.Unspecified
                 )
             }

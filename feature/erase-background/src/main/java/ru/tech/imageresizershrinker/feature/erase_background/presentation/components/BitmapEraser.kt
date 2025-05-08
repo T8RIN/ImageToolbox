@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.erase_background.presentation.compo
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -66,6 +65,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
@@ -195,8 +196,7 @@ fun BitmapEraser(
 
             val erasedBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
                 derivedStateOf {
-                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                        .asImageBitmap()
+                    createBitmap(imageWidth, imageHeight).asImageBitmap()
                 }
             }
 
@@ -438,7 +438,8 @@ fun BitmapEraser(
                 delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount)
             )
 
-            Image(
+            Picture(
+                model = outputImage,
                 modifier = Modifier
                     .matchParentSize()
                     .then(
@@ -466,7 +467,6 @@ fun BitmapEraser(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = outputImage,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )

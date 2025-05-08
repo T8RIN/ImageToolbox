@@ -199,7 +199,6 @@ internal fun OtherContent(
                             Picture(
                                 model = R.drawable.lookup,
                                 contentScale = ContentScale.Crop,
-                                contentDescription = null,
                                 modifier = Modifier
                                     .size(48.dp)
                                     .scale(1.1f)

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -58,6 +57,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
@@ -187,15 +188,13 @@ fun BitmapDrawer(
 
             val drawBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
                 derivedStateOf {
-                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                        .asImageBitmap()
+                    createBitmap(imageWidth, imageHeight).asImageBitmap()
                 }
             }
 
             val drawPathBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
                 derivedStateOf {
-                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                        .asImageBitmap()
+                    createBitmap(imageWidth, imageHeight).asImageBitmap()
                 }
             }
 
@@ -559,7 +558,8 @@ fun BitmapDrawer(
                     outputImage.overlay(drawPathBitmap)
                 }
             }
-            Image(
+            Picture(
+                model = previewBitmap,
                 modifier = Modifier
                     .matchParentSize()
                     .then(
@@ -574,7 +574,6 @@ fun BitmapDrawer(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         shape = RoundedCornerShape(2.dp)
                     ),
-                bitmap = previewBitmap,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )

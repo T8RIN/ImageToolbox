@@ -71,7 +71,7 @@ fun CurrentVersionCodeSettingItem(
         endContent = {
             Icon(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.version),
                 tint = animateColorAsState(
                     if (settingsState.isNightMode) {
                         MaterialTheme.colorScheme.primary

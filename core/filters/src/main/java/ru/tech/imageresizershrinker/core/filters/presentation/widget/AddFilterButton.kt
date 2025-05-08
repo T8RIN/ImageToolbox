@@ -55,7 +55,7 @@ fun AddFilterButton(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Extension,
-                    contentDescription = null
+                    contentDescription = "extension"
                 )
             }
         }

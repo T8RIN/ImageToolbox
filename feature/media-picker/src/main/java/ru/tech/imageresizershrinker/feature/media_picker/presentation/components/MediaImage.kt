@@ -25,7 +25,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -52,7 +51,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -202,14 +200,14 @@ fun MediaImage(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
         ) {
-            Image(
+            Icon(
                 modifier = Modifier
                     .padding(selectedSize / 2)
                     .scale(scale)
                     .padding(8.dp)
                     .size(16.dp),
                 imageVector = Icons.Filled.Favorite,
-                colorFilter = ColorFilter.tint(Red),
+                tint = Red,
                 contentDescription = null
             )
         }

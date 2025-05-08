@@ -16,7 +16,6 @@
  */
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -34,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
@@ -53,8 +53,8 @@ fun AuthorSettingItem(
         shape = shape,
         startIcon = Icons.AutoMirrored.Outlined.OpenInNew,
         endContent = {
-            Image(
-                painter = painterResource(id = R.drawable.avatar),
+            Picture(
+                model = painterResource(id = R.drawable.avatar),
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(64.dp)

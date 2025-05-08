@@ -42,7 +42,7 @@ internal fun CrashInfoCard(crashInfo: CrashInfo) {
         visibleContent = {
             Icon(
                 imageVector = Icons.Rounded.BugReport,
-                contentDescription = null,
+                contentDescription = "crash",
                 modifier = Modifier.padding(
                     start = 16.dp,
                     top = 16.dp,

@@ -243,7 +243,7 @@ fun EasterEggContent(
                 ) {
                     Icon(
                         painter = painter,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.version),
                         tint = MaterialTheme.colorScheme.onTertiaryContainer,
                         modifier = Modifier
                             .size(ballSize * 0.6f)

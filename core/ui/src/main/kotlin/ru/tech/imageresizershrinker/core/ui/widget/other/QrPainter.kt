@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -50,6 +49,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.core.graphics.createBitmap
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -59,6 +59,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.utils.runSuspendCatching
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 
 /**
@@ -151,7 +152,7 @@ private suspend fun generateQrBitmap(
     foregroundColor: Color,
     backgroundColor: Color,
     format: BarcodeFormat
-): Bitmap? = withContext(Dispatchers.IO) {
+): Bitmap = withContext(Dispatchers.IO) {
     val encodeHints = mutableMapOf<EncodeHintType, Any?>()
         .apply {
             this[EncodeHintType.CHARACTER_SET] = Charsets.UTF_8
@@ -188,7 +189,7 @@ private fun createDefaultBitmap(
     heightPx: Int
 ): Bitmap? {
     return if (widthPx > 0 && heightPx > 0) {
-        Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888).apply {
+        createBitmap(widthPx, heightPx).apply {
             eraseColor(Color.Transparent.toArgb())
         }
     } else null
@@ -257,8 +258,8 @@ fun QrCode(
         )
 
         val padding = if (type == BarcodeType.QR_CODE) 0.5.dp else 8.dp
-        Image(
-            painter = painter,
+        Picture(
+            model = painter,
             modifier = Modifier
                 .size(width, height)
                 .clip(RoundedCornerShape(cornerRadius))
@@ -282,7 +283,7 @@ fun QrCode(
     }
 }
 
-@Suppress("unused", "RedundantVisibilityModifier")
+
 enum class BarcodeType(
     internal val zxingFormat: BarcodeFormat,
     val isSquare: Boolean

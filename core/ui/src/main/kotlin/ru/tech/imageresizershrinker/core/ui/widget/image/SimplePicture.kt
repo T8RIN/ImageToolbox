@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
@@ -59,8 +58,8 @@ fun SimplePicture(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    bitmap = it,
+                Picture(
+                    model = it,
                     contentScale = scale,
                     contentDescription = null,
                     modifier = modifier
