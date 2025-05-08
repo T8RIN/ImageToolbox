@@ -74,7 +74,7 @@ fun Picture(
     transformations: List<Transformation>? = null,
     contentDescription: String? = null,
     shape: Shape = RectangleShape,
-    contentScale: ContentScale = ContentScale.Crop,
+    contentScale: ContentScale = if (model.isCompose()) ContentScale.Fit else ContentScale.Crop,
     loading: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Loading) -> Unit)? = null,
     success: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
     error: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Error) -> Unit)? = null,
@@ -307,3 +307,6 @@ private fun CoilPicture(
         }
     }
 }
+
+private fun Any?.isCompose(): Boolean =
+    this is Painter || this is ImageVector || this is ImageBitmap
