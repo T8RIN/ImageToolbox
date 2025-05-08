@@ -47,12 +47,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private val DefaultTransition: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform =
+private val DefaultStartTransition: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform =
     {
         fadeIn() + scaleIn() + slideInVertically() togetherWith fadeOut() + scaleOut() + slideOutVertically() using SizeTransform(
             clip = false
         )
     }
+
+private val DefaultEndTransition: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform =
+    {
+        fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() using SizeTransform(clip = false)
+    }
+
 
 @Composable
 fun PreferenceItem(
@@ -70,8 +76,8 @@ fun PreferenceItem(
     overrideIconShapeContentColor: Boolean = false,
     drawStartIconContainer: Boolean = true,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
-    startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
-    endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultTransition,
+    startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultStartTransition,
+    endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultEndTransition,
     onDisabledClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -97,7 +103,10 @@ fun PreferenceItem(
                     targetState = endIcon,
                     transitionSpec = endIconTransitionSpec
                 ) { endIcon ->
-                    Icon(imageVector = endIcon, contentDescription = null)
+                    Icon(
+                        imageVector = endIcon,
+                        contentDescription = null
+                    )
                 }
             }
         }

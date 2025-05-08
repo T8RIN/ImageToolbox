@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.di.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
+import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.model.asColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
@@ -140,6 +142,18 @@ abstract class ComposeActivity : AppCompatActivity() {
         )
     }
 
+    suspend fun applyGlobalNightMode() {
+        settingsProvider.getSettingsStateFlow().collect {
+            AppCompatDelegate.setDefaultNightMode(
+                when (it.nightMode) {
+                    NightMode.Dark -> AppCompatDelegate.MODE_NIGHT_YES
+                    NightMode.Light -> AppCompatDelegate.MODE_NIGHT_NO
+                    NightMode.System -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+            )
+        }
+    }
+
     private fun updateFirebaseParams() = analyticsManager.apply {
         updateAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
         updateAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
@@ -150,7 +164,7 @@ abstract class ComposeActivity : AppCompatActivity() {
     override fun recreate() {
         recreationJob = activityScope.launch {
             delay(200L)
-            super.recreate()
+            runOnUiThread { super.recreate() }
         }
     }
 

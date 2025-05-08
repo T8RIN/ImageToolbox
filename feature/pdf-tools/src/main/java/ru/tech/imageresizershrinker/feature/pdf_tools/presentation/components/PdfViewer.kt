@@ -73,7 +73,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.compose.AndroidFragment
-import androidx.pdf.viewer.fragment.PdfViewerFragmentV2
+import androidx.lifecycle.lifecycleScope
+import androidx.pdf.viewer.fragment.PdfViewerFragment
 import coil3.memory.MemoryCache
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
@@ -528,9 +529,8 @@ enum class PdfViewerOrientation {
     Vertical, Grid
 }
 
-@Suppress("RestrictedApi")
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
-internal class PdfViewerDelegate : PdfViewerFragmentV2() {
+internal class PdfViewerDelegate : PdfViewerFragment() {
     private val _loadingState = MutableStateFlow<Boolean?>(true)
     val loadingState: StateFlow<Boolean?> = _loadingState
 
@@ -545,7 +545,12 @@ internal class PdfViewerDelegate : PdfViewerFragmentV2() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        requireActivity().safeCast<Activity, ComposeActivity>()?.applyDynamicColors()
+        requireActivity().safeCast<Activity, ComposeActivity>()?.let { activity ->
+            activity.applyDynamicColors()
+            lifecycleScope.launch {
+                activity.applyGlobalNightMode()
+            }
+        }
 
         super.onCreate(savedInstanceState)
     }
