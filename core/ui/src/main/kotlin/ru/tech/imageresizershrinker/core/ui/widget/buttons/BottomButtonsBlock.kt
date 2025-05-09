@@ -95,6 +95,7 @@ fun BottomButtonsBlock(
     showColumnarFabInRow: Boolean = false,
 ) {
     val isPortrait by isPortraitOrientationAsState()
+
     AnimatedContent(
         targetState = isNoData to isPortrait,
         transitionSpec = {
