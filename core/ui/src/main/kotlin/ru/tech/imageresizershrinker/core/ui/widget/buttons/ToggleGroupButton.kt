@@ -122,7 +122,6 @@ fun ToggleGroupButton(
     )
 }
 
-
 @Composable
 fun ToggleGroupButton(
     modifier: Modifier = defaultModifier,
@@ -256,6 +255,6 @@ fun ToggleGroupButton(
     }
 }
 
-private var defaultModifier = Modifier
+private val defaultModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
