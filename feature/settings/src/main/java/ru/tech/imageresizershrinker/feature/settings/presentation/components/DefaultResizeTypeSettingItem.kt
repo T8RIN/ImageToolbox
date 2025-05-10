@@ -65,7 +65,6 @@ fun DefaultResizeTypeSettingItem(
             selectedIndex = derivedValueOf(value) {
                 entries.indexOfFirst { it::class.isInstance(value) }
             },
-            buttonIcon = {},
             activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
             itemContent = {

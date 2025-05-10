@@ -23,9 +23,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -161,6 +164,7 @@ fun ToggleGroupButton(
                 SingleChoiceSegmentedButtonRow(
                     space = max(settingsState.borderWidth, 1.dp),
                     modifier = Modifier
+                        .height(IntrinsicSize.Max)
                         .then(
                             if (isScrollable) {
                                 Modifier
@@ -223,18 +227,24 @@ fun ToggleGroupButton(
                                     0.38f
                                 ).compositeOver(MaterialTheme.colorScheme.surface)
                             ),
-                            modifier = if (!(settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows)) {
-                                Modifier.rsBlurShadow(
-                                    shape = SegmentedButtonDefaults.itemShape(
-                                        itemCount - 1 - index,
-                                        itemCount
-                                    ),
-                                    radius = animateDpAsState(
-                                        if (selected) 2.dp
-                                        else 1.dp
-                                    ).value
-                                )
-                            } else Modifier,
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .then(
+                                    if (!(settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows)) {
+                                        Modifier.rsBlurShadow(
+                                            shape = SegmentedButtonDefaults.itemShape(
+                                                index = itemCount - 1 - index,
+                                                count = itemCount
+                                            ),
+                                            radius = animateDpAsState(
+                                                if (selected) 2.dp
+                                                else 1.dp
+                                            ).value
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
+                                ),
                             shape = shape
                         ) {
                             itemContent(index)
