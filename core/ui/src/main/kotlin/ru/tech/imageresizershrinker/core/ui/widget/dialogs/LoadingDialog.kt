@@ -30,10 +30,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.KeepScreenOn
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 
 @Composable
@@ -46,7 +46,8 @@ fun LoadingDialog(
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
     BasicEnhancedAlertDialog(
         visible = visible,
-        onDismissRequest = { showWantDismissDialog = canCancel }
+        onDismissRequest = { showWantDismissDialog = canCancel },
+        modifier = Modifier.keepScreenOn()
     ) {
         val focus = LocalFocusManager.current
         LaunchedEffect(focus) {
@@ -74,7 +75,6 @@ fun LoadingDialog(
         },
         isForSaving = isForSaving
     )
-    KeepScreenOn()
 }
 
 @Composable
@@ -113,7 +113,8 @@ private fun ProgressLoadingDialog(
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
     BasicEnhancedAlertDialog(
         visible = visible,
-        onDismissRequest = { showWantDismissDialog = canCancel }
+        onDismissRequest = { showWantDismissDialog = canCancel },
+        modifier = Modifier.keepScreenOn()
     ) {
         val focus = LocalFocusManager.current
         LaunchedEffect(focus) {
@@ -141,7 +142,7 @@ private fun ProgressLoadingDialog(
         onCancelLoading = onCancelLoading,
         onDismissDialog = {
             showWantDismissDialog = false
-        }
+        },
+        modifier = Modifier.keepScreenOn()
     )
-    KeepScreenOn()
 }

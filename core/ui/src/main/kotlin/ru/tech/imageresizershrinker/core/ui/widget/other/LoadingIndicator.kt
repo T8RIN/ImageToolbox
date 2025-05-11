@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -97,6 +98,7 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                 ),
                 shape = MaterialStarShape
             )
+            .keepScreenOn()
     ) {
         androidx.compose.material3.LoadingIndicator(
             modifier = Modifier
@@ -107,7 +109,6 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                 .size(this.minHeight / 1.4f)
         )
     }
-    KeepScreenOn()
 }
 
 @Composable
@@ -182,7 +183,8 @@ fun BoxScope.LoadingIndicator(
                 ),
                 shape = MaterialStarShape
             )
-            .align(Alignment.Center),
+            .align(Alignment.Center)
+            .keepScreenOn(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -207,5 +209,4 @@ fun BoxScope.LoadingIndicator(
             additionalContent(maxWidth)
         }
     }
-    KeepScreenOn()
 }

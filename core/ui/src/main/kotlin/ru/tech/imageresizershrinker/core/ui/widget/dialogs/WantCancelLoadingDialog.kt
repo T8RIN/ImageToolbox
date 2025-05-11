@@ -34,7 +34,8 @@ fun WantCancelLoadingDialog(
     visible: Boolean,
     onCancelLoading: () -> Unit,
     onDismissDialog: () -> Unit,
-    isForSaving: Boolean = true
+    modifier: Modifier = Modifier,
+    isForSaving: Boolean = true,
 ) {
     EnhancedAlertDialog(
         visible = visible,
@@ -71,6 +72,7 @@ fun WantCancelLoadingDialog(
                 trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
                 strokeWidth = 3.dp
             )
-        }
+        },
+        modifier = modifier
     )
 }
