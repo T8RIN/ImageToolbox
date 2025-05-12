@@ -842,10 +842,10 @@
     <string name="compression_type">压缩方式</string>
     <string name="speed_sub">控制生成图片的解码速度，这将有助于更快地打开生成图片，%1$d表示最慢的解码速度，而%2$d表示最快的解码速度，此设置可能会增加输出图片的大小</string>
     <string name="sorting">筛选</string>
-    <string name="sort_by_date">按日期排序</string>
+    <string name="sort_by_date">日期</string>
     <string name="sort_by_date_reversed">按日期排序（反向）</string>
-    <string name="sort_by_name">按名称排序</string>
-    <string name="sort_by_name_reversed">按名称排序（反向）</string>
+    <string name="sort_by_name">名称</string>
+    <string name="sort_by_name_reversed">名称（逆向）</string>
     <string name="pick_multiple_media">选择多种媒体</string>
     <string name="pick">选取</string>
     <string name="pick_single_media">选择单一媒体</string>
@@ -1604,4 +1604,15 @@
     <string name="password">密码</string>
     <string name="unlock">解锁</string>
     <string name="pdf_is_protected">PDF已受保护</string>
+    <string name="sort_by_size">大小</string>
+    <string name="sort_by_size_reversed">大小（逆向）</string>
+    <string name="sort_by_mime_type">MIME 类型</string>
+    <string name="sort_by_mime_type_reversed">MIME 类型（逆向）</string>
+    <string name="sort_by_date_added">添加日期</string>
+    <string name="sort_by_date_added_reversed">添加日期（逆向）</string>
+    <string name="sort_by_extension">扩展名</string>
+    <string name="operation_almost_complete">操作基本完成。现在取消需要重新启动</string>
+    <string name="sort_by_extension_reversed">扩展名这（逆向）</string>
+    <string name="sort_by_date_modified">修改日期</string>
+    <string name="sort_by_date_modified_reversed">修改日期（逆向）</string>
 </resources>
