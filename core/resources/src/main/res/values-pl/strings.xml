@@ -853,10 +853,10 @@
     <string name="compression_type">Typ kompresji</string>
     <string name="speed_sub">Kontroluje prędkość dekodowania obrazu wynikowego, powinno to pomóc w szybszym otwieraniu obrazu wynikowego, wartość %1$d oznacza najwolniejsze dekodowanie, podczas gdy %2$d - najszybsze, to ustawienie może zwiększyć rozmiar obrazu wyjściowego</string>
     <string name="sorting">Sortowanie</string>
-    <string name="sort_by_date">Sortuj według daty</string>
-    <string name="sort_by_date_reversed">Sortuj według daty (odwrócone)</string>
-    <string name="sort_by_name">Sortuj według nazwy</string>
-    <string name="sort_by_name_reversed">Sortuj według nazwy (odwrócone)</string>
+    <string name="sort_by_date">Data</string>
+    <string name="sort_by_date_reversed">Data (odwrotnie)</string>
+    <string name="sort_by_name">Nazwa</string>
+    <string name="sort_by_name_reversed">Nazwa (odwrotnie)</string>
     <string name="try_again">Spróbuj ponownie</string>
     <string name="show_settings_in_landscape">Pokaż ustawienia w orientacji poziomej</string>
     <string name="show_settings_in_landscape_sub">Jeśli ta opcja jest wyłączona, to w trybie poziomym ustawienia będą otwierane na przycisku w górnym pasku aplikacji, jak zawsze, zamiast stałej, widocznej opcji.</string>
@@ -1605,4 +1605,15 @@
     <string name="password">Hasło</string>
     <string name="unlock">Odblokuj</string>
     <string name="pdf_is_protected">PDF jest zabezpieczony</string>
+    <string name="sort_by_date_modified">Data modyfikacji</string>
+    <string name="sort_by_mime_type">Typ MIME</string>
+    <string name="sort_by_extension">Rozszerzenie</string>
+    <string name="sort_by_extension_reversed">Rozszerzenie (odwrotnie)</string>
+    <string name="sort_by_date_added">Data dodania</string>
+    <string name="sort_by_size">Rozmiar</string>
+    <string name="sort_by_size_reversed">Rozmiar (odwrotnie)</string>
+    <string name="sort_by_mime_type_reversed">Typ MIME (odwrotnie)</string>
+    <string name="sort_by_date_modified_reversed">Data modyfikacji (odwrotnie)</string>
+    <string name="operation_almost_complete">Operacja prawie zakończona. Anulowanie teraz będzie wymagało ponownego uruchomienia</string>
+    <string name="sort_by_date_added_reversed">Data dodania (odwrotnie)</string>
 </resources>
