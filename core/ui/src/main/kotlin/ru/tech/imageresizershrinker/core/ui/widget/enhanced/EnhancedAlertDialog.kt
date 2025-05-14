@@ -66,9 +66,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.FullscreenPopup
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalHazeState
+import ru.tech.imageresizershrinker.core.ui.utils.provider.hazeMaterial
+import ru.tech.imageresizershrinker.core.ui.utils.provider.maxZIndex
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
@@ -168,6 +173,8 @@ fun BasicEnhancedAlertDialog(
 
     if (visibleAnimated) {
         FullscreenPopup(placeAboveAll = placeAboveAll) {
+            val hazeState = LocalHazeState.current
+
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -186,33 +193,47 @@ fun BasicEnhancedAlertDialog(
                             .pointerInput(Unit) { detectTapGestures { onDismissRequest?.invoke() } }
                             .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
                             .fillMaxSize()
+                            .hazeEffect(
+                                state = hazeState,
+                                style = hazeMaterial()
+                            )
                     )
                 }
-                AnimatedVisibility(
-                    visible = animateIn && visible,
-                    enter = fadeIn(tween(300)) + scaleIn(
-                        initialScale = .8f,
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            stiffness = Spring.StiffnessMediumLow
-                        )
-                    ),
-                    exit = fadeOut(tween(300)) + scaleOut(
-                        targetScale = .8f,
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            stiffness = Spring.StiffnessMediumLow
-                        )
-                    ),
-                    modifier = Modifier.scale(animatedScale)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .hazeSource(
+                            state = hazeState,
+                            zIndex = hazeState.maxZIndex + 1f
+                        ),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = modifier
-                            .safeDrawingPadding()
-                            .padding(horizontal = 48.dp, vertical = 24.dp),
-                        contentAlignment = Alignment.Center,
-                        content = content
-                    )
+                    AnimatedVisibility(
+                        visible = animateIn && visible,
+                        enter = fadeIn(tween(300)) + scaleIn(
+                            initialScale = .8f,
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                stiffness = Spring.StiffnessMediumLow
+                            )
+                        ),
+                        exit = fadeOut(tween(300)) + scaleOut(
+                            targetScale = .8f,
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                stiffness = Spring.StiffnessMediumLow
+                            )
+                        ),
+                        modifier = Modifier.scale(animatedScale)
+                    ) {
+                        Box(
+                            modifier = modifier
+                                .safeDrawingPadding()
+                                .padding(horizontal = 48.dp, vertical = 24.dp),
+                            contentAlignment = Alignment.Center,
+                            content = content
+                        )
+                    }
                 }
             }
 

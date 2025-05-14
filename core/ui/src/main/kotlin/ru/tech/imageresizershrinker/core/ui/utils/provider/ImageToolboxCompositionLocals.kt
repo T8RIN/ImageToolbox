@@ -17,15 +17,20 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.provider
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import dev.chrisbanes.haze.hazeSource
+import dev.chrisbanes.haze.rememberHazeState
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.settings.domain.SimpleSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiSettingsState
@@ -57,6 +62,7 @@ fun ImageToolboxCompositionLocals(
     val context = LocalContext.current
     val customHapticFeedback = rememberEnhancedHapticFeedback(settingsState.hapticsStrength)
     val screenSize = rememberScreenSize()
+    val hazeState = rememberHazeState()
 
     val values = remember(
         context,
@@ -78,7 +84,8 @@ fun ImageToolboxCompositionLocals(
                 LocalFilterPreviewModel providesOrNull filterPreviewModel,
                 LocalConfettiHostState provides confettiHostState,
                 LocalHapticFeedback provides customHapticFeedback,
-                LocalScreenSize provides screenSize
+                LocalScreenSize provides screenSize,
+                LocalHazeState provides hazeState,
             ).toTypedArray()
         }
     }
@@ -87,7 +94,12 @@ fun ImageToolboxCompositionLocals(
         *values.value,
         content = {
             ImageToolboxThemeSurface {
-                content()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .hazeSource(hazeState),
+                    content = content
+                )
 
                 ConfettiHost()
 

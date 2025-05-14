@@ -35,7 +35,7 @@ fun Modifier.alertDialogBorder() = this.composed {
             ),
             shape = AlertDialogDefaults.shape,
             autoElevation = animateDpAsState(
-                if (LocalSettingsState.current.drawContainerShadows) 16.dp
+                if (LocalSettingsState.current.drawContainerShadows) 2.dp
                 else 0.dp
             ).value
         )

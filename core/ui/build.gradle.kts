@@ -99,4 +99,7 @@ dependencies {
 
     api(libs.capturable)
     api(libs.evaluator)
+
+    api(libs.haze)
+    api(libs.haze.materials)
 }

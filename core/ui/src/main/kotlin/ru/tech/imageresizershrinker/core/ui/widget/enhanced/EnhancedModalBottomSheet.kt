@@ -58,12 +58,15 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalBottomSheetValue
 import com.t8rin.modalsheet.ModalSheet
 import com.t8rin.modalsheet.rememberModalBottomSheetState
+import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalHazeState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.utils.provider.maxZIndex
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -285,6 +288,8 @@ private fun EnhancedModalSheetImpl(
     ProvideContainerDefaults(
         color = EnhancedBottomSheetDefaults.contentContainerColor
     ) {
+        val hazeState = LocalHazeState.current
+
         ModalSheet(
             sheetState = sheetState,
             onDismiss = {
@@ -321,7 +326,10 @@ private fun EnhancedModalSheetImpl(
                 )
                 .clip(shape)
                 .animateContentSize(spring()),
-            modifier = modifier,
+            modifier = modifier.hazeSource(
+                state = hazeState,
+                zIndex = hazeState.maxZIndex + 1f
+            ),
             shape = shape,
             elevation = elevation,
             containerColor = containerColor,
