@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -52,6 +53,7 @@ fun EnhancedModalSheetDragHandle(
     showDragHandle: Boolean = true,
     bendAngle: Float = 0f,
     strokeWidth: Dp = EnhancedBottomSheetDefaults.dragHandleHeight,
+    heightWhenDisabled: Dp = 0.dp,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     val dragHandleWidth = LocalSettingsState.current.dragHandleWidth
@@ -67,13 +69,13 @@ fun EnhancedModalSheetDragHandle(
             .background(color),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 22.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            if (showDragHandle && dragHandleWidth > 0.dp) {
+        if (showDragHandle && dragHandleWidth > 0.dp) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 22.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 BendableDragHandle(
                     width = dragHandleWidth,
                     angleDegrees = bendAngle,
@@ -83,7 +85,10 @@ fun EnhancedModalSheetDragHandle(
                     )
                 )
             }
+        } else {
+            Spacer(modifier = Modifier.height(heightWhenDisabled))
         }
+
         content()
     }
 }

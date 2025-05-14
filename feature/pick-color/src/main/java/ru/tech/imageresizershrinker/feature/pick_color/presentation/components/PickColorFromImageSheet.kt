@@ -127,9 +127,7 @@ fun PickColorFromImageSheet(
                 )
 
                 Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(
@@ -227,7 +225,8 @@ fun PickColorFromImageSheet(
         dragHandle = {
             EnhancedModalSheetDragHandle(
                 color = Color.Transparent,
-                drawStroke = false
+                drawStroke = false,
+                heightWhenDisabled = 20.dp
             )
         },
         visible = visible,

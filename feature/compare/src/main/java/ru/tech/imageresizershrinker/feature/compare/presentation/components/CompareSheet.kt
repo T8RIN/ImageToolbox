@@ -112,8 +112,7 @@ fun CompareSheet(
                         }
                     }
                     Row(
-                        modifier = Modifier
-                            .padding(16.dp),
+                        modifier = Modifier.padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TitleItem(
@@ -124,7 +123,7 @@ fun CompareSheet(
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = onDismiss,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier.padding(horizontal = 12.dp)
                         ) {
                             AutoSizeText(stringResource(R.string.close))
                         }
@@ -138,7 +137,8 @@ fun CompareSheet(
             dragHandle = {
                 EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
-                    drawStroke = false
+                    drawStroke = false,
+                    heightWhenDisabled = 20.dp
                 )
             }
         )
@@ -192,8 +192,7 @@ fun CompareSheet(
                     )
                 }
                 Row(
-                    modifier = Modifier
-                        .padding(16.dp),
+                    modifier = Modifier.padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TitleItem(
@@ -204,7 +203,7 @@ fun CompareSheet(
                     EnhancedButton(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = onDismiss,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(horizontal = 12.dp)
                     ) {
                         AutoSizeText(stringResource(R.string.close))
                     }
@@ -218,7 +217,8 @@ fun CompareSheet(
         dragHandle = {
             EnhancedModalSheetDragHandle(
                 color = Color.Transparent,
-                drawStroke = false
+                drawStroke = false,
+                heightWhenDisabled = 20.dp
             )
         }
     )

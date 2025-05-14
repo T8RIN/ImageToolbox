@@ -141,7 +141,7 @@ fun ZoomModalSheet(
                 }
             }
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TitleItem(text = stringResource(R.string.zoom), icon = Icons.Rounded.ZoomIn)
@@ -149,7 +149,7 @@ fun ZoomModalSheet(
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = onDismiss,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
                     AutoSizeText(stringResource(R.string.close))
                 }
@@ -167,7 +167,8 @@ fun ZoomModalSheet(
             dragHandle = {
                 EnhancedModalSheetDragHandle(
                     color = Color.Transparent,
-                    drawStroke = false
+                    drawStroke = false,
+                    heightWhenDisabled = 20.dp
                 )
             }
         )

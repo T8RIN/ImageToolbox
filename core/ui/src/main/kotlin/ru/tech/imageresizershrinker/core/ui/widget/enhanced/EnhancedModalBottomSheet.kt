@@ -93,7 +93,7 @@ fun EnhancedModalBottomSheet(
     confirmButton: @Composable RowScope.() -> Unit,
     dragHandle: @Composable ColumnScope.() -> Unit = { EnhancedModalSheetDragHandle() },
     title: @Composable () -> Unit,
-    endConfirmButtonPadding: Dp = 16.dp,
+    endConfirmButtonPadding: Dp = 12.dp,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
     enableBackHandler: Boolean = true,
@@ -117,7 +117,7 @@ fun EnhancedModalBottomSheet(
                     .fillMaxWidth()
                     .drawHorizontalStroke(true, autoElevation = 6.dp)
                     .background(EnhancedBottomSheetDefaults.barContainerColor)
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .navigationBarsPadding()
                     .padding(end = endConfirmButtonPadding),
                 verticalAlignment = Alignment.CenterVertically
@@ -163,9 +163,9 @@ fun EnhancedModalBottomSheet(
                         .drawHorizontalStroke(true, autoElevation = 6.dp)
                         .background(EnhancedBottomSheetDefaults.barContainerColor)
                         .navigationBarsPadding()
-                        .padding(16.dp)
+                        .padding(8.dp)
                         .then(
-                            if (enableBottomContentWeight) Modifier.padding(end = 16.dp)
+                            if (enableBottomContentWeight) Modifier.padding(end = 12.dp)
                             else Modifier
                         ),
                     verticalAlignment = Alignment.CenterVertically
@@ -271,9 +271,7 @@ private fun EnhancedModalSheetImpl(
         }
     }
 
-    if (!visible && sheetState.currentValue == sheetState.targetValue && !sheetState.isVisible && !isAnimating) {
-        return
-    }
+    if (!visible && sheetState.currentValue == sheetState.targetValue && !sheetState.isVisible && !isAnimating) return
 
     val settingsState = LocalSettingsState.current
 
