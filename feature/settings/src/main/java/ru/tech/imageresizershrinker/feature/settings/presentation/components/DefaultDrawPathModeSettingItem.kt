@@ -74,7 +74,6 @@ fun DefaultDrawPathModeSettingItem(
             itemCount = 17,
             title = {},
             selectedIndex = settingsState.defaultDrawPathMode,
-            buttonIcon = {},
             activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
             itemContent = {

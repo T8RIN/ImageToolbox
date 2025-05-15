@@ -59,6 +59,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsCombinedClickable
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
@@ -101,152 +103,94 @@ fun ColorSelectionRow(
 
     val itemSize = 42.dp
 
-    LazyRow(
-        state = listState,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(64.dp)
-            .fadingEdges(listState),
-        userScrollEnabled = allowScroll,
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically
+    ProvideContainerDefaults(
+        color = LocalContainerColor.current
     ) {
-        item {
-            val background = customColor ?: MaterialTheme.colorScheme.primary
-            val isSelected = customColor != null
-            val shape = animateShape(
-                if (isSelected) RoundedCornerShape(8.dp)
-                else RoundedCornerShape(itemSize / 2)
-            )
+        LazyRow(
+            state = listState,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .fadingEdges(listState),
+            userScrollEnabled = allowScroll,
+            contentPadding = contentPadding,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            item {
+                val background = customColor ?: MaterialTheme.colorScheme.primary
+                val isSelected = customColor != null
+                val shape = animateShape(
+                    if (isSelected) RoundedCornerShape(8.dp)
+                    else RoundedCornerShape(itemSize / 2)
+                )
 
-            Box(
-                Modifier
-                    .size(itemSize)
-                    .aspectRatio(1f)
-                    .scale(
-                        animateFloatAsState(
-                            targetValue = if (isSelected) 0.7f else 1f,
-                            animationSpec = tween(400)
-                        ).value
-                    )
-                    .rotate(
-                        animateFloatAsState(
-                            targetValue = if (isSelected) 45f else 0f,
-                            animationSpec = tween(400)
-                        ).value
-                    )
-                    .container(
-                        shape = shape,
-                        color = background,
-                        resultPadding = 0.dp
-                    )
-                    .transparencyChecker()
-                    .background(background, shape)
-                    .hapticsCombinedClickable(
-                        onLongClick = {
-                            context.pasteColorFromClipboard(
-                                onPastedColor = {
-                                    val color = if (allowAlpha) Color(it)
-                                    else Color(it).copy(1f)
-
-                                    onValueChange(color)
-                                    customColor = color
-                                },
-                                onPastedColorFailure = { message ->
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            message = message,
-                                            icon = Icons.Outlined.Error
-                                        )
-                                    }
-                                }
-                            )
-                        },
-                        onClick = {
-                            showColorPicker = true
-                        }
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Palette,
-                    contentDescription = null,
-                    tint = background.inverse(
-                        fraction = {
-                            if (it) 0.8f
-                            else 0.5f
-                        },
-                        darkMode = background.luminance() < 0.3f
-                    ),
+                Box(
                     modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = background.copy(alpha = 1f),
-                            shape = shape
-                        )
-                        .padding(4.dp)
-                        .rotate(
+                        .size(itemSize)
+                        .aspectRatio(1f)
+                        .scale(
                             animateFloatAsState(
-                                targetValue = if (isSelected) -45f else 0f,
+                                targetValue = if (isSelected) 0.7f else 1f,
                                 animationSpec = tween(400)
                             ).value
                         )
-                )
-            }
-        }
-        items(
-            items = defaultColors,
-            key = { it.toArgb() }
-        ) { color ->
-            val isSelected = value == color && customColor == null
-            val shape = animateShape(
-                if (isSelected) RoundedCornerShape(8.dp)
-                else RoundedCornerShape(itemSize / 2)
-            )
+                        .rotate(
+                            animateFloatAsState(
+                                targetValue = if (isSelected) 45f else 0f,
+                                animationSpec = tween(400)
+                            ).value
+                        )
+                        .container(
+                            shape = shape,
+                            color = background,
+                            resultPadding = 0.dp
+                        )
+                        .transparencyChecker()
+                        .background(background, shape)
+                        .hapticsCombinedClickable(
+                            onLongClick = {
+                                context.pasteColorFromClipboard(
+                                    onPastedColor = {
+                                        val color = if (allowAlpha) Color(it)
+                                        else Color(it).copy(1f)
 
-            Box(
-                Modifier
-                    .size(itemSize)
-                    .aspectRatio(1f)
-                    .scale(
-                        animateFloatAsState(
-                            targetValue = if (isSelected) 0.7f else 1f,
-                            animationSpec = tween(400)
-                        ).value
-                    )
-                    .rotate(
-                        animateFloatAsState(
-                            targetValue = if (isSelected) 45f else 0f,
-                            animationSpec = tween(400)
-                        ).value
-                    )
-                    .container(
-                        shape = shape,
-                        color = color,
-                        resultPadding = 0.dp
-                    )
-                    .transparencyChecker()
-                    .background(color, shape)
-                    .hapticsClickable {
-                        onValueChange(color.copy(if (allowAlpha) color.alpha else 1f))
-                        customColor = null
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                AnimatedVisibility(isSelected) {
+                                        onValueChange(color)
+                                        customColor = color
+                                    },
+                                    onPastedColorFailure = { message ->
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                message = message,
+                                                icon = Icons.Outlined.Error
+                                            )
+                                        }
+                                    }
+                                )
+                            },
+                            onClick = {
+                                showColorPicker = true
+                            }
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
                     Icon(
-                        imageVector = Icons.Rounded.DoneAll,
+                        imageVector = Icons.Rounded.Palette,
                         contentDescription = null,
-                        tint = color.inverse(
+                        tint = background.inverse(
                             fraction = {
                                 if (it) 0.8f
                                 else 0.5f
                             },
-                            darkMode = color.luminance() < 0.3f
+                            darkMode = background.luminance() < 0.3f
                         ),
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(32.dp)
+                            .background(
+                                color = background.copy(alpha = 1f),
+                                shape = shape
+                            )
+                            .padding(4.dp)
                             .rotate(
                                 animateFloatAsState(
                                     targetValue = if (isSelected) -45f else 0f,
@@ -254,6 +198,68 @@ fun ColorSelectionRow(
                                 ).value
                             )
                     )
+                }
+            }
+            items(
+                items = defaultColors,
+                key = { it.toArgb() }
+            ) { color ->
+                val isSelected = value == color && customColor == null
+                val shape = animateShape(
+                    if (isSelected) RoundedCornerShape(8.dp)
+                    else RoundedCornerShape(itemSize / 2)
+                )
+
+                Box(
+                    Modifier
+                        .size(itemSize)
+                        .aspectRatio(1f)
+                        .scale(
+                            animateFloatAsState(
+                                targetValue = if (isSelected) 0.7f else 1f,
+                                animationSpec = tween(400)
+                            ).value
+                        )
+                        .rotate(
+                            animateFloatAsState(
+                                targetValue = if (isSelected) 45f else 0f,
+                                animationSpec = tween(400)
+                            ).value
+                        )
+                        .container(
+                            shape = shape,
+                            color = color,
+                            resultPadding = 0.dp
+                        )
+                        .transparencyChecker()
+                        .background(color, shape)
+                        .hapticsClickable {
+                            onValueChange(color.copy(if (allowAlpha) color.alpha else 1f))
+                            customColor = null
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    AnimatedVisibility(isSelected) {
+                        Icon(
+                            imageVector = Icons.Rounded.DoneAll,
+                            contentDescription = null,
+                            tint = color.inverse(
+                                fraction = {
+                                    if (it) 0.8f
+                                    else 0.5f
+                                },
+                                darkMode = color.luminance() < 0.3f
+                            ),
+                            modifier = Modifier
+                                .size(24.dp)
+                                .rotate(
+                                    animateFloatAsState(
+                                        targetValue = if (isSelected) -45f else 0f,
+                                        animationSpec = tween(400)
+                                    ).value
+                                )
+                        )
+                    }
                 }
             }
         }

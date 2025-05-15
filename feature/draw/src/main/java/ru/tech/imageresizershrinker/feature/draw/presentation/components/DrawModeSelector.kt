@@ -136,7 +136,6 @@ fun DrawModeSelector(
             selectedIndex = values.indexOfFirst {
                 value::class.isInstance(it)
             },
-            buttonIcon = {},
             itemContent = {
                 Icon(
                     imageVector = values[it].getIcon(),

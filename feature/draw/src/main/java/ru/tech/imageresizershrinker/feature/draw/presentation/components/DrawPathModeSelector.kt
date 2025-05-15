@@ -99,7 +99,6 @@ fun DrawPathModeSelector(
                     }
                 }
             }.value,
-            buttonIcon = {},
             activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             itemContent = {
                 Icon(

@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -26,19 +26,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -53,9 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
-import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
@@ -130,7 +128,6 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     itemContent: @Composable (item: Int) -> Unit,
     title: @Composable RowScope.() -> Unit = {},
-    buttonIcon: (@Composable () -> Unit)? = null,
     onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
@@ -160,93 +157,70 @@ fun ToggleGroupButton(
             )
             val scrollState = rememberScrollState()
             LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-                SingleChoiceSegmentedButtonRow(
-                    space = max(settingsState.borderWidth, 1.dp),
-                    modifier = Modifier
-                        .height(IntrinsicSize.Max)
-                        .then(
-                            if (isScrollable) {
-                                Modifier
-                                    .fadingEdges(scrollState)
-                                    .horizontalScroll(scrollState)
-                            } else Modifier.fillMaxWidth()
-                        )
-                        .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+                MaterialTheme(
+                    motionScheme = object : MotionScheme by MotionScheme.expressive() {
+                        override fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> = tween(400)
+                    }
                 ) {
-                    repeat(itemCount) { index ->
-                        val shape = SegmentedButtonDefaults.itemShape(index, itemCount)
-                        val activeContainerColor = if (enabled) {
-                            activeButtonColor
-                        } else {
-                            MaterialTheme.colorScheme.surfaceContainer
-                        }
-                        val selected = index == selectedIndex
-                        val focus = LocalFocusManager.current
+                    Row(
+                        modifier = Modifier
+                            .height(IntrinsicSize.Max)
+                            .then(
+                                if (isScrollable) {
+                                    Modifier
+                                        .fadingEdges(scrollState)
+                                        .horizontalScroll(scrollState)
+                                } else Modifier.fillMaxWidth()
+                            )
+                            .padding(
+                                start = 6.dp,
+                                end = 6.dp,
+                                bottom = 8.dp,
+                                top = 8.dp
+                            ),
+                        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+                    ) {
+                        repeat(itemCount) { index ->
+                            val activeContainerColor = if (enabled) {
+                                activeButtonColor
+                            } else {
+                                MaterialTheme.colorScheme.surfaceContainer
+                            }
 
-                        SegmentedButton(
-                            enabled = enabled,
-                            onClick = {
-                                focus.clearFocus()
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
-                                onIndexChange(index)
-                            },
-                            icon = {
-                                if (buttonIcon == null) SegmentedButtonDefaults.Icon(index == selectedIndex)
-                                else buttonIcon()
-                            },
-                            border = BorderStroke(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant()
-                            ),
-                            selected = true,
-                            colors = SegmentedButtonDefaults.colors(
-                                activeBorderColor = animateColorAsState(
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.outlineVariant()
-                                    } else MaterialTheme.colorScheme.outline
-                                ).value,
-                                activeContainerColor = animateColorAsState(
-                                    if (selected) {
-                                        activeContainerColor
-                                    } else inactiveButtonColor
-                                ).value,
-                                activeContentColor = animateColorAsState(
-                                    contentColorFor(
-                                        if (selected) {
-                                            activeContainerColor
-                                        } else inactiveButtonColor
+                            val selected = index == selectedIndex
+                            val focus = LocalFocusManager.current
+
+                            ToggleButton(
+                                enabled = enabled,
+                                onCheckedChange = {
+                                    focus.clearFocus()
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
                                     )
-                                ).value,
-                                disabledInactiveContainerColor = MaterialTheme.colorScheme.outlineVariant.copy(
-                                    0.38f
-                                ).compositeOver(MaterialTheme.colorScheme.surface),
-                                disabledActiveContainerColor = MaterialTheme.colorScheme.outlineVariant.copy(
-                                    0.38f
-                                ).compositeOver(MaterialTheme.colorScheme.surface)
-                            ),
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .then(
-                                    if (!(settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows)) {
-                                        Modifier.rsBlurShadow(
-                                            shape = SegmentedButtonDefaults.itemShape(
-                                                index = itemCount - 1 - index,
-                                                count = itemCount
-                                            ),
-                                            radius = animateDpAsState(
-                                                if (selected) 2.dp
-                                                else 1.dp
-                                            ).value
-                                        )
-                                    } else {
-                                        Modifier
-                                    }
+                                    onIndexChange(index)
+                                },
+                                border = BorderStroke(
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme.outlineVariant(
+                                        onTopOf = if (selected) activeContainerColor
+                                        else inactiveButtonColor
+                                    )
                                 ),
-                            shape = shape
-                        ) {
-                            itemContent(index)
+                                colors = ToggleButtonDefaults.toggleButtonColors(
+                                    containerColor = inactiveButtonColor,
+                                    contentColor = contentColorFor(inactiveButtonColor),
+                                    checkedContainerColor = activeContainerColor,
+                                    checkedContentColor = contentColorFor(activeContainerColor)
+                                ),
+                                checked = selected,
+                                shapes = when (index) {
+                                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+                                    itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+                                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+                                }
+                            ) {
+                                itemContent(index)
+                            }
                         }
                     }
                 }
