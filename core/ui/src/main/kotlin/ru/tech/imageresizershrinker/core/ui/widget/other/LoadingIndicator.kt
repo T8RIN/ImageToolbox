@@ -82,7 +82,8 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                         shape = MaterialStarShape,
                         isAlphaContentClip = true,
                         offset = DpOffset.Zero,
-                        spread = 1.5.dp
+                        spread = 1.5.dp,
+                        color = MaterialTheme.colorScheme.scrim.copy(0.1f)
                     )
                 } else Modifier
             )

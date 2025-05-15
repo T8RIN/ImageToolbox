@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
@@ -41,6 +43,7 @@ import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -156,6 +159,10 @@ fun ToggleGroupButton(
                 content = title
             )
             val scrollState = rememberScrollState()
+            val elevation by animateDpAsState(
+                if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
+            )
+
             LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
                 MaterialTheme(
                     motionScheme = object : MotionScheme by MotionScheme.expressive() {
@@ -217,7 +224,14 @@ fun ToggleGroupButton(
                                     0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
                                     itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes()
                                     else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
-                                }
+                                },
+                                elevation = ButtonDefaults.buttonElevation(
+                                    defaultElevation = elevation,
+                                    pressedElevation = elevation,
+                                    focusedElevation = elevation,
+                                    hoveredElevation = elevation,
+                                    disabledElevation = elevation
+                                )
                             ) {
                                 itemContent(index)
                             }
