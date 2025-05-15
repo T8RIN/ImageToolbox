@@ -60,12 +60,12 @@ import ru.tech.imageresizershrinker.core.domain.model.Position
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.state.derivedValueOf
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.UseBlurredBackgroundToggle
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -139,7 +139,7 @@ fun ResizeTypeSelector(
             .animateContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),
             enabled = enabled,
             title = {
@@ -198,7 +198,7 @@ fun ResizeTypeSelector(
                     }
                 }
             }
-            ToggleGroupButton(
+            EnhancedButtonGroup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)

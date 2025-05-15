@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 
@@ -43,7 +43,7 @@ fun LimitsResizeSelector(
     value: LimitsResizeType,
     onValueChange: (LimitsResizeType) -> Unit
 ) {
-    ToggleGroupButton(
+    EnhancedButtonGroup(
         modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
             .padding(start = 3.dp, end = 2.dp),

@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -54,7 +54,7 @@ fun TileModeSelector(
             .animateContentSize(),
         contentAlignment = Alignment.Center
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             modifier = Modifier.padding(8.dp),
             enabled = true,
             items = entries.map { it.translatedName },

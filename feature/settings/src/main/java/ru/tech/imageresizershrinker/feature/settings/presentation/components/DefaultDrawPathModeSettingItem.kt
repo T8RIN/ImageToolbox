@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Polygon
 import ru.tech.imageresizershrinker.core.resources.icons.Square
 import ru.tech.imageresizershrinker.core.resources.icons.Triangle
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -69,7 +69,7 @@ fun DefaultDrawPathModeSettingItem(
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp)
         )
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             enabled = true,
             itemCount = 17,
             title = {},

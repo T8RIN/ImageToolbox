@@ -35,7 +35,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Size
@@ -227,6 +226,7 @@ fun shapeByInteraction(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessMediumLow
     ),
+    delay: Long = 300,
     enabled: Boolean = true
 ): Shape {
     if (!enabled || interactionSource == null) return shape
@@ -240,11 +240,11 @@ fun shapeByInteraction(
         mutableStateOf(shape)
     }
 
-    LaunchedEffect(usePressedShape) {
+    LaunchedEffect(usePressedShape, shape) {
         if (usePressedShape) {
             targetShapeState.value = pressedShape
         } else {
-            if (shape is RoundedCornerShape) delay(300)
+            if (shape is RoundedCornerShape) delay(delay)
             targetShapeState.value = shape
         }
     }
@@ -252,12 +252,10 @@ fun shapeByInteraction(
     val targetShape = targetShapeState.value
 
     if (targetShape is RoundedCornerShape) {
-        return key(shape, pressedShape) {
-            rememberAnimatedShape(
-                currentShape = targetShape,
-                animationSpec = animationSpec,
-            )
-        }
+        return rememberAnimatedShape(
+            currentShape = targetShape,
+            animationSpec = animationSpec,
+        )
     }
 
     return targetShape

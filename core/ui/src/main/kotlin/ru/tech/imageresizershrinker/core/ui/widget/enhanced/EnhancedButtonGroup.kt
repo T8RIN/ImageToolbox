@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.buttons
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
@@ -39,7 +39,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -48,10 +47,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -64,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
-fun ToggleGroupButton(
+fun EnhancedButtonGroup(
     modifier: Modifier = defaultModifier,
     enabled: Boolean = true,
     items: List<String>,
@@ -73,7 +68,7 @@ fun ToggleGroupButton(
     onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
-    ToggleGroupButton(
+    EnhancedButtonGroup(
         enabled = enabled,
         items = items,
         selectedIndex = selectedIndex,
@@ -94,7 +89,7 @@ fun ToggleGroupButton(
 }
 
 @Composable
-fun ToggleGroupButton(
+fun EnhancedButtonGroup(
     modifier: Modifier = defaultModifier,
     enabled: Boolean,
     items: List<String>,
@@ -103,7 +98,7 @@ fun ToggleGroupButton(
     onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
-    ToggleGroupButton(
+    EnhancedButtonGroup(
         modifier = modifier,
         enabled = enabled,
         itemCount = items.size,
@@ -124,7 +119,7 @@ fun ToggleGroupButton(
 }
 
 @Composable
-fun ToggleGroupButton(
+fun EnhancedButtonGroup(
     modifier: Modifier = defaultModifier,
     enabled: Boolean = true,
     itemCount: Int,
@@ -137,15 +132,14 @@ fun ToggleGroupButton(
     isScrollable: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
-    val haptics = LocalHapticFeedback.current
 
-    val disColor = MaterialTheme.colorScheme.onSurface
+    val disabledColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
         .compositeOver(MaterialTheme.colorScheme.surface)
 
     ProvideTextStyle(
-        value = TextStyle(
-            color = if (!enabled) disColor
+        value = LocalTextStyle.current.copy(
+            color = if (!enabled) disabledColor
             else Color.Unspecified
         )
     ) {
@@ -195,15 +189,10 @@ fun ToggleGroupButton(
                             }
 
                             val selected = index == selectedIndex
-                            val focus = LocalFocusManager.current
 
-                            ToggleButton(
+                            EnhancedToggleButton(
                                 enabled = enabled,
                                 onCheckedChange = {
-                                    focus.clearFocus()
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
                                     onIndexChange(index)
                                 },
                                 border = BorderStroke(
@@ -221,17 +210,19 @@ fun ToggleGroupButton(
                                 ),
                                 checked = selected,
                                 shapes = when (index) {
-                                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
-                                    itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes()
-                                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+                                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes(
+                                        pressedShape = ButtonDefaults.pressedShape
+                                    )
+
+                                    itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes(
+                                        pressedShape = ButtonDefaults.pressedShape
+                                    )
+
+                                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes(
+                                        pressedShape = ButtonDefaults.pressedShape
+                                    )
                                 },
-                                elevation = ButtonDefaults.buttonElevation(
-                                    defaultElevation = elevation,
-                                    pressedElevation = elevation,
-                                    focusedElevation = elevation,
-                                    hoveredElevation = elevation,
-                                    disabledElevation = elevation
-                                )
+                                elevation = elevation
                             ) {
                                 itemContent(index)
                             }

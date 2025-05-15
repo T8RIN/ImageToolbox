@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.translatedName
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 
 @Composable
 internal fun EdgeModeSelector(
@@ -44,7 +44,7 @@ internal fun EdgeModeSelector(
     )
     val entries = BlurEdgeMode.entries
 
-    ToggleGroupButton(
+    EnhancedButtonGroup(
         inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         items = entries.map { it.translatedName },
         selectedIndex = entries.indexOf(value),

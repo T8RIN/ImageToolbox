@@ -77,11 +77,11 @@ import ru.tech.imageresizershrinker.core.resources.icons.Pen
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiFont
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.FontSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -117,7 +117,7 @@ fun DrawModeSelector(
             .container(RoundedCornerShape(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             enabled = true,
             itemCount = values.size,
             title = {

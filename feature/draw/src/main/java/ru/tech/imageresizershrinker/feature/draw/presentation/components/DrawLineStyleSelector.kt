@@ -78,8 +78,8 @@ import ru.tech.imageresizershrinker.core.resources.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.presentation.model.IconShape
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
@@ -110,7 +110,7 @@ fun DrawLineStyleSelector(
             .container(RoundedCornerShape(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             enabled = true,
             itemCount = values.size,
             title = {

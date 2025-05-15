@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.translatedName
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 
 @Composable
@@ -88,7 +88,7 @@ internal fun SideFadeRelativeItem(
                     end = 12.dp,
                 )
             )
-            ToggleGroupButton(
+            EnhancedButtonGroup(
                 inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 items = FadeSide.entries.map { it.translatedName },
                 selectedIndex = FadeSide.entries.indexOf(sideFade),

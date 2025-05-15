@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -47,7 +47,7 @@ fun WatermarkingTypeSelector(
                 }
         }
     }
-    ToggleGroupButton(
+    EnhancedButtonGroup(
         modifier = modifier
             .container(
                 shape = RoundedCornerShape(20.dp)

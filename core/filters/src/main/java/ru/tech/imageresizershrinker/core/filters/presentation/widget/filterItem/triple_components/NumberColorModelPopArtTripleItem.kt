@@ -40,9 +40,9 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.translatedName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ColorRowSelector
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 
 @Composable
@@ -124,7 +124,7 @@ internal fun NumberColorModelPopArtTripleItem(
                     PopArtBlendingMode.entries
                 }
             }
-            ToggleGroupButton(
+            EnhancedButtonGroup(
                 inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 items = entries.map { it.translatedName },
                 selectedIndex = entries.indexOf(blendMode1),

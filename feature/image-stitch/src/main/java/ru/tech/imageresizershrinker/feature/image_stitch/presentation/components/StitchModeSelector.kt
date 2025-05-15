@@ -40,7 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
@@ -56,7 +56,7 @@ fun StitchModeSelector(
         modifier = modifier
             .container(shape = RoundedCornerShape(24.dp))
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),
             enabled = true,
             title = {

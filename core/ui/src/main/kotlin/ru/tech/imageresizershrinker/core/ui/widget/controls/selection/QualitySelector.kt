@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.QualityHigh
 import ru.tech.imageresizershrinker.core.resources.icons.QualityLow
 import ru.tech.imageresizershrinker.core.resources.icons.QualityMedium
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -254,7 +254,7 @@ fun QualitySelector(
                         val items = remember {
                             Quality.Channels.entries
                         }
-                        ToggleGroupButton(
+                        EnhancedButtonGroup(
                             itemCount = items.size,
                             itemContent = {
                                 Text(items[it].title)

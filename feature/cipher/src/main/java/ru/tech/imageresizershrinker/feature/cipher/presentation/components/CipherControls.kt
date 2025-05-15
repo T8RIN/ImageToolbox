@@ -69,9 +69,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFi
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.DataSelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -112,7 +112,7 @@ internal fun CipherControls(component: CipherComponent) {
                 stringResource(R.string.encryption),
                 stringResource(R.string.decryption)
             )
-            ToggleGroupButton(
+            EnhancedButtonGroup(
                 enabled = true,
                 itemCount = items.size,
                 selectedIndex = (!component.isEncrypt).toInt(),

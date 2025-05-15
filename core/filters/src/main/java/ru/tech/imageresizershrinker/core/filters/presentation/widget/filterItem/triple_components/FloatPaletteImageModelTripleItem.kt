@@ -40,8 +40,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.translatedName
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toImageModel
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -53,7 +53,7 @@ internal fun FloatPaletteImageModelTripleItem(
     onFilterChange: (value: Triple<Float, PaletteTransferSpace, ImageModel>) -> Unit,
     previewOnly: Boolean
 ) {
-    var sliderState1 by remember { mutableFloatStateOf(value.first.toFloat()) }
+    var sliderState1 by remember { mutableFloatStateOf(value.first) }
     var colorSpace1 by remember { mutableStateOf(value.second) }
     var uri1 by remember(value) { mutableStateOf(value.third.data) }
 
@@ -107,7 +107,7 @@ internal fun FloatPaletteImageModelTripleItem(
                 PaletteTransferSpace.entries
             }
         }
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             items = entries.map { it.translatedName },
             selectedIndex = entries.indexOf(colorSpace1),

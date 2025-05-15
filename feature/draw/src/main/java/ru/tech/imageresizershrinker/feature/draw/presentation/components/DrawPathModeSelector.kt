@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.element.ArrowParamsSelector
@@ -76,7 +76,7 @@ fun DrawPathModeSelector(
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ToggleGroupButton(
+        EnhancedButtonGroup(
             enabled = true,
             itemCount = values.size,
             title = {
