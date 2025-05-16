@@ -841,10 +841,10 @@
     <string name="generate_previews_sub">Ativa a geração de visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
     <string name="compression_type">Tipo de compressão</string>
     <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$d significa a decodificação mais lenta, enquanto %2$d - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
-    <string name="sort_by_date">Classificar por data</string>
-    <string name="sort_by_date_reversed">Classificar por data (invertido)</string>
-    <string name="sort_by_name">Classificar por nome</string>
-    <string name="sort_by_name_reversed">Classificar por nome (invertido)</string>
+    <string name="sort_by_date">Data</string>
+    <string name="sort_by_date_reversed">Data (Inversa)</string>
+    <string name="sort_by_name">Nome</string>
+    <string name="sort_by_name_reversed">Nome (Inverso)</string>
     <string name="sorting">Ordenação</string>
     <string name="channels_configuration">Configuração de canais</string>
     <string name="header_yesterday">Ontem</string>
@@ -1604,4 +1604,15 @@
     <string name="password">Senha</string>
     <string name="unlock">Desbloquear</string>
     <string name="pdf_is_protected">O PDF está protegido</string>
+    <string name="sort_by_date_modified">Data de Modificação</string>
+    <string name="sort_by_size">Tamanho</string>
+    <string name="sort_by_mime_type_reversed">Tipo MIME (Inverso)</string>
+    <string name="sort_by_extension">Extensão</string>
+    <string name="sort_by_extension_reversed">Extensão (Inversa)</string>
+    <string name="sort_by_date_added_reversed">Data de Adição (Inversa)</string>
+    <string name="sort_by_date_modified_reversed">Data de Modificação (Inversa)</string>
+    <string name="sort_by_size_reversed">Tamanho (Inverso)</string>
+    <string name="operation_almost_complete">Operação quase concluída. Cancelar agora exigirá a reinicialização da operação</string>
+    <string name="sort_by_mime_type">Tipo MIME</string>
+    <string name="sort_by_date_added">Data de Adição</string>
 </resources>
