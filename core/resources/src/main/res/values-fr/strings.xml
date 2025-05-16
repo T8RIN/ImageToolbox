@@ -1034,4 +1034,8 @@
     <string name="export">Exporter</string>
     <string name="position">Position</string>
     <string name="tag_lens_serial_number">Numéro de Série de l\'Objectif</string>
+    <string name="tag_gps_version_id">ID de la version du GPS</string>
+    <string name="tag_gps_latitude">Latitude du GPS</string>
+    <string name="image_cutting">Découpage d\'images</string>
+    <string name="image_cutting_sub">Découper une partie de l\'image et fusionner les parties restantes (peut être inversé) par des lignes verticales ou horizontales</string>
 </resources>
