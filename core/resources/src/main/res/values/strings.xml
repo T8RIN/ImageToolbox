@@ -95,7 +95,7 @@
     <string name="color_blue">Blue</string>
     <string name="clipboard_paste_invalid_color_code">Paste a valid aRGB color code</string>
     <string name="clipboard_paste_invalid_empty">Nothing to paste</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Cannot change app color scheme while dynamic colors are turned on</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">The app\'s color scheme cannot be changed while dynamic colors are turned on</string>
     <string name="pick_accent_color">App theme will be based on selected color</string>
     <string name="about_app">About app</string>
     <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
@@ -231,7 +231,7 @@
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
     <string name="limits_resize">Resize with limits</string>
-    <string name="limits_resize_sub">Resize selected images to follow given width and height limits whilst saving aspect ratio</string>
+    <string name="limits_resize_sub">Resize selected images to given width and height while keeping the aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
     <string name="quantizationLevels">Quantization levels</string>
@@ -361,7 +361,7 @@
     <string name="max_colors_count">Max color count</string>
     <string name="firebase" translatable="false">Firebase</string>
     <string name="crashlytics" translatable="false">Crashlytics</string>
-    <string name="crashlytics_sub">This allows app to collect crash reports manually</string>
+    <string name="crashlytics_sub">This allows the app to collect crash reports automatically</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
     <string name="jxl_sub">JXL format not officially supported by android so something might not work. Saving will work only if you choose custom output directory. This is an experimental version, bugs here will not be fixed unless google adds JXL support. This version can view JXL images</string>
@@ -452,7 +452,7 @@
     <string name="mask_color">Mask Color</string>
     <string name="ton_space" translatable="false">TON Space</string>
     <string name="ton" translatable="false">TON</string>
-    <string name="mask_preview">Mask Preview</string>
+    <string name="mask_preview">Mask preview</string>
     <string name="mask_preview_sub">Drawn filter mask will be rendered to show you the approximate result</string>
     <string name="inverse_fill_type">Inverse Fill Type</string>
     <string name="inverse_fill_type_sub">If enabled all of the non masked areas will be filtered instead of default behavior</string>
@@ -513,7 +513,7 @@
     <string name="lasso_sub">Draws closed filled path by given path</string>
     <string name="free">Free</string>
     <string name="horizontal_grid">Horizontal Grid</string>
-    <string name="vertical_grid">Vertical Grid</string>
+    <string name="vertical_grid">Vertical grid</string>
     <string name="stitch_mode">Stitch Mode</string>
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>
@@ -549,7 +549,7 @@
     <string name="hermite_sub">Mathematical interpolation technique that uses the values and derivatives at the endpoints of a curve segment to generate a smooth and continuous curve</string>
     <string name="lanczos_sub">Resampling method that maintains high-quality interpolation by applying a weighted sinc function to the pixel values</string>
     <string name="mitchell_sub">Resampling method that use a convolution filter with adjustable parameters to achieve a balance between sharpness and anti-aliasing in the scaled image</string>
-    <string name="spline_sub">Utilizes piecewise-defined polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
+    <string name="spline_sub">Uses piecewise-defined polynomial functions to smoothly interpolate and approximate a curve or surface, providing flexible and continuous shape representation</string>
     <string name="only_clip">Only Clip</string>
     <string name="only_clip_sub">Saving to storage will not be performed, and image will be tried to put into the clipboard only</string>
     <string name="restore_background_sub">Brush will restore the background instead of erasing</string>
@@ -623,7 +623,7 @@
     <string name="gradient_maker_type_image_sub">Compose any gradient of top of given images</string>
     <string name="transformations">Transformations</string>
     <string name="camera">Camera</string>
-    <string name="camera_sub">Uses camera to take picture, note that it is possible to get only one image from this image source</string>
+    <string name="camera_sub">Take a picture with a camera. Note that it is possible to get only one image from this image source</string>
     <string name="watermarking">Watermarking</string>
     <string name="watermarking_sub">Cover pictures with customizable text/image watermarks</string>
     <string name="repeat_watermark">Repeat watermark</string>
@@ -670,13 +670,13 @@
     <string name="sierra_lite_dithering">Sierra Lite Dithering</string>
     <string name="atkinson_dithering">Atkinson Dithering</string>
     <string name="stucki_dithering">Stucki Dithering</string>
-    <string name="burkes_dithering">Burkes Dithering</string>
+    <string name="burkes_dithering">Burkes dithering</string>
     <string name="false_floyd_steinberg_dithering">False Floyd Steinberg Dithering</string>
     <string name="left_to_right_dithering">Left To Right Dithering</string>
     <string name="random_dithering">Random Dithering</string>
     <string name="simple_threshold_dithering">Simple Threshold Dithering</string>
     <string name="sigma">Sigma</string>
-    <string name="spatial_sigma">Spatial Sigma</string>
+    <string name="spatial_sigma">Spatial sigma</string>
     <string name="median_blur">Median Blur</string>
     <string name="b_spline">B Spline</string>
     <string name="b_spline_sub">Utilizes piecewise-defined bicubic polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
@@ -760,7 +760,7 @@
     <string name="colorful_swirl">Colorful Swirl</string>
     <string name="soft_spring_light">Soft Spring Light</string>
     <string name="autumn_tones">Autumn Tones</string>
-    <string name="lavender_dream">Lavender Dream</string>
+    <string name="lavender_dream">Lavender dream</string>
     <string name="cyberpunk">Cyberpunk</string>
     <string name="lemonade_light">Lemonade Light</string>
     <string name="spectral_fire">Spectral Fire</string>
@@ -807,9 +807,9 @@
     <string name="copy_as_compose_code">Copy as Jetpack Compose code</string>
     <string name="ring_blur">Ring Blur</string>
     <string name="cross_blur">Cross Blur</string>
-    <string name="circle_blur">Circle Blur</string>
+    <string name="circle_blur">Circle blur</string>
     <string name="star_blur">Star Blur</string>
-    <string name="linear_tilt_shift">Linear Tilt Shift</string>
+    <string name="linear_tilt_shift">Linear tilt shift</string>
     <string name="tags_to_remove">Tags To Remove</string>
     <string name="apng_tools">APNG tools</string>
     <string name="apng_tools_sub">Convert images to APNG picture or extract frames from given APNG image</string>
@@ -856,7 +856,7 @@
     <string name="skip_file_picking_sub">File picker will be shown immediately if this possible on chosen screen</string>
     <string name="generate_previews">Generate Previews</string>
     <string name="generate_previews_sub">Enables preview generation, this may help to avoid crashes on some devices, this also disables some editing functionality within single edit option</string>
-    <string name="lossy_compression">Lossy Compression</string>
+    <string name="lossy_compression">Lossy compression</string>
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
     <string name="compression_type">Compression Type</string>
     <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$d means slowest decoding, whereas %2$d - fastest, this setting may increase output image size</string>
@@ -869,7 +869,7 @@
     <string name="header_today">Today</string>
     <string name="header_yesterday">Yesterday</string>
     <string name="embedded_picker">Embedded Picker</string>
-    <string name="embedded_picker_sub">Uses Image Toolbox own image picker instead of system predefined ones</string>
+    <string name="embedded_picker_sub">Image Toolbox\'s image picker</string>
     <string name="no_permissions">No permissions</string>
     <string name="request">Request</string>
     <string name="pick_multiple_media">Pick Multiple Media</string>
@@ -1107,7 +1107,7 @@
     <string name="clahe">Clahe</string>
     <string name="clahe_lab">Clahe LAB</string>
     <string name="clahe_luv">Clahe LUV</string>
-    <string name="crop_to_content">Crop To Content</string>
+    <string name="crop_to_content">Crop to content</string>
     <string name="frame_color">Frame Color</string>
     <string name="color_to_ignore">Color To Ignore</string>
     <string name="template">Template</string>
@@ -1221,7 +1221,7 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Equalize Histogram Adaptive HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Equalize Histogram Adaptive HSV</string>
-    <string name="edge_mode">Edge Mode</string>
+    <string name="edge_mode">Edge mode</string>
     <string name="clip">Clip</string>
     <string name="wrap">Wrap</string>
     <string name="color_blind_scheme">Color correction</string>
@@ -1274,8 +1274,8 @@
     <string name="bottom_left">Bottom Left</string>
     <string name="bottom_right">Bottom Right</string>
     <string name="top_center">Top Center</string>
-    <string name="center_right">Center Right</string>
-    <string name="bottom_center">Bottom Center</string>
+    <string name="center_right">Center right</string>
+    <string name="bottom_center">Bottom center</string>
     <string name="center_left">Center Left</string>
     <string name="target_image">Target Image</string>
     <string name="palette_transfer">Palette Transfer</string>
@@ -1328,7 +1328,7 @@
     <string name="cube_lut">3D LUT</string>
     <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
     <string name="lut">LUT</string>
-    <string name="bleach_bypass">Bleach Bypass</string>
+    <string name="bleach_bypass">Bleach bypass</string>
     <string name="candlelight">Candlelight</string>
     <string name="drop_blues">Drop Blues</string>
     <string name="edgy_amber">Edgy Amber</string>
@@ -1358,7 +1358,7 @@
     <string name="webp_type_to_webp">Images to WEBP</string>
     <string name="select_webp_image_to_start">Pick WEBP image to start</string>
     <string name="manage_storage_extra_types">No full access to files</string>
-    <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that not recognized on android as Image files, without giving permission you will be unable to see this images here</string>
+    <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that are not recognized as images on Android. Without the permission Image Toolbox is unable to show those images</string>
     <string name="default_draw_color">Default draw color</string>
     <string name="default_draw_path_mode">Default Draw Path Mode</string>
     <string name="add_timestamp">Add Timestamp</string>
@@ -1403,7 +1403,7 @@
     <string name="jitter">Jitter</string>
     <string name="domain_warp">Domain warp</string>
     <string name="alignment">Alignment</string>
-    <string name="custom_filename">Custom Filename</string>
+    <string name="custom_filename">Custom filename</string>
     <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
     <string name="collage_maker">Collage maker</string>
@@ -1529,7 +1529,7 @@
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
     <string name="rotation">Rotation</string>
-    <string name="checksum_as_filename">Checksum As Filename</string>
+    <string name="checksum_as_filename">Checksum as filename</string>
     <string name="checksum_as_filename_sub">Output images will have name corresponding to their data checksum</string>
     <string name="free_software_partner">Free Software (Partner)</string>
     <string name="free_software_partner_sub">More useful software in the partner channel of Android applications</string>
