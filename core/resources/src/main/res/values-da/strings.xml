@@ -16,7 +16,7 @@
     <string name="resize_type">Ændring af størrelse</string>
     <string name="explicit">Eksplicit</string>
     <string name="pick_image_alt">Vælg billede</string>
-    <string name="app_closing_sub">Ønsker du virkelig at lukke appen\?</string>
+    <string name="app_closing_sub">Ønsker du virkelig at lukke appen?</string>
     <string name="app_closing">Lukning af app</string>
     <string name="stay">Bliv på</string>
     <string name="close">Luk</string>
