@@ -1603,4 +1603,5 @@
     <string name="pick_audio_to_start">Kies audio om te starten</string>
     <string name="pick_audio">Audio kiezen</string>
     <string name="no_covers_found">Geen hoezen gevonden</string>
+    <string name="invisible_mode"></string>
 </resources>
