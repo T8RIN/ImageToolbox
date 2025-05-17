@@ -34,6 +34,7 @@ import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.scale
 import androidx.core.text.isDigitsOnly
+import coil3.Image
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.utils.humanFileSize
@@ -322,12 +323,19 @@ object ImageUtils {
 
     val Drawable.aspectRatio: Float get() = intrinsicWidth / intrinsicHeight.toFloat()
 
+    val Image.aspectRatio: Float get() = width / height.toFloat()
+
     val Bitmap.safeAspectRatio: Float
         get() = aspectRatio
             .coerceAtLeast(0.005f)
             .coerceAtMost(1000f)
 
     val ImageBitmap.safeAspectRatio: Float
+        get() = aspectRatio
+            .coerceAtLeast(0.005f)
+            .coerceAtMost(1000f)
+
+    val Image.safeAspectRatio: Float
         get() = aspectRatio
             .coerceAtLeast(0.005f)
             .coerceAtMost(1000f)
