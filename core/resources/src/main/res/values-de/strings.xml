@@ -1651,4 +1651,5 @@
     <string name="no_covers_found"></string>
     <string name="left_to_right"></string>
     <string name="crash_title"></string>
+    <string name="invisible_mode"></string>
 </resources>
