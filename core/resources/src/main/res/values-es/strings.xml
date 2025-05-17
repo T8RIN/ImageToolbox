@@ -96,7 +96,7 @@
     <string name="height">Altura %1$s</string>
     <string name="quality">Calidad</string>
     <string name="extension">Extensión</string>
-    <string name="app_closing_sub">¿De verdad quieres cerrar la aplicación\?</string>
+    <string name="app_closing_sub">¿De verdad quieres cerrar la aplicación?</string>
     <string name="compare_sub">Compara dos imágenes dadas</string>
     <string name="pick_two_images">Elige dos imágenes para empezar</string>
     <string name="pick_images">Elegir imágenes</string>
