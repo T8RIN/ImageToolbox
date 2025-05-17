@@ -19,13 +19,11 @@ package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.compone
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,8 +38,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.resources.icons.BrokenImageAlt
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -96,13 +94,11 @@ internal fun GradientPreview(
                     .zIndex(2f),
                 contentAlignment = Alignment.Center
             ) {
-                AnimatedVisibility(visible = brush == null) {
-                    Icon(
-                        imageVector = Icons.Rounded.BrokenImageAlt,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(0.5f)
-                    )
-                }
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .shimmer(visible = brush == null)
+                )
             }
             if (allowPickingImage == true) {
                 Picture(
