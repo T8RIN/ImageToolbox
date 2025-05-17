@@ -1648,4 +1648,7 @@
     <string name="left_to_right"></string>
     <string name="gradient_maker_type_image_mesh_sub"></string>
     <string name="pixel_comparison_type"></string>
+    <string name="scan_barcode"></string>
+    <string name="invisible_mode"></string>
+    <string name="image_cutting"></string>
 </resources>
