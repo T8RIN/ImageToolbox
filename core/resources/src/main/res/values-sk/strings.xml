@@ -874,4 +874,5 @@
     <string name="lossy_compression_sub">Používa stratovú kompresiu na zmenšenie veľkosti súboru namiesto bezstratovej</string>
     <string name="compression_type">Typ kompresie</string>
     <string name="sorting">Triedenie</string>
+    <string name="images_to_svg_sub">Preveďte zadané obrázky na SVG obrázky</string>
 </resources>
