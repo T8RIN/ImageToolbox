@@ -13,7 +13,7 @@
     <string name="explicit">Belirgin</string>
     <string name="flexible">Esnek</string>
     <string name="pick_image_alt">Görüntü Seç</string>
-    <string name="app_closing_sub">Uygulamayı gerçekten kapatmak istiyor musunuz\?</string>
+    <string name="app_closing_sub">Uygulamayı gerçekten kapatmak istiyor musunuz?</string>
     <string name="app_closing">Uygulama kapanıyor</string>
     <string name="stay">Kal</string>
     <string name="close">Kapat</string>

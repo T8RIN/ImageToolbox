@@ -13,7 +13,7 @@
     <string name="explicit">Строгий</string>
     <string name="flexible">Гибкий</string>
     <string name="pick_image_alt">Выбрать изображение</string>
-    <string name="app_closing_sub">Вы действительно хотите закрыть приложение\?</string>
+    <string name="app_closing_sub">Вы действительно хотите закрыть приложение?</string>
     <string name="app_closing">Закрытие приложения</string>
     <string name="stay">Остаться</string>
     <string name="close">Закрыть</string>

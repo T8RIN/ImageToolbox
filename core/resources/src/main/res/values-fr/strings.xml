@@ -13,7 +13,7 @@
     <string name="explicit">Spécifique</string>
     <string name="flexible">Flexible</string>
     <string name="pick_image_alt">Choisir une image</string>
-    <string name="app_closing_sub">Souhaitez-vous vraiment quitter l\'application\?</string>
+    <string name="app_closing_sub">Souhaitez-vous vraiment quitter l\'application?</string>
     <string name="app_closing">Fermeture de l\'application</string>
     <string name="stay">Rester</string>
     <string name="close">Fermer</string>
