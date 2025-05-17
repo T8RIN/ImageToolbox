@@ -38,7 +38,8 @@ internal class FastGaussianBlur3DFilter(
         size: IntegerSize
     ): Bitmap = Aire.fastGaussian3Degree(
         bitmap = input,
-        radius = value.first.roundToInt(),
+        verticalRadius = value.first.roundToInt(),
+        horizontalRadius = value.first.roundToInt(),
         edgeMode = value.second.toEdgeMode()
     )
 

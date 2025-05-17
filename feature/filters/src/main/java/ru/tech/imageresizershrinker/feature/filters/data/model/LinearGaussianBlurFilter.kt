@@ -40,8 +40,10 @@ internal class LinearGaussianBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearGaussianBlur(
         bitmap = input,
-        kernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
-        sigma = value.sigma,
+        verticalKernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
+        horizontalKernelSize = value.kernelSize.toFloat().roundTo(NEAREST_ODD_ROUNDING).toInt(),
+        verticalSigma = value.sigma,
+        horizontalSigma = value.sigma,
         edgeMode = value.edgeMode.toEdgeMode(),
         transferFunction = value.transferFunction.toFunc()
     )

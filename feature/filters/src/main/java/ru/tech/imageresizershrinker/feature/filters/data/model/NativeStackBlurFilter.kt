@@ -35,6 +35,7 @@ internal class NativeStackBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.stackBlur(
         bitmap = input,
-        radius = value.toInt()
+        verticalRadius = value.toInt(),
+        horizontalRadius = value.toInt()
     )
 }

@@ -43,7 +43,8 @@ internal class LinearFastGaussianBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearFastGaussian(
         bitmap = input,
-        radius = value.first,
+        verticalRadius = value.first,
+        horizontalRadius = value.first,
         transferFunction = value.second.toFunc(),
         edgeMode = value.third.toEdgeMode()
     )

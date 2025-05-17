@@ -38,7 +38,8 @@ internal class FastGaussianBlur2DFilter(
         size: IntegerSize
     ): Bitmap = Aire.fastGaussian2Degree(
         bitmap = input,
-        radius = value.first.roundToInt(),
+        verticalRadius = value.first.roundToInt(),
+        horizontalRadius = value.first.roundToInt(),
         edgeMode = value.second.toEdgeMode()
     )
 

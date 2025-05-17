@@ -43,8 +43,10 @@ internal class GaussianBlurFilter(
         size: IntegerSize,
     ): Bitmap = Aire.gaussianBlur(
         bitmap = input,
-        kernelSize = 2 * value.first.toInt() + 1,
-        sigma = value.second,
+        verticalKernelSize = 2 * value.first.toInt() + 1,
+        horizontalKernelSize = 2 * value.first.toInt() + 1,
+        verticalSigma = value.second,
+        horizontalSigma = value.second,
         edgeMode = value.third.toEdgeMode(),
         gaussianPreciseLevel = GaussianPreciseLevel.INTEGRAL
     )

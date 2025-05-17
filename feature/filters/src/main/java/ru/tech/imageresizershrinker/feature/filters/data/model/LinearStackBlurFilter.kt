@@ -37,7 +37,8 @@ internal class LinearStackBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearStackBlur(
         bitmap = input,
-        radius = value.first,
+        verticalRadius = value.first,
+        horizontalRadius = value.first,
         transferFunction = value.second.toFunc()
     )
 
