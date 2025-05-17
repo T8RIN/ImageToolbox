@@ -44,7 +44,7 @@
     <string name="pick_image_alt">Bild auswählen</string>
     <string name="app_closing">Schließe App</string>
     <string name="reset">Zurücksetzen</string>
-    <string name="app_closing_sub">Möchtest du die App wirklich schließen\?</string>
+    <string name="app_closing_sub">Möchtest du die App wirklich schließen?</string>
     <string name="close">Schließen</string>
     <string name="reset_image_sub">Änderungen am Bild werden zu den Ursprungswerten zurückgesetzt</string>
     <string name="values_reset">Werte erfolgreich zurückgesetzt</string>

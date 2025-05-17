@@ -32,7 +32,7 @@
     <string name="flexible">ยืดหยุ่นได้</string>
     <string name="pick_image_alt">เลือกรูปภาพ</string>
     <string name="reset_image_sub">การเปลี่ยนแปลงรูปภาพจะถูกย้อนกลับเป็นค่าเริ่มต้น</string>
-    <string name="app_closing_sub">คุณต้องการปิดแอปจริงๆ หรือไม่\?</string>
+    <string name="app_closing_sub">คุณต้องการปิดแอปจริงๆ หรือไม่?</string>
     <string name="values_reset">รีเซ็ตค่าอย่างถูกต้อง</string>
     <string name="reset">รีเซ็ต</string>
     <string name="something_went_wrong">บางอย่างผิดพลาด</string>

@@ -85,7 +85,7 @@
     <string name="monet_colors">모네 색상</string>
     <string name="loading">불러오는중…</string>
     <string name="extension">확장자</string>
-    <string name="app_closing_sub">앱을 종료하시겠습니까\?</string>
+    <string name="app_closing_sub">앱을 종료하시겠습니까?</string>
     <string name="copied">클립보드에 복사되었습니다</string>
     <string name="edit_exif">EXIF 수정</string>
     <string name="no_exif">EXIF 데이터가 없습니다</string>

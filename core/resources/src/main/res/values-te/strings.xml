@@ -5,7 +5,7 @@
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
     <string name="reset_image">చిత్రాన్ని రీసెట్ చేయండి</string>
     <string name="height">ఎత్తు %1$s</string>
-    <string name="app_closing_sub">మీరు నిజంగా యాప్‌ను మూసివేయాలనుకుంటున్నారా\?</string>
+    <string name="app_closing_sub">మీరు నిజంగా యాప్‌ను మూసివేయాలనుకుంటున్నారా?</string>
     <string name="pick_image">ప్రారంభించడానికి చిత్రాన్ని ఎంచుకోండి</string>
     <string name="flexible">అనువైన</string>
     <string name="width">వెడల్పు %1$s</string>
