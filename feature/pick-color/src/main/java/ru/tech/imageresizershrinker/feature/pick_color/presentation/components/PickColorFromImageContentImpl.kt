@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -33,8 +34,12 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -57,7 +62,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -89,7 +93,11 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp)
-                            .navBarsPaddingOnlyIfTheyAtTheBottom()
+                            .windowInsetsPadding(
+                                WindowInsets.navigationBars
+                                    .only(WindowInsetsSides.Bottom)
+                                    .union(WindowInsets.displayCutout)
+                            )
                             .container(resultPadding = 8.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .transparencyChecker(),
@@ -114,7 +122,11 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(20.dp)
-                                        .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                        .windowInsetsPadding(
+                                            WindowInsets.navigationBars
+                                                .only(WindowInsetsSides.Bottom)
+                                                .union(WindowInsets.displayCutout)
+                                        )
                                         .padding(
                                             start = WindowInsets
                                                 .displayCutout
