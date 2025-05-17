@@ -230,7 +230,7 @@
     <string name="color_matrix">Color matrix</string>
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
-    <string name="limits_resize">Limits resize</string>
+    <string name="limits_resize">Resize with limits</string>
     <string name="limits_resize_sub">Resize selected images to follow given width and height limits whilst saving aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
@@ -356,7 +356,7 @@
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
     <string name="something_went_wrong_emphasis">Oops… Something went wrong. You can write to me using options below and I\'ll try to find solution</string>
-    <string name="resize_and_convert">Resize and Convert</string>
+    <string name="resize_and_convert">Resize and convert</string>
     <string name="resize_and_convert_sub">Change size of given images or convert them to other formats. EXIF metadata can also be edited here if picking a single image.</string>
     <string name="max_colors_count">Max color count</string>
     <string name="firebase" translatable="false">Firebase</string>
@@ -380,7 +380,7 @@
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="usdt" translatable="false">USDT</string>
-    <string name="image_stitching">Image Stitching</string>
+    <string name="image_stitching">Image stitching</string>
     <string name="image_stitching_sub">Combine the given images to get one big one</string>
     <string name="pick_at_least_two_images">Pick at least 2 images</string>
     <string name="output_image_scale">Output image scale</string>
@@ -601,7 +601,7 @@
     <string name="delete_language_sub">Do you want to delete language \"%1$s\" OCR training data for all recognition types, or only for selected one (%2$s)?</string>
     <string name="current">Current</string>
     <string name="all">All</string>
-    <string name="gradient_maker">Gradient Maker</string>
+    <string name="gradient_maker">Gradient maker</string>
     <string name="gradient_maker_sub">Create gradient of given output size with customized colors and appearance type</string>
     <string name="gradient_type_linear">Linear</string>
     <string name="gradient_type_radial">Radial</string>
@@ -1210,10 +1210,10 @@
     <string name="ewa_lanczos_soft_sub">Elliptical Weighted Average (EWA) variant of the Lanczos Soft filter for smoother image resampling</string>
     <string name="haasn_soft">Haasn Soft</string>
     <string name="haasn_soft_sub">A resampling filter designed by Haasn for smooth and artifact-free image scaling</string>
-    <string name="format_conversion">Format Conversion</string>
+    <string name="format_conversion">Format conversion</string>
     <string name="format_conversion_sub">Convert batch of images from one format to another</string>
     <string name="dismiss_forever">Dismiss Forever</string>
-    <string name="image_stacking">Image Stacking</string>
+    <string name="image_stacking">Image stacking</string>
     <string name="image_stacking_sub">Stack images on top of each other with chosen blend modes</string>
     <string name="add_image">Add Image</string>
     <string name="bins_count">Bins count</string>
@@ -1259,7 +1259,7 @@
     <string name="tiff_compression_scheme">TIFF Compression Scheme</string>
     <string name="low_poly">Low Poly</string>
     <string name="sand_painting">Sand Painting</string>
-    <string name="image_splitting">Image Splitting</string>
+    <string name="image_splitting">Image splitting</string>
     <string name="image_splitting_sub">Split single image by rows or columns</string>
     <string name="fit_to_bounds">Fit To Bounds</string>
     <string name="fit_to_bounds_sub">Combine crop resize mode with this parameter to achieve desired behavior (Crop/Fit to aspect ratio)</string>
@@ -1387,7 +1387,7 @@
     <string name="show_all">Show All</string>
     <string name="hide_nav_bar">Hide Nav Bar</string>
     <string name="hide_status_bar">Hide Status Bar</string>
-    <string name="noise_generation">Noise Generation</string>
+    <string name="noise_generation">Noise generation</string>
     <string name="noise_generation_sub">Generate different noises like Perlin or other types</string>
     <string name="frequency">Frequency</string>
     <string name="noise_type">Noise Type</string>
@@ -1406,7 +1406,7 @@
     <string name="custom_filename">Custom Filename</string>
     <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
-    <string name="collage_maker">Collage Maker</string>
+    <string name="collage_maker">Collage maker</string>
     <string name="collage_maker_sub">Make various collages from 2..10 images</string>
     <string name="collage_type">Collage Type</string>
     <string name="pick_up_to_ten_images">Pick up to 10 images</string>
@@ -1497,7 +1497,7 @@
     <string name="enable_tonemapping">Enable Tonemapping</string>
     <string name="enter_percent">Enter %</string>
     <string name="unknown_host">Cannot access the site, try using VPN or check if the url correct</string>
-    <string name="markup_layers">Markup Layers</string>
+    <string name="markup_layers">Markup layers</string>
     <string name="markup_layers_sub">Layers mode with ability to freely place images, text and more</string>
     <string name="edit_layer">Edit layer</string>
     <string name="layers_on_image">Layers on image</string>
@@ -1575,7 +1575,7 @@
     <string name="timestamp">Timestamp</string>
     <string name="format_pattern">Format Pattern</string>
     <string name="padding">Padding</string>
-    <string name="image_cutting">Image Cutting</string>
+    <string name="image_cutting">Image cutting</string>
     <string name="image_cutting_sub">Cut image part and merge left ones (can be inverse) by vertical or horizontal lines</string>
     <string name="vertical_pivot_line">Vertical Pivot Line</string>
     <string name="horizontal_pivot_line">Horizontal Pivot Line</string>
