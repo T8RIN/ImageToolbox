@@ -1651,4 +1651,5 @@
     <string name="ton_space" translatable="false"></string>
     <string name="exif" translatable="false"></string>
     <string name="crashlytics" translatable="false"></string>
+    <string name="invisible_mode"></string>
 </resources>
