@@ -22,6 +22,9 @@ import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresExtension
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
@@ -544,7 +547,11 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
         _loadingState.value = null
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         requireActivity().safeCast<Activity, ComposeActivity>()?.let { activity ->
             activity.applyDynamicColors()
             lifecycleScope.launch {
@@ -552,7 +559,8 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
             }
         }
 
-        super.onCreate(savedInstanceState)
+
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     companion object {
