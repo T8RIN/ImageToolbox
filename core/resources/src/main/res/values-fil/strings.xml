@@ -27,7 +27,7 @@
     <string name="add_tag">Magdagdag ng tag</string>
     <string name="smth_went_wrong">Nagkaproblema: %1$s</string>
     <string name="image_too_large_preview">Masyadong malaki ang larawan para maipasilip, pero susubukan pa rin itong i-save</string>
-    <string name="app_closing_sub">Sigurado ka bang gusto mong umalis sa app\?</string>
+    <string name="app_closing_sub">Sigurado ka bang gusto mong umalis sa app?</string>
     <string name="no_exif">Walang nakitang EXIF na datos</string>
     <string name="save">I-save</string>
     <string name="cancel">Kanselahin</string>
