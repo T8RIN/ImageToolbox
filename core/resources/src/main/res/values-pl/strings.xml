@@ -1648,4 +1648,8 @@
     <string name="default_folder" translatable="false"></string>
     <string name="bitcoin" translatable="false"></string>
     <string name="usdt" translatable="false"></string>
+    <string name="bottom_to_top"></string>
+    <string name="right_to_left"></string>
+    <string name="left_to_right"></string>
+    <string name="top_to_bottom"></string>
 </resources>
