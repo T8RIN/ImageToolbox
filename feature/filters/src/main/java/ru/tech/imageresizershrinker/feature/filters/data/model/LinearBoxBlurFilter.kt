@@ -37,7 +37,7 @@ internal class LinearBoxBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.linearBoxBlur(
         bitmap = input,
-        radius = value.first,
+        kernelSize = 2 * value.first + 1,
         transferFunction = value.second.toFunc()
     )
 

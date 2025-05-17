@@ -36,7 +36,7 @@ internal class BoxBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.boxBlur(
         bitmap = input,
-        radius = value.toInt()
+        kernelSize = 2 * value.toInt() + 1
     )
 
 }
