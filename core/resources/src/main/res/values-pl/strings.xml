@@ -12,7 +12,7 @@
     <string name="resize_type">Typ zmiany rozmiaru</string>
     <string name="restart_app">Zrestartuj aplikację</string>
     <string name="pick_image_alt">Wybierz obraz</string>
-    <string name="app_closing_sub">Czy na pewno chcesz wyjść z aplikacji\?</string>
+    <string name="app_closing_sub">Czy na pewno chcesz wyjść z aplikacji?</string>
     <string name="app_closing">Zamykanie aplikacji</string>
     <string name="stay">Zostań</string>
     <string name="close">Zamknij</string>
