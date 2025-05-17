@@ -337,11 +337,10 @@ fun rememberImagePicker(
                 } else if (intent?.action == Intent.ACTION_SEND) {
                     listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
                 } else {
-                    onFailure()
                     emptyList()
                 }
 
-            resultList.takeIf { it.isNotEmpty() }?.let(onSuccess)
+            resultList.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
         }
     )
 

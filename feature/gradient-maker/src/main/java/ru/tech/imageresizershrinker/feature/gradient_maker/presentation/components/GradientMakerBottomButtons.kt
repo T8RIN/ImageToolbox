@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentia
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.canPickImage
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
@@ -57,9 +58,9 @@ internal fun GradientMakerBottomButtons(
         mutableStateOf(false)
     }
     BottomButtonsBlock(
-        isNoData = component.allowPickingImage == null,
+        isNoData = component.screenType == null,
         onSecondaryButtonClick = imagePicker::pickImage,
-        isSecondaryButtonVisible = component.allowPickingImage == true,
+        isSecondaryButtonVisible = component.screenType.canPickImage(),
         isPrimaryButtonVisible = component.brush != null,
         showNullDataButtonAsContainer = true,
         onPrimaryButtonClick = {

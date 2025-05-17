@@ -25,10 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.canPickImage
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.isMesh
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
 internal fun GradientMakerImagePreview(component: GradientMakerComponent) {
+    val screenType = component.screenType
+
     Box(
         modifier = Modifier
             .detectSwipes(
@@ -39,11 +43,11 @@ internal fun GradientMakerImagePreview(component: GradientMakerComponent) {
             .padding(4.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (component.isMeshGradient) {
+        if (screenType.isMesh()) {
             MeshGradientPreview(
                 meshGradientState = component.meshGradientState,
                 gradientAlpha = if (component.showOriginal) 0f else component.gradientAlpha,
-                allowPickingImage = component.allowPickingImage,
+                allowPickingImage = screenType.canPickImage(),
                 gradientSize = component.gradientSize,
                 selectedUri = component.selectedUri,
                 imageAspectRatio = component.imageAspectRatio
@@ -52,7 +56,7 @@ internal fun GradientMakerImagePreview(component: GradientMakerComponent) {
             GradientPreview(
                 brush = component.brush,
                 gradientAlpha = if (component.showOriginal) 0f else component.gradientAlpha,
-                allowPickingImage = component.allowPickingImage,
+                allowPickingImage = screenType.canPickImage(),
                 gradientSize = component.gradientSize,
                 onSizeChanged = component::setPreviewSize,
                 selectedUri = component.selectedUri,

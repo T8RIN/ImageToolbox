@@ -36,7 +36,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -61,6 +60,8 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiMeshGradientState
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.GradientMakerType
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.isMesh
 import kotlin.math.roundToInt
 
 class GradientMakerComponent @AssistedInject internal constructor(
@@ -78,22 +79,13 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let {
-                setUris(
-                    uris = it,
-                    onFailure = {}
-                )
-            }
+            initialUris?.let(::setUris)
             resetState()
-            _gradientAlpha.update { 0.5f }
         }
     }
 
-    private val _allowPickingImage: MutableState<Boolean?> = mutableStateOf(
-        if (initialUris.isNullOrEmpty()) null
-        else true
-    )
-    val allowPickingImage by _allowPickingImage
+    private val _screenType: MutableState<GradientMakerType?> = mutableStateOf(null)
+    val screenType by _screenType
 
     private val _showOriginal: MutableState<Boolean> = mutableStateOf(false)
     val showOriginal by _showOriginal
@@ -103,9 +95,6 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     private var _meshGradientState = UiMeshGradientState()
     val meshGradientState: UiMeshGradientState get() = _meshGradientState
-
-    private val _isMeshGradient: MutableState<Boolean> = mutableStateOf(false)
-    val isMeshGradient: Boolean by _isMeshGradient
 
     val meshResolutionX: Int get() = meshGradientState.resolutionX
     val meshResolutionY: Int get() = meshGradientState.resolutionY
@@ -149,7 +138,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         useBitmapOriginalSizeIfAvailable: Boolean = false
     ): Bitmap? {
         return if (selectedUri == Uri.EMPTY) {
-            if (isMeshGradient) {
+            if (screenType.isMesh()) {
                 gradientMaker.createMeshGradient(
                     integerSize = integerSize,
                     gradientState = meshGradientState
@@ -165,7 +154,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                 data = data,
                 originalSize = useBitmapOriginalSizeIfAvailable
             )?.let {
-                if (isMeshGradient) {
+                if (screenType.isMesh()) {
                     gradientMaker.createMeshGradient(
                         src = it,
                         gradientState = meshGradientState,
@@ -379,12 +368,10 @@ class GradientMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun setIsMeshGradient(
-        isMeshGradient: Boolean,
-        allowPickingImage: Boolean
+    fun setScreenType(
+        type: GradientMakerType?
     ) {
-        _isMeshGradient.update { isMeshGradient }
-        _allowPickingImage.update { allowPickingImage }
+        _screenType.update { type }
     }
 
     fun addColorStop(
@@ -412,27 +399,25 @@ class GradientMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateSelectedUri(
-        uri: Uri,
-        onFailure: (Throwable) -> Unit = {}
-    ) = componentScope.launch {
-        _selectedUri.value = uri
-        _isImageLoading.value = true
-        imageGetter.getImageAsync(
-            uri = uri.toString(),
-            originalSize = false,
-            onGetImage = { imageData ->
-                _imageAspectRatio.update {
-                    imageData.image.safeAspectRatio
+    fun updateSelectedUri(uri: Uri) {
+        componentScope.launch {
+            _selectedUri.value = uri
+            _isImageLoading.value = true
+            imageGetter.getImageAsync(
+                uri = uri.toString(),
+                originalSize = false,
+                onGetImage = { imageData ->
+                    _imageAspectRatio.update {
+                        imageData.image.safeAspectRatio
+                    }
+                    _isImageLoading.value = false
+                    setImageFormat(imageData.imageInfo.imageFormat)
+                },
+                onFailure = {
+                    _isImageLoading.value = false
                 }
-                _isImageLoading.value = false
-                setImageFormat(imageData.imageInfo.imageFormat)
-            },
-            onFailure = {
-                _isImageLoading.value = false
-                onFailure(it)
-            }
-        )
+            )
+        }
     }
 
     fun updateGradientAlpha(value: Float) {
@@ -441,17 +426,13 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     override fun resetState() {
-        componentScope.launch {
-            delay(200)
-            _selectedUri.update { Uri.EMPTY }
-            _uris.update { emptyList() }
-            _gradientAlpha.update { 1f }
-            _gradientState = UiGradientState()
-            _meshGradientState = UiMeshGradientState()
-            _isMeshGradient.update { false }
-            _allowPickingImage.update { null }
-            registerChangesCleared()
-        }
+        _selectedUri.update { Uri.EMPTY }
+        _uris.update { emptyList() }
+        _gradientAlpha.update { 1f }
+        _gradientState = UiGradientState()
+        _meshGradientState = UiMeshGradientState()
+        setScreenType(null)
+        registerChangesCleared()
     }
 
     fun updateUrisSilently(
@@ -472,18 +453,14 @@ class GradientMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun setUris(
-        uris: List<Uri>,
-        onFailure: (Throwable) -> Unit = {}
-    ) {
-        _allowPickingImage.update { true }
+    fun setUris(uris: List<Uri>) {
         _uris.update { uris }
-        uris.firstOrNull()?.let { updateSelectedUri(it, onFailure) }
+        uris.firstOrNull()?.let(::updateSelectedUri)
     }
 
     fun getGradientTransformation(): Transformation =
         GenericTransformation<Bitmap>(
-            Triple(brush, meshPoints, isMeshGradient)
+            Triple(brush, meshPoints, screenType.isMesh())
         ) { input ->
             createGradientBitmap(
                 data = input,

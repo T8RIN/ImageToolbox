@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +33,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,18 +45,28 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageOverlay
 import ru.tech.imageresizershrinker.core.resources.icons.MeshDownload
 import ru.tech.imageresizershrinker.core.resources.icons.MeshGradient
+import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.GradientMakerType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
 internal fun GradientMakerNoDataControls(
-    component: GradientMakerComponent,
-    onPickImage: () -> Unit
+    component: GradientMakerComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    var requestedType by rememberSaveable(component.screenType) {
+        mutableStateOf<GradientMakerType?>(null)
+    }
+
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
+        component.setScreenType(requestedType)
+        component.setUris(uris)
+        component.updateGradientAlpha(0.5f)
+    }
 
     val preference1 = @Composable {
         val screen = remember {
@@ -64,10 +78,7 @@ internal fun GradientMakerNoDataControls(
             startIcon = screen.icon,
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                component.setIsMeshGradient(
-                    isMeshGradient = false,
-                    allowPickingImage = false
-                )
+                component.setScreenType(GradientMakerType.Default)
             }
         )
     }
@@ -78,11 +89,8 @@ internal fun GradientMakerNoDataControls(
             startIcon = Icons.Outlined.Collections,
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                component.setIsMeshGradient(
-                    isMeshGradient = false,
-                    allowPickingImage = true
-                )
-                onPickImage()
+                requestedType = GradientMakerType.Overlay
+                imagePicker.pickImage()
             }
         )
     }
@@ -93,10 +101,7 @@ internal fun GradientMakerNoDataControls(
             startIcon = Icons.Outlined.MeshGradient,
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                component.setIsMeshGradient(
-                    isMeshGradient = true,
-                    allowPickingImage = false
-                )
+                component.setScreenType(GradientMakerType.Mesh)
             }
         )
     }
@@ -107,11 +112,8 @@ internal fun GradientMakerNoDataControls(
             startIcon = Icons.Outlined.ImageOverlay,
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                component.setIsMeshGradient(
-                    isMeshGradient = true,
-                    allowPickingImage = true
-                )
-                onPickImage()
+                requestedType = GradientMakerType.MeshOverlay
+                imagePicker.pickImage()
             }
         )
     }

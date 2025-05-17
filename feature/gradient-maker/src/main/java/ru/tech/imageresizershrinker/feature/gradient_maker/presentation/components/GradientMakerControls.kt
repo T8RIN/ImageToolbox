@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageFormatSelector
@@ -51,12 +50,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.canPickImage
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.isMesh
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import kotlin.math.roundToInt
 
 @Composable
 internal fun GradientMakerControls(component: GradientMakerComponent) {
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
+
+    val screenType = component.screenType
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -67,8 +70,9 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 showPickImageFromUrisSheet = true
             }
         )
+
         AnimatedContent(
-            component.allowPickingImage == false
+            screenType != null && !screenType.canPickImage()
         ) { canChangeSize ->
             if (canChangeSize) {
                 GradientSizeSelector(
@@ -86,7 +90,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         }
         Spacer(Modifier.height(8.dp))
 
-        if (component.isMeshGradient) {
+        if (screenType.isMesh()) {
             Column(
                 modifier = Modifier.container(
                     resultPadding = 0.dp
@@ -162,7 +166,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 onValueChange = component::setTileMode
             )
         }
-        if (component.allowPickingImage == true) {
+        if (screenType.canPickImage()) {
             Spacer(Modifier.height(8.dp))
             SaveExifWidget(
                 checked = component.keepExif,
@@ -173,14 +177,14 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         Spacer(Modifier.height(8.dp))
         ImageFormatSelector(
             value = component.imageFormat,
-            forceEnabled = component.allowPickingImage == false,
+            forceEnabled = screenType != null && !screenType.canPickImage(),
             onValueChange = component::setImageFormat
         )
     }
 
     val transformations by remember(
         component.brush,
-        component.isMeshGradient,
+        screenType.isMesh(),
         component.meshPoints,
         component.meshResolutionX,
         component.meshResolutionY,
@@ -194,7 +198,6 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
     }
 
     val isPortrait by isPortraitOrientationAsState()
-    val essentials = rememberLocalEssentials()
 
     PickImageFromUrisSheet(
         transformations = transformations,
@@ -204,12 +207,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         },
         uris = component.uris,
         selectedUri = component.selectedUri,
-        onUriPicked = { uri ->
-            component.updateSelectedUri(
-                uri = uri,
-                onFailure = essentials::showFailureToast
-            )
-        },
+        onUriPicked = component::updateSelectedUri,
         onUriRemoved = { uri ->
             component.updateUrisSilently(removedUri = uri)
         },

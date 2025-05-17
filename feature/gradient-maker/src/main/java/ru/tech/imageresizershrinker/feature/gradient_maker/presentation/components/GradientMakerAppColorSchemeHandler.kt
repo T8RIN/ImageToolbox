@@ -35,7 +35,7 @@ internal fun GradientMakerAppColorSchemeHandler(component: GradientMakerComponen
                 integerSize = IntegerSize(1000, 1000)
             )
         },
-        allowChangeColor = component.allowPickingImage != null
+        allowChangeColor = component.screenType != null
     )
 
     val colorScheme = MaterialTheme.colorScheme

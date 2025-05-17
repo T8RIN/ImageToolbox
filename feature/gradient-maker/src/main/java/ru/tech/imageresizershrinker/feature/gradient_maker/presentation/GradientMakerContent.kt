@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.componen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientMakerControls
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientMakerImagePreview
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientMakerNoDataControls
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.GradientMakerType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
@@ -55,45 +56,40 @@ fun GradientMakerContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val allowPickingImage = component.allowPickingImage
+    val screenType = component.screenType
 
     GradientMakerAppColorSchemeHandler(component)
 
-    LaunchedEffect(allowPickingImage) {
-        if (allowPickingImage != true && !component.isMeshGradient) {
+    LaunchedEffect(screenType) {
+        if (screenType == null) {
             component.resetState()
+        }
+    }
+    val goBack = {
+        if (screenType != null) {
+            component.resetState()
+        } else {
+            component.onGoBack()
         }
     }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
-        component.setUris(
-            uris = uris,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUris(uris)
         component.updateGradientAlpha(0.5f)
     }
 
-    val pickImage = imagePicker::pickImage
-
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !component.haveChanges,
-        canShowScreenData = allowPickingImage != null,
+        shouldDisableBackHandler = screenType == null,
+        canShowScreenData = screenType != null,
         title = {
             TopAppBarTitle(
-                title = if (allowPickingImage != true) {
-                    if (component.isMeshGradient) {
-                        stringResource(R.string.mesh_gradients)
-                    } else {
-                        stringResource(R.string.gradient_maker)
-                    }
-                } else {
-                    if (component.isMeshGradient) {
-                        stringResource(R.string.gradient_maker_type_image_mesh)
-                    } else {
-                        stringResource(R.string.gradient_maker_type_image)
-                    }
+                title = when (screenType) {
+                    null, GradientMakerType.Default -> stringResource(R.string.gradient_maker)
+                    GradientMakerType.Overlay -> stringResource(R.string.gradient_maker_type_image)
+                    GradientMakerType.Mesh -> stringResource(R.string.mesh_gradients)
+                    GradientMakerType.MeshOverlay -> stringResource(R.string.gradient_maker_type_image_mesh)
                 },
                 input = Unit,
                 isLoading = false,
@@ -102,7 +98,7 @@ fun GradientMakerContent(
         },
         onGoBack = {
             if (component.haveChanges) showExitDialog = true
-            else component.onGoBack()
+            else goBack()
         },
         actions = {
             if (component.uris.isNotEmpty()) {
@@ -137,7 +133,7 @@ fun GradientMakerContent(
             )
         },
         topAppBarPersistentActions = {
-            if (allowPickingImage == null) {
+            if (screenType == null) {
                 TopAppBarEmoji()
             }
 
@@ -151,10 +147,7 @@ fun GradientMakerContent(
         },
         insetsForNoData = WindowInsets(0),
         noDataControls = {
-            GradientMakerNoDataControls(
-                component = component,
-                onPickImage = pickImage
-            )
+            GradientMakerNoDataControls(component)
         },
         buttons = { actions ->
             GradientMakerBottomButtons(
@@ -165,7 +158,7 @@ fun GradientMakerContent(
         },
         forceImagePreviewToMax = component.showOriginal,
         contentPadding = animateDpAsState(
-            if (allowPickingImage == null) 12.dp
+            if (screenType == null) 12.dp
             else 20.dp
         ).value
     )
@@ -179,13 +172,7 @@ fun GradientMakerContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = {
-            if (allowPickingImage != null) {
-                component.resetState()
-            } else {
-                component.onGoBack()
-            }
-        },
+        onExit = goBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

@@ -29,14 +29,19 @@ import androidx.compose.ui.Modifier
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.canPickImage
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.model.isMesh
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 
 @Composable
 internal fun GradientMakerCompareButton(component: GradientMakerComponent) {
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
+
+    val screenType = component.screenType
+
     CompareButton(
         onClick = { showCompareSheet = true },
-        visible = component.brush != null && component.allowPickingImage == true && component.selectedUri != Uri.EMPTY
+        visible = component.brush != null && screenType.canPickImage() && component.selectedUri != Uri.EMPTY
     )
 
     CompareSheet(
@@ -49,11 +54,11 @@ internal fun GradientMakerCompareButton(component: GradientMakerComponent) {
             )
         },
         afterContent = {
-            if (component.isMeshGradient) {
+            if (screenType.isMesh()) {
                 MeshGradientPreview(
                     meshGradientState = component.meshGradientState,
                     gradientAlpha = component.gradientAlpha,
-                    allowPickingImage = component.allowPickingImage,
+                    allowPickingImage = screenType.canPickImage(),
                     gradientSize = component.gradientSize,
                     selectedUri = component.selectedUri,
                     imageAspectRatio = component.imageAspectRatio
@@ -74,7 +79,7 @@ internal fun GradientMakerCompareButton(component: GradientMakerComponent) {
                 GradientPreview(
                     brush = gradientState.brush,
                     gradientAlpha = component.gradientAlpha,
-                    allowPickingImage = component.allowPickingImage,
+                    allowPickingImage = screenType.canPickImage(),
                     gradientSize = component.gradientSize,
                     onSizeChanged = {
                         gradientState.size = it
