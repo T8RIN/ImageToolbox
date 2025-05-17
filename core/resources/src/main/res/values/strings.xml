@@ -161,7 +161,7 @@
     <string name="replace_sequence_number">Replace sequence number</string>
     <string name="replace_sequence_number_sub">If enabled replaces standard timestamp to the image sequence number if you use batch processing</string>
     <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photo picker image source selected</string>
-    <string name="load_image_from_net">Load image from net</string>
+    <string name="load_image_from_net">Load image from the internet</string>
     <string name="load_image_from_net_sub">Load any image from the internet to preview, zoom, edit and save it if you want.</string>
     <string name="no_image">No image</string>
     <string name="image_link">Image link</string>
@@ -436,7 +436,7 @@
     <string name="invert_colors_sub">Replaces theme colors to negative ones if enabled</string>
     <string name="search_option">Search</string>
     <string name="search_option_sub">Enables ability to search through all available tools on the main screen</string>
-    <string name="pdf_tools">PDF Tools</string>
+    <string name="pdf_tools">PDF tools</string>
     <string name="pdf_tools_sub">Operate with PDF files: Preview, Convert to batch of images or create one from given pictures</string>
     <string name="preview_pdf">Preview PDF</string>
     <string name="pdf_to_images">PDF to Images</string>
