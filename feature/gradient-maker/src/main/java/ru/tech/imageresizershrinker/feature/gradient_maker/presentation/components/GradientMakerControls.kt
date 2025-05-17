@@ -208,9 +208,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         uris = component.uris,
         selectedUri = component.selectedUri,
         onUriPicked = component::updateSelectedUri,
-        onUriRemoved = { uri ->
-            component.updateUrisSilently(removedUri = uri)
-        },
+        onUriRemoved = component::updateUrisSilently,
         columns = if (isPortrait) 2 else 4,
     )
 }
