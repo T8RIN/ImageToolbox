@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation.component
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
@@ -75,6 +74,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -160,7 +160,7 @@ internal fun MediaPickerHavePermissions(
                                 val title =
                                     if (it.id == -1L) stringResource(R.string.all) else it.label
                                 Column(
-                                    modifier = Modifier.animateContentSize(
+                                    modifier = Modifier.animateContentSizeNoClip(
                                         alignment = Alignment.Center
                                     ),
                                     verticalArrangement = Arrangement.Center,

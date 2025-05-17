@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.widget
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -74,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedDropdownMenu
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
@@ -119,7 +119,7 @@ fun <T> FilterItem(
         Row(
             modifier = modifier
                 .container(color = backgroundColor, shape = shape)
-                .animateContentSize(),
+                .animateContentSizeNoClip(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(

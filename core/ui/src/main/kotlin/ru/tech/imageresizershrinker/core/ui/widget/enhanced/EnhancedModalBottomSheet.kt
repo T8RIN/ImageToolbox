@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -64,6 +63,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.animation.FancyTransitionEasing
 import ru.tech.imageresizershrinker.core.ui.utils.helper.PredictiveBackObserver
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -318,7 +318,7 @@ private fun EnhancedModalSheetImpl(
                     autoElevation = autoElevation
                 )
                 .clip(shape)
-                .animateContentSize(spring()),
+                .animateContentSizeNoClip(spring()),
             modifier = modifier,
             shape = shape,
             elevation = elevation,

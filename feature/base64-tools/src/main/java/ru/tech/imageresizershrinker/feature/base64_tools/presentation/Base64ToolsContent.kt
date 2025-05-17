@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.base64_tools.presentation
 
 import android.net.Uri
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -147,7 +147,7 @@ fun Base64ToolsContent(
                 modifier = Modifier
                     .container()
                     .padding(4.dp)
-                    .animateContentSize(
+                    .animateContentSizeNoClip(
                         alignment = Alignment.Center
                     ),
                 contentAlignment = Alignment.Center

@@ -27,7 +27,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresExtension
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -104,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationA
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.feature.pdf_tools.data.canUseNewPdf
@@ -152,7 +152,7 @@ fun PdfViewer(
 
     val loading = @Composable {
         Box(
-            modifier = modifier.animateContentSize(),
+            modifier = modifier.animateContentSizeNoClip(),
             contentAlignment = Alignment.Center
         ) {
             EnhancedLoadingIndicator()
@@ -193,7 +193,7 @@ fun PdfViewer(
 
             } else {
                 val listState = rememberLazyListState()
-                BoxWithConstraints(modifier = modifier.animateContentSize()) {
+                BoxWithConstraints(modifier = modifier.animateContentSizeNoClip()) {
                     val density = LocalDensity.current
                     val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
                     val height = (width * sqrt(2f)).toInt()

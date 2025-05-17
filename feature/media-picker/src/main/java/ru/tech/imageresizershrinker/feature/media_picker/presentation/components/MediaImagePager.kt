@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.media_picker.presentation.component
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -104,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withLayoutCorners
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
@@ -372,7 +372,7 @@ internal fun MediaImagePager(
                             Text(
                                 text = it,
                                 modifier = Modifier
-                                    .animateContentSize()
+                                    .animateContentSizeNoClip()
                                     .padding(top = 64.dp)
                                     .align(Alignment.TopCenter)
                                     .padding(8.dp)
@@ -414,7 +414,7 @@ internal fun MediaImagePager(
                             Text(
                                 text = it,
                                 modifier = Modifier
-                                    .animateContentSize()
+                                    .animateContentSizeNoClip()
                                     .weight(1f),
                                 color = White,
                                 style = MaterialTheme.typography.labelLarge,

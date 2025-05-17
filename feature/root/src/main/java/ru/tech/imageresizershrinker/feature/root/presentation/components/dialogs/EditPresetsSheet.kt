@@ -182,6 +182,7 @@ internal fun EditPresetsSheet(
                                     )
                                     expanded = false
                                 },
+                                enabled = value.isNotEmpty()
                             ) {
                                 Text(stringResource(R.string.add))
                             }

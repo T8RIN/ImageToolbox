@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -58,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -112,7 +112,7 @@ internal fun OCRTextPreviewItem(
                             shape = RoundedCornerShape(12.dp)
                         )
                         .padding(16.dp)
-                        .animateContentSize()
+                        .animateContentSizeNoClip()
                 ) {
                     Row(
                         verticalAlignment = Alignment.Top

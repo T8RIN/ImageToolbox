@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.text
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.Animatable
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -67,6 +66,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 
 @Composable
 fun RoundedTextField(
@@ -222,7 +222,7 @@ fun RoundedTextField(
                 cancel()
             }
         }
-        .animateContentSize()
+        .animateContentSizeNoClip()
 
     val supportingTextImpl = @Composable {
         if (!loading && supportingText != null) {
@@ -231,7 +231,7 @@ fun RoundedTextField(
     }
 
     Column(
-        modifier = modifier.animateContentSize()
+        modifier = modifier.animateContentSizeNoClip()
     ) {
         val showError = isError && !loading && supportingText != null && supportingTextVisible
         TextField(

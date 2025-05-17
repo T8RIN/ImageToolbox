@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -258,7 +258,7 @@ fun RecognizeTextContent(
                     modifier = Modifier
                         .container()
                         .padding(4.dp)
-                        .animateContentSize(
+                        .animateContentSizeNoClip(
                             alignment = Alignment.Center
                         ),
                     contentAlignment = Alignment.Center

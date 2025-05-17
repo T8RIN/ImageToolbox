@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.image_stacking.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -60,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.PositionSe
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.feature.image_stacking.domain.StackImage
 
@@ -81,7 +81,7 @@ fun StackImageItem(
     Row(
         modifier = modifier
             .container(color = backgroundColor, shape = shape)
-            .animateContentSize(),
+            .animateContentSizeNoClip(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

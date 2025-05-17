@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -208,9 +209,7 @@ fun ImageStackingContent(
                     )
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            8.dp
-                        ),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                         modifier = Modifier.padding(8.dp)
                     ) {
                         component.stackImages.forEachIndexed { index, stackImage ->
@@ -228,15 +227,21 @@ fun ImageStackingContent(
                                 isRemoveVisible = component.stackImages.size > 2,
                                 onRemove = {
                                     component.removeImageAt(index)
-                                }
+                                },
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = component.stackImages.size
+                                )
                             )
                         }
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.mixedContainer,
                             onClick = addImages,
-                            modifier = Modifier.padding(
-                                horizontal = 16.dp
-                            )
+                            modifier = Modifier
+                                .padding(top = 4.dp)
+                                .padding(
+                                    horizontal = 16.dp
+                                )
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AddCircleOutline,

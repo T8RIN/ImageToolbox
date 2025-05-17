@@ -22,7 +22,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -109,6 +108,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shapeByInteraction
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -303,7 +303,7 @@ fun AddFiltersSheet(
                             LazyColumn(
                                 state = rememberForeverLazyListState("sheet"),
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
-                                modifier = Modifier.animateContentSize(),
+                                modifier = Modifier.animateContentSizeNoClip(),
                                 contentPadding = PaddingValues(16.dp)
                             ) {
                                 itemsIndexed(

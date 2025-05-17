@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -74,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSlider
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import kotlin.math.abs
@@ -134,7 +134,7 @@ fun LazyListScope.imageStickyHeader(
                     } else Modifier
                 )
                 .onGloballyPositioned(onGloballyPositioned)
-                .animateContentSize()
+                .animateContentSizeNoClip()
         ) {
             val color = if (backgroundColor.isSpecified) {
                 backgroundColor

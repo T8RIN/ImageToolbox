@@ -22,7 +22,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls.selection
 import android.os.Build
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,6 +66,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSim
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toModel
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
@@ -119,7 +119,7 @@ fun ImageFormatSelector(
                     shape = RoundedCornerShape(24.dp),
                     color = backgroundColor
                 )
-                .animateContentSize()
+                .animateContentSizeNoClip()
                 .alpha(if (enabled) 1f else 0.5f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp)

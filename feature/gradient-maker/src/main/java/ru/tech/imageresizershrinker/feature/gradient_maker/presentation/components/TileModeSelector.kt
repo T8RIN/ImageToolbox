@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -51,7 +51,7 @@ fun TileModeSelector(
             .container(
                 shape = RoundedCornerShape(24.dp)
             )
-            .animateContentSize(),
+            .animateContentSizeNoClip(),
         contentAlignment = Alignment.Center
     ) {
         EnhancedButtonGroup(

@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.image_cutting.presentation
 
 import android.net.Uri
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -59,6 +58,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.detectSwipes
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -148,7 +148,7 @@ fun ImageCutterContent(
                 modifier = Modifier
                     .container()
                     .padding(4.dp)
-                    .animateContentSize(
+                    .animateContentSizeNoClip(
                         alignment = Alignment.Center
                     )
                     .detectSwipes(

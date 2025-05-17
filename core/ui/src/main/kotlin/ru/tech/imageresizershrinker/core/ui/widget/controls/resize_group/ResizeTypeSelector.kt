@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -68,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButtonGroup
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -136,7 +136,7 @@ fun ResizeTypeSelector(
     Column(
         modifier = modifier
             .container(shape = RoundedCornerShape(24.dp))
-            .animateContentSize(),
+            .animateContentSizeNoClip(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         EnhancedButtonGroup(

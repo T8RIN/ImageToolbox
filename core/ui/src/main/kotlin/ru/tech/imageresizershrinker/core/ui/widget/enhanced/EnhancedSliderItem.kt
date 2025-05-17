@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -70,6 +69,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText
@@ -128,7 +128,7 @@ fun EnhancedSliderItem(
                     .alpha(
                         animateFloatAsState(if (enabled) 1f else 0.5f).value
                     )
-                    .animateContentSize()
+                    .animateContentSizeNoClip()
                     .then(
                         if (isCompactLayout && icon != null) {
                             Modifier.pointerInput(Unit) {

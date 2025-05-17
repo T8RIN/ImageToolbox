@@ -76,6 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
@@ -140,7 +141,8 @@ fun PresetSelector(
                                 }
                             }
                         )
-                    },
+                    }
+                    .animateContentSizeNoClip(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(8.dp))
@@ -348,7 +350,7 @@ fun PresetSelector(
         },
         revealedContentEnd = {
             Box(
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .container(
                         color = MaterialTheme.colorScheme.surfaceContainerLowest,

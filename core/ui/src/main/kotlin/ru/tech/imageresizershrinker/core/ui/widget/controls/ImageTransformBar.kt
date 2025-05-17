@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,6 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -74,7 +74,7 @@ fun ImageTransformBar(
     Column(
         modifier = Modifier
             .container(shape)
-            .animateContentSize()
+            .animateContentSizeNoClip()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AnimatedVisibility(

@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.net.Uri
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -44,10 +43,10 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
-import coil3.asDrawable
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
 
@@ -102,10 +101,10 @@ internal fun UrisCarousel(uris: List<Uri>) {
                         .build()
                 },
                 onSuccess = {
-                    aspectRatio = it.result.image.asDrawable(context.resources).safeAspectRatio
+                    aspectRatio = it.result.image.safeAspectRatio
                 },
                 modifier = Modifier
-                    .animateContentSize()
+                    .animateContentSizeNoClip()
                     .fillMaxHeight()
                     .aspectRatio(
                         ratio = aspectRatio,

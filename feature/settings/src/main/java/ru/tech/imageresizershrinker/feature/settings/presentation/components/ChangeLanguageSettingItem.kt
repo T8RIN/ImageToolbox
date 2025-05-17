@@ -23,7 +23,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedRadioButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -71,7 +71,7 @@ fun ChangeLanguageSettingItem(
     val context = LocalContext.current
     var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }
 
-    Column(Modifier.animateContentSize()) {
+    Column(Modifier.animateContentSizeNoClip()) {
         PreferenceItem(
             shape = shape,
             modifier = modifier.padding(bottom = 1.dp),

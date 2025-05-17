@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -55,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.CalculatorDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -71,7 +71,7 @@ fun ResizeImageField(
         modifier = Modifier
             .container(shape = RoundedCornerShape(24.dp))
             .padding(8.dp)
-            .animateContentSize()
+            .animateContentSizeNoClip()
     ) {
         Row {
             val widthField: @Composable RowScope.() -> Unit = {

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.pick_color.presentation.components
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -67,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.hapticsClickable
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -123,7 +123,7 @@ internal fun PickColorFromImageTopAppBar(
         } else {
             Surface(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                modifier = Modifier.animateContentSize(),
+                modifier = Modifier.animateContentSizeNoClip(),
             ) {
                 Column {
                     Column(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
