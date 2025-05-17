@@ -553,7 +553,7 @@
     <string name="only_clip">Only Clip</string>
     <string name="only_clip_sub">Saving to storage will not be performed, and image will be tried to put into the clipboard only</string>
     <string name="restore_background_sub">Brush will restore background instead of erasing</string>
-    <string name="recognize_text">OCR (Recognize Text)</string>
+    <string name="recognize_text">OCR (recognize text)</string>
     <string name="recognize_text_sub">Recognize text from given image, 120+ languages supported</string>
     <string name="picture_has_no_text">Picture has no text, or app didn\'t find it</string>
     <string name="accuracy">"Accuracy: %1$d"</string>
@@ -1510,7 +1510,7 @@
     <string name="clear_selection">Clear Selection</string>
     <string name="settings_group_visibility_hidden">Setting group \"%s\" will be collapsed by default</string>
     <string name="settings_group_visibility_visible">Setting group \"%s\" will be expanded by default</string>
-    <string name="base_64_tools">Base64 Tools</string>
+    <string name="base_64_tools">Base64 tools</string>
     <string name="base_64_tools_sub">Decode Base64 string to image, or encode image to Base64 format</string>
     <string name="base_64">Base64</string>
     <string name="not_a_valid_base_64">Provided value is not a valid Base64 string</string>
