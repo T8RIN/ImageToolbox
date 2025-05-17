@@ -25,7 +25,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -47,21 +46,6 @@ operator fun PaddingValues.plus(paddingValues: PaddingValues): PaddingValues {
 }
 
 @Composable
-operator fun PaddingValues.minus(paddingValues: PaddingValues): PaddingValues {
-    val ld = LocalLayoutDirection.current
-    return remember(ld, paddingValues) {
-        derivedStateOf {
-            PaddingValues(
-                start = calculateStartPadding(ld) - paddingValues.calculateStartPadding(ld),
-                top = calculateTopPadding() - paddingValues.calculateTopPadding(),
-                end = calculateEndPadding(ld) - paddingValues.calculateEndPadding(ld),
-                bottom = calculateBottomPadding() - paddingValues.calculateBottomPadding(),
-            )
-        }
-    }.value
-}
-
-@Composable
 fun isPortraitOrientationAsState(): State<Boolean> {
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current
@@ -69,17 +53,6 @@ fun isPortraitOrientationAsState(): State<Boolean> {
     return remember(configuration, sizeClass) {
         derivedStateOf {
             configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass.widthSizeClass == WindowWidthSizeClass.Compact
-        }
-    }
-}
-
-@Composable
-fun isLandscapeOrientationAsState(): State<Boolean> {
-    val isPortrait by isPortraitOrientationAsState()
-
-    return remember(isPortrait) {
-        derivedStateOf {
-            !isPortrait
         }
     }
 }

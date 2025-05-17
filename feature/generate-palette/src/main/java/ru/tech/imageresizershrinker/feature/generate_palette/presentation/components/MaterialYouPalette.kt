@@ -17,13 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +44,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.core.ui.utils.helper.minus
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -130,10 +127,7 @@ internal fun MaterialYouPalette(
                 )
             }
         },
-        containerColor = MaterialTheme.colorScheme.tertiary,
-        contentPadding = ButtonDefaults.ContentPadding - PaddingValues(
-            start = 4.dp
-        )
+        containerColor = MaterialTheme.colorScheme.tertiary
     ) {
         Icon(
             imageVector = Icons.Rounded.Cube,

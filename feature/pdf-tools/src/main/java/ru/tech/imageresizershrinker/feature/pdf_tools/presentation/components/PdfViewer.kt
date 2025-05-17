@@ -99,7 +99,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.flexibleResize
 import ru.tech.imageresizershrinker.core.domain.utils.safeCast
 import ru.tech.imageresizershrinker.core.ui.utils.ComposeActivity
-import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -390,8 +390,62 @@ fun PdfViewer(
                                 }
                             }
                         }
-                        val isLandscape by isLandscapeOrientationAsState()
-                        if (isLandscape) {
+                        val isPortrait by isPortraitOrientationAsState()
+
+                        if (isPortrait) {
+                            LazyHorizontalGrid(
+                                rows = GridCells.Adaptive(120.dp),
+                                state = state,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .dragHandler(
+                                        key = key,
+                                        lazyGridState = state,
+                                        isVertical = false,
+                                        haptics = LocalHapticFeedback.current,
+                                        selectedItems = selectedItems,
+                                        autoScrollSpeed = autoScrollSpeed,
+                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                    ),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    space = spacing,
+                                    alignment = Alignment.CenterVertically
+                                ),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = spacing,
+                                    alignment = Alignment.CenterHorizontally
+                                ),
+                                contentPadding = PaddingValues(12.dp),
+                            ) {
+                                items(
+                                    count = pageCount,
+                                    key = { index -> "$uri-$index" }
+                                ) { index ->
+
+                                    val cacheKey = MemoryCache.Key("$uri-120-$index")
+                                    val selected by remember(selectedItems.value) {
+                                        derivedStateOf {
+                                            selectedItems.value.contains(index).also {
+                                                updateSelectedPages(selectedItems.value.toList())
+                                            }
+                                        }
+                                    }
+                                    PdfPage(
+                                        selected = selected,
+                                        selectionEnabled = enableSelection,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .aspectRatio(1f),
+                                        index = index,
+                                        renderWidth = with(density) { 120.dp.roundToPx() },
+                                        renderHeight = with(density) { 120.dp.roundToPx() },
+                                        mutex = mutex,
+                                        renderer = renderer,
+                                        cacheKey = cacheKey
+                                    )
+                                }
+                            }
+                        } else {
                             LazyVerticalGrid(
                                 columns = GridCells.Adaptive(120.dp),
                                 state = state,
@@ -439,59 +493,6 @@ fun PdfViewer(
                                         index = index,
                                         renderWidth = with(density) { size.roundToPx() },
                                         renderHeight = with(density) { size.roundToPx() },
-                                        mutex = mutex,
-                                        renderer = renderer,
-                                        cacheKey = cacheKey
-                                    )
-                                }
-                            }
-                        } else {
-                            LazyHorizontalGrid(
-                                rows = GridCells.Adaptive(120.dp),
-                                state = state,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .dragHandler(
-                                        key = key,
-                                        lazyGridState = state,
-                                        isVertical = false,
-                                        haptics = LocalHapticFeedback.current,
-                                        selectedItems = selectedItems,
-                                        autoScrollSpeed = autoScrollSpeed,
-                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
-                                    ),
-                                verticalArrangement = Arrangement.spacedBy(
-                                    space = spacing,
-                                    alignment = Alignment.CenterVertically
-                                ),
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    space = spacing,
-                                    alignment = Alignment.CenterHorizontally
-                                ),
-                                contentPadding = PaddingValues(12.dp),
-                            ) {
-                                items(
-                                    count = pageCount,
-                                    key = { index -> "$uri-$index" }
-                                ) { index ->
-
-                                    val cacheKey = MemoryCache.Key("$uri-120-$index")
-                                    val selected by remember(selectedItems.value) {
-                                        derivedStateOf {
-                                            selectedItems.value.contains(index).also {
-                                                updateSelectedPages(selectedItems.value.toList())
-                                            }
-                                        }
-                                    }
-                                    PdfPage(
-                                        selected = selected,
-                                        selectionEnabled = enableSelection,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .aspectRatio(1f),
-                                        index = index,
-                                        renderWidth = with(density) { 120.dp.roundToPx() },
-                                        renderHeight = with(density) { 120.dp.roundToPx() },
                                         mutex = mutex,
                                         renderer = renderer,
                                         cacheKey = cacheKey
