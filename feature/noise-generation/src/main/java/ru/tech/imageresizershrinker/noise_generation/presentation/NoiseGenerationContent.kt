@@ -51,9 +51,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageForma
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
@@ -127,7 +127,7 @@ fun NoiseGenerationContent(
                     shape = MaterialTheme.shapes.medium,
                     contentScale = ContentScale.FillBounds
                 )
-                if (component.isImageLoading) LoadingIndicator()
+                if (component.isImageLoading) EnhancedLoadingIndicator()
             }
         },
         controls = {

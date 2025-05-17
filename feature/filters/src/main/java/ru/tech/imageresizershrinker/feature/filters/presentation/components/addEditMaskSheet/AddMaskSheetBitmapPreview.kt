@@ -44,8 +44,8 @@ import androidx.compose.ui.unit.dp
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
@@ -97,7 +97,7 @@ internal fun AddMaskSheetBitmapPreview(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                LoadingIndicator()
+                EnhancedLoadingIndicator()
             }
         } else {
             val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()

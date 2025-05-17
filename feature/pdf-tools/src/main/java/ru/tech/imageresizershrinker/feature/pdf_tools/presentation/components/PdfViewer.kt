@@ -103,9 +103,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.ComposeActivity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isLandscapeOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.feature.pdf_tools.data.canUseNewPdf
 import ru.tech.imageresizershrinker.feature.pdf_tools.data.createPdfRenderer
 import kotlin.math.sqrt
@@ -155,7 +155,7 @@ fun PdfViewer(
             modifier = modifier.animateContentSize(),
             contentAlignment = Alignment.Center
         ) {
-            LoadingIndicator()
+            EnhancedLoadingIndicator()
         }
     }
 
@@ -505,7 +505,7 @@ fun PdfViewer(
                             modifier = Modifier.matchParentSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            LoadingIndicator()
+                            EnhancedLoadingIndicator()
                         }
                     }
                 }

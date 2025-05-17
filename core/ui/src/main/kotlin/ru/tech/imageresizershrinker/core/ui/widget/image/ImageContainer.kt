@@ -36,7 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 
 @Composable
 fun ImageContainer(
@@ -93,7 +93,7 @@ fun ImageContainer(
                             BadImageWidget()
                         }
                     }
-                    if (loading) LoadingIndicator()
+                    if (loading) EnhancedLoadingIndicator()
                 }
             }
         }
@@ -143,7 +143,7 @@ fun ImageContainer(
                         } else Unit
 
                         if (previewBitmap == null && loading) {
-                            LoadingIndicator()
+                            EnhancedLoadingIndicator()
                         }
                     }
                 }

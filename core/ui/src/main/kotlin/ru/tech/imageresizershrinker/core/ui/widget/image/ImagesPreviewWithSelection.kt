@@ -84,9 +84,9 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.rememberFileExtension
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalScreenSize
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.advancedShadow
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 
 @Composable
 fun ImagesPreviewWithSelection(
@@ -251,7 +251,7 @@ fun ImagesPreviewWithSelection(
                                 .aspectRatio(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            LoadingIndicator()
+                            EnhancedLoadingIndicator()
                         }
                     }
                 }
@@ -326,7 +326,7 @@ fun ImagesPreviewWithSelection(
                                 .aspectRatio(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            LoadingIndicator()
+                            EnhancedLoadingIndicator()
                         }
                     }
                 }

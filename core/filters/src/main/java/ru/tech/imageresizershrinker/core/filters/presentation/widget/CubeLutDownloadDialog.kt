@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHuma
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 
 @Composable
 internal fun CubeLutDownloadDialog(
@@ -92,7 +92,7 @@ internal fun CubeLutDownloadDialog(
         visible = cubeLutDownloadProgress != null,
         modifier = Modifier.fillMaxSize()
     ) {
-        LoadingIndicator(
+        EnhancedLoadingIndicator(
             progress = (cubeLutDownloadProgress?.currentPercent ?: 0f) / 100,
             loaderSize = 72.dp
         ) {

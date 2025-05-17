@@ -30,9 +30,9 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 
 @Composable
@@ -53,7 +53,7 @@ internal fun GifToolsImagePreview(
             } else Modifier
         ) {
             if (loading || type == null) {
-                LoadingIndicator()
+                EnhancedLoadingIndicator()
             } else {
                 when (type) {
                     is Screen.GifTools.Type.GifToImage -> {

@@ -34,7 +34,7 @@ import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 
 @Composable
 fun LoadingDialog(
@@ -63,7 +63,7 @@ fun LoadingDialog(
                 },
             contentAlignment = Alignment.Center,
             content = {
-                LoadingIndicator(modifier = Modifier.size(108.dp))
+                EnhancedLoadingIndicator(modifier = Modifier.size(108.dp))
             }
         )
     }
@@ -130,7 +130,7 @@ private fun ProgressLoadingDialog(
                 },
             contentAlignment = Alignment.Center,
             content = {
-                LoadingIndicator(
+                EnhancedLoadingIndicator(
                     done = done,
                     left = left
                 )

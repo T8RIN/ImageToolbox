@@ -57,10 +57,10 @@ import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 
 @Composable
 internal fun CompareScreenContentImpl(
@@ -393,7 +393,7 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            LoadingIndicator()
+                            EnhancedLoadingIndicator()
                         }
                     }
                 }

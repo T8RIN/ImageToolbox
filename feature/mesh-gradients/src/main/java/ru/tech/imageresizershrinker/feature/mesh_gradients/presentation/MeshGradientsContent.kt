@@ -53,10 +53,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberHuma
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePreviewGrid
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
@@ -137,7 +137,7 @@ fun MeshGradientsContent(
                                 meshGradientDownloadProgress?.currentPercent ?: 0f
 
                             if (currentPercent > 0f) {
-                                LoadingIndicator(
+                                EnhancedLoadingIndicator(
                                     progress = currentPercent / 100,
                                     loaderSize = 72.dp
                                 ) {
@@ -170,7 +170,7 @@ fun MeshGradientsContent(
                                     }
                                 }
                             } else {
-                                LoadingIndicator()
+                                EnhancedLoadingIndicator()
                             }
                         }
                     }

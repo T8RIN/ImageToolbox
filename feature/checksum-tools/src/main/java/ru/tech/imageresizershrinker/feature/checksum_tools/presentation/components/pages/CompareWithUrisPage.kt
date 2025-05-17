@@ -53,10 +53,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePi
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFolderOpener
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PagerScrollPanel
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.negativePadding
 import ru.tech.imageresizershrinker.core.ui.widget.other.InfoContainer
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.checksum_tools.presentation.components.ChecksumEnterField
@@ -147,7 +147,7 @@ internal fun ColumnScope.CompareWithUrisPage(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                LoadingIndicator(
+                EnhancedLoadingIndicator(
                     progress = component.filesLoadingProgress
                 )
             }

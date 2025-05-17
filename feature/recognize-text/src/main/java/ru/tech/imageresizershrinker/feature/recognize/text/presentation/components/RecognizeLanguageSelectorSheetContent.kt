@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 
@@ -121,7 +121,7 @@ internal fun RecognizeLanguageSelectorSheetContent(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                LoadingIndicator()
+                EnhancedLoadingIndicator()
             }
         } else {
             val listState = rememberLazyListState()

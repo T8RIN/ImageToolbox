@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isNetworkA
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -107,7 +107,7 @@ fun DownloadLanguageDialog(
         visible = downloadStarted,
         modifier = Modifier.fillMaxSize()
     ) {
-        LoadingIndicator(
+        EnhancedLoadingIndicator(
             progress = downloadProgress / 100,
             loaderSize = 64.dp
         ) {

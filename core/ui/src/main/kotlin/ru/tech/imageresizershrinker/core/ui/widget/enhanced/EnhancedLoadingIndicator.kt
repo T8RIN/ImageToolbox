@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.other
+package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
@@ -24,14 +24,14 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,11 +49,10 @@ import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
-fun LoadingIndicator(modifier: Modifier = Modifier) {
+fun EnhancedLoadingIndicator(modifier: Modifier = Modifier) {
     val settingsState = LocalSettingsState.current
     val borderWidth = settingsState.borderWidth
     val infiniteTransition = rememberInfiniteTransition()
@@ -99,13 +98,11 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
                 ),
                 shape = MaterialStarShape
             )
-            .keepScreenOn()
+            .keepScreenOn(),
+        contentAlignment = Alignment.Center
     ) {
-        androidx.compose.material3.LoadingIndicator(
+        LoadingIndicator(
             modifier = Modifier
-                .align(
-                    Alignment.Center
-                )
                 .rotate(-rotation)
                 .size(this.minHeight / 1.4f)
         )
@@ -113,13 +110,13 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BoxScope.LoadingIndicator(
+fun BoxScope.EnhancedLoadingIndicator(
     done: Int,
     left: Int
 ) {
     val progress = done / left.toFloat()
     if (progress.isFinite() && progress >= 0 && left > 1) {
-        LoadingIndicator(progress = progress) {
+        EnhancedLoadingIndicator(progress = progress) {
             AutoSizeText(
                 text = "$done / $left",
                 maxLines = 1,
@@ -129,7 +126,7 @@ fun BoxScope.LoadingIndicator(
             )
         }
     } else {
-        LoadingIndicator(
+        EnhancedLoadingIndicator(
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(108.dp)
@@ -139,7 +136,7 @@ fun BoxScope.LoadingIndicator(
 
 
 @Composable
-fun BoxScope.LoadingIndicator(
+fun BoxScope.EnhancedLoadingIndicator(
     progress: Float,
     loaderSize: Dp = 56.dp,
     additionalContent: @Composable (Dp) -> Unit = {}
@@ -157,7 +154,7 @@ fun BoxScope.LoadingIndicator(
         )
     )
 
-    Column(
+    Box(
         modifier = Modifier
             .size(108.dp)
             .rotate(rotation)
@@ -186,8 +183,7 @@ fun BoxScope.LoadingIndicator(
             )
             .align(Alignment.Center)
             .keepScreenOn(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(
             modifier = Modifier
