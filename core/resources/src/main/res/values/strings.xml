@@ -891,7 +891,7 @@
     <string name="fluent_switch_sub">Uses Windows 11 styled switch based on \"Fluent\" design system</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">Uses iOS like switch based on cupertino design system</string>
-    <string name="images_to_svg">Images To Svg</string>
+    <string name="images_to_svg">Images to SVG</string>
     <string name="images_to_svg_sub">Trace given images to SVG images</string>
     <string name="use_sampled_palette">Use Sampled Palette</string>
     <string name="use_sampled_palette_sub">Quantization palette will be sampled if this option enabled</string>
