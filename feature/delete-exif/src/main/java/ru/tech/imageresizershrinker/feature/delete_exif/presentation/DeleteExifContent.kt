@@ -107,6 +107,10 @@ fun DeleteExifContent(
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
 
+    var showExifSelection by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     ZoomModalSheet(
         data = component.previewBitmap,
         visible = showZoomSheet,
@@ -182,9 +186,6 @@ fun DeleteExifContent(
             )
         },
         controls = {
-            var showExifSelection by rememberSaveable {
-                mutableStateOf(false)
-            }
             val selectedTags = component.selectedTags
             val subtitle by remember(selectedTags) {
                 derivedStateOf {
@@ -211,14 +212,6 @@ fun DeleteExifContent(
                 shape = RoundedCornerShape(24.dp),
                 startIcon = Icons.Rounded.Exif,
                 endIcon = Icons.Rounded.MiniEdit
-            )
-
-            AddExifSheet(
-                visible = showExifSelection,
-                onDismiss = { showExifSelection = it },
-                selectedTags = selectedTags,
-                onTagSelected = component::addTag,
-                isTagsRemovable = true
             )
         },
         buttons = { actions ->
@@ -260,6 +253,14 @@ fun DeleteExifContent(
             ImageNotPickedWidget(onPickImage = pickImage)
         },
         canShowScreenData = !component.uris.isNullOrEmpty()
+    )
+
+    AddExifSheet(
+        visible = showExifSelection,
+        onDismiss = { showExifSelection = it },
+        selectedTags = component.selectedTags,
+        onTagSelected = component::addTag,
+        isTagsRemovable = true
     )
 
     LoadingDialog(

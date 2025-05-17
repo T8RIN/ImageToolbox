@@ -116,6 +116,8 @@ fun EditExifContent(
         else component.onGoBack()
     }
 
+    var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
+
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
@@ -183,8 +185,6 @@ fun EditExifContent(
             }
         },
         controls = {
-            var showEditExifDialog by rememberSaveable { mutableStateOf(false) }
-
             PreferenceItem(
                 onClick = {
                     showEditExifDialog = true
@@ -204,17 +204,6 @@ fun EditExifContent(
             )
             Spacer(Modifier.height(8.dp))
             FormatExifWarning(component.imageFormat)
-
-            EditExifSheet(
-                visible = showEditExifDialog,
-                onDismiss = {
-                    showEditExifDialog = false
-                },
-                exif = component.exif,
-                onClearExif = component::clearExif,
-                onUpdateTag = component::updateExifByTag,
-                onRemoveTag = component::removeExifTag
-            )
         },
         buttons = {
             var showFolderSelectionDialog by rememberSaveable {
@@ -257,6 +246,17 @@ fun EditExifContent(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         }
+    )
+
+    EditExifSheet(
+        visible = showEditExifDialog,
+        onDismiss = {
+            showEditExifDialog = false
+        },
+        exif = component.exif,
+        onClearExif = component::clearExif,
+        onUpdateTag = component::updateExifByTag,
+        onRemoveTag = component::removeExifTag
     )
 
     ExitWithoutSavingDialog(
