@@ -25,7 +25,7 @@
     <string name="explicit">מפורש</string>
     <string name="flexible">גמיש</string>
     <string name="pick_image_alt">בחר תמונה</string>
-    <string name="app_closing_sub">האם אתה באמת רוצה לסגור את האפליקציה\?</string>
+    <string name="app_closing_sub">האם אתה באמת רוצה לסגור את האפליקציה?</string>
     <string name="reset_image">אפס תמונה</string>
     <string name="reset_image_sub">שינויים בתמונה יוחזרו לערכי ההתחלה</string>
     <string name="values_reset">ערכים מאופסים כראוי</string>
