@@ -22,24 +22,27 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -51,39 +54,58 @@ fun ImageCounter(
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = 16.dp),
         visible = imageCount != null,
         enter = fadeIn() + expandVertically(),
-        exit = fadeOut() + shrinkVertically()
+        exit = fadeOut() + shrinkVertically(),
     ) {
-        Column {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .container(shape = CircleShape)
-                    .padding(start = 3.dp)
-            ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .container(shape = CircleShape)
+                .padding(start = 3.dp),
+            horizontalArrangement = Arrangement.spacedBy((-1).dp)
+        ) {
+            LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
                     onClick = { if ((imageCount ?: 0) > 1) onRepick() },
                     borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        0.1f,
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
+                        luminance = 0.1f,
+                        onTopOf = MaterialTheme
+                            .colorScheme
+                            .tertiaryContainer
+                            .copy(0.1f),
                     ),
-                    isShadowClip = true
+                    isShadowClip = true,
+                    shape = RoundedCornerShape(
+                        topStart = CornerSize(50),
+                        topEnd = CornerSize(4.dp),
+                        bottomStart = CornerSize(50),
+                        bottomEnd = CornerSize(4.dp),
+                    )
                 ) {
                     Text(stringResource(R.string.images, imageCount ?: 0L))
                 }
                 EnhancedIconButton(
                     onClick = { if ((imageCount ?: 0) > 1) onRepick() },
                     borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        0.1f,
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
+                        luminance = 0.1f,
+                        onTopOf = MaterialTheme
+                            .colorScheme
+                            .tertiaryContainer
+                            .copy(0.1f),
                     ),
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
-                    isShadowClip = true
+                    isShadowClip = true,
+                    shape = RoundedCornerShape(
+                        topEnd = CornerSize(50),
+                        topStart = CornerSize(4.dp),
+                        bottomEnd = CornerSize(50),
+                        bottomStart = CornerSize(4.dp),
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.ChangeCircle,
@@ -91,7 +113,6 @@ fun ImageCounter(
                     )
                 }
             }
-            Spacer(Modifier.height(16.dp))
         }
     }
 }
