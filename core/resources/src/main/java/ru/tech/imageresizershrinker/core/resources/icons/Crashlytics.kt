@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 val Icons.Rounded.Crashlytics: ImageVector by lazy {
     Builder(
         name = "Crashlytics", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 276.0f, viewportHeight = 276.0f
+            24.0.dp, viewportWidth = 276.0f, viewportHeight = 276.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF9B1B1D)), stroke = null, strokeLineWidth = 0.0f,

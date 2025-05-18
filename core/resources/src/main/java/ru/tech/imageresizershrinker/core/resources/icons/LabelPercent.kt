@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 val Icons.Outlined.LabelPercent: ImageVector by lazy {
     Builder(
         name = "Label Percent", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
+            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
@@ -75,7 +75,7 @@ val Icons.Outlined.LabelPercent: ImageVector by lazy {
 val Icons.Rounded.LabelPercent: ImageVector by lazy {
     Builder(
         name = "Label Percent", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
+            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,

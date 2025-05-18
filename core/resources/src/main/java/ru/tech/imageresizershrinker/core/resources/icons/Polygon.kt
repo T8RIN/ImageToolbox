@@ -65,7 +65,7 @@ val Icons.Rounded.Polygon: ImageVector by lazy {
 val Icons.Outlined.Polygon: ImageVector by lazy {
     ImageVector.Builder(
         name = "OutlinedPolygon", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
+            24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)),

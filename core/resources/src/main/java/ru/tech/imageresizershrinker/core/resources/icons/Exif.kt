@@ -150,7 +150,7 @@ val Icons.Outlined.Exif: ImageVector by lazy {
 val Icons.Rounded.Exif: ImageVector by lazy {
     Builder(
         name = "Exif Rounded", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
+            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,

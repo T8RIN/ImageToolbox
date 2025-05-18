@@ -23,6 +23,7 @@ import android.graphics.PorterDuff
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
 import com.t8rin.logger.makeLog
@@ -52,7 +53,6 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 import com.awxkee.aire.ScaleColorSpace as AireScaleColorSpace
-import androidx.core.graphics.scale
 
 internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,

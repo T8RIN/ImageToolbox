@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 val Icons.Outlined.Highlighter: ImageVector by lazy {
     Builder(
         name = "Highlighter", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
+            24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(fill = SolidColor(Color(0xFF000000))) {
             moveTo(544f, 560f)

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 val Icons.Outlined.RobotExcited: ImageVector by lazy {
     ImageVector.Builder(
         name = "Robot Excited", defaultWidth = 24.0.dp, defaultHeight =
-        24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
+            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)),
