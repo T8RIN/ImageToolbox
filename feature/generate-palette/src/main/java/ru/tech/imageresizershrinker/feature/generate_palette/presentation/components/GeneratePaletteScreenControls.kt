@@ -102,274 +102,290 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 internal fun GeneratePaletteScreenControls(
     bitmap: Bitmap,
-    useMaterialYouPalette: Boolean?,
+    paletteType: PaletteType?
 ) {
+    if (paletteType == null) return
+
+    AnimatedContent(
+        targetState = paletteType
+    ) { type ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            when (type) {
+                PaletteType.Default -> DefaultPaletteControls(bitmap)
+                PaletteType.MaterialYou -> MaterialYouPaletteControls(bitmap)
+            }
+        }
+    }
+}
+
+@Composable
+private fun DefaultPaletteControls(bitmap: Bitmap) {
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
-    AnimatedContent(
-        targetState = useMaterialYouPalette == true
-    ) { isMaterialYou ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (isMaterialYou) {
-                var showColorPicker by rememberSaveable { mutableStateOf(false) }
 
-                var paletteStyle by rememberSaveable {
-                    mutableStateOf(PaletteStyle.TonalSpot)
-                }
-                var isDarkTheme by rememberSaveable {
-                    mutableStateOf(settingsState.isNightMode)
-                }
-                var invertColors by rememberSaveable {
-                    mutableStateOf(false)
-                }
-                var contrast by rememberSaveable {
-                    mutableFloatStateOf(0f)
-                }
-                var keyColor by rememberSaveable(bitmap, stateSaver = ColorSaver) {
-                    mutableStateOf(bitmap.extractPrimaryColor())
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    ColorInfo(
-                        color = keyColor.toArgb(),
-                        onColorChange = {
-                            keyColor = it.toColor()
-                        },
-                        supportButtonIcon = Icons.Rounded.MiniEdit,
-                        onSupportButtonClick = {
-                            showColorPicker = true
-                        },
-                        modifier = Modifier.weight(1f)
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Picture(
-                        model = bitmap,
-                        shape = RectangleShape,
-                        modifier = Modifier
-                            .size(56.dp)
-                            .container(
-                                shape = RoundedCornerShape(8.dp),
-                                resultPadding = 0.dp
-                            )
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                MaterialYouPalette(
-                    keyColor = keyColor,
-                    paletteStyle = paletteStyle,
-                    isDarkTheme = isDarkTheme,
-                    isInvertColors = invertColors,
-                    contrastLevel = contrast
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.dark_colors),
-                    subtitle = stringResource(R.string.dark_colors_sub),
-                    checked = isDarkTheme,
-                    startIcon = Icons.Rounded.DarkMode,
-                    onClick = {
-                        isDarkTheme = it
-                    },
-                    color = Color.Unspecified,
-                    shape = ContainerShapeDefaults.topShape
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.invert_colors),
-                    subtitle = stringResource(R.string.invert_colors_sub),
-                    checked = invertColors,
-                    startIcon = Icons.Rounded.InvertColors,
-                    onClick = {
-                        invertColors = it
-                    },
-                    color = Color.Unspecified,
-                    shape = ContainerShapeDefaults.centerShape
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                EnhancedSliderItem(
-                    color = Color.Unspecified,
-                    value = contrast.roundToTwoDigits(),
-                    icon = Icons.Rounded.Contrast,
-                    title = stringResource(id = R.string.contrast),
-                    valueRange = -1f..1f,
-                    shape = ContainerShapeDefaults.centerShape,
-                    onValueChange = { },
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
-                    steps = 198,
-                    onValueChangeFinished = {
-                        contrast = it
-                    }
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Column(
-                    modifier = Modifier.container(
-                        shape = ContainerShapeDefaults.bottomShape
+    var count by rememberSaveable { mutableIntStateOf(32) }
+
+    PaletteColorsCountSelector(
+        value = count,
+        onValueChange = { count = it }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    ImageColorPalette(
+        borderWidth = settingsState.borderWidth,
+        imageBitmap = bitmap.asImageBitmap(),
+        modifier = Modifier
+            .fillMaxSize()
+            .container(RoundedCornerShape(24.dp))
+            .padding(4.dp),
+        style = LocalTextStyle.current,
+        onEmpty = {
+            Column(
+                modifier = Modifier.container(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.height(16.dp))
+                FilledIconButton(
+                    enabled = false,
+                    onClick = {},
+                    modifier = Modifier.size(100.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                            alpha = 0.7f
+                        ),
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                            alpha = 0.7f
+                        ),
+                        disabledContentColor = MaterialTheme.colorScheme.onSurface,
                     )
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconShapeContainer(
-                            enabled = true,
-                            modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Swatch,
-                                contentDescription = null
-                            )
-                        }
-                        Text(
-                            fontWeight = FontWeight.Medium,
-                            text = stringResource(R.string.palette_style),
-                            modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    val listState = rememberLazyListState()
-                    LazyRow(
-                        state = listState,
+                    Icon(
+                        imageVector = Icons.Rounded.PaletteSwatch,
+                        contentDescription = null,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fadingEdges(listState),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        contentPadding = PaddingValues(8.dp)
-                    ) {
-                        items(PaletteStyle.entries) {
-                            EnhancedChip(
-                                selected = it == paletteStyle,
-                                onClick = { paletteStyle = it },
-                                selectedColor = MaterialTheme.colorScheme.secondary,
-                                contentPadding = PaddingValues(
-                                    horizontal = 12.dp,
-                                    vertical = 8.dp
-                                )
-                            ) {
-                                Text(it.getTitle(context))
-                            }
-                        }
-                    }
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
-
-                EnhancedModalBottomSheet(
-                    sheetContent = {
-                        Box {
-                            Column(
-                                Modifier
-                                    .verticalScroll(rememberScrollState())
-                                    .padding(
-                                        start = 36.dp,
-                                        top = 36.dp,
-                                        end = 36.dp,
-                                        bottom = 24.dp
-                                    )
-                            ) {
-                                ColorSelection(
-                                    color = keyColor.toArgb(),
-                                    onColorChange = {
-                                        keyColor = it.toColor()
-                                    }
-                                )
-                            }
-                        }
-                    },
-                    visible = showColorPicker,
-                    onDismiss = {
-                        showColorPicker = it
-                    },
-                    title = {
-                        TitleItem(
-                            text = stringResource(R.string.color),
-                            icon = Icons.Rounded.Palette
-                        )
-                    },
-                    confirmButton = {
-                        EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                showColorPicker = false
-                            }
-                        ) {
-                            AutoSizeText(stringResource(R.string.close))
-                        }
-                    }
+                Text(
+                    text = stringResource(R.string.no_palette),
+                    modifier = Modifier.padding(16.dp),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            } else {
-                var count by rememberSaveable { mutableIntStateOf(32) }
-                PaletteColorsCountSelector(
-                    value = count,
-                    onValueChange = { count = it }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                ImageColorPalette(
-                    borderWidth = settingsState.borderWidth,
-                    imageBitmap = bitmap.asImageBitmap(),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .container(RoundedCornerShape(24.dp))
-                        .padding(4.dp),
-                    style = LocalTextStyle.current,
-                    onEmpty = {
-                        Column(
-                            Modifier.container(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Spacer(Modifier.height(16.dp))
-                            FilledIconButton(
-                                enabled = false,
-                                onClick = {},
-                                modifier = Modifier.size(100.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                        alpha = 0.7f
-                                    ),
-                                    contentColor = MaterialTheme.colorScheme.onSurface,
-                                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
-                                        alpha = 0.7f
-                                    ),
-                                    disabledContentColor = MaterialTheme.colorScheme.onSurface,
-                                )
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.PaletteSwatch,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(12.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Text(
-                                stringResource(R.string.no_palette),
-                                Modifier.padding(16.dp),
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    },
-                    maximumColorCount = count,
-                    onColorChange = {
-                        context.copyToClipboard(it.color.toHex())
-                        scope.launch {
-                            toastHostState.showToast(
-                                icon = Icons.Rounded.ContentPaste,
-                                message = context.getString(R.string.color_copied)
-                            )
-                        }
-                    }
+            }
+        },
+        maximumColorCount = count,
+        onColorChange = {
+            context.copyToClipboard(it.color.toHex())
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Rounded.ContentPaste,
+                    message = context.getString(R.string.color_copied)
                 )
             }
         }
+    )
+}
+
+@Composable
+private fun MaterialYouPaletteControls(bitmap: Bitmap) {
+    val context = LocalContext.current
+    val settingsState = LocalSettingsState.current
+
+    var showColorPicker by rememberSaveable { mutableStateOf(false) }
+
+    var paletteStyle by rememberSaveable {
+        mutableStateOf(PaletteStyle.TonalSpot)
     }
+    var isDarkTheme by rememberSaveable {
+        mutableStateOf(settingsState.isNightMode)
+    }
+    var invertColors by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var contrast by rememberSaveable {
+        mutableFloatStateOf(0f)
+    }
+    var keyColor by rememberSaveable(bitmap, stateSaver = ColorSaver) {
+        mutableStateOf(bitmap.extractPrimaryColor())
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ColorInfo(
+            color = keyColor.toArgb(),
+            onColorChange = {
+                keyColor = it.toColor()
+            },
+            supportButtonIcon = Icons.Rounded.MiniEdit,
+            onSupportButtonClick = {
+                showColorPicker = true
+            },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Picture(
+            model = bitmap,
+            shape = RectangleShape,
+            modifier = Modifier
+                .size(56.dp)
+                .container(
+                    shape = RoundedCornerShape(8.dp),
+                    resultPadding = 0.dp
+                )
+        )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    MaterialYouPalette(
+        keyColor = keyColor,
+        paletteStyle = paletteStyle,
+        isDarkTheme = isDarkTheme,
+        isInvertColors = invertColors,
+        contrastLevel = contrast
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    PreferenceRowSwitch(
+        title = stringResource(R.string.dark_colors),
+        subtitle = stringResource(R.string.dark_colors_sub),
+        checked = isDarkTheme,
+        startIcon = Icons.Rounded.DarkMode,
+        onClick = {
+            isDarkTheme = it
+        },
+        color = Color.Unspecified,
+        shape = ContainerShapeDefaults.topShape
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    PreferenceRowSwitch(
+        title = stringResource(R.string.invert_colors),
+        subtitle = stringResource(R.string.invert_colors_sub),
+        checked = invertColors,
+        startIcon = Icons.Rounded.InvertColors,
+        onClick = {
+            invertColors = it
+        },
+        color = Color.Unspecified,
+        shape = ContainerShapeDefaults.centerShape
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    EnhancedSliderItem(
+        color = Color.Unspecified,
+        value = contrast.roundToTwoDigits(),
+        icon = Icons.Rounded.Contrast,
+        title = stringResource(id = R.string.contrast),
+        valueRange = -1f..1f,
+        shape = ContainerShapeDefaults.centerShape,
+        onValueChange = { },
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
+        steps = 198,
+        onValueChangeFinished = {
+            contrast = it
+        }
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Column(
+        modifier = Modifier.container(
+            shape = ContainerShapeDefaults.bottomShape
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconShapeContainer(
+                enabled = true,
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Swatch,
+                    contentDescription = null
+                )
+            }
+            Text(
+                fontWeight = FontWeight.Medium,
+                text = stringResource(R.string.palette_style),
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val listState = rememberLazyListState()
+        LazyRow(
+            state = listState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fadingEdges(listState),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(PaletteStyle.entries) {
+                EnhancedChip(
+                    selected = it == paletteStyle,
+                    onClick = { paletteStyle = it },
+                    selectedColor = MaterialTheme.colorScheme.secondary,
+                    contentPadding = PaddingValues(
+                        horizontal = 12.dp,
+                        vertical = 8.dp
+                    )
+                ) {
+                    Text(it.getTitle(context))
+                }
+            }
+        }
+    }
+
+    EnhancedModalBottomSheet(
+        sheetContent = {
+            Box {
+                Column(
+                    Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(
+                            start = 36.dp,
+                            top = 36.dp,
+                            end = 36.dp,
+                            bottom = 24.dp
+                        )
+                ) {
+                    ColorSelection(
+                        color = keyColor.toArgb(),
+                        onColorChange = {
+                            keyColor = it.toColor()
+                        }
+                    )
+                }
+            }
+        },
+        visible = showColorPicker,
+        onDismiss = {
+            showColorPicker = it
+        },
+        title = {
+            TitleItem(
+                text = stringResource(R.string.color),
+                icon = Icons.Rounded.Palette
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    showColorPicker = false
+                }
+            ) {
+                AutoSizeText(stringResource(R.string.close))
+            }
+        }
+    )
 }

@@ -101,8 +101,6 @@ fun FullscreenEditOption(
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
     content: @Composable () -> Unit
 ) {
-    rememberCoroutineScope()
-
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
     }

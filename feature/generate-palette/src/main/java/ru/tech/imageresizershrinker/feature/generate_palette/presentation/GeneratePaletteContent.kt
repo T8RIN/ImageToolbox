@@ -54,7 +54,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
@@ -74,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.GeneratePaletteScreenControls
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.PaletteType
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
@@ -81,11 +81,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 fun GeneratePaletteContent(
     component: GeneratePaletteComponent
 ) {
-    val essentials = rememberLocalEssentials()
-
-    var useMaterialYouPalette by rememberSaveable {
-        mutableStateOf<Boolean?>(null)
-    }
+    val paletteType = component.paletteType
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
         mutableStateOf(component.initialUri != null)
@@ -93,15 +89,12 @@ fun GeneratePaletteContent(
 
     AutoContentBasedColors(
         model = component.bitmap,
-        allowChangeColor = useMaterialYouPalette == false
+        allowChangeColor = paletteType == PaletteType.Default
     )
 
     val imagePicker = rememberImagePicker { uri: Uri ->
         showPreferencePicker = true
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setUri(uri)
     }
 
     AutoFilePicker(
@@ -110,24 +103,18 @@ fun GeneratePaletteContent(
     )
 
     val paletteImageLauncher = rememberImagePicker { uri: Uri ->
-        useMaterialYouPalette = false
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setPaletteType(PaletteType.Default)
+        component.setUri(uri)
     }
 
     val materialYouImageLauncher = rememberImagePicker { uri: Uri ->
-        useMaterialYouPalette = true
-        component.setUri(
-            uri = uri,
-            onFailure = essentials::showFailureToast
-        )
+        component.setPaletteType(PaletteType.MaterialYou)
+        component.setUri(uri)
     }
 
-    val pickImage = when (useMaterialYouPalette) {
-        true -> materialYouImageLauncher::pickImage
-        false -> paletteImageLauncher::pickImage
+    val pickImage = when (paletteType) {
+        PaletteType.MaterialYou -> materialYouImageLauncher::pickImage
+        PaletteType.Default -> paletteImageLauncher::pickImage
         null -> imagePicker::pickImage
     }
 
@@ -159,7 +146,7 @@ fun GeneratePaletteContent(
                     if (component.bitmap == null) {
                         paletteImageLauncher.pickImage()
                     } else {
-                        useMaterialYouPalette = false
+                        component.setPaletteType(PaletteType.Default)
                     }
                     showPreferencePicker = false
                 }
@@ -175,7 +162,7 @@ fun GeneratePaletteContent(
                     if (component.bitmap == null) {
                         materialYouImageLauncher.pickImage()
                     } else {
-                        useMaterialYouPalette = true
+                        component.setPaletteType(PaletteType.MaterialYou)
                     }
                     showPreferencePicker = false
                 }
@@ -208,20 +195,20 @@ fun GeneratePaletteContent(
     }
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = useMaterialYouPalette == null,
+        shouldDisableBackHandler = paletteType == null,
         title = {
             TopAppBarTitle(
-                title = if (useMaterialYouPalette == true) {
-                    stringResource(R.string.material_you)
-                } else stringResource(R.string.palette),
+                title = when (paletteType) {
+                    PaletteType.MaterialYou -> stringResource(R.string.material_you)
+                    PaletteType.Default, null -> stringResource(R.string.palette)
+                },
                 input = component.bitmap,
                 isLoading = component.isImageLoading,
                 size = null
             )
         },
         onGoBack = {
-            if (useMaterialYouPalette != null) {
-                useMaterialYouPalette = null
+            if (paletteType != null) {
                 component.setUri(null)
             } else {
                 component.onGoBack()
@@ -253,13 +240,13 @@ fun GeneratePaletteContent(
         imagePreview = {
             SimplePicture(bitmap = component.bitmap)
         },
-        showImagePreviewAsStickyHeader = useMaterialYouPalette == false,
-        placeImagePreview = useMaterialYouPalette == false,
+        showImagePreviewAsStickyHeader = paletteType == PaletteType.Default,
+        placeImagePreview = paletteType == PaletteType.Default,
         controls = {
             component.bitmap?.let { bitmap ->
                 GeneratePaletteScreenControls(
                     bitmap = bitmap,
-                    useMaterialYouPalette = useMaterialYouPalette
+                    paletteType = paletteType
                 )
             }
         },
@@ -269,7 +256,7 @@ fun GeneratePaletteContent(
             }
 
             BottomButtonsBlock(
-                isNoData = useMaterialYouPalette == null || component.bitmap == null,
+                isNoData = paletteType == null || component.bitmap == null,
                 onSecondaryButtonClick = pickImage,
                 isPrimaryButtonVisible = false,
                 onPrimaryButtonClick = {},
@@ -290,14 +277,14 @@ fun GeneratePaletteContent(
             )
         },
         contentPadding = animateDpAsState(
-            if (useMaterialYouPalette == null) 12.dp
+            if (paletteType == null) 12.dp
             else 20.dp
         ).value,
         insetsForNoData = WindowInsets(0),
         noDataControls = {
             preferences()
         },
-        canShowScreenData = useMaterialYouPalette != null && component.bitmap != null
+        canShowScreenData = paletteType != null && component.bitmap != null
     )
 
     var colorPickerValue by rememberSaveable(stateSaver = ColorSaver) {

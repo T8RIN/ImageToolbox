@@ -30,6 +30,8 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.ui.utils.BaseComponent
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.generate_palette.presentation.components.PaletteType
 
 class GeneratePaletteComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -42,14 +44,12 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUri?.let {
-                setUri(
-                    uri = it,
-                    onFailure = {}
-                )
-            }
+            initialUri?.let(::setUri)
         }
     }
+
+    private val _paletteType: MutableState<PaletteType?> = mutableStateOf(null)
+    val paletteType by _paletteType
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -57,12 +57,10 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 
-    fun setUri(
-        uri: Uri?,
-        onFailure: (Throwable) -> Unit = {}
-    ) {
+    fun setUri(uri: Uri?) {
         _uri.value = uri
         if (uri == null) {
+            _paletteType.update { null }
             _bitmap.value = null
             return
         }
@@ -77,8 +75,12 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
                     _isImageLoading.value = false
                 }
             },
-            onFailure = onFailure
+            onFailure = {}
         )
+    }
+
+    fun setPaletteType(type: PaletteType) {
+        _paletteType.update { type }
     }
 
     @AssistedFactory
