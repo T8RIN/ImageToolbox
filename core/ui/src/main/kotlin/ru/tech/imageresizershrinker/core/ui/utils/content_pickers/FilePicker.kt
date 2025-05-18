@@ -29,29 +29,31 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.t8rin.logger.makeLog
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 private data class FilePickerImpl(
     val context: Context,
     val type: FileType,
-    val mimeTypes: List<String>,
+    val mimeType: MimeType,
     val openDocument: ManagedActivityResultLauncher<Array<String>, Uri?>,
     val openDocumentMultiple: ManagedActivityResultLauncher<Array<String>, List<Uri>>,
     val onFailure: (Throwable) -> Unit
 ) : FilePicker {
 
     override fun pickFile() {
-        (type to mimeTypes).makeLog("File Picker Start")
+        (type to mimeType).makeLog("File Picker Start")
+
         runCatching {
             when (type) {
-                FileType.Single -> openDocument.launch(mimeTypes.toTypedArray())
-                FileType.Multiple -> openDocumentMultiple.launch(mimeTypes.toTypedArray())
+                FileType.Single -> openDocument.launch(mimeType.entries.toTypedArray())
+                FileType.Multiple -> openDocumentMultiple.launch(mimeType.entries.toTypedArray())
             }
         }.onFailure {
             it.makeLog("File Picker Failure")
             onFailure(it)
         }.onSuccess {
-            (type to mimeTypes).makeLog("File Picker Success")
+            (type to mimeType).makeLog("File Picker Success")
         }
     }
 
@@ -70,7 +72,7 @@ enum class FileType {
 @Composable
 fun rememberFilePicker(
     type: FileType,
-    mimeTypes: List<String> = DefaultMimeTypes,
+    mimeType: MimeType = MimeType.All,
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): FilePicker {
@@ -97,7 +99,7 @@ fun rememberFilePicker(
 
     return remember(
         type,
-        mimeTypes,
+        mimeType,
         openDocument,
         openDocumentMultiple
     ) {
@@ -105,7 +107,7 @@ fun rememberFilePicker(
             FilePickerImpl(
                 context = context,
                 type = type,
-                mimeTypes = mimeTypes,
+                mimeType = mimeType,
                 openDocument = openDocument,
                 openDocumentMultiple = openDocumentMultiple,
                 onFailure = {
@@ -120,12 +122,12 @@ fun rememberFilePicker(
 @JvmName("rememberMultipleFilePicker")
 @Composable
 fun rememberFilePicker(
-    mimeTypes: List<String> = DefaultMimeTypes,
+    mimeType: MimeType = MimeType.All,
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): FilePicker = rememberFilePicker(
     type = FileType.Multiple,
-    mimeTypes = mimeTypes,
+    mimeType = mimeType,
     onFailure = onFailure,
     onSuccess = onSuccess
 )
@@ -133,16 +135,14 @@ fun rememberFilePicker(
 @JvmName("rememberSingleFilePicker")
 @Composable
 fun rememberFilePicker(
-    mimeTypes: List<String> = DefaultMimeTypes,
+    mimeType: MimeType = MimeType.All,
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FilePicker = rememberFilePicker(
     type = FileType.Multiple,
-    mimeTypes = mimeTypes,
+    mimeType = mimeType,
     onFailure = onFailure,
     onSuccess = {
         it.firstOrNull()?.let(onSuccess)
     }
 )
-
-private val DefaultMimeTypes = listOf("*/*")

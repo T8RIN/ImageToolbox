@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FileExport
 import ru.tech.imageresizershrinker.core.resources.icons.FileImport
@@ -106,7 +107,7 @@ internal fun PickFontFamilySheet(
                             modifier = Modifier.height(IntrinsicSize.Max)
                         ) {
                             val pickFileLauncher = rememberFilePicker(
-                                mimeTypes = TTF_MIME_TYPES,
+                                mimeType = MimeType.Font,
                                 onSuccess = onAddFont
                             )
                             PreferenceRow(
@@ -213,9 +214,3 @@ internal fun PickFontFamilySheet(
         }
     )
 }
-
-private val TTF_MIME_TYPES = listOf(
-    "font/ttf",
-    "application/x-font-ttf",
-    "font/otf"
-)

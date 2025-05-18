@@ -10,6 +10,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import com.t8rin.logger.makeLog
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 
@@ -41,12 +42,12 @@ interface FileMaker {
 
 @Composable
 fun rememberFileCreator(
-    mimeType: String = DefaultMimeType,
+    mimeType: MimeType.Single = MimeType.All,
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FileMaker {
     val createDocument = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument(mimeType),
+        contract = ActivityResultContracts.CreateDocument(mimeType.entry),
         onResult = { uri ->
             uri?.takeIf {
                 it != Uri.EMPTY
@@ -69,5 +70,3 @@ fun rememberFileCreator(
         }
     }.value
 }
-
-private const val DefaultMimeType = "*/*"

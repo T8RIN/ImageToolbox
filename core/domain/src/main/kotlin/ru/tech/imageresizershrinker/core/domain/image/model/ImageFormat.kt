@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.image.model
 
+//TODO: MimeType refactor here
 sealed class ImageFormat(
     val title: String,
     val extension: String,

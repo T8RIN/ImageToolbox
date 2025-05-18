@@ -67,6 +67,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
@@ -115,7 +116,7 @@ fun PdfToolsContent(
     }
 
     val savePdfLauncher = rememberFileCreator(
-        mimeType = "application/pdf",
+        mimeType = MimeType.Pdf,
         onSuccess = { uri ->
             component.savePdfTo(
                 uri = uri,
@@ -125,12 +126,12 @@ fun PdfToolsContent(
     )
 
     val pdfToImagesPicker = rememberFilePicker(
-        mimeTypes = listOf("application/pdf"),
+        mimeType = MimeType.Pdf,
         onSuccess = component::setPdfToImagesUri
     )
 
     val pdfPreviewPicker = rememberFilePicker(
-        mimeTypes = listOf("application/pdf"),
+        mimeType = MimeType.Pdf,
         onSuccess = component::setPdfPreview
     )
 
@@ -141,11 +142,12 @@ fun PdfToolsContent(
         if (!showSelectionPdfPicker) tempSelectionUri = null
     }
     val selectionPdfPicker = rememberFilePicker(
-        mimeTypes = listOf("application/pdf")
-    ) { uri: Uri ->
-        tempSelectionUri = uri
-        showSelectionPdfPicker = true
-    }
+        mimeType = MimeType.Pdf,
+        onSuccess = { uri: Uri ->
+            tempSelectionUri = uri
+            showSelectionPdfPicker = true
+        }
+    )
 
     EnhancedModalBottomSheet(
         visible = showSelectionPdfPicker,

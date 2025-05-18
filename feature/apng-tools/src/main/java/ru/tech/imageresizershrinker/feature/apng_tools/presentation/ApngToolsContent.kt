@@ -69,6 +69,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
@@ -115,61 +116,65 @@ fun ApngToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleApngLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/png", "image/apng")
-    ) { uri: Uri ->
-        if (uri.isApng(context)) {
-            component.setApngUri(uri)
-        } else {
-            essentials.showToast(
-                message = context.getString(R.string.select_apng_image_to_start),
-                icon = Icons.Rounded.Apng
-            )
-        }
-    }
-
-    val pickMultipleApngLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/png", "image/apng")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isApng(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
+        mimeType = MimeType.Png,
+        onSuccess = { uri: Uri ->
+            if (uri.isApng(context)) {
+                component.setApngUri(uri)
+            } else {
                 essentials.showToast(
                     message = context.getString(R.string.select_apng_image_to_start),
                     icon = Icons.Rounded.Apng
                 )
-            } else {
-                component.setType(
-                    Screen.ApngTools.Type.ApngToJxl(uris)
-                )
             }
         }
-    }
+    )
+
+    val pickMultipleApngLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isApng(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_apng_image_to_start),
+                        icon = Icons.Rounded.Apng
+                    )
+                } else {
+                    component.setType(
+                        Screen.ApngTools.Type.ApngToJxl(uris)
+                    )
+                }
+            }
+        }
+    )
 
     val addApngLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/png", "image/apng")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isApng(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Jxl
-                )
-            } else {
-                component.setType(
-                    Screen.ApngTools.Type.ApngToJxl(
-                        (component.type as? Screen.ApngTools.Type.ApngToJxl)?.apngUris?.plus(uris)
-                            ?.distinct()
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isApng(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
                     )
-                )
+                } else {
+                    component.setType(
+                        Screen.ApngTools.Type.ApngToJxl(
+                            (component.type as? Screen.ApngTools.Type.ApngToJxl)?.apngUris?.plus(
+                                uris
+                            )?.distinct()
+                        )
+                    )
+                }
             }
         }
-    }
+    )
 
     val saveApngLauncher = rememberFileCreator(
-        mimeType = "image/apng",
+        mimeType = MimeType.Apng,
         onSuccess = { uri ->
             component.saveApngTo(
                 uri = uri,

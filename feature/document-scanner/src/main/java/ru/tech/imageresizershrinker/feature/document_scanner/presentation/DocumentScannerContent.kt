@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -90,7 +91,7 @@ fun DocumentScannerContent(
     }
 
     val savePdfLauncher = rememberFileCreator(
-        mimeType = "application/pdf",
+        mimeType = MimeType.Pdf,
         onSuccess = { uri ->
             component.savePdfTo(
                 uri = uri,

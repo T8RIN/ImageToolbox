@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
@@ -80,7 +81,7 @@ internal fun RecognizeTextControls(
     val captureImage = captureImageLauncher::pickImage
 
     val exportLanguagesPicker = rememberFileCreator(
-        mimeType = "application/zip",
+        mimeType = MimeType.Zip,
         onSuccess = { uri ->
             component.exportLanguagesTo(
                 uri = uri,
@@ -90,21 +91,22 @@ internal fun RecognizeTextControls(
     )
 
     val importLanguagesPicker = rememberFilePicker(
-        mimeTypes = listOf("application/zip")
-    ) { uri: Uri ->
-        component.importLanguagesFrom(
-            uri = uri,
-            onSuccess = {
-                showConfetti()
-                essentials.showToast(
-                    message = context.getString(R.string.languages_imported),
-                    icon = Icons.Outlined.Language
-                )
-                startRecognition()
-            },
-            onFailure = essentials::showFailureToast
-        )
-    }
+        mimeType = MimeType.Zip,
+        onSuccess = { uri: Uri ->
+            component.importLanguagesFrom(
+                uri = uri,
+                onSuccess = {
+                    showConfetti()
+                    essentials.showToast(
+                        message = context.getString(R.string.languages_imported),
+                        icon = Icons.Outlined.Language
+                    )
+                    startRecognition()
+                },
+                onFailure = essentials::showFailureToast
+            )
+        }
+    )
 
     val onExportLanguages: () -> Unit = {
         exportLanguagesPicker.make(component.generateExportFilename())

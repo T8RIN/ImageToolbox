@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
@@ -60,15 +61,16 @@ fun JxlToolsContent(
     val onFailure: (Throwable) -> Unit = essentials::showFailureToast
 
     val pickJpegsLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/jpeg", "image/jpg")
-    ) { list: List<Uri> ->
-        list.let { uris ->
-            component.setType(
-                type = Screen.JxlTools.Type.JpegToJxl(uris),
-                onFailure = onFailure
-            )
+        mimeType = MimeType.JpgAll,
+        onSuccess = { list: List<Uri> ->
+            list.let { uris ->
+                component.setType(
+                    type = Screen.JxlTools.Type.JpegToJxl(uris),
+                    onFailure = onFailure
+                )
+            }
         }
-    }
+    )
 
     val pickJxlsLauncher = rememberFilePicker { list: List<Uri> ->
         list.filter {
@@ -120,15 +122,16 @@ fun JxlToolsContent(
     }
 
     val addJpegsLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/jpeg", "image/jpg")
-    ) { list: List<Uri> ->
-        component.setType(
-            type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
-                it.copy(it.jpegImageUris?.plus(list)?.distinct())
-            },
-            onFailure = onFailure
-        )
-    }
+        mimeType = MimeType.JpgAll,
+        onSuccess = { list: List<Uri> ->
+            component.setType(
+                type = (component.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
+                    it.copy(it.jpegImageUris?.plus(list)?.distinct())
+                },
+                onFailure = onFailure
+            )
+        }
+    )
 
     val addJxlsLauncher = rememberFilePicker { list: List<Uri> ->
         list.filter {

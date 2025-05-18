@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FontFamily
@@ -56,7 +57,7 @@ fun ChangeFontSettingItem(
     var showFontSheet by rememberSaveable { mutableStateOf(false) }
 
     val exportFontsLauncher = rememberFileCreator(
-        mimeType = "application/zip",
+        mimeType = MimeType.Zip,
         onSuccess = onExportFonts
     )
 

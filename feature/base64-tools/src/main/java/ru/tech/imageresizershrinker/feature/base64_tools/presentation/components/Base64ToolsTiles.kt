@@ -57,6 +57,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.domain.utils.isBase64
 import ru.tech.imageresizershrinker.core.domain.utils.trimToBase64
 import ru.tech.imageresizershrinker.core.resources.R
@@ -213,7 +214,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                     )
 
                     val saveLauncher = rememberFileCreator(
-                        mimeType = "text/plain",
+                        mimeType = MimeType.Txt,
                         onSuccess = { uri ->
                             component.saveContentToTxt(
                                 uri = uri,

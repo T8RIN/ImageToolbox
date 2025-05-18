@@ -50,6 +50,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MusicAdd
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFilePicker
@@ -96,7 +97,7 @@ fun AudioCoverExtractorContent(
     }
 
     val audioPicker = rememberFilePicker(
-        mimeTypes = listOf("audio/*"),
+        mimeType = MimeType.Audio,
         onSuccess = component::updateCovers
     )
 
@@ -106,7 +107,7 @@ fun AudioCoverExtractorContent(
     )
 
     val addAudioPicker = rememberFilePicker(
-        mimeTypes = listOf("audio/*"),
+        mimeType = MimeType.Audio,
         onSuccess = component::addCovers
     )
 

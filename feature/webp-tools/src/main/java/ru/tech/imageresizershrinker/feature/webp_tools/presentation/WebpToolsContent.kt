@@ -65,6 +65,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormatGroup
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Webp
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
@@ -109,20 +110,21 @@ fun WebpToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleWebpLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/webp")
-    ) { uri: Uri ->
-        if (uri.isWebp(context)) {
-            component.setWebpUri(uri)
-        } else {
-            essentials.showToast(
-                message = context.getString(R.string.select_webp_image_to_start),
-                icon = Icons.Rounded.Webp
-            )
+        mimeType = MimeType.Webp,
+        onSuccess = { uri: Uri ->
+            if (uri.isWebp(context)) {
+                component.setWebpUri(uri)
+            } else {
+                essentials.showToast(
+                    message = context.getString(R.string.select_webp_image_to_start),
+                    icon = Icons.Rounded.Webp
+                )
+            }
         }
-    }
+    )
 
     val saveWebpLauncher = rememberFileCreator(
-        mimeType = "image/webp",
+        mimeType = MimeType.Webp,
         onSuccess = { uri ->
             component.saveWebpTo(
                 uri = uri,

@@ -42,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
@@ -167,7 +168,7 @@ fun RecognizeTextContent(
     val isPortrait by isPortraitOrientationAsState()
 
     val saveLauncher = rememberFileCreator(
-        mimeType = "text/plain",
+        mimeType = MimeType.Txt,
         onSuccess = { uri ->
             component.saveContentToTxt(
                 uri = uri,

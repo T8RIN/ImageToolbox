@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberFileCreator
@@ -67,102 +68,107 @@ fun GifToolsContent(
     val imagePicker = rememberImagePicker(onSuccess = component::setImageUris)
 
     val pickSingleGifLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/gif")
-    ) { uri: Uri ->
-        if (uri.isGif(context)) {
-            component.setGifUri(uri)
-        } else {
-            essentials.showToast(
-                message = context.getString(R.string.select_gif_image_to_start),
-                icon = Icons.Rounded.Gif
-            )
+        mimeType = MimeType.Gif,
+        onSuccess = { uri: Uri ->
+            if (uri.isGif(context)) {
+                component.setGifUri(uri)
+            } else {
+                essentials.showToast(
+                    message = context.getString(R.string.select_gif_image_to_start),
+                    icon = Icons.Rounded.Gif
+                )
+            }
         }
-    }
+    )
 
     val pickMultipleGifToJxlLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/gif")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isGif(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Gif
-                )
-            } else {
-                component.setType(
-                    Screen.GifTools.Type.GifToJxl(uris)
-                )
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Gif
+                    )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToJxl(uris)
+                    )
+                }
             }
         }
-    }
+    )
 
     val pickMultipleGifToWebpLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/gif")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isGif(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Gif
-                )
-            } else {
-                component.setType(
-                    Screen.GifTools.Type.GifToWebp(uris)
-                )
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Gif
+                    )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToWebp(uris)
+                    )
+                }
             }
         }
-    }
+    )
 
     val addGifsToJxlLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/gif")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isGif(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Gif
-                )
-            } else {
-                component.setType(
-                    Screen.GifTools.Type.GifToJxl(
-                        (component.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
-                            ?.distinct()
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Gif
                     )
-                )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToJxl(
+                            (component.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
             }
         }
-    }
+    )
 
     val addGifsToWebpLauncher = rememberFilePicker(
-        mimeTypes = listOf("image/gif")
-    ) { list: List<Uri> ->
-        list.filter {
-            it.isGif(context)
-        }.let { uris ->
-            if (uris.isEmpty()) {
-                essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
-                    icon = Icons.Filled.Gif
-                )
-            } else {
-                component.setType(
-                    Screen.GifTools.Type.GifToWebp(
-                        (component.type as? Screen.GifTools.Type.GifToWebp)?.gifUris?.plus(uris)
-                            ?.distinct()
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif(context)
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    essentials.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Gif
                     )
-                )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToWebp(
+                            (component.type as? Screen.GifTools.Type.GifToWebp)?.gifUris?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
             }
         }
-    }
+    )
 
     val saveGifLauncher = rememberFileCreator(
-        mimeType = "image/gif",
+        mimeType = MimeType.Gif,
         onSuccess = { uri ->
             component.saveGifTo(
                 uri = uri,
