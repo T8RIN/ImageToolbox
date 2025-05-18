@@ -17,10 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
+
 interface SaveTarget {
     val originalUri: String
     val data: ByteArray
     val filename: String?
-    val mimeType: String
+    val mimeType: MimeType.Single
     val extension: String
 }

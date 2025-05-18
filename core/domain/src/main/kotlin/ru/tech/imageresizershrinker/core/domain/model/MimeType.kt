@@ -39,6 +39,16 @@ sealed class MimeType(
                 "font/otf"
             )
         )
+        val Bmp = Single("image/bmp")
+        val Avif = Single("image/avif")
+        val Heif = Single("image/heif")
+        val Heic = Single("image/heic")
+        val Jxl = Single("image/jxl")
+        val Jp2 = Single("image/jp2")
+        val Tiff = Single("image/tiff")
+        val Qoi = Single("image/qoi")
+        val Ico = Single("image/x-icon")
+        val Svg = Single("image/svg+xml")
     }
 
 }
@@ -46,6 +56,8 @@ sealed class MimeType(
 fun mimeType(
     type: String
 ): MimeType.Single = MimeType.Single(type)
+
+fun String.toMimeType() = mimeType(this)
 
 fun mimeTypeOf(
     vararg types: String

@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
@@ -408,7 +409,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             forceNotAddSizeInFilename = true
         ),
         data = txtBytes,
-        mimeType = "text/plain",
+        mimeType = MimeType.Txt,
         extension = "txt"
     )
 

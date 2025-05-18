@@ -60,7 +60,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.mimeType
 import ru.tech.imageresizershrinker.core.domain.utils.timestamp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
@@ -321,7 +320,7 @@ fun OneTimeSaveLocationSelectionDialog(
 
                 if (formatForFilenameSelection != null) {
                     val createLauncher = rememberFileCreator(
-                        mimeType = mimeType(formatForFilenameSelection.mimeType),
+                        mimeType = formatForFilenameSelection.mimeType,
                         onSuccess = { uri ->
                             onSaveRequest?.invoke(uri.toString())
                             onDismiss()

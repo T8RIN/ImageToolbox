@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.domain.saving.model
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 
 data class ImageSaveTarget(
     val imageInfo: ImageInfo,
@@ -29,7 +30,7 @@ data class ImageSaveTarget(
     override val filename: String? = null,
     val imageFormat: ImageFormat = imageInfo.imageFormat,
     override val data: ByteArray,
-    override val mimeType: String = imageFormat.mimeType,
+    override val mimeType: MimeType.Single = imageFormat.mimeType,
     override val extension: String = imageFormat.extension,
     val readFromUriInsteadOfData: Boolean = false
 ) : SaveTarget {

@@ -17,11 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.domain.image.model
 
-//TODO: MimeType refactor here
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
+
 sealed class ImageFormat(
     val title: String,
     val extension: String,
-    val mimeType: String,
+    val mimeType: MimeType.Single,
     val canChangeCompressionValue: Boolean,
     val canWriteExif: Boolean = false,
     val compressionTypes: List<CompressionType> = listOf(CompressionType.Quality(0..100))
@@ -33,7 +34,7 @@ sealed class ImageFormat(
         canChangeCompressionValue: Boolean
     ) : ImageFormat(
         extension = "png",
-        mimeType = "image/png",
+        mimeType = MimeType.StaticPng,
         canChangeCompressionValue = canChangeCompressionValue,
         title = title,
         canWriteExif = true,
@@ -57,7 +58,7 @@ sealed class ImageFormat(
     data object Jpg : ImageFormat(
         title = "JPG",
         extension = "jpg",
-        mimeType = "image/jpeg",
+        mimeType = MimeType.Jpeg,
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -65,7 +66,7 @@ sealed class ImageFormat(
     data object Jpeg : ImageFormat(
         title = "JPEG",
         extension = "jpeg",
-        mimeType = "image/jpeg",
+        mimeType = MimeType.Jpeg,
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -73,7 +74,7 @@ sealed class ImageFormat(
     data object MozJpeg : ImageFormat(
         title = "MozJpeg",
         extension = "jpg",
-        mimeType = "image/jpeg",
+        mimeType = MimeType.Jpeg,
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -81,7 +82,7 @@ sealed class ImageFormat(
     data object Jpegli : ImageFormat(
         title = "Jpegli",
         extension = "jpg",
-        mimeType = "image/jpeg",
+        mimeType = MimeType.Jpeg,
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -91,7 +92,7 @@ sealed class ImageFormat(
         compressionTypes: List<CompressionType>
     ) : ImageFormat(
         extension = "webp",
-        mimeType = "image/webp",
+        mimeType = MimeType.Webp,
         canChangeCompressionValue = true,
         title = title,
         canWriteExif = true,
@@ -111,7 +112,7 @@ sealed class ImageFormat(
     data object Bmp : ImageFormat(
         title = "BMP",
         extension = "bmp",
-        mimeType = "image/bmp",
+        mimeType = MimeType.Bmp,
         canChangeCompressionValue = false
     )
 
@@ -121,7 +122,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "avif",
-        mimeType = "image/avif",
+        mimeType = MimeType.Avif,
         canChangeCompressionValue = true,
         compressionTypes = compressionTypes
     ) {
@@ -147,7 +148,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "heif",
-        mimeType = "image/heif",
+        mimeType = MimeType.Heif,
         compressionTypes = compressionTypes,
         canChangeCompressionValue = compressionTypes.isNotEmpty()
     ) {
@@ -170,7 +171,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "heic",
-        mimeType = "image/heic",
+        mimeType = MimeType.Heic,
         compressionTypes = compressionTypes,
         canChangeCompressionValue = compressionTypes.isNotEmpty()
     ) {
@@ -192,7 +193,7 @@ sealed class ImageFormat(
         compressionTypes: List<CompressionType>
     ) : ImageFormat(
         extension = "jxl",
-        mimeType = "image/jxl",
+        mimeType = MimeType.Jxl,
         canChangeCompressionValue = true,
         title = title,
         compressionTypes = compressionTypes
@@ -219,7 +220,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = extension,
-        mimeType = "image/jp2",
+        mimeType = MimeType.Jp2,
         canChangeCompressionValue = true,
         compressionTypes = listOf(
             CompressionType.Quality(20..100)
@@ -241,7 +242,7 @@ sealed class ImageFormat(
     data object Tiff : ImageFormat(
         title = "TIFF",
         extension = "tiff",
-        mimeType = "image/tiff",
+        mimeType = MimeType.Tiff,
         canChangeCompressionValue = true,
         compressionTypes = emptyList()
     )
@@ -249,7 +250,7 @@ sealed class ImageFormat(
     data object Tif : ImageFormat(
         title = "TIF",
         extension = "tif",
-        mimeType = "image/tiff",
+        mimeType = MimeType.Tiff,
         canChangeCompressionValue = true,
         compressionTypes = emptyList()
     )
@@ -257,14 +258,14 @@ sealed class ImageFormat(
     data object Qoi : ImageFormat(
         title = "QOI",
         extension = "qoi",
-        mimeType = "image/qoi",
+        mimeType = MimeType.Qoi,
         canChangeCompressionValue = false
     )
 
     data object Ico : ImageFormat(
         title = "ICO",
         extension = "ico",
-        mimeType = "image/x-icon",
+        mimeType = MimeType.Ico,
         canChangeCompressionValue = false
     )
 

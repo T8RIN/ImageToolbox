@@ -36,6 +36,8 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
+import ru.tech.imageresizershrinker.core.domain.model.toMimeType
 import ru.tech.imageresizershrinker.core.domain.resource.ResourceManager
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
@@ -119,7 +121,7 @@ internal class AndroidShareProvider @Inject constructor(
 
     override suspend fun shareUri(
         uri: String,
-        type: String?,
+        type: MimeType.Single?,
         onComplete: () -> Unit
     ) {
         withContext(defaultDispatcher) {
@@ -155,16 +157,18 @@ internal class AndroidShareProvider @Inject constructor(
 
     private fun shareUriImpl(
         uri: String,
-        type: String?
+        type: MimeType.Single?
     ) {
+        val mimeType = type ?: MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(
+                imageGetter.getExtension(uri)
+            )?.toMimeType() ?: MimeType.All
+
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            this.type = type ?: MimeTypeMap.getSingleton()
-                .getMimeTypeFromExtension(
-                    imageGetter.getExtension(uri)
-                ) ?: "*/*"
+            this.type = mimeType.entry
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -255,12 +259,14 @@ internal class AndroidShareProvider @Inject constructor(
             writeData = writeData,
             filename = filename
         )?.let {
+            val mimeType = MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(
+                    imageGetter.getExtension(it)
+                )?.toMimeType() ?: MimeType.All
+
             shareUri(
                 uri = it,
-                type = MimeTypeMap.getSingleton()
-                    .getMimeTypeFromExtension(
-                        imageGetter.getExtension(it)
-                    ) ?: "*/*",
+                type = mimeType,
                 onComplete = onComplete
             )
         }

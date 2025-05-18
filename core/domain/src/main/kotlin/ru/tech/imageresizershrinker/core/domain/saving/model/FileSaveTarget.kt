@@ -18,13 +18,14 @@
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 
 
 data class FileSaveTarget(
     override val originalUri: String,
     override val filename: String,
     override val data: ByteArray,
-    override val mimeType: String,
+    override val mimeType: MimeType.Single,
     override val extension: String,
 ) : SaveTarget {
 

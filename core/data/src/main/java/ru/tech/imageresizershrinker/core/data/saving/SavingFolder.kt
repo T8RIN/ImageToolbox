@@ -46,7 +46,7 @@ internal data class SavingFolder private constructor(
         ): SavingFolder? = coroutineScope {
             if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val type = saveTarget.mimeType
+                    val type = saveTarget.mimeType.entry
                     val path = "${Environment.DIRECTORY_DOCUMENTS}/ImageToolbox"
                     val contentValues = ContentValues().apply {
                         put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
@@ -99,8 +99,7 @@ internal data class SavingFolder private constructor(
 
                 val filename = saveTarget.filename ?: return@coroutineScope null
 
-                val file =
-                    documentFile.createFile(saveTarget.mimeType, filename)
+                val file = documentFile.createFile(saveTarget.mimeType.entry, filename)
 
                 val imageUri = file?.uri ?: return@coroutineScope null
 

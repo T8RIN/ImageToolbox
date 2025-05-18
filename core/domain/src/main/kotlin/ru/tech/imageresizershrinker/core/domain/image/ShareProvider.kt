@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.domain.saving.io.Writeable
 
 interface ShareProvider {
@@ -45,7 +46,7 @@ interface ShareProvider {
 
     suspend fun shareUri(
         uri: String,
-        type: String? = null,
+        type: MimeType.Single? = null,
         onComplete: () -> Unit
     )
 

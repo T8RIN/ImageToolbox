@@ -32,6 +32,7 @@ import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.MimeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.FilenameCreator
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
@@ -171,7 +172,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         originalUri = uri,
         filename = filename(uri),
         data = svgBytes,
-        mimeType = "image/svg+xml",
+        mimeType = MimeType.Svg,
         extension = "svg"
     )
 
