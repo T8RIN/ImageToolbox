@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package ru.tech.imageresizershrinker.core.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.model.MimeType.Multiple
