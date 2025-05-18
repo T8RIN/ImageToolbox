@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.layout.Row
@@ -41,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.shreyaspatil.capturable.controller.CaptureController
@@ -52,7 +52,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberBarcodeScanner
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -69,12 +68,11 @@ import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.ScanQrCodeControls
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 
-@SuppressLint("StringFormatInvalid")
 @Composable
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope

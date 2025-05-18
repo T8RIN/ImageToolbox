@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.UpdateSheet
@@ -34,7 +34,7 @@ import ru.tech.imageresizershrinker.feature.settings.presentation.components.add
 
 @Composable
 internal fun RootDialogs(component: RootComponent) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
     val editPresetsController = LocalEditPresetsController.current
 
     EditPresetsSheet(

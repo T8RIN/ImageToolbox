@@ -54,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.ImageHistogram
@@ -69,7 +70,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.addFilters.
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
@@ -108,7 +108,7 @@ internal fun AddEditMaskSheetControls(
 ) {
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
 

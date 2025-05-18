@@ -32,18 +32,18 @@ import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.crash.presentation.screenLogic.CrashComponent
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ImageToolboxCompositionLocals
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 
 @Composable
 internal fun CrashRootContent(component: CrashComponent) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
     val crashInfo = component.crashInfo
 
 

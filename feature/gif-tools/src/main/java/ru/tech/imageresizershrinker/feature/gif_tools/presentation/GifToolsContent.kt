@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
@@ -59,7 +60,7 @@ import ru.tech.imageresizershrinker.feature.gif_tools.presentation.screenLogic.G
 fun GifToolsContent(
     component: GifToolsComponent
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti

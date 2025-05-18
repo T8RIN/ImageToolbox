@@ -56,7 +56,7 @@ internal fun AppExitDialog(component: RootComponent) {
             else context.finishAffinity()
         }
 
-        AppExitDialog(
+        AppExitDialogImpl(
             onDismiss = { showExitDialog = false },
             visible = showExitDialog && !tiramisu
         )
@@ -64,7 +64,7 @@ internal fun AppExitDialog(component: RootComponent) {
 }
 
 @Composable
-private fun AppExitDialog(
+private fun AppExitDialogImpl(
     onDismiss: () -> Unit,
     visible: Boolean
 ) {

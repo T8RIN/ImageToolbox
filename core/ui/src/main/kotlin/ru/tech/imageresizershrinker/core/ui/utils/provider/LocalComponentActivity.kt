@@ -22,4 +22,4 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
 
 val LocalComponentActivity =
-    compositionLocalWithComputedDefaultOf<ComponentActivity> { LocalActivity.currentValue as ComponentActivity }
+    compositionLocalWithComputedDefaultOf { LocalActivity.currentValue as ComponentActivity }

@@ -58,6 +58,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,7 +74,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isWebp
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -101,7 +101,7 @@ import ru.tech.imageresizershrinker.feature.webp_tools.presentation.screenLogic.
 fun WebpToolsContent(
     component: WebpToolsComponent
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti

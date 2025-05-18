@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -42,7 +43,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.content_pickers.rememberImageP
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.rememberFileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -71,7 +71,7 @@ import ru.tech.imageresizershrinker.feature.delete_exif.presentation.screenLogic
 fun DeleteExifContent(
     component: DeleteExifComponent
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti

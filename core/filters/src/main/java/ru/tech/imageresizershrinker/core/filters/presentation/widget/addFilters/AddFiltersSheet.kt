@@ -81,6 +81,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -100,7 +101,6 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.FilterTempl
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
 import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
@@ -127,7 +127,7 @@ fun AddFiltersSheet(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     canAddTemplates: Boolean = true
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
     val groupedFilters by remember(context, canAddTemplates) {
         derivedStateOf {
             UiFilter.groupedEntries(context).let { lists ->
