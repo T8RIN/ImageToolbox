@@ -1,0 +1,117 @@
+package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
+
+import android.graphics.Bitmap
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.ImageColorPalette
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+
+
+@Composable
+internal fun DefaultPaletteControls(bitmap: Bitmap) {
+    val context = LocalContext.current
+    val toastHostState = LocalToastHostState.current
+    val scope = rememberCoroutineScope()
+    val settingsState = LocalSettingsState.current
+
+    var count by rememberSaveable { mutableIntStateOf(32) }
+
+    PaletteColorsCountSelector(
+        value = count,
+        onValueChange = { count = it }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    ImageColorPalette(
+        borderWidth = settingsState.borderWidth,
+        imageBitmap = bitmap.asImageBitmap(),
+        modifier = Modifier
+            .fillMaxSize()
+            .container(RoundedCornerShape(24.dp))
+            .padding(4.dp),
+        style = LocalTextStyle.current,
+        onEmpty = {
+            Column(
+                modifier = Modifier.container(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.height(16.dp))
+                FilledIconButton(
+                    enabled = false,
+                    onClick = {},
+                    modifier = Modifier.size(100.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                            alpha = 0.7f
+                        ),
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                            alpha = 0.7f
+                        ),
+                        disabledContentColor = MaterialTheme.colorScheme.onSurface,
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.PaletteSwatch,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.no_palette),
+                    modifier = Modifier.padding(16.dp),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        },
+        maximumColorCount = count,
+        onColorChange = {
+            context.copyToClipboard(it.color.toHex())
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Rounded.ContentPaste,
+                    message = context.getString(R.string.color_copied)
+                )
+            }
+        }
+    )
+}

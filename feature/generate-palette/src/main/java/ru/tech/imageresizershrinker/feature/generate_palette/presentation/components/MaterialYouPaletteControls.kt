@@ -1,0 +1,262 @@
+package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
+
+import android.graphics.Bitmap
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Contrast
+import androidx.compose.material.icons.rounded.DarkMode
+import androidx.compose.material.icons.rounded.InvertColors
+import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import com.t8rin.dynamic.theme.PaletteStyle
+import com.t8rin.dynamic.theme.extractPrimaryColor
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.resources.icons.Swatch
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.toColor
+import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorInfo
+import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelection
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.icon_shape.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.palette_selection.getTitle
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+
+@Composable
+internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
+    val context = LocalContext.current
+    val settingsState = LocalSettingsState.current
+
+    var showColorPicker by rememberSaveable { mutableStateOf(false) }
+
+    var paletteStyle by rememberSaveable {
+        mutableStateOf(PaletteStyle.TonalSpot)
+    }
+    var isDarkTheme by rememberSaveable {
+        mutableStateOf(settingsState.isNightMode)
+    }
+    var invertColors by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var contrast by rememberSaveable {
+        mutableFloatStateOf(0f)
+    }
+    var keyColor by rememberSaveable(bitmap, stateSaver = ColorSaver) {
+        mutableStateOf(bitmap.extractPrimaryColor())
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ColorInfo(
+            color = keyColor.toArgb(),
+            onColorChange = {
+                keyColor = it.toColor()
+            },
+            supportButtonIcon = Icons.Rounded.MiniEdit,
+            onSupportButtonClick = {
+                showColorPicker = true
+            },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Picture(
+            model = bitmap,
+            shape = RectangleShape,
+            modifier = Modifier
+                .size(56.dp)
+                .container(
+                    shape = RoundedCornerShape(8.dp),
+                    resultPadding = 0.dp
+                )
+        )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    MaterialYouPalette(
+        keyColor = keyColor,
+        paletteStyle = paletteStyle,
+        isDarkTheme = isDarkTheme,
+        isInvertColors = invertColors,
+        contrastLevel = contrast
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    PreferenceRowSwitch(
+        title = stringResource(R.string.dark_colors),
+        subtitle = stringResource(R.string.dark_colors_sub),
+        checked = isDarkTheme,
+        startIcon = Icons.Rounded.DarkMode,
+        onClick = {
+            isDarkTheme = it
+        },
+        color = Color.Unspecified,
+        shape = ContainerShapeDefaults.topShape
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    PreferenceRowSwitch(
+        title = stringResource(R.string.invert_colors),
+        subtitle = stringResource(R.string.invert_colors_sub),
+        checked = invertColors,
+        startIcon = Icons.Rounded.InvertColors,
+        onClick = {
+            invertColors = it
+        },
+        color = Color.Unspecified,
+        shape = ContainerShapeDefaults.centerShape
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    EnhancedSliderItem(
+        color = Color.Unspecified,
+        value = contrast.roundToTwoDigits(),
+        icon = Icons.Rounded.Contrast,
+        title = stringResource(id = R.string.contrast),
+        valueRange = -1f..1f,
+        shape = ContainerShapeDefaults.centerShape,
+        onValueChange = { },
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
+        steps = 198,
+        onValueChangeFinished = {
+            contrast = it
+        }
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Column(
+        modifier = Modifier.container(
+            shape = ContainerShapeDefaults.bottomShape
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconShapeContainer(
+                enabled = true,
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Swatch,
+                    contentDescription = null
+                )
+            }
+            Text(
+                fontWeight = FontWeight.Medium,
+                text = stringResource(R.string.palette_style),
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val listState = rememberLazyListState()
+        LazyRow(
+            state = listState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fadingEdges(listState),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(PaletteStyle.entries) {
+                EnhancedChip(
+                    selected = it == paletteStyle,
+                    onClick = { paletteStyle = it },
+                    selectedColor = MaterialTheme.colorScheme.secondary,
+                    contentPadding = PaddingValues(
+                        horizontal = 12.dp,
+                        vertical = 8.dp
+                    )
+                ) {
+                    Text(it.getTitle(context))
+                }
+            }
+        }
+    }
+
+    EnhancedModalBottomSheet(
+        sheetContent = {
+            Box {
+                Column(
+                    Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(
+                            start = 36.dp,
+                            top = 36.dp,
+                            end = 36.dp,
+                            bottom = 24.dp
+                        )
+                ) {
+                    ColorSelection(
+                        color = keyColor.toArgb(),
+                        onColorChange = {
+                            keyColor = it.toColor()
+                        }
+                    )
+                }
+            }
+        },
+        visible = showColorPicker,
+        onDismiss = {
+            showColorPicker = it
+        },
+        title = {
+            TitleItem(
+                text = stringResource(R.string.color),
+                icon = Icons.Rounded.Palette
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    showColorPicker = false
+                }
+            ) {
+                AutoSizeText(stringResource(R.string.close))
+            }
+        }
+    )
+}
