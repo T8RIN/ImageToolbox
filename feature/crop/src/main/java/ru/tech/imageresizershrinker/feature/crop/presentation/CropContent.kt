@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.AutoContentBasedColors
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropRotationSelector
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
@@ -253,6 +254,16 @@ fun CropContent(
                     value = component.cropType == CropType.FreeCorners,
                     onClick = component::toggleFreeCornersCrop
                 )
+                BoxAnimatedVisibility(
+                    visible = component.cropType == CropType.Default,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    CropRotationSelector(
+                        value = rotationState.floatValue,
+                        onValueChange = { rotationState.floatValue = it }
+                    )
+                }
                 BoxAnimatedVisibility(
                     visible = component.cropType == CropType.FreeCorners,
                     enter = fadeIn() + expandVertically(),

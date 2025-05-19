@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.marquee
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropRotationSelector
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropType
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.feature.crop.presentation.components.FreeCornersCropToggle
@@ -144,6 +145,20 @@ fun CropEditOption(
                     value = cropType == CropType.FreeCorners,
                     onClick = toggleFreeCornersCrop
                 )
+                BoxAnimatedVisibility(
+                    visible = cropType == CropType.Default,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    CropRotationSelector(
+                        value = rotationState.floatValue,
+                        onValueChange = { rotationState.floatValue = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .padding(horizontal = 16.dp),
+                    )
+                }
                 BoxAnimatedVisibility(
                     visible = cropType == CropType.FreeCorners,
                     enter = fadeIn() + expandVertically(),
