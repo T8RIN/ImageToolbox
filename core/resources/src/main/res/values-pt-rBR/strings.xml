@@ -13,7 +13,7 @@
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexível</string>
     <string name="pick_image_alt">Escolha a imagem</string>
-    <string name="app_closing_sub">Você deseja encerrar o aplicativo?</string>
+    <string name="app_closing_sub">Você tem certeza de que deseja encerrar o aplicativo?</string>
     <string name="app_closing">Fechar aplicativo</string>
     <string name="stay">Ficar</string>
     <string name="close">Fechar</string>
@@ -89,9 +89,9 @@
     <string name="color_red">Vermelho</string>
     <string name="color_green">Verde</string>
     <string name="color_blue">Azul</string>
-    <string name="clipboard_paste_invalid_color_code">Cole um código RGB válido.</string>
+    <string name="clipboard_paste_invalid_color_code">Cole um código aRGB válido.</string>
     <string name="clipboard_paste_invalid_empty">Nada para colar</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Não é possível alterar o esquema de cores do aplicativo enquanto as cores dinâmicas estão ativadas</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">O esquema de cores do aplicativo não pode ser alterado enquanto as cores dinâmicas estiverem ativadas</string>
     <string name="pick_accent_color">O tema do aplicativo será baseado na cor selecionada</string>
     <string name="about_app">Sobre o aplicativo</string>
     <string name="no_updates">Nenhuma atualização encontrada</string>
@@ -118,7 +118,7 @@
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">Cores Monet</string>
     <string name="donation_sub">Esta aplicação é totalmente gratuita, mas se quiser apoiar o desenvolvimento do projeto, pode clicar aqui</string>
-    <string name="fab_alignment">Alinhamento do FAB</string>
+    <string name="fab_alignment">Alinhamento do botão de ação flutuante</string>
     <string name="check_updates">Buscar atualizações</string>
     <string name="check_updates_sub">Se ativado, a caixa de diálogo de atualização será mostrada na inicialização do aplicativo</string>
     <string name="zoom">Zoom da imagem</string>
@@ -220,7 +220,7 @@
     <string name="glass_sphere_refraction">Refração da esfera de vidro</string>
     <string name="color_matrix">Matriz de cores</string>
     <string name="opacity">Opacidade</string>
-    <string name="limits_resize">Redimensionamento de limites</string>
+    <string name="limits_resize">Redimensionar com limites</string>
     <string name="limits_resize_sub">Redimensione as imagens selecionadas para seguir os limites de largura e altura enquanto salva a proporção</string>
     <string name="sketch">Esboço</string>
     <string name="threshold">Limiar</string>
