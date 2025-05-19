@@ -219,8 +219,8 @@ private fun CoilPicture(
         } else emptyList()
     }
 
-    val request = if (model !is ImageRequest) {
-        remember(
+    val request = model as? ImageRequest
+        ?: remember(
             context,
             model,
             crossfadeEnabled,
@@ -241,7 +241,6 @@ private fun CoilPicture(
                 }
                 .build()
         }
-    } else model
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && enableUltraHDRSupport) {
         DisposableEffect(model) {

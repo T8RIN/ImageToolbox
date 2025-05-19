@@ -33,7 +33,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,14 +75,11 @@ fun ImagePreviewGrid(
         onAddImages?.invoke(uris)
     }
 
-    var showImagePreviewDialog by rememberSaveable(initialShowImagePreviewDialog) {
-        mutableStateOf(initialShowImagePreviewDialog)
-    }
-    var selectedUri by rememberSaveable {
-        mutableStateOf<String?>(null)
-    }
-    LaunchedEffect(showImagePreviewDialog) {
-        if (!showImagePreviewDialog) selectedUri = null
+    var selectedUri by rememberSaveable(initialShowImagePreviewDialog) {
+        mutableStateOf<String?>(
+            if (initialShowImagePreviewDialog) data?.firstOrNull()?.toString()
+            else null
+        )
     }
 
     val cutout = WindowInsets.displayCutout.asPaddingValues()
@@ -124,8 +120,7 @@ fun ImagePreviewGrid(
         isSelectionMode = isSelectionMode,
         onItemClick = { index ->
             if (!isSelectionModePrevious) {
-                showImagePreviewDialog = true
-                data?.getOrNull(index)?.let {
+                data?.get(index)?.let {
                     selectedUri = it.toString()
                 }
             }
@@ -166,16 +161,16 @@ fun ImagePreviewGrid(
     )
 
     ImagePager(
-        visible = showImagePreviewDialog && !data.isNullOrEmpty(),
+        visible = !selectedUri.isNullOrEmpty() && !data.isNullOrEmpty(),
         selectedUri = selectedUri?.toUri(),
         uris = data,
         onUriSelected = {
             selectedUri = it?.toString()
         },
         onShare = onShareImage,
-        onDismiss = { showImagePreviewDialog = false },
+        onDismiss = { selectedUri = null },
         onNavigate = {
-            showImagePreviewDialog = false
+            selectedUri = null
             onNavigate(it)
         }
     )
