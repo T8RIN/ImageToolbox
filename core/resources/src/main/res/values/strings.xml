@@ -1634,4 +1634,8 @@
     <string name="sort_by_extension_reversed">Extension (Reversed)</string>
     <string name="sort_by_date_added">Date Added</string>
     <string name="sort_by_date_added_reversed">Date Added (Reversed)</string>
+    <string name="left_to_right">Left to Right</string>
+    <string name="right_to_left">Right to Left</string>
+    <string name="top_to_bottom">Top to Bottom</string>
+    <string name="bottom_to_top">Bottom to Top</string>
 </resources>

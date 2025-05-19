@@ -174,6 +174,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LowPolyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MirrorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MissEtikateFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
@@ -519,6 +520,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.MotionBlur -> MotionBlurFilter(value)
                 is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(context, value)
                 is Filter.ToneCurves -> ToneCurvesFilter(context, value)
+                is Filter.Mirror -> MirrorFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

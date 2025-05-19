@@ -266,6 +266,7 @@ interface Filter<Value> : VisibilityOwner {
     interface MotionBlur : TripleFilter<Int, Float, BlurEdgeMode>
     interface AutoRemoveRedEyes : Filter<Float>
     interface ToneCurves : Filter<ToneCurvesParams>
+    interface Mirror : PairFilter<Float, MirrorSide>
 }
 
 interface SimpleFilter : Filter<Unit>

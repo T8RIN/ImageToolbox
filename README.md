@@ -417,6 +417,7 @@ or click one of the badges below.
     - [x] Simple Laplacian
     - [x] Auto Red Eyes remover
     - [x] Tone Curves 
+  - [x] Mirror
 
   </details>
 

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.core.filters.domain.model.MirrorSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.PaletteTransferSpace
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
@@ -71,4 +72,13 @@ internal val FadeSide.translatedName: String
         FadeSide.End -> stringResource(R.string.end)
         FadeSide.Top -> stringResource(R.string.top)
         FadeSide.Bottom -> stringResource(R.string.bottom)
+    }
+
+internal val MirrorSide.translatedName: String
+    @Composable
+    get() = when (this) {
+        MirrorSide.LeftToRight -> stringResource(R.string.left_to_right)
+        MirrorSide.RightToLeft -> stringResource(R.string.right_to_left)
+        MirrorSide.TopToBottom -> stringResource(R.string.top_to_bottom)
+        MirrorSide.BottomToTop -> stringResource(R.string.bottom_to_top)
     }

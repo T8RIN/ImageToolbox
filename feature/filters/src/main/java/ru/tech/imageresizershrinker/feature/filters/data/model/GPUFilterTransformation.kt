@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.core.graphics.scale
 import coil3.size.Size
 import coil3.size.pxOrElse
 import jp.co.cyberagent.android.gpuimage.GPUImage
@@ -71,11 +72,11 @@ private fun flexibleResize(
         if (image.height >= image.width) {
             val aspectRatio = image.aspectRatio
             val targetWidth = (max * aspectRatio).toInt()
-            Bitmap.createScaledBitmap(image, targetWidth, max, true)
+            image.scale(targetWidth, max)
         } else {
             val aspectRatio = 1f / image.aspectRatio
             val targetHeight = (max * aspectRatio).toInt()
-            Bitmap.createScaledBitmap(image, max, targetHeight, true)
+            image.scale(max, targetHeight)
         }
     }.getOrNull() ?: image
 }

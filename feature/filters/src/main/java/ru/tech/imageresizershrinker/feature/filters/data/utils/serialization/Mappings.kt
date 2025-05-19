@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.utils.serialization
 
 import ru.tech.imageresizershrinker.core.domain.model.ColorModel
 import ru.tech.imageresizershrinker.core.domain.utils.ListUtils.component6
+import ru.tech.imageresizershrinker.core.domain.utils.simpleName
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.ClaheParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
@@ -27,27 +28,23 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearGaussianParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.MirrorSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.PopArtBlendingMode
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.ToneCurvesParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.component3
-import kotlin.collections.component4
-import kotlin.collections.component5
 
 internal fun Any.toPair(): Pair<String, String>? {
     return when (this) {
-        is Int -> Int::class.simpleName!! to toString()
-        is Float -> Float::class.simpleName!! to toString()
-        is Unit -> Unit::class.simpleName!! to "Unit"
-        is FloatArray -> FloatArray::class.simpleName!! to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
+        is Int -> Int::class.simpleName() to toString()
+        is Float -> Float::class.simpleName() to toString()
+        is Unit -> Unit::class.simpleName() to "Unit"
+        is FloatArray -> FloatArray::class.simpleName() to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
         is FilterValueWrapper<*> -> {
             when (wrapped) {
-                is ColorModel -> "${FilterValueWrapper::class.simpleName!!}{${ColorModel::class.simpleName}}" to (wrapped as ColorModel).colorInt
+                is ColorModel -> "${FilterValueWrapper::class.simpleName()}{${ColorModel::class.simpleName}}" to (wrapped as ColorModel).colorInt
                     .toString()
 
                 else -> null
@@ -76,7 +73,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is GlitchParams -> {
-            GlitchParams::class.simpleName!! to listOf(
+            GlitchParams::class.simpleName() to listOf(
                 channelsShiftX,
                 channelsShiftY,
                 corruptionSize,
@@ -87,7 +84,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is LinearTiltShiftParams -> {
-            LinearTiltShiftParams::class.simpleName!! to listOf(
+            LinearTiltShiftParams::class.simpleName() to listOf(
                 blurRadius,
                 sigma,
                 anchorX,
@@ -98,7 +95,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is RadialTiltShiftParams -> {
-            RadialTiltShiftParams::class.simpleName!! to listOf(
+            RadialTiltShiftParams::class.simpleName() to listOf(
                 blurRadius,
                 sigma,
                 anchorX,
@@ -108,7 +105,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is EnhancedZoomBlurParams -> {
-            EnhancedZoomBlurParams::class.simpleName!! to listOf(
+            EnhancedZoomBlurParams::class.simpleName() to listOf(
                 radius,
                 sigma,
                 centerX,
@@ -119,13 +116,13 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is SideFadeParams.Relative -> {
-            SideFadeParams::class.simpleName!! to listOf(
+            SideFadeParams::class.simpleName() to listOf(
                 side.name, scale
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
         is WaterParams -> {
-            WaterParams::class.simpleName!! to listOf(
+            WaterParams::class.simpleName() to listOf(
                 fractionSize,
                 frequencyX,
                 frequencyY,
@@ -135,7 +132,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is ClaheParams -> {
-            ClaheParams::class.simpleName!! to listOf(
+            ClaheParams::class.simpleName() to listOf(
                 threshold,
                 gridSizeHorizontal,
                 gridSizeVertical,
@@ -144,7 +141,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is LinearGaussianParams -> {
-            LinearGaussianParams::class.simpleName!! to listOf(
+            LinearGaussianParams::class.simpleName() to listOf(
                 kernelSize,
                 sigma,
                 edgeMode.name,
@@ -153,7 +150,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is ToneCurvesParams -> {
-            ToneCurvesParams::class.simpleName!! to controlPoints.joinToString(PROPERTIES_SEPARATOR) {
+            ToneCurvesParams::class.simpleName() to controlPoints.joinToString(PROPERTIES_SEPARATOR) {
                 it.joinToString(ADDITIONAL_PROPERTIES_SEPARATOR)
             }
         }
@@ -332,20 +329,22 @@ internal fun Any.toPart(): String {
         is TransferFunc -> name
         is FadeSide -> name
         is PopArtBlendingMode -> name
+        is MirrorSide -> name
         else -> ""
     }
 }
 
 internal fun String.fromPart(type: String): Any {
     return when (type) {
-        Int::class.simpleName!! -> toInt()
-        Float::class.simpleName!! -> toFloat()
-        ColorModel::class.simpleName!! -> ColorModel(toInt())
-        Boolean::class.simpleName!! -> toBoolean()
-        BlurEdgeMode::class.simpleName!! -> BlurEdgeMode.valueOf(this)
-        TransferFunc::class.simpleName!! -> TransferFunc.valueOf(this)
-        FadeSide::class.simpleName!! -> FadeSide.valueOf(this)
-        PopArtBlendingMode::class.simpleName!! -> PopArtBlendingMode.valueOf(this)
+        Int::class.simpleName() -> toInt()
+        Float::class.simpleName() -> toFloat()
+        ColorModel::class.simpleName() -> ColorModel(toInt())
+        Boolean::class.simpleName() -> toBoolean()
+        BlurEdgeMode::class.simpleName() -> BlurEdgeMode.valueOf(this)
+        TransferFunc::class.simpleName() -> TransferFunc.valueOf(this)
+        FadeSide::class.simpleName() -> FadeSide.valueOf(this)
+        PopArtBlendingMode::class.simpleName() -> PopArtBlendingMode.valueOf(this)
+        MirrorSide::class.simpleName() -> MirrorSide.valueOf(this)
         else -> ""
     }
 }

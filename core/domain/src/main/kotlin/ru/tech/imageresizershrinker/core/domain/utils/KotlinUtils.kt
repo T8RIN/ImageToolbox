@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.domain.utils
 
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
+import kotlin.reflect.KClass
 
 
 inline fun <reified T> T?.notNullAnd(
@@ -57,3 +58,5 @@ suspend inline fun <T, R> T.runSuspendCatching(block: T.() -> R): Result<R> {
         Result.failure(e)
     }
 }
+
+inline fun <T : Any> KClass<T>.simpleName() = simpleName!!

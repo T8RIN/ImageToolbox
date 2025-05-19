@@ -23,6 +23,7 @@ import ru.tech.imageresizershrinker.core.domain.model.FileModel
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.utils.cast
 import ru.tech.imageresizershrinker.core.filters.domain.model.BlurEdgeMode
+import ru.tech.imageresizershrinker.core.filters.domain.model.MirrorSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.TransferFunc
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.ColorModelPairItem
@@ -31,6 +32,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.FloatImageModelPairItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.NumberBlurEdgeModePairItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.NumberBooleanPairItem
+import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.NumberMirrorSidePairItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.NumberPairItem
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.filterItem.pair_components.NumberTransferFuncPairItem
 
@@ -107,6 +109,15 @@ internal fun PairItem(
 
         value.first is Number && value.second is TransferFunc -> {
             NumberTransferFuncPairItem(
+                value = value.cast(),
+                filter = filter,
+                onFilterChange = onFilterChange,
+                previewOnly = previewOnly
+            )
+        }
+
+        value.first is Number && value.second is MirrorSide -> {
+            NumberMirrorSidePairItem(
                 value = value.cast(),
                 filter = filter,
                 onFilterChange = onFilterChange,
