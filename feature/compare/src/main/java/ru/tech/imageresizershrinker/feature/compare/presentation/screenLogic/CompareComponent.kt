@@ -166,7 +166,10 @@ class CompareComponent @AssistedInject internal constructor(
 
     private suspend fun getBitmapByUri(
         uri: Uri
-    ): Bitmap? = imageGetter.getImage(uri.toString(), false)?.image
+    ): Bitmap? = imageGetter.getImage(
+        data = uri.toString(),
+        size = 4000
+    )
 
     private var savingJob: Job? by smartJob {
         _isImageLoading.update { false }
