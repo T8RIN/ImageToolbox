@@ -14,7 +14,7 @@
     <string name="explicit">强制</string>
     <string name="flexible">自适应</string>
     <string name="app_closing">关闭应用</string>
-    <string name="app_closing_sub">确定关闭本应用吗？</string>
+    <string name="app_closing_sub">您确定要关闭本应用吗？</string>
     <string name="stay">取消</string>
     <string name="reset_image">重置更改</string>
     <string name="reset">重置</string>
@@ -83,15 +83,15 @@
     <string name="allow_image_monet_sub">如果启用，当你选择一张要编辑的图片时，应用程序的颜色将根据此图片改变</string>
     <string name="language">语言</string>
     <string name="dynamic_colors">动态颜色</string>
-    <string name="amoled_mode">AMOLED 模式</string>
+    <string name="amoled_mode">纯黑深色模式</string>
     <string name="amoled_mode_sub">如果启用，在夜间模式下背景色将设为纯黑</string>
     <string name="color_red">红色</string>
     <string name="color_green">绿色</string>
     <string name="color_blue">蓝色</string>
-    <string name="clipboard_paste_invalid_color_code">需粘贴有效的 aRGB 代码</string>
+    <string name="clipboard_paste_invalid_color_code">粘贴一个有效的aRGB颜色代码</string>
     <string name="color_scheme">配色方案</string>
     <string name="clipboard_paste_invalid_empty">无任何可粘贴的图片</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">启用莫奈取色时无法更改应用的配色方案</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">在开启动态颜色时，无法更改应用程序的颜色方案</string>
     <string name="pick_accent_color">应用程序的主题将基于选择的颜色</string>
     <string name="no_updates">未找到更新</string>
     <string name="issue_tracker">问题跟踪器</string>
@@ -112,7 +112,7 @@
     <string name="border_thickness">边框宽度</string>
     <string name="surface">表面</string>
     <string name="donation_sub">该应用程序完全免费。如果你想支持该项目开发，你可以点击这里</string>
-    <string name="fab_alignment">FAB对齐</string>
+    <string name="fab_alignment">浮动操作按钮对齐方式</string>
     <string name="check_updates">检查更新</string>
     <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动时显示</string>
     <string name="primary">主要</string>
@@ -150,7 +150,7 @@
     <string name="radius">半径</string>
     <string name="scale">强度</string>
     <string name="limits_resize">按限制缩放</string>
-    <string name="limits_resize_sub">调整所选图片的大小，以遵循给定的宽度和高度限制，同时保存宽高比</string>
+    <string name="limits_resize_sub">调整所选图片的大小至指定宽度和高度，同时保持宽高比</string>
     <string name="posterize">色调分离</string>
     <string name="non_maximum_suppression">非极大值抑制(NMS)</string>
     <string name="weak_pixel_inclusion">弱像素包含(WPI)</string>
@@ -263,14 +263,14 @@
     <string name="features">功能</string>
     <string name="implementation">执行</string>
     <string name="compatibility">兼容性</string>
-    <string name="implementation_sub">AES-256，GCM模式，无填充，12字节随机初始向量（IV）。（默认如此，但你可以选择所需的算法）密钥采用SHA-3哈希值（256位）。</string>
+    <string name="implementation_sub">AES-256，GCM模式，无填充，默认使用12字节随机IV。您可以选择所需的算法。密钥以256位SHA-3哈希形式使用</string>
     <string name="file_size">文件大小</string>
     <string name="compatibility_sub">请注意，我们不保证与其他文件加密软件或服务的兼容性，密钥处理或密码配置稍有不同可能会不兼容。</string>
     <string name="cipher">加密</string>
     <string name="features_sub">在这里您可以进行基于密码的文件加密。加密完成的文件可以存储在选定的目录或直接共享，解密后的文件也可以直接打开。</string>
     <string name="invalid_password_or_not_encrypted">密码无效或选中的文件未加密</string>
     <string name="file_proceed">已完成的文件</string>
-    <string name="image_size_warning">试图以给定的宽度和高度保存图片可能会导致 OOM 错误。请自己承担风险，勿谓言之不预！</string>
+    <string name="image_size_warning">尝试以指定的宽度和高度保存图片可能会导致内存溢出错误。请自行承担风险操作</string>
     <string name="cache">缓存</string>
     <string name="cache_size">缓存区大小</string>
     <string name="found_s">已发现%1$s缓存</string>
@@ -315,11 +315,11 @@
     <string name="randomize_filename">随机文件名</string>
     <string name="randomize_filename_sub">如果启用，输出文件名将是完全随机的</string>
     <string name="presets_sub" formatted="false">如果选择预设值125，图片将保存为原始图片大小的125%。如果选择预设值50，图片将保存为原始图片大小的50%</string>
-    <string name="presets_sub_bytes">这里的预设决定了输出文件的%，即如果你在5mb 的图片上选择预设 50，那么保存后你将得到2.5mb的图片</string>
+    <string name="presets_sub_bytes">此处的预设决定输出文件的百分比，例如如果你在5MB的图片上选择预设50，则保存后将得到一张2.5MB的图片</string>
     <string name="saved_to">已使用名称%2$s保存到%1$s文件夹</string>
     <string name="saved_to_without_filename">已保存到%1$s文件夹</string>
     <string name="tg_chat">Telegram 聊天</string>
-    <string name="tg_chat_sub">讨论应用程序并从其他用户那里获得反馈。你也可以在这里获得测试更新和见解</string>
+    <string name="tg_chat_sub">讨论应用程序并从其他用户那里获得反馈。你也可以在那里获得测试更新和见解</string>
     <string name="erase_mode">擦除模式</string>
     <string name="restore_image">恢复图片</string>
     <string name="emotions">表情</string>
@@ -354,7 +354,7 @@
     <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
     <string name="allow_betas">允许 beta</string>
     <string name="jxl_sub">JXL 格式不被 Android 正式支持，所以有些东西可能无法工作。只有当你选择自定义输出目录时保存才会生效。这是一个实验版本，这里的错误不会被修复，除非谷歌添加 JXL 支持。这个版本可以查看 JXL 图片</string>
-    <string name="crashlytics_sub">这允许应用程序手动收集崩溃报告</string>
+    <string name="crashlytics_sub">这允许此应用程序自动收集崩溃报告</string>
     <string name="saving_almost_complete">保存快要完成了。现在取消将需要重新开始保存</string>
     <string name="analytics">分析</string>
     <string name="effort">压缩尝试次数</string>
@@ -854,7 +854,7 @@
     <string name="header_yesterday">昨日</string>
     <string name="embedded_picker">嵌入式选取器</string>
     <string name="embedded_picker_sub">使用 Image Toolbox 自带的图片拾取器，而不是系统预定义的图片拾取器</string>
-    <string name="no_permissions">未获许可</string>
+    <string name="no_permissions">无权限</string>
     <string name="request">请求</string>
     <string name="show_settings_in_landscape">横向显示设置</string>
     <string name="try_again">再试一次</string>
@@ -1305,7 +1305,7 @@
     <string name="soft_elegance_variant">柔美优雅变体</string>
     <string name="target_cube_lut_file">目标 3D LUT 文件 (.cube / .CUBE)</string>
     <string name="lut">色彩查找表（LUT）</string>
-    <string name="bleach_bypass">漂白绕过</string>
+    <string name="bleach_bypass">漂白旁路</string>
     <string name="palette_transfer_variant">调色板转移变体</string>
     <string name="lut512x512">512x512 2D LUT</string>
     <string name="soft_elegance">柔美优雅</string>
@@ -1353,7 +1353,7 @@
     <string name="one_time_save_location">单次保存位置</string>
     <string name="group">Telegram群组</string>
     <string name="one_time_save_location_sub">查看和编辑单次保存位置，您可以在大多数选项中长按保存按钮来使用这些位置</string>
-    <string name="image_toolbox_in_telegram">ImageToolbox 中的 Telegram 🎉</string>
+    <string name="image_toolbox_in_telegram">Image Toolbox 在 Telegram 🎉</string>
     <string name="image_toolbox_in_telegram_sub">加入我们的聊天室，在这里你可以讨论任何你想讨论的问题，还可以查看 CI 频道，我将在这里发布测试版和公告。</string>
     <string name="fit_description">根据给定尺寸调整图片，并为背景添加模糊效果或颜色</string>
     <string name="tools_arrangement">工具排列</string>
@@ -1479,7 +1479,7 @@
     <string name="enter_percent">输入%</string>
     <string name="unknown_host">无法连接到此网站，请尝试使用VPN或检查URL是否正确</string>
     <string name="edit_layer">编辑图层</string>
-    <string name="layers_on_image_sub">使用图片作为背景，并在其上添加不同的图层</string>
+    <string name="layers_on_image_sub">使用一张图片作为背景，并在其上添加不同的图层</string>
     <string name="layers_on_background_sub">与第一个选项相同，但用颜色代替图片</string>
     <string name="markup_layers">标记图层</string>
     <string name="markup_layers_sub">图层模式，可自由放置图片、文本等内容</string>
@@ -1487,7 +1487,7 @@
     <string name="layers_on_background">背景图层</string>
     <string name="beta">Beta</string>
     <string name="fast_settings_side">快速设置边栏</string>
-    <string name="fast_settings_side_sub">在编辑图片时，在所选的一侧添加浮动条，点击时将打开快速设置</string>
+    <string name="fast_settings_side_sub">Add a floating strip at the selected side while editing images, which will open fast settings when clicked</string>
     <string name="clear_selection">清除选择项</string>
     <string name="settings_group_visibility_hidden">设置组 \"%s\" 将默认折叠</string>
     <string name="settings_group_visibility_visible">设置组 \"%s\" 将默认展开</string>
@@ -1532,7 +1532,7 @@
     <string name="collection_mesh_gradients_sub">查看网格渐变在线收藏</string>
     <string name="import_font">导入字体（TTF/OTF）</string>
     <string name="imported_fonts">已导入的字体</string>
-    <string name="wrong_font">只有 TTF 字体可以被导入</string>
+    <string name="wrong_font">只有TTF和OTF字体可以被导入</string>
     <string name="export_fonts">导出字体</string>
     <string name="filename_is_not_set">未设置文件名</string>
     <string name="error_while_saving">尝试保存时出错，请尝试更改输出文件夹</string>
