@@ -25,7 +25,7 @@ jpegliCoder = "1.0.1"
 
 tesseract = "4.8.0"
 material3 = "1.4.0-alpha14"
-composeVersion = "1.9.0-alpha02"
+composeVersion = "1.9.0-alpha03"
 materialIconsExtended = "1.7.8"
 androidx-datastorePreferencesAndroid = "1.2.0-alpha02"
 appUpdateKtx = "2.1.0"
