@@ -78,7 +78,7 @@ junit = "4.13.2"
 bouncycastle = "1.80"
 ffmpeg-metadata-retriever = "1.0.19"
 pdfviewer = "1.0.0-alpha09"
-fragmentCompose = "1.8.6"
+fragmentCompose = "1.8.7"
 
 firebaseCrashlyticsGradle = "3.0.3"
 aboutlibraries = "12.1.2"
