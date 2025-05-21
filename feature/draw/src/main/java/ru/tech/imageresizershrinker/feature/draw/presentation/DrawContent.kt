@@ -295,7 +295,6 @@ fun DrawContent(
                         .aspectRatio(aspectRatio, isPortrait)
                         .fillMaxSize(),
                     panEnabled = panEnabled,
-                    onDraw = {},
                     onRequestFiltering = component::filter,
                     drawPathMode = drawPathMode,
                     backgroundColor = component.backgroundColor,

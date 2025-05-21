@@ -23,8 +23,6 @@ import android.graphics.PorterDuff
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -39,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
@@ -62,16 +59,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
-import com.smarttoolfactory.gesture.MotionEvent
-import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
-import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -81,11 +73,13 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.MotionEvent
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.handle
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawHandler
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawObserver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathHelper
 
 @Composable
@@ -119,38 +113,18 @@ fun BitmapEraser(
     var currentDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .observePointersCountWithOffset { size, offset ->
+        modifier = Modifier.pointerDrawObserver(
+            onPointersCountChange = { size, offset ->
                 globalTouchPointersCount = size
                 globalTouchPosition = offset
-            }
-            .then(
-                if (magnifierEnabled) {
-                    Modifier.magnifier(
-                        sourceCenter = {
-                            if (currentDrawPosition.isSpecified) {
-                                globalTouchPosition
-                            } else Offset.Unspecified
-                        },
-                        magnifierCenter = {
-                            globalTouchPosition - Offset(0f, 100.dp.toPx())
-                        },
-                        size = DpSize(height = 100.dp, width = 100.dp),
-                        cornerRadius = 50.dp,
-                        elevation = 2.dp
-                    )
-                } else Modifier
-            )
-            .clipToBounds()
-            .zoomable(
-                zoomState = zoomState,
-                zoomEnabled = (globalTouchPointersCount >= 2 || panEnabled),
-                enableOneFingerZoom = panEnabled,
-                onDoubleTap = { pos ->
-                    if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
-                }
-            ),
+            },
+            magnifierEnabled = magnifierEnabled,
+            currentDrawPosition = currentDrawPosition,
+            globalTouchPosition = globalTouchPosition,
+            zoomState = zoomState,
+            globalTouchPointersCount = globalTouchPointersCount,
+            panEnabled = panEnabled
+        ),
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(modifier) {
@@ -202,7 +176,7 @@ fun BitmapEraser(
 
             val outputImage by remember(invalidations) {
                 derivedStateOf {
-                    erasedBitmap.recompose()
+                    erasedBitmap.copy()
                 }
             }
 
@@ -256,7 +230,7 @@ fun BitmapEraser(
                 brushSoftness
             ) { mutableStateOf(Path()) }
 
-            canvas.apply {
+            with(canvas) {
                 val drawHelper by rememberPathHelper(
                     drawDownPosition = drawDownPosition,
                     currentDrawPosition = currentDrawPosition,
@@ -267,9 +241,8 @@ fun BitmapEraser(
                     isEraserOn = false
                 )
 
-                when (motionEvent) {
-
-                    MotionEvent.Down -> {
+                motionEvent.handle(
+                    onDown = {
                         if (currentDrawPosition.isSpecified) {
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
                             previousDrawPosition = currentDrawPosition
@@ -277,9 +250,8 @@ fun BitmapEraser(
                             drawPath = Path()
                         }
                         motionEvent = MotionEvent.Idle
-                    }
-
-                    MotionEvent.Move -> {
+                    },
+                    onMove = {
                         drawHelper.drawPath(
                             onDrawFreeArrow = {},
                             onBaseDraw = {
@@ -301,9 +273,8 @@ fun BitmapEraser(
                         )
 
                         motionEvent = MotionEvent.Idle
-                    }
-
-                    MotionEvent.Up -> {
+                    },
+                    onUp = {
                         drawHelper.drawPath(
                             onDrawFreeArrow = {},
                             onBaseDraw = {
@@ -340,11 +311,9 @@ fun BitmapEraser(
                             drawPath = Path()
                         }
                     }
+                )
 
-                    else -> Unit
-                }
-
-                with(canvas.nativeCanvas) {
+                with(nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
 
                     val imagePaint = remember { Paint() }
@@ -403,48 +372,17 @@ fun BitmapEraser(
                 }
             }
 
-            var drawStartedWithOnePointer by remember {
-                mutableStateOf(false)
-            }
-
-            val canvasModifier = Modifier.pointerMotionEvents(
-                onDown = { pointerInputChange ->
-                    drawStartedWithOnePointer = globalTouchPointersCount <= 1
-
-                    if (drawStartedWithOnePointer) {
-                        motionEvent = MotionEvent.Down
-                        currentDrawPosition = pointerInputChange.position
-                        drawDownPosition = pointerInputChange.position
-                        pointerInputChange.consume()
-                        invalidations++
-                    }
-                },
-                onMove = { pointerInputChange ->
-                    if (drawStartedWithOnePointer) {
-                        motionEvent = MotionEvent.Move
-                        currentDrawPosition = pointerInputChange.position
-                        pointerInputChange.consume()
-                        invalidations++
-                    }
-                },
-                onUp = { pointerInputChange ->
-                    if (drawStartedWithOnePointer) {
-                        motionEvent = MotionEvent.Up
-                        pointerInputChange.consume()
-                        invalidations++
-                    }
-                    drawStartedWithOnePointer = false
-                },
-                delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount)
-            )
-
             Picture(
                 model = outputImage,
                 modifier = Modifier
                     .matchParentSize()
-                    .then(
-                        if (!panEnabled) canvasModifier
-                        else Modifier
+                    .pointerDrawHandler(
+                        globalTouchPointersCount = globalTouchPointersCount,
+                        onReceiveMotionEvent = { motionEvent = it },
+                        onInvalidate = { invalidations++ },
+                        onUpdateCurrentDrawPosition = { currentDrawPosition = it },
+                        onUpdateDrawDownPosition = { drawDownPosition = it },
+                        enabled = !panEnabled
                     )
                     .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
@@ -474,4 +412,7 @@ fun BitmapEraser(
     }
 }
 
-private fun ImageBitmap.recompose(): ImageBitmap = asAndroidBitmap().asImageBitmap()
+/**
+ *  Needed to trigger recomposition
+ **/
+private fun ImageBitmap.copy(): ImageBitmap = asAndroidBitmap().asImageBitmap()
