@@ -221,7 +221,7 @@
     <string name="color_matrix">Matriz de cores</string>
     <string name="opacity">Opacidade</string>
     <string name="limits_resize">Redimensionar com limites</string>
-    <string name="limits_resize_sub">Redimensione as imagens selecionadas para seguir os limites de largura e altura enquanto salva a proporção</string>
+    <string name="limits_resize_sub">Redimensione as imagens selecionadas para uma determinada largura e altura, mantendo a proporção de aspecto</string>
     <string name="sketch">Esboço</string>
     <string name="threshold">Limiar</string>
     <string name="quantizationLevels">Níveis de quantização</string>
@@ -269,13 +269,13 @@
     <string name="implementation">Implementação</string>
     <string name="compatibility">Compatibilidade</string>
     <string name="features_sub">Criptografia de arquivos baseada em senha. Os arquivos processados podem ser armazenados no diretório selecionado ou compartilhados. Os arquivos descriptografados também podem ser abertos diretamente.</string>
-    <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes (por padrão, mas você pode selecionar o algoritmo necessário). As chaves são usadas como hashes SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes por padrão. Você pode selecionar o algoritmo necessário. As chaves são usadas como hashes SHA-3 de 256 bits</string>
     <string name="file_size">Tamanho do arquivo</string>
     <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema operacional Android e pela memória disponível, que depende do dispositivo.
 \nObserve: memória não é armazenamento.</string>
     <string name="compatibility_sub">Observe que a compatibilidade com outros softwares ou serviços de criptografia de arquivos não é garantida. Um tratamento de chave ou configuração de criptografia ligeiramente diferente pode causar incompatibilidade.</string>
     <string name="invalid_password_or_not_encrypted">Senha inválida ou arquivo escolhido não está criptografado</string>
-    <string name="image_size_warning">Tentar salvar a imagem com determinada largura e altura pode causar um erro de OOM. Faça isso por sua conta e risco e não diga que não avisei!</string>
+    <string name="image_size_warning">A tentativa de salvar a imagem com a largura e a altura fornecidas pode causar um erro de falta de memória. Faça isso por sua própria conta e risco.</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Tamanho da memória cache</string>
     <string name="found_s">Encontrado %1$s</string>
@@ -294,13 +294,13 @@
     <string name="copy">Copiar</string>
     <string name="warning_bytes">Salvar no modo %1$s pode ser instável, pois é um formato sem perdas</string>
     <string name="presets_sub" formatted="false">Se você selecionou a predefinição 125, a imagem será salva com tamanho de 125% da imagem original. Se você escolher a predefinição 50, a imagem será salva com 50% tamanho</string>
-    <string name="presets_sub_bytes">A predefinição aqui determina a arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, você obterá uma imagem de 2,5 MB após salvar</string>
+    <string name="presets_sub_bytes">A predefinição aqui determina a % do arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, obterá uma imagem de 2,5 MB após salvar</string>
     <string name="randomize_filename">Nome do arquivo aleatório</string>
     <string name="randomize_filename_sub">Se ativado, o nome do arquivo de saída será totalmente aleatório</string>
     <string name="saved_to">Salvo na pasta %1$s com o nome %2$s</string>
     <string name="saved_to_without_filename">Salvo na pasta %1$s</string>
     <string name="tg_chat">Telegram</string>
-    <string name="tg_chat_sub">Discuta o aplicativo e obtenha feedback de outros usuários. Você também pode obter atualizações e insights beta aqui.</string>
+    <string name="tg_chat_sub">Discuta sobre o aplicativo e obtenha feedback de outros usuários. Você também pode obter atualizações beta e insights lá.</string>
     <string name="crop_mask">Máscara de corte</string>
     <string name="aspect_ratio">Proporção da tela</string>
     <string name="image_crop_mask_sub">Use este tipo de máscara para criar uma máscara a partir de uma determinada imagem, observe que DEVE ter canal alfa</string>
@@ -324,7 +324,7 @@
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emoções</string>
     <string name="food_and_drink">Comida e bebida</string>
-    <string name="nature_and_animals">Natureza e Animais</string>
+    <string name="nature_and_animals">Natureza e animais</string>
     <string name="objects">Objetos</string>
     <string name="symbols">Símbolos</string>
     <string name="enable_emoji">Habilitar emoticons</string>
@@ -348,7 +348,7 @@
     <string name="resize_and_convert">Redimensionar e converter</string>
     <string name="resize_and_convert_sub">Altere o tamanho de determinadas imagens ou converta-as para outros formatos. Os metadados EXIF também podem ser editados aqui se você escolher uma única imagem.</string>
     <string name="max_colors_count">Contagem máxima de cores</string>
-    <string name="crashlytics_sub">Isso permite que o aplicativo colete relatórios de falhas manualmente</string>
+    <string name="crashlytics_sub">Isso permite que o aplicativo colete relatórios de falhas automaticamente</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Permitir a coleta de estatísticas anônimas de uso de aplicativos</string>
     <string name="jxl_sub">Formato JXL não suportado oficialmente pelo Android, então algo pode não funcionar. Salvar funcionará apenas se você escolher o diretório de saída personalizado. Esta é uma versão experimental, os bugs aqui não serão corrigidos a menos que o Google adicione suporte JXL. Esta versão pode visualizar imagens JXL</string>
@@ -421,7 +421,7 @@
     <string name="invert_colors_sub">Substitui as cores do tema por cores negativas, se ativado</string>
     <string name="search_option">Procurar</string>
     <string name="search_option_sub">Permite a capacidade de pesquisar por todas as ferramentas disponíveis na tela principal</string>
-    <string name="pdf_tools">Ferramentas PDF</string>
+    <string name="pdf_tools">Ferramentas de PDF</string>
     <string name="pdf_tools_sub">Opere com arquivos PDF: visualize, converta em lote de imagens ou crie um a partir de determinadas imagens</string>
     <string name="preview_pdf">Pré-visualização PDF</string>
     <string name="pdf_to_images">PDF para imagens</string>
@@ -435,13 +435,13 @@
     <string name="add_mask">Adicionar máscara</string>
     <string name="mask_indexed">Máscara %d</string>
     <string name="mask_color">Cor da máscara</string>
-    <string name="mask_preview">Pré-visualização da máscara</string>
+    <string name="mask_preview">Prévia da máscara</string>
     <string name="mask_preview_sub">A máscara de filtro desenhada será renderizada para mostrar o resultado aproximado</string>
     <string name="inverse_fill_type">Tipo de preenchimento inverso</string>
     <string name="inverse_fill_type_sub">Se ativado todas as áreas sem máscara serão filtradas no lugar do comportamento predefinido</string>
     <string name="delete_mask_warn">Você está prestes a excluir a máscara de filtro selecionada. Esta operação não pode ser desfeita</string>
     <string name="delete_mask">Excluir máscara</string>
-    <string name="full_filter">Filtro Completo</string>
+    <string name="full_filter">Filtro completo</string>
     <string name="full_filter_sub">Aplique um conjunto de filtro à determinadas imagens ou à uma única imagem</string>
     <string name="start_position">Início</string>
     <string name="center_position">Centro</string>
@@ -457,17 +457,17 @@
     <string name="privacy_blur_sub">Desfoca a imagem sob o caminho desenhado para proteger tudo o que você deseja ocultar</string>
     <string name="pixelation_sub">Semelhante ao desfoque de privacidade, mas pixeliza em vez de desfocar</string>
     <string name="containers_shadow">Containers</string>
-    <string name="containers_shadow_sub">Permite desenho de sombra atrás de contêineres</string>
+    <string name="containers_shadow_sub">Desenhe uma sombra atrás dos contêineres</string>
     <string name="sliders_shadow">Controles deslizantes</string>
     <string name="switches_shadow">Comuta</string>
     <string name="fabs_shadow">FABs</string>
     <string name="buttons_shadow">Botões</string>
-    <string name="sliders_shadow_sub">Permite desenho de sombra atrás de controles deslizantes</string>
-    <string name="switches_shadow_sub">Permite desenho de sombra atrás de switches</string>
-    <string name="fabs_shadow_sub">Permite desenho de sombra atrás de botões de ação flutuantes</string>
-    <string name="buttons_shadow_sub">Ativa o desenho de sombra atrás dos botões padrão</string>
-    <string name="app_bars_shadow">Barras de aplicativos</string>
-    <string name="app_bars_shadow_sub">Permite desenho de sombra atrás de barras de aplicativos</string>
+    <string name="sliders_shadow_sub">Desenhar uma sombra atrás dos controles deslizantes</string>
+    <string name="switches_shadow_sub">Desenhe uma sombra atrás dos interruptores</string>
+    <string name="fabs_shadow_sub">Desenhar uma sombra atrás dos botões de ação flutuantes</string>
+    <string name="buttons_shadow_sub">Desenhar uma sombra atrás dos botões</string>
+    <string name="app_bars_shadow">Barras do app</string>
+    <string name="app_bars_shadow_sub">Desenhe uma sombra atrás das barras do app</string>
     <string name="value_in_range">Valor no intervalo %1$s - %2$s</string>
     <string name="auto_rotate_limits">Auto rotação</string>
     <string name="auto_rotate_limits_sub">Permite que a caixa limite seja adotada para orientação da imagem</string>
@@ -481,7 +481,7 @@
     <string name="free_drawing_sub">Desenha o caminho como valor de entrada</string>
     <string name="line_sub">Desenha o caminho do ponto inicial ao ponto final como uma linha</string>
     <string name="line_arrow_sub">Desenha uma seta apontando do ponto inicial ao ponto final como uma linha</string>
-    <string name="arrow_sub">Desenha uma seta apontando de um determinado caminho</string>
+    <string name="arrow_sub">Desenha uma seta apontando a partir de um determinado caminho</string>
     <string name="double_line_arrow_sub">Desenha uma seta dupla apontando do ponto inicial ao ponto final como uma linha</string>
     <string name="double_arrow_sub">Desenha uma seta dupla apontando de um determinado caminho</string>
     <string name="outlined_oval">Oval delineado</string>
@@ -532,11 +532,11 @@
     <string name="hermite_sub">Técnica de interpolação matemática que utiliza os valores e derivadas nas extremidades de um segmento de curva para gerar uma curva suave e contínua</string>
     <string name="lanczos_sub">Método de reamostragem que mantém interpolação de alta qualidade aplicando uma função sinc ponderada aos valores de pixel</string>
     <string name="mitchell_sub">Método de resampling que usa um filtro de convolução com parâmetros ajustáveis para alcançar um equilíbrio entre nitidez e suavização na imagem dimensionada</string>
-    <string name="spline_sub">Utiliza funções polinomiais definidas por partes para interpolar e aproximar suavemente uma curva ou superfície, representação de forma flexível e contínua</string>
+    <string name="spline_sub">Usa funções polinomiais definidas por partes para interpolar e aproximar suavemente uma curva ou superfície, proporcionando uma representação flexível e contínua da forma</string>
     <string name="only_clip">Apenas clipe</string>
     <string name="only_clip_sub">O salvamento no armazenamento não será executado e a imagem será tentada apenas para ser colocada na área de transferência</string>
     <string name="restore_background_sub">O pincel irá restaurar o fundo em vez de apagar</string>
-    <string name="recognize_text">OCR (Reconhecer texto)</string>
+    <string name="recognize_text">OCR (reconhecer texto)</string>
     <string name="recognize_text_sub">Reconhecer texto de determinada imagem, mais de 120 idiomas suportados</string>
     <string name="picture_has_no_text">A imagem não tem texto ou o app não a encontrou</string>
     <string name="accuracy">Precisão: %1$d</string>
@@ -915,7 +915,7 @@
     <string name="tag_y_resolution">Resolução (vertical)</string>
     <string name="tag_resolution_unit">Unidade de Resolução</string>
     <string name="tag_strip_byte_counts">Tirar contagens de bytes</string>
-    <string name="tag_datetime">Data</string>
+    <string name="tag_datetime">Data Hora</string>
     <string name="tag_image_description">Descrição da imagem</string>
     <string name="tag_make">Criar</string>
     <string name="tag_model">Modelo</string>
@@ -1615,4 +1615,8 @@
     <string name="operation_almost_complete">Operação quase concluída. Cancelar agora exigirá a reinicialização da operação</string>
     <string name="sort_by_mime_type">Tipo MIME</string>
     <string name="sort_by_date_added">Data de Adição</string>
+    <string name="left_to_right">Esquerda para a Direita</string>
+    <string name="right_to_left">Direita para a Esquerda</string>
+    <string name="bottom_to_top">De Baixo para Cima</string>
+    <string name="top_to_bottom">De Cima para Baixo</string>
 </resources>
