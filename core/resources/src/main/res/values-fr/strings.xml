@@ -83,7 +83,7 @@
     <string name="allow_image_monet">Permettre la monétisation des images</string>
     <string name="light">Lumière</string>
     <string name="allow_image_monet_sub">Si cette option est activée, lorsque vous choisissez une image à modifier, les couleurs de l\'application seront adoptées pour cette image.</string>
-    <string name="amoled_mode">Mode Amoled</string>
+    <string name="amoled_mode">Mode sombre</string>
     <string name="amoled_mode_sub">Si la couleur des surfaces est activée, la couleur sera définie sur l’obscurité absolue en mode nuit</string>
     <string name="color_red">Rouge</string>
     <string name="color_green">Vert</string>
@@ -108,7 +108,7 @@
     <string name="primary">Primaire</string>
     <string name="permission_sub">L\'application a besoin d\'accéder à votre espace de stockage pour enregistrer des images, cela est nécessaire. Veuillez accorder l\'autorisation dans la boîte de dialogue suivante.</string>
     <string name="external_storage">Stockage externe</string>
-    <string name="fab_alignment">Alignement FAB</string>
+    <string name="fab_alignment">Alignement du bouton d\'action flottant</string>
     <string name="check_updates">Vérifier les mises à jour</string>
     <string name="check_updates_sub">Si activé, la boîte de dialogue de mise à jour vous sera affichée au démarrage de l\'application</string>
     <string name="values">Valeurs</string>
@@ -151,7 +151,7 @@
     <string name="original_filename">Fichier original</string>
     <string name="replace_sequence_number">Ajouter un numéro de séquence</string>
     <string name="filename_not_work_with_photopicker">Ajouter le nom de fichier d\'origine ne fonctionne pas si la source d\'image du sélecteur de photo est sélectionnée.</string>
-    <string name="load_image_from_net">Charger une image depuis Internet</string>
+    <string name="load_image_from_net">Charger une image depuis internet</string>
     <string name="load_image_from_net_sub">Charger n\'importe quelle image de l\'Internet pour la prévisualiser, zoomer, la modifier ou la sauvegarder si vous le souhaitez.</string>
     <string name="no_image">Aucune image</string>
     <string name="image_link">Lien de l\'image</string>
@@ -219,8 +219,8 @@
     <string name="bulge">Bosse</string>
     <string name="refractive_index">indice de réfraction</string>
     <string name="opacity">Opacité</string>
-    <string name="limits_resize">Limites de redimensionnement</string>
-    <string name="limits_resize_sub">Redimensionner les images sélectionnées pour suivre les limites de largeur et de hauteur données tout en préservant le ratio d\'aspect</string>
+    <string name="limits_resize">Redimensionner avec limites</string>
+    <string name="limits_resize_sub">Redimensionner les images sélectionnées aux largeur et hauteur données tout en préservant les proportions d\'origine</string>
     <string name="sketch">Esquisse</string>
     <string name="threshold">Seuil</string>
     <string name="quantizationLevels">Niveaux de quantification</string>
@@ -274,7 +274,7 @@
     <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil.
 \nAttention : la mémoire n\'est pas du stockage.</string>
     <string name="invalid_password_or_not_encrypted">Mot de passe invalide ou fichier choisi non chiffré</string>
-    <string name="image_size_warning">Essayer d’enregistrer une image avec une largeur et une hauteur données peut provoquer une erreur de mémoire insuffisante. Faites ceci à vos propres risques, et ne dites pas que je ne vous ai pas prévenu !</string>
+    <string name="image_size_warning">Essayer d’enregistrer une image avec ces largeur et hauteur peut provoquer une erreur de mémoire insuffisante. Faites ceci à vos propres risques.</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Taille du cache</string>
     <string name="found_s">Trouvé %1$s</string>
@@ -323,7 +323,7 @@
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Nourriture et Boisson</string>
-    <string name="nature_and_animals">Nature et Animaux</string>
+    <string name="nature_and_animals">Nature et animaux</string>
     <string name="objects">Objets</string>
     <string name="symbols">Symboles</string>
     <string name="enable_emoji">Activer les emoji</string>
@@ -344,10 +344,10 @@
     <string name="draw_mode">Mode Dessin</string>
     <string name="something_went_wrong_emphasis">Oups… Quelque chose s\'est mal passé. Vous pouvez m\'écrire en utilisant les options ci-dessous et j\'essaierai de trouver une solution</string>
     <string name="resize_and_convert_sub">Modifiez la taille des images données ou convertissez-les dans d\'autres formats. Les métadonnées EXIF peuvent également être modifiées ici si une seule image est sélectionnée.</string>
-    <string name="resize_and_convert">Redimensionner et Convertir</string>
+    <string name="resize_and_convert">Redimensionner et convertir</string>
     <string name="create_issue">Créer un problème</string>
     <string name="max_colors_count">Nombre maximal de couleurs</string>
-    <string name="crashlytics_sub">Cela permet à l\'application de collecter manuellement les rapports d\'erreur</string>
+    <string name="crashlytics_sub">Permet à l\'application de collecter les rapports d\'erreur automatiquement</string>
     <string name="analytics">Analyse</string>
     <string name="analytics_sub">Autoriser la collecte de données statistiques anonymes sur l\'utilisation de l\'application</string>
     <string name="jxl_sub">Le format JXL n\'est pas officiellement pris en charge par Android, donc quelque chose pourrait ne pas fonctionner. Sauvegarder ne fonctionnera que si vous choisissez un répertoire de sortie personnalisé. Il s\'agit d\'une version expérimentale, les bogues ici ne seront pas corrigés à moins que Google n\'ajoute le support JXL. Cette version peut également afficher ces images</string>
@@ -437,7 +437,7 @@
     <string name="mask_preview_sub">Le masque de filtre dessiné sera rendu pour vous montrer le résultat approximatif</string>
     <string name="mask_indexed">Masque %d</string>
     <string name="neon">Néon</string>
-    <string name="delete_mask">Supprimer le Masque</string>
+    <string name="delete_mask">Supprimer le masque</string>
     <string name="inverse_fill_type">Type de Remplissage Inverse</string>
     <string name="delete_mask_warn">Vous êtes sur le point de supprimer le masque filtre sélectionné. Cette opération est irréversible</string>
     <string name="full_filter_sub">Application de toute chaîne de filtres aux images sélectionnées ou individuellement</string>
@@ -445,14 +445,14 @@
     <string name="start_position">Début</string>
     <string name="highlighter">Surligneur</string>
     <string name="simple_variants">Variantes Simples</string>
-    <string name="full_filter">Filtre Complet</string>
+    <string name="full_filter">Filtre complet</string>
     <string name="end_position">Fin</string>
     <string name="center_position">Centre</string>
     <string name="rows_count">Nombre de lignes</string>
     <string name="double_line_arrow">Flèche à double ligne</string>
     <string name="neon_sub">Ajoutez un effet lumineux à vos dessins</string>
     <string name="stitch_mode">Mode point</string>
-    <string name="switches_shadow_sub">Permet de dessiner des ombres derrière les commutateurs</string>
+    <string name="switches_shadow_sub">Dessiner une ombres derrière les commutateurs</string>
     <string name="double_line_arrow_sub">Dessine une flèche à double pointage du point de départ au point final sous forme de ligne</string>
     <string name="fabs_shadow">FAB</string>
     <string name="arrow_sub">Dessine une flèche pointant à partir d\'un chemin donné</string>
@@ -468,7 +468,7 @@
     <string name="no_such_directory">Aucun répertoire \"%1$s\" trouvé, nous l\'avons remplacé par celui par défaut, veuillez enregistrer à nouveau le fichier</string>
     <string name="vertical_grid">Grille verticale</string>
     <string name="sliders_shadow">Curseurs</string>
-    <string name="containers_shadow_sub">Permet de dessiner des ombres derrière les conteneurs</string>
+    <string name="containers_shadow_sub">Dessiner une ombre derrière les conteneurs</string>
     <string name="oval">ovale</string>
     <string name="rect">Rectifier</string>
     <string name="columns_count">Nombre de colonnes</string>
@@ -494,10 +494,10 @@
     <string name="buttons_shadow">Boutons</string>
     <string name="overwrite_files">Écraser les fichiers</string>
     <string name="rect_sub">Dessine le rectangle du point de départ au point final</string>
-    <string name="sliders_shadow_sub">Permet de dessiner des ombres derrière les curseurs</string>
+    <string name="sliders_shadow_sub">Dessiner une ombre derrière les curseurs</string>
     <string name="switches_shadow">Commutateurs</string>
     <string name="empty">Vide</string>
-    <string name="app_bars_shadow_sub">Permet de dessiner des ombres derrière les barres d\'application</string>
+    <string name="app_bars_shadow_sub">Dessiner une ombre derrière les barres d\'application</string>
     <string name="value_in_range">Valeur comprise dans la plage %1$s - %2$s</string>
     <string name="line_arrow_sub">Dessine une flèche pointant du point de départ au point final sous forme de ligne</string>
     <string name="pixelation_sub">Semblable au flou de confidentialité, mais pixelisé au lieu de flou</string>
@@ -505,9 +505,9 @@
     <string name="double_arrow_sub">Dessine une double flèche pointée à partir d\'un chemin donné</string>
     <string name="outlined_rect">Rect décrit</string>
     <string name="privacy_blur">Flou de confidentialité</string>
-    <string name="fabs_shadow_sub">Permet de dessiner des ombres derrière les boutons d\'action flottants</string>
+    <string name="fabs_shadow_sub">Dessiner une ombre derrière les boutons d\'action flottants</string>
     <string name="oval_sub">Dessine un ovale du point de départ au point final</string>
-    <string name="buttons_shadow_sub">Permet de dessiner des ombres derrière les boutons par défaut</string>
+    <string name="buttons_shadow_sub">Dessiner une ombre derrière les boutons</string>
     <string name="auto_pin">Épingle automatique</string>
     <string name="draw_path_mode">Mode Dessiner un chemin</string>
     <string name="tent_blur">Flou de tente</string>
@@ -534,7 +534,7 @@
     <string name="lanczos_sub">Méthode de rééchantillonnage qui maintient une interpolation de haute qualité en appliquant une fonction sinc pondérée aux valeurs des pixels</string>
     <string name="mitchell_sub">Méthode de rééchantillonnage utilisant un filtre de convolution avec des paramètres réglables pour obtenir un équilibre entre netteté et anticrénelage dans l\'image mise à l\'échelle</string>
     <string name="spline_sub">Utilise des fonctions polynomiales définies par morceaux pour interpoler et approximer en douceur une courbe ou une surface, une représentation de forme flexible et continue</string>
-    <string name="use_pixel_switch_sub">Un commutateur de type pixel sera utilisé à la place du matériel de Google que vous avez basé sur celui-ci.</string>
+    <string name="use_pixel_switch_sub">Utilise un bouton de type Google Pixel</string>
     <string name="magnifier">Loupe</string>
     <string name="magnifier_sub">Active la loupe sur le dessus du doigt dans les modes de dessin pour une meilleure accessibilité</string>
     <string name="force_exif_widget_initial_value">Forcer la valeur initiale</string>
@@ -555,7 +555,7 @@
     <string name="delete_language_sub">Souhaitez-vous supprimer les données de formation OCR de langue \"%1$s\" pour tous les types de reconnaissance, ou uniquement pour celui sélectionné (%2$s) ?</string>
     <string name="current">Actuel</string>
     <string name="all">Tous</string>
-    <string name="camera_sub">Utilise l\'appareil photo pour prendre une photo. Notez qu\'il est possible d\'obtenir une seule image à partir de cette source d\'image.</string>
+    <string name="camera_sub">Prendre une photo avec l\'appareil photo. Notez qu\'il est possible d\'obtenir une seule image à partir de cette source d\'image.</string>
     <string name="watermarking">Filigrane</string>
     <string name="watermarking_sub">Couvrir les images avec des filigranes de texte/image personnalisables</string>
     <string name="repeat_watermark">Répéter le filigrane</string>
@@ -567,7 +567,7 @@
     <string name="millis">millis</string>
     <string name="fps">FPS</string>
     <string name="secure_mode">Mode sécurisé</string>
-    <string name="secure_mode_sub">Masque le contenu à la sortie, l\'écran ne peut pas non plus être capturé ou enregistré</string>
+    <string name="secure_mode_sub">Masque le contenu de l\'application dans les applications récentes. L\'écran ne peut pas non plus être capturé ou enregistré</string>
     <string name="bayer_four_dithering">Bayer, quatre par quatre, tramage</string>
     <string name="floyd_steinberg_dithering">Floyd Steinberg Tramage</string>
     <string name="atkinson_dithering">Tramage Atkinson</string>
@@ -637,7 +637,7 @@
     <string name="amplitude_y">Amplitude Y</string>
     <string name="perlin_distortion">Distorsion Perlin</string>
     <string name="hable_filmic_tone_mapping">Cartographie des tons filmiques Hable</string>
-    <string name="heji_burgess_tone_mapping">Cartographie des tons Hejl Burgess</string>
+    <string name="heji_burgess_tone_mapping">Cartographie des tons Heji Burgess</string>
     <string name="aces_filmic_tone_mapping">Cartographie des tons filmiques ACES</string>
     <string name="aces_hill_tone_mapping">Cartographie des tons ACES Hill</string>
     <string name="gradient_maker">Créateur de dégradés</string>
@@ -747,13 +747,13 @@
     <string name="use_lasso">Utiliser le lasso</string>
     <string name="use_lasso_sub">Utilise le Lasso comme en mode dessin pour effectuer l\'effacement</string>
     <string name="original_image_preview_alpha">Aperçu de l\'image originale Alpha</string>
-    <string name="random_emojis_sub">Les emoji de la barre d\'application seront continuellement modifiés de manière aléatoire au lieu d\'utiliser celui sélectionné</string>
+    <string name="random_emojis_sub">Les emojis de la barre d\'application changent aléatoirement</string>
     <string name="random_emojis">Émojis aléatoires</string>
     <string name="random_emojis_error">Impossible d\'utiliser la sélection aléatoire d\'emojis lorsque les emojis sont désactivés</string>
-    <string name="emoji_selection_error">Impossible de sélectionner un emoji lors de la sélection aléatoire activée</string>
+    <string name="emoji_selection_error">Impossible de sélectionner un emoji lorsque les emojis aléatoires sont activés</string>
     <string name="old_tv">Vieille télé</string>
     <string name="shuffle_blur">Mélanger le flou</string>
-    <string name="recognize_text">OCR (Reconnaître le texte)</string>
+    <string name="recognize_text">OCR (reconnaître le texte)</string>
     <string name="recognize_text_sub">Reconnaître le texte d\'une image donnée, plus de 120 langues prises en charge</string>
     <string name="picture_has_no_text">L\'image ne contient pas de texte ou l\'application ne l\'a pas trouvé</string>
     <string name="accuracy">Accuracy: %1$d</string>
