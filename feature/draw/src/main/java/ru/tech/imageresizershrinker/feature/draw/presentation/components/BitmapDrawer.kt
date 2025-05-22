@@ -19,11 +19,8 @@ package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -35,7 +32,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.isUnspecified
@@ -43,7 +39,6 @@ import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -51,8 +46,6 @@ import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
@@ -61,30 +54,23 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawLineStyle
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.BitmapDrawerPreview
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.DrawPathEffectPreview
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.MotionEvent
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copy
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.copyAsAndroidPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.handle
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.overlay
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawHandler
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawObserver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPaint
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathEffectPaint
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathHelper
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.transformationsForMode
 import android.graphics.Canvas as AndroidCanvas
-import android.graphics.Path as NativePath
 
 
 @Composable
@@ -467,87 +453,16 @@ fun BitmapDrawer(
                     outputImage.overlay(drawPathBitmap)
                 }
             }
-            Picture(
-                model = previewBitmap,
-                modifier = Modifier
-                    .matchParentSize()
-                    .pointerDrawHandler(
-                        globalTouchPointersCount = globalTouchPointersCount,
-                        onReceiveMotionEvent = { motionEvent = it },
-                        onInvalidate = { invalidations++ },
-                        onUpdateCurrentDrawPosition = { currentDrawPosition = it },
-                        onUpdateDrawDownPosition = { drawDownPosition = it },
-                        enabled = !panEnabled
-                    )
-                    .clip(RoundedCornerShape(2.dp))
-                    .transparencyChecker()
-                    .drawHelperGrid(helperGridParams)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant(),
-                        shape = RoundedCornerShape(2.dp)
-                    ),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds
+            BitmapDrawerPreview(
+                preview = previewBitmap,
+                globalTouchPointersCount = globalTouchPointersCount,
+                onReceiveMotionEvent = { motionEvent = it },
+                onInvalidate = { invalidations++ },
+                onUpdateCurrentDrawPosition = { currentDrawPosition = it },
+                onUpdateDrawDownPosition = { drawDownPosition = it },
+                drawEnabled = !panEnabled,
+                helperGridParams = helperGridParams
             )
-        }
-    }
-}
-
-@Composable
-internal fun DrawPathEffectPreview(
-    drawPathCanvas: Canvas,
-    drawMode: DrawMode.PathEffect,
-    canvasSize: IntegerSize,
-    imageWidth: Int,
-    imageHeight: Int,
-    outputImage: ImageBitmap,
-    onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
-    paths: List<UiPathPaint>,
-    drawPath: Path,
-    backgroundColor: Color,
-    strokeWidth: Pt,
-    drawPathMode: DrawPathMode
-) {
-    var shaderBitmap by remember {
-        mutableStateOf<ImageBitmap?>(null)
-    }
-
-    LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
-        shaderBitmap = onRequestFiltering(
-            outputImage.asAndroidBitmap(),
-            transformationsForMode(
-                drawMode = drawMode,
-                canvasSize = canvasSize
-            )
-        )?.createScaledBitmap(
-            width = imageWidth,
-            height = imageHeight
-        )?.asImageBitmap()
-    }
-
-    shaderBitmap?.let {
-        with(drawPathCanvas) {
-            with(nativeCanvas) {
-                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-
-                val paint by rememberPathEffectPaint(
-                    strokeWidth = strokeWidth,
-                    drawPathMode = drawPathMode,
-                    canvasSize = canvasSize
-                )
-                val newPath = drawPath.copyAsAndroidPath().apply {
-                    fillType = NativePath.FillType.INVERSE_WINDING
-                }
-                val imagePaint = remember { Paint() }
-
-                drawImage(
-                    image = it,
-                    topLeftOffset = Offset.Zero,
-                    paint = imagePaint
-                )
-                drawPath(newPath, paint)
-            }
         }
     }
 }

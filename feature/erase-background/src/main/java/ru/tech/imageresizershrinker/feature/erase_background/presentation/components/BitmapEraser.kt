@@ -20,11 +20,8 @@ package ru.tech.imageresizershrinker.feature.erase_background.presentation.compo
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -36,7 +33,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
@@ -58,27 +54,21 @@ import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.HelperGridParams
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHelperGrid
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.BitmapDrawerPreview
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.MotionEvent
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.handle
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawHandler
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.pointerDrawObserver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.rememberPathHelper
 
@@ -372,41 +362,28 @@ fun BitmapEraser(
                 }
             }
 
-            Picture(
-                model = outputImage,
-                modifier = Modifier
-                    .matchParentSize()
-                    .pointerDrawHandler(
-                        globalTouchPointersCount = globalTouchPointersCount,
-                        onReceiveMotionEvent = { motionEvent = it },
-                        onInvalidate = { invalidations++ },
-                        onUpdateCurrentDrawPosition = { currentDrawPosition = it },
-                        onUpdateDrawDownPosition = { drawDownPosition = it },
-                        enabled = !panEnabled
-                    )
-                    .clip(RoundedCornerShape(2.dp))
-                    .transparencyChecker()
-                    .drawBehind {
-                        if (originalImagePreviewAlpha != 0f) {
-                            drawContext.canvas.apply {
-                                drawImageRect(
-                                    image = imageBitmapForShader ?: drawImageBitmap,
-                                    dstSize = IntSize(canvasSize.width, canvasSize.height),
-                                    paint = Paint().apply {
-                                        alpha = originalImagePreviewAlpha
-                                    }
-                                )
-                            }
+            BitmapDrawerPreview(
+                preview = outputImage,
+                globalTouchPointersCount = globalTouchPointersCount,
+                onReceiveMotionEvent = { motionEvent = it },
+                onInvalidate = { invalidations++ },
+                onUpdateCurrentDrawPosition = { currentDrawPosition = it },
+                onUpdateDrawDownPosition = { drawDownPosition = it },
+                drawEnabled = !panEnabled,
+                helperGridParams = helperGridParams,
+                beforeHelperGridModifier = Modifier.drawBehind {
+                    if (originalImagePreviewAlpha != 0f) {
+                        drawContext.canvas.apply {
+                            drawImageRect(
+                                image = imageBitmapForShader ?: drawImageBitmap,
+                                dstSize = IntSize(canvasSize.width, canvasSize.height),
+                                paint = Paint().apply {
+                                    alpha = originalImagePreviewAlpha
+                                }
+                            )
                         }
                     }
-                    .drawHelperGrid(helperGridParams)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant(),
-                        RoundedCornerShape(2.dp)
-                    ),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds
+                }
             )
         }
     }
