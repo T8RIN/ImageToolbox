@@ -1006,7 +1006,7 @@
     <string name="tag_camera_owner_name">Nom du propriétaire de caméra</string>
     <string name="tag_lens_specification">Spécification de lentils</string>
     <string name="tag_body_serial_number">Numéro de Série du Corps</string>
-    <string name="tag_lens_model">Lens Modèle</string>
+    <string name="tag_lens_model">Modèle de lentille</string>
     <string name="tag_lens_make">Créer Objectif</string>
     <string name="harmony_complementary">Complementaire</string>
     <string name="triangle">Triangle</string>
@@ -1038,4 +1038,26 @@
     <string name="tag_gps_latitude">Latitude du GPS</string>
     <string name="image_cutting">Découpage d\'images</string>
     <string name="image_cutting_sub">Découper une partie de l\'image et fusionner les parties restantes (peut être inversé) par des lignes verticales ou horizontales</string>
+    <string name="tag_rw2_sensor_top_border">Bordure supérieure du capteur</string>
+    <string name="tag_rw2_sensor_left_border">Bordure gauche du capteur</string>
+    <string name="tag_gps_altitude_ref">Altitude GPS de référence</string>
+    <string name="tag_gps_altitude">Altitude GPS</string>
+    <string name="tag_gps_speed_ref">Vitesse GPS de référence</string>
+    <string name="tag_gps_longitude">Longitude GPS</string>
+    <string name="tag_gps_latitude_ref">Latitude GPS de référence</string>
+    <string name="tag_gps_longitude_ref">Longitude GPS de référence</string>
+    <string name="tag_gps_timestamp">Horodatage GPS</string>
+    <string name="tag_gps_satellites">Satellites GPS</string>
+    <string name="tag_gps_status">Statut GPS</string>
+    <string name="tag_gps_measure_mode">Mode de mesure GPS</string>
+    <string name="tag_gps_speed">Vitesse GPS</string>
+    <string name="tag_interoperability_index">Index d\'interopérabilité</string>
+    <string name="tag_dng_version">Version DNG</string>
+    <string name="tag_rw2_sensor_bottom_border">Bordure inférieure du capteur</string>
+    <string name="tag_rw2_sensor_right_border">Bordure droite du capteur</string>
+    <string name="draw_text_sub">Dessiner le texte sur le chemin avec la police et la couleur sélectionnés</string>
+    <string name="font_size">Taille de la police</string>
+    <string name="watermark_size">Taille du filigrane</string>
+    <string name="tag_default_crop_size">Taille de rognage par défaut</string>
+    <string name="tag_orf_preview_image_length">Longueur de l\'image de prévisualisation</string>
 </resources>
