@@ -107,6 +107,7 @@ fun CropContent(
     var coercePointsToImageArea by rememberSaveable {
         mutableStateOf(true)
     }
+
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
