@@ -552,7 +552,7 @@
     <string name="available_languages">idiomas disponíveis</string>
     <string name="segmentation_mode">Modo de segmentação</string>
     <string name="use_pixel_switch">Use a troca de pixels</string>
-    <string name="use_pixel_switch_sub">A opção semelhante a pixel será usada em vez do material do Google que você baseou</string>
+    <string name="use_pixel_switch_sub">Usa um interruptor semelhante ao do Google Pixel</string>
     <string name="saved_to_original">Arquivo sobrescrito com nome %s no destino original</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Ativa a lupa na parte superior do dedo nos modos de desenho para melhor acessibilidade</string>
@@ -599,7 +599,7 @@
     <string name="color_stops">Paradas de cores</string>
     <string name="add_color">Adicionar cor</string>
     <string name="properties">Propriedades</string>
-    <string name="brightness_enforcement">Aplicação de brilho</string>
+    <string name="brightness_enforcement">Aplicação do brilho</string>
     <string name="screen">Tela</string>
     <string name="gradient_maker_type_image">Sobreposição de Gradiente</string>
     <string name="gradient_maker_type_image_sub">Componha qualquer gradiente por cima de determinadas imagens</string>
