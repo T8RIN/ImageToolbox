@@ -1641,4 +1641,14 @@
     <string name="resolution_y"></string>
     <string name="send_logs"></string>
     <string name="crash_title"></string>
+    <string name="export_fonts"></string>
+    <string name="checksum_tools_sub"></string>
+    <string name="scan_barcode"></string>
+    <string name="checksum_tools"></string>
+    <string name="imported_fonts"></string>
+    <string name="image_cutting"></string>
+    <string name="import_font"></string>
+    <string name="invisible_mode"></string>
+    <string name="wrong_font"></string>
+    <string name="tool_exit_confirmation"></string>
 </resources>
