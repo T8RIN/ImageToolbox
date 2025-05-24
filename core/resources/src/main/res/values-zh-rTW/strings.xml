@@ -1651,4 +1651,5 @@
     <string name="material_you" translatable="false"></string>
     <string name="default_prefix" translatable="false"></string>
     <string name="crashlytics" translatable="false"></string>
+    <string name="invisible_mode"></string>
 </resources>
