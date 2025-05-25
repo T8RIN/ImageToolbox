@@ -15,7 +15,7 @@
     <string name="resize_type">Resize type</string>
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexible</string>
-    <string name="pick_image_alt">Pick Image</string>
+    <string name="pick_image_alt">Pick image</string>
     <string name="app_closing_sub">Are you sure you want to close the app?</string>
     <string name="app_closing">App closing</string>
     <string name="stay">Stay</string>
@@ -29,7 +29,7 @@
     <string name="copied">Copied to clipboard</string>
     <string name="exception">Exception</string>
     <string name="edit_exif">Edit EXIF</string>
-    <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">OK</string>
     <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
     <string name="save">Save</string>
@@ -44,7 +44,7 @@
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
     <string name="single_edit">Single edit</string>
-    <string name="single_edit_sub">Change specs of single given image</string>
+    <string name="single_edit_sub">Edit a single image</string>
     <string name="pick_color">Pick color</string>
     <string name="pick_color_sub">Pick color from image, copy or share</string>
     <string name="image">Image</string>
@@ -168,15 +168,15 @@
     <string name="fill">Fill</string>
     <string name="fit">Fit</string>
     <string name="content_scale">Content scale</string>
-    <string name="explicit_description">Forces every picture into an image given by the Width and Height parameter - may change aspect ratio</string>
-    <string name="flexible_description">Resizes pictures to images with a long side given by the Width or Height parameter, all size calculations will be done after saving - keeps aspect ratio</string>
+    <string name="explicit_description">Resizes images to the given height and width. The aspect ratio of the images may change.</string>
+    <string name="flexible_description">Resizes images with a long side to the given height or width. All size calculations will be done after saving. The aspect ratio of the images will be preserved.</string>
     <string name="brightness">Brightness</string>
     <string name="contrast">Contrast</string>
     <string name="hue">Hue</string>
     <string name="saturation">Saturation</string>
     <string name="add_filter">Add filter</string>
     <string name="filter">Filter</string>
-    <string name="filter_sub">Apply any filter chain to given images</string>
+    <string name="filter_sub">Apply filters to images</string>
     <string name="filters">Filters</string>
     <string name="light_aka_illumination">Light</string>
     <string name="color_filter">Color filter</string>
@@ -199,7 +199,7 @@
     <string name="negative">Negative</string>
     <string name="solarize">Solarize</string>
     <string name="vibrance">Vibrance</string>
-    <string name="black_and_white">Black and White</string>
+    <string name="black_and_white">Black and white</string>
     <string name="crosshatch">Crosshatch</string>
     <string name="spacing">Spacing</string>
     <string name="line_width">Line width</string>
@@ -231,7 +231,7 @@
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
     <string name="limits_resize">Resize with limits</string>
-    <string name="limits_resize_sub">Resize selected images to given width and height while keeping the aspect ratio</string>
+    <string name="limits_resize_sub">Resize images to the given height and width while keeping the aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
     <string name="quantizationLevels">Quantization levels</string>

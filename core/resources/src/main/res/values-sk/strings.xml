@@ -151,7 +151,7 @@
     <string name="haze">Haze</string>
     <string name="blur">Rozmazať</string>
     <string name="limits_resize">Zmeniť veľkosť s obmedzeniami</string>
-    <string name="limits_resize_sub">Zmeňte veľkosť daných obrázkov tak, aby dodržiavali limity šírky a výšky s uložením pomeru strán</string>
+    <string name="limits_resize_sub">Zmeňte veľkosť vybraných obrázkov na danú šírku a výšku pri zachovaní pomeru strán</string>
     <string name="sketch">Skica</string>
     <string name="threshold">Prah</string>
     <string name="non_maximum_suppression">Nie maximálne potlačenie</string>
@@ -302,7 +302,7 @@
     <string name="channel_shift_y">Premik kanala Y</string>
     <string name="side">Stran</string>
     <string name="bottom">Spodaj</string>
-    <string name="nature_and_animals">Narava in živali</string>
+    <string name="nature_and_animals">Príroda a zvieratá</string>
     <string name="food_and_drink">Hrana in pijača</string>
     <string name="blur_radius">Radij zameglitve</string>
     <string name="background_remover_sub">Odstranite ozadje s slike z risanjem ali uporabite možnost Samodejno</string>
@@ -324,7 +324,7 @@
     <string name="pixel_sort">Pixel Sort</string>
     <string name="shuffle">Naključno</string>
     <string name="delete_mask_warn">Izbrisali boste izbrano masko filtra. Te operacije ni mogoče razveljaviti</string>
-    <string name="delete_mask">Izbriši masko</string>
+    <string name="delete_mask">Odstrániť masku</string>
     <string name="drago">Drago</string>
     <string name="aldridge">Aldridge</string>
     <string name="cutoff">Odrezati</string>
@@ -361,7 +361,7 @@
     <string name="corrupted_file_or_not_a_backup">Poškodovana datoteka ali ni varnostne kopije</string>
     <string name="contact_me">Kontaktiraj me</string>
     <string name="reset_settings_sub">S tem boste vaše nastavitve povrnili na privzete vrednosti. Upoštevajte, da tega ni mogoče razveljaviti brez zgoraj omenjene varnostne kopije.</string>
-    <string name="delete_color_scheme_title">Izbriši shemo</string>
+    <string name="delete_color_scheme_title">Vymazať schému</string>
     <string name="font">Pisava</string>
     <string name="text">Besedilo</string>
     <string name="font_scale">Merilo pisave</string>
@@ -493,8 +493,8 @@
     <string name="saved_to">Shranjeno v mapo %1$s z imenom %2$s</string>
     <string name="enable_emoji">Omogoči emoji</string>
     <string name="restore_background">Obnovi ozadje</string>
-    <string name="resize_and_convert">Spremeni velikost in pretvori</string>
-    <string name="crashlytics_sub">To aplikaciji omogoča ročno zbiranje poročil o zrušitvah</string>
+    <string name="resize_and_convert">Zmeniť veľkosť a konvertovať</string>
+    <string name="crashlytics_sub">Toto umožňuje aplikácii automaticky zbierať hlásenia o zlyhaniach</string>
     <string name="analytics">analitika</string>
     <string name="effort">Trud</string>
     <string name="brush_softness">Mehkoba čopiča</string>
@@ -533,7 +533,7 @@
     <string name="heji_burgess_tone_mapping">Hejl Burgess Tone Mapping</string>
     <string name="aces_hill_tone_mapping">ACES Hill Tone Mapping</string>
     <string name="current">Trenutno</string>
-    <string name="full_filter">Polni filter</string>
+    <string name="full_filter">Úplný filter</string>
     <string name="start_position">Začetek</string>
     <string name="center_position">Center</string>
     <string name="end_position">Konec</string>
@@ -547,7 +547,7 @@
     <string name="speed">Hitrost</string>
     <string name="dehaze">Dehaze</string>
     <string name="omega">Omega</string>
-    <string name="pdf_tools">Orodja PDF</string>
+    <string name="pdf_tools">PDF nástroje</string>
     <string name="rate_app">Ocenite aplikacijo</string>
     <string name="rate">Oceniti</string>
     <string name="rate_app_sub">Ta aplikacija je popolnoma brezplačna, če želite, da postane večja, označite projekt z zvezdico na Githubu 😄</string>
@@ -605,7 +605,7 @@
     <string name="wait">Počakaj</string>
     <string name="saving_almost_complete">Shranjevanje je skoraj končano. Če prekličete zdaj, boste morali znova shraniti.</string>
     <string name="mask_color">Barva maske</string>
-    <string name="mask_preview">Predogled maske</string>
+    <string name="mask_preview">Náhľad masky</string>
     <string name="mask_preview_sub">Narisana maska filtra bo upodobljena, da vam pokaže približen rezultat</string>
     <string name="scale_mode">Način lestvice</string>
     <string name="bilinear">Bilinearno</string>
@@ -626,7 +626,7 @@
     <string name="only_clip_sub">Shranjevanje v shrambo ne bo izvedeno, slika pa se bo poskušala vstaviti samo v odložišče</string>
     <string name="icon_shape_sub">Doda vsebnik z izbrano obliko pod vodilne ikone kartic</string>
     <string name="icon_shape">Oblika ikone</string>
-    <string name="image_stitching">Šivanje slik</string>
+    <string name="image_stitching">Spájanie obrázkov</string>
     <string name="image_stitching_sub">Združite dane slike, da dobite eno veliko</string>
     <string name="presets_sub" formatted="false">Ak ste vybrali predvoľbu 125, obrázok sa uloží vo veľkosti 125 % pôvodného obrázka. Ak zvolíte predvoľbu 50, obrázok sa uloží s veľkosťou 50 %.</string>
     <string name="brightness_enforcement">Uveljavljanje svetlosti</string>
@@ -754,7 +754,7 @@
     <string name="vibrant">Živahno</string>
     <string name="expressive">Ekspresivno</string>
     <string name="rainbow">Mavrica</string>
-    <string name="fruit_salad">Sadna solata</string>
+    <string name="fruit_salad">Ovocný šalát</string>
     <string name="fidelity">Zvestoba</string>
     <string name="content">Vsebina</string>
     <string name="tonal_spot_sub">Privzeti slog palete, omogoča prilagajanje vseh štirih barv, drugi vam omogočajo nastavitev samo ključne barve</string>
@@ -762,7 +762,7 @@
     <string name="highlighter_sub">Narišite polprosojne izostrene poti označevalca</string>
     <string name="privacy_blur_sub">Zamegli sliko pod narisano potjo, da zavaruje vse, kar želite skriti</string>
     <string name="containers_shadow">Zabojniki</string>
-    <string name="containers_shadow_sub">Omogoča risanje sence za vsebniki</string>
+    <string name="containers_shadow_sub">Nakresliť tieň za kontajnery</string>
     <string name="sliders_shadow">Drsniki</string>
     <string name="switches_shadow">Stikala</string>
     <string name="fabs_shadow">FAB-ji</string>
