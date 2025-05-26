@@ -111,6 +111,7 @@ fun CropContent(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
+
     val imagePicker = rememberImagePicker { uri: Uri ->
         rotationState.floatValue = 0f
         component.setUri(
