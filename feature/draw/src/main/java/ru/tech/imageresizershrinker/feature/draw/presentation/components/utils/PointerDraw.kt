@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.feature.draw.presentation.components.utils
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.magnifier
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,17 +22,20 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 
 fun Modifier.pointerDrawObserver(
-    onPointersCountChange: (Int, Offset) -> Unit,
     magnifierEnabled: Boolean,
     currentDrawPosition: Offset,
-    globalTouchPosition: Offset,
     zoomState: ZoomState,
-    globalTouchPointersCount: Int,
+    globalTouchPointersCount: MutableIntState,
     panEnabled: Boolean
-) = this.then(
+) = this.composed {
+    var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
+
     Modifier
         .fillMaxSize()
-        .observePointersCountWithOffset(onChange = onPointersCountChange)
+        .observePointersCountWithOffset { size, offset ->
+            globalTouchPointersCount.intValue = size
+            globalTouchPosition = offset
+        }
         .then(
             if (magnifierEnabled) {
                 Modifier.magnifier(
@@ -52,16 +56,16 @@ fun Modifier.pointerDrawObserver(
         .clipToBounds()
         .zoomable(
             zoomState = zoomState,
-            zoomEnabled = (globalTouchPointersCount >= 2 || panEnabled),
+            zoomEnabled = (globalTouchPointersCount.intValue >= 2 || panEnabled),
             enableOneFingerZoom = panEnabled,
             onDoubleTap = { pos ->
                 if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
             }
         )
-)
+}
 
 fun Modifier.pointerDrawHandler(
-    globalTouchPointersCount: Int,
+    globalTouchPointersCount: MutableIntState,
     onReceiveMotionEvent: (MotionEvent) -> Unit,
     onInvalidate: () -> Unit,
     onUpdateCurrentDrawPosition: (Offset) -> Unit,
@@ -75,7 +79,7 @@ fun Modifier.pointerDrawHandler(
 
         Modifier.pointerMotionEvents(
             onDown = { pointerInputChange ->
-                drawStartedWithOnePointer = globalTouchPointersCount <= 1
+                drawStartedWithOnePointer = globalTouchPointersCount.intValue <= 1
 
                 if (drawStartedWithOnePointer) {
                     onReceiveMotionEvent(MotionEvent.Down)
@@ -101,7 +105,7 @@ fun Modifier.pointerDrawHandler(
                 }
                 drawStartedWithOnePointer = false
             },
-            delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount)
+            delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount.intValue)
         )
     }
 } else {

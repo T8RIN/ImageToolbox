@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import ru.tech.imageresizershrinker.core.domain.model.ImageModel
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -152,10 +153,9 @@ internal fun Canvas.UiPathPaintCanvasAction(
                     listOf(
                         createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
                             Triple(
-                                first = Bitmap.createBitmap(
-                                    canvasSize.width,
-                                    canvasSize.height,
-                                    Bitmap.Config.ARGB_8888
+                                first = createBitmap(
+                                    width = canvasSize.width,
+                                    height = canvasSize.height
                                 ).applyCanvas {
                                     drawColor(Color.Black.toArgb())
                                     drawPath(

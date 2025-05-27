@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -20,7 +21,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 @Composable
 fun BoxScope.BitmapDrawerPreview(
     preview: ImageBitmap,
-    globalTouchPointersCount: Int,
+    globalTouchPointersCount: MutableIntState,
     onReceiveMotionEvent: (MotionEvent) -> Unit,
     onInvalidate: () -> Unit,
     onUpdateCurrentDrawPosition: (Offset) -> Unit,

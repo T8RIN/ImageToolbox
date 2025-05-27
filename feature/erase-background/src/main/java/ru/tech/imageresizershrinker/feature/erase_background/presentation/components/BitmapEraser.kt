@@ -97,20 +97,14 @@ fun BitmapEraser(
             zoomState.scale <= 3f && !panEnabled && settingsState.magnifierEnabled
         }
     }
-    var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
-    var globalTouchPointersCount by remember { mutableIntStateOf(0) }
+    val globalTouchPointersCount = remember { mutableIntStateOf(0) }
 
     var currentDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     Box(
         modifier = Modifier.pointerDrawObserver(
-            onPointersCountChange = { size, offset ->
-                globalTouchPointersCount = size
-                globalTouchPosition = offset
-            },
             magnifierEnabled = magnifierEnabled,
             currentDrawPosition = currentDrawPosition,
-            globalTouchPosition = globalTouchPosition,
             zoomState = zoomState,
             globalTouchPointersCount = globalTouchPointersCount,
             panEnabled = panEnabled
