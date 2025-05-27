@@ -18,6 +18,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.t8rin.imagetoolbox.configureDetekt
 import com.t8rin.imagetoolbox.configureKotlinAndroid
+import com.t8rin.imagetoolbox.implementation
 import com.t8rin.imagetoolbox.libs
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
@@ -26,7 +27,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-
+@Suppress("UNUSED")
 class ImageToolboxLibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -35,22 +36,18 @@ class ImageToolboxLibraryPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
                 apply("kotlin-parcelize")
                 apply("kotlinx-serialization")
-
-                apply(
-                    libs.findLibrary("detekt-gradle").get().get().group.toString()
-                )
+                apply(libs.detekt.gradle.get().group.toString())
             }
 
             configureDetekt(extensions.getByType<DetektExtension>())
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.minSdk =
-                    libs.findVersion("androidMinSdk").get().toString().toIntOrNull()
+                defaultConfig.minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
             }
 
             dependencies {
-                "implementation"(libs.findLibrary("androidxCore").get())
+                implementation(libs.androidxCore)
             }
         }
     }

@@ -16,25 +16,35 @@
  */
 
 import com.t8rin.imagetoolbox.configureDetekt
+import com.t8rin.imagetoolbox.core
+import com.t8rin.imagetoolbox.crash
+import com.t8rin.imagetoolbox.data
+import com.t8rin.imagetoolbox.di
+import com.t8rin.imagetoolbox.domain
+import com.t8rin.imagetoolbox.implementation
+import com.t8rin.imagetoolbox.projects
+import com.t8rin.imagetoolbox.resources
+import com.t8rin.imagetoolbox.settings
+import com.t8rin.imagetoolbox.ui
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-
+@Suppress("UNUSED")
 class ImageToolboxLibraryFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             configureDetekt(extensions.getByType<DetektExtension>())
             dependencies {
-                "implementation"(project(":core:data"))
-                "implementation"(project(":core:ui"))
-                "implementation"(project(":core:domain"))
-                "implementation"(project(":core:resources"))
-                "implementation"(project(":core:settings"))
-                "implementation"(project(":core:di"))
-                "implementation"(project(":core:crash"))
+                implementation(projects.core.data)
+                implementation(projects.core.ui)
+                implementation(projects.core.domain)
+                implementation(projects.core.resources)
+                implementation(projects.core.settings)
+                implementation(projects.core.di)
+                implementation(projects.core.crash)
             }
         }
     }

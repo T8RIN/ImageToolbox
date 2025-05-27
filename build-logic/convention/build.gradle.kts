@@ -41,6 +41,7 @@ dependencies {
     compileOnly(libs.kotlin.gradle)
     compileOnly(libs.detekt.gradle)
     compileOnly(libs.compose.compiler.gradle)
+    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
 gradlePlugin {

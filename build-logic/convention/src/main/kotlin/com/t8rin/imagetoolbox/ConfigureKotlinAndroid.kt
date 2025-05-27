@@ -36,10 +36,10 @@ internal fun Project.configureKotlinAndroid(
     createFlavors: Boolean = true
 ) {
     commonExtension.apply {
-        compileSdk = libs.findVersion("androidCompileSdk").get().toString().toIntOrNull()
+        compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
         defaultConfig {
-            minSdk = libs.findVersion("androidMinSdk").get().toString().toIntOrNull()
+            minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         }
 
         if (createFlavors) {
@@ -85,13 +85,13 @@ internal fun Project.configureKotlinAndroid(
     configureKotlin<KotlinAndroidProjectExtension>()
 
     dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("desugaring").get())
+        coreLibraryDesugaring(libs.desugaring)
     }
 }
 
 val Project.javaVersion: JavaVersion
     get() = JavaVersion.toVersion(
-        libs.findVersion("jvmTarget").get().toString()
+        libs.versions.jvmTarget.get()
     )
 
 /**
@@ -125,7 +125,7 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
         is KotlinJvmProjectExtension -> compilerOptions
         else -> error("Unsupported project extension $this ${T::class}")
     }.apply {
-        jvmTarget = JvmTarget.fromTarget(libs.findVersion("jvmTarget").get().toString())
+        jvmTarget = JvmTarget.fromTarget(libs.versions.jvmTarget.get())
         allWarningsAsErrors = warningsAsErrors.toBoolean()
         freeCompilerArgs.addAll(args)
     }

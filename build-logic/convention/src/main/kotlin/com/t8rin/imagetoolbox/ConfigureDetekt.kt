@@ -35,7 +35,7 @@ internal fun Project.configureDetekt(extension: DetektExtension) = extension.app
         }
     }
     dependencies {
-        "detektPlugins"(libs.findLibrary("detekt-formatting").get())
-        "detektPlugins"(libs.findLibrary("detekt-compose").get())
+        detektPlugins(libs.detekt.formatting)
+        detektPlugins(libs.detekt.compose)
     }
 }

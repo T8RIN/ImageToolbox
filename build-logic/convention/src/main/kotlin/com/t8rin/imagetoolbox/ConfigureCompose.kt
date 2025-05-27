@@ -34,10 +34,10 @@ internal fun Project.configureCompose(
         }
 
         dependencies {
-            "implementation"(libs.findLibrary("androidx.material3").get())
-            "implementation"(libs.findLibrary("androidx.material3.window.sizeclass").get())
-            "implementation"(libs.findLibrary("androidx.material").get())
-            "implementation"(libs.findLibrary("androidx.material.icons.extended").get())
+            implementation(libs.androidx.material3)
+            implementation(libs.window.sizeclass)
+            implementation(libs.androidx.material)
+            implementation(libs.icons.extended)
         }
     }
 

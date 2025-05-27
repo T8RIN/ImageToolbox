@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+import com.t8rin.imagetoolbox.implementation
+import com.t8rin.imagetoolbox.ksp
 import com.t8rin.imagetoolbox.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -29,8 +31,8 @@ class ImageToolboxHiltPlugin : Plugin<Project> {
             apply(plugin = "com.google.devtools.ksp")
 
             dependencies {
-                "implementation"(libs.findLibrary("hilt").get())
-                "ksp"(libs.findLibrary("dagger.hilt.compiler").get())
+                implementation(libs.dagger.hilt.android)
+                ksp(libs.dagger.hilt.compiler)
             }
         }
     }

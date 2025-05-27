@@ -199,12 +199,12 @@ compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-grad
 
 # Used in convention plugins
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 
-androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
+icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 
