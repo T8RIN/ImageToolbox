@@ -89,6 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSe
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedAlertDialog
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -273,6 +274,8 @@ fun PdfToolsContent(
             },
             onSelectPdf = selectionPdfPicker::pickFile,
             buttons = { pdfType ->
+                val isPreview = pdfType !is Screen.PdfTools.Type.Preview
+
                 EnhancedFloatingActionButton(
                     onClick = {
                         when (pdfType) {
@@ -281,7 +284,13 @@ fun PdfToolsContent(
                             else -> pdfToImagesPicker.pickFile()
                         }
                     },
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    type = if (isPreview) {
+                        if (isPortrait) EnhancedFloatingActionButtonType.SecondaryHorizontal
+                        else EnhancedFloatingActionButtonType.SecondaryVertical
+                    } else {
+                        EnhancedFloatingActionButtonType.Primary
+                    }
                 ) {
                     Icon(
                         imageVector = when (pdfType) {
@@ -291,7 +300,7 @@ fun PdfToolsContent(
                         contentDescription = stringResource(R.string.pick)
                     )
                 }
-                if (pdfType !is Screen.PdfTools.Type.Preview) {
+                if (isPreview) {
                     val visible by rememberCanSaveOrShare(
                         selectedPages = component.pdfToImageState?.selectedPages,
                         pdfType = pdfType
