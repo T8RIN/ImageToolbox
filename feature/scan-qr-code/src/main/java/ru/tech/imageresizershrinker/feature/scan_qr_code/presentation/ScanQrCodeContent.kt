@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.scan_qr_code.presentation
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.layout.Row
@@ -68,6 +69,7 @@ import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.components.ScanQrCodeControls
 import ru.tech.imageresizershrinker.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 
+@SuppressLint("StringFormatInvalid")
 @Composable
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent
@@ -224,11 +226,11 @@ fun ScanQrCodeContent(
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
+                isPrimaryButtonVisible = isPortrait || params.content.isNotEmpty(),
                 actions = {
                     if (isPortrait) actions()
                 },
                 showColumnarFabInRow = true,
-                isPrimaryButtonVisible = isPortrait || params.content.isNotEmpty(),
                 columnarFab = {
                     EnhancedFloatingActionButton(
                         onClick = analyzerImagePicker::pickImage,

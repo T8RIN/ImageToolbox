@@ -33,6 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -60,7 +62,7 @@ fun EnhancedFloatingActionButton(
     onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     onLongClick: (() -> Unit)? = null,
-    type: EnhancedFloatingActionButtonType = EnhancedFloatingActionButtonType.Primary,
+    type: EnhancedFloatingActionButtonType = LocalFABType.current,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     contentColor: Color = contentColor(containerColor),
     autoElevation: Dp = 1.5.dp,
@@ -68,13 +70,14 @@ fun EnhancedFloatingActionButton(
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val size by animateDpAsState(type.size)
+    val width by animateDpAsState(type.width)
+    val height by animateDpAsState(type.height)
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
 
     val shape = shapeByInteraction(
         shape = type.shape,
-        pressedShape = RoundedCornerShape(type.size / 8),
+        pressedShape = RoundedCornerShape(max(width, height) / 8),
         interactionSource = interactionSource
     )
 
@@ -129,7 +132,7 @@ fun EnhancedFloatingActionButton(
                 }
             },
             modifier = modifier
-                .sizeIn(minWidth = size, minHeight = size)
+                .sizeIn(minWidth = width, minHeight = height)
                 .containerFabBorder(
                     shape = shape,
                     autoElevation = animateDpAsState(
@@ -162,9 +165,19 @@ private fun contentColor(
 
 
 sealed class EnhancedFloatingActionButtonType(
-    val size: Dp,
+    val width: Dp,
+    val height: Dp,
     val shape: Shape
 ) {
+    constructor(
+        size: Dp,
+        shape: Shape
+    ) : this(
+        width = size,
+        height = size,
+        shape = shape
+    )
+
     data object Small : EnhancedFloatingActionButtonType(
         size = 40.dp,
         shape = RoundedCornerShape(12.dp)
@@ -173,6 +186,18 @@ sealed class EnhancedFloatingActionButtonType(
     data object Primary : EnhancedFloatingActionButtonType(
         size = 56.dp,
         shape = RoundedCornerShape(16.dp)
+    )
+
+    data object SecondaryHorizontal : EnhancedFloatingActionButtonType(
+        width = 42.dp,
+        height = 56.dp,
+        shape = RoundedCornerShape(50)
+    )
+
+    data object SecondaryVertical : EnhancedFloatingActionButtonType(
+        width = 56.dp,
+        height = 42.dp,
+        shape = RoundedCornerShape(50)
     )
 
     data object Large : EnhancedFloatingActionButtonType(
@@ -186,5 +211,20 @@ sealed class EnhancedFloatingActionButtonType(
     ) : EnhancedFloatingActionButtonType(
         size = size,
         shape = shape
+    )
+}
+
+val LocalFABType = compositionLocalOf<EnhancedFloatingActionButtonType> {
+    EnhancedFloatingActionButtonType.Primary
+}
+
+@Composable
+fun ProvideFABType(
+    type: EnhancedFloatingActionButtonType,
+    content: @Composable () -> Unit
+) {
+    LocalFABType.ProvidesValue(
+        value = type,
+        content = content
     )
 }

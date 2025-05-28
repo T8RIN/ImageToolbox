@@ -35,7 +35,6 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -68,7 +67,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
-import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.AspectRatioSelector
@@ -140,6 +138,34 @@ fun CropContent(
 
     var crop by remember { mutableStateOf(false) }
 
+    val actions = @Composable {
+        var editSheetData by remember {
+            mutableStateOf(listOf<Uri>())
+        }
+        ShareButton(
+            enabled = component.bitmap != null,
+            onShare = {
+                component.shareBitmap(showConfetti)
+            },
+            onEdit = {
+                component.cacheCurrentImage { uri ->
+                    editSheetData = listOf(uri)
+                }
+            },
+            onCopy = {
+                component.cacheCurrentImage(essentials::copyToClipboard)
+            }
+        )
+        ProcessImagesPreferenceSheet(
+            uris = editSheetData,
+            visible = editSheetData.isNotEmpty(),
+            onDismiss = {
+                editSheetData = emptyList()
+            },
+            onNavigate = component.onNavigate
+        )
+    }
+
     AdaptiveBottomScaffoldLayoutScreen(
         title = {
             TopAppBarTitle(
@@ -153,20 +179,7 @@ fun CropContent(
         onGoBack = onBack,
         shouldDisableBackHandler = component.bitmap == null,
         actions = {
-            var job by remember { mutableStateOf<Job?>(null) }
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier.padding(horizontal = 16.dp),
-                onClick = {
-                    job?.cancel()
-                    job = scope.launch {
-                        delay(500)
-                        crop = true
-                    }
-                }
-            ) {
-                Text(stringResource(R.string.crop))
-            }
+            actions()
         },
         topAppBarPersistentActions = { scaffoldState ->
             if (component.bitmap == null) TopAppBarEmoji()
@@ -198,31 +211,8 @@ fun CropContent(
                         contentDescription = stringResource(R.string.reset_image)
                     )
                 }
-                var editSheetData by remember {
-                    mutableStateOf(listOf<Uri>())
-                }
-                ShareButton(
-                    enabled = component.bitmap != null,
-                    onShare = {
-                        component.shareBitmap(showConfetti)
-                    },
-                    onEdit = {
-                        component.cacheCurrentImage { uri ->
-                            editSheetData = listOf(uri)
-                        }
-                    },
-                    onCopy = {
-                        component.cacheCurrentImage(essentials::copyToClipboard)
-                    }
-                )
-                ProcessImagesPreferenceSheet(
-                    uris = editSheetData,
-                    visible = editSheetData.isNotEmpty(),
-                    onDismiss = {
-                        editSheetData = emptyList()
-                    },
-                    onNavigate = component.onNavigate
-                )
+
+                if (!isPortrait) actions()
             }
         },
         mainContent = {
@@ -345,6 +335,7 @@ fun CropContent(
                         )
                     }
                 },
+                showColumnarFabInRow = component.bitmap != null,
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },

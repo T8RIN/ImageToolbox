@@ -72,6 +72,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.ProvideFABType
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -95,13 +97,14 @@ fun BottomButtonsBlock(
     showColumnarFabInRow: Boolean = false,
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val spacing = 8.dp
 
     AnimatedContent(
         targetState = isNoData to isPortrait,
         transitionSpec = {
             fadeIn() + slideInVertically { it / 2 } togetherWith fadeOut() + slideOutVertically { it / 2 }
         }
-    ) { (isEmptyState, inside) ->
+    ) { (isEmptyState, portrait) ->
         if (isEmptyState) {
             val button = @Composable {
                 Row(
@@ -114,9 +117,21 @@ fun BottomButtonsBlock(
                             )
                         )
                         .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(spacing),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val columnar = @Composable {
+                        if (showColumnarFabInRow && columnarFab != null) {
+                            ProvideFABType(EnhancedFloatingActionButtonType.SecondaryHorizontal) {
+                                Column(
+                                    content = columnarFab
+                                )
+                            }
+                        }
+                    }
+
+                    if (!isPrimaryButtonVisible) columnar()
+
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
                         onLongClick = onSecondaryButtonLongClick,
@@ -131,11 +146,8 @@ fun BottomButtonsBlock(
                             Spacer(Modifier.width(16.dp))
                         }
                     )
-                    if (showColumnarFabInRow && columnarFab != null) {
-                        Column(
-                            content = columnarFab
-                        )
-                    }
+
+                    if (isPrimaryButtonVisible) columnar()
                 }
             }
             if (showNullDataButtonAsContainer) {
@@ -150,15 +162,29 @@ fun BottomButtonsBlock(
                 ) {
                     button()
                 }
-            } else button()
-        } else if (inside) {
+            } else {
+                button()
+            }
+        } else if (portrait) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),
                 actions = actions,
                 floatingActionButton = {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
+                    Row {
+                        val columnar = @Composable {
+                            AnimatedVisibility(visible = showColumnarFabInRow) {
+                                columnarFab?.let {
+                                    ProvideFABType(EnhancedFloatingActionButtonType.SecondaryHorizontal) {
+                                        Column(
+                                            modifier = Modifier.padding(end = spacing),
+                                            content = { it() }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        if (!isPrimaryButtonVisible) columnar()
+
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
@@ -166,7 +192,13 @@ fun BottomButtonsBlock(
                                 containerColor = takeColorFromScheme {
                                     if (isPrimaryButtonVisible) tertiaryContainer
                                     else primaryContainer
-                                }
+                                },
+                                type = if (isPrimaryButtonVisible) {
+                                    EnhancedFloatingActionButtonType.SecondaryHorizontal
+                                } else {
+                                    EnhancedFloatingActionButtonType.Primary
+                                },
+                                modifier = Modifier.padding(end = spacing)
                             ) {
                                 Icon(
                                     imageVector = secondaryButtonIcon,
@@ -174,11 +206,9 @@ fun BottomButtonsBlock(
                                 )
                             }
                         }
-                        AnimatedVisibility(visible = showColumnarFabInRow) {
-                            columnarFab?.let {
-                                Column { it() }
-                            }
-                        }
+
+                        if (isPrimaryButtonVisible) columnar()
+
                         AnimatedVisibility(visible = isPrimaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onPrimaryButtonClick.takeIf { isPrimaryButtonEnabled },
@@ -240,8 +270,21 @@ fun BottomButtonsBlock(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val columnar = @Composable {
+                    columnarFab?.let {
+                        Spacer(Modifier.height(spacing))
+                        ProvideFABType(EnhancedFloatingActionButtonType.SecondaryVertical) {
+                            it()
+                        }
+                    }
+                }
+
                 Row { actions() }
-                Spacer(Modifier.height(8.dp))
+
+                if (!isPrimaryButtonVisible) columnar()
+
+                Spacer(Modifier.height(spacing))
+
                 AnimatedVisibility(visible = isSecondaryButtonVisible) {
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
@@ -249,6 +292,11 @@ fun BottomButtonsBlock(
                         containerColor = takeColorFromScheme {
                             if (isPrimaryButtonVisible) tertiaryContainer
                             else primaryContainer
+                        },
+                        type = if (isPrimaryButtonVisible) {
+                            EnhancedFloatingActionButtonType.SecondaryVertical
+                        } else {
+                            EnhancedFloatingActionButtonType.Primary
                         }
                     ) {
                         Icon(
@@ -257,10 +305,9 @@ fun BottomButtonsBlock(
                         )
                     }
                 }
-                columnarFab?.let {
-                    Spacer(Modifier.height(8.dp))
-                    it()
-                }
+
+                if (isPrimaryButtonVisible) columnar()
+
                 AnimatedVisibility(visible = isPrimaryButtonVisible) {
                     EnhancedFloatingActionButton(
                         onClick = onPrimaryButtonClick.takeIf { isPrimaryButtonEnabled },
@@ -274,7 +321,7 @@ fun BottomButtonsBlock(
                             if (isPrimaryButtonEnabled) onPrimaryContainer
                             else outline
                         },
-                        modifier = Modifier.padding(top = 8.dp)
+                        modifier = Modifier.padding(top = spacing)
                     ) {
                         AnimatedContent(
                             targetState = primaryButtonIcon to primaryButtonText,
