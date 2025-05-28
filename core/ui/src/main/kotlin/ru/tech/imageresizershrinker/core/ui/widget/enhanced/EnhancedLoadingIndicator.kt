@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.core.ui.widget.enhanced
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxScope
@@ -49,7 +49,10 @@ import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.resources.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
+import ru.tech.imageresizershrinker.core.ui.utils.animation.RotationEasing
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -139,9 +142,10 @@ private fun EnhancedLoadingIndicatorContainer(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
-            keyframes {
-                durationMillis = 3000
-            }
+            tween(
+                durationMillis = 1300,
+                easing = RotationEasing
+            )
         )
     )
 
@@ -151,6 +155,12 @@ private fun EnhancedLoadingIndicatorContainer(
     ) {
         val settingsState = LocalSettingsState.current
         val borderWidth = settingsState.borderWidth
+        val backgroundColor = takeColorFromScheme {
+            surfaceContainerHighest.blend(
+                color = primaryContainer,
+                fraction = 0.1f
+            )
+        }
 
         Spacer(
             modifier = Modifier
@@ -159,24 +169,24 @@ private fun EnhancedLoadingIndicatorContainer(
                 .then(
                     if (borderWidth <= 0.dp && settingsState.drawContainerShadows) {
                         Modifier.rsBlurShadow(
-                            radius = 2.dp,
+                            radius = 1.05.dp,
                             shape = MaterialStarShape,
                             isAlphaContentClip = true,
                             offset = DpOffset.Zero,
-                            spread = 1.5.dp,
-                            color = MaterialTheme.colorScheme.scrim.copy(0.1f)
+                            spread = if (settingsState.isNightMode) 1.15.dp else 0.44.dp,
+                            color = MaterialTheme.colorScheme.scrim.copy(0.31f)
                         )
                     } else Modifier
                 )
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    color = backgroundColor,
                     shape = MaterialStarShape
                 )
                 .border(
                     width = borderWidth,
                     color = MaterialTheme.colorScheme.outlineVariant(
                         luminance = 0.1f,
-                        onTopOf = MaterialTheme.colorScheme.surfaceContainerHighest
+                        onTopOf = backgroundColor
                     ),
                     shape = MaterialStarShape
                 )

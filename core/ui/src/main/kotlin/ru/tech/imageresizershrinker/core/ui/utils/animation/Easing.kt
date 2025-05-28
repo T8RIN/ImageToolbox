@@ -30,3 +30,5 @@ val PointToPointEasing = CubicBezierEasing(0.55f, 0.55f, 0f, 1f)
 val FastInvokeEasing = CubicBezierEasing(0f, 0f, 0f, 1f)
 
 val OverslideEasing = CubicBezierEasing(0.5f, 0.5f, 1.0f, 0.25f)
+
+val RotationEasing = CubicBezierEasing(0.46f, 0.03f, 0.52f, 0.96f)
