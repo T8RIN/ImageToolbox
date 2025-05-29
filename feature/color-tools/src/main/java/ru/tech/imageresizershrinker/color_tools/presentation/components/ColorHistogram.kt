@@ -37,9 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.HistogramType
-import com.t8rin.histogram.ImageHistogram
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageSelector
+import ru.tech.imageresizershrinker.core.ui.widget.image.HistogramChart
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -76,8 +76,8 @@ internal fun ColorHistogram() {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    ImageHistogram(
-                        imageUri = imageUri,
+                    HistogramChart(
+                        model = imageUri,
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .fillMaxWidth()
@@ -88,8 +88,8 @@ internal fun ColorHistogram() {
                         linesThickness = 1.dp,
                         bordersShape = RoundedCornerShape(6.dp)
                     )
-                    ImageHistogram(
-                        imageUri = imageUri,
+                    HistogramChart(
+                        model = imageUri,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)
@@ -99,8 +99,8 @@ internal fun ColorHistogram() {
                         linesThickness = 1.dp,
                         bordersShape = RoundedCornerShape(6.dp)
                     )
-                    ImageHistogram(
-                        imageUri = imageUri,
+                    HistogramChart(
+                        model = imageUri,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)

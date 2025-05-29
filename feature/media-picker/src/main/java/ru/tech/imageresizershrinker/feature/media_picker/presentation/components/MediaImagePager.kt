@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.media_picker.presentation.components
 
-import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -86,7 +85,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.t8rin.histogram.ImageHistogram
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -102,6 +100,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedTopAppBarType
+import ru.tech.imageresizershrinker.core.ui.widget.image.HistogramChart
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateContentSizeNoClip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.toShape
@@ -200,8 +199,8 @@ internal fun MediaImagePager(
                 val moreThanOneUri = media.size > 1
                 val currentMedia = media.getOrNull(pagerState.currentPage)
                 val histogram: @Composable () -> Unit = {
-                    ImageHistogram(
-                        imageUri = currentMedia?.uri?.toUri() ?: Uri.EMPTY,
+                    HistogramChart(
+                        model = currentMedia?.uri?.toUri(),
                         modifier = Modifier
                             .height(50.dp)
                             .width(90.dp),

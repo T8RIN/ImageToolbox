@@ -46,11 +46,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.histogram.ImageHistogram
 import ru.tech.imageresizershrinker.core.filters.domain.model.TemplateFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.widget.AddFilterButton
@@ -65,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.ImageForma
 import ru.tech.imageresizershrinker.core.ui.widget.controls.selection.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.image.HistogramChart
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -92,13 +91,12 @@ internal fun FiltersContentControls(
             endIcon = {
                 AnimatedContent(component.previewBitmap != null) {
                     if (it) {
-                        ImageHistogram(
-                            image = component.previewBitmap,
+                        HistogramChart(
+                            model = component.previewBitmap,
                             modifier = Modifier
                                 .width(100.dp)
                                 .height(65.dp)
-                                .background(MaterialTheme.colorScheme.background),
-                            bordersColor = Color.White
+                                .background(MaterialTheme.colorScheme.background)
                         )
                     } else {
                         Box(modifier = Modifier.size(56.dp)) {

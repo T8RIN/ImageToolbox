@@ -57,7 +57,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.histogram.ImageHistogram
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.Pt
 import ru.tech.imageresizershrinker.core.domain.model.pt
@@ -74,6 +73,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import ru.tech.imageresizershrinker.core.ui.widget.image.HistogramChart
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -177,13 +177,12 @@ internal fun AddEditMaskSheetControls(
                     endIcon = {
                         AnimatedContent(component.previewBitmap != null) {
                             if (it) {
-                                ImageHistogram(
-                                    image = component.previewBitmap,
+                                HistogramChart(
+                                    model = component.previewBitmap,
                                     modifier = Modifier
                                         .width(100.dp)
                                         .height(65.dp)
-                                        .background(MaterialTheme.colorScheme.background),
-                                    bordersColor = Color.White
+                                        .background(MaterialTheme.colorScheme.background)
                                 )
                             } else {
                                 Box(modifier = Modifier.size(56.dp)) {
