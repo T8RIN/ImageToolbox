@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -69,7 +70,8 @@ internal fun CrashBottomButtons(
         Spacer(Modifier.width(8.dp))
         EnhancedFloatingActionButton(
             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            onClick = onCopy
+            onClick = onCopy,
+            type = EnhancedFloatingActionButtonType.SecondaryHorizontal
         ) {
             Icon(
                 imageVector = Icons.Rounded.ContentCopy,

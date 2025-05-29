@@ -366,41 +366,6 @@ fun ImagePreviewContent(
                     if (isFramesSelected) {
                         EnhancedFloatingActionButton(
                             onClick = {
-                                component.shareImages(
-                                    uriList = null,
-                                    onComplete = showConfetti
-                                )
-                            },
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            type = EnhancedFloatingActionButtonType.SecondaryHorizontal,
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Rounded.Share,
-                                    contentDescription = stringResource(R.string.share)
-                                )
-                            }
-                        )
-                    } else {
-                        EnhancedFloatingActionButton(
-                            onClick = {
-                                openDirectoryLauncher.open(previousFolder)
-                            },
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            type = EnhancedFloatingActionButtonType.SecondaryHorizontal,
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Rounded.FolderOpened,
-                                    contentDescription = stringResource(R.string.folder)
-                                )
-                            }
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                AnimatedContent(targetState = selectedUris.isNotEmpty()) { isFramesSelected ->
-                    if (isFramesSelected) {
-                        EnhancedFloatingActionButton(
-                            onClick = {
                                 wantToEdit = true
                             },
                             content = {
@@ -429,6 +394,41 @@ fun ImagePreviewContent(
                                 Spacer(Modifier.width(16.dp))
                                 Text(stringResource(R.string.pick_image_alt))
                                 Spacer(Modifier.width(16.dp))
+                            }
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                AnimatedContent(targetState = selectedUris.isNotEmpty()) { isFramesSelected ->
+                    if (isFramesSelected) {
+                        EnhancedFloatingActionButton(
+                            onClick = {
+                                component.shareImages(
+                                    uriList = null,
+                                    onComplete = showConfetti
+                                )
+                            },
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            type = EnhancedFloatingActionButtonType.SecondaryHorizontal,
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Rounded.Share,
+                                    contentDescription = stringResource(R.string.share)
+                                )
+                            }
+                        )
+                    } else {
+                        EnhancedFloatingActionButton(
+                            onClick = {
+                                openDirectoryLauncher.open(previousFolder)
+                            },
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            type = EnhancedFloatingActionButtonType.SecondaryHorizontal,
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Rounded.FolderOpened,
+                                    contentDescription = stringResource(R.string.folder)
+                                )
                             }
                         )
                     }

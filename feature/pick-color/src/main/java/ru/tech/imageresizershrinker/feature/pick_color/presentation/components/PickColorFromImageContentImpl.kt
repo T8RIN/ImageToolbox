@@ -144,7 +144,7 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                     }
                     val direction = LocalLayoutDirection.current
                     Column(
-                        Modifier
+                        modifier = Modifier
                             .container(
                                 shape = RectangleShape,
                                 resultPadding = 0.dp
@@ -163,7 +163,7 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                         magnifierButton()
                         Spacer(modifier = Modifier.height(8.dp))
                         switch()
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         EnhancedFloatingActionButton(
                             onClick = onPickImage,
                             onLongClick = onOneTimePickImage
