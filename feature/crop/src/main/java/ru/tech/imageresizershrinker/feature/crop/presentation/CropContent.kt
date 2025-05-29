@@ -318,7 +318,7 @@ fun CropContent(
                     saveBitmap(null)
                 },
                 isPrimaryButtonVisible = component.isBitmapChanged,
-                columnarFab = {
+                middleFab = {
                     EnhancedFloatingActionButton(
                         onClick = {
                             job?.cancel()
@@ -335,7 +335,7 @@ fun CropContent(
                         )
                     }
                 },
-                showColumnarFabInRow = component.bitmap != null,
+                showMiddleFabInRow = component.bitmap != null,
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },

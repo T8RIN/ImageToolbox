@@ -91,10 +91,10 @@ fun BottomButtonsBlock(
     isPrimaryButtonVisible: Boolean = true,
     isSecondaryButtonVisible: Boolean = true,
     showNullDataButtonAsContainer: Boolean = false,
-    columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
+    middleFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit,
     isPrimaryButtonEnabled: Boolean = true,
-    showColumnarFabInRow: Boolean = false,
+    showMiddleFabInRow: Boolean = false,
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val spacing = 8.dp
@@ -120,17 +120,17 @@ fun BottomButtonsBlock(
                     horizontalArrangement = Arrangement.spacedBy(spacing),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val columnar = @Composable {
-                        if (showColumnarFabInRow && columnarFab != null) {
+                    val middle = @Composable {
+                        if (showMiddleFabInRow && middleFab != null) {
                             ProvideFABType(EnhancedFloatingActionButtonType.SecondaryHorizontal) {
                                 Column(
-                                    content = columnarFab
+                                    content = middleFab
                                 )
                             }
                         }
                     }
 
-                    if (!isPrimaryButtonVisible) columnar()
+                    if (!isPrimaryButtonVisible) middle()
 
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
@@ -147,7 +147,7 @@ fun BottomButtonsBlock(
                         }
                     )
 
-                    if (isPrimaryButtonVisible) columnar()
+                    if (isPrimaryButtonVisible) middle()
                 }
             }
             if (showNullDataButtonAsContainer) {
@@ -171,9 +171,9 @@ fun BottomButtonsBlock(
                 actions = actions,
                 floatingActionButton = {
                     Row {
-                        val columnar = @Composable {
-                            AnimatedVisibility(visible = showColumnarFabInRow) {
-                                columnarFab?.let {
+                        val middle = @Composable {
+                            AnimatedVisibility(visible = showMiddleFabInRow) {
+                                middleFab?.let {
                                     ProvideFABType(EnhancedFloatingActionButtonType.SecondaryHorizontal) {
                                         Column(
                                             modifier = Modifier.padding(end = spacing),
@@ -183,7 +183,7 @@ fun BottomButtonsBlock(
                                 }
                             }
                         }
-                        if (!isPrimaryButtonVisible) columnar()
+                        if (!isPrimaryButtonVisible) middle()
 
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
@@ -207,7 +207,7 @@ fun BottomButtonsBlock(
                             }
                         }
 
-                        if (isPrimaryButtonVisible) columnar()
+                        if (isPrimaryButtonVisible) middle()
 
                         AnimatedVisibility(visible = isPrimaryButtonVisible) {
                             EnhancedFloatingActionButton(
@@ -270,8 +270,8 @@ fun BottomButtonsBlock(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val columnar = @Composable {
-                    columnarFab?.let {
+                val middle = @Composable {
+                    middleFab?.let {
                         Spacer(Modifier.height(spacing))
                         ProvideFABType(EnhancedFloatingActionButtonType.SecondaryVertical) {
                             it()
@@ -281,7 +281,7 @@ fun BottomButtonsBlock(
 
                 Row { actions() }
 
-                if (!isPrimaryButtonVisible) columnar()
+                if (!isPrimaryButtonVisible) middle()
 
                 Spacer(Modifier.height(spacing))
 
@@ -306,7 +306,7 @@ fun BottomButtonsBlock(
                     }
                 }
 
-                if (isPrimaryButtonVisible) columnar()
+                if (isPrimaryButtonVisible) middle()
 
                 AnimatedVisibility(visible = isPrimaryButtonVisible) {
                     EnhancedFloatingActionButton(

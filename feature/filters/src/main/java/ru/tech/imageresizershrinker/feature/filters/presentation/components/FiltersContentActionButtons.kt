@@ -94,7 +94,7 @@ internal fun FiltersContentActionButtons(
             showFolderSelectionDialog = true
         },
         isPrimaryButtonVisible = component.canSave,
-        columnarFab = {
+        middleFab = {
             EnhancedFloatingActionButton(
                 onClick = component::showAddFiltersSheet,
                 containerColor = MaterialTheme.colorScheme.mixedContainer

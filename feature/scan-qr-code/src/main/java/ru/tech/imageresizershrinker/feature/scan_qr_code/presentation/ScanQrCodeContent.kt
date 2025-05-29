@@ -230,8 +230,8 @@ fun ScanQrCodeContent(
                 actions = {
                     if (isPortrait) actions()
                 },
-                showColumnarFabInRow = true,
-                columnarFab = {
+                showMiddleFabInRow = true,
+                middleFab = {
                     EnhancedFloatingActionButton(
                         onClick = analyzerImagePicker::pickImage,
                         onLongClick = {
