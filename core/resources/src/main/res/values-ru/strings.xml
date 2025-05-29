@@ -1573,5 +1573,4 @@
     <string name="pages_selection">Выбор страниц</string>
     <string name="tool_exit_confirmation">Подтверждение закрытия инструмента</string>
     <string name="tool_exit_confirmation_sub">Если у вас есть несохраненные изменения при использовании определенных инструментов и вы пытаетесь закрыть их, то будет показано диалоговое окно подтверждения</string>
-    <string name="mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
 </resources>
