@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
@@ -1581,7 +1597,7 @@
     <string name="barcode_type">Rodzaj kodu kreskowego</string>
     <string name="enforce_bw">Wymuś B/CZ</string>
     <string name="enforce_bw_sub">Obraz kodu kreskowego będzie w pełni czarno-biały i nie będzie kolorowany przez motyw aplikacji</string>
-    <string name="barcodes_sub">Zeskanuj dowolny kod kreskowy (QR, EAN, AZTEC, ...) i pobierz jego zawartość lub wklej tekst, aby wygenerować nowy</string>
+    <string name="barcodes_sub">Zeskanuj dowolny kod kreskowy (QR, EAN, AZTEC, …) i pobierz jego zawartość lub wklej tekst, aby wygenerować nowy</string>
     <string name="generated_barcode_will_be_here">Wygenerowany kod kreskowy będzie dostępny tutaj</string>
     <string name="no_barcode_found">Nie znaleziono kodu kreskowego</string>
     <string name="audio_cover_extractor">Ekstraktor okładek audio</string>
@@ -1591,7 +1607,7 @@
     <string name="pick_audio">Wybierz dźwięk</string>
     <string name="send_logs">Wyślij dzienniki</string>
     <string name="send_logs_sub">Kliknij, aby udostępnić plik dziennika aplikacji, pomoże mi to wykryć i naprawić problem.</string>
-    <string name="crash_title">Ups... Coś poszło nie tak</string>
+    <string name="crash_title">Ups… Coś poszło nie tak</string>
     <string name="crash_subtitle">Możesz skontaktować się ze mną, korzystając z poniższych opcji, a ja postaram się znaleźć rozwiązanie.\n(Nie zapomnij załączyć dziennika)</string>
     <string name="ocr_write_to_file">Zapisz do pliku</string>
     <string name="ocr_write_to_file_sub">Wyodrębnianie tekstu z partii obrazów i zapisywanie go w jednym pliku tekstowym</string>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
@@ -353,7 +369,7 @@
     <string name="restore_background">背景を復元</string>
     <string name="blur_radius">ぼかし半径</string>
     <string name="draw_mode">描画モード</string>
-    <string name="something_went_wrong_emphasis">おっと...何か問題が発生しました。以下のオプションを使用して私に連絡してください。解決策を見つけようとします</string>
+    <string name="something_went_wrong_emphasis">おっと…何か問題が発生しました。以下のオプションを使用して私に連絡してください。解決策を見つけようとします</string>
     <string name="resize_and_convert_sub">指定された画像のサイズを変更したり、他の形式に変換したりします。単一の画像を選択する場合はEXIFメタデータもここで編集できます。</string>
     <string name="jxl_sub">JXL形式はAndroidで公式にサポートされていないため、機能しないことがあります。カスタム出力ディレクトリを選択した場合のみ保存が機能します。これは試験的なバージョンであり、バグが発生する可能性があります</string>
     <string name="image_exif_warning">現在、%1$s形式ではAndroidでのEXIFメタデータの読み取りのみが可能です。保存されると出力画像にはメタデータがまったく含まれません。</string>

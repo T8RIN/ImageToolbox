@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
@@ -367,7 +383,7 @@
     <string name="pipette">குழாய்</string>
     <string name="draw_mode">வரைதல் முறை</string>
     <string name="create_issue">சிக்கலை உருவாக்கவும்</string>
-    <string name="something_went_wrong_emphasis">அச்சச்சோ... ஏதோ தவறாகிவிட்டது. கீழே உள்ள விருப்பங்களைப் பயன்படுத்தி நீங்கள் எனக்கு எழுதலாம், நான் தீர்வு காண முயற்சிப்பேன்</string>
+    <string name="something_went_wrong_emphasis">அச்சச்சோ… ஏதோ தவறாகிவிட்டது. கீழே உள்ள விருப்பங்களைப் பயன்படுத்தி நீங்கள் எனக்கு எழுதலாம், நான் தீர்வு காண முயற்சிப்பேன்</string>
     <string name="resize_and_convert">அளவை மாற்றி மாற்றவும்</string>
     <string name="resize_and_convert_sub">கொடுக்கப்பட்ட படங்களின் அளவை மாற்றவும் அல்லது வேறு வடிவங்களுக்கு மாற்றவும். ஒரு படத்தை எடுத்தால் EXIF மெட்டாடேட்டாவையும் இங்கே திருத்தலாம்.</string>
     <string name="max_colors_count">அதிகபட்ச வண்ண எண்ணிக்கை</string>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
@@ -1389,7 +1405,7 @@
     <string name="jitter">Jitter</string>
     <string name="custom_filename_sub">Selecteer de locatie en bestandsnaam die worden gebruikt om de huidige afbeelding op te slaan</string>
     <string name="collage_maker">Collagemaker</string>
-    <string name="collage_maker_sub">Maak verschillende collages van 2-10 afbeeldingen</string>
+    <string name="collage_maker_sub">Maak verschillende collages van 2–10 afbeeldingen</string>
     <string name="collage_type">Collagetype</string>
     <string name="pick_up_to_ten_images">Kies tot 10 afbeeldingen</string>
     <string name="collages_info">Houd de afbeelding ingedrukt om de positie te wisselen, verplaatsen en zoomen</string>
@@ -1579,7 +1595,7 @@
     <string name="scan_barcode">Streepjescode scannen</string>
     <string name="barcode_type">Type streepjescode</string>
     <string name="enforce_bw_sub">De afbeelding van de streepjescode is volledig zwart-wit en niet gekleurd op het thema van de app</string>
-    <string name="barcodes_sub">Scan een streepjescode (QR, EAN, AZTEC, ...) om de inhoud te lezen of plak een tekst om een nieuwe te genereren</string>
+    <string name="barcodes_sub">Scan een streepjescode (QR, EAN, AZTEC, …) om de inhoud te lezen of plak een tekst om een nieuwe te genereren</string>
     <string name="height_ratio">Hoogteverhouding</string>
     <string name="enforce_bw">Z/W afdwingen</string>
     <string name="audio_cover_extractor_sub">Afbeeldingen van albumhoezen uit audiobestanden extraheren, de meest voorkomende formaten worden ondersteund</string>

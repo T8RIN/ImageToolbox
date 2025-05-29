@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه %1$s</string>
     <string name="pick_image">تصویری را برای شروع انتخاب کنید</string>
@@ -359,7 +375,7 @@
     <string name="pipette">پیپت</string>
     <string name="draw_mode">حالت رسم</string>
     <string name="create_issue">ایجاد مسئله</string>
-    <string name="something_went_wrong_emphasis">اوه... مشکلی پیش آمد. می توانید با استفاده از گزینه های زیر برای من بنویسید و من سعی خواهم کرد راه حلی پیدا کنم</string>
+    <string name="something_went_wrong_emphasis">اوه… مشکلی پیش آمد. می توانید با استفاده از گزینه های زیر برای من بنویسید و من سعی خواهم کرد راه حلی پیدا کنم</string>
     <string name="resize_and_convert">تغییر اندازه و تبدیل</string>
     <string name="resize_and_convert_sub">اندازه تصاویر داده شده را تغییر دهید یا آنها را به فرمت های دیگر تبدیل کنید. در صورت انتخاب یک تصویر واحد، ابرداده EXIF را نیز می توان در اینجا ویرایش کرد.</string>
     <string name="max_colors_count">حداکثر تعداد رنگ</string>
@@ -1017,7 +1033,7 @@
     <string name="resolution">رزولیشن</string>
     <string name="resolution_y">رزولیشن Y</string>
     <string name="resolution_x">رزولیشن X</string>
-    <string name="crash_title">اوه... مشکلی پیش آمد</string>
+    <string name="crash_title">اوه… مشکلی پیش آمد</string>
     <string name="send_logs_sub">روی اشتراک‌گذاری فایل گزارش برنامه کلیک کنید، این می‌تواند به من کمک کند تا مشکل را پیدا کنم و مشکلات را برطرف کنم</string>
     <string name="send_logs">ارسال گزارش</string>
     <string name="pixel_by_pixel">پیکسل به پیکسل</string>

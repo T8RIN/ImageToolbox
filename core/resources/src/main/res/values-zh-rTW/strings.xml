@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
@@ -1383,7 +1399,7 @@
     <string name="sphinx">Sphinx</string>
     <string name="lanczos3_jinc">Lanczos 3 Jinc</string>
     <string name="lanczos4_jinc">Lanczos 4 Jinc</string>
-    <string name="bspline_sub">﻿利用分段定義的多項式函數平滑插值和近似曲線或曲面，靈活、連續地表示形狀</string>
+    <string name="bspline_sub">利用分段定義的多項式函數平滑插值和近似曲線或曲面，靈活、連續地表示形狀</string>
     <string name="hamming_sub">一種窗函數，用於通過漸變訊號邊緣來減少頻譜洩漏，在訊號處理中非常有用</string>
     <string name="blackman_sub">一種窗函數，藉由最小化頻譜洩漏來提供良好的頻率解析度，通常用於訊號處理</string>
     <string name="welch_sub">一種窗函數，旨在提供良好的頻率解析度，減少頻譜洩漏，通常用於訊號處理應用</string>
@@ -1400,7 +1416,7 @@
     <string name="equalize_histogram_adaptive_hsl">等化直方圖自適應 HSL</string>
     <string name="unknown_host">無法存取此網站，請嘗試使用 VPN 或檢查 URL 是否正確</string>
     <string name="fancy">精緻</string>
-    <string name="area_sub">﻿使用像素面積關係進行重新取樣。這可能是圖片抽取的一種首選方法，因為它能產生無摩爾紋的結果。但當對圖片進行放大時，它與最近「Nearest」類似 。</string>
+    <string name="area_sub">使用像素面積關係進行重新取樣。這可能是圖片抽取的一種首選方法，因為它能產生無摩爾紋的結果。但當對圖片進行放大時，它與最近「Nearest」類似 。</string>
     <string name="cell_height">單元格高度</string>
     <string name="equalize_histogram_pixelation">等化直方圖像素化</string>
     <string name="equalize_histogram_adaptive">等化直方圖自適應</string>

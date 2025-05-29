@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
@@ -984,8 +1000,8 @@
     <string name="tag_rw2_sensor_right_border">Borde derecho de sensor</string>
     <string name="tag_rw2_sensor_top_border">Borde superior de sensor</string>
     <string name="repeat_text_sub">El texto actual se repetirá hasta el final de la ruta en lugar de una única vez</string>
-    <string name="dash_size">Tamaño de guión</string>
-    <string name="document_scanner_sub">Escanear documentos y crear PDF or separar las imagenes de ellos</string>
+    <string name="dash_size">Tamaño de guion</string>
+    <string name="document_scanner_sub">Escanear documentos y crear PDF or separar las imágenes de ellos</string>
     <string name="cubic_sub">La interpolación cúbica proporciona un escalado más suave teniendo en cuenta los 16 píxeles más cercanos, otrogando mejores resultados que la interpolación bilinear</string>
     <string name="quadric_sub">Un método que utiliza una función cuadrática para la interpolación, proporcionando unos resultados más fluidos y continuos</string>
     <string name="outlined_triangle">Triángulo delineado</string>
@@ -1219,7 +1235,7 @@
     <string name="tag_device_setting_description">Descripción de ajustes de dispositivo</string>
     <string name="reset_curves_sub">Las curvas serán reestablecidas al valor predeterminado</string>
     <string name="open_edit_instead_of_preview_sub">Cuando seleccionas una imagen para abrir (vista previa) en ImageToolbox, la hoja de selección de edición se abrirá en vez de mostrar la vista previa</string>
-    <string name="barcodes_sub">Escanea cualquier código de barras (QR, EAN, AZTEC, ...) y obtén su contenido o pega tu texto para generar uno nuevo</string>
+    <string name="barcodes_sub">Escanea cualquier código de barras (QR, EAN, AZTEC, …) y obtén su contenido o pega tu texto para generar uno nuevo</string>
     <string name="lanczos2_jinc_sub">Una variante del filtro Lanczos 2 que usa la función jinc, proveyendo interpolación de alta calidad con distorsiones mínimas</string>
     <string name="compose_switch_sub">Usa el interruptor Jetpack Compose Material You, no es tan bonito como el basado en vista</string>
 </resources>
