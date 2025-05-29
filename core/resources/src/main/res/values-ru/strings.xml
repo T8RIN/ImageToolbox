@@ -294,7 +294,7 @@
     <string name="group_options_by_type">Сгруппировать опции по типу</string>
     <string name="group_options_by_type_sub">Группирует параметры на главном экране в соответствии с их типом вместо произвольного расположения списка.</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Невозможно изменить расположение, пока включена группировка параметров</string>
-    <string name="image_size_warning">Попытка сохранить изображение с заданной шириной и высотой может вызвать ошибку OOM, делайте это на свой страх и риск и не говорите, что я вас не предупреждал!</string>
+    <string name="image_size_warning">Попытка сохранить изображение с заданной шириной и высотой может вызвать ошибку OOM, делайте это на свой страх и риск.</string>
     <string name="auto_cache_clearing">Автоматическая очистка кэша</string>
     <string name="cache">Кэш</string>
     <string name="cache_size">Размер кэша</string>
@@ -1573,4 +1573,5 @@
     <string name="pages_selection">Выбор страниц</string>
     <string name="tool_exit_confirmation">Подтверждение закрытия инструмента</string>
     <string name="tool_exit_confirmation_sub">Если у вас есть несохраненные изменения при использовании определенных инструментов и вы пытаетесь закрыть их, то будет показано диалоговое окно подтверждения</string>
+    <string name="mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
 </resources>
