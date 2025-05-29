@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
@@ -29,8 +29,8 @@ import androidx.compose.runtime.remember
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalComponentActivity
-import ru.tech.imageresizershrinker.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 
 private class DocumentScannerImpl(
     private val context: ComponentActivity,

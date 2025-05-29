@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.core.resources"
+    namespace = "com.t8rin.imagetoolbox.core.resources"
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
 

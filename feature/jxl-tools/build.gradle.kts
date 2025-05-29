@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.jxl_tools"
+android.namespace = "com.t8rin.imagetoolbox.feature.jxl_tools"
 
 dependencies {
     implementation(libs.jxl.coder)

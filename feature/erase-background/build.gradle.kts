@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.erase_background"
+android.namespace = "com.t8rin.imagetoolbox.feature.erase_background"
 
 dependencies {
     "marketImplementation"(libs.mlkit.subject.segmentation)

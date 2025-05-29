@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.collage_maker"
+android.namespace = "com.t8rin.imagetoolbox.feature.collage_maker"
 
 dependencies {
     implementation(libs.toolbox.collages)

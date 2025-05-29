@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.image_cutting"
+android.namespace = "com.t8rin.imagetoolbox.image_cutting"
 
 dependencies {
     implementation(projects.feature.compare)

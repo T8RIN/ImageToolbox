@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.sheets
+package com.t8rin.imagetoolbox.core.ui.widget.sheets
 
 import android.app.Activity
 import androidx.compose.material.icons.Icons
@@ -28,10 +28,10 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
 internal fun UpdateSheetImpl(

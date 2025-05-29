@@ -22,4 +22,4 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.markup_layers"
+android.namespace = "com.t8rin.imagetoolbox.feature.markup_layers"

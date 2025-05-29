@@ -23,19 +23,19 @@
   public static final android.os.Parcelable$Creator CREATOR;
 }
 
--keep class * implements ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
--keepclassmembers class * implements ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter {
+-keep class * implements com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+-keepclassmembers class * implements com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter {
     <init>(...);
 }
--keep class * implements ru.tech.imageresizershrinker.core.filters.domain.model.Filter
--keepclassmembers class * implements ru.tech.imageresizershrinker.core.filters.domain.model.Filter {
+-keep class * implements com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+-keepclassmembers class * implements com.t8rin.imagetoolbox.core.filters.domain.model.Filter {
     <init>(...);
 }
--keepclassmembers class ru.tech.imageresizershrinker.core.filters.** {
+-keepclassmembers class com.t8rin.imagetoolbox.core.filters.** {
     <init>(...);
 }
--keep class ru.tech.imageresizershrinker.core.filters.**
--keep class ru.tech.imageresizershrinker.core.filters.*
+-keep class com.t8rin.imagetoolbox.core.filters.**
+-keep class com.t8rin.imagetoolbox.core.filters.*
 
 # Please add these rules to your existing keep rules in order to suppress warnings.
 # This is generated automatically by the Android Gradle plugin.

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
 import android.content.Context

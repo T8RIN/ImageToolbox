@@ -20,7 +20,7 @@ plugins {
     alias(libs.plugins.image.toolbox.hilt)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.core.data"
+android.namespace = "com.t8rin.imagetoolbox.core.data"
 
 dependencies {
     api(libs.coil)

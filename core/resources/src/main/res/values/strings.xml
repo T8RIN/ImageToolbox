@@ -18,7 +18,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
-    <string name="file_provider" translatable="false">ru.tech.imageresizershrinker.fileprovider</string>
+    <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
     <string name="smth_went_wrong">Something went wrong: %1$s</string>
     <string name="size">Size %1$s</string>
     <string name="loading">Loading…</string>

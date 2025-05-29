@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.crash.data
+package com.t8rin.imagetoolbox.core.crash.data
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import ru.tech.imageresizershrinker.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 
 internal object AnalyticsManagerImpl : AnalyticsManager {
 

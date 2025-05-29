@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.resize_convert"
+android.namespace = "com.t8rin.imagetoolbox.feature.resize_convert"
 
 dependencies {
     implementation(projects.feature.compare)

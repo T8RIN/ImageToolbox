@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.main"
+android.namespace = "com.t8rin.imagetoolbox.feature.main"
 
 dependencies {
     implementation(projects.feature.settings)

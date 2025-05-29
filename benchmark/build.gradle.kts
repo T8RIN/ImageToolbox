@@ -27,7 +27,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.benchmark"
+    namespace = "com.t8rin.imagetoolbox.benchmark"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {

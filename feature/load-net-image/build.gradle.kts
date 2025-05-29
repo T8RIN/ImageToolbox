@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.load_net_image"
+android.namespace = "com.t8rin.imagetoolbox.feature.load_net_image"
 
 dependencies {
     implementation(libs.jsoup)

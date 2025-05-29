@@ -22,4 +22,4 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.image_splitting"
+android.namespace = "com.t8rin.imagetoolbox.image_splitting"

@@ -27,7 +27,7 @@ android {
 
     val supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
 
-    namespace = "ru.tech.imageresizershrinker"
+    namespace = "com.t8rin.imagetoolbox"
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
@@ -67,7 +67,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             resValue("string", "app_launcher_name", "Image Toolbox DEBUG")
-            resValue("string", "file_provider", "ru.tech.imageresizershrinker.fileprovider.debug")
+            resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider.debug")
         }
         release {
             isMinifyEnabled = true
@@ -77,7 +77,7 @@ android {
                 "proguard-rules.pro"
             )
             resValue("string", "app_launcher_name", "Image Toolbox")
-            resValue("string", "file_provider", "ru.tech.imageresizershrinker.fileprovider")
+            resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider")
         }
         create("benchmark") {
             initWith(buildTypes.getByName("release"))

@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.erase_background.data
+package com.t8rin.imagetoolbox.feature.erase_background.data
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
+import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
 import kotlinx.coroutines.CoroutineScope
-import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemoverBackend
 import javax.inject.Inject
 
 internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(

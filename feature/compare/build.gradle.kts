@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.compare"
+android.namespace = "com.t8rin.imagetoolbox.feature.compare"
 
 dependencies {
     implementation(libs.toolbox.opencvTools)

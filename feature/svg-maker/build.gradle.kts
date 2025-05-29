@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.svg_maker"
+android.namespace = "com.t8rin.imagetoolbox.feature.svg_maker"
 
 dependencies {
     implementation(libs.toolbox.svg)

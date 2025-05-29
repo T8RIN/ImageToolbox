@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.image_stitch"
+android.namespace = "com.t8rin.imagetoolbox.feature.image_stitch"
 
 dependencies {
     implementation(projects.core.filters)

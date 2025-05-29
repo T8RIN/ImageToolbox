@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.single_edit"
+android.namespace = "com.t8rin.imagetoolbox.feature.single_edit"
 
 dependencies {
     implementation(projects.feature.crop)

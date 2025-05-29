@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.apng_tools"
+android.namespace = "com.t8rin.imagetoolbox.feature.apng_tools"
 
 dependencies {
     implementation(libs.toolbox.apng)

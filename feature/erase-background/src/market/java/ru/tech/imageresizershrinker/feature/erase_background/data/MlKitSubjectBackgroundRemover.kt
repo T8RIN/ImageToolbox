@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.erase_background.data
+package com.t8rin.imagetoolbox.feature.erase_background.data
 
 import android.graphics.Bitmap
 import android.os.Build

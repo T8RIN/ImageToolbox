@@ -22,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.recognize.text"
+android.namespace = "com.t8rin.imagetoolbox.feature.recognize.text"
 
 dependencies {
     implementation(projects.core.filters)

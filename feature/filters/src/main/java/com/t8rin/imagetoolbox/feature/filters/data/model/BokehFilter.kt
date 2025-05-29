@@ -1,0 +1,56 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.filters.data.model
+
+import android.graphics.Bitmap
+import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.MorphOp
+import com.awxkee.aire.MorphOpMode
+import com.awxkee.aire.Scalar
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.trickle.TrickleUtils.checkHasAlpha
+
+internal class BokehFilter(
+    override val value: Pair<Int, Int> = 6 to 6
+) : Transformation<Bitmap>, Filter.Bokeh {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = Aire.morphology(
+        bitmap = input,
+        kernel = Aire.getBokehKernel(
+            kernelSize = value.first,
+            sides = value.second
+        ),
+        morphOp = MorphOp.DILATE,
+        morphOpMode = if (input.checkHasAlpha()) MorphOpMode.RGBA
+        else MorphOpMode.RGB,
+        borderMode = EdgeMode.REFLECT_101,
+        kernelHeight = value.first,
+        kernelWidth = value.first,
+        borderScalar = Scalar.ZEROS
+    )
+
+}

@@ -22,4 +22,4 @@ plugins {
     alias(libs.plugins.image.toolbox.hilt)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.easter_egg"
+android.namespace = "com.t8rin.imagetoolbox.feature.easter_egg"
