@@ -74,7 +74,6 @@ mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.1"
 moshi = "1.15.2"
-junit = "4.13.2"
 bouncycastle = "1.80"
 ffmpeg-metadata-retriever = "1.0.19"
 pdfviewer = "1.0.0-alpha09"
@@ -209,7 +208,6 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 image-toolbox-library = { id = "image.toolbox.library", version = "unspecified" }
