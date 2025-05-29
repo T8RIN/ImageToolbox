@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -295,7 +294,7 @@
     <string name="group_options_by_type">Сгруппировать опции по типу</string>
     <string name="group_options_by_type_sub">Группирует параметры на главном экране в соответствии с их типом вместо произвольного расположения списка.</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Невозможно изменить расположение, пока включена группировка параметров</string>
-    <string name="image_size_warning">Попытка сохранить изображение с заданной шириной и высотой может вызвать ошибку OOM, делайте это на свой страх и риск и не говорите, что я вас не предупреждал!</string>
+    <string name="image_size_warning">Попытка сохранить изображение с заданной шириной и высотой может вызвать ошибку OOM, делайте это на свой страх и риск.</string>
     <string name="auto_cache_clearing">Автоматическая очистка кэша</string>
     <string name="cache">Кэш</string>
     <string name="cache_size">Размер кэша</string>
@@ -1557,7 +1556,7 @@
     <string name="edit_exif_screen_sub">Изменить метаданные одного изображения без повторного сжатия</string>
     <string name="edit_exif_tag">Нажмите, чтобы редактировать доступные теги</string>
     <string name="change_sticker">Изменить наклейку</string>
-    <string name="head_length_scale">Коэффициент длины наконечника</string>
+    <string name="head_length_scale">Коэффицент длины наконечника</string>
     <string name="stamp">Штамп</string>
     <string name="timestamp">Временная метка</string>
     <string name="format_pattern">Шаблон форматирования</string>
@@ -1574,4 +1573,5 @@
     <string name="pages_selection">Выбор страниц</string>
     <string name="tool_exit_confirmation">Подтверждение закрытия инструмента</string>
     <string name="tool_exit_confirmation_sub">Если у вас есть несохраненные изменения при использовании определенных инструментов и вы пытаетесь закрыть их, то будет показано диалоговое окно подтверждения</string>
+    <string name="mesh_gradients_sub">Посмотрите Онлайн коллекцию сеточных градиентов</string>
 </resources>
