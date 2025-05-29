@@ -1629,27 +1629,4 @@
     <string name="sort_by_date_modified_reversed">Data modyfikacji (odwrotnie)</string>
     <string name="operation_almost_complete">Operacja prawie zakończona. Anulowanie teraz będzie wymagało ponownego uruchomienia</string>
     <string name="sort_by_date_added_reversed">Data dodania (odwrotnie)</string>
-    <string name="developer_email" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="bottom_to_top"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="right_to_left"></string>
-    <string name="left_to_right"></string>
-    <string name="top_to_bottom"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="usdt" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>
