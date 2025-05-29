@@ -31,7 +31,7 @@
     <string name="resize_type">Resize type</string>
     <string name="explicit">Explicit</string>
     <string name="flexible">Flexible</string>
-    <string name="pick_image_alt">Pick image</string>
+    <string name="pick_image_alt">Pick Image</string>
     <string name="app_closing_sub">Are you sure you want to close the app?</string>
     <string name="app_closing">App closing</string>
     <string name="stay">Stay</string>
@@ -60,7 +60,7 @@
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
     <string name="single_edit">Single edit</string>
-    <string name="single_edit_sub">Edit a single image</string>
+    <string name="single_edit_sub">Modify, resize and edit one image</string>
     <string name="pick_color">Pick color</string>
     <string name="pick_color_sub">Pick color from image, copy or share</string>
     <string name="image">Image</string>
@@ -103,7 +103,7 @@
     <string name="allow_image_monet">Allow image monet</string>
     <string name="allow_image_monet_sub">If enabled, when you choose an image to edit, app colors will be adopted to this image</string>
     <string name="language">Language</string>
-    <string name="amoled_mode">Black dark mode</string>
+    <string name="amoled_mode">Amoled mode</string>
     <string name="amoled_mode_sub">If enabled surfaces color will be set to absolute dark in night mode</string>
     <string name="color_scheme">Color scheme</string>
     <string name="color_red">Red</string>
@@ -143,7 +143,7 @@
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
     <string name="donation_sub">This application is completely free, but if you want to support the project development, you can click here</string>
-    <string name="fab_alignment">Floating action button alignment</string>
+    <string name="fab_alignment">FAB alignment</string>
     <string name="check_updates">Check for updates</string>
     <string name="check_updates_sub">If enabled, update dialog will be shown to you on app startup</string>
     <string name="zoom">Image zoom</string>
@@ -192,7 +192,7 @@
     <string name="saturation">Saturation</string>
     <string name="add_filter">Add filter</string>
     <string name="filter">Filter</string>
-    <string name="filter_sub">Apply filters to images</string>
+    <string name="filter_sub">Apply filter chains to images</string>
     <string name="filters">Filters</string>
     <string name="light_aka_illumination">Light</string>
     <string name="color_filter">Color filter</string>
@@ -215,7 +215,7 @@
     <string name="negative">Negative</string>
     <string name="solarize">Solarize</string>
     <string name="vibrance">Vibrance</string>
-    <string name="black_and_white">Black and white</string>
+    <string name="black_and_white">Black and White</string>
     <string name="crosshatch">Crosshatch</string>
     <string name="spacing">Spacing</string>
     <string name="line_width">Line width</string>
@@ -246,7 +246,7 @@
     <string name="color_matrix">Color matrix</string>
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
-    <string name="limits_resize">Resize with limits</string>
+    <string name="limits_resize">Resize by limits</string>
     <string name="limits_resize_sub">Resize images to the given height and width while keeping the aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
@@ -351,7 +351,7 @@
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Food and Drink</string>
-    <string name="nature_and_animals">Nature and animals</string>
+    <string name="nature_and_animals">Nature and Animals</string>
     <string name="objects">Objects</string>
     <string name="symbols">Symbols</string>
     <string name="enable_emoji">Enable emoji</string>
@@ -433,7 +433,7 @@
     <string name="vibrant">Vibrant</string>
     <string name="expressive">Expressive</string>
     <string name="rainbow">Rainbow</string>
-    <string name="fruit_salad">Fruit salad</string>
+    <string name="fruit_salad">Fruit Salad</string>
     <string name="fidelity">Fidelity</string>
     <string name="content">Content</string>
     <string name="tonal_spot_sub">Default palette style, it allows to customize all four colors, others allow you to set only the key color</string>
@@ -529,7 +529,7 @@
     <string name="lasso_sub">Draws closed filled path by given path</string>
     <string name="free">Free</string>
     <string name="horizontal_grid">Horizontal Grid</string>
-    <string name="vertical_grid">Vertical grid</string>
+    <string name="vertical_grid">Vertical Grid</string>
     <string name="stitch_mode">Stitch Mode</string>
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>
@@ -610,7 +610,7 @@
     <string name="segmentation_mode_single_line">Single line</string>
     <string name="segmentation_mode_single_word">Single word</string>
     <string name="segmentation_mode_circle_word">Circle word</string>
-    <string name="segmentation_mode_single_char">Single character</string>
+    <string name="segmentation_mode_single_char">Single char</string>
     <string name="segmentation_mode_sparse_text">Sparse text</string>
     <string name="segmentation_mode_sparse_text_osd">Sparse text Orientation &amp; Script Detection</string>
     <string name="segmentation_mode_raw_line">Raw line</string>
@@ -760,7 +760,7 @@
     <string name="warm">Warm</string>
     <string name="cool">Cool</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deuteranopia</string>
+    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
     <string name="achromatopsia">Achromatopsia</string>
@@ -776,12 +776,12 @@
     <string name="colorful_swirl">Colorful Swirl</string>
     <string name="soft_spring_light">Soft Spring Light</string>
     <string name="autumn_tones">Autumn Tones</string>
-    <string name="lavender_dream">Lavender dream</string>
+    <string name="lavender_dream">Lavender Dream</string>
     <string name="cyberpunk">Cyberpunk</string>
     <string name="lemonade_light">Lemonade Light</string>
     <string name="spectral_fire">Spectral Fire</string>
     <string name="night_magic">Night Magic</string>
-    <string name="fantasy_landscape">Fantasy landscape</string>
+    <string name="fantasy_landscape">Fantasy Landscape</string>
     <string name="color_explosion">Color Explosion</string>
     <string name="electric_gradient">Electric Gradient</string>
     <string name="caramel_darkness">Caramel Darkness</string>
@@ -793,7 +793,7 @@
     <string name="red_swirl">Red Swirl</string>
     <string name="digital_code">Digital Code</string>
     <string name="bokeh">Bokeh</string>
-    <string name="random_emojis_sub">The app bar emoji changes randomly</string>
+    <string name="random_emojis_sub">The app bar emoji will change randomly</string>
     <string name="random_emojis">Random emojis</string>
     <string name="random_emojis_error">You cannot use random emojis while emojis are disabled</string>
     <string name="emoji_selection_error">You cannot select an emoji while random emojis are enabled</string>
@@ -802,8 +802,8 @@
     <string name="favorite">Favorite</string>
     <string name="no_favorite_filters">No favorite filters added yet</string>
     <string name="image_format">Image Format</string>
-    <string name="icon_shape_sub">Adds a container with the selected shape under the icons of cards</string>
-    <string name="icon_shape">Icon shape</string>
+    <string name="icon_shape_sub">Adds a container with the selected shape under the icons</string>
+    <string name="icon_shape">Icon Shape</string>
     <string name="drago">Drago</string>
     <string name="aldridge">Aldridge</string>
     <string name="cutoff">Cutoff</string>
@@ -823,9 +823,9 @@
     <string name="copy_as_compose_code">Copy as Jetpack Compose code</string>
     <string name="ring_blur">Ring Blur</string>
     <string name="cross_blur">Cross Blur</string>
-    <string name="circle_blur">Circle blur</string>
+    <string name="circle_blur">Circle Blur</string>
     <string name="star_blur">Star Blur</string>
-    <string name="linear_tilt_shift">Linear tilt shift</string>
+    <string name="linear_tilt_shift">Linear Tilt-Shift</string>
     <string name="tags_to_remove">Tags To Remove</string>
     <string name="apng_tools">APNG tools</string>
     <string name="apng_tools_sub">Convert images to APNG picture or extract frames from given APNG image</string>
@@ -1285,13 +1285,13 @@
     <string name="export">Export</string>
     <string name="position">Position</string>
     <string name="center">Center</string>
-    <string name="top_left">Top left</string>
-    <string name="top_right">Top right</string>
+    <string name="top_left">Top Left</string>
+    <string name="top_right">Top Right</string>
     <string name="bottom_left">Bottom Left</string>
     <string name="bottom_right">Bottom Right</string>
     <string name="top_center">Top Center</string>
-    <string name="center_right">Center right</string>
-    <string name="bottom_center">Bottom center</string>
+    <string name="center_right">Center Right</string>
+    <string name="bottom_center">Bottom Center</string>
     <string name="center_left">Center Left</string>
     <string name="target_image">Target Image</string>
     <string name="palette_transfer">Palette Transfer</string>
@@ -1618,7 +1618,7 @@
     <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get its content or paste your text to generate new one</string>
     <string name="no_barcode_found">No Barcode Found</string>
     <string name="generated_barcode_will_be_here">Generated Barcode Will Be Here</string>
-    <string name="audio_cover_extractor">Audio Cover Extractor</string>
+    <string name="audio_cover_extractor">Audio cover extractor</string>
     <string name="audio_cover_extractor_sub">Extract album cover images from audio files, most common formats are supported</string>
     <string name="pick_audio_to_start">Pick audio to start</string>
     <string name="pick_audio">Pick Audio</string>
