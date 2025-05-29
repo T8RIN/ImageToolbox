@@ -1557,7 +1557,7 @@
     <string name="edit_exif_screen_sub">Изменить метаданные одного изображения без повторного сжатия</string>
     <string name="edit_exif_tag">Нажмите, чтобы редактировать доступные теги</string>
     <string name="change_sticker">Изменить наклейку</string>
-    <string name="head_length_scale">Коэффициент длины наконечника</string>
+    <string name="head_length_scale">Коэффицент длины наконечника</string>
     <string name="stamp">Штамп</string>
     <string name="timestamp">Временная метка</string>
     <string name="format_pattern">Шаблон форматирования</string>
