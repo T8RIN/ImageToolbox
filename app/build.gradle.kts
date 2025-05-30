@@ -32,8 +32,9 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
 
-        applicationId =
-            "ru.tech.imageresizershrinker" //Maintained for compatibility with old version
+        //Maintained for compatibility with old version
+        applicationId = "ru.tech.imageresizershrinker"
+
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
