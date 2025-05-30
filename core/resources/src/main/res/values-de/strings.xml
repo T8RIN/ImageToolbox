@@ -289,8 +289,7 @@
     <string name="create">Erstellen</string>
     <string name="store_file_desc">Speichere die Datei auf deinem Gerät oder benutze Teilen, um es wo immer du möchtest abzulegen</string>
     <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, 12 Bytes zufällige IVs. (Als Standard, man kann aber den benötigten Algorithmus auswählen). Die Schlüssel werden als SHA-3-Hashes (256 Bit) verwendet.</string>
-    <string name="file_size_sub">Die maximale Dateigröße wird durch das Android-Betriebssystem und den verfügbaren Speicher begrenzt, was natürlich von Ihrem Gerät abhängt.
-\nBitte beachten Sie: Speicher ist nicht gleich Speicherplatz.</string>
+    <string name="file_size_sub">Die maximale Dateigröße wird durch das Android-Betriebssystem und den verfügbaren Speicher begrenzt, was natürlich von Ihrem Gerät abhängt. \nBitte beachten Sie: Speicher ist nicht gleich Speicherplatz.</string>
     <string name="compatibility_sub">Bitte beachte, dass die Kompatibilität zu anderen Dateiverschlüsselungsprogrammen oder -diensten nicht gewährleistet ist. Eine leicht abweichende Behandlung des Schlüssels oder eine andere Chiffrierkonfiguration können Gründe für eine Inkompatibilität sein.</string>
     <string name="file_proceed">Datei bearbeitet</string>
     <string name="features_sub">Passwortbasierte Verschlüsselung von Dateien. Die verschlüsselten Dateien können im ausgewählten Verzeichnis gespeichert oder freigegeben werden. Entschlüsselte Dateien können auch unmittelbar geöffnet werden.</string>
@@ -349,7 +348,7 @@
     <string name="blur_radius">Unschärfe-Radius</string>
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Zeichenmodus</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="keep_exif_sub">Die Metadaten des Originalbilds bleiben erhalten</string>
     <string name="background_remover">Hintergrund entfernen</string>
     <string name="background_remover_sub">Entferne den Hintergrund eines Bildes durch zeichnen oder verwende die Automatikfunktion</string>
@@ -761,8 +760,7 @@
     <string name="old_tv">Alter Fernseher</string>
     <string name="shuffle_blur">Mischunschärfe</string>
     <string name="recognize_text">OCR (Text erkennen)</string>
-    <string name="download_description">Damit Tesseract OCR ordnungsgemäß funktioniert, müssen zusätzliche Trainingsdaten (%1$s) auf dein Gerät heruntergeladen werden.
-\nMöchtest du %2$s Daten herunterladen?</string>
+    <string name="download_description">Damit Tesseract OCR ordnungsgemäß funktioniert, müssen zusätzliche Trainingsdaten (%1$s) auf dein Gerät heruntergeladen werden. \nMöchtest du %2$s Daten herunterladen?</string>
     <string name="no_connection">Keine Verbindung. Überprüfen die Verbindung und versuche es erneut, um Eisenbahnmodelle herunterzuladen</string>
     <string name="restore_background_sub">Der Pinsel stellt den Hintergrund wieder her, anstatt ihn zu löschen</string>
     <string name="horizontal_grid">Horizontales Gitter</string>

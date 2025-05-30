@@ -286,8 +286,7 @@
     <string name="features_sub">ਫਾਈਲਾਂ ਦੀ ਪਾਸਵਰਡ-ਅਧਾਰਿਤ ਏਨਕ੍ਰਿਪਸ਼ਨ। ਅੱਗੇ ਵਧੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਚੁਣੀ ਗਈ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਸਟੋਰ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਜਾਂ ਸਾਂਝਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ। ਡੀਕ੍ਰਿਪਟਡ ਫਾਈਲਾਂ ਨੂੰ ਸਿੱਧੇ ਵੀ ਖੋਲ੍ਹਿਆ ਜਾ ਸਕਦਾ ਹੈ.</string>
     <string name="implementation_sub">AES-256, GCM ਮੋਡ, ਕੋਈ ਪੈਡਿੰਗ ਨਹੀਂ, 12 ਬਾਈਟ ਬੇਤਰਤੀਬੇ IVs। ਕੁੰਜੀਆਂ SHA-3 ਹੈਸ਼ਾਂ (256 ਬਿੱਟ) ਵਜੋਂ ਵਰਤੀਆਂ ਜਾਂਦੀਆਂ ਹਨ।</string>
     <string name="file_size">ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">ਕਿਰਪਾ ਕਰਕੇ ਨੋਟ ਕਰੋ ਕਿ ਹੋਰ ਫਾਈਲ ਐਨਕ੍ਰਿਪਸ਼ਨ ਸੌਫਟਵੇਅਰ ਜਾਂ ਸੇਵਾਵਾਂ ਲਈ ਅਨੁਕੂਲਤਾ ਦੀ ਗਰੰਟੀ ਨਹੀਂ ਹੈ। ਇੱਕ ਥੋੜ੍ਹਾ ਵੱਖਰਾ ਕੁੰਜੀ ਇਲਾਜ ਜਾਂ ਸਿਫਰ ਕੌਂਫਿਗਰੇਸ਼ਨ ਅਸੰਗਤਤਾ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ।</string>
     <string name="invalid_password_or_not_encrypted">ਅਵੈਧ ਪਾਸਵਰਡ ਜਾਂ ਚੁਣੀ ਗਈ ਫਾਈਲ ਐਨਕ੍ਰਿਪਟਡ ਨਹੀਂ ਹੈ</string>
     <string name="image_size_warning">ਦਿੱਤੀ ਗਈ ਚੌੜਾਈ ਅਤੇ ਉਚਾਈ ਦੇ ਨਾਲ ਚਿੱਤਰ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਨਾਲ ਇੱਕ OOM ਗਲਤੀ ਹੋ ਸਕਦੀ ਹੈ। ਇਹ ਆਪਣੇ ਜੋਖਮ \'ਤੇ ਕਰੋ, ਅਤੇ ਇਹ ਨਾ ਕਹੋ ਕਿ ਮੈਂ ਤੁਹਾਨੂੰ ਚੇਤਾਵਨੀ ਨਹੀਂ ਦਿੱਤੀ!</string>
@@ -554,7 +553,7 @@
     <string name="recognize_text">OCR (ਟੈਕਸਟ ਪਛਾਣੋ)</string>
     <string name="recognize_text_sub">ਦਿੱਤੇ ਚਿੱਤਰ ਤੋਂ ਟੈਕਸਟ ਨੂੰ ਪਛਾਣੋ, 120+ ਭਾਸ਼ਾਵਾਂ ਸਮਰਥਿਤ ਹਨ</string>
     <string name="picture_has_no_text">ਤਸਵੀਰ ਵਿੱਚ ਕੋਈ ਟੈਕਸਟ ਨਹੀਂ ਹੈ, ਜਾਂ ਐਪ ਨੇ ਇਸਨੂੰ ਨਹੀਂ ਲੱਭਿਆ</string>
-    <string name="accuracy">"Accuracy: %1$d"</string>
+    <string name="accuracy">Accuracy: %1$d</string>
     <string name="recognition_type">ਪਛਾਣ ਦੀ ਕਿਸਮ</string>
     <string name="fast">ਤੇਜ਼</string>
     <string name="standard">ਮਿਆਰੀ</string>

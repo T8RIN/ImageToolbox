@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -261,8 +261,7 @@
     <string name="draw">Драв</string>
     <string name="file_size">Величина фајла</string>
     <string name="file_proceed">Фајл обрађен</string>
-    <string name="file_size_sub">Максимална величина датотеке је ограничена Андроид ОС-ом и доступном меморијом, што очигледно зависи од вашег уређаја.
-\nИмајте на уму: меморија није складиште.</string>
+    <string name="file_size_sub">Максимална величина датотеке је ограничена Андроид ОС-ом и доступном меморијом, што очигледно зависи од вашег уређаја. \nИмајте на уму: меморија није складиште.</string>
     <string name="cache">Цацхе</string>
     <string name="paint_color">Боја боје</string>
     <string name="paint_alpha">Паинт алпха</string>
@@ -742,8 +741,7 @@
     <string name="standard">Стандард</string>
     <string name="best">Најбољи</string>
     <string name="no_data">Нема података</string>
-    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s).
-\nДа ли желите да преузмете %2$s податке?</string>
+    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s). \nДа ли желите да преузмете %2$s податке?</string>
     <string name="download">Преузимање</string>
     <string name="no_connection">Нема везе, проверите и покушајте поново да бисте преузели моделе возова</string>
     <string name="downloaded_languages">Преузети језици</string>

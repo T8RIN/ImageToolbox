@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -48,7 +48,7 @@
     <string name="clear">Effacer</string>
     <string name="clear_exif">Effacer les EXIF</string>
     <string name="cancel">Annuler</string>
-    <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées. Cette action ne peut pas être annulée !</string>
+    <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées. Cette action ne peut pas être annulée !</string>
     <string name="presets">Préconfigurations</string>
     <string name="crop">Rogner</string>
     <string name="image_not_saved">Enregistrement</string>
@@ -65,7 +65,7 @@
     <string name="crop_sub">Rogner l\'image aux dimensions voulues</string>
     <string name="version">Version</string>
     <string name="keep_exif">Conserver EXIF</string>
-    <string name="images">Images : %d</string>
+    <string name="images">Images : %d</string>
     <string name="change_preview">Modifier l\'aperçu</string>
     <string name="remove">Retirer</string>
     <string name="palette_sub">Générer un échantillon de palette de couleurs à partir d\'une image donnée</string>
@@ -74,7 +74,7 @@
     <string name="new_version">Nouvelle version %1$s</string>
     <string name="update">Mise à jour</string>
     <string name="unsupported_type">Type non pris en charge: %1$s</string>
-    <string name="no_palette">Impossible de générer une palette pour l\'image donnée</string>
+    <string name="no_palette">Impossible de générer une palette pour l\'image donnée</string>
     <string name="original">Original</string>
     <string name="folder">Dossier de sortie</string>
     <string name="def">Defaut</string>
@@ -146,7 +146,7 @@
     <string name="delete_exif">Supprimer EXIF</string>
     <string name="delete_exif_sub">Supprimer les métadonnées EXIF de tout ensemble d\'images</string>
     <string name="image_preview">Aperçu de l\'image</string>
-    <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
+    <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="photo_picker_sub">Sélecteur moderne de photos Android apparaissant en bas de l\'écran, ne fonctionne que sur Android 12+.A des problèmes de réception des métadonnées EXIF</string>
     <string name="file_explorer_picker_sub">Utiliser l\'intent GetContent pour sélectionner l\'image. Fonctionne partout, mais celui-ci est connu pour avoir des difficultés à recevoir les images sélectionnées sur certains appareils. Cela n\'est pas de ma faute.</string>
     <string name="image_source">Source de l\'image</string>
@@ -286,8 +286,7 @@
     <string name="cipher_sub">Chiffrer et déchiffrer n\'importe quel fichier (pas seulement l\'image) en fonction de divers algorithmes de chiffrement disponibles</string>
     <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire sélectionné ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
     <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de chiffrement de fichiers n’est pas garantie. Un traitement de clé ou une configuration de chiffrement légèrement différente peuvent causer une incompatibilité.</string>
-    <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil.
-\nAttention : la mémoire n\'est pas du stockage.</string>
+    <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil. \nAttention : la mémoire n\'est pas du stockage.</string>
     <string name="invalid_password_or_not_encrypted">Mot de passe invalide ou fichier choisi non chiffré</string>
     <string name="image_size_warning">Essayer d’enregistrer une image avec ces largeur et hauteur peut provoquer une erreur de mémoire insuffisante. Faites ceci à vos propres risques.</string>
     <string name="cache">Cache</string>
@@ -335,7 +334,7 @@
     <string name="font_scale">Taille de la Police</string>
     <string name="defaultt">Défaut</string>
     <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur ainsi que d\'autres problèmes qui ne seront pas corrigés. A utiliser avec précaution.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Nourriture et Boisson</string>
     <string name="nature_and_animals">Nature et animaux</string>
@@ -440,7 +439,7 @@
     <string name="images_to_pdf_sub">Emballer les images données dans le fichier PDF de sortie</string>
     <string name="preview_pdf_sub">Aperçu PDF simple</string>
     <string name="invert_colors">Inverser les couleurs</string>
-    <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
+    <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
     <string name="attention">Precison</string>
     <string name="pdf_to_images_sub">Convertir un PDF en images dans un format de sortie donné</string>
     <string name="mask_filter">Filtre de masque</string>
@@ -492,7 +491,7 @@
     <string name="auto_rotate_limits_sub">Permet d\'adopter une boîte de limite pour l\'orientation de l\'image</string>
     <string name="lasso">Lasso</string>
     <string name="privacy_blur_sub">L\'image est floue sous le chemin tracé pour sécuriser tout ce que vous souhaitez cacher</string>
-    <string name="pen_sub">Celui par défaut, le plus simple : juste la couleur</string>
+    <string name="pen_sub">Celui par défaut, le plus simple : juste la couleur</string>
     <string name="line_arrow">Flèche de ligne</string>
     <string name="containers_shadow">Conteneurs</string>
     <string name="line_sub">Dessine le chemin du point de départ au point final sous forme de ligne</string>
@@ -567,7 +566,7 @@
     <string name="segmentation_mode_single_word">Un seul mot</string>
     <string name="segmentation_mode_circle_word">Mot de cercle</string>
     <string name="segmentation_mode_single_char">Caractère unique</string>
-    <string name="delete_language_sub">Souhaitez-vous supprimer les données de formation OCR de langue \"%1$s\" pour tous les types de reconnaissance, ou uniquement pour celui sélectionné (%2$s) ?</string>
+    <string name="delete_language_sub">Souhaitez-vous supprimer les données de formation OCR de langue \"%1$s\" pour tous les types de reconnaissance, ou uniquement pour celui sélectionné (%2$s) ?</string>
     <string name="current">Actuel</string>
     <string name="all">Tous</string>
     <string name="camera_sub">Prendre une photo avec l\'appareil photo. Notez qu\'il est possible d\'obtenir une seule image à partir de cette source d\'image.</string>
@@ -777,8 +776,7 @@
     <string name="standard">Standard</string>
     <string name="best">Meilleur</string>
     <string name="no_data">Pas de données</string>
-    <string name="download_description">Pour que Tesseract OCR fonctionne correctement, des données d\'entraînement supplémentaires (%1$s) doivent être téléchargées sur votre appareil.
-\nVoulez-vous télécharger des données %2$s ?</string>
+    <string name="download_description">Pour que Tesseract OCR fonctionne correctement, des données d\'entraînement supplémentaires (%1$s) doivent être téléchargées sur votre appareil. \nVoulez-vous télécharger des données %2$s ?</string>
     <string name="download">Télécharger</string>
     <string name="no_connection">Pas de connexion, vérifiez et réessayez afin de télécharger des modèles de train</string>
     <string name="downloaded_languages">Langues téléchargées</string>

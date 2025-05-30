@@ -553,7 +553,7 @@
     <string name="recognize_text">OCR (Metin Tanıma)</string>
     <string name="recognize_text_sub">Verilen görüntüden metni tanıyın, 120+ dil desteklenir</string>
     <string name="picture_has_no_text">Resimde metin yok veya uygulama bunu bulamadı</string>
-    <string name="accuracy">"Doğruluk: %1$d"</string>
+    <string name="accuracy">Doğruluk: %1$d</string>
     <string name="recognition_type">Tanıma Türü</string>
     <string name="fast">Hızlı</string>
     <string name="standard">Standart</string>
@@ -594,7 +594,7 @@
     <string name="segmentation_mode_sparse_text">Seyrek metin</string>
     <string name="segmentation_mode_sparse_text_osd">Seyrek metin Yön ve Yazı Tespiti</string>
     <string name="segmentation_mode_raw_line">Ham satır</string>
-    <string name="delete_language_sub">"\"%1$s\" dilinin OCR eğitim verilerini tüm tanıma türleri için mi yoksa yalnızca seçilen biri (%2$s) için mi silmek istiyorsunuz?</string>
+    <string name="delete_language_sub">\"%1$s\" dilinin OCR eğitim verilerini tüm tanıma türleri için mi yoksa yalnızca seçilen biri (%2$s) için mi silmek istiyorsunuz?</string>
     <string name="current">Geçerli</string>
     <string name="all">Tümü</string>
     <string name="gradient_maker">Gradyan Oluşturucu</string>

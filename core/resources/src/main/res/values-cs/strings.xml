@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -271,8 +271,7 @@
     <string name="implementation">Implementace</string>
     <string name="compatibility">Kompatibilita</string>
     <string name="features_sub">Šifrování souborů na základě hesla. Provedené soubory mohou být uloženy ve vybraném adresáři nebo sdíleny. Dešifrované soubory lze také otevřít přímo.</string>
-    <string name="file_size_sub">Maximální velikost souboru je omezena operačním systémem Android a dostupnou pamětí, což samozřejmě závisí na vašem zařízení.
-\nPoznámka: paměť není úložiště.</string>
+    <string name="file_size_sub">Maximální velikost souboru je omezena operačním systémem Android a dostupnou pamětí, což samozřejmě závisí na vašem zařízení. \nPoznámka: paměť není úložiště.</string>
     <string name="create">Vytvořit</string>
     <string name="edit_screenshot">Upravit snímek obrazovky</string>
     <string name="secondary_customization">Sekundární přizpůsobení</string>
@@ -723,8 +722,7 @@
     <string name="standard">Standard</string>
     <string name="best">Nejlepší</string>
     <string name="no_data">Žádná data</string>
-    <string name="download_description">Pro správné fungování Tesseract OCR je třeba do vašeho zařízení stáhnout další tréninková data (%1$s).
-\nChcete stáhnout %2$s data?</string>
+    <string name="download_description">Pro správné fungování Tesseract OCR je třeba do vašeho zařízení stáhnout další tréninková data (%1$s). \nChcete stáhnout %2$s data?</string>
     <string name="download">Stažení</string>
     <string name="no_connection">Žádné připojení, zkontrolujte jej a zkuste to znovu, abyste si mohli stáhnout modely vlaků</string>
     <string name="downloaded_languages">Stažené jazyky</string>

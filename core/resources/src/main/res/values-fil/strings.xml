@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -294,8 +294,7 @@
     <string name="encrypt">I-encrypt</string>
     <string name="decrypt">I-decrypt</string>
     <string name="key">Susi</string>
-    <string name="file_size_sub">Ang maximum na laki ng file ay pinaghihigpitan ng Android OS at ang memorya na magagamit, na halatang nakadepende sa iyong device.
-\nMangyaring tandaan: ang memorya ay hindi imbakan.</string>
+    <string name="file_size_sub">Ang maximum na laki ng file ay pinaghihigpitan ng Android OS at ang memorya na magagamit, na halatang nakadepende sa iyong device. \nMangyaring tandaan: ang memorya ay hindi imbakan.</string>
     <string name="cipher">Cipher</string>
     <string name="cipher_sub">I-encrypt at I-decrypt ang anumang file (hindi lamang ang imahe) batay sa AES crypto algorithm</string>
     <string name="pick_file_to_start">Pumili ng file upang magsimula</string>
@@ -730,8 +729,7 @@
     <string name="standard">Pamantayan</string>
     <string name="best">Pinakamahusay</string>
     <string name="no_data">Walang Data</string>
-    <string name="download_description">Para sa wastong paggana ng Tesseract OCR, kailangang ma-download ang karagdagang data ng pagsasanay (%1$s) sa iyong device.
-\nGusto mo bang mag-download ng %2$s data?</string>
+    <string name="download_description">Para sa wastong paggana ng Tesseract OCR, kailangang ma-download ang karagdagang data ng pagsasanay (%1$s) sa iyong device. \nGusto mo bang mag-download ng %2$s data?</string>
     <string name="download">I-download</string>
     <string name="no_connection">Walang koneksyon, suriin ito at subukang muli upang mag-download ng mga modelo ng tren</string>
     <string name="downloaded_languages">Mga Na-download na Wika</string>

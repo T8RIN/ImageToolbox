@@ -298,8 +298,7 @@
     <string name="create">创作</string>
     <string name="cipher_sub">基于各种可用的加密算法对任何文件（不限于图片）进行加密和解密</string>
     <string name="store_file_desc">将此文件存储在您的设备上，或使用共享操作将其传送至任何位置</string>
-    <string name="file_size_sub">最大文件大小受 Android 系统和可用内存的限制，这取决于您的设备。
-\n请注意：内存 (RAM) 不是存储 (ROM)。</string>
+    <string name="file_size_sub">最大文件大小受 Android 系统和可用内存的限制，这取决于您的设备。 \n请注意：内存 (RAM) 不是存储 (ROM)。</string>
     <string name="screenshot">截屏</string>
     <string name="skip">跳过</string>
     <string name="secondary_customization">二次定制</string>

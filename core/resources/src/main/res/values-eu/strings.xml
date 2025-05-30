@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -296,8 +296,7 @@
     <string name="implementation">Ezarpena</string>
     <string name="compatibility">Bateragarritasuna</string>
     <string name="file_size">Fitxategiaren tamaina</string>
-    <string name="file_size_sub">Fitxategien gehienezko tamaina Android sistema eragileak eta eskuragarri dagoen memoriak mugatzen du, hau da, jakina, zure gailuaren araberakoa.
-\nKontuan izan: memoria ez da biltegiratzea.</string>
+    <string name="file_size_sub">Fitxategien gehienezko tamaina Android sistema eragileak eta eskuragarri dagoen memoriak mugatzen du, hau da, jakina, zure gailuaren araberakoa. \nKontuan izan: memoria ez da biltegiratzea.</string>
     <string name="compatibility_sub">Kontuan izan fitxategiak enkriptatzeko beste software edo zerbitzu batzuekin bateragarritasuna ez dagoela bermatuta. Gako-tratamendu edo zifratze-konfigurazio apur bat desberdina bateraezintasunaren arrazoia izan daiteke.</string>
     <string name="features_sub">Fitxategien pasahitzetan oinarritutako enkriptatzea. Jarraitutako fitxategiak hautatutako direktorioan gorde edo partekatu daitezke. Deszifratutako fitxategiak ere zuzenean ireki daitezke.</string>
     <string name="fallback_option">Atzerako aukera</string>
@@ -746,8 +745,7 @@
     <string name="standard">Estandarra</string>
     <string name="best">Onena</string>
     <string name="no_data">Ez dago daturik</string>
-    <string name="download_description">Tesseract OCR prestakuntza-datu osagarriak (%1$s) behar bezala funtzionatzeko zure gailura deskargatu behar dira.
-\n%2$s datuak deskargatu nahi dituzu?</string>
+    <string name="download_description">Tesseract OCR prestakuntza-datu osagarriak (%1$s) behar bezala funtzionatzeko zure gailura deskargatu behar dira. \n%2$s datuak deskargatu nahi dituzu?</string>
     <string name="download">Deskargatu</string>
     <string name="no_connection">Ez dago konexiorik, egiaztatu eta saiatu berriro tren-ereduak deskargatzeko</string>
     <string name="downloaded_languages">Deskargatutako hizkuntzak</string>

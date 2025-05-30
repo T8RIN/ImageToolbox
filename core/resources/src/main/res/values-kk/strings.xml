@@ -292,8 +292,7 @@
     <string name="file_proceed">Файл өңделді</string>
     <string name="store_file_desc">Бұл файлды құрылғыда сақтаңыз немесе оны қалаған жерге қою үшін бөлісу әрекетін пайдаланыңыз</string>
     <string name="implementation_sub">AES-256, GCM режимі, толтыру жоқ, 12 байт кездейсоқ IV. Кілттер SHA-3 хэштері (256 бит) ретінде пайдаланылады.</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Басқа файлды шифрлау бағдарламалық құралымен немесе қызметтерімен үйлесімділікке кепілдік берілмейтінін ескеріңіз. Сәл басқаша кілт өңдеуі немесе шифр конфигурациясы сәйкессіздікті тудыруы мүмкін.</string>
     <string name="randomize_filename_sub">Қосылған жағдайда шығыс файл атауы толығымен кездейсоқ болады</string>
     <string name="saved_to">%2$s атымен %1$s қалтасына сақталды</string>
@@ -604,8 +603,7 @@
     <string name="standard">Стандартты</string>
     <string name="best">Ең жақсы</string>
     <string name="no_data">Деректер жоқ</string>
-    <string name="download_description">Tesseract OCR дұрыс жұмыс істеуі үшін құрылғыңызға қосымша жаттығу деректерін (%1$s) жүктеп алу қажет.
-\n%2$s деректерін жүктеп алғыңыз келе ме?</string>
+    <string name="download_description">Tesseract OCR дұрыс жұмыс істеуі үшін құрылғыңызға қосымша жаттығу деректерін (%1$s) жүктеп алу қажет. \n%2$s деректерін жүктеп алғыңыз келе ме?</string>
     <string name="download">Жүктеп алу</string>
     <string name="no_connection">Байланыс жоқ, пойыз үлгілерін жүктеп алу үшін оны тексеріп, әрекетті қайталаңыз</string>
     <string name="downloaded_languages">Жүктелген тілдер</string>
