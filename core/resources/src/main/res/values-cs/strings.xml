@@ -152,7 +152,7 @@
     <string name="radius">Poloměr</string>
     <string name="emoji">Emoji</string>
     <string name="add_file_size">Přidejte velikost souboru</string>
-    <string name="load_image_from_net">Načíst obrázek z netu</string>
+    <string name="load_image_from_net">Načíst obrázek z internetu</string>
     <string name="fit">Vejít se</string>
     <string name="filters">Filtry</string>
     <string name="exposure">Vystavení</string>
@@ -177,7 +177,7 @@
     <string name="file_explorer_picker_sub">Použijte záměr GetContent k výběru obrázku, funguje všude, ale také může mít problémy s přijímáním vybraných obrázků na některých zařízeních, to není moje chyba</string>
     <string name="options_arrangement">Uspořádání možností</string>
     <string name="edit">Upravit</string>
-    <string name="order">Objednat</string>
+    <string name="order">Pořadí</string>
     <string name="order_sub">Určuje pořadí nástrojů na hlavní obrazovce</string>
     <string name="replace_sequence_number">Nahraďte pořadové číslo</string>
     <string name="replace_sequence_number_sub">Pokud je povoleno, nahradí standardní časové razítko pořadovým číslem obrázku, pokud používáte dávkové zpracování</string>
@@ -185,7 +185,7 @@
     <string name="no_image">Bez obrázku</string>
     <string name="image_link">Odkaz na obrázek</string>
     <string name="fill">Vyplnit</string>
-    <string name="explicit_description">Vynutí každý obrázek do obrázku daného parametrem Šířka a Výška – může se změnit poměr stran</string>
+    <string name="explicit_description">Změní velikost obrázků na danou výšku a šířku. Poměr stran obrázků se může změnit.</string>
     <string name="flexible_description">Změní velikost obrázků na obrázky s dlouhou stranou danou parametrem Width nebo Height, všechny výpočty velikosti budou provedeny po uložení - zachová poměr stran</string>
     <string name="contrast">Kontrast</string>
     <string name="hue">Odstín</string>
@@ -239,7 +239,7 @@
     <string name="false_color">Falešná barva</string>
     <string name="first_color">První barva</string>
     <string name="second_color">Druhá barva</string>
-    <string name="reorder">Přeobjednat</string>
+    <string name="reorder">Seřadit</string>
     <string name="fast_blur">Rychlé rozmazání</string>
     <string name="blur_size">Velikost rozostření</string>
     <string name="blur_center_x">Rozmazat střed x</string>
