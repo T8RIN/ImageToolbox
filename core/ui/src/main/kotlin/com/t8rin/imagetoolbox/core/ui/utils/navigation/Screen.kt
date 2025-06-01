@@ -49,14 +49,11 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) {
 
-    val isBetaFeature: Boolean
-        get() = isBetaFeature()
+    val isBetaFeature: Boolean by lazy { isBetaFeature() }
 
-    val simpleName: String
-        get() = simpleName()
+    val simpleName: String by lazy { simpleName() }
 
-    val icon: ImageVector?
-        get() = icon()
+    val icon: ImageVector? by lazy { icon() }
 
     @Serializable
     data object LibrariesInfo : Screen(
