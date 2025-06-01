@@ -126,8 +126,7 @@ Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for F
 
 # ☕ Buy me a coffee
 
-This application is completely free, but if you want to support the project development, you can
-send a donation to the crypto wallets below
+This application is completely free, but if you want to support the project development, you can click here
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> -> `17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq` <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> -> `TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7` <- <br/> <br/> |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
