@@ -82,7 +82,7 @@ fun DonateContainerContent(
                 fontSize = 12.sp,
                 modifier = Modifier.padding(8.dp),
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Normal,
                 lineHeight = 14.sp,
                 color = LocalContentColor.current.copy(alpha = 0.5f)
             )
