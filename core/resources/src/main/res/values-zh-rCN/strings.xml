@@ -51,7 +51,7 @@
     <string name="check_source_code">源代码</string>
     <string name="check_source_code_sub">获得最新更新、讨论问题等</string>
     <string name="single_edit">缩放单张图片</string>
-    <string name="single_edit_sub">编辑单张图片</string>
+    <string name="single_edit_sub">修改、调整大小和编辑一张图片</string>
     <string name="pick_color">取色器</string>
     <string name="pick_color_sub">从图片中选取颜色，并复制或分享</string>
     <string name="image">图片</string>
@@ -98,7 +98,7 @@
     <string name="allow_image_monet_sub">如果启用，当你选择一张要编辑的图片时，应用程序的颜色将根据此图片改变</string>
     <string name="language">语言</string>
     <string name="dynamic_colors">动态颜色</string>
-    <string name="amoled_mode">纯黑深色模式</string>
+    <string name="amoled_mode">Amoled模式</string>
     <string name="amoled_mode_sub">如果启用，在夜间模式下背景色将设为纯黑</string>
     <string name="color_red">红色</string>
     <string name="color_green">绿色</string>
@@ -127,7 +127,7 @@
     <string name="border_thickness">边框宽度</string>
     <string name="surface">表面</string>
     <string name="donation_sub">该应用程序完全免费。如果你想支持该项目开发，你可以点击这里</string>
-    <string name="fab_alignment">浮动操作按钮对齐方式</string>
+    <string name="fab_alignment">FAB对齐方式</string>
     <string name="check_updates">检查更新</string>
     <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动时显示</string>
     <string name="primary">主要</string>
@@ -193,7 +193,7 @@
     <string name="saturation">饱和度</string>
     <string name="add_filter">添加滤镜</string>
     <string name="filter">滤镜</string>
-    <string name="filter_sub">为图片应用滤镜</string>
+    <string name="filter_sub">应用滤镜链于图像</string>
     <string name="filters">滤镜</string>
     <string name="light_aka_illumination">光照</string>
     <string name="exposure">曝光</string>
@@ -776,13 +776,13 @@
     <string name="random_emojis">随机表情符号</string>
     <string name="random_emojis_error">当表情符号功能被禁用时，你无法使用随机表情符号</string>
     <string name="emoji_selection_error">当启用随机表情符号时，你无法选择单个表情符号</string>
-    <string name="random_emojis_sub">应用栏表情符号随机变化</string>
+    <string name="random_emojis_sub">应用栏表情符号将会随机变化</string>
     <string name="old_tv">老式电视</string>
     <string name="shuffle_blur">随机模糊</string>
     <string name="favorite">收藏夹</string>
     <string name="no_favorite_filters">尚未添加收藏夹过滤器</string>
     <string name="image_format">图片格式</string>
-    <string name="icon_shape_sub">在卡片图标下方添加一个具有所选形状的容器</string>
+    <string name="icon_shape_sub">在图标下方添加一个具有所选形状的容器</string>
     <string name="icon_shape">图标形状</string>
     <string name="uchimura">内村</string>
     <string name="mobius">莫比乌斯</string>
