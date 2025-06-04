@@ -1648,4 +1648,8 @@
     <string name="default_folder" translatable="false"></string>
     <string name="firebase" translatable="false"></string>
     <string name="operation_almost_complete"></string>
+    <string name="ocr_write_to_metadata_sub"></string>
+    <string name="ocr_write_to_file_sub"></string>
+    <string name="invisible_mode_sub"></string>
+    <string name="invisible_mode"></string>
 </resources>
