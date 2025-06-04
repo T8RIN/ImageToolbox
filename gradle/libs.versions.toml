@@ -48,7 +48,7 @@ gms = "4.4.2"
 
 ktor = "3.1.3"
 coil = "3.2.0"
-appCompat = "1.7.0"
+appCompat = "1.7.1"
 androidxCore = "1.16.0"
 androidxLifecycle = "2.9.0"
 desugaring = "2.1.5"
