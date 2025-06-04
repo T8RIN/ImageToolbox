@@ -22,7 +22,7 @@
     <string name="nothing_found_by_search">検索クエリに一致するものが見つかりませんでした</string>
     <string name="size">サイズ %1$s</string>
     <string name="loading">読み込み中…</string>
-    <string name="image_too_large_preview">画像がプレビューには大きすぎますが、保存は試行されます</string>
+    <string name="image_too_large_preview">画像はプレビューするには大きすぎますが、保存は試みます</string>
     <string name="pick_image">画像を選択して開始</string>
     <string name="width">幅 %1$s</string>
     <string name="height">高さ %1$s</string>
@@ -681,7 +681,7 @@
     <string name="random_dithering">ランダムディザリング</string>
     <string name="simple_threshold_dithering">シンプルしきい値ディザリング</string>
     <string name="max_colors_count">最大色数</string>
-    <string name="crashlytics_sub">アプリがクラッシュレポートを手動で収集できるようにします</string>
+    <string name="crashlytics_sub">アプリがクラッシュレポートを自動的に収集できるようにします</string>
     <string name="analytics">分析</string>
     <string name="analytics_sub">匿名のアプリ使用統計情報の収集を許可する</string>
     <string name="effort">エフォート</string>
