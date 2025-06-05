@@ -29,21 +29,21 @@
 </br>
 </br>
 
-<a href="https://hits.sh/github.com/t8rin/ImageResizer/">
+<a href="https://hits.sh/github.com/T8RIN/ImageResizer/">
 
-  <img src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Page%20Views&extraCount=7500&color=ff3f6f&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctaWNvbiIgc3R5bGU9IndpZHRoOiAxZW07IGhlaWdodDogMWVtO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZmlsbDojZmZmZmZmO292ZXJmbG93OiBoaWRkZW47IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGQ9Ik01MTIgMzg0YTEyOCAxMjggMCAwIDAtMTI4IDEyOCAxMjggMTI4IDAgMCAwIDEyOCAxMjggMTI4IDEyOCAwIDAgMCAxMjgtMTI4IDEyOCAxMjggMCAwIDAtMTI4LTEyOG0wIDM0MS4zMzMzMzNhMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMtMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMCAwIDEgMjEzLjMzMzMzMy0yMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAwIDAgMSAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMgMjEzLjMzMzMzM20wLTUzMy4zMzMzMzNDMjk4LjY2NjY2NyAxOTIgMTE2LjQ4IDMyNC42OTMzMzMgNDIuNjY2NjY3IDUxMmM3My44MTMzMzMgMTg3LjMwNjY2NyAyNTYgMzIwIDQ2OS4zMzMzMzMgMzIwczM5NS41Mi0xMzIuNjkzMzMzIDQ2OS4zMzMzMzMtMzIwYy03My44MTMzMzMtMTg3LjMwNjY2Ny0yNTYtMzIwLTQ2OS4zMzMzMzMtMzIweiIgZmlsbD0iIi8%2BPC9zdmc%2B&labelColor=870b2a"/>
+  <img src="https://hits.sh/github.com/T8RIN/ImageResizer.svg?style=for-the-badge&label=Page%20Views&extraCount=7500&color=ff3f6f&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctaWNvbiIgc3R5bGU9IndpZHRoOiAxZW07IGhlaWdodDogMWVtO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZmlsbDojZmZmZmZmO292ZXJmbG93OiBoaWRkZW47IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGQ9Ik01MTIgMzg0YTEyOCAxMjggMCAwIDAtMTI4IDEyOCAxMjggMTI4IDAgMCAwIDEyOCAxMjggMTI4IDEyOCAwIDAgMCAxMjgtMTI4IDEyOCAxMjggMCAwIDAtMTI4LTEyOG0wIDM0MS4zMzMzMzNhMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMtMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMCAwIDEgMjEzLjMzMzMzMy0yMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAwIDAgMSAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMgMjEzLjMzMzMzM20wLTUzMy4zMzMzMzNDMjk4LjY2NjY2NyAxOTIgMTE2LjQ4IDMyNC42OTMzMzMgNDIuNjY2NjY3IDUxMmM3My44MTMzMzMgMTg3LjMwNjY2NyAyNTYgMzIwIDQ2OS4zMzMzMzMgMzIwczM5NS41Mi0xMzIuNjkzMzMzIDQ2OS4zMzMzMzMtMzIwYy03My44MTMzMzMtMTg3LjMwNjY2Ny0yNTYtMzIwLTQ2OS4zMzMzMzMtMzIweiIgZmlsbD0iIi8%2BPC9zdmc%2B&labelColor=870b2a"/>
   
 </a>
   
 <a href="https://github.com/T8RIN/ImageResizer/releases">
   
-  <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
+  <img src="https://img.shields.io/github/downloads/T8RIN/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
   
 </a>
   
-<a href="https://github.com/t8rin/ImageResizer/stargazers">
+<a href="https://github.com/T8RIN/ImageResizer/stargazers">
   
-  <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge&labelColor=a1a116&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnN0YXI8L3RpdGxlPjxwYXRoIGQ9Ik0xMiwxNy4yN0wxOC4xOCwyMUwxNi41NCwxMy45N0wyMiw5LjI0TDE0LjgxLDguNjJMMTIsMkw5LjE5LDguNjJMMiw5LjI0TDcuNDUsMTMuOTdMNS44MiwyMUwxMiwxNy4yN1oiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg=="/>
+  <img src="https://img.shields.io/github/stars/T8RIN/imageresizer?color=ffff00&style=for-the-badge&labelColor=a1a116&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnN0YXI8L3RpdGxlPjxwYXRoIGQ9Ik0xMiwxNy4yN0wxOC4xOCwyMUwxNi41NCwxMy45N0wyMiw5LjI0TDE0LjgxLDguNjJMMTIsMkw5LjE5LDguNjJMMiw5LjI0TDcuNDUsMTMuOTdMNS44MiwyMUwxMiwxNy4yN1oiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg=="/>
   
 </a>
   
@@ -51,7 +51,7 @@
 
 <a href="https://github.com/T8RIN/ImageResizer/releases/latest">
 
-  <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
+  <img src="https://img.shields.io/github/v/release/T8RIN/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
   
 </a>
 
@@ -84,7 +84,7 @@
 
 <div align="center">
 
-# 🗺️ Project Overview
+# 🗺️ Project overview
 
 Image Toolbox is a versatile image editing app designed for efficient photo manipulation. It allows
 users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. The app offers a simple interface with powerful capabilities.
@@ -119,12 +119,12 @@ Check out the Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) f
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements
+  Join our chat where you can discuss anything you want. Look into the CI channel where announcements and betas are posted.
   </br>
 
 # ☕ Buy me a coffee
 
-This application is completely free but you can support the project developement by donating to these cryptocurrency wallets below:
+This application is completely free but you can support the project development by donating to these cryptocurrency wallets below:
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> -> `17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq` <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> -> `TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7` <- <br/> <br/> |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
