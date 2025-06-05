@@ -32,7 +32,7 @@
     <string name="light">Helles Design</string>
     <string name="customization">Anpassungen</string>
     <string name="allow_image_monet">Farbschema von Bild</string>
-    <string name="amoled_mode">AMOLED-Modus</string>
+    <string name="amoled_mode">AMOLED Modus</string>
     <string name="amoled_mode_sub">Alle dunklen Farben der Benutzeroberfläche werden im dunklen Design schwarz dargestellt</string>
     <string name="color_scheme">Farbschema</string>
     <string name="extension">Dateityp</string>
@@ -243,7 +243,7 @@
     <string name="smooth_toon">Geglätteter Cartoon</string>
     <string name="limits_resize">Größenänderung durch Grenzen</string>
     <string name="lookup">Lookup</string>
-    <string name="non_maximum_suppression">Nicht-Maximales unterdrücken</string>
+    <string name="non_maximum_suppression">Nicht maximale Unterdrückung</string>
     <string name="weak_pixel_inclusion">Helle Pixel heller</string>
     <string name="convolution3x3">sog. Faltungsmatrix 3x3</string>
     <string name="rgb_filter">RGB-Filter</string>
@@ -378,7 +378,7 @@
     <string name="donation">Spende</string>
     <string name="draw_arrows_sub">Falls aktiviert, wird der Zeichenpfad als Pfeil dargestellt</string>
     <string name="crop_description">Bilder werden mittig auf diese Größe zugeschnitten, wenn sie größer sind als die eingegebenen Maße. In anderen Fällen wird die Leinwand mit der angegebenen Hintergrundfarbe erweitert.</string>
-    <string name="image_stitching">Zusammenfügen</string>
+    <string name="image_stitching">Bild zusammenfügen</string>
     <string name="image_stitching_sub">Kombiniere bestimmte Bilder zu einem großen</string>
     <string name="horizontal">Horizontal</string>
     <string name="images_order">Reihenfolge der Bilder</string>
@@ -400,7 +400,7 @@
     <string name="playful_scheme">Ein verspieltes Thema – der Farbton der Quellfarbe erscheint nicht im Thema</string>
     <string name="fading_edges">Verblassende Kanten</string>
     <string name="vibrant_sub">Ein lautes Thema, die Farbigkeit ist für die primäre Palette maximal, für andere erhöht</string>
-    <string name="pdf_tools">PDF Werkzeuge</string>
+    <string name="pdf_tools">PDF Tools</string>
     <string name="neutral_sub">Ein Stil, der etwas chromatischer als monochrom ist</string>
     <string name="enhanced_pixelation">Verbesserte Pixelierung</string>
     <string name="target_color">Ziel-Farbe</string>
@@ -458,7 +458,7 @@
     <string name="outlined_oval_sub">Zeichnet ein konturiertes Oval vom Anfangs- zum Endpunkt</string>
     <string name="mask_color">Maskenfarbe</string>
     <string name="mask_preview_sub">Die gezeichnete Filtermaske wird berechnet, um Ihnen das ungefähre Ergebnis zu zeigen</string>
-    <string name="mask_preview">Masken-Vorschau</string>
+    <string name="mask_preview">Masken Vorschau</string>
     <string name="lock_draw_orientation">Zeichenrichtung sperren</string>
     <string name="mask_filter">Maskierungsfilter</string>
     <string name="masks">Masken</string>
@@ -502,7 +502,7 @@
     <string name="sliders_shadow">Schieberegler</string>
     <string name="switches_shadow">Schalter</string>
     <string name="buttons_shadow_sub">Malt einen Schatten hinter Schaltflächen</string>
-    <string name="app_bars_shadow">App-Leisten</string>
+    <string name="app_bars_shadow">App Leisten</string>
     <string name="app_bars_shadow_sub">Malt einen Schatten hinter App-Leisten</string>
     <string name="enhanced_glitch">Verbesserter Glitch</string>
     <string name="tent_blur">Zeltunschärfe</string>
@@ -674,7 +674,7 @@
     <string name="hable_filmic_tone_mapping">Hable Filmic Tone Mapping</string>
     <string name="current">Aktuell</string>
     <string name="all">Alle</string>
-    <string name="full_filter">Vollfilter</string>
+    <string name="full_filter">Voller Filter</string>
     <string name="full_filter_sub">Wende beliebige Filterketten auf bestimmte Bilder oder einzelne Bilder an</string>
     <string name="gradient_maker">Verlaufsgenerator</string>
     <string name="gradient_maker_sub">Erstelle einen Farbverlauf in einer bestimmten Ausgabegröße mit benutzerdefinierten Farben und Darstellungstypen</string>
@@ -960,7 +960,7 @@
     <string name="star">Stern</string>
     <string name="outlined_star">Umrandeter Stern</string>
     <string name="outlined_star_sub">Zeichnet einen umrandeten Stern vom Startpunkt zum Endpunkt</string>
-    <string name="inner_radius_ratio">Innenradius-Verhältnis</string>
+    <string name="inner_radius_ratio">Innenradius Verhältnis</string>
     <string name="tag_compressed_bits_per_pixel">Komprimierte Bits pro Pixel</string>
     <string name="add_new_folder">Neuen Ordner hinzufügen</string>
     <string name="tag_transfer_function">Übertragungsfunktion</string>
@@ -1018,7 +1018,7 @@
     <string name="draw_regular_star">Regelmäßigen Stern zeichnen</string>
     <string name="allow_enter_by_text_field">Eingabe per Textfeld zulassen</string>
     <string name="no_template_filters">Keine Vorlagenfilter hinzugefügt</string>
-    <string name="scanned_qr_code_isnt_filter_template">Gescannter QR-Code ist keine gültige Filtervorlage</string>
+    <string name="scanned_qr_code_isnt_filter_template">Gescannter QR Code ist keine gültige Filtervorlage</string>
     <string name="scan_qr_code">QR Code scannen</string>
     <string name="grant_camera_permission_to_scan_qr_code">Erlaube Kamera Berechtigung in den Einstellungen, um den QR-Code zu scannen</string>
     <string name="opened_file_have_no_filter_template">Ausgewählte Datei hat keine Filtervorlagedaten</string>
@@ -1175,7 +1175,7 @@
     <string name="gotham">Gotham</string>
     <string name="color_poster">Farbiges Poster</string>
     <string name="edge_mode">Kantenmodus</string>
-    <string name="linear_box_blur">Lineare Box Unschärfe</string>
+    <string name="linear_box_blur">Lineare Boxunschärfe</string>
     <string name="linear_tent_blur">Lineare Zelt Unschärfe</string>
     <string name="linear_gaussian_box_blur">Linearer Gaußscher Box Unschärfe</string>
     <string name="color_blind_scheme">Farbkorrektur</string>
@@ -1254,9 +1254,9 @@
     <string name="clahe_lab">Clahe LAB</string>
     <string name="clahe_luv">Clahe LUV</string>
     <string name="add_image">Bild hinzufügen</string>
-    <string name="clustered_2x2_dithering">Geclustertes 2x2-Dithering</string>
+    <string name="clustered_2x2_dithering">Geclustertes 2x2 Dithering</string>
     <string name="polka_dot">Polka Dot</string>
-    <string name="clustered_4x4_dithering">Geclustertes 4x4-Dithering</string>
+    <string name="clustered_4x4_dithering">Geclustertes 4x4 Dithering</string>
     <string name="yililoma_dithering">Yililoma Dithering</string>
     <string name="bins_count">Anzahl der Behälter</string>
     <string name="equalize_histogram_adaptive_hsv">Histogramm ausgleichen Adaptive HSV</string>
@@ -1299,7 +1299,7 @@
     <string name="gaussian_box_blur">Gaußscher Box Unschärfe</string>
     <string name="languages_imported">Sprachen erfolgreich importiert</string>
     <string name="backup_ocr_models">OCR Modelle sichern</string>
-    <string name="clustered_8x8_dithering">Geclustertes 8x8-Dithering</string>
+    <string name="clustered_8x8_dithering">Geclustertes 8x8 Dithering</string>
     <string name="color_to_mix">Farbe zum Mischen</string>
     <string name="fit_to_bounds">An Grenze halten</string>
     <string name="soft_glow">Sanftes Glühen</string>
@@ -1387,7 +1387,7 @@
     <string name="group_tools_by_type">Werkzeuge nach Typ gruppieren</string>
     <string name="group_tools_by_type_sub">Werkzeuge im Hauptfenster nach Typ gruppieren anstatt untereinander als Liste</string>
     <string name="default_values">Standardwerte</string>
-    <string name="system_bars_visibility">Sichtbarkeit der Systemleisten</string>
+    <string name="system_bars_visibility">Systemleisten Sichtbarkeit</string>
     <string name="show_system_bars_by_swipe">Systemleisten durch Wischen anzeigen</string>
     <string name="show_system_bars_by_swipe_sub">Zeigt Systemleisten durch Wischen an, falls sie versteckt sind</string>
     <string name="auto">Auto</string>
