@@ -86,10 +86,8 @@
 
 # 🗺️ Project Overview
 
-ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows
-users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs.
-Ideal for both photographers and developers, the tool offers a simple interface with powerful
-capabilities.
+Image Toolbox is a versatile image editing app designed for efficient photo manipulation. It allows
+users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. The app offers a simple interface with powerful capabilities.
 
 </div>
 
@@ -111,11 +109,11 @@ Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for F
 </br>
 </br>
 
-# ✈️ Telegram Links
+# ✈️ Telegram links
 
 </br>
 
-  [![ImageToolbox Chat](https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox%20Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox)](https://t.me/t8rin_imagetoolbox)
+  [![Image Toolbox chat](https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox%20Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox)](https://t.me/t8rin_imagetoolbox)
 [![CI Telegram](https://img.shields.io/endpoint?&style=for-the-badge&colorA=29626B&colorB=B5DFE8&logo=telegram&logoColor=B5DFE8&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci)](https://t.me/t8rin_imagetoolbox_ci)
 
 
@@ -126,16 +124,14 @@ Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for F
 
 # ☕ Buy me a coffee
 
-This application is completely free, but if you want to support the project development, you can
-send a donation to the crypto wallets below
+This application is completely free but you can support the project developement by donating to these cryptocurrency wallets below:
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> -> `17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq` <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> -> `TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7` <- <br/> <br/> |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 
 # 📲 Download
 
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest
-apk
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest APK
 or click one of the badges below.
 
 </br>
@@ -150,7 +146,7 @@ or click one of the badges below.
 </p>
 </div>
 
-# 💻 Installation Instructions
+# 💻 Compilation instructions
 
 1. Clone the repository:
    ```bash
@@ -171,8 +167,8 @@ or click one of the badges below.
 |  Document Scanner  |       OpenCV       |       MlKit        |
 |     Analytics      |        :x:         | :white_check_mark: |
 |    Crashlytics     |        :x:         | :white_check_mark: |
-| Other Google deps  |        :x:         | :white_check_mark: |
-| All Other Features | :white_check_mark: | :white_check_mark: |
+| Other Google dependencies  |        :x:         | :white_check_mark: |
+| All other features | :white_check_mark: | :white_check_mark: |
 
 # ✨ Features
 
@@ -189,16 +185,16 @@ or click one of the badges below.
     - [x] Exposure
     - [x] RGB
     - [x] Hue
-    - [x] White Balance
+    - [x] White balance
     - [x] Monochrome
-    - [x] Black and White
-    - [x] False Color
+    - [x] Black and white
+    - [x] False color
     - [x] Sharpen
     - [x] Gamma
-    - [x] Highlights and Shadows
+    - [x] Highlights and shadows
     - [x] Haze
-    - [x] Sepia Tone
-    - [x] Color Inversion
+    - [x] Sepia tone
+    - [x] Color inversion
     - [x] Solarize
     - [x] Vibrance
     - [x] Luminance Threshold
@@ -287,7 +283,7 @@ or click one of the badges below.
     - [x] Achromatomaly
     - [x] Achromatopsia
     - [x] Browni
-    - [x] CodaChrome
+    - [x] Coda chrome
     - [x] Cool
     - [x] Deutaromaly
     - [x] Deutaronotopia
@@ -417,80 +413,79 @@ or click one of the badges below.
     - [x] Simple Laplacian
     - [x] Auto Red Eyes remover
     - [x] Tone Curves 
-  - [x] Mirror
+    - [x] Mirror
 
   </details>
 
-- Custom Filters Creation by Template filters
+- Create custom filters by using template filters
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Files encryption and decryption with 100+ different algorithms available
-- Adding Stickers and Text (Markup Layers Mode)
-- Extract Text From Images (OCR)
+- Adding stickers and text (markup layers mode)
+- Extract text from images (OCR)
     - 120+ languages
     - 3 Type of data: Fast, Standard, Best
-    - Segmentation Mode Selection
-    - Engine Mode Selection
-    - Custom Tesseract options entering
+    - Segmentation mode selection
+    - Engine mode selection
+    - Custom Tesseract options
     - Multiple languages at the same time
     - Reading from batch of images to file
-    - Placing in EXIF metadata of batch images
-- EXIF metadata editing/deleting
+    - Placing results in the EXIF metadata of images
+- EXIF metadata editing / deleting
 - Loading images from internet
-- Image Stitching
-- Image Stacking
-- Image Splitting
-- Background Removal
+- Image stitching
+- Image stacking
+- Image splitting
+- Background removal
     - By drawing
     - Automatically
 - Watermarking
-    - Repeating Text
+    - Repeating text
     - Image
     - Stamp
     - Timestamp
-    - Digital (Steganography)
-- Drawing on Image/Background
+    - Digital (steganography)
+- Drawing on image / background
     - Pen
     - Neon
     - Highlighter
-    - Privacy Blur
-    - Pixelation Paint
+    - Privacy blur
+    - Pixelation paint
     - Text
-    - Image Brush
-    - Filter Brush
-    - Spot Healing
-    - Pointing Arrow
+    - Image brush
+    - Filter brush
+    - Spot healing
+    - Pointing arrow
     - Line
-    - Double Pointing Arrow
-    - Line Pointing Arrow
-    - Double Line Pointing Arrow
-    - Outlined Rect
-    - Outlined Oval
-    - Outlined Triangle
-    - Outlined Polygon
-    - Outlined Star
-    - Rect
+    - Double pointing arrow
+    - Line pointing arrow
+    - Double line pointing arrow
+    - Outlined rectangle
+    - Outlined oval
+    - Outlined triangle
+    - Outlined polygon
+    - Outlined star
+    - Rectangle
     - Oval
     - Triangle
     - Polygon
     - Star
     - Lasso
-    - Line Style
+    - Line style
         - Dashed
         - Dot Dashed
-        - Zigzag
+        - Zig-zag
         - Stamped
-- Image Resizing
-    - Width changing
-    - Height changing
+- Image resizing
+    - Resize to dimensions
     - Adaptive resize
-    - Resize retaining aspect ratio
-    - Resize by given limits
-    - Center Crop with
+    - Resize while retaining aspect ratio
+    - Resize to size
+    - Center crop with
         - Background color changing
         - Background blur drawing
-    - Different Scaling Algorithms
+    - Different scaling algorithms
 
         <details>
           <summary>Available methods</summary>
@@ -588,8 +583,8 @@ or click one of the badges below.
 - PDF tools
     - PDF to images
     - Images to PDF
-    - PDF previewing
-- Document Scanning
+    - Preview PDFs
+- Document scanning
 - Barcodes
     - Scanning
     - Creating
@@ -608,17 +603,17 @@ or click one of the badges below.
       - PDF 417
       - UPC A
       - UPC E
-- Collage Creation
+- Collage creation
     - From 2 to 10 images
     - More than 180 various collage layouts
-- Image Shrinking
+- Image shrinking
     - Quality compressing
     - Preset shrinking
     - Reducing size by given weight (in KB)
 - Cropping
     - Regular crop
     - Free rotation crop
-    - Free corners crop (can be used as Perspective Correction)
+    - Free corners crop (can be used for perspective correction)
     - Crop by aspect ratio
     - Crop with shape mask
         
@@ -626,16 +621,16 @@ or click one of the badges below.
           <summary>List of shapes</summary>
           <br/>
           
-        - Rounded Corners
-        - Cut Corners
+        - Rounded corners
+        - Cut corners
         - Oval
         - Squircle
         - Octagon
-        - Rounded Pentagon
+        - Rounded pentagon
         - Clover
-        - Material Star
-        - Kotlin Logo
-        - Small Material Star
+        - Material star
+        - Kotlin logo
+        - Small material star
         - Heart
         - Shuriken
         - Explosion
@@ -647,11 +642,11 @@ or click one of the badges below.
         - Arrow
         - Egg
         - Map
-        - Enhanced Heart
+        - Enhanced heart
         - Star
-        - Image Mask
+        - Image mask
         - <details>
-          <summary>Additional Shapes</summary>
+          <summary>Additional shapes</summary>
           </br>
         
           ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
@@ -661,9 +656,9 @@ or click one of the badges below.
         </details>
 
 
-- Image Cutting (can be used as batch crop)         
-- Tracing raster images to SVG
-- Format Conversion
+- Image cutting (can be used as batch crop)       
+- Trace raster images to SVG
+- Format conversion
     - HEIF
     - HEIC
     - AVIF
@@ -672,7 +667,7 @@ or click one of the badges below.
     - JPG
     - PNG Lossless
     - PNG Lossy
-    - MozJpeg
+    - MozJPEG
     - Jpegli
     - JXL
     - JP2
@@ -683,52 +678,51 @@ or click one of the badges below.
     - ICO
     - SVG, DNG, PSD, GIF to static raster images
     - Telegram sticker PNG format
-- Files to Zip
+- Archive files to ZIP
 - Comparing images
     - Slide
-    - Toggle Tap
+    - Toggle tap
     - Transparency
-    - Side By Side
-    - Pixel By Pixel (7 Methods)
+    - Side by side
+    - Pixel by pixel
         - SSIM
         - AE
         - MAE
         - NCC
         - PSNR
         - RMSE
-- Color Utils
+- Color utilities
     - Palette generation
-        - Material You Scheme
-        - Simple Colors
+        - Material You color scheme
+        - Simple colors
     - Picking color from image
-    - Gradient creation (Mesh gradients too)
-    - Overlaying image with gradient
+    - Gradient creation (mesh gradients are also supported)
+    - Overlaying gradient on top of an image
     - Mixing
     - Conversion
     - Harmonies
     - Shading
-    - Tone Curves applying
+    - Applying tone curves
 - Histograms
     - RGB
     - Brightness
-    - Camera Like RGB
 - Image source selection
-- Additional Features
-    - Base64 Decode/Encode
+- Additional features
+    - Base64 encoding/decoding
     - Rotating
     - Flipping
-    - Perlin Noise Generation
-    - Previewing SVG, DNG, PSD, DJVU and almost all types of images
+    - Noise generation
+    - Previewing SVG, DNG, PSD, DJVU and most all types of images
     - Saving to any specific folder
     - Long press on save to choose one time output folder
     - Randomizing output filename
-    - Using image cheksum as filename
-    - Checksum Tools with ability to calculate and compare hashes
+    - Using image checksum as filename
+    - Checksum tools with ability to calculate and compare hashes
     - 64 different hashing algorithms
-    - Audio files Album Cover export
+    - Album cover export for audio files
     - Embedded media picker
 
-**And More!**
+**And more!**
 
 #
 
@@ -737,11 +731,11 @@ or click one of the badges below.
 # 🌟 UI tweaks
 
 - Selecting Emoji for top app bar
-- Ability to use Pixel like switch instead of Material You
-- Secure Mode for app
+- Ability to use many types of switch instead of Material You
+- Secure mode for app
 - Maximum brightness for selected screens
-- In app language changing
-- Enabling or Disabling confetti
+- In-app language changer
+- Enabling or disabling confetti
 - Custom app color scheme
     - Different palette styles
     - Predefined schemes
@@ -751,22 +745,22 @@ or click one of the badges below.
 - Enabling and disabling each existing shadow
 - Haptics controls
 - Light/Dark mode
-- AMOLED mode
+- Black mode
 - Monet implementation (Dynamic colors) even for Android versions less than 12
   by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
-- Image based color scheme
-- Icons Background shape selection
-    - Rounded Corners
-    - Cut Corners
+- Image-based color scheme
+- Icon background shape selection
+    - Rounded corners
+    - Cut corners
     - Oval
     - Squircle
     - Octagon
-    - Rounded Pentagon
+    - Rounded pentagon
     - Clover
-    - Material Star
-    - Small Material Star
+    - Material star
+    - Small material Star
     - Heart
-    - Enhanced Heart
+    - Enhanced heart
 - Custom fonts
 
   <details>
@@ -791,106 +785,94 @@ or click one of the badges below.
     - Nothing
     - WOPR Tweaked
     - Alegreya Sans
-    - Minecraft Gnu
+    - Minecraft GNU
     - Granite Fixed
     - Nokia Pixel
     - Ztivalia
     - Axotrel
-    - Lcd Octagon
-    - Lcd Moving
+    - LCD Octagon
+    - LCD Moving
     - Unisource
 
   </details>
 
-- Ability to import any font (OTF/TTF) to further use
-- In app font scale changing
+- Ability to import fonts (OTF/TTF)
+- In-app font scale changer
 - Changing between options list and grouped view
-- Confetti Type selection
+- Confetti type selection
     - Default
     - Festive
     - Explode
     - Rain
     - Side
     - Corners
-    - ImageToolbox
-- Switch Type selection:
+    - Image Toolbox
+- Switch type selection:
     - Material You
-    - Compose
+    - Jetpack Compose
     - Pixel
     - Fluent
     - Cupertino
-- Slider Type Selection:
-    - Fancy
+- Slider type selection:
     - Material You
+    - Fancy
     - Material
 
-(Yes, the app supports dynamic coloring based on wallpapers for every android version)
+# 📚 Tech stack and open source libraries
 
-# 📚 Tech stack & Open-source libraries
+- Android 5 (SDK level 21) or later required
 
-- Minimum SDK level 21
+- [Kotlin](https://kotlinlang.org)-based
 
-- [Kotlin](https://kotlinlang.org/) based
-
-- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - set of essential libraries for
+- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - Set of essential libraries for
   Image Toolbox.
 
-- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily
-  implement custom color theming.
+- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - Library which allows you to easily implement custom color theming.
 
-- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - modal bottom sheet that follows M3
-  guidelines.
+- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - Modal bottom sheet that follows Material 3 guidelines.
 
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work.
 
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/)
   to emit values from data layer reactively.
 
-- [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
+- [Accompanist](https://github.com/google/accompanist) to expand Jetpack Compose opportunities.
 
-- [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic
-  components (aka BLoCs) with routing (navigation) and pluggable UI
+- [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic components (aka BLoCs) with routing (navigation) and pluggable user interface.
 
 - [Hilt](https://dagger.dev/hilt/) for dependency injection.
 
 - [Coil](https://github.com/coil-kt/coil) for loading images.
 
-- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beautiful particle system.
+- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish a beautiful particle system.
 
 - Jetpack
 
-    - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
-      framework based on composable functions.
+    - [Compose](https://developer.android.com/jetpack/compose) - Modern declarative user interface style framework based on composable functions.
 
     - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
-      Material 3 powerful UI components.
+      Powerful Material 3 user interface components.
 
-    - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
+    - [DataStore](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
       asynchronously, consistently, and transactionally.
 
-    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
-      Android lifecycles and handle UI states upon the lifecycle changes.
+    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe Android lifecycles and handle UI states upon the lifecycle changes.
 
-    - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
-      and write image file EXIF tags.
+    - [Exifinterface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
 
-- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
-  images.
+- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to images.
 
 - [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries.
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder)
-  and [JXL Coder](https://github.com/awxkee/jxl-coder) libraries which provide avif, heic, heif and
-  jxl support.
+  and [JXL Coder](https://github.com/awxkee/jxl-coder) are libraries which provide AVIF, HEIC, HEIF and JXL support.
 
-- [Aire](https://github.com/awxkee/aire) and [Trickle](https://github.com/T8RIN/Trickle) for
-  creating and applying filters to the images on CPU
-  using native cpp code.
+- [Aire](https://github.com/awxkee/aire) and [Trickle](https://github.com/T8RIN/Trickle) for creating and applying filters to the images with the CPU using native C++ code.
 
 
-# 📐 App Architecture
+# 📐 App architecture
 
-See Modules Graph at [ARCHITECTURE.md](https://github.com/T8RIN/ImageToolbox/blob/master/ARCHITECTURE.md)
+See nodules graph at [ARCHITECTURE.md](https://github.com/T8RIN/ImageToolbox/blob/master/ARCHITECTURE.md)
 
 <div align="center">
 
@@ -913,7 +895,7 @@ Support it by joining **[stargazers](https://github.com/t8rin/ImageToolbox/starg
 repository. :star: <br>
 And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 
-# ⭐ Star History
+# ⭐ Star history
 
 <a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
  <picture>
@@ -931,7 +913,7 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
-# 🔒 Signing Certificate Hashes
+# 🔒 Signing certificate hashes
 
 SHA-256: `20d7689de0874f00015ea3e31fa067c15c03457d362d41d5e793db3a864fa534`
 
@@ -939,7 +921,7 @@ SHA-1: `d69eacb30eeae804e8b72d2384c3c616b1906785`
 
 MD5: `db6f6b76c503d31099e4754e676353cf`
 
-For more info, see [wiki](https://github.com/T8RIN/ImageToolbox/wiki/FAQ#how-can-i-verify-my-download-of-imagetoolbox-is-legitimate)
+See [wiki](https://github.com/T8RIN/ImageToolbox/wiki/FAQ#how-can-i-verify-my-download-of-imagetoolbox-is-legitimate) for more information.
 
 # ⚖️ License
 
