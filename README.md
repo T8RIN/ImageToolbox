@@ -35,7 +35,7 @@
   
 </a>
   
-<a href="https://github.com/t8rin/ImageResizer/releases">
+<a href="https://github.com/T8RIN/ImageResizer/releases">
   
   <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
   
@@ -49,7 +49,7 @@
   
 </br>
 
-<a href="https://github.com/t8rin/imageresizer/releases/latest">
+<a href="https://github.com/T8RIN/ImageResizer/releases/latest">
 
   <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
   
@@ -105,7 +105,7 @@ users to crop, apply filters, edit EXIF data, erase backgrounds, and even conver
 <div align="center">
 
 # 📔 Wiki
-Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for FAQ and useful info
+Check out the Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for frequently asked questions and useful information.
 </br>
 </br>
 
