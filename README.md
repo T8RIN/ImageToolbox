@@ -105,7 +105,7 @@ users to crop, apply filters, edit EXIF data, erase backgrounds, and even conver
 <div align="center">
 
 # 📔 Wiki
-Check out the Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for frequently asked questions and useful information.
+Check out the Image Toolbox [wiki](https://github.com/T8RIN/ImageToolbox/wiki) for frequently asked questions and useful information.
 </br>
 </br>
 
@@ -119,7 +119,7 @@ Check out the Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) f
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want. Look into the CI channel where announcements and betas are posted.
+  Join our chat where you can discuss anything you want. Look into the CI channel where announcements and new versions are posted.
   </br>
 
 # ☕ Buy me a coffee
@@ -131,8 +131,7 @@ This application is completely free but you can support the project development 
 
 # 📲 Download
 
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest APK
-or click one of the badges below.
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download the latest APK or click one of the badges below.
 
 </br>
 
@@ -158,7 +157,7 @@ or click one of the badges below.
 4. Run the application:
    bash ./gradlew run
 
-# ⚔️ FOSS vs MARKET
+# ⚔️ Flavor differences
 
 |    **Feature**     |      **FOSS**      |     **Market**     |
 |:------------------:|:------------------:|:------------------:|
@@ -197,97 +196,97 @@ or click one of the badges below.
     - [x] Color inversion
     - [x] Solarize
     - [x] Vibrance
-    - [x] Luminance Threshold
-    - [x] Pixellate
+    - [x] Luminance threshold
+    - [x] Pixelate
     - [x] Halftone
     - [x] Crosshatch
-    - [x] Sobel Edge Detection
-    - [x] Sketch Filter
+    - [x] Sobel edge detection
+    - [x] Sketch filter
     - [x] Toon Filter
-    - [x] SmoothToon Filter
-    - [x] CGA Colorspace Filter
+    - [x] Smooth toon
+    - [x] CGA colorspace
     - [x] Posterize
     - [x] Convolution 3x3
     - [x] Emboss Filter
     - [x] Laplacian
-    - [x] Kuwahara Filter
+    - [x] Kuwahara filter
     - [x] Vignette
-    - [x] Gaussian Blur
-    - [x] Box Blur
-    - [x] Stack Blur
-    - [x] Fast Blur
-    - [x] Bilaterial Blur
-    - [x] Zoom Blur
-    - [x] Median Blur
+    - [x] Gaussian blur
+    - [x] Box blur
+    - [x] Stack blur
+    - [x] Fast blur
+    - [x] Bilaterial blur
+    - [x] Zoom blur
+    - [x] Median blur
     - [x] Pixelation
-    - [x] Enhanced Pixelation
-    - [x] Stroke Pixelation
-    - [x] Circle Pixelation
-    - [x] Enhanced Circle Pixelation
-    - [x] Diamond Pixelation
-    - [x] Enhanced Diamond Pixelation
-    - [x] Swirl Distortion
-    - [x] Bulge Distortion
-    - [x] Sphere Refraction
-    - [x] Glass Sphere Refraction
+    - [x] Enhanced pixelation
+    - [x] Stroke pixelation
+    - [x] Circle pixelation
+    - [x] Enhanced circle pixelation
+    - [x] Diamond pixelation
+    - [x] Enhanced diamond pixelation
+    - [x] Swirl distortion
+    - [x] Bulge distortion
+    - [x] Sphere refraction
+    - [x] Glass sphere refraction
     - [x] Dilation
-    - [x] Non Maximum Suppression
+    - [x] Non-maximum suppression
     - [x] Opacity
-    - [x] Weak Pixel Inclusion Filter
-    - [x] Color Matrix 4x4
+    - [x] Weak pixel inclusion
+    - [x] Color matrix 4x4
     - [x] Lookup
-    - [x] Color Replacement
-    - [x] Color Removance
-    - [x] Bayer Two Dithering
-    - [x] Bayer Three Dithering
-    - [x] Bayer Four Dithering
-    - [x] Bayer Eight Dithering
-    - [x] Floyd Steinberg Dithering
-    - [x] Jarvis Judice Ninke Dithering
-    - [x] Sierra Dithering
-    - [x] Two Row Sierra Dithering
-    - [x] Sierra Lite Dithering
-    - [x] Atkinson Dithering
-    - [x] Stucki Dithering
-    - [x] Burkes Dithering
-    - [x] False Floyd Steinberg Dithering
-    - [x] Left To Right Dithering
-    - [x] Random Dithering
-    - [x] Simple Threshold Dithering
+    - [x] Color replacement
+    - [x] Color removance
+    - [x] Bayer 2x2 dithering
+    - [x] Bayer 3x3 dithering
+    - [x] Bayer 4x4 dithering
+    - [x] Bayer 8x8 dithering
+    - [x] Floyd–Steinberg dithering
+    - [x] Jarvis-Judice-Ninke dithering
+    - [x] Sierra dithering
+    - [x] Two-row Sierra dithering
+    - [x] Sierra Lite dithering
+    - [x] Atkinson dithering
+    - [x] Stucki dithering
+    - [x] Burkes dithering
+    - [x] False Floyd-Steinberg dithering
+    - [x] Left to right dithering
+    - [x] Random dithering
+    - [x] Simple threshold dithering
     - [x] Quantizier
-    - [x] Glitch Effect
-    - [x] Enhanced Glitch Effect
+    - [x] Glitch effect
+    - [x] Enhanced glitch effect
     - [x] Anaglyph
     - [x] Noise
-    - [x] Tent Blur
-    - [x] Side Fade
+    - [x] Tent blur
+    - [x] Side fade
     - [x] Erode
-    - [x] Anisotropic Diffusion
-    - [x] Horizontal Wind Stagger
-    - [x] Fast Bilaterial Blur
-    - [x] Poisson Blur
-    - [x] Logarithmic Tone Mapping
-    - [x] Aces Filmic Tone Mapping
+    - [x] Anisotropic diffusion
+    - [x] Horizontal wind stagger
+    - [x] Fast bilaterial blur
+    - [x] Poisson blur
+    - [x] Logarithmic tone mapping
+    - [x] ACES filmic tone mapping
     - [x] Crystallize
-    - [x] Fractal Glass
+    - [x] Fractal glass
     - [x] Marble
     - [x] Oil
-    - [x] Water Effect
-    - [x] Hable Filmic Tone Mapping
-    - [x] Aces Hill Tone Mapping
-    - [x] Hejl Burgess Tone Mapping
-    - [x] Perlin Distortion
+    - [x] Water effect
+    - [x] Hable filmic tone mapping
+    - [x] ACES Hill tone mapping
+    - [x] Hejl-Burgess tone mapping
+    - [x] Perlin distortion
     - [x] Grayscale
     - [x] Dehaze
-    - [x] Color Matrix 3x3
+    - [x] Color matrix 3x3
     - [x] Achromatomaly
     - [x] Achromatopsia
     - [x] Browni
-    - [x] Coda chrome
+    - [x] Kodachrome
     - [x] Cool
     - [x] Deutaromaly
     - [x] Deutaronotopia
-    - [x] Night Vision
+    - [x] Night vision
     - [x] Polaroid
     - [x] Protanopia
     - [x] Protonomaly
@@ -298,121 +297,121 @@ or click one of the badges below.
     - [x] Grain
     - [x] Unsharp
     - [x] Pastel
-    - [x] Orange Haze
-    - [x] Pink Dream
-    - [x] Golden Hour
-    - [x] Hot Summer
-    - [x] Purple Mist
+    - [x] Orange haze
+    - [x] Pink dream
+    - [x] Golden hour
+    - [x] Hot summer
+    - [x] Purple mist
     - [x] Sunrise
-    - [x] Colorful Swirl
-    - [x] Soft Spring Light
-    - [x] Autumn Tones
-    - [x] Lavender Dream
+    - [x] Colorful swirl
+    - [x] Soft spring light
+    - [x] Autumn tones
+    - [x] Lavender dream
     - [x] Cyberpunk
-    - [x] Lemonade Light
-    - [x] Spectral Fire
-    - [x] Night Magic
-    - [x] Fantasy Landscape
-    - [x] Color Explosion
-    - [x] Electric Gradient
-    - [x] Caramel Darkness
-    - [x] Futuristic Gradient
-    - [x] Green Sun
-    - [x] Rainbow World
-    - [x] Deep Purple
-    - [x] Space Portal
-    - [x] Red Swirl
-    - [x] Digital Code
+    - [x] Lemonade light
+    - [x] Spectral fire
+    - [x] Night magic
+    - [x] Fantasy landscape
+    - [x] Color explosion
+    - [x] Electric gradient
+    - [x] Caramel darkness
+    - [x] Futuristic gradient
+    - [x] Green sun
+    - [x] Rainbow world
+    - [x] Deep purple
+    - [x] Space portal
+    - [x] Red swirl
+    - [x] Digital code
     - [x] Bokeh
     - [x] Neon
-    - [x] Old Tv
-    - [x] Shuffle Blur
+    - [x] Old television
+    - [x] Shuffle blur
     - [x] Mobius
     - [x] Uchimura
     - [x] Aldridge
     - [x] Drago
-    - [x] Color Anomaly
+    - [x] Color anomaly
     - [x] Quantizier
-    - [x] Ring Blur
-    - [x] Cross Blur
-    - [x] Circle Blur
-    - [x] Star Blur
-    - [x] Motion Blur
-    - [x] Fast Gaussian Blur 2D
-    - [x] Fast Gaussian Blur 3D
-    - [x] Fast Gaussian Blur 4D
-    - [x] Equalize Histogram
-    - [x] Equalize Histogram HSV
-    - [x] Equalize Histogram Pixelation
-    - [x] Equalize Histogram Adaptive
-    - [x] Equalize Histogram Adaptive LUV
-    - [x] Equalize Histogram Adaptive LAB
-    - [x] Equalize Histogram Adaptive HSV
-    - [x] Equalize Histogram Adaptive HSL
-    - [x] Clahe
-    - [x] Clahe LUV
-    - [x] Clahe LAB
-    - [x] Clahe HSL
-    - [x] Clahe HSV
-    - [x] Crop To Content
-    - [x] Linear Box Blur
-    - [x] Linear Tent Blur
-    - [x] Linear Gaussian Box Blur
-    - [x] Linear Stack Blur
-    - [x] Gaussian Box Blur
-    - [x] Linear Fast Gaussian Next
-    - [x] LinearFast Gaussian
+    - [x] Ring blur
+    - [x] Cross blur
+    - [x] Circle blur
+    - [x] Star blur
+    - [x] Motion blur
+    - [x] Fast Gaussian blur 2D
+    - [x] Fast Gaussian blur 3D
+    - [x] Fast Gaussian blur 4D
+    - [x] Equalize histogram
+    - [x] Equalize histogram HSV
+    - [x] Equalize histogram pixelation
+    - [x] Equalize histogram adaptive
+    - [x] Equalize histogram adaptive LUV
+    - [x] Equalize histogram adaptive LAB
+    - [x] Equalize histogram adaptive HSV
+    - [x] Equalize histogram adaptive HSL
+    - [x] Contrast limited adaptive histogram equalization (CLAHE)
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) LUV
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) LAB
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) HSL
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) HSV
+    - [x] Crop to content
+    - [x] Linear box blur
+    - [x] Linear tent blur
+    - [x] Linear Gaussian box blur
+    - [x] Linear stack blur
+    - [x] Gaussian box blur
+    - [x] Linear fast Gaussian next
+    - [x] Linear fast Gaussian
     - [x] Linear Gaussian
-    - [x] Low Poly
-    - [x] Sand Painting
-    - [x] Palette Transfer
-    - [x] Enhanced Oil
-    - [x] Simple Old TV
+    - [x] Low poly
+    - [x] Sand painting
+    - [x] Palette transfer
+    - [x] Enhanced oil
+    - [x] Simple old television
     - [x] HDR
-    - [x] Simple Sketch
+    - [x] Simple sketch
     - [x] Gotham
-    - [x] Color Poster
-    - [x] Tri Tone
-    - [x] Clahe Oklch
-    - [x] Clahe Jzazbz
-    - [x] Clahe Oklab
-    - [x] Yililoma Dithering
-    - [x] Clustered 2x2 Dithering
-    - [x] Clustered 4x4 Dithering
-    - [x] Clustered8x8 Dithering
-    - [x] Polka Dot
-    - [x] LUT 512\*512
+    - [x] Color poster
+    - [x] Tri-tone
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Oklch
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Jzazbz
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Oklab
+    - [x] Yililoma dithering
+    - [x] Clustered 2x2 dithering
+    - [x] Clustered 4x4 dithering
+    - [x] Clustered 8x8 dithering
+    - [x] Polka dot
+    - [x] LUT 512x512
     - [x] Amatorka
-    - [x] Miss Etikate
-    - [x] Soft Elegance
-    - [x] Soft Elegance Variant
-    - [x] Bleach Bypass
+    - [x] Miss etikate
+    - [x] Soft elegance
+    - [x] Soft elegance variant
+    - [x] Bleach bypass
     - [x] Candlelight
-    - [x] Drop Blues
-    - [x] Edgy Amber
-    - [x] Fall Colors
-    - [x] Film Stock 50
-    - [x] Foggy Night
+    - [x] Drop blues
+    - [x] Edgy amber
+    - [x] Fall colors
+    - [x] Film stock 50
+    - [x] Foggy night
     - [x] Kodak
-    - [x] Palette Transfer Variant
-    - [x] 3D LUT (.cube / .CUBE)
-    - [x] Pop Art
+    - [x] Palette transfer variant
+    - [x] 3D lookup table (CUBE)
+    - [x] Pop art
     - [x] Celluloid
     - [x] Coffee
-    - [x] Golden Forest
+    - [x] Golden forest
     - [x] Greenish
-    - [x] Retro Yellow
-    - [x] Auto Crop
+    - [x] Retro yellow
+    - [x] Automatic crop
     - [x] Opening
     - [x] Closing
-    - [x] Morphological Gradient
-    - [x] Top Hat
-    - [x] Black Hat
-    - [x] Enhanced Zoom Blur
-    - [x] Simple Sobel
-    - [x] Simple Laplacian
-    - [x] Auto Red Eyes remover
-    - [x] Tone Curves 
+    - [x] Morphological gradient
+    - [x] Top hat
+    - [x] Black hat
+    - [x] Enhanced zoom blur
+    - [x] Simple sobel
+    - [x] Simple laplacian
+    - [x] Automatic red eyes remover
+    - [x] Tone curves 
     - [x] Mirror
 
   </details>
@@ -492,12 +491,12 @@ or click one of the badges below.
           <br>
 
           - Bilinear
-          - Nearest Neighbour
+          - Nearest
           - Cubic
           - Mitchell-Netravalli
           - Catmull-Rom
           - Hermite
-          - B-Spline
+          - B-spline
           - Hann
           - Bicubic
           - Hamming
@@ -509,7 +508,7 @@ or click one of the badges below.
           - Sphinx
           - Bartlett
           - Robidoux
-          - Robidoux Sharp
+          - Robidoux sharp
           - Spline 16
           - Spline 36
           - Spline 64
@@ -520,29 +519,29 @@ or click one of the badges below.
           - Lanczos 2
           - Lanczos 3
           - Lanczos 4
-          - Lanczos 2 Jinc
-          - Lanczos 3 Jinc
-          - Lanczos 4 Jinc
-          - Ewa Hanning
-          - Ewa Robidoux
-          - Ewa Blackman
-          - Ewa Quadric
-          - Ewa Robidoux Sharp
-          - Ewa Lanczos 3 Jinc
+          - Lanczos 2 jinc
+          - Lanczos 3 jinc
+          - Lanczos 4 jinc
+          - EWA Hanning
+          - EWA Robidoux
+          - EWA Blackman
+          - EWA Quadric
+          - EWA Robidoux sharp
+          - Ewa Lanczos 3 jinc
           - Ginseng
           - Ginseng EWA
-          - Lanczos Sharp EWA
-          - Lanczos 4 Sharpest EWA
-          - Lanczos Soft EWA
-          - Haasn Soft
+          - Lanczos sharp EWA
+          - Lanczos 4 sharpest EWA
+          - Lanczos soft EWA
+          - Haasn soft
           - Lagrange 2
           - Lagrange 3
           - Lanczos 6
-          - Lanczos 6 Jinc
+          - Lanczos 6 jinc
 
         </details>
 
-    - Different Scale Color Spaces
+    - Different colorspaces
         - Linear
         - sRGB
         - LAB
@@ -577,7 +576,7 @@ or click one of the badges below.
     - JPEG to JXL
 - Animated JXL conversion
     - Images to JXL
-    - JXL to Images
+    - JXL to images
     - APNG to JXL
     - GIF to JXL
 - PDF tools
@@ -730,7 +729,7 @@ or click one of the badges below.
 
 # 🌟 UI tweaks
 
-- Selecting Emoji for top app bar
+- Selecting wmoji for top app bar
 - Ability to use many types of switch instead of Material You
 - Secure mode for app
 - Maximum brightness for selected screens
@@ -741,7 +740,7 @@ or click one of the badges below.
     - Predefined schemes
     - Color inversion
     - Contrast adjusting
-- Controlling borders thickness
+- Controlling border thickness
 - Enabling and disabling each existing shadow
 - Haptics controls
 - Light/Dark mode
@@ -774,10 +773,10 @@ or click one of the badges below.
     - Jura
     - Podkova
     - Tektur
-    - YsabeauSC
+    - Ysabeau SC
     - DejaVu
-    - BadScript
-    - RuslanDisplay
+    - Bad Script
+    - Ruslan Display
     - Catterdale
     - FRM32
     - Tokeely Brookings
@@ -816,7 +815,7 @@ or click one of the badges below.
 - Slider type selection:
     - Material You
     - Fancy
-    - Material
+    - Material 2
 
 # 📚 Tech stack and open source libraries
 
