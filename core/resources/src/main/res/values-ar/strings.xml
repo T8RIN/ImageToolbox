@@ -1649,4 +1649,6 @@
     <string name="draw_regular_polygon_sub"></string>
     <string name="resolution_x"></string>
     <string name="histogram"></string>
+    <string name="tag_rows_per_strip"></string>
+    <string name="tag_strip_offsets"></string>
 </resources>
