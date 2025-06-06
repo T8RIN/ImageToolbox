@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,14 +13,15 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
     <string name="smth_went_wrong">Something went wrong: %1$s</string>
     <string name="size">Size %1$s</string>
     <string name="loading">Loading…</string>
-    <string name="image_too_large_preview">Image is too large to preview, but saving will be tried anyway</string>
+    <string name="image_too_large_preview">Image is too large to preview, but saving will be attempted anyway</string>
     <string name="pick_image">Pick image to start</string>
     <string name="width">Width %1$s</string>
     <string name="height">Height %1$s</string>
@@ -44,7 +44,7 @@
     <string name="copied">Copied to clipboard</string>
     <string name="exception">Exception</string>
     <string name="edit_exif">Edit EXIF</string>
-    <string name="ok" tools:ignore="ButtonCase,Typos">OK</string>
+    <string name="ok">OK</string>
     <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
     <string name="save">Save</string>
@@ -58,9 +58,9 @@
     <string name="image_not_saved_sub">All unsaved changes will be lost, if you exit now</string>
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
-    <string name="single_edit">Edit</string>
+    <string name="single_edit">Single Edit</string>
     <string name="single_edit_sub">Modify, resize and edit one image</string>
-    <string name="pick_color">Pick color</string>
+    <string name="pick_color">Color Picker</string>
     <string name="pick_color_sub">Pick color from image, copy or share</string>
     <string name="image">Image</string>
     <string name="color">Color</string>
@@ -72,7 +72,7 @@
     <string name="change_preview">Change preview</string>
     <string name="remove">Remove</string>
     <string name="palette_sub">Generate color palette swatch from given image</string>
-    <string name="generate_palette">Generate palette</string>
+    <string name="generate_palette">Generate Palette</string>
     <string name="palette">Palette</string>
     <string name="update">Update</string>
     <string name="new_version">New version %1$s</string>
@@ -85,7 +85,7 @@
     <string name="custom">Custom</string>
     <string name="unspecified">Unspecified</string>
     <string name="device_storage">Device storage</string>
-    <string name="by_bytes_resize">Resize by weight</string>
+    <string name="by_bytes_resize">Resize by Weight</string>
     <string name="max_bytes">Max size in KB</string>
     <string name="by_bytes_resize_sub">Resize an image following given size in KB</string>
     <string name="compare">Compare</string>
@@ -155,7 +155,7 @@
     <string name="add_file_size_sub">If enabled, adds width and height of saved image to the name of output file</string>
     <string name="delete_exif">Delete EXIF</string>
     <string name="delete_exif_sub">Delete EXIF metadata from any set of images</string>
-    <string name="image_preview">Image preview</string>
+    <string name="image_preview">Image Preview</string>
     <string name="image_preview_sub">Preview any type of images: GIF, SVG, and so on</string>
     <string name="image_source">Image source</string>
     <string name="photo_picker">Photo picker</string>
@@ -176,7 +176,7 @@
     <string name="replace_sequence_number">Replace sequence number</string>
     <string name="replace_sequence_number_sub">If enabled replaces standard timestamp to the image sequence number if you use batch processing</string>
     <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photo picker image source selected</string>
-    <string name="load_image_from_net">Load image from the internet</string>
+    <string name="load_image_from_net">Web Image Loading</string>
     <string name="load_image_from_net_sub">Load any image from the internet to preview, zoom, edit and save it if you want.</string>
     <string name="no_image">No image</string>
     <string name="image_link">Image link</string>
@@ -245,7 +245,7 @@
     <string name="color_matrix">Color matrix</string>
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
-    <string name="limits_resize">Resize by limits</string>
+    <string name="limits_resize">Resize by Limits</string>
     <string name="limits_resize_sub">Resize images to the given height and width while keeping the aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
@@ -356,7 +356,7 @@
     <string name="enable_emoji">Enable emoji</string>
     <string name="travels_and_places">Travels and Places</string>
     <string name="activities">Activities</string>
-    <string name="background_remover">Background remover</string>
+    <string name="background_remover">Background Remover</string>
     <string name="background_remover_sub">Remove background from image by drawing or use Auto option</string>
     <string name="trim_image">Trim image</string>
     <string name="keep_exif_sub">Original image metadata will be kept</string>
@@ -371,7 +371,7 @@
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
     <string name="something_went_wrong_emphasis">Oops… Something went wrong. You can write to me using options below and I\'ll try to find solution</string>
-    <string name="resize_and_convert">Resize and convert</string>
+    <string name="resize_and_convert">Resize and Convert</string>
     <string name="resize_and_convert_sub">Change size of given images or convert them to other formats. EXIF metadata can also be edited here if picking a single image.</string>
     <string name="max_colors_count">Max color count</string>
     <string name="firebase" translatable="false">Firebase</string>
@@ -395,7 +395,7 @@
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="usdt" translatable="false">USDT</string>
-    <string name="image_stitching">Image stitching</string>
+    <string name="image_stitching">Image Stitching</string>
     <string name="image_stitching_sub">Combine the given images to get one big one</string>
     <string name="pick_at_least_two_images">Pick at least 2 images</string>
     <string name="output_image_scale">Output image scale</string>
@@ -451,7 +451,7 @@
     <string name="invert_colors_sub">Replaces theme colors to negative ones if enabled</string>
     <string name="search_option">Search</string>
     <string name="search_option_sub">Enables ability to search through all available tools on the main screen</string>
-    <string name="pdf_tools">PDF tools</string>
+    <string name="pdf_tools">PDF Tools</string>
     <string name="pdf_tools_sub">Operate with PDF files: Preview, Convert to batch of images or create one from given pictures</string>
     <string name="preview_pdf">Preview PDF</string>
     <string name="pdf_to_images">PDF to Images</string>
@@ -473,7 +473,7 @@
     <string name="inverse_fill_type_sub">If enabled all of the non masked areas will be filtered instead of default behavior</string>
     <string name="delete_mask_warn">You are about to delete selected filter mask. This operation cannot be undone</string>
     <string name="delete_mask">Delete mask</string>
-    <string name="full_filter">Full filter</string>
+    <string name="full_filter">Full Filter</string>
     <string name="full_filter_sub">Apply any filter chains to given images or single image</string>
     <string name="start_position">Start</string>
     <string name="center_position">Center</string>
@@ -594,7 +594,7 @@
     <string name="allow_multiple_languages">Allow Multiple Languages</string>
     <string name="slide">Slide</string>
     <string name="side_by_side">Side By Side</string>
-    <string name="toggle_tap">Toggle tap</string>
+    <string name="toggle_tap">Toggle Tap</string>
     <string name="transparency">Transparency</string>
     <string name="rate_app">Rate App</string>
     <string name="rate">Rate</string>
@@ -616,7 +616,7 @@
     <string name="delete_language_sub">Do you want to delete language \"%1$s\" OCR training data for all recognition types, or only for selected one (%2$s)?</string>
     <string name="current">Current</string>
     <string name="all">All</string>
-    <string name="gradient_maker">Gradient maker</string>
+    <string name="gradient_maker">Gradient Maker</string>
     <string name="gradient_maker_sub">Create gradient of given output size with customized colors and appearance type</string>
     <string name="gradient_type_linear">Linear</string>
     <string name="gradient_type_radial">Radial</string>
@@ -632,7 +632,7 @@
     <string name="color_stops">Color Stops</string>
     <string name="add_color">Add Color</string>
     <string name="properties">Properties</string>
-    <string name="brightness_enforcement">Brightness enforcement</string>
+    <string name="brightness_enforcement">Brightness Enforcement</string>
     <string name="screen">Screen</string>
     <string name="gradient_maker_type_image">Gradient Overlay</string>
     <string name="gradient_maker_type_image_sub">Compose any gradient of top of given images</string>
@@ -649,7 +649,7 @@
     <string name="watermarking_image_sub">This image will be used as pattern for watermarking</string>
     <string name="text_color">Text Color</string>
     <string name="overlay_mode">Overlay Mode</string>
-    <string name="gif_tools">GIF tools</string>
+    <string name="gif_tools">GIF Tools</string>
     <string name="gif_tools_sub">Convert images to GIF picture or extract frames from given GIF image</string>
     <string name="gif_type_to_image">GIF to images</string>
     <string name="gif_type_to_image_sub">Convert GIF file to batch of pictures</string>
@@ -667,7 +667,7 @@
     <string name="original_image_preview_alpha">Original Image Preview Alpha</string>
     <string name="confetti">Confetti</string>
     <string name="confetti_sub">Confetti will be shown on saving, sharing and other primary actions</string>
-    <string name="secure_mode">Secure mode</string>
+    <string name="secure_mode">Secure Mode</string>
     <string name="secure_mode_sub">Hides app content in recent apps. It cannot be captured or recorded.</string>
     <string name="exit">Exit</string>
     <string name="preview_closing">If you leave preview now, you\'ll need to add the images again</string>
@@ -685,13 +685,13 @@
     <string name="sierra_lite_dithering">Sierra Lite Dithering</string>
     <string name="atkinson_dithering">Atkinson Dithering</string>
     <string name="stucki_dithering">Stucki Dithering</string>
-    <string name="burkes_dithering">Burkes dithering</string>
+    <string name="burkes_dithering">Burkes Dithering</string>
     <string name="false_floyd_steinberg_dithering">False Floyd Steinberg Dithering</string>
     <string name="left_to_right_dithering">Left To Right Dithering</string>
     <string name="random_dithering">Random Dithering</string>
     <string name="simple_threshold_dithering">Simple Threshold Dithering</string>
     <string name="sigma">Sigma</string>
-    <string name="spatial_sigma">Spatial sigma</string>
+    <string name="spatial_sigma">Spatial Sigma</string>
     <string name="median_blur">Median Blur</string>
     <string name="b_spline">B Spline</string>
     <string name="b_spline_sub">Utilizes piecewise-defined bicubic polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
@@ -717,12 +717,12 @@
     <string name="bottom">Bottom</string>
     <string name="strength">Strength</string>
     <string name="erode">Erode</string>
-    <string name="anisotropic_diffusion">Anisotropic diffusion</string>
+    <string name="anisotropic_diffusion">Anisotropic Diffusion</string>
     <string name="diffusion">Diffusion</string>
     <string name="conduction">Conduction</string>
     <string name="horizontal_wind_stagger">Horizontal Wind Stagger</string>
     <string name="fast_bilaterial_blur">Fast Bilaterial Blur</string>
-    <string name="poisson_blur">Poisson blur</string>
+    <string name="poisson_blur">Poisson Blur</string>
     <string name="logarithmic_tone_mapping">Logarithmic Tone Mapping</string>
     <string name="aces_filmic_tone_mapping">ACES Filmic Tone Mapping</string>
     <string name="crystallize">Crystallize</string>
@@ -741,7 +741,7 @@
     <string name="perlin_distortion">Perlin Distortion</string>
     <string name="aces_hill_tone_mapping">ACES Hill Tone Mapping</string>
     <string name="hable_filmic_tone_mapping">Hable Filmic Tone Mapping</string>
-    <string name="heji_burgess_tone_mapping">Heji-Burgess tone mapping</string>
+    <string name="heji_burgess_tone_mapping">Heji-Burgess Tone mapping</string>
     <string name="speed">Speed</string>
     <string name="dehaze">Dehaze</string>
     <string name="omega">Omega</string>
@@ -793,7 +793,7 @@
     <string name="digital_code">Digital Code</string>
     <string name="bokeh">Bokeh</string>
     <string name="random_emojis_sub">The app bar emoji will change randomly</string>
-    <string name="random_emojis">Random emojis</string>
+    <string name="random_emojis">Random Emojis</string>
     <string name="random_emojis_error">You cannot use random emojis while emojis are disabled</string>
     <string name="emoji_selection_error">You cannot select an emoji while random emojis are enabled</string>
     <string name="old_tv">Old Tv</string>
@@ -826,7 +826,7 @@
     <string name="star_blur">Star Blur</string>
     <string name="linear_tilt_shift">Linear Tilt-Shift</string>
     <string name="tags_to_remove">Tags To Remove</string>
-    <string name="apng_tools">APNG tools</string>
+    <string name="apng_tools">APNG Tools</string>
     <string name="apng_tools_sub">Convert images to APNG picture or extract frames from given APNG image</string>
     <string name="apng_type_to_image">APNG to images</string>
     <string name="apng_type_to_image_sub">Convert APNG file to batch of pictures</string>
@@ -837,12 +837,12 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Create Zip file from given files or images</string>
     <string name="drag_handle_width">Drag Handle Width</string>
-    <string name="confetti_type">Confetti type</string>
+    <string name="confetti_type">Confetti Type</string>
     <string name="festive">Festive</string>
-    <string name="explode">Explosion</string>
+    <string name="explode">Explode</string>
     <string name="rain">Rain</string>
     <string name="corners">Corners</string>
-    <string name="jxl_tools">JXL tools</string>
+    <string name="jxl_tools">JXL Tools</string>
     <string name="jxl_tools_sub">Perform JXL ~ JPEG transcoding with no quality loss, or convert GIF/APNG to JXL animation</string>
     <string name="jxl_type_to_jpeg">JXL to JPEG</string>
     <string name="jxl_type_to_jpeg_sub">Perform lossless transcoding from JXL to JPEG</string>
@@ -854,8 +854,8 @@
     <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
     <string name="auto_paste">Auto Paste</string>
     <string name="auto_paste_sub">Allows app to auto paste clipboard data, so it will appear on main screen and you will be able to process it</string>
-    <string name="harmonization_color">Harmonization color</string>
-    <string name="harmonization_level">Harmonization level</string>
+    <string name="harmonization_color">Harmonization Color</string>
+    <string name="harmonization_level">Harmonization Level</string>
     <string name="lanczos_bessel">Lanczos Bessel</string>
     <string name="lanczos_bessel_sub">Resampling method that maintains high-quality interpolation by applying a Bessel (jinc) function to the pixel values</string>
     <string name="gif_type_to_jxl">GIF to JXL</string>
@@ -871,7 +871,7 @@
     <string name="skip_file_picking_sub">File picker will be shown immediately if this possible on chosen screen</string>
     <string name="generate_previews">Generate Previews</string>
     <string name="generate_previews_sub">Enables preview generation, this may help to avoid crashes on some devices, this also disables some editing functionality within single edit option</string>
-    <string name="lossy_compression">Lossy compression</string>
+    <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
     <string name="compression_type">Compression Type</string>
     <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$d means slowest decoding, whereas %2$d - fastest, this setting may increase output image size</string>
@@ -895,7 +895,7 @@
     <string name="show_settings_in_landscape_sub">If this disabled then in landscape mode settings will be opened on the button in top app bar as always, instead of permanent visible option</string>
     <string name="fullscreen_settings">Fullscreen Settings</string>
     <string name="fullscreen_settings_sub">Enable it and settings page will be always opened as fullscreen instead of slideable drawer sheet</string>
-    <string name="switch_type">Switch type</string>
+    <string name="switch_type">Switch Type</string>
     <string name="compose">Compose</string>
     <string name="compose_switch_sub">A Jetpack Compose Material You switch</string>
     <string name="material_you_switch_sub">A Material You switch</string>
@@ -1092,14 +1092,14 @@
     <string name="star">Star</string>
     <string name="outlined_star">Outlined Star</string>
     <string name="outlined_star_sub">Draws outlined star from start point to end point</string>
-    <string name="inner_radius_ratio">Inner radius ratio</string>
+    <string name="inner_radius_ratio">Inner Radius Ratio</string>
     <string name="draw_regular_star">Draw Regular Star</string>
     <string name="draw_regular_star_sub">Draw star which will be regular instead of free form</string>
     <string name="antialias">Antialias</string>
     <string name="antialias_sub">Enables antialiasing to prevent sharp edges</string>
     <string name="open_edit_instead_of_preview">Open Edit Instead Of Preview</string>
     <string name="open_edit_instead_of_preview_sub">When you select image to open (preview) in ImageToolbox, edit selection sheet will be opened instead of previewing</string>
-    <string name="document_scanner">Document scanner</string>
+    <string name="document_scanner">Document Scanner</string>
     <string name="document_scanner_sub">Scan documents and create PDF or separate images from them</string>
     <string name="click_to_start_scanning">Click to start scanning</string>
     <string name="start_scanning">Start Scanning</string>
@@ -1122,7 +1122,7 @@
     <string name="clahe">Clahe</string>
     <string name="clahe_lab">Clahe LAB</string>
     <string name="clahe_luv">Clahe LUV</string>
-    <string name="crop_to_content">Crop to content</string>
+    <string name="crop_to_content">Crop to Content</string>
     <string name="frame_color">Frame Color</string>
     <string name="color_to_ignore">Color To Ignore</string>
     <string name="template">Template</string>
@@ -1135,15 +1135,15 @@
     <string name="template_name">Template Name</string>
     <string name="select_template_preview">This image will be used to preview this filter template</string>
     <string name="template_filter">Template Filter</string>
-    <string name="as_qr_code">As QR Code Image</string>
+    <string name="as_qr_code">As QR code image</string>
     <string name="as_file">As file</string>
     <string name="save_as_file">Save as file</string>
-    <string name="save_as_qr_code_image">Save As QR Code Image</string>
+    <string name="save_as_qr_code_image">Save as QR code image</string>
     <string name="delete_template">Delete Template</string>
     <string name="delete_template_warn">You are about to delete selected template filter. This operation cannot be undone</string>
     <string name="added_filter_template">Added filter template with name \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Filter Preview</string>
-    <string name="qr_code">QR code</string>
+    <string name="qr_code">QR Code</string>
     <string name="qr_code_sub">Scan QR code and get its content or paste your string to generate new one</string>
     <string name="code_content">Code Content</string>
     <string name="scan_qr_code_to_replace_content">Scan QR Code to replace content in field, or type something to generate new QR Code</string>
@@ -1225,10 +1225,10 @@
     <string name="ewa_lanczos_soft_sub">Elliptical Weighted Average (EWA) variant of the Lanczos Soft filter for smoother image resampling</string>
     <string name="haasn_soft">Haasn Soft</string>
     <string name="haasn_soft_sub">A resampling filter designed by Haasn for smooth and artifact-free image scaling</string>
-    <string name="format_conversion">Batch convert</string>
+    <string name="format_conversion">Format Conversion</string>
     <string name="format_conversion_sub">Convert batch of images from one format to another</string>
     <string name="dismiss_forever">Dismiss Forever</string>
-    <string name="image_stacking">Image stacking</string>
+    <string name="image_stacking">Image Stacking</string>
     <string name="image_stacking_sub">Stack images on top of each other with chosen blend modes</string>
     <string name="add_image">Add Image</string>
     <string name="bins_count">Bins count</string>
@@ -1236,10 +1236,10 @@
     <string name="clahe_hsv">Clahe HSV</string>
     <string name="equalize_histogram_adaptive_hsl">Equalize Histogram Adaptive HSL</string>
     <string name="equalize_histogram_adaptive_hsv">Equalize Histogram Adaptive HSV</string>
-    <string name="edge_mode">Edge mode</string>
+    <string name="edge_mode">Edge Mode</string>
     <string name="clip">Clip</string>
     <string name="wrap">Wrap</string>
-    <string name="color_blind_scheme">Color correction</string>
+    <string name="color_blind_scheme">Color Blindness</string>
     <string name="color_blind_scheme_sub">Select mode to adapt theme colors for the selected color blindness variant</string>
     <string name="protanomaly_sub">Difficulty distinguishing between red and green hues</string>
     <string name="deuteranomaly_sub">Difficulty distinguishing between green and red hues</string>
@@ -1260,10 +1260,10 @@
     <string name="lanczos_6_sub">A Lanczos resampling filter with a higher order of 6, providing sharper and more accurate image scaling</string>
     <string name="lanczos_6_jinc">Lanczos 6 Jinc</string>
     <string name="lanczos_6_jinc_sub">A variant of the Lanczos 6 filter using a Jinc function for improved image resampling quality</string>
-    <string name="linear_box_blur">Linear box blur</string>
+    <string name="linear_box_blur">Linear Box Blur</string>
     <string name="linear_tent_blur">Linear Tent Blur</string>
     <string name="linear_gaussian_box_blur">Linear Gaussian Box Blur</string>
-    <string name="linear_stack_blur">Linear stack blur</string>
+    <string name="linear_stack_blur">Linear Stack Blur</string>
     <string name="gaussian_box_blur">Gaussian Box Blur</string>
     <string name="linear_fast_gaussian_blur_next">Linear Fast Gaussian Blur Next</string>
     <string name="linear_fast_gaussian_blur">Linear Fast Gaussian Blur</string>
@@ -1272,9 +1272,9 @@
     <string name="replace_filter">Replace Filter</string>
     <string name="pick_filter_info">Pick filter below to use it as brush in your drawing</string>
     <string name="tiff_compression_scheme">TIFF compression scheme</string>
-    <string name="low_poly">Low poly</string>
-    <string name="sand_painting">Sand painting</string>
-    <string name="image_splitting">Image splitting</string>
+    <string name="low_poly">Low Poly</string>
+    <string name="sand_painting">Sand Painting</string>
+    <string name="image_splitting">Image Splitting</string>
     <string name="image_splitting_sub">Split single image by rows or columns</string>
     <string name="fit_to_bounds">Fit To Bounds</string>
     <string name="fit_to_bounds_sub">Combine crop resize mode with this parameter to achieve desired behavior (Crop/Fit to aspect ratio)</string>
@@ -1307,9 +1307,9 @@
     <string name="clahe_oklch">Clahe Oklch</string>
     <string name="clahe_jzazbz">Clahe Jzazbz</string>
     <string name="polka_dot">Polka Dot</string>
-    <string name="clustered_2x2_dithering">Clustered 2x2 dithering</string>
-    <string name="clustered_4x4_dithering">Clustered 4x4 dithering</string>
-    <string name="clustered_8x8_dithering">Clustered 8x8 dithering</string>
+    <string name="clustered_2x2_dithering">Clustered 2x2 Dithering</string>
+    <string name="clustered_4x4_dithering">Clustered 4x4 Dithering</string>
+    <string name="clustered_8x8_dithering">Clustered 8x8 Dithering</string>
     <string name="yililoma_dithering">Yililoma Dithering</string>
     <string name="no_favorite_options_selected">No favorite options selected, add them in tools page</string>
     <string name="add_favorites">Add Favorites</string>
@@ -1320,7 +1320,7 @@
     <string name="harmony_tetradic">Tetradic</string>
     <string name="harmony_square">Square</string>
     <string name="harmony_analogous_complementary">Analogous + Complementary</string>
-    <string name="color_tools">Color tools</string>
+    <string name="color_tools">Color Tools</string>
     <string name="color_tools_sub">Mix, make tones, generate shades and more</string>
     <string name="color_harmonies">Color Harmonies</string>
     <string name="color_shading">Color Shading</string>
@@ -1330,7 +1330,7 @@
     <string name="shades">Shades</string>
     <string name="color_mixing">Color Mixing</string>
     <string name="color_info">Color Info</string>
-    <string name="selected_color">Selected color</string>
+    <string name="selected_color">Selected Color</string>
     <string name="color_to_mix">Color To Mix</string>
     <string name="cannot_use_monet_while_dynamic_colors_applied">Cannot use monet while dynamic colors are turned on</string>
     <string name="lut512x512">512x512 2D LUT</string>
@@ -1343,7 +1343,7 @@
     <string name="cube_lut">3D LUT</string>
     <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
     <string name="lut">LUT</string>
-    <string name="bleach_bypass">Bleach bypass</string>
+    <string name="bleach_bypass">Bleach Bypass</string>
     <string name="candlelight">Candlelight</string>
     <string name="drop_blues">Drop Blues</string>
     <string name="edgy_amber">Edgy Amber</string>
@@ -1358,14 +1358,14 @@
     <string name="coffee">Coffee</string>
     <string name="golden_forest">Golden Forest</string>
     <string name="greenish">Greenish</string>
-    <string name="retro_yellow">Retro yellow</string>
+    <string name="retro_yellow">Retro Yellow</string>
     <string name="links_preview">Links Preview</string>
     <string name="links_preview_sub">Enables link preview retrieving in places where you can obtain text (QRCode, OCR etc)</string>
     <string name="links">Links</string>
     <string name="ico_size_warning">ICO files can only be saved at the maximum size of 256 x 256</string>
     <string name="gif_type_to_webp">GIF to WEBP</string>
     <string name="gif_type_to_webp_sub">Convert GIF images to WEBP animated pictures</string>
-    <string name="webp_tools">WEBP tools</string>
+    <string name="webp_tools">WEBP Tools</string>
     <string name="webp_tools_sub">Convert images to WEBP animated picture or extract frames from given WEBP animation</string>
     <string name="webp_type_to_image">WEBP to images</string>
     <string name="webp_type_to_image_sub">Convert WEBP file to batch of pictures</string>
@@ -1374,7 +1374,7 @@
     <string name="select_webp_image_to_start">Pick WEBP image to start</string>
     <string name="manage_storage_extra_types">No full access to files</string>
     <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that are not recognized as images on Android. Without the permission Image Toolbox is unable to show those images</string>
-    <string name="default_draw_color">Default draw color</string>
+    <string name="default_draw_color">Default Draw Color</string>
     <string name="default_draw_path_mode">Default Draw Path Mode</string>
     <string name="add_timestamp">Add Timestamp</string>
     <string name="add_timestamp_sub">Enables Timestamp adding to the output filename</string>
@@ -1394,7 +1394,7 @@
     <string name="group_tools_by_type">Group tools by type</string>
     <string name="group_tools_by_type_sub">Groups tools on the main screen by their type instead of a custom list arrangement</string>
     <string name="default_values">Default Values</string>
-    <string name="system_bars_visibility">System bars visibility</string>
+    <string name="system_bars_visibility">System Bars Visibility</string>
     <string name="show_system_bars_by_swipe">Show System Bars By Swipe</string>
     <string name="show_system_bars_by_swipe_sub">Enables swiping to show system bars if they are hidden</string>
     <string name="auto">Auto</string>
@@ -1402,27 +1402,27 @@
     <string name="show_all">Show All</string>
     <string name="hide_nav_bar">Hide Nav Bar</string>
     <string name="hide_status_bar">Hide Status Bar</string>
-    <string name="noise_generation">Noise generation</string>
+    <string name="noise_generation">Noise Generation</string>
     <string name="noise_generation_sub">Generate different noises like Perlin or other types</string>
     <string name="frequency">Frequency</string>
-    <string name="noise_type">Noise type</string>
+    <string name="noise_type">Noise Type</string>
     <string name="rotation_type">Rotation Type</string>
-    <string name="fractal_type">Fractal type</string>
+    <string name="fractal_type">Fractal Type</string>
     <string name="octaves">Octaves</string>
     <string name="lacunarity">Lacunarity</string>
     <string name="gain">Gain</string>
     <string name="weighted_strength">Weighted Strength</string>
     <string name="ping_pong_strength">Ping Pong Strength</string>
     <string name="distance_function">Distance Function</string>
-    <string name="return_type">Return type</string>
+    <string name="return_type">Return Type</string>
     <string name="jitter">Jitter</string>
-    <string name="domain_warp">Domain warp</string>
+    <string name="domain_warp">Domain Warp</string>
     <string name="alignment">Alignment</string>
-    <string name="custom_filename">Custom filename</string>
+    <string name="custom_filename">Custom Filename</string>
     <string name="custom_filename_sub">Select location and filename which are will be used to save current image</string>
     <string name="saved_to_custom">Saved to folder with custom name</string>
-    <string name="collage_maker">Collage maker</string>
-    <string name="collage_maker_sub">Make collages from images</string>
+    <string name="collage_maker">Collage Maker</string>
+    <string name="collage_maker_sub">Make collages from up to 10 images</string>
     <string name="collage_type">Collage Type</string>
     <string name="pick_up_to_ten_images">Pick up to 10 images</string>
     <string name="collages_info">Hold image to swap, move and zoom to adjust position</string>
@@ -1431,7 +1431,7 @@
     <string name="image_for_histogram">This image will be used to generate RGB and Brightness histograms</string>
     <string name="tesseract_options">Tesseract Options</string>
     <string name="tesseract_options_sub">Apply some input variables for tesseract engine</string>
-    <string name="custom_options">Custom options</string>
+    <string name="custom_options">Custom Options</string>
     <string name="custom_params_info" tools:ignore="TypographyDashes">Options should be entered following this pattern: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Auto Crop</string>
     <string name="free_corners">Free Corners</string>
@@ -1440,13 +1440,13 @@
     <string name="coerce_points_to_image_bounds_sub">Points will not be limited by image bounds, this useful for more precise perspective correcting</string>
     <string name="mask">Mask</string>
     <string name="spot_heal_sub">Content aware fill under drawn path</string>
-    <string name="spot_heal">Heal spot</string>
+    <string name="spot_heal">Heal Spot</string>
     <string name="use_circle_kernel">Use Circle Kernel</string>
     <string name="opening">Opening</string>
     <string name="closing">Closing</string>
     <string name="morphological_gradient">Morphological Gradient</string>
-    <string name="top_hat">Top hat</string>
-    <string name="black_hat">Black hat</string>
+    <string name="top_hat">Top Hat</string>
+    <string name="black_hat">Black Hat</string>
     <string name="tone_curves">Tone Curves</string>
     <string name="reset_curves">Reset Curves</string>
     <string name="reset_curves_sub">Curves will be rolled back to default value</string>
@@ -1474,15 +1474,15 @@
     <string name="threshold_two">Threshold Two</string>
     <string name="canny">Canny</string>
     <string name="mirror_101">Mirror 101</string>
-    <string name="enhanced_zoom_blur">Enhanced zoom blur</string>
-    <string name="laplacian_simple">Laplacian simple</string>
-    <string name="sobel_simple">Sobel simple</string>
+    <string name="enhanced_zoom_blur">Enhanced Zoom Blur</string>
+    <string name="laplacian_simple">Laplacian Simple</string>
+    <string name="sobel_simple">Sobel Simple</string>
     <string name="helper_grid">Helper Grid</string>
     <string name="helper_grid_sub">Shows supporting grid above drawing area to help with precise manipulations</string>
     <string name="grid_color">Grid Color</string>
     <string name="cell_width">Cell Width</string>
     <string name="cell_height">Cell Height</string>
-    <string name="compact_selectors">Compact selectors</string>
+    <string name="compact_selectors">Compact Selectors</string>
     <string name="compact_selectors_sub">Some selection controls will use a compact layout to take less space</string>
     <string name="grant_camera_permission_to_capture_image">Grant camera permission in settings to capture image</string>
     <string name="layout">Layout</string>
@@ -1512,11 +1512,11 @@
     <string name="enable_tonemapping">Enable Tonemapping</string>
     <string name="enter_percent">Enter %</string>
     <string name="unknown_host">Cannot access the site, try using VPN or check if the url correct</string>
-    <string name="markup_layers">Markup layers</string>
+    <string name="markup_layers">Markup Layers</string>
     <string name="markup_layers_sub">Layers mode with ability to freely place images, text and more</string>
     <string name="edit_layer">Edit layer</string>
     <string name="layers_on_image">Layers on image</string>
-    <string name="layers_on_image_sub">Use a image as a background and add different layers on top of it</string>
+    <string name="layers_on_image_sub">Use an image as a background and add different layers on top of it</string>
     <string name="layers_on_background">Layers on background</string>
     <string name="layers_on_background_sub">The same as first option but with color instead of image</string>
     <string name="beta">Beta</string>
@@ -1525,7 +1525,7 @@
     <string name="clear_selection">Clear selection</string>
     <string name="settings_group_visibility_hidden">Setting group \"%s\" will be collapsed by default</string>
     <string name="settings_group_visibility_visible">Setting group \"%s\" will be expanded by default</string>
-    <string name="base_64_tools">Base64 tools</string>
+    <string name="base_64_tools">Base64 Tools</string>
     <string name="base_64_tools_sub">Decode Base64 string to image, or encode image to Base64 format</string>
     <string name="base_64">Base64</string>
     <string name="not_a_valid_base_64">Provided value is not a valid Base64 string</string>
@@ -1544,12 +1544,12 @@
     <string name="outline_color">Outline Color</string>
     <string name="outline_size">Outline Size</string>
     <string name="rotation">Rotation</string>
-    <string name="checksum_as_filename">Checksum as filename</string>
+    <string name="checksum_as_filename">Checksum as Filename</string>
     <string name="checksum_as_filename_sub">Output images will have name corresponding to their data checksum</string>
     <string name="free_software_partner">Free Software (Partner)</string>
     <string name="free_software_partner_sub">More useful software in the partner channel of Android applications</string>
     <string name="algorithms">Algorithm</string>
-    <string name="checksum_tools">Checksum tools</string>
+    <string name="checksum_tools">Checksum Tools</string>
     <string name="checksum_tools_sub">Compare checksums, calculate hashes or create hex strings from files using different hashing algorithms</string>
     <string name="calculate">Calculate</string>
     <string name="text_hash">Text Hash</string>
@@ -1573,7 +1573,7 @@
     <string name="none">None</string>
     <string name="custom_pages">Custom Pages</string>
     <string name="pages_selection">Pages Selection</string>
-    <string name="tool_exit_confirmation">Tool exit confirmation</string>
+    <string name="tool_exit_confirmation">Tool Exit Confirmation</string>
     <string name="tool_exit_confirmation_sub">If you have unsaved changes while using particular tools and try to close it, then confirm dialog will be shown</string>
     <string name="edit_exif_screen">Edit EXIF</string>
     <string name="edit_exif_screen_sub">Change metadata of single image without recompression</string>
@@ -1590,7 +1590,7 @@
     <string name="timestamp">Timestamp</string>
     <string name="format_pattern">Format Pattern</string>
     <string name="padding">Padding</string>
-    <string name="image_cutting">Image cutting</string>
+    <string name="image_cutting">Image Cutting</string>
     <string name="image_cutting_sub">Cut image part and merge left ones (can be inverse) by vertical or horizontal lines</string>
     <string name="vertical_pivot_line">Vertical Pivot Line</string>
     <string name="horizontal_pivot_line">Horizontal Pivot Line</string>
@@ -1617,7 +1617,7 @@
     <string name="barcodes_sub">Scan any Barcode (QR, EAN, AZTEC, …) and get its content or paste your text to generate new one</string>
     <string name="no_barcode_found">No Barcode Found</string>
     <string name="generated_barcode_will_be_here">Generated Barcode Will Be Here</string>
-    <string name="audio_cover_extractor">Audio cover extractor</string>
+    <string name="audio_cover_extractor">Audio Covers</string>
     <string name="audio_cover_extractor_sub">Extract album cover images from audio files, most common formats are supported</string>
     <string name="pick_audio_to_start">Pick audio to start</string>
     <string name="pick_audio">Pick Audio</string>
@@ -1630,7 +1630,7 @@
     <string name="ocr_write_to_file_sub">Extract text from batch of images and store it in the one text file</string>
     <string name="ocr_write_to_metadata">Write To Metadata</string>
     <string name="ocr_write_to_metadata_sub">Extract text from each image and place it in EXIF info of relative photos</string>
-    <string name="invisible_mode">Invisible mode</string>
+    <string name="invisible_mode">Invisible Mode</string>
     <string name="invisible_mode_sub">Use steganography to create eye invisible watermarks inside bytes of your images</string>
     <string name="use_lsb">Use LSB</string>
     <string name="use_lsb_sub">LSB (Less Significant Bit) steganography method will be used, FD (Frequency Domain) otherwise</string>
