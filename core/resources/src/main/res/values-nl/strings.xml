@@ -1602,4 +1602,31 @@
     <string name="pick_audio_to_start">Kies audio om te starten</string>
     <string name="pick_audio">Audio kiezen</string>
     <string name="no_covers_found">Geen hoezen gevonden</string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="use_lsb"></string>
+    <string name="operation_almost_complete"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="unlock"></string>
+    <string name="pdf_is_protected"></string>
+    <string name="use_lsb_sub"></string>
+    <string name="password"></string>
+    <string name="sort_by_extension"></string>
+    <string name="sort_by_size"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="developer_email" translatable="false"></string>
+    <string name="usdt" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
 </resources>
