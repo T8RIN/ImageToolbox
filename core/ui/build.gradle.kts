@@ -37,7 +37,6 @@ dependencies {
     api(libs.activityCompose)
     api(libs.splashScreen)
     api(libs.appCompat)
-    api(libs.androidx.lifecycle.viewmodel.compose)
     api(libs.androidx.documentfile)
 
     //Konfetti
