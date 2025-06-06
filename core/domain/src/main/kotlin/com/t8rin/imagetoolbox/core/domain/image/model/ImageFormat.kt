@@ -72,7 +72,7 @@ sealed class ImageFormat(
     )
 
     data object MozJpeg : ImageFormat(
-        title = "MozJpeg",
+        title = "MozJPEG",
         extension = "jpg",
         mimeType = MimeType.Jpeg,
         canChangeCompressionValue = true,
