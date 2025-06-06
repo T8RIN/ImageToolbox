@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення занадто велике для попереднього перегляду, але його все одно буде збережено</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -275,8 +275,7 @@
     <string name="cipher">Шифр</string>
     <string name="cipher_sub">Зашифрувати та розшифрувати будь-який файл (не тільки зображення) на основі різних криптоалгоритмів</string>
     <string name="compatibility">Сумісність</string>
-    <string name="file_size_sub">Максимальний розмір файлу обмежений операційною системою Android і доступною пам\'яттю, яка, очевидно, залежить від вашого пристрою.
-\nЗверніть увагу: пам\'ять - це не сховище.</string>
+    <string name="file_size_sub">Максимальний розмір файлу обмежений операційною системою Android і доступною пам\'яттю, яка, очевидно, залежить від вашого пристрою. \nЗверніть увагу: пам\'ять - це не сховище.</string>
     <string name="pick_file">Виберіть файл</string>
     <string name="key">Ключ</string>
     <string name="store_file_desc">Збережіть цей файл на своєму пристрої або скористайтеся \"Поділитися\", щоб розмістити його де завгодно</string>
@@ -370,7 +369,7 @@
     <string name="wait">Зачекайте</string>
     <string name="effort_sub">Значення %1$d означає швидке стиснення, що призводить до відносно великого розміру файлу. %2$d означає витрачати більше часу на стиснення, в результаті чого менший файл</string>
     <string name="allow_betas">Дозволити бета-версії</string>
-    <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !?</string>
     <string name="saving_almost_complete">Збереження майже завершено, якщо ви скасуєте, що тепер вам потрібно буде почати збереження знову</string>
     <string name="effort">Зусилля</string>
     <string name="allow_betas_sub">Перевірка оновлень включатиме бета-версії застосунків, якщо ввімкнено</string>
@@ -736,8 +735,7 @@
     <string name="standard">Стандартний</string>
     <string name="best">Найкращий</string>
     <string name="no_data">Немає даних</string>
-    <string name="download_description">Для належної роботи Tesseract OCR необхідно завантажити додаткові навчальні дані (%1$s) на ваш пристрій.
-\nВи хочете завантажити дані %2$s?</string>
+    <string name="download_description">Для належної роботи Tesseract OCR необхідно завантажити додаткові навчальні дані (%1$s) на ваш пристрій. \nВи хочете завантажити дані %2$s?</string>
     <string name="download">Завантажити</string>
     <string name="no_connection">Немає з’єднання, перевірте його та повторіть спробу, щоб завантажити моделі поїздів</string>
     <string name="downloaded_languages">Завантажені мови</string>

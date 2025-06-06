@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -290,8 +290,7 @@
     <string name="draw">그리다</string>
     <string name="pick_file">파일 선택</string>
     <string name="encryption">암호화</string>
-    <string name="file_size_sub">최대 파일 크기는 Android OS 및 사용 가능한 메모리에 의해 제한되며 이는 분명히 장치에 따라 다릅니다.
-\n참고: 메모리는 스토리지가 아닙니다.</string>
+    <string name="file_size_sub">최대 파일 크기는 Android OS 및 사용 가능한 메모리에 의해 제한되며 이는 분명히 장치에 따라 다릅니다. \n참고: 메모리는 스토리지가 아닙니다.</string>
     <string name="compatibility_sub">다른 파일 암호화 소프트웨어 또는 서비스와의 호환성은 보장되지 않습니다. 약간 다른 키 처리 또는 암호 구성이 비호환성의 원인이 될 수 있습니다.</string>
     <string name="image_size_warning">주어진 너비와 높이로 이미지를 저장하려고 하면 OOM 오류가 발생할 수 있습니다. 위험을 감수하고 경고하지 않았다고 말하지 마십시오!</string>
     <string name="screenshot">스크린샷</string>
@@ -756,8 +755,7 @@
     <string name="standard">기준</string>
     <string name="best">최상의</string>
     <string name="no_data">데이터 없음</string>
-    <string name="download_description">Tesseract OCR이 제대로 작동하려면 추가 학습 데이터(%1$s)를 기기에 다운로드해야 합니다.
-\n%2$s 데이터를 다운로드하시겠습니까?</string>
+    <string name="download_description">Tesseract OCR이 제대로 작동하려면 추가 학습 데이터(%1$s)를 기기에 다운로드해야 합니다. \n%2$s 데이터를 다운로드하시겠습니까?</string>
     <string name="download">다운로드</string>
     <string name="no_connection">연결되지 않았습니다. 기차 모델을 다운로드하려면 확인하고 다시 시도하세요.</string>
     <string name="downloaded_languages">다운로드된 언어</string>

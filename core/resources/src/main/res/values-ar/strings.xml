@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -286,8 +286,7 @@
     <string name="features_sub">تشفير الملفات على أساس كلمة المرور. يمكن تخزين الملفات التي تمت متابعتها في دليل Crypto أو مشاركتها. يمكن أيضًا فتح الملفات التي تم فك تشفيرها مباشرة.</string>
     <string name="implementation_sub">AES-256 ، وضع GCM ، بدون حشوة ، 12 بايت عشوائية IVs. تُستخدم المفاتيح كتجزئة SHA-3 (256 بت).</string>
     <string name="file_size">حجم الملف</string>
-    <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك.
-\nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
+    <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك. \nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
     <string name="create">انشئ</string>
     <string name="image_size_warning">قد تتسبب محاولة حفظ الصورة بالعرض والارتفاع المحددين في حدوث خطأ OOM ، قم بذلك على مسؤوليتك الخاصة ، ولا تقل أنني لم أحذرك!</string>
@@ -319,7 +318,7 @@
     <string name="font_scale">مقياس الخط</string>
     <string name="restore">استعادة</string>
     <string name="tg_chat_sub">ناقش حول التطبيق واحصل على تعليقات من المستخدمين الآخرين، ويمكنك هنا أيضًا الحصول على تحديثات تجريبية</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="delete">حذف</string>
     <string name="aspect_ratio">نسبة الأبعاد</string>
     <string name="delete_color_scheme_warn">أنت على وشك حذف نظام الألوان المحدد، لا يمكن التراجع عن هذه العملية</string>
@@ -757,8 +756,7 @@
     <string name="fast">سريع</string>
     <string name="standard">معيار</string>
     <string name="best">أفضل</string>
-    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك.
-\nهل تريد تنزيل بيانات %2$s؟</string>
+    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك. \nهل تريد تنزيل بيانات %2$s؟</string>
     <string name="download">تحميل</string>
     <string name="no_connection">لا يوجد اتصال، تحقق منه وحاول مرة أخرى لتنزيل نماذج القطارات</string>
     <string name="downloaded_languages">اللغات التي تم تنزيلها</string>

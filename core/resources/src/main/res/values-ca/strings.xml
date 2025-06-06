@@ -358,8 +358,7 @@
     <string name="autumn_tones">Tons de tardor</string>
     <string name="old_tv">Televisió antiga</string>
     <string name="shuffle_blur">Difuminat aleatori</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Tingueu en compte que la compatibilitat amb altres programes o serveis de xifratge de fitxers no està garantida. Un tractament de clau o una configuració de xifratge lleugerament diferent pot provocar incompatibilitats.</string>
     <string name="invalid_password_or_not_encrypted">La contrasenya no vàlida o el fitxer escollit no està xifrat</string>
     <string name="image_size_warning">Intentar desar la imatge amb una amplada i una alçada determinades pot provocar un error de MOO. Fes-ho sota el teu propi risc i no diguis que no t\'he advertit!</string>
@@ -592,8 +591,7 @@
     <string name="download">descarregar</string>
     <string name="best">El millor</string>
     <string name="no_data">No hi ha dades</string>
-    <string name="download_description">Per al bon funcionament de Tesseract OCR, les dades d\'entrenament addicionals (%1$s) s\'han de baixar al vostre dispositiu.
-\nVoleu baixar %2$s dades?</string>
+    <string name="download_description">Per al bon funcionament de Tesseract OCR, les dades d\'entrenament addicionals (%1$s) s\'han de baixar al vostre dispositiu. \nVoleu baixar %2$s dades?</string>
     <string name="no_connection">No hi ha connexió, comproveu-ho i torneu-ho a provar per descarregar models de tren</string>
     <string name="available_languages">Idiomes disponibles</string>
     <string name="segmentation_mode">Mode de segmentació</string>

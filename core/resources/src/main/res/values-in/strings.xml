@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -300,8 +300,7 @@
     <string name="key">Kunci</string>
     <string name="features">Fitur</string>
     <string name="implementation">Penerapan</string>
-    <string name="file_size_sub">Ukuran file maksimum dibatasi oleh OS Android dan memori yang tersedia, yang jelas bergantung pada perangkat Anda.
-\nHarap diperhatikan: memori bukanlah penyimpanan.</string>
+    <string name="file_size_sub">Ukuran file maksimum dibatasi oleh OS Android dan memori yang tersedia, yang jelas bergantung pada perangkat Anda. \nHarap diperhatikan: memori bukanlah penyimpanan.</string>
     <string name="file_proceed">Berkas diproses</string>
     <string name="invalid_password_or_not_encrypted">Kata sandi tidak valid atau file yang dipilih tidak dienkripsi</string>
     <string name="features_sub">Enkripsi file berbasis kata sandi. File yang diproses dapat disimpan di direktori yang dipilih atau dibagikan. File yang didekripsi juga bisa langsung dibuka.</string>
@@ -724,8 +723,7 @@
     <string name="standard">Standar</string>
     <string name="best">Terbaik</string>
     <string name="no_data">Tidak ada data</string>
-    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan (%1$s) perlu diunduh ke perangkat Anda.
-\nApakah Anda ingin mengunduh data %2$s?</string>
+    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan (%1$s) perlu diunduh ke perangkat Anda. \nApakah Anda ingin mengunduh data %2$s?</string>
     <string name="download">Unduh</string>
     <string name="no_connection">Tidak ada koneksi, periksa dan coba lagi untuk mendownload model kereta</string>
     <string name="downloaded_languages">Bahasa yang Diunduh</string>

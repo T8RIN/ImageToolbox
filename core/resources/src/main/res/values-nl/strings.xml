@@ -334,8 +334,7 @@
     <string name="features_sub">Wachtwoordgebaseerde versleuteling van bestanden. Vervolgbestanden kunnen in de geselecteerde map worden opgeslagen of gedeeld. Gedecodeerde bestanden kunnen ook direct worden geopend.</string>
     <string name="implementation_sub">AES-256, GCM-modus, geen opvulling, 12 bytes willekeurige IV\'s. Sleutels worden gebruikt als (256 bits) SHA-3-hashes. (Standaard, maar het is mogelijk om het benodigde algoritme selecteren).</string>
     <string name="file_size">Bestandsgrootte</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Houd er rekening mee dat compatibiliteit met andere bestandsversleutelingssoftware of -services niet kan worden gegarandeerd. Een iets andere versleutelings- of coderingsconfiguratie kan incompatibiliteit veroorzaken.</string>
     <string name="invalid_password_or_not_encrypted">Ongeldig wachtwoord of gekozen bestand is niet gecodeerd</string>
     <string name="image_size_warning">Als je probeert een afbeelding met de opgegeven breedte en hoogte op te slaan, kan dit een OOM-fout veroorzaken. Doe dit op eigen risico en zeg niet dat ik je niet heb gewaarschuwd!</string>
@@ -580,8 +579,7 @@
     <string name="standard">Standaard</string>
     <string name="best">Best</string>
     <string name="no_data">Geen gegevens</string>
-    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar je apparaat worden gedownload.
-\nWil je %2$s gegevens downloaden?</string>
+    <string name="download_description">Voor een goede werking van Tesseract OCR moeten aanvullende trainingsgegevens (%1$s) naar je apparaat worden gedownload. \nWil je %2$s gegevens downloaden?</string>
     <string name="download">Downloaden</string>
     <string name="no_connection">Geen verbinding, controleer dit en probeer het opnieuw om trainingsmodellen te downloaden</string>
     <string name="downloaded_languages">Gedownloade talen</string>

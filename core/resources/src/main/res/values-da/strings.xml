@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="flexible">Fleksibel</string>
     <string name="ok">Ok</string>
     <string name="crop">Afgrøde</string>
@@ -303,8 +303,7 @@
     <string name="implementation">Implementering</string>
     <string name="compatibility">Kompatibilitet</string>
     <string name="file_size">Filstørrelse</string>
-    <string name="file_size_sub">Den maksimale filstørrelse er begrænset af Android OS og den tilgængelige hukommelse, hvilket naturligvis afhænger af din enhed.
-\nBemærk venligst: Hukommelsen er ikke lager.</string>
+    <string name="file_size_sub">Den maksimale filstørrelse er begrænset af Android OS og den tilgængelige hukommelse, hvilket naturligvis afhænger af din enhed. \nBemærk venligst: Hukommelsen er ikke lager.</string>
     <string name="compatibility_sub">Bemærk venligst, at kompatibilitet med anden filkrypteringssoftware eller -tjenester ikke er garanteret. En lidt anderledes nøglebehandling eller chifferkonfiguration kan være årsager til inkompatibilitet.</string>
     <string name="file_proceed">Filen er behandlet</string>
     <string name="enhanced_pixelation">Forbedret pixelering</string>
@@ -724,8 +723,7 @@
     <string name="standard">Standard</string>
     <string name="best">Bedst</string>
     <string name="no_data">Ingen data</string>
-    <string name="download_description">For at Tesseract OCR fungerer korrekt, skal yderligere træningsdata (%1$s) downloades til din enhed.
-\nVil du downloade %2$s-data?</string>
+    <string name="download_description">For at Tesseract OCR fungerer korrekt, skal yderligere træningsdata (%1$s) downloades til din enhed. \nVil du downloade %2$s-data?</string>
     <string name="available_languages">Tilgængelige sprog</string>
     <string name="restore_background_sub">Pensel vil gendanne baggrunden i stedet for at slette</string>
     <string name="horizontal_grid">Vandret gitter</string>

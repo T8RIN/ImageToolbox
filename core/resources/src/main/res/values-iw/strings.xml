@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="exception">יוצא מן הכלל</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -294,8 +294,7 @@
     <string name="warning_bytes">שמירה במצב %1$s עלולה להיות לא יציבה, מכיוון שהיא פורמט ללא אובדן</string>
     <string name="background_color">צבע רקע</string>
     <string name="store_file_desc">אחסן את הקובץ הזה במכשיר שלך או השתמש בכפתור השיתוף כדי לשתף אותו לכל מקום שתרצה</string>
-    <string name="file_size_sub">גודל הקובץ המרבי מוגבל על ידי מערכת ההפעלה אנדרואיד והזיכרון הזמין, וזה כמובן תלוי במכשיר שלך.
-\nשימו לב: הזיכרון אינו אחסון.</string>
+    <string name="file_size_sub">גודל הקובץ המרבי מוגבל על ידי מערכת ההפעלה אנדרואיד והזיכרון הזמין, וזה כמובן תלוי במכשיר שלך. \nשימו לב: הזיכרון אינו אחסון.</string>
     <string name="auto_cache_clearing">ניקוי מטמון אוטומטי</string>
     <string name="cipher">הצפנה</string>
     <string name="cipher_sub">הצפנה ופענוח של כל קובץ (לא רק תמונה) בהתבסס על אלגוריתמי קריפטו שונים זמינים</string>
@@ -714,8 +713,7 @@
     <string name="standard">תֶקֶן</string>
     <string name="best">הטוב ביותר</string>
     <string name="no_data">אין מידע</string>
-    <string name="download_description">לתפקוד תקין של Tesseract OCR יש להוריד נתוני אימון נוספים (%1$s) למכשיר שלך.
-\nהאם ברצונך להוריד נתוני %2$s?</string>
+    <string name="download_description">לתפקוד תקין של Tesseract OCR יש להוריד נתוני אימון נוספים (%1$s) למכשיר שלך. \nהאם ברצונך להוריד נתוני %2$s?</string>
     <string name="download">הורד</string>
     <string name="no_connection">אין חיבור, בדוק את זה ונסה שוב כדי להוריד דגמי רכבת</string>
     <string name="downloaded_languages">שפות שהורדו</string>

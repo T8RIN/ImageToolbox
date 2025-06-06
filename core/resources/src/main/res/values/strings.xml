@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -59,7 +58,7 @@
     <string name="image_not_saved_sub">All unsaved changes will be lost, if you exit now</string>
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
-    <string name="single_edit">Single edit</string>
+    <string name="single_edit">Edit</string>
     <string name="single_edit_sub">Modify, resize and edit one image</string>
     <string name="pick_color">Pick color</string>
     <string name="pick_color_sub">Pick color from image, copy or share</string>
@@ -1226,7 +1225,7 @@
     <string name="ewa_lanczos_soft_sub">Elliptical Weighted Average (EWA) variant of the Lanczos Soft filter for smoother image resampling</string>
     <string name="haasn_soft">Haasn Soft</string>
     <string name="haasn_soft_sub">A resampling filter designed by Haasn for smooth and artifact-free image scaling</string>
-    <string name="format_conversion">Format conversion</string>
+    <string name="format_conversion">Batch convert</string>
     <string name="format_conversion_sub">Convert batch of images from one format to another</string>
     <string name="dismiss_forever">Dismiss Forever</string>
     <string name="image_stacking">Image stacking</string>

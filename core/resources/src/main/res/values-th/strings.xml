@@ -14,7 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -283,8 +283,7 @@
     <string name="cipher_sub">เข้ารหัสและถอดรหัสไฟล์ใด ๆ (ไม่ใช่เฉพาะรูปภาพ) ตามอัลกอริทึมการเข้ารหัส AES</string>
     <string name="encryption">การเข้ารหัส</string>
     <string name="features">คุณสมบัติ</string>
-    <string name="file_size_sub">ขนาดไฟล์สูงสุดถูกจำกัดโดยระบบปฏิบัติการ Android และหน่วยความจำที่มี ซึ่งขึ้นอยู่กับอุปกรณ์ของคุณ
-\nโปรดทราบ: หน่วยความจำไม่ใช่ที่เก็บข้อมูล</string>
+    <string name="file_size_sub">ขนาดไฟล์สูงสุดถูกจำกัดโดยระบบปฏิบัติการ Android และหน่วยความจำที่มี ซึ่งขึ้นอยู่กับอุปกรณ์ของคุณ \nโปรดทราบ: หน่วยความจำไม่ใช่ที่เก็บข้อมูล</string>
     <string name="image_size_warning">การพยายามบันทึกรูปภาพด้วยความกว้างและความสูงที่กำหนดอาจทำให้เกิดข้อผิดพลาด OOM คุณต้องยอมรับความเสี่ยงเอง และอย่าหาว่าฉันไม่เตือนคุณ!</string>
     <string name="auto_cache_clearing_sub">หากเปิดใช้งานแคชของแอปจะถูกล้างเมื่อเริ่มต้นแอป</string>
     <string name="screenshot">ภาพหน้าจอ</string>
@@ -729,8 +728,7 @@
     <string name="standard">มาตรฐาน</string>
     <string name="best">ดีที่สุด</string>
     <string name="no_data">ไม่มีข้อมูล</string>
-    <string name="download_description">เพื่อให้การทำงานที่เหมาะสมของ Tesseract OCR ต้องดาวน์โหลดข้อมูลการฝึกอบรมเพิ่มเติม (%1$s) ลงในอุปกรณ์ของคุณ
-\nคุณต้องการดาวน์โหลดข้อมูล %2$s หรือไม่?</string>
+    <string name="download_description">เพื่อให้การทำงานที่เหมาะสมของ Tesseract OCR ต้องดาวน์โหลดข้อมูลการฝึกอบรมเพิ่มเติม (%1$s) ลงในอุปกรณ์ของคุณ \nคุณต้องการดาวน์โหลดข้อมูล %2$s หรือไม่?</string>
     <string name="download">ดาวน์โหลด</string>
     <string name="no_connection">ไม่มีการเชื่อมต่อ โปรดตรวจสอบแล้วลองอีกครั้งเพื่อดาวน์โหลดโมเดลรถไฟ</string>
     <string name="downloaded_languages">ภาษาที่ดาวน์โหลด</string>
