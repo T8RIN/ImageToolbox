@@ -29,29 +29,29 @@
 </br>
 </br>
 
-<a href="https://hits.sh/github.com/t8rin/ImageResizer/">
+<a href="https://hits.sh/github.com/T8RIN/ImageResizer/">
 
-  <img src="https://hits.sh/github.com/t8rin/ImageResizer.svg?style=for-the-badge&label=Page%20Views&extraCount=7500&color=ff3f6f&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctaWNvbiIgc3R5bGU9IndpZHRoOiAxZW07IGhlaWdodDogMWVtO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZmlsbDojZmZmZmZmO292ZXJmbG93OiBoaWRkZW47IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGQ9Ik01MTIgMzg0YTEyOCAxMjggMCAwIDAtMTI4IDEyOCAxMjggMTI4IDAgMCAwIDEyOCAxMjggMTI4IDEyOCAwIDAgMCAxMjgtMTI4IDEyOCAxMjggMCAwIDAtMTI4LTEyOG0wIDM0MS4zMzMzMzNhMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMtMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMCAwIDEgMjEzLjMzMzMzMy0yMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAwIDAgMSAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMgMjEzLjMzMzMzM20wLTUzMy4zMzMzMzNDMjk4LjY2NjY2NyAxOTIgMTE2LjQ4IDMyNC42OTMzMzMgNDIuNjY2NjY3IDUxMmM3My44MTMzMzMgMTg3LjMwNjY2NyAyNTYgMzIwIDQ2OS4zMzMzMzMgMzIwczM5NS41Mi0xMzIuNjkzMzMzIDQ2OS4zMzMzMzMtMzIwYy03My44MTMzMzMtMTg3LjMwNjY2Ny0yNTYtMzIwLTQ2OS4zMzMzMzMtMzIweiIgZmlsbD0iIi8%2BPC9zdmc%2B&labelColor=870b2a"/>
+  <img src="https://hits.sh/github.com/T8RIN/ImageResizer.svg?style=for-the-badge&label=Page%20Views&extraCount=7500&color=ff3f6f&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctaWNvbiIgc3R5bGU9IndpZHRoOiAxZW07IGhlaWdodDogMWVtO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7ZmlsbDojZmZmZmZmO292ZXJmbG93OiBoaWRkZW47IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGQ9Ik01MTIgMzg0YTEyOCAxMjggMCAwIDAtMTI4IDEyOCAxMjggMTI4IDAgMCAwIDEyOCAxMjggMTI4IDEyOCAwIDAgMCAxMjgtMTI4IDEyOCAxMjggMCAwIDAtMTI4LTEyOG0wIDM0MS4zMzMzMzNhMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMtMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMCAwIDEgMjEzLjMzMzMzMy0yMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAwIDAgMSAyMTMuMzMzMzMzIDIxMy4zMzMzMzMgMjEzLjMzMzMzMyAyMTMuMzMzMzMzIDAgMCAxLTIxMy4zMzMzMzMgMjEzLjMzMzMzM20wLTUzMy4zMzMzMzNDMjk4LjY2NjY2NyAxOTIgMTE2LjQ4IDMyNC42OTMzMzMgNDIuNjY2NjY3IDUxMmM3My44MTMzMzMgMTg3LjMwNjY2NyAyNTYgMzIwIDQ2OS4zMzMzMzMgMzIwczM5NS41Mi0xMzIuNjkzMzMzIDQ2OS4zMzMzMzMtMzIwYy03My44MTMzMzMtMTg3LjMwNjY2Ny0yNTYtMzIwLTQ2OS4zMzMzMzMtMzIweiIgZmlsbD0iIi8%2BPC9zdmc%2B&labelColor=870b2a"/>
   
 </a>
   
-<a href="https://github.com/t8rin/ImageResizer/releases">
+<a href="https://github.com/T8RIN/ImageResizer/releases">
   
-  <img src="https://img.shields.io/github/downloads/t8rin/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
+  <img src="https://img.shields.io/github/downloads/T8RIN/ImageResizer/total?color=ff9500&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPmRvd25sb2FkPC90aXRsZT48cGF0aCBkPSJNNSwyMEgxOVYxOEg1TTE5LDlIMTVWM0g5VjlINUwxMiwxNkwxOSw5WiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+&labelColor=a6660d"/>
   
 </a>
   
-<a href="https://github.com/t8rin/ImageResizer/stargazers">
+<a href="https://github.com/T8RIN/ImageResizer/stargazers">
   
-  <img src="https://img.shields.io/github/stars/t8rin/imageresizer?color=ffff00&style=for-the-badge&labelColor=a1a116&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnN0YXI8L3RpdGxlPjxwYXRoIGQ9Ik0xMiwxNy4yN0wxOC4xOCwyMUwxNi41NCwxMy45N0wyMiw5LjI0TDE0LjgxLDguNjJMMTIsMkw5LjE5LDguNjJMMiw5LjI0TDcuNDUsMTMuOTdMNS44MiwyMUwxMiwxNy4yN1oiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg=="/>
+  <img src="https://img.shields.io/github/stars/T8RIN/imageresizer?color=ffff00&style=for-the-badge&labelColor=a1a116&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnN0YXI8L3RpdGxlPjxwYXRoIGQ9Ik0xMiwxNy4yN0wxOC4xOCwyMUwxNi41NCwxMy45N0wyMiw5LjI0TDE0LjgxLDguNjJMMTIsMkw5LjE5LDguNjJMMiw5LjI0TDcuNDUsMTMuOTdMNS44MiwyMUwxMiwxNy4yN1oiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg=="/>
   
 </a>
   
 </br>
 
-<a href="https://github.com/t8rin/imageresizer/releases/latest">
+<a href="https://github.com/T8RIN/ImageResizer/releases/latest">
 
-  <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
+  <img src="https://img.shields.io/github/v/release/T8RIN/imageresizer?color=a1168e&include_prereleases&logo=github&style=for-the-badge&labelColor=700f63"/>
   
 </a>
 
@@ -84,12 +84,10 @@
 
 <div align="center">
 
-# 🗺️ Project Overview
+# 🗺️ Project overview
 
-ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows
-users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs.
-Ideal for both photographers and developers, the tool offers a simple interface with powerful
-capabilities.
+Image Toolbox is a versatile image editing app designed for efficient photo manipulation. It allows
+users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs. The app offers a simple interface with powerful capabilities.
 
 </div>
 
@@ -107,36 +105,33 @@ capabilities.
 <div align="center">
 
 # 📔 Wiki
-Check out Image Toolbox [Wiki](https://github.com/T8RIN/ImageToolbox/wiki) for FAQ and useful info
+Check out the Image Toolbox [wiki](https://github.com/T8RIN/ImageToolbox/wiki) for frequently asked questions and useful information.
 </br>
 </br>
 
-# ✈️ Telegram Links
+# ✈️ Telegram links
 
 </br>
 
-  [![ImageToolbox Chat](https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox%20Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox)](https://t.me/t8rin_imagetoolbox)
+  [![Image Toolbox chat](https://img.shields.io/endpoint?&style=for-the-badge&colorA=246732&colorB=A2FFB0&logo=telegram&logoColor=A2FFB0&label=ImageToolbox%20Chat&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox)](https://t.me/t8rin_imagetoolbox)
 [![CI Telegram](https://img.shields.io/endpoint?&style=for-the-badge&colorA=29626B&colorB=B5DFE8&logo=telegram&logoColor=B5DFE8&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci)](https://t.me/t8rin_imagetoolbox_ci)
 
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into the CI channel where I post betas and announcements
+  Join our chat where you can discuss anything you want. Look into the CI channel where announcements and new versions are posted.
   </br>
 
 # ☕ Buy me a coffee
 
-This application is completely free, but if you want to support the project development, you can
-send a donation to the crypto wallets below
+This application is completely free but you can support the project development by donating to these cryptocurrency wallets below:
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> -> `17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq` <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> -> `TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7` <- <br/> <br/> |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 
 # 📲 Download
 
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest
-apk
-or click one of the badges below.
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download the latest APK or click one of the badges below.
 
 </br>
 
@@ -150,7 +145,7 @@ or click one of the badges below.
 </p>
 </div>
 
-# 💻 Installation Instructions
+# 💻 Compilation instructions
 
 1. Clone the repository:
    ```bash
@@ -162,7 +157,7 @@ or click one of the badges below.
 4. Run the application:
    bash ./gradlew run
 
-# ⚔️ FOSS vs MARKET
+# ⚔️ Flavor differences
 
 |    **Feature**     |      **FOSS**      |     **Market**     |
 |:------------------:|:------------------:|:------------------:|
@@ -171,8 +166,8 @@ or click one of the badges below.
 |  Document Scanner  |       OpenCV       |       MlKit        |
 |     Analytics      |        :x:         | :white_check_mark: |
 |    Crashlytics     |        :x:         | :white_check_mark: |
-| Other Google deps  |        :x:         | :white_check_mark: |
-| All Other Features | :white_check_mark: | :white_check_mark: |
+| Other Google dependencies  |        :x:         | :white_check_mark: |
+| All other features | :white_check_mark: | :white_check_mark: |
 
 # ✨ Features
 
@@ -189,109 +184,109 @@ or click one of the badges below.
     - [x] Exposure
     - [x] RGB
     - [x] Hue
-    - [x] White Balance
+    - [x] White balance
     - [x] Monochrome
-    - [x] Black and White
-    - [x] False Color
+    - [x] Black and white
+    - [x] False color
     - [x] Sharpen
     - [x] Gamma
-    - [x] Highlights and Shadows
+    - [x] Highlights and shadows
     - [x] Haze
-    - [x] Sepia Tone
-    - [x] Color Inversion
+    - [x] Sepia tone
+    - [x] Color inversion
     - [x] Solarize
     - [x] Vibrance
-    - [x] Luminance Threshold
-    - [x] Pixellate
+    - [x] Luminance threshold
+    - [x] Pixelate
     - [x] Halftone
     - [x] Crosshatch
-    - [x] Sobel Edge Detection
-    - [x] Sketch Filter
+    - [x] Sobel edge detection
+    - [x] Sketch filter
     - [x] Toon Filter
-    - [x] SmoothToon Filter
-    - [x] CGA Colorspace Filter
+    - [x] Smooth toon
+    - [x] CGA colorspace
     - [x] Posterize
     - [x] Convolution 3x3
     - [x] Emboss Filter
     - [x] Laplacian
-    - [x] Kuwahara Filter
+    - [x] Kuwahara filter
     - [x] Vignette
-    - [x] Gaussian Blur
-    - [x] Box Blur
-    - [x] Stack Blur
-    - [x] Fast Blur
-    - [x] Bilaterial Blur
-    - [x] Zoom Blur
-    - [x] Median Blur
+    - [x] Gaussian blur
+    - [x] Box blur
+    - [x] Stack blur
+    - [x] Fast blur
+    - [x] Bilaterial blur
+    - [x] Zoom blur
+    - [x] Median blur
     - [x] Pixelation
-    - [x] Enhanced Pixelation
-    - [x] Stroke Pixelation
-    - [x] Circle Pixelation
-    - [x] Enhanced Circle Pixelation
-    - [x] Diamond Pixelation
-    - [x] Enhanced Diamond Pixelation
-    - [x] Swirl Distortion
-    - [x] Bulge Distortion
-    - [x] Sphere Refraction
-    - [x] Glass Sphere Refraction
+    - [x] Enhanced pixelation
+    - [x] Stroke pixelation
+    - [x] Circle pixelation
+    - [x] Enhanced circle pixelation
+    - [x] Diamond pixelation
+    - [x] Enhanced diamond pixelation
+    - [x] Swirl distortion
+    - [x] Bulge distortion
+    - [x] Sphere refraction
+    - [x] Glass sphere refraction
     - [x] Dilation
-    - [x] Non Maximum Suppression
+    - [x] Non-maximum suppression
     - [x] Opacity
-    - [x] Weak Pixel Inclusion Filter
-    - [x] Color Matrix 4x4
+    - [x] Weak pixel inclusion
+    - [x] Color matrix 4x4
     - [x] Lookup
-    - [x] Color Replacement
-    - [x] Color Removance
-    - [x] Bayer Two Dithering
-    - [x] Bayer Three Dithering
-    - [x] Bayer Four Dithering
-    - [x] Bayer Eight Dithering
-    - [x] Floyd Steinberg Dithering
-    - [x] Jarvis Judice Ninke Dithering
-    - [x] Sierra Dithering
-    - [x] Two Row Sierra Dithering
-    - [x] Sierra Lite Dithering
-    - [x] Atkinson Dithering
-    - [x] Stucki Dithering
-    - [x] Burkes Dithering
-    - [x] False Floyd Steinberg Dithering
-    - [x] Left To Right Dithering
-    - [x] Random Dithering
-    - [x] Simple Threshold Dithering
+    - [x] Color replacement
+    - [x] Color removance
+    - [x] Bayer 2x2 dithering
+    - [x] Bayer 3x3 dithering
+    - [x] Bayer 4x4 dithering
+    - [x] Bayer 8x8 dithering
+    - [x] Floyd–Steinberg dithering
+    - [x] Jarvis-Judice-Ninke dithering
+    - [x] Sierra dithering
+    - [x] Two-row Sierra dithering
+    - [x] Sierra Lite dithering
+    - [x] Atkinson dithering
+    - [x] Stucki dithering
+    - [x] Burkes dithering
+    - [x] False Floyd-Steinberg dithering
+    - [x] Left to right dithering
+    - [x] Random dithering
+    - [x] Simple threshold dithering
     - [x] Quantizier
-    - [x] Glitch Effect
-    - [x] Enhanced Glitch Effect
+    - [x] Glitch effect
+    - [x] Enhanced glitch effect
     - [x] Anaglyph
     - [x] Noise
-    - [x] Tent Blur
-    - [x] Side Fade
+    - [x] Tent blur
+    - [x] Side fade
     - [x] Erode
-    - [x] Anisotropic Diffusion
-    - [x] Horizontal Wind Stagger
-    - [x] Fast Bilaterial Blur
-    - [x] Poisson Blur
-    - [x] Logarithmic Tone Mapping
-    - [x] Aces Filmic Tone Mapping
+    - [x] Anisotropic diffusion
+    - [x] Horizontal wind stagger
+    - [x] Fast bilaterial blur
+    - [x] Poisson blur
+    - [x] Logarithmic tone mapping
+    - [x] ACES filmic tone mapping
     - [x] Crystallize
-    - [x] Fractal Glass
+    - [x] Fractal glass
     - [x] Marble
     - [x] Oil
-    - [x] Water Effect
-    - [x] Hable Filmic Tone Mapping
-    - [x] Aces Hill Tone Mapping
-    - [x] Hejl Burgess Tone Mapping
-    - [x] Perlin Distortion
+    - [x] Water effect
+    - [x] Hable filmic tone mapping
+    - [x] ACES Hill tone mapping
+    - [x] Hejl-Burgess tone mapping
+    - [x] Perlin distortion
     - [x] Grayscale
     - [x] Dehaze
-    - [x] Color Matrix 3x3
+    - [x] Color matrix 3x3
     - [x] Achromatomaly
     - [x] Achromatopsia
     - [x] Browni
-    - [x] CodaChrome
+    - [x] Kodachrome
     - [x] Cool
     - [x] Deutaromaly
     - [x] Deutaronotopia
-    - [x] Night Vision
+    - [x] Night vision
     - [x] Polaroid
     - [x] Protanopia
     - [x] Protonomaly
@@ -302,207 +297,206 @@ or click one of the badges below.
     - [x] Grain
     - [x] Unsharp
     - [x] Pastel
-    - [x] Orange Haze
-    - [x] Pink Dream
-    - [x] Golden Hour
-    - [x] Hot Summer
-    - [x] Purple Mist
+    - [x] Orange haze
+    - [x] Pink dream
+    - [x] Golden hour
+    - [x] Hot summer
+    - [x] Purple mist
     - [x] Sunrise
-    - [x] Colorful Swirl
-    - [x] Soft Spring Light
-    - [x] Autumn Tones
-    - [x] Lavender Dream
+    - [x] Colorful swirl
+    - [x] Soft spring light
+    - [x] Autumn tones
+    - [x] Lavender dream
     - [x] Cyberpunk
-    - [x] Lemonade Light
-    - [x] Spectral Fire
-    - [x] Night Magic
-    - [x] Fantasy Landscape
-    - [x] Color Explosion
-    - [x] Electric Gradient
-    - [x] Caramel Darkness
-    - [x] Futuristic Gradient
-    - [x] Green Sun
-    - [x] Rainbow World
-    - [x] Deep Purple
-    - [x] Space Portal
-    - [x] Red Swirl
-    - [x] Digital Code
+    - [x] Lemonade light
+    - [x] Spectral fire
+    - [x] Night magic
+    - [x] Fantasy landscape
+    - [x] Color explosion
+    - [x] Electric gradient
+    - [x] Caramel darkness
+    - [x] Futuristic gradient
+    - [x] Green sun
+    - [x] Rainbow world
+    - [x] Deep purple
+    - [x] Space portal
+    - [x] Red swirl
+    - [x] Digital code
     - [x] Bokeh
     - [x] Neon
-    - [x] Old Tv
-    - [x] Shuffle Blur
+    - [x] Old television
+    - [x] Shuffle blur
     - [x] Mobius
     - [x] Uchimura
     - [x] Aldridge
     - [x] Drago
-    - [x] Color Anomaly
+    - [x] Color anomaly
     - [x] Quantizier
-    - [x] Ring Blur
-    - [x] Cross Blur
-    - [x] Circle Blur
-    - [x] Star Blur
-    - [x] Motion Blur
-    - [x] Fast Gaussian Blur 2D
-    - [x] Fast Gaussian Blur 3D
-    - [x] Fast Gaussian Blur 4D
-    - [x] Equalize Histogram
-    - [x] Equalize Histogram HSV
-    - [x] Equalize Histogram Pixelation
-    - [x] Equalize Histogram Adaptive
-    - [x] Equalize Histogram Adaptive LUV
-    - [x] Equalize Histogram Adaptive LAB
-    - [x] Equalize Histogram Adaptive HSV
-    - [x] Equalize Histogram Adaptive HSL
-    - [x] Clahe
-    - [x] Clahe LUV
-    - [x] Clahe LAB
-    - [x] Clahe HSL
-    - [x] Clahe HSV
-    - [x] Crop To Content
-    - [x] Linear Box Blur
-    - [x] Linear Tent Blur
-    - [x] Linear Gaussian Box Blur
-    - [x] Linear Stack Blur
-    - [x] Gaussian Box Blur
-    - [x] Linear Fast Gaussian Next
-    - [x] LinearFast Gaussian
+    - [x] Ring blur
+    - [x] Cross blur
+    - [x] Circle blur
+    - [x] Star blur
+    - [x] Motion blur
+    - [x] Fast Gaussian blur 2D
+    - [x] Fast Gaussian blur 3D
+    - [x] Fast Gaussian blur 4D
+    - [x] Equalize histogram
+    - [x] Equalize histogram HSV
+    - [x] Equalize histogram pixelation
+    - [x] Equalize histogram adaptive
+    - [x] Equalize histogram adaptive LUV
+    - [x] Equalize histogram adaptive LAB
+    - [x] Equalize histogram adaptive HSV
+    - [x] Equalize histogram adaptive HSL
+    - [x] Contrast limited adaptive histogram equalization (CLAHE)
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) LUV
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) LAB
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) HSL
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) HSV
+    - [x] Crop to content
+    - [x] Linear box blur
+    - [x] Linear tent blur
+    - [x] Linear Gaussian box blur
+    - [x] Linear stack blur
+    - [x] Gaussian box blur
+    - [x] Linear fast Gaussian next
+    - [x] Linear fast Gaussian
     - [x] Linear Gaussian
-    - [x] Low Poly
-    - [x] Sand Painting
-    - [x] Palette Transfer
-    - [x] Enhanced Oil
-    - [x] Simple Old TV
+    - [x] Low poly
+    - [x] Sand painting
+    - [x] Palette transfer
+    - [x] Enhanced oil
+    - [x] Simple old television
     - [x] HDR
-    - [x] Simple Sketch
+    - [x] Simple sketch
     - [x] Gotham
-    - [x] Color Poster
-    - [x] Tri Tone
-    - [x] Clahe Oklch
-    - [x] Clahe Jzazbz
-    - [x] Clahe Oklab
-    - [x] Yililoma Dithering
-    - [x] Clustered 2x2 Dithering
-    - [x] Clustered 4x4 Dithering
-    - [x] Clustered8x8 Dithering
-    - [x] Polka Dot
-    - [x] LUT 512\*512
+    - [x] Color poster
+    - [x] Tri-tone
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Oklch
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Jzazbz
+    - [x] Contrast limited adaptive histogram equalization (CLAHE) Oklab
+    - [x] Yililoma dithering
+    - [x] Clustered 2x2 dithering
+    - [x] Clustered 4x4 dithering
+    - [x] Clustered 8x8 dithering
+    - [x] Polka dot
+    - [x] LUT 512x512
     - [x] Amatorka
-    - [x] Miss Etikate
-    - [x] Soft Elegance
-    - [x] Soft Elegance Variant
-    - [x] Bleach Bypass
+    - [x] Miss etikate
+    - [x] Soft elegance
+    - [x] Soft elegance variant
+    - [x] Bleach bypass
     - [x] Candlelight
-    - [x] Drop Blues
-    - [x] Edgy Amber
-    - [x] Fall Colors
-    - [x] Film Stock 50
-    - [x] Foggy Night
+    - [x] Drop blues
+    - [x] Edgy amber
+    - [x] Fall colors
+    - [x] Film stock 50
+    - [x] Foggy night
     - [x] Kodak
-    - [x] Palette Transfer Variant
-    - [x] 3D LUT (.cube / .CUBE)
-    - [x] Pop Art
+    - [x] Palette transfer variant
+    - [x] 3D lookup table (CUBE)
+    - [x] Pop art
     - [x] Celluloid
     - [x] Coffee
-    - [x] Golden Forest
+    - [x] Golden forest
     - [x] Greenish
-    - [x] Retro Yellow
-    - [x] Auto Crop
+    - [x] Retro yellow
+    - [x] Automatic crop
     - [x] Opening
     - [x] Closing
-    - [x] Morphological Gradient
-    - [x] Top Hat
-    - [x] Black Hat
-    - [x] Enhanced Zoom Blur
-    - [x] Simple Sobel
-    - [x] Simple Laplacian
-    - [x] Auto Red Eyes remover
-    - [x] Tone Curves 
-  - [x] Mirror
+    - [x] Morphological gradient
+    - [x] Top hat
+    - [x] Black hat
+    - [x] Enhanced zoom blur
+    - [x] Simple sobel
+    - [x] Simple laplacian
+    - [x] Automatic red eyes remover
+    - [x] Tone curves 
+    - [x] Mirror
 
   </details>
 
-- Custom Filters Creation by Template filters
+- Create custom filters by using template filters
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Files encryption and decryption with 100+ different algorithms available
-- Adding Stickers and Text (Markup Layers Mode)
-- Extract Text From Images (OCR)
+- Adding stickers and text (markup layers mode)
+- Extract text from images (OCR)
     - 120+ languages
     - 3 Type of data: Fast, Standard, Best
-    - Segmentation Mode Selection
-    - Engine Mode Selection
-    - Custom Tesseract options entering
+    - Segmentation mode selection
+    - Engine mode selection
+    - Custom Tesseract options
     - Multiple languages at the same time
     - Reading from batch of images to file
-    - Placing in EXIF metadata of batch images
-- EXIF metadata editing/deleting
+    - Placing results in the EXIF metadata of images
+- EXIF metadata editing / deleting
 - Loading images from internet
-- Image Stitching
-- Image Stacking
-- Image Splitting
-- Background Removal
+- Image stitching
+- Image stacking
+- Image splitting
+- Background removal
     - By drawing
     - Automatically
 - Watermarking
-    - Repeating Text
+    - Repeating text
     - Image
     - Stamp
     - Timestamp
-    - Digital (Steganography)
-- Drawing on Image/Background
+    - Digital (steganography)
+- Drawing on image / background
     - Pen
     - Neon
     - Highlighter
-    - Privacy Blur
-    - Pixelation Paint
+    - Privacy blur
+    - Pixelation paint
     - Text
-    - Image Brush
-    - Filter Brush
-    - Spot Healing
-    - Pointing Arrow
+    - Image brush
+    - Filter brush
+    - Spot healing
+    - Pointing arrow
     - Line
-    - Double Pointing Arrow
-    - Line Pointing Arrow
-    - Double Line Pointing Arrow
-    - Outlined Rect
-    - Outlined Oval
-    - Outlined Triangle
-    - Outlined Polygon
-    - Outlined Star
-    - Rect
+    - Double pointing arrow
+    - Line pointing arrow
+    - Double line pointing arrow
+    - Outlined rectangle
+    - Outlined oval
+    - Outlined triangle
+    - Outlined polygon
+    - Outlined star
+    - Rectangle
     - Oval
     - Triangle
     - Polygon
     - Star
     - Lasso
-    - Line Style
+    - Line style
         - Dashed
         - Dot Dashed
-        - Zigzag
+        - Zig-zag
         - Stamped
-- Image Resizing
-    - Width changing
-    - Height changing
+- Image resizing
+    - Resize to dimensions
     - Adaptive resize
-    - Resize retaining aspect ratio
-    - Resize by given limits
-    - Center Crop with
+    - Resize while retaining aspect ratio
+    - Resize to size
+    - Center crop with
         - Background color changing
         - Background blur drawing
-    - Different Scaling Algorithms
+    - Different scaling algorithms
 
         <details>
           <summary>Available methods</summary>
           <br>
 
           - Bilinear
-          - Nearest Neighbour
+          - Nearest
           - Cubic
           - Mitchell-Netravalli
           - Catmull-Rom
           - Hermite
-          - B-Spline
+          - B-spline
           - Hann
           - Bicubic
           - Hamming
@@ -514,7 +508,7 @@ or click one of the badges below.
           - Sphinx
           - Bartlett
           - Robidoux
-          - Robidoux Sharp
+          - Robidoux sharp
           - Spline 16
           - Spline 36
           - Spline 64
@@ -525,29 +519,29 @@ or click one of the badges below.
           - Lanczos 2
           - Lanczos 3
           - Lanczos 4
-          - Lanczos 2 Jinc
-          - Lanczos 3 Jinc
-          - Lanczos 4 Jinc
-          - Ewa Hanning
-          - Ewa Robidoux
-          - Ewa Blackman
-          - Ewa Quadric
-          - Ewa Robidoux Sharp
-          - Ewa Lanczos 3 Jinc
+          - Lanczos 2 jinc
+          - Lanczos 3 jinc
+          - Lanczos 4 jinc
+          - EWA Hanning
+          - EWA Robidoux
+          - EWA Blackman
+          - EWA Quadric
+          - EWA Robidoux sharp
+          - Ewa Lanczos 3 jinc
           - Ginseng
           - Ginseng EWA
-          - Lanczos Sharp EWA
-          - Lanczos 4 Sharpest EWA
-          - Lanczos Soft EWA
-          - Haasn Soft
+          - Lanczos sharp EWA
+          - Lanczos 4 sharpest EWA
+          - Lanczos soft EWA
+          - Haasn soft
           - Lagrange 2
           - Lagrange 3
           - Lanczos 6
-          - Lanczos 6 Jinc
+          - Lanczos 6 jinc
 
         </details>
 
-    - Different Scale Color Spaces
+    - Different colorspaces
         - Linear
         - sRGB
         - LAB
@@ -582,14 +576,14 @@ or click one of the badges below.
     - JPEG to JXL
 - Animated JXL conversion
     - Images to JXL
-    - JXL to Images
+    - JXL to images
     - APNG to JXL
     - GIF to JXL
 - PDF tools
     - PDF to images
     - Images to PDF
-    - PDF previewing
-- Document Scanning
+    - Preview PDFs
+- Document scanning
 - Barcodes
     - Scanning
     - Creating
@@ -608,17 +602,17 @@ or click one of the badges below.
       - PDF 417
       - UPC A
       - UPC E
-- Collage Creation
+- Collage creation
     - From 2 to 10 images
     - More than 180 various collage layouts
-- Image Shrinking
+- Image shrinking
     - Quality compressing
     - Preset shrinking
     - Reducing size by given weight (in KB)
 - Cropping
     - Regular crop
     - Free rotation crop
-    - Free corners crop (can be used as Perspective Correction)
+    - Free corners crop (can be used for perspective correction)
     - Crop by aspect ratio
     - Crop with shape mask
         
@@ -626,16 +620,16 @@ or click one of the badges below.
           <summary>List of shapes</summary>
           <br/>
           
-        - Rounded Corners
-        - Cut Corners
+        - Rounded corners
+        - Cut corners
         - Oval
         - Squircle
         - Octagon
-        - Rounded Pentagon
+        - Rounded pentagon
         - Clover
-        - Material Star
-        - Kotlin Logo
-        - Small Material Star
+        - Material star
+        - Kotlin logo
+        - Small material star
         - Heart
         - Shuriken
         - Explosion
@@ -647,11 +641,11 @@ or click one of the badges below.
         - Arrow
         - Egg
         - Map
-        - Enhanced Heart
+        - Enhanced heart
         - Star
-        - Image Mask
+        - Image mask
         - <details>
-          <summary>Additional Shapes</summary>
+          <summary>Additional shapes</summary>
           </br>
         
           ![image](./fastlane/metadata/android/en-US/images/banner/banner_shapes.png)
@@ -661,9 +655,9 @@ or click one of the badges below.
         </details>
 
 
-- Image Cutting (can be used as batch crop)         
-- Tracing raster images to SVG
-- Format Conversion
+- Image cutting (can be used as batch crop)       
+- Trace raster images to SVG
+- Format conversion
     - HEIF
     - HEIC
     - AVIF
@@ -672,7 +666,7 @@ or click one of the badges below.
     - JPG
     - PNG Lossless
     - PNG Lossy
-    - MozJpeg
+    - MozJPEG
     - Jpegli
     - JXL
     - JP2
@@ -683,52 +677,51 @@ or click one of the badges below.
     - ICO
     - SVG, DNG, PSD, GIF to static raster images
     - Telegram sticker PNG format
-- Files to Zip
+- Archive files to ZIP
 - Comparing images
     - Slide
-    - Toggle Tap
+    - Toggle tap
     - Transparency
-    - Side By Side
-    - Pixel By Pixel (7 Methods)
+    - Side by side
+    - Pixel by pixel
         - SSIM
         - AE
         - MAE
         - NCC
         - PSNR
         - RMSE
-- Color Utils
+- Color utilities
     - Palette generation
-        - Material You Scheme
-        - Simple Colors
+        - Material You color scheme
+        - Simple colors
     - Picking color from image
-    - Gradient creation (Mesh gradients too)
-    - Overlaying image with gradient
+    - Gradient creation (mesh gradients are also supported)
+    - Overlaying gradient on top of an image
     - Mixing
     - Conversion
     - Harmonies
     - Shading
-    - Tone Curves applying
+    - Applying tone curves
 - Histograms
     - RGB
     - Brightness
-    - Camera Like RGB
 - Image source selection
-- Additional Features
-    - Base64 Decode/Encode
+- Additional features
+    - Base64 encoding/decoding
     - Rotating
     - Flipping
-    - Perlin Noise Generation
-    - Previewing SVG, DNG, PSD, DJVU and almost all types of images
+    - Noise generation
+    - Previewing SVG, DNG, PSD, DJVU and most all types of images
     - Saving to any specific folder
     - Long press on save to choose one time output folder
     - Randomizing output filename
-    - Using image cheksum as filename
-    - Checksum Tools with ability to calculate and compare hashes
+    - Using image checksum as filename
+    - Checksum tools with ability to calculate and compare hashes
     - 64 different hashing algorithms
-    - Audio files Album Cover export
+    - Album cover export for audio files
     - Embedded media picker
 
-**And More!**
+**And more!**
 
 #
 
@@ -736,37 +729,37 @@ or click one of the badges below.
 
 # 🌟 UI tweaks
 
-- Selecting Emoji for top app bar
-- Ability to use Pixel like switch instead of Material You
-- Secure Mode for app
+- Selecting wmoji for top app bar
+- Ability to use many types of switch instead of Material You
+- Secure mode for app
 - Maximum brightness for selected screens
-- In app language changing
-- Enabling or Disabling confetti
+- In-app language changer
+- Enabling or disabling confetti
 - Custom app color scheme
     - Different palette styles
     - Predefined schemes
     - Color inversion
     - Contrast adjusting
-- Controlling borders thickness
+- Controlling border thickness
 - Enabling and disabling each existing shadow
 - Haptics controls
 - Light/Dark mode
-- AMOLED mode
+- Black mode
 - Monet implementation (Dynamic colors) even for Android versions less than 12
   by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
-- Image based color scheme
-- Icons Background shape selection
-    - Rounded Corners
-    - Cut Corners
+- Image-based color scheme
+- Icon background shape selection
+    - Rounded corners
+    - Cut corners
     - Oval
     - Squircle
     - Octagon
-    - Rounded Pentagon
+    - Rounded pentagon
     - Clover
-    - Material Star
-    - Small Material Star
+    - Material star
+    - Small material Star
     - Heart
-    - Enhanced Heart
+    - Enhanced heart
 - Custom fonts
 
   <details>
@@ -780,10 +773,10 @@ or click one of the badges below.
     - Jura
     - Podkova
     - Tektur
-    - YsabeauSC
+    - Ysabeau SC
     - DejaVu
-    - BadScript
-    - RuslanDisplay
+    - Bad Script
+    - Ruslan Display
     - Catterdale
     - FRM32
     - Tokeely Brookings
@@ -791,106 +784,94 @@ or click one of the badges below.
     - Nothing
     - WOPR Tweaked
     - Alegreya Sans
-    - Minecraft Gnu
+    - Minecraft GNU
     - Granite Fixed
     - Nokia Pixel
     - Ztivalia
     - Axotrel
-    - Lcd Octagon
-    - Lcd Moving
+    - LCD Octagon
+    - LCD Moving
     - Unisource
 
   </details>
 
-- Ability to import any font (OTF/TTF) to further use
-- In app font scale changing
+- Ability to import fonts (OTF/TTF)
+- In-app font scale changer
 - Changing between options list and grouped view
-- Confetti Type selection
+- Confetti type selection
     - Default
     - Festive
     - Explode
     - Rain
     - Side
     - Corners
-    - ImageToolbox
-- Switch Type selection:
+    - Image Toolbox
+- Switch type selection:
     - Material You
-    - Compose
+    - Jetpack Compose
     - Pixel
     - Fluent
     - Cupertino
-- Slider Type Selection:
-    - Fancy
+- Slider type selection:
     - Material You
-    - Material
+    - Fancy
+    - Material 2
 
-(Yes, the app supports dynamic coloring based on wallpapers for every android version)
+# 📚 Tech stack and open source libraries
 
-# 📚 Tech stack & Open-source libraries
+- Android 5 (SDK level 21) or later required
 
-- Minimum SDK level 21
+- [Kotlin](https://kotlinlang.org)-based
 
-- [Kotlin](https://kotlinlang.org/) based
-
-- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - set of essential libraries for
+- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - Set of essential libraries for
   Image Toolbox.
 
-- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily
-  implement custom color theming.
+- [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - Library which allows you to easily implement custom color theming.
 
-- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - modal bottom sheet that follows M3
-  guidelines.
+- [Modal Sheet](https://github.com/T8RIN/ModalSheet) - Modal bottom sheet that follows Material 3 guidelines.
 
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous work.
 
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/)
   to emit values from data layer reactively.
 
-- [Accompanist](https://github.com/google/accompanist) to expand jetpack compose opportunities.
+- [Accompanist](https://github.com/google/accompanist) to expand Jetpack Compose opportunities.
 
-- [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic
-  components (aka BLoCs) with routing (navigation) and pluggable UI
+- [Decompose](https://github.com/arkivanov/Decompose) - KMP lifecycle-aware business logic components (aka BLoCs) with routing (navigation) and pluggable user interface.
 
 - [Hilt](https://dagger.dev/hilt/) for dependency injection.
 
 - [Coil](https://github.com/coil-kt/coil) for loading images.
 
-- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beautiful particle system.
+- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish a beautiful particle system.
 
 - Jetpack
 
-    - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
-      framework based on composable functions.
+    - [Compose](https://developer.android.com/jetpack/compose) - Modern declarative user interface style framework based on composable functions.
 
     - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
-      Material 3 powerful UI components.
+      Powerful Material 3 user interface components.
 
-    - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
+    - [DataStore](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
       asynchronously, consistently, and transactionally.
 
-    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe
-      Android lifecycles and handle UI states upon the lifecycle changes.
+    - [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) - Observe Android lifecycles and handle UI states upon the lifecycle changes.
 
-    - [Exif Interface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read
-      and write image file EXIF tags.
+    - [Exifinterface](https://developer.android.com/jetpack/androidx/releases/exifinterface) - Read and write image file EXIF tags.
 
-- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
-  images.
+- [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to images.
 
 - [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries.
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder)
-  and [JXL Coder](https://github.com/awxkee/jxl-coder) libraries which provide avif, heic, heif and
-  jxl support.
+  and [JXL Coder](https://github.com/awxkee/jxl-coder) are libraries which provide AVIF, HEIC, HEIF and JXL support.
 
-- [Aire](https://github.com/awxkee/aire) and [Trickle](https://github.com/T8RIN/Trickle) for
-  creating and applying filters to the images on CPU
-  using native cpp code.
+- [Aire](https://github.com/awxkee/aire) and [Trickle](https://github.com/T8RIN/Trickle) for creating and applying filters to the images with the CPU using native C++ code.
 
 
-# 📐 App Architecture
+# 📐 App architecture
 
-See Modules Graph at [ARCHITECTURE.md](https://github.com/T8RIN/ImageToolbox/blob/master/ARCHITECTURE.md)
+See nodules graph at [ARCHITECTURE.md](https://github.com/T8RIN/ImageToolbox/blob/master/ARCHITECTURE.md)
 
 <div align="center">
 
@@ -913,7 +894,7 @@ Support it by joining **[stargazers](https://github.com/t8rin/ImageToolbox/starg
 repository. :star: <br>
 And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 
-# ⭐ Star History
+# ⭐ Star history
 
 <a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
  <picture>
@@ -931,7 +912,7 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
   <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
 </a>
 
-# 🔒 Signing Certificate Hashes
+# 🔒 Signing certificate hashes
 
 SHA-256: `20d7689de0874f00015ea3e31fa067c15c03457d362d41d5e793db3a864fa534`
 
@@ -939,7 +920,7 @@ SHA-1: `d69eacb30eeae804e8b72d2384c3c616b1906785`
 
 MD5: `db6f6b76c503d31099e4754e676353cf`
 
-For more info, see [wiki](https://github.com/T8RIN/ImageToolbox/wiki/FAQ#how-can-i-verify-my-download-of-imagetoolbox-is-legitimate)
+See [wiki](https://github.com/T8RIN/ImageToolbox/wiki/FAQ#how-can-i-verify-my-download-of-imagetoolbox-is-legitimate) for more information.
 
 # ⚖️ License
 
