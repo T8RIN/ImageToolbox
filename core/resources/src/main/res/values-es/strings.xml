@@ -1235,4 +1235,198 @@
     <string name="barcodes_sub">Escanea cualquier código de barras (QR, EAN, AZTEC, …) y obtén su contenido o pega tu texto para generar uno nuevo</string>
     <string name="lanczos2_jinc_sub">Una variante del filtro Lanczos 2 que usa la función jinc, proveyendo interpolación de alta calidad con distorsiones mínimas</string>
     <string name="compose_switch_sub">Usa el interruptor Jetpack Compose Material You, no es tan bonito como el basado en vista</string>
+    <string name="telegram" translatable="false"></string>
+    <string name="checksum"></string>
+    <string name="calculate"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="welch"></string>
+    <string name="box"></string>
+    <string name="bartlett_hann"></string>
+    <string name="lanczos2"></string>
+    <string name="lanczos3"></string>
+    <string name="hamming_sub"></string>
+    <string name="welch_sub"></string>
+    <string name="bartlett_hann_sub"></string>
+    <string name="use_lsb"></string>
+    <string name="show"></string>
+    <string name="tag_software"></string>
+    <string name="equalize_histogram_adaptive_lab"></string>
+    <string name="tag_subsec_time"></string>
+    <string name="operation_almost_complete"></string>
+    <string name="sort_by_extension"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="tag_gps_h_positioning_error"></string>
+    <string name="audio_cover_extractor"></string>
+    <string name="tag_gps_dest_latitude"></string>
+    <string name="unlock"></string>
+    <string name="algorithms"></string>
+    <string name="harmony_analogous"></string>
+    <string name="padding"></string>
+    <string name="tag_gps_speed_ref"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="fancy"></string>
+    <string name="resolution_y"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="usdt" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="tag_subsec_time_digitized"></string>
+    <string name="tag_standard_output_sensitivity"></string>
+    <string name="tag_offset_time_digitized"></string>
+    <string name="tag_offset_time_original"></string>
+    <string name="tag_gps_img_direction"></string>
+    <string name="spline16"></string>
+    <string name="quadric"></string>
+    <string name="tag_gps_dest_longitude"></string>
+    <string name="tag_gps_dest_longitude_ref"></string>
+    <string name="tag_gps_dest_bearing_ref"></string>
+    <string name="lanczos4_sub"></string>
+    <string name="ewa_quadric_sub"></string>
+    <string name="lanczos3_sub"></string>
+    <string name="ewa_lanczos_soft"></string>
+    <string name="ewa_ginseng_sub"></string>
+    <string name="linear_tent_blur"></string>
+    <string name="lagrange_3_sub"></string>
+    <string name="gotham"></string>
+    <string name="harmony_tetradic"></string>
+    <string name="harmony_triadic"></string>
+    <string name="amatorka"></string>
+    <string name="cannot_use_monet_while_dynamic_colors_applied"></string>
+    <string name="octaves"></string>
+    <string name="zigzag"></string>
+    <string name="jitter"></string>
+    <string name="closing"></string>
+    <string name="dont_stack_frames"></string>
+    <string name="crossfade_sub"></string>
+    <string name="layout"></string>
+    <string name="crf_sub"></string>
+    <string name="area"></string>
+    <string name="enter_percent"></string>
+    <string name="not_a_valid_base_64"></string>
+    <string name="base_64"></string>
+    <string name="share_base_64"></string>
+    <string name="paste_base_64"></string>
+    <string name="import_base_64"></string>
+    <string name="filename_is_not_set"></string>
+    <string name="edit_exif_tag"></string>
+    <string name="none"></string>
+    <string name="stamp"></string>
+    <string name="timestamp"></string>
+    <string name="resolution_x"></string>
+    <string name="password"></string>
+    <string name="sort_by_size"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="tag_gps_processing_method"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="equalize_histogram_adaptive"></string>
+    <string name="equalize_histogram_adaptive_luv"></string>
+    <string name="blackman"></string>
+    <string name="gaussian"></string>
+    <string name="hanning"></string>
+    <string name="clahe"></string>
+    <string name="hamming"></string>
+    <string name="sphinx"></string>
+    <string name="bartlett"></string>
+    <string name="robidoux"></string>
+    <string name="lanczos4"></string>
+    <string name="bartlett_sub"></string>
+    <string name="spline36_sub"></string>
+    <string name="kaiser_sub"></string>
+    <string name="box_sub"></string>
+    <string name="lanczos4_jinc_sub"></string>
+    <string name="lanczos3_jinc_sub"></string>
+    <string name="ewa_hanning"></string>
+    <string name="ewa_robidoux"></string>
+    <string name="ewa_robidoux_sub"></string>
+    <string name="ewa_blackman"></string>
+    <string name="ewa_blackman_sub"></string>
+    <string name="ewa_ginseng"></string>
+    <string name="ewa_quadric"></string>
+    <string name="ginseng"></string>
+    <string name="haasn_soft"></string>
+    <string name="equalize_histogram_adaptive_hsl"></string>
+    <string name="equalize_histogram_adaptive_hsv"></string>
+    <string name="clip"></string>
+    <string name="lagrange_2"></string>
+    <string name="lanczos_6"></string>
+    <string name="sigmoidal"></string>
+    <string name="webp_type_to_image_sub"></string>
+    <string name="webp_tools_sub"></string>
+    <string name="crossfade"></string>
+    <string name="mirror_101"></string>
+    <string name="canny"></string>
+    <string name="material_2"></string>
+    <string name="apply"></string>
+    <string name="center_align_dialog_buttons_sub"></string>
+    <string name="open_source_licenses_sub"></string>
+    <string name="layers_on_image"></string>
+    <string name="edit_layer"></string>
+    <string name="layers_on_background"></string>
+    <string name="settings_group_visibility_hidden"></string>
+    <string name="beta"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="cupertino_switch"></string>
+    <string name="tag_strip_byte_counts"></string>
+    <string name="tag_rows_per_strip"></string>
+    <string name="tag_y_cb_cr_coefficients"></string>
+    <string name="tag_reference_black_white"></string>
+    <string name="tag_datetime_digitized"></string>
+    <string name="tag_iso_speed_latitude_zzz"></string>
+    <string name="tag_gps_latitude_ref"></string>
+    <string name="tag_gps_altitude_ref"></string>
+    <string name="tag_gps_track_ref"></string>
+    <string name="tag_gps_img_direction_ref"></string>
+    <string name="tag_gps_area_information"></string>
+    <string name="tag_gps_dest_distance"></string>
+    <string name="tag_gps_dest_bearing"></string>
+    <string name="tag_gps_dest_distance_ref"></string>
+    <string name="tag_gps_datestamp"></string>
+    <string name="antialias"></string>
+    <string name="draw_image_sub"></string>
+    <string name="equalize_histogram_hsv"></string>
+    <string name="auto"></string>
+    <string name="lacunarity"></string>
+    <string name="exif" translatable="false"></string>
+    <string name="bins_count"></string>
+    <string name="filter_preview_image_sub"></string>
+    <string name="tag_gps_longitude_ref"></string>
+    <string name="hanning_sub"></string>
+    <string name="tag_gps_dest_latitude_ref"></string>
+    <string name="tag_iso_speed_latitude_yyy"></string>
+    <string name="use_lsb_sub"></string>
+    <string name="tag_gps_timestamp"></string>
+    <string name="spline64_sub"></string>
+    <string name="tag_gps_version_id"></string>
+    <string name="spline64"></string>
+    <string name="bohman"></string>
+    <string name="settings_group_visibility_visible"></string>
+    <string name="rotation"></string>
+    <string name="bohman_sub"></string>
+    <string name="lanczos_bessel"></string>
+    <string name="lanczos2_sub"></string>
+    <string name="spline16_sub"></string>
+    <string name="options"></string>
+    <string name="copy_not_a_valid_base_64"></string>
+    <string name="actions"></string>
+    <string name="lagrange_3"></string>
+    <string name="tag_gps_map_datum"></string>
+    <string name="developer_email" translatable="false"></string>
+    <string name="tag_subsec_time_original"></string>
+    <string name="crossfade_count"></string>
+    <string name="copy_base_64"></string>
+    <string name="tag_oecf"></string>
+    <string name="spline36"></string>
+    <string name="dashed"></string>
+    <string name="hide"></string>
+    <string name="pdf_is_protected"></string>
+    <string name="blackman_sub"></string>
+    <string name="lagrange_2_sub"></string>
+    <string name="save_base_64"></string>
+    <string name="kaiser"></string>
 </resources>
