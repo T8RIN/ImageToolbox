@@ -76,7 +76,7 @@
     <string name="clear_exif_sub">Alle EXIF-Daten des Bildes werden gelöscht. Dies kann nicht rückgängig gemacht werden!</string>
     <string name="save">Speichern</string>
     <string name="clear_exif">EXIF leeren</string>
-    <string name="single_edit">Einzelnes Bild</string>
+    <string name="single_edit">Bearbeiten</string>
     <string name="image_not_saved_sub">Alle ungespeicherten Änderungen gehen verloren, wenn Du den Dialog jetzt schließt</string>
     <string name="pick_color">Farbe auswählen</string>
     <string name="update">Aktualisierung</string>
@@ -1065,7 +1065,7 @@
     <string name="image_splitting">Bild aufteilen</string>
     <string name="image_splitting_sub">Teile ein einzelnes Bild nach Zeilen oder Spalten auf</string>
     <string name="format_conversion_sub">Konvertieren von Bildstapeln von einem Format in ein anderes</string>
-    <string name="format_conversion">Formatkonvertierung</string>
+    <string name="format_conversion">Stapelverarbeitung</string>
     <string name="engine_mode">Motor Modus</string>
     <string name="legacy">Legacy</string>
     <string name="image_stacking">Bild stapeln</string>

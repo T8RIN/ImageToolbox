@@ -50,7 +50,7 @@
     <string name="image_not_saved_sub">如果现在退出，所有未保存的更改都将丢失</string>
     <string name="check_source_code">源代码</string>
     <string name="check_source_code_sub">获得最新更新、讨论问题等</string>
-    <string name="single_edit">缩放单张图片</string>
+    <string name="single_edit">编辑</string>
     <string name="single_edit_sub">修改、调整大小和编辑一张图片</string>
     <string name="pick_color">取色器</string>
     <string name="pick_color_sub">从图片中选取颜色，并复制或分享</string>
@@ -1200,7 +1200,7 @@
     <string name="ewa_ginseng_sub">Ginseng 滤镜的椭圆加权平均 (EWA) 变体，提高图片质量</string>
     <string name="ginseng_sub">重采样滤镜专为高质量图片处理而设计，在清晰度和平滑度之间取得了良好的平衡</string>
     <string name="ewa_lanczos3_jinc_sub">Lanczos 3 Jinc 滤镜的椭圆加权平均 (EWA) 变体，用于减少混叠的高质量重采样</string>
-    <string name="format_conversion">格式转换</string>
+    <string name="format_conversion">批量转换</string>
     <string name="dismiss_forever">永久忽略</string>
     <string name="image_stacking">图片堆叠</string>
     <string name="image_stacking_sub">使用选定的混合模式将图片堆叠在一起</string>
