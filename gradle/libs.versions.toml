@@ -78,7 +78,7 @@ ffmpeg-metadata-retriever = "1.0.19"
 pdfviewer = "1.0.0-alpha09"
 fragmentCompose = "1.8.8"
 
-firebaseCrashlyticsGradle = "3.0.3"
+firebaseCrashlyticsGradle = "3.0.4"
 aboutlibraries = "12.2.0"
 moduleGraphGradle = "0.12.0"
 
