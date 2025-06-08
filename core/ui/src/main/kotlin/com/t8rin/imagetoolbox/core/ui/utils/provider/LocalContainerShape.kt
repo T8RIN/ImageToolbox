@@ -23,6 +23,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 
 val LocalContainerShape = compositionLocalOf<Shape?> { null }
 
@@ -30,7 +31,9 @@ val LocalContainerColor = compositionLocalOf<Color?> { null }
 
 val SafeLocalContainerColor
     @Composable
-    get() = LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainerLow
+    get() = LocalContainerColor.current?.takeOrElse {
+        MaterialTheme.colorScheme.surfaceContainerLow
+    } ?: MaterialTheme.colorScheme.surfaceContainerLow
 
 @Composable
 fun ProvideContainerDefaults(

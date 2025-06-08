@@ -144,7 +144,9 @@ fun PreferenceItemOverload(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 startIcon?.let {
-                    ProvideContainerDefaults {
+                    ProvideContainerDefaults(
+                        color = color
+                    ) {
                         Row {
                             IconShapeContainer(
                                 enabled = drawStartIconContainer,

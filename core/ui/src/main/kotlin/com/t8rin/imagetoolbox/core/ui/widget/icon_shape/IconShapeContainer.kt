@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -29,7 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.shapes.ArrowShape
 import com.t8rin.imagetoolbox.core.resources.shapes.BookmarkShape
@@ -38,25 +41,48 @@ import com.t8rin.imagetoolbox.core.resources.shapes.SimpleHeartShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 object IconShapeDefaults {
 
     val contentColor: Color
         @Composable
-        get() = takeColorFromScheme {
+        get() {
+            val colorScheme = MaterialTheme.colorScheme
+            val localContainer = SafeLocalContainerColor
+            val localContent = LocalContentColor.current
+            val container = containerColor
             val settingsState = LocalSettingsState.current
 
-            onPrimaryContainer.inverse(
-                fraction = {
-                    if (it && settingsState.isAmoledMode) 0.35f
-                    else 0.65f
+            return remember(colorScheme, localContainer, localContent, container, settingsState) {
+                derivedStateOf {
+                    val containerLuma = container.compositeOver(localContainer).luminance()
+
+                    val isLight = containerLuma > 0.2f
+
+                    val baseColor = if (isLight) {
+                        Color.Black.blend(
+                            color = colorScheme.onPrimaryContainer,
+                            fraction = 0.35f
+                        )
+                    } else {
+                        Color.White.blend(
+                            color = colorScheme.primary,
+                            fraction = 0.35f
+                        )
+                    }
+
+                    if (settingsState.isAmoledMode && settingsState.isNightMode) {
+                        baseColor.blend(Color.Black)
+                    } else {
+                        baseColor
+                    }
                 }
-            )
+            }.value
         }
 
     val containerColor: Color

@@ -153,7 +153,9 @@ fun PreferenceRow(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 startContent?.let { content ->
-                    ProvideContainerDefaults(null) {
+                    ProvideContainerDefaults(
+                        color = color
+                    ) {
                         if (drawStartIconContainer) {
                             IconShapeContainer(
                                 enabled = true,
