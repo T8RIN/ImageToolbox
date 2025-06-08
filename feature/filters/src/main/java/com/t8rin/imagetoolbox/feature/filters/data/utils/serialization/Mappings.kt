@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
 import com.t8rin.imagetoolbox.core.domain.utils.simpleName
+import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
@@ -153,6 +154,15 @@ internal fun Any.toPair(): Pair<String, String>? {
             ToneCurvesParams::class.simpleName() to controlPoints.joinToString(PROPERTIES_SEPARATOR) {
                 it.joinToString(ADDITIONAL_PROPERTIES_SEPARATOR)
             }
+        }
+
+        is BilaterialBlurParams -> {
+            BilaterialBlurParams::class.simpleName() to listOf(
+                radius,
+                spatialSigma,
+                rangeSigma,
+                edgeMode.name
+            ).joinToString(PROPERTIES_SEPARATOR)
         }
 
         else -> null
@@ -310,6 +320,18 @@ internal fun Pair<String, String>.fromPair(): Any? {
 
             ToneCurvesParams(
                 controlPoints = controlPoints
+            )
+        }
+
+        name == BilaterialBlurParams::class.simpleName -> {
+            val (radius, spatialSigma, rangeSigma, edgeMode) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+            BilaterialBlurParams(
+                radius = radius.toInt(),
+                spatialSigma = spatialSigma.toFloat(),
+                rangeSigma = rangeSigma.toFloat(),
+                edgeMode = BlurEdgeMode.valueOf(edgeMode)
             )
         }
 

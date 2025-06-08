@@ -19,12 +19,15 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.toEdgeMode
 
 internal class BilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(10f, 3f, 12f)
+    override val value: BilaterialBlurParams = BilaterialBlurParams.Default
 ) : Transformation<Bitmap>, Filter.BilaterialBlur {
 
     override val cacheKey: String
@@ -35,9 +38,11 @@ internal class BilaterialBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.bilateralBlur(
         bitmap = input,
-        spatialSigma = value.first,
-        rangeSigma = value.second,
-        kernelSize = 2 * value.third.toInt() + 1
+        spatialSigma = value.spatialSigma,
+        rangeSigma = value.rangeSigma,
+        edgeMode = value.edgeMode.toEdgeMode(),
+        borderScalar = Scalar.ZEROS,
+        kernelSize = 2 * value.radius + 1
     )
 
 }

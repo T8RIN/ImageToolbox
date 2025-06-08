@@ -18,17 +18,23 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 
 class UiBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(10f, 3f, 12f),
-) : UiFilter<Triple<Float, Float, Float>>(
+    override val value: BilaterialBlurParams = BilaterialBlurParams.Default,
+) : UiFilter<BilaterialBlurParams>(
     title = R.string.bilaterial_blur,
     value = value,
     paramsInfo = listOf(
+        FilterParam(
+            title = R.string.radius,
+            valueRange = 1f..50f,
+            roundTo = 0
+        ),
         FilterParam(
             title = R.string.sigma,
             valueRange = 1f..100f,
@@ -40,8 +46,8 @@ class UiBilaterialBlurFilter(
             roundTo = 1
         ),
         FilterParam(
-            title = R.string.radius,
-            valueRange = 1f..15f,
+            title = R.string.edge_mode,
+            valueRange = 0f..0f,
             roundTo = 0
         ),
     )

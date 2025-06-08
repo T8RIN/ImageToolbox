@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.model.VisibilityOwner
 interface Filter<Value> : VisibilityOwner {
     val value: Value
 
-    interface BilaterialBlur : TripleFilter<Float, Float, Float>
+    interface BilaterialBlur : Filter<BilaterialBlurParams>
     interface BlackAndWhite : SimpleFilter
     interface BoxBlur : Filter<Float>
     interface Brightness : Filter<Float>
