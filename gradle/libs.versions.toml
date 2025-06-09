@@ -54,7 +54,7 @@ desugaring = "2.1.5"
 activityCompose = "1.12.0-alpha02"
 kotlinxCollectionsImmutable = "0.4.0"
 scrollbar = "2.2.0"
-reorderable = "2.4.3"
+reorderable = "2.5.1"
 reviewKtx = "2.0.2"
 splashScreen = "1.2.0-beta02"
 
