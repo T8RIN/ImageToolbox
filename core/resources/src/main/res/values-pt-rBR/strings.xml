@@ -1097,10 +1097,10 @@
     <string name="grid_size_x">Tamanho da grade (horizontal)</string>
     <string name="grid_size_y">Tamanho da grade (vertical)</string>
     <string name="equalize_histogram_adaptive_lab">Equalizar Histograma Adaptive LAB</string>
-    <string name="clahe_lab">Clahe LAB</string>
-    <string name="clahe_luv">Clahe LUV</string>
+    <string name="clahe_lab">CLAHE LAB</string>
+    <string name="clahe_luv">CLAHE LUV</string>
     <string name="equalize_histogram_adaptive">Equalizar histograma adaptativo</string>
-    <string name="clahe">Clahe</string>
+    <string name="clahe">CLAHE</string>
     <string name="equalize_histogram_adaptive_luv">Equalizar histograma LUV adaptativo</string>
     <string name="crop_to_content">Cortar para o Conteúdo</string>
     <string name="color_to_ignore">Cor a ser ignorada</string>
