@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -48,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -185,7 +185,7 @@ fun CompareContent(
                 content = {
                     Spacer(Modifier.width(16.dp))
                     Icon(
-                        imageVector = Icons.Rounded.AddPhotoAlternate,
+                        imageVector = Icons.Rounded.AddPhotoAlt,
                         contentDescription = stringResource(R.string.pick_image_alt)
                     )
                     Spacer(Modifier.width(16.dp))

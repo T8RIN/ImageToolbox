@@ -49,7 +49,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.SelectAll
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Badge
@@ -79,6 +78,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -388,7 +388,7 @@ fun ImagePreviewContent(
                             content = {
                                 Spacer(Modifier.width(16.dp))
                                 Icon(
-                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    imageVector = Icons.Rounded.AddPhotoAlt,
                                     contentDescription = stringResource(R.string.pick_image_alt)
                                 )
                                 Spacer(Modifier.width(16.dp))

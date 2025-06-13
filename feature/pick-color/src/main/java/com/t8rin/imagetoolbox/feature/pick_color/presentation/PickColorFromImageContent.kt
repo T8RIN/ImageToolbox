@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ZoomIn
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -43,6 +42,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -183,7 +183,7 @@ fun PickColorFromImageContent(
             ) {
                 Spacer(Modifier.width(16.dp))
                 Icon(
-                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                    imageVector = Icons.Rounded.AddPhotoAlt,
                     contentDescription = stringResource(R.string.pick_image_alt)
                 )
                 Spacer(Modifier.width(16.dp))

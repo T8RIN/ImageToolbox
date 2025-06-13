@@ -34,7 +34,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.BorderColor
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Icon
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
@@ -360,7 +360,7 @@ internal fun EditLayerSheet(
                                 modifier = Modifier.size(48.dp),
                                 error = {
                                     Icon(
-                                        imageVector = Icons.Outlined.AddPhotoAlternate,
+                                        imageVector = Icons.Outlined.AddPhotoAlt,
                                         contentDescription = null,
                                         modifier = Modifier
                                             .fillMaxSize()

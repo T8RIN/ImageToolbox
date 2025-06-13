@@ -52,7 +52,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -69,6 +68,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -82,7 +82,7 @@ fun BottomButtonsBlock(
     isNoData: Boolean,
     onSecondaryButtonClick: () -> Unit,
     onSecondaryButtonLongClick: (() -> Unit)? = null,
-    secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
+    secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlt,
     secondaryButtonText: String = stringResource(R.string.pick_image_alt),
     onPrimaryButtonClick: () -> Unit,
     onPrimaryButtonLongClick: (() -> Unit)? = null,

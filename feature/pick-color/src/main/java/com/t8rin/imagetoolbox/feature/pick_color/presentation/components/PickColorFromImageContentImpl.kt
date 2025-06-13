@@ -44,7 +44,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -58,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
@@ -169,7 +169,7 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                             onLongClick = onOneTimePickImage
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.AddPhotoAlternate,
+                                imageVector = Icons.Rounded.AddPhotoAlt,
                                 contentDescription = stringResource(R.string.pick_image_alt)
                             )
                         }

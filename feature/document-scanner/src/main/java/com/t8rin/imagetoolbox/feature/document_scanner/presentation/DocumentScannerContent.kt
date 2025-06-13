@@ -31,7 +31,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.twotone.DocumentScanner
 import androidx.compose.material3.Icon
@@ -50,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberDocumentScanner
@@ -181,7 +181,7 @@ fun DocumentScannerContent(
                 onAddUris = additionalDocumentScanner::scan,
                 addUrisContent = { width ->
                     Icon(
-                        imageVector = Icons.Rounded.AddPhotoAlternate,
+                        imageVector = Icons.Rounded.AddPhotoAlt,
                         contentDescription = stringResource(R.string.add),
                         modifier = Modifier.size(width / 3f)
                     )

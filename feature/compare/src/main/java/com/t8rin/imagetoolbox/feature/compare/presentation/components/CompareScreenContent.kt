@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Highlight
 import androidx.compose.material.icons.rounded.Pix
 import androidx.compose.material.icons.rounded.Tune
@@ -73,6 +72,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -288,7 +288,7 @@ internal fun CompareScreenContent(
                                 },
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    imageVector = Icons.Rounded.AddPhotoAlt,
                                     contentDescription = stringResource(R.string.pick_image_alt)
                                 )
                             }
@@ -462,7 +462,7 @@ internal fun CompareScreenContent(
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.AddPhotoAlternate,
+                                imageVector = Icons.Rounded.AddPhotoAlt,
                                 contentDescription = stringResource(R.string.pick_image_alt)
                             )
                         }

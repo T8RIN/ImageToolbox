@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Save
@@ -68,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -294,7 +294,7 @@ fun PdfToolsContent(
                 ) {
                     Icon(
                         imageVector = when (pdfType) {
-                            is Screen.PdfTools.Type.ImagesToPdf -> Icons.Rounded.AddPhotoAlternate
+                            is Screen.PdfTools.Type.ImagesToPdf -> Icons.Rounded.AddPhotoAlt
                             else -> Icons.Rounded.FileOpen
                         },
                         contentDescription = stringResource(R.string.pick)
