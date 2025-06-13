@@ -106,7 +106,8 @@ fun FileNotPickedWidget(
 @Composable
 fun ClickableActionIcon(
     icon: ImageVector,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
@@ -130,7 +131,7 @@ fun ClickableActionIcon(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(100.dp)
             .scale(scale)
             .container(

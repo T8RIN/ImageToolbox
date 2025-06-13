@@ -34,8 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.QrCode2
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.Typography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -64,7 +64,8 @@ import dev.shreyaspatil.capturable.controller.CaptureController
 internal fun QrCodePreview(
     captureController: CaptureController,
     isLandscape: Boolean,
-    params: QrPreviewParams
+    params: QrPreviewParams,
+    onStartScan: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -125,16 +126,18 @@ internal fun QrCodePreview(
                                     )
                                     .padding(12.dp)
                             ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.QrCode2,
-                                    contentDescription = null,
+                                Spacer(Modifier.height(4.dp))
+                                ClickableActionIcon(
+                                    icon = Icons.TwoTone.QrCode2,
+                                    onClick = onStartScan,
                                     modifier = Modifier.size(targetSize / 3)
                                 )
-                                Spacer(Modifier.height(4.dp))
+                                Spacer(Modifier.height(12.dp))
                                 AutoSizeText(
                                     text = stringResource(R.string.generated_barcode_will_be_here),
                                     textAlign = TextAlign.Center,
                                     key = { it.length },
+                                    modifier = Modifier.padding(4.dp),
                                     maxLines = 2
                                 )
                             }

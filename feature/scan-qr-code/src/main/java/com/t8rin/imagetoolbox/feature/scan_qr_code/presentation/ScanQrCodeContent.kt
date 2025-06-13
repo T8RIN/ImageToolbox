@@ -187,7 +187,8 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = true,
-                    params = params
+                    params = params,
+                    onStartScan = scanner::scan
                 )
             }
         },
@@ -197,7 +198,8 @@ fun ScanQrCodeContent(
                 QrCodePreview(
                     captureController = captureController,
                     isLandscape = false,
-                    params = params
+                    params = params,
+                    onStartScan = scanner::scan
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }

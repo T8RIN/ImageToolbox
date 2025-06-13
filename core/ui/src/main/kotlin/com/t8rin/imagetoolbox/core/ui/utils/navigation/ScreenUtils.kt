@@ -19,15 +19,11 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.FilterHdr
 import androidx.compose.material.icons.outlined.Album
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.DocumentScanner
-import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
@@ -50,6 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
+import com.t8rin.imagetoolbox.core.resources.icons.HistoryCreate
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -59,12 +56,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
+import com.t8rin.imagetoolbox.core.resources.icons.Landscape2
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
+import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
-import com.t8rin.imagetoolbox.core.resources.icons.Toolbox
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
@@ -279,8 +277,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     NoiseGeneration,
                 ),
                 title = R.string.create,
-                selectedIcon = Icons.Filled.AutoAwesome,
-                baseIcon = Icons.Outlined.AutoAwesome
+                selectedIcon = Icons.Rounded.HistoryCreate,
+                baseIcon = Icons.Outlined.HistoryCreate
             ),
             ScreenGroup(
                 entries = listOf(
@@ -294,8 +292,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     LoadNetImage(),
                 ),
                 title = R.string.image,
-                selectedIcon = Icons.Filled.FilterHdr,
-                baseIcon = Icons.Outlined.FilterHdr
+                selectedIcon = Icons.Rounded.Landscape2,
+                baseIcon = Icons.Outlined.Landscape2
             ),
             ScreenGroup(
                 entries = listOf(
@@ -313,8 +311,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     AudioCoverExtractor()
                 ),
                 title = R.string.tools,
-                selectedIcon = Icons.Rounded.Toolbox,
-                baseIcon = Icons.Outlined.Toolbox
+                selectedIcon = Icons.Rounded.ServiceToolbox,
+                baseIcon = Icons.Outlined.ServiceToolbox
             )
         )
     }
