@@ -40,7 +40,6 @@ import androidx.compose.material.icons.outlined.LinearScale
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.Upcoming
 import androidx.compose.material.icons.rounded.BlurCircular
-import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.Resize
@@ -189,7 +189,7 @@ fun SvgParamsSelector(
         EnhancedSliderItem(
             value = value.minColorRatio,
             title = stringResource(R.string.min_color_ratio),
-            icon = Icons.Rounded.Colorize,
+            icon = Icons.Outlined.Eyedropper,
             valueRange = 0f..0.1f,
             internalStateTransformation = {
                 it.roundTo(3)

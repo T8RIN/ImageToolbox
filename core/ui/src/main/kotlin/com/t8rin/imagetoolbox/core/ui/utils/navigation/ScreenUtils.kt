@@ -22,7 +22,6 @@ import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
@@ -46,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
+import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.HistoryCreate
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
@@ -196,7 +196,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is LimitResize -> Icons.Outlined.ImageLimit
     is LoadNetImage -> Icons.Outlined.ImageDownload
     is PdfTools -> Icons.Outlined.PictureAsPdf
-    is PickColorFromImage -> Icons.Outlined.Colorize
+    is PickColorFromImage -> Icons.Outlined.Eyedropper
     is RecognizeText -> Icons.Outlined.ImageText
     is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
     is WeightResize -> Icons.Rounded.ImageWeight

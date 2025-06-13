@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.filters.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
@@ -32,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -64,7 +64,7 @@ internal fun RowScope.FiltersContentTopAppBarActions(
             enabled = component.previewBitmap != null
         ) {
             Icon(
-                imageVector = Icons.Outlined.Colorize,
+                imageVector = Icons.Outlined.Eyedropper,
                 contentDescription = stringResource(R.string.pipette)
             )
         }
