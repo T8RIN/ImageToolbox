@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -1119,16 +1119,16 @@
     <string name="equalize_histogram_adaptive">Equalize Histogram Adaptive</string>
     <string name="equalize_histogram_adaptive_luv">Equalize Histogram Adaptive LUV</string>
     <string name="equalize_histogram_adaptive_lab">Equalize Histogram Adaptive LAB</string>
-    <string name="clahe">Clahe</string>
-    <string name="clahe_lab">Clahe LAB</string>
-    <string name="clahe_luv">Clahe LUV</string>
+    <string name="clahe">CLAHE</string>
+    <string name="clahe_lab">CLAHE LAB</string>
+    <string name="clahe_luv">CLAHE LUV</string>
     <string name="crop_to_content">Crop to Content</string>
     <string name="frame_color">Frame Color</string>
     <string name="color_to_ignore">Color To Ignore</string>
     <string name="template">Template</string>
     <string name="no_template_filters">No template filters added</string>
     <string name="create_new">Create New</string>
-    <string name="scanned_qr_code_isnt_filter_template">Scanned QR code is not a valid filter template</string>
+    <string name="scanned_qr_code_isnt_filter_template">The scanned QR code is not a valid filter template</string>
     <string name="scan_qr_code">Scan QR code</string>
     <string name="opened_file_have_no_filter_template">Selected file have no filter template data</string>
     <string name="create_template">Create Template</string>
