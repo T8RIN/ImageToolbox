@@ -80,12 +80,7 @@ internal class AndroidImageTextReader @Inject constructor(
 
         if (model == null) return@withContext empty
 
-        val image = if (model is Bitmap) {
-            model
-        } else {
-            imageGetter.getImage(model) ?: return@withContext empty
-        }
-
+        val image = model as? Bitmap ?: (imageGetter.getImage(model) ?: return@withContext empty)
 
         val needToDownload = getNeedToDownloadLanguages(type, languageCode)
 

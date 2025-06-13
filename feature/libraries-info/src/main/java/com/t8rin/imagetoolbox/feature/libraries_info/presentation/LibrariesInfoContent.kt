@@ -87,6 +87,7 @@ fun LibrariesInfoContent(
     component: LibrariesInfoComponent
 ) {
     val essentials = rememberLocalEssentials()
+
     Surface(
         color = MaterialTheme.colorScheme.surface,
         modifier = Modifier.fillMaxSize()
@@ -123,14 +124,16 @@ fun LibrariesInfoContent(
 
             val linkHandler = LocalUriHandler.current
             LibrariesContainer(
-                librariesBlock = { context ->
-                    Libs.Builder().withContext(context).build().let { libs ->
-                        libs.copy(
-                            libraries = libs.libraries.distinctBy {
-                                it.name
-                            }.toPersistentList()
-                        )
-                    }
+                libraries = remember {
+                    Libs.Builder()
+                        .withContext(essentials.context)
+                        .build().let { libs ->
+                            libs.copy(
+                                libraries = libs.libraries.distinctBy {
+                                    it.name
+                                }.toPersistentList()
+                            )
+                        }
                 },
                 modifier = Modifier.weight(1f),
                 contentPadding = WindowInsets
@@ -149,7 +152,7 @@ fun LibrariesInfoContent(
                     if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
                         component.selectLibrary(library)
                     } else if (!license?.url.isNullOrBlank()) {
-                        license?.url?.also {
+                        license.url?.also {
                             runCatching {
                                 linkHandler.openUri(it)
                             }.onFailure(essentials::showFailureToast)
