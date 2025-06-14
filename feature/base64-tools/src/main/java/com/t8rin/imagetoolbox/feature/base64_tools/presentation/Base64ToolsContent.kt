@@ -18,12 +18,17 @@
 package com.t8rin.imagetoolbox.feature.base64_tools.presentation
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,11 +41,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -56,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -63,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.components.Base64ToolsTiles
@@ -143,37 +154,76 @@ fun Base64ToolsContent(
             )
         },
         imagePreview = {
-            Box(
-                modifier = Modifier
-                    .container()
-                    .padding(4.dp)
-                    .animateContentSizeNoClip(
-                        alignment = Alignment.Center
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                var aspectRatio by remember {
-                    mutableFloatStateOf(1f)
-                }
-                Picture(
-                    model = component.base64String,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.aspectRatio(aspectRatio),
-                    onSuccess = {
-                        aspectRatio = it.result.image.toBitmap().safeAspectRatio
-                    },
-                    error = {
-                        Icon(
-                            imageVector = Icons.Rounded.BrokenImageAlt,
-                            contentDescription = null,
-                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+            AnimatedContent(component.base64String.isEmpty()) { isEmpty ->
+                if (isEmpty) {
+                    BoxWithConstraints {
+                        val targetSize = min(min(this.maxWidth, this.maxHeight), 300.dp)
+
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .padding(
+                                    if (component.base64String.isEmpty()) 20.dp else 0.dp
+                                )
+                                .container(
+                                    resultPadding = 0.dp,
+                                    color = if (isPortrait) Color.Unspecified
+                                    else MaterialTheme.colorScheme.surfaceContainerLowest
+                                )
+                                .padding(12.dp)
+                        ) {
+                            Spacer(Modifier.height(4.dp))
+                            ClickableActionIcon(
+                                icon = Icons.TwoTone.Base64,
+                                onClick = pickImage,
+                                modifier = Modifier.size(targetSize / 3)
+                            )
+                            Spacer(Modifier.height(12.dp))
+                            AutoSizeText(
+                                text = stringResource(R.string.pick_image_or_base64),
+                                textAlign = TextAlign.Center,
+                                key = { it.length },
+                                modifier = Modifier.padding(4.dp),
+                                maxLines = 2
+                            )
+                        }
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .container()
+                            .padding(4.dp)
+                            .animateContentSizeNoClip(
+                                alignment = Alignment.Center
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        var aspectRatio by remember {
+                            mutableFloatStateOf(1f)
+                        }
+                        Picture(
+                            model = component.base64String,
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier.aspectRatio(aspectRatio),
+                            onSuccess = {
+                                aspectRatio = it.result.image.toBitmap().safeAspectRatio
+                            },
+                            error = {
+                                Icon(
+                                    imageVector = Icons.Rounded.BrokenImageAlt,
+                                    contentDescription = null,
+                                    modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                                )
+                            },
+                            shape = MaterialTheme.shapes.medium,
+                            isLoadingFromDifferentPlace = component.isImageLoading
                         )
-                    },
-                    shape = MaterialTheme.shapes.medium,
-                    isLoadingFromDifferentPlace = component.isImageLoading
-                )
+                    }
+                }
             }
         },
+        showImagePreviewAsStickyHeader = component.base64String.isNotEmpty(),
         controls = {
             if (isPortrait) Spacer(Modifier.height(8.dp))
             Base64ToolsTiles(component)
