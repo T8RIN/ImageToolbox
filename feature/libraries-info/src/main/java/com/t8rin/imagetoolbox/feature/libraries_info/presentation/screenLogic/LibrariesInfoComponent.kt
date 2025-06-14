@@ -38,11 +38,11 @@ class LibrariesInfoComponent @AssistedInject constructor(
         onNavigate(
             Screen.LibraryDetails(
                 name = library.name,
-                htmlDescription = library.licenses
-                    .firstOrNull()
-                    ?.htmlReadyLicenseContent
-                    .orEmpty()
-                    .trimIndent()
+                htmlDescription = library.licenses.joinToString("\n\n") {
+                    it.htmlReadyLicenseContent
+                        .orEmpty()
+                        .trimIndent()
+                }
             )
         )
     }

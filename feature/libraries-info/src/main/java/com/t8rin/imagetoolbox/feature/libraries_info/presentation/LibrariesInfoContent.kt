@@ -104,7 +104,12 @@ fun LibrariesInfoContent(
                             libs.copy(
                                 libraries = libs.libraries.distinctBy {
                                     it.name
-                                }.toPersistentList()
+                                }.sortedWith(
+                                    compareBy(
+                                        { !it.name.contains("T8RIN", true) },
+                                        { it.name }
+                                    ),
+                                ).toPersistentList()
                             )
                         }
                 },
