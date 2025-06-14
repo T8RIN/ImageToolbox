@@ -1018,7 +1018,7 @@
     <string name="draw_regular_star">Regelmäßigen Stern zeichnen</string>
     <string name="allow_enter_by_text_field">Eingabe per Textfeld zulassen</string>
     <string name="no_template_filters">Keine Vorlagenfilter hinzugefügt</string>
-    <string name="scanned_qr_code_isnt_filter_template">Gescannter QR Code ist keine gültige Filtervorlage</string>
+    <string name="scanned_qr_code_isnt_filter_template">Der gescannte QR Code ist keine gültige Filtervorlage</string>
     <string name="scan_qr_code">QR Code scannen</string>
     <string name="grant_camera_permission_to_scan_qr_code">Erlaube Kamera Berechtigung in den Einstellungen, um den QR-Code zu scannen</string>
     <string name="opened_file_have_no_filter_template">Ausgewählte Datei hat keine Filtervorlagedaten</string>
@@ -1250,9 +1250,9 @@
     <string name="equalize_histogram_adaptive">Histogramm ausgleichen Adaptiv</string>
     <string name="equalize_histogram_adaptive_luv">Histogramm ausgleichen Adaptive LUV</string>
     <string name="equalize_histogram_adaptive_lab">Histogramm ausgleichen Adaptive LAB</string>
-    <string name="clahe">Clahe</string>
-    <string name="clahe_lab">Clahe LAB</string>
-    <string name="clahe_luv">Clahe LUV</string>
+    <string name="clahe">CLAHE</string>
+    <string name="clahe_lab">CLAHE LAB</string>
+    <string name="clahe_luv">CLAHE LUV</string>
     <string name="add_image">Bild hinzufügen</string>
     <string name="clustered_2x2_dithering">Geclustertes 2x2 Dithering</string>
     <string name="polka_dot">Polka Dot</string>

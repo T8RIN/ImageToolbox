@@ -1098,8 +1098,8 @@
     <string name="equalize_histogram_adaptive_luv">均衡直方图自适应 LUV</string>
     <string name="equalize_histogram_adaptive_lab">均衡直方图自适应 LAB</string>
     <string name="clahe">CLAHE</string>
-    <string name="clahe_lab">Clahe LAB</string>
-    <string name="clahe_luv">Clahe LUV</string>
+    <string name="clahe_lab">CLAHE LAB</string>
+    <string name="clahe_luv">CLAHE LUV</string>
     <string name="frame_color">边框颜色</string>
     <string name="color_to_ignore">忽略颜色</string>
     <string name="grid_size_x">网格大小 X</string>
