@@ -24,6 +24,7 @@ sealed class SwitchType(val ordinal: Int) {
     data object Pixel : SwitchType(2)
     data object Fluent : SwitchType(3)
     data object Cupertino : SwitchType(4)
+    data object LiquidGlass : SwitchType(5)
 
     companion object {
         fun fromInt(ordinal: Int) = when (ordinal) {
@@ -31,12 +32,13 @@ sealed class SwitchType(val ordinal: Int) {
             2 -> Pixel
             3 -> Fluent
             4 -> Cupertino
+            5 -> LiquidGlass
             else -> MaterialYou
         }
 
         val entries by lazy {
             listOf(
-                MaterialYou, Compose, Pixel, Fluent, Cupertino
+                MaterialYou, Compose, Pixel, Fluent, Cupertino, LiquidGlass
             )
         }
     }

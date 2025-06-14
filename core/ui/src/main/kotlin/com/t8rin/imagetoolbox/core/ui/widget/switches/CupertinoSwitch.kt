@@ -55,7 +55,6 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -104,7 +103,6 @@ fun CupertinoSwitch(
         animationSpec = ColorAnimationSpec
     )
 
-    val density = LocalDensity.current
     var alignment by remember(checked) {
         mutableFloatStateOf(
             if (checked) 1f else -1f
@@ -138,19 +136,113 @@ fun CupertinoSwitch(
                 interactionSource = realInteractionSource,
                 enabled = enabled,
                 onDragStopped = {
-                    with(density) {
-                        if (it < CupertinoSwitchDefaults.Width.toPx() / 2f) {
-                            alignment = -1f
-                            if (checked) onCheckedChange?.invoke(false)
-                        } else {
-                            alignment = 1f
-                            if (!checked) onCheckedChange?.invoke(true)
-                        }
+                    if (alignment < 1 / 2f) {
+                        alignment = -1f
+                        if (checked) onCheckedChange?.invoke(false)
+                    } else {
+                        alignment = 1f
+                        if (!checked) onCheckedChange?.invoke(true)
                     }
                 }
             )
             .wrapContentSize(Alignment.Center)
             .requiredSize(CupertinoSwitchDefaults.Width, CupertinoSwitchDefaults.height)
+            .clip(CupertinoSwitchDefaults.Shape)
+            .background(animatedBackground)
+            .padding(2.dp),
+    ) {
+        Box(
+            Modifier
+                .fillMaxHeight()
+                .aspectRatio(animatedAspectRatio)
+                .align(BiasAlignment.Horizontal(animatedAlignment))
+                .container(
+                    shape = CupertinoSwitchDefaults.Shape,
+                    resultPadding = 0.dp,
+                    autoShadowElevation = animateDpAsState(
+                        if (enabled && LocalSettingsState.current.drawSwitchShadows) {
+                            CupertinoSwitchDefaults.EnabledThumbElevation
+                        } else 0.dp
+                    ).value,
+                    borderColor = Color.Transparent,
+                    isShadowClip = true,
+                    isStandaloneContainer = false,
+                    color = colors.thumbColor(enabled).value
+                )
+        )
+    }
+}
+
+@Composable
+fun LiquidGlassSwitch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    colors: CupertinoSwitchColors = CupertinoSwitchDefaults.colors(),
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = null
+) {
+    val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+
+    val isPressed by realInteractionSource.collectIsPressedAsState()
+    val isDragged by realInteractionSource.collectIsDraggedAsState()
+
+    val animatedAspectRatio by animateFloatAsState(
+        targetValue = if (isPressed || isDragged) 1.8f else 1.6f,
+        animationSpec = AspectRationAnimationSpec
+    )
+    val animatedBackground by animateColorAsState(
+        targetValue = colors.trackColor(enabled, checked).value,
+        animationSpec = ColorAnimationSpec
+    )
+
+    var alignment by remember(checked) {
+        mutableFloatStateOf(
+            if (checked) 1f else -1f
+        )
+    }
+
+    val state = rememberDraggableState {
+        alignment = (alignment + it).coerceIn(-1f, 1f)
+    }
+
+    val animatedAlignment by animateFloatAsState(
+        targetValue = alignment,
+        animationSpec = AlignmentAnimationSpec
+    )
+
+    Column(
+        modifier
+            .toggleable(
+                value = checked,
+                onValueChange = {
+                    onCheckedChange?.invoke(it)
+                },
+                enabled = enabled,
+                role = Role.Switch,
+                interactionSource = realInteractionSource,
+                indication = null
+            )
+            .draggable(
+                state = state,
+                orientation = Orientation.Horizontal,
+                interactionSource = realInteractionSource,
+                enabled = enabled,
+                onDragStopped = {
+                    if (alignment < 1 / 2f) {
+                        alignment = -1f
+                        if (checked) onCheckedChange?.invoke(false)
+                    } else {
+                        alignment = 1f
+                        if (!checked) onCheckedChange?.invoke(true)
+                    }
+                }
+            )
+            .wrapContentSize(Alignment.Center)
+            .requiredSize(
+                width = CupertinoSwitchDefaults.LiquidWidth,
+                height = CupertinoSwitchDefaults.LiquidHeight
+            )
             .clip(CupertinoSwitchDefaults.Shape)
             .background(animatedBackground)
             .padding(2.dp),
@@ -296,6 +388,10 @@ object CupertinoSwitchDefaults {
     val Width: Dp = 51.dp
 
     val height: Dp = 31.dp
+
+    val LiquidWidth: Dp = 64.dp
+
+    val LiquidHeight: Dp = 28.dp
 
     internal val Shape: CornerBasedShape = CircleShape
 

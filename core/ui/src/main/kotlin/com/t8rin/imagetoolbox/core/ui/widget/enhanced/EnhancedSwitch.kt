@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitchDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.switches.FluentSwitch
+import com.t8rin.imagetoolbox.core.ui.widget.switches.LiquidGlassSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.M3Switch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.PixelSwitch
 
@@ -164,6 +165,17 @@ fun EnhancedSwitch(
 
                 is SwitchType.Cupertino -> {
                     CupertinoSwitch(
+                        checked = checked,
+                        onCheckedChange = switchOnCheckedChange,
+                        modifier = switchModifier,
+                        enabled = enabled,
+                        interactionSource = interactionSource,
+                        colors = CupertinoSwitchDefaults.colors()
+                    )
+                }
+
+                is SwitchType.LiquidGlass -> {
+                    LiquidGlassSwitch(
                         checked = checked,
                         onCheckedChange = switchOnCheckedChange,
                         modifier = switchModifier,

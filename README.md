@@ -819,6 +819,7 @@ or click one of the badges below.
     - Pixel
     - Fluent
     - Cupertino
+  - Liquid Glass
 - Slider Type Selection:
     - Fancy
     - Material You

@@ -1653,4 +1653,6 @@
     <string name="right_to_left">Right to Left</string>
     <string name="top_to_bottom">Top to Bottom</string>
     <string name="bottom_to_top">Bottom to Top</string>
+    <string name="liquid_glass">Liquid Glass</string>
+    <string name="liquid_glass_sub">A switch based on recently announced IOS 26 and it\'s liquid glass design system</string>
 </resources>
