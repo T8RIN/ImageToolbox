@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
-import com.t8rin.imagetoolbox.core.resources.icons.HistoryCreate
+import com.t8rin.imagetoolbox.core.resources.icons.FolderImage
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -56,7 +56,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
-import com.t8rin.imagetoolbox.core.resources.icons.Landscape2
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.WandStars
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
@@ -280,8 +280,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     NoiseGeneration,
                 ),
                 title = R.string.create,
-                selectedIcon = Icons.Rounded.HistoryCreate,
-                baseIcon = Icons.Outlined.HistoryCreate
+                selectedIcon = Icons.Rounded.WandStars,
+                baseIcon = Icons.Outlined.WandStars
             ),
             ScreenGroup(
                 entries = listOf(
@@ -295,8 +295,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     LoadNetImage(),
                 ),
                 title = R.string.image,
-                selectedIcon = Icons.Rounded.Landscape2,
-                baseIcon = Icons.Outlined.Landscape2
+                selectedIcon = Icons.Rounded.FolderImage,
+                baseIcon = Icons.Outlined.FolderImage
             ),
             ScreenGroup(
                 entries = listOf(
