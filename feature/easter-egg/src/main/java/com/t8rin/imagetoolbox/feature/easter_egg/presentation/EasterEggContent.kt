@@ -169,7 +169,9 @@ fun EasterEggContent(
             }
 
             LaunchedEffect(bounces) {
-                themeState.updateColorTuple(ColorTuple(Color(Random.nextInt())))
+                if (bounces % 10 == 0) {
+                    themeState.updateColorTuple(ColorTuple(Color(Random.nextInt())))
+                }
             }
 
             LaunchedEffect(speed) {
