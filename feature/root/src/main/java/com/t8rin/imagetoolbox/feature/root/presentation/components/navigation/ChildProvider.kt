@@ -80,6 +80,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageStitching
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.JxlTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LibrariesInfo
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LibraryDetails
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LimitResize
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LoadNetImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Main
@@ -109,6 +110,7 @@ import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.Wei
 import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSplitterComponent
+import com.t8rin.imagetoolbox.library_details.presentation.screenLogic.LibraryDetailsComponent
 import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 import javax.inject.Inject
 
@@ -157,7 +159,8 @@ internal class ChildProvider @Inject constructor(
     private val meshGradientsComponentFactory: MeshGradientsComponent.Factory,
     private val editExifComponentFactory: EditExifComponent.Factory,
     private val imageCutterComponentFactory: ImageCutterComponent.Factory,
-    private val audioCoverExtractorComponentFactory: AudioCoverExtractorComponent.Factory
+    private val audioCoverExtractorComponentFactory: AudioCoverExtractorComponent.Factory,
+    private val libraryDetailsComponentFactory: LibraryDetailsComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -492,7 +495,8 @@ internal class ChildProvider @Inject constructor(
         Screen.LibrariesInfo -> LibrariesInfo(
             librariesInfoComponentFactory(
                 componentContext = componentContext,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
@@ -554,6 +558,15 @@ internal class ChildProvider @Inject constructor(
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.LibraryDetails -> LibraryDetails(
+            libraryDetailsComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                libraryName = config.name,
+                libraryDescription = config.htmlDescription
             )
         )
     }

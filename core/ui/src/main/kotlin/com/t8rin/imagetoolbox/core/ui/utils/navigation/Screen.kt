@@ -56,6 +56,16 @@ sealed class Screen(
     val icon: ImageVector? by lazy { icon() }
 
     @Serializable
+    data class LibraryDetails(
+        val name: String,
+        val htmlDescription: String
+    ) : Screen(
+        id = -5,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
     data object LibrariesInfo : Screen(
         id = -4,
         title = 0,

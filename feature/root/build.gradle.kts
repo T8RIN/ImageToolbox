@@ -70,4 +70,5 @@ dependencies {
     implementation(projects.feature.editExif)
     implementation(projects.feature.imageCutting)
     implementation(projects.feature.audioCoverExtractor)
+    implementation(projects.feature.libraryDetails)
 }

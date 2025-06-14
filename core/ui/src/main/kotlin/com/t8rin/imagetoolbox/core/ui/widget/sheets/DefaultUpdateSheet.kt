@@ -85,22 +85,17 @@ internal fun DefaultUpdateSheet(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Column(
+                        HtmlText(
+                            html = changelog.trimIndent(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .verticalScroll(rememberScrollState())
-                        ) {
-                            val linkHandler = LocalUriHandler.current
-                            HtmlText(
-                                html = changelog.trimIndent(),
-                                modifier = Modifier.padding(
+                                .padding(
                                     start = 24.dp,
                                     end = 24.dp,
                                     top = 24.dp
-                                ),
-                                onHyperlinkClick = linkHandler::openUri
-                            )
-                        }
+                                )
+                        )
                     }
                 }
             }

@@ -17,31 +17,16 @@
 
 package com.t8rin.imagetoolbox.feature.libraries_info.presentation
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -50,36 +35,24 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.mikepenz.aboutlibraries.util.withContext
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
-import com.t8rin.imagetoolbox.core.ui.widget.text.HtmlText
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
-import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -160,119 +133,6 @@ fun LibrariesInfoContent(
                     }
                 }
             )
-
-            FullscreenPopup {
-                var predictiveBackProgress by remember {
-                    mutableFloatStateOf(0f)
-                }
-                val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
-                val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
-
-                LaunchedEffect(predictiveBackProgress, component.selectedLibrary) {
-                    if (component.selectedLibrary == null && predictiveBackProgress != 0f) {
-                        delay(600)
-                        predictiveBackProgress = 0f
-                    }
-                }
-
-                AnimatedContent(
-                    targetState = component.selectedLibrary,
-                    transitionSpec = {
-                        fadeIn(tween(500)) togetherWith fadeOut(tween(500))
-                    }
-                ) { library ->
-                    if (library != null) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.scrim.copy(0.32f))
-                        )
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .withLayoutCorners { corners ->
-                                    graphicsLayer {
-                                        scaleX = scale
-                                        scaleY = scale
-                                        shape = corners.toShape(animatedPredictiveBackProgress)
-                                        clip = true
-                                    }
-                                }
-                        ) {
-                            val childScrollBehavior =
-                                TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .nestedScroll(childScrollBehavior.nestedScrollConnection)
-                            ) {
-                                EnhancedTopAppBar(
-                                    title = {
-                                        Text(
-                                            text = library.name,
-                                            modifier = Modifier.marquee()
-                                        )
-                                    },
-                                    navigationIcon = {
-                                        EnhancedIconButton(
-                                            onClick = {
-                                                component.selectLibrary(null)
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                                contentDescription = null
-                                            )
-                                        }
-                                    },
-                                    actions = {
-                                        TopAppBarEmoji()
-                                    },
-                                    type = EnhancedTopAppBarType.Large,
-                                    scrollBehavior = childScrollBehavior
-                                )
-                                val html = remember(library) {
-                                    library.licenses.firstOrNull()?.htmlReadyLicenseContent.orEmpty()
-                                        .trimIndent()
-                                }
-                                SelectionContainer {
-                                    HtmlText(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxWidth()
-                                            .verticalScroll(rememberScrollState())
-                                            .navigationBarsPadding()
-                                            .padding(
-                                                WindowInsets.displayCutout
-                                                    .only(
-                                                        WindowInsetsSides.Horizontal
-                                                    )
-                                                    .asPaddingValues()
-                                            )
-                                            .padding(16.dp),
-                                        html = html,
-                                        onHyperlinkClick = linkHandler::openUri
-                                    )
-                                }
-                            }
-                        }
-                        PredictiveBackObserver(
-                            onProgress = {
-                                predictiveBackProgress = it
-                            },
-                            onClean = { isCompleted ->
-                                if (isCompleted) {
-                                    component.selectLibrary(null)
-                                    delay(400)
-                                }
-                                predictiveBackProgress = 0f
-                            }
-                        )
-                    } else {
-                        Spacer(Modifier.fillMaxSize())
-                    }
-                }
-            }
         }
     }
 }

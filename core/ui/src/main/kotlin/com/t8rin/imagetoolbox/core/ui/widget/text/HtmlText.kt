@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.core.text.toSpannable
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -58,10 +60,10 @@ fun HtmlText(
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    onHyperlinkClick: (uri: String) -> Unit = {}
+    onHyperlinkClick: (uri: String) -> Unit = LocalUriHandler.current::openUri
 ) {
     val spanned = remember(html) {
-        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT, null, null)
+        html.parseAsHtml(HtmlCompat.FROM_HTML_MODE_COMPACT)
             .toSpannable()
             .also {
                 Linkify.addLinks(it, Linkify.WEB_URLS)

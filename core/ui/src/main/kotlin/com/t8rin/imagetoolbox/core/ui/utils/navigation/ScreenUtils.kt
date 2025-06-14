@@ -92,6 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImageStacking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImageStitching
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.JxlTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LibrariesInfo
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LibraryDetails
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LimitResize
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LoadNetImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Main
@@ -169,6 +170,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is EditExif -> "Edit_EXIF"
     is ImageCutter -> "Image_Cutting"
     is AudioCoverExtractor -> "Audio_Cover_Extractor"
+    is LibraryDetails -> "Library_Details"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -176,7 +178,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Main,
     is Settings,
     is LibrariesInfo,
-    is MeshGradients -> null
+    is MeshGradients,
+    is LibraryDetails -> null
 
     is SingleEdit -> Icons.Outlined.ImageEdit
     is ApngTools -> Icons.Rounded.ApngBox

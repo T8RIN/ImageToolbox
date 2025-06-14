@@ -106,6 +106,8 @@ import com.t8rin.imagetoolbox.image_cutting.presentation.ImageCutterContent
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 import com.t8rin.imagetoolbox.image_splitting.presentation.ImageSplitterContent
 import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSplitterComponent
+import com.t8rin.imagetoolbox.library_details.presentation.LibraryDetailsContent
+import com.t8rin.imagetoolbox.library_details.presentation.screenLogic.LibraryDetailsComponent
 import com.t8rin.imagetoolbox.noise_generation.presentation.NoiseGenerationContent
 import com.t8rin.imagetoolbox.noise_generation.presentation.screenLogic.NoiseGenerationComponent
 
@@ -343,4 +345,8 @@ internal sealed interface NavigationChild {
         override fun Content() = AudioCoverExtractorContent(component)
     }
 
+    class LibraryDetails(private val component: LibraryDetailsComponent) : NavigationChild {
+        @Composable
+        override fun Content() = LibraryDetailsContent(component)
+    }
 }
