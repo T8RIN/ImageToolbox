@@ -19,28 +19,26 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import androidx.compose.foundation.Indication
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.RippleDefaults
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.Dp
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 @Composable
 fun rememberRipple(
     bounded: Boolean = true,
-    radius: Dp = Dp.Unspecified
+    radius: Dp = Dp.Unspecified,
+    contentColor: Color = Color.Unspecified
 ): Indication {
-    val contentColor = LocalContentColor.current
-    val lightTheme = !LocalSettingsState.current.isNightMode
+    val contentColor = contentColor.takeOrElse {
+        LocalContentColor.current
+    }
+
     return remember(bounded, radius) {
         ripple(
-            color = {
-                RippleDefaults.rippleColor(
-                    contentColor = contentColor,
-                    lightTheme = lightTheme
-                )
-            },
+            color = { contentColor },
             bounded = bounded,
             radius = radius
         )

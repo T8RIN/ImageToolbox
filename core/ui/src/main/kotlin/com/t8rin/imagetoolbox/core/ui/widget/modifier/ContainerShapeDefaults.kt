@@ -23,7 +23,7 @@ import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.CornerBasedShape
@@ -221,7 +221,7 @@ fun animateShape(
 fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
-    interactionSource: MutableInteractionSource?,
+    interactionSource: InteractionSource?,
     animationSpec: FiniteAnimationSpec<Float> = spring(
         dampingRatio = Spring.DampingRatioLowBouncy,
         stiffness = Spring.StiffnessMediumLow
