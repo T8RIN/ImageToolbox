@@ -20,9 +20,12 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
@@ -196,7 +199,8 @@ internal fun SettingsBackdropWrapper(
             }
         },
         peekHeight = 0.dp,
-        headerHeight = 70.dp,
+        headerHeight = 48.dp + WindowInsets.navigationBars.asPaddingValues()
+            .calculateBottomPadding(),
         persistentAppBar = false,
         frontLayerElevation = 0.dp,
         backLayerBackgroundColor = MaterialTheme.colorScheme.surface,

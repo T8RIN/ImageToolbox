@@ -18,8 +18,11 @@
 package com.t8rin.imagetoolbox.feature.root.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -53,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
@@ -60,6 +64,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlinx.coroutines.launch
 
@@ -88,26 +93,27 @@ internal fun BoxScope.SettingsOpenButton(
         }
     }.value
 
-    val shape = if (fastSettingsSide == FastSettingsSide.CenterStart) {
-        if (startPadding == 0.dp) {
-            RoundedCornerShape(
-                topEnd = 8.dp,
-                bottomEnd = 8.dp
-            )
+    val shape = animateShape(
+        if (fastSettingsSide == FastSettingsSide.CenterStart) {
+            if (startPadding == 0.dp) {
+                RoundedCornerShape(
+                    topEnd = 8.dp,
+                    bottomEnd = 8.dp
+                )
+            } else {
+                RoundedCornerShape(8.dp)
+            }
         } else {
-            RoundedCornerShape(8.dp)
+            if (endPadding == 0.dp) {
+                RoundedCornerShape(
+                    topStart = 8.dp,
+                    bottomStart = 8.dp
+                )
+            } else {
+                RoundedCornerShape(8.dp)
+            }
         }
-    } else {
-        if (endPadding == 0.dp) {
-            RoundedCornerShape(
-                topStart = 8.dp,
-                bottomStart = 8.dp
-            )
-        } else {
-            RoundedCornerShape(8.dp)
-        }
-    }
-
+    )
     val height by animateDpAsState(
         if (isWantOpenSettings) 64.dp
         else 104.dp
@@ -126,11 +132,15 @@ internal fun BoxScope.SettingsOpenButton(
         } else {
             0.dp
         },
-        animationSpec = tween(1000)
+        animationSpec = spring(
+            visibilityThreshold = Dp.VisibilityThreshold,
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
     val alpha by animateFloatAsState(
         targetValue = if (canExpandSettings) 1f else 0f,
-        animationSpec = tween(1000)
+        animationSpec = tween(650)
     )
 
     Surface(
