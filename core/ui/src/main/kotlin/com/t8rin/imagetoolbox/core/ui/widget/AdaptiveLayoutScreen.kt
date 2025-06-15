@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -131,6 +132,7 @@ fun AdaptiveLayoutScreen(
     }
 
     val focus = LocalFocusManager.current
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = if (autoClearFocus) {
@@ -142,7 +144,7 @@ fun AdaptiveLayoutScreen(
         } else Modifier
     ) {
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
@@ -249,24 +251,22 @@ fun AdaptiveLayoutScreen(
                                 .fillMaxHeight()
                                 .clipToBounds()
                         ) {
-                            if (showImagePreviewAsStickyHeader && placeImagePreview) {
-                                imageStickyHeader(
-                                    visible = isPortrait && canShowScreenData,
-                                    internalHeight = internalHeight,
-                                    imageState = imageState,
-                                    onStateChange = { imageState = it },
-                                    imageBlock = imagePreview,
-                                    onGloballyPositioned = {
-                                        if (!isScrolled) {
-                                            scope.launch {
-                                                delay(200)
-                                                listState.animateScrollToItem(0)
-                                                isScrolled = true
-                                            }
+                            imageStickyHeader(
+                                visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
+                                internalHeight = internalHeight,
+                                imageState = imageState,
+                                onStateChange = { imageState = it },
+                                imageBlock = imagePreview,
+                                onGloballyPositioned = {
+                                    if (!isScrolled) {
+                                        scope.launch {
+                                            delay(200)
+                                            listState.animateScrollToItem(0)
+                                            isScrolled = true
                                         }
                                     }
-                                )
-                            }
+                                }
+                            )
                             item {
                                 Column(
                                     modifier = Modifier.fillMaxSize(),
@@ -274,7 +274,11 @@ fun AdaptiveLayoutScreen(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     if (canShowScreenData) {
-                                        if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
+                                        AnimatedVisibility(
+                                            visible = !showImagePreviewAsStickyHeader && isPortrait && placeImagePreview
+                                        ) {
+                                            imagePreview()
+                                        }
                                         if (controls != null) controls(listState)
                                     } else {
                                         Box(
@@ -286,19 +290,18 @@ fun AdaptiveLayoutScreen(
                                 }
                             }
                         }
-                        if (!isPortrait && canShowScreenData) {
+                        AnimatedVisibility(!isPortrait && canShowScreenData) {
                             buttons(actions)
                         }
                     }
                 }
             }
 
-            if (isPortrait || !canShowScreenData) {
-                Box(
-                    modifier = Modifier.align(settingsState.fabAlignment)
-                ) {
-                    buttons(actions)
-                }
+            AnimatedVisibility(
+                visible = isPortrait || !canShowScreenData,
+                modifier = Modifier.align(settingsState.fabAlignment)
+            ) {
+                buttons(actions)
             }
 
             ExitBackHandler(
