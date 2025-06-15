@@ -76,9 +76,9 @@
     <string name="clear_exif_sub">Alle EXIF-Daten des Bildes werden gelöscht. Dies kann nicht rückgängig gemacht werden!</string>
     <string name="save">Speichern</string>
     <string name="clear_exif">EXIF leeren</string>
-    <string name="single_edit">Bearbeiten</string>
+    <string name="single_edit">Einzelne Bearbeitung</string>
     <string name="image_not_saved_sub">Alle ungespeicherten Änderungen gehen verloren, wenn Du den Dialog jetzt schließt</string>
-    <string name="pick_color">Farbe auswählen</string>
+    <string name="pick_color">Farbwähler</string>
     <string name="update">Aktualisierung</string>
     <string name="check_source_code">Quellcode</string>
     <string name="image">Bild</string>
@@ -97,11 +97,11 @@
     <string name="new_version">Neue Version %1$s</string>
     <string name="unsupported_type">Dateityp wird nicht unterstützt: %1$s</string>
     <string name="original">Original</string>
-    <string name="generate_palette">Farbpalette erzeugen</string>
+    <string name="generate_palette">Palette erzeugen</string>
     <string name="unspecified">Nicht spezifiziert</string>
     <string name="device_storage">Gerätespeicher</string>
     <string name="max_bytes">Maximale Größe in KB</string>
-    <string name="by_bytes_resize">Größenänderung nach Volumen</string>
+    <string name="by_bytes_resize">Größe nach Gewicht ändern</string>
     <string name="compare">Vergleichen</string>
     <string name="pick_two_images">Wähle zwei Bilder zum Starten</string>
     <string name="pick_images">Wähle Bilder</string>
@@ -152,7 +152,7 @@
     <string name="photo_picker">Bildauswahl</string>
     <string name="gallery_picker_sub">Einfache Bildauswahl mittels einer Galerie-App. Funktioniert nur, wenn du eine solche App installiert hast.</string>
     <string name="order">Reihenfolge</string>
-    <string name="order_sub">Legt die Reihenfolge der Werkzeuge im Hauptfenster fest</string>
+    <string name="order_sub">Legt die Reihenfolge der Tools im Hauptfenster fest</string>
     <string name="file_explorer_picker_sub">Nutzt GetContent-Intent für die Bildauswahl. Funktioniert überall, kann aber auf manchen Geräten Probleme mit dem Empfangen der Bildauswahl haben (nicht meine Schuld)</string>
     <string name="edit">Bearbeiten</string>
     <string name="options_arrangement">Anordnung der Optionen</string>
@@ -162,7 +162,7 @@
     <string name="file_explorer_picker">Dateimanager</string>
     <string name="photo_picker_sub">Androids aktuelle Fotoauswahl, die am unteren Rand des Bildschirms erscheint. Funktioniert möglicherweise nur auf Android 12+ und hat zudem Probleme mit dem Empfang von EXIF-Metadaten</string>
     <string name="image_link">Bild-Link</string>
-    <string name="load_image_from_net">Bild aus dem Internet laden</string>
+    <string name="load_image_from_net">Laden von Web Bildern</string>
     <string name="load_image_from_net_sub">Lade jegliches Bild aus dem Internet, betrachte, zoome, bearbeite und speichere es wenn du willst</string>
     <string name="no_image">Kein Bild</string>
     <string name="emojis_count">Anzahl der Emojis</string>
@@ -241,7 +241,7 @@
     <string name="quantizationLevels">Stärke des Effekts</string>
     <string name="limits_resize_sub">Ändern der Größe von Bildern auf die angegebene Höhe und Breite unter Beibehaltung des Seitenverhältnisses</string>
     <string name="smooth_toon">Geglätteter Cartoon</string>
-    <string name="limits_resize">Größenänderung durch Grenzen</string>
+    <string name="limits_resize">Größe nach Grenzen ändern</string>
     <string name="lookup">Lookup</string>
     <string name="non_maximum_suppression">Nicht maximale Unterdrückung</string>
     <string name="weak_pixel_inclusion">Helle Pixel heller</string>
@@ -284,8 +284,8 @@
     <string name="group_options_by_type">Optionen nach Typ gruppieren</string>
     <string name="invalid_password_or_not_encrypted">Ungültiges Passwort oder ausgewählte Datei ist nicht verschlüsselt</string>
     <string name="found_s">%1$s gefunden</string>
-    <string name="tools">Werkzeuge</string>
-    <string name="group_options_by_type_sub">Optionen und Werkzeuge nach Typ in Tabs gruppieren, anstatt sie in selbstdefinierbarer Abfolge in einem einzigen Fenster anzuordnen</string>
+    <string name="tools">Tools</string>
+    <string name="group_options_by_type_sub">Gruppierung der Optionen auf dem Hauptbildschirm nach ihrem Typ anstelle einer benutzerdefinierten Listenanordnung</string>
     <string name="create">Erstellen</string>
     <string name="store_file_desc">Speichere die Datei auf deinem Gerät oder benutze Teilen, um es wo immer du möchtest abzulegen</string>
     <string name="implementation_sub">AES-256, GCM-Modus, kein Padding, standardmäßig 12 Byte zufällige IVs. Du kannst den gewünschten Algorithmus auswählen. Schlüssel werden als 256-Bit SHA-3-Hashes benutzt</string>
@@ -420,7 +420,7 @@
     <string name="preview_pdf">PDF Vorschau</string>
     <string name="fidelity_sub">Ein Schema, das dem Inhaltsschema sehr ähnlich ist</string>
     <string name="check_for_updates">Nach Updates suchen</string>
-    <string name="search_option_sub">Ermöglicht die Suche durch alle verfügbaren Werkzeuge auf dem Hauptbildschirm</string>
+    <string name="search_option_sub">Ermöglicht die Suche durch alle verfügbaren Tools auf dem Hauptbildschirm</string>
     <string name="content">Inhalt</string>
     <string name="disabled">Deaktiviert</string>
     <string name="pdf_to_images">PDF zu Bildern</string>
@@ -705,7 +705,7 @@
     <string name="sierra_lite_dithering">Sierra Lite-Dithering</string>
     <string name="atkinson_dithering">Atkinson Dithering</string>
     <string name="stucki_dithering">Stucki Dithering</string>
-    <string name="burkes_dithering">Burkes dithering</string>
+    <string name="burkes_dithering">Burkes Dithering</string>
     <string name="false_floyd_steinberg_dithering">Falsches Floyd-Steinberg-Dithering</string>
     <string name="left_to_right_dithering">Dithering von links nach rechts</string>
     <string name="random_dithering">Zufälliges Dithering</string>
@@ -720,7 +720,7 @@
     <string name="basic">Basic</string>
     <string name="default_value">Standardwert</string>
     <string name="sigma">Sigma</string>
-    <string name="spatial_sigma">Räumliches sigma</string>
+    <string name="spatial_sigma">Räumliches Sigma</string>
     <string name="median_blur">Mediane Unschärfe</string>
     <string name="catmull">Catmull</string>
     <string name="bicubic">Bikubisch</string>
@@ -819,7 +819,7 @@
     <string name="drag_handle_width">Griffbreite ziehen</string>
     <string name="rain">Regen</string>
     <string name="festive">Festlich</string>
-    <string name="explode">Explosion</string>
+    <string name="explode">Explodieren</string>
     <string name="corners">Ecken</string>
     <string name="jxl_tools">JXL Tools</string>
     <string name="jxl_tools_sub">Führe eine JXL ~ JPEG Konvertierung ohne Qualitätsverlust durch, oder wandle GIF/APNG in JXL Animation um</string>
@@ -895,7 +895,7 @@
     <string name="images_to_svg_sub">Vorgegebene Bilder in SVG-Bilder umwandeln</string>
     <string name="use_sampled_palette">Gesampelte Palette verwenden</string>
     <string name="use_sampled_palette_sub">Die Quantisierungspalette wird gesampelt., wenn diese Option aktiviert ist.</string>
-    <string name="downscale_image_sub">Das Bild wird vor der Verarbeitung auf eine geringere Größe herunterskaliert, damit das Werkzeug schneller und sicherer arbeiten kann</string>
+    <string name="downscale_image_sub">Das Bild wird vor der Verarbeitung auf eine geringere Größe herunterskaliert, damit das Tool schneller und sicherer arbeiten kann</string>
     <string name="min_color_ratio">Minimales Farbverhältnis</string>
     <string name="lines_threshold">Schwellenwert für Linien</string>
     <string name="coordinates_rounding_tolerance">Rundungstoleranz für Koordinaten</string>
@@ -1049,7 +1049,7 @@
     <string name="delete_template">Vorlage löschen</string>
     <string name="delete_template_warn">Du bist dabei, den ausgewählten Vorlagenfilter zu löschen. Dieser Vorgang kann nicht rückgängig gemacht werden</string>
     <string name="filter_preview">Filtervorschau</string>
-    <string name="qr_code">QR Code</string>
+    <string name="qr_code">QR &amp; Barcode</string>
     <string name="code_content">Code-Inhalt</string>
     <string name="qr_description">QR-Beschreibung</string>
     <string name="convert_sub">Konvertieren von mehrere Bildern in ein bestimmtes Format</string>
@@ -1080,7 +1080,7 @@
     <string name="no_favorite_options_selected">Keine bevorzugten Optionen ausgewählt, füge sie auf der Seite Tools hinzu</string>
     <string name="open_edit_instead_of_preview_sub">Wenn du ein Bild auswählst, um es in ImageToolbox zu öffnen (Vorschau), wird anstatt der Vorschau das Auswahlblatt \"Bearbeiten\" geöffnet</string>
     <string name="qr_code_sub">Scanne den QR-Code und rufe seinen Inhalt ab oder füge deine Zeichenfolge ein, um einen neuen zu erstellen</string>
-    <string name="scan_qr_code_to_replace_content">QR-Code scannen, um den Inhalt im Feld zu ersetzen, oder etwas eingeben, um einen neuen QR-Code zu generieren</string>
+    <string name="scan_qr_code_to_replace_content">Scanne einen beliebigen Barcode, um den Inhalt des Feldes zu ersetzen, oder schreib etwas, um einen neuen Barcode mit dem ausgewählten Typ zu erzeugen</string>
     <string name="tag_jpeg_interchange_format_length">JPEG Austauschformat Länge</string>
     <string name="tag_y_cb_cr_coefficients">Y Cb Cr Koeffizienten</string>
     <string name="tag_make">Machen</string>
@@ -1178,7 +1178,7 @@
     <string name="linear_box_blur">Lineare Boxunschärfe</string>
     <string name="linear_tent_blur">Lineare Zelt Unschärfe</string>
     <string name="linear_gaussian_box_blur">Linearer Gaußscher Box Unschärfe</string>
-    <string name="color_blind_scheme">Farbkorrektur</string>
+    <string name="color_blind_scheme">Farbenblindheit</string>
     <string name="color_blind_scheme_sub">Wähle den Modus, um die Themenfarben für die gewählte Variante der Farbenblindheit anzupassen</string>
     <string name="protanomaly_sub">Schwierigkeiten bei der Unterscheidung zwischen roten und grünen Farbtönen</string>
     <string name="deuteranomaly_sub">Schwierigkeiten bei der Unterscheidung zwischen grünen und roten Farbtönen</string>
@@ -1362,7 +1362,7 @@
     <string name="gif_type_to_webp">GIF zu WEBP</string>
     <string name="gif_type_to_webp_sub">GIF-Bilder in animierte WEBP-Bilder umwandeln</string>
     <string name="webp_type_to_image">WEBP zu Bildern</string>
-    <string name="webp_tools">WEBP-Werkzeuge</string>
+    <string name="webp_tools">­­WEBP Tools</string>
     <string name="webp_tools_sub">Bilder in animierte WEBP-Bilder umwandeln oder Einzelbilder aus einer gegebenen WEBP-Animation extrahieren</string>
     <string name="webp_type_to_image_sub">WEBP-Datei in einen Stapel an Bildern umwandeln</string>
     <string name="webp_type_to_webp_sub">Stapel an Bildern in eine WEBP-Datei umwandeln</string>
@@ -1383,9 +1383,9 @@
     <string name="free_corners_sub">Bild per Vieleck beschneiden. (Korrigiert auch die Perspektive.)</string>
     <string name="coerce_points_to_image_bounds">Punkte in Bildgrenzen zwingen</string>
     <string name="fit_description">Passe ein Bild an vorgegebene Abmessungen an und wende Weichzeichner oder Farbe auf den Hintergrund an</string>
-    <string name="tools_arrangement">Anordnung der Werkzeuge</string>
-    <string name="group_tools_by_type">Werkzeuge nach Typ gruppieren</string>
-    <string name="group_tools_by_type_sub">Werkzeuge im Hauptfenster nach Typ gruppieren anstatt untereinander als Liste</string>
+    <string name="tools_arrangement">Anordnung der Tools</string>
+    <string name="group_tools_by_type">Tools nach Typ gruppieren</string>
+    <string name="group_tools_by_type_sub">Tools im Hauptfenster nach Typ gruppieren anstatt untereinander als Liste</string>
     <string name="default_values">Standardwerte</string>
     <string name="system_bars_visibility">Systemleisten Sichtbarkeit</string>
     <string name="show_system_bars_by_swipe">Systemleisten durch Wischen anzeigen</string>
@@ -1443,9 +1443,9 @@
     <string name="tone_curves">Tonkurven</string>
     <string name="reset_curves_sub">Die Kurven werden auf den Standardwert zurückgesetzt</string>
     <string name="create_shortcut">Verknüpfung erstellen</string>
-    <string name="create_shortcut_title">Werkzeug zum Anheften auswählen</string>
-    <string name="create_shortcut_subtitle">Das Werkzeug wird dem Startbildschirm deines Starters als Verknüpfung hinzugefügt, verwende es in Kombination mit der Einstellung „Dateiauswahl überspringen“, um das gewünschte Verhalten zu erreichen</string>
-    <string name="collage_maker_sub">Erstelle Collagen aus Bildern</string>
+    <string name="create_shortcut_title">Tool zum Anheften auswählen</string>
+    <string name="create_shortcut_subtitle">Das Tool wird dem Startbildschirm deines Starters als Verknüpfung hinzugefügt, verwende es in Kombination mit der Einstellung „Dateiauswahl überspringen“, um das gewünschte Verhalten zu erreichen</string>
+    <string name="collage_maker_sub">Erstelle Collagen aus bis zu 10 Bildern</string>
     <string name="mirror_101">Spiegel 101</string>
     <string name="enhanced_zoom_blur">Verbesserte Zoom Unschärfe</string>
     <string name="grid_color">Rasterfarbe</string>
@@ -1549,7 +1549,7 @@
     <string name="wrong_font">Nur TTF und OTF Schriften können importiert werden</string>
     <string name="import_font">Schriftart importieren (TTF/OTF)</string>
     <string name="custom_pages">Benutzerdefinierte Seiten</string>
-    <string name="tool_exit_confirmation_sub">Wenn du bei der Verwendung bestimmter Werkzeuge nicht gespeicherte Änderungen vorgenommen hast und versuchst, sie zu schließen, wird ein Bestätigungsdialog angezeigt</string>
+    <string name="tool_exit_confirmation_sub">Wenn du bei der Verwendung bestimmter Tools nicht gespeicherte Änderungen vorgenommen hast und versuchst, sie zu schließen, wird ein Bestätigungsdialog angezeigt</string>
     <string name="tool_exit_confirmation">Bestätigung der Beendigung des Tools</string>
     <string name="none">Keine</string>
     <string name="error_while_saving">Fehler beim Speichern, versuche den Ausgabeordner zu ändern</string>
@@ -1601,7 +1601,7 @@
     <string name="right_to_left">Rechts nach links</string>
     <string name="sort_by_mime_type_reversed">MIME Typ (umgekehrt)</string>
     <string name="audio_cover_extractor_sub">Extrahiere Albumcoverbilder aus Audiodateien, die meisten gängigen Formate werden unterstützt</string>
-    <string name="audio_cover_extractor">Audio Cover Extrahierer</string>
+    <string name="audio_cover_extractor">Audio Covers</string>
     <string name="pick_audio_to_start">Audio zum Starten auswählen</string>
     <string name="pick_audio">Audio auswählen</string>
     <string name="no_covers_found">Keine Cover gefunden</string>
@@ -1633,4 +1633,6 @@
     <string name="invisible_mode_sub">Verwende Steganografie, um unsichtbare Wasserzeichen in Bytes deiner Bilder zu erstellen</string>
     <string name="sort_by_size_reversed">Größe (umgekehrt)</string>
     <string name="sort_by_size">Größe</string>
+    <string name="liquid_glass">Flüssiges Glas</string>
+    <string name="liquid_glass_sub">Ein Schalter, der auf dem kürzlich angekündigten IOS 26 und seinem Flüssigglas-Designsystem basiert</string>
 </resources>
