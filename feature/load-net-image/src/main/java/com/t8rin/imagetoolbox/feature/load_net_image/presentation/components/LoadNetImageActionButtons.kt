@@ -20,12 +20,15 @@ package com.t8rin.imagetoolbox.feature.load_net_image.presentation.components
 import android.net.Uri
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -55,16 +58,25 @@ internal fun LoadNetImageActionButtons(
     var editSheetData by remember {
         mutableStateOf(listOf<Uri>())
     }
+    val noData = component.parsedImages.isEmpty()
     BottomButtonsBlock(
-        isNoData = false,
+        isNoData = noData,
+        isPrimaryButtonVisible = !noData,
+        isSecondaryButtonVisible = !noData,
+        secondaryButtonIcon = if (noData) Icons.Rounded.ContentPaste else Icons.Outlined.ImageEdit,
+        secondaryButtonText = if (noData) stringResource(R.string.paste_link) else stringResource(R.string.edit),
+        showNullDataButtonAsContainer = true,
         onSecondaryButtonClick = {
-            component.cacheImages {
-                editSheetData = it
+            if (noData) {
+                essentials.getTextFromClipboard {
+                    component.updateTargetUrl(it.toString())
+                }
+            } else {
+                component.cacheImages {
+                    editSheetData = it
+                }
             }
         },
-        isPrimaryButtonVisible = component.parsedImages.isNotEmpty(),
-        isSecondaryButtonVisible = component.parsedImages.isNotEmpty(),
-        secondaryButtonIcon = Icons.Outlined.ImageEdit,
         onPrimaryButtonClick = {
             saveBitmap(null)
         },

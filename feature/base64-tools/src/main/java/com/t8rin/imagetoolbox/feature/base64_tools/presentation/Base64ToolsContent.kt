@@ -164,7 +164,7 @@ fun Base64ToolsContent(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .padding(
-                                    if (component.base64String.isEmpty()) 20.dp else 0.dp
+                                    if (isEmpty) 20.dp else 0.dp
                                 )
                                 .container(
                                     resultPadding = 0.dp,

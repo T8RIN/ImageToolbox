@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.load_net_image.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,15 +36,16 @@ internal fun RowScope.LoadNetImageAdaptiveActions(
 ) {
     val essentials = rememberLocalEssentials()
 
-    ShareButton(
-        enabled = component.parsedImages.isNotEmpty(),
-        onShare = {
-            component.performSharing(essentials::showConfetti)
-        },
-        onCopy = {
-            component.cacheCurrentImage(essentials::copyToClipboard)
-        }
-    )
+    AnimatedVisibility(component.parsedImages.isNotEmpty()) {
+        ShareButton(
+            onShare = {
+                component.performSharing(essentials::showConfetti)
+            },
+            onCopy = {
+                component.cacheCurrentImage(essentials::copyToClipboard)
+            }
+        )
+    }
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
     ZoomButton(
         onClick = { showZoomSheet = true },

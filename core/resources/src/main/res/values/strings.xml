@@ -1656,4 +1656,6 @@
     <string name="liquid_glass">Liquid Glass</string>
     <string name="liquid_glass_sub">A switch based on recently announced IOS 26 and it\'s liquid glass design system</string>
     <string name="pick_image_or_base64">Pick image or paste/import Base64 data below</string>
+    <string name="type_image_link">Type image link to start</string>
+    <string name="paste_link">Paste link</string>
 </resources>

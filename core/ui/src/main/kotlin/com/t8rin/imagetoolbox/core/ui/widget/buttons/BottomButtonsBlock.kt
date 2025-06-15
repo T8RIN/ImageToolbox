@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -106,15 +107,15 @@ fun BottomButtonsBlock(
         }
     ) { (isEmptyState, portrait) ->
         if (isEmptyState) {
+            val cutout = WindowInsets.displayCutout.only(
+                WindowInsetsSides.Horizontal
+            )
+
             val button = @Composable {
                 Row(
                     modifier = Modifier
                         .windowInsetsPadding(
-                            WindowInsets.navigationBars.union(
-                                WindowInsets.displayCutout.only(
-                                    WindowInsetsSides.Horizontal
-                                )
-                            )
+                            WindowInsets.navigationBars.union(cutout)
                         )
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(spacing),
@@ -151,16 +152,32 @@ fun BottomButtonsBlock(
                 }
             }
             if (showNullDataButtonAsContainer) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .drawHorizontalStroke(true)
-                        .background(
-                            MaterialTheme.colorScheme.surfaceContainer
-                        ),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    button()
+                if (isPortrait) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainer
+                            ),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        button()
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainerLow
+                            )
+                            .consumeWindowInsets(cutout),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        button()
+                    }
                 }
             } else {
                 button()
