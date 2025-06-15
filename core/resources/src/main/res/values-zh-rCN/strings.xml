@@ -64,7 +64,7 @@
     <string name="change_preview">更换预览图片</string>
     <string name="remove">移除</string>
     <string name="palette_sub">生成指定图片的颜色风格</string>
-    <string name="generate_palette">颜色风格</string>
+    <string name="generate_palette">生成调色板</string>
     <string name="palette">颜色风格</string>
     <string name="update">更新</string>
     <string name="new_version">新版本%1$s</string>
@@ -157,7 +157,7 @@
     <string name="box_blur">方框模糊</string>
     <string name="bilaterial_blur">双边模糊</string>
     <string name="options_arrangement">功能管理</string>
-    <string name="load_image_from_net">从网络加载图片</string>
+    <string name="load_image_from_net">加载网络图片</string>
     <string name="image_link">图片链接</string>
     <string name="brightness">亮度</string>
     <string name="glass_sphere_refraction">玻璃球面折射</string>
@@ -1116,10 +1116,10 @@
     <string name="save_as_qr_code_image">另存为二维码图片</string>
     <string name="delete_template">删除模板</string>
     <string name="filter_preview">滤镜预览</string>
-    <string name="qr_code">二维码</string>
+    <string name="qr_code">二维码 &amp; 条形码</string>
     <string name="qr_code_sub">扫描二维码并获取其内容，或粘贴字符串以生成新的二维码</string>
     <string name="code_content">代码内容</string>
-    <string name="scan_qr_code_to_replace_content">扫描二维码以替换字段中的内容，或输入内容以生成新的二维码</string>
+    <string name="scan_qr_code_to_replace_content">扫描任意条形码以替换字段中的内容，或输入内容以使用所选类型生成新条形码</string>
     <string name="qr_description">QR 说明</string>
     <string name="delete_template_warn">您将删除选定的模板滤镜。 此操作无法撤销</string>
     <string name="template_filter">模板滤镜</string>
@@ -1200,7 +1200,7 @@
     <string name="ewa_ginseng_sub">Ginseng 滤镜的椭圆加权平均 (EWA) 变体，提高图片质量</string>
     <string name="ginseng_sub">重采样滤镜专为高质量图片处理而设计，在清晰度和平滑度之间取得了良好的平衡</string>
     <string name="ewa_lanczos3_jinc_sub">Lanczos 3 Jinc 滤镜的椭圆加权平均 (EWA) 变体，用于减少混叠的高质量重采样</string>
-    <string name="format_conversion">批量转换</string>
+    <string name="format_conversion">格式转换</string>
     <string name="dismiss_forever">永久忽略</string>
     <string name="image_stacking">图片堆叠</string>
     <string name="image_stacking_sub">使用选定的混合模式将图片堆叠在一起</string>
@@ -1219,7 +1219,7 @@
     <string name="wrap">缠绕</string>
     <string name="equalize_histogram_adaptive_hsl">均衡直方图自适应 HSL</string>
     <string name="equalize_histogram_adaptive_hsv">均衡直方图自适应 HSV</string>
-    <string name="color_blind_scheme">色彩校正</string>
+    <string name="color_blind_scheme">色盲</string>
     <string name="color_blind_scheme_sub">选择模式以为所选色盲类型适配主题颜色</string>
     <string name="protanomaly_sub">难以区分红色和绿色色调</string>
     <string name="deuteranomaly_sub">难以区分绿色和红色色调</string>
@@ -1404,7 +1404,7 @@
     <string name="collage_maker">拼贴画制作器</string>
     <string name="collage_type">拼贴画类型</string>
     <string name="pick_up_to_ten_images">最多可选取10张图片</string>
-    <string name="collage_maker_sub">用图片制作拼贴画</string>
+    <string name="collage_maker_sub">用最多10张图片制作拼贴画</string>
     <string name="collages_info">按住图片进行交换、移动和缩放以调整位置</string>
     <string name="image_for_histogram">该图片将用于生成 RGB 和亮度直方图</string>
     <string name="histogram">柱状图</string>
@@ -1598,7 +1598,7 @@
     <string name="generated_barcode_will_be_here">生成的条形码将显示在此处</string>
     <string name="no_barcode_found">未找到条形码</string>
     <string name="audio_cover_extractor_sub">从音频文件中提取专辑封面图片，支持大多数常见的音频格式</string>
-    <string name="audio_cover_extractor">音频封面提取器</string>
+    <string name="audio_cover_extractor">音频封面</string>
     <string name="pick_audio_to_start">选择音频以开始</string>
     <string name="pick_audio">选择音频</string>
     <string name="no_covers_found">未找到专辑封面</string>
@@ -1633,4 +1633,6 @@
     <string name="right_to_left">从右到左</string>
     <string name="top_to_bottom">从上到下</string>
     <string name="bottom_to_top">从下到上</string>
+    <string name="liquid_glass">液态玻璃</string>
+    <string name="liquid_glass_sub">一个基于近期发布的iOS 26及其液态玻璃设计系统的开关</string>
 </resources>
