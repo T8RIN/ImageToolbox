@@ -269,6 +269,13 @@ sealed class ImageFormat(
         canChangeCompressionValue = false
     )
 
+    data object Gif : ImageFormat(
+        title = "GIF",
+        extension = "gif",
+        mimeType = MimeType.Gif,
+        canChangeCompressionValue = true
+    )
+
     sealed class CompressionType(
         open val compressionRange: IntRange = 0..100
     ) {
@@ -302,6 +309,7 @@ sealed class ImageFormat(
             typeString.contains("qoi") -> Qoi
             typeString.contains("ico") -> Ico
             typeString.contains("svg") -> Png.Lossless
+            typeString.contains("gif") -> Gif
             else -> Default
         }
 
@@ -340,7 +348,8 @@ sealed class ImageFormat(
                 Jpeg2000.Jp2,
                 Jpeg2000.J2k,
                 Qoi,
-                Ico
+                Ico,
+                Gif
             )
         }
     }

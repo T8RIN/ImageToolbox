@@ -51,6 +51,7 @@ dependencies {
 
     api(libs.toolbox.logger)
 
+    implementation(libs.toolbox.gifConverter)
     implementation(libs.toolbox.exif)
     implementation(libs.toolbox.tiffDecoder)
     implementation(libs.toolbox.qoiCoder)

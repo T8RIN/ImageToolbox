@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.MozJpegBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLosslessBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.PngLossyBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.QoiBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.StaticGifBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.TiffBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.WebpBackend
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -79,6 +80,7 @@ internal interface ImageCompressorBackend {
 
             ImageFormat.Avif.Lossless -> AvifBackend(isLossless = true)
             ImageFormat.Avif.Lossy -> AvifBackend(isLossless = false)
+            ImageFormat.Gif -> StaticGifBackend
         }
     }
 
