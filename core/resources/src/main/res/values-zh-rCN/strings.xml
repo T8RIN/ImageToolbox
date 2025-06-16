@@ -1635,4 +1635,7 @@
     <string name="bottom_to_top">从下到上</string>
     <string name="liquid_glass">液态玻璃</string>
     <string name="liquid_glass_sub">一个基于近期发布的iOS 26及其液态玻璃设计系统的开关</string>
+    <string name="paste_link">粘贴链接</string>
+    <string name="pick_image_or_base64">选取图片或粘贴/导入下面的Base64数据</string>
+    <string name="type_image_link">键入图片链接以开始</string>
 </resources>
