@@ -20,9 +20,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.modifier
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -45,6 +43,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -208,10 +207,7 @@ internal fun rememberAnimatedShape(
 @Composable
 fun animateShape(
     targetValue: RoundedCornerShape,
-    animationSpec: FiniteAnimationSpec<Float> = spring(
-        dampingRatio = Spring.DampingRatioLowBouncy,
-        stiffness = Spring.StiffnessMediumLow
-    ),
+    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
 ): Shape = rememberAnimatedShape(
     currentShape = targetValue,
     animationSpec = animationSpec
@@ -222,10 +218,7 @@ fun shapeByInteraction(
     shape: Shape,
     pressedShape: Shape,
     interactionSource: InteractionSource?,
-    animationSpec: FiniteAnimationSpec<Float> = spring(
-        dampingRatio = Spring.DampingRatioLowBouncy,
-        stiffness = Spring.StiffnessMediumLow
-    ),
+    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
     delay: Long = 300,
     enabled: Boolean = true
 ): Shape {

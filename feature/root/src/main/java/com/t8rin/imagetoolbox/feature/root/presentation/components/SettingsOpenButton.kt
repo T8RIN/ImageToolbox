@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -132,10 +133,7 @@ internal fun BoxScope.SettingsOpenButton(
     )
     val width by animateDpAsState(
         targetValue = if (isWantOpenSettings) 48.dp else 24.dp,
-        animationSpec = spring(
-            dampingRatio = 0.35f,
-            stiffness = Spring.StiffnessLow
-        )
+        animationSpec = springySpec()
     )
     val xOffset by animateDpAsState(
         targetValue = if (!canExpandSettings) {

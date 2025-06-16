@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.Morph
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
+import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -112,8 +113,8 @@ fun ClickableActionIcon(
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
     val percentage = animateFloatAsState(
-        if (pressed) 1f
-        else 0f
+        targetValue = if (pressed) 1f else 0f,
+        animationSpec = springySpec()
     )
     val scale by animateFloatAsState(
         if (pressed) 1f
