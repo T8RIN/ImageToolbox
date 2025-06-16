@@ -21,8 +21,6 @@ import androidx.compose.animation.core.CubicBezierEasing
 
 val FancyTransitionEasing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
 
-val TransitionEasing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
-
 val AlphaEasing = CubicBezierEasing(0.4f, 0.4f, 0.17f, 0.9f)
 
 val PointToPointEasing = CubicBezierEasing(0.55f, 0.55f, 0f, 1f)

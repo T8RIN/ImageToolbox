@@ -71,27 +71,6 @@ fun fancySlideTransition(
     )
 }
 
-val PageOpenTransition = slideInHorizontally(
-    openCloseTransitionSpec()
-) { -it / 3 } + fadeIn(
-    openCloseTransitionSpec(500)
-)
-
-val PageCloseTransition = slideOutHorizontally(
-    openCloseTransitionSpec()
-) { -it / 3 } + fadeOut(
-    openCloseTransitionSpec(500)
-)
-
-private fun <T> openCloseTransitionSpec(
-    duration: Int = 500,
-    delay: Int = 0
-) = tween<T>(
-    durationMillis = duration,
-    delayMillis = delay,
-    easing = TransitionEasing
-)
-
 fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
     backHandler: BackHandler,
     onBack: () -> Unit
