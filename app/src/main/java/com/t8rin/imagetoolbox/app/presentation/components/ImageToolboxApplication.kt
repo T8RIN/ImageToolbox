@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.app.presentation.components
 
 import android.app.Application
+import androidx.compose.foundation.ComposeFoundationFlags
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import com.t8rin.imagetoolbox.app.presentation.components.utils.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.utils.registerSecurityProviders
@@ -30,6 +31,8 @@ class ImageToolboxApplication : Application() {
 
     init {
         DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
+
+        ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true
 
         registerSecurityProviders()
     }
