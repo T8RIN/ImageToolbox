@@ -14,10 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Image Toolbox</string>
-    <string name="app_launcher_name" translatable="false">Image Toolbox</string>
-    <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -80,7 +78,6 @@
     <string name="no_palette">Verilen resim için palet oluşturulamıyor</string>
     <string name="original">Orijinal</string>
     <string name="folder">Çıktı klasörü</string>
-    <string name="default_folder" translatable="false">Documents/ImageToolbox</string>
     <string name="def">Varsayılan</string>
     <string name="custom">Özel</string>
     <string name="unspecified">Belirtilmemiş</string>
@@ -113,8 +110,6 @@
     <string name="cannot_change_palette_while_dynamic_colors_applied">Dinamik renkler açıkken uygulamanın renk şeması değiştirilemez</string>
     <string name="pick_accent_color">Uygulama teması seçilen renge göre oluşturulacaktır</string>
     <string name="about_app">Uygulama hakkında</string>
-    <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
-    <string name="app_developer_nick" translatable="false">T8RIN</string>
     <string name="no_updates">Güncelleme bulunamadı</string>
     <string name="issue_tracker">Sorun takipçisi</string>
     <string name="issue_tracker_sub">Hata raporlarını ve özellik isteklerini buraya gönderin</string>
@@ -124,10 +119,7 @@
     <string name="search_here">Burada ara</string>
     <string name="dynamic_colors_sub">Etkinleştirilirse, uygulama renkleri duvar kağıdı renklerine uyarlanacaktır</string>
     <string name="failed_to_save">%d resim kaydedilemedi</string>
-    <string name="telegram" translatable="false">Telegram</string>
     <string name="email">E-posta</string>
-    <string name="github" translatable="false">GitHub</string>
-    <string name="developer_email" translatable="false">t8rin@bk.ru</string>
     <string name="primary">Birincil</string>
     <string name="tertiary">Üçüncül</string>
     <string name="secondary">İkincil</string>
@@ -243,7 +235,6 @@
     <string name="refractive_index">Kırılma indisi</string>
     <string name="glass_sphere_refraction">Cam küre kırılması</string>
     <string name="color_matrix">Renk matrisi</string>
-    <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opaklık</string>
     <string name="limits_resize">Sınırlara Göre Yeniden Boyutlandır</string>
     <string name="limits_resize_sub">En boy oranını koruyarak resimleri verilen yükseklik ve genişliğe göre yeniden boyutlandırın</string>
@@ -310,7 +301,6 @@
     <string name="group_options_by_type">Seçenekleri türe göre gruplandır</string>
     <string name="group_options_by_type_sub">Ana ekrandaki seçenekleri özel bir liste düzenlemesi yerine türlerine göre gruplandırır</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Seçenek gruplaması etkinken düzenleme değiştirilemez</string>
-    <string name="default_prefix" translatable="false">ResizedImage</string>
     <string name="edit_screenshot">Ekran görüntüsünü düzenle</string>
     <string name="secondary_customization">İkincil özelleştirme</string>
     <string name="screenshot">Ekran Görüntüsü</string>
@@ -373,8 +363,6 @@
     <string name="resize_and_convert">Yeniden Boyutlandır ve Dönüştür</string>
     <string name="resize_and_convert_sub">Verilen resimlerin boyutunu değiştirin veya onları başka formatlara dönüştürün. Tek bir resim seçilirse EXIF meta verileri de burada düzenlenebilir.</string>
     <string name="max_colors_count">Maksimum renk sayısı</string>
-    <string name="firebase" translatable="false">Firebase</string>
-    <string name="crashlytics" translatable="false">Crashlytics</string>
     <string name="crashlytics_sub">Bu, uygulamanın çökme raporlarını otomatik olarak toplamasına olanak tanır</string>
     <string name="analytics">Analiz</string>
     <string name="analytics_sub">Anonim uygulama kullanım istatistiklerinin toplanmasına izin ver</string>
@@ -392,8 +380,6 @@
     <string name="brush_softness">Fırça yumuşaklığı</string>
     <string name="crop_description">Resimler, girilen boyuta göre merkezden kırpılacaktır. Resim girilen boyutlardan küçükse, tuval verilen arka plan rengiyle genişletilecektir.</string>
     <string name="donation">Bağış</string>
-    <string name="bitcoin" translatable="false">Bitcoin</string>
-    <string name="usdt" translatable="false">USDT</string>
     <string name="image_stitching">Resim Birleştirme</string>
     <string name="image_stitching_sub">Verilen resimleri birleştirerek büyük bir resim elde edin</string>
     <string name="pick_at_least_two_images">En az 2 resim seçin</string>
@@ -464,8 +450,6 @@
     <string name="add_mask">Maske Ekle</string>
     <string name="mask_indexed">Maske %d</string>
     <string name="mask_color">Maske Rengi</string>
-    <string name="ton_space" translatable="false">TON Space</string>
-    <string name="ton" translatable="false">TON</string>
     <string name="mask_preview">Maske önizlemesi</string>
     <string name="mask_preview_sub">Çizilen filtre maskesi, size yaklaşık sonucu göstermek için oluşturulacaktır</string>
     <string name="inverse_fill_type">Ters Doldurma Türü</string>
@@ -589,7 +573,6 @@
     <string name="magnifier_sub">Daha iyi erişilebilirlik için çizim modlarında parmağın üstünde büyüteci etkinleştirir</string>
     <string name="force_exif_widget_initial_value">Başlangıç değerini zorla</string>
     <string name="force_exif_widget_initial_value_sub">EXIF aracının başlangıçta işaretli olmasını zorlar</string>
-    <string name="exif" translatable="false">EXIF</string>
     <string name="allow_multiple_languages">Çoklu Dil İzni</string>
     <string name="slide">Kaydır</string>
     <string name="side_by_side">Yan Yana</string>
@@ -814,7 +797,6 @@
     <string name="cannot_change_image_format">Dosyaların üzerine yazma seçeneği etkinken resim formatı değiştirilemez</string>
     <string name="emoji_as_color_scheme">Renk Şeması Olarak Emoji</string>
     <string name="emoji_as_color_scheme_sub">Manuel olarak tanımlanan yerine uygulamanın renk şeması olarak emojinin birincil rengini kullanır</string>
-    <string name="material_you" translatable="false">Material You</string>
     <string name="material_you_sub">Resimden Material You paleti oluşturur</string>
     <string name="dark_colors">Koyu Renkler</string>
     <string name="dark_colors_sub">Aydınlık varyant yerine gece modu renk şemasını kullanır</string>
