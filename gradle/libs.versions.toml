@@ -66,7 +66,7 @@ documentfile = "1.1.0"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.0-beta02"
 
-material = "1.14.0-alpha01"
+material = "1.14.0-alpha02"
 jsoup = "1.20.1"
 
 mlkitDocumentScanner = "16.0.0-beta1"
