@@ -121,7 +121,7 @@ internal class AnimatedShapeState(
     val density: Density,
     val spec: FiniteAnimationSpec<Float>,
 ) {
-    private val size = Size(
+    internal var size = Size(
         width = with(density) { 48.dp.toPx() },
         height = with(density) { 48.dp.toPx() }
     )
@@ -165,6 +165,8 @@ private fun rememberAnimatedShapeImpl(
             layoutDirection: LayoutDirection,
             density: Density
         ): Outline {
+            state.size = size
+
             val clampedRange = 0f..size.height / 2
             return RoundedCornerShape(
                 topStart = state.topStart().coerceIn(clampedRange),
