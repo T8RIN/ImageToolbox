@@ -119,7 +119,7 @@ object ContainerShapeDefaults {
 }
 
 
-//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845
+//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845 - https://issuetracker.google.com/issues/397701280
 
 @Stable
 internal class AnimatedShape(
