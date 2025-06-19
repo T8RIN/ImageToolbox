@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import androidx.compose.animation.core.Animatable
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastCoerceIn
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
@@ -115,66 +118,67 @@ object ContainerShapeDefaults {
         get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
 }
 
+
+//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845
+
 @Stable
-internal class AnimatedShapeState(
-    val shape: RoundedCornerShape,
+internal class AnimatedShape(
+    initialShape: RoundedCornerShape,
     val density: Density,
-    val spec: FiniteAnimationSpec<Float>,
-) {
-    internal var size = Size(
+    val animationSpec: FiniteAnimationSpec<Float>,
+) : Shape {
+    private val defaultSize = Size(
         width = with(density) { 48.dp.toPx() },
         height = with(density) { 48.dp.toPx() }
     )
 
-    private var topStart: Animatable<Float, AnimationVector1D> =
-        Animatable(shape.topStart.toPx(size, density))
-
-    private var topEnd: Animatable<Float, AnimationVector1D> =
-        Animatable(shape.topEnd.toPx(size, density))
-
-    private var bottomStart: Animatable<Float, AnimationVector1D> =
-        Animatable(shape.bottomStart.toPx(size, density))
-
-    private var bottomEnd: Animatable<Float, AnimationVector1D> =
-        Animatable(shape.bottomEnd.toPx(size, density))
-
-    fun topStart(): Float = topStart.value
-
-    fun topEnd(): Float = topEnd.value
-
-    fun bottomStart(): Float = bottomStart.value
-
-    fun bottomEnd(): Float = bottomEnd.value
-
-    suspend fun animateToShape(shape: CornerBasedShape) = coroutineScope {
-        launch { topStart.animateTo(shape.topStart.toPx(size, density), spec) }
-        launch { topEnd.animateTo(shape.topEnd.toPx(size, density), spec) }
-        launch { bottomStart.animateTo(shape.bottomStart.toPx(size, density), spec) }
-        launch { bottomEnd.animateTo(shape.bottomEnd.toPx(size, density), spec) }
-    }
-}
-
-//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845
-@Composable
-private fun rememberAnimatedShapeImpl(
-    state: AnimatedShapeState,
-): Shape = remember(state) {
-    object : Shape {
-        override fun createOutline(
-            size: Size,
-            layoutDirection: LayoutDirection,
-            density: Density
-        ): Outline {
-            state.size = size
-
-            val clampedRange = 0f..size.height / 2
-            return RoundedCornerShape(
-                topStart = state.topStart().coerceIn(clampedRange),
-                topEnd = state.topEnd().coerceIn(clampedRange),
-                bottomStart = state.bottomStart().coerceIn(clampedRange),
-                bottomEnd = state.bottomEnd().coerceIn(clampedRange),
-            ).createOutline(size, layoutDirection, density)
+    private var size: Size = defaultSize
+        set(value) {
+            field = value
+            halfHeight = value.halfHeight()
         }
+
+    private var halfHeight: Float = size.halfHeight()
+
+    private val topStart = Animatable(initialShape.topStart.toPx())
+    private val topEnd = Animatable(initialShape.topEnd.toPx())
+    private val bottomStart = Animatable(initialShape.bottomStart.toPx())
+    private val bottomEnd = Animatable(initialShape.bottomEnd.toPx())
+
+    private inline fun CornerSize.toPx() = toPx(size, density)
+
+    private suspend inline fun Animatable<Float, AnimationVector1D>.animateTo(
+        cornerSize: CornerSize
+    ) = animateTo(cornerSize.toPx(), animationSpec)
+
+    private inline fun Float.bounded() = fastCoerceIn(0f, halfHeight)
+
+    private inline fun Size.halfHeight() = height / 2
+
+    suspend fun animateTo(targetShape: CornerBasedShape) = coroutineScope {
+        launch { topStart.animateTo(targetShape.topStart) }
+        launch { topEnd.animateTo(targetShape.topEnd) }
+        launch { bottomStart.animateTo(targetShape.bottomStart) }
+        launch { bottomEnd.animateTo(targetShape.bottomEnd) }
+    }
+
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        this.size = size
+
+        return RoundedCornerShape(
+            topStart = topStart.value.bounded(),
+            topEnd = topEnd.value.bounded(),
+            bottomStart = bottomStart.value.bounded(),
+            bottomEnd = bottomEnd.value.bounded(),
+        ).createOutline(
+            size = size,
+            layoutDirection = layoutDirection,
+            density = density
+        )
     }
 }
 
@@ -186,9 +190,9 @@ internal fun rememberAnimatedShape(
     val density = LocalDensity.current
 
     val state = remember(animationSpec, density) {
-        AnimatedShapeState(
-            shape = currentShape,
-            spec = animationSpec,
+        AnimatedShape(
+            initialShape = currentShape,
+            animationSpec = animationSpec,
             density = density
         )
     }
@@ -199,11 +203,11 @@ internal fun rememberAnimatedShape(
     LaunchedEffect(state, channel) {
         for (target in channel) {
             val newTarget = channel.tryReceive().getOrNull() ?: target
-            launch { state.animateToShape(newTarget) }
+            launch { state.animateTo(newTarget) }
         }
     }
 
-    return rememberAnimatedShapeImpl(state)
+    return state
 }
 
 @Composable
@@ -247,8 +251,8 @@ fun shapeByInteraction(
     val targetShape = targetShapeState.value
 
     if (targetShape is RoundedCornerShape) {
-        return rememberAnimatedShape(
-            currentShape = targetShape,
+        return animateShape(
+            targetValue = targetShape,
             animationSpec = animationSpec,
         )
     }
