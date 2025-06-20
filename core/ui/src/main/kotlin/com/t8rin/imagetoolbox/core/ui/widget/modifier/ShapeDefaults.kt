@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
+import com.t8rin.imagetoolbox.core.domain.utils.autoCast
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
@@ -198,14 +199,18 @@ value class CornerSides internal constructor(private val mask: Int) {
     fun has(other: CornerSides): Boolean = contains(other)
 }
 
-inline fun CornerBasedShape.only(sides: CornerSides): CornerBasedShape {
-    return copy(
-        topStart = if (sides.has(CornerSides.TopStart)) topStart else CornerSize(0f),
-        topEnd = if (sides.has(CornerSides.TopEnd)) topEnd else CornerSize(0f),
-        bottomEnd = if (sides.has(CornerSides.BottomEnd)) bottomEnd else CornerSize(0f),
-        bottomStart = if (sides.has(CornerSides.BottomStart)) bottomStart else CornerSize(0f),
+inline fun <reified S : CornerBasedShape> S.only(
+    sides: CornerSides
+): S = autoCast {
+    copy(
+        topStart = if (sides.has(CornerSides.TopStart)) topStart else ZeroCornerSize,
+        topEnd = if (sides.has(CornerSides.TopEnd)) topEnd else ZeroCornerSize,
+        bottomEnd = if (sides.has(CornerSides.BottomEnd)) bottomEnd else ZeroCornerSize,
+        bottomStart = if (sides.has(CornerSides.BottomStart)) bottomStart else ZeroCornerSize,
     )
 }
+
+val ZeroCornerSize: CornerSize = CornerSize(0f)
 
 @Stable
 internal class AnimatedShape(
