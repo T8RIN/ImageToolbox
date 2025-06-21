@@ -21,7 +21,9 @@ import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,7 +75,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -233,6 +237,8 @@ fun EmojiSelectionSheet(
                                     title in expandedCategories
                                 }
                             }
+                            val interactionSource = remember { MutableInteractionSource() }
+
                             TitleItem(
                                 modifier = Modifier
                                     .padding(
@@ -243,9 +249,17 @@ fun EmojiSelectionSheet(
                                     )
                                     .container(
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                        resultPadding = 0.dp
+                                        resultPadding = 0.dp,
+                                        shape = shapeByInteraction(
+                                            shape = ContainerShapeDefaults.defaultShape,
+                                            pressedShape = ContainerShapeDefaults.pressedShape,
+                                            interactionSource = interactionSource
+                                        )
                                     )
-                                    .hapticsClickable {
+                                    .hapticsClickable(
+                                        interactionSource = interactionSource,
+                                        indication = LocalIndication.current
+                                    ) {
                                         expandedCategories = if (expanded) {
                                             expandedCategories.replace(title, "")
                                         } else expandedCategories + title

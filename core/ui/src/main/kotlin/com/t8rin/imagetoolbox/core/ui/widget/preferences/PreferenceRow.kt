@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -65,7 +66,8 @@ fun PreferenceRow(
     subtitle: String? = null,
     color: Color = Color.Unspecified,
     enabled: Boolean = true,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ContainerShapeDefaults.defaultShape,
+    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
     contentColor: Color? = null,
     applyHorizontalPadding: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
@@ -87,7 +89,7 @@ fun PreferenceRow(
 ) {
     val animatedShape = shapeByInteraction(
         shape = shape,
-        pressedShape = RoundedCornerShape(6.dp),
+        pressedShape = pressedShape,
         interactionSource = interactionSource
     )
 

@@ -24,7 +24,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerBasedShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -46,7 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 
 fun Modifier.container(
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ContainerShapeDefaults.defaultShape,
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
     borderWidth: Dp = Dp.Unspecified,

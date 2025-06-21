@@ -70,23 +70,12 @@ object ContainerShapeDefaults {
                 }
             }
         }
-        val topStart by animateDpAsState(
-            internalShape.topStart.dp
-        )
-        val topEnd by animateDpAsState(
-            internalShape.topEnd.dp
-        )
-        val bottomStart by animateDpAsState(
-            internalShape.bottomStart.dp
-        )
-        val bottomEnd by animateDpAsState(
-            internalShape.bottomEnd.dp
-        )
+
         return RoundedCornerShape(
-            topStart = topStart,
-            topEnd = topEnd,
-            bottomStart = bottomStart,
-            bottomEnd = bottomEnd
+            topStart = internalShape.topStart.animate(),
+            topEnd = internalShape.topEnd.animate(),
+            bottomStart = internalShape.bottomStart.animate(),
+            bottomEnd = internalShape.bottomEnd.animate()
         )
     }
 
@@ -113,9 +102,21 @@ object ContainerShapeDefaults {
 
     val defaultShape = RoundedCornerShape(16.dp)
 
-    private val CornerSize.dp: Dp
-        @Composable
-        get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
+    val pressedShape = RoundedCornerShape(6.dp)
+
+    val largeShape = RoundedCornerShape(20.dp)
+
+    @Composable
+    private inline fun CornerSize.animate(): Dp = animateDpAsState(
+        targetValue = with(LocalDensity.current) {
+            toPx(
+                shapeSize = Size.Unspecified,
+                density = this
+            ).toDp()
+        },
+        animationSpec = lessSpringySpec()
+    ).value
+
 }
 
 
@@ -124,21 +125,16 @@ object ContainerShapeDefaults {
 @Stable
 internal class AnimatedShape(
     initialShape: RoundedCornerShape,
-    val density: Density,
-    val animationSpec: FiniteAnimationSpec<Float>,
+    private val density: Density,
+    private val animationSpec: FiniteAnimationSpec<Float>,
 ) : Shape {
-    private val defaultSize = Size(
+
+    private var size: Size = Size(
         width = with(density) { 48.dp.toPx() },
         height = with(density) { 48.dp.toPx() }
     )
 
-    private var size: Size = defaultSize
-        set(value) {
-            field = value
-            halfHeight = value.halfHeight()
-        }
-
-    private var halfHeight: Float = size.halfHeight()
+    private val halfHeight: Float get() = size.height / 2f
 
     private val topStart = Animatable(initialShape.topStart.toPx())
     private val topEnd = Animatable(initialShape.topEnd.toPx())
@@ -147,13 +143,11 @@ internal class AnimatedShape(
 
     private inline fun CornerSize.toPx() = toPx(size, density)
 
-    private suspend inline fun Animatable<Float, AnimationVector1D>.animateTo(
+    private suspend inline fun ShapeAnimatable.animateTo(
         cornerSize: CornerSize
     ) = animateTo(cornerSize.toPx(), animationSpec)
 
-    private inline fun Float.bounded() = fastCoerceIn(0f, halfHeight)
-
-    private inline fun Size.halfHeight() = height / 2
+    private inline fun ShapeAnimatable.bounded() = value.fastCoerceIn(0f, halfHeight)
 
     suspend fun animateTo(targetShape: CornerBasedShape) = coroutineScope {
         launch { topStart.animateTo(targetShape.topStart) }
@@ -169,24 +163,28 @@ internal class AnimatedShape(
     ): Outline {
         this.size = size
 
-        return RoundedCornerShape(
-            topStart = topStart.value.bounded(),
-            topEnd = topEnd.value.bounded(),
-            bottomStart = bottomStart.value.bounded(),
-            bottomEnd = bottomEnd.value.bounded(),
-        ).createOutline(
+        return asRoundedCornerShape().createOutline(
             size = size,
             layoutDirection = layoutDirection,
             density = density
         )
     }
+
+    fun asRoundedCornerShape() = RoundedCornerShape(
+        topStart = topStart.bounded(),
+        topEnd = topEnd.bounded(),
+        bottomStart = bottomStart.bounded(),
+        bottomEnd = bottomEnd.bounded(),
+    )
 }
+
+internal typealias ShapeAnimatable = Animatable<Float, AnimationVector1D>
 
 @Composable
 internal fun rememberAnimatedShape(
     currentShape: RoundedCornerShape,
-    animationSpec: FiniteAnimationSpec<Float>
-): Shape {
+    animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
+): AnimatedShape {
     val density = LocalDensity.current
 
     val state = remember(animationSpec, density) {

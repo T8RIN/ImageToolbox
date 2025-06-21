@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -74,8 +74,8 @@ fun PreferenceItemOverload(
     startIcon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
     badge: (@Composable RowScope.() -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
-    pressedShape: Shape = RoundedCornerShape(6.dp),
+    shape: Shape = ContainerShapeDefaults.defaultShape,
+    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
     color: Color = Color.Unspecified,
     contentColor: Color = contentColorFor(backgroundColor = color),
     overrideIconShapeContentColor: Boolean = false,

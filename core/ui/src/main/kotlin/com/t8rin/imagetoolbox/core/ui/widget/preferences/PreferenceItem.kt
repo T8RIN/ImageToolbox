@@ -31,7 +31,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.contentColorFor
@@ -46,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 
 private val DefaultStartTransition: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform =
     {
@@ -70,7 +70,8 @@ fun PreferenceItem(
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     autoShadowElevation: Dp = 1.dp,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ContainerShapeDefaults.defaultShape,
+    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
     color: Color = Color.Unspecified,
     contentColor: Color = contentColorFor(backgroundColor = color),
     overrideIconShapeContentColor: Boolean = false,
@@ -124,6 +125,7 @@ fun PreferenceItem(
         endIcon = targetEndIcon,
         overrideIconShapeContentColor = overrideIconShapeContentColor,
         shape = shape,
+        pressedShape = pressedShape,
         color = color,
         modifier = modifier,
         titleFontStyle = titleFontStyle,

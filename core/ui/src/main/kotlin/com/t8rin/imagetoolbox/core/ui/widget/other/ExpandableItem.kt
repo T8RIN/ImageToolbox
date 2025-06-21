@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -65,8 +65,8 @@ fun ExpandableItem(
     expandableContent: @Composable ColumnScope.(Boolean) -> Unit,
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    shape: Shape = RoundedCornerShape(20.dp),
-    pressedShape: Shape = RoundedCornerShape(6.dp),
+    shape: Shape = ContainerShapeDefaults.largeShape,
+    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
     color: Color = Color.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     canExpand: Boolean = true,
