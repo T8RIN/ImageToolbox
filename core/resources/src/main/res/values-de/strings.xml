@@ -1635,4 +1635,7 @@
     <string name="sort_by_size">Größe</string>
     <string name="liquid_glass">Flüssiges Glas</string>
     <string name="liquid_glass_sub">Ein Schalter, der auf dem kürzlich angekündigten IOS 26 und seinem Flüssigglas-Designsystem basiert</string>
+    <string name="paste_link">Link einfügen</string>
+    <string name="pick_image_or_base64">Bild auswählen oder Base64-Daten einfügen/importieren</string>
+    <string name="type_image_link">Bildlink zum Starten eingeben</string>
 </resources>
