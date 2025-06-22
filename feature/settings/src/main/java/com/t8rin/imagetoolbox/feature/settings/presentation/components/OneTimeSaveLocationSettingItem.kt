@@ -32,12 +32,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun OneTimeSaveLocationSettingItem(
-    shape: Shape = ContainerShapeDefaults.defaultShape,
+    shape: Shape = ShapeDefaults.default,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }

@@ -40,7 +40,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material3.Badge
@@ -78,7 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -93,7 +92,7 @@ fun ScaleModeSelector(
     onValueChange: (ImageScaleMode) -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Unspecified,
-    shape: Shape = RoundedCornerShape(24.dp),
+    shape: Shape = ShapeDefaults.extraLarge,
     enableItemsCardBackground: Boolean = true,
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
@@ -174,8 +173,8 @@ fun ScaleModeSelector(
                             color = MaterialTheme.colorScheme.surface,
                             shape = animateShape(
                                 if (isColorSpaceSelectionVisible) {
-                                    ContainerShapeDefaults.topShape
-                                } else ContainerShapeDefaults.defaultShape
+                                    ShapeDefaults.top
+                                } else ShapeDefaults.default
                             )
                         )
                         .padding(horizontal = 8.dp, vertical = 12.dp)
@@ -249,7 +248,7 @@ fun ScaleModeSelector(
                     it.title
                 },
                 color = MaterialTheme.colorScheme.surface,
-                shape = ContainerShapeDefaults.bottomShape,
+                shape = ShapeDefaults.bottom,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp)
@@ -290,7 +289,7 @@ fun ScaleModeSelector(
                             .fillMaxWidth()
                             .container(
                                 color = containerColor,
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = entries.size
                                 ),

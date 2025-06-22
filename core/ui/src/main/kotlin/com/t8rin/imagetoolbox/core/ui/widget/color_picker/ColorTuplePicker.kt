@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -154,7 +154,7 @@ fun ColorTuplePicker(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier
-                                .container(RoundedCornerShape(24.dp))
+                                .container(ShapeDefaults.extraLarge)
                                 .padding(16.dp)
                         ) {
                             Icon(
@@ -197,7 +197,7 @@ fun ColorTuplePicker(
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .container(RoundedCornerShape(24.dp))
+                                .container(ShapeDefaults.extraLarge)
                                 .padding(horizontal = 20.dp)
                         ) {
                             TitleItem(text = stringResource(R.string.primary))
@@ -220,7 +220,7 @@ fun ColorTuplePicker(
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier
-                                    .container(RoundedCornerShape(24.dp))
+                                    .container(ShapeDefaults.extraLarge)
                                     .padding(horizontal = 20.dp)
                             ) {
                                 TitleItem(text = stringResource(R.string.secondary))
@@ -237,7 +237,7 @@ fun ColorTuplePicker(
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier
-                                    .container(RoundedCornerShape(24.dp))
+                                    .container(ShapeDefaults.extraLarge)
                                     .padding(horizontal = 20.dp)
                             ) {
                                 TitleItem(text = stringResource(R.string.tertiary))
@@ -254,7 +254,7 @@ fun ColorTuplePicker(
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier
-                                    .container(RoundedCornerShape(24.dp))
+                                    .container(ShapeDefaults.extraLarge)
                                     .padding(horizontal = 20.dp)
                             ) {
                                 TitleItem(text = stringResource(R.string.surface))

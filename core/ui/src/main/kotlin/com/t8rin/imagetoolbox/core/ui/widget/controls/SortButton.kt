@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
@@ -110,7 +110,7 @@ fun SortButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .container(
-                            shape = ContainerShapeDefaults.shapeForIndex(
+                            shape = ShapeDefaults.byIndex(
                                 index = index,
                                 size = items.size
                             ),

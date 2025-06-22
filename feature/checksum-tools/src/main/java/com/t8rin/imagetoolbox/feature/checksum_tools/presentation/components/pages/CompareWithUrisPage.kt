@@ -53,7 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PagerScrollPanel
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -99,7 +99,7 @@ internal fun ColumnScope.CompareWithUrisPage(
         PreferenceRow(
             title = stringResource(R.string.pick_files),
             onClick = filePicker::pickFile,
-            shape = ContainerShapeDefaults.leftShape,
+            shape = ShapeDefaults.start,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
             startIcon = Icons.Outlined.FileCopy,
             drawStartIconContainer = false,
@@ -114,7 +114,7 @@ internal fun ColumnScope.CompareWithUrisPage(
             onClick = {
                 openDirectoryLauncher.open(previousFolder)
             },
-            shape = ContainerShapeDefaults.rightShape,
+            shape = ShapeDefaults.end,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
             startIcon = Icons.Outlined.FolderOpen,
             drawStartIconContainer = false,

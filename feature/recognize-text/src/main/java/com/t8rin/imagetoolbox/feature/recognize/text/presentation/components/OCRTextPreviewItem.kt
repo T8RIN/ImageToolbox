@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -57,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -76,7 +76,7 @@ internal fun OCRTextPreviewItem(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .container(shape = RoundedCornerShape(24.dp))
+                .container(shape = ShapeDefaults.extraLarge)
                 .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -87,7 +87,7 @@ internal fun OCRTextPreviewItem(
                         .border(
                             width = 2.dp,
                             color = MaterialTheme.colorScheme.outline,
-                            shape = RoundedCornerShape(12.dp)
+                            shape = ShapeDefaults.small
                         ),
                     contentAlignment = Alignment.Center
                 ) {
@@ -109,7 +109,7 @@ internal fun OCRTextPreviewItem(
                         .border(
                             width = 2.dp,
                             color = MaterialTheme.colorScheme.outline,
-                            shape = RoundedCornerShape(12.dp)
+                            shape = ShapeDefaults.small
                         )
                         .padding(16.dp)
                         .animateContentSizeNoClip()

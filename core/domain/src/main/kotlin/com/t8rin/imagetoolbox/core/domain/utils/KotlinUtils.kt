@@ -60,3 +60,5 @@ suspend inline fun <T, R> T.runSuspendCatching(block: T.() -> R): Result<R> {
 }
 
 inline fun <T : Any> KClass<T>.simpleName() = simpleName!!
+
+inline fun <T> Boolean.then(value: T): T? = if (this) value else null

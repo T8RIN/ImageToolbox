@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CropFree
@@ -75,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -110,7 +110,7 @@ fun AspectRatioSelector(
     enableFadingEdges: Boolean = true,
     onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit,
     color: Color = Color.Unspecified,
-    shape: Shape = RoundedCornerShape(24.dp),
+    shape: Shape = ShapeDefaults.extraLarge,
     aspectRatios: List<DomainAspectRatio> = aspectRatios()
 ) {
 
@@ -259,7 +259,7 @@ fun AspectRatioSelector(
                 Modifier
                     .padding(8.dp)
                     .container(
-                        shape = RoundedCornerShape(24.dp),
+                        shape = ShapeDefaults.extraLarge,
                         color = unselectedCardColor
                     )
             ) {
@@ -287,7 +287,7 @@ fun AspectRatioSelector(
                             )
                         }
                     },
-                    shape = RoundedCornerShape(12.dp),
+                    shape = ShapeDefaults.small,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
@@ -324,7 +324,7 @@ fun AspectRatioSelector(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = ShapeDefaults.small,
                     label = {
                         Text(stringResource(R.string.height, " "))
                     },

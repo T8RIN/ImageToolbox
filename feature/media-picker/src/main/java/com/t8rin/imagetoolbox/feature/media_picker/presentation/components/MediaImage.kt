@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 
 @Composable
@@ -97,7 +98,7 @@ fun MediaImage(
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(ShapeDefaults.extraSmall)
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .then(
                 if (canClick) {

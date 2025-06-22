@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
 import androidx.compose.material.icons.outlined.Opacity
@@ -44,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.gif_tools.domain.GifParams
 import kotlinx.collections.immutable.persistentMapOf
@@ -89,7 +89,7 @@ fun GifParamsSelector(
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         PreferenceRowSwitch(
@@ -104,7 +104,7 @@ fun GifParamsSelector(
             startIcon = Icons.Outlined.Stack,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         QualitySelector(
@@ -139,7 +139,7 @@ fun GifParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
@@ -156,7 +156,7 @@ fun GifParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         PreferenceRowSwitch(
@@ -173,7 +173,7 @@ fun GifParamsSelector(
             startIcon = Icons.Outlined.Opacity,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         AnimatedVisibility(value.crossfadeCount > 1) {
             EnhancedSliderItem(
@@ -190,7 +190,7 @@ fun GifParamsSelector(
                         )
                     )
                 },
-                shape = RoundedCornerShape(24.dp),
+                shape = ShapeDefaults.extraLarge,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }

@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -64,6 +63,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -74,7 +74,7 @@ fun RoundedTextField(
     onValueChange: (String) -> Unit,
     label: String = "",
     hint: String = "",
-    shape: Shape = RoundedCornerShape(12.dp),
+    shape: Shape = ShapeDefaults.small,
     startIcon: ImageVector? = null,
     value: String,
     isError: Boolean = false,
@@ -148,7 +148,7 @@ fun RoundedTextField(
     onValueChange: (String) -> Unit,
     label: (@Composable () -> Unit)? = null,
     hint: (@Composable () -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(12.dp),
+    shape: Shape = ShapeDefaults.small,
     startIcon: (@Composable () -> Unit)? = null,
     value: String,
     isError: Boolean = false,

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Segment
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.SegmentationMode
@@ -60,7 +59,7 @@ fun ModelTypeSelector(
         onClick = {
             showSelectionSheet = true
         },
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         startIcon = Icons.AutoMirrored.Outlined.Segment,
         endIcon = Icons.Rounded.MiniEdit
     )
@@ -105,7 +104,7 @@ fun ModelTypeSelector(
                         if (value == mode) MaterialTheme.colorScheme.secondaryContainer
                         else MaterialTheme.colorScheme.surfaceContainer
                     ).value,
-                    shape = ContainerShapeDefaults.shapeForIndex(
+                    shape = ShapeDefaults.byIndex(
                         index = index,
                         size = SegmentationMode.entries.size
                     )

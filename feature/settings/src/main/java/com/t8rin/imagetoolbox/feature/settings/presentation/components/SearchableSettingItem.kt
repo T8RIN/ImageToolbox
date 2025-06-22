@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +41,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 
@@ -95,7 +95,7 @@ internal fun SearchableSettingItem(
         val itemShape = when (setting) {
             is Setting.ImagePickerMode -> null
             is Setting.NightMode -> null
-            else -> RoundedCornerShape(12.dp)
+            else -> ShapeDefaults.small
         }
         ProvideContainerDefaults(itemShape) {
             SettingItem(

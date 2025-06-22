@@ -33,14 +33,14 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.pulsate
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.DonateSheet
 
 @Composable
 fun DonateSettingItem(
-    shape: Shape = ContainerShapeDefaults.bottomShape
+    shape: Shape = ShapeDefaults.bottom
 ) {
     val settingsState = LocalSettingsState.current
     var showDonateSheet by rememberSaveable { mutableStateOf(false) }

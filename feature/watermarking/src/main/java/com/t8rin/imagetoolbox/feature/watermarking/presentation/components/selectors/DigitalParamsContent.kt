@@ -24,7 +24,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DisabledVisible
 import androidx.compose.material.icons.rounded.GraphicEq
@@ -34,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.copy
@@ -68,7 +68,7 @@ internal fun DigitalParamsContent(
                         )
                     )
                 },
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
             AnimatedVisibility(visible = isInvisible) {
@@ -86,7 +86,7 @@ internal fun DigitalParamsContent(
                             )
                         )
                     },
-                    shape = RoundedCornerShape(20.dp),
+                    shape = ShapeDefaults.large,
                     color = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.padding(top = 4.dp)
                 )

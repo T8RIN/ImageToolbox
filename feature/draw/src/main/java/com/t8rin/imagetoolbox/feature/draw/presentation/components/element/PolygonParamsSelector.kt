@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isPolygon
@@ -72,7 +72,7 @@ internal fun PolygonParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ContainerShapeDefaults.topShape
+                shape = ShapeDefaults.top
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
@@ -91,7 +91,7 @@ internal fun PolygonParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ContainerShapeDefaults.centerShape
+                shape = ShapeDefaults.center
             )
             Spacer(modifier = Modifier.height(4.dp))
             PreferenceRowSwitch(
@@ -104,7 +104,7 @@ internal fun PolygonParamsSelector(
                     )
                 },
                 color = MaterialTheme.colorScheme.surface,
-                shape = ContainerShapeDefaults.bottomShape,
+                shape = ShapeDefaults.bottom,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),

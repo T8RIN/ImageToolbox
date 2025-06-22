@@ -71,7 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toUiPath
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
@@ -198,7 +198,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         MutableInteractionSource()
                     }
                     val isDragged by interactionSource.collectIsDraggedAsState()
-                    val shape = ContainerShapeDefaults.shapeForIndex(
+                    val shape = ShapeDefaults.byIndex(
                         index = index,
                         size = data.size + 1,
                         forceDefault = isDragged
@@ -307,7 +307,7 @@ fun OneTimeSaveLocationSelectionDialog(
                 PreferenceItem(
                     title = stringResource(id = R.string.add_new_folder),
                     startIcon = Icons.Outlined.CreateNewFolder,
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     onClick = {
                         launcher.open(currentFolderUri)
@@ -332,7 +332,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         title = stringResource(id = R.string.custom_filename),
                         subtitle = stringResource(id = R.string.custom_filename_sub),
                         startIcon = Icons.Outlined.DriveFileRenameOutline,
-                        shape = ContainerShapeDefaults.defaultShape,
+                        shape = ShapeDefaults.default,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                         onClick = {
                             createLauncher.make("$imageString.${formatForFilenameSelection.extension}")

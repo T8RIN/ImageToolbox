@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.LocalContentColor
@@ -50,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.OOMWarning
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -90,7 +90,7 @@ fun ImageScaleSelector(
                 bottom = 10.dp
             ),
         icon = Icons.Rounded.PhotoSizeSelectSmall,
-        shape = RoundedCornerShape(24.dp)
+        shape = ShapeDefaults.extraLarge
     ) {
         AnimatedContent(
             targetState = scaledSize != null,
@@ -102,7 +102,7 @@ fun ImageScaleSelector(
                         modifier = Modifier
                             .padding(4.dp)
                             .container(
-                                RoundedCornerShape(20.dp),
+                                shape = ShapeDefaults.large,
                                 color = MaterialTheme.colorScheme.surface
                             )
                             .padding(4.dp)
@@ -158,7 +158,7 @@ fun ImageScaleSelector(
                         .padding(4.dp)
                         .fillMaxWidth()
                         .container(
-                            shape = RoundedCornerShape(size = 20.dp),
+                            shape = ShapeDefaults.large,
                             color = MaterialTheme.colorScheme.surface
                         )
                         .padding(6.dp),

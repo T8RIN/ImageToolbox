@@ -21,7 +21,6 @@ import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 
@@ -58,9 +58,9 @@ fun PathPaintPreview(
         .border(
             width = 1.dp,
             color = MaterialTheme.colorScheme.outlineVariant(),
-            shape = RoundedCornerShape(4.dp)
+            shape = ShapeDefaults.extraSmall
         )
-        .clip(RoundedCornerShape(4.dp))
+        .clip(ShapeDefaults.extraSmall)
         .transparencyChecker(
             checkerHeight = 2.dp,
             checkerWidth = 2.dp

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.watermarking.presentation.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -25,9 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
@@ -50,7 +49,7 @@ fun WatermarkingTypeSelector(
     EnhancedButtonGroup(
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(20.dp)
+                shape = ShapeDefaults.large
             ),
         enabled = true,
         items = WatermarkingType.entries.map { it.translatedName },

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
@@ -44,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.apng_tools.domain.ApngParams
@@ -89,7 +89,7 @@ fun ApngParamsSelector(
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
@@ -120,7 +120,7 @@ fun ApngParamsSelector(
                 color = LocalContentColor.current.copy(0.5f),
                 modifier = Modifier
                     .padding(4.dp)
-                    .container(RoundedCornerShape(20.dp))
+                    .container(ShapeDefaults.large)
                     .padding(4.dp)
             )
         }
@@ -139,7 +139,7 @@ fun ApngParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
@@ -155,7 +155,7 @@ fun ApngParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
     }
 }

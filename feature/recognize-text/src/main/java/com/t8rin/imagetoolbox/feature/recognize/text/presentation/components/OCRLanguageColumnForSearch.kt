@@ -32,7 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.RecognitionType
@@ -93,7 +93,7 @@ internal fun OCRLanguageColumnForSearch(
                         )
                     } else EnhancedBottomSheetDefaults.contentContainerColor
                 ).value,
-                shape = ContainerShapeDefaults.shapeForIndex(
+                shape = ShapeDefaults.byIndex(
                     index = index,
                     size = languagesForSearch.size
                 ),

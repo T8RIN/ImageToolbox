@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Link
@@ -45,7 +44,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LinkPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LinkUtils
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlinx.coroutines.delay
@@ -94,7 +93,7 @@ fun LinkPreviewList(
             modifier = Modifier
                 .then(modifier)
                 .container(
-                    shape = RoundedCornerShape(20.dp),
+                    shape = ShapeDefaults.large,
                     resultPadding = 0.dp
                 )
                 .padding(8.dp)
@@ -111,7 +110,7 @@ fun LinkPreviewList(
                     links.forEachIndexed { index, link ->
                         LinkPreviewCard(
                             linkPreview = link,
-                            shape = ContainerShapeDefaults.shapeForIndex(
+                            shape = ShapeDefaults.byIndex(
                                 index = index,
                                 size = links.size
                             )

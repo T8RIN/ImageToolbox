@@ -58,7 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PositionSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.StackImage
@@ -171,7 +171,7 @@ fun StackImageItem(
                             )
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = ContainerShapeDefaults.topShape
+                        shape = ShapeDefaults.top
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     BlendingModeSelector(
@@ -182,7 +182,7 @@ fun StackImageItem(
                             )
                         },
                         color = Color.Unspecified,
-                        shape = ContainerShapeDefaults.centerShape
+                        shape = ShapeDefaults.center
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     PositionSelector(
@@ -193,7 +193,7 @@ fun StackImageItem(
                             )
                         },
                         color = Color.Unspecified,
-                        shape = ContainerShapeDefaults.centerShape
+                        shape = ShapeDefaults.center
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     DataSelector(
@@ -211,7 +211,7 @@ fun StackImageItem(
                             it.title()
                         },
                         color = Color.Unspecified,
-                        shape = ContainerShapeDefaults.bottomShape
+                        shape = ShapeDefaults.bottom
                     )
                 }
             }

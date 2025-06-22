@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
@@ -32,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHelperGrid
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 
@@ -59,14 +59,14 @@ fun BoxScope.BitmapDrawerPreview(
                 onUpdateDrawDownPosition = onUpdateDrawDownPosition,
                 enabled = drawEnabled
             )
-            .clip(RoundedCornerShape(2.dp))
+            .clip(ShapeDefaults.extremeSmall)
             .transparencyChecker()
             .then(beforeHelperGridModifier)
             .drawHelperGrid(helperGridParams)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant(),
-                shape = RoundedCornerShape(2.dp)
+                shape = ShapeDefaults.extremeSmall
             ),
         contentDescription = null,
         contentScale = ContentScale.FillBounds

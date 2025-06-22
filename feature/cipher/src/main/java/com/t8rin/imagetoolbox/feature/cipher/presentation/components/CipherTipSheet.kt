@@ -41,7 +41,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Interface
 import com.t8rin.imagetoolbox.core.resources.icons.Puzzle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -64,7 +64,7 @@ fun CipherTipSheet(
                     Column(
                         modifier = Modifier
                             .container(
-                                shape = ContainerShapeDefaults.topShape
+                                shape = ShapeDefaults.top
                             )
                             .fillMaxWidth()
                     ) {
@@ -82,7 +82,7 @@ fun CipherTipSheet(
                     Column(
                         modifier = Modifier
                             .container(
-                                shape = ContainerShapeDefaults.centerShape
+                                shape = ShapeDefaults.center
                             )
                             .fillMaxWidth()
                     ) {
@@ -100,7 +100,7 @@ fun CipherTipSheet(
                     Column(
                         modifier = Modifier
                             .container(
-                                shape = ContainerShapeDefaults.centerShape
+                                shape = ShapeDefaults.center
                             )
                             .fillMaxWidth()
                     ) {
@@ -118,7 +118,7 @@ fun CipherTipSheet(
                     Column(
                         modifier = Modifier
                             .container(
-                                shape = ContainerShapeDefaults.bottomShape
+                                shape = ShapeDefaults.bottom
                             )
                             .fillMaxWidth()
                     ) {

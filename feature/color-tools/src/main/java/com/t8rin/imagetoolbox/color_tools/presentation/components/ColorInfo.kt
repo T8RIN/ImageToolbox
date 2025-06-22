@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -57,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
@@ -102,7 +102,7 @@ internal fun ColorInfo(
                     modifier = Modifier
                         .heightIn(min = 80.dp)
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(ShapeDefaults.default)
                         .transparencyChecker()
                         .background(boxColor)
                         .hapticsClickable {
@@ -125,7 +125,7 @@ internal fun ColorInfo(
                             .size(28.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = RoundedCornerShape(8.dp)
+                                shape = ShapeDefaults.mini
                             )
                             .padding(2.dp)
                     )
@@ -138,7 +138,7 @@ internal fun ColorInfo(
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = RoundedCornerShape(8.dp)
+                                shape = ShapeDefaults.mini
                             )
                             .padding(horizontal = 4.dp),
                         fontSize = 12.sp
@@ -156,7 +156,7 @@ internal fun ColorInfo(
                             .padding(4.dp)
                             .background(
                                 color = boxColor.copy(alpha = 1f),
-                                shape = RoundedCornerShape(8.dp)
+                                shape = ShapeDefaults.mini
                             )
                             .padding(horizontal = 4.dp),
                         fontSize = 12.sp

@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.core.crash.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BugReport
@@ -31,13 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
 internal fun CrashInfoCard(crashInfo: CrashInfo) {
     ExpandableItem(
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         modifier = Modifier.fillMaxWidth(),
         visibleContent = {
             Icon(

@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
@@ -46,7 +45,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -54,7 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 @Composable
 fun FastSettingsSideSettingItem(
     onValueChange: (FastSettingsSide) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
     val settingsState = LocalSettingsState.current
@@ -104,23 +103,11 @@ fun FastSettingsSideSettingItem(
                                 onClick = {
                                     onValueChange(side)
                                 },
-                                shape = if (index == 0) {
-                                    RoundedCornerShape(
-                                        topStart = 16.dp,
-                                        bottomStart = 16.dp,
-                                        topEnd = 4.dp,
-                                        bottomEnd = 4.dp
-                                    )
-                                } else if (index == entries.lastIndex) {
-                                    RoundedCornerShape(
-                                        topEnd = 16.dp,
-                                        bottomEnd = 16.dp,
-                                        topStart = 4.dp,
-                                        bottomStart = 4.dp
-                                    )
-                                } else {
-                                    RoundedCornerShape(4.dp)
-                                },
+                                shape = ShapeDefaults.byIndex(
+                                    index = index,
+                                    size = entries.size,
+                                    vertical = false
+                                ),
                                 titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
                                 startIcon = if (selected) {
                                     Icons.Rounded.RadioButtonChecked

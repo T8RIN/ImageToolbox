@@ -21,7 +21,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -62,7 +62,7 @@ fun M3Slider(
                     Modifier
                         .padding(vertical = 2.dp)
                         .container(
-                            shape = RoundedCornerShape(12.dp),
+                            shape = ShapeDefaults.small,
                             autoShadowElevation = animateDpAsState(
                                 if (settingsState.drawSliderShadows) {
                                     1.dp
@@ -136,7 +136,7 @@ fun M3RangeSlider(
                     Modifier
                         .padding(vertical = 2.dp)
                         .container(
-                            shape = RoundedCornerShape(12.dp),
+                            shape = ShapeDefaults.small,
                             autoShadowElevation = animateDpAsState(
                                 if (settingsState.drawSliderShadows) {
                                     1.dp

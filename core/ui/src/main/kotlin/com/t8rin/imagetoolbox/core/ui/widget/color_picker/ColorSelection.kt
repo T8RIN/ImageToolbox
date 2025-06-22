@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,6 +39,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colorpicker.selector.SelectorRectSaturationValueHSV
 import com.smarttoolfactory.colorpicker.slider.SliderHueHSV
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -66,11 +66,11 @@ fun ColorSelection(
                 .fillMaxWidth()
                 .aspectRatio(4 / 2.5f)
                 .container(
-                    shape = RoundedCornerShape(6.dp),
+                    shape = ShapeDefaults.pressed,
                     resultPadding = 0.dp,
                     color = infoContainerColor
                 )
-                .clip(RoundedCornerShape(6.dp)),
+                .clip(ShapeDefaults.pressed),
             hue = hue,
             saturation = saturation,
             value = value

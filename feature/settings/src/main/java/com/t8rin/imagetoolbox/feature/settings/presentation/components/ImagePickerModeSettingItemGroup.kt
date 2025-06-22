@@ -37,7 +37,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -57,7 +57,7 @@ fun ImagePickerModeSettingItemGroup(
         data.forEachIndexed { index, mode ->
             val selected = settingsState.picturePickerMode.ordinal == mode.ordinal
 
-            val shape = ContainerShapeDefaults.shapeForIndex(
+            val shape = ShapeDefaults.byIndex(
                 index = index,
                 size = data.size
             )

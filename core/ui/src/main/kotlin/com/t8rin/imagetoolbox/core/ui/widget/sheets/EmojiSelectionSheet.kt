@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Face5
 import androidx.compose.material.icons.outlined.Face6
@@ -75,7 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
@@ -251,8 +250,8 @@ fun EmojiSelectionSheet(
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                         resultPadding = 0.dp,
                                         shape = shapeByInteraction(
-                                            shape = ContainerShapeDefaults.defaultShape,
-                                            pressedShape = ContainerShapeDefaults.pressedShape,
+                                            shape = ShapeDefaults.default,
+                                            pressedShape = ShapeDefaults.pressed,
                                             interactionSource = interactionSource
                                         )
                                     )
@@ -358,7 +357,7 @@ fun EmojiSelectionSheet(
                             .fillMaxWidth()
                             .background(EnhancedBottomSheetDefaults.containerColor)
                             .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
-                        shape = RoundedCornerShape(28.dp),
+                        shape = ShapeDefaults.extremeLarge,
                         checked = emojiEnabled,
                         startIcon = Icons.Outlined.Face6,
                         onClick = {

@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
@@ -161,7 +161,7 @@ internal fun ColorShading(
                                         .heightIn(min = 100.dp)
                                         .fillMaxWidth()
                                         .clip(
-                                            ContainerShapeDefaults.shapeForIndex(
+                                            ShapeDefaults.byIndex(
                                                 index = index,
                                                 size = data.size
                                             )
@@ -188,7 +188,7 @@ internal fun ColorShading(
                                             .size(28.dp)
                                             .background(
                                                 color = boxColor.copy(alpha = 1f),
-                                                shape = RoundedCornerShape(8.dp)
+                                                shape = ShapeDefaults.mini
                                             )
                                             .padding(2.dp)
                                     )

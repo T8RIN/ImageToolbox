@@ -41,7 +41,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import sh.calvin.reorderable.ReorderableItem
@@ -102,7 +102,7 @@ fun FilterReorderSheet(
                                             else 1f
                                         ).value
                                     ),
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = data.value.size
                                 ),

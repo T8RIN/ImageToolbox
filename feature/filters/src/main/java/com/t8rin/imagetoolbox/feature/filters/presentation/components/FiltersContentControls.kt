@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
@@ -65,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -105,7 +105,7 @@ internal fun FiltersContentControls(
                     }
                 }
             },
-            shape = RoundedCornerShape(24.dp),
+            shape = ShapeDefaults.extraLarge,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.size(8.dp))

@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -80,7 +80,7 @@ fun CompareSheet(
                             .weight(1f)
                             .padding(horizontal = 16.dp)
                             .container(
-                                shape = RoundedCornerShape(4.dp),
+                                shape = ShapeDefaults.extraSmall,
                                 color = MaterialTheme.colorScheme
                                     .outlineVariant()
                                     .copy(alpha = 0.1f),
@@ -97,7 +97,7 @@ fun CompareSheet(
                             if (before != null && after != null) {
                                 BeforeAfterImage(
                                     overlayStyle = OverlayStyle(),
-                                    modifier = Modifier.clip(RoundedCornerShape(4.dp)),
+                                    modifier = Modifier.clip(ShapeDefaults.extraSmall),
                                     progress = animateFloatAsState(targetValue = progress).value,
                                     onProgressChange = {
                                         progress = it
@@ -151,7 +151,7 @@ fun CompareSheet(
     afterContent: @Composable () -> Unit,
     visible: Boolean,
     onDismiss: () -> Unit,
-    shape: Shape = RoundedCornerShape(4.dp)
+    shape: Shape = ShapeDefaults.extraSmall
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
 
@@ -166,7 +166,7 @@ fun CompareSheet(
                         .weight(1f)
                         .padding(horizontal = 16.dp)
                         .container(
-                            shape = RoundedCornerShape(4.dp),
+                            shape = ShapeDefaults.extraSmall,
                             color = MaterialTheme.colorScheme
                                 .outlineVariant()
                                 .copy(alpha = 0.1f),

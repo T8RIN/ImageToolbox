@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.LineWeight
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun LineWidthSelector(
@@ -55,6 +55,6 @@ fun LineWidthSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge
     )
 }

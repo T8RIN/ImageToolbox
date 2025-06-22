@@ -25,7 +25,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,6 +40,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PositionSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
@@ -106,7 +106,7 @@ internal fun StampParamsContent(
                     )
                 },
                 valueRange = 0f..50f,
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -128,7 +128,7 @@ internal fun StampParamsContent(
                     )
                 },
                 valueRange = 0.01f..1f,
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -148,7 +148,7 @@ internal fun StampParamsContent(
                 title = stringResource(R.string.text_color),
                 titleFontWeight = FontWeight.Medium,
                 modifier = Modifier.container(
-                    shape = RoundedCornerShape(20.dp),
+                    shape = ShapeDefaults.large,
                     color = MaterialTheme.colorScheme.surface
                 )
             )
@@ -169,7 +169,7 @@ internal fun StampParamsContent(
                 title = stringResource(R.string.background_color),
                 titleFontWeight = FontWeight.Medium,
                 modifier = Modifier.container(
-                    shape = RoundedCornerShape(20.dp),
+                    shape = ShapeDefaults.large,
                     color = MaterialTheme.colorScheme.surface
                 )
             )

@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Healing
 import androidx.compose.material3.Icon
@@ -34,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -46,7 +46,7 @@ fun RecoverModeCard(
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         enabled = enabled,
         title = stringResource(R.string.restore_background),
         subtitle = stringResource(R.string.restore_background_sub),

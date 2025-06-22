@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -41,6 +40,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageToolboxBroken
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -51,7 +51,7 @@ internal fun CrashAttentionCard() {
         modifier = Modifier
             .fillMaxWidth()
             .container(
-                shape = RoundedCornerShape(size = 20.dp),
+                shape = ShapeDefaults.large,
                 resultPadding = 16.dp,
                 color = takeColorFromScheme {
                     if (isNightMode) {

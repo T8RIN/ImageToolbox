@@ -34,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.AuthorLinksSheet
 
 @Composable
 fun AuthorSettingItem(
-    shape: Shape = ContainerShapeDefaults.topShape
+    shape: Shape = ShapeDefaults.top
 ) {
     var showAuthorSheet by rememberSaveable { mutableStateOf(false) }
 

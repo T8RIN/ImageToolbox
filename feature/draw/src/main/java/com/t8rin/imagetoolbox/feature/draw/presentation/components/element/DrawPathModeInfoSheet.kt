@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -61,7 +61,7 @@ internal fun DrawPathModeInfoSheet(
                         Modifier
                             .fillMaxWidth()
                             .container(
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = values.size
                                 ),

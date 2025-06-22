@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlin.math.roundToInt
 
 @Composable
@@ -39,7 +39,7 @@ fun BlurRadiusSelector(
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
     valueRange: ClosedFloatingPointRange<Float> = 5f..100f,
     onValueChange: (Int) -> Unit,
-    shape: Shape = RoundedCornerShape(16.dp)
+    shape: Shape = ShapeDefaults.default
 ) {
     EnhancedSliderItem(
         modifier = modifier,

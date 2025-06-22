@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Opacity
 import androidx.compose.runtime.Composable
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun AlphaSelector(
@@ -38,7 +38,7 @@ fun AlphaSelector(
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
-    shape: Shape = RoundedCornerShape(24.dp),
+    shape: Shape = ShapeDefaults.extraLarge,
     title: String = stringResource(R.string.paint_alpha),
     icon: ImageVector = Icons.Rounded.Opacity
 ) {

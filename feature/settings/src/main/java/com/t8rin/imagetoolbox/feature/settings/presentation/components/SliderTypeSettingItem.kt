@@ -54,14 +54,14 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
 fun SliderTypeSettingItem(
     onValueChange: (SliderType) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -122,7 +122,7 @@ fun SliderTypeSettingItem(
                         if (selected) secondaryContainer
                         else SafeLocalContainerColor
                     },
-                    shape = ContainerShapeDefaults.shapeForIndex(index, entries.size),
+                    shape = ShapeDefaults.byIndex(index, entries.size),
                     startIcon = type.icon,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,7 +134,7 @@ fun SliderTypeSettingItem(
                                     .copy(alpha = 0.5f)
                                 else Color.Transparent
                             ).value,
-                            shape = ContainerShapeDefaults.shapeForIndex(index, entries.size)
+                            shape = ShapeDefaults.byIndex(index, entries.size)
                         ),
                     endIcon = if (selected) {
                         Icons.Rounded.RadioButtonChecked

@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Share
@@ -67,7 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -196,7 +195,7 @@ fun DocumentScannerContent(
                     .fillMaxWidth()
                     .container(
                         resultPadding = 0.dp,
-                        shape = RoundedCornerShape(20.dp),
+                        shape = ShapeDefaults.large,
                         color = MaterialTheme.colorScheme.surfaceContainerLow
                     )
                     .padding(8.dp),
@@ -212,7 +211,7 @@ fun DocumentScannerContent(
                         start = 12.dp,
                         end = 20.dp
                     ),
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
@@ -236,7 +235,7 @@ fun DocumentScannerContent(
                         start = 16.dp,
                         end = 20.dp
                     ),
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(

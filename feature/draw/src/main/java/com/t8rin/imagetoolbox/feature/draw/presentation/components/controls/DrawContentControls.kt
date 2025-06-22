@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.FormatColorFill
@@ -57,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
@@ -174,7 +174,7 @@ internal fun DrawContentControls(
                 modifier = Modifier
                     .fillMaxWidth()
                     .container(
-                        shape = RoundedCornerShape(24.dp)
+                        shape = ShapeDefaults.extraLarge
                     )
             )
         }
@@ -263,7 +263,7 @@ internal fun DrawContentControls(
         val settingsInteractor = LocalSimpleSettingsInteractor.current
         PreferenceRowSwitch(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
+            shape = ShapeDefaults.extraLarge,
             title = stringResource(R.string.magnifier),
             subtitle = stringResource(R.string.magnifier_sub),
             checked = settingsState.magnifierEnabled,

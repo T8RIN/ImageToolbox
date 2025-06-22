@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.ui.widget.preferences
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Icon
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSwitch
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun PreferenceRowSwitch(
@@ -48,7 +48,7 @@ fun PreferenceRowSwitch(
     checked: Boolean,
     color: Color = Color.Unspecified,
     contentColor: Color? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ShapeDefaults.default,
     startContent: (@Composable () -> Unit)? = null,
     resultModifier: Modifier = Modifier.padding(
         horizontal = if (startContent != null) 0.dp else 16.dp,
@@ -121,7 +121,7 @@ fun PreferenceRowSwitch(
     onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ShapeDefaults.default,
     startIcon: ImageVector?,
     onClick: (Boolean) -> Unit,
     additionalContent: (@Composable () -> Unit)? = null,

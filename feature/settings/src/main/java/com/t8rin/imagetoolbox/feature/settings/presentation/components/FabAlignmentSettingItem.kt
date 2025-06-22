@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -52,7 +52,7 @@ fun FabAlignmentSettingItem(
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp),
-    shape: Shape = ContainerShapeDefaults.bottomShape
+    shape: Shape = ShapeDefaults.bottom
 ) {
     val settingsState = LocalSettingsState.current
 

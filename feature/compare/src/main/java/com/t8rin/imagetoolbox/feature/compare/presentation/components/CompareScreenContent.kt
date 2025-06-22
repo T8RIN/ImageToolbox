@@ -86,7 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -186,7 +186,7 @@ internal fun CompareScreenContent(
                                 },
                                 allowAlpha = false,
                                 modifier = Modifier.container(
-                                    shape = ContainerShapeDefaults.topShape
+                                    shape = ShapeDefaults.top
                                 ),
                                 title = stringResource(R.string.highlight_color),
                                 icon = Icons.Rounded.Highlight
@@ -205,7 +205,7 @@ internal fun CompareScreenContent(
                                 title = stringResource(R.string.pixel_comparison_type),
                                 titleIcon = Icons.Rounded.Pix,
                                 spanCount = 1,
-                                shape = ContainerShapeDefaults.bottomShape,
+                                shape = ShapeDefaults.bottom,
                                 itemContentText = {
                                     it.name
                                 },

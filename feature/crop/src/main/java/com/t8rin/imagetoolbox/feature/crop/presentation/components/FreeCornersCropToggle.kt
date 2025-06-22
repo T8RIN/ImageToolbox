@@ -17,14 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.crop.presentation.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Perspective
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -35,7 +34,7 @@ fun FreeCornersCropToggle(
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         startIcon = Icons.Outlined.Perspective,
         title = stringResource(R.string.free_corners),
         subtitle = stringResource(R.string.free_corners_sub),

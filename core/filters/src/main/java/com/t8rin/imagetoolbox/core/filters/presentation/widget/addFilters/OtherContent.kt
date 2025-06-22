@@ -67,7 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -114,7 +114,7 @@ internal fun OtherContent(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight(),
-                        shape = ContainerShapeDefaults.leftShape
+                        shape = ShapeDefaults.start
                     )
                     Column(
                         modifier = Modifier
@@ -124,9 +124,9 @@ internal fun OtherContent(
                     ) {
                         repeat(2) { index ->
                             val shape = if (index == 0) {
-                                ContainerShapeDefaults.topRightShape
+                                ShapeDefaults.topEnd
                             } else {
-                                ContainerShapeDefaults.bottomRightShape
+                                ShapeDefaults.bottomEnd
                             }
                             val containerColor by animateColorAsState(
                                 if (previewModel.data == R.drawable.filter_preview_source && index == 0) {
@@ -171,7 +171,7 @@ internal fun OtherContent(
                 PreferenceItemOverload(
                     title = stringResource(R.string.save_empty_lut),
                     subtitle = stringResource(R.string.save_empty_lut_sub),
-                    shape = ContainerShapeDefaults.defaultShape,
+                    shape = ShapeDefaults.default,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp),
@@ -258,7 +258,7 @@ internal fun OtherContent(
                     }
                 },
                 onRequestFilterMapping = onRequestFilterMapping,
-                shape = ContainerShapeDefaults.shapeForIndex(
+                shape = ShapeDefaults.byIndex(
                     index = index,
                     size = filters.size
                 ),

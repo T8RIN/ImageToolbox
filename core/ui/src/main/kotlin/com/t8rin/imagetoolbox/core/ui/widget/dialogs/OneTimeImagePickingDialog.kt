@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PicturePickerModeSaver
@@ -126,7 +126,7 @@ fun OneTimeImagePickingDialog(
                     data.forEachIndexed { index, mode ->
                         val selected = selectedPickerMode.ordinal == mode.ordinal
 
-                        val shape = ContainerShapeDefaults.shapeForIndex(
+                        val shape = ShapeDefaults.byIndex(
                             index = index,
                             size = data.size
                         )

@@ -19,11 +19,9 @@ package com.t8rin.imagetoolbox.feature.image_stacking.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.runtime.Composable
@@ -35,11 +33,12 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.image_stacking.domain.StackingParams
 
 @Composable
-fun ColumnScope.StackingParamsSelector(
+internal fun StackingParamsSelector(
     value: StackingParams,
     onValueChange: (StackingParams) -> Unit,
 ) {
@@ -78,7 +77,7 @@ fun ColumnScope.StackingParamsSelector(
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
     }
 }

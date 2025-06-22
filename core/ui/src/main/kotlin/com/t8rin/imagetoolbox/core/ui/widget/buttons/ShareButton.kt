@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
@@ -110,7 +110,7 @@ fun ShareButton(
             ) {
                 PreferenceItem(
                     title = stringResource(R.string.share),
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                     startIcon = Icons.Rounded.Share,
                     onClick = {
                         showSelectionDialog = false
@@ -122,8 +122,8 @@ fun ShareButton(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(R.string.copy),
-                        shape = if (onEdit == null) ContainerShapeDefaults.bottomShape
-                        else ContainerShapeDefaults.centerShape,
+                        shape = if (onEdit == null) ShapeDefaults.bottom
+                        else ShapeDefaults.center,
                         startIcon = Icons.Rounded.ContentCopy,
                         onClick = {
                             showSelectionDialog = false
@@ -136,7 +136,7 @@ fun ShareButton(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(R.string.edit),
-                        shape = ContainerShapeDefaults.bottomShape,
+                        shape = ShapeDefaults.bottom,
                         startIcon = Icons.Rounded.MiniEdit,
                         onClick = {
                             showSelectionDialog = false

@@ -65,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderCompare
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import kotlinx.coroutines.launch
@@ -137,7 +138,7 @@ internal fun ChecksumToolsTabs(
                 val interactionSource = remember { MutableInteractionSource() }
                 val shape = shapeByInteraction(
                     shape = RoundedCornerShape(42.dp),
-                    pressedShape = RoundedCornerShape(16.dp),
+                    pressedShape = ShapeDefaults.default,
                     interactionSource = interactionSource
                 )
 

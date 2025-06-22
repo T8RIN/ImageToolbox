@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
@@ -46,6 +45,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
@@ -56,7 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedRadioButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 @Composable
 fun ChangeLanguageSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
-    shape: Shape = ContainerShapeDefaults.topShape
+    shape: Shape = ShapeDefaults.top
 ) {
     val context = LocalContext.current
     var showEmbeddedLanguagePicker by rememberSaveable { mutableStateOf(false) }
@@ -87,7 +87,7 @@ fun ChangeLanguageSettingItem(
                         context.startActivity(
                             Intent(
                                 Settings.ACTION_APP_LOCALE_SETTINGS,
-                                Uri.parse("package:${context.packageName}")
+                                "package:${context.packageName}".toUri()
                             )
                         )
                     }.onFailure {
@@ -169,7 +169,7 @@ private fun PickLanguageSheet(
                                     .secondaryContainer
                                 else EnhancedBottomSheetDefaults.containerColor
                             ).value,
-                            shape = ContainerShapeDefaults.shapeForIndex(
+                            shape = ShapeDefaults.byIndex(
                                 index = index,
                                 size = entries.size
                             ),

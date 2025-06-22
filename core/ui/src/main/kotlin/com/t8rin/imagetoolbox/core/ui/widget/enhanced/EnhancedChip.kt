@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -56,8 +56,8 @@ fun EnhancedChip(
     selectedContentColor: Color = MaterialTheme.colorScheme.contentColorFor(selectedColor),
     unselectedColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
-    shape: Shape = RoundedCornerShape(10.dp),
-    pressedShape: Shape = RoundedCornerShape(4.dp),
+    shape: Shape = ShapeDefaults.small,
+    pressedShape: Shape = ShapeDefaults.extraSmall,
     interactionSource: MutableInteractionSource? = null,
     defaultMinSize: Dp = 36.dp,
     label: @Composable () -> Unit
@@ -72,7 +72,7 @@ fun EnhancedChip(
     )
 
     val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val shape = shapeByInteraction(
+    val resultShape = shapeByInteraction(
         shape = shape,
         pressedShape = pressedShape,
         interactionSource = realInteractionSource
@@ -96,7 +96,7 @@ fun EnhancedChip(
                     else selectedColor
                         .copy(alpha = 0.9f)
                         .compositeOver(Color.Black),
-                    shape = shape,
+                    shape = resultShape,
                     autoShadowElevation = 0.5.dp
                 )
                 .then(

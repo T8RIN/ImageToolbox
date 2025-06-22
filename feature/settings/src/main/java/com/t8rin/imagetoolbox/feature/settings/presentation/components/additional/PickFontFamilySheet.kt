@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.rounded.FontDownload
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
@@ -113,12 +113,7 @@ internal fun PickFontFamilySheet(
                             PreferenceRow(
                                 title = stringResource(R.string.import_font),
                                 onClick = pickFileLauncher::pickFile,
-                                shape = RoundedCornerShape(
-                                    topStart = 16.dp,
-                                    bottomStart = 16.dp,
-                                    topEnd = 4.dp,
-                                    bottomEnd = 4.dp
-                                ),
+                                shape = ShapeDefaults.start,
                                 titleFontStyle = PreferenceItemDefaults.TitleFontStyleCentered,
                                 startIcon = Icons.Rounded.FileImport,
                                 modifier = Modifier
@@ -132,12 +127,7 @@ internal fun PickFontFamilySheet(
                             PreferenceRow(
                                 title = stringResource(R.string.export_fonts),
                                 onClick = onExportFonts,
-                                shape = RoundedCornerShape(
-                                    topEnd = 16.dp,
-                                    bottomEnd = 16.dp,
-                                    topStart = 4.dp,
-                                    bottomStart = 4.dp
-                                ),
+                                shape = ShapeDefaults.end,
                                 enabled = canExport,
                                 startIcon = Icons.Rounded.FileExport,
                                 modifier = Modifier

@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -66,7 +66,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun ScreenOrderSettingItem(
     onValueChange: (List<Screen>) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ShapeDefaults.top,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -171,7 +171,7 @@ fun ScreenOrderSettingItem(
                                 subtitle = stringResource(screen.subtitle),
                                 startIcon = screen.icon,
                                 endIcon = Icons.Rounded.DragHandle,
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = data.value.size
                                 )

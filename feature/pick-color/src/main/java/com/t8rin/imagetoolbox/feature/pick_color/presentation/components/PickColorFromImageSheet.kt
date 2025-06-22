@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -65,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
@@ -103,7 +103,7 @@ fun PickColorFromImageSheet(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                             .container(
-                                shape = RoundedCornerShape(4.dp),
+                                shape = ShapeDefaults.extraSmall,
                                 color = MaterialTheme.colorScheme
                                     .outlineVariant()
                                     .copy(alpha = 0.1f),
@@ -117,7 +117,7 @@ fun PickColorFromImageSheet(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         .container(
-                            shape = RoundedCornerShape(4.dp),
+                            shape = ShapeDefaults.extraSmall,
                             color = MaterialTheme.colorScheme
                                 .outlineVariant()
                                 .copy(alpha = 0.1f),
@@ -147,7 +147,7 @@ fun PickColorFromImageSheet(
                                     .padding(end = 16.dp)
                                     .background(
                                         color = animateColorAsState(color).value,
-                                        shape = RoundedCornerShape(12.dp)
+                                        shape = ShapeDefaults.small
                                     )
                                     .size(40.dp)
                                     .border(
@@ -155,9 +155,9 @@ fun PickColorFromImageSheet(
                                         color = MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = animateColorAsState(color).value
                                         ),
-                                        shape = RoundedCornerShape(11.dp)
+                                        shape = ShapeDefaults.small
                                     )
-                                    .clip(RoundedCornerShape(12.dp))
+                                    .clip(ShapeDefaults.small)
                                     .hapticsClickable {
                                         context.copyToClipboard(color.toHex())
                                         scope.launch {
@@ -187,7 +187,7 @@ fun PickColorFromImageSheet(
 
                             Text(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(8.dp))
+                                    .clip(ShapeDefaults.mini)
                                     .hapticsClickable {
                                         context.copyToClipboard(color.toHex())
                                         scope.launch {
@@ -199,11 +199,11 @@ fun PickColorFromImageSheet(
                                     }
                                     .background(MaterialTheme.colorScheme.secondaryContainer)
                                     .border(
-                                        settingsState.borderWidth,
-                                        MaterialTheme.colorScheme.outlineVariant(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(
                                             onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                         ),
-                                        RoundedCornerShape(8.dp)
+                                        shape = ShapeDefaults.mini
                                     )
                                     .padding(horizontal = 8.dp),
                                 text = color.toHex(),

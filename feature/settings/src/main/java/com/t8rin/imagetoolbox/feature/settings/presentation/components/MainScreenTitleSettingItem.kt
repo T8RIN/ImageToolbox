@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Title
 import androidx.compose.material3.Icon
@@ -46,13 +45,13 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun MainScreenTitleSettingItem(
     onValueChange: (String) -> Unit,
-    shape: Shape = ContainerShapeDefaults.bottomShape,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -101,7 +100,7 @@ fun MainScreenTitleSettingItem(
                             modifier = Modifier.fillMaxWidth()
                         )
                     },
-                    shape = RoundedCornerShape(16.dp),
+                    shape = ShapeDefaults.default,
                     value = value,
                     textStyle = MaterialTheme.typography.titleMedium.copy(
                         textAlign = TextAlign.Center

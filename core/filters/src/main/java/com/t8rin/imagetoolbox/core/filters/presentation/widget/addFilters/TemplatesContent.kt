@@ -54,7 +54,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateInf
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.TemplateFilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberForeverLazyListState
 
 @Composable
@@ -129,7 +129,7 @@ internal fun TemplatesContent(
                             showFilterTemplateInfoSheet = true
                         },
                         onRequestFilterMapping = onRequestFilterMapping,
-                        shape = ContainerShapeDefaults.shapeForIndex(
+                        shape = ShapeDefaults.byIndex(
                             index = index,
                             size = templateFilters.size
                         ),

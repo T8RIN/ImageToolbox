@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -65,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ fun CropMaskSelection(
     loadImage: suspend (Uri) -> ImageBitmap?,
     onCropMaskChange: (CropOutlineProperty) -> Unit,
     color: Color = Color.Unspecified,
-    shape: Shape = RoundedCornerShape(24.dp)
+    shape: Shape = ShapeDefaults.extraLarge
 ) {
     var cornerRadius by rememberSaveable { mutableIntStateOf(20) }
 
@@ -172,7 +172,7 @@ fun CropMaskSelection(
             visible = selectedItem.cropOutline.id == 1 || selectedItem.cropOutline.id == 2,
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            shape = RoundedCornerShape(16.dp),
+            shape = ShapeDefaults.default,
             value = cornerRadius,
             title = stringResource(R.string.radius),
             icon = null,
@@ -223,7 +223,7 @@ fun CropMaskSelection(
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .container(shape = RoundedCornerShape(24.dp))
+                    .container(shape = ShapeDefaults.extraLarge)
                     .padding(8.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally

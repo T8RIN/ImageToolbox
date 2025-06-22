@@ -83,6 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFileExtension
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
 import kotlinx.coroutines.delay
@@ -359,7 +360,7 @@ private fun ImageItem(
 
     Box(
         modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(ShapeDefaults.extraSmall)
             .background(bgColor)
     ) {
         Picture(

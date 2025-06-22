@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Delete
@@ -83,7 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
@@ -166,7 +165,7 @@ internal fun FilterTemplateInfoSheet(
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                shape = RoundedCornerShape(16.dp)
+                                shape = ShapeDefaults.default
                             )
                             .padding(16.dp)
                     ) {
@@ -318,7 +317,7 @@ internal fun FilterTemplateInfoSheet(
                 ) {
                     PreferenceItem(
                         title = stringResource(R.string.as_qr_code),
-                        shape = ContainerShapeDefaults.topShape,
+                        shape = ShapeDefaults.top,
                         startIcon = Icons.Rounded.QrCode,
                         onClick = {
                             showShareDialog = false
@@ -334,7 +333,7 @@ internal fun FilterTemplateInfoSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(R.string.as_file),
-                        shape = ContainerShapeDefaults.centerShape,
+                        shape = ShapeDefaults.center,
                         startIcon = Icons.Rounded.FilePresent,
                         onClick = {
                             showShareDialog = false
@@ -345,7 +344,7 @@ internal fun FilterTemplateInfoSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(R.string.save_as_qr_code_image),
-                        shape = ContainerShapeDefaults.centerShape,
+                        shape = ShapeDefaults.center,
                         startIcon = Icons.Rounded.QrCode2,
                         onClick = {
                             showShareDialog = false
@@ -361,7 +360,7 @@ internal fun FilterTemplateInfoSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(R.string.save_as_file),
-                        shape = ContainerShapeDefaults.bottomShape,
+                        shape = ShapeDefaults.bottom,
                         startIcon = Icons.Rounded.Save,
                         onClick = {
                             saveLauncher.make(onRequestTemplateFilename())

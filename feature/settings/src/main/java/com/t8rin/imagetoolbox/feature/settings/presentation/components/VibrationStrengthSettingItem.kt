@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.collections.immutable.persistentMapOf
 import kotlin.math.roundToInt
 
@@ -39,7 +39,7 @@ fun VibrationStrengthSettingItem(
     onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp),
-    shape: Shape = ContainerShapeDefaults.defaultShape
+    shape: Shape = ShapeDefaults.default
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current

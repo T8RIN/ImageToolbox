@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toUiPath
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -67,7 +67,7 @@ fun SavingFolderSettingItemGroup(
         )
 
         PreferenceItem(
-            shape = ContainerShapeDefaults.topShape,
+            shape = ShapeDefaults.top,
             onClick = { onValueChange(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
@@ -86,12 +86,12 @@ fun SavingFolderSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.topShape
+                    shape = ShapeDefaults.top
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = ContainerShapeDefaults.bottomShape,
+            shape = ShapeDefaults.bottom,
             onClick = {
                 launcher.open(currentFolderUri)
             },
@@ -115,7 +115,7 @@ fun SavingFolderSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ShapeDefaults.bottom
                 )
         )
     }

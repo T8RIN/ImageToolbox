@@ -57,7 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -161,7 +161,7 @@ internal fun FavoritesContent(
                                 }
                             },
                             onRequestFilterMapping = onRequestFilterMapping,
-                            shape = ContainerShapeDefaults.shapeForIndex(
+                            shape = ShapeDefaults.byIndex(
                                 index = index,
                                 size = favoriteFilters.size
                             ),

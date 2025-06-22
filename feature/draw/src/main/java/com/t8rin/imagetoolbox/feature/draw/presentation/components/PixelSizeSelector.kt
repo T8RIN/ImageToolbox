@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +28,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun PixelSizeSelector(
@@ -56,7 +56,7 @@ fun PixelSizeSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
-        shape = RoundedCornerShape(16.dp),
+        shape = ShapeDefaults.default,
         color = color
     )
 }

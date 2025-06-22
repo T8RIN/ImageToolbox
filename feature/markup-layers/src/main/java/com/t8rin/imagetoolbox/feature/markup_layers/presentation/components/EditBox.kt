@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -67,6 +66,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.coroutines.launch
 
 @Composable
@@ -75,7 +75,7 @@ fun BoxWithConstraintsScope.EditBox(
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(4.dp),
+    shape: Shape = ShapeDefaults.extraSmall,
     content: @Composable BoxScope.() -> Unit
 ) {
     val parentSize by remember(constraints) {
@@ -104,7 +104,7 @@ fun EditBox(
     parentSize: IntegerSize,
     modifier: Modifier = Modifier,
     onLongTap: (() -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(4.dp),
+    shape: Shape = ShapeDefaults.extraSmall,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (!state.isVisible) return

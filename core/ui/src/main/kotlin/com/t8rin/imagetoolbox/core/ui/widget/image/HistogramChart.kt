@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.histogram.HistogramType
 import com.t8rin.histogram.ImageHistogram
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun HistogramChart(
@@ -44,7 +44,7 @@ fun HistogramChart(
     harmonizationColor: Color = MaterialTheme.colorScheme.primary,
     linesThickness: Dp = 0.5.dp,
     bordersColor: Color = MaterialTheme.colorScheme.outline,
-    bordersShape: Shape = RoundedCornerShape(2.dp)
+    bordersShape: Shape = ShapeDefaults.extraSmall
 ) {
     when (model) {
         is Bitmap -> {

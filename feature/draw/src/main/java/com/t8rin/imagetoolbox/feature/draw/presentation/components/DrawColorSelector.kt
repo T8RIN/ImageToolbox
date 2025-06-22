@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BorderColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -46,7 +46,7 @@ fun DrawColorSelector(
         onValueChange = onValueChange,
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(24.dp),
+                shape = ShapeDefaults.extraLarge,
                 color = color
             ),
         title = titleText,

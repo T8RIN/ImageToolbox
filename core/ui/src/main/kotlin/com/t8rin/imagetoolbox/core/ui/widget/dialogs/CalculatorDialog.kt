@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material3.Icon
@@ -33,12 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.github.keelar.exprk.Expressions
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import java.math.BigDecimal
 
 @Composable
@@ -92,7 +91,7 @@ fun CalculatorDialog(
         },
         text = {
             OutlinedTextField(
-                shape = RoundedCornerShape(16.dp),
+                shape = ShapeDefaults.default,
                 value = calculatorExpression,
                 textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                 maxLines = 1,

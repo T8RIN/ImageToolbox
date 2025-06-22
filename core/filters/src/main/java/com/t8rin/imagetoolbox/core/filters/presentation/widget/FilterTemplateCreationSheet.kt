@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -91,8 +90,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
@@ -206,10 +208,7 @@ fun FilterTemplateCreationSheet(
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(
-                        if (isPortrait) RoundedCornerShape(
-                            bottomStart = 24.dp,
-                            bottomEnd = 24.dp
-                        )
+                        if (isPortrait) ShapeDefaults.extraLarge.only(CornerSides.Bottom)
                         else RectangleShape
                     )
                     .background(
@@ -267,7 +266,7 @@ fun FilterTemplateCreationSheet(
                                 value = selectedUri ?: previewModel.data,
                                 onValueChange = { selectedUri = it },
                                 subtitle = stringResource(id = R.string.select_template_preview),
-                                shape = RoundedCornerShape(16.dp),
+                                shape = ShapeDefaults.default,
                                 color = Color.Unspecified
                             )
                             Spacer(Modifier.height(8.dp))

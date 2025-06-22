@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
@@ -83,7 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -107,7 +106,7 @@ fun DrawLineStyleSelector(
 
     Column(
         modifier = modifier
-            .container(RoundedCornerShape(24.dp)),
+            .container(ShapeDefaults.extraLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         EnhancedButtonGroup(
@@ -179,7 +178,7 @@ fun DrawLineStyleSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.topShape
+                    shape = ShapeDefaults.top
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 EnhancedSliderItem(
@@ -201,7 +200,7 @@ fun DrawLineStyleSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ShapeDefaults.bottom
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -245,7 +244,7 @@ fun DrawLineStyleSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.defaultShape
+                    shape = ShapeDefaults.default
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -277,7 +276,7 @@ fun DrawLineStyleSelector(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .container(
-                            shape = ContainerShapeDefaults.topShape,
+                            shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp
                         )
@@ -374,7 +373,7 @@ fun DrawLineStyleSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ShapeDefaults.bottom
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -393,7 +392,7 @@ fun DrawLineStyleSelector(
                         Modifier
                             .fillMaxWidth()
                             .container(
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = values.size
                                 ),

@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
@@ -75,7 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -92,7 +91,7 @@ fun ImageReorderCarousel(
     images: List<Uri>?,
     onReorder: (List<Uri>) -> Unit,
     modifier: Modifier = Modifier
-        .container(RoundedCornerShape(24.dp)),
+        .container(ShapeDefaults.extraLarge),
     onNeedToAddImage: () -> Unit,
     onNeedToRemoveImageAt: (Int) -> Unit,
     onNavigate: (Screen) -> Unit
@@ -198,8 +197,8 @@ fun ImageReorderCarousel(
                     ) { isDragging ->
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
                         val shape = animateShape(
-                            if (showButton) ContainerShapeDefaults.topShape
-                            else ContainerShapeDefaults.defaultShape
+                            if (showButton) ShapeDefaults.top
+                            else ShapeDefaults.default
                         )
 
                         Column(
@@ -266,7 +265,7 @@ fun ImageReorderCarousel(
                                         0.5f
                                     ),
                                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    shape = ContainerShapeDefaults.bottomShape,
+                                    shape = ShapeDefaults.bottom,
                                     modifier = Modifier
                                         .padding(top = 4.dp)
                                         .height(30.dp)

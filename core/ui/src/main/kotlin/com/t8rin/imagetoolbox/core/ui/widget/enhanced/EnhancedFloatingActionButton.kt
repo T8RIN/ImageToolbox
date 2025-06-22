@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.containerFabBorder
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import kotlinx.coroutines.delay
@@ -180,12 +181,12 @@ sealed class EnhancedFloatingActionButtonType(
 
     data object Small : EnhancedFloatingActionButtonType(
         size = 40.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = ShapeDefaults.small
     )
 
     data object Primary : EnhancedFloatingActionButtonType(
         size = 56.dp,
-        shape = RoundedCornerShape(16.dp)
+        shape = ShapeDefaults.default
     )
 
     data object SecondaryHorizontal : EnhancedFloatingActionButtonType(
@@ -202,7 +203,7 @@ sealed class EnhancedFloatingActionButtonType(
 
     data object Large : EnhancedFloatingActionButtonType(
         size = 96.dp,
-        shape = RoundedCornerShape(28.dp)
+        shape = ShapeDefaults.extremeLarge
     )
 
     class Custom(

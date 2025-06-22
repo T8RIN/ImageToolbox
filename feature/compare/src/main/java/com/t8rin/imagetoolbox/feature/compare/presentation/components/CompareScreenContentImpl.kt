@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -56,8 +55,8 @@ import coil3.transform.Transformation
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
@@ -78,9 +77,9 @@ internal fun CompareScreenContentImpl(
 ) {
     val modifier = Modifier
         .padding(16.dp)
-        .container(ContainerShapeDefaults.defaultShape)
+        .container(ShapeDefaults.default)
         .padding(4.dp)
-        .clip(ContainerShapeDefaults.smallShape)
+        .clip(ShapeDefaults.small)
         .transparencyChecker()
 
     AnimatedContent(targetState = compareType) { type ->
@@ -108,7 +107,7 @@ internal fun CompareScreenContentImpl(
                                                 uri = uri,
                                                 alignment = Alignment.TopStart,
                                                 enabled = isLabelsEnabled,
-                                                shape = ContainerShapeDefaults.defaultShape.only(
+                                                shape = ShapeDefaults.default.only(
                                                     CornerSides.BottomEnd
                                                 )
                                             )
@@ -124,8 +123,8 @@ internal fun CompareScreenContentImpl(
                                                 uri = uri,
                                                 alignment = Alignment.BottomEnd,
                                                 enabled = isLabelsEnabled,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 16.dp
+                                                shape = ShapeDefaults.default.only(
+                                                    CornerSides.TopStart
                                                 )
                                             )
                                         }
@@ -181,16 +180,16 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.first,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                bottomEnd = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.BottomEnd
                             )
                         )
                         CompareLabel(
                             uri = bitmapPair.second?.first,
                             alignment = Alignment.BottomStart,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                topEnd = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.TopEnd
                             )
                         )
                     } else {
@@ -224,16 +223,16 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.first,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                bottomEnd = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.BottomEnd
                             )
                         )
                         CompareLabel(
                             uri = bitmapPair.second?.first,
                             alignment = Alignment.TopEnd,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                bottomStart = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.BottomStart
                             )
                         )
                     }
@@ -278,12 +277,12 @@ internal fun CompareScreenContentImpl(
                             else Alignment.TopStart,
                             enabled = isLabelsEnabled,
                             shape = if (showSecondImage) {
-                                RoundedCornerShape(
-                                    topStart = 16.dp
+                                ShapeDefaults.default.only(
+                                    CornerSides.TopStart
                                 )
                             } else {
-                                RoundedCornerShape(
-                                    bottomEnd = 16.dp
+                                ShapeDefaults.default.only(
+                                    CornerSides.BottomEnd
                                 )
                             }
                         )
@@ -319,8 +318,8 @@ internal fun CompareScreenContentImpl(
                             uri = bitmapPair.first?.first,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                bottomEnd = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.BottomEnd
                             )
                         )
                     }
@@ -332,8 +331,8 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier.alpha(compareProgress / 100f),
                             alignment = Alignment.BottomEnd,
                             enabled = isLabelsEnabled,
-                            shape = RoundedCornerShape(
-                                topStart = 16.dp
+                            shape = ShapeDefaults.default.only(
+                                CornerSides.TopStart
                             )
                         )
                     }

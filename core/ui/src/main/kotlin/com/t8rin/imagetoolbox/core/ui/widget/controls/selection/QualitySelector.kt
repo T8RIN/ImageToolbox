@@ -33,7 +33,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.rounded.Speed
@@ -68,6 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.QualityMedium
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -121,7 +121,7 @@ fun QualitySelector(
             )
         ) {
             Column(
-                modifier = Modifier.container(RoundedCornerShape(24.dp))
+                modifier = Modifier.container(ShapeDefaults.extraLarge)
             ) {
                 actualImageFormat.compressionTypes.forEach { type ->
                     val currentIcon by remember(quality) {
@@ -206,7 +206,7 @@ fun QualitySelector(
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .container(
-                                        shape = RoundedCornerShape(20.dp),
+                                        shape = ShapeDefaults.large,
                                         color = MaterialTheme.colorScheme.surface
                                     )
                                     .padding(6.dp)
@@ -245,7 +245,7 @@ fun QualitySelector(
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .container(
-                                        shape = RoundedCornerShape(20.dp),
+                                        shape = ShapeDefaults.large,
                                         color = MaterialTheme.colorScheme.surface
                                     )
                                     .padding(6.dp)
@@ -263,7 +263,7 @@ fun QualitySelector(
                                 .fillMaxWidth()
                                 .padding(4.dp)
                                 .container(
-                                    shape = RoundedCornerShape(20.dp),
+                                    shape = ShapeDefaults.large,
                                     color = MaterialTheme.colorScheme.surface
                                 )
                                 .padding(4.dp),
@@ -319,7 +319,7 @@ fun QualitySelector(
                                 .fillMaxWidth()
                                 .padding(4.dp)
                                 .container(
-                                    shape = RoundedCornerShape(20.dp),
+                                    shape = ShapeDefaults.large,
                                     color = MaterialTheme.colorScheme.surface
                                 )
                         ) {

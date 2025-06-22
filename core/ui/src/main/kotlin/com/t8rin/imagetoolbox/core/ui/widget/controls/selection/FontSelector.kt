@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.Typography
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
@@ -72,7 +72,7 @@ fun FontSelector(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.font),
     color: Color = MaterialTheme.colorScheme.surface,
-    shape: Shape = RoundedCornerShape(20.dp)
+    shape: Shape = ShapeDefaults.large
 ) {
     Column(
         modifier = modifier.container(

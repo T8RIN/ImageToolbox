@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.Icon
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.containerFabBorder
 
@@ -69,8 +69,11 @@ fun FabPreview(
     Column(
         modifier = modifier
             .padding(4.dp)
-            .autoElevatedBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
-            .clip(RoundedCornerShape(12.dp))
+            .autoElevatedBorder(
+                shape = ShapeDefaults.small,
+                autoElevation = elevation
+            )
+            .clip(ShapeDefaults.small)
             .background(colorScheme.surfaceContainerLowest),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -132,7 +135,7 @@ fun FabPreview(
                         .size(22.dp)
                         .aspectRatio(1f)
                         .containerFabBorder(
-                            shape = RoundedCornerShape(7.dp),
+                            shape = ShapeDefaults.mini,
                             autoElevation = animateDpAsState(
                                 if (settingsState.drawFabShadows) 3.dp
                                 else 0.dp
@@ -140,9 +143,9 @@ fun FabPreview(
                         )
                         .background(
                             color = colorScheme.primaryContainer,
-                            shape = RoundedCornerShape(7.dp),
+                            shape = ShapeDefaults.mini,
                         )
-                        .clip(RoundedCornerShape(7.dp))
+                        .clip(ShapeDefaults.mini)
                         .hapticsClickable { },
                     contentAlignment = Alignment.Center
                 ) {

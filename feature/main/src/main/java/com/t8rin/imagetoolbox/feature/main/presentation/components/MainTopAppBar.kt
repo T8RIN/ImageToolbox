@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PushPin
@@ -89,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.pulsate
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.rotateAnimation
@@ -312,7 +312,7 @@ internal fun MainTopAppBar(
                                 startIcon = Icons.Rounded.PushPin,
                                 color = MaterialTheme.colorScheme.secondaryContainer,
                                 modifier = Modifier.padding(bottom = 8.dp),
-                                shape = RoundedCornerShape(28.dp)
+                                shape = ShapeDefaults.extremeLarge
                             )
                         }
 

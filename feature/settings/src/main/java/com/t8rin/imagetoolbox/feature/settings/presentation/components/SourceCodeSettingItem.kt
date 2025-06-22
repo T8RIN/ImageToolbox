@@ -30,14 +30,14 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.APP_LINK
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Github
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 
 @Composable
 fun SourceCodeSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
-    shape: Shape = ContainerShapeDefaults.bottomShape,
+    shape: Shape = ShapeDefaults.bottom,
     color: Color = MaterialTheme.colorScheme.primaryContainer.copy(0.7f),
     contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.9f)
 ) {

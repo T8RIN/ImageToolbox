@@ -68,7 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealValue
@@ -101,7 +101,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
         MutableInteractionSource()
     }
     val isDragged by interactionSource.collectIsDraggedAsState()
-    val shape = ContainerShapeDefaults.shapeForIndex(
+    val shape = ShapeDefaults.byIndex(
         index = index,
         size = downloadedLanguages.size,
         forceDefault = isDragged

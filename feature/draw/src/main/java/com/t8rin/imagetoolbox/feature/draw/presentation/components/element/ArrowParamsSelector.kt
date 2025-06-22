@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.angle
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isArrow
@@ -69,7 +69,7 @@ internal fun ArrowParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ContainerShapeDefaults.topShape
+                shape = ShapeDefaults.top
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
@@ -88,7 +88,7 @@ internal fun ArrowParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ContainerShapeDefaults.bottomShape
+                shape = ShapeDefaults.bottom
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

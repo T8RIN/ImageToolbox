@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
@@ -191,7 +191,7 @@ internal fun AddEditMaskSheetControls(
                             }
                         }
                     },
-                    shape = RoundedCornerShape(24.dp),
+                    shape = ShapeDefaults.extraLarge,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
@@ -206,7 +206,7 @@ internal fun AddEditMaskSheetControls(
                     else Color.Unspecified,
                 ).value,
                 modifier = Modifier.padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(24.dp),
+                shape = ShapeDefaults.extraLarge,
                 contentColor = animateColorAsState(
                     if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onSurface
@@ -293,7 +293,7 @@ internal fun AddEditMaskSheetControls(
         color = Color.Unspecified,
         resultModifier = Modifier.padding(16.dp),
         applyHorizontalPadding = false,
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         onClick = {
             component.toggleIsInverseFillType()
         }

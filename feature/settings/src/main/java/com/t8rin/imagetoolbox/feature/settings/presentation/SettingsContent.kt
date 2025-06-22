@@ -51,7 +51,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -92,7 +91,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.SearchBar
@@ -320,7 +319,7 @@ fun SettingsContent(
                                         verticalArrangement = Arrangement.spacedBy(4.dp),
                                         modifier = if (!oneColumn) {
                                             Modifier.container(
-                                                shape = RoundedCornerShape(20.dp),
+                                                shape = ShapeDefaults.large,
                                                 resultPadding = 0.dp,
                                                 color = MaterialTheme.colorScheme.surfaceContainerLowest
                                             )
@@ -409,7 +408,7 @@ fun SettingsContent(
                             key = { _, v -> v.hashCode() }
                         ) { index, (group, setting) ->
                             SearchableSettingItem(
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = if (oneColumn) index else -1,
                                     size = settingsAnimated.size
                                 ),

@@ -17,15 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.generate_palette.presentation.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlin.math.roundToInt
 
 @Composable
@@ -48,6 +47,6 @@ fun PaletteColorsCountSelector(
         },
         valueRange = 1f..128f,
         steps = 127,
-        shape = RoundedCornerShape(24.dp)
+        shape = ShapeDefaults.extraLarge
     )
 }

@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.RampLeft
 import androidx.compose.material.icons.outlined.SettingsEthernet
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.noise_generation.domain.model.CellularDistanceFunction
 import com.t8rin.imagetoolbox.noise_generation.domain.model.CellularReturnType
 import com.t8rin.imagetoolbox.noise_generation.domain.model.DomainWarpType
@@ -64,7 +64,7 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(seed = it.toInt()))
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         EnhancedSliderItem(
             value = value.frequency,
@@ -77,7 +77,7 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(frequency = it))
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         DataSelector(
             value = value.noiseType,
@@ -122,7 +122,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalOctaves = it.toInt()))
                     },
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 EnhancedSliderItem(
                     value = value.fractalLacunarity,
@@ -134,7 +134,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalLacunarity = it))
                     },
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 EnhancedSliderItem(
                     value = value.fractalGain,
@@ -146,7 +146,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalGain = it))
                     },
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 EnhancedSliderItem(
                     value = value.fractalWeightedStrength,
@@ -158,7 +158,7 @@ fun NoiseParamsSelection(
                     onValueChange = {
                         onValueChange(value.copy(fractalWeightedStrength = it))
                     },
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 AnimatedVisibility(value.fractalType == FractalType.PingPong) {
                     EnhancedSliderItem(
@@ -171,7 +171,7 @@ fun NoiseParamsSelection(
                         onValueChange = {
                             onValueChange(value.copy(fractalPingPongStrength = it))
                         },
-                        shape = RoundedCornerShape(24.dp)
+                        shape = ShapeDefaults.extraLarge
                     )
                 }
                 AnimatedVisibility(value.noiseType == NoiseType.Cellular) {
@@ -216,7 +216,7 @@ fun NoiseParamsSelection(
                             onValueChange = {
                                 onValueChange(value.copy(cellularJitter = it))
                             },
-                            shape = RoundedCornerShape(24.dp)
+                            shape = ShapeDefaults.extraLarge
                         )
                     }
                 }
@@ -247,7 +247,7 @@ fun NoiseParamsSelection(
             onValueChange = {
                 onValueChange(value.copy(domainWarpAmp = it))
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
     }
 }

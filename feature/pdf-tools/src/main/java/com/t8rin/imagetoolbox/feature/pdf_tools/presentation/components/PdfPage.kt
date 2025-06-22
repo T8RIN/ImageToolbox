@@ -70,6 +70,7 @@ import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -153,7 +154,7 @@ internal fun PdfPage(
     val density = LocalDensity.current
     Box(
         modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(ShapeDefaults.extraSmall)
             .background(bgColor)
     ) {
         Picture(

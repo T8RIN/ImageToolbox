@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Done
@@ -43,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -96,7 +95,7 @@ fun TessParamsSelector(
                             internalStateTransformation = {
                                 it.roundToInt()
                             },
-                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
+                            shape = ShapeDefaults.byIndex(index, size),
                             color = MaterialTheme.colorScheme.surface
                         )
                     } else if (paramValue is Boolean) {
@@ -108,7 +107,7 @@ fun TessParamsSelector(
                                     params.update(key) { checked }
                                 )
                             },
-                            shape = ContainerShapeDefaults.shapeForIndex(index, size),
+                            shape = ShapeDefaults.byIndex(index, size),
                             modifier = Modifier.fillMaxWidth(),
                             applyHorizontalPadding = false,
                             color = MaterialTheme.colorScheme.surface
@@ -122,7 +121,7 @@ fun TessParamsSelector(
                 Column(
                     modifier = Modifier
                         .container(
-                            shape = ContainerShapeDefaults.defaultShape,
+                            shape = ShapeDefaults.default,
                             color = MaterialTheme.colorScheme.surface
                         )
                         .padding(8.dp)
@@ -161,7 +160,7 @@ fun TessParamsSelector(
                                 }
                             }
                         },
-                        shape = RoundedCornerShape(12.dp)
+                        shape = ShapeDefaults.small
                     )
                     Spacer(Modifier.height(8.dp))
                     InfoContainer(
@@ -171,6 +170,6 @@ fun TessParamsSelector(
                 }
             }
         },
-        shape = RoundedCornerShape(24.dp)
+        shape = ShapeDefaults.extraLarge
     )
 }

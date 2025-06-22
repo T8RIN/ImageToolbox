@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -72,7 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -166,7 +165,7 @@ fun <T> FilterItem(
                                 EnhancedDropdownMenu(
                                     expanded = showPopup,
                                     onDismissRequest = { showPopup = false },
-                                    shape = RoundedCornerShape(20.dp)
+                                    shape = ShapeDefaults.large
                                 ) {
                                     Column(
                                         modifier = Modifier
@@ -179,7 +178,7 @@ fun <T> FilterItem(
                                                 onRemove()
                                                 showPopup = false
                                             },
-                                            shape = ContainerShapeDefaults.topShape,
+                                            shape = ShapeDefaults.top,
                                             containerColor = MaterialTheme.colorScheme.secondary
                                         ) {
                                             Icon(
@@ -198,8 +197,8 @@ fun <T> FilterItem(
                                                 showPopup = false
                                             },
                                             shape = onCreateTemplate?.let {
-                                                ContainerShapeDefaults.centerShape
-                                            } ?: ContainerShapeDefaults.bottomShape,
+                                                ShapeDefaults.center
+                                            } ?: ShapeDefaults.bottom,
                                             containerColor = MaterialTheme.colorScheme.primary
                                         ) {
                                             Icon(
@@ -226,7 +225,7 @@ fun <T> FilterItem(
                                                     onCreateTemplate()
                                                     showPopup = false
                                                 },
-                                                shape = ContainerShapeDefaults.bottomShape,
+                                                shape = ShapeDefaults.bottom,
                                                 containerColor = MaterialTheme.colorScheme.tertiary
                                             ) {
                                                 Icon(

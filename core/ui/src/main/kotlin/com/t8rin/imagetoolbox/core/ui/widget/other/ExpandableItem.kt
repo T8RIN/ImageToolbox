@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -65,8 +65,8 @@ fun ExpandableItem(
     expandableContent: @Composable ColumnScope.(Boolean) -> Unit,
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    shape: Shape = ContainerShapeDefaults.largeShape,
-    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
+    shape: Shape = ShapeDefaults.large,
+    pressedShape: Shape = ShapeDefaults.pressed,
     color: Color = Color.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     canExpand: Boolean = true,

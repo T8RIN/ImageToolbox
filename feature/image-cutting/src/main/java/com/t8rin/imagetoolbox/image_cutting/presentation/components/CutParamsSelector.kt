@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BorderHorizontal
 import androidx.compose.material.icons.rounded.BorderVertical
@@ -36,6 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SelectInverse
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedRangeSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.image_cutting.domain.CutParams
 import com.t8rin.imagetoolbox.image_cutting.domain.PivotPair
@@ -80,7 +80,7 @@ internal fun CutParamsSelector(
                         )
                     },
                     color = MaterialTheme.colorScheme.surface,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = ShapeDefaults.small,
                     modifier = Modifier.padding(
                         start = 4.dp,
                         end = 4.dp,
@@ -122,7 +122,7 @@ internal fun CutParamsSelector(
                         )
                     },
                     color = MaterialTheme.colorScheme.surface,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = ShapeDefaults.small,
                     modifier = Modifier.padding(
                         start = 4.dp,
                         end = 4.dp,

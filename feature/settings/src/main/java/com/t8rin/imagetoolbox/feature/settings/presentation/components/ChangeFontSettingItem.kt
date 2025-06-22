@@ -38,7 +38,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.PickFontFamilySheet
 
@@ -48,7 +48,7 @@ fun ChangeFontSettingItem(
     onAddFont: (Uri) -> Unit,
     onRemoveFont: (UiFontFamily.Custom) -> Unit,
     onExportFonts: (Uri) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 8.dp)

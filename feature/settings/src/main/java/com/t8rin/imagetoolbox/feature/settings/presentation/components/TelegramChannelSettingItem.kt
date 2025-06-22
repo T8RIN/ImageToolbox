@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.TELEGRAM_CHANNEL_LINK
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Sitemap
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 
 @Composable
 fun TelegramChannelSettingItem(
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val linkHandler = LocalUriHandler.current

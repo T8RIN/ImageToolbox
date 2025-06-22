@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -65,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
@@ -177,14 +177,14 @@ internal fun DrawContentNoDataControls(
                     Row(
                         Modifier
                             .padding(16.dp)
-                            .container(shape = RoundedCornerShape(24.dp))
+                            .container(shape = ShapeDefaults.extraLarge)
                     ) {
                         RoundedTextField(
                             value = width.takeIf { it != 0 }?.toString() ?: "",
                             onValueChange = {
                                 width = it.restrict(8192).toIntOrNull() ?: 0
                             },
-                            shape = RoundedCornerShape(12.dp),
+                            shape = ShapeDefaults.small,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number
                             ),
@@ -208,7 +208,7 @@ internal fun DrawContentNoDataControls(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number
                             ),
-                            shape = RoundedCornerShape(12.dp),
+                            shape = ShapeDefaults.small,
                             label = {
                                 Text(stringResource(R.string.height, " "))
                             },
@@ -232,7 +232,7 @@ internal fun DrawContentNoDataControls(
                                 end = 16.dp,
                                 bottom = 16.dp
                             )
-                            .container(RoundedCornerShape(24.dp))
+                            .container(ShapeDefaults.extraLarge)
                     )
                 }
             }

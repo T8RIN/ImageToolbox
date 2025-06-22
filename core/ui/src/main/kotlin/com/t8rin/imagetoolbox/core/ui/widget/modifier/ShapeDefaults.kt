@@ -52,10 +52,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-object ContainerShapeDefaults {
+object ShapeDefaults {
 
     @Composable
-    fun shapeForIndex(
+    fun byIndex(
         index: Int,
         size: Int,
         forceDefault: Boolean = false,
@@ -64,10 +64,10 @@ object ContainerShapeDefaults {
         val internalShape by remember(index, size, forceDefault, vertical) {
             derivedStateOf {
                 when {
-                    index == -1 || size == 1 || forceDefault -> defaultShape
-                    index == 0 && size > 1 -> if (vertical) topShape else leftShape
-                    index == size - 1 -> if (vertical) bottomShape else rightShape
-                    else -> centerShape
+                    index == -1 || size == 1 || forceDefault -> default
+                    index == 0 && size > 1 -> if (vertical) top else start
+                    index == size - 1 -> if (vertical) bottom else end
+                    else -> center
                 }
             }
         }
@@ -80,76 +80,86 @@ object ContainerShapeDefaults {
         )
     }
 
-    val topShape = RoundedCornerShape(
+    val top = RoundedCornerShape(
         topStart = 16.dp,
         topEnd = 16.dp,
         bottomStart = 6.dp,
         bottomEnd = 6.dp
     )
 
-    val centerShape = RoundedCornerShape(
+    val center = RoundedCornerShape(
         topStart = 6.dp,
         topEnd = 6.dp,
         bottomStart = 6.dp,
         bottomEnd = 6.dp
     )
 
-    val bottomShape = RoundedCornerShape(
+    val bottom = RoundedCornerShape(
         topStart = 6.dp,
         topEnd = 6.dp,
         bottomStart = 16.dp,
         bottomEnd = 16.dp
     )
 
-    val leftShape = RoundedCornerShape(
+    val start = RoundedCornerShape(
         topStart = 16.dp,
         topEnd = 4.dp,
         bottomStart = 16.dp,
         bottomEnd = 4.dp
     )
 
-    val rightShape = RoundedCornerShape(
+    val end = RoundedCornerShape(
         topStart = 4.dp,
         topEnd = 16.dp,
         bottomStart = 4.dp,
         bottomEnd = 16.dp
     )
 
-    val topRightShape = RoundedCornerShape(
+    val topEnd = RoundedCornerShape(
         topEnd = 16.dp,
         topStart = 4.dp,
         bottomEnd = 4.dp,
         bottomStart = 4.dp
     )
 
-    val bottomRightShape = RoundedCornerShape(
+    val bottomEnd = RoundedCornerShape(
         topEnd = 4.dp,
         topStart = 4.dp,
         bottomEnd = 16.dp,
         bottomStart = 4.dp
     )
 
-    val smallLeftShape = RoundedCornerShape(
+    val smallStart = RoundedCornerShape(
         topStart = 12.dp,
         topEnd = 4.dp,
         bottomStart = 12.dp,
         bottomEnd = 4.dp
     )
 
-    val smallRightShape = RoundedCornerShape(
+    val smallEnd = RoundedCornerShape(
         topEnd = 12.dp,
         topStart = 4.dp,
         bottomEnd = 12.dp,
         bottomStart = 4.dp
     )
 
-    val smallShape = RoundedCornerShape(12.dp)
+    val extremeSmall = RoundedCornerShape(2.dp)
 
-    val defaultShape = RoundedCornerShape(16.dp)
+    val extraSmall = RoundedCornerShape(4.dp)
 
-    val pressedShape = RoundedCornerShape(6.dp)
+    val pressed = RoundedCornerShape(6.dp)
 
-    val largeShape = RoundedCornerShape(20.dp)
+    val mini = RoundedCornerShape(8.dp)
+
+    val small = RoundedCornerShape(12.dp)
+
+    val default = RoundedCornerShape(16.dp)
+
+    val large = RoundedCornerShape(20.dp)
+
+    val extraLarge = RoundedCornerShape(24.dp)
+
+    val extremeLarge = RoundedCornerShape(28.dp)
 
     @Composable
     private inline fun CornerSize.animate(): Dp = animateDpAsState(

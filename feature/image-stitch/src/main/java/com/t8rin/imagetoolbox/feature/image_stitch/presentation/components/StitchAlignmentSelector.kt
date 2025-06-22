@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.state.derivedValueOf
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 
@@ -42,7 +42,7 @@ fun StitchAlignmentSelector(
 ) {
     Column(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(shape = ShapeDefaults.extraLarge)
     ) {
         EnhancedButtonGroup(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),

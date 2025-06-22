@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Badge
@@ -57,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
@@ -75,12 +75,12 @@ fun <T : Any> DataSelector(
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(20.dp),
+    shape: Shape = ShapeDefaults.large,
     color: Color = Color.Unspecified,
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
     initialExpanded: Boolean = false
 ) {
-    val spanCount = spanCount.coerceAtLeast(1)
+    val realSpanCount = spanCount.coerceAtLeast(1)
 
     Column(
         modifier = modifier.container(
@@ -88,9 +88,9 @@ fun <T : Any> DataSelector(
             color = color
         )
     ) {
-        var expanded by rememberSaveable(initialExpanded, spanCount) {
+        var expanded by rememberSaveable(initialExpanded, realSpanCount) {
             mutableStateOf(
-                initialExpanded && spanCount > 1
+                initialExpanded && realSpanCount > 1
             )
         }
         Row {
@@ -128,7 +128,7 @@ fun <T : Any> DataSelector(
                 }
             }
 
-            if (spanCount > 1) {
+            if (realSpanCount > 1) {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
                     onClick = { expanded = !expanded }
@@ -163,14 +163,14 @@ fun <T : Any> DataSelector(
                 .heightIn(
                     max = animateDpAsState(
                         if (expanded) {
-                            52.dp * spanCount - 8.dp * (spanCount - 1)
+                            52.dp * realSpanCount - 8.dp * (realSpanCount - 1)
                         } else 52.dp
                     ).value
                 )
                 .fadingEdges(
                     scrollableState = state,
                     isVertical = false,
-                    spanCount = spanCount
+                    spanCount = realSpanCount
                 ),
             contentPadding = PaddingValues(8.dp)
         ) {

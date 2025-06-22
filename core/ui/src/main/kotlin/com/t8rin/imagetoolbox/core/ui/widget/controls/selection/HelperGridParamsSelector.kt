@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.TableRows
@@ -42,8 +41,8 @@ import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -52,7 +51,7 @@ fun HelperGridParamsSelector(
     value: HelperGridParams,
     onValueChange: (HelperGridParams) -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RoundedCornerShape(24.dp),
+    shape: Shape = ShapeDefaults.extraLarge,
 ) {
     Column(
         modifier = modifier.container(
@@ -85,7 +84,7 @@ fun HelperGridParamsSelector(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .container(
-                            shape = ContainerShapeDefaults.topShape,
+                            shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp
                         )
@@ -101,7 +100,7 @@ fun HelperGridParamsSelector(
                         it.roundToTwoDigits()
                     },
                     valueSuffix = " Pt",
-                    shape = ContainerShapeDefaults.centerShape,
+                    shape = ShapeDefaults.center,
                     onValueChange = {
                         onValueChange(value.copy(cellWidth = it))
                     },
@@ -117,7 +116,7 @@ fun HelperGridParamsSelector(
                         it.roundToTwoDigits()
                     },
                     valueSuffix = " Pt",
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     onValueChange = {
                         onValueChange(value.copy(cellHeight = it))
                     },

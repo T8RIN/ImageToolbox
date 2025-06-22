@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Visibility
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
@@ -137,7 +137,7 @@ internal fun MarkupLayersSideMenuColumn(
                     Box(
                         modifier = Modifier
                             .size(boxSize)
-                            .clip(RoundedCornerShape(4.dp))
+                            .clip(ShapeDefaults.extraSmall)
                             .transparencyChecker()
                             .hapticsClickable {
                                 onActivateLayer(layer)
@@ -191,7 +191,7 @@ internal fun MarkupLayersSideMenuColumn(
                             modifier = Modifier.matchParentSize(),
                             alpha = borderAlpha,
                             scale = 1f,
-                            shape = RoundedCornerShape(4.dp)
+                            shape = ShapeDefaults.extraSmall
                         )
                     }
                     Spacer(Modifier.width(8.dp))

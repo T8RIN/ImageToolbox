@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
@@ -44,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -55,7 +55,10 @@ fun AutoEraseBackgroundCard(
     Column(
         Modifier
             .then(modifier)
-            .container(resultPadding = 8.dp, shape = RoundedCornerShape(24.dp))
+            .container(
+                resultPadding = 8.dp,
+                shape = ShapeDefaults.extraLarge
+            )
     ) {
         val notFoss = BuildConfig.FLAVOR != "foss"
         if (notFoss) {
@@ -87,7 +90,7 @@ fun AutoEraseBackgroundCard(
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
             onClick = onReset,
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
+            shape = ShapeDefaults.default,
             isShadowClip = true
         ) {
             Icon(

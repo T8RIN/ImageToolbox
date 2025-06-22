@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -41,6 +40,7 @@ import coil3.request.ImageRequest
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlinedText
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
@@ -119,7 +119,7 @@ internal fun LayerContent(
                 modifier = Modifier
                     .background(
                         color = type.backgroundColor.toColor(),
-                        shape = RoundedCornerShape(3.dp)
+                        shape = ShapeDefaults.extraSmall
                     )
                     .padding(
                         horizontal = (textFullSize * type.size / 10).dp,

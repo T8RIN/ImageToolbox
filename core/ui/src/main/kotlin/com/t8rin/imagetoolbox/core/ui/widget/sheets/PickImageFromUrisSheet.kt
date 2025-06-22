@@ -59,6 +59,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -108,7 +110,10 @@ fun PickImageFromUrisSheet(
                                 else MaterialTheme.colorScheme.surfaceContainerHigh
                             )
                             val padding by animateDpAsState(if (selected) 12.dp else 4.dp)
-                            val pictureShape by animateDpAsState(if (selected) 20.dp else 8.dp)
+                            val pictureShape = animateShape(
+                                if (selected) ShapeDefaults.large
+                                else ShapeDefaults.mini
+                            )
                             val borderWidth by animateDpAsState(if (selected) 1.5.dp else (-1).dp)
                             val borderColor by animateColorAsState(
                                 if (selected) MaterialTheme.colorScheme.primaryContainer
@@ -117,7 +122,7 @@ fun PickImageFromUrisSheet(
                             Box(
                                 modifier = Modifier
                                     .container(
-                                        shape = RoundedCornerShape(8.dp),
+                                        shape = ShapeDefaults.mini,
                                         resultPadding = 0.dp,
                                         color = color
                                     )
@@ -128,9 +133,9 @@ fun PickImageFromUrisSheet(
                                     model = uri,
                                     modifier = Modifier
                                         .aspectRatio(1f)
-                                        .clip(RoundedCornerShape(pictureShape))
+                                        .clip(pictureShape)
                                         .padding(padding)
-                                        .clip(RoundedCornerShape(pictureShape))
+                                        .clip(pictureShape)
                                         .hapticsClickable {
                                             onUriPicked(uri)
                                             onDismiss()
@@ -138,7 +143,7 @@ fun PickImageFromUrisSheet(
                                         .border(
                                             width = borderWidth,
                                             color = borderColor,
-                                            shape = RoundedCornerShape(pictureShape)
+                                            shape = pictureShape
                                         ),
                                     shape = RectangleShape,
                                     contentScale = ContentScale.Fit

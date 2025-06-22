@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 
 fun Modifier.container(
-    shape: Shape = ContainerShapeDefaults.defaultShape,
+    shape: Shape = ShapeDefaults.default,
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
     borderWidth: Dp = Dp.Unspecified,

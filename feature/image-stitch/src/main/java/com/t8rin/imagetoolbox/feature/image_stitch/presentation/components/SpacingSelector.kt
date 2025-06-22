@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlin.math.roundToInt
 
 @Composable
@@ -54,6 +54,6 @@ fun SpacingSelector(
                 bottom = 10.dp
             ),
         icon = Icons.Rounded.FormatLineSpacing,
-        shape = RoundedCornerShape(24.dp)
+        shape = ShapeDefaults.extraLarge
     )
 }

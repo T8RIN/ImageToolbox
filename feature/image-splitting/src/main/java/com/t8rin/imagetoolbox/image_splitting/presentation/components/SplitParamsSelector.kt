@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
 import kotlin.math.roundToInt
 
@@ -71,7 +71,7 @@ internal fun SplitParamsSelector(
             rowsCount = it.roundToInt()
         },
         onValueChange = {},
-        shape = ContainerShapeDefaults.topShape
+        shape = ShapeDefaults.top
     )
     Spacer(Modifier.height(4.dp))
 
@@ -102,7 +102,7 @@ internal fun SplitParamsSelector(
             columnsCount = it.roundToInt()
         },
         onValueChange = {},
-        shape = ContainerShapeDefaults.bottomShape
+        shape = ShapeDefaults.bottom
     )
     if (value.imageFormat.canChangeCompressionValue) {
         Spacer(Modifier.height(8.dp))

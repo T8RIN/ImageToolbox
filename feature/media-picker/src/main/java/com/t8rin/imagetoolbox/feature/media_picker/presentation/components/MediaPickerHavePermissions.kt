@@ -44,7 +44,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -195,7 +195,7 @@ internal fun MediaPickerHavePermissions(
                                                         .padding(top = 8.dp)
                                                         .height(100.dp)
                                                         .width(width),
-                                                    shape = RoundedCornerShape(12.dp)
+                                                    shape = ShapeDefaults.small
                                                 )
                                             }
                                             Box(
@@ -203,7 +203,7 @@ internal fun MediaPickerHavePermissions(
                                                     .padding(top = 8.dp)
                                                     .height(100.dp)
                                                     .width(width)
-                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .clip(ShapeDefaults.small)
                                                     .background(
                                                         MaterialTheme
                                                             .colorScheme
@@ -226,7 +226,7 @@ internal fun MediaPickerHavePermissions(
                                 }
                             },
                             defaultMinSize = 32.dp,
-                            shape = RoundedCornerShape(16.dp)
+                            shape = ShapeDefaults.default
                         )
                     }
                 }

@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -76,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -153,7 +153,7 @@ fun ColorInfo(
                             .size(28.dp)
                             .background(
                                 color = Color(color).copy(alpha = 1f),
-                                shape = RoundedCornerShape(8.dp)
+                                shape = ShapeDefaults.mini
                             )
                             .padding(2.dp)
                     )
@@ -200,7 +200,7 @@ fun ColorInfo(
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(6.dp))
+                                    .clip(ShapeDefaults.pressed)
                                     .hapticsClickable {
                                         expanded = true
                                     }
@@ -271,7 +271,7 @@ fun ColorInfo(
                             val style =
                                 MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center)
                             OutlinedTextField(
-                                shape = RoundedCornerShape(16.dp),
+                                shape = ShapeDefaults.default,
                                 textStyle = style,
                                 maxLines = 1,
                                 value = value.removePrefix("#"),

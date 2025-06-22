@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -66,6 +65,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueDialog
@@ -91,7 +91,7 @@ fun EnhancedSliderItem(
     visible: Boolean = true,
     color: Color = Color.Unspecified,
     contentColor: Color? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ShapeDefaults.default,
     valueTextTapEnabled: Boolean = true,
     behaveAsContainer: Boolean = true,
     enabled: Boolean = true,

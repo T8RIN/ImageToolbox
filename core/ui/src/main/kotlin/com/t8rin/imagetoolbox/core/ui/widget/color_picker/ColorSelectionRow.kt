@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -121,7 +122,7 @@ fun ColorSelectionRow(
                 val background = customColor ?: MaterialTheme.colorScheme.primary
                 val isSelected = customColor != null
                 val shape = animateShape(
-                    if (isSelected) RoundedCornerShape(8.dp)
+                    if (isSelected) ShapeDefaults.mini
                     else RoundedCornerShape(itemSize / 2)
                 )
 
@@ -206,7 +207,7 @@ fun ColorSelectionRow(
             ) { color ->
                 val isSelected = value == color && customColor == null
                 val shape = animateShape(
-                    if (isSelected) RoundedCornerShape(8.dp)
+                    if (isSelected) ShapeDefaults.mini
                     else RoundedCornerShape(itemSize / 2)
                 )
 

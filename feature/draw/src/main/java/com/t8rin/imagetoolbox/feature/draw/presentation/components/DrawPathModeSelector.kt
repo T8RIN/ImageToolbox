@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.ArrowParamsSelector
@@ -71,7 +71,7 @@ fun DrawPathModeSelector(
     Column(
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(24.dp),
+                shape = ShapeDefaults.extraLarge,
                 color = containerColor
             ),
         horizontalAlignment = Alignment.CenterHorizontally

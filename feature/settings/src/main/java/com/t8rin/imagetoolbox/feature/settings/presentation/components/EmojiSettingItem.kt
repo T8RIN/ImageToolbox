@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
@@ -61,7 +61,7 @@ fun EmojiSettingItem(
     onAddColorTupleFromEmoji: (String) -> Unit,
     onUpdateEmoji: (Int) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
-    shape: Shape = ContainerShapeDefaults.topShape
+    shape: Shape = ShapeDefaults.top
 ) {
     val settingsState = LocalSettingsState.current
     val toastHost = LocalToastHostState.current

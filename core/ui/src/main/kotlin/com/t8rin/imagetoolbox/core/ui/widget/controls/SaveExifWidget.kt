@@ -17,18 +17,17 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -56,7 +55,7 @@ fun SaveExifWidget(
         },
         checked = checked,
         enabled = imageFormat.canWriteExif,
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         color = backgroundColor,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.Exif

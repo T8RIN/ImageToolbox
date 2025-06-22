@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
@@ -84,7 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -114,7 +113,7 @@ fun DrawModeSelector(
 
     Column(
         modifier = modifier
-            .container(RoundedCornerShape(24.dp)),
+            .container(ShapeDefaults.extraLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         EnhancedButtonGroup(
@@ -188,7 +187,7 @@ fun DrawModeSelector(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .container(
-                            shape = ContainerShapeDefaults.topShape,
+                            shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 8.dp
                         ),
@@ -217,7 +216,7 @@ fun DrawModeSelector(
                     },
                     modifier = Modifier
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.centerShape
+                    shape = ShapeDefaults.center
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 val isDashSizeControlVisible = (value as? DrawMode.Text)?.isRepeated == true
@@ -234,8 +233,8 @@ fun DrawModeSelector(
                     },
                     color = MaterialTheme.colorScheme.surface,
                     shape = animateShape(
-                        if (isDashSizeControlVisible) ContainerShapeDefaults.centerShape
-                        else ContainerShapeDefaults.bottomShape
+                        if (isDashSizeControlVisible) ShapeDefaults.center
+                        else ShapeDefaults.bottom
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -273,7 +272,7 @@ fun DrawModeSelector(
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp)
                             .padding(bottom = 8.dp),
-                        shape = ContainerShapeDefaults.bottomShape
+                        shape = ShapeDefaults.bottom
                     )
                 }
             }
@@ -297,7 +296,7 @@ fun DrawModeSelector(
                         )
                     },
                     subtitle = stringResource(id = R.string.draw_image_sub),
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -333,7 +332,7 @@ fun DrawModeSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ShapeDefaults.bottom
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -372,7 +371,7 @@ fun DrawModeSelector(
                                 )
                             },
                             backgroundColor = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(16.dp),
+                            shape = ShapeDefaults.default,
                             canHide = false,
                             onCreateTemplate = null
                         )
@@ -441,7 +440,7 @@ fun DrawModeSelector(
                         Modifier
                             .fillMaxWidth()
                             .container(
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = values.size
                                 ),

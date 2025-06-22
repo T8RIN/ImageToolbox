@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.FilledIconButton
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ internal fun DefaultPaletteControls(bitmap: Bitmap) {
         imageBitmap = bitmap.asImageBitmap(),
         modifier = Modifier
             .fillMaxSize()
-            .container(RoundedCornerShape(24.dp))
+            .container(ShapeDefaults.extraLarge)
             .padding(4.dp),
         style = LocalTextStyle.current,
         onEmpty = {
@@ -91,7 +91,7 @@ internal fun DefaultPaletteControls(bitmap: Bitmap) {
                     enabled = false,
                     onClick = {},
                     modifier = Modifier.size(100.dp),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = ShapeDefaults.default,
                     colors = IconButtonDefaults.filledTonalIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
                             alpha = 0.7f

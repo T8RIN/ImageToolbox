@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Blender
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -56,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.t8rin.dynamic.theme.ColorTuple
-import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
@@ -64,13 +62,14 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
@@ -123,7 +122,7 @@ internal fun ColorMixing(
                         .fillMaxWidth()
                         .container(
                             color = MaterialTheme.colorScheme.surface,
-                            shape = ContainerShapeDefaults.topShape
+                            shape = ShapeDefaults.top
                         ),
                     title = stringResource(R.string.color_to_mix)
                 )
@@ -134,7 +133,7 @@ internal fun ColorMixing(
                     valueRange = 2f..15f,
                     onValueChange = { mixingVariation = it.roundToInt() },
                     internalStateTransformation = { it.roundToInt() },
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     behaveAsContainer = true,
                     color = MaterialTheme.colorScheme.surface,
                     steps = 12
@@ -159,7 +158,7 @@ internal fun ColorMixing(
                                 .heightIn(min = 100.dp)
                                 .fillMaxWidth()
                                 .clip(
-                                    ContainerShapeDefaults.shapeForIndex(
+                                    ShapeDefaults.byIndex(
                                         index = index,
                                         size = mixedColors.size
                                     )
@@ -186,7 +185,7 @@ internal fun ColorMixing(
                                     .size(28.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = RoundedCornerShape(8.dp)
+                                        shape = ShapeDefaults.mini
                                     )
                                     .padding(2.dp)
                             )
@@ -199,9 +198,7 @@ internal fun ColorMixing(
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = RoundedCornerShape(
-                                            8.dp
-                                        )
+                                        shape = ShapeDefaults.mini
                                     )
                                     .padding(horizontal = 4.dp),
                                 fontSize = 12.sp
@@ -219,9 +216,7 @@ internal fun ColorMixing(
                                     .padding(4.dp)
                                     .background(
                                         color = boxColor.copy(alpha = 1f),
-                                        shape = RoundedCornerShape(
-                                            8.dp
-                                        )
+                                        shape = ShapeDefaults.mini
                                     )
                                     .padding(horizontal = 4.dp),
                                 fontSize = 12.sp

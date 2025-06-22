@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.UploadFile
 import androidx.compose.material.icons.rounded.DownloadDone
@@ -56,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadFile
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -133,7 +132,7 @@ internal fun OCRLanguagesColumn(
                         else MaterialTheme.colorScheme.surfaceContainer
                     ).value,
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(28.dp),
+                    shape = ShapeDefaults.extremeLarge,
                     checked = allowMultipleLanguagesSelection,
                     startIcon = Icons.Rounded.MultipleStop,
                     onClick = {
@@ -160,7 +159,7 @@ internal fun OCRLanguagesColumn(
             Column(
                 modifier = Modifier
                     .container(
-                        shape = RoundedCornerShape(20.dp),
+                        shape = ShapeDefaults.large,
                         color = EnhancedBottomSheetDefaults.contentContainerColor,
                         resultPadding = 0.dp
                     )
@@ -222,11 +221,11 @@ internal fun OCRLanguagesColumn(
                 lang = lang,
                 downloadedLanguages = downloadedLanguages,
                 onWantDelete = onWantDelete,
-                onValueChange = { selected, lang ->
+                onValueChange = { selected, language ->
                     onValueChangeImpl(
                         selected = selected,
                         type = currentRecognitionType,
-                        lang = lang
+                        lang = language
                     )
                 },
                 onValueChangeForced = onValueChange,
@@ -265,7 +264,7 @@ internal fun OCRLanguagesColumn(
                         MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
                     } else EnhancedBottomSheetDefaults.contentContainerColor
                 ).value,
-                shape = ContainerShapeDefaults.shapeForIndex(
+                shape = ShapeDefaults.byIndex(
                     index = index,
                     size = notDownloadedLanguages.size
                 ),

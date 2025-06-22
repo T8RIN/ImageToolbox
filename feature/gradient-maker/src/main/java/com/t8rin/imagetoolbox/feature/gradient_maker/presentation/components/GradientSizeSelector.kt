@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
@@ -44,7 +44,7 @@ fun GradientSizeSelector(
 ) {
     Row(
         modifier = modifier.container(
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
     ) {
         val (width, height) = value
@@ -53,7 +53,7 @@ fun GradientSizeSelector(
             onValueChange = {
                 onWidthChange(it.restrict(8192).toIntOrNull() ?: 0)
             },
-            shape = RoundedCornerShape(12.dp),
+            shape = ShapeDefaults.small,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
@@ -81,7 +81,7 @@ fun GradientSizeSelector(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
-            shape = RoundedCornerShape(12.dp),
+            shape = ShapeDefaults.small,
             label = {
                 Text(stringResource(R.string.height, " "))
             },

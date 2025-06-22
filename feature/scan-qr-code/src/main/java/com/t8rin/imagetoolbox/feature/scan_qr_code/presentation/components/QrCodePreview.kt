@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
@@ -86,7 +86,7 @@ internal fun QrCodePreview(
                                             surfaceContainerLowest
                                         } else surfaceContainerLow
                                     },
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = ShapeDefaults.default
                                 )
                                 .padding(16.dp)
                         } else Modifier

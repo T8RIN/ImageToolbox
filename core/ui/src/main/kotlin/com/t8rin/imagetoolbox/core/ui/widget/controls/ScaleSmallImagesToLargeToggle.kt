@@ -17,15 +17,14 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.LinearScale
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -40,7 +39,7 @@ fun ScaleSmallImagesToLargeToggle(
         subtitle = stringResource(R.string.scale_small_images_to_large_sub),
         checked = checked,
         color = Color.Unspecified,
-        shape = RoundedCornerShape(24.dp),
+        shape = ShapeDefaults.extraLarge,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.LinearScale
     )

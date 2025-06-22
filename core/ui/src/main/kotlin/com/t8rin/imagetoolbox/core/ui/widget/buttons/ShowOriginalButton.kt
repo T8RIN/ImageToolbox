@@ -24,7 +24,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.Icon
@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
@@ -51,8 +52,8 @@ fun ShowOriginalButton(
     val interactionSource = remember { MutableInteractionSource() }
 
     val shape = shapeByInteraction(
-        shape = RoundedCornerShape(100),
-        pressedShape = RoundedCornerShape(8.dp),
+        shape = CircleShape,
+        pressedShape = ShapeDefaults.mini,
         interactionSource = interactionSource
     )
 

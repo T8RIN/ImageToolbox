@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.runtime.Composable
@@ -34,14 +33,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.Robot
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.launch
 
 @Composable
 fun EmojisCountSettingItem(
     onValueChange: (Int) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
@@ -53,7 +52,7 @@ fun EmojisCountSettingItem(
         modifier = modifier.then(
             if (settingsState.selectedEmoji == null) {
                 Modifier
-                    .clip(RoundedCornerShape(4.dp))
+                    .clip(ShapeDefaults.extraSmall)
                     .hapticsClickable {
                         scope.launch {
                             toastHost.showToast(

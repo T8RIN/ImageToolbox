@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
@@ -47,7 +47,7 @@ fun GradientTypeSelector(
     Column(
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(24.dp)
+                shape = ShapeDefaults.extraLarge
             )
             .animateContentSizeNoClip(),
         verticalArrangement = Arrangement.Center,

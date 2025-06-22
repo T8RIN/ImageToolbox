@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.automirrored.rounded.NoteAdd
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
@@ -112,7 +112,7 @@ fun UrisPreview(
                 if (uri != Uri.EMPTY) {
                     Box(
                         modifier = Modifier.container(
-                            shape = RoundedCornerShape(4.dp),
+                            shape = ShapeDefaults.extraSmall,
                             resultPadding = 0.dp,
                             color = MaterialTheme.colorScheme.surfaceContainerHighest
                         )
@@ -213,7 +213,7 @@ fun UrisPreview(
                         Box(
                             modifier = Modifier
                                 .container(
-                                    shape = RoundedCornerShape(4.dp),
+                                    shape = ShapeDefaults.extraSmall,
                                     resultPadding = 0.dp,
                                     color = MaterialTheme.colorScheme.surfaceContainerHigh
                                 )

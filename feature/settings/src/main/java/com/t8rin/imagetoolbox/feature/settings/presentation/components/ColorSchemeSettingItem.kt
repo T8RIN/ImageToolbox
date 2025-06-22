@@ -56,7 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.AvailableColorTuplesSheet
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorTuplePicker
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
@@ -70,7 +70,7 @@ fun ColorSchemeSettingItem(
     onUpdateColorTuple: (ColorTuple) -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
     onToggleUseEmojiAsPrimaryColor: () -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ShapeDefaults.top,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
     val toastHostState = LocalToastHostState.current

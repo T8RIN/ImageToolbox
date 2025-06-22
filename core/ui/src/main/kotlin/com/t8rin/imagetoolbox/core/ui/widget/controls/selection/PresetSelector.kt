@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FitScreen
@@ -74,7 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -127,7 +126,7 @@ fun PresetSelector(
         swipeableContent = {
             Column(
                 modifier = Modifier
-                    .container(shape = RoundedCornerShape(24.dp))
+                    .container(shape = ShapeDefaults.extraLarge)
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = {
@@ -198,7 +197,7 @@ fun PresetSelector(
                             },
                             title = {},
                             aspectRatios = aspectRatios,
-                            shape = ContainerShapeDefaults.topShape,
+                            shape = ShapeDefaults.top,
                             color = MaterialTheme.colorScheme.surface,
                             unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerHigh
                         )
@@ -223,7 +222,7 @@ fun PresetSelector(
                                 }
                             },
                             startIcon = Icons.Outlined.FitScreen,
-                            shape = ContainerShapeDefaults.bottomShape,
+                            shape = ShapeDefaults.bottom,
                             color = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -354,7 +353,7 @@ fun PresetSelector(
                     .fillMaxSize()
                     .container(
                         color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = ShapeDefaults.extraLarge,
                         autoShadowElevation = 0.5.dp
                     )
             ) {

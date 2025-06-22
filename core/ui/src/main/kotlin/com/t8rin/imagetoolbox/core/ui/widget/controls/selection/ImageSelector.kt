@@ -22,7 +22,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material3.Icon
@@ -52,6 +51,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 
 @Composable
@@ -63,7 +63,7 @@ fun ImageSelector(
     modifier: Modifier = Modifier,
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    shape: Shape = RoundedCornerShape(20.dp),
+    shape: Shape = ShapeDefaults.large,
     contentScale: ContentScale = ContentScale.Crop
 ) {
     val imagePicker = rememberImagePicker(onSuccess = onValueChange)
@@ -132,7 +132,7 @@ fun FileSelector(
     modifier: Modifier = Modifier,
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    shape: Shape = RoundedCornerShape(20.dp)
+    shape: Shape = ShapeDefaults.large
 ) {
     val pickFileLauncher = rememberFilePicker(onSuccess = onValueChange)
 

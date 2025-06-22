@@ -52,9 +52,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults.bottomShape
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults.centerShape
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults.topShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.bottom
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.center
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.top
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -122,7 +122,7 @@ internal fun CompareShareSheet(
                         onLongClick = {
                             showFolderSelectionDialog = true
                         },
-                        shape = topShape,
+                        shape = top,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
@@ -143,7 +143,7 @@ internal fun CompareShareSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        shape = centerShape,
+                        shape = center,
                         onClick = {
                             onCopy(imageFormat)
                         },
@@ -156,7 +156,7 @@ internal fun CompareShareSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        shape = bottomShape,
+                        shape = bottom,
                         onClick = {
                             onShare(imageFormat)
                         },

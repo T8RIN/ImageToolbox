@@ -33,7 +33,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Contrast
@@ -74,7 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.getTitle
@@ -127,7 +126,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
             modifier = Modifier
                 .size(56.dp)
                 .container(
-                    shape = RoundedCornerShape(8.dp),
+                    shape = ShapeDefaults.mini,
                     resultPadding = 0.dp
                 )
         )
@@ -150,7 +149,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
             isDarkTheme = it
         },
         color = Color.Unspecified,
-        shape = ContainerShapeDefaults.topShape
+        shape = ShapeDefaults.top
     )
     Spacer(modifier = Modifier.height(4.dp))
     PreferenceRowSwitch(
@@ -162,7 +161,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
             invertColors = it
         },
         color = Color.Unspecified,
-        shape = ContainerShapeDefaults.centerShape
+        shape = ShapeDefaults.center
     )
     Spacer(modifier = Modifier.height(4.dp))
     EnhancedSliderItem(
@@ -171,7 +170,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
         icon = Icons.Rounded.Contrast,
         title = stringResource(id = R.string.contrast),
         valueRange = -1f..1f,
-        shape = ContainerShapeDefaults.centerShape,
+        shape = ShapeDefaults.center,
         onValueChange = { },
         internalStateTransformation = {
             it.roundToTwoDigits()
@@ -184,7 +183,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
     Spacer(modifier = Modifier.height(4.dp))
     Column(
         modifier = Modifier.container(
-            shape = ContainerShapeDefaults.bottomShape
+            shape = ShapeDefaults.bottom
         )
     ) {
         Row(

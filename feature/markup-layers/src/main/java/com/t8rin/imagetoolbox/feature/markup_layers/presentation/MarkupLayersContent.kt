@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Badge
@@ -89,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -264,11 +264,11 @@ fun MarkupLayersContent(
                             .padding(16.dp)
                             .aspectRatio(aspectRatio, isPortrait)
                             .fillMaxSize()
-                            .clip(RoundedCornerShape(2.dp))
+                            .clip(ShapeDefaults.extremeSmall)
                             .border(
                                 width = 1.dp,
                                 color = MaterialTheme.colorScheme.outlineVariant(),
-                                shape = RoundedCornerShape(2.dp)
+                                shape = ShapeDefaults.extremeSmall
                             )
                             .background(MaterialTheme.colorScheme.surfaceContainerLow),
                         contentAlignment = Alignment.Center
@@ -332,7 +332,7 @@ fun MarkupLayersContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .container(
-                                shape = RoundedCornerShape(24.dp)
+                                shape = ShapeDefaults.extraLarge
                             )
                     )
                 }

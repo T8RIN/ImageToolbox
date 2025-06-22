@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -55,7 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
@@ -178,7 +177,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             }
             PreferenceRowSwitch(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 startIcon = Icons.Outlined.InvertColors,
                 title = stringResource(R.string.enforce_bw),
                 subtitle = stringResource(R.string.enforce_bw_sub),
@@ -208,14 +207,14 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f),
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 BoxAnimatedVisibility(visible = params.imageUri != null) {
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(start = 8.dp)
-                            .clip(RoundedCornerShape(16.dp))
+                            .clip(ShapeDefaults.default)
                             .hapticsClickable {
                                 component.updateParams(
                                     params.copy(
@@ -242,8 +241,8 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             RoundedTextField(
                 modifier = Modifier.container(
                     shape = animateShape(
-                        if (params.description.isNotEmpty()) ContainerShapeDefaults.topShape
-                        else ContainerShapeDefaults.defaultShape
+                        if (params.description.isNotEmpty()) ShapeDefaults.top
+                        else ShapeDefaults.default
                     ),
                     resultPadding = 8.dp
                 ),
@@ -275,7 +274,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                         )
                     },
                     color = Color.Unspecified,
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }

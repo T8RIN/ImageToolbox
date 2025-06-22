@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
@@ -90,7 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.PaletteStyleSelection
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -251,7 +250,7 @@ fun AvailableColorTuplesSheet(
             val palette = @Composable {
                 PaletteStyleSelection(
                     onThemeStyleSelected = onThemeStyleSelected,
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                 )
             }
             val invertColors = @Composable {
@@ -261,7 +260,7 @@ fun AvailableColorTuplesSheet(
                     checked = settingsState.isInvertThemeColors,
                     modifier = Modifier,
                     startIcon = Icons.Rounded.InvertColors,
-                    shape = ContainerShapeDefaults.centerShape,
+                    shape = ShapeDefaults.center,
                     onClick = { onToggleInvertColors() }
                 )
             }
@@ -272,7 +271,7 @@ fun AvailableColorTuplesSheet(
                     checked = settingsState.useEmojiAsPrimaryColor,
                     modifier = Modifier,
                     startIcon = Icons.Outlined.EmojiEmotions,
-                    shape = ContainerShapeDefaults.centerShape,
+                    shape = ShapeDefaults.center,
                     onClick = { onToggleUseEmojiAsPrimaryColor() }
                 )
             }
@@ -282,7 +281,7 @@ fun AvailableColorTuplesSheet(
                     icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
                     valueRange = -1f..1f,
-                    shape = ContainerShapeDefaults.bottomShape,
+                    shape = ShapeDefaults.bottom,
                     onValueChange = { },
                     internalStateTransformation = {
                         it.roundToTwoDigits()
@@ -308,7 +307,7 @@ fun AvailableColorTuplesSheet(
                 Column(
                     modifier = Modifier
                         .padding(bottom = 16.dp)
-                        .container(RoundedCornerShape(24.dp))
+                        .container(ShapeDefaults.extraLarge)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoAwesomeMosaic
 import androidx.compose.material.icons.rounded.FormatColorFill
@@ -92,6 +91,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
@@ -284,7 +284,7 @@ fun CollageMakerContent(
                             modifier = Modifier
                                 .zoomable(rememberZoomState())
                                 .container(
-                                    shape = RoundedCornerShape(4.dp),
+                                    shape = ShapeDefaults.extraSmall,
                                     resultPadding = 0.dp
                                 )
                                 .shimmer(visible = isLoading),
@@ -293,7 +293,7 @@ fun CollageMakerContent(
                             Collage(
                                 modifier = Modifier
                                     .padding(4.dp)
-                                    .clip(RoundedCornerShape(4.dp))
+                                    .clip(ShapeDefaults.extraSmall)
                                     .transparencyChecker(),
                                 images = uris ?: emptyList(),
                                 collageType = component.collageType,
@@ -329,7 +329,7 @@ fun CollageMakerContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.container(
                         resultPadding = 0.dp,
-                        shape = RoundedCornerShape(24.dp)
+                        shape = ShapeDefaults.extraLarge
                     )
                 ) {
                     Text(
@@ -349,7 +349,7 @@ fun CollageMakerContent(
                             .height(100.dp)
                             .fadingEdges(state),
                         contentPadding = PaddingValues(16.dp),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = ShapeDefaults.small,
                         itemModifierFactory = { isSelected ->
                             Modifier
                                 .container(
@@ -359,10 +359,10 @@ fun CollageMakerContent(
                                             MaterialTheme.colorScheme.secondaryContainer
                                         } else MaterialTheme.colorScheme.surfaceContainerLowest,
                                     ).value,
-                                    shape = RoundedCornerShape(12.dp)
+                                    shape = ShapeDefaults.small
                                 )
                                 .padding(8.dp)
-                                .clip(RoundedCornerShape(2.dp))
+                                .clip(ShapeDefaults.extremeSmall)
                         }
                     )
                 }
@@ -370,7 +370,7 @@ fun CollageMakerContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .container(
-                            shape = RoundedCornerShape(24.dp)
+                            shape = ShapeDefaults.extraLarge
                         ),
                     icon = Icons.Rounded.FormatColorFill,
                     value = component.backgroundColor,
@@ -406,7 +406,7 @@ fun CollageMakerContent(
                             bottom = 10.dp
                         ),
                     icon = Icons.Rounded.FormatLineSpacing,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 EnhancedSliderItem(
                     modifier = Modifier.fillMaxWidth(),
@@ -425,7 +425,7 @@ fun CollageMakerContent(
                             bottom = 10.dp
                         ),
                     icon = Icons.Rounded.RoundedCorner,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 EnhancedSliderItem(
                     modifier = Modifier.fillMaxWidth(),
@@ -444,7 +444,7 @@ fun CollageMakerContent(
                             bottom = 10.dp
                         ),
                     icon = Icons.Rounded.PhotoSizeSelectSmall,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = ShapeDefaults.extraLarge
                 )
                 QualitySelector(
                     imageFormat = component.imageFormat,

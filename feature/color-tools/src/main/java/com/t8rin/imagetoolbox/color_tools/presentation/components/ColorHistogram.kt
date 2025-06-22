@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +39,7 @@ import com.t8rin.histogram.HistogramType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
@@ -70,7 +70,7 @@ internal fun ColorHistogram() {
                         imageUri = it
                     },
                     subtitle = stringResource(R.string.image_for_histogram),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = ShapeDefaults.default,
                     color = MaterialTheme.colorScheme.surface
                 )
                 Column(
@@ -86,7 +86,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.RGB,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = RoundedCornerShape(6.dp)
+                        bordersShape = ShapeDefaults.pressed
                     )
                     HistogramChart(
                         model = imageUri,
@@ -97,7 +97,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.Brightness,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = RoundedCornerShape(6.dp)
+                        bordersShape = ShapeDefaults.pressed
                     )
                     HistogramChart(
                         model = imageUri,
@@ -108,7 +108,7 @@ internal fun ColorHistogram() {
                         initialType = HistogramType.Camera,
                         onSwapType = null,
                         linesThickness = 1.dp,
-                        bordersShape = RoundedCornerShape(6.dp)
+                        bordersShape = ShapeDefaults.pressed
                     )
                 }
             }

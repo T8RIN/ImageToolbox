@@ -52,7 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.TONSpaceColor
 import com.t8rin.imagetoolbox.core.ui.theme.USDTColor
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -94,7 +94,7 @@ fun DonateContainerContent(
                 fraction = { 1f },
                 darkMode = true
             ),
-            shape = ContainerShapeDefaults.topShape,
+            shape = ShapeDefaults.top,
             onClick = {
                 context.apply {
                     copyToClipboard(TONSpaceWallet)
@@ -119,7 +119,7 @@ fun DonateContainerContent(
                 fraction = { 1f },
                 darkMode = darkMode
             ),
-            shape = ContainerShapeDefaults.centerShape,
+            shape = ShapeDefaults.center,
             onClick = {
                 context.apply {
                     copyToClipboard(TONWallet)
@@ -144,7 +144,7 @@ fun DonateContainerContent(
                 fraction = { 1f },
                 darkMode = darkMode
             ),
-            shape = ContainerShapeDefaults.centerShape,
+            shape = ShapeDefaults.center,
             onClick = {
                 context.apply {
                     copyToClipboard(BitcoinWallet)
@@ -169,7 +169,7 @@ fun DonateContainerContent(
                 fraction = { 1f },
                 darkMode = darkMode
             ),
-            shape = ContainerShapeDefaults.bottomShape,
+            shape = ShapeDefaults.bottom,
             onClick = {
                 context.apply {
                     copyToClipboard(USDTWallet)

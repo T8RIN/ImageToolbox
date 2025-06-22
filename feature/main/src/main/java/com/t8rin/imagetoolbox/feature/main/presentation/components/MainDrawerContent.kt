@@ -22,7 +22,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.MaterialTheme
@@ -50,7 +49,10 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.autoElevatedBorder
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import kotlinx.coroutines.delay
 
 @Composable
@@ -95,11 +97,8 @@ internal fun MainDrawerContent(
         predictiveBackProgress = 0f
     }
     val shape = if (isSheetSlideable) {
-        RoundedCornerShape(
-            topStart = 0.dp,
-            bottomStart = 0.dp,
-            bottomEnd = 24.dp,
-            topEnd = 24.dp
+        ShapeDefaults.extraLarge.only(
+            CornerSides.End
         )
     } else RectangleShape
 

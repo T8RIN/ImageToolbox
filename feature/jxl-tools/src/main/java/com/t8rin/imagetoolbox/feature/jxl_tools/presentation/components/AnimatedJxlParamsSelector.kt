@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EnergySavingsLeaf
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
@@ -40,6 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.jxl_tools.domain.AnimatedJxlParams
 import kotlin.math.roundToInt
@@ -84,7 +84,7 @@ fun AnimatedJxlParamsSelector(
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         PreferenceRowSwitch(
@@ -101,7 +101,7 @@ fun AnimatedJxlParamsSelector(
             startIcon = Icons.Outlined.EnergySavingsLeaf,
             modifier = Modifier.fillMaxWidth(),
             color = Color.Unspecified,
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         QualitySelector(
@@ -133,7 +133,7 @@ fun AnimatedJxlParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
         EnhancedSliderItem(
@@ -149,7 +149,7 @@ fun AnimatedJxlParamsSelector(
                     )
                 )
             },
-            shape = RoundedCornerShape(24.dp)
+            shape = ShapeDefaults.extraLarge
         )
     }
 }

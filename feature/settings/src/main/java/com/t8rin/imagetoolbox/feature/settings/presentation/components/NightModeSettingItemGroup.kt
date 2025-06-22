@@ -40,7 +40,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -72,7 +72,7 @@ fun NightModeSettingItemGroup(
             ),
         ).forEachIndexed { index, (title, icon, nightMode) ->
             val selected = nightMode == value
-            val shape = ContainerShapeDefaults.shapeForIndex(index, 3)
+            val shape = ShapeDefaults.byIndex(index, 3)
             PreferenceItem(
                 onClick = { onValueChange(nightMode) },
                 title = title,

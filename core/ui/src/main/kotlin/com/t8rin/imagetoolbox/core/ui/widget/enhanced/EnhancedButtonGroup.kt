@@ -131,6 +131,33 @@ fun EnhancedButtonGroup(
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
     isScrollable: Boolean = true
 ) {
+    EnhancedButtonGroup(
+        modifier = modifier,
+        enabled = enabled,
+        itemCount = itemCount,
+        selectedIndices = setOf(selectedIndex),
+        itemContent = itemContent,
+        title = title,
+        onIndexChange = onIndexChange,
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor,
+        isScrollable = isScrollable,
+    )
+}
+
+@Composable
+fun EnhancedButtonGroup(
+    modifier: Modifier = defaultModifier,
+    enabled: Boolean = true,
+    itemCount: Int,
+    selectedIndices: Set<Int>,
+    itemContent: @Composable (item: Int) -> Unit,
+    title: @Composable RowScope.() -> Unit = {},
+    onIndexChange: (Int) -> Unit,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
+    activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
+    isScrollable: Boolean = true,
+) {
     val settingsState = LocalSettingsState.current
 
     val disabledColor = MaterialTheme.colorScheme.onSurface
@@ -176,7 +203,7 @@ fun EnhancedButtonGroup(
                             .padding(
                                 start = 6.dp,
                                 end = 6.dp,
-                                bottom = 8.dp,
+                                bottom = 6.dp,
                                 top = 8.dp
                             ),
                         horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
@@ -188,7 +215,7 @@ fun EnhancedButtonGroup(
                                 MaterialTheme.colorScheme.surfaceContainer
                             }
 
-                            val selected = index == selectedIndex
+                            val selected = index in selectedIndices
 
                             EnhancedToggleButton(
                                 enabled = enabled,
@@ -219,10 +246,14 @@ fun EnhancedButtonGroup(
                                     )
 
                                     else -> ButtonGroupDefaults.connectedMiddleButtonShapes(
-                                        pressedShape = ButtonDefaults.pressedShape
+                                        pressedShape = ButtonDefaults.pressedShape,
                                     )
                                 },
-                                elevation = elevation
+                                elevation = elevation,
+                                modifier = Modifier.then(
+                                    if (isScrollable) Modifier
+                                    else Modifier.weight(1f)
+                                )
                             ) {
                                 itemContent(index)
                             }

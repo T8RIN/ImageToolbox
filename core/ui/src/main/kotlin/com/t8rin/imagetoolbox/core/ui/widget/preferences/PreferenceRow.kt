@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -55,7 +54,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -66,8 +65,8 @@ fun PreferenceRow(
     subtitle: String? = null,
     color: Color = Color.Unspecified,
     enabled: Boolean = true,
-    shape: Shape = ContainerShapeDefaults.defaultShape,
-    pressedShape: Shape = ContainerShapeDefaults.pressedShape,
+    shape: Shape = ShapeDefaults.default,
+    pressedShape: Shape = ShapeDefaults.pressed,
     contentColor: Color? = null,
     applyHorizontalPadding: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
@@ -233,7 +232,7 @@ fun PreferenceRow(
     onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = ShapeDefaults.default,
     titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,

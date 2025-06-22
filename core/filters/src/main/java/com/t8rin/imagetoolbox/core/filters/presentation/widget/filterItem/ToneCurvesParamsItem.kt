@@ -92,7 +92,7 @@ internal fun ToneCurvesParamsItem(
             },
             imageObtainingTrigger = false,
             onImageObtained = { },
-            //shape = RoundedCornerShape(4.dp),
+            //shape = ShapeDefaults.extraSmall,
             containerModifier = Modifier.fillMaxWidth(),
             onStateChange = {
                 onFilterChange(

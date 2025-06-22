@@ -22,7 +22,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
@@ -39,6 +38,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
 @Composable
@@ -52,7 +52,7 @@ fun SupportingButton(
     val interactionSource = remember { MutableInteractionSource() }
     val shape = shapeByInteraction(
         shape = IconButtonDefaults.smallRoundShape,
-        pressedShape = RoundedCornerShape(4.dp),
+        pressedShape = ShapeDefaults.extraSmall,
         interactionSource = interactionSource
     )
 

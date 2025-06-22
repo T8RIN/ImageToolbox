@@ -53,7 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromP
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.performanceClass
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -111,15 +111,15 @@ internal fun FirstLaunchSetupDialog(
                             title = stringResource(id = R.string.attention),
                             subtitle = stringResource(R.string.foss_update_checker_warning),
                             startIcon = Icons.Rounded.Webhook,
-                            shape = ContainerShapeDefaults.defaultShape,
+                            shape = ShapeDefaults.default,
                             modifier = Modifier.padding(bottom = 8.dp),
                             color = MaterialTheme.colorScheme.surfaceContainerHighest
                         )
                     }
                     PreferenceRowSwitch(
                         shape = if (!context.isInstalledFromPlayStore()) {
-                            ContainerShapeDefaults.topShape
-                        } else ContainerShapeDefaults.defaultShape,
+                            ShapeDefaults.top
+                        } else ShapeDefaults.default,
                         modifier = Modifier,
                         title = stringResource(R.string.check_updates),
                         subtitle = stringResource(R.string.check_updates_sub),
@@ -133,7 +133,7 @@ internal fun FirstLaunchSetupDialog(
                         Spacer(Modifier.height(4.dp))
                         PreferenceRowSwitch(
                             modifier = Modifier,
-                            shape = ContainerShapeDefaults.bottomShape,
+                            shape = ShapeDefaults.bottom,
                             title = stringResource(R.string.allow_betas),
                             subtitle = stringResource(R.string.allow_betas_sub),
                             checked = settingsState.allowBetas,

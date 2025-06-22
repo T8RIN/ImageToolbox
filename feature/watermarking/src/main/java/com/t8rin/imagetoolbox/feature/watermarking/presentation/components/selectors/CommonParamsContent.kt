@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material.icons.rounded.Repeat
@@ -41,6 +40,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.digitalParams
@@ -73,7 +73,7 @@ internal fun CommonParamsContent(
                     onValueChange(params.copy(positionX = it))
                 },
                 valueRange = 0f..1f,
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -87,7 +87,7 @@ internal fun CommonParamsContent(
                     onValueChange(params.copy(positionY = it))
                 },
                 valueRange = 0f..1f,
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
@@ -108,7 +108,7 @@ internal fun CommonParamsContent(
             onValueChange = {
                 onValueChange(params.copy(rotation = it.roundToInt()))
             },
-            shape = RoundedCornerShape(20.dp),
+            shape = ShapeDefaults.large,
             color = MaterialTheme.colorScheme.surface
         )
     }
@@ -124,7 +124,7 @@ internal fun CommonParamsContent(
                 onValueChange(params.copy(alpha = it))
             },
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
+            shape = ShapeDefaults.large,
             color = MaterialTheme.colorScheme.surface
         )
     }
@@ -143,7 +143,7 @@ internal fun CommonParamsContent(
                 onClick = {
                     onValueChange(params.copy(isRepeated = it))
                 },
-                shape = RoundedCornerShape(20.dp),
+                shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
             Spacer(Modifier.height(4.dp))

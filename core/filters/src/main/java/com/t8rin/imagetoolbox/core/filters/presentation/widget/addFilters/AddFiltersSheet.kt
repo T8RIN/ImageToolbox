@@ -105,7 +105,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -249,7 +249,7 @@ fun AddFiltersSheet(
                                 val interactionSource = remember { MutableInteractionSource() }
                                 val shape = shapeByInteraction(
                                     shape = RoundedCornerShape(42.dp),
-                                    pressedShape = RoundedCornerShape(16.dp),
+                                    pressedShape = ShapeDefaults.default,
                                     interactionSource = interactionSource
                                 )
 
@@ -326,7 +326,7 @@ fun AddFiltersSheet(
                                             onFilterPicked(filter)
                                         },
                                         onRequestFilterMapping = onRequestFilterMapping,
-                                        shape = ContainerShapeDefaults.shapeForIndex(
+                                        shape = ShapeDefaults.byIndex(
                                             index = index,
                                             size = filtersForSearch.size
                                         ),

@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,7 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PositionSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
@@ -135,7 +134,7 @@ fun ResizeTypeSelector(
 
     Column(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(shape = ShapeDefaults.extraLarge)
             .animateContentSizeNoClip(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -203,7 +202,7 @@ fun ResizeTypeSelector(
                     .fillMaxWidth()
                     .padding(8.dp)
                     .container(
-                        shape = RoundedCornerShape(16.dp),
+                        shape = ShapeDefaults.default,
                         color = MaterialTheme.colorScheme.surface
                     ),
                 itemCount = entries.size,
@@ -243,7 +242,7 @@ fun ResizeTypeSelector(
                         position = it
                         updateCropResizeType()
                     },
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -253,7 +252,7 @@ fun ResizeTypeSelector(
                         useBlurredBgInsteadOfColor = it
                         updateCropResizeType()
                     },
-                    shape = ContainerShapeDefaults.centerShape
+                    shape = ShapeDefaults.center
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
@@ -266,13 +265,13 @@ fun ResizeTypeSelector(
                                 blurRadius = it
                                 updateCropResizeType()
                             },
-                            shape = ContainerShapeDefaults.bottomShape
+                            shape = ShapeDefaults.bottom
                         )
                     } else {
                         ColorRowSelector(
                             modifier = Modifier
                                 .container(
-                                    shape = ContainerShapeDefaults.bottomShape,
+                                    shape = ShapeDefaults.bottom,
                                     color = MaterialTheme.colorScheme.surface
                                 ),
                             value = canvasColor,
@@ -299,7 +298,7 @@ fun ResizeTypeSelector(
                         position = it
                         updateFitResizeType()
                     },
-                    shape = ContainerShapeDefaults.topShape,
+                    shape = ShapeDefaults.top,
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -309,7 +308,7 @@ fun ResizeTypeSelector(
                         useBlurredBgInsteadOfColor = it
                         updateFitResizeType()
                     },
-                    shape = ContainerShapeDefaults.centerShape
+                    shape = ShapeDefaults.center
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
@@ -322,13 +321,13 @@ fun ResizeTypeSelector(
                                 blurRadius = it
                                 updateFitResizeType()
                             },
-                            shape = ContainerShapeDefaults.bottomShape
+                            shape = ShapeDefaults.bottom
                         )
                     } else {
                         ColorRowSelector(
                             modifier = Modifier
                                 .container(
-                                    shape = ContainerShapeDefaults.bottomShape,
+                                    shape = ShapeDefaults.bottom,
                                     color = MaterialTheme.colorScheme.surface
                                 ),
                             value = canvasColor,
@@ -356,7 +355,7 @@ fun ResizeTypeSelector(
                         Modifier
                             .fillMaxWidth()
                             .container(
-                                shape = ContainerShapeDefaults.shapeForIndex(
+                                shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = ResizeType.entries.size
                                 ),

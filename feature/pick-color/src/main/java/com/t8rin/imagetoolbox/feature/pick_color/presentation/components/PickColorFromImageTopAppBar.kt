@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -73,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -179,7 +179,7 @@ internal fun PickColorFromImageTopAppBar(
                                         Text(
                                             modifier = Modifier
                                                 .padding(horizontal = 8.dp)
-                                                .clip(RoundedCornerShape(8.dp))
+                                                .clip(ShapeDefaults.mini)
                                                 .hapticsClickable {
                                                     context.copyToClipboard(color.toHex())
                                                     essentials.showToast(
@@ -189,11 +189,11 @@ internal fun PickColorFromImageTopAppBar(
                                                 }
                                                 .background(MaterialTheme.colorScheme.secondaryContainer)
                                                 .border(
-                                                    settingsState.borderWidth,
-                                                    MaterialTheme.colorScheme.outlineVariant(
+                                                    width = settingsState.borderWidth,
+                                                    color = MaterialTheme.colorScheme.outlineVariant(
                                                         onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                     ),
-                                                    RoundedCornerShape(8.dp)
+                                                    shape = ShapeDefaults.mini
                                                 )
                                                 .padding(horizontal = 6.dp),
                                             text = color.toHex(),
@@ -222,7 +222,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 )
                                                 .background(
                                                     color = animateColorAsState(color).value,
-                                                    shape = RoundedCornerShape(12.dp)
+                                                    shape = ShapeDefaults.small
                                                 )
                                                 .height(40.dp)
                                                 .width(72.dp)
@@ -231,9 +231,9 @@ internal fun PickColorFromImageTopAppBar(
                                                     color = MaterialTheme.colorScheme.outlineVariant(
                                                         onTopOf = animateColorAsState(color).value
                                                     ),
-                                                    shape = RoundedCornerShape(11.dp)
+                                                    shape = ShapeDefaults.small
                                                 )
-                                                .clip(RoundedCornerShape(12.dp))
+                                                .clip(ShapeDefaults.small)
                                                 .hapticsClickable {
                                                     context.copyToClipboard(color.toHex())
                                                     essentials.showToast(
@@ -268,7 +268,7 @@ internal fun PickColorFromImageTopAppBar(
                                     Text(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp)
-                                            .clip(RoundedCornerShape(8.dp))
+                                            .clip(ShapeDefaults.mini)
                                             .hapticsClickable {
                                                 context.copyToClipboard(color.toHex())
                                                 essentials.showToast(
@@ -278,11 +278,11 @@ internal fun PickColorFromImageTopAppBar(
                                             }
                                             .background(MaterialTheme.colorScheme.secondaryContainer)
                                             .border(
-                                                settingsState.borderWidth,
-                                                MaterialTheme.colorScheme.outlineVariant(
+                                                width = settingsState.borderWidth,
+                                                color = MaterialTheme.colorScheme.outlineVariant(
                                                     onTopOf = MaterialTheme.colorScheme.secondaryContainer
                                                 ),
-                                                RoundedCornerShape(8.dp)
+                                                shape = ShapeDefaults.mini
                                             )
                                             .padding(horizontal = 6.dp),
                                         text = color.toHex(),
@@ -303,7 +303,7 @@ internal fun PickColorFromImageTopAppBar(
                                             .padding(vertical = 4.dp)
                                             .background(
                                                 color = animateColorAsState(color).value,
-                                                shape = RoundedCornerShape(12.dp)
+                                                shape = ShapeDefaults.small
                                             )
                                             .height(40.dp)
                                             .width(72.dp)
@@ -312,9 +312,9 @@ internal fun PickColorFromImageTopAppBar(
                                                 color = MaterialTheme.colorScheme.outlineVariant(
                                                     onTopOf = animateColorAsState(color).value
                                                 ),
-                                                shape = RoundedCornerShape(11.dp)
+                                                shape = ShapeDefaults.small
                                             )
-                                            .clip(RoundedCornerShape(12.dp))
+                                            .clip(ShapeDefaults.small)
                                             .hapticsClickable {
                                                 context.copyToClipboard(color.toHex())
                                                 essentials.showToast(

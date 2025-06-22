@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +33,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -47,7 +47,7 @@ fun OpenColorPickerCard(
             .container(
                 resultPadding = 0.dp,
                 color = MaterialTheme.colorScheme.mixedContainer.copy(0.7f),
-                shape = RoundedCornerShape(24.dp)
+                shape = ShapeDefaults.extraLarge
             )
             .hapticsClickable(onClick = onOpen)
             .padding(16.dp),
