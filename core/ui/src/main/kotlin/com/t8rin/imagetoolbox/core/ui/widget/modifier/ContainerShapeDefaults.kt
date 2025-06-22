@@ -145,9 +145,12 @@ internal class AnimatedShape(
 
     private suspend inline fun ShapeAnimatable.animateTo(
         cornerSize: CornerSize
-    ) = animateTo(cornerSize.toPx(), animationSpec)
+    ) = animateTo(
+        targetValue = cornerSize.toPx(),
+        animationSpec = animationSpec
+    )
 
-    private inline fun ShapeAnimatable.bounded() = value.fastCoerceIn(0f, halfHeight)
+    private inline fun ShapeAnimatable.boundedValue() = value.fastCoerceIn(0f, halfHeight)
 
     suspend fun animateTo(targetShape: CornerBasedShape) = coroutineScope {
         launch { topStart.animateTo(targetShape.topStart) }
@@ -163,19 +166,18 @@ internal class AnimatedShape(
     ): Outline {
         this.size = size
 
-        return asRoundedCornerShape().createOutline(
+        return RoundedCornerShape(
+            topStart = topStart.boundedValue(),
+            topEnd = topEnd.boundedValue(),
+            bottomStart = bottomStart.boundedValue(),
+            bottomEnd = bottomEnd.boundedValue(),
+        ).createOutline(
             size = size,
             layoutDirection = layoutDirection,
             density = density
         )
     }
 
-    fun asRoundedCornerShape() = RoundedCornerShape(
-        topStart = topStart.bounded(),
-        topEnd = topEnd.bounded(),
-        bottomStart = bottomStart.bounded(),
-        bottomEnd = bottomEnd.bounded(),
-    )
 }
 
 internal typealias ShapeAnimatable = Animatable<Float, AnimationVector1D>
