@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.outlined.FolderOpen
@@ -54,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PagerScrollPanel
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -99,12 +99,7 @@ internal fun ColumnScope.CompareWithUrisPage(
         PreferenceRow(
             title = stringResource(R.string.pick_files),
             onClick = filePicker::pickFile,
-            shape = RoundedCornerShape(
-                topStart = 16.dp,
-                bottomStart = 16.dp,
-                topEnd = 4.dp,
-                bottomEnd = 4.dp
-            ),
+            shape = ContainerShapeDefaults.leftShape,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
             startIcon = Icons.Outlined.FileCopy,
             drawStartIconContainer = false,
@@ -119,12 +114,7 @@ internal fun ColumnScope.CompareWithUrisPage(
             onClick = {
                 openDirectoryLauncher.open(previousFolder)
             },
-            shape = RoundedCornerShape(
-                topStart = 4.dp,
-                bottomStart = 4.dp,
-                topEnd = 16.dp,
-                bottomEnd = 16.dp
-            ),
+            shape = ContainerShapeDefaults.rightShape,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
             startIcon = Icons.Outlined.FolderOpen,
             drawStartIconContainer = false,

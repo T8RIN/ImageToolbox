@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Speed
@@ -115,12 +114,7 @@ internal fun OtherContent(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight(),
-                        shape = RoundedCornerShape(
-                            topEnd = 4.dp,
-                            topStart = 16.dp,
-                            bottomEnd = 4.dp,
-                            bottomStart = 16.dp
-                        )
+                        shape = ContainerShapeDefaults.leftShape
                     )
                     Column(
                         modifier = Modifier
@@ -130,19 +124,9 @@ internal fun OtherContent(
                     ) {
                         repeat(2) { index ->
                             val shape = if (index == 0) {
-                                RoundedCornerShape(
-                                    topEnd = 16.dp,
-                                    topStart = 4.dp,
-                                    bottomEnd = 4.dp,
-                                    bottomStart = 4.dp
-                                )
+                                ContainerShapeDefaults.topRightShape
                             } else {
-                                RoundedCornerShape(
-                                    topEnd = 4.dp,
-                                    topStart = 4.dp,
-                                    bottomEnd = 16.dp,
-                                    bottomStart = 4.dp
-                                )
+                                ContainerShapeDefaults.bottomRightShape
                             }
                             val containerColor by animateColorAsState(
                                 if (previewModel.data == R.drawable.filter_preview_source && index == 0) {

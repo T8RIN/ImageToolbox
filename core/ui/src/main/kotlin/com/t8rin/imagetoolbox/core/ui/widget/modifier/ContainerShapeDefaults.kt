@@ -59,13 +59,14 @@ object ContainerShapeDefaults {
         index: Int,
         size: Int,
         forceDefault: Boolean = false,
+        vertical: Boolean = true
     ): RoundedCornerShape {
-        val internalShape by remember(index, size, forceDefault) {
+        val internalShape by remember(index, size, forceDefault, vertical) {
             derivedStateOf {
                 when {
                     index == -1 || size == 1 || forceDefault -> defaultShape
-                    index == 0 && size > 1 -> topShape
-                    index == size - 1 -> bottomShape
+                    index == 0 && size > 1 -> if (vertical) topShape else leftShape
+                    index == size - 1 -> if (vertical) bottomShape else rightShape
                     else -> centerShape
                 }
             }
@@ -100,6 +101,50 @@ object ContainerShapeDefaults {
         bottomEnd = 16.dp
     )
 
+    val leftShape = RoundedCornerShape(
+        topStart = 16.dp,
+        topEnd = 4.dp,
+        bottomStart = 16.dp,
+        bottomEnd = 4.dp
+    )
+
+    val rightShape = RoundedCornerShape(
+        topStart = 4.dp,
+        topEnd = 16.dp,
+        bottomStart = 4.dp,
+        bottomEnd = 16.dp
+    )
+
+    val topRightShape = RoundedCornerShape(
+        topEnd = 16.dp,
+        topStart = 4.dp,
+        bottomEnd = 4.dp,
+        bottomStart = 4.dp
+    )
+
+    val bottomRightShape = RoundedCornerShape(
+        topEnd = 4.dp,
+        topStart = 4.dp,
+        bottomEnd = 16.dp,
+        bottomStart = 4.dp
+    )
+
+    val smallLeftShape = RoundedCornerShape(
+        topStart = 12.dp,
+        topEnd = 4.dp,
+        bottomStart = 12.dp,
+        bottomEnd = 4.dp
+    )
+
+    val smallRightShape = RoundedCornerShape(
+        topEnd = 12.dp,
+        topStart = 4.dp,
+        bottomEnd = 12.dp,
+        bottomStart = 4.dp
+    )
+
+    val smallShape = RoundedCornerShape(12.dp)
+
     val defaultShape = RoundedCornerShape(16.dp)
 
     val pressedShape = RoundedCornerShape(6.dp)
@@ -119,12 +164,42 @@ object ContainerShapeDefaults {
 
 }
 
+@JvmInline
+value class CornerSides internal constructor(private val mask: Int) {
+    companion object {
+        val TopStart = CornerSides(1 shl 0)
+        val TopEnd = CornerSides(1 shl 1)
+        val BottomStart = CornerSides(1 shl 2)
+        val BottomEnd = CornerSides(1 shl 3)
 
-//TODO: Workaround for https://github.com/arkivanov/Decompose/issues/845 - https://issuetracker.google.com/issues/397701280
+        val Top = TopStart + TopEnd
+        val Bottom = BottomStart + BottomEnd
+        val Start = TopStart + BottomStart
+        val End = TopEnd + BottomEnd
+
+        val All = Top + Bottom
+        val None = CornerSides(0)
+    }
+
+    operator fun plus(other: CornerSides): CornerSides = CornerSides(mask or other.mask)
+
+    operator fun contains(other: CornerSides): Boolean = (mask and other.mask) == other.mask
+
+    fun has(other: CornerSides): Boolean = contains(other)
+}
+
+inline fun CornerBasedShape.only(sides: CornerSides): CornerBasedShape {
+    return copy(
+        topStart = if (sides.has(CornerSides.TopStart)) topStart else CornerSize(0f),
+        topEnd = if (sides.has(CornerSides.TopEnd)) topEnd else CornerSize(0f),
+        bottomEnd = if (sides.has(CornerSides.BottomEnd)) bottomEnd else CornerSize(0f),
+        bottomStart = if (sides.has(CornerSides.BottomStart)) bottomStart else CornerSize(0f),
+    )
+}
 
 @Stable
 internal class AnimatedShape(
-    initialShape: RoundedCornerShape,
+    initialShape: CornerBasedShape,
     private val density: Density,
     private val animationSpec: FiniteAnimationSpec<Float>,
 ) : Shape {
@@ -184,7 +259,7 @@ internal typealias ShapeAnimatable = Animatable<Float, AnimationVector1D>
 
 @Composable
 internal fun rememberAnimatedShape(
-    currentShape: RoundedCornerShape,
+    currentShape: CornerBasedShape,
     animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
 ): AnimatedShape {
     val density = LocalDensity.current
@@ -197,7 +272,7 @@ internal fun rememberAnimatedShape(
         )
     }
 
-    val channel = remember { Channel<RoundedCornerShape>(Channel.CONFLATED) }
+    val channel = remember { Channel<CornerBasedShape>(Channel.CONFLATED) }
 
     SideEffect { channel.trySend(currentShape) }
     LaunchedEffect(state, channel) {
@@ -212,7 +287,7 @@ internal fun rememberAnimatedShape(
 
 @Composable
 fun animateShape(
-    targetValue: RoundedCornerShape,
+    targetValue: CornerBasedShape,
     animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
 ): Shape = rememberAnimatedShape(
     currentShape = targetValue,
@@ -243,14 +318,14 @@ fun shapeByInteraction(
         if (usePressedShape) {
             targetShapeState.value = pressedShape
         } else {
-            if (shape is RoundedCornerShape) delay(delay)
+            if (shape is CornerBasedShape) delay(delay)
             targetShapeState.value = shape
         }
     }
 
     val targetShape = targetShapeState.value
 
-    if (targetShape is RoundedCornerShape) {
+    if (targetShape is CornerBasedShape) {
         return animateShape(
             targetValue = targetShape,
             animationSpec = animationSpec,

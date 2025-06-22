@@ -56,7 +56,10 @@ import coil3.transform.Transformation
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -75,9 +78,9 @@ internal fun CompareScreenContentImpl(
 ) {
     val modifier = Modifier
         .padding(16.dp)
-        .container(RoundedCornerShape(16.dp))
+        .container(ContainerShapeDefaults.defaultShape)
         .padding(4.dp)
-        .clip(RoundedCornerShape(12.dp))
+        .clip(ContainerShapeDefaults.smallShape)
         .transparencyChecker()
 
     AnimatedContent(targetState = compareType) { type ->
@@ -105,8 +108,8 @@ internal fun CompareScreenContentImpl(
                                                 uri = uri,
                                                 alignment = Alignment.TopStart,
                                                 enabled = isLabelsEnabled,
-                                                shape = RoundedCornerShape(
-                                                    bottomEnd = 16.dp
+                                                shape = ContainerShapeDefaults.defaultShape.only(
+                                                    CornerSides.BottomEnd
                                                 )
                                             )
                                         }

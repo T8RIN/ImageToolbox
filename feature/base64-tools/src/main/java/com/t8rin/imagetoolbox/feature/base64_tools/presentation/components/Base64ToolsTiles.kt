@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
@@ -134,22 +135,8 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                     .height(IntrinsicSize.Max),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                pasteTile(
-                    RoundedCornerShape(
-                        topStart = 16.dp,
-                        topEnd = 4.dp,
-                        bottomStart = 16.dp,
-                        bottomEnd = 4.dp
-                    )
-                )
-                importTile(
-                    RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 16.dp,
-                        bottomStart = 4.dp,
-                        bottomEnd = 16.dp
-                    )
-                )
+                pasteTile(ContainerShapeDefaults.leftShape)
+                importTile(ContainerShapeDefaults.rightShape)
             }
         } else {
             Column(
@@ -203,12 +190,6 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
 
                     Tile(
                         onClick = shareText,
-                        shape = RoundedCornerShape(
-                            topStart = 4.dp,
-                            topEnd = 4.dp,
-                            bottomStart = 16.dp,
-                            bottomEnd = 4.dp
-                        ),
                         icon = Icons.Outlined.Share,
                         textRes = R.string.share_base_64
                     )

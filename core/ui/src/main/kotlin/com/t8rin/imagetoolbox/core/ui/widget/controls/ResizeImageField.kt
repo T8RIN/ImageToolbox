@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.CalculatorDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -90,12 +91,7 @@ fun ResizeImageField(
                                 .toIntOrNull() ?: 0
                         )
                     },
-                    shape = RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 6.dp,
-                        bottomStart = 12.dp,
-                        bottomEnd = 6.dp
-                    ),
+                    shape = ContainerShapeDefaults.smallLeftShape,
                     label = {
                         AutoSizeText(
                             stringResource(
@@ -123,12 +119,7 @@ fun ResizeImageField(
                                 .toIntOrNull() ?: 0
                         )
                     },
-                    shape = RoundedCornerShape(
-                        topEnd = 12.dp,
-                        topStart = 6.dp,
-                        bottomEnd = 12.dp,
-                        bottomStart = 6.dp
-                    ),
+                    shape = ContainerShapeDefaults.smallRightShape,
                     label = {
                         AutoSizeText(
                             stringResource(

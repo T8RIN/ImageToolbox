@@ -90,6 +90,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ContainerShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.PaletteStyleSelection
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -250,12 +251,7 @@ fun AvailableColorTuplesSheet(
             val palette = @Composable {
                 PaletteStyleSelection(
                     onThemeStyleSelected = onThemeStyleSelected,
-                    shape = RoundedCornerShape(
-                        topStart = 24.dp,
-                        topEnd = 24.dp,
-                        bottomStart = 4.dp,
-                        bottomEnd = 4.dp
-                    )
+                    shape = ContainerShapeDefaults.topShape,
                 )
             }
             val invertColors = @Composable {
@@ -265,7 +261,7 @@ fun AvailableColorTuplesSheet(
                     checked = settingsState.isInvertThemeColors,
                     modifier = Modifier,
                     startIcon = Icons.Rounded.InvertColors,
-                    shape = RoundedCornerShape(4.dp),
+                    shape = ContainerShapeDefaults.centerShape,
                     onClick = { onToggleInvertColors() }
                 )
             }
@@ -276,7 +272,7 @@ fun AvailableColorTuplesSheet(
                     checked = settingsState.useEmojiAsPrimaryColor,
                     modifier = Modifier,
                     startIcon = Icons.Outlined.EmojiEmotions,
-                    shape = RoundedCornerShape(4.dp),
+                    shape = ContainerShapeDefaults.centerShape,
                     onClick = { onToggleUseEmojiAsPrimaryColor() }
                 )
             }
@@ -286,12 +282,7 @@ fun AvailableColorTuplesSheet(
                     icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
                     valueRange = -1f..1f,
-                    shape = RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 4.dp,
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    ),
+                    shape = ContainerShapeDefaults.bottomShape,
                     onValueChange = { },
                     internalStateTransformation = {
                         it.roundToTwoDigits()
