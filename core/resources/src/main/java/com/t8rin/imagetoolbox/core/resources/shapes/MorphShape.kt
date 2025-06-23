@@ -28,7 +28,7 @@ import androidx.graphics.shapes.Morph
 
 class MorphShape(
     private val morph: Morph,
-    private val percentage: Float,
+    private val percentage: () -> Float,
     private val rotation: Float = 0f,
 ) : Shape {
 
@@ -43,7 +43,7 @@ class MorphShape(
         matrix.scale(size.width, size.height)
         matrix.rotateZ(rotation)
 
-        val path = morph.toPath(progress = percentage)
+        val path = morph.toPath(progress = percentage())
         path.transform(matrix)
         return Outline.Generic(path)
     }

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -50,6 +51,7 @@ import androidx.graphics.shapes.Morph
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalCurrentScreen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -59,6 +61,8 @@ fun ImageNotPickedWidget(
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_image),
 ) {
+    val currentIcon = LocalCurrentScreen.current?.icon ?: Icons.TwoTone.Image
+
     Column(
         modifier = modifier.container(),
         verticalArrangement = Arrangement.Center,
@@ -66,7 +70,7 @@ fun ImageNotPickedWidget(
     ) {
         Spacer(Modifier.height(16.dp))
         ClickableActionIcon(
-            icon = Icons.TwoTone.Image,
+            icon = currentIcon,
             onClick = onPickImage
         )
         Text(
@@ -126,10 +130,12 @@ fun ClickableActionIcon(
             end = MaterialShapes.Square
         )
     }
-    val shape = MorphShape(
-        morph = morph,
-        percentage = percentage.value
-    )
+    val shape = remember {
+        MorphShape(
+            morph = morph,
+            percentage = { percentage.value }
+        )
+    }
 
     Box(
         modifier = modifier
@@ -147,13 +153,18 @@ fun ClickableActionIcon(
             )
             .scale(1f / scale)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp),
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
-        )
+        AnimatedContent(
+            targetState = icon,
+            modifier = Modifier.fillMaxSize()
+        ) { imageVector ->
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     }
 }

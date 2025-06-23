@@ -18,6 +18,8 @@
 package com.t8rin.imagetoolbox.feature.root.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ImageToolboxCompositionLocals
 import com.t8rin.imagetoolbox.feature.root.presentation.components.RootDialogs
 import com.t8rin.imagetoolbox.feature.root.presentation.components.ScreenSelector
@@ -31,11 +33,14 @@ import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponen
 fun RootContent(
     component: RootComponent
 ) {
+    val stack by component.childStack.subscribeAsState()
+
     ImageToolboxCompositionLocals(
         settingsState = component.uiSettingsState(),
         toastHostState = component.toastHostState,
         filterPreviewModel = component.filterPreviewModel,
-        simpleSettingsInteractor = component.simpleSettingsInteractor
+        simpleSettingsInteractor = component.simpleSettingsInteractor,
+        currentScreen = stack.items.lastOrNull()?.configuration
     ) {
         AppExitDialog(component)
 
