@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="loading">লোড হচ্ছে…</string>
+    <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
+    <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
+    <string name="width">প্রস্থ %1$s</string>
+    <string name="height">উচ্চতা %1$s</string>
+    <string name="quality">গুণমান</string>
+    <string name="resize_type">আকার পরিবর্তনের ধরণ</string>
+    <string name="explicit">স্পষ্ট</string>
+    <string name="flexible">নমনীয়</string>
+    <string name="smth_went_wrong">কিছু ভুল হয়েছে: %1$s</string>
+    <string name="size">আকার %1$s</string>
+    <string name="pick_image_alt">ছবি বেছে নিন</string>
+    <string name="app_closing">অ্যাপ বন্ধ করা হচ্ছে</string>
+    <string name="stay">থাকা</string>
+    <string name="close">বন্ধ</string>
+    <string name="reset_image">ছবি রিসেট করুন</string>
+    <string name="values_reset">মানগুলি সঠিকভাবে রিসেট করা হয়েছে</string>
+    <string name="reset">রিসেট</string>
+    <string name="something_went_wrong">কিছু ভুল হয়েছে</string>
+    <string name="restart_app">অ্যাপটি পুনরায় চালু করুন</string>
+    <string name="copied">ক্লিপবোর্ডে কপি করা হয়েছে</string>
+    <string name="edit_exif">EXIF সম্পাদনা করুন</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="no_exif">কোন EXIF তথ্য পাওয়া যায়নি</string>
+    <string name="save">সংরক্ষণ করুন</string>
+    <string name="clear_exif">EXIF সাফ করুন</string>
+    <string name="extension">এক্সটেনশন</string>
+    <string name="clear">পরিষ্কার</string>
+    <string name="app_closing_sub">আপনি কি অ্যাপটি বন্ধ করার বিষয়ে নিশ্চিত?</string>
+    <string name="add_tag">ট্যাগ যোগ করুন</string>
+    <string name="reset_image_sub">ছবির পরিবর্তনগুলি প্রাথমিক মানগুলিতে ফিরে যাবে</string>
+    <string name="exception">ব্যতিক্রম</string>
 </resources>
