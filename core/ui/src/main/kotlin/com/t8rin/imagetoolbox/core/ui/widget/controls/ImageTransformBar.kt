@@ -31,10 +31,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.RotateLeft
-import androidx.compose.material.icons.automirrored.filled.RotateRight
-import androidx.compose.material.icons.filled.Flip
+import androidx.compose.material.icons.automirrored.rounded.RotateLeft
+import androidx.compose.material.icons.automirrored.rounded.RotateRight
 import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.Flip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -121,7 +121,7 @@ fun ImageTransformBar(
                 enabled = canRotate
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.RotateLeft,
+                    imageVector = Icons.AutoMirrored.Rounded.RotateLeft,
                     contentDescription = "Rotate Left"
                 )
             }
@@ -131,7 +131,7 @@ fun ImageTransformBar(
                 onClick = onFlip
             ) {
                 Icon(
-                    imageVector = Icons.Default.Flip,
+                    imageVector = Icons.Rounded.Flip,
                     contentDescription = "Flip"
                 )
             }
@@ -142,7 +142,7 @@ fun ImageTransformBar(
                 enabled = canRotate
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.RotateRight,
+                    imageVector = Icons.AutoMirrored.Rounded.RotateRight,
                     contentDescription = "Rotate Right"
                 )
             }
@@ -160,7 +160,6 @@ fun ImageExtraTransformBar(
     onApplyCurves: () -> Unit
 ) {
     if (LocalSettingsState.current.generatePreviews) {
-
         Row(Modifier.container(shape = CircleShape)) {
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),

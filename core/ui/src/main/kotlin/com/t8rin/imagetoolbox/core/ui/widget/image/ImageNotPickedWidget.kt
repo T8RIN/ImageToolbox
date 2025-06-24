@@ -50,6 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.Morph
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
+import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -149,7 +151,7 @@ fun ClickableActionIcon(
             .container(
                 shape = shape,
                 resultPadding = 0.dp,
-                color = MaterialTheme.colorScheme.secondaryContainer
+                color = MaterialTheme.colorScheme.mixedContainer.copy(0.8f)
             )
             .hapticsClickable(
                 onClick = onClick,
@@ -168,7 +170,7 @@ fun ClickableActionIcon(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(12.dp),
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                tint = MaterialTheme.colorScheme.onMixedContainer
             )
         }
     }
