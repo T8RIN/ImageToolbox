@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -29,12 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 
 @Composable
 fun LoadingDialog(
@@ -56,10 +55,8 @@ fun LoadingDialog(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        showWantDismissDialog = canCancel
-                    }
+                .tappable {
+                    showWantDismissDialog = canCancel
                 },
             contentAlignment = Alignment.Center,
             content = {
@@ -123,10 +120,8 @@ private fun ProgressLoadingDialog(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        showWantDismissDialog = canCancel
-                    }
+                .tappable(Unit) {
+                    showWantDismissDialog = canCancel
                 },
             contentAlignment = Alignment.Center,
             content = {

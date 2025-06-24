@@ -23,7 +23,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -65,8 +64,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -78,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
@@ -124,8 +122,6 @@ fun FullscreenEditOption(
             else onDismiss()
         }
         val direction = LocalLayoutDirection.current
-        val focus = LocalFocusManager.current
-
 
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
         val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
@@ -136,6 +132,7 @@ fun FullscreenEditOption(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.scrim.copy(0.5f * scale))
         )
+
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -176,11 +173,9 @@ fun FullscreenEditOption(
                         sheetSwipeEnabled = sheetSwipeEnabled,
                         sheetContent = {
                             Column(
-                                modifier
+                                modifier = modifier
                                     .heightIn(max = screenHeight * 0.7f)
-                                    .pointerInput(Unit) {
-                                        detectTapGestures { focus.clearFocus() }
-                                    }
+                                    .clearFocusOnTap()
                             ) {
                                 val scope = rememberCoroutineScope()
                                 Box(
@@ -281,9 +276,7 @@ fun FullscreenEditOption(
                             Column(
                                 modifier = Modifier
                                     .weight(0.7f)
-                                    .pointerInput(Unit) {
-                                        detectTapGestures { focus.clearFocus() }
-                                    }
+                                    .clearFocusOnTap()
                                     .verticalScroll(rememberScrollState())
                                     .then(
                                         if (fabButtons == null) {

@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -92,8 +91,6 @@ fun CipherContent(
         onAutoPick = filePicker::pickFile,
         isPickedAlready = component.initialUri != null
     )
-
-    val focus = LocalFocusManager.current
 
     val isPortrait by isPortraitOrientationAsState()
 
@@ -149,7 +146,6 @@ fun CipherContent(
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 onPrimaryButtonClick = {
-                    focus.clearFocus()
                     component.startCryptography {
                         if (it is WrongKeyException) {
                             essentials.showToast(

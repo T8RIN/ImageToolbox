@@ -199,17 +199,16 @@ fun EditBox(
     }
 
     if (state.isActive) {
-        val globalTransformState =
-            rememberTransformableState { zoomChange, offsetChange, rotationChange ->
-                state.applyChanges(
-                    parentMaxWidth = parentMaxWidth,
-                    parentMaxHeight = parentMaxHeight,
-                    contentSize = contentSize,
-                    zoomChange = zoomChange,
-                    offsetChange = Offset.Zero,
-                    rotationChange = rotationChange
-                )
-            }
+        val globalTransformState = rememberTransformableState { zoomChange, _, rotationChange ->
+            state.applyChanges(
+                parentMaxWidth = parentMaxWidth,
+                parentMaxHeight = parentMaxHeight,
+                contentSize = contentSize,
+                zoomChange = zoomChange,
+                offsetChange = Offset.Zero,
+                rotationChange = rotationChange
+            )
+        }
 
         Box(
             Modifier

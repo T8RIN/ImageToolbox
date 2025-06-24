@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.ui.widget
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,8 +61,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -78,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.utils.isExpanded
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
@@ -131,17 +129,9 @@ fun AdaptiveLayoutScreen(
         }
     }
 
-    val focus = LocalFocusManager.current
-
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = if (autoClearFocus) {
-            Modifier.pointerInput(Unit) {
-                detectTapGestures {
-                    focus.clearFocus()
-                }
-            }
-        } else Modifier
+        modifier = Modifier.clearFocusOnTap(autoClearFocus)
     ) {
         Box(
             modifier = Modifier

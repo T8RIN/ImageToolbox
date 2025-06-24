@@ -27,7 +27,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -59,7 +58,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -68,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.alertDialogBorder
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 
@@ -183,7 +182,7 @@ fun BasicEnhancedAlertDialog(
 
                     Box(
                         modifier = Modifier
-                            .pointerInput(Unit) { detectTapGestures { onDismissRequest?.invoke() } }
+                            .tappable { onDismissRequest?.invoke() }
                             .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
                             .fillMaxSize()
                     )

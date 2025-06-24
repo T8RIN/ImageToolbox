@@ -51,8 +51,8 @@ fun Modifier.scaleOnTap(
     )
     val haptics = LocalHapticFeedback.current
 
-    val onHold = rememberUpdatedState(onHold)
-    val onRelease = rememberUpdatedState(onRelease)
+    val onHoldState = rememberUpdatedState(onHold)
+    val onReleaseState = rememberUpdatedState(onRelease)
 
     Modifier
         .scale(scale)
@@ -64,10 +64,10 @@ fun Modifier.scaleOnTap(
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
-                    onHold.value()
+                    onHoldState.value()
                     delay(200)
                     tryAwaitRelease()
-                    onRelease.value(System.currentTimeMillis() - time)
+                    onReleaseState.value(System.currentTimeMillis() - time)
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )

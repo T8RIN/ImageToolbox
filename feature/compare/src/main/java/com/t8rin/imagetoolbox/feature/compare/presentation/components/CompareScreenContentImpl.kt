@@ -24,7 +24,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,7 +46,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -59,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -244,12 +243,9 @@ internal fun CompareScreenContentImpl(
                     mutableStateOf(false)
                 }
                 Box(
-                    modifier = modifier
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                showSecondImage = !showSecondImage
-                            }
-                        }
+                    modifier = modifier.tappable {
+                        showSecondImage = !showSecondImage
+                    }
                 ) {
                     val first = bitmapPair.first?.second
                     val second = bitmapPair.second?.second

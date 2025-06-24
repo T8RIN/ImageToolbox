@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -58,7 +57,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -74,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
 import kotlinx.coroutines.launch
@@ -245,13 +244,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
 
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = if (autoClearFocus) {
-            modifier.pointerInput(Unit) {
-                detectTapGestures {
-                    focus.clearFocus()
-                }
-            }
-        } else modifier
+        modifier = modifier.clearFocusOnTap(autoClearFocus)
     ) {
         AnimatedContent(
             targetState = isPortrait && canShowScreenData,
@@ -281,9 +274,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         Column(
                             Modifier
                                 .heightIn(max = screenHeight * 0.7f)
-                                .pointerInput(Unit) {
-                                    detectTapGestures { focus.clearFocus() }
-                                }
+                                .clearFocusOnTap()
                         ) {
                             val scope = rememberCoroutineScope()
                             Box(

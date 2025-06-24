@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,8 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -113,8 +111,6 @@ fun AspectRatioSelector(
     shape: Shape = ShapeDefaults.extraLarge,
     aspectRatios: List<DomainAspectRatio> = aspectRatios()
 ) {
-
-    val focus = LocalFocusManager.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -123,11 +119,7 @@ fun AspectRatioSelector(
                 shape = shape,
                 resultPadding = 0.dp
             )
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    focus.clearFocus()
-                }
-            }
+            .clearFocusOnTap()
     ) {
         title()
         val listState = rememberLazyListState()

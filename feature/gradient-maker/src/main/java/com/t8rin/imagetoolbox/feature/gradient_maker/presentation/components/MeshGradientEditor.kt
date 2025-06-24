@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -45,6 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverseByLuma
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPickerSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.meshGradient
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OffsetSaver
 import kotlin.math.pow
@@ -57,11 +57,11 @@ internal fun MeshGradientEditor(
 ) {
     val selectedPoint = rememberSaveable(
         stateSaver = PairOffsetColorSaver
-    ) { mutableStateOf<Pair<Offset, Color>?>(null) }
+    ) { mutableStateOf(null) }
 
     val dragOffset = rememberSaveable(
         stateSaver = OffsetSaver
-    ) { mutableStateOf<Offset?>(null) }
+    ) { mutableStateOf(null) }
 
     val showColorPicker = rememberSaveable { mutableStateOf(false) }
     val isDragging = rememberSaveable { mutableStateOf(false) }
@@ -75,22 +75,18 @@ internal fun MeshGradientEditor(
                 resolutionX = state.resolutionX,
                 resolutionY = state.resolutionY
             )
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { tapOffset ->
-                        val tappedPoint = state.points.flatten()
-                            .firstOrNull { (offset, _) ->
-                                Offset(offset.x * size.width, offset.y * size.height).getDistance(
-                                    tapOffset
-                                ) < 60f
-                            }
-
-                        showColorPicker.value = tappedPoint == selectedPoint.value
-
-                        selectedPoint.value = tappedPoint
-                        if (tappedPoint == null) dragOffset.value = null
+            .tappable { tapOffset ->
+                val tappedPoint = state.points.flatten()
+                    .firstOrNull { (offset, _) ->
+                        Offset(offset.x * size.width, offset.y * size.height).getDistance(
+                            tapOffset
+                        ) < 60f
                     }
-                )
+
+                showColorPicker.value = tappedPoint == selectedPoint.value
+
+                selectedPoint.value = tappedPoint
+                if (tappedPoint == null) dragOffset.value = null
             }
     ) {
         val painter = rememberVectorPainter(Icons.Rounded.EditAlt)
