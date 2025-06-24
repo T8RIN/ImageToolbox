@@ -96,16 +96,17 @@ fun BottomButtonsBlock(
     actions: @Composable RowScope.() -> Unit,
     isPrimaryButtonEnabled: Boolean = true,
     showMiddleFabInRow: Boolean = false,
+    isScreenHaveNoDataContent: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val spacing = 8.dp
 
     AnimatedContent(
-        targetState = isNoData to isPortrait,
+        targetState = Triple(isNoData, isPortrait, isScreenHaveNoDataContent),
         transitionSpec = {
             fadeIn() + slideInVertically { it / 2 } togetherWith fadeOut() + slideOutVertically { it / 2 }
         }
-    ) { (isEmptyState, portrait) ->
+    ) { (isEmptyState, portrait, isHaveNoDataContent) ->
         if (isEmptyState) {
             val cutout = WindowInsets.displayCutout.only(
                 WindowInsetsSides.Horizontal
@@ -152,20 +153,7 @@ fun BottomButtonsBlock(
                 }
             }
             if (showNullDataButtonAsContainer) {
-                if (isPortrait) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .drawHorizontalStroke(true)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceContainer
-                            ),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        button()
-                    }
-                } else {
+                if (!isPortrait && isHaveNoDataContent) {
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -175,6 +163,19 @@ fun BottomButtonsBlock(
                             .consumeWindowInsets(cutout),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        button()
+                    }
+                } else {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainer
+                            ),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         button()
                     }

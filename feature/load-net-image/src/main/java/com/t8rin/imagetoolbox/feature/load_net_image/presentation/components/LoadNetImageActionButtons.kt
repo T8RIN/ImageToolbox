@@ -66,6 +66,7 @@ internal fun LoadNetImageActionButtons(
         secondaryButtonIcon = if (noData) Icons.Rounded.ContentPaste else Icons.Outlined.ImageEdit,
         secondaryButtonText = if (noData) stringResource(R.string.paste_link) else stringResource(R.string.edit),
         showNullDataButtonAsContainer = true,
+        isScreenHaveNoDataContent = true,
         onSecondaryButtonClick = {
             if (noData) {
                 essentials.getTextFromClipboard {
