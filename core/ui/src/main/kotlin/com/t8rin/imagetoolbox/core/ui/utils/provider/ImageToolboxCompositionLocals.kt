@@ -105,6 +105,9 @@ fun ImageToolboxCompositionLocals(
 val LocalCurrentScreen =
     compositionLocalOf<Screen?> { error("LocalCurrentScreen not present") }
 
+@Composable
+fun currentScreenTwoToneIcon() = LocalCurrentScreen.current?.twoToneIcon
+
 private infix fun <T : Any> ProvidableCompositionLocal<T>.providesOrNull(
     value: T?
 ): ProvidedValue<T>? = if (value != null) provides(value) else null

@@ -142,3 +142,70 @@ val Icons.Outlined.PaletteSwatch: ImageVector by lazy {
         }
     }.build()
 }
+
+val Icons.TwoTone.PaletteSwatch: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.PaletteSwatch",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(2.5f, 19.6f)
+            lineToRelative(1.3f, 0.6f)
+            verticalLineToRelative(-9f)
+            lineToRelative(-2.4f, 5.8f)
+            curveToRelative(-0.4f, 1.1f, 0.1f, 2.2f, 1.1f, 2.6f)
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(15.2f, 4.8f)
+            lineToRelative(5f, 12f)
+            lineToRelative(-7.3f, 3f)
+            lineToRelative(-5f, -11.9f)
+            lineToRelative(0f, -0.1f)
+            lineToRelative(7.3f, -3f)
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(10.5f, 9.9f)
+            curveToRelative(-0.6f, 0f, -1f, -0.4f, -1f, -1f)
+            reflectiveCurveToRelative(0.4f, -1f, 1f, -1f)
+            reflectiveCurveToRelative(1f, 0.5f, 1f, 1f)
+            reflectiveCurveToRelative(-0.4f, 1f, -1f, 1f)
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(5.9f, 19.8f)
+            curveToRelative(0f, 1.1f, 0.9f, 2f, 2f, 2f)
+            horizontalLineToRelative(1.4f)
+            lineToRelative(-3.4f, -8.3f)
+            verticalLineToRelative(6.3f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(22.1f, 15.9f)
+            lineToRelative(-5f, -11.9f)
+            curveToRelative(-0.3f, -0.8f, -1.1f, -1.2f, -1.8f, -1.2f)
+            curveToRelative(-0.3f, 0f, -0.5f, 0f, -0.8f, 0.1f)
+            lineToRelative(-7.4f, 3.1f)
+            curveToRelative(-0.7f, 0.3f, -1.2f, 1f, -1.2f, 1.8f)
+            curveToRelative(0f, 0.2f, 0f, 0.5f, 0.1f, 0.8f)
+            lineToRelative(5f, 11.9f)
+            curveToRelative(0.3f, 0.8f, 1f, 1.2f, 1.8f, 1.2f)
+            curveToRelative(0.3f, 0f, 0.5f, 0f, 0.8f, -0.1f)
+            lineToRelative(7.4f, -3.1f)
+            curveToRelative(1f, -0.4f, 1.5f, -1.6f, 1.1f, -2.6f)
+            close()
+            moveTo(12.9f, 19.8f)
+            lineTo(7.9f, 7.9f)
+            verticalLineToRelative(-0.1f)
+            lineToRelative(7.3f, -3f)
+            lineToRelative(5f, 12f)
+            lineToRelative(-7.3f, 3f)
+            close()
+        }
+    }.build()
+}

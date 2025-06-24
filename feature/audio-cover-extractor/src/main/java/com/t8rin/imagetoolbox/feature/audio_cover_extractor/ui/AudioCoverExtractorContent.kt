@@ -32,7 +32,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Album
-import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -229,7 +228,6 @@ fun AudioCoverExtractorContent(
         noDataControls = {
             FileNotPickedWidget(
                 onPickFile = audioPicker::pickFile,
-                icon = Icons.TwoTone.Album,
                 text = stringResource(R.string.pick_audio_to_start)
             )
         },

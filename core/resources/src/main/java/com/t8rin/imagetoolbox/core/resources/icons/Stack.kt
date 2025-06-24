@@ -67,3 +67,67 @@ val Icons.Outlined.Stack: ImageVector by lazy {
         }
     }.build()
 }
+
+val Icons.TwoTone.Stack: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    Builder(
+        name = "TwoTone.Stack",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(12f, 18f)
+            lineToRelative(-10.425f, -5.675f)
+            lineToRelative(2.1f, -1.15f)
+            lineToRelative(8.325f, 4.55f)
+            lineToRelative(8.325f, -4.55f)
+            lineToRelative(2.1f, 1.15f)
+            lineToRelative(-10.425f, 5.675f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(12f, 22f)
+            lineToRelative(-10.425f, -5.675f)
+            lineToRelative(2.1f, -1.15f)
+            lineToRelative(8.325f, 4.55f)
+            lineToRelative(8.325f, -4.55f)
+            lineToRelative(2.1f, 1.15f)
+            lineToRelative(-10.425f, 5.675f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(12f, 11.725f)
+            lineToRelative(6.825f, -3.725f)
+            lineToRelative(-6.825f, -3.725f)
+            lineToRelative(-6.825f, 3.725f)
+            lineToRelative(6.825f, 3.725f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(12f, 8f)
+            lineToRelative(0f, 0f)
+            lineToRelative(0f, 0f)
+            lineToRelative(0f, 0f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(12f, 2f)
+            lineTo(1f, 8f)
+            lineToRelative(11f, 6f)
+            lineToRelative(11f, -6f)
+            lineTo(12f, 2f)
+            close()
+            moveTo(5.175f, 8f)
+            lineToRelative(6.825f, -3.725f)
+            lineToRelative(6.825f, 3.725f)
+            lineToRelative(-6.825f, 3.725f)
+            lineToRelative(-6.825f, -3.725f)
+            close()
+        }
+    }.build()
+}

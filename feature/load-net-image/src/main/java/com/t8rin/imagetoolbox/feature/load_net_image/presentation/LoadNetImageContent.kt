@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -91,9 +92,7 @@ fun LoadNetImageContent(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .padding(
-                                    if (isEmpty) 20.dp else 0.dp
-                                )
+                                .padding(20.dp)
                                 .container(
                                     resultPadding = 0.dp,
                                     color = if (isPortrait) Color.Unspecified
@@ -103,7 +102,7 @@ fun LoadNetImageContent(
                         ) {
                             Spacer(Modifier.height(4.dp))
                             ClickableActionIcon(
-                                icon = Icons.TwoTone.Public,
+                                icon = currentScreenTwoToneIcon() ?: Icons.TwoTone.Public,
                                 onClick = {
                                     essentials.getTextFromClipboard {
                                         component.updateTargetUrl(newUrl = it.toString())

@@ -160,3 +160,103 @@ val Icons.Rounded.ApngBox: ImageVector by lazy {
         }
     }.build()
 }
+
+val Icons.TwoTone.ApngBox: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.ApngBox",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(5f, 5f)
+            horizontalLineToRelative(14f)
+            verticalLineToRelative(14f)
+            horizontalLineToRelative(-14f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(19f, 3f)
+            horizontalLineTo(5f)
+            curveToRelative(-1.11f, 0f, -2f, 0.89f, -2f, 2f)
+            verticalLineToRelative(14f)
+            curveToRelative(0f, 1.105f, 0.895f, 2f, 2f, 2f)
+            horizontalLineToRelative(14f)
+            curveToRelative(1.105f, 0f, 2f, -0.895f, 2f, -2f)
+            verticalLineTo(5f)
+            curveToRelative(0f, -1.11f, -0.9f, -2f, -2f, -2f)
+            moveTo(19f, 5f)
+            verticalLineToRelative(14f)
+            horizontalLineTo(5f)
+            verticalLineTo(5f)
+            horizontalLineToRelative(14f)
+            close()
+            moveTo(17.984f, 11.012f)
+            horizontalLineToRelative(-1.647f)
+            verticalLineToRelative(1.976f)
+            horizontalLineToRelative(0.659f)
+            verticalLineToRelative(-0.988f)
+            horizontalLineToRelative(0.988f)
+            verticalLineToRelative(1.12f)
+            curveToRelative(0f, 0.461f, -0.329f, 0.856f, -0.856f, 0.856f)
+            horizontalLineToRelative(-0.856f)
+            curveToRelative(-0.527f, 0f, -0.856f, -0.461f, -0.856f, -0.856f)
+            verticalLineToRelative(-2.174f)
+            curveToRelative(-0.066f, -0.461f, 0.264f, -0.922f, 0.79f, -0.922f)
+            horizontalLineToRelative(0.856f)
+            curveToRelative(0.527f, 0f, 0.856f, 0.461f, 0.856f, 0.856f)
+            verticalLineToRelative(0.132f)
+            horizontalLineToRelative(0.066f)
+            moveTo(10.683f, 10.017f)
+            horizontalLineToRelative(-1.647f)
+            verticalLineToRelative(3.952f)
+            horizontalLineToRelative(0.988f)
+            verticalLineToRelative(-1.317f)
+            horizontalLineToRelative(0.659f)
+            curveToRelative(0.527f, 0f, 0.988f, -0.461f, 0.988f, -0.988f)
+            verticalLineToRelative(-0.659f)
+            curveToRelative(0f, -0.527f, -0.461f, -0.988f, -0.988f, -0.988f)
+            close()
+            moveTo(10.683f, 11.664f)
+            horizontalLineToRelative(-0.659f)
+            verticalLineToRelative(-0.659f)
+            horizontalLineToRelative(0.659f)
+            verticalLineToRelative(0.659f)
+            close()
+            moveTo(7.591f, 10.024f)
+            horizontalLineToRelative(-0.788f)
+            curveToRelative(-0.435f, 0f, -0.787f, 0.353f, -0.787f, 0.788f)
+            verticalLineToRelative(3.15f)
+            horizontalLineToRelative(0.787f)
+            verticalLineToRelative(-1.31f)
+            horizontalLineToRelative(0.787f)
+            verticalLineToRelative(1.31f)
+            horizontalLineToRelative(0.787f)
+            verticalLineToRelative(-3.15f)
+            curveToRelative(0f, -0.435f, -0.352f, -0.788f, -0.787f, -0.788f)
+            close()
+            moveTo(6.868f, 11.012f)
+            horizontalLineToRelative(0.659f)
+            verticalLineToRelative(0.659f)
+            horizontalLineToRelative(-0.659f)
+            verticalLineToRelative(-0.659f)
+            close()
+            moveTo(14.71f, 13.981f)
+            horizontalLineToRelative(-0.922f)
+            lineToRelative(-0.614f, -1.649f)
+            verticalLineToRelative(1.649f)
+            horizontalLineToRelative(-0.922f)
+            verticalLineToRelative(-3.957f)
+            horizontalLineToRelative(0.922f)
+            lineToRelative(0.614f, 1.649f)
+            verticalLineToRelative(-1.649f)
+            horizontalLineToRelative(0.922f)
+            verticalLineToRelative(3.957f)
+        }
+    }.build()
+}

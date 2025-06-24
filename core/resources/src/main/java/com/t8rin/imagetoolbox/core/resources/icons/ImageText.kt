@@ -28,51 +28,6 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.ImageTextAlt: ImageVector by lazy {
-    Builder(
-        name = "Image Text", defaultWidth = 24.0.dp, defaultHeight =
-            24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
-    ).apply {
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(22.0f, 13.0f)
-            horizontalLineTo(14.0f)
-            verticalLineTo(11.0f)
-            horizontalLineTo(22.0f)
-            verticalLineTo(13.0f)
-            moveTo(22.0f, 7.0f)
-            horizontalLineTo(14.0f)
-            verticalLineTo(9.0f)
-            horizontalLineTo(22.0f)
-            verticalLineTo(7.0f)
-            moveTo(14.0f, 17.0f)
-            horizontalLineTo(22.0f)
-            verticalLineTo(15.0f)
-            horizontalLineTo(14.0f)
-            verticalLineTo(17.0f)
-            moveTo(12.0f, 9.0f)
-            verticalLineTo(15.0f)
-            curveTo(12.0f, 16.1f, 11.1f, 17.0f, 10.0f, 17.0f)
-            horizontalLineTo(4.0f)
-            curveTo(2.9f, 17.0f, 2.0f, 16.1f, 2.0f, 15.0f)
-            verticalLineTo(9.0f)
-            curveTo(2.0f, 7.9f, 2.9f, 7.0f, 4.0f, 7.0f)
-            horizontalLineTo(10.0f)
-            curveTo(11.1f, 7.0f, 12.0f, 7.9f, 12.0f, 9.0f)
-            moveTo(10.5f, 15.0f)
-            lineTo(8.3f, 12.0f)
-            lineTo(6.5f, 14.3f)
-            lineTo(5.3f, 12.8f)
-            lineTo(3.5f, 15.0f)
-            horizontalLineTo(10.5f)
-            close()
-        }
-    }.build()
-}
-
 val Icons.Outlined.ImageText: ImageVector by lazy {
     Builder(
         name = "ImageText", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
@@ -157,6 +112,89 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             horizontalLineToRelative(6.0f)
             verticalLineToRelative(3.0f)
             horizontalLineToRelative(-6.0f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.TwoTone.ImageText: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    Builder(
+        name = "TwoTone.ImageText",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(14.413f, 5.587f)
+            curveToRelative(-0.392f, -0.392f, -0.863f, -0.588f, -1.413f, -0.588f)
+            horizontalLineTo(3f)
+            curveToRelative(-0.55f, 0f, -1.021f, 0.196f, -1.413f, 0.588f)
+            reflectiveCurveToRelative(-0.587f, 0.862f, -0.587f, 1.412f)
+            verticalLineToRelative(10f)
+            curveToRelative(0f, 0.55f, 0.196f, 1.021f, 0.587f, 1.413f)
+            reflectiveCurveToRelative(0.863f, 0.587f, 1.413f, 0.587f)
+            horizontalLineToRelative(10f)
+            curveToRelative(0.55f, 0f, 1.021f, -0.196f, 1.413f, -0.587f)
+            reflectiveCurveToRelative(0.587f, -0.863f, 0.587f, -1.413f)
+            verticalLineTo(7f)
+            curveToRelative(0f, -0.55f, -0.196f, -1.021f, -0.587f, -1.412f)
+            close()
+            moveTo(13f, 17f)
+            horizontalLineTo(3f)
+            verticalLineTo(7f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(10f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(3f, 7f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(10f)
+            horizontalLineToRelative(-10f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(4f, 15f)
+            horizontalLineToRelative(8f)
+            lineToRelative(-2.6f, -3.5f)
+            lineToRelative(-1.9f, 2.5f)
+            lineToRelative(-1.4f, -1.85f)
+            lineToRelative(-2.1f, 2.85f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(3f, 17f)
+            verticalLineTo(7f)
+            verticalLineToRelative(10f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(17f, 5.175f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(3f)
+            horizontalLineToRelative(-6f)
+            verticalLineToRelative(-3f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(17f, 15.824f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(3f)
+            horizontalLineToRelative(-6f)
+            verticalLineToRelative(-3f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(16.84f, 10.5f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(3f)
+            horizontalLineToRelative(-6f)
+            verticalLineToRelative(-3f)
             close()
         }
     }.build()

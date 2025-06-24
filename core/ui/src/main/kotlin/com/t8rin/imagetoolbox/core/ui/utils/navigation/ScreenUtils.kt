@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
+import androidx.compose.material.icons.automirrored.twotone.BrandingWatermark
 import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
@@ -29,10 +30,23 @@ import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
-import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material.icons.outlined.QrCode2
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
+import androidx.compose.material.icons.twotone.Album
+import androidx.compose.material.icons.twotone.AutoFixHigh
+import androidx.compose.material.icons.twotone.ColorLens
+import androidx.compose.material.icons.twotone.Compare
+import androidx.compose.material.icons.twotone.DocumentScanner
+import androidx.compose.material.icons.twotone.FolderZip
+import androidx.compose.material.icons.twotone.GifBox
+import androidx.compose.material.icons.twotone.Gradient
+import androidx.compose.material.icons.twotone.Grain
+import androidx.compose.material.icons.twotone.Photo
+import androidx.compose.material.icons.twotone.PictureAsPdf
+import androidx.compose.material.icons.twotone.QrCode2
+import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
@@ -202,17 +216,17 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PickColorFromImage -> Icons.Outlined.Eyedropper
     is RecognizeText -> Icons.Outlined.ImageText
     is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
-    is WeightResize -> Icons.Rounded.ImageWeight
+    is WeightResize -> Icons.Outlined.ImageWeight
     is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
     is Zip -> Icons.Outlined.FolderZip
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
     is DocumentScanner -> Icons.Outlined.DocumentScanner
-    is ScanQrCode -> Icons.Outlined.QrCode
+    is ScanQrCode -> Icons.Outlined.QrCode2
     is ImageStacking -> Icons.Outlined.ImageOverlay
     is ImageSplitting -> Icons.Outlined.SplitAlt
     is ColorTools -> Icons.Outlined.ColorLens
-    is WebpTools -> Icons.Rounded.WebpBox
+    is WebpTools -> Icons.Outlined.WebpBox
     is NoiseGeneration -> Icons.Outlined.Grain
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stack
@@ -221,6 +235,56 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Rounded.ContentCut
     is AudioCoverExtractor -> Icons.Outlined.Album
+}
+
+internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
+    is EasterEgg,
+    is Main,
+    is Settings,
+    is LibrariesInfo,
+    is MeshGradients,
+    is LibraryDetails -> null
+
+    is SingleEdit -> Icons.TwoTone.ImageEdit
+    is ApngTools -> Icons.TwoTone.ApngBox
+    is Cipher -> Icons.TwoTone.Encrypted
+    is Compare -> Icons.TwoTone.Compare
+    is Crop -> Icons.Rounded.CropSmall
+    is DeleteExif -> Icons.TwoTone.Exif
+    is Draw -> Icons.TwoTone.Draw
+    is EraseBackground -> Icons.TwoTone.Eraser
+    is Filter -> Icons.TwoTone.AutoFixHigh
+    is GeneratePalette -> Icons.TwoTone.PaletteSwatch
+    is GifTools -> Icons.TwoTone.GifBox
+    is GradientMaker -> Icons.TwoTone.Gradient
+    is ImagePreview -> Icons.TwoTone.Photo
+    is ImageStitching -> Icons.Rounded.ImageCombine
+    is JxlTools -> Icons.Filled.Jxl
+    is LimitResize -> Icons.TwoTone.ImageLimit
+    is LoadNetImage -> Icons.TwoTone.ImageDownload
+    is PdfTools -> Icons.TwoTone.PictureAsPdf
+    is PickColorFromImage -> Icons.TwoTone.Eyedropper
+    is RecognizeText -> Icons.TwoTone.ImageText
+    is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
+    is WeightResize -> Icons.TwoTone.ImageWeight
+    is Watermarking -> Icons.AutoMirrored.TwoTone.BrandingWatermark
+    is Zip -> Icons.TwoTone.FolderZip
+    is SvgMaker -> Icons.TwoTone.VectorPolyline
+    is FormatConversion -> Icons.TwoTone.ImageConvert
+    is DocumentScanner -> Icons.TwoTone.DocumentScanner
+    is ScanQrCode -> Icons.TwoTone.QrCode2
+    is ImageStacking -> Icons.TwoTone.ImageOverlay
+    is ImageSplitting -> Icons.Outlined.SplitAlt
+    is ColorTools -> Icons.TwoTone.ColorLens
+    is WebpTools -> Icons.TwoTone.WebpBox
+    is NoiseGeneration -> Icons.TwoTone.Grain
+    is CollageMaker -> Icons.TwoTone.Collage
+    is MarkupLayers -> Icons.TwoTone.Stack
+    is Base64Tools -> Icons.TwoTone.Base64
+    is ChecksumTools -> Icons.TwoTone.Tag
+    is EditExif -> Icons.TwoTone.ExifEdit
+    is ImageCutter -> Icons.Rounded.ContentCut
+    is AudioCoverExtractor -> Icons.TwoTone.Album
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

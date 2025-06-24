@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.Typography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
+import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -128,7 +129,7 @@ internal fun QrCodePreview(
                             ) {
                                 Spacer(Modifier.height(4.dp))
                                 ClickableActionIcon(
-                                    icon = Icons.TwoTone.QrCode2,
+                                    icon = currentScreenTwoToneIcon() ?: Icons.TwoTone.QrCode2,
                                     onClick = onStartScan,
                                     modifier = Modifier.size(targetSize / 3)
                                 )

@@ -85,3 +85,68 @@ val Icons.Outlined.ImageDownload: ImageVector by lazy {
         }
     }.build()
 }
+
+val Icons.TwoTone.ImageDownload: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    Builder(
+        name = "TwoTone.ImageDownload",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(15f, 19f)
+            curveToRelative(0f, -0.552f, -0.448f, -1f, -1f, -1f)
+            horizontalLineToRelative(-1f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(4f)
+            curveToRelative(1.105f, 0f, 2f, -0.895f, 2f, -2f)
+            verticalLineTo(4f)
+            curveToRelative(0f, -1.105f, -0.895f, -2f, -2f, -2f)
+            horizontalLineTo(7f)
+            curveToRelative(-1.105f, 0f, -2f, 0.895f, -2f, 2f)
+            verticalLineToRelative(10f)
+            curveToRelative(0f, 1.105f, 0.895f, 2f, 2f, 2f)
+            horizontalLineToRelative(4f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-1f)
+            curveToRelative(-0.552f, 0f, -1f, 0.448f, -1f, 1f)
+            horizontalLineTo(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(7f)
+            curveToRelative(0f, 0.552f, 0.448f, 1f, 1f, 1f)
+            horizontalLineToRelative(4f)
+            curveToRelative(0.552f, 0f, 1f, -0.448f, 1f, -1f)
+            horizontalLineToRelative(7f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(-7f)
+            close()
+            moveTo(7f, 14f)
+            verticalLineTo(4f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(10f)
+            horizontalLineTo(7f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(7f, 4f)
+            horizontalLineToRelative(10f)
+            verticalLineToRelative(10f)
+            horizontalLineToRelative(-10f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(13.343f, 9f)
+            lineToRelative(-1.884f, 2.426f)
+            lineToRelative(-1.343f, -1.617f)
+            lineToRelative(-1.884f, 2.419f)
+            horizontalLineToRelative(7.537f)
+            lineToRelative(-2.426f, -3.227f)
+            close()
+        }
+    }.build()
+}

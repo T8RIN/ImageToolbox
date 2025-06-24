@@ -57,3 +57,46 @@ val Icons.Rounded.Eraser: ImageVector by lazy {
         }
     }.build()
 }
+
+val Icons.TwoTone.Eraser: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    Builder(
+        name = "TwoTone.Eraser",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(
+            fill = SolidColor(Color(0xFF000000)),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(4.22f, 15.58f)
+            lineToRelative(3.54f, 3.53f)
+            curveToRelative(0.78f, 0.79f, 2.04f, 0.79f, 2.83f, 0f)
+            lineToRelative(3.53f, -3.53f)
+            lineToRelative(-4.95f, -4.95f)
+            lineToRelative(-4.95f, 4.95f)
+            close()
+        }
+        path(fill = SolidColor(Color(0xFF000000))) {
+            moveTo(21.19f, 8.5f)
+            lineToRelative(-4.95f, -4.94f)
+            curveToRelative(-0.78f, -0.78f, -2.04f, -0.78f, -2.83f, 0f)
+            lineTo(2.81f, 14.16f)
+            curveToRelative(-0.78f, 0.79f, -0.78f, 2.05f, 0f, 2.84f)
+            lineToRelative(3.53f, 3.53f)
+            curveToRelative(1.57f, 1.56f, 4.1f, 1.56f, 5.66f, 0f)
+            lineToRelative(9.19f, -9.19f)
+            curveToRelative(0.78f, -0.79f, 0.78f, -2.05f, 0f, -2.84f)
+            close()
+            moveTo(10.59f, 19.11f)
+            curveToRelative(-0.79f, 0.79f, -2.05f, 0.79f, -2.83f, 0f)
+            lineToRelative(-3.54f, -3.53f)
+            lineToRelative(4.95f, -4.95f)
+            lineToRelative(4.95f, 4.95f)
+            lineToRelative(-3.53f, 3.53f)
+            close()
+        }
+    }.build()
+}

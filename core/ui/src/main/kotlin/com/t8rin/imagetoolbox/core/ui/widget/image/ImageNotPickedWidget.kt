@@ -51,7 +51,7 @@ import androidx.graphics.shapes.Morph
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalCurrentScreen
+import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -61,25 +61,14 @@ fun ImageNotPickedWidget(
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_image),
 ) {
-    val currentIcon = LocalCurrentScreen.current?.icon ?: Icons.TwoTone.Image
+    val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.Image
 
-    Column(
-        modifier = modifier.container(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(Modifier.height(16.dp))
-        ClickableActionIcon(
-            icon = currentIcon,
-            onClick = onPickImage
-        )
-        Text(
-            text = text,
-            modifier = Modifier.padding(16.dp),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+    SourceNotPickedWidget(
+        onClick = onPickImage,
+        modifier = modifier,
+        text = text,
+        icon = currentIcon
+    )
 }
 
 @Composable
@@ -87,7 +76,23 @@ fun FileNotPickedWidget(
     onPickFile: () -> Unit,
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_file_to_start),
-    icon: ImageVector = Icons.TwoTone.FileOpen
+) {
+    val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.FileOpen
+
+    SourceNotPickedWidget(
+        onClick = onPickFile,
+        modifier = modifier,
+        text = text,
+        icon = currentIcon
+    )
+}
+
+@Composable
+fun SourceNotPickedWidget(
+    modifier: Modifier,
+    onClick: () -> Unit,
+    text: String,
+    icon: ImageVector
 ) {
     Column(
         modifier = modifier.container(),
@@ -97,7 +102,7 @@ fun FileNotPickedWidget(
         Spacer(Modifier.height(16.dp))
         ClickableActionIcon(
             icon = icon,
-            onClick = onPickFile
+            onClick = onClick
         )
         Text(
             text = text,
