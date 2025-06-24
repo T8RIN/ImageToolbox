@@ -39,7 +39,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Toolbox
+import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 
@@ -106,7 +106,7 @@ internal fun MainNavigationBarForFavorites(
                     }
                 ) { selected ->
                     Icon(
-                        imageVector = if (selected) Icons.Rounded.Toolbox else Icons.Outlined.Toolbox,
+                        imageVector = if (selected) Icons.Rounded.ServiceToolbox else Icons.Outlined.ServiceToolbox,
                         contentDescription = null
                     )
                 }

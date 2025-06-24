@@ -58,7 +58,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Toolbox
+import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -159,7 +159,7 @@ internal fun MainNavigationRailForFavorites(
                             }
                         ) { selected ->
                             Icon(
-                                imageVector = if (selected) Icons.Rounded.Toolbox else Icons.Outlined.Toolbox,
+                                imageVector = if (selected) Icons.Rounded.ServiceToolbox else Icons.Outlined.ServiceToolbox,
                                 contentDescription = null
                             )
                         }
