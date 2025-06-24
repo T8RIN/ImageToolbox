@@ -114,20 +114,22 @@ internal fun JxlToolsNoDataControls(
             )
         }
 
-        Row(
-            modifier = Modifier.padding(cutout)
-        ) {
-            preference1.withModifier(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.width(8.dp))
-            preference2.withModifier(modifier = Modifier.weight(1f))
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.padding(cutout)
-        ) {
-            preference3.withModifier(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.width(8.dp))
-            preference4.withModifier(modifier = Modifier.weight(1f))
+        Column {
+            Row(
+                modifier = Modifier.padding(cutout)
+            ) {
+                preference1.withModifier(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(8.dp))
+                preference2.withModifier(modifier = Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.padding(cutout)
+            ) {
+                preference3.withModifier(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(8.dp))
+                preference4.withModifier(modifier = Modifier.weight(1f))
+            }
         }
     }
 }

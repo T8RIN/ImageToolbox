@@ -83,6 +83,7 @@ fun ZipContent(
         imagePreview = {},
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
+        addHorizontalCutoutPaddingIfNoPreview = false,
         noDataControls = {
             FileNotPickedWidget(onPickFile = filePicker::pickFile)
         },

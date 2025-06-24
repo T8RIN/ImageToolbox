@@ -163,9 +163,7 @@ fun Base64ToolsContent(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .padding(
-                                    if (isEmpty) 20.dp else 0.dp
-                                )
+                                .padding(20.dp)
                                 .container(
                                     resultPadding = 0.dp,
                                     color = if (isPortrait) Color.Unspecified

@@ -194,7 +194,8 @@ fun CipherContent(
         imagePreview = {},
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
-        showActionsInTopAppBar = false
+        showActionsInTopAppBar = false,
+        addHorizontalCutoutPaddingIfNoPreview = false,
     )
 
     ExitWithoutSavingDialog(
