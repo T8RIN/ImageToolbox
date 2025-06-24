@@ -43,12 +43,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -89,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -239,44 +237,72 @@ internal fun PdfToolsContentImpl(
         ) { pdfType ->
             when (pdfType) {
                 null -> {
+                    val types = remember {
+                        Screen.PdfTools.Type.entries
+                    }
+                    val preference1 = @Composable {
+                        PreferenceItem(
+                            title = stringResource(types[0].title),
+                            subtitle = stringResource(types[0].subtitle),
+                            startIcon = types[0].icon,
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onPickContent(types[0]) }
+                        )
+                    }
+                    val preference2 = @Composable {
+                        PreferenceItem(
+                            title = stringResource(types[1].title),
+                            subtitle = stringResource(types[1].subtitle),
+                            startIcon = types[1].icon,
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onPickContent(types[1]) }
+                        )
+                    }
+                    val preference3 = @Composable {
+                        PreferenceItem(
+                            title = stringResource(types[2].title),
+                            subtitle = stringResource(types[2].subtitle),
+                            startIcon = types[2].icon,
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onPickContent(types[2]) }
+                        )
+                    }
+
                     Column {
-                        val cutout = WindowInsets.displayCutout.asPaddingValues()
-                        LazyVerticalStaggeredGrid(
-                            modifier = Modifier.weight(1f),
-                            columns = StaggeredGridCells.Adaptive(300.dp),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                space = 12.dp,
-                                alignment = Alignment.CenterHorizontally
-                            ),
-                            verticalItemSpacing = 12.dp,
-                            contentPadding = PaddingValues(
-                                bottom = 12.dp + WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding(),
-                                top = 12.dp,
-                                end = 12.dp + cutout.calculateEndPadding(
-                                    LocalLayoutDirection.current
-                                ),
-                                start = 12.dp + cutout.calculateStartPadding(
-                                    LocalLayoutDirection.current
-                                )
-                            ),
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .weight(1f)
+                                .verticalScroll(rememberScrollState())
+                                .padding(12.dp)
                         ) {
-                            Screen.PdfTools.Type.entries.forEach {
-                                item {
-                                    PreferenceItem(
-                                        onClick = {
-                                            onPickContent(it)
-                                        },
-                                        startIcon = it.icon,
-                                        title = stringResource(it.title),
-                                        subtitle = stringResource(it.subtitle),
-                                        modifier = Modifier.fillMaxWidth()
+                            if (isPortrait) {
+                                preference1()
+                                Spacer(modifier = Modifier.height(8.dp))
+                                preference2()
+                                Spacer(modifier = Modifier.height(8.dp))
+                                preference3()
+                            } else {
+                                val direction = LocalLayoutDirection.current
+                                Row(
+                                    modifier = Modifier.padding(
+                                        WindowInsets.displayCutout.asPaddingValues().let {
+                                            PaddingValues(
+                                                start = it.calculateStartPadding(direction),
+                                                end = it.calculateEndPadding(direction)
+                                            )
+                                        }
                                     )
+                                ) {
+                                    preference1.withModifier(modifier = Modifier.weight(1f))
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    preference2.withModifier(modifier = Modifier.weight(1f))
                                 }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                             }
                         }
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
