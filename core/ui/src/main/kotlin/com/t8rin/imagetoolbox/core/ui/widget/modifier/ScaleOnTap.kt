@@ -17,10 +17,10 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -32,22 +32,21 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import kotlinx.coroutines.delay
 
 fun Modifier.scaleOnTap(
     initial: Float = 1f,
     min: Float = 0.8f,
     max: Float = 1.3f,
+    interactionSource: MutableInteractionSource? = null,
     onHold: () -> Unit = {},
     onRelease: (time: Long) -> Unit
 ) = this.composed {
     var scaleState by remember(initial) { mutableFloatStateOf(initial) }
     val scale by animateFloatAsState(
         targetValue = scaleState,
-        animationSpec = spring(
-            dampingRatio = 0.3f,
-            stiffness = Spring.StiffnessMediumLow
-        )
+        animationSpec = springySpec()
     )
     val haptics = LocalHapticFeedback.current
 
@@ -64,13 +63,25 @@ fun Modifier.scaleOnTap(
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
+
+                    val press = PressInteraction.Press(it)
+
+                    interactionSource?.emit(press)
+
                     onHoldState.value()
+
                     delay(200)
+
                     tryAwaitRelease()
+
                     onReleaseState.value(System.currentTimeMillis() - time)
+
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
+
+                    interactionSource?.emit(PressInteraction.Release(press))
+
                     scaleState = min
                     delay(200)
                     scaleState = initial

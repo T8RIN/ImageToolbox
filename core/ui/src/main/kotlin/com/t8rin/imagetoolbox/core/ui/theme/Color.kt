@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import androidx.annotation.FloatRange
@@ -75,6 +77,10 @@ inline val ColorScheme.onMixedContainer: Color
             0.4f
         )
     }
+
+inline fun Color.takeIf(predicate: Boolean) = if (predicate) this else Color.Unspecified
+
+inline fun Color.takeUnless(predicate: Boolean) = takeIf(!predicate)
 
 fun Color.blend(
     color: Color,

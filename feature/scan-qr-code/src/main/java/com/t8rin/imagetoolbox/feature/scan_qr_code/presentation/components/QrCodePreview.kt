@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -32,14 +31,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -48,16 +44,14 @@ import androidx.compose.ui.unit.min
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.Typography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.theme.takeIf
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
-import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
-import com.t8rin.imagetoolbox.core.ui.widget.image.ClickableActionIcon
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.CaptureController
 
@@ -116,32 +110,14 @@ internal fun QrCodePreview(
                             )
                     ) { isEmpty ->
                         if (isEmpty) {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier
-                                    .container(
-                                        resultPadding = 0.dp,
-                                        color = if (isLandscape) MaterialTheme.colorScheme.surfaceContainerLowest
-                                        else Color.Unspecified
-                                    )
-                                    .padding(12.dp)
-                            ) {
-                                Spacer(Modifier.height(4.dp))
-                                ClickableActionIcon(
-                                    icon = currentScreenTwoToneIcon() ?: Icons.TwoTone.QrCode2,
-                                    onClick = onStartScan,
-                                    modifier = Modifier.size(targetSize / 3)
-                                )
-                                Spacer(Modifier.height(12.dp))
-                                AutoSizeText(
-                                    text = stringResource(R.string.generated_barcode_will_be_here),
-                                    textAlign = TextAlign.Center,
-                                    key = { it.length },
-                                    modifier = Modifier.padding(4.dp),
-                                    maxLines = 2
-                                )
-                            }
+                            ImageNotPickedWidget(
+                                onPickImage = onStartScan,
+                                text = stringResource(R.string.generated_barcode_will_be_here),
+                                containerColor = MaterialTheme
+                                    .colorScheme
+                                    .surfaceContainerLowest
+                                    .takeIf(isLandscape)
+                            )
                         } else {
                             QrCode(
                                 content = params.content,

@@ -21,9 +21,11 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,17 +38,20 @@ import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.graphics.shapes.Morph
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
@@ -55,13 +60,19 @@ import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterIsInstance
 
 @Composable
 fun ImageNotPickedWidget(
     onPickImage: () -> Unit,
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_image),
+    containerColor: Color = Color.Unspecified,
 ) {
     val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.Image
 
@@ -69,7 +80,8 @@ fun ImageNotPickedWidget(
         onClick = onPickImage,
         modifier = modifier,
         text = text,
-        icon = currentIcon
+        icon = currentIcon,
+        containerColor = containerColor
     )
 }
 
@@ -78,6 +90,7 @@ fun FileNotPickedWidget(
     onPickFile: () -> Unit,
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_file_to_start),
+    containerColor: Color = Color.Unspecified,
 ) {
     val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.FileOpen
 
@@ -85,7 +98,8 @@ fun FileNotPickedWidget(
         onClick = onPickFile,
         modifier = modifier,
         text = text,
-        icon = currentIcon
+        icon = currentIcon,
+        containerColor = containerColor
     )
 }
 
@@ -94,24 +108,36 @@ fun SourceNotPickedWidget(
     modifier: Modifier,
     onClick: () -> Unit,
     text: String,
-    icon: ImageVector
+    icon: ImageVector,
+    containerColor: Color = Color.Unspecified,
 ) {
-    Column(
-        modifier = modifier.container(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    BoxWithConstraints(
+        contentAlignment = Alignment.Center
     ) {
-        Spacer(Modifier.height(16.dp))
-        ClickableActionIcon(
-            icon = icon,
-            onClick = onClick
-        )
-        Text(
-            text = text,
-            modifier = Modifier.padding(16.dp),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        val targetSize = min(min(maxWidth, maxHeight), 300.dp)
+
+        Column(
+            modifier = modifier
+                .animateContentSizeNoClip()
+                .container(color = containerColor),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(16.dp))
+            ClickableActionIcon(
+                icon = icon,
+                onClick = onClick,
+                modifier = Modifier.size(targetSize / 3)
+            )
+            AutoSizeText(
+                text = text,
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                key = { it.length },
+                maxLines = 2
+            )
+        }
     }
 }
 
@@ -123,8 +149,16 @@ fun ClickableActionIcon(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
+    val haptics = LocalHapticFeedback.current
+
+    LaunchedEffect(interactionSource, haptics) {
+        interactionSource.interactions.filterIsInstance<PressInteraction.Press>().collectLatest {
+            haptics.longPress()
+        }
+    }
+
     val percentage = animateFloatAsState(
-        targetValue = if (pressed) 1f else 0f,
+        targetValue = if (pressed) 1f else 0.2f,
         animationSpec = springySpec()
     )
     val scale by animateFloatAsState(
