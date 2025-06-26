@@ -1123,10 +1123,10 @@
     <string name="delete_template_warn">Você está prestes a excluir o filtro de modelo selecionado. Essa operação não pode ser desfeita</string>
     <string name="added_filter_template">Modelo de filtro adicionado com o nome \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Pré-visualização do filtro</string>
-    <string name="qr_code">Código QR</string>
+    <string name="qr_code">QR &amp; Barcode</string>
     <string name="qr_code_sub">Digitalize um código QR e obtenha seu conteúdo ou cole seu texto para gerar um código</string>
     <string name="code_content">Conteúdo do código</string>
-    <string name="scan_qr_code_to_replace_content">Digitalize o código QR para substituir o conteúdo no campo ou digite algo para gerar um novo código QR</string>
+    <string name="scan_qr_code_to_replace_content">Digitalize qualquer código de barras para substituir o conteúdo do campo ou digite algo para gerar um novo código de barras com o tipo selecionado</string>
     <string name="qr_description">Descrição do código QR</string>
     <string name="min">Min</string>
     <string name="grant_camera_permission_to_scan_qr_code">Conceder permissão à câmara nas definições para digitalizar o código QR</string>
@@ -1633,4 +1633,9 @@
     <string name="right_to_left">Direita para a Esquerda</string>
     <string name="bottom_to_top">De Baixo para Cima</string>
     <string name="top_to_bottom">De Cima para Baixo</string>
+    <string name="liquid_glass">Vidro Líquido</string>
+    <string name="pick_image_or_base64">Escolha a imagem ou cole/importe os dados Base64 abaixo</string>
+    <string name="type_image_link">Digite o link da imagem para iniciar</string>
+    <string name="paste_link">Colar link</string>
+    <string name="liquid_glass_sub">Um switch baseado no recém-anunciado IOS 26 e em seu sistema de design de vidro líquido</string>
 </resources>
