@@ -41,7 +41,7 @@ detekt = "1.23.8"
 detektCompose = "0.4.22"
 decompose = "3.3.0"
 
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 agp = "8.10.1"
 hilt = "2.56.2"
 gms = "4.4.2"
@@ -59,7 +59,7 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0-beta02"
 
 espresso = "3.6.1"
-ksp = "2.1.21-2.0.2"
+ksp = "2.2.0-2.0.2"
 
 androidx-test-ext-junit = "1.2.1"
 documentfile = "1.1.0"
