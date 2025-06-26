@@ -32,7 +32,6 @@ import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material.icons.twotone.AutoFixHigh
@@ -73,6 +72,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
+import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
@@ -233,7 +233,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Base64Tools -> Icons.Outlined.Base64
     is ChecksumTools -> Icons.Rounded.Tag
     is EditExif -> Icons.Outlined.ExifEdit
-    is ImageCutter -> Icons.Rounded.ContentCut
+    is ImageCutter -> Icons.Rounded.Scissors
     is AudioCoverExtractor -> Icons.Outlined.Album
 }
 
@@ -249,7 +249,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ApngTools -> Icons.TwoTone.ApngBox
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
-    is Crop -> Icons.Rounded.CropSmall
+    is Crop -> Icons.TwoTone.CropSmall
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is EraseBackground -> Icons.TwoTone.Eraser
@@ -258,7 +258,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
     is ImagePreview -> Icons.TwoTone.Photo
-    is ImageStitching -> Icons.Rounded.ImageCombine
+    is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
     is LimitResize -> Icons.TwoTone.ImageLimit
     is LoadNetImage -> Icons.TwoTone.ImageDownload
@@ -274,7 +274,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is DocumentScanner -> Icons.TwoTone.DocumentScanner
     is ScanQrCode -> Icons.TwoTone.QrCode2
     is ImageStacking -> Icons.TwoTone.ImageOverlay
-    is ImageSplitting -> Icons.Outlined.SplitAlt
+    is ImageSplitting -> Icons.TwoTone.SplitAlt
     is ColorTools -> Icons.TwoTone.ColorLens
     is WebpTools -> Icons.TwoTone.WebpBox
     is NoiseGeneration -> Icons.TwoTone.Grain
@@ -283,7 +283,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Base64Tools -> Icons.TwoTone.Base64
     is ChecksumTools -> Icons.TwoTone.Tag
     is EditExif -> Icons.TwoTone.ExifEdit
-    is ImageCutter -> Icons.Rounded.ContentCut
+    is ImageCutter -> Icons.TwoTone.Scissors
     is AudioCoverExtractor -> Icons.TwoTone.Album
 }
 
