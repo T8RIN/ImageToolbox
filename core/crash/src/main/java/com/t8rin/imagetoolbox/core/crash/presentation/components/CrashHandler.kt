@@ -36,7 +36,9 @@ interface CrashHandler {
 
     fun getIntent(): Intent
 
-    private val intent: Intent get() = getIntent()
+    private val intent: Intent
+        @JvmName("getIntentValue")
+        get() = getIntent()
 
     private fun getCrashReason(): String = intent.getStringExtra(EXCEPTION_EXTRA) ?: ""
 
