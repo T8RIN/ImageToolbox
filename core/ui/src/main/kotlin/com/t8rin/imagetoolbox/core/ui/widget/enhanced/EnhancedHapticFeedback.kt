@@ -149,6 +149,7 @@ fun Modifier.hapticsClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
+    enableHaptics: Boolean = true,
     onClick: () -> Unit
 ): Modifier = this.composed {
     val haptics = LocalHapticFeedback.current
@@ -160,7 +161,10 @@ fun Modifier.hapticsClickable(
         onClickLabel = onClickLabel,
         role = role,
         onClick = {
-            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            if (enableHaptics) {
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            }
+
             onClick()
         }
     )

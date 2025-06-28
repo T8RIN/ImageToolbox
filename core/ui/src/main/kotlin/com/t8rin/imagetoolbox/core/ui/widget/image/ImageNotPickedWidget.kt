@@ -152,7 +152,7 @@ fun ClickableActionIcon(
     val haptics = LocalHapticFeedback.current
 
     LaunchedEffect(interactionSource, haptics) {
-        interactionSource.interactions.filterIsInstance<PressInteraction.Press>().collectLatest {
+        interactionSource.interactions.filterIsInstance<PressInteraction>().collectLatest {
             haptics.longPress()
         }
     }
@@ -190,7 +190,8 @@ fun ClickableActionIcon(
             .hapticsClickable(
                 onClick = onClick,
                 interactionSource = interactionSource,
-                indication = LocalIndication.current
+                indication = LocalIndication.current,
+                enableHaptics = false
             )
             .scale(1f / scale)
     ) {
