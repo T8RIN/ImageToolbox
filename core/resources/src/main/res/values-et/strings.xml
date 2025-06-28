@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
+    <string name="size">Suurus %1$s</string>
+    <string name="loading">Laadin…</string>
+    <string name="image_too_large_preview">Pilt on eelvaate jaoks liiga suur, kuid üritame ikkagi salvestada</string>
+    <string name="pick_image">Alustamiseks vali pilt</string>
+    <string name="width">Laius %1$s</string>
+    <string name="height">Kõrgus %1$s</string>
+    <string name="quality">Kvaliteet</string>
+</resources>
