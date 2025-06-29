@@ -25,7 +25,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,6 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.sortedByType
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
@@ -218,7 +218,7 @@ fun ImageReorderCarousel(
                                         color = Color.Transparent,
                                         resultPadding = 0.dp
                                     )
-                                    .clickable { previewUri = uri }
+                                    .hapticsClickable { previewUri = uri }
                                     .longPressDraggableHandle(
                                         onDragStarted = {
                                             haptics.longPress()

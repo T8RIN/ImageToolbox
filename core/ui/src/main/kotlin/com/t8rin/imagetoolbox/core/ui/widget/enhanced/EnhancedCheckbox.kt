@@ -56,9 +56,7 @@ fun EnhancedCheckbox(
         checked = checked,
         onCheckedChange = if (onCheckedChange != null) {
             {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
                 onCheckedChange(it)
             }
         } else null,

@@ -92,9 +92,7 @@ fun EnhancedSwitch(
         val switchOnCheckedChange: ((Boolean) -> Unit)? = onCheckedChange?.let {
             { boolean ->
                 onCheckedChange(boolean)
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
                 focus.clearFocus()
             }
         }

@@ -86,17 +86,13 @@ fun EnhancedIconButton(
                             delay(viewConfiguration.longPressTimeoutMillis)
                             isLongClick = true
                             onLongClick()
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
+                            haptics.longPress()
                         }
 
                         is PressInteraction.Release -> {
                             if (!isLongClick) {
                                 onClick()
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.TextHandleMove
-                                )
+                                haptics.press()
                             }
                         }
 
@@ -117,9 +113,7 @@ fun EnhancedIconButton(
             onClick = {
                 if (onLongClick == null) {
                     onClick()
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
+                    haptics.longPress()
                 }
             },
             modifier = modifier

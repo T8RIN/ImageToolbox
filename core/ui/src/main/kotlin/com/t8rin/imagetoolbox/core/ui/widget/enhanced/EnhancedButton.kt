@@ -92,18 +92,14 @@ fun EnhancedButton(
                                 isLongClick = true
                                 onLongClick()
                                 focus.clearFocus()
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
+                                haptics.longPress()
                             }
 
                             is PressInteraction.Release -> {
                                 if (!isLongClick) {
                                     onClick()
                                     focus.clearFocus()
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.TextHandleMove
-                                    )
+                                    haptics.press()
                                 }
                             }
 
@@ -126,9 +122,7 @@ fun EnhancedButton(
                     if (onLongClick == null) {
                         onClick()
                         focus.clearFocus()
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
+                        haptics.longPress()
                     }
                 },
                 modifier = modifier

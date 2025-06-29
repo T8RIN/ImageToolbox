@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.coroutines.launch
 
@@ -135,7 +136,7 @@ fun EditBox(
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
     val animateTap = {
-        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+        haptics.longPress()
         scope.launch {
             tapScale.animateTo(0.98f)
             tapScale.animateTo(1.02f)

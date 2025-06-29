@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 
@@ -64,9 +65,7 @@ internal fun MainNavigationBarForFavorites(
             selected = selectedIndex == 0,
             onClick = {
                 onValueChange(0)
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
             },
             icon = {
                 AnimatedContent(
@@ -94,9 +93,7 @@ internal fun MainNavigationBarForFavorites(
             selected = selectedIndex == 1,
             onClick = {
                 onValueChange(1)
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
             },
             icon = {
                 AnimatedContent(

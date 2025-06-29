@@ -99,18 +99,14 @@ fun EnhancedFloatingActionButton(
                             isLongClick = true
                             onLongClick()
                             focus.clearFocus()
-                            haptics.performHapticFeedback(
-                                HapticFeedbackType.LongPress
-                            )
+                            haptics.longPress()
                         }
 
                         is PressInteraction.Release -> {
                             if (!isLongClick && onClick != null) {
                                 onClick()
                                 focus.clearFocus()
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.TextHandleMove
-                                )
+                                haptics.press()
                             }
                         }
 
@@ -127,9 +123,7 @@ fun EnhancedFloatingActionButton(
                 if (onLongClick == null && onClick != null) {
                     onClick()
                     focus.clearFocus()
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
+                    haptics.longPress()
                 }
             },
             modifier = modifier

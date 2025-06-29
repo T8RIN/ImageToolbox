@@ -33,6 +33,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import kotlinx.coroutines.delay
 
 fun Modifier.scaleOnTap(
@@ -60,9 +61,7 @@ fun Modifier.scaleOnTap(
                 onPress = {
                     val time = System.currentTimeMillis()
                     scaleState = max
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
+                    haptics.longPress()
 
                     val press = PressInteraction.Press(it)
 
@@ -76,9 +75,7 @@ fun Modifier.scaleOnTap(
 
                     onReleaseState.value(System.currentTimeMillis() - time)
 
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
+                    haptics.longPress()
 
                     interactionSource?.emit(PressInteraction.Release(press))
 

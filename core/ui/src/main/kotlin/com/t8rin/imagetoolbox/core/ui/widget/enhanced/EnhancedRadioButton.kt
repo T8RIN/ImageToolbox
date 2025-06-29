@@ -40,9 +40,7 @@ fun EnhancedRadioButton(
         selected = selected,
         onClick = if (onClick != null) {
             {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
                 onClick()
             }
         } else null,

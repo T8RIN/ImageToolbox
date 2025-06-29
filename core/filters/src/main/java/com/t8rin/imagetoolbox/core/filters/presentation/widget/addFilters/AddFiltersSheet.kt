@@ -105,6 +105,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -261,9 +262,7 @@ fun AddFiltersSheet(
                                         .clip(shape),
                                     selected = selected,
                                     onClick = {
-                                        haptics.performHapticFeedback(
-                                            HapticFeedbackType.LongPress
-                                        )
+                                        haptics.longPress()
                                         scope.launch {
                                             pagerState.animateScrollToPage(index)
                                         }

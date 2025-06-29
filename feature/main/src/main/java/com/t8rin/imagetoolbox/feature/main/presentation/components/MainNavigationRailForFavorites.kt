@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 
@@ -115,9 +116,7 @@ internal fun MainNavigationRailForFavorites(
                     selected = selectedIndex == 0,
                     onClick = {
                         onValueChange(0)
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
+                        haptics.longPress()
                     },
                     icon = {
                         AnimatedContent(
@@ -147,9 +146,7 @@ internal fun MainNavigationRailForFavorites(
                     selected = selectedIndex == 1,
                     onClick = {
                         onValueChange(1)
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
+                        haptics.longPress()
                     },
                     icon = {
                         AnimatedContent(

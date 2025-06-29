@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -67,9 +68,7 @@ fun ShowOriginalButton(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {
-                        haptics.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
+                        haptics.longPress()
                         val press = PressInteraction.Press(it)
                         interactionSource.emit(press)
                         if (canShow) onStateChange(true)

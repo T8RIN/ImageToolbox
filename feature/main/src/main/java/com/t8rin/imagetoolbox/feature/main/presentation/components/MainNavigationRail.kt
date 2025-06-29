@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -112,7 +113,7 @@ internal fun MainNavigationRail(
                         selected = selected,
                         onClick = {
                             onValueChange(index)
-                            haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                            haptics.longPress()
                         },
                         icon = {
                             AnimatedContent(

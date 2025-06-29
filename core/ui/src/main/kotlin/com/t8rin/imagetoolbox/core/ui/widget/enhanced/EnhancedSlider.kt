@@ -88,11 +88,8 @@ fun EnhancedSlider(
         val updatedValue by rememberUpdatedState(newValue = value)
 
         LaunchedEffect(updatedValue) {
-            if (compositions > 0) {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.TextHandleMove
-                )
-            }
+            if (compositions > 0) haptics.press()
+
             compositions++
         }
     }
@@ -193,11 +190,8 @@ fun EnhancedRangeSlider(
         val updatedValue by rememberUpdatedState(newValue = value)
 
         LaunchedEffect(updatedValue) {
-            if (compositions > 0) {
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.TextHandleMove
-                )
-            }
+            if (compositions > 0) haptics.press()
+
             compositions++
         }
     }

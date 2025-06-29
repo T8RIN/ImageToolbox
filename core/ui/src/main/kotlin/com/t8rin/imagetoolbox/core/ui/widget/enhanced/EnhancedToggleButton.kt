@@ -84,9 +84,7 @@ fun EnhancedToggleButton(
             checked = checked,
             onCheckedChange = {
                 focus.clearFocus()
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                haptics.longPress()
                 onCheckedChange(it)
             },
             modifier = modifier.semantics { role = Role.Checkbox },
