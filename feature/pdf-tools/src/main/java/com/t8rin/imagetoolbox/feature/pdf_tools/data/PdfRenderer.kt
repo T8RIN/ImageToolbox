@@ -17,12 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
+import android.annotation.SuppressLint
 import android.graphics.pdf.LoadParams
 import android.graphics.pdf.PdfRenderer
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.os.ext.SdkExtensions
 import androidx.annotation.ChecksSdkIntAtLeast
+import com.t8rin.imagetoolbox.core.crash.presentation.components.DeviceInfo
 
 fun ParcelFileDescriptor.createPdfRenderer(
     password: String?,
@@ -31,14 +33,23 @@ fun ParcelFileDescriptor.createPdfRenderer(
 ): PdfRenderer? = runCatching {
     if (canUseNewPdf()) {
         runCatching {
-            @Suppress("NewApi")
+            @SuppressLint("NewApi")
             PdfRenderer(
                 this@createPdfRenderer,
                 LoadParams.Builder().setPassword(password).build()
             )
         }.onFailure {
-            if (it is SecurityException) onPasswordRequest?.invoke() ?: throw it
-            else throw it
+            when {
+                it is SecurityException -> onPasswordRequest?.invoke() ?: throw it
+
+                "No direct method" in it.message.orEmpty() -> {
+                    DeviceInfo.pushLog("createPdfRenderer, no LoadParams")
+
+                    return@runCatching PdfRenderer(this)
+                }
+
+                else -> throw it
+            }
         }.getOrNull()
     } else {
         PdfRenderer(this)
@@ -52,5 +63,6 @@ fun ParcelFileDescriptor.createPdfRenderer(
 
 
 @ChecksSdkIntAtLeast(api = 13, extension = Build.VERSION_CODES.S)
-fun canUseNewPdf(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+fun canUseNewPdf(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM
+        || Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
         && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.S) >= 13

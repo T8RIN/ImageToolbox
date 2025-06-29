@@ -194,7 +194,10 @@ fun BitmapDrawer(
 
             val canvasSize by remember(canvas.nativeCanvas) {
                 derivedStateOf {
-                    IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+                    IntegerSize(
+                        width = canvas.nativeCanvas.width,
+                        height = canvas.nativeCanvas.height
+                    )
                 }
             }
 

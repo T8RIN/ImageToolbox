@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig.VERSION_CODE
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersion
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.encodeEscaped
+import com.t8rin.logger.makeLog
 
 interface CrashHandler {
 
@@ -50,15 +51,7 @@ interface CrashHandler {
 
         val title = "[Bug] App Crash: $exceptionName"
 
-        val (device, sdk, appVersion, flavor, locale) = DeviceInfo.get()
-
-        val deviceInfo = listOf(
-            "Device: $device",
-            "SDK: $sdk",
-            "App Version: $appVersion",
-            "Flavor: $flavor",
-            "Locale: $locale"
-        ).joinToString("\n")
+        val deviceInfo = DeviceInfo.getAsString()
 
         val body = listOf(deviceInfo, stackTrace).joinToString(DELIMITER)
 
@@ -111,6 +104,22 @@ data class DeviceInfo private constructor(
                 flavor = flavor,
                 locale = locale
             )
+        }
+
+        fun getAsString(): String {
+            val (device, sdk, appVersion, flavor, locale) = get()
+
+            return listOf(
+                "Device: $device",
+                "SDK: $sdk",
+                "App Version: $appVersion",
+                "Flavor: $flavor",
+                "Locale: $locale"
+            ).joinToString("\n")
+        }
+
+        fun pushLog(extra: String? = null) {
+            getAsString().makeLog("DeviceInfo".plus(extra?.let { " $it" }.orEmpty()))
         }
     }
 }
