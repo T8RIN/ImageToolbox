@@ -48,8 +48,10 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.toSoftware
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.asDomain
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -74,6 +76,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
+    private val markupLayersApplier: MarkupLayersApplier<Bitmap>
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     init {
@@ -306,18 +309,30 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             deactivateAllLayers()
             delay(500)
         }
-        captureRequestChannel.send(true)
 
-        capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
-            layers.setHasAlpha(true)
-            val background = imageGetter.getImage(data = _uri.value)
+        val backgroundGetter = suspend {
+            imageGetter.getImage(data = _uri.value)
                 ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
                     ImageBitmap(width, height).asAndroidBitmap()
                         .applyCanvas { drawColor(color) }
                 }
-
-            background?.overlay(layers) ?: layers
         }
+
+        val oldGetter = suspend {
+            captureRequestChannel.send(true)
+
+            capturedImageChannel.receive().await().asAndroidBitmap().let { layers ->
+                layers.setHasAlpha(true)
+                backgroundGetter()?.overlay(layers) ?: layers
+            }
+        }
+
+        if (useOldLayers) return@withContext oldGetter()
+
+        markupLayersApplier.applyToImage(
+            image = backgroundGetter() ?: return@withContext oldGetter(),
+            layers = layers.map { it.asDomain() }
+        )
     }
 
     override fun resetState() {
@@ -411,3 +426,5 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
 }
+
+private const val useOldLayers = false
