@@ -18,10 +18,8 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.Manifest
-import android.content.Intent
 import android.os.Build
 import android.os.Environment
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
@@ -55,9 +53,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import com.t8rin.imagetoolbox.core.domain.utils.tryAll
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.appSettingsIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAllFilesIntent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAppAllFilesIntent
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
@@ -95,7 +97,11 @@ internal fun MediaPickerRootContentImpl(
 
     val requestManagePermission = {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            launcher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+            tryAll(
+                { launcher.launch(context.manageAppAllFilesIntent()) },
+                { launcher.launch(manageAllFilesIntent()) },
+                { launcher.launch(context.appSettingsIntent()) }
+            )
         }
     }
 
