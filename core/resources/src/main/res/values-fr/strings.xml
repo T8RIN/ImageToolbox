@@ -69,7 +69,7 @@
     <string name="change_preview">Modifier l\'aperçu</string>
     <string name="remove">Retirer</string>
     <string name="palette_sub">Générer un échantillon de palette de couleurs à partir d\'une image donnée</string>
-    <string name="generate_palette">Générer Des Palettes</string>
+    <string name="generate_palette">Générer des Palettes</string>
     <string name="palette">Palette</string>
     <string name="new_version">Nouvelle version %1$s</string>
     <string name="update">Mise à jour</string>
@@ -81,7 +81,7 @@
     <string name="custom">Personnalisé</string>
     <string name="unspecified">Non précisé</string>
     <string name="device_storage">Stockage de l\'appareil</string>
-    <string name="by_bytes_resize">Redimensionner en fonction du poids</string>
+    <string name="by_bytes_resize">Redimensionner en fonction du Poids</string>
     <string name="max_bytes">Taille maximale en ko</string>
     <string name="by_bytes_resize_sub">Redimensionner une image suivant une taille donnée en KB</string>
     <string name="compare">Comparer</string>
@@ -105,8 +105,8 @@
     <string name="color_blue">Bleu</string>
     <string name="color_scheme">Couleurs</string>
     <string name="clipboard_paste_invalid_empty">Rien à coller</string>
-    <string name="clipboard_paste_invalid_color_code">Collez un code aRGB valide.</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Impossible de modifier le jeu de couleurs de l\'application lorsque les couleurs dynamiques sont activées</string>
+    <string name="clipboard_paste_invalid_color_code">Collez un code couleur aRGB valide</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Le jeu de couleurs de l\'application ne peut pas être modifié lorsque les couleurs dynamiques sont activées</string>
     <string name="pick_accent_color">Le thème de l’application sera basé sur la couleur sélectionnée</string>
     <string name="about_app">À propos de l\'application</string>
     <string name="no_updates">Aucune mise à jour trouvée</string>
@@ -145,7 +145,7 @@
     <string name="add_file_size_sub">Si activé, ajoute la largeur et la hauteur de l\'image enregistrée au nom du fichier de sortie</string>
     <string name="delete_exif">Supprimer EXIF</string>
     <string name="delete_exif_sub">Supprimer les métadonnées EXIF de tout ensemble d\'images</string>
-    <string name="image_preview">Aperçu de l\'image</string>
+    <string name="image_preview">Aperçu de l\'Image</string>
     <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="photo_picker_sub">Sélecteur moderne de photos Android apparaissant en bas de l\'écran, ne fonctionne que sur Android 12+.A des problèmes de réception des métadonnées EXIF</string>
     <string name="file_explorer_picker_sub">Utiliser l\'intent GetContent pour sélectionner l\'image. Fonctionne partout, mais celui-ci est connu pour avoir des difficultés à recevoir les images sélectionnées sur certains appareils. Cela n\'est pas de ma faute.</string>
@@ -166,15 +166,15 @@
     <string name="original_filename">Fichier original</string>
     <string name="replace_sequence_number">Ajouter un numéro de séquence</string>
     <string name="filename_not_work_with_photopicker">Ajouter le nom de fichier d\'origine ne fonctionne pas si la source d\'image du sélecteur de photo est sélectionnée.</string>
-    <string name="load_image_from_net">Charger une image depuis internet</string>
+    <string name="load_image_from_net">Charger une Image depuis Internet</string>
     <string name="load_image_from_net_sub">Charger n\'importe quelle image de l\'Internet pour la prévisualiser, zoomer, la modifier ou la sauvegarder si vous le souhaitez.</string>
     <string name="no_image">Aucune image</string>
     <string name="image_link">Lien de l\'image</string>
     <string name="fit">Ajuster</string>
     <string name="fill">Remplissage</string>
     <string name="content_scale">Échelle de contenu</string>
-    <string name="explicit_description">Force chaque image dans une image donnée par les paramètres Largeur et Hauteur - peut modifier le rapport d\'aspect.</string>
-    <string name="flexible_description">Redimensionne les images en images dont un côté long est donné par les paramètres Largeur ou Hauteur. Tous les calculs de taille seront effectués après la sauvegarde - préserve le rapport d\'aspect.</string>
+    <string name="explicit_description">Redimensionne les images à la hauteur et à la largeur données. Le rapport hauteur/largeur des images peut changer.</string>
+    <string name="flexible_description">Redimensionne les images avec un côté long à la hauteur ou à la largeur donnée. Tous les calculs de taille seront effectués après l\'enregistrement. Le rapport hauteur/largeur des images sera préservé.</string>
     <string name="contrast">Contraste</string>
     <string name="hue">Teinte</string>
     <string name="add_filter">Ajouter un filtre</string>
@@ -184,7 +184,7 @@
     <string name="color_filter">Filtre de couleur</string>
     <string name="brightness">Luminosité</string>
     <string name="saturation">Saturation</string>
-    <string name="filter_sub">Appliquer n\'importe quelle chaîne de filtres aux images données</string>
+    <string name="filter_sub">Appliquer des chaînes de filtres aux images</string>
     <string name="alpha">Alpha</string>
     <string name="white_balance">Balance des blancs</string>
     <string name="temperature">Température</string>
@@ -234,8 +234,8 @@
     <string name="bulge">Bosse</string>
     <string name="refractive_index">indice de réfraction</string>
     <string name="opacity">Opacité</string>
-    <string name="limits_resize">Redimensionner avec limites</string>
-    <string name="limits_resize_sub">Redimensionner les images sélectionnées aux largeur et hauteur données tout en préservant les proportions d\'origine</string>
+    <string name="limits_resize">Redimensionner par Limites</string>
+    <string name="limits_resize_sub">Redimensionner les images à la hauteur et à la largeur données tout en conservant le rapport hauteur/largeur</string>
     <string name="sketch">Esquisse</string>
     <string name="threshold">Seuil</string>
     <string name="quantizationLevels">Niveaux de quantification</string>
@@ -278,7 +278,7 @@
     <string name="features">Fonctionnalités</string>
     <string name="implementation">Exécution</string>
     <string name="compatibility">Compatibilité</string>
-    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets. (Par défaut, mais vous pouvez sélectionner l\'algorithme nécessaire) Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets par défaut. Vous pouvez sélectionner l\'algorithme nécessaire. Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
     <string name="file_size">Taille du fichier</string>
     <string name="pick_file">Choisir un dossier</string>
     <string name="cipher">Chiffrement</string>
@@ -307,13 +307,13 @@
     <string name="skip">Passer</string>
     <string name="warning_bytes">L’enregistrement en mode %1$s peut être instable, car c\'est un format sans perte</string>
     <string name="presets_sub" formatted="false">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125% de l\'image originale. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50%</string>
-    <string name="presets_sub_bytes">Ici, le préréglage détermine le pourcentage de la taille du fichier de sortie. Par exemple, si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement.</string>
+    <string name="presets_sub_bytes">Le préréglage ici détermine le % du fichier de sortie, c\'est-à-dire que si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement</string>
     <string name="saved_to">Enregistré dans le dossier %1$s avec le nom %2$s</string>
     <string name="randomize_filename">Nom de fichier aléatoire</string>
     <string name="randomize_filename_sub">Si activé, le nom du fichier de sortie sera entièrement aléatoire</string>
     <string name="saved_to_without_filename">Enregistré dans le dossier %1$s</string>
     <string name="tg_chat">Discussion Telegram</string>
-    <string name="tg_chat_sub">Discutez de l\'application et obtenez des commentaires d\'autres utilisateurs. Vous pouvez également obtenir des mises à jour et des informations sur la version bêta ici.</string>
+    <string name="tg_chat_sub">Discutez de l\'application et obtenez les commentaires des autres utilisateurs. Vous pouvez également y obtenir des mises à jour bêta et des informations.</string>
     <string name="aspect_ratio">Ratio d\'aspect</string>
     <string name="backup_and_restore">Sauvegarde et restauration</string>
     <string name="backup">Sauvegarde</string>
@@ -343,7 +343,7 @@
     <string name="enable_emoji">Activer les emoji</string>
     <string name="travels_and_places">Voyages et lieux</string>
     <string name="activities">Activités</string>
-    <string name="background_remover">Suppresseur d\'arrière-plan</string>
+    <string name="background_remover">Suppresseur d\'Arrière-plan</string>
     <string name="background_remover_sub">Supprimer l’arrière-plan de l’image par dessin ou utiliser l’option Auto</string>
     <string name="trim_image">Couper l’image</string>
     <string name="keep_exif_sub">Les métadonnées de l\'image originale seront conservées</string>
@@ -358,7 +358,7 @@
     <string name="draw_mode">Mode Dessin</string>
     <string name="something_went_wrong_emphasis">Oups… Quelque chose s\'est mal passé. Vous pouvez m\'écrire en utilisant les options ci-dessous et j\'essaierai de trouver une solution</string>
     <string name="resize_and_convert_sub">Modifiez la taille des images données ou convertissez-les dans d\'autres formats. Les métadonnées EXIF peuvent également être modifiées ici si une seule image est sélectionnée.</string>
-    <string name="resize_and_convert">Redimensionner et convertir</string>
+    <string name="resize_and_convert">Redimensionner et Convertir</string>
     <string name="create_issue">Créer un problème</string>
     <string name="max_colors_count">Nombre maximal de couleurs</string>
     <string name="crashlytics_sub">Permet à l\'application de collecter les rapports d\'erreur automatiquement</string>
@@ -444,7 +444,7 @@
     <string name="pdf_to_images_sub">Convertir un PDF en images dans un format de sortie donné</string>
     <string name="mask_filter">Filtre de masque</string>
     <string name="mask_filter_sub">Appliquez des chaînes de filtres sur des zones masquées données, chaque zone de masque peut déterminer son propre ensemble de filtres</string>
-    <string name="mask_preview">Aperçu du masque</string>
+    <string name="mask_preview">Aperçu du Masque</string>
     <string name="masks">Masques</string>
     <string name="mask_color">Couleur du masque</string>
     <string name="add_mask">Ajouter un masque</string>
@@ -459,7 +459,7 @@
     <string name="start_position">Début</string>
     <string name="highlighter">Surligneur</string>
     <string name="simple_variants">Variantes Simples</string>
-    <string name="full_filter">Filtre complet</string>
+    <string name="full_filter">Filtre Complet</string>
     <string name="end_position">Fin</string>
     <string name="center_position">Centre</string>
     <string name="rows_count">Nombre de lignes</string>
@@ -498,7 +498,7 @@
     <string name="overwrite_files_sub">Le fichier original sera remplacé par un nouveau au lieu d\'être enregistré dans le dossier sélectionné. Cette option doit être la source de l\'image \"Explorer\" ou GetContent. Lorsque vous activez cette option, elle sera définie automatiquement</string>
     <string name="vibration_strength">Résistance aux vibrations</string>
     <string name="outlined_oval_sub">Dessine un ovale délimité du point de départ au point final</string>
-    <string name="app_bars_shadow">Barres d\'applications</string>
+    <string name="app_bars_shadow">Barres d\'Applications</string>
     <string name="highlighter_sub">Dessinez des chemins de surligneur aiguisés semi-transparents</string>
     <string name="lasso_sub">Dessine un chemin rempli fermé par chemin donné</string>
     <string name="free">Gratuite</string>
