@@ -22,6 +22,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.core.graphics.applyCanvas
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition.Companion.adjustByCanvasSize
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersApplier
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -42,7 +44,15 @@ internal class AndroidMarkupLayersApplier @Inject constructor(
     }
 
     private suspend fun Canvas.drawLayer(layer: MarkupLayer) {
-        TODO("Not yet implemented")
+        val (type, initialPosition) = layer
+
+        val canvasSize = IntegerSize(
+            width = width,
+            height = height
+        )
+
+        val position = initialPosition.adjustByCanvasSize(canvasSize)
+
     }
 
 }
