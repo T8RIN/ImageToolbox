@@ -18,7 +18,7 @@
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
-    <string name="image_too_large_preview">L\'image est trop grande pour être visualisée. L\'enregistrement sera tout de même essayé.</string>
+    <string name="image_too_large_preview">L\'image est trop grande pour être prévisualisée, mais la sauvegarde sera de toute façon tentée</string>
     <string name="pick_image">Pour commencer, sélectionnez une image</string>
     <string name="width">Largeur %1$s</string>
     <string name="height">Hauteur %1$s</string>
@@ -28,7 +28,7 @@
     <string name="explicit">Spécifique</string>
     <string name="flexible">Flexible</string>
     <string name="pick_image_alt">Choisir une image</string>
-    <string name="app_closing_sub">Souhaitez-vous vraiment quitter l\'application?</string>
+    <string name="app_closing_sub">Êtes-vous sûr de vouloir fermer l\'application ?</string>
     <string name="app_closing">Fermeture de l\'application</string>
     <string name="stay">Rester</string>
     <string name="close">Fermer</string>
@@ -41,7 +41,7 @@
     <string name="copied">Copié dans le presse-papier</string>
     <string name="exception">Exception</string>
     <string name="edit_exif">Modifier les données EXIFs</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="no_exif">Aucune donnée EXIF trouvée</string>
     <string name="add_tag">Ajouter une balise</string>
     <string name="save">Sauvegarder</string>
@@ -55,9 +55,9 @@
     <string name="image_not_saved_sub">Toutes les modifications non enregistrées seront perdues si vous quittez maintenant</string>
     <string name="check_source_code">Code source</string>
     <string name="check_source_code_sub">Recevez les dernières mises à jour, discutez des problèmes et plus encore</string>
-    <string name="single_edit">Redimensionnement unique</string>
-    <string name="single_edit_sub">Modifier les spécifications d\'une seule image</string>
-    <string name="pick_color">Choisir une couleur</string>
+    <string name="single_edit">Édition Unique</string>
+    <string name="single_edit_sub">Modifier, redimensionner et éditer une image</string>
+    <string name="pick_color">Sélecteur de couleurs</string>
     <string name="pick_color_sub">Sélectionnez une couleur dans une image, la copiez ou partagez</string>
     <string name="image">Image</string>
     <string name="color">Couleur</string>
@@ -69,7 +69,7 @@
     <string name="change_preview">Modifier l\'aperçu</string>
     <string name="remove">Retirer</string>
     <string name="palette_sub">Générer un échantillon de palette de couleurs à partir d\'une image donnée</string>
-    <string name="generate_palette">Générer la palette</string>
+    <string name="generate_palette">Générer Des Palettes</string>
     <string name="palette">Palette</string>
     <string name="new_version">Nouvelle version %1$s</string>
     <string name="update">Mise à jour</string>
