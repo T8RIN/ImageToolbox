@@ -56,7 +56,7 @@ kotlinxCollectionsImmutable = "0.4.0"
 scrollbar = "2.2.0"
 reorderable = "2.5.1"
 reviewKtx = "2.0.2"
-splashScreen = "1.2.0-beta02"
+splashScreen = "1.2.0-rc01"
 
 espresso = "3.6.1"
 ksp = "2.2.0-2.0.2"
