@@ -40,6 +40,7 @@ data class UiMarkupLayer(
     )
 }
 
+
 fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     type = type,
     position = LayerPosition(
