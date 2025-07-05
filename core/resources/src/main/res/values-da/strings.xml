@@ -16,13 +16,13 @@
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="flexible">Fleksibel</string>
-    <string name="ok">Ok</string>
-    <string name="crop">Afgrøde</string>
+    <string name="ok">OK</string>
+    <string name="crop">Beskær</string>
     <string name="check_source_code">Kildekode</string>
     <string name="smth_went_wrong">Noget gik galt: %1$s</string>
     <string name="size">Størrelse %1$s</string>
     <string name="loading">Indlæser…</string>
-    <string name="image_too_large_preview">Billedet er for stort til at blive vist, men det vil blive forsøgt at gemme det alligevel</string>
+    <string name="image_too_large_preview">Billedet er for stort til at blive vist, men vil blive forsøgt gemt alligevel</string>
     <string name="pick_image">Vælg billede til at starte</string>
     <string name="width">Bredde %1$s</string>
     <string name="height">Højde %1$s</string>
@@ -31,7 +31,7 @@
     <string name="resize_type">Ændring af størrelse</string>
     <string name="explicit">Eksplicit</string>
     <string name="pick_image_alt">Vælg billede</string>
-    <string name="app_closing_sub">Ønsker du virkelig at lukke appen?</string>
+    <string name="app_closing_sub">Er di sikker på, at du vil slukke appen?</string>
     <string name="app_closing">Lukning af app</string>
     <string name="stay">Bliv på</string>
     <string name="close">Luk</string>
@@ -55,21 +55,21 @@
     <string name="image_not_saved">Gemmer</string>
     <string name="image_not_saved_sub">Alle ikke gemte ændringer vil gå tabt, hvis du forlader stedet nu</string>
     <string name="check_source_code_sub">Få de seneste opdateringer, diskutere spørgsmål og meget mere</string>
-    <string name="single_edit">Enkelt ændring af størrelse</string>
-    <string name="single_edit_sub">Ændre specifikationerne for et enkelt givet billede</string>
-    <string name="pick_color">Vælg farve</string>
+    <string name="single_edit">Enkelt ændring</string>
+    <string name="single_edit_sub">Ændre et enkelt billede</string>
+    <string name="pick_color">Farvevælger</string>
     <string name="pick_color_sub">Vælg farve fra billede, kopier eller del den</string>
     <string name="image">Billede</string>
     <string name="color">Farve</string>
     <string name="color_copied">Farve kopieret</string>
-    <string name="crop_sub">Beskær billedet til enhver grænse</string>
+    <string name="crop_sub">Beskær billedet</string>
     <string name="version">Version</string>
     <string name="keep_exif">Behold EXIF</string>
     <string name="images">Billeder: %d</string>
     <string name="change_preview">Visning af ændringer</string>
     <string name="remove">Fjern</string>
     <string name="palette_sub">Generer en farvepalet fra et givet billede</string>
-    <string name="generate_palette">Generere palet</string>
+    <string name="generate_palette">Generere palette</string>
     <string name="palette">Palet</string>
     <string name="update">Opdatering</string>
     <string name="new_version">Ny version %1$s</string>
@@ -106,7 +106,7 @@
     <string name="color_blue">Blå</string>
     <string name="clipboard_paste_invalid_color_code">Indsæt gyldig aRGB-kode.</string>
     <string name="clipboard_paste_invalid_empty">Intet at indsætte</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Kan ikke ændre appens farveskema, mens dynamiske farver er slået til</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Kan ikke ændre appens farvepalette, mens dynamiske farver er slået til</string>
     <string name="pick_accent_color">App-temaet vil være baseret på den farve, som du skal vælge</string>
     <string name="about_app">Om appen</string>
     <string name="no_updates">Ingen opdateringer fundet</string>
@@ -163,7 +163,7 @@
     <string name="file_explorer_picker">Filudforsker</string>
     <string name="no_image">Intet billede</string>
     <string name="tint">Farve</string>
-    <string name="limits_resize">Grænser ændre størrelse</string>
+    <string name="limits_resize">Ændre størrelse ud fra øvre grænser</string>
     <string name="limits_resize_sub">Tilpas størrelsen på givne billeder for at følge givne bredde- og højdegrænser med besparelse af billedformat</string>
     <string name="quantizationLevels">Kvantiseringsniveauer</string>
     <string name="non_maximum_suppression">Ikke maksimal undertrykkelse</string>
@@ -187,11 +187,11 @@
     <string name="options_arrangement">Options arrangement</string>
     <string name="edit">Redigere</string>
     <string name="order">Bestille</string>
-    <string name="order_sub">Bestemmer rækkefølgen af mulighederne på hovedskærmen</string>
+    <string name="order_sub">Skift rækkefølgen af værktøjer på hovedskærmen</string>
     <string name="image_link">Billed link</string>
     <string name="fill">Fylde</string>
     <string name="fit">Passe</string>
-    <string name="explicit_description">Tvinger hvert billede ind i et billede givet af parameteren Width og Height - kan ændre billedformat</string>
+    <string name="explicit_description">Ændre billedstørrelse i forhold til brede og højde. Kan ændre proportioner</string>
     <string name="brightness">Lysstyrke</string>
     <string name="contrast">Kontrast</string>
     <string name="hue">Hue</string>
@@ -318,7 +318,7 @@
     <string name="aspect_ratio">Størrelsesforhold</string>
     <string name="saved_to_without_filename">Gemt i mappen %1$s</string>
     <string name="symbols">Symboler</string>
-    <string name="image_crop_mask_sub">Brug denne masketype til at oprette maske fra et givet billede, bemærk at det SKAL have alfakanal</string>
+    <string name="image_crop_mask_sub">Brug denne masketype til at oprette maske fra et givet billede, bemærk at billedet SKAL have alfakanal (gennemsigtig baggrund)</string>
     <string name="enable_emoji">Aktiver emoji</string>
     <string name="randomize_filename">Tilfældig filnavn</string>
     <string name="restore_background">Gendan baggrund</string>
@@ -345,7 +345,7 @@
     <string name="backup_sub">Sikkerhedskopier dine appindstillinger til en fil</string>
     <string name="settings_restored">Indstillinger blev gendannet</string>
     <string name="delete_color_scheme_warn">Du er ved at slette det valgte farveskema. Denne handling kan ikke fortrydes</string>
-    <string name="delete_color_scheme_title">Slet skema</string>
+    <string name="delete_color_scheme_title">Slet palette</string>
     <string name="text">Tekst</string>
     <string name="defaultt">Standard</string>
     <string name="emotions">Følelser</string>
@@ -566,7 +566,7 @@
     <string name="emoji_as_color_scheme">Emoji som farveskema</string>
     <string name="emoji_as_color_scheme_sub">Bruger emoji primærfarve som app-farveskema i stedet for manuelt defineret</string>
     <string name="tg_chat">Telegram chat</string>
-    <string name="crop_mask">Afgrøde maske</string>
+    <string name="crop_mask">Beskær maske</string>
     <string name="using_large_fonts_warn">Brug af store skriftstørrelser kan forårsage fejl i brugergrænsefladen og problemer, som ikke bliver rettet. Brug forsigtigt.</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="crop_description">Billeder vil blive beskåret i midten til den indtastede størrelse. Lærredet vil blive udvidet med en given baggrundsfarve, hvis billedet er mindre end de indtastede dimensioner.</string>
@@ -817,4 +817,6 @@
     <string name="zip">Lynlås</string>
     <string name="zip_sub">Opret zip-fil fra givne filer eller billeder</string>
     <string name="drag_handle_width">Trækhåndtagsbredde</string>
+    <string name="tag_default_crop_size">Standard beskæring</string>
+    <string name="crop_to_content">Beskær til indhold af billedet</string>
 </resources>

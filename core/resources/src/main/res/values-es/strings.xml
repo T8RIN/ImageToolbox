@@ -18,7 +18,7 @@
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
-    <string name="image_too_large_preview">La imagen es muy grande para visualizar, pero igualmente se intentará guardar</string>
+    <string name="image_too_large_preview">La imagen es demasiado grande para previsualizarla, pero se intentará guardar de todas formas.</string>
     <string name="pick_image">Selecciona una imagen para iniciar</string>
     <string name="search_here">Busca aquí</string>
     <string name="width">Anchura %1$s</string>
@@ -38,7 +38,7 @@
     <string name="copied">Copiado al portapapeles</string>
     <string name="exception">Excepción</string>
     <string name="edit_exif">Editar EXIF</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="no_exif">No se han encontrado datos EXIF</string>
     <string name="add_tag">Añadir etiqueta</string>
     <string name="save">Guardar</string>
@@ -98,7 +98,7 @@
     <string name="color_red">Rojo</string>
     <string name="color_green">Verde</string>
     <string name="color_blue">Azul</string>
-    <string name="clipboard_paste_invalid_color_code">Pegar código aRGB válido.</string>
+    <string name="clipboard_paste_invalid_color_code">El código de color aRGB no es válido.</string>
     <string name="clipboard_paste_invalid_empty">Nada que pegar</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">No se puede cambiar el esquema de colores de la app mientras los colores dinámicos están activados</string>
     <string name="pick_accent_color">El tema de la aplicación se basará en el color que elijas</string>
@@ -111,7 +111,7 @@
     <string name="height">Altura %1$s</string>
     <string name="quality">Calidad</string>
     <string name="extension">Extensión</string>
-    <string name="app_closing_sub">¿De verdad quieres cerrar la aplicación?</string>
+    <string name="app_closing_sub">¿Estás seguro de querer cerrar la aplicación?</string>
     <string name="compare_sub">Compara dos imágenes dadas</string>
     <string name="pick_two_images">Elige dos imágenes para empezar</string>
     <string name="pick_images">Elegir imágenes</string>
@@ -139,12 +139,12 @@
     <string name="share">Compartir</string>
     <string name="external_storage">Almacenamiento externo</string>
     <string name="monet_colors">Colores de monet</string>
-    <string name="explicit_description">Obliga a cada imagen a convertirse en una imagen dada por el parámetro Ancho y Alto; puede cambiar la relación de aspecto</string>
+    <string name="explicit_description">Redimensiona las imágenes a la altura y anchura dadas. La relación de aspecto puede cambiar.</string>
     <string name="brightness">Brillo</string>
     <string name="contrast">Contraste</string>
     <string name="saturation">Saturación</string>
     <string name="add_filter">Añadir filtro</string>
-    <string name="filter_sub">Aplicar cualquier cadena de filtros a las imágenes dadas</string>
+    <string name="filter_sub">Aplica la selección de filtros a las imágenes</string>
     <string name="filters">Filtros</string>
     <string name="light_aka_illumination">Luz</string>
     <string name="exposure">Exposición</string>
@@ -200,7 +200,7 @@
     <string name="image_link">Enlace de imagen</string>
     <string name="fill">Llenar</string>
     <string name="fit">Adaptar</string>
-    <string name="flexible_description">Cambia el tamaño de las imágenes a imágenes con un lado largo dado por el parámetro Ancho o Alto, todos los cálculos de tamaño se realizarán después de guardar - mantiene la relación de aspecto</string>
+    <string name="flexible_description">Redimensiona las imágenes que no sean cuadradas a la altura o anchura introducida. Todos los cálculos de tamaño se realizarán después de guardar. Se mantendrá la relación de aspecto.</string>
     <string name="hue">Matiz</string>
     <string name="filter">Filtrar</string>
     <string name="color_filter">Filtro de color</string>
@@ -237,7 +237,7 @@
     <string name="refractive_index">Índice de refracción</string>
     <string name="glass_sphere_refraction">Refracción de esfera de vidrio</string>
     <string name="color_matrix">Matriz de color</string>
-    <string name="limits_resize_sub">Cambiar el tamaño de las imágenes dadas para seguir los límites de ancho y alto dados con relación de aspecto de ahorro</string>
+    <string name="limits_resize_sub">Redimensionar imágenes a una altura y anchura dadas manteniendo la relación de aspecto.</string>
     <string name="posterize">Posterizar</string>
     <string name="emoji_sub">Selecciona qué emoji se mostrará en la pantalla principal</string>
     <string name="first_color">Primer color</string>
@@ -246,7 +246,7 @@
     <string name="fast_blur">Desenfoque rápido</string>
     <string name="delete_exif">Eliminar EXIF</string>
     <string name="delete_exif_sub">Eliminar metadatos EXIF de cualquier par de imágenes</string>
-    <string name="load_image_from_net">Cargar imagen desde la red</string>
+    <string name="load_image_from_net">Cargar imagen en línea</string>
     <string name="options_arrangement">Acomodo de opciones</string>
     <string name="edit">Editar</string>
     <string name="content_scale">Escala de contenido</string>
@@ -260,7 +260,7 @@
     <string name="replace_sequence_number">Reemplazar número de secuencia</string>
     <string name="paint_color">Color de pintura</string>
     <string name="background_color">Color de fondo</string>
-    <string name="cipher_sub">Encriptar y desencriptar cualquier archivo (no únicamente imágenes) basado en el algoritmo de encriptación AES</string>
+    <string name="cipher_sub">Encriptar y desencriptar archivos (no solo imágenes) en base a diferentes algoritmos de encriptación disponibles.</string>
     <string name="pick_file">Escoger archivo</string>
     <string name="encrypt">Encriptar</string>
     <string name="pick_file_to_start">Escoge el archivo para empezar</string>
@@ -272,7 +272,7 @@
     <string name="draw_on_image">Dibujar en imagen</string>
     <string name="decrypt">Desencriptar</string>
     <string name="invalid_password_or_not_encrypted">Contraseña incorrecta o el archivo escogido no está encriptado</string>
-    <string name="image_size_warning">Intentar guardar la imagen con la altura y anchura dadas podría provocar un error OOM, hazlo bajo tu propio riego, ¡Y no digas que no te advertimos!</string>
+    <string name="image_size_warning">Intentar guardar la imagen con esas dimensiones puede provocar un error de falta de memoria. Hazlo bajo tu responsabilidad.</string>
     <string name="cache">Caché</string>
     <string name="cache_size">Tamaño del caché</string>
     <string name="auto_cache_clearing">Limpieza del caché automática</string>
@@ -374,7 +374,7 @@
     <string name="donation">Donación</string>
     <string name="keep_exif_sub">Se conservarán los metadatos de la imagen original</string>
     <string name="restore_sub">Restaura las configuraciones de la app desde un archivo previamente generado</string>
-    <string name="presets_sub_bytes">El preajuste aquí determina el % del archivo resultante, i.e. si seleccionas el preajuste 50 en una imagen de 5mb entonces tendrás una imagen de 2.5mb después de guardar</string>
+    <string name="presets_sub_bytes">El ajuste predeterminado aquí define el % de tamaño del archivo resultante. Es decir, seleccionando \"50\" para una imagen de 5 MB se guardará una imagen de 2.5 MB.</string>
     <string name="erase_mode">Modo de borrado</string>
     <string name="allow_betas_sub">La búsqueda de actualizaciones incluirá versiones beta de la app si está habilitado</string>
     <string name="travels_and_places">Viajes y Lugares</string>
@@ -1060,11 +1060,11 @@
     <string name="images_to_svg_sub">Trazar imágenes dadas a imágenes SVG</string>
     <string name="path_omit">Omitir ruta</string>
     <string name="downscale_image">Reducir imagen</string>
-    <string name="downscale_image_sub">La imagen se reducirá a dimensiones más bajas antes de procesarla, esto ayuda a que la herramienta funcione más rápida y segura</string>
+    <string name="downscale_image_sub">Se reducirán las dimensiones de la imagen antes de procesarla, para permitir que la herramienta funcione de forma más rápida y segura</string>
     <string name="min_color_ratio">Relación de color mínima</string>
     <string name="lines_threshold">Umbral de líneas</string>
     <string name="quadratic_threshold">Umbral cuadrático</string>
-    <string name="reset_properties_sub">Todas las propiedades se establecerán a valores predeterminados, ten en cuenta que esta acción no se puede deshacer</string>
+    <string name="reset_properties_sub">Se restablecerán los valores predeterminados para todas las propiedades. Ten en cuenta que esta acción no se puede deshacer</string>
     <string name="haasn_soft_sub">Un filtro de remuestreo diseñado por Haasn para un escalado de imagen suave y sin artefactos</string>
     <string name="enhanced_oil">Aceite mejorado</string>
     <string name="simple_old_tv">Televisor viejo simple</string>
@@ -1088,7 +1088,7 @@
     <string name="deuteranomaly_sub">Dificultad para distinguir entre tonos verdes y rojos</string>
     <string name="one_time_save_location">Ubicación de un solo guardado</string>
     <string name="tag_exposure_index">Índice de exposición</string>
-    <string name="engine_mode">Modo de motor</string>
+    <string name="engine_mode">Modo del motor</string>
     <string name="tag_metering_mode">Modo de medición</string>
     <string name="tag_subject_distance_range">Rango de distancia de sujeto</string>
     <string name="format_conversion_sub">Convertir lote de imágenes de un formato a otro</string>
@@ -1096,7 +1096,7 @@
     <string name="tag_y_cb_cr_positioning">Posicionamiento Y Cb Cr</string>
     <string name="tag_make">Hacer</string>
     <string name="tag_spectral_sensitivity">Sensibilidad espectral</string>
-    <string name="tag_jpeg_interchange_format_length">Largo de formato de intercambio JPEG</string>
+    <string name="tag_jpeg_interchange_format_length">Longitud del formato de intercambio JPEG</string>
     <string name="generate_previews_sub">Permite la generación de vistas previas, lo que puede ayudar a evitar bloqueos en algunos dispositivos; sin embargo, esto también desactiva algunas funcionalidades de edición dentro de la opción de edición única.</string>
     <string name="tag_digital_zoom_ratio">Relación de zoom digital</string>
     <string name="lossy_compression_sub">Usa compresión con pérdida para reducir el tamaño del archivo en lugar de comprensión sin pérdida.</string>
@@ -1164,11 +1164,11 @@
     <string name="switch_type">Tipo de interruptor</string>
     <string name="material_you_switch_sub">Usa un interruptor basado en Material You, se ve más grande que otros y tiene animaciones bonitas</string>
     <string name="use_sampled_palette">Usa paleta de muestreo</string>
-    <string name="coordinates_rounding_tolerance">Tolerancia de redondeos de coordenadas</string>
+    <string name="coordinates_rounding_tolerance">Tolerancia en el redondeo de las coordenadas</string>
     <string name="legacy">Legado</string>
     <string name="lstm_network">Red de LSTM</string>
     <string name="legacy_and_lstm">Legado y LSTM</string>
-    <string name="tag_photometric_interpretation">Interpretación foto métrica</string>
+    <string name="tag_photometric_interpretation">Interpretación fotométrica</string>
     <string name="tag_planar_configuration">Configuración planar</string>
     <string name="tag_y_cb_cr_sub_sampling">Submuestreo Y Cb Cr</string>
     <string name="tag_related_sound_file">Archivo de audio relacionado</string>
@@ -1235,4 +1235,6 @@
     <string name="barcodes_sub">Escanea cualquier código de barras (QR, EAN, AZTEC, …) y obtén su contenido o pega tu texto para generar uno nuevo</string>
     <string name="lanczos2_jinc_sub">Una variante del filtro Lanczos 2 que usa la función jinc, proveyendo interpolación de alta calidad con distorsiones mínimas</string>
     <string name="compose_switch_sub">Usa el interruptor Jetpack Compose Material You, no es tan bonito como el basado en vista</string>
+    <string name="lanczos_bessel">Lanczos Bessel</string>
+    <string name="cupertino_switch">Cupertino</string>
 </resources>
