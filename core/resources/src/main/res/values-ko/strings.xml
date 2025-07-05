@@ -870,5 +870,12 @@
     <string name="pick_multiple_media">여러 미디어 선택</string>
     <string name="pick_single_media">미디어 하나 선택</string>
     <string name="pick">선택</string>
-    <string name="try_again">다시 시도하세요</string>
+    <string name="try_again">다시 시도하기</string>
+    <string name="show_settings_in_landscape">가로에서 설정 표시</string>
+    <string name="show_settings_in_landscape_sub">이 설정을 비활성화하면 가로 모드 설정은 영구적으로 표시되는 옵션 대신 항상 앱 상단 표시줄의 버튼에서 열립니다.</string>
+    <string name="fullscreen_settings">전체화면 설정</string>
+    <string name="fullscreen_settings_sub">이 기능을 활성화하면 설정 페이지가 슬라이드 가능한 서랍 시트 대신 항상 전체 화면으로 열립니다.</string>
+    <string name="switch_type">스위치 타입</string>
+    <string name="compose">구성</string>
+    <string name="compose_switch_sub">제트팩 구성 재료를 교체하세요.</string>
 </resources>
