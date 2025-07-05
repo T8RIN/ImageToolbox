@@ -45,7 +45,7 @@
     <string name="image">이미지</string>
     <string name="color_copied">색상이 복사되었습니다</string>
     <string name="single_edit">단일 크기 조정</string>
-    <string name="single_edit_sub">지정된 단일 이미지의 사양을 변경</string>
+    <string name="single_edit_sub">하나의 이미지 수정, 크기 조정 및 편집</string>
     <string name="remove">삭제</string>
     <string name="palette_sub">지정된 이미지에서 색상 팔레트 견본 생성</string>
     <string name="generate_palette">팔레트 생성</string>
