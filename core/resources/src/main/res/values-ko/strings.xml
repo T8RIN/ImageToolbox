@@ -189,7 +189,7 @@
     <string name="image_link">이미지 링크</string>
     <string name="fill">채우다</string>
     <string name="fit">맞다</string>
-    <string name="explicit_description">모든 이미지를 너비 및 높이 매개변수로 지정된 이미지로 강제 적용 - 종횡비가 변경될 수 있음</string>
+    <string name="explicit_description">지정된 높이와 너비에 맞게 이미지 크기를 조정함 - 이미지의 가로 세로 비율이 변경될 수 있음</string>
     <string name="flexible_description">너비 또는 높이 매개변수에 의해 지정된 긴 면이 있는 이미지로 사진의 크기를 조정합니다. 모든 크기 계산은 저장 후 수행됩니다. 종횡비를 유지합니다.</string>
     <string name="brightness">명도</string>
     <string name="contrast">차이</string>
