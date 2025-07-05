@@ -863,6 +863,12 @@
     <string name="channels_configuration">채널 구성</string>
     <string name="header_today">오늘</string>
     <string name="header_yesterday">어제</string>
-    <string name="embedded_picker">내장 선택 도구</string>
+    <string name="embedded_picker">내장 선택기</string>
     <string name="embedded_picker_sub">Image Toolbox의 이미지 선택기</string>
+    <string name="no_permissions">권한이 없습니다</string>
+    <string name="request">요청</string>
+    <string name="pick_multiple_media">여러 미디어 선택</string>
+    <string name="pick_single_media">미디어 하나 선택</string>
+    <string name="pick">선택</string>
+    <string name="try_again">다시 시도하세요</string>
 </resources>
