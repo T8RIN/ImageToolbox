@@ -834,5 +834,8 @@
     <string name="fast_gaussian_blur_4d">빠른 정규분포 블러 4D</string>
     <string name="auto_paste">자동 붙여넣기</string>
     <string name="auto_paste_sub">앱이 클립보드 데이터를 자동으로 붙여넣을 수 있도록 허용하여 메인 화면에 표시되고 처리할 수 있습니다.</string>
-    <string name="harmonization_color">조화로운 색상</string>
+    <string name="harmonization_color">색상 조화</string>
+    <string name="harmonization_level">레벨 조화</string>
+    <string name="lanczos_bessel">란코스 베젤</string>
+    <string name="lanczos_bessel_sub">픽셀 값에 베셀(jinc) 함수를 적용하여 고품질 보간을 유지하는 리샘플링 방법</string>
 </resources>
