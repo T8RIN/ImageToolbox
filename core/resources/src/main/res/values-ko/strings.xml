@@ -163,7 +163,7 @@
     <string name="delete_exif_sub">모든 이미지에서 EXIF 메타데이터 삭제</string>
     <string name="image_preview">이미지 미리보기</string>
     <string name="image_preview_sub">모든 유형의 이미지 미리보기: GIF, SVG 등</string>
-    <string name="order_sub">기본 화면에서 옵션의 순서를 결정합니다.</string>
+    <string name="order_sub">메인 화면에서 도구의 순서를 결정합니다.</string>
     <string name="replace_sequence_number_sub">활성화된 경우 일괄 처리를 사용하는 경우 표준 타임스탬프를 이미지 시퀀스 번호로 바꿉니다.</string>
     <string name="filename_not_work_with_photopicker">사진 선택기 이미지 소스를 선택한 경우 원본 파일 이름 추가가 작동하지 않음</string>
     <string name="highlights">하이라이트</string>
@@ -183,13 +183,13 @@
     <string name="non_maximum_suppression">최대가 아닌 억제</string>
     <string name="stack_blur">스택 블러</string>
     <string name="reorder">재 주문</string>
-    <string name="load_image_from_net">넷에서 이미지 불러오기</string>
+    <string name="load_image_from_net">웹에서 이미지 불러오기</string>
     <string name="load_image_from_net_sub">인터넷에서 이미지 형식을 로드하고, 미리 보고, 확대하고, 원하는 경우 저장하거나 편집할 수도 있습니다.</string>
     <string name="no_image">이미지 없음</string>
     <string name="image_link">이미지 링크</string>
     <string name="fill">채우다</string>
     <string name="fit">맞다</string>
-    <string name="explicit_description">모든 그림을 너비 및 높이 매개변수로 지정된 이미지로 강제 적용 - 종횡비가 변경될 수 있음</string>
+    <string name="explicit_description">모든 이미지를 너비 및 높이 매개변수로 지정된 이미지로 강제 적용 - 종횡비가 변경될 수 있음</string>
     <string name="flexible_description">너비 또는 높이 매개변수에 의해 지정된 긴 면이 있는 이미지로 사진의 크기를 조정합니다. 모든 크기 계산은 저장 후 수행됩니다. 종횡비를 유지합니다.</string>
     <string name="brightness">명도</string>
     <string name="contrast">차이</string>
