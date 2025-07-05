@@ -25,6 +25,7 @@ import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Size
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
@@ -40,6 +41,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
@@ -100,13 +102,15 @@ internal class AndroidImageTransformer @Inject constructor(
     ): ImageInfo = withContext(defaultDispatcher) {
         if (image == null || preset is Preset.None) return@withContext currentInfo
 
-        val size = currentInfo.originalUri?.let {
+        val size = currentInfo.originalUri?.let { uri ->
             imageLoader.execute(
                 ImageRequest.Builder(context)
-                    .data(it)
+                    .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
-            ).image?.run { width sizeTo height }
+            ).image?.takeIf {
+                (it.aspectRatio - image.aspectRatio).absoluteValue <= 0.001
+            }?.run { width sizeTo height }
         } ?: IntegerSize(image.width, image.height)
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f

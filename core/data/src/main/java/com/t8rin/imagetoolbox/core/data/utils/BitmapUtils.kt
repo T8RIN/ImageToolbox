@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import androidx.core.graphics.drawable.toBitmap
+import coil3.Image
 import java.io.ByteArrayOutputStream
 
 private val possibleConfigs = mutableListOf<Bitmap.Config>().apply {
@@ -44,6 +45,8 @@ fun getSuitableConfig(
 fun Bitmap.toSoftware(): Bitmap = copy(getSuitableConfig(this), false) ?: this
 
 val Bitmap.aspectRatio: Float get() = width / height.toFloat()
+
+val Image.aspectRatio: Float get() = width / height.toFloat()
 
 val Drawable.aspectRatio: Float get() = intrinsicWidth / intrinsicHeight.toFloat()
 
