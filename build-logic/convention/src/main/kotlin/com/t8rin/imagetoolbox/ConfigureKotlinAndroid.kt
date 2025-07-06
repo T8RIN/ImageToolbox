@@ -115,7 +115,8 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
         "-opt-in=kotlin.contracts.ExperimentalContracts",
         "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
         "-opt-in=androidx.compose.ui.text.ExperimentalTextApi",
-        "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
+        "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi",
+        "-Xannotation-default-target=param-property"
     )
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
