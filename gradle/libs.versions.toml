@@ -8,8 +8,8 @@ versionCode = "176"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "3.6.5"
-trickle = "1.2.2"
+imageToolboxLibs = "3.6.7"
+trickle = "1.3.0"
 evaluator = "1.0.0"
 quickie = "1.14.0"
 documentScanner = "1.3.7"
@@ -74,7 +74,6 @@ zxingAndroidEmbedded = "4.3.0"
 capturable = "3.0.1"
 moshi = "1.15.2"
 bouncycastle = "1.81"
-ffmpeg-metadata-retriever = "1.0.19"
 pdfviewer = "1.0.0-alpha09"
 fragmentCompose = "1.8.8"
 
@@ -85,8 +84,6 @@ moduleGraphGradle = "0.12.0"
 [libraries]
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
-ffmpeg-metadata-retriever-core = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-core", version.ref = "ffmpeg-metadata-retriever" }
-ffmpeg-metadata-retriever-native = { module = "com.github.wseemann:FFmpegMediaMetadataRetriever-native", version.ref = "ffmpeg-metadata-retriever" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }
 aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }

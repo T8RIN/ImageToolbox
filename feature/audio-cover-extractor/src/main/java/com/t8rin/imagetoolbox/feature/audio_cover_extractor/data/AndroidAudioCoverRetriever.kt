@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.audio_cover_extractor.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -33,7 +34,6 @@ import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.AudioCoverRet
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
-import wseemann.media.FFmpegMediaMetadataRetriever
 import javax.inject.Inject
 
 internal class AndroidAudioCoverRetriever @Inject constructor(
@@ -55,7 +55,7 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
         }
 
         val pictureData = runCatching {
-            FFmpegMediaMetadataRetriever().run {
+            MediaMetadataRetriever().run {
                 setDataSource(
                     context,
                     audioUri.toUri()

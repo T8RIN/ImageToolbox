@@ -23,8 +23,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.audio_cover_extractor"
-
-dependencies {
-    implementation(libs.ffmpeg.metadata.retriever.core)
-    implementation(libs.ffmpeg.metadata.retriever.native)
-}
