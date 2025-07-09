@@ -741,11 +741,11 @@
     <string name="cool">涼爽</string>
     <string name="pink_dream">粉紅夢</string>
     <string name="deutaronotopia">綠色盲</string>
-    <string name="protanopia">原生質</string>
-    <string name="achromatomaly">無色透明</string>
+    <string name="protanopia">紅色盲</string>
+    <string name="achromatomaly">不全色盲</string>
     <string name="hot_summer">炎熱的夏天</string>
     <string name="icon_shape">圖示形狀</string>
-    <string name="achromatopsia">色覺障礙</string>
+    <string name="achromatopsia">全色盲</string>
     <string name="tritanopia">Tritanopia</string>
     <string name="golden_hour">黃金時段</string>
     <string name="purple_mist">紫霧</string>
