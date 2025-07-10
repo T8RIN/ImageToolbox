@@ -60,7 +60,7 @@
     <string name="check_source_code">ソースコード</string>
     <string name="single_edit">単一編集</string>
     <string name="single_edit_sub">指定された単一の画像の仕様を変更</string>
-    <string name="pick_color">色を選択</string>
+    <string name="pick_color">色を抽出</string>
     <string name="pick_color_sub">画像から色を選んで、コピーまたは共有</string>
     <string name="image">画像</string>
     <string name="color">色</string>
