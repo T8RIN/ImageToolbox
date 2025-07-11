@@ -8,4 +8,15 @@
     <string name="width">Laius %1$s</string>
     <string name="height">Kõrgus %1$s</string>
     <string name="quality">Kvaliteet</string>
+    <string name="something_went_wrong">Midagi läks valesti</string>
+    <string name="restart_app">Käivita rakendus uuesti</string>
+    <string name="copied">Kopeeritud lõikelauale</string>
+    <string name="exception">Erandlik olukord</string>
+    <string name="edit_exif">Muuda EXIF-andmeid</string>
+    <string name="ok">Sobib</string>
+    <string name="no_exif">EXIF-andmeid ei leidunud</string>
+    <string name="add_tag">Lisa silt</string>
+    <string name="save">Salvesta</string>
+    <string name="clear">Tühjenda</string>
+    <string name="clear_exif">Eemalda EXIF-andmed</string>
 </resources>
