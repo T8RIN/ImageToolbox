@@ -17,6 +17,13 @@
     <string name="no_exif">EXIF-andmeid ei leidunud</string>
     <string name="add_tag">Lisa silt</string>
     <string name="save">Salvesta</string>
-    <string name="clear">Tühjenda</string>
+    <string name="clear">Eemalda</string>
     <string name="clear_exif">Eemalda EXIF-andmed</string>
+    <string name="cancel">Katkesta</string>
+    <string name="clear_exif_sub">Kõik EXIF-andmed kustutatakse. Seda tegevust ei saa tagasi pöörata!</string>
+    <string name="presets">Eelseadistused</string>
+    <string name="crop">Kadreeri</string>
+    <string name="image_not_saved">Salvestan</string>
+    <string name="image_not_saved_sub">Kui väljud, siis kõik salvestamata muudatused lähevad kaotsi</string>
+    <string name="check_source_code">Lähtekood</string>
 </resources>
