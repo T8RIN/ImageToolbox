@@ -709,7 +709,7 @@
     <string name="just_size">尺寸</string>
     <string name="amplitude_x">幅度 X</string>
     <string name="amplitude_y">幅度 Y</string>
-    <string name="perlin_distortion">佩林失真</string>
+    <string name="perlin_distortion">柏林失真</string>
     <string name="hable_filmic_tone_mapping">Hable 胶片色调映射</string>
     <string name="aces_hill_tone_mapping">ACES 山峰色调映射</string>
     <string name="erode">侵蚀</string>
@@ -1385,7 +1385,7 @@
     <string name="noise_generation">噪点生成</string>
     <string name="frequency">频率</string>
     <string name="noise_type">噪点类型</string>
-    <string name="noise_generation_sub">产生不同的噪点，如Perlin或其他类型的噪点</string>
+    <string name="noise_generation_sub">产生不同的噪点，如柏林或其他类型的噪点</string>
     <string name="rotation_type">旋转类型</string>
     <string name="octaves">八分音符</string>
     <string name="lacunarity">Lacunarity</string>
