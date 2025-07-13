@@ -90,8 +90,8 @@
     <string name="clear">清空</string>
     <string name="settings">设置</string>
     <string name="night_mode">夜间模式</string>
-    <string name="dark">暗色</string>
-    <string name="light">亮色</string>
+    <string name="dark">深色</string>
+    <string name="light">浅色</string>
     <string name="system">跟随系统</string>
     <string name="customization">自定义</string>
     <string name="allow_image_monet">允许来自图片的莫奈颜色</string>
@@ -105,7 +105,7 @@
     <string name="color_blue">蓝色</string>
     <string name="clipboard_paste_invalid_color_code">粘贴一个有效的aRGB颜色代码</string>
     <string name="color_scheme">配色方案</string>
-    <string name="clipboard_paste_invalid_empty">无任何可粘贴的图片</string>
+    <string name="clipboard_paste_invalid_empty">无可粘贴的图片</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">在开启动态颜色时，无法更改应用程序的颜色方案</string>
     <string name="pick_accent_color">应用程序的主题将基于选择的颜色</string>
     <string name="no_updates">未找到更新</string>
