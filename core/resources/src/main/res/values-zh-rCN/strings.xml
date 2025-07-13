@@ -20,7 +20,7 @@
     <string name="close">关闭</string>
     <string name="smth_went_wrong">发生错误：%1$s</string>
     <string name="size">大小%1$s</string>
-    <string name="loading">载入中……</string>
+    <string name="loading">正在加载……</string>
     <string name="image_too_large_preview">图片太大，无法预览，但仍然会尝试保存</string>
     <string name="width">宽%1$s</string>
     <string name="quality">质量</string>
