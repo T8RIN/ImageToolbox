@@ -469,7 +469,7 @@
     <string name="hermite_sub">曲線セグメントのエンドポイントでの値と導関数を使用して滑らかで連続的な曲線を生成する数学的補間技術</string>
     <string name="lanczos_sub">ピクセル値に重み付けされたsinc関数を適用することで高品質の補間を維持するリサンプリング方法</string>
     <string name="mitchell_sub">スケーリングされた画像の鮮明さとアンチエイリアシングのバランスを取るために調整可能なパラメータを持つ畳み込みフィルターを使用するリサンプリング方法</string>
-    <string name="spline_sub">曲線または表面を滑らかに補間および近似するために区分的に定義された多項式関数を利用し、柔軟で連続的な形状表現を提供します</string>
+    <string name="spline_sub">区分的に定義された多項式関数を使用して、曲線または面を滑らかに補間および近似し、柔軟で連続的な形状表現を提供します</string>
     <string name="only_clip_sub">ストレージへの保存は行われず、クリップボードにのみ画像を配置しようとします</string>
     <string name="restore_background_sub">ブラシは消去する代わりに背景を復元します</string>
     <string name="force_exif_widget_initial_value">初期値を強制</string>
@@ -513,7 +513,7 @@
     <string name="frame_delay">フレーム遅延</string>
     <string name="millis">ミリ秒</string>
     <string name="fps">FPS</string>
-    <string name="secure_mode_sub">終了時にコンテンツを非表示にし、画面をキャプチャまたは記録することもできません</string>
+    <string name="secure_mode_sub">最近使用したアプリのアプリコンテンツを非表示にします。キャプチャや録画はできません。</string>
     <string name="quantizier">量子化器</string>
     <string name="gray_scale">グレースケール</string>
     <string name="bayer_two_dithering">ベイヤー2×2ディザリング</string>
@@ -772,7 +772,7 @@
     <string name="horizontal_grid">水平グリッド</string>
     <string name="vertical_grid">垂直グリッド</string>
     <string name="use_pixel_switch">ピクセルスイッチを使用</string>
-    <string name="use_pixel_switch_sub">GoogleのマテリアルYouベースのスイッチの代わりにPixelライクなスイッチが使用されます</string>
+    <string name="use_pixel_switch_sub">Pixelのようなスイッチを使用</string>
     <string name="saved_to_original">元の場所に%s名で上書きされました</string>
     <string name="magnifier">拡大鏡</string>
     <string name="magnifier_sub">アクセシビリティ向上のため、描画モードで指先の上に拡大鏡を有効にします</string>
