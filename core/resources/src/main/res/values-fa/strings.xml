@@ -776,7 +776,7 @@
     <string name="random_emojis_sub">شکلک نوار برنامه به‌جای استفاده از یکی انتخاب‌شده، به‌طور مداوم به‌صورت تصادفی تغییر می‌کند</string>
     <string name="random_emojis">شکلک‌های تصادفی</string>
     <string name="random_emojis_error">وقتی شکلک‌ها غیرفعال هستند، نمی‌توان از انتخاب تصادفی شکلک استفاده کرد</string>
-    <string name="emoji_selection_error">نمی‌توانید شکلک را انتخاب کنید در حالی که شکلک‌های تصادفی فعال هستند</string>
+    <string name="emoji_selection_error">نمیتوانید شکلک را انتخاب کنید در حالی که شکلک‌های تصادفی فعال هستند</string>
     <string name="old_tv">تلویزیون قدیمی</string>
     <string name="shuffle_blur">محو شافل</string>
     <string name="favorite">برگزیدن</string>
