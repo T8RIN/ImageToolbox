@@ -41,3 +41,4 @@ const val USER_AGENT =
 
 const val GlobalStorageName = "image_resizer"
 const val BackupFileExtension = "imtbx_backup"
+
