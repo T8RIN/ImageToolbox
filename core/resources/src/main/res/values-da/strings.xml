@@ -81,7 +81,7 @@
     <string name="custom">Tilpasset</string>
     <string name="unspecified">Uspecificeret</string>
     <string name="device_storage">Opbevaring af enheder</string>
-    <string name="by_bytes_resize">Ændre størrelse efter vægt</string>
+    <string name="by_bytes_resize">Beskær i forhold til filstørrelse</string>
     <string name="max_bytes">Maksimal størrelse i KB</string>
     <string name="by_bytes_resize_sub">Ændre størrelsen på et billede efter en given størrelse i KB</string>
     <string name="compare">Sammenlign</string>
@@ -164,7 +164,7 @@
     <string name="no_image">Intet billede</string>
     <string name="tint">Farve</string>
     <string name="limits_resize">Ændre størrelse ud fra øvre grænser</string>
-    <string name="limits_resize_sub">Tilpas størrelsen på givne billeder for at følge givne bredde- og højdegrænser med besparelse af billedformat</string>
+    <string name="limits_resize_sub">Tilpas størrelsen for at følge givne bredde- og højdemål. Billedforhold bevares</string>
     <string name="quantizationLevels">Kvantiseringsniveauer</string>
     <string name="non_maximum_suppression">Ikke maksimal undertrykkelse</string>
     <string name="weak_pixel_inclusion">Svag pixel inklusion</string>
@@ -265,12 +265,12 @@
     <string name="paint_color">Maling farve</string>
     <string name="secondary_customization">Sekundær tilpasning</string>
     <string name="draw_on_image_sub">Vælg et billede og tegn noget på det</string>
-    <string name="cipher_sub">Krypter og dekrypter enhver fil (ikke kun billedet) baseret på AES kryptoalgoritme</string>
+    <string name="cipher_sub">Krypter og dekrypter enhver fil (ikke kun billedet) baseret på forskellige algoritmer</string>
     <string name="pick_file">Vælg fil</string>
     <string name="encrypt">Krypter</string>
     <string name="decryption">Dekryptering</string>
     <string name="implementation_sub">AES-256, GCM-tilstand, ingen polstring, 12 bytes tilfældige IV\'er. Nøgler bruges som SHA-3 hashes (256 bit).</string>
-    <string name="image_size_warning">At forsøge at gemme et billede med en given bredde og højde kan forårsage en OOM-fejl, gør dette på egen risiko, og sig ikke, at jeg ikke advarede dig!</string>
+    <string name="image_size_warning">Hvis du forsøger at gemme billedet med de aktuelle højde/bredde-parametre, risikerer du at appen crasher og du taber dit arbejder. Du fortsætter derfor på EGEN RISIKO!</string>
     <string name="tools">Værktøjer</string>
     <string name="group_options_by_type">Gruppér muligheder efter type</string>
     <string name="edit_screenshot">Rediger skærmbillede</string>
@@ -337,8 +337,8 @@
     <string name="empty">Tom</string>
     <string name="suffix">Suffiks</string>
     <string name="free">Gratis</string>
-    <string name="presets_sub" formatted="false">Hvis du har valgt forudindstilling 125, vil billedet blive gemt som 125 % størrelse af det originale billede med 100 % kvalitet. Hvis du vælger forudindstilling 50, vil billedet blive gemt med 50 % størrelse og 50 % kvalitet.</string>
-    <string name="presets_sub_bytes">Forudindstilling her bestemmer % af outputfilen, dvs. hvis du vælger forudindstillet 50 på 5mb billede, vil du få 2,5mb billede efter lagring</string>
+    <string name="presets_sub" formatted="false">Hvis du har valgt forudindstilling 125, vil billedet blive gemt som 125 % størrelse af det originale billede. Hvis du vælger forudindstilling 50, vil billedet blive gemt med 50 % størrelse</string>
+    <string name="presets_sub_bytes">Forudindstilling her bestemmer % af filstørrelsen. Hvis du vælger 50% på 5mb billede, vil du få 2,5mb billede efter lagring</string>
     <string name="randomize_filename_sub">Hvis det er aktiveret, vil outputfilnavnet være helt tilfældigt</string>
     <string name="tg_chat_sub">Diskuter appen og få feedback fra andre brugere. Du kan også få betaopdateringer og indsigt her.</string>
     <string name="restore">Gendan</string>
@@ -397,7 +397,7 @@
     <string name="disabled">handicappet</string>
     <string name="both">Begge</string>
     <string name="search_option">Søg</string>
-    <string name="search_option_sub">Gør det muligt at søge gennem alle tilgængelige muligheder på hovedskærmen</string>
+    <string name="search_option_sub">Gør det muligt at søge gennem alle tilgængelige værktøjer på hovedskærmen</string>
     <string name="pdf_tools_sub">Betjen med PDF-filer: Forhåndsvisning, Konverter til batch af billeder eller opret et fra givne billeder</string>
     <string name="preview_pdf">Forhåndsvisning af PDF</string>
     <string name="pdf_to_images">PDF til billeder</string>
@@ -569,7 +569,7 @@
     <string name="crop_mask">Beskær maske</string>
     <string name="using_large_fonts_warn">Brug af store skriftstørrelser kan forårsage fejl i brugergrænsefladen og problemer, som ikke bliver rettet. Brug forsigtigt.</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
-    <string name="crop_description">Billeder vil blive beskåret i midten til den indtastede størrelse. Lærredet vil blive udvidet med en given baggrundsfarve, hvis billedet er mindre end de indtastede dimensioner.</string>
+    <string name="crop_description">Billeder vil blive beskåret fra midten til den indtastede størrelse. Lærredet vil blive udvidet med en given baggrundsfarve, hvis billedet er mindre end de indtastede dimensioner.</string>
     <string name="tolerance">Tolerance</string>
     <string name="recode">Omkode</string>
     <string name="erode">Erodere</string>
@@ -644,7 +644,7 @@
     <string name="random_dithering">Tilfældig dithering</string>
     <string name="simple_threshold_dithering">Simpel Threshold Dithering</string>
     <string name="max_colors_count">Max farveantal</string>
-    <string name="crashlytics_sub">Dette gør det muligt for appen at indsamle nedbrudsrapporter manuelt</string>
+    <string name="crashlytics_sub">Dette gør det muligt for appen at indsamle nedbrudsrapporter automatisk</string>
     <string name="mask_color">Maske farve</string>
     <string name="mask_preview">Forhåndsvisning af maske</string>
     <string name="scale_mode">Skaleringstilstand</string>
@@ -697,7 +697,7 @@
     <string name="use_lasso_sub">Bruger Lasso som i tegnetilstand til at udføre sletning</string>
     <string name="original_image_preview_alpha">Forhåndsvisning af originalt billede Alpha</string>
     <string name="mask_filter">Maskefilter</string>
-    <string name="mask_filter_sub">Anvend filterkæder på givne maskerede områder, hvert maskeområde kan bestemme sit eget sæt af filtre</string>
+    <string name="mask_filter_sub">Anvend filterkæder på givne maskerede områder, hvert maskeområde kan have sit eget sæt af filtre</string>
     <string name="masks">Masker</string>
     <string name="random_emojis_sub">Appbar-emoji vil løbende blive ændret tilfældigt i stedet for at bruge den valgte</string>
     <string name="random_emojis">Tilfældige emojis</string>
@@ -772,13 +772,13 @@
     <string name="content_sub">Et skema, der placerer kildefarven i Scheme.primaryContainer</string>
     <string name="fidelity_sub">En ordning, der minder meget om indholdsordningen</string>
     <string name="containers_shadow">Containere</string>
-    <string name="containers_shadow_sub">Muliggør skyggetegning bag beholdere</string>
+    <string name="containers_shadow_sub">Tegn skygger bag beholdere</string>
     <string name="sliders_shadow">Skydere</string>
     <string name="switches_shadow">Afbrydere</string>
     <string name="fabs_shadow">FAB\'er</string>
     <string name="buttons_shadow">Knapper</string>
-    <string name="sliders_shadow_sub">Aktiverer skyggetegning bag skydere</string>
-    <string name="switches_shadow_sub">Muliggør skyggetegning bag kontakter</string>
+    <string name="sliders_shadow_sub">Tegn skygge bag skydere</string>
+    <string name="switches_shadow_sub">Tegn skygge bag kontakter</string>
     <string name="fabs_shadow_sub">Aktiverer skyggetegning bag flydende handlingsknapper</string>
     <string name="buttons_shadow_sub">Aktiverer skyggetegning bag standardknapper</string>
     <string name="app_bars_shadow">App barer</string>
