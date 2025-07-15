@@ -124,7 +124,7 @@
     <string name="color_blue">آبی</string>
     <string name="clipboard_paste_invalid_color_code">یک کد رنگ aRGB معتبر را جایگذاری کنید</string>
     <string name="clipboard_paste_invalid_empty">چیزی برای چسباندن نیست</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">وقتی رنگ‌های پویا روشن هستند، نمی‌توان طرح رنگ برنامه را تغییر داد</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">در حالی که رنگ‌های پویا روشن هستند، نمی‌توان طرح رنگ برنامه را تغییر داد</string>
     <string name="pick_accent_color">طرح زمینه برنامه بر اساس رنگ انتخاب شده خواهد بود</string>
     <string name="about_app">درباره برنامه</string>
     <string name="no_updates">هیچ به روز رسانی پیدا نشد</string>
@@ -192,7 +192,7 @@
     <string name="fit">تناسب</string>
     <string name="content_scale">مقیاس محتوا</string>
     <string name="explicit_description">اندازه تصاویر را به ارتفاع و عرض داده شده تغییر دهید. نسبت ابعاد تصاویر ممکن است تغییر کند.</string>
-    <string name="flexible_description">اندازه تصاویر را به تصاویری با ضلع بلند داده شده توسط پارامتر Width یا Height تغییر می دهد، تمام محاسبات اندازه پس از ذخیره انجام می شود - نسبت تصویر را حفظ می کند.</string>
+    <string name="flexible_description">تصاویر را با ضلع بلند به ارتفاع یا عرض داده شده تغییر اندازه می‌دهد. تمام محاسبات اندازه پس از ذخیره انجام می‌شود. نسبت ابعاد تصاویر حفظ خواهد شد.</string>
     <string name="brightness">روشنایی</string>
     <string name="contrast">تضاد</string>
     <string name="hue">رنگ‌مایه</string>
@@ -858,7 +858,7 @@
     <string name="images_to_svg_sub">تبدیل تصاویر داده شده به تصاویر SVG</string>
     <string name="use_sampled_palette">استفاده از تخته‌رنگ نمونه‌برداری‌شده</string>
     <string name="svg_warning">استفاده از این ابزار برای ردیابی تصاویر بزرگ بدون کاهش مقیاس توصیه نمی شود، می تواند باعث کرش و افزایش زمان پردازش شود.</string>
-    <string name="compose_switch_sub">یک ماده‌ی نوشتن جت‌پک که شما تغییر می‌دهید</string>
+    <string name="compose_switch_sub"></string>
     <string name="material_you_switch_sub">کلید Material You</string>
     <string name="fast_gaussian_blur_2d">محو گاوسی سریع دوبعدی</string>
     <string name="max">حداکثر</string>
@@ -1131,4 +1131,14 @@
     <string name="tag_gps_dop">دقت موقعیت مکانی</string>
     <string name="tag_gps_speed_ref">مرجع سرعت موقعیت مکانی</string>
     <string name="center">مرکز</string>
+    <string name="tag_gps_datestamp">مهر تاریخ GPS</string>
+    <string name="tag_gps_differential">دیفرانسیل GPS</string>
+    <string name="paste_link">وارد کردن لینک</string>
+    <string name="star">ستاره</string>
+    <string name="outlined_star">ستاره طرح دار</string>
+    <string name="antialias">آنتی‌آلیاس‌ها</string>
+    <string name="document_scanner">اسکنر اسناد</string>
+    <string name="click_to_start_scanning">برای شروع اسکن کلیک کنید</string>
+    <string name="start_scanning">شروع اسکن</string>
+    <string name="save_as_pdf">‹ذخیره به صورت pdf</string>
 </resources>
