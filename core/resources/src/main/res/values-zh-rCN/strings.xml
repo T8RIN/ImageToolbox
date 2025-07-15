@@ -548,7 +548,7 @@
     <string name="spline_sub">使用分段定义的多项式函数对曲线或曲面进行平滑插值和近似，提供灵活且连续的形状表示</string>
     <string name="only_clip">仅剪切</string>
     <string name="only_clip_sub">不会将图片保存到本地存储，只会尝试将图片放入剪贴板中</string>
-    <string name="recognize_text">OCR （文本识别）</string>
+    <string name="recognize_text">OCR（文本识别）</string>
     <string name="accuracy">精确度： %1$d</string>
     <string name="recognition_type">识别类型</string>
     <string name="fast">快速</string>
@@ -815,7 +815,7 @@
     <string name="apng_type_to_image">APNG转换为图片</string>
     <string name="motion_blur">动态模糊</string>
     <string name="zip">Zip</string>
-    <string name="zip_sub">根据给定文件或图片创建 Zip 压缩包文件</string>
+    <string name="zip_sub">根据给定文件或图片创建Zip压缩包文件</string>
     <string name="drag_handle_width">拖动手柄宽度</string>
     <string name="confetti_type">彩纸类型</string>
     <string name="festive">节日</string>

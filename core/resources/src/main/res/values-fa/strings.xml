@@ -19,7 +19,7 @@
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
     <string name="loading">در حال بارگذاری…</string>
-    <string name="image_too_large_preview">تصویر برای پیش‌نمایش بیش از حد بزرگ است، ولی به هر حال برای ذخیره‌اش تلاش می‌کنیم</string>
+    <string name="image_too_large_preview">تصویر برای پیش نمایش بسیار بزرگ است، اما به هر حال ذخیره خواهد شد</string>
     <string name="width">عرض %1$s</string>
     <string name="height">ارتفاع %1$s</string>
     <string name="primary">اصلی</string>
@@ -46,7 +46,7 @@
     <string name="explicit">صریح</string>
     <string name="flexible">انعطاف‌پذیر</string>
     <string name="pick_image_alt">تصویر را انتخاب کنید</string>
-    <string name="app_closing_sub">آیا واقعاً می‌خواهید برنامه را ببندید؟</string>
+    <string name="app_closing_sub">آیا مطمئن هستید که می خواهید برنامه را ببندید؟</string>
     <string name="app_closing">در حال بستن برنامه</string>
     <string name="stay">ماندن</string>
     <string name="close">بستن</string>
@@ -74,8 +74,8 @@
     <string name="check_source_code">کد منبع</string>
     <string name="check_source_code_sub">آخرین به‌روز رسانی‌ها را دریافت کنید، درباره مسائل و موارد دیگر بحث کنید</string>
     <string name="single_edit">ویرایش تکی</string>
-    <string name="single_edit_sub">تغییر مشخصات تک تصویر داده شده</string>
-    <string name="pick_color">رنگ را انتخاب کنید</string>
+    <string name="single_edit_sub">تغییر اندازه و ویرایش یک تصویر</string>
+    <string name="pick_color">انتخابگر رنگ</string>
     <string name="pick_color_sub">رنگ را از تصویر انتخاب کنید، کپی کنید یا به اشتراک بگذارید</string>
     <string name="image">تصویر</string>
     <string name="color">رنگ</string>
@@ -99,7 +99,7 @@
     <string name="custom">سفارشی</string>
     <string name="unspecified">نامشخص</string>
     <string name="device_storage">حافظه دستگاه</string>
-    <string name="by_bytes_resize">تغییر اندازه بر اساس حجم</string>
+    <string name="by_bytes_resize">تغییر اندازه بر اساس وزن</string>
     <string name="max_bytes">حداکثر اندازه در کیلوبایت</string>
     <string name="by_bytes_resize_sub">اندازه یک تصویر را با توجه به اندازه داده شده در کیلوبایت تغییر دهید</string>
     <string name="compare">مقایسه</string>
@@ -122,7 +122,7 @@
     <string name="color_red">قرمز</string>
     <string name="color_green">سبز</string>
     <string name="color_blue">آبی</string>
-    <string name="clipboard_paste_invalid_color_code">aRGB-Code معتبر جای‌گذاری کنید.</string>
+    <string name="clipboard_paste_invalid_color_code">یک کد رنگ aRGB معتبر را جایگذاری کنید</string>
     <string name="clipboard_paste_invalid_empty">چیزی برای چسباندن نیست</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">وقتی رنگ‌های پویا روشن هستند، نمی‌توان طرح رنگ برنامه را تغییر داد</string>
     <string name="pick_accent_color">طرح زمینه برنامه بر اساس رنگ انتخاب شده خواهد بود</string>
@@ -776,7 +776,7 @@
     <string name="random_emojis_sub">شکلک نوار برنامه به‌جای استفاده از یکی انتخاب‌شده، به‌طور مداوم به‌صورت تصادفی تغییر می‌کند</string>
     <string name="random_emojis">شکلک‌های تصادفی</string>
     <string name="random_emojis_error">وقتی شکلک‌ها غیرفعال هستند، نمی‌توان از انتخاب تصادفی شکلک استفاده کرد</string>
-    <string name="emoji_selection_error">نمی‌توانید شکلک را انتخاب کنید در حالی که شکلک‌های تصادفی فعال هستند</string>
+    <string name="emoji_selection_error">نمیتوانید شکلک را انتخاب کنید در حالی که شکلک‌های تصادفی فعال هستند</string>
     <string name="old_tv">تلویزیون قدیمی</string>
     <string name="shuffle_blur">محو شافل</string>
     <string name="favorite">برگزیدن</string>
