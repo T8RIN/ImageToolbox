@@ -1140,5 +1140,12 @@
     <string name="document_scanner">اسکنر اسناد</string>
     <string name="click_to_start_scanning">برای شروع اسکن کلیک کنید</string>
     <string name="start_scanning">شروع اسکن</string>
-    <string name="save_as_pdf">‹ذخیره به صورت pdf</string>
+    <string name="save_as_pdf">ذخیره به صورت pdf</string>
+    <string name="share_as_pdf">اشتراک گذاری به صورت pdf</string>
+    <string name="grid_size_x">اندازه شبکه X</string>
+    <string name="grid_size_y">اندازه شبکه Y</string>
+    <string name="image_cutting">برش تصویر</string>
+    <string name="edit_exif_screen">ویرایش EXIF</string>
+    <string name="edit_exif_screen_sub">تغییر متادیتای یک تصویر بدون فشرده‌سازی مجدد</string>
+    <string name="edit_exif_tag">برای ویرایش برچسب‌های موجود، ضربه بزنید</string>
 </resources>
