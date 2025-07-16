@@ -858,7 +858,6 @@
     <string name="images_to_svg_sub">تبدیل تصاویر داده شده به تصاویر SVG</string>
     <string name="use_sampled_palette">استفاده از تخته‌رنگ نمونه‌برداری‌شده</string>
     <string name="svg_warning">استفاده از این ابزار برای ردیابی تصاویر بزرگ بدون کاهش مقیاس توصیه نمی شود، می تواند باعث کرش و افزایش زمان پردازش شود.</string>
-    <string name="compose_switch_sub"></string>
     <string name="material_you_switch_sub">کلید Material You</string>
     <string name="fast_gaussian_blur_2d">محو گاوسی سریع دوبعدی</string>
     <string name="max">حداکثر</string>
