@@ -130,9 +130,9 @@
     <string name="fab_alignment">FAB对齐方式</string>
     <string name="check_updates">检查更新</string>
     <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动时显示</string>
-    <string name="primary">主要</string>
-    <string name="tertiary">三级</string>
-    <string name="secondary">次要</string>
+    <string name="primary">主色</string>
+    <string name="tertiary">第三色</string>
+    <string name="secondary">辅助色</string>
     <string name="zoom">图片缩放</string>
     <string name="prefix">前缀</string>
     <string name="filename">文件名</string>
@@ -176,7 +176,7 @@
     <string name="fast_blur">快速模糊</string>
     <string name="blur_size">模糊大小</string>
     <string name="photo_picker_sub">出现在屏幕底部的安卓新版照片拾取器，可能只适用于安卓12+系统。在接收EXIF元数据有问题</string>
-    <string name="file_explorer_picker_sub">使用 GetContent 意图来选取图片。兼容性好，但在某些设备上接收选取的图片时也会出现问题，这与本 App 无关</string>
+    <string name="file_explorer_picker_sub">使用 GetContent 意图选取图片。它在所有地方都能运行，但已知在部分设备上接收选取的图片时会出现问题。这与本APP无关。</string>
     <string name="edit">编辑</string>
     <string name="order">顺序</string>
     <string name="order_sub">确定主屏幕上工具的顺序</string>
@@ -333,7 +333,7 @@
     <string name="saved_to">已使用名称%2$s保存到%1$s文件夹</string>
     <string name="saved_to_without_filename">已保存到%1$s文件夹</string>
     <string name="tg_chat">Telegram 聊天</string>
-    <string name="tg_chat_sub">讨论应用程序并从其他用户那里获得反馈。你也可以在那里获得测试更新和见解</string>
+    <string name="tg_chat_sub">讨论这款应用程序并从其他用户那里获得反馈。你也可以在那里获得beta版更新和见解。</string>
     <string name="erase_mode">擦除模式</string>
     <string name="restore_image">恢复图片</string>
     <string name="emotions">表情</string>
@@ -366,13 +366,13 @@
     <string name="image_exif_warning">目前，%1$s格式在Android上只允许读取EXIF元数据。在保存时，输出图片将完全没有元数据。</string>
     <string name="effort_sub">值为%1$d意味着快速压缩，导致文件大小相对较大。 %2$d表示压缩速度较慢，文件较小。</string>
     <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
-    <string name="allow_betas">允许 beta</string>
+    <string name="allow_betas">允许接收测试版</string>
     <string name="jxl_sub">JXL 格式不被 Android 正式支持，所以有些东西可能无法工作。只有当你选择自定义输出目录时保存才会生效。这是一个实验版本，这里的错误不会被修复，除非谷歌添加 JXL 支持。这个版本可以查看 JXL 图片</string>
     <string name="crashlytics_sub">这允许此应用程序自动收集崩溃报告</string>
     <string name="saving_almost_complete">保存快要完成了。现在取消将需要重新开始保存</string>
     <string name="analytics">分析</string>
     <string name="effort">压缩尝试次数</string>
-    <string name="allow_betas_sub">如果启用，更新检查将包括 beta 应用程序版本</string>
+    <string name="allow_betas_sub">如果启用，更新检查时将包括测试版</string>
     <string name="horizontal">横向</string>
     <string name="recode">重新编码</string>
     <string name="images_order">图片顺序</string>
@@ -429,7 +429,7 @@
     <string name="invert_colors">反转颜色</string>
     <string name="vibrant">充满活力</string>
     <string name="stroke_pixelation">笔画像素化</string>
-    <string name="regular">常规的</string>
+    <string name="regular">常规</string>
     <string name="enhanced_circle_pixelation">增强圆形像素化</string>
     <string name="attention">注意力</string>
     <string name="pdf_tools">PDF工具</string>
@@ -518,7 +518,7 @@
     <string name="auto_pin_sub">如果启用，自动将保存的图片添加至剪贴板</string>
     <string name="no_such_directory">未找到 \"%1$s\"目录，我们已将其切换至默认目录，请重新保存文件</string>
     <string name="clipboard">剪切板</string>
-    <string name="overwrite_files_sub">原始文件将被新文件替换，而不是保存在选定的文件夹中。此选项要求图片源为资源管理器或GetContent。切换此选项时，它将自动设置。</string>
+    <string name="overwrite_files_sub">原始文件将被新文件替换，而不是保存在选定的文件夹中。此选项要求图片源为「资源管理器」或 GetContent，当切换此选项时，它将自动设置。</string>
     <string name="vibration_strength">震动强度</string>
     <string name="overwrite_files">覆写文件</string>
     <string name="empty">空</string>
@@ -939,7 +939,7 @@
     <string name="tag_make">制造商</string>
     <string name="tag_compressed_bits_per_pixel">压缩每像素位数</string>
     <string name="tag_maker_note">制造商注释</string>
-    <string name="tag_user_comment">使用者评论</string>
+    <string name="tag_user_comment">用户备注</string>
     <string name="tag_pixel_y_dimension">Y轴像素尺寸</string>
     <string name="tag_pixel_x_dimension">X轴像素尺寸</string>
     <string name="watermark_size">水印体积</string>
@@ -1407,7 +1407,7 @@
     <string name="collage_maker_sub">用最多10张图片制作拼贴画</string>
     <string name="collages_info">按住图片进行交换、移动和缩放以调整位置</string>
     <string name="image_for_histogram">该图片将用于生成 RGB 和亮度直方图</string>
-    <string name="histogram">柱状图</string>
+    <string name="histogram">直方图</string>
     <string name="histogram_sub">RGB 或亮度图片直方图来帮助您进行调整</string>
     <string name="tesseract_options">魔方选项</string>
     <string name="tesseract_options_sub">为 tesseract 引擎应用一些输入变量</string>
@@ -1610,7 +1610,7 @@
     <string name="ocr_write_to_metadata">写入元数据</string>
     <string name="ocr_write_to_metadata_sub">从每张图片中提取文本，并将其放置在相应图片的EXIF信息中。</string>
     <string name="ocr_write_to_file_sub">从一批图片中提取文本，并将其存储在一个文本文件中</string>
-    <string name="invisible_mode">隐身模式</string>
+    <string name="invisible_mode">隐写模式</string>
     <string name="invisible_mode_sub">使用隐写术在你的图片字节内创建肉眼不可见的水印</string>
     <string name="use_lsb">使用LSB</string>
     <string name="use_lsb_sub">将使用最低有效位（LSB）隐写术方法，否则将使用频域（FD）方法</string>
