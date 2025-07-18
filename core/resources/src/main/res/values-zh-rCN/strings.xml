@@ -146,7 +146,7 @@
     <string name="delete_exif">删除EXIF信息</string>
     <string name="delete_exif_sub">删除任意一组图片的EXIF元数据</string>
     <string name="image_preview">预览图片</string>
-    <string name="image_preview_sub">预览任何类型的图片：GIF、SVG以及其它格式</string>
+    <string name="image_preview_sub">预览任何类型的图片：GIF、SVG等等</string>
     <string name="color_filter">颜色滤镜</string>
     <string name="alpha">Alpha 值</string>
     <string name="vibrance">色相</string>
@@ -175,8 +175,8 @@
     <string name="reorder">重新排序</string>
     <string name="fast_blur">快速模糊</string>
     <string name="blur_size">模糊大小</string>
-    <string name="photo_picker_sub">出现在屏幕底部的安卓新版照片拾取器，可能只适用于安卓12+系统。在接收EXIF元数据有问题</string>
-    <string name="file_explorer_picker_sub">使用 GetContent 意图选取图片。它在所有地方都能运行，但已知在部分设备上接收选取的图片时会出现问题。这与本APP无关。</string>
+    <string name="photo_picker_sub">出现在屏幕底部的安卓新版照片选择器可能只适用于安卓12+系统，它接收EXIF元数据时有问题</string>
+    <string name="file_explorer_picker_sub">使用 GetContent 意图选择图片。它无论在何处都可用，但已知在某些设备上接收选择的图片时会出现问题。这与本APP无关。</string>
     <string name="edit">编辑</string>
     <string name="order">顺序</string>
     <string name="order_sub">确定主屏幕上工具的顺序</string>
@@ -249,9 +249,9 @@
     <string name="load_image_from_net_sub">从互联网加载任何图片进行预览，缩放，保存或进一步编辑</string>
     <string name="image_source">图片来源</string>
     <string name="photo_picker">照片选择器</string>
-    <string name="gallery_picker">相册</string>
+    <string name="gallery_picker">图库</string>
     <string name="file_explorer_picker">文件管理器</string>
-    <string name="gallery_picker_sub">简单的图库图片选取器，只有当你有提供媒体选取的应用程序时才可用。</string>
+    <string name="gallery_picker_sub">简单的图库图片选取器。它仅在你有可提供媒体选择的应用程序时可用。</string>
     <string name="no_image">没有图片</string>
     <string name="content_scale">内容缩放</string>
     <string name="sequence_num">序号</string>

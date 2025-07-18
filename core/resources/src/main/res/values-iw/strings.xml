@@ -822,4 +822,6 @@
     <string name="jxl_tools">כלי JXL</string>
     <string name="jxl_tools_sub">בצע קידוד JXL ~ JPEG ללא אובדן איכות, או המרת GIF/APNG לאנימציית JXL</string>
     <string name="jxl_type_to_jpeg">JXL ל JPEG</string>
+    <string name="festive">חגיגי</string>
+    <string name="explode">מתפוצץ</string>
 </resources>
