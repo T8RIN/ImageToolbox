@@ -38,7 +38,7 @@ firebaseAnalyticsKtx = "22.5.0"
 google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.8"
-detektCompose = "0.4.22"
+detektCompose = "0.4.23"
 decompose = "3.3.0"
 
 kotlin = "2.2.0"
