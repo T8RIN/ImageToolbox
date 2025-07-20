@@ -280,6 +280,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Glow : Filter<Float>
     interface Offset : PairFilter<Float, Float>
     interface Pinch : Filter<PinchParams>
+    interface Pointillize : Filter<VoronoiCrystallizeParams>
 }
 
 interface SimpleFilter : Filter<Unit>

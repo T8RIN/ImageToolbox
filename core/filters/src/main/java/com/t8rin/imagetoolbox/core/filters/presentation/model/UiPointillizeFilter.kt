@@ -22,10 +22,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.resources.R
 
-class UiVoronoiCrystallizeFilter(
-    override val value: VoronoiCrystallizeParams = VoronoiCrystallizeParams.Default
+class UiPointillizeFilter(
+    override val value: VoronoiCrystallizeParams = VoronoiCrystallizeParams.Companion.Default
 ) : UiFilter<VoronoiCrystallizeParams>(
-    title = R.string.voronoi_crystallize,
+    title = R.string.pointillize,
     paramsInfo = listOf(
         FilterParam(R.string.border_thickness, 0f..5f, 2),
         FilterParam(R.string.scale, 1f..300f, 2),
@@ -38,4 +38,4 @@ class UiVoronoiCrystallizeFilter(
         FilterParam(R.string.border_color, 0f..0f, 0),
     ),
     value = value
-), Filter.VoronoiCrystallize
+), Filter.Pointillize

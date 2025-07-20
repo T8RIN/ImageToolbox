@@ -1686,4 +1686,6 @@
     <string name="equalize">Equalize</string>
     <string name="glow">Glow</string>
     <string name="whirl_and_pinch">Whirl and Pinch</string>
+    <string name="pointillize">Pointillize</string>
+    <string name="border_color">Border color</string>
 </resources>
