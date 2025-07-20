@@ -304,7 +304,6 @@ sealed class UiFilter<T>(
                     UiGlassSphereRefractionFilter(),
                     UiMirrorFilter(),
                     UiKaleidoscopeFilter(),
-                    UiChannelMixFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),
