@@ -271,6 +271,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Kaleidoscope: Filter<KaleidoscopeParams>
     interface ChannelMix : Filter<ChannelMixParams>
     interface ColorHalftone : QuadFilter<Float, Float, Float, Float>
+    interface Contour : QuadFilter<Float, Float, Float, ColorModel>
 }
 
 interface SimpleFilter : Filter<Unit>

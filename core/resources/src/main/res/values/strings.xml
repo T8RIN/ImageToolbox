@@ -1672,4 +1672,7 @@
     <string name="magenta">Magenta</string>
     <string name="yellow">Yellow</string>
     <string name="color_halftone">Color Halftone</string>
+    <string name="contour">Contour</string>
+    <string name="levels">Levels</string>
+    <string name="offset">Offset</string>
 </resources>

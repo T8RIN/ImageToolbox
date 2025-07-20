@@ -80,6 +80,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix4x4Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorPosterFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorfulSwirlFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ContourFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ContrastFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ConvexFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.Convolution3x3Filter
@@ -527,6 +528,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Kaleidoscope -> KaleidoscopeFilter(value)
                 is Filter.ChannelMix -> ChannelMixFilter(value)
                 is Filter.ColorHalftone -> ColorHalftoneFilter(value)
+                is Filter.Contour -> ContourFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
