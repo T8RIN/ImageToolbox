@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CubeLutFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CyberpunkFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeepPurpleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DehazeFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.DespeckleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaromalyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaronotopiaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DiamondPixelationFilter
@@ -531,6 +532,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.ColorHalftone -> ColorHalftoneFilter(value)
                 is Filter.Contour -> ContourFilter(value)
                 is Filter.VoronoiCrystallize -> VoronoiCrystallizeFilter(value)
+                is Filter.Despeckle -> DespeckleFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

@@ -123,7 +123,8 @@ sealed class UiFilter<T>(
                     UiHDRFilter(),
                     UiSimpleSketchFilter(),
                     UiSobelSimpleFilter(),
-                    UiLaplacianSimpleFilter()
+                    UiLaplacianSimpleFilter(),
+                    UiDespeckleFilter()
                 ),
                 listOf(
                     UiHueFilter(),

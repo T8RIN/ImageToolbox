@@ -1679,4 +1679,5 @@
     <string name="shape">Shape</string>
     <string name="stretch">Stretch</string>
     <string name="randomness">Randomness</string>
+    <string name="despeckle">Despeckle</string>
 </resources>
