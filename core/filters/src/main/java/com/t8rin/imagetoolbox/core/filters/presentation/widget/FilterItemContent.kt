@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GlitchParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.KaleidoscopeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairItem
@@ -198,6 +200,15 @@ internal fun <T> FilterItemContent(
 
             is BilaterialBlurParams -> {
                 BilaterialBlurParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is KaleidoscopeParams -> {
+                KaleidoscopeParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

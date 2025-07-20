@@ -152,6 +152,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.HorizontalWindStaggerFi
 import com.t8rin.imagetoolbox.feature.filters.data.model.HotSummerFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HueFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.JarvisJudiceNinkeDitheringFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.KaleidoscopeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.KodakFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.KuwaharaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LUT512x512Filter
@@ -521,6 +522,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(context, value)
                 is Filter.ToneCurves -> ToneCurvesFilter(context, value)
                 is Filter.Mirror -> MirrorFilter(value)
+                is Filter.Kaleidoscope -> KaleidoscopeFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

@@ -1658,4 +1658,7 @@
     <string name="pick_image_or_base64">Pick image or paste/import Base64 data below</string>
     <string name="type_image_link">Type image link to start</string>
     <string name="paste_link">Paste link</string>
+    <string name="kaleidoscope">Kaleidoscope</string>
+    <string name="secondary_angle">Secondary angle</string>
+    <string name="sides">Sides</string>
 </resources>

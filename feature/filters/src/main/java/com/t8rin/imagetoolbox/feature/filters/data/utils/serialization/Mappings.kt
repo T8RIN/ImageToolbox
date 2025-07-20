@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
@@ -162,6 +163,17 @@ internal fun Any.toPair(): Pair<String, String>? {
                 spatialSigma,
                 rangeSigma,
                 edgeMode.name
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is KaleidoscopeParams -> {
+            KaleidoscopeParams::class.simpleName() to listOf(
+                angle,
+                angle2,
+                centreX,
+                centreY,
+                sides,
+                radius
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -332,6 +344,20 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 spatialSigma = spatialSigma.toFloat(),
                 rangeSigma = rangeSigma.toFloat(),
                 edgeMode = BlurEdgeMode.valueOf(edgeMode)
+            )
+        }
+
+        name == KaleidoscopeParams::class.simpleName -> {
+            val (angle, angle2, centreX, centreY, sides, radius) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+            KaleidoscopeParams(
+                angle = angle.toFloat(),
+                angle2 = angle2.toFloat(),
+                centreX = centreX.toFloat(),
+                centreY = centreY.toFloat(),
+                sides = sides.toInt(),
+                radius = radius.toFloat()
             )
         }
 

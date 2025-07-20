@@ -267,6 +267,7 @@ interface Filter<Value> : VisibilityOwner {
     interface AutoRemoveRedEyes : Filter<Float>
     interface ToneCurves : Filter<ToneCurvesParams>
     interface Mirror : PairFilter<Float, MirrorSide>
+    interface Kaleidoscope: Filter<KaleidoscopeParams>
 }
 
 interface SimpleFilter : Filter<Unit>

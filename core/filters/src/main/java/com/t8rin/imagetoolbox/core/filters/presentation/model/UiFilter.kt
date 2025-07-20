@@ -298,7 +298,8 @@ sealed class UiFilter<T>(
                     UiBulgeDistortionFilter(),
                     UiSphereRefractionFilter(),
                     UiGlassSphereRefractionFilter(),
-                    UiMirrorFilter()
+                    UiMirrorFilter(),
+                    UiKaleidoscopeFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),
