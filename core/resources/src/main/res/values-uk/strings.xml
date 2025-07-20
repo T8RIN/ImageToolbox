@@ -538,8 +538,8 @@
     <string name="crystallize">Кристалізуватися</string>
     <string name="stroke_color">Колір обведення</string>
     <string name="perlin_distortion">Спотворення Перліна</string>
-    <string name="deutaromaly">Деутаромалія</string>
-    <string name="protonomaly">Протономалія</string>
+    <string name="deutaromaly">Дейтераномалія</string>
+    <string name="protonomaly">Протаномалія</string>
     <string name="vintage">Вінтаж</string>
     <string name="browni">Брауні</string>
     <string name="coda_chrome">Coda Chrome</string>
@@ -605,7 +605,7 @@
     <string name="color_matrix_3x3">Кольорова матриця 3х3</string>
     <string name="simple_effects">Прості ефекти</string>
     <string name="polaroid">Полароїд</string>
-    <string name="tritonomaly">Тритономалія</string>
+    <string name="tritonomaly">Тританомалія</string>
     <string name="achromatopsia">Ахроматопсія</string>
     <string name="gradient_type_linear">Лінійний</string>
     <string name="gradient_type_radial">Радіальний</string>
