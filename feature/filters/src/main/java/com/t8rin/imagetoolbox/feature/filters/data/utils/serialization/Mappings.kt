@@ -22,6 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
 import com.t8rin.imagetoolbox.core.domain.utils.simpleName
 import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.FadeSide
@@ -174,6 +175,17 @@ internal fun Any.toPair(): Pair<String, String>? {
                 centreY,
                 sides,
                 radius
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ChannelMixParams -> {
+            ChannelMixParams::class.simpleName() to listOf(
+                blueGreen,
+                redBlue,
+                greenRed,
+                intoR,
+                intoG,
+                intoB
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -358,6 +370,21 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 centreY = centreY.toFloat(),
                 sides = sides.toInt(),
                 radius = radius.toFloat()
+            )
+        }
+
+        name == ChannelMixParams::class.simpleName -> {
+            val (blueGreen, redBlue, greenRed, intoR, intoG, intoB) = value.split(
+                PROPERTIES_SEPARATOR
+            ).map { it.toInt() }
+
+            ChannelMixParams(
+                blueGreen = blueGreen,
+                redBlue = redBlue,
+                greenRed = greenRed,
+                intoR = intoR,
+                intoG = intoG,
+                intoB = intoB
             )
         }
 

@@ -1661,4 +1661,11 @@
     <string name="kaleidoscope">Kaleidoscope</string>
     <string name="secondary_angle">Secondary angle</string>
     <string name="sides">Sides</string>
+    <string name="channel_mix">Channel Mix</string>
+    <string name="blue_green">Blue green</string>
+    <string name="red_blue">Red blue</string>
+    <string name="green_red">Green red</string>
+    <string name="into_red">Into red</string>
+    <string name="into_green">Into green</string>
+    <string name="into_blue">Into blue</string>
 </resources>

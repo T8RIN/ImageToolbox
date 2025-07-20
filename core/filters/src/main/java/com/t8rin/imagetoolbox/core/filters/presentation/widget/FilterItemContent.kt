@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.t8rin.imagetoolbox.core.domain.utils.cast
 import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
@@ -36,6 +37,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.WaterParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BilaterialBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BooleanItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ClaheParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.EnhancedZoomBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FilterValueWrapperItem
@@ -209,6 +211,15 @@ internal fun <T> FilterItemContent(
 
             is KaleidoscopeParams -> {
                 KaleidoscopeParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is ChannelMixParams -> {
+                ChannelMixParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

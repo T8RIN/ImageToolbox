@@ -268,6 +268,7 @@ interface Filter<Value> : VisibilityOwner {
     interface ToneCurves : Filter<ToneCurvesParams>
     interface Mirror : PairFilter<Float, MirrorSide>
     interface Kaleidoscope: Filter<KaleidoscopeParams>
+    interface ChannelMix : Filter<ChannelMixParams>
 }
 
 interface SimpleFilter : Filter<Unit>

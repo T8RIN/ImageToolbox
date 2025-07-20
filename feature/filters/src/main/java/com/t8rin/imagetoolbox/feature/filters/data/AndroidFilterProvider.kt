@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CandlelightFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CannyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CaramelDarknessFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CelluloidFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ChannelMixFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CircleBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CirclePixelationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ClaheFilter
@@ -523,6 +524,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.ToneCurves -> ToneCurvesFilter(context, value)
                 is Filter.Mirror -> MirrorFilter(value)
                 is Filter.Kaleidoscope -> KaleidoscopeFilter(value)
+                is Filter.ChannelMix -> ChannelMixFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

@@ -145,7 +145,8 @@ sealed class UiFilter<T>(
                     UiColorPosterFilter(),
                     UiTriToneFilter(),
                     UiPopArtFilter(),
-                    UiToneCurvesFilter()
+                    UiToneCurvesFilter(),
+                    UiChannelMixFilter()
                 ),
                 listOf(
                     UiLUT512x512Filter(),
@@ -299,7 +300,8 @@ sealed class UiFilter<T>(
                     UiSphereRefractionFilter(),
                     UiGlassSphereRefractionFilter(),
                     UiMirrorFilter(),
-                    UiKaleidoscopeFilter()
+                    UiKaleidoscopeFilter(),
+                    UiChannelMixFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),
