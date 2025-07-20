@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
@@ -220,6 +221,16 @@ internal fun Any.toPair(): Pair<String, String>? {
                 stretch,
                 amount,
                 color.colorInt
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is PinchParams -> {
+            PinchParams::class.simpleName!! to listOf(
+                angle,
+                centreX,
+                centreY,
+                radius,
+                amount
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -449,6 +460,20 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 stretch = stretch.toFloat(),
                 amount = amount.toFloat(),
                 color = color.toInt().toColorModel()
+            )
+        }
+
+        name == PinchParams::class.simpleName -> {
+            val (angle, centreX, centreY, radius, amount) = value.split(
+                PROPERTIES_SEPARATOR
+            ).map { it.toFloat() }
+
+            PinchParams(
+                angle = angle,
+                centreX = centreX,
+                centreY = centreY,
+                radius = radius,
+                amount = amount
             )
         }
 

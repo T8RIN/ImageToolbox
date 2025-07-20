@@ -122,6 +122,7 @@ internal fun VoronoiCrystallizeParamsItem(
                 value = state.value,
                 title = stringResource(title!!),
                 valueRange = valueRange,
+                steps = if (valueRange == 0f..4f) 3 else 0,
                 onValueChange = {
                     state.value = it
                 },

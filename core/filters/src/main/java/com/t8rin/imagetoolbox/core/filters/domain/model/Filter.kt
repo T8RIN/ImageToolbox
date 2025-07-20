@@ -279,6 +279,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Equalize : SimpleFilter
     interface Glow : Filter<Float>
     interface Offset : PairFilter<Float, Float>
+    interface Pinch : Filter<PinchParams>
 }
 
 interface SimpleFilter : Filter<Unit>

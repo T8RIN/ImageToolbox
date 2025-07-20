@@ -205,6 +205,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.PaletteTransferFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PaletteTransferVariantFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PastelFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PerlinDistortionFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.PinchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PinkDreamFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PixelationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PoissonBlurFilter
@@ -543,6 +544,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Equalize -> EqualizeFilter(value)
                 is Filter.Glow -> GlowFilter(value)
                 is Filter.Offset -> OffsetFilter(value)
+                is Filter.Pinch -> PinchFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

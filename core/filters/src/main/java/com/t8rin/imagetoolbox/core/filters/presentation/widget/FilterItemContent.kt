@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Kaleid
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PinchParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
@@ -242,6 +244,15 @@ internal fun <T> FilterItemContent(
 
             is VoronoiCrystallizeParams -> {
                 VoronoiCrystallizeParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is PinchParams -> {
+                PinchParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,
