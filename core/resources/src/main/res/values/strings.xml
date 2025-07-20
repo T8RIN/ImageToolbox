@@ -1680,4 +1680,8 @@
     <string name="stretch">Stretch</string>
     <string name="randomness">Randomness</string>
     <string name="despeckle">Despeckle</string>
+    <string name="diffuse">Diffuse</string>
+    <string name="dog">DoG</string>
+    <string name="second_radius">Second radius</string>
+    <string name="equalize">Equalize</string>
 </resources>

@@ -97,8 +97,10 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.DespeckleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaromalyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaronotopiaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DiamondPixelationFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.DiffuseFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DigitalCodeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DilationFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.DoGFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DragoFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DropBluesFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EdgyAmberFilter
@@ -110,6 +112,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.EnhancedGlitchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EnhancedOilFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EnhancedPixelationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EnhancedZoomBlurFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.EqualizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EqualizeHistogramAdaptiveFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EqualizeHistogramAdaptiveHSLFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.EqualizeHistogramAdaptiveHSVFilter
@@ -533,6 +536,9 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Contour -> ContourFilter(value)
                 is Filter.VoronoiCrystallize -> VoronoiCrystallizeFilter(value)
                 is Filter.Despeckle -> DespeckleFilter(value)
+                is Filter.Diffuse -> DiffuseFilter(value)
+                is Filter.DoG -> DoGFilter(value)
+                is Filter.Equalize -> EqualizeFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

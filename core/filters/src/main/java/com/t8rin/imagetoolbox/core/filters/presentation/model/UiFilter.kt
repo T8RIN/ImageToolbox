@@ -147,7 +147,8 @@ sealed class UiFilter<T>(
                     UiTriToneFilter(),
                     UiPopArtFilter(),
                     UiToneCurvesFilter(),
-                    UiChannelMixFilter()
+                    UiChannelMixFilter(),
+                    UiEqualizeFilter()
                 ),
                 listOf(
                     UiLUT512x512Filter(),
@@ -235,7 +236,8 @@ sealed class UiFilter<T>(
                     UiSketchFilter(),
                     UiLookupFilter(),
                     UiConvolution3x3Filter(),
-                    UiThresholdFilter()
+                    UiThresholdFilter(),
+                    UiDoGFilter()
                 ),
                 listOf(
                     UiShuffleBlurFilter(),
@@ -269,7 +271,8 @@ sealed class UiFilter<T>(
                     UiLinearFastGaussianBlurNextFilter(),
                     UiLinearFastGaussianBlurFilter(),
                     UiLinearGaussianBlurFilter(),
-                    UiMotionBlurFilter()
+                    UiMotionBlurFilter(),
+                    UiDiffuseFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),

@@ -274,6 +274,9 @@ interface Filter<Value> : VisibilityOwner {
     interface Contour : QuadFilter<Float, Float, Float, ColorModel>
     interface VoronoiCrystallize : Filter<VoronoiCrystallizeParams>
     interface Despeckle : SimpleFilter
+    interface Diffuse : Filter<Float>
+    interface DoG : PairFilter<Float, Float>
+    interface Equalize : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>
