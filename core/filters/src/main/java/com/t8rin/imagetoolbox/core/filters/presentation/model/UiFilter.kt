@@ -125,7 +125,9 @@ sealed class UiFilter<T>(
                     UiSobelSimpleFilter(),
                     UiLaplacianSimpleFilter(),
                     UiDespeckleFilter(),
-                    UiEqualizeFilter()
+                    UiEqualizeFilter(),
+                    UiReduceNoiseFilter(),
+                    UiSimpleSolarizeFilter(),
                 ),
                 listOf(
                     UiHueFilter(),

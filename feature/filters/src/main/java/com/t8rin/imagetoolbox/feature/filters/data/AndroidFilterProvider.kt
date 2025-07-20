@@ -224,6 +224,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.RadialTiltShiftFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RainbowWorldFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RandomDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RedSwirlFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ReduceNoiseFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RemoveColorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ReplaceColorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RetroYellowFilter
@@ -238,6 +239,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.SierraDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SierraLiteDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleOldTvFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleSketchFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleSolarizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleThresholdDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SketchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SmoothToonFilter
@@ -549,6 +551,8 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Pinch -> PinchFilter(value)
                 is Filter.Pointillize -> PointillizeFilter(value)
                 is Filter.PolarCoordinates -> PolarCoordinatesFilter(value)
+                is Filter.ReduceNoise -> ReduceNoiseFilter(value)
+                is Filter.SimpleSolarize -> SimpleSolarizeFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

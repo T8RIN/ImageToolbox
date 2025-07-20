@@ -1692,4 +1692,6 @@
     <string name="rect_to_polar">Rect to polar</string>
     <string name="polar_to_rect">Polar to rect</string>
     <string name="invert_in_circle">Invert in circle</string>
+    <string name="reduce_noise">Reduce Noise</string>
+    <string name="simple_solarize">Simple Solarize</string>
 </resources>

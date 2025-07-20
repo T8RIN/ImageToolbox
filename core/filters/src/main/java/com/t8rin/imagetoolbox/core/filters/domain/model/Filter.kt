@@ -282,6 +282,8 @@ interface Filter<Value> : VisibilityOwner {
     interface Pinch : Filter<PinchParams>
     interface Pointillize : Filter<VoronoiCrystallizeParams>
     interface PolarCoordinates : Filter<PolarCoordinatesType>
+    interface ReduceNoise : SimpleFilter
+    interface SimpleSolarize : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>
