@@ -1688,4 +1688,8 @@
     <string name="whirl_and_pinch">Whirl and Pinch</string>
     <string name="pointillize">Pointillize</string>
     <string name="border_color">Border color</string>
+    <string name="polar_coordinates">Polar Coordinates</string>
+    <string name="rect_to_polar">Rect to polar</string>
+    <string name="polar_to_rect">Polar to rect</string>
+    <string name="invert_in_circle">Invert in circle</string>
 </resources>

@@ -310,7 +310,8 @@ sealed class UiFilter<T>(
                     UiMirrorFilter(),
                     UiKaleidoscopeFilter(),
                     UiOffsetFilter(),
-                    UiPinchFilter()
+                    UiPinchFilter(),
+                    UiPolarCoordinatesFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),

@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.PaletteTransferSpace
+import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.TransferFunc
 import com.t8rin.imagetoolbox.core.resources.R
@@ -81,4 +82,12 @@ internal val MirrorSide.translatedName: String
         MirrorSide.RightToLeft -> stringResource(R.string.right_to_left)
         MirrorSide.TopToBottom -> stringResource(R.string.top_to_bottom)
         MirrorSide.BottomToTop -> stringResource(R.string.bottom_to_top)
+    }
+
+internal val PolarCoordinatesType.translatedName: String
+    @Composable
+    get() = when (this) {
+        PolarCoordinatesType.RECT_TO_POLAR -> stringResource(R.string.rect_to_polar)
+        PolarCoordinatesType.POLAR_TO_RECT -> stringResource(R.string.polar_to_rect)
+        PolarCoordinatesType.INVERT_IN_CIRCLE -> stringResource(R.string.invert_in_circle)
     }

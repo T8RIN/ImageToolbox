@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
@@ -51,6 +52,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         is Int -> Int::class.simpleName() to toString()
         is Float -> Float::class.simpleName() to toString()
         is Unit -> Unit::class.simpleName() to "Unit"
+        is PolarCoordinatesType -> PolarCoordinatesType::class.simpleName() to name
         is FloatArray -> FloatArray::class.simpleName() to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
         is FilterValueWrapper<*> -> {
             when (wrapped) {
@@ -243,10 +245,11 @@ internal fun Pair<String, String>.fromPair(): Any? {
     val value = second.trim()
 
     return when {
-        name == Int::class.simpleName -> second.toInt()
-        name == Float::class.simpleName -> second.toFloat()
-        name == Boolean::class.simpleName -> second.toBoolean()
+        name == Int::class.simpleName -> value.toInt()
+        name == Float::class.simpleName -> value.toFloat()
+        name == Boolean::class.simpleName -> value.toBoolean()
         name == Unit::class.simpleName -> Unit
+        name == PolarCoordinatesType::class.simpleName -> PolarCoordinatesType.valueOf(value)
         name == FloatArray::class.simpleName -> value.split(PROPERTIES_SEPARATOR)
             .map { it.toFloat() }
             .toFloatArray()
@@ -494,6 +497,7 @@ internal fun Any.toPart(): String {
         is FadeSide -> name
         is PopArtBlendingMode -> name
         is MirrorSide -> name
+        is PolarCoordinatesType -> name
         else -> ""
     }
 }
@@ -509,6 +513,7 @@ internal fun String.fromPart(type: String): Any {
         FadeSide::class.simpleName() -> FadeSide.valueOf(this)
         PopArtBlendingMode::class.simpleName() -> PopArtBlendingMode.valueOf(this)
         MirrorSide::class.simpleName() -> MirrorSide.valueOf(this)
+        PolarCoordinatesType::class.simpleName() -> PolarCoordinatesType.valueOf(this)
         else -> ""
     }
 }

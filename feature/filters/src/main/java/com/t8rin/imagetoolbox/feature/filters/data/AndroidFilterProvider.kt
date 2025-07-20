@@ -210,6 +210,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.PinkDreamFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PixelationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PointillizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PoissonBlurFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.PolarCoordinatesFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PolaroidFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PolkaDotFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PopArtFilter
@@ -547,6 +548,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Offset -> OffsetFilter(value)
                 is Filter.Pinch -> PinchFilter(value)
                 is Filter.Pointillize -> PointillizeFilter(value)
+                is Filter.PolarCoordinates -> PolarCoordinatesFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

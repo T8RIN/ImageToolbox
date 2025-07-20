@@ -281,6 +281,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Offset : PairFilter<Float, Float>
     interface Pinch : Filter<PinchParams>
     interface Pointillize : Filter<VoronoiCrystallizeParams>
+    interface PolarCoordinates : Filter<PolarCoordinatesType>
 }
 
 interface SimpleFilter : Filter<Unit>

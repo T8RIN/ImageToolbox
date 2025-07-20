@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
@@ -32,12 +33,14 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.WaterParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BilaterialBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BooleanItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
@@ -59,6 +62,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCu
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.VoronoiCrystallizeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterParamsItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 
 @Composable
 internal fun <T> FilterItemContent(
@@ -104,6 +108,17 @@ internal fun <T> FilterItemContent(
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,
                     previewOnly = previewOnly
+                )
+            }
+
+            is PolarCoordinatesType -> {
+                EnhancedButtonGroup(
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    items = PolarCoordinatesType.entries.map { it.translatedName },
+                    selectedIndex = PolarCoordinatesType.entries.indexOf(value),
+                    onIndexChange = {
+                        onFilterChange(PolarCoordinatesType.entries[it])
+                    }
                 )
             }
 
