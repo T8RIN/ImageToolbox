@@ -262,6 +262,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.UnsharpFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VibranceFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VignetteFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VintageFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.VoronoiCrystallizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WarmFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WaterEffectFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WeakPixelFilter
@@ -529,6 +530,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.ChannelMix -> ChannelMixFilter(value)
                 is Filter.ColorHalftone -> ColorHalftoneFilter(value)
                 is Filter.Contour -> ContourFilter(value)
+                is Filter.VoronoiCrystallize -> VoronoiCrystallizeFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

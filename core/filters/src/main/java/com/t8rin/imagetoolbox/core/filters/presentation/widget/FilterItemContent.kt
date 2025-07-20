@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.WaterParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BilaterialBlurParamsItem
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Radial
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.VoronoiCrystallizeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterParamsItem
 
 @Composable
@@ -231,6 +233,15 @@ internal fun <T> FilterItemContent(
 
             is ChannelMixParams -> {
                 ChannelMixParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is VoronoiCrystallizeParams -> {
+                VoronoiCrystallizeParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

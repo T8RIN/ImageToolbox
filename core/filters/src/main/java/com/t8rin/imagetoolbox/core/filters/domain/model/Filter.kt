@@ -272,6 +272,7 @@ interface Filter<Value> : VisibilityOwner {
     interface ChannelMix : Filter<ChannelMixParams>
     interface ColorHalftone : QuadFilter<Float, Float, Float, Float>
     interface Contour : QuadFilter<Float, Float, Float, ColorModel>
+    interface VoronoiCrystallize : Filter<VoronoiCrystallizeParams>
 }
 
 interface SimpleFilter : Filter<Unit>

@@ -18,7 +18,11 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component7
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component8
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component9
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.simpleName
 import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
@@ -38,6 +42,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.WaterParams
 
 internal fun Any.toPair(): Pair<String, String>? {
@@ -201,6 +206,20 @@ internal fun Any.toPair(): Pair<String, String>? {
                 intoR,
                 intoG,
                 intoB
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is VoronoiCrystallizeParams -> {
+            VoronoiCrystallizeParams::class.simpleName!! to listOf(
+                borderThickness,
+                scale,
+                randomness,
+                shape,
+                turbulence,
+                angle,
+                stretch,
+                amount,
+                color.colorInt
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -412,6 +431,24 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 intoR = intoR,
                 intoG = intoG,
                 intoB = intoB
+            )
+        }
+
+        name == VoronoiCrystallizeParams::class.simpleName -> {
+            val (borderThickness, scale, randomness, shape, turbulence, angle, stretch, amount, color) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            VoronoiCrystallizeParams(
+                borderThickness = borderThickness.toFloat(),
+                scale = scale.toFloat(),
+                randomness = randomness.toFloat(),
+                shape = shape.toInt(),
+                turbulence = turbulence.toFloat(),
+                angle = angle.toFloat(),
+                stretch = stretch.toFloat(),
+                amount = amount.toFloat(),
+                color = color.toInt().toColorModel()
             )
         }
 

@@ -283,7 +283,8 @@ sealed class UiFilter<T>(
                     UiLowPolyFilter(),
                     UiSandPaintingFilter(),
                     UiPolkaDotFilter(),
-                    UiContourFilter()
+                    UiContourFilter(),
+                    UiVoronoiCrystallizeFilter()
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),

@@ -57,6 +57,10 @@ object ListUtils {
     inline fun <reified R : Any> Iterable<Any?>.firstOfType(): R? = firstOrNull { it is R } as? R
 
     operator fun <E> List<E>.component6(): E = get(5)
+    operator fun <E> List<E>.component7(): E = get(6)
+    operator fun <E> List<E>.component8(): E = get(7)
+    operator fun <E> List<E>.component9(): E = get(8)
+    operator fun <E> List<E>.component10(): E = get(9)
 
     inline fun <E> List<E>.leftFrom(index: Int): E = getOrNull(index - 1) ?: get(lastIndex)
 

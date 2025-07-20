@@ -1675,4 +1675,8 @@
     <string name="contour">Contour</string>
     <string name="levels">Levels</string>
     <string name="offset">Offset</string>
+    <string name="voronoi_crystallize">Voronoi Crystallize</string>
+    <string name="shape">Shape</string>
+    <string name="stretch">Stretch</string>
+    <string name="randomness">Randomness</string>
 </resources>
