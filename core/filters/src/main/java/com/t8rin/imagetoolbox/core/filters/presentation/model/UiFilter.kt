@@ -326,7 +326,8 @@ sealed class UiFilter<T>(
                     UiClustered2x2DitheringFilter(),
                     UiClustered4x4DitheringFilter(),
                     UiClustered8x8DitheringFilter(),
-                    UiYililomaDitheringFilter()
+                    UiYililomaDitheringFilter(),
+                    UiColorHalftoneFilter()
                 )
             )
         }

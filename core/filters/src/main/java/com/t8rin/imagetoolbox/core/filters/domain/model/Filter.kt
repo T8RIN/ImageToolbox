@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.VisibilityOwner
+import com.t8rin.imagetoolbox.core.domain.utils.Quad
 
 
 interface Filter<Value> : VisibilityOwner {
@@ -269,11 +270,14 @@ interface Filter<Value> : VisibilityOwner {
     interface Mirror : PairFilter<Float, MirrorSide>
     interface Kaleidoscope: Filter<KaleidoscopeParams>
     interface ChannelMix : Filter<ChannelMixParams>
+    interface ColorHalftone : QuadFilter<Float, Float, Float, Float>
 }
 
 interface SimpleFilter : Filter<Unit>
 interface PairFilter<Value1, Value2> : Filter<Pair<Value1, Value2>>
 interface TripleFilter<Value1, Value2, Value3> :
     Filter<Triple<Value1, Value2, Value3>>
+interface QuadFilter<Value1, Value2, Value3, Value4> :
+    Filter<Quad<Value1, Value2, Value3, Value4>>
 
 interface WrapperFilter<Wrapped : Any> : Filter<FilterValueWrapper<Wrapped>>

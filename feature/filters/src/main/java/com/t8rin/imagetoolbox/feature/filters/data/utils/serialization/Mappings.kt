@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
+import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.simpleName
 import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
@@ -72,6 +73,20 @@ internal fun Any.toPair(): Pair<String, String>? {
                 firstPart,
                 secondPart,
                 thirdPart
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is Quad<*, *, *, *> -> {
+            val firstPart = first!!.toPart()
+            val secondPart = second!!.toPart()
+            val thirdPart = third!!.toPart()
+            val fourthPart = fourth!!.toPart()
+
+            "${Quad::class.simpleName}{${first!!::class.simpleName}$PROPERTIES_SEPARATOR${second!!::class.simpleName}$PROPERTIES_SEPARATOR${third!!::class.simpleName}$PROPERTIES_SEPARATOR${fourth!!::class.simpleName}}" to listOf(
+                firstPart,
+                secondPart,
+                thirdPart,
+                fourthPart
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -227,6 +242,18 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 firstPart.fromPart(firstType),
                 secondPart.fromPart(secondType),
                 thirdPart.fromPart(thirdType)
+            )
+        }
+
+        "${Quad::class.simpleName}{" in name -> {
+            val (firstType, secondType, thirdType, fourthType) = name.getTypeFromBraces()
+                .split(PROPERTIES_SEPARATOR)
+            val (firstPart, secondPart, thirdPart, fourthPart) = value.split(PROPERTIES_SEPARATOR)
+            Quad(
+                firstPart.fromPart(firstType),
+                secondPart.fromPart(secondType),
+                thirdPart.fromPart(thirdType),
+                fourthPart.fromPart(fourthType)
             )
         }
 

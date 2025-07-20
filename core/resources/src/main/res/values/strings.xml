@@ -1668,4 +1668,8 @@
     <string name="into_red">Into red</string>
     <string name="into_green">Into green</string>
     <string name="into_blue">Into blue</string>
+    <string name="cyan">Cyan</string>
+    <string name="magenta">Magenta</string>
+    <string name="yellow">Yellow</string>
+    <string name="color_halftone">Color Halftone</string>
 </resources>

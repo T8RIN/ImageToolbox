@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.filters.presentation.widget
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.cast
 import com.t8rin.imagetoolbox.core.filters.domain.model.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ChannelMixParams
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Kaleid
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
@@ -112,6 +114,15 @@ internal fun <T> FilterItemContent(
 
             is Triple<*, *, *> -> {
                 TripleItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is Quad<*, *, *, *> -> {
+                QuadItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

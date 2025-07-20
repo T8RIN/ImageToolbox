@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.ColorAnomalyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorBalanceFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorExplosionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ColorHalftoneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix4x4Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorPosterFilter
@@ -525,6 +526,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Mirror -> MirrorFilter(value)
                 is Filter.Kaleidoscope -> KaleidoscopeFilter(value)
                 is Filter.ChannelMix -> ChannelMixFilter(value)
+                is Filter.ColorHalftone -> ColorHalftoneFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
