@@ -124,7 +124,8 @@ sealed class UiFilter<T>(
                     UiSimpleSketchFilter(),
                     UiSobelSimpleFilter(),
                     UiLaplacianSimpleFilter(),
-                    UiDespeckleFilter()
+                    UiDespeckleFilter(),
+                    UiEqualizeFilter()
                 ),
                 listOf(
                     UiHueFilter(),
@@ -148,7 +149,6 @@ sealed class UiFilter<T>(
                     UiPopArtFilter(),
                     UiToneCurvesFilter(),
                     UiChannelMixFilter(),
-                    UiEqualizeFilter()
                 ),
                 listOf(
                     UiLUT512x512Filter(),
@@ -205,7 +205,8 @@ sealed class UiFilter<T>(
                     UiClaheOklabFilter(),
                     UiClaheOklchFilter(),
                     UiClaheJzazbzFilter(),
-                    UiAutoRemoveRedEyesFilter()
+                    UiAutoRemoveRedEyesFilter(),
+                    UiGlowFilter()
                 ),
                 listOf(
                     UiNoiseFilter(),
@@ -307,6 +308,7 @@ sealed class UiFilter<T>(
                     UiGlassSphereRefractionFilter(),
                     UiMirrorFilter(),
                     UiKaleidoscopeFilter(),
+                    UiOffsetFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),

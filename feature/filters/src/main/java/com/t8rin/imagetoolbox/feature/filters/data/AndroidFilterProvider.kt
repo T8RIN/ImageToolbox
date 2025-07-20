@@ -142,6 +142,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.GaussianBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GaussianBoxBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GlassSphereRefractionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GlitchFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.GlowFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GoldenForestFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GoldenHourFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GothamFilter
@@ -194,6 +195,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.NightMagicFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NightVisionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NoiseFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NonMaximumSuppressionFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.OffsetFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OilFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OldTvFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OpacityFilter
@@ -539,6 +541,8 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Diffuse -> DiffuseFilter(value)
                 is Filter.DoG -> DoGFilter(value)
                 is Filter.Equalize -> EqualizeFilter(value)
+                is Filter.Glow -> GlowFilter(value)
+                is Filter.Offset -> OffsetFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

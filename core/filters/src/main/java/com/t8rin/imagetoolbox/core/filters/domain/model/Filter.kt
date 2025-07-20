@@ -277,6 +277,8 @@ interface Filter<Value> : VisibilityOwner {
     interface Diffuse : Filter<Float>
     interface DoG : PairFilter<Float, Float>
     interface Equalize : SimpleFilter
+    interface Glow : Filter<Float>
+    interface Offset : PairFilter<Float, Float>
 }
 
 interface SimpleFilter : Filter<Unit>

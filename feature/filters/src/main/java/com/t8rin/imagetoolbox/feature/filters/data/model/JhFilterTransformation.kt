@@ -33,18 +33,20 @@ internal abstract class JhFilterTransformation : CoilTransformation(), Transform
 
     abstract fun createFilter(): JhFilter
 
+    open fun createFilter(image: Bitmap): JhFilter = createFilter()
+
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = createFilter().filter(
-        flexibleResize(
-            image = input,
-            max = max(
-                size.height.pxOrElse { input.height },
-                size.width.pxOrElse { input.width }
-            )
+    ): Bitmap = flexibleResize(
+        image = input,
+        max = max(
+            size.height.pxOrElse { input.height },
+            size.width.pxOrElse { input.width }
         )
-    )
+    ).let {
+        createFilter(it).filter(it)
+    }
 
     override suspend fun transform(
         input: Bitmap,
