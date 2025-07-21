@@ -1694,4 +1694,9 @@
     <string name="invert_in_circle">Invert in circle</string>
     <string name="reduce_noise">Reduce Noise</string>
     <string name="simple_solarize">Simple Solarize</string>
+    <string name="weave">Weave</string>
+    <string name="x_gap">X Gap</string>
+    <string name="y_gap">Y Gap</string>
+    <string name="x_width">X Width</string>
+    <string name="y_wdth">Y Width</string>
 </resources>

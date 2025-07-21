@@ -284,6 +284,7 @@ interface Filter<Value> : VisibilityOwner {
     interface PolarCoordinates : Filter<PolarCoordinatesType>
     interface ReduceNoise : SimpleFilter
     interface SimpleSolarize : SimpleFilter
+    interface Weave : Filter<Quad<Float, Float, Float, Float>>
 }
 
 interface SimpleFilter : Filter<Unit>

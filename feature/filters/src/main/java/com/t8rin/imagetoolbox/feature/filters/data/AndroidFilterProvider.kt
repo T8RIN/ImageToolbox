@@ -277,6 +277,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.VoronoiCrystallizeFilte
 import com.t8rin.imagetoolbox.feature.filters.data.model.WarmFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WaterEffectFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WeakPixelFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.WeaveFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WhiteBalanceFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.YililomaDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ZoomBlurFilter
@@ -553,6 +554,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.PolarCoordinates -> PolarCoordinatesFilter(value)
                 is Filter.ReduceNoise -> ReduceNoiseFilter(value)
                 is Filter.SimpleSolarize -> SimpleSolarizeFilter(value)
+                is Filter.Weave -> WeaveFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
