@@ -267,6 +267,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.TopHatFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TriToneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritanopiaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritonomalyFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.TwirlFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwoRowSierraDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.UchimuraFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.UnsharpFilter
@@ -555,6 +556,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.ReduceNoise -> ReduceNoiseFilter(value)
                 is Filter.SimpleSolarize -> SimpleSolarizeFilter(value)
                 is Filter.Weave -> WeaveFilter(value)
+                is Filter.Twirl -> TwirlFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

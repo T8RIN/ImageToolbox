@@ -285,6 +285,7 @@ interface Filter<Value> : VisibilityOwner {
     interface ReduceNoise : SimpleFilter
     interface SimpleSolarize : SimpleFilter
     interface Weave : Filter<Quad<Float, Float, Float, Float>>
+    interface Twirl : Filter<Quad<Float, Float, Float, Float>>
 }
 
 interface SimpleFilter : Filter<Unit>
