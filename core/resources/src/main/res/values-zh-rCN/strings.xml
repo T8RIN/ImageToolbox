@@ -1638,4 +1638,7 @@
     <string name="paste_link">粘贴链接</string>
     <string name="pick_image_or_base64">选取图片或粘贴/导入下面的Base64数据</string>
     <string name="type_image_link">输入图片链接以开始</string>
+    <string name="kaleidoscope">万花筒</string>
+    <string name="secondary_angle">辅助角</string>
+    <string name="sides">边</string>
 </resources>
