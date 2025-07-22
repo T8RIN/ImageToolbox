@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.TransferFunc
@@ -233,6 +234,16 @@ internal fun Any.toPair(): Pair<String, String>? {
                 centreY,
                 radius,
                 amount
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is RubberStampParams -> {
+            RubberStampParams::class.simpleName!! to listOf(
+                threshold,
+                softness,
+                radius,
+                firstColor.colorInt,
+                secondColor.colorInt,
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -477,6 +488,20 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 centreY = centreY,
                 radius = radius,
                 amount = amount
+            )
+        }
+
+        name == RubberStampParams::class.simpleName -> {
+            val (threshold, softness, radius, firstColor, secondColor) = value.split(
+                PROPERTIES_SEPARATOR
+            ).map { it.toFloat() }
+
+            RubberStampParams(
+                threshold = threshold,
+                softness = softness,
+                radius = radius,
+                firstColor = firstColor.toInt().toColorModel(),
+                secondColor = secondColor.toInt().toColorModel()
             )
         }
 

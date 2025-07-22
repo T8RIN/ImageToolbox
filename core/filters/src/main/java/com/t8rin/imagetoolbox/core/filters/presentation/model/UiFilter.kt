@@ -151,6 +151,7 @@ sealed class UiFilter<T>(
                     UiPopArtFilter(),
                     UiToneCurvesFilter(),
                     UiChannelMixFilter(),
+                    UiRubberStampFilter()
                 ),
                 listOf(
                     UiLUT512x512Filter(),

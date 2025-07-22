@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.RadialTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.VoronoiCrystallizeParams
@@ -57,6 +58,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairIt
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PinchParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RubberStampParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
@@ -268,6 +270,15 @@ internal fun <T> FilterItemContent(
 
             is PinchParams -> {
                 PinchParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is RubberStampParams -> {
+                RubberStampParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

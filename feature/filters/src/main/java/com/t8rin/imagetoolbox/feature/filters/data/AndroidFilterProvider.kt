@@ -229,6 +229,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.RemoveColorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ReplaceColorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RetroYellowFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RingBlurFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.RubberStampFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SandPaintingFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SaturationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SepiaFilter
@@ -557,6 +558,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.SimpleSolarize -> SimpleSolarizeFilter(value)
                 is Filter.Weave -> WeaveFilter(value)
                 is Filter.Twirl -> TwirlFilter(value)
+                is Filter.RubberStamp -> RubberStampFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
