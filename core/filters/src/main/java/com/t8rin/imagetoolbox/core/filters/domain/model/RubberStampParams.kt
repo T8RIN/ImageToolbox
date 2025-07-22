@@ -31,9 +31,9 @@ data class RubberStampParams(
 ) {
     companion object {
         val Default = RubberStampParams(
-            threshold = 0.35f,
-            softness = 0.08f,
-            radius = 5f,
+            threshold = 0.3f,
+            softness = 0.1f,
+            radius = 0.05f,
             firstColor = Color(0xff3FA08F).toArgb().toColorModel(),
             secondColor = Color(0xff003027).toArgb().toColorModel(),
         )

@@ -17,10 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.StampFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.RubberStampParams
+import kotlin.math.max
 
 internal class RubberStampFilter(
     override val value: RubberStampParams = RubberStampParams.Default
@@ -29,10 +31,12 @@ internal class RubberStampFilter(
     override val cacheKey: String
         get() = value.hashCode().toString()
 
-    override fun createFilter(): JhFilter = StampFilter().apply {
+    override fun createFilter(): JhFilter = StampFilter()
+
+    override fun createFilter(image: Bitmap): JhFilter = StampFilter().apply {
         threshold = value.threshold
         softness = value.softness
-        radius = value.radius
+        radius = value.radius * (max(image.width, image.height) / 64f)
         white = value.firstColor.colorInt
         black = value.secondColor.colorInt
     }

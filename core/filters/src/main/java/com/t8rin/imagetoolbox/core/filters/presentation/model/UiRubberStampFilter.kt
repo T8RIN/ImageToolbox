@@ -28,7 +28,7 @@ class UiRubberStampFilter(
     paramsInfo = listOf(
         R.string.threshold paramTo 0f..1f,
         R.string.brush_softness paramTo 0f..1f,
-        R.string.radius paramTo 0f..200f,
+        R.string.radius paramTo 0f..2f,
         R.string.first_color paramTo 0f..0f,
         R.string.second_color paramTo 0f..0f
     ),
