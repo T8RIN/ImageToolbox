@@ -77,7 +77,7 @@ bouncycastle = "1.81"
 pdfviewer = "1.0.0-alpha10"
 fragmentCompose = "1.8.8"
 
-firebaseCrashlyticsGradle = "3.0.4"
+firebaseCrashlyticsGradle = "3.0.5"
 aboutlibraries = "12.2.4"
 moduleGraphGradle = "0.12.0"
 
