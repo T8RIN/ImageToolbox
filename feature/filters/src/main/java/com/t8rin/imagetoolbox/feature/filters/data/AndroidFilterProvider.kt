@@ -253,6 +253,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.SoftSpringLightFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SolarizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpacePortalFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpectralFireFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SphereLensDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SphereRefractionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpotHealFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.StackBlurFilter
@@ -561,6 +562,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Twirl -> TwirlFilter(value)
                 is Filter.RubberStamp -> RubberStampFilter(value)
                 is Filter.Smear -> SmearFilter(value)
+                is Filter.SphereLensDistortion -> SphereLensDistortionFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

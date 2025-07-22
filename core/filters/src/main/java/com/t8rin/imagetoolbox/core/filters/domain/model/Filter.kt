@@ -306,10 +306,11 @@ interface Filter<Value> : VisibilityOwner {
     interface PolarCoordinates : Filter<PolarCoordinatesType>
     interface ReduceNoise : SimpleFilter
     interface SimpleSolarize : SimpleFilter
-    interface Weave : Filter<Quad<Float, Float, Float, Float>>
-    interface Twirl : Filter<Quad<Float, Float, Float, Float>>
+    interface Weave : QuadFilter<Float, Float, Float, Float>
+    interface Twirl : QuadFilter<Float, Float, Float, Float>
     interface RubberStamp : Filter<RubberStampParams>
     interface Smear : Filter<SmearParams>
+    interface SphereLensDistortion : QuadFilter<Float, Float, Float, Float>
 }
 
 interface SimpleFilter : Filter<Unit>
