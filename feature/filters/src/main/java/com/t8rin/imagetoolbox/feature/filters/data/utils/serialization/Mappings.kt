@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
@@ -255,6 +256,17 @@ internal fun Any.toPair(): Pair<String, String>? {
                 mix,
                 distance,
                 shape,
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ArcParams -> {
+            ArcParams::class.simpleName!! to listOf(
+                radius,
+                height,
+                angle,
+                spreadAngle,
+                centreX,
+                centreY
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -527,6 +539,21 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 mix = mix,
                 distance = distance.toInt(),
                 shape = shape.toInt()
+            )
+        }
+
+        name == ArcParams::class.simpleName -> {
+            val (radius, height, angle, spreadAngle, centreX, centreY) = value.split(
+                PROPERTIES_SEPARATOR
+            ).map { it.toFloat() }
+
+            ArcParams(
+                radius = radius,
+                height = height,
+                angle = angle,
+                spreadAngle = spreadAngle,
+                centreX = centreX,
+                centreY = centreY
             )
         }
 

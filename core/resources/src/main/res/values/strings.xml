@@ -1706,4 +1706,6 @@
     <string name="mix">Mix</string>
     <string name="sphere_lensh_distortion">Sphere Lens Distortion</string>
     <string name="refraction_index">Refraction index</string>
+    <string name="arc">Arc</string>
+    <string name="spread_angle">Spread angle</string>
 </resources>

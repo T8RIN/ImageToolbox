@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpa
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
@@ -311,6 +312,7 @@ interface Filter<Value> : VisibilityOwner {
     interface RubberStamp : Filter<RubberStampParams>
     interface Smear : Filter<SmearParams>
     interface SphereLensDistortion : QuadFilter<Float, Float, Float, Float>
+    interface Arc : Filter<ArcParams>
 }
 
 interface SimpleFilter : Filter<Unit>
