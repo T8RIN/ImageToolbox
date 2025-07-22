@@ -21,7 +21,7 @@ avifCoderCoil = "2.1.4"
 aire = "0.18.0"
 jxlCoder = "2.4.0.7"
 jxlCoderCoil = "2.4.0.7"
-jpegliCoder = "1.0.1"
+jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
 material3 = "1.4.0-alpha18"
