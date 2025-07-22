@@ -22,7 +22,7 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.LinearTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import kotlin.math.roundToInt
 
 internal class LinearTiltShiftFilter(

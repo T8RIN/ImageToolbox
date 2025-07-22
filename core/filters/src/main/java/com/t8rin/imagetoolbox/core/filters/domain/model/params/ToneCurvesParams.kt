@@ -15,11 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-enum class MirrorSide {
-    LeftToRight,
-    RightToLeft,
-    TopToBottom,
-    BottomToTop
+import com.t8rin.curves.ImageCurvesEditorState
+
+data class ToneCurvesParams(
+    val controlPoints: List<List<Float>>
+) {
+    companion object {
+        val Default by lazy {
+            ToneCurvesParams(ImageCurvesEditorState.Default.controlPoints)
+        }
+    }
 }

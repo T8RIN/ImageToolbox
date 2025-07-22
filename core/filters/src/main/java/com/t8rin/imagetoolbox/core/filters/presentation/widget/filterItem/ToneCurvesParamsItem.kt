@@ -41,7 +41,7 @@ import coil3.request.ImageRequest
 import coil3.toBitmap
 import com.t8rin.curves.ImageCurvesEditor
 import com.t8rin.curves.ImageCurvesEditorState
-import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel

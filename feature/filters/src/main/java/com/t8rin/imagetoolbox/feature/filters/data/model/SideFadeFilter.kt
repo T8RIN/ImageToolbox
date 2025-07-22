@@ -29,9 +29,9 @@ import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.filters.domain.model.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.SideFadeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import kotlin.math.roundToInt
 
 

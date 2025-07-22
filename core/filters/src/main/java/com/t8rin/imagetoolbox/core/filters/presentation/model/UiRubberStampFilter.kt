@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.RubberStampParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiRubberStampFilter(

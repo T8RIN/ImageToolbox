@@ -21,8 +21,8 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toEdgeMode
 import kotlin.math.roundToInt
 

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.enums
 
-data class ClaheParams(
-    val threshold: Float,
-    val gridSizeHorizontal: Int,
-    val gridSizeVertical: Int,
-    val binsCount: Int
-) {
-
-    companion object {
-
-        val Default by lazy {
-            ClaheParams(
-                threshold = 0.5f,
-                gridSizeHorizontal = 8,
-                gridSizeVertical = 8,
-                binsCount = 128
-            )
-        }
-
-    }
-
+enum class FadeSide {
+    Start,
+    End,
+    Top,
+    Bottom
 }

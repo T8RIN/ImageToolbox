@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
-import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiKaleidoscopeFilter(

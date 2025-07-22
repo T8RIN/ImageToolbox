@@ -21,7 +21,7 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 import com.t8rin.imagetoolbox.feature.filters.data.utils.mirror
 
 internal class MirrorFilter(

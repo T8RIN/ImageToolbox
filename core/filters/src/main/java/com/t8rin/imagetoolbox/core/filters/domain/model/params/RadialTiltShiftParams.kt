@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-enum class PopArtBlendingMode {
-    MULTIPLY,
-    COLOR_BURN,
-    SOFT_LIGHT,
-    HSL_COLOR,
-    HSL_HUE,
-    DIFFERENCE
+data class RadialTiltShiftParams(
+    val blurRadius: Float,
+    val sigma: Float,
+    val anchorX: Float,
+    val anchorY: Float,
+    val holeRadius: Float
+) {
+    companion object {
+        val Default by lazy {
+            RadialTiltShiftParams(
+                blurRadius = 25f,
+                sigma = 10f,
+                anchorX = 0.5f,
+                anchorY = 0.5f,
+                holeRadius = 0.2f
+            )
+        }
+    }
 }

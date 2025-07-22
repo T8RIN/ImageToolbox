@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.core.filters.presentation.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
-import com.t8rin.imagetoolbox.core.filters.domain.model.FadeSide
-import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
-import com.t8rin.imagetoolbox.core.filters.domain.model.PaletteTransferSpace
-import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
-import com.t8rin.imagetoolbox.core.filters.domain.model.PopArtBlendingMode
-import com.t8rin.imagetoolbox.core.filters.domain.model.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.resources.R
 
 internal val PopArtBlendingMode.translatedName: String

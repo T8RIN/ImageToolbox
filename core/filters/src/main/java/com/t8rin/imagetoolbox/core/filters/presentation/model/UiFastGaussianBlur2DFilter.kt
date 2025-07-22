@@ -17,9 +17,9 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
-import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiFastGaussianBlur2DFilter(

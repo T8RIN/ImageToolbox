@@ -15,22 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-data class BilaterialBlurParams(
-    val radius: Int,
-    val spatialSigma: Float,
-    val rangeSigma: Float,
-    val edgeMode: BlurEdgeMode,
+import androidx.annotation.FloatRange
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
+
+sealed class SideFadeParams(
+    open val side: FadeSide
 ) {
-    companion object {
-        val Default by lazy {
-            BilaterialBlurParams(
-                spatialSigma = 10f,
-                rangeSigma = 3f,
-                edgeMode = BlurEdgeMode.Reflect101,
-                radius = 12,
-            )
-        }
-    }
+    data class Relative(
+        override val side: FadeSide,
+        @FloatRange(0.0, 1.0)
+        val scale: Float
+    ) : SideFadeParams(side)
+
+    data class Absolute(
+        override val side: FadeSide,
+        val size: Int
+    ) : SideFadeParams(side)
 }

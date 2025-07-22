@@ -22,7 +22,7 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.WaterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 
 internal class WaterEffectFilter(
     override val value: WaterParams = WaterParams()

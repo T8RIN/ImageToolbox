@@ -22,7 +22,7 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 
 internal class EnhancedGlitchFilter(
     override val value: GlitchParams = GlitchParams()

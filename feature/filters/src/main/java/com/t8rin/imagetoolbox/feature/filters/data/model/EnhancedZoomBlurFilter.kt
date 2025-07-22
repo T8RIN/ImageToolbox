@@ -21,8 +21,8 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.filters.domain.model.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 
 internal class EnhancedZoomBlurFilter(
     override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,

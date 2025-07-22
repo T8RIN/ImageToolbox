@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JhFilter
 import com.jhlabs.PolarFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.PolarCoordinatesType
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 
 internal class PolarCoordinatesFilter(
     override val value: PolarCoordinatesType = PolarCoordinatesType.RECT_TO_POLAR

@@ -21,7 +21,7 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.StampFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.RubberStampParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import kotlin.math.max
 
 internal class RubberStampFilter(

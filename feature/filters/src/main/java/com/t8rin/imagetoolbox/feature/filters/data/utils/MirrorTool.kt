@@ -23,7 +23,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
-import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 
 
 internal fun Bitmap.mirror(

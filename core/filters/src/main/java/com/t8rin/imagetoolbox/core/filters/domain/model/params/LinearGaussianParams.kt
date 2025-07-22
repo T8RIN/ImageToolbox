@@ -15,24 +15,25 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-data class ChannelMixParams(
-    val blueGreen: Int,
-    val redBlue: Int,
-    val greenRed: Int,
-    val intoR: Int,
-    val intoG: Int,
-    val intoB: Int
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+
+data class LinearGaussianParams(
+    val kernelSize: Int,
+    val sigma: Float,
+    val edgeMode: BlurEdgeMode,
+    val transferFunction: TransferFunc
 ) {
     companion object {
-        val Default = ChannelMixParams(
-            blueGreen = 255,
-            redBlue = 255,
-            greenRed = 255,
-            intoR = 255,
-            intoG = 255,
-            intoB = 127
-        )
+        val Default by lazy {
+            LinearGaussianParams(
+                kernelSize = 25,
+                sigma = 10f,
+                edgeMode = BlurEdgeMode.Reflect101,
+                transferFunction = TransferFunc.SRGB
+            )
+        }
     }
 }

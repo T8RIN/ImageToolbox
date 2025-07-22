@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.content.Context
 import com.t8rin.curves.GPUImageToneCurveFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.ToneCurvesParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 internal class ToneCurvesFilter(

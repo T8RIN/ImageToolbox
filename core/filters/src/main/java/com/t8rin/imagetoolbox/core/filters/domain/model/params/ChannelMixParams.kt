@@ -1,7 +1,7 @@
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *
@@ -15,22 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-data class PinchParams(
-    val angle: Float,
-    val centreX: Float,
-    val centreY: Float,
-    val radius: Float,
-    val amount: Float
+data class ChannelMixParams(
+    val blueGreen: Int,
+    val redBlue: Int,
+    val greenRed: Int,
+    val intoR: Int,
+    val intoG: Int,
+    val intoB: Int
 ) {
     companion object {
-        val Default = PinchParams(
-            angle = 15f,
-            centreX = 0.5f,
-            centreY = 0.5f,
-            radius = 1f,
-            amount = 0.5f
+        val Default = ChannelMixParams(
+            blueGreen = 255,
+            redBlue = 255,
+            greenRed = 255,
+            intoR = 255,
+            intoG = 255,
+            intoB = 127
         )
     }
 }

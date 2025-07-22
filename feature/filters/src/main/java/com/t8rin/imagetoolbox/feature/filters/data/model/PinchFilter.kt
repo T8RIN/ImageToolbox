@@ -21,7 +21,7 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.PinchFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import kotlin.math.max
 
 internal class PinchFilter(

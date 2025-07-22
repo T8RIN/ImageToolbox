@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JhFilter
 import com.jhlabs.KaleidoscopeFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.KaleidoscopeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 
 internal class KaleidoscopeFilter(
     override val value: KaleidoscopeParams = KaleidoscopeParams.Default

@@ -22,9 +22,9 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.utils.cast
-import com.t8rin.imagetoolbox.core.filters.domain.model.BlurEdgeMode
-import com.t8rin.imagetoolbox.core.filters.domain.model.MirrorSide
-import com.t8rin.imagetoolbox.core.filters.domain.model.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.pair_components.ColorModelPairItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.pair_components.FloatColorModelPairItem

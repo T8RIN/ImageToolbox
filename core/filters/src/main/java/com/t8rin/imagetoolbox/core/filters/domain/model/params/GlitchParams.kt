@@ -15,16 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-import com.t8rin.curves.ImageCurvesEditorState
-
-data class ToneCurvesParams(
-    val controlPoints: List<List<Float>>
-) {
-    companion object {
-        val Default by lazy {
-            ToneCurvesParams(ImageCurvesEditorState.Default.controlPoints)
-        }
-    }
-}
+data class GlitchParams(
+    val channelsShiftX: Float = -0.08f,
+    val channelsShiftY: Float = -0.08f,
+    val corruptionSize: Float = 0.01f,
+    val corruptionCount: Int = 60,
+    val corruptionShiftX: Float = -0.05f,
+    val corruptionShiftY: Float = 0.0f,
+)

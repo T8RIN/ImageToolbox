@@ -15,21 +15,26 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model
+package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
-enum class PolarCoordinatesType {
-    /**
-     * Convert from rectangular to polar coordinates.
-     */
-    RECT_TO_POLAR,
+data class ClaheParams(
+    val threshold: Float,
+    val gridSizeHorizontal: Int,
+    val gridSizeVertical: Int,
+    val binsCount: Int
+) {
 
-    /**
-     * Convert from polar to rectangular coordinates.
-     */
-    POLAR_TO_RECT,
+    companion object {
 
-    /**
-     * Invert the image in a circle.
-     */
-    INVERT_IN_CIRCLE;
+        val Default by lazy {
+            ClaheParams(
+                threshold = 0.5f,
+                gridSizeHorizontal = 8,
+                gridSizeVertical = 8,
+                binsCount = 128
+            )
+        }
+
+    }
+
 }

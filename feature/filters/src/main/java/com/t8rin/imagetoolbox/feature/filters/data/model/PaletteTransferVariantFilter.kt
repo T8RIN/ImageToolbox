@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.PaletteTransferSpace
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toSpace
 import dagger.assisted.Assisted
