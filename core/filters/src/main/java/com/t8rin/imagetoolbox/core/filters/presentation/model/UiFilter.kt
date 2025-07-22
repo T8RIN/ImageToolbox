@@ -294,7 +294,8 @@ sealed class UiFilter<T>(
                     UiContourFilter(),
                     UiVoronoiCrystallizeFilter(),
                     UiPointillizeFilter(),
-                    UiWeaveFilter()
+                    UiWeaveFilter(),
+                    UiSmearFilter()
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),

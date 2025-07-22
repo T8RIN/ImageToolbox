@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
@@ -145,6 +146,80 @@ internal fun VoronoiCrystallizeParamsItem(
                 titleFontWeight = FontWeight.Companion.Normal,
                 contentHorizontalPadding = 16.dp,
                 modifier = Modifier.Companion.padding(start = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+internal fun SmearParamsItem(
+    value: SmearParams,
+    filter: UiFilter<SmearParams>,
+    onFilterChange: (value: SmearParams) -> Unit,
+    previewOnly: Boolean
+) {
+    val angle: MutableState<Float> =
+        remember(value) { mutableFloatStateOf(value.angle) }
+    val density: MutableState<Float> =
+        remember(value) { mutableFloatStateOf(value.density) }
+    val mix: MutableState<Float> =
+        remember(value) { mutableFloatStateOf(value.mix) }
+    val distance: MutableState<Float> =
+        remember(value) { mutableFloatStateOf(value.distance.toFloat()) }
+    val shape: MutableState<Float> =
+        remember(value) { mutableFloatStateOf(value.shape.toFloat()) }
+
+    LaunchedEffect(
+        angle.value,
+        density.value,
+        mix.value,
+        distance.value,
+        shape.value
+    ) {
+        onFilterChange(
+            SmearParams(
+                angle = angle.value,
+                density = density.value,
+                mix = mix.value,
+                distance = distance.value.toInt(),
+                shape = shape.value.toInt()
+            )
+        )
+    }
+
+    val paramsInfo by remember(filter) {
+        derivedStateOf {
+            filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                if (filterParam.title == null) return@mapIndexedNotNull null
+                when (index) {
+                    0 -> angle
+                    1 -> density
+                    2 -> mix
+                    3 -> distance
+                    else -> shape
+                } to filterParam
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier.Companion.padding(8.dp)
+    ) {
+        paramsInfo.forEach { (state, info) ->
+            val (title, valueRange, roundTo) = info
+            EnhancedSliderItem(
+                enabled = !previewOnly,
+                value = state.value,
+                title = stringResource(title!!),
+                valueRange = valueRange,
+                steps = if (valueRange == 0f..3f) 2 else 0,
+                onValueChange = {
+                    state.value = it
+                },
+                internalStateTransformation = {
+                    it.roundTo(roundTo)
+                },
+                behaveAsContainer = false
             )
         }
     }

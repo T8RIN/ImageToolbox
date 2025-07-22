@@ -1701,4 +1701,7 @@
     <string name="y_wdth">Y Width</string>
     <string name="twirl">Twirl</string>
     <string name="rubber_stmp">Rubber Stamp</string>
+    <string name="smear">Smear</string>
+    <string name="density">Density</string>
+    <string name="mix">Mix</string>
 </resources>

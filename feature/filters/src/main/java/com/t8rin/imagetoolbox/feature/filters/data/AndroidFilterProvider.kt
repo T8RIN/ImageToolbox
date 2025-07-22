@@ -243,6 +243,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleSketchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleSolarizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SimpleThresholdDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SketchFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SmearFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SmoothToonFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SobelEdgeDetectionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SobelSimpleFilter
@@ -559,6 +560,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Weave -> WeaveFilter(value)
                 is Filter.Twirl -> TwirlFilter(value)
                 is Filter.RubberStamp -> RubberStampFilter(value)
+                is Filter.Smear -> SmearFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

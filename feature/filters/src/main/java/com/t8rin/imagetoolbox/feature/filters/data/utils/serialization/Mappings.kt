@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
@@ -244,6 +245,16 @@ internal fun Any.toPair(): Pair<String, String>? {
                 radius,
                 firstColor.colorInt,
                 secondColor.colorInt,
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SmearParams -> {
+            SmearParams::class.simpleName!! to listOf(
+                angle,
+                density,
+                mix,
+                distance,
+                shape,
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -502,6 +513,20 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 radius = radius,
                 firstColor = firstColor.toInt().toColorModel(),
                 secondColor = secondColor.toInt().toColorModel()
+            )
+        }
+
+        name == SmearParams::class.simpleName -> {
+            val (angle, density, mix, distance, shape) = value.split(
+                PROPERTIES_SEPARATOR
+            ).map { it.toFloat() }
+
+            SmearParams(
+                angle = angle,
+                density = density,
+                mix = mix,
+                distance = distance.toInt(),
+                shape = shape.toInt()
             )
         }
 
