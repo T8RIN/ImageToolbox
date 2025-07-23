@@ -253,6 +253,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.SoftEleganceVariantFilt
 import com.t8rin.imagetoolbox.feature.filters.data.model.SoftSpringLightFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SolarizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpacePortalFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SparkleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpectralFireFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SphereLensDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SphereRefractionFilter
@@ -565,6 +566,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Smear -> SmearFilter(value)
                 is Filter.SphereLensDistortion -> SphereLensDistortionFilter(value)
                 is Filter.Arc -> ArcFilter(value)
+                is Filter.Sparkle -> SparkleFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

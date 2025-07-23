@@ -1708,4 +1708,6 @@
     <string name="refraction_index">Refraction index</string>
     <string name="arc">Arc</string>
     <string name="spread_angle">Spread angle</string>
+    <string name="sparkle">Sparkle</string>
+    <string name="rays">Rays</string>
 </resources>

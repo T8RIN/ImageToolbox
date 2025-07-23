@@ -209,7 +209,8 @@ sealed class UiFilter<T>(
                     UiClaheOklchFilter(),
                     UiClaheJzazbzFilter(),
                     UiAutoRemoveRedEyesFilter(),
-                    UiGlowFilter()
+                    UiGlowFilter(),
+                    UiSparkleFilter()
                 ),
                 listOf(
                     UiNoiseFilter(),

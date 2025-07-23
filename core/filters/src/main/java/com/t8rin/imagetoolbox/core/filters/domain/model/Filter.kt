@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
@@ -313,6 +314,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Smear : Filter<SmearParams>
     interface SphereLensDistortion : QuadFilter<Float, Float, Float, Float>
     interface Arc : Filter<ArcParams>
+    interface Sparkle : Filter<SparkleParams>
 }
 
 interface SimpleFilter : Filter<Unit>

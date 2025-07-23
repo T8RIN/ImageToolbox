@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
@@ -64,6 +65,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Radial
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RubberStampParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SmearParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SparkleParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.VoronoiCrystallizeParamsItem
@@ -301,6 +303,15 @@ internal fun <T> FilterItemContent(
 
             is ArcParams -> {
                 ArcParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is SparkleParams -> {
+                SparkleParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

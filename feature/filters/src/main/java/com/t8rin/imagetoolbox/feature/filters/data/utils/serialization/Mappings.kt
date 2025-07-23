@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftPa
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
@@ -267,6 +268,18 @@ internal fun Any.toPair(): Pair<String, String>? {
                 spreadAngle,
                 centreX,
                 centreY
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SparkleParams -> {
+            SparkleParams::class.simpleName!! to listOf(
+                amount,
+                rays,
+                radius,
+                randomness,
+                centreX,
+                centreY,
+                color.colorInt
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -554,6 +567,22 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 spreadAngle = spreadAngle,
                 centreX = centreX,
                 centreY = centreY
+            )
+        }
+
+        name == SparkleParams::class.simpleName -> {
+            val (amount, rays, radius, randomness, centreX, centreY, color) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            SparkleParams(
+                amount = amount.toInt(),
+                rays = rays.toInt(),
+                radius = radius.toFloat(),
+                randomness = randomness.toInt(),
+                centreX = centreX.toFloat(),
+                centreY = centreY.toFloat(),
+                color = color.toInt().toColorModel()
             )
         }
 
