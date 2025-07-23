@@ -206,9 +206,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun setBasicFilter(uris: List<Uri>?) {
         _filterType.update {
-            if (it !is Screen.Filter.Type.Basic) {
-                Screen.Filter.Type.Basic(uris)
-            } else it
+            it as? Screen.Filter.Type.Basic ?: Screen.Filter.Type.Basic(uris)
         }
         _basicFilterState.update {
             it.copy(
@@ -531,9 +529,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun setMaskFilter(uri: Uri?) {
         _filterType.update {
-            if (it !is Screen.Filter.Type.Masking) {
-                Screen.Filter.Type.Masking(uri)
-            } else it
+            it as? Screen.Filter.Type.Masking ?: Screen.Filter.Type.Masking(uri)
         }
         uri?.let { updateSelectedUri(it) }
         _maskingFilterState.value = MaskingFilterState(uri)

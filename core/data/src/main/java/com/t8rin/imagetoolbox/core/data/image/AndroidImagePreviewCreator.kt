@@ -130,7 +130,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     ): Boolean = if (image == null) false else canShow(image.size())
 
     private fun canShow(size: Int): Boolean {
-        return size < 3096 * 3096 * 3
+        return size < 1500 * 1500 * 3
     }
 
     private val Bitmap.configSize: Int
