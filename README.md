@@ -177,7 +177,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 230 various filters)
+- Applying filter chains (More than 260 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -417,7 +417,31 @@ or click one of the badges below.
     - [x] Simple Laplacian
     - [x] Auto Red Eyes remover
     - [x] Tone Curves 
-  - [x] Mirror
+    - [x] Mirror
+    - [x] Kaleidoscope  
+    - [x] Channel Mix  
+    - [x] Color Halftone  
+    - [x] Contour  
+    - [x] Voronoi Crystallize  
+    - [x] Despeckle  
+    - [x] Diffuse  
+    - [x] DoG  
+    - [x] Equalize  
+    - [x] Glow  
+    - [x] Offset  
+    - [x] Pinch  
+    - [x] Pointillize  
+    - [x] Polar Coordinates  
+    - [x] Reduce Noise  
+    - [x] Simple Solarize  
+    - [x] Weave  
+    - [x] Twirl  
+    - [x] Rubber Stamp  
+    - [x] Smear  
+    - [x] Sphere Lens Distortion  
+    - [x] Arc  
+    - [x] Sparkle  
+
 
   </details>
 
