@@ -319,9 +319,7 @@ interface Filter<Value> : VisibilityOwner {
 
 interface SimpleFilter : Filter<Unit>
 interface PairFilter<Value1, Value2> : Filter<Pair<Value1, Value2>>
-interface TripleFilter<Value1, Value2, Value3> :
-    Filter<Triple<Value1, Value2, Value3>>
-interface QuadFilter<Value1, Value2, Value3, Value4> :
-    Filter<Quad<Value1, Value2, Value3, Value4>>
+interface TripleFilter<Value1, Value2, Value3> : Filter<Triple<Value1, Value2, Value3>>
+interface QuadFilter<Value1, Value2, Value3, Value4> : Filter<Quad<Value1, Value2, Value3, Value4>>
 
 interface WrapperFilter<Wrapped : Any> : Filter<FilterValueWrapper<Wrapped>>
