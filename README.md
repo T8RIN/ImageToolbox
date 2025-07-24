@@ -440,7 +440,8 @@ or click one of the badges below.
     - [x] Smear  
     - [x] Sphere Lens Distortion  
     - [x] Arc  
-    - [x] Sparkle  
+    - [x] Sparkle
+    - [x] ASCII 
 
 
   </details>
