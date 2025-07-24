@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesTy
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
@@ -315,6 +316,7 @@ interface Filter<Value> : VisibilityOwner {
     interface SphereLensDistortion : QuadFilter<Float, Float, Float, Float>
     interface Arc : Filter<ArcParams>
     interface Sparkle : Filter<SparkleParams>
+    interface Ascii : Filter<AsciiParams>
 }
 
 interface SimpleFilter : Filter<Unit>

@@ -36,4 +36,5 @@ dependencies {
     implementation(libs.toolbox.opencvTools)
     implementation(libs.toolbox.curves)
     implementation(libs.toolbox.jhlabs)
+    implementation(libs.toolbox.ascii)
 }

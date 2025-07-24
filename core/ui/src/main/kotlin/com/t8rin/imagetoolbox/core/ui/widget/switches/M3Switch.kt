@@ -66,7 +66,7 @@ fun M3Switch(
 
     val scope = rememberCoroutineScope()
 
-    DisposableEffect(view, checked) {
+    DisposableEffect(view, checked, onCheckedChange) {
         view?.isChecked = checked
         view?.setOnCheckedChangeListener { _, value ->
             onCheckedChange?.let {

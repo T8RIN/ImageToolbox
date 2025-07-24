@@ -1710,4 +1710,6 @@
     <string name="spread_angle">Spread angle</string>
     <string name="sparkle">Sparkle</string>
     <string name="rays">Rays</string>
+    <string name="ascii">ASCII</string>
+    <string name="gradient">Gradient</string>
 </resources>

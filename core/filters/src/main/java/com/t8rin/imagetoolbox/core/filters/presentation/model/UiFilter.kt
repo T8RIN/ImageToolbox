@@ -296,7 +296,8 @@ sealed class UiFilter<T>(
                     UiVoronoiCrystallizeFilter(),
                     UiPointillizeFilter(),
                     UiWeaveFilter(),
-                    UiSmearFilter()
+                    UiSmearFilter(),
+                    UiAsciiFilter()
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),

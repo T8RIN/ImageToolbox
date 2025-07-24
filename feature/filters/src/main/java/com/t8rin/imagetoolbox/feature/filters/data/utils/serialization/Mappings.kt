@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesTy
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import kotlin.io.encoding.Base64
 
 internal fun Any.toPair(): Pair<String, String>? {
     return when (this) {
@@ -280,6 +282,15 @@ internal fun Any.toPair(): Pair<String, String>? {
                 centreX,
                 centreY,
                 color.colorInt
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is AsciiParams -> {
+            AsciiParams::class.simpleName!! to listOf(
+                Base64.encode(gradient.toByteArray(Charsets.UTF_8)),
+                fontSize,
+                backgroundColor.colorInt,
+                isGrayscale
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -583,6 +594,19 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 centreX = centreX.toFloat(),
                 centreY = centreY.toFloat(),
                 color = color.toInt().toColorModel()
+            )
+        }
+
+        name == AsciiParams::class.simpleName -> {
+            val (gradient, fontSize, backgroundColor, isGrayscale) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            AsciiParams(
+                gradient = Base64.decode(gradient).toString(Charsets.UTF_8),
+                fontSize = fontSize.toFloat(),
+                backgroundColor = backgroundColor.toInt().toColorModel(),
+                isGrayscale = isGrayscale.toBoolean()
             )
         }
 

@@ -103,7 +103,7 @@ internal fun SparkleParamsItem(
     }
 
     Column(
-        modifier = Modifier.Companion.padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         paramsInfo.take(6).forEach { (state, info) ->
             val (title, valueRange, roundTo) = info
@@ -131,9 +131,9 @@ internal fun SparkleParamsItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Companion.Normal,
+                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 16.dp,
-                modifier = Modifier.Companion.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp)
             )
         }
     }

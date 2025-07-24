@@ -19,27 +19,22 @@ package com.t8rin.imagetoolbox.core.filters.domain.model.params
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.t8rin.ascii.Gradient
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 
-data class SparkleParams(
-    val amount: Int,
-    val rays: Int,
-    val radius: Float,
-    val randomness: Int,
-    val centreX: Float,
-    val centreY: Float,
-    val color: ColorModel
+data class AsciiParams(
+    val gradient: String,
+    val fontSize: Float,
+    val backgroundColor: ColorModel,
+    val isGrayscale: Boolean,
 ) {
     companion object {
-        val Default = SparkleParams(
-            amount = 50,
-            rays = 50,
-            radius = 0.3f,
-            randomness = 25,
-            centreX = 0.5f,
-            centreY = 0.5f,
-            color = Color.White.toArgb().toColorModel()
+        val Default = AsciiParams(
+            gradient = Gradient.OLD.value,
+            fontSize = 10f,
+            backgroundColor = Color.Black.toArgb().toColorModel(),
+            isGrayscale = false
         )
     }
 }

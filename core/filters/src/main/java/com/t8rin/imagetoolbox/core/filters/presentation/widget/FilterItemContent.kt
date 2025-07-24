@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.cast
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
@@ -46,6 +47,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ArcParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.AsciiParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BilaterialBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BooleanItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
@@ -312,6 +314,15 @@ internal fun <T> FilterItemContent(
 
             is SparkleParams -> {
                 SparkleParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is AsciiParams -> {
+                AsciiParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

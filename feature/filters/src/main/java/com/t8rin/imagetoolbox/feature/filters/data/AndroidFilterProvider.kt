@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.AmatorkaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AnaglyphFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AnisotropicDiffusionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ArcFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.AsciiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AtkinsonDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoCropFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoRemoveRedEyesFilter
@@ -567,6 +568,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.SphereLensDistortion -> SphereLensDistortionFilter(value)
                 is Filter.Arc -> ArcFilter(value)
                 is Filter.Sparkle -> SparkleFilter(value)
+                is Filter.Ascii -> AsciiFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
