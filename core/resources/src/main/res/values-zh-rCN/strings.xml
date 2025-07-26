@@ -1680,4 +1680,16 @@
     <string name="x_width">X 轴宽度</string>
     <string name="y_wdth">Y 轴宽度</string>
     <string name="twirl">漩涡效果</string>
+    <string name="rubber_stmp">橡皮图章</string>
+    <string name="smear">涂抹</string>
+    <string name="density">密度</string>
+    <string name="mix">混合</string>
+    <string name="sphere_lensh_distortion">球面镜头畸变</string>
+    <string name="refraction_index">折射率</string>
+    <string name="arc">弧线</string>
+    <string name="spread_angle">扩散角度</string>
+    <string name="rays">光束</string>
+    <string name="gradient">渐变</string>
+    <string name="sparkle">闪烁</string>
+    <string name="ascii">ASCII</string>
 </resources>
