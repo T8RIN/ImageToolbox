@@ -517,60 +517,60 @@ or click one of the badges below.
         - Background blur drawing
     - Different Scaling Algorithms
 
-        <details>
-          <summary>Available methods</summary>
-          <br>
+      <details>
+      <summary>Available methods</summary>
+      <br>
 
-          - Bilinear
-          - Nearest Neighbour
-          - Cubic
-          - Mitchell-Netravalli
-          - Catmull-Rom
-          - Hermite
-          - B-Spline
-          - Hann
-          - Bicubic
-          - Hamming
-          - Hanning
-          - Blackman
-          - Welch
-          - Quadric
-          - Gaussian
-          - Sphinx
-          - Bartlett
-          - Robidoux
-          - Robidoux Sharp
-          - Spline 16
-          - Spline 36
-          - Spline 64
-          - Kaiser
-          - Bartlett-Hann
-          - Box
-          - Bohman
-          - Lanczos 2
-          - Lanczos 3
-          - Lanczos 4
-          - Lanczos 2 Jinc
-          - Lanczos 3 Jinc
-          - Lanczos 4 Jinc
-          - Ewa Hanning
-          - Ewa Robidoux
-          - Ewa Blackman
-          - Ewa Quadric
-          - Ewa Robidoux Sharp
-          - Ewa Lanczos 3 Jinc
-          - Ginseng
-          - Ginseng EWA
-          - Lanczos Sharp EWA
-          - Lanczos 4 Sharpest EWA
-          - Lanczos Soft EWA
-          - Haasn Soft
-          - Lagrange 2
-          - Lagrange 3
-          - Lanczos 6
-          - Lanczos 6 Jinc
+      - Bilinear
+      - Nearest Neighbour
+      - Cubic
+      - Mitchell-Netravalli
+      - Catmull-Rom
+      - Hermite
+      - B-Spline
+      - Hann
+      - Bicubic
+      - Hamming
+      - Hanning
+      - Blackman
+      - Welch
+      - Quadric
+      - Gaussian
+      - Sphinx
+      - Bartlett
+      - Robidoux
+      - Robidoux Sharp
+      - Spline 16
+      - Spline 36
+      - Spline 64
+      - Kaiser
+      - Bartlett-Hann
+      - Box
+      - Bohman
+      - Lanczos 2
+      - Lanczos 3
+      - Lanczos 4
+      - Lanczos 2 Jinc
+      - Lanczos 3 Jinc
+      - Lanczos 4 Jinc
+      - Ewa Hanning
+      - Ewa Robidoux
+      - Ewa Blackman
+      - Ewa Quadric
+      - Ewa Robidoux Sharp
+      - Ewa Lanczos 3 Jinc
+      - Ginseng
+      - Ginseng EWA
+      - Lanczos Sharp EWA
+      - Lanczos 4 Sharpest EWA
+      - Lanczos Soft EWA
+      - Haasn Soft
+      - Lagrange 2
+      - Lagrange 3
+      - Lanczos 6
+      - Lanczos 6 Jinc
 
-        </details>
+      </details>
 
     - Different Scale Color Spaces
         - Linear
