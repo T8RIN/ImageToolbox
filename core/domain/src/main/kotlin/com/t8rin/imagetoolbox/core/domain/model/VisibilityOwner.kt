@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.core.domain.model
 interface VisibilityOwner {
     val isVisible: Boolean
         get() = true
-
-    fun toggleVisible() = Unit
 }
+
+fun <T : VisibilityOwner, R> T.ifVisible(
+    action: T.() -> R
+): R? = takeIf { it.isVisible }?.let(action)

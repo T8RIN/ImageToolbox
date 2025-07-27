@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
+import androidx.compose.material.icons.automirrored.twotone.InsertDriveFile
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -88,7 +88,7 @@ fun ImageSelector(
                 modifier = Modifier.size(48.dp),
                 error = {
                     Icon(
-                        imageVector = Icons.Outlined.AddPhotoAlt,
+                        imageVector = Icons.TwoTone.AddPhotoAlt,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
@@ -151,7 +151,7 @@ fun FileSelector(
                 modifier = Modifier.size(48.dp),
                 error = {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.InsertDriveFile,
+                        imageVector = Icons.AutoMirrored.TwoTone.InsertDriveFile,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
