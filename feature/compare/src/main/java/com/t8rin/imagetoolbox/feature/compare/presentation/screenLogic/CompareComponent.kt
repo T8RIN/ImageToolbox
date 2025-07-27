@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
@@ -236,21 +237,24 @@ class CompareComponent @AssistedInject internal constructor(
     private fun Bitmap.overlay(
         overlay: Bitmap,
         percent: Float
-    ): Bitmap {
-        val finalBitmap = overlay.copy(overlay.safeConfig, true).apply { setHasAlpha(true) }
-        val canvas = android.graphics.Canvas(finalBitmap)
-        val image = createScaledBitmap(canvas.width, canvas.height)
-        runCatching {
-            canvas.drawBitmap(
-                Bitmap.createBitmap(
-                    image, 0, 0,
-                    (image.width * percent / 100).roundToInt(),
-                    image.height
+    ): Bitmap = overlay.copy(overlay.safeConfig, true)
+        .apply { setHasAlpha(true) }
+        .applyCanvas {
+            runCatching {
+                val image = createScaledBitmap(
+                    width = width,
+                    height = height
                 )
-            )
+
+                drawBitmap(
+                    Bitmap.createBitmap(
+                        image, 0, 0,
+                        (image.width * percent / 100).roundToInt(),
+                        image.height
+                    )
+                )
+            }
         }
-        return finalBitmap
-    }
 
     private fun getOverlappedImage(): Bitmap? {
         return _bitmapData.value?.let { (b, a) ->

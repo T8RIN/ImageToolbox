@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.filters.data
 
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
-import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
@@ -45,6 +44,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMask
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import javax.inject.Inject
+import android.graphics.Paint as NativePaint
 
 internal class AndroidFilterMaskApplier @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
@@ -89,11 +89,13 @@ internal class AndroidFilterMaskApplier @Inject constructor(
     private fun Bitmap.clipBitmap(
         pathPaints: List<PathPaint<Path, Color>>,
         inverse: Boolean,
-    ): Bitmap {
-        val bitmap = Bitmap.createBitmap(this.width, this.height, this.safeConfig)
-            .apply { setHasAlpha(true) }
-        val canvasSize = bitmap.run { IntegerSize(width, height) }
-        Canvas(bitmap).apply {
+    ): Bitmap = createBitmap(
+        width = this.width,
+        height = this.height,
+        config = this.safeConfig
+    ).apply { setHasAlpha(true) }.applyCanvas {
+        val canvasSize = IntegerSize(width, height)
+
             pathPaints.forEach { pathPaint ->
                 val path = pathPaint.path.scaleToFitCanvas(
                     currentSize = canvasSize,
@@ -143,7 +145,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                 this@clipBitmap,
                 0f,
                 0f,
-                android.graphics.Paint()
+                NativePaint()
                     .apply {
                         xfermode = if (!inverse) {
                             PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
@@ -153,8 +155,6 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                     }
             )
         }
-        return bitmap
-    }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this

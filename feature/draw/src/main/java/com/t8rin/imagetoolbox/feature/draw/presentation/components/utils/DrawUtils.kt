@@ -201,19 +201,14 @@ fun Canvas.drawInfiniteLine(
 internal fun ImageBitmap.clipBitmap(
     path: Path,
     paint: Paint,
-): ImageBitmap {
-    val bitmap = this.asAndroidBitmap()
-    val newPath = NativePath(path.asAndroidPath())
-    Canvas(bitmap).apply {
+): ImageBitmap = asAndroidBitmap().applyCanvas {
         drawPath(
-            newPath.apply {
+            NativePath(path.asAndroidPath()).apply {
                 fillType = NativePath.FillType.INVERSE_WINDING
             },
             paint.asFrameworkPaint()
         )
-    }
-    return bitmap.asImageBitmap()
-}
+}.asImageBitmap()
 
 internal fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()

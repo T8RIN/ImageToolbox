@@ -21,7 +21,6 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
-import android.graphics.Canvas
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Matrix
@@ -29,6 +28,8 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.floor
 
@@ -173,30 +174,31 @@ internal object Glitcher {
 
         val colorMatrix = ColorMatrix()
 
-        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        val c = Canvas(bitmap)
-        c.drawColor(0, PorterDuff.Mode.CLEAR)
+        createBitmap(
+            width = w,
+            height = h
+        ).applyCanvas {
+            drawColor(0, PorterDuff.Mode.CLEAR)
 
-        //left
-        val matrix = Matrix()
-        matrix.setTranslate((-transX).toFloat(), (transY).toFloat())
-        anaglyphShader.setLocalMatrix(matrix)
-        colorMatrix.set(leftArray)
-        anaglyphPaint.colorFilter = ColorMatrixColorFilter(colorMatrix)
-        c.drawRect(0.0f, 0.0f, w.toFloat(), h.toFloat(), anaglyphPaint)
+            //left
+            val matrix = Matrix()
+            matrix.setTranslate((-transX).toFloat(), (transY).toFloat())
+            anaglyphShader.setLocalMatrix(matrix)
+            colorMatrix.set(leftArray)
+            anaglyphPaint.colorFilter = ColorMatrixColorFilter(colorMatrix)
+            drawRect(0.0f, 0.0f, w.toFloat(), h.toFloat(), anaglyphPaint)
 
-        //right
-        val matrix2 = Matrix()
-        matrix2.setTranslate((transX).toFloat(), transY.toFloat())
-        anaglyphShader.setLocalMatrix(matrix2)
-        colorMatrix.set(rightArray)
-        anaglyphPaint.colorFilter = ColorMatrixColorFilter(colorMatrix)
-        c.drawRect(0.0f, 0.0f, w.toFloat(), h.toFloat(), anaglyphPaint)
+            //right
+            val matrix2 = Matrix()
+            matrix2.setTranslate((transX).toFloat(), transY.toFloat())
+            anaglyphShader.setLocalMatrix(matrix2)
+            colorMatrix.set(rightArray)
+            anaglyphPaint.colorFilter = ColorMatrixColorFilter(colorMatrix)
+            drawRect(0.0f, 0.0f, w.toFloat(), h.toFloat(), anaglyphPaint)
 
 
-        c.drawBitmap(image, 0f, 0f, anaglyphPaint)
-
-        bitmap
+            drawBitmap(image, 0f, 0f, anaglyphPaint)
+        }
     }
 
     suspend fun glitch(

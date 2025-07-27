@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.draw.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
-import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Typeface
 import androidx.compose.ui.geometry.Offset
@@ -74,6 +73,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import android.graphics.Paint as NativePaint
+import android.graphics.Path as NativePath
 
 internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -93,12 +93,11 @@ internal class AndroidImageDrawApplier @Inject constructor(
             }
 
             is DrawBehavior.Background -> {
-                createBitmap(drawBehavior.width, drawBehavior.height).apply {
-                    val canvas = Canvas(this)
+                createBitmap(drawBehavior.width, drawBehavior.height).applyCanvas {
                     val paint = NativePaint().apply {
                         color = drawBehavior.color
                     }
-                    canvas.drawRect(
+                    drawRect(
                         0f,
                         0f,
                         drawBehavior.width.toFloat(),
@@ -114,12 +113,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
         val drawImage = image?.let { image.copy(image.safeConfig, true) }
 
         drawImage?.let { bitmap ->
-            val canvas = Canvas(bitmap)
-            val canvasSize = IntegerSize(
-                canvas.width,
-                canvas.height
-            )
-            canvas.apply {
+            bitmap.applyCanvas {
+                val canvasSize = IntegerSize(width, height)
+
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
                 pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle) ->
@@ -322,17 +318,11 @@ internal class AndroidImageDrawApplier @Inject constructor(
         pathPaints: List<PathPaint<Path, Color>>,
         image: Bitmap?,
         shaderSourceUri: String
-    ): Bitmap? {
-        val drawImage = image?.let { it.copy(it.safeConfig, true) }
+    ): Bitmap? = image?.let { it.copy(it.safeConfig, true) }?.let { bitmap ->
+        bitmap.applyCanvas {
+            val canvasSize = IntegerSize(width, height)
 
-        drawImage?.let {
-            val canvas = Canvas(it)
-            val canvasSize = IntegerSize(
-                canvas.width,
-                canvas.height
-            )
-            canvas.apply {
-                drawBitmap(it)
+            drawBitmap(bitmap)
 
                 val recoveryShader = imageGetter.getImage(
                     data = shaderSourceUri
@@ -377,9 +367,6 @@ internal class AndroidImageDrawApplier @Inject constructor(
                 }
 
             }
-        }
-
-        return drawImage
     }
 
     private fun transformationsForMode(
@@ -458,7 +445,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
             val path: Path? = when (shape) {
                 is Shape -> shape.toPath()
-                is android.graphics.Path -> shape.asComposePath()
+                is NativePath -> shape.asComposePath()
                 is Path -> shape
                 null -> MaterialStarShape.toPath()
                 else -> null
@@ -502,27 +489,29 @@ internal class AndroidImageDrawApplier @Inject constructor(
         path: Path,
         paint: Paint,
     ): ImageBitmap {
-        val bitmap = this.asAndroidBitmap()
-        val newPath = android.graphics.Path(path.asAndroidPath())
-        Canvas(bitmap).apply {
+        val newPath = NativePath(path.asAndroidPath())
+
+        return asAndroidBitmap().applyCanvas {
             drawPath(
                 newPath.apply {
-                    fillType = android.graphics.Path.FillType.INVERSE_WINDING
+                    fillType = NativePath.FillType.INVERSE_WINDING
                 },
                 paint.asFrameworkPaint()
             )
-        }
-        return bitmap.asImageBitmap()
+        }.asImageBitmap()
     }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val config = safeConfig.toSoftware()
-        val finalBitmap = createBitmap(image.width, image.height, config)
-        val canvas = Canvas(finalBitmap)
-        canvas.drawBitmap(image)
-        canvas.drawBitmap(overlay.toSoftware())
-        return finalBitmap
+
+        return createBitmap(
+            width = image.width,
+            height = image.height,
+            config = safeConfig.toSoftware()
+        ).applyCanvas {
+            drawBitmap(image)
+            drawBitmap(overlay.toSoftware())
+        }
     }
 
     private fun Path.scaleToFitCanvas(
@@ -533,7 +522,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
         val sx = currentSize.width.toFloat() / oldSize.width
         val sy = currentSize.height.toFloat() / oldSize.height
         onGetScale(sx, sy)
-        return android.graphics.Path(this.asAndroidPath()).apply {
+        return NativePath(this.asAndroidPath()).apply {
             transform(
                 Matrix().apply {
                     setScale(sx, sy)

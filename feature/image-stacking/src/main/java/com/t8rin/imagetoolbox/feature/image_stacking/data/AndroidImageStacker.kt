@@ -18,9 +18,9 @@
 package com.t8rin.imagetoolbox.feature.image_stacking.data
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuffXfermode
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.toPorterDuffMode
@@ -67,54 +67,51 @@ internal class AndroidImageStacker @Inject constructor(
             return@withContext null
         }
 
-        val outputBitmap = createBitmap(
+        createBitmap(
             width = resultSize.width,
             height = resultSize.height,
             config = getSuitableConfig()
-        )
+        ).applyCanvas {
+            val paint = Paint()
 
-        val canvas = Canvas(outputBitmap)
-        val paint = Paint()
+            stackImages.forEachIndexed { index, stackImage ->
+                val bitmap = imageGetter.getImage(
+                    data = stackImage.uri
+                )?.let { bitmap ->
+                    bitmap.setHasAlpha(true)
 
-        stackImages.forEachIndexed { index, stackImage ->
-            val bitmap = imageGetter.getImage(
-                data = stackImage.uri
-            )?.let { bitmap ->
-                bitmap.setHasAlpha(true)
+                    val resizeType = when (stackImage.scale) {
+                        StackImage.Scale.None -> null
+                        StackImage.Scale.Fill -> ResizeType.Explicit
+                        StackImage.Scale.Fit -> ResizeType.Flexible(ResizeAnchor.Min)
+                        StackImage.Scale.FitWidth -> ResizeType.Flexible(ResizeAnchor.Width)
+                        StackImage.Scale.FitHeight -> ResizeType.Flexible(ResizeAnchor.Height)
+                        StackImage.Scale.Crop -> ResizeType.CenterCrop(0x00000000)
+                    }
 
-                val resizeType = when (stackImage.scale) {
-                    StackImage.Scale.None -> null
-                    StackImage.Scale.Fill -> ResizeType.Explicit
-                    StackImage.Scale.Fit -> ResizeType.Flexible(ResizeAnchor.Min)
-                    StackImage.Scale.FitWidth -> ResizeType.Flexible(ResizeAnchor.Width)
-                    StackImage.Scale.FitHeight -> ResizeType.Flexible(ResizeAnchor.Height)
-                    StackImage.Scale.Crop -> ResizeType.CenterCrop(0x00000000)
+                    resizeType?.let {
+                        imageScaler.scaleImage(
+                            image = bitmap,
+                            width = resultSize.width,
+                            height = resultSize.height,
+                            resizeType = resizeType
+                        )
+                    } ?: bitmap
+                }
+                paint.alpha = (stackImage.alpha * 255).toInt()
+                paint.xfermode = PorterDuffXfermode(stackImage.blendingMode.toPorterDuffMode())
+
+                bitmap?.let {
+                    drawBitmap(
+                        bitmap = it,
+                        position = stackImage.position,
+                        paint = paint
+                    )
                 }
 
-                resizeType?.let {
-                    imageScaler.scaleImage(
-                        image = bitmap,
-                        width = resultSize.width,
-                        height = resultSize.height,
-                        resizeType = resizeType
-                    )
-                } ?: bitmap
+                onProgress(index + 1)
             }
-            paint.alpha = (stackImage.alpha * 255).toInt()
-            paint.xfermode = PorterDuffXfermode(stackImage.blendingMode.toPorterDuffMode())
-
-            bitmap?.let {
-                canvas.drawBitmap(
-                    bitmap = it,
-                    position = stackImage.position,
-                    paint = paint
-                )
-            }
-
-            onProgress(index + 1)
         }
-
-        outputBitmap
     }
 
     override suspend fun stackImagesPreview(

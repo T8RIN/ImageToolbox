@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.data.image.utils.compressor
 
 import android.graphics.Bitmap
+import androidx.core.graphics.get
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -91,7 +92,7 @@ internal data class IcoBackend(
         // XOR mask (pixel data)
         for (y in height - 1 downTo 0) {
             for (x in 0 until width) {
-                val pixel = bitmap.getPixel(x, y)
+                val pixel = bitmap[x, y]
                 outputStream.write(pixel and 0xFF) // B
                 outputStream.write((pixel shr 8) and 0xFF) // G
                 outputStream.write((pixel shr 16) and 0xFF) // R

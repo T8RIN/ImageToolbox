@@ -18,9 +18,8 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Paint
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
@@ -45,28 +44,30 @@ internal fun Bitmap.mirror(
             val halfWidth = minOf(leftWidth, rightWidth)
             val outputWidth = halfWidth * 2
 
-            val output = createBitmap(outputWidth, height, input.safeConfig)
-            val canvas = Canvas(output)
-
-            if (side == MirrorSide.LeftToRight) {
-                val leftPart = Bitmap.createBitmap(input, centerX - halfWidth, 0, halfWidth, height)
-                val flipped =
-                    Bitmap.createBitmap(leftPart, 0, 0, halfWidth, height, Matrix().apply {
-                        preScale(-1f, 1f)
-                    }, true)
-                canvas.drawBitmap(leftPart)
-                canvas.drawBitmap(flipped, halfWidth.toFloat(), 0f)
-            } else {
-                val rightPart = Bitmap.createBitmap(input, centerX, 0, halfWidth, height)
-                val flipped =
-                    Bitmap.createBitmap(rightPart, 0, 0, halfWidth, height, Matrix().apply {
-                        preScale(-1f, 1f)
-                    }, true)
-                canvas.drawBitmap(flipped)
-                canvas.drawBitmap(rightPart, halfWidth.toFloat(), 0f)
+            createBitmap(
+                width = outputWidth,
+                height = height,
+                config = input.safeConfig
+            ).applyCanvas {
+                if (side == MirrorSide.LeftToRight) {
+                    val leftPart =
+                        Bitmap.createBitmap(input, centerX - halfWidth, 0, halfWidth, height)
+                    val flipped =
+                        Bitmap.createBitmap(leftPart, 0, 0, halfWidth, height, Matrix().apply {
+                            preScale(-1f, 1f)
+                        }, true)
+                    drawBitmap(leftPart)
+                    drawBitmap(flipped, halfWidth.toFloat(), 0f)
+                } else {
+                    val rightPart = Bitmap.createBitmap(input, centerX, 0, halfWidth, height)
+                    val flipped =
+                        Bitmap.createBitmap(rightPart, 0, 0, halfWidth, height, Matrix().apply {
+                            preScale(-1f, 1f)
+                        }, true)
+                    drawBitmap(flipped)
+                    drawBitmap(rightPart, halfWidth.toFloat(), 0f)
+                }
             }
-
-            output
         }
 
         MirrorSide.TopToBottom, MirrorSide.BottomToTop -> {
@@ -76,28 +77,30 @@ internal fun Bitmap.mirror(
             val halfHeight = minOf(topHeight, bottomHeight)
             val outputHeight = halfHeight * 2
 
-            val output = createBitmap(width, outputHeight, input.safeConfig)
-            val canvas = Canvas(output)
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-            if (side == MirrorSide.TopToBottom) {
-                val topPart = Bitmap.createBitmap(input, 0, centerY - halfHeight, width, halfHeight)
-                val flipped = Bitmap.createBitmap(topPart, 0, 0, width, halfHeight, Matrix().apply {
-                    preScale(1f, -1f)
-                }, true)
-                canvas.drawBitmap(topPart, 0f, 0f, paint)
-                canvas.drawBitmap(flipped, 0f, halfHeight.toFloat(), paint)
-            } else {
-                val bottomPart = Bitmap.createBitmap(input, 0, centerY, width, halfHeight)
-                val flipped =
-                    Bitmap.createBitmap(bottomPart, 0, 0, width, halfHeight, Matrix().apply {
-                        preScale(1f, -1f)
-                    }, true)
-                canvas.drawBitmap(flipped, 0f, 0f, paint)
-                canvas.drawBitmap(bottomPart, 0f, halfHeight.toFloat(), paint)
+            createBitmap(
+                width = width,
+                height = outputHeight,
+                config = input.safeConfig
+            ).applyCanvas {
+                if (side == MirrorSide.TopToBottom) {
+                    val topPart =
+                        Bitmap.createBitmap(input, 0, centerY - halfHeight, width, halfHeight)
+                    val flipped =
+                        Bitmap.createBitmap(topPart, 0, 0, width, halfHeight, Matrix().apply {
+                            preScale(1f, -1f)
+                        }, true)
+                    drawBitmap(topPart)
+                    drawBitmap(flipped, 0f, halfHeight.toFloat())
+                } else {
+                    val bottomPart = Bitmap.createBitmap(input, 0, centerY, width, halfHeight)
+                    val flipped =
+                        Bitmap.createBitmap(bottomPart, 0, 0, width, halfHeight, Matrix().apply {
+                            preScale(1f, -1f)
+                        }, true)
+                    drawBitmap(flipped)
+                    drawBitmap(bottomPart, 0f, halfHeight.toFloat())
+                }
             }
-
-            output
         }
     }
 }

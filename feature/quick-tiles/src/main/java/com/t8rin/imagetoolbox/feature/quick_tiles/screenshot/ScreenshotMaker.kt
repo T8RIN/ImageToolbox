@@ -25,6 +25,7 @@ import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
 import android.util.DisplayMetrics
+import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.mainLooperDelayedAction
 
 
@@ -70,10 +71,9 @@ class ScreenshotMaker(
         val pixelStride = planes[0].pixelStride
         val rowStride = planes[0].rowStride
         val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
-        val bitmap = Bitmap.createBitmap(
-            displayMetrics.widthPixels + rowPadding / pixelStride,
-            displayMetrics.heightPixels,
-            Bitmap.Config.ARGB_8888
+        val bitmap = createBitmap(
+            width = displayMetrics.widthPixels + rowPadding / pixelStride,
+            height = displayMetrics.heightPixels
         )
         bitmap.copyPixelsFromBuffer(buffer)
         finish()

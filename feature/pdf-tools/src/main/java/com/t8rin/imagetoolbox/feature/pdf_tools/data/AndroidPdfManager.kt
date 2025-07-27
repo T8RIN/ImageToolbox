@@ -19,11 +19,11 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import coil3.ImageLoader
@@ -142,9 +142,7 @@ internal class AndroidPdfManager @Inject constructor(
                             width = bitmap.width,
                             height = bitmap.height,
                             config = getSuitableConfig(bitmap)
-                        )
-
-                        Canvas(renderedBitmap).apply {
+                        ).applyCanvas {
                             drawColor(Color.White.toArgb())
                             drawBitmap(bitmap)
                         }

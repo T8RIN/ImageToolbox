@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -26,6 +25,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
@@ -61,9 +61,10 @@ internal class SideFadeFilter(
                 }.roundToInt()
             }
         }
-        val canvas = Canvas(bitmap)
-        canvas.drawPaint(value.side.getPaint(input, fadeSize))
-        return bitmap
+
+        return bitmap.applyCanvas {
+            drawPaint(value.side.getPaint(input, fadeSize))
+        }
     }
 
     private fun FadeSide.getPaint(

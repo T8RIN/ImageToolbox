@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
@@ -45,7 +46,7 @@ private fun Bitmap.stackBlur(
     var sentBitmap = this@stackBlur
     val width = (sentBitmap.width * scale).roundToInt().coerceAtLeast(1)
     val height = (sentBitmap.height * scale).roundToInt().coerceAtLeast(1)
-    sentBitmap = Bitmap.createScaledBitmap(sentBitmap, width, height, true)
+    sentBitmap = sentBitmap.scale(width, height)
     val bitmap = sentBitmap.copy(sentBitmap.safeConfig, true)
     if (radius < 1) {
         return this
@@ -259,10 +260,8 @@ private fun Bitmap.stackBlur(
     }
 
     bitmap.setPixels(pix, 0, w, 0, 0, w, h)
-    return Bitmap.createScaledBitmap(
-        bitmap,
-        (bitmap.width / scale).toInt(),
-        (bitmap.height / scale).toInt(),
-        true
+    return bitmap.scale(
+        width = (bitmap.width / scale).toInt(),
+        height = (bitmap.height / scale).toInt()
     )
 }

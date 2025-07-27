@@ -18,10 +18,10 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.data
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
@@ -107,79 +107,82 @@ internal class AndroidImageCombiner @Inject constructor(
                 } else image
             }
 
-            val bitmap = createBitmap(size.width, size.height, getSuitableConfig())
-            val canvas = Canvas(bitmap).apply {
+            val bitmap = createBitmap(
+                width = size.width,
+                height = size.height,
+                config = getSuitableConfig()
+            ).applyCanvas {
                 drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                 drawColor(combiningParams.backgroundColor)
-            }
 
-            var pos = 0
-            for (i in imagesUris.indices) {
-                var bmp = bitmaps[i]
+                var pos = 0
+                for (i in imagesUris.indices) {
+                    var bmp = bitmaps[i]
 
-                combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
-                    ?.let {
-                        val space = combiningParams.spacing.absoluteValue
-                        val bottomFilter = createFilter<SideFadeParams, Filter.SideFade>(
-                            SideFadeParams.Absolute(
-                                side = if (isHorizontal) {
-                                    FadeSide.End
-                                } else FadeSide.Bottom,
-                                size = space
+                    combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
+                        ?.let {
+                            val space = combiningParams.spacing.absoluteValue
+                            val bottomFilter = createFilter<SideFadeParams, Filter.SideFade>(
+                                SideFadeParams.Absolute(
+                                    side = if (isHorizontal) {
+                                        FadeSide.End
+                                    } else FadeSide.Bottom,
+                                    size = space
+                                )
                             )
-                        )
-                        val topFilter = createFilter<SideFadeParams, Filter.SideFade>(
-                            SideFadeParams.Absolute(
-                                side = if (isHorizontal) {
-                                    FadeSide.Start
-                                } else FadeSide.Top,
-                                size = space
+                            val topFilter = createFilter<SideFadeParams, Filter.SideFade>(
+                                SideFadeParams.Absolute(
+                                    side = if (isHorizontal) {
+                                        FadeSide.Start
+                                    } else FadeSide.Top,
+                                    size = space
+                                )
                             )
-                        )
-                        val filters = if (combiningParams.fadingEdgesMode == 0) {
-                            when (i) {
-                                0 -> listOf()
-                                else -> listOf(topFilter)
+                            val filters = if (combiningParams.fadingEdgesMode == 0) {
+                                when (i) {
+                                    0 -> listOf()
+                                    else -> listOf(topFilter)
+                                }
+                            } else {
+                                when (i) {
+                                    0 -> listOf(bottomFilter)
+                                    imagesUris.lastIndex -> listOf(topFilter)
+                                    else -> listOf(topFilter, bottomFilter)
+                                }
+                            }.map {
+                                filterProvider.filterToTransformation(it)
                             }
-                        } else {
-                            when (i) {
-                                0 -> listOf(bottomFilter)
-                                imagesUris.lastIndex -> listOf(topFilter)
-                                else -> listOf(topFilter, bottomFilter)
-                            }
-                        }.map {
-                            filterProvider.filterToTransformation(it)
+
+                            imageTransformer.transform(bmp, filters)?.let { bmp = it }
                         }
 
-                        imageTransformer.transform(bmp, filters)?.let { bmp = it }
+                    if (isHorizontal) {
+                        drawBitmap(
+                            bitmap = bmp,
+                            left = pos.toFloat(),
+                            top = when (combiningParams.alignment) {
+                                StitchAlignment.Start -> 0f
+                                StitchAlignment.Center -> (height - bmp.height) / 2f
+                                StitchAlignment.End -> (height - bmp.height).toFloat()
+                            }
+                        )
+                    } else {
+                        drawBitmap(
+                            bitmap = bmp,
+                            left = when (combiningParams.alignment) {
+                                StitchAlignment.Start -> 0f
+                                StitchAlignment.Center -> (width - bmp.width) / 2f
+                                StitchAlignment.End -> (width - bmp.width).toFloat()
+                            },
+                            top = pos.toFloat()
+                        )
                     }
+                    pos += if (isHorizontal) {
+                        (bmp.width + combiningParams.spacing).coerceAtLeast(1)
+                    } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
 
-                if (isHorizontal) {
-                    canvas.drawBitmap(
-                        bitmap = bmp,
-                        left = pos.toFloat(),
-                        top = when (combiningParams.alignment) {
-                            StitchAlignment.Start -> 0f
-                            StitchAlignment.Center -> (canvas.height - bmp.height) / 2f
-                            StitchAlignment.End -> (canvas.height - bmp.height).toFloat()
-                        }
-                    )
-                } else {
-                    canvas.drawBitmap(
-                        bitmap = bmp,
-                        left = when (combiningParams.alignment) {
-                            StitchAlignment.Start -> 0f
-                            StitchAlignment.Center -> (canvas.width - bmp.width) / 2f
-                            StitchAlignment.End -> (canvas.width - bmp.width).toFloat()
-                        },
-                        top = pos.toFloat()
-                    )
+                    onProgress(i + 1)
                 }
-                pos += if (isHorizontal) {
-                    (bmp.width + combiningParams.spacing).coerceAtLeast(1)
-                } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
-
-                onProgress(i + 1)
             }
 
             return imageScaler.scaleImage(
