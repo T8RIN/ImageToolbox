@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
+import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -54,10 +55,9 @@ internal class AndroidGradientMaker @Inject constructor(
         gradientState: GradientState<ShaderBrush, Size, Color, TileMode, Offset>
     ): Bitmap? = createGradient(
         src = integerSize.toSize().run {
-            Bitmap.createBitmap(
-                width.toInt(),
-                height.toInt(),
-                Bitmap.Config.ARGB_8888
+            createBitmap(
+                width = width.toInt(),
+                height = height.toInt()
             )
         },
         gradientState = gradientState,
@@ -96,10 +96,9 @@ internal class AndroidGradientMaker @Inject constructor(
         gradientState: MeshGradientState<Color, Offset>
     ): Bitmap? = createMeshGradient(
         src = integerSize.toSize().run {
-            Bitmap.createBitmap(
-                width.toInt(),
-                height.toInt(),
-                Bitmap.Config.ARGB_8888
+            createBitmap(
+                width = width.toInt(),
+                height = height.toInt()
             )
         },
         gradientState = gradientState,

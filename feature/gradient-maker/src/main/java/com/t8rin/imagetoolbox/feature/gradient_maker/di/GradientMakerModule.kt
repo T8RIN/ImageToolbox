@@ -23,12 +23,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import com.t8rin.imagetoolbox.feature.gradient_maker.data.AndroidGradientMaker
+import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientMaker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.t8rin.imagetoolbox.feature.gradient_maker.data.AndroidGradientMaker
-import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientMaker
 import javax.inject.Singleton
 
 @Module

@@ -293,7 +293,7 @@ interface Filter<Value> : VisibilityOwner {
     interface AutoRemoveRedEyes : FloatFilter
     interface ToneCurves : Filter<ToneCurvesParams>
     interface Mirror : PairFilter<Float, MirrorSide>
-    interface Kaleidoscope: Filter<KaleidoscopeParams>
+    interface Kaleidoscope : Filter<KaleidoscopeParams>
     interface ChannelMix : Filter<ChannelMixParams>
     interface ColorHalftone : QuadFloatFilter
     interface Contour : QuadFilter<Float, Float, Float, ColorModel>
