@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.root.presentation.screenLogic
 
+import android.content.Intent
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.parseImageFromIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -466,6 +468,21 @@ class RootComponent @AssistedInject internal constructor(
         observer: BackEventObserver
     ) {
         backEventsObservers.remove(observer)
+    }
+
+    fun parseImage(intent: Intent?) {
+        parseImageFromIntent(
+            intent = intent,
+            onStart = ::hideSelectDialog,
+            onHasExtraDataType = ::updateExtraDataType,
+            onColdStart = ::cancelShowingExitDialog,
+            onGetUris = ::updateUris,
+            onShowToast = ::showToast,
+            onNavigate = ::navigateTo,
+            isHasUris = !uris.isNullOrEmpty(),
+            onWantGithubReview = ::onWantGithubReview,
+            isOpenEditInsteadOfPreview = settingsState.openEditInsteadOfPreview
+        )
     }
 
 

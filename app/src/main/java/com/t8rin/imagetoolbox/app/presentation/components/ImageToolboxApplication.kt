@@ -23,6 +23,7 @@ import com.arkivanov.decompose.DecomposeExperimentFlags
 import com.t8rin.imagetoolbox.app.presentation.components.utils.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.utils.registerSecurityProviders
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
+import com.t8rin.imagetoolbox.core.ui.utils.initAppContext
 import dagger.hilt.android.HiltAndroidApp
 
 
@@ -39,6 +40,7 @@ class ImageToolboxApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initAppContext()
         attachLogWriter()
         applyGlobalExceptionHandler()
     }

@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.app.presentation
 import android.content.Intent
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.retainedComponent
-import com.t8rin.imagetoolbox.app.presentation.components.utils.parseImageFromIntent
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
 import com.t8rin.imagetoolbox.feature.root.presentation.RootContent
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
@@ -40,25 +39,11 @@ class AppActivity : ComposeActivity() {
     @Composable
     override fun Content() = RootContent(component = component)
 
-    override fun onFirstLaunch() = parseImage(intent)
+    override fun onFirstLaunch() = component.parseImage(intent)
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        parseImage(intent)
+        component.parseImage(intent)
     }
 
-    private fun parseImage(intent: Intent?) {
-        parseImageFromIntent(
-            intent = intent,
-            onStart = component::hideSelectDialog,
-            onHasExtraDataType = component::updateExtraDataType,
-            onColdStart = component::cancelShowingExitDialog,
-            onGetUris = component::updateUris,
-            onShowToast = component::showToast,
-            onNavigate = component::navigateTo,
-            isHasUris = !component.uris.isNullOrEmpty(),
-            onWantGithubReview = component::onWantGithubReview,
-            isOpenEditInsteadOfPreview = component.settingsState.openEditInsteadOfPreview
-        )
-    }
 }

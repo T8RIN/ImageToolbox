@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.app.presentation.components.utils
+package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.Intent
 import android.net.Uri
@@ -25,16 +25,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
+import com.t8rin.imagetoolbox.core.ui.utils.appContext
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenOpeningShortcut
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
-import com.t8rin.imagetoolbox.core.ui.utils.helper.PickColorAction
-import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
-import com.t8rin.imagetoolbox.core.ui.utils.helper.getTileScreenAction
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
-fun ComposeActivity.parseImageFromIntent(
+fun parseImageFromIntent(
     intent: Intent?,
     onStart: () -> Unit,
     onColdStart: () -> Unit,
@@ -201,13 +198,13 @@ fun ComposeActivity.parseImageFromIntent(
 
                     else -> null
                 } ?: onShowToast(
-                    getString(R.string.unsupported_type, intent.type),
+                    appContext.getString(R.string.unsupported_type, intent.type),
                     Icons.Rounded.ErrorOutline
                 )
             }
         } else Unit
     }.getOrNull() ?: onShowToast(
-        getString(R.string.something_went_wrong),
+        appContext.getString(R.string.something_went_wrong),
         Icons.Rounded.ErrorOutline
     )
 }
