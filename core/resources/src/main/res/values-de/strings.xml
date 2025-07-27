@@ -1690,4 +1690,6 @@
     <string name="spread_angle">Verschmierungswinkel</string>
     <string name="sparkle">Glitzern</string>
     <string name="rays">Strahlen</string>
+    <string name="ascii">ASCII</string>
+    <string name="gradient">Farbverlauf</string>
 </resources>
