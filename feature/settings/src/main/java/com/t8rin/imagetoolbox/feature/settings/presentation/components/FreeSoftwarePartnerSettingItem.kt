@@ -42,7 +42,7 @@ fun FreeSoftwarePartnerSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    if (BuildConfig.FLAVOR == "foss" || Locale.getDefault().language != "com") return
+    if (BuildConfig.FLAVOR == "foss" || Locale.getDefault().language != "ru") return
 
     val linkHandler = LocalUriHandler.current
     PreferenceRow(
