@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeAnchor
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -240,10 +241,8 @@ internal class AndroidImageScaler @Inject constructor(
                     drawColor(it)
                 } ?: blurredBitmap?.let {
                     drawBitmap(
-                        blurredBitmap,
-                        (width - blurredBitmap.width) / 2f,
-                        (height - blurredBitmap.height) / 2f,
-                        null
+                        bitmap = blurredBitmap,
+                        position = Position.Center
                     )
                 }
                 drawBitmap(
@@ -323,10 +322,8 @@ internal class AndroidImageScaler @Inject constructor(
                     drawColor(it)
                 } ?: blurredBitmap?.let {
                     drawBitmap(
-                        blurredBitmap,
-                        (width - blurredBitmap.width) / 2f,
-                        (height - blurredBitmap.height) / 2f,
-                        null
+                        bitmap = blurredBitmap,
+                        position = Position.Center
                     )
                 }
                 drawBitmap(

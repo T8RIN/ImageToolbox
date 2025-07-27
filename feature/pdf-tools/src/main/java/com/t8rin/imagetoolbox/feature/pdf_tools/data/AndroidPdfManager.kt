@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.ui.graphics.Color
@@ -31,8 +30,10 @@ import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.size.Size
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
+import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -83,10 +84,6 @@ internal class AndroidPdfManager @Inject constructor(
             } else image
         }
 
-        val paint = Paint().apply {
-            isAntiAlias = true
-        }
-
         bitmaps.forEachIndexed { index, imageBitmap ->
             val pageInfo = PdfDocument.PageInfo.Builder(
                 imageBitmap.width,
@@ -94,11 +91,7 @@ internal class AndroidPdfManager @Inject constructor(
                 index
             ).create()
             val page = pdfDocument.startPage(pageInfo)
-            page.canvas.drawBitmap(
-                imageBitmap,
-                0f, 0f,
-                paint
-            )
+            page.canvas.drawBitmap(imageBitmap)
             pdfDocument.finishPage(page)
             delay(10L)
             onProgressChange(index)
@@ -122,9 +115,7 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit
     ): Unit = withContext(ioDispatcher) {
-        context.contentResolver.openFileDescriptor(
-            pdfUri.toUri(), "r"
-        )?.use { fileDescriptor ->
+        context.openFileDescriptor(pdfUri.toUri())?.use { fileDescriptor ->
             withContext(defaultDispatcher) default@{
                 val pdfRenderer = fileDescriptor.createPdfRenderer(
                     password = password,
@@ -147,11 +138,15 @@ internal class AndroidPdfManager @Inject constructor(
                             page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                         }
 
-                        val renderedBitmap =
-                            createBitmap(bitmap.width, bitmap.height, getSuitableConfig(bitmap))
+                        val renderedBitmap = createBitmap(
+                            width = bitmap.width,
+                            height = bitmap.height,
+                            config = getSuitableConfig(bitmap)
+                        )
+
                         Canvas(renderedBitmap).apply {
                             drawColor(Color.White.toArgb())
-                            drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
+                            drawBitmap(bitmap)
                         }
 
                         onProgressChange(pageIndex, renderedBitmap)
@@ -168,10 +163,7 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<Int> = withContext(decodingDispatcher) {
         runCatching {
-            context.contentResolver.openFileDescriptor(
-                uri.toUri(),
-                "r"
-            )?.use { fileDescriptor ->
+            context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
                 val renderer = fileDescriptor.createPdfRenderer(
                     password = password,
                     onFailure = {},
@@ -188,10 +180,7 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<IntegerSize> = withContext(decodingDispatcher) {
         pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
-            context.contentResolver.openFileDescriptor(
-                uri.toUri(),
-                "r"
-            )?.use { fileDescriptor ->
+            context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
                 val renderer = fileDescriptor.createPdfRenderer(
                     password = password,
                     onFailure = {},

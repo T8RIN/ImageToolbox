@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.copyTo
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import kotlinx.coroutines.coroutineScope
@@ -53,8 +54,7 @@ suspend fun Context.copyMetadata(
         }
     } else if (keepOriginalMetadata) {
         val newUri = originalUri.tryRequireOriginal(this)
-        val exif = contentResolver
-            .openFileDescriptor(newUri, "r")
+        val exif = openFileDescriptor(newUri)
             ?.use { it.fileDescriptor.toMetadata() }
 
         getFileDescriptorFor(fileUri)?.use {
@@ -75,13 +75,25 @@ fun Context.openWriteableStream(
     onFailure: (Throwable) -> Unit = {}
 ): OutputStream? = uri?.let {
     runCatching {
-        contentResolver.openOutputStream(uri, "rw")
+        openOutputStream(
+            uri = uri,
+            mode = FileMode.ReadWrite
+        )
     }.getOrElse {
         runCatching {
-            contentResolver.openOutputStream(uri, "w")
+            openOutputStream(
+                uri = uri,
+                mode = FileMode.Write
+            )
         }.onFailure(onFailure).getOrNull()
     }
 }
+
+fun Context.openFileDescriptor(uri: Uri, mode: FileMode = FileMode.Read) =
+    contentResolver.openFileDescriptor(uri, mode.mode)
+
+fun Context.openOutputStream(uri: Uri, mode: FileMode) =
+    contentResolver.openOutputStream(uri, mode.mode)
 
 internal suspend fun Context.clearCache() = coroutineScope {
     runCatching {

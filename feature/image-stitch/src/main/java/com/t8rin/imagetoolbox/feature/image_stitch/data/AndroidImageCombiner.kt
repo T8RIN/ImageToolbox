@@ -23,6 +23,7 @@ import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -155,25 +156,23 @@ internal class AndroidImageCombiner @Inject constructor(
 
                 if (isHorizontal) {
                     canvas.drawBitmap(
-                        bmp,
-                        pos.toFloat(),
-                        when (combiningParams.alignment) {
+                        bitmap = bmp,
+                        left = pos.toFloat(),
+                        top = when (combiningParams.alignment) {
                             StitchAlignment.Start -> 0f
                             StitchAlignment.Center -> (canvas.height - bmp.height) / 2f
                             StitchAlignment.End -> (canvas.height - bmp.height).toFloat()
-                        },
-                        null
+                        }
                     )
                 } else {
                     canvas.drawBitmap(
-                        bmp,
-                        when (combiningParams.alignment) {
+                        bitmap = bmp,
+                        left = when (combiningParams.alignment) {
                             StitchAlignment.Start -> 0f
                             StitchAlignment.Center -> (canvas.width - bmp.width) / 2f
                             StitchAlignment.End -> (canvas.width - bmp.width).toFloat()
                         },
-                        pos.toFloat(),
-                        null
+                        top = pos.toFloat()
                     )
                 }
                 pos += if (isHorizontal) {

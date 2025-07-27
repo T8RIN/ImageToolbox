@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.asDomain
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -242,12 +243,10 @@ class CompareComponent @AssistedInject internal constructor(
         runCatching {
             canvas.drawBitmap(
                 Bitmap.createBitmap(
-                    image,
-                    0,
-                    0,
+                    image, 0, 0,
                     (image.width * percent / 100).roundToInt(),
                     image.height
-                ), 0f, 0f, null
+                )
             )
         }
         return finalBitmap

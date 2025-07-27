@@ -32,6 +32,7 @@ import com.awxkee.jxlcoder.coil.enableJxlAnimation
 import com.github.awxkee.avifcoil.decoder.animation.enableAvifAnimation
 import com.t8rin.imagetoolbox.core.data.coil.UpscaleSvgDecoder
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
+import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.data.utils.tryRequireOriginal
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -84,7 +85,7 @@ internal class AndroidImageGetter @Inject constructor(
             onFailure = onFailure
         )?.let { bitmap ->
             val newUri = uri.toUri().tryRequireOriginal(context)
-            context.contentResolver.openFileDescriptor(newUri, "r").use {
+            context.openFileDescriptor(newUri).use {
                 ImageData(
                     image = bitmap,
                     imageInfo = ImageInfo(
@@ -142,7 +143,7 @@ internal class AndroidImageGetter @Inject constructor(
             addSizeToRequest = originalSize
         )?.let { bitmap ->
             val newUri = uri.toUri().tryRequireOriginal(context)
-            context.contentResolver.openFileDescriptor(newUri, "r").use {
+            context.openFileDescriptor(newUri).use {
                 ImageData(
                     image = bitmap,
                     imageInfo = ImageInfo(

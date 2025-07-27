@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.image_cutting.data
 import android.graphics.Bitmap
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -184,7 +185,7 @@ internal class AndroidImageCutter @Inject constructor(
             .applyCanvas {
                 var offsetY = 0f
                 for (part in parts) {
-                    drawBitmap(part, 0f, offsetY, null)
+                    drawBitmap(part, 0f, offsetY)
                     offsetY += part.height
                     part.recycle()
                 }
@@ -261,7 +262,7 @@ internal class AndroidImageCutter @Inject constructor(
             .applyCanvas {
                 var offsetX = 0f
                 for (part in parts) {
-                    drawBitmap(part, offsetX, 0f, null)
+                    drawBitmap(part, offsetX, 0f)
                     offsetX += part.width
                     part.recycle()
                 }

@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.data.utils.getPath
 import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
 import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectory
 import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
+import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
 import com.t8rin.imagetoolbox.core.data.utils.toUiPath
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.use
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -167,7 +169,10 @@ internal class AndroidFileController @Inject constructor(
                 runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()
 
-                    context.contentResolver.openFileDescriptor(originalUri, "wt")
+                    context.openFileDescriptor(
+                        uri = originalUri,
+                        mode = FileMode.WriteTruncate
+                    )
                 }.onFailure {
                     settingsManager.setImagePickerMode(3)
                     return@withContext SaveResult.Error.Exception(

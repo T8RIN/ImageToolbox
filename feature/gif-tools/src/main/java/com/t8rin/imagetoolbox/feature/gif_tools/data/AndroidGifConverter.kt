@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.gif_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -32,6 +31,7 @@ import com.awxkee.jxlcoder.JxlEffort
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
@@ -174,8 +174,8 @@ internal class AndroidGifConverter @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         return createBitmap(width, height, safeConfig.toSoftware()).applyCanvas {
-            drawBitmap(this@overlay, Matrix(), null)
-            drawBitmap(overlay.toSoftware(), 0f, 0f, null)
+            drawBitmap(this@overlay)
+            drawBitmap(overlay.toSoftware())
         }
     }
 

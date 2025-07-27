@@ -28,6 +28,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.resources.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -168,7 +169,10 @@ fun Context.getFileDescriptorFor(
     uri: Uri?
 ): ParcelFileDescriptor? = uri?.let {
     runCatching {
-        contentResolver.openFileDescriptor(uri, "rw")
+        openFileDescriptor(
+            uri = uri,
+            mode = FileMode.ReadWrite
+        )
     }.getOrNull()
 }
 
@@ -177,7 +181,7 @@ internal fun Uri.tryRequireOriginal(context: Context): Uri {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         runCatching {
             MediaStore.setRequireOriginal(this).also {
-                context.contentResolver.openFileDescriptor(it, "r")?.close()
+                context.openFileDescriptor(it)?.close()
             }
         }.getOrNull() ?: tempUri
     } else this

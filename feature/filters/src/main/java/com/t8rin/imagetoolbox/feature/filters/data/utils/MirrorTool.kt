@@ -22,6 +22,7 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 
@@ -46,7 +47,6 @@ internal fun Bitmap.mirror(
 
             val output = createBitmap(outputWidth, height, input.safeConfig)
             val canvas = Canvas(output)
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
             if (side == MirrorSide.LeftToRight) {
                 val leftPart = Bitmap.createBitmap(input, centerX - halfWidth, 0, halfWidth, height)
@@ -54,16 +54,16 @@ internal fun Bitmap.mirror(
                     Bitmap.createBitmap(leftPart, 0, 0, halfWidth, height, Matrix().apply {
                         preScale(-1f, 1f)
                     }, true)
-                canvas.drawBitmap(leftPart, 0f, 0f, paint)
-                canvas.drawBitmap(flipped, halfWidth.toFloat(), 0f, paint)
+                canvas.drawBitmap(leftPart)
+                canvas.drawBitmap(flipped, halfWidth.toFloat(), 0f)
             } else {
                 val rightPart = Bitmap.createBitmap(input, centerX, 0, halfWidth, height)
                 val flipped =
                     Bitmap.createBitmap(rightPart, 0, 0, halfWidth, height, Matrix().apply {
                         preScale(-1f, 1f)
                     }, true)
-                canvas.drawBitmap(flipped, 0f, 0f, paint)
-                canvas.drawBitmap(rightPart, halfWidth.toFloat(), 0f, paint)
+                canvas.drawBitmap(flipped)
+                canvas.drawBitmap(rightPart, halfWidth.toFloat(), 0f)
             }
 
             output

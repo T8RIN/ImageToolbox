@@ -23,6 +23,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
+import androidx.core.graphics.withSave
 import kotlin.math.atan2
 
 fun Canvas.drawRepeatedTextOnPath(
@@ -76,16 +77,16 @@ fun Canvas.drawRepeatedBitmapOnPath(
 
         val degree = Math.toDegrees(atan2(tan[1].toDouble(), tan[0].toDouble())).toFloat()
 
-        save()
-        translate(pos[0], pos[1])
-        rotate(degree)
+        withSave {
+            translate(pos[0], pos[1])
+            rotate(degree)
 
-        matrix.reset()
-        matrix.postTranslate(-bitmapWidth / 2, -bitmapHeight / 2)
-        matrix.postRotate(degree)
-        matrix.postTranslate(bitmapWidth / 2, bitmapHeight / 2)
-        drawBitmap(bitmap, matrix, paint)
-        restore()
+            matrix.reset()
+            matrix.postTranslate(-bitmapWidth / 2, -bitmapHeight / 2)
+            matrix.postRotate(degree)
+            matrix.postTranslate(bitmapWidth / 2, bitmapHeight / 2)
+            drawBitmap(bitmap, matrix, paint)
+        }
 
         if (interval < 0 && distance + bitmapWidth < 0) break
         else {

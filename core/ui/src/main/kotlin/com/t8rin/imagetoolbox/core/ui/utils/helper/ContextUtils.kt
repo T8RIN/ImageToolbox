@@ -56,6 +56,7 @@ import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.image_vector.toImageBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -235,7 +236,7 @@ object ContextUtils {
                             Locale.ENGLISH,
                             "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq",
                             i
-                        ), "r"
+                        ), FileMode.Read.mode
                     )
                     val line = reader.readLine()
                     if (line != null) {

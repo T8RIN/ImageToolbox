@@ -18,8 +18,6 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -32,6 +30,7 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -281,17 +280,21 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private suspend fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
         val config = image.safeConfig.toSoftware()
-        val finalBitmap = createBitmap(image.width, image.height, config)
-        val canvas = Canvas(finalBitmap)
-        canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(
-            imageScaler.scaleImage(
-                image = overlay.copy(config, false),
-                width = width,
-                height = height
-            ), 0f, 0f, null
-        )
-        return finalBitmap
+
+        return createBitmap(
+            width = image.width,
+            height = image.height,
+            config = config
+        ).applyCanvas {
+            drawBitmap(image)
+            drawBitmap(
+                imageScaler.scaleImage(
+                    image = overlay.copy(config, false),
+                    width = width,
+                    height = height
+                )
+            )
+        }
     }
 
     private val captureRequestChannel: Channel<Boolean> = Channel(Channel.BUFFERED)

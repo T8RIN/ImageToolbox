@@ -54,3 +54,9 @@ fun Canvas.drawBitmap(
         paint
     )
 }
+
+fun Canvas.drawBitmap(
+    bitmap: Bitmap,
+    left: Float = 0f,
+    top: Float = 0f
+) = drawBitmap(bitmap, left, top, Paint(Paint.ANTI_ALIAS_FLAG))

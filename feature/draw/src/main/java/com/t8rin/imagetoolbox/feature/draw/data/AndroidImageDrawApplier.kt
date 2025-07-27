@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.density
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
@@ -160,12 +161,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             paint = paint
                         )
                         if (shaderSource != null) {
-                            drawBitmap(
-                                shaderSource.asAndroidBitmap(),
-                                0f,
-                                0f,
-                                NativePaint()
-                            )
+                            drawBitmap(shaderSource.asAndroidBitmap())
                         }
                     } else if (drawMode is DrawMode.SpotHeal && !isErasing) {
                         val paint = Paint().apply {
@@ -214,9 +210,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     paint = paint.apply {
                                         blendMode = BlendMode.Clear
                                     }
-                                ).asAndroidBitmap(),
-                                0f, 0f,
-                                NativePaint()
+                                ).asAndroidBitmap()
                             )
                         }
                     } else {
@@ -338,9 +332,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                 canvas.height
             )
             canvas.apply {
-                drawBitmap(
-                    it, 0f, 0f, NativePaint()
-                )
+                drawBitmap(it)
 
                 val recoveryShader = imageGetter.getImage(
                     data = shaderSourceUri
@@ -528,8 +520,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
         val config = safeConfig.toSoftware()
         val finalBitmap = createBitmap(image.width, image.height, config)
         val canvas = Canvas(finalBitmap)
-        canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(overlay.toSoftware(), 0f, 0f, null)
+        canvas.drawBitmap(image)
+        canvas.drawBitmap(overlay.toSoftware())
         return finalBitmap
     }
 

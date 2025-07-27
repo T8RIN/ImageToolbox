@@ -31,6 +31,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -155,12 +158,15 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this
-        val finalBitmap =
-            Bitmap.createBitmap(image.width, image.height, image.safeConfig.toSoftware())
-        val canvas = Canvas(finalBitmap)
-        canvas.drawBitmap(image, Matrix(), null)
-        canvas.drawBitmap(overlay.toSoftware(), 0f, 0f, null)
-        return finalBitmap
+
+        return createBitmap(
+            width = image.width,
+            height = image.height,
+            config = image.safeConfig.toSoftware()
+        ).applyCanvas {
+            drawBitmap(image)
+            drawBitmap(overlay.toSoftware())
+        }
     }
 
     private fun Path.scaleToFitCanvas(
