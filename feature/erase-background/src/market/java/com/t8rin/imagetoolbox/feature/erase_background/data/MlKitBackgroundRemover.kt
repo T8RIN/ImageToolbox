@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.erase_background.data
 
 import android.graphics.Bitmap
+import androidx.core.graphics.set
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.segmentation.Segmentation
 import com.google.mlkit.vision.segmentation.Segmenter
@@ -86,7 +87,7 @@ internal object MlKitBackgroundRemover {
             for (x in 0 until width) {
                 val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
                 if (bgConfidence >= 100) {
-                    image.setPixel(x, y, 0)
+                    image[x, y] = 0
                 }
             }
         }
