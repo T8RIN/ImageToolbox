@@ -33,14 +33,14 @@ fun CharSequence.isBase64() = isNotEmpty() && BASE64_PATTERN.matches(this)
 fun CharSequence.trimToBase64() = toString().filter { !it.isWhitespace() }.substringAfter(",")
 
 private val BASE64_PATTERN = Regex(
-    "^(?=(.{4})*\$)[A-Za-z0-9+/]*={0,2}\$"
+    "^(?=(.{4})*$)[A-Za-z0-9+/]*={0,2}$"
 )
 
-inline fun <reified T, reified R> T.cast(): R = this as R
+inline fun <reified R> Any.cast(): R = this as R
 
 inline fun <reified T, reified R> T.autoCast(block: T.() -> Any): R = block() as R
 
-inline fun <reified T, reified R> T.safeCast(): R? = this as? R
+inline fun <reified R> Any.safeCast(): R? = this as? R
 
 inline fun <reified R> Any?.ifCasts(action: (R) -> Unit) = (this as? R)?.let(action)
 

@@ -46,7 +46,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -154,7 +153,7 @@ internal fun MediaPickerGrid(
                         }
                     }
                     selectedMedia.clear()
-                    selectedMedia.addAll(order.mapNotNull { it.safeCast() })
+                    selectedMedia.addAll(order.mapNotNull(Any::safeCast))
                 },
                 autoScrollSpeed = autoScrollSpeed,
                 autoScrollThreshold = 40.dp.toPx(),

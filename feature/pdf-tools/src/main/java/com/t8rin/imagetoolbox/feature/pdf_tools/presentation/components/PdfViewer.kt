@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components
 
-import android.app.Activity
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
@@ -557,7 +556,7 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        requireActivity().safeCast<Activity, ComposeActivity>()?.let { activity ->
+        requireActivity().safeCast<ComposeActivity>()?.let { activity ->
             activity.applyDynamicColors()
             lifecycleScope.launch {
                 activity.applyGlobalNightMode()
