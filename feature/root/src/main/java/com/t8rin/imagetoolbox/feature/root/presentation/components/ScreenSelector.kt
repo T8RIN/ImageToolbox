@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.toolboxPredictiveBackAnimation
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalCurrentScreen
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.ResetThemeOnGoBack
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.ScreenBasedMaxBrightnessEnforcement
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
@@ -35,7 +36,7 @@ internal fun ScreenSelector(
     ResetThemeOnGoBack(component)
 
     val childStack by component.childStack.subscribeAsState()
-    val currentScreen = childStack.items.lastOrNull()?.configuration
+    val currentScreen = LocalCurrentScreen.current
 
     SettingsBackdropWrapper(
         currentScreen = currentScreen,

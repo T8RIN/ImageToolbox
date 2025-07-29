@@ -23,9 +23,6 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ImageToolboxCompositionLocals
 import com.t8rin.imagetoolbox.feature.root.presentation.components.RootDialogs
 import com.t8rin.imagetoolbox.feature.root.presentation.components.ScreenSelector
-import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.AppExitDialog
-import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.HandleUpdateSearching
-import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.SuccessRestoreBackup
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.uiSettingsState
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 
@@ -42,14 +39,8 @@ fun RootContent(
         simpleSettingsInteractor = component.simpleSettingsInteractor,
         currentScreen = stack.items.lastOrNull()?.configuration
     ) {
-        AppExitDialog(component)
-
         ScreenSelector(component)
 
         RootDialogs(component)
-
-        SuccessRestoreBackup(component)
-
-        HandleUpdateSearching(component)
     }
 }

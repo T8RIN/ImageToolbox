@@ -31,10 +31,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalCurrentScreen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
@@ -42,10 +42,9 @@ import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponen
 
 @Composable
 internal fun AppExitDialog(component: RootComponent) {
-    val currentScreen =
-        component.childStack.subscribeAsState().value.items.lastOrNull()?.configuration
+    val currentScreen = LocalCurrentScreen.current
 
-    if (currentScreen == Screen.Main) {
+    if (currentScreen is Screen.Main) {
         val context = LocalComponentActivity.current
 
         var showExitDialog by rememberSaveable { mutableStateOf(false) }

@@ -24,11 +24,14 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.UpdateSheet
+import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.AppExitDialog
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.EditPresetsSheet
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.FirstLaunchSetupDialog
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.GithubReviewDialog
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.PermissionDialog
 import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.TelegramGroupDialog
+import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.HandleLookForUpdates
+import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.SuccessRestoreBackupToastHandler
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.DonateDialog
 
@@ -36,6 +39,8 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.components.additiona
 internal fun RootDialogs(component: RootComponent) {
     val context = LocalContext.current
     val editPresetsController = LocalEditPresetsController.current
+
+    AppExitDialog(component)
 
     EditPresetsSheet(
         visible = editPresetsController.isVisible,
@@ -89,4 +94,8 @@ internal fun RootDialogs(component: RootComponent) {
         onDismiss = component::hideTelegramGroupDialog,
         onRedirected = component::registerTelegramGroupOpen
     )
+
+    SuccessRestoreBackupToastHandler(component)
+
+    HandleLookForUpdates(component)
 }

@@ -37,7 +37,7 @@ internal fun RootComponent.uiSettingsState(): UiSettingsState = settingsState.to
 )
 
 @Composable
-internal fun HandleUpdateSearching(component: RootComponent) {
+internal fun HandleLookForUpdates(component: RootComponent) {
     if (component.settingsState.shouldTryGetUpdate) {
         LaunchedEffect(Unit) {
             delay(500)

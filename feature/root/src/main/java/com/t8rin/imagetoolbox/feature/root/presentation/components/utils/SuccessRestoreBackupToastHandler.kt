@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun SuccessRestoreBackup(component: RootComponent) {
+internal fun SuccessRestoreBackupToastHandler(component: RootComponent) {
     val confettiHostState = LocalConfettiHostState.current
     val context = LocalComponentActivity.current
     val toastHostState = LocalToastHostState.current
