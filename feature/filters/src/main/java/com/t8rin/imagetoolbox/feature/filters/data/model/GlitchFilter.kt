@@ -22,7 +22,7 @@ import android.graphics.BitmapFactory
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.utils.Glitcher
+import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.Glitcher
 import kotlinx.coroutines.coroutineScope
 import java.io.ByteArrayOutputStream
 

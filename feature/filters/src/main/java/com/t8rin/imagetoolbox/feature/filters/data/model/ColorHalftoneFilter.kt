@@ -21,6 +21,7 @@ import com.jhlabs.ColorHalftoneFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class ColorHalftoneFilter(
     override val value: Quad<Float, Float, Float, Float> = Quad(

@@ -23,6 +23,7 @@ import com.jhlabs.SphereLensDistortionFilter
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
 internal class SphereLensDistortionFilter(

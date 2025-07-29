@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
 

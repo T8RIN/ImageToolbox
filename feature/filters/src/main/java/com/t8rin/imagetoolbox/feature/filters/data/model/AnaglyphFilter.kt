@@ -21,7 +21,7 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.utils.Glitcher
+import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.Glitcher
 
 internal class AnaglyphFilter(
     override val value: Float = 20f

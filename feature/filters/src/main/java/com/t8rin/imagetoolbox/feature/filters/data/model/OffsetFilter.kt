@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.OffsetFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.roundToInt
 
 internal class OffsetFilter(

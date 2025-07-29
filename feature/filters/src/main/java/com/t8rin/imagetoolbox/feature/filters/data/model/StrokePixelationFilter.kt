@@ -24,8 +24,8 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.utils.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.PixelationLayer
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationLayer
 import com.t8rin.trickle.Trickle
 
 internal class StrokePixelationFilter(

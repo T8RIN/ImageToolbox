@@ -22,6 +22,7 @@ import com.jhlabs.ArcFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
 internal class ArcFilter(

@@ -22,6 +22,7 @@ import com.jhlabs.WeaveFilter
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class WeaveFilter(
     override val value: Quad<Float, Float, Float, Float> = 16f to 16f qto (6f to 6f)

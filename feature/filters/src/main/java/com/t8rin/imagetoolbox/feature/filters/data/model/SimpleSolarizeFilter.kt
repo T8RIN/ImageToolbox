@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JhFilter
 import com.jhlabs.SolarizeFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class SimpleSolarizeFilter(
     override val value: Unit = Unit

@@ -21,6 +21,7 @@ import com.jhlabs.JhFilter
 import com.jhlabs.PolarFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class PolarCoordinatesFilter(
     override val value: PolarCoordinatesType = PolarCoordinatesType.RECT_TO_POLAR

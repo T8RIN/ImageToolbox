@@ -4,6 +4,7 @@ import com.jhlabs.ChannelMixFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class ChannelMixFilter(
     override val value: ChannelMixParams = ChannelMixParams.Default

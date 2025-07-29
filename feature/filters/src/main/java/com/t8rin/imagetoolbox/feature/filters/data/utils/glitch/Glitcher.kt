@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("unused")
-
-package com.t8rin.imagetoolbox.feature.filters.data.utils
+package com.t8rin.imagetoolbox.feature.filters.data.utils.glitch
 
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
@@ -88,72 +86,6 @@ internal object Glitcher {
         0.0f,
         0.0f,
         1.0f
-    )
-    private val redMatrix = floatArrayOf(
-        1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f
-    )
-    private val blueMatrix = floatArrayOf(
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f
-    )
-    private val greenMatrix = floatArrayOf(
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f
     )
 
     suspend fun anaglyph(

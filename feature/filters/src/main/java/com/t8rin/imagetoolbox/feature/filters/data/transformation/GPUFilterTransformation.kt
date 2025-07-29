@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.filters.data.model
+package com.t8rin.imagetoolbox.feature.filters.data.transformation
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.core.graphics.scale
 import coil3.size.Size
-import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.data.utils.asCoil
-import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import java.lang.Integer.max
 import coil3.transform.Transformation as CoilTransformation
 
 internal abstract class GPUFilterTransformation(
@@ -43,40 +40,13 @@ internal abstract class GPUFilterTransformation(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap {
-        val gpuImage = GPUImage(context)
-        gpuImage.setImage(
-            flexibleResize(
-                image = input,
-                max = max(
-                    size.height.pxOrElse { input.height },
-                    size.width.pxOrElse { input.width }
-                )
-            )
-        )
-        gpuImage.setFilter(createFilter())
-        return gpuImage.bitmapWithFilterApplied
-    }
+    ): Bitmap = GPUImage(context).apply {
+        setImage(input.flexible(size))
+        setFilter(createFilter())
+    }.bitmapWithFilterApplied
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = transform(input, size.asCoil())
-}
-
-private fun flexibleResize(
-    image: Bitmap,
-    max: Int
-): Bitmap {
-    return runCatching {
-        if (image.height >= image.width) {
-            val aspectRatio = image.aspectRatio
-            val targetWidth = (max * aspectRatio).toInt()
-            image.scale(targetWidth, max)
-        } else {
-            val aspectRatio = 1f / image.aspectRatio
-            val targetHeight = (max * aspectRatio).toInt()
-            image.scale(max, targetHeight)
-        }
-    }.getOrNull() ?: image
 }

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageHueFilter
 

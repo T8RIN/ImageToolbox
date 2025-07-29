@@ -21,10 +21,22 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
+import coil3.size.Size
+import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
+import java.lang.Integer.max
 
+internal fun Bitmap.flexible(size: Size): Bitmap = flexibleResize(
+    image = this,
+    max = max(
+        size.height.pxOrElse { height },
+        size.width.pxOrElse { width }
+    )
+)
 
 internal fun Bitmap.mirror(
     value: Float = 0.5f,
@@ -103,4 +115,21 @@ internal fun Bitmap.mirror(
             }
         }
     }
+}
+
+private fun flexibleResize(
+    image: Bitmap,
+    max: Int
+): Bitmap {
+    return runCatching {
+        if (image.height >= image.width) {
+            val aspectRatio = image.aspectRatio
+            val targetWidth = (max * aspectRatio).toInt()
+            image.scale(targetWidth, max)
+        } else {
+            val aspectRatio = 1f / image.aspectRatio
+            val targetHeight = (max * aspectRatio).toInt()
+            image.scale(max, targetHeight)
+        }
+    }.getOrNull() ?: image
 }

@@ -17,7 +17,7 @@
 
 @file:Suppress("unused")
 
-package com.t8rin.imagetoolbox.feature.filters.data.utils
+package com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation
 
 
 class PixelationLayer private constructor(val shape: Shape) {
@@ -29,11 +29,7 @@ class PixelationLayer private constructor(val shape: Shape) {
     var offsetY = 0f
 
     class Builder(shape: Shape) {
-        private val layer: PixelationLayer
-
-        init {
-            layer = PixelationLayer(shape)
-        }
+        private val layer: PixelationLayer = PixelationLayer(shape)
 
         fun setResolution(resolution: Float): Builder {
             layer.resolution = resolution

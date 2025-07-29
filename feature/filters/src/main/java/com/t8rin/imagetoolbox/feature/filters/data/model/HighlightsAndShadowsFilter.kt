@@ -19,9 +19,9 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.utils.GPUImageHighlightShadowWideRangeFilter
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.GPUImageHighlightShadowWideRangeFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-
 
 internal class HighlightsAndShadowsFilter(
     private val context: Context,

@@ -21,6 +21,7 @@ import com.jhlabs.CrystallizeFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class VoronoiCrystallizeFilter(
     override val value: VoronoiCrystallizeParams = VoronoiCrystallizeParams.Default

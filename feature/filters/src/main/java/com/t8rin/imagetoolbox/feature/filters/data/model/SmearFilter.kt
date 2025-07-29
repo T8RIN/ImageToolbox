@@ -21,6 +21,7 @@ import com.jhlabs.JhFilter
 import com.jhlabs.SmearFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
 internal class SmearFilter(
     override val value: SmearParams = SmearParams.Default
