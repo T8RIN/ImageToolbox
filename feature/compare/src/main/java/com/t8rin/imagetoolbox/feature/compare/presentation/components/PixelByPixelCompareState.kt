@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.compose.ui.graphics.Color
-import com.t8rin.opencv_tools.image_comparison.ComparisonType
 
 data class PixelByPixelCompareState(
     val highlightColor: Color,
@@ -32,4 +31,8 @@ data class PixelByPixelCompareState(
             )
         }
     }
+}
+
+enum class ComparisonType {
+    SSIM, AE, MAE, NCC, PSNR, RMSE
 }
