@@ -441,7 +441,8 @@ or click one of the badges below.
     - [x] Sphere Lens Distortion  
     - [x] Arc  
     - [x] Sparkle
-    - [x] ASCII 
+    - [x] ASCII
+    - [x] Moire
 
 
   </details>
