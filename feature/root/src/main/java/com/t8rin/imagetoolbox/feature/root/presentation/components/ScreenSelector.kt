@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -46,10 +47,12 @@ internal fun ScreenSelector(
             Children(
                 stack = childStack,
                 modifier = Modifier.fillMaxSize(),
-                animation = toolboxPredictiveBackAnimation(
-                    backHandler = component.backHandler,
-                    onBack = component::navigateBack
-                ),
+                animation = remember(component) {
+                    toolboxPredictiveBackAnimation(
+                        backHandler = component.backHandler,
+                        onBack = component::navigateBack
+                    )
+                },
                 content = { child ->
                     child.instance.Content()
                 }
