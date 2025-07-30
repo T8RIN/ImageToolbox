@@ -338,7 +338,7 @@
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
     <string name="settings_restored">Settings restored successfully</string>
     <string name="contact_me">Contact me</string>
-    <string name="reset_settings_sub">This will roll back your settings to the default values. Notice that this can\'t be undone without a backup file mentionned above.</string>
+    <string name="reset_settings_sub">This will roll back your settings to the default values. Notice that this can\'t be undone without a backup file mentioned above.</string>
     <string name="delete">Delete</string>
     <string name="delete_color_scheme_warn">You are about to delete selected color scheme. This operation cannot be undone</string>
     <string name="delete_color_scheme_title">Delete scheme</string>
