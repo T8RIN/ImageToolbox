@@ -1712,4 +1712,5 @@
     <string name="rays">Rays</string>
     <string name="ascii">ASCII</string>
     <string name="gradient">Gradient</string>
+    <string name="moire">Moire</string>
 </resources>

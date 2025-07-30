@@ -317,6 +317,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Arc : Filter<ArcParams>
     interface Sparkle : Filter<SparkleParams>
     interface Ascii : Filter<AsciiParams>
+    interface Moire : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>

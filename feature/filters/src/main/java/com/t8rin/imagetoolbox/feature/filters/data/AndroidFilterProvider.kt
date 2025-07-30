@@ -188,6 +188,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.MedianBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MirrorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MissEtikateFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MobiusFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.MoireFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MonochromeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MorphologicalGradientFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MotionBlurFilter
@@ -569,6 +570,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Arc -> ArcFilter(value)
             is Filter.Sparkle -> SparkleFilter(value)
             is Filter.Ascii -> AsciiFilter(value)
+            is Filter.Moire -> MoireFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
