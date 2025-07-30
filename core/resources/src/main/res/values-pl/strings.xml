@@ -18,7 +18,7 @@
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
-    <string name="image_too_large_preview">Obraz jest zbyt duży do podglądu, ale i tak spróbujemy go zapisać</string>
+    <string name="image_too_large_preview">Obraz jest zbyt duży do podglądu, ale i tak zostanie podjęta próba jego zapisania</string>
     <string name="pick_image">Wybierz obraz, aby rozpocząć</string>
     <string name="smth_went_wrong">Coś poszło nie tak: %1$s</string>
     <string name="height">Wysokość %1$s</string>
@@ -39,7 +39,7 @@
     <string name="copied">Skopiowano do schowka</string>
     <string name="exception">Wyjątek</string>
     <string name="edit_exif">Edytuj dane EXIF</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="amoled_mode">Tryb Amoled</string>
     <string name="amoled_mode_sub">Jeśli ta opcja jest włączona, w trybie nocnym kolor tła zostanie ustawiony na całkowicie ciemny</string>
     <string name="color_red">Czerwony</string>
@@ -62,9 +62,9 @@
     <string name="image_not_saved_sub">Wszystkie niezapisane zmiany zostaną utracone, jeśli wyjdziesz teraz</string>
     <string name="check_source_code">Kod źródłowy</string>
     <string name="check_source_code_sub">Najnowsze aktualizacje, dyskusje i nie tylko</string>
-    <string name="single_edit">Zmień rozmiar</string>
-    <string name="single_edit_sub">Zmień parametry pojedynczego obrazu</string>
-    <string name="pick_color">Wybierz kolor</string>
+    <string name="single_edit">Pojedyncza edycja</string>
+    <string name="single_edit_sub">Modyfikacja, zmiana rozmiaru i edycja jednego obrazu</string>
+    <string name="pick_color">Selektor kolorów</string>
     <string name="pick_color_sub">Wybierz kolor z obrazu, skopiuj lub udostępnij</string>
     <string name="image">Obraz</string>
     <string name="color">Kolor</string>
@@ -106,7 +106,7 @@
     <string name="light">Jasny</string>
     <string name="dynamic_colors">Dynamiczne kolory</string>
     <string name="no_exif">Nie znaleziono metadanych EXIF</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Nie można zmienić schematu kolorów aplikacji, gdy kolory dynamiczne są włączone</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Nie można zmienić schematu kolorów aplikacji, gdy włączone są kolory dynamiczne</string>
     <string name="pick_accent_color">Motyw aplikacji będzie oparty na wybranym kolorze</string>
     <string name="about_app">O aplikacji</string>
     <string name="no_updates">Nie znaleziono aktualizacji</string>
@@ -149,7 +149,7 @@
     <string name="gaussian_blur">Rozmycie Gaussa</string>
     <string name="radius">Promień</string>
     <string name="scale">Skala</string>
-    <string name="limits_resize">Zmień skalę</string>
+    <string name="limits_resize">Zmiana rozmiaru przez limity</string>
     <string name="sketch">Szkic</string>
     <string name="threshold">Próg</string>
     <string name="quantizationLevels">Poziomy kwantyzacji</string>
@@ -179,14 +179,14 @@
     <string name="image_link">Link do obrazu</string>
     <string name="fill">Wypełnij</string>
     <string name="fit">Dopasuj</string>
-    <string name="explicit_description">Rozciąga każdy obraz do rozmiaru określonego przez szerokość i wysokość — może zmienić proporcje</string>
-    <string name="flexible_description">Zmień rozmiar obrazu z zachowaniem współczynnika proporcji</string>
+    <string name="explicit_description">Zmienia rozmiar obrazów do podanej wysokości i szerokości. Współczynnik proporcji obrazów może ulec zmianie.</string>
+    <string name="flexible_description">Zmienia rozmiar obrazów o długim boku do podanej wysokości lub szerokości. Wszystkie obliczenia rozmiaru zostaną wykonane po zapisaniu. Proporcje obrazu zostaną zachowane.</string>
     <string name="contrast">Kontrast</string>
     <string name="hue">Odcień</string>
     <string name="saturation">Nasycenie</string>
     <string name="add_filter">Dodaj filtr</string>
     <string name="filter">Filtr</string>
-    <string name="filter_sub">Zastosuj dowolny łańcuch filtrów do wybranych obrazów</string>
+    <string name="filter_sub">Zastosuj łańcuchy filtrów do obrazów</string>
     <string name="filters">Filtry</string>
     <string name="light_aka_illumination">Światło</string>
     <string name="color_filter">Filtr koloru</string>
@@ -230,7 +230,7 @@
     <string name="glass_sphere_refraction">Refrakcja szklanej kuli</string>
     <string name="color_matrix">Matryca kolorów</string>
     <string name="opacity">Krycie</string>
-    <string name="limits_resize_sub">Zmień rozmiar obrazów z zachowaniem współczynnika proporcji</string>
+    <string name="limits_resize_sub">Zmień rozmiar obrazów do podanej wysokości i szerokości, zachowując współczynnik proporcji</string>
     <string name="toon">Toon</string>
     <string name="posterize">Plakatowanie</string>
     <string name="non_maximum_suppression">Nie maksymalne tłumienie</string>
@@ -248,7 +248,7 @@
     <string name="luminance_threshold">Próg luminancji</string>
     <string name="file_explorer_picker">Przeglądarka plików</string>
     <string name="gallery_picker_sub">Prosty selektor obrazów w galerii. Działa tylko wtedy, gdy masz aplikację, która umożliwia wybieranie multimediów</string>
-    <string name="load_image_from_net">Załaduj obraz z sieci</string>
+    <string name="load_image_from_net">Ładowanie obrazu w sieci</string>
     <string name="edit">Edycja</string>
     <string name="order">Kolejność</string>
     <string name="order_sub">Określa kolejność narzędzi na ekranie głównym</string>
@@ -280,7 +280,7 @@
     <string name="file_size">Rozmiar pliku</string>
     <string name="cache_size">Rozmiar pamięci podręcznej</string>
     <string name="cache">Pamięć podręczna</string>
-    <string name="image_size_warning">Próba zapisania obrazu o podanej szerokości i wysokości może spowodować błąd OOM. Robisz to na własne ryzyko i nie mów, że cię nie ostrzegałem!</string>
+    <string name="image_size_warning">Próba zapisania obrazu z podaną szerokością i wysokością może spowodować błąd braku pamięci. Robisz to na własne ryzyko.</string>
     <string name="found_s">Znaleziono %1$s</string>
     <string name="create">Twórz</string>
     <string name="activate_files">Wyłączyłeś aplikację Pliki. Aktywuj ją, aby korzystać z tej funkcji</string>
@@ -294,7 +294,7 @@
     <string name="compatibility">Zgodność</string>
     <string name="compatibility_sub">Należy pamiętać, że zgodność z innym oprogramowaniem lub usługami do szyfrowania plików nie jest gwarantowana. Przyczyną niezgodności może być nieco inna obróbka klucza lub konfiguracja szyfru.</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nie można zmienić układu, gdy włączone jest grupowanie opcji</string>
-    <string name="implementation_sub">AES-256, tryb GCM, brak wypełnienia, 12 bajtów losowych IV (domyślnie, ale można wybrać odpowiedni algorytm). Klucze są używane jako skróty SHA-3 (256 bitów).</string>
+    <string name="implementation_sub">AES-256, tryb GCM, brak wypełnienia, domyślnie 12 bajtów losowych IV. Można wybrać odpowiedni algorytm. Klucze są używane jako 256-bitowe skróty SHA-3</string>
     <string name="cipher">Szyfr</string>
     <string name="cipher_sub">Szyfrowanie i deszyfrowanie dowolnego pliku (nie tylko obrazu) w oparciu o różne dostępne algorytmy kryptograficzne.</string>
     <string name="pick_file">Wybierz plik</string>
@@ -408,7 +408,7 @@
     <string name="randomize_filename">Losuj nazwę pliku</string>
     <string name="randomize_filename_sub">Jeśli włączone, nazwa pliku wyjściowego będzie w pełni losowa</string>
     <string name="saved_to">Zapisano w folderze %1$s z nazwą %2$s</string>
-    <string name="presets_sub_bytes">Preset określa % rozmiaru pliku wyjściowego, tj. jeśli wybierzesz ustawienie wstępne 50 na obrazie o rozmiarze 5 MB, po zapisaniu otrzymasz obraz o rozmiarze 2,5 MB.</string>
+    <string name="presets_sub_bytes">Preset określa % rozmiaru pliku wyjściowego, tj. jeśli wybierzesz ustawienie wstępne 50 na obrazie o rozmiarze 5 MB, po zapisaniu otrzymasz obraz o rozmiarze 2,5 MB</string>
     <string name="presets_sub" formatted="false">Jeśli wybrano ustawienie 125, obraz zostanie zapisany w rozmiarze 125% oryginalnego obrazu. W przypadku wybrania ustawienia 50 obraz zostanie zapisany w rozmiarze 50%.</string>
     <string name="text">Tekst</string>
     <string name="font_scale">Skala czcionki</string>
@@ -423,7 +423,7 @@
     <string name="effort_sub">Wartość %1$d oznacza szybką kompresję, co skutkuje stosunkowo dużym rozmiarem pliku. Wartość %2$d oznacza wolniejszą kompresję, co skutkuje mniejszym plikiem.</string>
     <string name="keep_exif_sub">Oryginalne metadane obrazu zostaną zachowane</string>
     <string name="trim_image_sub">Przezroczyste przestrzenie wokół obrazu zostaną przycięte</string>
-    <string name="crashlytics_sub">Pozwala to aplikacji na ręczne zbieranie raportów o awariach</string>
+    <string name="crashlytics_sub">Dzięki temu aplikacja może automatycznie zbierać raporty o awariach</string>
     <string name="mask_preview">Podgląd maski</string>
     <string name="inverse_fill_type_sub">Jeśli opcja ta jest włączona, wszystkie niezamaskowane obszary będą filtrowane zamiast domyślnego zachowania.</string>
     <string name="highlighter_sub">Rysuj półprzezroczyste, zaostrzone ścieżki zakreślacza</string>
@@ -439,7 +439,7 @@
     <string name="effort">Wysiłek</string>
     <string name="mask_color">Kolor maski</string>
     <string name="masks">Maski</string>
-    <string name="tg_chat_sub">Podyskutuj o aplikacji i poznaj opinie innych użytkowników. Znajdziesz też tutaj wpisy zza kulis i aktualizacje w wersji beta.</string>
+    <string name="tg_chat_sub">Podyskutuj o aplikacji i poznaj opinie innych użytkowników. Można tam również uzyskać aktualizacje wersji beta.</string>
     <string name="aspect_ratio">Proporcje</string>
     <string name="image_crop_mask_sub">Użyj tego typu maski, aby utworzyć maskę z danego obrazu, zauważ, że POWINNA ona mieć kanał alfa.</string>
     <string name="settings_restored">Ustawienia przywrócone pomyślnie</string>
@@ -469,17 +469,17 @@
     <string name="pixelation_sub">Podobne do rozmycia prywatności, ale pikselizuje zamiast rozmywać</string>
     <string name="privacy_blur_sub">Rozmywa obraz pod narysowaną ścieżką, aby zabezpieczyć wszystko, co chcesz ukryć.</string>
     <string name="containers_shadow">Kontenery</string>
-    <string name="containers_shadow_sub">Umożliwia rysowanie cieni za kontenerami</string>
+    <string name="containers_shadow_sub">Rysuj cień za kontenerami</string>
     <string name="sliders_shadow">Suwaki</string>
     <string name="switches_shadow">Przełączniki</string>
     <string name="both">Oba</string>
     <string name="jxl_sub">Format JXL nie jest oficjalnie obsługiwany przez Androida, więc coś może nie działać. Zapisywanie będzie działać tylko w przypadku wybrania niestandardowego katalogu wyjściowego. Jest to wersja eksperymentalna, błędy tutaj nie zostaną naprawione, chyba że Google doda obsługę JXL. Ta wersja może wyświetlać obrazy JXL</string>
     <string name="fabs_shadow">Pływające przyciski</string>
     <string name="buttons_shadow">Przyciski</string>
-    <string name="sliders_shadow_sub">Włącza rysowanie cieni za suwakami</string>
-    <string name="switches_shadow_sub">Włącza rysowanie cienia za przełącznikami</string>
-    <string name="fabs_shadow_sub">Umożliwia rysowanie cieni za pływającymi przyciskami</string>
-    <string name="app_bars_shadow_sub">Umożliwia rysowanie cieni za paskami aplikacji</string>
+    <string name="sliders_shadow_sub">Rysuj cień za suwakami</string>
+    <string name="switches_shadow_sub">Rysuj cień za przełącznikami</string>
+    <string name="fabs_shadow_sub">Rysuj cień za pływającymi przyciskami akcji</string>
+    <string name="app_bars_shadow_sub">Rysuj cień za paskami aplikacji</string>
     <string name="value_in_range">Wartość z zakresu %1$s - %2$s</string>
     <string name="auto_rotate_limits">Obrót automatyczny</string>
     <string name="outlined_rect">Prostokąt (kontury)</string>
@@ -539,7 +539,7 @@
     <string name="hermite_sub">Matematyczna technika interpolacji, która wykorzystuje wartości i pochodne w punktach końcowych segmentu krzywej w celu wygenerowania gładkiej i ciągłej krzywej</string>
     <string name="lanczos_sub">Metoda ponownego próbkowania, która utrzymuje wysoką jakość interpolacji poprzez zastosowanie ważonej funkcji sinc do wartości pikseli</string>
     <string name="mitchell_sub">Metoda ponownego próbkowania wykorzystująca filtr splotowy z regulowanymi parametrami w celu uzyskania równowagi między ostrością a antyaliasingiem w skalowanym obrazie</string>
-    <string name="spline_sub">Wykorzystuje zdefiniowane fragmentarycznie funkcje wielomianowe do płynnej interpolacji i aproksymacji krzywej lub powierzchni, elastycznej i ciągłej reprezentacji kształtu</string>
+    <string name="spline_sub">Wykorzystuje zdefiniowane fragmentarycznie funkcje wielomianowe do płynnej interpolacji i aproksymacji krzywej lub powierzchni, zapewniając elastyczną i ciągłą reprezentację kształtu</string>
     <string name="only_clip">Tylko przytnij</string>
     <string name="only_clip_sub">Zapis do pamięci masowej nie zostanie wykonany, obraz będzie umieszczony tylko w schowku</string>
     <string name="recognize_text">OCR (rozpoznawanie tekstu)</string>
@@ -555,7 +555,7 @@
     <string name="rows_count">Liczba wierszy</string>
     <string name="columns_count">Liczba kolumn</string>
     <string name="auto_rotate_limits_sub">Umożliwia przyjęcie ramki ograniczającej dla orientacji obrazu</string>
-    <string name="buttons_shadow_sub">Włącza rysowanie cienia za domyślnymi przyciskami</string>
+    <string name="buttons_shadow_sub">Rysuj cień za przyciskami</string>
     <string name="app_bars_shadow">Paski aplikacji</string>
     <string name="hann_sub">Funkcja okienkowania często stosowana w przetwarzaniu sygnału w celu zminimalizowania wycieków widmowych i poprawy dokładności analizy częstotliwości poprzez zwężanie krawędzi sygnału.</string>
     <string name="segmentation_mode_osd_only">Tylko wykrywanie orientacji i skryptów</string>
@@ -566,11 +566,11 @@
     <string name="segmentation_mode_single_word">Pojedyncze słowo</string>
     <string name="segmentation_mode_raw_line">Surowy wiersz</string>
     <string name="amount">Ilość</string>
-    <string name="use_pixel_switch_sub">Będzie używany styl przełączników podobny do urządzeń Pixel zamiast przełączników z biblioteki Material You</string>
+    <string name="use_pixel_switch_sub">Używa przełącznika podobnego do Google Pixel</string>
     <string name="rate_app">Oceń aplikację</string>
     <string name="rate">Oceń</string>
     <string name="segmentation_mode_auto_osd">Automatyczne wykrywanie orientacji i skryptów</string>
-    <string name="camera_sub">Używa aparatu do robienia zdjęć, należy pamiętać, że możliwe jest uzyskanie tylko jednego obrazu z tego źródła.</string>
+    <string name="camera_sub">Zrób zdjęcie aparatem. Należy pamiętać, że z tego źródła obrazu można uzyskać tylko jeden obraz</string>
     <string name="segmentation_mode_auto_only">Tylko automat</string>
     <string name="segmentation_mode_single_block">Pojedynczy blok</string>
     <string name="segmentation_mode_circle_word">Słowo w kółku</string>
@@ -594,7 +594,7 @@
     <string name="two_row_sierra_dithering">Rozpraszanie Two Row Sierra</string>
     <string name="stucki_dithering">Rozpraszanie Stucki</string>
     <string name="anaglyph">Anaglif</string>
-    <string name="secure_mode_sub">Ukrywa zawartość po wyjściu, a także nie można przechwytywać ani nagrywać ekranu.</string>
+    <string name="secure_mode_sub">Ukrywa zawartość aplikacji w ostatnich aplikacjach. Nie można jej przechwycić ani nagrać.</string>
     <string name="pixel_sort">Sortowanie pikseli</string>
     <string name="glitch">Glitch</string>
     <string name="seed">Ziarno</string>
@@ -738,7 +738,7 @@
     <string name="amplitude_y">Amplituda Y</string>
     <string name="perlin_distortion">Zniekształcenie Perlina</string>
     <string name="hable_filmic_tone_mapping">Hable Filmowe mapowanie tonów</string>
-    <string name="heji_burgess_tone_mapping">Mapowanie tonów Hejl Burgess</string>
+    <string name="heji_burgess_tone_mapping">Mapowanie tonów Heji-Burgess</string>
     <string name="aces_filmic_tone_mapping">Mapowanie tonów filmowych ACES</string>
     <string name="aces_hill_tone_mapping">Mapowanie tonów wzgórza ACES</string>
     <string name="speed">Prędkość</string>
@@ -757,11 +757,11 @@
     <string name="warm">Ciepły</string>
     <string name="cool">Fajny</string>
     <string name="tritanopia">Tritanopia</string>
-    <string name="deutaronotopia">Deuteranopia</string>
+    <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomalia</string>
     <string name="achromatopsia">Achromatopsja</string>
-    <string name="icon_shape_sub">Dodaje pojemnik z wybranym kształtem pod wiodącymi ikonami kart</string>
+    <string name="icon_shape_sub">Dodaje pojemnik z wybranym kształtem pod ikonami</string>
     <string name="unsharp">Wyostrzyć</string>
     <string name="pastel">Pastel</string>
     <string name="pink_dream">Różowy sen</string>
@@ -784,10 +784,10 @@
     <string name="red_swirl">Czerwony wir</string>
     <string name="digital_code">Kod cyfrowy</string>
     <string name="bokeh">Bokeh</string>
-    <string name="random_emojis_sub">Emoji na pasku aplikacji będą stale zmieniane losowo, zamiast używać wybranego</string>
+    <string name="random_emojis_sub">Emotikony paska aplikacji będą zmieniać się losowo</string>
     <string name="random_emojis">Losowe emotikony</string>
-    <string name="random_emojis_error">Nie można używać losowego wybierania emoji, gdy emoji są wyłączone</string>
-    <string name="emoji_selection_error">Nie można wybrać emoji, gdy włączone jest wybieranie losowego</string>
+    <string name="random_emojis_error">Nie można używać losowych emotikonów, gdy są one wyłączone</string>
+    <string name="emoji_selection_error">Nie można wybrać emotikonów, gdy włączone są losowe emotikony</string>
     <string name="old_tv">Stary telewizor</string>
     <string name="shuffle_blur">Mieszaj rozmycie</string>
     <string name="no_favorite_filters">Nie dodano jeszcze żadnych ulubionych filtrów</string>
@@ -804,7 +804,7 @@
     <string name="cross_blur">Rozmycie krzyżowe</string>
     <string name="circle_blur">Rozmycie w kółko</string>
     <string name="star_blur">Rozmycie gwiazdami</string>
-    <string name="linear_tilt_shift">Przesunięcie Pochylenia Liniowego</string>
+    <string name="linear_tilt_shift">Liniowa zmiana nachylenia</string>
     <string name="tags_to_remove">Tagi Do Usunięcia</string>
     <string name="apng_type_to_apng_sub">Konwertuj partię obrazów do pliku APNG</string>
     <string name="apng_tools">Narzędzia APNG</string>
@@ -840,7 +840,7 @@
     <string name="header_today">Dziś</string>
     <string name="header_yesterday">Wczoraj</string>
     <string name="embedded_picker">Wbudowany selektor</string>
-    <string name="embedded_picker_sub">Używa własnego selektora obrazów Image Toolbox zamiast predefiniowanych przez system</string>
+    <string name="embedded_picker_sub">Selektor obrazów Image Toolbox</string>
     <string name="no_permissions">Brak uprawnień</string>
     <string name="request">Żądanie</string>
     <string name="auto_paste">Automatyczne wklejanie</string>
@@ -1009,7 +1009,7 @@
     <string name="gif_type_to_webp">GIF do WEBP</string>
     <string name="webp_type_to_image">WEBP do obrazów</string>
     <string name="webp_type_to_webp">Obrazy do WEBP</string>
-    <string name="qr_code">Kod QR</string>
+    <string name="qr_code">Kod QR i kod kreskowy</string>
     <string name="qr_code_sub">Zeskanuj kod QR i otwórz jego zawartość lub wklej ciąg znaków, aby wygenerować nowy</string>
     <string name="qr_description">Opis kodu QR</string>
     <string name="image_for_histogram">Ten obraz zostanie wykorzystany do wygenerowania histogramów RGB i jasności</string>
@@ -1109,7 +1109,7 @@
     <string name="tag_flash_energy">Moc lampy błyskowej</string>
     <string name="deuteranopia_sub">Niezdolność do postrzegania odcieni zieleni</string>
     <string name="lanczos_6">Lanczos 6</string>
-    <string name="image_toolbox_in_telegram">ImageToolbox na Telegramie 🎉</string>
+    <string name="image_toolbox_in_telegram">Image Toolbox na Telegramie 🎉</string>
     <string name="custom_options">Opcje użytkownika</string>
     <string name="protanopia_sub">Niezdolność do postrzegania odcieni czerwieni</string>
     <string name="coffee">Kawa</string>
@@ -1152,7 +1152,7 @@
     <string name="tag_focal_length">Ogniskowa</string>
     <string name="create_new">Utwórz nowy</string>
     <string name="coerce_points_to_image_bounds">Wymuszanie punktów do granic obrazu</string>
-    <string name="clahe">Clahe</string>
+    <string name="clahe">CLAHE</string>
     <string name="bins_count">Liczba pojemników</string>
     <string name="tag_subject_location">Lokalizacja obiektu</string>
     <string name="tag_sensing_method">Metoda pomiaru</string>
@@ -1169,7 +1169,7 @@
     <string name="star_sub">Rysuje gwiazdę od punktu początkowego do końcowego</string>
     <string name="star">Gwiazda</string>
     <string name="inner_radius_ratio">Współczynnik promienia wewnętrznego</string>
-    <string name="clahe_lab">Clahe LAB</string>
+    <string name="clahe_lab">CLAHE LAB</string>
     <string name="color_to_ignore">Kolor do pominięcia</string>
     <string name="template">Szablon</string>
     <string name="no_template_filters">Nie dodano szablonu filtrów</string>
@@ -1234,7 +1234,7 @@
     <string name="free_corners">Wolne rogi</string>
     <string name="mask">Maska</string>
     <string name="soft_glow">Delikatny blask</string>
-    <string name="clahe_luv">Clahe LUV</string>
+    <string name="clahe_luv">CLAHE LUV</string>
     <string name="hide_status_bar">Ukryj pasek stanu</string>
     <string name="gain">Wzmocnij</string>
     <string name="ping_pong_strength">Wytrzymałość ping ponga</string>
