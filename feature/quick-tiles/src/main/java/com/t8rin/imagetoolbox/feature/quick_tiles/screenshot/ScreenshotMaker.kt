@@ -29,8 +29,13 @@ import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
 import android.os.Build
 import android.view.WindowManager
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.mainLooperDelayedAction
 
@@ -47,7 +52,12 @@ class ScreenshotMaker(
 
     @Suppress("DEPRECATION")
     private val displayMetrics: IntegerSize = run {
-        val wm = context.getSystemService<WindowManager>()!!
+        val wm = context.getSystemService<WindowManager>()
+            ?: return@run context.resources.displayMetrics.run {
+                IntegerSize(
+                    width = widthPixels, height = heightPixels
+                )
+            }
 
         val bounds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             wm.currentWindowMetrics.bounds
@@ -97,10 +107,21 @@ class ScreenshotMaker(
             width = displayMetrics.width + rowPadding / pixelStride,
             height = displayMetrics.height
         )
+
         bitmap.copyPixelsFromBuffer(buffer)
+
         finish()
+
         image.close()
-        onSuccess(bitmap)
+
+        val resultBitmap = createBitmap(
+            width = bitmap.width, height = bitmap.height, config = bitmap.safeConfig
+        ).applyCanvas {
+            drawColor(Color.Black.toArgb())
+            drawBitmap(bitmap)
+        }
+
+        onSuccess(resultBitmap)
     }
 
     private fun finish() {
