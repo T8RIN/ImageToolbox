@@ -93,7 +93,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             var height = imageInfo.height
 
             var scaleFactor = 1f
-            while (!canShow(size = height * width * 4)) {
+            while (height * width * 4 > SMALL_SIZE) {
                 height = (height * 0.85f).roundToInt()
                 width = (width * 0.85f).roundToInt()
                 scaleFactor *= 0.85f
@@ -125,13 +125,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         imageScaler.scaleUntilCanShow(targetImage)
     }
 
-    override fun canShow(
-        image: Bitmap?
-    ): Boolean = if (image == null) false else canShow(image.size())
-
-    private fun canShow(size: Int): Boolean {
-        return size < 1500 * 1500 * 3
-    }
+    override fun canShow(image: Bitmap?): Boolean = image?.run { size() <= BIG_SIZE } ?: false
 
     private val Bitmap.configSize: Int
         get() = when (config) {
@@ -143,8 +137,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             }
         }
 
-    private fun Bitmap.size(): Int {
-        return width * height * configSize
-    }
+    private fun Bitmap.size(): Int = width * height * configSize
 
 }
+
+private const val SMALL_SIZE = 1500 * 1500 * 3
+private const val BIG_SIZE = 3096 * 3096 * 4

@@ -17,21 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.quick_tiles.screenshot
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
+import android.graphics.Point
+import android.graphics.Rect
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
-import android.util.DisplayMetrics
+import android.os.Build
+import android.view.WindowManager
+import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.mainLooperDelayedAction
 
 
 class ScreenshotMaker(
     private val mediaProjection: MediaProjection,
-    private val displayMetrics: DisplayMetrics,
+    private val context: Context,
     private val onSuccess: (Bitmap) -> Unit
 ) : OnImageAvailableListener {
 
@@ -39,21 +45,37 @@ class ScreenshotMaker(
 
     private var imageReader: ImageReader? = null
 
+    @Suppress("DEPRECATION")
+    private val displayMetrics: IntegerSize = run {
+        val wm = context.getSystemService<WindowManager>()!!
+
+        val bounds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            wm.currentWindowMetrics.bounds
+        } else {
+            val display = wm.defaultDisplay
+            val size = Point()
+            display.getRealSize(size)
+            Rect(0, 0, size.x, size.y)
+        }
+
+        IntegerSize(bounds.width(), bounds.height())
+    }
+
 
     fun takeScreenshot(delay: Long) {
         mainLooperDelayedAction(delay) {
             imageReader = ImageReader.newInstance(
-                displayMetrics.widthPixels,
-                displayMetrics.heightPixels,
+                displayMetrics.width,
+                displayMetrics.height,
                 PixelFormat.RGBA_8888,
                 1
             )
             runCatching {
                 virtualDisplay = mediaProjection.createVirtualDisplay(
                     "screenshot",
-                    displayMetrics.widthPixels,
-                    displayMetrics.heightPixels,
-                    displayMetrics.densityDpi,
+                    displayMetrics.width,
+                    displayMetrics.height,
+                    context.resources.displayMetrics.densityDpi,
                     DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                     imageReader?.surface,
                     null,
@@ -70,10 +92,10 @@ class ScreenshotMaker(
         val buffer = planes[0].buffer.rewind()
         val pixelStride = planes[0].pixelStride
         val rowStride = planes[0].rowStride
-        val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
+        val rowPadding = rowStride - pixelStride * displayMetrics.width
         val bitmap = createBitmap(
-            width = displayMetrics.widthPixels + rowPadding / pixelStride,
-            height = displayMetrics.heightPixels
+            width = displayMetrics.width + rowPadding / pixelStride,
+            height = displayMetrics.height
         )
         bitmap.copyPixelsFromBuffer(buffer)
         finish()

@@ -133,7 +133,7 @@ class ScreenshotService : Service() {
         intent: Intent?
     ) = ScreenshotMaker(
         mediaProjection = mediaProjection,
-        displayMetrics = resources.displayMetrics,
+        context = this,
         onSuccess = { bitmap ->
             val uri: Uri? = runBlocking {
                 shareProvider.cacheImage(
