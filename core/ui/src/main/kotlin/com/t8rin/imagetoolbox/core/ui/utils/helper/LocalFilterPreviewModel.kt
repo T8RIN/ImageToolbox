@@ -17,8 +17,97 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 
-val LocalFilterPreviewModel =
-    compositionLocalOf<ImageModel> { error("FilterPreviewModel not present") }
+data object LocalFilterPreviewModel {
+
+    val current: ImageModel
+        @Composable
+        get() = LocalFilterPreviewModelProvider.current.preview
+
+}
+
+val LocalFilterPreviewModelProvider =
+    compositionLocalOf<FilterPreviewProvider> { error("FilterPreviewProvider not present") }
+
+@Composable
+fun rememberFilterPreviewProvider(
+    preview: ImageModel,
+    canSetDynamicFilterPreview: Boolean
+): FilterPreviewProvider {
+    return remember(preview) {
+        FilterPreviewProviderImpl(
+            default = preview,
+            canSetDynamicFilterPreview = canSetDynamicFilterPreview
+        )
+    }.also {
+        LaunchedEffect(it, canSetDynamicFilterPreview) {
+            it._canSetDynamicFilterPreview.value = canSetDynamicFilterPreview
+        }
+    }
+}
+
+interface FilterPreviewProvider {
+    val canSetDynamicFilterPreview: Boolean
+
+    val preview: ImageModel
+
+    @Composable
+    fun ProvidePreview(preview: Any?)
+}
+
+private class FilterPreviewProviderImpl(
+    private val default: ImageModel,
+    canSetDynamicFilterPreview: Boolean
+) : FilterPreviewProvider {
+
+    private val _preview = mutableStateOf(default)
+
+    override val preview: ImageModel by _preview
+
+    val _canSetDynamicFilterPreview = mutableStateOf(canSetDynamicFilterPreview)
+
+    override val canSetDynamicFilterPreview by _canSetDynamicFilterPreview
+
+    private var updatesCount: Int = 0
+
+    override fun toString(): String {
+        return "FilterPreviewProviderImpl(preview = $preview, canSetDynamicFilterPreview = $canSetDynamicFilterPreview, updatesCount = $updatesCount)"
+    }
+
+    @Composable
+    override fun ProvidePreview(preview: Any?) {
+        DisposableEffect(Unit) {
+            onDispose {
+                _preview.value = default
+            }
+        }
+
+        LaunchedEffect(preview, canSetDynamicFilterPreview) {
+            updatesCount++
+
+            _preview.value = if (canSetDynamicFilterPreview) {
+                when (preview) {
+                    is ImageModel -> preview
+                    is Any -> ImageModel(preview)
+                    else -> default
+                }
+            } else {
+                default
+            }
+        }
+    }
+
+}
+
+@Composable
+fun ProvideFilterPreview(preview: Any?) {
+    LocalFilterPreviewModelProvider.current.ProvidePreview(preview)
+}

@@ -95,6 +95,13 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     fun setFilterPreviewModel(uri: String) {
         componentScope.launch {
             favoriteInteractor.setFilterPreviewModel(uri)
+            favoriteInteractor.setCanSetDynamicFilterPreview(false)
+        }
+    }
+
+    fun setCanSetDynamicFilterPreview(value: Boolean) {
+        componentScope.launch {
+            favoriteInteractor.setCanSetDynamicFilterPreview(value)
         }
     }
 

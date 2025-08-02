@@ -54,6 +54,10 @@ interface FavoriteFiltersInteractor {
 
     fun getFilterPreviewModel(): Flow<ImageModel>
 
+    fun getCanSetDynamicFilterPreview(): Flow<Boolean>
+
+    suspend fun setCanSetDynamicFilterPreview(value: Boolean)
+
     suspend fun setFilterPreviewModel(uri: String)
 
 }

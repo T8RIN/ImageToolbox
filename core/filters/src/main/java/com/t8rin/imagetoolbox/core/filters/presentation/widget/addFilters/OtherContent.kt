@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.TableChart
@@ -59,7 +60,9 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -97,6 +100,9 @@ internal fun OtherContent(
     ) {
         if (tabs[page].first == Icons.Rounded.Speed) {
             item {
+                val previewProvider = LocalFilterPreviewModelProvider.current
+                val canSetDynamicFilterPreview = previewProvider.canSetDynamicFilterPreview
+
                 Row(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
@@ -116,6 +122,35 @@ internal fun OtherContent(
                             .fillMaxHeight(),
                         shape = ShapeDefaults.start
                     )
+                    val containerColor by animateColorAsState(
+                        if (canSetDynamicFilterPreview) {
+                            MaterialTheme.colorScheme.secondary
+                        } else {
+                            MaterialTheme.colorScheme.secondaryContainer
+                        }
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .clip(ShapeDefaults.center)
+                            .hapticsClickable {
+                                component.setCanSetDynamicFilterPreview(true)
+                            }
+                            .container(
+                                color = containerColor,
+                                shape = ShapeDefaults.center,
+                                resultPadding = 0.dp
+                            )
+                            .padding(horizontal = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.ImageSearch,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.contentColorFor(containerColor)
+                        )
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -128,15 +163,14 @@ internal fun OtherContent(
                             } else {
                                 ShapeDefaults.bottomEnd
                             }
-                            val containerColor by animateColorAsState(
-                                if (previewModel.data == R.drawable.filter_preview_source && index == 0) {
-                                    MaterialTheme.colorScheme.secondary
-                                } else if (previewModel.data == R.drawable.filter_preview_source_3 && index == 1) {
-                                    MaterialTheme.colorScheme.secondary
-                                } else {
-                                    MaterialTheme.colorScheme.secondaryContainer
+                            val containerColor = takeColorFromScheme {
+                                when {
+                                    canSetDynamicFilterPreview -> secondaryContainer
+                                    previewModel.data == R.drawable.filter_preview_source && index == 0 -> secondary
+                                    previewModel.data == R.drawable.filter_preview_source_3 && index == 1 -> secondary
+                                    else -> secondaryContainer
                                 }
-                            )
+                            }
                             Box(
                                 modifier = Modifier
                                     .weight(1f)

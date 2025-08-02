@@ -36,6 +36,7 @@ fun RootContent(
         settingsState = component.uiSettingsState(),
         toastHostState = component.toastHostState,
         filterPreviewModel = component.filterPreviewModel,
+        canSetDynamicFilterPreview = component.canSetDynamicFilterPreview,
         simpleSettingsInteractor = component.simpleSettingsInteractor,
         currentScreen = stack.items.lastOrNull()?.configuration
     ) {

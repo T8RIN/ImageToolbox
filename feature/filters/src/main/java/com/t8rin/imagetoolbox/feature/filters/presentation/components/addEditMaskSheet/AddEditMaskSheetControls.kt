@@ -395,7 +395,7 @@ internal fun AddEditMaskSheetControls(
     AddFiltersSheet(
         visible = showAddFilterSheet,
         onVisibleChange = { showAddFilterSheet = it },
-        previewBitmap = null,
+        previewBitmap = component.previewBitmap,
         onFilterPicked = { component.addFilter(it.newInstance()) },
         onFilterPickedWithParams = { component.addFilter(it) },
         component = component.addFiltersSheetComponent,

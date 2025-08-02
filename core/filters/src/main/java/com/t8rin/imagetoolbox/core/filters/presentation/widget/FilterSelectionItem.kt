@@ -104,6 +104,7 @@ internal fun FilterSelectionItem(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val previewModel = LocalFilterPreviewModel.current
+
     val model = remember(filter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)

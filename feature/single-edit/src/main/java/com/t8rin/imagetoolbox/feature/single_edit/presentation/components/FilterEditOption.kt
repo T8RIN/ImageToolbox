@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvideFilterPreview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -113,6 +114,8 @@ fun FilterEditOption(
     addFilter: (UiFilter<*>) -> Unit,
     updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
+    ProvideFilterPreview(bitmap)
+
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
@@ -173,8 +176,8 @@ fun FilterEditOption(
                             filterList.forEachIndexed { index, filter ->
                                 FilterItem(
                                     filter = filter,
-                                    onFilterChange = {
-                                        updateFilter(it, index) {
+                                    onFilterChange = { filterChange ->
+                                        updateFilter(filterChange, index) {
                                             scope.launch {
                                                 toastHostState.showFailureToast(
                                                     context = context,

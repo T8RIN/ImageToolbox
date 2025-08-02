@@ -24,6 +24,7 @@ import android.graphics.Bitmap
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -187,6 +188,15 @@ internal class AndroidFavoriteFiltersInteractor @Inject constructor(
             }.toDatastoreString(context)
         }
     }
+
+    override fun getCanSetDynamicFilterPreview(): Flow<Boolean> =
+        dataStore.data.map { it[CAN_SET_DYNAMIC_FILTER_PREVIEW] == true }
+
+    override suspend fun setCanSetDynamicFilterPreview(value: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[CAN_SET_DYNAMIC_FILTER_PREVIEW] = value
+        }
+    }
 }
 
 private const val LINK_HEADER: String = "https://github.com/T8RIN/ImageToolbox?"
@@ -194,3 +204,4 @@ private const val LINK_HEADER: String = "https://github.com/T8RIN/ImageToolbox?"
 private val FAVORITE_FILTERS = stringPreferencesKey("FAVORITE_FILTERS")
 private val TEMPLATE_FILTERS = stringPreferencesKey("TEMPLATE_FILTERS")
 private val PREVIEW_MODEL = stringPreferencesKey("PREVIEW_MODEL")
+private val CAN_SET_DYNAMIC_FILTER_PREVIEW = booleanPreferencesKey("CAN_SET_DYNAMIC_FILTER_PREVIEW")

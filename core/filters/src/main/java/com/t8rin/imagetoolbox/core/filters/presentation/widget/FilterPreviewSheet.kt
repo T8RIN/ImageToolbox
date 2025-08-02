@@ -79,9 +79,8 @@ internal fun FilterPreviewSheet(
     component: AddFiltersSheetComponent,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
     onVisibleChange: (Boolean) -> Unit,
-    previewBitmap: Bitmap?,
-
-    ) {
+    previewBitmap: Bitmap?
+) {
     val previewSheetData = component.previewData
     var imageState by rememberImageState()
     LaunchedEffect(previewSheetData) {
