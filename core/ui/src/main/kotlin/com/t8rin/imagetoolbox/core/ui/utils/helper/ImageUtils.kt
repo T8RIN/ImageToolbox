@@ -352,4 +352,18 @@ object ImageUtils {
         return if (this == null || isHardware) Bitmap.Config.ARGB_8888 else this
     }
 
+    fun Bitmap.flexibleScale(max: Int): Bitmap {
+        return runCatching {
+            if (height >= width) {
+                val aspectRatio = aspectRatio
+                val targetWidth = (max * aspectRatio).toInt()
+                scale(targetWidth, max)
+            } else {
+                val aspectRatio = 1f / aspectRatio
+                val targetHeight = (max * aspectRatio).toInt()
+                scale(max, targetHeight)
+            }
+        }.getOrNull() ?: this
+    }
+
 }

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.flexibleScale
 
 data object LocalFilterPreviewModel {
 
@@ -96,6 +98,7 @@ private class FilterPreviewProviderImpl(
             _preview.value = if (canSetDynamicFilterPreview) {
                 when (preview) {
                     is ImageModel -> preview
+                    is Bitmap -> ImageModel(preview.flexibleScale(300))
                     is Any -> ImageModel(preview)
                     else -> default
                 }

@@ -114,7 +114,9 @@ fun FilterEditOption(
     addFilter: (UiFilter<*>) -> Unit,
     updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
-    ProvideFilterPreview(bitmap)
+    var stateBitmap by remember(bitmap, visible) { mutableStateOf(if (!visible) null else bitmap) }
+
+    ProvideFilterPreview(stateBitmap)
 
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
@@ -124,8 +126,6 @@ fun FilterEditOption(
 
         var showFilterSheet by rememberSaveable { mutableStateOf(false) }
         var showReorderSheet by rememberSaveable { mutableStateOf(false) }
-
-        var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
 
         var showColorPicker by rememberSaveable { mutableStateOf(false) }
         var tempColor by rememberSaveable(
@@ -270,14 +270,14 @@ fun FilterEditOption(
                     navigationIcon = closeButton,
                     actions = {
                         AnimatedVisibility(
-                            visible = stateBitmap != bitmap,
+                            visible = stateBitmap != bitmap && stateBitmap != null,
                             enter = fadeIn() + scaleIn(),
                             exit = fadeOut() + scaleOut()
                         ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
-                                    onGetBitmap(stateBitmap)
+                                    stateBitmap?.let(onGetBitmap)
                                     onDismiss()
                                 }
                             ) {
