@@ -78,7 +78,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -115,7 +115,7 @@ fun FilterTemplateCreationSheet(
     onDismiss: () -> Unit,
     initialTemplateFilter: TemplateFilter? = null
 ) {
-    val previewModel = LocalFilterPreviewModel.current
+    val previewModel = LocalFilterPreviewModelProvider.current.preview
 
     val isPortrait by isPortraitOrientationAsState()
 

@@ -85,7 +85,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -110,7 +110,7 @@ internal fun FilterSelectionCubeLutBottomContent(
     onClick: (UiCubeLutFilter) -> Unit
 ) {
     cubeLutRemoteResources?.let { resources ->
-        val previewModel = LocalFilterPreviewModel.current
+        val previewModel = LocalFilterPreviewModelProvider.current.preview
         val context = LocalContext.current
 
         var showSelection by rememberSaveable {

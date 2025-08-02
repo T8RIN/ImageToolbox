@@ -44,7 +44,7 @@ import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 
 @Composable
 internal fun ToneCurvesParamsItem(
@@ -63,7 +63,7 @@ internal fun ToneCurvesParamsItem(
             mutableStateOf<Bitmap?>(null)
         }
 
-        val previewModel = LocalFilterPreviewModel.current
+        val previewModel = LocalFilterPreviewModelProvider.current.preview
 
         val context = LocalContext.current
 

@@ -61,7 +61,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.collectAsUiState
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -87,7 +86,7 @@ internal fun OtherContent(
     onFilterPicked: (UiFilter<*>) -> Unit,
     previewBitmap: Bitmap?,
 ) {
-    val previewModel = LocalFilterPreviewModel.current
+    val previewModel = LocalFilterPreviewModelProvider.current.preview
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
     val favoriteFilters by component.favoritesFlow.collectAsUiState()

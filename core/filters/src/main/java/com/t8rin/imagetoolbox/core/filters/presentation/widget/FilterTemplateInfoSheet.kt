@@ -76,7 +76,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -387,7 +387,7 @@ internal fun TemplateFilterPreviewItem(
     templateFilter: TemplateFilter
 ) {
     val context = LocalContext.current
-    val previewModel = LocalFilterPreviewModel.current
+    val previewModel = LocalFilterPreviewModelProvider.current.preview
     val model = remember(templateFilter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)

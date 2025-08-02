@@ -28,14 +28,6 @@ import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.flexibleScale
 
-data object LocalFilterPreviewModel {
-
-    val current: ImageModel
-        @Composable
-        get() = LocalFilterPreviewModelProvider.current.preview
-
-}
-
 val LocalFilterPreviewModelProvider =
     compositionLocalOf<FilterPreviewProvider> { error("FilterPreviewProvider not present") }
 

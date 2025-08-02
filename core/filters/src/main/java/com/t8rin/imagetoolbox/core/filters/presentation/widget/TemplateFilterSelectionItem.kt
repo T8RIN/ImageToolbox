@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.StrongBlack
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModel
+import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -80,7 +80,7 @@ internal fun TemplateFilterSelectionItem(
     modifier: Modifier
 ) {
     val context = LocalContext.current
-    val previewModel = LocalFilterPreviewModel.current
+    val previewModel = LocalFilterPreviewModelProvider.current.preview
     val model = remember(templateFilter, previewModel) {
         ImageRequest.Builder(context)
             .data(previewModel.data)
