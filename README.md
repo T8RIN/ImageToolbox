@@ -177,7 +177,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 260 various filters)
+- Applying filter chains (More than 280 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -443,6 +443,25 @@ or click one of the badges below.
     - [x] Sparkle
     - [x] ASCII
     - [x] Moire
+    - [x] Autumn
+    - [x] Bone
+    - [x] Jet
+    - [x] Winter
+    - [x] Rainbow
+    - [x] Ocean
+    - [x] Summer
+    - [x] Spring
+    - [x] Hsv
+    - [x] Pink
+    - [x] Hot
+    - [x] Parula
+    - [x] Magma
+    - [x] Inferno
+    - [x] Plasma
+    - [x] Viridis
+    - [x] Cividis
+    - [x] Twilight
+    - [x] Twilight Shifted
 
 
   </details>
