@@ -43,7 +43,6 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.toSoftware
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -431,4 +430,5 @@ class MarkupLayersComponent @AssistedInject internal constructor(
 
 }
 
-private val useOldLayers = !BuildConfig.DEBUG
+@Suppress("MayBeConstant", "RedundantSuppression")
+private val useOldLayers = true//!BuildConfig.DEBUG
