@@ -451,6 +451,7 @@ or click one of the badges below.
     - [x] Ocean
     - [x] Summer
     - [x] Spring
+    - [x] Cool Variant 
     - [x] Hsv
     - [x] Pink
     - [x] Hot
