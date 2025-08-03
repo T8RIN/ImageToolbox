@@ -466,6 +466,8 @@ or click one of the badges below.
     - [x] Deskew
     - [x] Auto Perspective
     - [x] Crop Or Perspective
+    - [x] Turbo
+    - [x] Deep Green 
 
 
   </details>
