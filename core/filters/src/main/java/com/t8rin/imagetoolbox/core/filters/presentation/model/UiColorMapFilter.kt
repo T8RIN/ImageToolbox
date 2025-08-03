@@ -60,6 +60,11 @@ class UiSpringFilter : UiFilter<Unit>(
     value = Unit
 ), Filter.Spring
 
+class UiCoolVariantFilter : UiFilter<Unit>(
+    title = R.string.cool_variant,
+    value = Unit
+), Filter.CoolVariant
+
 class UiHsvFilter : UiFilter<Unit>(
     title = R.string.hsv,
     value = Unit

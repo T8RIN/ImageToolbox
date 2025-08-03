@@ -137,6 +137,7 @@ sealed class UiFilter<T>(
                     UiOceanFilter(),
                     UiSummerFilter(),
                     UiSpringFilter(),
+                    UiCoolVariantFilter(),
                     UiHsvFilter(),
                     UiPinkFilter(),
                     UiHotFilter(),
@@ -148,6 +149,7 @@ sealed class UiFilter<T>(
                     UiCividisFilter(),
                     UiTwilightFilter(),
                     UiTwilightShiftedFilter(),
+                    UiAutoPerspectiveFilter()
                 ),
                 listOf(
                     UiHueFilter(),
@@ -341,7 +343,8 @@ sealed class UiFilter<T>(
                     UiPolarCoordinatesFilter(),
                     UiTwirlFilter(),
                     UiSphereLensDistortionFilter(),
-                    UiArcFilter()
+                    UiArcFilter(),
+                    UiDeskewFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),

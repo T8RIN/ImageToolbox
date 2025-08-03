@@ -15,27 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model.enums
+package com.t8rin.imagetoolbox.core.filters.presentation.model
 
-enum class ColorMapType {
-    AUTUMN,
-    BONE,
-    JET,
-    WINTER,
-    RAINBOW,
-    OCEAN,
-    SUMMER,
-    SPRING,
-    COOL,
-    HSV,
-    PINK,
-    HOT,
-    PARULA,
-    MAGMA,
-    INFERNO,
-    PLASMA,
-    VIRIDIS,
-    CIVIDIS,
-    TWILIGHT,
-    TWILIGHT_SHIFTED;
-}
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.resources.R
+
+class UiAutoPerspectiveFilter(
+    override val value: Unit = Unit
+) : UiFilter<Unit>(
+    title = R.string.auto_perspective,
+    value = value
+), Filter.AutoPerspective

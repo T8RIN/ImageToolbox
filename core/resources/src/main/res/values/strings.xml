@@ -1732,4 +1732,7 @@
     <string name="cividis">Cividis</string>
     <string name="twilight">Twilight</string>
     <string name="twilight_shifted">Twilight Shifted</string>
+    <string name="auto_perspective">Perspective Auto</string>
+    <string name="deskew">Deskew</string>
+    <string name="allow_crop">Allow crop</string>
 </resources>

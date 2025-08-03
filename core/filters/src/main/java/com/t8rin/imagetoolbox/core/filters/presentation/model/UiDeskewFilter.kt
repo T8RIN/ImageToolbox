@@ -15,27 +15,19 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.domain.model.enums
+package com.t8rin.imagetoolbox.core.filters.presentation.model
 
-enum class ColorMapType {
-    AUTUMN,
-    BONE,
-    JET,
-    WINTER,
-    RAINBOW,
-    OCEAN,
-    SUMMER,
-    SPRING,
-    COOL,
-    HSV,
-    PINK,
-    HOT,
-    PARULA,
-    MAGMA,
-    INFERNO,
-    PLASMA,
-    VIRIDIS,
-    CIVIDIS,
-    TWILIGHT,
-    TWILIGHT_SHIFTED;
-}
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.resources.R
+
+class UiDeskewFilter(
+    override val value: Pair<Float, Boolean> = 15f to true
+) : UiFilter<Pair<Float, Boolean>>(
+    title = R.string.deskew,
+    paramsInfo = listOf(
+        FilterParam(R.string.max, 0f..90f, 0),
+        FilterParam(R.string.allow_crop, 0f..0f, 0)
+    ),
+    value = value
+), Filter.Deskew

@@ -53,6 +53,10 @@ internal class SpringFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.SPRING), Filter.Spring
 
+internal class CoolVariantFilter(
+    override val value: Unit = Unit
+) : ColorMapTransformation(ColorMapType.COOL), Filter.CoolVariant
+
 internal class HsvFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.HSV), Filter.Hsv

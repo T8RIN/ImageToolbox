@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.ArcFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AsciiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AtkinsonDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoCropFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.AutoPerspectiveFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoRemoveRedEyesFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutumnFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutumnTonesFilter
@@ -91,6 +92,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.ContrastFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ConvexFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.Convolution3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CoolFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.CoolVariantFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CropToContentFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CrossBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CrosshatchFilter
@@ -99,6 +101,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CubeLutFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CyberpunkFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeepPurpleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DehazeFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.DeskewFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DespeckleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaromalyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeutaronotopiaFilter
@@ -598,6 +601,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Ocean -> OceanFilter(value)
             is Filter.Summer -> SummerFilter(value)
             is Filter.Spring -> SpringFilter(value)
+            is Filter.CoolVariant -> CoolVariantFilter(value)
             is Filter.Hsv -> HsvFilter(value)
             is Filter.Pink -> PinkFilter(value)
             is Filter.Hot -> HotFilter(value)
@@ -609,6 +613,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Cividis -> CividisFilter(value)
             is Filter.Twilight -> TwilightFilter(value)
             is Filter.TwilightShifted -> TwilightShiftedFilter(value)
+            is Filter.AutoPerspective -> AutoPerspectiveFilter(value)
+            is Filter.Deskew -> DeskewFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

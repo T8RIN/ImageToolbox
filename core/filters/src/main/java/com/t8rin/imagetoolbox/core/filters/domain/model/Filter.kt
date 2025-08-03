@@ -326,6 +326,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Ocean : SimpleFilter
     interface Summer : SimpleFilter
     interface Spring : SimpleFilter
+    interface CoolVariant : SimpleFilter
     interface Hsv : SimpleFilter
     interface Pink : SimpleFilter
     interface Hot : SimpleFilter
@@ -337,9 +338,8 @@ interface Filter<Value> : VisibilityOwner {
     interface Cividis : SimpleFilter
     interface Twilight : SimpleFilter
     interface TwilightShifted : SimpleFilter
-
-//    interface AutoPerspective : SimpleFilter
-//    interface Deskew : FloatBooleanFilter
+    interface AutoPerspective : SimpleFilter
+    interface Deskew : FloatBooleanFilter
 //    interface CropOrPerspective : Filter<CropOrPerspectiveParams>
 }
 
