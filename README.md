@@ -465,6 +465,7 @@ or click one of the badges below.
     - [x] Twilight Shifted
     - [x] Deskew
     - [x] Auto Perspective
+    - [x] Crop Or Perspective
 
 
   </details>
