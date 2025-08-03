@@ -29,15 +29,11 @@ import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
 import android.os.Build
 import android.view.WindowManager
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
-import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
-import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.mainLooperDelayedAction
+import com.t8rin.logger.makeLog
 
 
 class ScreenshotMaker(
@@ -51,7 +47,7 @@ class ScreenshotMaker(
     private var imageReader: ImageReader? = null
 
     @Suppress("DEPRECATION")
-    private val displayMetrics: IntegerSize = run {
+    private val screenSize: IntegerSize = run {
         val wm = context.getSystemService<WindowManager>()
             ?: return@run context.resources.displayMetrics.run {
                 IntegerSize(
@@ -69,22 +65,23 @@ class ScreenshotMaker(
         }
 
         IntegerSize(bounds.width(), bounds.height())
+    }.also {
+        it.makeLog("Acquired screen size for screenshot")
     }
-
 
     fun takeScreenshot(delay: Long) {
         mainLooperDelayedAction(delay) {
             imageReader = ImageReader.newInstance(
-                displayMetrics.width,
-                displayMetrics.height,
+                screenSize.width,
+                screenSize.height,
                 PixelFormat.RGBA_8888,
                 1
             )
             runCatching {
                 virtualDisplay = mediaProjection.createVirtualDisplay(
                     "screenshot",
-                    displayMetrics.width,
-                    displayMetrics.height,
+                    screenSize.width,
+                    screenSize.height,
                     context.resources.displayMetrics.densityDpi,
                     DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                     imageReader?.surface,
@@ -102,10 +99,11 @@ class ScreenshotMaker(
         val buffer = planes[0].buffer.rewind()
         val pixelStride = planes[0].pixelStride
         val rowStride = planes[0].rowStride
-        val rowPadding = rowStride - pixelStride * displayMetrics.width
+        val rowPadding = rowStride - pixelStride * screenSize.width
+
         val bitmap = createBitmap(
-            width = displayMetrics.width + rowPadding / pixelStride,
-            height = displayMetrics.height
+            width = screenSize.width + rowPadding / pixelStride,
+            height = screenSize.height
         )
 
         bitmap.copyPixelsFromBuffer(buffer)
@@ -114,14 +112,7 @@ class ScreenshotMaker(
 
         image.close()
 
-        val resultBitmap = createBitmap(
-            width = bitmap.width, height = bitmap.height, config = bitmap.safeConfig
-        ).applyCanvas {
-            drawColor(Color.Black.toArgb())
-            drawBitmap(bitmap)
-        }
-
-        onSuccess(resultBitmap)
+        onSuccess(bitmap)
     }
 
     private fun finish() {

@@ -25,6 +25,9 @@ interface AutoBackgroundRemover<I> {
         onFailure: (Throwable) -> Unit
     )
 
-    suspend fun trimEmptyParts(image: I): I
+    suspend fun trimEmptyParts(
+        image: I,
+        emptyColor: Int? = null
+    ): I
 
 }

@@ -22,3 +22,7 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.quick_tiles"
+
+dependencies {
+    implementation(projects.feature.eraseBackground)
+}
