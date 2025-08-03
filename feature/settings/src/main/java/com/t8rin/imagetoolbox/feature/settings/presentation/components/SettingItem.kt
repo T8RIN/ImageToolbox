@@ -392,6 +392,10 @@ internal fun SettingItem(
                 DefaultScaleModeSettingItem(onValueChange = component::setDefaultImageScaleMode)
             }
 
+            Setting.DefaultColorSpace -> {
+                DefaultColorSpaceSettingItem(onValueChange = component::setDefaultImageScaleMode)
+            }
+
             Setting.SwitchType -> {
                 SwitchTypeSettingItem(onValueChange = component::setSwitchType)
             }

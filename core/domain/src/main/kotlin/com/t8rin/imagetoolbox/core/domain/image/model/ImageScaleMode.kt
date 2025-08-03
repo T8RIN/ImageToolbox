@@ -38,6 +38,9 @@ sealed interface ScaleColorSpace {
     data object JzazbzGamma22 : ScaleColorSpace
     data object JzazbzGamma28 : ScaleColorSpace
 
+    val ordinal: Int
+        get() = entries.indexOf(this)
+
     companion object {
         val Default = Linear
 
@@ -64,6 +67,8 @@ sealed interface ScaleColorSpace {
                 JzazbzGamma28
             )
         }
+
+        fun fromOrdinal(ordinal: Int) = entries.getOrNull(ordinal) ?: Default
     }
 }
 

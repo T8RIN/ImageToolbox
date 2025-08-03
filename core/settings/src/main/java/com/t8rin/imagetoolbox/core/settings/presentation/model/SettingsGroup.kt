@@ -176,6 +176,7 @@ sealed class SettingsGroup(
         titleId = R.string.default_values,
         settingsList = listOf(
             Setting.DefaultScaleMode,
+            Setting.DefaultColorSpace,
             Setting.DefaultResizeType
         ),
         initialState = false

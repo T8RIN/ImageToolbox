@@ -119,3 +119,4 @@ internal val ENABLE_TOOL_EXIT_CONFIRMATION = booleanPreferencesKey("ENABLE_TOOL_
 internal val RECENT_COLORS = stringSetPreferencesKey("RECENT_COLORS")
 internal val FAVORITE_COLORS = stringPreferencesKey("FAVORITE_COLORS_KEY")
 internal val BACKGROUND_COLOR_FOR_NA_FORMATS = intPreferencesKey("BACKGROUND_COLOR_FOR_NA_FORMATS")
+internal val IMAGE_SCALE_COLOR_SPACE = intPreferencesKey("IMAGE_SCALE_COLOR_SPACE")

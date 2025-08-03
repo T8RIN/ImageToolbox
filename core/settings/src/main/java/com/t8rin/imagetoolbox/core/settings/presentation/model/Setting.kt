@@ -288,6 +288,11 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object DefaultColorSpace : Setting(
+        title = R.string.tag_color_space,
+        subtitle = null
+    )
+
     data object SwitchType : Setting(
         title = R.string.switch_type,
         subtitle = null

@@ -102,6 +102,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ICON_SHAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_COLOR_SPACE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_CODES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_MODE
@@ -433,6 +434,7 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) = edit {
         it[IMAGE_SCALE_MODE] = imageScaleMode.value
+        it[IMAGE_SCALE_COLOR_SPACE] = imageScaleMode.scaleColorSpace.ordinal
     }
 
     override suspend fun toggleMagnifierEnabled() = toggle(

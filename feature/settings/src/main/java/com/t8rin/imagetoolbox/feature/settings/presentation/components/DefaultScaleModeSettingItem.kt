@@ -56,9 +56,9 @@ fun DefaultScaleModeSettingItem(
         value = settingsState.defaultImageScaleMode,
         onValueChange = onValueChange,
         titlePadding = PaddingValues(
-            top = 16.dp,
-            start = 16.dp,
-            end = 16.dp
+            top = 12.dp,
+            start = 12.dp,
+            end = 12.dp
         ),
         titleArrangement = Arrangement.Start,
         enableItemsCardBackground = false,

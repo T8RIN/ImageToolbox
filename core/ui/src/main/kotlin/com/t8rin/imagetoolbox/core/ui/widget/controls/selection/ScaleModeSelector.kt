@@ -345,7 +345,7 @@ fun ImageScaleMode.Companion.defaultEntries(): List<ImageScaleMode> {
     }
 }
 
-private val ScaleColorSpace.title: String
+val ScaleColorSpace.title: String
     @Composable
     get() = when (this) {
         is ScaleColorSpace.Linear -> stringResource(R.string.linear)
@@ -359,14 +359,14 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.F32Rec709 -> "Rec.709"
         is ScaleColorSpace.F32sRGB -> "F32 sRGB"
         is ScaleColorSpace.LCH -> "LCH"
-        ScaleColorSpace.OklabGamma22 -> "Oklab G2.2"
-        ScaleColorSpace.OklabGamma28 -> "Oklab G2.8"
-        ScaleColorSpace.OklabRec709 -> "Oklab Rec.709"
-        ScaleColorSpace.OklabSRGB -> "Oklab sRGB"
-        ScaleColorSpace.JzazbzGamma22 -> "Jzazbz ${stringResource(R.string.gamma)} 2.2"
-        ScaleColorSpace.JzazbzGamma28 -> "Jzazbz ${stringResource(R.string.gamma)} 2.8"
-        ScaleColorSpace.JzazbzRec709 -> "Jzazbz Rec.709"
-        ScaleColorSpace.JzazbzSRGB -> "Jzazbz sRGB"
+        is ScaleColorSpace.OklabGamma22 -> "Oklab G2.2"
+        is ScaleColorSpace.OklabGamma28 -> "Oklab G2.8"
+        is ScaleColorSpace.OklabRec709 -> "Oklab Rec.709"
+        is ScaleColorSpace.OklabSRGB -> "Oklab sRGB"
+        is ScaleColorSpace.JzazbzGamma22 -> "Jzazbz ${stringResource(R.string.gamma)} 2.2"
+        is ScaleColorSpace.JzazbzGamma28 -> "Jzazbz ${stringResource(R.string.gamma)} 2.8"
+        is ScaleColorSpace.JzazbzRec709 -> "Jzazbz Rec.709"
+        is ScaleColorSpace.JzazbzSRGB -> "Jzazbz sRGB"
     }
 
 private val ImageScaleMode.title: Int

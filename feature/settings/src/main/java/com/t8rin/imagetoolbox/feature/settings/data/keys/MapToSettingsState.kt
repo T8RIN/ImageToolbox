@@ -21,6 +21,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -93,9 +94,7 @@ internal fun Preferences.toSettingsState(
     hapticsStrength = this[VIBRATION_STRENGTH] ?: default.hapticsStrength,
     overwriteFiles = this[OVERWRITE_FILE] ?: default.overwriteFiles,
     filenameSuffix = this[FILENAME_SUFFIX] ?: default.filenameSuffix,
-    defaultImageScaleMode = this[IMAGE_SCALE_MODE]?.let {
-        ImageScaleMode.fromInt(it)
-    } ?: default.defaultImageScaleMode,
+    defaultImageScaleMode = this.toDefaultImageScaleMode(default),
     magnifierEnabled = this[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
     exifWidgetInitialState = this[EXIF_WIDGET_INITIAL_STATE]
         ?: default.exifWidgetInitialState,
@@ -197,12 +196,24 @@ internal fun Preferences.toSettingsState(
         ?: default.backgroundForNoAlphaImageFormats
 )
 
+private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {
+    val scaleMode = this[IMAGE_SCALE_MODE]?.let {
+        ImageScaleMode.fromInt(it)
+    } ?: default.defaultImageScaleMode
+
+    val scaleColorSpace = this[IMAGE_SCALE_COLOR_SPACE]?.let {
+        ScaleColorSpace.fromOrdinal(it)
+    } ?: default.defaultImageScaleMode.scaleColorSpace
+
+    return scaleMode.copy(scaleColorSpace)
+}
+
 private fun Set<String>?.toSettingGroupsInitialVisibility(
     default: SettingsState
 ): Map<Int, Boolean> =
-    this?.map { key ->
+    this?.associate { key ->
         key.split(":").let { it[0].toInt() to it[1].toBoolean() }
-    }?.toMap() ?: default.settingGroupsInitialVisibility
+    } ?: default.settingGroupsInitialVisibility
 
 private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.map {
     val split = it.split(":")
