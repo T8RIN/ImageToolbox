@@ -463,6 +463,8 @@ or click one of the badges below.
     - [x] Cividis
     - [x] Twilight
     - [x] Twilight Shifted
+    - [x] Deskew
+    - [x] Auto Perspective
 
 
   </details>
