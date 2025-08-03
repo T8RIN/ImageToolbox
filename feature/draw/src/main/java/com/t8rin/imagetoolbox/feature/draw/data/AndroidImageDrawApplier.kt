@@ -110,7 +110,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
             else -> null
         }
 
-        val drawImage = image?.let { image.copy(image.safeConfig, true) }
+        val drawImage = image?.let {
+            Bitmap.createBitmap(it.width, it.height, it.safeConfig, true)
+        }
 
         drawImage?.let { bitmap ->
             bitmap.applyCanvas {
@@ -211,8 +213,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
                     } else {
                         val paint = Paint().apply {
-                            blendMode = if (!isErasing) blendMode else BlendMode.Clear
                             if (isErasing) {
+                                blendMode = BlendMode.Clear
                                 style = PaintingStyle.Stroke
                                 this.strokeWidth = stroke
                                 strokeCap = StrokeCap.Round
