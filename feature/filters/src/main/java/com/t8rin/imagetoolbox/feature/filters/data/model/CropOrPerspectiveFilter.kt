@@ -21,12 +21,15 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
 import com.t8rin.opencv_tools.auto_straigth.AutoStraighten
+import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.Corners
 import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.Mode
+import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.PointD
 
-internal class DeskewFilter(
-    override val value: Pair<Float, Boolean> = 15f to true
-) : Transformation<Bitmap>, Filter.Deskew {
+internal class CropOrPerspectiveFilter(
+    override val value: CropOrPerspectiveParams = CropOrPerspectiveParams.Default
+) : Transformation<Bitmap>, Filter.CropOrPerspective {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -36,9 +39,26 @@ internal class DeskewFilter(
         size: IntegerSize
     ): Bitmap = AutoStraighten.process(
         input = input,
-        mode = Mode.Deskew(
-            maxSkew = value.first.toInt(),
-            allowCrop = value.second
+        mode = Mode.Manual(
+            corners = Corners(
+                topLeft = PointD(
+                    x = value.topLeft.first.toDouble(),
+                    y = value.topLeft.second.toDouble()
+                ),
+                topRight = PointD(
+                    x = value.topRight.first.toDouble(),
+                    y = value.topRight.second.toDouble()
+                ),
+                bottomLeft = PointD(
+                    x = value.bottomLeft.first.toDouble(),
+                    y = value.bottomLeft.second.toDouble()
+                ),
+                bottomRight = PointD(
+                    x = value.bottomRight.first.toDouble(),
+                    y = value.bottomRight.second.toDouble()
+                ),
+                isAbsolute = value.isAbsolute
+            )
         )
     )
 

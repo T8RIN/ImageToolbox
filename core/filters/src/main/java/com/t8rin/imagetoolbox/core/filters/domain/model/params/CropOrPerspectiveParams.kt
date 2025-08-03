@@ -23,6 +23,18 @@ data class CropOrPerspectiveParams(
     val bottomLeft: FloatPair,
     val bottomRight: FloatPair,
     val isAbsolute: Boolean = false
-)
+) {
+    companion object {
+        val Default by lazy {
+            CropOrPerspectiveParams(
+                topLeft = Pair(0.1f, 0.0f),
+                topRight = Pair(1.0f, 0.0f),
+                bottomRight = Pair(0.9f, 1.0f),
+                bottomLeft = Pair(0.0f, 1.0f),
+                isAbsolute = false
+            )
+        }
+    }
+}
 
 typealias FloatPair = Pair<Float, Float>

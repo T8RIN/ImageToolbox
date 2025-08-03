@@ -279,7 +279,7 @@ fun AspectRatioSelector(
                             )
                         }
                     },
-                    shape = ShapeDefaults.small,
+                    shape = ShapeDefaults.smallStart,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
@@ -292,7 +292,7 @@ fun AspectRatioSelector(
                             start = 8.dp,
                             top = 8.dp,
                             bottom = 8.dp,
-                            end = 4.dp
+                            end = 2.dp
                         )
                 )
                 RoundedTextField(
@@ -316,14 +316,14 @@ fun AspectRatioSelector(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    shape = ShapeDefaults.small,
+                    shape = ShapeDefaults.smallEnd,
                     label = {
                         Text(stringResource(R.string.height, " "))
                     },
                     modifier = Modifier
                         .weight(1f)
                         .padding(
-                            start = 4.dp,
+                            start = 2.dp,
                             top = 8.dp,
                             bottom = 8.dp,
                             end = 8.dp

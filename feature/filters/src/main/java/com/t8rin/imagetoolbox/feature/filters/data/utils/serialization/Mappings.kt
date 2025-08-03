@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
@@ -291,6 +292,16 @@ internal fun Any.toPair(): Pair<String, String>? {
                 fontSize,
                 backgroundColor.colorInt,
                 isGrayscale
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is CropOrPerspectiveParams -> {
+            CropOrPerspectiveParams::class.simpleName!! to listOf(
+                topLeft.join(),
+                topRight.join(),
+                bottomLeft.join(),
+                bottomRight.join(),
+                isAbsolute
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -610,6 +621,20 @@ internal fun Pair<String, String>.fromPair(): Any? {
             )
         }
 
+        name == CropOrPerspectiveParams::class.simpleName -> {
+            val (topLeft, topRight, bottomLeft, bottomRight, isAbsolute) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            CropOrPerspectiveParams(
+                topLeft = topLeft.toFloatPair(),
+                topRight = topRight.toFloatPair(),
+                bottomLeft = bottomLeft.toFloatPair(),
+                bottomRight = bottomRight.toFloatPair(),
+                isAbsolute = isAbsolute.toBoolean()
+            )
+        }
+
         else -> null
     }
 }
@@ -647,6 +672,10 @@ internal fun String.fromPart(type: String): Any {
         else -> ""
     }
 }
+
+private fun Pair<*, *>.join() = "$first$ADDITIONAL_PROPERTIES_SEPARATOR$second"
+private fun String.toFloatPair() =
+    split(ADDITIONAL_PROPERTIES_SEPARATOR).let { it[0].toFloat() to it[1].toFloat() }
 
 private const val PROPERTIES_SEPARATOR = "$"
 private const val ADDITIONAL_PROPERTIES_SEPARATOR = "*"

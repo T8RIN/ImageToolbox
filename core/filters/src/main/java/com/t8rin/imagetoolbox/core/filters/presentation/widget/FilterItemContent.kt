@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
@@ -52,6 +53,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Bilate
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.BooleanItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ClaheParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.CropOrPerspectiveParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.EnhancedZoomBlurParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FilterValueWrapperItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
@@ -323,6 +325,15 @@ internal fun <T> FilterItemContent(
 
             is AsciiParams -> {
                 AsciiParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is CropOrPerspectiveParams -> {
+                CropOrPerspectiveParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,

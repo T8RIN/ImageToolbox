@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
@@ -340,7 +341,7 @@ interface Filter<Value> : VisibilityOwner {
     interface TwilightShifted : SimpleFilter
     interface AutoPerspective : SimpleFilter
     interface Deskew : FloatBooleanFilter
-//    interface CropOrPerspective : Filter<CropOrPerspectiveParams>
+    interface CropOrPerspective : Filter<CropOrPerspectiveParams>
 }
 
 interface SimpleFilter : Filter<Unit>

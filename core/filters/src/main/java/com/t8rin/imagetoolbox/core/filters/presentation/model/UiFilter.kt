@@ -344,7 +344,8 @@ sealed class UiFilter<T>(
                     UiTwirlFilter(),
                     UiSphereLensDistortionFilter(),
                     UiArcFilter(),
-                    UiDeskewFilter()
+                    UiDeskewFilter(),
+                    UiCropOrPerspectiveFilter()
                 ),
                 listOf(
                     UiHalftoneFilter(),

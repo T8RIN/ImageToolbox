@@ -19,15 +19,19 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
 import com.t8rin.imagetoolbox.core.resources.R
 
-class UiDeskewFilter(
-    override val value: Pair<Float, Boolean> = 15f to true
-) : UiFilter<Pair<Float, Boolean>>(
-    title = R.string.deskew,
+class UiCropOrPerspectiveFilter(
+    override val value: CropOrPerspectiveParams = CropOrPerspectiveParams.Default
+) : UiFilter<CropOrPerspectiveParams>(
+    title = R.string.crop_or_perspective,
     paramsInfo = listOf(
-        FilterParam(R.string.max, 0f..89f, 0),
-        FilterParam(R.string.allow_crop, 0f..0f, 0)
+        FilterParam(R.string.top_left, 0f..0f),
+        FilterParam(R.string.top_right, 0f..0f),
+        FilterParam(R.string.bottom_left, 0f..0f),
+        FilterParam(R.string.bottom_right, 0f..0f),
+        FilterParam(R.string.absolute, 0f..0f),
     ),
     value = value
-), Filter.Deskew
+), Filter.CropOrPerspective

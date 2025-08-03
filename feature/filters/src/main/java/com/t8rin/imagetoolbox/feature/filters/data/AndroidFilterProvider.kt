@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.ConvexFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.Convolution3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CoolFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CoolVariantFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.CropOrPerspectiveFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CropToContentFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CrossBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CrosshatchFilter
@@ -615,6 +616,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.TwilightShifted -> TwilightShiftedFilter(value)
             is Filter.AutoPerspective -> AutoPerspectiveFilter(value)
             is Filter.Deskew -> DeskewFilter(value)
+            is Filter.CropOrPerspective -> CropOrPerspectiveFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
