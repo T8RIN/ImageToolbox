@@ -1713,4 +1713,23 @@
     <string name="ascii">ASCII</string>
     <string name="gradient">Gradient</string>
     <string name="moire">Moire</string>
+    <string name="autumn">Autumn</string>
+    <string name="bone">Bone</string>
+    <string name="jet">Jet</string>
+    <string name="winter">Winter</string>
+    <string name="ocean">Ocean</string>
+    <string name="summer">Summer</string>
+    <string name="spring">Spring</string>
+    <string name="cool_variant">Cool Variant</string>
+    <string name="hsv">HSV</string>
+    <string name="pink">Pink</string>
+    <string name="hot">Hot</string>
+    <string name="parula">Parula</string>
+    <string name="magma">Magma</string>
+    <string name="inferno">Inferno</string>
+    <string name="plasma">Plasma</string>
+    <string name="viridis">Viridis</string>
+    <string name="cividis">Cividis</string>
+    <string name="twilight">Twilight</string>
+    <string name="twilight_shifted">Twilight Shifted</string>
 </resources>

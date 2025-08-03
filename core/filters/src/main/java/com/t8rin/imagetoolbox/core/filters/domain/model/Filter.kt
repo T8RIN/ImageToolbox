@@ -318,6 +318,29 @@ interface Filter<Value> : VisibilityOwner {
     interface Sparkle : Filter<SparkleParams>
     interface Ascii : Filter<AsciiParams>
     interface Moire : SimpleFilter
+    interface Autumn : SimpleFilter
+    interface Bone : SimpleFilter
+    interface Jet : SimpleFilter
+    interface Winter : SimpleFilter
+    interface Rainbow : SimpleFilter
+    interface Ocean : SimpleFilter
+    interface Summer : SimpleFilter
+    interface Spring : SimpleFilter
+    interface Hsv : SimpleFilter
+    interface Pink : SimpleFilter
+    interface Hot : SimpleFilter
+    interface Parula : SimpleFilter
+    interface Magma : SimpleFilter
+    interface Inferno : SimpleFilter
+    interface Plasma : SimpleFilter
+    interface Viridis : SimpleFilter
+    interface Cividis : SimpleFilter
+    interface Twilight : SimpleFilter
+    interface TwilightShifted : SimpleFilter
+
+//    interface AutoPerspective : SimpleFilter
+//    interface Deskew : FloatBooleanFilter
+//    interface CropOrPerspective : Filter<CropOrPerspectiveParams>
 }
 
 interface SimpleFilter : Filter<Unit>

@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.AsciiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AtkinsonDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoCropFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutoRemoveRedEyesFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.AutumnFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AutumnTonesFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BayerEightDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BayerFourDitheringFilter
@@ -47,6 +48,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.BlackAndWhiteFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BlackHatFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BleachBypassFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BokehFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.BoneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BoxBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BrightnessFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BrowniFilter
@@ -60,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CelluloidFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ChannelMixFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CircleBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CirclePixelationFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.CividisFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ClaheFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ClaheHSLFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ClaheHSVFilter
@@ -160,9 +163,13 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.HazeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HejlBurgessToneMappingFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HighlightsAndShadowsFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HorizontalWindStaggerFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.HotFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HotSummerFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.HsvFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.HueFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.InfernoFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.JarvisJudiceNinkeDitheringFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.JetFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.KaleidoscopeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.KodakFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.KuwaharaFilter
@@ -183,6 +190,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.LinearTiltShiftFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LogarithmicToneMappingFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LookupFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LowPolyFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.MagmaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MarbleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MedianBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.MirrorFilter
@@ -199,6 +207,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.NightMagicFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NightVisionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NoiseFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.NonMaximumSuppressionFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.OceanFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OffsetFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OilFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OldTvFilter
@@ -207,11 +216,14 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.OpeningFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.OrangeHazeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PaletteTransferFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PaletteTransferVariantFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ParulaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PastelFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PerlinDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PinchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PinkDreamFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.PinkFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PixelationFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.PlasmaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PointillizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PoissonBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.PolarCoordinatesFilter
@@ -225,6 +237,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.PurpleMistFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.QuantizierFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RGBFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RadialTiltShiftFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.RainbowFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RainbowWorldFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RandomDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.RedSwirlFilter
@@ -261,10 +274,12 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.SpectralFireFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SphereLensDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SphereRefractionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpotHealFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SpringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.StackBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.StarBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.StrokePixelationFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.StuckiDitheringFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.SummerFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SunriseFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SwirlDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TentBlurFilter
@@ -275,6 +290,8 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.TopHatFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TriToneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritanopiaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritonomalyFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.TwilightFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.TwilightShiftedFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwirlFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwoRowSierraDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.UchimuraFilter
@@ -282,12 +299,14 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.UnsharpFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VibranceFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VignetteFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VintageFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ViridisFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.VoronoiCrystallizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WarmFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WaterEffectFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WeakPixelFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WeaveFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.WhiteBalanceFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.WinterFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.YililomaDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ZoomBlurFilter
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -571,6 +590,25 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Sparkle -> SparkleFilter(value)
             is Filter.Ascii -> AsciiFilter(value)
             is Filter.Moire -> MoireFilter(value)
+            is Filter.Autumn -> AutumnFilter(value)
+            is Filter.Bone -> BoneFilter(value)
+            is Filter.Jet -> JetFilter(value)
+            is Filter.Winter -> WinterFilter(value)
+            is Filter.Rainbow -> RainbowFilter(value)
+            is Filter.Ocean -> OceanFilter(value)
+            is Filter.Summer -> SummerFilter(value)
+            is Filter.Spring -> SpringFilter(value)
+            is Filter.Hsv -> HsvFilter(value)
+            is Filter.Pink -> PinkFilter(value)
+            is Filter.Hot -> HotFilter(value)
+            is Filter.Parula -> ParulaFilter(value)
+            is Filter.Magma -> MagmaFilter(value)
+            is Filter.Inferno -> InfernoFilter(value)
+            is Filter.Plasma -> PlasmaFilter(value)
+            is Filter.Viridis -> ViridisFilter(value)
+            is Filter.Cividis -> CividisFilter(value)
+            is Filter.Twilight -> TwilightFilter(value)
+            is Filter.TwilightShifted -> TwilightShiftedFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
