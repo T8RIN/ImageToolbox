@@ -100,3 +100,11 @@ internal class TwilightFilter(
 internal class TwilightShiftedFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.TWILIGHT_SHIFTED), Filter.TwilightShifted
+
+internal class TurboFilter(
+    override val value: Unit = Unit
+) : ColorMapTransformation(ColorMapType.TURBO), Filter.Turbo
+
+internal class DeepGreenFilter(
+    override val value: Unit = Unit
+) : ColorMapTransformation(ColorMapType.DEEPGREEN), Filter.DeepGreen

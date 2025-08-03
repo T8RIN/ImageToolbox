@@ -119,3 +119,13 @@ class UiTwilightShiftedFilter : UiFilter<Unit>(
     title = R.string.twilight_shifted,
     value = Unit
 ), Filter.TwilightShifted
+
+class UiTurboFilter : UiFilter<Unit>(
+    title = R.string.turbo,
+    value = Unit
+), Filter.Turbo
+
+class UiDeepGreenFilter : UiFilter<Unit>(
+    title = R.string.deep_green,
+    value = Unit
+), Filter.DeepGreen

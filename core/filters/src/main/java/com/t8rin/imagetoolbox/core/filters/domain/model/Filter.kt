@@ -342,6 +342,8 @@ interface Filter<Value> : VisibilityOwner {
     interface AutoPerspective : SimpleFilter
     interface Deskew : FloatBooleanFilter
     interface CropOrPerspective : Filter<CropOrPerspectiveParams>
+    interface Turbo : SimpleFilter
+    interface DeepGreen : SimpleFilter
 }
 
 interface SimpleFilter : Filter<Unit>

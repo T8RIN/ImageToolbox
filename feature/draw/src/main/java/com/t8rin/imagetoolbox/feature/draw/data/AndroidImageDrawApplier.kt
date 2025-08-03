@@ -111,7 +111,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
         }
 
         val drawImage = image?.let {
-            Bitmap.createBitmap(it.width, it.height, it.safeConfig, true)
+            createBitmap(it.width, it.height, it.safeConfig).apply { setHasAlpha(true) }
         }
 
         drawImage?.let { bitmap ->

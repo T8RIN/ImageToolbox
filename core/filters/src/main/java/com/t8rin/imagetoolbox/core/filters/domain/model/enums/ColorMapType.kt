@@ -37,5 +37,7 @@ enum class ColorMapType {
     VIRIDIS,
     CIVIDIS,
     TWILIGHT,
-    TWILIGHT_SHIFTED;
+    TWILIGHT_SHIFTED,
+    TURBO,
+    DEEPGREEN
 }

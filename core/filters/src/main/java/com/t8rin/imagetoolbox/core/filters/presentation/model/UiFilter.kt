@@ -149,7 +149,9 @@ sealed class UiFilter<T>(
                     UiCividisFilter(),
                     UiTwilightFilter(),
                     UiTwilightShiftedFilter(),
-                    UiAutoPerspectiveFilter()
+                    UiAutoPerspectiveFilter(),
+                    UiTurboFilter(),
+                    UiDeepGreenFilter()
                 ),
                 listOf(
                     UiHueFilter(),

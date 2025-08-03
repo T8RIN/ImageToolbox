@@ -100,6 +100,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CrosshatchFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CrystallizeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CubeLutFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.CyberpunkFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.DeepGreenFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeepPurpleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DehazeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.DeskewFilter
@@ -294,6 +295,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.TopHatFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TriToneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritanopiaFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TritonomalyFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.TurboFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwilightFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwilightShiftedFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.TwirlFilter
@@ -617,6 +619,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.AutoPerspective -> AutoPerspectiveFilter(value)
             is Filter.Deskew -> DeskewFilter(value)
             is Filter.CropOrPerspective -> CropOrPerspectiveFilter(value)
+            is Filter.Turbo -> TurboFilter(value)
+            is Filter.DeepGreen -> DeepGreenFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -1737,4 +1737,6 @@
     <string name="allow_crop">Allow crop</string>
     <string name="crop_or_perspective">Crop or Perspective</string>
     <string name="absolute">Absolute</string>
+    <string name="turbo">Turbo</string>
+    <string name="deep_green">Deep Green</string>
 </resources>
