@@ -1742,4 +1742,5 @@
     <string name="lens_correction">Lens Correction</string>
     <string name="target_lens_profile">Target lens profile file in JSON format</string>
     <string name="download_ready_lens_profiles">Download ready lens profiles</string>
+    <string name="part_percents">Part percents</string>
 </resources>

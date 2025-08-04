@@ -21,8 +21,7 @@ interface ImageSplitter {
 
     suspend fun split(
         imageUri: String,
-        params: SplitParams,
-        onProgress: (Int) -> Unit
+        params: SplitParams
     ): List<String>
 
 }

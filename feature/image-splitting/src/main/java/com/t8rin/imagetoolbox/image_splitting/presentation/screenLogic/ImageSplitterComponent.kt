@@ -82,8 +82,7 @@ class ImageSplitterComponent @AssistedInject internal constructor(
             _uris.update {
                 imageSplitter.split(
                     imageUri = uri!!.toString(),
-                    params = params,
-                    onProgress = {}
+                    params = params
                 ).map { it.toUri() }
             }
         }
@@ -145,10 +144,12 @@ class ImageSplitterComponent @AssistedInject internal constructor(
     fun shareBitmaps(onComplete: () -> Unit) {
         savingJob = componentScope.launch {
             _isSaving.value = true
+            _done.value = 0
             shareProvider.shareUris(
                 uris = uris.map { it.toString() }
             )
             onComplete()
+            _isSaving.value = false
         }
     }
 

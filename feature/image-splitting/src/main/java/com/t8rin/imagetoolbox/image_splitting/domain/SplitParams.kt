@@ -23,14 +23,18 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 data class SplitParams(
     val rowsCount: Int,
     val columnsCount: Int,
+    val rowPercentages: List<Float>,
+    val columnPercentages: List<Float>,
     val imageFormat: ImageFormat,
-    val quality: Quality
+    val quality: Quality,
 ) {
     companion object {
         val Default by lazy {
             SplitParams(
                 rowsCount = 2,
                 columnsCount = 2,
+                rowPercentages = emptyList(),
+                columnPercentages = emptyList(),
                 imageFormat = ImageFormat.Default,
                 quality = Quality.Base()
             )

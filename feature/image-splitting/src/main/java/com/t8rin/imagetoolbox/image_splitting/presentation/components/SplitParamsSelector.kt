@@ -23,19 +23,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.ViewColumn
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
 import kotlin.math.roundToInt
 
@@ -71,7 +77,22 @@ internal fun SplitParamsSelector(
             rowsCount = it.roundToInt()
         },
         onValueChange = {},
-        shape = ShapeDefaults.top
+        shape = ShapeDefaults.top,
+        additionalContent = if (rowsCount > 1) {
+            {
+                PercentagesField(
+                    totalSize = rowsCount,
+                    percentageValues = value.rowPercentages,
+                    onValueChange = {
+                        onValueChange(
+                            value.copy(
+                                rowPercentages = it
+                            )
+                        )
+                    }
+                )
+            }
+        } else null
     )
     Spacer(Modifier.height(4.dp))
 
@@ -102,7 +123,22 @@ internal fun SplitParamsSelector(
             columnsCount = it.roundToInt()
         },
         onValueChange = {},
-        shape = ShapeDefaults.bottom
+        shape = ShapeDefaults.bottom,
+        additionalContent = if (columnsCount > 1) {
+            {
+                PercentagesField(
+                    totalSize = columnsCount,
+                    percentageValues = value.columnPercentages,
+                    onValueChange = {
+                        onValueChange(
+                            value.copy(
+                                columnPercentages = it
+                            )
+                        )
+                    }
+                )
+            }
+        } else null
     )
     if (value.imageFormat.canChangeCompressionValue) {
         Spacer(Modifier.height(8.dp))
@@ -124,5 +160,55 @@ internal fun SplitParamsSelector(
                 value.copy(imageFormat = it)
             )
         }
+    )
+}
+
+@Composable
+private fun PercentagesField(
+    totalSize: Int,
+    percentageValues: List<Float>,
+    onValueChange: (List<Float>) -> Unit
+) {
+    val default by remember(totalSize) {
+        derivedStateOf {
+            List(totalSize) { 1f / totalSize }.joinToString("/") {
+                it.roundToTwoDigits().toString()
+            }
+        }
+    }
+    var percentages by remember(default) {
+        mutableStateOf(
+            percentageValues.joinToString("/") {
+                it.roundToTwoDigits().toString()
+            }.ifEmpty { default }
+        )
+    }
+
+    LaunchedEffect(percentageValues, totalSize) {
+        if (percentageValues.size > totalSize) {
+            percentages = percentageValues.take(totalSize).joinToString("/") {
+                it.roundToTwoDigits().toString()
+            }
+        }
+    }
+
+    LaunchedEffect(percentages) {
+        onValueChange(
+            percentages.split("/").mapNotNull { it.toFloatOrNull() }
+        )
+    }
+
+    RoundedTextField(
+        value = percentages,
+        onValueChange = {
+            percentages = it
+        },
+        label = {
+            Text(text = stringResource(R.string.part_percents))
+        },
+        hint = {
+            Text(text = default)
+        },
+        modifier = Modifier.padding(8.dp)
     )
 }

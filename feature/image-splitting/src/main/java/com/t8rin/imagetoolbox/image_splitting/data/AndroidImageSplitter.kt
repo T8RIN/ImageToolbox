@@ -39,8 +39,7 @@ internal class AndroidImageSplitter @Inject constructor(
 
     override suspend fun split(
         imageUri: String,
-        params: SplitParams,
-        onProgress: (Int) -> Unit
+        params: SplitParams
     ): List<String> = withContext(defaultDispatcher) {
         if (params.columnsCount <= 1 && params.rowsCount <= 1) {
             return@withContext listOf(imageUri)
@@ -56,14 +55,16 @@ internal class AndroidImageSplitter @Inject constructor(
                 image = image,
                 count = params.columnsCount,
                 imageFormat = params.imageFormat,
-                quality = params.quality
+                quality = params.quality,
+                columnPercentages = params.columnPercentages,
             )
         } else if (params.columnsCount <= 1) {
             splitForRows(
                 image = image,
                 count = params.rowsCount,
                 imageFormat = params.imageFormat,
-                quality = params.quality
+                quality = params.quality,
+                rowPercentages = params.rowPercentages
             )
         } else {
             splitBoth(
@@ -71,7 +72,9 @@ internal class AndroidImageSplitter @Inject constructor(
                 rowsCount = params.rowsCount,
                 columnsCount = params.columnsCount,
                 imageFormat = params.imageFormat,
-                quality = params.quality
+                quality = params.quality,
+                rowPercentages = params.rowPercentages,
+                columnPercentages = params.columnPercentages
             )
         }
     }
@@ -81,28 +84,29 @@ internal class AndroidImageSplitter @Inject constructor(
         rowsCount: Int,
         columnsCount: Int,
         imageFormat: ImageFormat,
-        quality: Quality
+        quality: Quality,
+        rowPercentages: List<Float> = emptyList(),
+        columnPercentages: List<Float> = emptyList()
     ): List<String> = withContext(defaultDispatcher) {
-        val cellHeight = image.height / rowsCount.toFloat()
+        val rowHeights = calculatePartSizes(image.height, rowPercentages, rowsCount)
         val uris = mutableListOf<Deferred<List<String>>>()
 
+        var currentY = 0
         for (row in 0 until rowsCount) {
-            val y = (row * cellHeight).toInt()
-            val height = if (y + cellHeight.toInt() > image.height) {
-                image.height - y
-            } else cellHeight.toInt()
-
-            val rowBitmap = Bitmap.createBitmap(image, 0, y, image.width, height)
+            val height = rowHeights[row]
+            val rowBitmap = Bitmap.createBitmap(image, 0, currentY, image.width, height)
 
             val rowUris = async {
                 splitForColumns(
                     image = rowBitmap,
                     count = columnsCount,
                     imageFormat = imageFormat,
-                    quality = quality
+                    quality = quality,
+                    columnPercentages = columnPercentages
                 )
             }
             uris.add(rowUris)
+            currentY += height
         }
 
         uris.flatMap { it.await() }
@@ -112,19 +116,16 @@ internal class AndroidImageSplitter @Inject constructor(
         image: Bitmap,
         count: Int,
         imageFormat: ImageFormat,
-        quality: Quality
+        quality: Quality,
+        rowPercentages: List<Float> = emptyList()
     ): List<String> = withContext(defaultDispatcher) {
-        val cellHeight = image.height / count.toFloat()
-
+        val rowHeights = calculatePartSizes(image.height, rowPercentages, count)
         val uris = mutableListOf<String?>()
 
+        var currentY = 0
         for (i in 0 until count) {
-            val y = (i * cellHeight).toInt()
-            val height = if (y + cellHeight.toInt() > image.height) {
-                image.height - y
-            } else cellHeight.toInt()
-
-            val cell = Bitmap.createBitmap(image, 0, y, image.width, height)
+            val height = rowHeights[i]
+            val cell = Bitmap.createBitmap(image, 0, currentY, image.width, height)
 
             uris.add(
                 shareProvider.cacheImage(
@@ -137,6 +138,7 @@ internal class AndroidImageSplitter @Inject constructor(
                     )
                 )
             )
+            currentY += height
         }
 
         uris.filterNotNull()
@@ -146,19 +148,16 @@ internal class AndroidImageSplitter @Inject constructor(
         image: Bitmap,
         count: Int,
         imageFormat: ImageFormat,
-        quality: Quality
+        quality: Quality,
+        columnPercentages: List<Float> = emptyList()
     ): List<String> = withContext(defaultDispatcher) {
-        val cellWidth = image.width / count.toFloat()
-
+        val columnWidths = calculatePartSizes(image.width, columnPercentages, count)
         val uris = mutableListOf<String?>()
 
+        var currentX = 0
         for (i in 0 until count) {
-            val x = (i * cellWidth).toInt()
-            val width = if (x + cellWidth.toInt() > image.width) {
-                image.width - x
-            } else cellWidth.toInt()
-
-            val cell = Bitmap.createBitmap(image, x, 0, width, image.height)
+            val width = columnWidths[i]
+            val cell = Bitmap.createBitmap(image, currentX, 0, width, image.height)
 
             uris.add(
                 shareProvider.cacheImage(
@@ -171,8 +170,51 @@ internal class AndroidImageSplitter @Inject constructor(
                     )
                 )
             )
+            currentX += width
         }
         uris.filterNotNull()
+    }
+
+    private fun calculatePartSizes(
+        totalSize: Int,
+        percentages: List<Float>,
+        count: Int
+    ): List<Int> {
+        if (percentages.isEmpty()) {
+            val partSize = totalSize / count
+            return List(count) { index ->
+                if (index == count - 1) {
+                    totalSize - (partSize * (count - 1))
+                } else {
+                    partSize
+                }
+            }
+        }
+
+        val normalizedPercentages = if (percentages.size < count) {
+            val remainingPercentage = 100f - percentages.sum()
+            val remainingParts = count - percentages.size
+            val equalPercentage = remainingPercentage / remainingParts
+            percentages + List(remainingParts) { equalPercentage }
+        } else if (percentages.size > count) {
+            percentages.take(count)
+        } else {
+            percentages
+        }
+
+        val totalPercentage = normalizedPercentages.sum()
+        val normalized = normalizedPercentages.map { it / totalPercentage }
+
+        return normalized.map { percentage ->
+            (totalSize * percentage).toInt()
+        }.let { sizes ->
+            val calculatedTotal = sizes.sum()
+            if (calculatedTotal != totalSize) {
+                sizes.dropLast(1) + (totalSize - sizes.dropLast(1).sum())
+            } else {
+                sizes
+            }
+        }
     }
 
 }
