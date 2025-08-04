@@ -17,10 +17,13 @@
 
 package com.t8rin.imagetoolbox.image_splitting.presentation.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Percent
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.ViewColumn
 import androidx.compose.material3.Text
@@ -42,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
 import kotlin.math.roundToInt
 
@@ -176,11 +180,11 @@ private fun PercentagesField(
             }
         }
     }
-    var percentages by remember(default) {
+    var percentages by remember {
         mutableStateOf(
             percentageValues.joinToString("/") {
                 it.roundToTwoDigits().toString()
-            }.ifEmpty { default }
+            }
         )
     }
 
@@ -198,17 +202,29 @@ private fun PercentagesField(
         )
     }
 
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TitleItem(
+            text = stringResource(R.string.part_percents),
+            icon = Icons.Rounded.Percent,
+            modifier = Modifier.padding(
+                start = 12.dp,
+                top = 8.dp,
+                bottom = 4.dp,
+                end = 12.dp
+            )
+        )
+    }
+
     RoundedTextField(
         value = percentages,
         onValueChange = {
             percentages = it
         },
-        label = {
-            Text(text = stringResource(R.string.part_percents))
-        },
         hint = {
             Text(text = default)
         },
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(12.dp)
     )
 }
