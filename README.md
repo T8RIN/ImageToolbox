@@ -177,7 +177,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 280 various filters)
+- Applying filter chains (More than 290 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -468,6 +468,7 @@ or click one of the badges below.
     - [x] Crop Or Perspective
     - [x] Turbo
     - [x] Deep Green 
+    - [x] Lens Correction
 
 
   </details>
