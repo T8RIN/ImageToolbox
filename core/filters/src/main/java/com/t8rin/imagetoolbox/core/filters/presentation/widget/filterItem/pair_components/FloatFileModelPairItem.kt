@@ -17,7 +17,15 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.pair_components
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -25,14 +33,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.LENS_PROFILES_LINK
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toFileModel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FileSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 
 @Composable
@@ -79,4 +92,30 @@ internal fun FloatFileModelPairItem(
         },
         subtitle = null
     )
+
+    if (filter is Filter.LensCorrection) {
+        val linkHandler = LocalUriHandler.current
+
+        EnhancedButton(
+            onClick = {
+                linkHandler.openUri(LENS_PROFILES_LINK)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
+                .height(44.dp),
+            containerColor = MaterialTheme.colorScheme.secondary
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Github,
+                contentDescription = null
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = stringResource(R.string.download_ready_lens_profiles),
+                modifier = Modifier.weight(1f, false)
+            )
+        }
+    }
 }

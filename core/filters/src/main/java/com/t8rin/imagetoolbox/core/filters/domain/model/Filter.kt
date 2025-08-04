@@ -344,6 +344,7 @@ interface Filter<Value> : VisibilityOwner {
     interface CropOrPerspective : Filter<CropOrPerspectiveParams>
     interface Turbo : SimpleFilter
     interface DeepGreen : SimpleFilter
+    interface LensCorrection : PairFilter<Float, FileModel>
 }
 
 interface SimpleFilter : Filter<Unit>

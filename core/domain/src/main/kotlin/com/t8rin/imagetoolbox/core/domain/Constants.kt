@@ -28,6 +28,8 @@ const val TELEGRAM_CHANNEL_LINK = "https://t.me/t8rin_imagetoolbox_ci"
 const val PARTNER_FREE_SOFTWARE = "https://t.me/FreeApkexe"
 const val JAVA_FORMAT_SPECIFICATION =
     "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html"
+const val LENS_PROFILES_LINK =
+    "https://github.com/T8RIN/ImageToolboxRemoteResources/tree/main/lens_profile"
 
 const val BitcoinWallet = "18QFWMREkjzQa4yetfYsN5Ua51UubKmJut"
 const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"

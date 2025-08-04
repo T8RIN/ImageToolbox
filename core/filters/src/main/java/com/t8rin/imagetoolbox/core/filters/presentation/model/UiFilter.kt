@@ -67,6 +67,7 @@ sealed class UiFilter<T>(
     companion object {
         val groupedEntries by lazy {
             listOf(
+                //Simple
                 listOf(
                     UiSepiaFilter(),
                     UiNegativeFilter(),
@@ -153,6 +154,7 @@ sealed class UiFilter<T>(
                     UiTurboFilter(),
                     UiDeepGreenFilter()
                 ),
+                //Color
                 listOf(
                     UiHueFilter(),
                     UiColorFilter(),
@@ -177,6 +179,7 @@ sealed class UiFilter<T>(
                     UiChannelMixFilter(),
                     UiRubberStampFilter()
                 ),
+                //LUT
                 listOf(
                     UiLUT512x512Filter(),
                     UiAmatorkaFilter(),
@@ -198,6 +201,7 @@ sealed class UiFilter<T>(
                     UiGreenishFilter(),
                     UiRetroYellowFilter()
                 ),
+                //Light
                 listOf(
                     UiBrightnessFilter(),
                     UiContrastFilter(),
@@ -236,6 +240,7 @@ sealed class UiFilter<T>(
                     UiGlowFilter(),
                     UiSparkleFilter()
                 ),
+                //Effects
                 listOf(
                     UiNoiseFilter(),
                     UiAnisotropicDiffusionFilter(),
@@ -268,6 +273,7 @@ sealed class UiFilter<T>(
                     UiThresholdFilter(),
                     UiDoGFilter()
                 ),
+                //Blur
                 listOf(
                     UiShuffleBlurFilter(),
                     UiRingBlurFilter(),
@@ -303,6 +309,7 @@ sealed class UiFilter<T>(
                     UiMotionBlurFilter(),
                     UiDiffuseFilter()
                 ),
+                //Pixelation
                 listOf(
                     UiCrystallizeFilter(),
                     UiEqualizeHistogramPixelationFilter(),
@@ -323,6 +330,7 @@ sealed class UiFilter<T>(
                     UiSmearFilter(),
                     UiAsciiFilter()
                 ),
+                //Distortion
                 listOf(
                     UiEnhancedGlitchFilter(),
                     UiFractalGlassFilter(),
@@ -347,8 +355,10 @@ sealed class UiFilter<T>(
                     UiSphereLensDistortionFilter(),
                     UiArcFilter(),
                     UiDeskewFilter(),
-                    UiCropOrPerspectiveFilter()
+                    UiCropOrPerspectiveFilter(),
+                    UiLensCorrectionFilter()
                 ),
+                //Dithering
                 listOf(
                     UiHalftoneFilter(),
                     UiCrosshatchFilter(),

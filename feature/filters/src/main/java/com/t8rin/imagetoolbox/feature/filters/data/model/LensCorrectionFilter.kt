@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,15 @@ import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.trickle.Trickle
-import com.t8rin.trickle.TrickleUtils
+import com.t8rin.opencv_tools.lens_correction.LensCorrection
+import com.t8rin.opencv_tools.lens_correction.LensCorrection.fromJson
+import com.t8rin.opencv_tools.lens_correction.model.LensProfile
+import com.t8rin.opencv_tools.lens_correction.model.SAMPLE_LENS_PROFILE
 
-internal class CubeLutFilter(
+internal class LensCorrectionFilter(
     private val context: Context,
     override val value: Pair<Float, FileModel> = 1f to FileModel(""),
-) : Transformation<Bitmap>, Filter.CubeLut {
+) : Transformation<Bitmap>, Filter.LensCorrection {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -39,14 +41,26 @@ internal class CubeLutFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        if (value.second.uri.isEmpty()) return input
+        val uri = value.second.uri
 
-        val lutPath = TrickleUtils.getAbsolutePath(value.second.uri.toUri(), context)
+        val lensProfile = LensProfile.fromJson(
+            if (uri.isEmpty()) {
+                LensCorrection.SAMPLE_LENS_PROFILE
+            } else {
+                context.contentResolver.openInputStream(uri.toUri())
+                    ?.bufferedReader()
+                    ?.use { it.readText() }
+                    ?.takeIf(String::isNotEmpty) ?: return input
+            }
+        )
 
-        return Trickle.applyCubeLut(
-            input = input,
-            cubeLutPath = lutPath,
-            intensity = value.first
+        val adjustedLensProfile = lensProfile.copy(
+            distortionCoeffs = lensProfile.distortionCoeffs.map { it * value.first }
+        )
+
+        return LensCorrection.undistort(
+            bitmap = input,
+            lensProfile = adjustedLensProfile
         )
     }
 

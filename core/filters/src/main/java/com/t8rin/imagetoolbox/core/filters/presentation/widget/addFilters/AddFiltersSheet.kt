@@ -137,7 +137,8 @@ fun AddFiltersSheet(
                         Filter.PaletteTransfer::class,
                         Filter.LUT512x512::class,
                         Filter.PaletteTransferVariant::class,
-                        Filter.CubeLut::class
+                        Filter.CubeLut::class,
+                        Filter.LensCorrection::class
                     )
                 }
             }

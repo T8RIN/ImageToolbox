@@ -206,7 +206,7 @@ suspend fun ContentResolver.getAlbums(
     mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
 ): List<Album> = coroutineScope {
     val timeStart = System.currentTimeMillis()
-    val albums = ArrayList<Album>()
+    val albums = mutableListOf<Album>()
     val albumQuery = query.copyAsAlbum()
     val albumFileQuery = fileQuery.copyAsAlbum()
 

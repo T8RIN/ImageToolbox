@@ -184,6 +184,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.LaplacianSimpleFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LavenderDreamFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LeftToRightDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LemonadeLightFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.LensCorrectionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LinearBoxBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LinearFastGaussianBlurFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.LinearFastGaussianBlurNextFilter
@@ -621,6 +622,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CropOrPerspective -> CropOrPerspectiveFilter(value)
             is Filter.Turbo -> TurboFilter(value)
             is Filter.DeepGreen -> DeepGreenFilter(value)
+            is Filter.LensCorrection -> LensCorrectionFilter(context, value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

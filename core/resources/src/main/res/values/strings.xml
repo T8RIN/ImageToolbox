@@ -1739,4 +1739,7 @@
     <string name="absolute">Absolute</string>
     <string name="turbo">Turbo</string>
     <string name="deep_green">Deep Green</string>
+    <string name="lens_correction">Lens Correction</string>
+    <string name="target_lens_profile">Target lens profile file in JSON format</string>
+    <string name="download_ready_lens_profiles">Download ready lens profiles</string>
 </resources>

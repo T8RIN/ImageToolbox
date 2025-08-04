@@ -78,7 +78,7 @@ suspend fun ContentResolver.getMedia(
     mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
 ): List<Media> {
     return coroutineScope {
-        val media = ArrayList<Media>()
+        val media = mutableListOf<Media>()
         query(mediaQuery, fileQuery).use { cursor ->
             while (cursor.moveToNext()) {
                 try {
