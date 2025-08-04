@@ -41,6 +41,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.contentColorFor
@@ -195,7 +196,9 @@ fun EnhancedRangeSliderItem(
                                 AnimatedContent(icon) { icon ->
                                     if (icon != null) {
                                         TooltipBox(
-                                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
+                                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                                TooltipAnchorPosition.Above
+                                            ),
                                             tooltip = {
                                                 RichTooltip(
                                                     colors = TooltipDefaults.richTooltipColors(
