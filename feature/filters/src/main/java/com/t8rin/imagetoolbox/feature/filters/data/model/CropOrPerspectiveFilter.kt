@@ -22,10 +22,10 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
-import com.t8rin.opencv_tools.auto_straigth.AutoStraighten
-import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.Corners
-import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.Mode
-import com.t8rin.opencv_tools.auto_straigth.AutoStraighten.PointD
+import com.t8rin.opencv_tools.auto_straight.AutoStraighten
+import com.t8rin.opencv_tools.auto_straight.AutoStraighten.Corners
+import com.t8rin.opencv_tools.auto_straight.AutoStraighten.Mode
+import com.t8rin.opencv_tools.auto_straight.AutoStraighten.PointD
 
 internal class CropOrPerspectiveFilter(
     override val value: CropOrPerspectiveParams = CropOrPerspectiveParams.Default
