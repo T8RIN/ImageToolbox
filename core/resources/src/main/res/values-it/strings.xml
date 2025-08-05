@@ -918,4 +918,11 @@
     <string name="convert_sub">Converti i batch di immagini nel formato specificato</string>
     <string name="images_to_svg_sub">Traccia le immagini fornite in immagini SVG</string>
     <string name="cupertino_switch_sub">Utilizza uno switch simile ad iOS basato sul cupertino design system</string>
+    <string name="gradient">Gradiente</string>
+    <string name="ascii">ASCII</string>
+    <string name="rays">Raggi</string>
+    <string name="sparkle">Scintilla</string>
+    <string name="spread_angle">Angolo di Apertura</string>
+    <string name="arc">Arco</string>
+    <string name="refraction_index">Indice di rifrazione</string>
 </resources>
