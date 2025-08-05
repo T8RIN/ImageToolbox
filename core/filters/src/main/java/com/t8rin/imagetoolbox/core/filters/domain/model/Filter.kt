@@ -243,7 +243,7 @@ interface Filter<Value> : VisibilityOwner {
     interface LinearGaussianBlur : Filter<LinearGaussianParams>
     interface LowPoly : PairFilter<Int, Boolean>
     interface SandPainting : TripleFilter<Int, Int, ColorModel>
-    interface PaletteTransfer : PairFilter<Float, ImageModel>
+    interface PaletteTransfer : FileImageFilter
     interface EnhancedOil : FloatFilter
     interface SimpleOldTv : SimpleFilter
     interface HDR : SimpleFilter
@@ -259,13 +259,13 @@ interface Filter<Value> : VisibilityOwner {
     interface Clustered4x4Dithering : Filter<Boolean>
     interface Clustered8x8Dithering : Filter<Boolean>
     interface YililomaDithering : Filter<Boolean>
-    interface LUT512x512 : PairFilter<Float, ImageModel>
+    interface LUT512x512 : FileImageFilter
     interface Amatorka : FloatFilter
     interface MissEtikate : FloatFilter
     interface SoftElegance : FloatFilter
     interface SoftEleganceVariant : FloatFilter
     interface PaletteTransferVariant : TripleFilter<Float, PaletteTransferSpace, ImageModel>
-    interface CubeLut : PairFilter<Float, FileModel>
+    interface CubeLut : FileFilter
     interface BleachBypass : FloatFilter
     interface Candlelight : FloatFilter
     interface DropBlues : FloatFilter
@@ -344,7 +344,7 @@ interface Filter<Value> : VisibilityOwner {
     interface CropOrPerspective : Filter<CropOrPerspectiveParams>
     interface Turbo : SimpleFilter
     interface DeepGreen : SimpleFilter
-    interface LensCorrection : PairFilter<Float, FileModel>
+    interface LensCorrection : FileFilter
 }
 
 interface SimpleFilter : Filter<Unit>
@@ -356,6 +356,9 @@ interface FloatFilter : Filter<Float>
 interface PairFloatFilter : PairFilter<Float, Float>
 interface TripleFloatFilter : TripleFilter<Float, Float, Float>
 interface QuadFloatFilter : QuadFilter<Float, Float, Float, Float>
+
+interface FileFilter : PairFilter<Float, FileModel>
+interface FileImageFilter : PairFilter<Float, ImageModel>
 
 interface FloatBooleanFilter : PairFilter<Float, Boolean>
 
