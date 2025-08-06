@@ -25,7 +25,7 @@
 </ul>
 
 <h2>Robust Cropping</h2>
-<p>Image Toolbox's magnificent cropping feature includes:<p>
+<p>Image Toolbox's magnificent cropping feature includes:</p>
 
 <ul>
 <li>standard cropping</li>
