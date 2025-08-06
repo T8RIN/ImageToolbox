@@ -1501,7 +1501,7 @@
     <string name="layers_on_background">背景图层</string>
     <string name="beta">Beta</string>
     <string name="fast_settings_side">快速设置边栏</string>
-    <string name="fast_settings_side_sub">Add a floating strip at the selected side while editing images, which will open fast settings when clicked</string>
+    <string name="fast_settings_side_sub">编辑图片时，在选定的侧边添加一个浮动条，点击该浮动条会打开快速设置</string>
     <string name="clear_selection">清除选择项</string>
     <string name="settings_group_visibility_hidden">设置组 \"%s\" 将默认折叠</string>
     <string name="settings_group_visibility_visible">设置组 \"%s\" 将默认展开</string>
