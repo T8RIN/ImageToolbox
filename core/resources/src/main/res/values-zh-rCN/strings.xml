@@ -1720,4 +1720,7 @@
     <string name="target_lens_profile">目标镜头配置文件（JSON 格式）</string>
     <string name="download_ready_lens_profiles">下载预设镜头配置文件</string>
     <string name="part_percents">区域百分比</string>
+    <string name="hsv">HSV</string>
+    <string name="cividis">Cividis</string>
+    <string name="parula">Parula</string>
 </resources>
