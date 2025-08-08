@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
@@ -25,12 +24,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.opencv_tools.lens_correction.LensCorrection
-import com.t8rin.opencv_tools.lens_correction.LensCorrection.fromJson
-import com.t8rin.opencv_tools.lens_correction.model.LensProfile
 import com.t8rin.opencv_tools.lens_correction.model.SAMPLE_LENS_PROFILE
 
 internal class LensCorrectionFilter(
-    private val context: Context,
     override val value: Pair<Float, FileModel> = 1f to FileModel(""),
 ) : Transformation<Bitmap>, Filter.LensCorrection {
 
@@ -40,28 +36,20 @@ internal class LensCorrectionFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        val uri = value.second.uri
-
-        val lensProfile = LensProfile.fromJson(
-            if (uri.isEmpty()) {
-                LensCorrection.SAMPLE_LENS_PROFILE
-            } else {
-                context.contentResolver.openInputStream(uri.toUri())
-                    ?.bufferedReader()
-                    ?.use { it.readText() }
-                    ?.takeIf(String::isNotEmpty) ?: return input
-            }
-        )
-
-        val adjustedLensProfile = lensProfile.copy(
-            distortionCoeffs = lensProfile.distortionCoeffs.map { it * value.first }
-        )
-
-        return LensCorrection.undistort(
-            bitmap = input,
-            lensProfile = adjustedLensProfile
-        )
+    ): Bitmap = value.second.uri.let { uri ->
+        if (uri.isEmpty()) {
+            LensCorrection.undistort(
+                bitmap = input,
+                lensDataJson = LensCorrection.SAMPLE_LENS_PROFILE,
+                intensity = value.first.toDouble()
+            )
+        } else {
+            LensCorrection.undistort(
+                bitmap = input,
+                lensDataUri = uri.toUri(),
+                intensity = value.first.toDouble()
+            )
+        }
     }
 
 }

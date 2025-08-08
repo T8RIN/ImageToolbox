@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.opencv_tools.spot_heal.SpotHealer
+import com.t8rin.opencv_tools.spot_heal.model.HealType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -49,8 +50,8 @@ internal class SpotHealFilter @AssistedInject internal constructor(
             mask = mask,
             radius = value.second,
             type = when (value.third) {
-                0 -> SpotHealer.Type.NS
-                else -> SpotHealer.Type.TELEA
+                0 -> HealType.NS
+                else -> HealType.TELEA
             }
         )
     }

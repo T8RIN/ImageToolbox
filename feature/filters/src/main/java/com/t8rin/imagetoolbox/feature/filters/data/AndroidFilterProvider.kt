@@ -569,7 +569,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SobelSimple -> SobelSimpleFilter(value)
             is Filter.LaplacianSimple -> LaplacianSimpleFilter(value)
             is Filter.MotionBlur -> MotionBlurFilter(value)
-            is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(context, value)
+            is Filter.AutoRemoveRedEyes -> AutoRemoveRedEyesFilter(value)
             is Filter.ToneCurves -> ToneCurvesFilter(context, value)
             is Filter.Mirror -> MirrorFilter(value)
             is Filter.Kaleidoscope -> KaleidoscopeFilter(value)
@@ -622,7 +622,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CropOrPerspective -> CropOrPerspectiveFilter(value)
             is Filter.Turbo -> TurboFilter(value)
             is Filter.DeepGreen -> DeepGreenFilter(value)
-            is Filter.LensCorrection -> LensCorrectionFilter(context, value)
+            is Filter.LensCorrection -> LensCorrectionFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

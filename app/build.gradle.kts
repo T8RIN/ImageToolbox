@@ -136,6 +136,9 @@ dependencies {
     implementation(projects.feature.root)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)
+
+    implementation(libs.toolbox.opencvTools)
+
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)
 }

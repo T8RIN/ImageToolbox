@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.plus
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
-import com.t8rin.opencv_tools.free_corners_crop.FreeCornersCropper
+import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
 import com.yalantis.ucrop.compose.UCropper
 import kotlinx.coroutines.launch
 

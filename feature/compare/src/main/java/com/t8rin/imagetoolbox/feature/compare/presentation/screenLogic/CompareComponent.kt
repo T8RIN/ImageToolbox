@@ -50,7 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareType
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.PixelByPixelCompareState
 import com.t8rin.opencv_tools.image_comparison.ImageDiffTool
-import com.t8rin.opencv_tools.image_comparison.ImageDiffTool.ComparisonType
+import com.t8rin.opencv_tools.image_comparison.model.ComparisonType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

@@ -30,7 +30,7 @@ class UiLensCorrectionFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.strength,
-            valueRange = 0f..2f,
+            valueRange = -1f..3f,
             roundTo = 2
         ),
         FilterParam(

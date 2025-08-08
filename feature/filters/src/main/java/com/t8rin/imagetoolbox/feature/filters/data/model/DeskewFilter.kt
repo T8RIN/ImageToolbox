@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.opencv_tools.auto_straight.AutoStraighten
-import com.t8rin.opencv_tools.auto_straight.AutoStraighten.Mode
+import com.t8rin.opencv_tools.auto_straight.model.StraightenMode
 
 internal class DeskewFilter(
     override val value: Pair<Float, Boolean> = 15f to true
@@ -36,7 +36,7 @@ internal class DeskewFilter(
         size: IntegerSize
     ): Bitmap = AutoStraighten.process(
         input = input,
-        mode = Mode.Deskew(
+        mode = StraightenMode.Deskew(
             maxSkew = value.first.toInt(),
             allowCrop = value.second
         )

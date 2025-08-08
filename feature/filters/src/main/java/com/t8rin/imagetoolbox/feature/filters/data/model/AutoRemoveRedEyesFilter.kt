@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
@@ -25,19 +24,17 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.opencv_tools.red_eye.RedEyeRemover
 
 internal class AutoRemoveRedEyesFilter(
-    private val context: Context,
     override val value: Float = 150f,
 ) : Transformation<Bitmap>, Filter.AutoRemoveRedEyes {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = RedEyeRemover.removeRedEyes(
         bitmap = input,
-        context = context,
         minEyeSize = 35.0,
         redThreshold = value.toDouble()
     )
