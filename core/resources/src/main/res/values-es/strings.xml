@@ -1406,4 +1406,16 @@
     <string name="fast_settings_side">Acceso a Configuración Lateral</string>
     <string name="fast_settings_side_sub">Añade una barra flotante en el lado seleccionado mientras editas imágenes, la cual abrirá los ajustes rápidos al clickear en ella</string>
     <string name="clear_selection">Borrar selección</string>
+    <string name="checksum_as_filename">Checksum como nombre de archivo</string>
+    <string name="checksum_as_filename_sub">El nombre de las imágenes de salida se corresponderá al checksum de datos de la imagen</string>
+    <string name="checksum_tools">Herramientas de Checksum</string>
+    <string name="checksum_tools_sub">Compara checksums, calcular hashes o crear cadenas hexadecimales de archivos, usando diferentes algoritmos de hashing</string>
+    <string name="checksum">Checksum</string>
+    <string name="pick_file_to_checksum">Elige el archivo para calcular su checksum basado en el algoritmo seleccionado</string>
+    <string name="enter_text_to_checksum">Introduce un texto para calcular su checksum, basado en el algoritmo seleccionado</string>
+    <string name="source_checksum">Checksum de Origen</string>
+    <string name="checksum_to_compare">Checksum a Comparar</string>
+    <string name="match_sub">Los checksums son iguales, es seguro</string>
+    <string name="difference_sub">Los Checksums no son iguales, el archivo puede no ser seguro!</string>
+    <string name="pick_files_to_checksum">Selecciona el/los archivo(s) para calcular su checksum basado en el algoritmo seleccionado</string>
 </resources>
