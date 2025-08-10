@@ -78,7 +78,7 @@ fragmentCompose = "1.8.8"
 
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "12.2.4"
-moduleGraphGradle = "0.12.0"
+moduleGraphGradle = "0.12.1"
 
 [libraries]
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
