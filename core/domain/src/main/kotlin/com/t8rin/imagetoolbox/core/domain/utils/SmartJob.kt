@@ -22,9 +22,13 @@ import kotlinx.coroutines.cancelChildren
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-internal class SmartJob<T>(
+/**
+ * [Job] delegate which automatically cancels previous instance after setting new value,
+ * @param onCancelled called when previous job is about to cancel
+ **/
+private class SmartJobImpl<T>(
     private val onCancelled: (Job) -> Unit = {}
-) : ReadWriteProperty<T, Job?> {
+) : SmartJob<T> {
 
     private var job: Job? = null
 
@@ -47,6 +51,12 @@ internal class SmartJob<T>(
     }
 }
 
+typealias SmartJob<T> = ReadWriteProperty<T, Job?>
+
+/**
+ * [Job] delegate which automatically cancels previous instance after setting new value,
+ * @param onCancelled called when previous job is about to cancel
+ **/
 fun <T> smartJob(
     onCancelled: (Job) -> Unit = {}
-): ReadWriteProperty<T, Job?> = SmartJob(onCancelled)
+): SmartJob<T> = SmartJobImpl(onCancelled)
