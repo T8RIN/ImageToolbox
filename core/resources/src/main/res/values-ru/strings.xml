@@ -1121,10 +1121,10 @@
     <string name="delete_template_warn">Вы собираетесь удалить выбранный фильтр шаблона. Эта операция не может быть отменена</string>
     <string name="added_filter_template">Добавлен фильтр шаблона с именем \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Предварительный просмотр фильтра</string>
-    <string name="qr_code">QR-код</string>
+    <string name="qr_code">QR и баркоды</string>
     <string name="qr_code_sub">Сканируйте QR-код, чтобы получить его содержимое, или вставьте свою строку для генерации нового кода</string>
     <string name="code_content">Содержимое кода</string>
-    <string name="scan_qr_code_to_replace_content">Сканируйте QR-код, чтобы заменить содержимое в поле, или введите что-нибудь для генерации нового QR-кода</string>
+    <string name="scan_qr_code_to_replace_content">Сканируйте любой баркод, чтобы заменить содержимое в поле, или введите что-нибудь для генерации нового баркода выюранного типа</string>
     <string name="qr_description">Описание QR</string>
     <string name="min">Мин</string>
     <string name="grant_camera_permission_to_scan_qr_code">Разрешите доступ к камере в настройках для сканирования QR-кода</string>
@@ -1571,4 +1571,5 @@
     <string name="tool_exit_confirmation">Подтверждение закрытия инструмента</string>
     <string name="tool_exit_confirmation_sub">Если у вас есть несохраненные изменения при использовании определенных инструментов и вы пытаетесь закрыть их, то будет показано диалоговое окно подтверждения</string>
     <string name="image_cutting">Вырезание</string>
+    <string name="clahe">CLAHE</string>
 </resources>
