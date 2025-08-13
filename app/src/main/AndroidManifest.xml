@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
-        android:minSdkVersion="21"
+        android:minSdkVersion="23"
         tools:overrideLibrary="com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.google.mlkit.vision.segmentation.subject, androidx.pdf,androidx.pdf.viewer.fragment, androidx.pdf.document.service" />
 
     <uses-feature
