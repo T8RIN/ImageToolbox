@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiShuffleBlurFilter(
-    override val value: Pair<Int, Float> = 35 to 1f
-) : UiFilter<Pair<Int, Float>>(
+    override val value: Pair<Float, Float> = 35f to 1f
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.shuffle_blur,
     value = value,
     paramsInfo = listOf(

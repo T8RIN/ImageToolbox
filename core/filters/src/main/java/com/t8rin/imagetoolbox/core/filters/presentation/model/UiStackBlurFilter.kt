@@ -23,8 +23,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 
 
 class UiStackBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 10,
-) : UiFilter<Pair<Float, Int>>(
+    override val value: Pair<Float, Float> = 0.5f to 10f,
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.stack_blur,
     value = value,
     paramsInfo = listOf(

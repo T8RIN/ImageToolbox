@@ -23,8 +23,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiFastBilaterialBlurFilter(
-    override val value: Triple<Int, Float, Float> = Triple(11, 10f, 3f),
-) : UiFilter<Triple<Int, Float, Float>>(
+    override val value: Triple<Float, Float, Float> = Triple(11f, 10f, 3f),
+) : UiFilter<Triple<Float, Float, Float>>(
     title = R.string.fast_bilaterial_blur,
     value = value,
     paramsInfo = listOf(

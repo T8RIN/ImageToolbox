@@ -22,9 +22,10 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.trickle.Trickle
+import kotlin.math.roundToInt
 
 internal class ShuffleBlurFilter(
-    override val value: Pair<Int, Float> = 35 to 1f
+    override val value: Pair<Float, Float> = 35f to 1f
 ) : Transformation<Bitmap>, Filter.ShuffleBlur {
 
     private val radiusMapping = listOf(0f, RAD_1) + List(200) {
@@ -40,7 +41,7 @@ internal class ShuffleBlurFilter(
     ): Bitmap = Trickle.shuffleBlur(
         input = input,
         threshold = value.second,
-        strength = radiusMapping.getOrNull(value.first) ?: 0f
+        strength = radiusMapping.getOrNull(value.first.roundToInt()) ?: 0f
     )
 
     private companion object {

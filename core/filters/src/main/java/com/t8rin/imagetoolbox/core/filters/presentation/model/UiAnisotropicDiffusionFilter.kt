@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiAnisotropicDiffusionFilter(
-    override val value: Triple<Int, Float, Float> = Triple(20, 0.6f, 0.5f)
-) : UiFilter<Triple<Int, Float, Float>>(
+    override val value: Triple<Float, Float, Float> = Triple(20f, 0.6f, 0.5f)
+) : UiFilter<Triple<Float, Float, Float>>(
     title = R.string.anisotropic_diffusion,
     value = value,
     paramsInfo = listOf(

@@ -29,9 +29,9 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
 import com.t8rin.trickle.Trickle
 
 
-internal class ColorFilter(
+internal class ColorOverlayFilter(
     override val value: FilterValueWrapper<ColorModel> = Color.Yellow.copy(0.3f).toModel().wrap(),
-) : Transformation<Bitmap>, Filter.Color {
+) : Transformation<Bitmap>, Filter.ColorOverlay {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()

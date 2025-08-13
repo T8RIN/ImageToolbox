@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
 
 
 internal class FastBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 5,
+    override val value: Pair<Float, Float> = 0.5f to 5f,
 ) : Transformation<Bitmap>, Filter.FastBlur {
     override val cacheKey: String
         get() = (value).hashCode().toString()
@@ -35,7 +35,10 @@ internal class FastBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.fastBlur(value.first, value.second)
+    ): Bitmap = input.fastBlur(
+        scale = value.first,
+        radius = value.second.roundToInt()
+    )
 
 }
 

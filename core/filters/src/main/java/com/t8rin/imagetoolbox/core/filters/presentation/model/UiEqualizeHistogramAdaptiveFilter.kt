@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiEqualizeHistogramAdaptiveFilter(
-    override val value: Pair<Int, Int> = 3 to 3
-) : UiFilter<Pair<Int, Int>>(
+    override val value: Pair<Float, Float> = 3f to 3f
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.equalize_histogram_adaptive,
     paramsInfo = listOf(
         FilterParam(R.string.grid_size_x, 1f..100f, 0),

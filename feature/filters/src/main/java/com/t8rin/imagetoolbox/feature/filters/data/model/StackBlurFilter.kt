@@ -27,7 +27,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 internal class StackBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 10,
+    override val value: Pair<Float, Float> = 0.5f to 10f,
 ) : Transformation<Bitmap>, Filter.StackBlur {
 
     override val cacheKey: String
@@ -36,7 +36,10 @@ internal class StackBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = input.stackBlur(value.first, value.second)
+    ): Bitmap = input.stackBlur(
+        scale = value.first,
+        radius = value.second.roundToInt()
+    )
 }
 
 private fun Bitmap.stackBlur(

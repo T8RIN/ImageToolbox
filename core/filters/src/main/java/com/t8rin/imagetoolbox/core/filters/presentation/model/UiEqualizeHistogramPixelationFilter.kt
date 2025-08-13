@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiEqualizeHistogramPixelationFilter(
-    override val value: Pair<Int, Int> = 50 to 50
-) : UiFilter<Pair<Int, Int>>(
+    override val value: Pair<Float, Float> = 50f to 50f
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.equalize_histogram_pixelation,
     paramsInfo = listOf(
         FilterParam(R.string.grid_size_x, 1f..200f, 0),

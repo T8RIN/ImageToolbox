@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiBokehFilter(
-    override val value: Pair<Int, Int> = 6 to 6
-) : UiFilter<Pair<Int, Int>>(
+    override val value: Pair<Float, Float> = 6f to 6f
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.bokeh,
     value = value,
     paramsInfo = listOf(

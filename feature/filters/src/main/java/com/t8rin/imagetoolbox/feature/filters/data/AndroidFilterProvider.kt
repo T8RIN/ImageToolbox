@@ -81,10 +81,10 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.CoffeeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorAnomalyFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorBalanceFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorExplosionFilter
-import com.t8rin.imagetoolbox.feature.filters.data.model.ColorFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorHalftoneFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix4x4Filter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ColorOverlayFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorPosterFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorfulSwirlFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ContourFilter
@@ -339,7 +339,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CGAColorSpace -> CGAColorSpaceFilter(context)
             is Filter.CirclePixelation -> CirclePixelationFilter(value)
             is Filter.ColorBalance -> ColorBalanceFilter(context, value)
-            is Filter.Color -> ColorFilter(value)
+            is Filter.ColorOverlay -> ColorOverlayFilter(value)
             is Filter.ColorMatrix4x4 -> ColorMatrix4x4Filter(context, value)
             is Filter.Contrast -> ContrastFilter(value)
             is Filter.Convolution3x3 -> Convolution3x3Filter(value)

@@ -22,9 +22,10 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.trickle.Trickle
+import kotlin.math.roundToInt
 
 internal class LowPolyFilter(
-    override val value: Pair<Int, Boolean> = 2000 to true
+    override val value: Pair<Float, Boolean> = 2000f to true
 ) : Transformation<Bitmap>, Filter.LowPoly {
 
     override val cacheKey: String
@@ -35,7 +36,7 @@ internal class LowPolyFilter(
         size: IntegerSize
     ): Bitmap = Trickle.lowPoly(
         input = input,
-        alphaOrPointCount = value.first.toFloat(),
+        alphaOrPointCount = value.first.roundToInt().toFloat(),
         fill = value.second
     )
 

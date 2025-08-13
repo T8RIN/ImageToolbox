@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiColorFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiColorOverlayFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiRGBFilter
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
@@ -57,7 +57,7 @@ internal fun FilterValueWrapperItem(
                     defaultColors = remember(filter) {
                         derivedStateOf {
                             ColorSelectionRowDefaults.colorList.map {
-                                if (filter is UiColorFilter) it.copy(0.5f)
+                                if (filter is UiColorOverlayFilter) it.copy(0.5f)
                                 else it
                             }
                         }

@@ -26,9 +26,9 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
 
-class UiColorFilter(
+class UiColorOverlayFilter(
     override val value: FilterValueWrapper<ColorModel> = Color.Yellow.copy(0.3f).toModel().wrap(),
 ) : UiFilter<FilterValueWrapper<ColorModel>>(
     title = R.string.color_filter,
     value = value
-), Filter.Color
+), Filter.ColorOverlay

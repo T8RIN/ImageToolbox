@@ -157,7 +157,7 @@ sealed class UiFilter<T>(
                 //Color
                 listOf(
                     UiHueFilter(),
-                    UiColorFilter(),
+                    UiColorOverlayFilter(),
                     UiNeonFilter(),
                     UiSaturationFilter(),
                     UiRGBFilter(),

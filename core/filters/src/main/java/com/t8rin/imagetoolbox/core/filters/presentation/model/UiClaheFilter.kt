@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiClaheFilter(
-    override val value: Triple<Float, Int, Int> = Triple(0.5f, 8, 8)
-) : UiFilter<Triple<Float, Int, Int>>(
+    override val value: Triple<Float, Float, Float> = Triple(0.5f, 8f, 8f)
+) : UiFilter<Triple<Float, Float, Float>>(
     title = R.string.clahe,
     paramsInfo = listOf(
         FilterParam(R.string.threshold, -10f..10f, 2),

@@ -23,8 +23,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 
 
 class UiFastBlurFilter(
-    override val value: Pair<Float, Int> = 0.5f to 5,
-) : UiFilter<Pair<Float, Int>>(
+    override val value: Pair<Float, Float> = 0.5f to 5f,
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.fast_blur,
     value = value,
     paramsInfo = listOf(

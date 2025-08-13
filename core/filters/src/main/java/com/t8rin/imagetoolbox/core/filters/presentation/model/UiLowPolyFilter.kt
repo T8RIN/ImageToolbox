@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiLowPolyFilter(
-    override val value: Pair<Int, Boolean> = 2000 to true
-) : UiFilter<Pair<Int, Boolean>>(
+    override val value: Pair<Float, Boolean> = 2000f to true
+) : UiFilter<Pair<Float, Boolean>>(
     title = R.string.low_poly,
     value = value,
     paramsInfo = listOf(

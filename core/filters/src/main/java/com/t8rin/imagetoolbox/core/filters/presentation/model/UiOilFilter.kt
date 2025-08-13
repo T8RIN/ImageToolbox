@@ -22,8 +22,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
 
 class UiOilFilter(
-    override val value: Pair<Int, Float> = 4 to 1f
-) : UiFilter<Pair<Int, Float>>(
+    override val value: Pair<Float, Float> = 4f to 1f
+) : UiFilter<Pair<Float, Float>>(
     title = R.string.oil,
     value = value,
     paramsInfo = listOf(
