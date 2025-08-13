@@ -74,7 +74,7 @@ capturable = "3.0.1"
 moshi = "1.15.2"
 bouncycastle = "1.81"
 pdfviewer = "1.0.0-alpha10"
-fragmentCompose = "1.8.8"
+fragmentCompose = "1.8.9"
 
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "12.2.4"
