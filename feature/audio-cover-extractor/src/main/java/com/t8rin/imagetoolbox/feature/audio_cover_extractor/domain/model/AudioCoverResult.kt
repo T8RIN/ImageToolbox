@@ -15,18 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain
+package com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model
 
-import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model.AudioCoverResult
-
-interface AudioCoverRetriever {
-
-    suspend fun loadCover(
-        audioUri: String
-    ): AudioCoverResult
-
-    suspend fun loadCover(
-        audioData: ByteArray
-    ): AudioCoverResult
-
+sealed interface AudioCoverResult {
+    data class Success(val coverUri: String) : AudioCoverResult
+    data class Failure(val message: String) : AudioCoverResult
 }

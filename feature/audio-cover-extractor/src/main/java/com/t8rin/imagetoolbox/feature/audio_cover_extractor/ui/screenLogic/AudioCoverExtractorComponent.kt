@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.AudioCoverRetriever
+import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model.AudioCoverResult
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.components.AudioWithCover
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -117,14 +118,15 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
 
             audioUris.map { audioUri ->
                 launch {
-                    val coverUri =
-                        audioCoverRetriever.loadCover(audioUri.toString()).getOrNull()
+                    val result = audioCoverRetriever.loadCover(audioUri.toString())
+
+                    val success = result as? AudioCoverResult.Success
 
                     ensureActive()
 
                     val newCover = AudioWithCover(
                         audioUri = audioUri,
-                        imageCoverUri = coverUri?.toUri(),
+                        imageCoverUri = success?.coverUri?.toUri(),
                         isLoading = false
                     )
 
@@ -164,14 +166,15 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
 
             covers.filter { it.imageCoverUri == null }.map { (audioUri) ->
                 launch {
-                    val coverUri =
-                        audioCoverRetriever.loadCover(audioUri.toString()).getOrNull()
+                    val result = audioCoverRetriever.loadCover(audioUri.toString())
+
+                    val success = result as? AudioCoverResult.Success
 
                     ensureActive()
 
                     val newCover = AudioWithCover(
                         audioUri = audioUri,
-                        imageCoverUri = coverUri?.toUri(),
+                        imageCoverUri = success?.coverUri?.toUri(),
                         isLoading = false
                     )
 

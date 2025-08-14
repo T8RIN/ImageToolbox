@@ -15,18 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain
+package com.t8rin.imagetoolbox.feature.compare.presentation.components.model
 
-import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model.AudioCoverResult
+import android.graphics.Bitmap
+import android.net.Uri
 
-interface AudioCoverRetriever {
+data class CompareEntry(
+    val uri: Uri,
+    val image: Bitmap
+)
 
-    suspend fun loadCover(
-        audioUri: String
-    ): AudioCoverResult
+data class CompareData(
+    val first: CompareEntry?,
+    val second: CompareEntry?
+) {
+    fun swap() = CompareData(
+        first = second,
+        second = first
+    )
+}
 
-    suspend fun loadCover(
-        audioData: ByteArray
-    ): AudioCoverResult
-
+inline fun <R> CompareData.ifNotEmpty(
+    action: (CompareEntry, CompareEntry) -> R
+): R? = run {
+    if (first != null && second != null) action(first, second)
+    else null
 }

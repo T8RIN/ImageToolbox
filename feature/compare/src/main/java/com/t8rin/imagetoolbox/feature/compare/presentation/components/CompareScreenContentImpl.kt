@@ -17,8 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -59,6 +57,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.CompareData
+import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.ifNotEmpty
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -66,7 +66,7 @@ import net.engawapg.lib.zoomable.zoomable
 @Composable
 internal fun CompareScreenContentImpl(
     compareType: CompareType,
-    bitmapPair: Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>,
+    bitmapPair: CompareData,
     pixelByPixelCompareState: PixelByPixelCompareState,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
@@ -85,59 +85,53 @@ internal fun CompareScreenContentImpl(
         when (type) {
             CompareType.Slide -> {
                 AnimatedContent(targetState = bitmapPair) { data ->
-                    data.let { (b, a) ->
-                        val before = remember(data) { b?.second?.asImageBitmap() }
-                        val after = remember(data) { a?.second?.asImageBitmap() }
+                    data.ifNotEmpty { beforeData, afterData ->
+                        val before = remember(data) { beforeData.image.asImageBitmap() }
+                        val after = remember(data) { afterData.image.asImageBitmap() }
 
-                        if (before != null && after != null) {
-                            BeforeAfterImage(
-                                enableZoom = false,
-                                modifier = modifier,
-                                progress = animateFloatAsState(targetValue = compareProgress).value,
-                                onProgressChange = onCompareProgressChange,
-                                beforeImage = before,
-                                afterImage = after,
-                                beforeLabel = {
-                                    b?.let { (uri) ->
-                                        Box(
-                                            modifier = Modifier.matchParentSize()
-                                        ) {
-                                            CompareLabel(
-                                                uri = uri,
-                                                alignment = Alignment.TopStart,
-                                                enabled = isLabelsEnabled,
-                                                shape = ShapeDefaults.default.only(
-                                                    CornerSides.BottomEnd
-                                                )
-                                            )
-                                        }
-                                    }
-                                },
-                                afterLabel = {
-                                    a?.let { (uri) ->
-                                        Box(
-                                            modifier = Modifier.matchParentSize()
-                                        ) {
-                                            CompareLabel(
-                                                uri = uri,
-                                                alignment = Alignment.BottomEnd,
-                                                enabled = isLabelsEnabled,
-                                                shape = ShapeDefaults.default.only(
-                                                    CornerSides.TopStart
-                                                )
-                                            )
-                                        }
-                                    }
+                        BeforeAfterImage(
+                            enableZoom = false,
+                            modifier = modifier,
+                            progress = animateFloatAsState(targetValue = compareProgress).value,
+                            onProgressChange = onCompareProgressChange,
+                            beforeImage = before,
+                            afterImage = after,
+                            beforeLabel = {
+                                Box(
+                                    modifier = Modifier.matchParentSize()
+                                ) {
+                                    CompareLabel(
+                                        uri = beforeData.uri,
+                                        alignment = Alignment.TopStart,
+                                        enabled = isLabelsEnabled,
+                                        shape = ShapeDefaults.default.only(
+                                            CornerSides.BottomEnd
+                                        )
+                                    )
                                 }
-                            )
-                        }
+                            },
+                            afterLabel = {
+                                Box(
+                                    modifier = Modifier.matchParentSize()
+                                ) {
+                                    CompareLabel(
+                                        uri = afterData.uri,
+                                        alignment = Alignment.BottomEnd,
+                                        enabled = isLabelsEnabled,
+                                        shape = ShapeDefaults.default.only(
+                                            CornerSides.TopStart
+                                        )
+                                    )
+                                }
+                            }
+                        )
                     }
                 }
             }
 
             CompareType.SideBySide -> {
-                val first = bitmapPair.first?.second
-                val second = bitmapPair.second?.second
+                val first = bitmapPair.first?.image
+                val second = bitmapPair.second?.image
 
                 val zoomState = rememberZoomState(30f)
                 val zoomModifier = Modifier
@@ -176,7 +170,7 @@ internal fun CompareScreenContentImpl(
                             }
                         }
                         CompareLabel(
-                            uri = bitmapPair.first?.first,
+                            uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.default.only(
@@ -184,7 +178,7 @@ internal fun CompareScreenContentImpl(
                             )
                         )
                         CompareLabel(
-                            uri = bitmapPair.second?.first,
+                            uri = bitmapPair.second?.uri,
                             alignment = Alignment.BottomStart,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.default.only(
@@ -219,7 +213,7 @@ internal fun CompareScreenContentImpl(
                             }
                         }
                         CompareLabel(
-                            uri = bitmapPair.first?.first,
+                            uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.default.only(
@@ -227,7 +221,7 @@ internal fun CompareScreenContentImpl(
                             )
                         )
                         CompareLabel(
-                            uri = bitmapPair.second?.first,
+                            uri = bitmapPair.second?.uri,
                             alignment = Alignment.TopEnd,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.default.only(
@@ -247,8 +241,8 @@ internal fun CompareScreenContentImpl(
                         showSecondImage = !showSecondImage
                     }
                 ) {
-                    val first = bitmapPair.first?.second
-                    val second = bitmapPair.second?.second
+                    val first = bitmapPair.first?.image
+                    val second = bitmapPair.second?.image
                     if (!showSecondImage && first != null) {
                         AsyncImage(
                             model = first,
@@ -267,8 +261,8 @@ internal fun CompareScreenContentImpl(
                         modifier = Modifier.matchParentSize()
                     ) {
                         CompareLabel(
-                            uri = if (showSecondImage) bitmapPair.second?.first
-                            else bitmapPair.first?.first,
+                            uri = if (showSecondImage) bitmapPair.second?.uri
+                            else bitmapPair.first?.uri,
                             alignment = if (showSecondImage) Alignment.BottomEnd
                             else Alignment.TopStart,
                             enabled = isLabelsEnabled,
@@ -290,8 +284,8 @@ internal fun CompareScreenContentImpl(
                 Box(
                     modifier = modifier
                 ) {
-                    val first = bitmapPair.first?.second
-                    val second = bitmapPair.second?.second
+                    val first = bitmapPair.first?.image
+                    val second = bitmapPair.second?.image
                     if (first != null) {
                         AsyncImage(
                             model = first,
@@ -311,7 +305,7 @@ internal fun CompareScreenContentImpl(
                         modifier = Modifier.matchParentSize()
                     ) {
                         CompareLabel(
-                            uri = bitmapPair.first?.first,
+                            uri = bitmapPair.first?.uri,
                             alignment = Alignment.TopStart,
                             enabled = isLabelsEnabled,
                             shape = ShapeDefaults.default.only(
@@ -323,7 +317,7 @@ internal fun CompareScreenContentImpl(
                         modifier = Modifier.matchParentSize()
                     ) {
                         CompareLabel(
-                            uri = bitmapPair.second?.first,
+                            uri = bitmapPair.second?.uri,
                             modifier = Modifier.alpha(compareProgress / 100f),
                             alignment = Alignment.BottomEnd,
                             enabled = isLabelsEnabled,
@@ -340,8 +334,8 @@ internal fun CompareScreenContentImpl(
                     mutableStateOf(false)
                 }
 
-                val first = bitmapPair.first?.second
-                val second = bitmapPair.second?.second
+                val first = bitmapPair.first?.image
+                val second = bitmapPair.second?.image
 
                 Box(
                     modifier = Modifier.fillMaxSize(),
