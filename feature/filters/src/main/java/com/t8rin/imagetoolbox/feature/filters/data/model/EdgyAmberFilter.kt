@@ -25,12 +25,11 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.resources.R
 
 internal class EdgyAmberFilter(
-    override val value: Float = 1f,
-    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
+    override val value: Float = 1f
 ) : ChainTransformation<Bitmap>, Filter.EdgyAmber {
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        lut512x512FilterFactory(value to ImageModel(R.drawable.lookup_edgy_amber))
+        LUT512x512Filter(value to ImageModel(R.drawable.lookup_edgy_amber))
     )
 
     override val cacheKey: String

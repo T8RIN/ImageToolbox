@@ -26,11 +26,10 @@ import com.t8rin.imagetoolbox.core.resources.R
 
 internal class AmatorkaFilter(
     override val value: Float = 1f,
-    private val lut512x512FilterFactory: LUT512x512Filter.Factory,
 ) : ChainTransformation<Bitmap>, Filter.Amatorka {
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        lut512x512FilterFactory(value to ImageModel(R.drawable.lookup_amatorka))
+        LUT512x512Filter(value to ImageModel(R.drawable.lookup_amatorka))
     )
 
     override val cacheKey: String

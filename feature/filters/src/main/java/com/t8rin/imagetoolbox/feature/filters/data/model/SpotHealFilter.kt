@@ -18,20 +18,16 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.opencv_tools.spot_heal.SpotHealer
 import com.t8rin.opencv_tools.spot_heal.model.HealType
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 
-internal class SpotHealFilter @AssistedInject internal constructor(
-    @Assisted override val value: Triple<ImageModel, Float, Int>,
-    private val imageGetter: ImageGetter<Bitmap>
+internal class SpotHealFilter(
+    override val value: Triple<ImageModel, Float, Int>,
 ) : Transformation<Bitmap>, Filter.SpotHeal {
 
     override val cacheKey: String
@@ -41,9 +37,7 @@ internal class SpotHealFilter @AssistedInject internal constructor(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val mask = imageGetter.getImage(
-            data = value.first.data
-        ) ?: return input
+        val mask = value.first.data.loadBitmap() ?: return input
 
         return SpotHealer.heal(
             image = input,
@@ -54,15 +48,6 @@ internal class SpotHealFilter @AssistedInject internal constructor(
                 else -> HealType.TELEA
             }
         )
-    }
-
-    @AssistedFactory
-    interface Factory {
-
-        operator fun invoke(
-            @Assisted value: Triple<ImageModel, Float, Int>
-        ): SpotHealFilter
-
     }
 
 }

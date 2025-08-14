@@ -317,12 +317,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.model.YililomaDitheringFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ZoomBlurFilter
 import javax.inject.Inject
 
-internal class AndroidFilterProvider @Inject constructor(
-    private val paletteTransferFilterFactory: PaletteTransferFilter.Factory,
-    private val lutFilterFactory: LUT512x512Filter.Factory,
-    private val paletteTransferVariantFilterFactory: PaletteTransferVariantFilter.Factory,
-    private val spotHealFilterFactory: SpotHealFilter.Factory,
-) : FilterProvider<Bitmap> {
+internal class AndroidFilterProvider @Inject constructor() : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
         filter: Filter<*>,
@@ -518,7 +513,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LinearGaussianBlur -> LinearGaussianBlurFilter(value)
             is Filter.LowPoly -> LowPolyFilter(value)
             is Filter.SandPainting -> SandPaintingFilter(value)
-            is Filter.PaletteTransfer -> paletteTransferFilterFactory(value)
+            is Filter.PaletteTransfer -> PaletteTransferFilter(value)
             is Filter.EnhancedOil -> EnhancedOilFilter(value)
             is Filter.SimpleOldTv -> SimpleOldTvFilter(value)
             is Filter.HDR -> HDRFilter(value)
@@ -534,29 +529,29 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clustered4x4Dithering -> Clustered4x4DitheringFilter(value)
             is Filter.Clustered8x8Dithering -> Clustered8x8DitheringFilter(value)
             is Filter.YililomaDithering -> YililomaDitheringFilter(value)
-            is Filter.LUT512x512 -> lutFilterFactory(value)
-            is Filter.Amatorka -> AmatorkaFilter(value, lutFilterFactory)
-            is Filter.MissEtikate -> MissEtikateFilter(value, lutFilterFactory)
-            is Filter.SoftElegance -> SoftEleganceFilter(value, lutFilterFactory)
-            is Filter.SoftEleganceVariant -> SoftEleganceVariantFilter(value, lutFilterFactory)
-            is Filter.PaletteTransferVariant -> paletteTransferVariantFilterFactory(value)
+            is Filter.LUT512x512 -> LUT512x512Filter(value)
+            is Filter.Amatorka -> AmatorkaFilter(value)
+            is Filter.MissEtikate -> MissEtikateFilter(value)
+            is Filter.SoftElegance -> SoftEleganceFilter(value)
+            is Filter.SoftEleganceVariant -> SoftEleganceVariantFilter(value)
+            is Filter.PaletteTransferVariant -> PaletteTransferVariantFilter(value)
             is Filter.CubeLut -> CubeLutFilter(value)
-            is Filter.BleachBypass -> BleachBypassFilter(value, lutFilterFactory)
-            is Filter.Candlelight -> CandlelightFilter(value, lutFilterFactory)
-            is Filter.DropBlues -> DropBluesFilter(value, lutFilterFactory)
-            is Filter.EdgyAmber -> EdgyAmberFilter(value, lutFilterFactory)
-            is Filter.FallColors -> FallColorsFilter(value, lutFilterFactory)
-            is Filter.FilmStock50 -> FilmStock50Filter(value, lutFilterFactory)
-            is Filter.FoggyNight -> FoggyNightFilter(value, lutFilterFactory)
-            is Filter.Kodak -> KodakFilter(value, lutFilterFactory)
+            is Filter.BleachBypass -> BleachBypassFilter(value)
+            is Filter.Candlelight -> CandlelightFilter(value)
+            is Filter.DropBlues -> DropBluesFilter(value)
+            is Filter.EdgyAmber -> EdgyAmberFilter(value)
+            is Filter.FallColors -> FallColorsFilter(value)
+            is Filter.FilmStock50 -> FilmStock50Filter(value)
+            is Filter.FoggyNight -> FoggyNightFilter(value)
+            is Filter.Kodak -> KodakFilter(value)
             is Filter.PopArt -> PopArtFilter(value)
-            is Filter.Celluloid -> CelluloidFilter(value, lutFilterFactory)
-            is Filter.Coffee -> CoffeeFilter(value, lutFilterFactory)
-            is Filter.GoldenForest -> GoldenForestFilter(value, lutFilterFactory)
-            is Filter.Greenish -> GreenishFilter(value, lutFilterFactory)
-            is Filter.RetroYellow -> RetroYellowFilter(value, lutFilterFactory)
+            is Filter.Celluloid -> CelluloidFilter(value)
+            is Filter.Coffee -> CoffeeFilter(value)
+            is Filter.GoldenForest -> GoldenForestFilter(value)
+            is Filter.Greenish -> GreenishFilter(value)
+            is Filter.RetroYellow -> RetroYellowFilter(value)
             is Filter.AutoCrop -> AutoCropFilter(value)
-            is Filter.SpotHeal -> spotHealFilterFactory(value)
+            is Filter.SpotHeal -> SpotHealFilter(value)
             is Filter.Opening -> OpeningFilter(value)
             is Filter.Closing -> ClosingFilter(value)
             is Filter.MorphologicalGradient -> MorphologicalGradientFilter(value)

@@ -18,24 +18,18 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.data.utils.safeAspectRatio
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
-import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
-import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.trickle.Trickle
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 
-internal class LUT512x512Filter @AssistedInject internal constructor(
-    @Assisted override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup),
-    private val imageGetter: ImageGetter<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+internal class LUT512x512Filter(
+    override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup),
 ) : Transformation<Bitmap>, Filter.LUT512x512 {
 
     override val cacheKey: String
@@ -45,32 +39,18 @@ internal class LUT512x512Filter @AssistedInject internal constructor(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val lutBitmap = imageGetter.getImage(
-            data = value.second.data,
-            size = IntegerSize(512, 512)
-        )?.takeIf {
+        val lutBitmap = value.second.data.loadBitmap(512)?.takeIf {
             it.safeAspectRatio == 1f
         } ?: return input
 
         return Trickle.applyLut(
             input = input,
-            lutBitmap = imageScaler.scaleImage(
-                image = lutBitmap,
+            lutBitmap = lutBitmap.scale(
                 width = 512,
-                height = 512,
-                resizeType = ResizeType.Explicit
+                height = 512
             ),
             intensity = value.first
         )
-    }
-
-    @AssistedFactory
-    interface Factory {
-
-        operator fun invoke(
-            @Assisted value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup)
-        ): LUT512x512Filter
-
     }
 
 }
