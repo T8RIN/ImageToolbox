@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageExposureFilter
@@ -25,12 +24,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 
 internal class ExposureFilter(
-    private val context: Context,
     override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.Exposure {
+) : GPUFilterTransformation(), Filter.Exposure {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageExposureFilter(value)
 }

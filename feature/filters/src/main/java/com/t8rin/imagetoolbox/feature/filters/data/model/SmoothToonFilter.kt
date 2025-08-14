@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -25,12 +24,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageSmoothToonFilter
 
 
 internal class SmoothToonFilter(
-    private val context: Context,
     override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.2f, 10f),
-) : GPUFilterTransformation(context), Filter.SmoothToon {
+) : GPUFilterTransformation(), Filter.SmoothToon {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageSmoothToonFilter().apply {
         setBlurSize(value.first)

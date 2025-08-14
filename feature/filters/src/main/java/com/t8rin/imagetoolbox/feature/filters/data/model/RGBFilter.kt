@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
@@ -33,12 +32,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
 
 
 internal class RGBFilter(
-    private val context: Context,
     override val value: FilterValueWrapper<ColorModel> = Color.Green.toModel().wrap(),
-) : GPUFilterTransformation(context), Filter.RGB {
+) : GPUFilterTransformation(), Filter.RGB {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageRGBFilter(
         value.wrapped.red, value.wrapped.green, value.wrapped.blue

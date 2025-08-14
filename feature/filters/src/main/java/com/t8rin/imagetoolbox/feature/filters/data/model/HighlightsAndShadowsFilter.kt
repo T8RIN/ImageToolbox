@@ -17,19 +17,17 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.GPUImageHighlightShadowWideRangeFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 internal class HighlightsAndShadowsFilter(
-    private val context: Context,
     override val value: Float = 0.25f,
-) : GPUFilterTransformation(context), Filter.HighlightsAndShadows {
+) : GPUFilterTransformation(), Filter.HighlightsAndShadows {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageHighlightShadowWideRangeFilter(value, 1f)
 }

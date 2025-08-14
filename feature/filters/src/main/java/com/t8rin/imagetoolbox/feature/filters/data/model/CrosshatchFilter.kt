@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageCrosshatchFilter
@@ -25,12 +24,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 
 internal class CrosshatchFilter(
-    private val context: Context,
     override val value: Pair<Float, Float> = 0.01f to 0.003f,
-) : GPUFilterTransformation(context), Filter.Crosshatch {
+) : GPUFilterTransformation(), Filter.Crosshatch {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter =
         GPUImageCrosshatchFilter(value.first, value.second)

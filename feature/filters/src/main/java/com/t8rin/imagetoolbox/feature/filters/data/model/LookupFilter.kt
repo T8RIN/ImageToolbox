@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -25,12 +24,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageLookupFilter
 
 
 internal class LookupFilter(
-    private val context: Context,
     override val value: Float = -1f,
-) : GPUFilterTransformation(context), Filter.Lookup {
+) : GPUFilterTransformation(), Filter.Lookup {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageLookupFilter(value)
 }

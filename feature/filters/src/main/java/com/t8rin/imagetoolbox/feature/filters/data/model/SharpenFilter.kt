@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -25,9 +24,8 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
 
 
 internal class SharpenFilter(
-    context: Context,
     override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.Sharpen {
+) : GPUFilterTransformation(), Filter.Sharpen {
 
     override val cacheKey: String
         get() = value.hashCode().toString()

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.PointF
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
@@ -26,12 +25,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageSwirlFilter
 
 
 internal class SwirlDistortionFilter(
-    private val context: Context,
     override val value: Pair<Float, Float> = 0.5f to 1f,
-) : GPUFilterTransformation(context), Filter.SwirlDistortion {
+) : GPUFilterTransformation(), Filter.SwirlDistortion {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageSwirlFilter(
         /* radius = */ value.first,

@@ -17,20 +17,18 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.transformation
 
-import android.content.Context
 import android.graphics.Bitmap
 import coil3.size.Size
 import com.t8rin.imagetoolbox.core.data.utils.asCoil
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.ui.utils.appContext
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import coil3.transform.Transformation as CoilTransformation
 
-internal abstract class GPUFilterTransformation(
-    private val context: Context,
-) : CoilTransformation(), Transformation<Bitmap> {
+internal abstract class GPUFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
 
     /**
      * Create the [GPUImageFilter] to apply to this [Transformation]
@@ -40,7 +38,7 @@ internal abstract class GPUFilterTransformation(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = GPUImage(context).apply {
+    ): Bitmap = GPUImage(appContext).apply {
         setImage(input.flexible(size))
         setFilter(createFilter())
     }.bitmapWithFilterApplied
@@ -49,4 +47,5 @@ internal abstract class GPUFilterTransformation(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = transform(input, size.asCoil())
+
 }

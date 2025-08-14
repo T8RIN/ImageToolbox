@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -25,11 +24,10 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageHueFilter
 
 
 internal class HueFilter(
-    private val context: Context,
     override val value: Float = 90f,
-) : GPUFilterTransformation(context), Filter.Hue {
+) : GPUFilterTransformation(), Filter.Hue {
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageHueFilter(value)
 }

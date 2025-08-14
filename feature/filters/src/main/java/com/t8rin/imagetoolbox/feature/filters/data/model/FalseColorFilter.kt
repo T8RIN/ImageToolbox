@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import android.content.Context
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
@@ -31,12 +30,11 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 
 internal class FalseColorFilter(
-    private val context: Context,
     override val value: Pair<ColorModel, ColorModel> = Color.Yellow.toModel() to Color.Magenta.toModel(),
-) : GPUFilterTransformation(context), Filter.FalseColor {
+) : GPUFilterTransformation(), Filter.FalseColor {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageFalseColorFilter(
         value.first.red,
