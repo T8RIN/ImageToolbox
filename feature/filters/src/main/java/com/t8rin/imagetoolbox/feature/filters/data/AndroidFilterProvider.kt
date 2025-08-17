@@ -619,6 +619,4 @@ internal class AndroidFilterProvider @Inject constructor() : FilterProvider<Bitm
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
     } ?: EmptyTransformation()
-
-
 }
