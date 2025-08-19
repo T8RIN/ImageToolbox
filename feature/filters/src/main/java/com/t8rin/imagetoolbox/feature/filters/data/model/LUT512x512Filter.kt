@@ -24,10 +24,12 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.trickle.Trickle
 
+@FilterInject
 internal class LUT512x512Filter(
     override val value: Pair<Float, ImageModel> = 1f to ImageModel(R.drawable.lookup),
 ) : Transformation<Bitmap>, Filter.LUT512x512 {

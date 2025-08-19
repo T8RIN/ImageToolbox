@@ -32,9 +32,10 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import kotlin.math.roundToInt
 
-
+@FilterInject
 internal class SideFadeFilter(
     override val value: SideFadeParams = SideFadeParams.Relative(FadeSide.Start, 0.5f),
 ) : Transformation<Bitmap>, Filter.SideFade {

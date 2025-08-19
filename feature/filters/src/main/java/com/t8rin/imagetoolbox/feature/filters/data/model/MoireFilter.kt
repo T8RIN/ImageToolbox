@@ -21,8 +21,10 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.opencv_tools.moire.Moire
 
+@FilterInject
 internal class MoireFilter(
     override val value: Unit = Unit
 ) : Transformation<Bitmap>, Filter.Moire {

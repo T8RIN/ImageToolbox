@@ -23,9 +23,11 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toEdgeMode
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class FastGaussianBlur2DFilter(
     override val value: Pair<Float, BlurEdgeMode> = 10f to BlurEdgeMode.Reflect101
 ) : Transformation<Bitmap>, Filter.FastGaussianBlur2D {

@@ -24,6 +24,9 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+
+@FilterInject
 internal class EmbossFilter(
     override val value: Float = 1f,
 ) : Transformation<Bitmap>, Filter.Emboss {

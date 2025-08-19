@@ -23,6 +23,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+
+@FilterInject
 internal class SaturationFilter(
     override val value: Pair<Float, Boolean> = 2f to true,
 ) : Transformation<Bitmap>, Filter.Saturation {

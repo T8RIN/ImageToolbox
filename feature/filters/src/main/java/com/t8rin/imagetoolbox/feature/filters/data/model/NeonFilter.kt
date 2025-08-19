@@ -25,7 +25,9 @@ import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class NeonFilter(
     override val value: Triple<Float, Float, ColorModel> = Triple(
         first = 1f,

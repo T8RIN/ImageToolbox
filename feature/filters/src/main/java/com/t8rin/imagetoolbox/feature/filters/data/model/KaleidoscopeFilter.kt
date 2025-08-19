@@ -21,8 +21,10 @@ import com.jhlabs.JhFilter
 import com.jhlabs.KaleidoscopeFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
+@FilterInject
 internal class KaleidoscopeFilter(
     override val value: KaleidoscopeParams = KaleidoscopeParams.Default
 ) : JhFilterTransformation(), Filter.Kaleidoscope {

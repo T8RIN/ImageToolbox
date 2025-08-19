@@ -22,8 +22,10 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class EqualizeHistogramAdaptiveFilter(
     override val value: Pair<Float, Float> = 3f to 3f
 ) : Transformation<Bitmap>, Filter.EqualizeHistogramAdaptive {

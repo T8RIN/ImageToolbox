@@ -27,7 +27,9 @@ import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class StarBlurFilter(
     override val value: Float = 25f,
 ) : Transformation<Bitmap>, Filter.StarBlur {

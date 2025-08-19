@@ -24,11 +24,12 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.red
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-
+@FilterInject
 internal class FalseColorFilter(
     override val value: Pair<ColorModel, ColorModel> = Color.Yellow.toModel() to Color.Magenta.toModel(),
 ) : GPUFilterTransformation(), Filter.FalseColor {

@@ -26,8 +26,10 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 
+@FilterInject
 internal class HorizontalWindStaggerFilter(
     override val value: Triple<Float, Int, ColorModel> = Triple(
         first = 0.2f,

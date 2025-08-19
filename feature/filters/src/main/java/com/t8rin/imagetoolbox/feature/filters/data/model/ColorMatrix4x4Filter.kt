@@ -17,12 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorMatrixFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-
+@FilterInject
 internal class ColorMatrix4x4Filter(
     override val value: FloatArray = floatArrayOf(
         1.0f, 0.0f, 0.0f, 0.0f,

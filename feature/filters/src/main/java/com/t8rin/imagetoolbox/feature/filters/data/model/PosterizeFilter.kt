@@ -17,12 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImagePosterizeFilter
 
-
+@FilterInject
 internal class PosterizeFilter(
     override val value: Float = 5f,
 ) : GPUFilterTransformation(), Filter.Posterize {

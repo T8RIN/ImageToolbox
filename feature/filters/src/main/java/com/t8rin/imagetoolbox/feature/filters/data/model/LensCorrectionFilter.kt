@@ -23,9 +23,11 @@ import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.opencv_tools.lens_correction.LensCorrection
 import com.t8rin.opencv_tools.lens_correction.model.SAMPLE_LENS_PROFILE
 
+@FilterInject
 internal class LensCorrectionFilter(
     override val value: Pair<Float, FileModel> = 1f to FileModel(""),
 ) : Transformation<Bitmap>, Filter.LensCorrection {

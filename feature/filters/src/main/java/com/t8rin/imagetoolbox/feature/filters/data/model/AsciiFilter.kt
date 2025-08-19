@@ -25,7 +25,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class AsciiFilter(
     override val value: AsciiParams = AsciiParams.Default
 ) : Transformation<Bitmap>, Filter.Ascii {

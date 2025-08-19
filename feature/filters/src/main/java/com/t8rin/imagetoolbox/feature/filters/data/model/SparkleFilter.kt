@@ -22,10 +22,12 @@ import com.jhlabs.JhFilter
 import com.jhlabs.SparkleFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class SparkleFilter(
     override val value: SparkleParams = SparkleParams.Default
 ) : JhFilterTransformation(), Filter.Sparkle {

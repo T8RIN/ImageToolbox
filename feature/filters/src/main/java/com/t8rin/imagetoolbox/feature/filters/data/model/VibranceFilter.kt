@@ -22,8 +22,9 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
-
+@FilterInject
 internal class VibranceFilter(
     override val value: Float = 3f,
 ) : Transformation<Bitmap>, Filter.Vibrance {

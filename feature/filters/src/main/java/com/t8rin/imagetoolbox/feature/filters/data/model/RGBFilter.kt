@@ -26,11 +26,12 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
 
-
+@FilterInject
 internal class RGBFilter(
     override val value: FilterValueWrapper<ColorModel> = Color.Green.toModel().wrap(),
 ) : GPUFilterTransformation(), Filter.RGB {

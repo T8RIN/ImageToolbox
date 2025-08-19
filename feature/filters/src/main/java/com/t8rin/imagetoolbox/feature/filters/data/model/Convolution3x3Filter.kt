@@ -28,6 +28,9 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 
 
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+
+@FilterInject
 internal class Convolution3x3Filter(
     override val value: FloatArray = floatArrayOf(
         0.0f, 0.0f, 0.0f,

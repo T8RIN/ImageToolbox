@@ -24,10 +24,12 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationLayer
 import com.t8rin.trickle.Trickle
 
+@FilterInject
 internal class StrokePixelationFilter(
     override val value: Pair<Float, ColorModel> = 20f to Color.Black.toModel(),
 ) : Transformation<Bitmap>, Filter.StrokePixelation {

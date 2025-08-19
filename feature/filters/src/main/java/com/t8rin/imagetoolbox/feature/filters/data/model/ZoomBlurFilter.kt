@@ -17,13 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import android.graphics.PointF
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageZoomBlurFilter
 
-
+@FilterInject
 internal class ZoomBlurFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.5f, 5f),
 ) : GPUFilterTransformation(), Filter.ZoomBlur {

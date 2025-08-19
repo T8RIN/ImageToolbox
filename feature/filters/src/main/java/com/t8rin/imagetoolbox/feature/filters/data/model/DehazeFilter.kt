@@ -22,8 +22,10 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class DehazeFilter(
     override val value: Pair<Float, Float> = 17f to 0.45f
 ) : Transformation<Bitmap>, Filter.Dehaze {

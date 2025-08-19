@@ -22,9 +22,11 @@ import com.jhlabs.ArcFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
+@FilterInject
 internal class ArcFilter(
     override val value: ArcParams = ArcParams.Default
 ) : JhFilterTransformation(), Filter.Arc {

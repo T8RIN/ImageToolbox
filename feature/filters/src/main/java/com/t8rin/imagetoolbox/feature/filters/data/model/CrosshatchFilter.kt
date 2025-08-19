@@ -18,11 +18,12 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageCrosshatchFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-
+@FilterInject
 internal class CrosshatchFilter(
     override val value: Pair<Float, Float> = 0.01f to 0.003f,
 ) : GPUFilterTransformation(), Filter.Crosshatch {

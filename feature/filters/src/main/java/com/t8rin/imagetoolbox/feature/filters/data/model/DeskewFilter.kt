@@ -21,9 +21,11 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.opencv_tools.auto_straight.AutoStraighten
 import com.t8rin.opencv_tools.auto_straight.model.StraightenMode
 
+@FilterInject
 internal class DeskewFilter(
     override val value: Pair<Float, Boolean> = 15f to true
 ) : Transformation<Bitmap>, Filter.Deskew {

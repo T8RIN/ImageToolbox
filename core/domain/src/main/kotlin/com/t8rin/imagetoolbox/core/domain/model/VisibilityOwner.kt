@@ -22,6 +22,6 @@ interface VisibilityOwner {
         get() = true
 }
 
-fun <T : VisibilityOwner, R> T.ifVisible(
+inline fun <T : VisibilityOwner, R> T.ifVisible(
     action: T.() -> R
 ): R? = takeIf { it.isVisible }?.let(action)

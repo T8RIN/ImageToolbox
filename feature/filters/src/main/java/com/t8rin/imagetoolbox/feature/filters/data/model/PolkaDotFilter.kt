@@ -24,9 +24,11 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.trickle.Trickle
 
+@FilterInject
 internal class PolkaDotFilter(
     override val value: Triple<Int, Int, ColorModel> = Triple(
         first = 10,

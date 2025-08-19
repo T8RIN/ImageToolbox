@@ -20,8 +20,10 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.DoGFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
+@FilterInject
 internal class DoGFilter(
     override val value: Pair<Float, Float> = 1f to 2f
 ) : JhFilterTransformation(), Filter.DoG {

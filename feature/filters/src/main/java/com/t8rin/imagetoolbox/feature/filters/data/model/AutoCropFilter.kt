@@ -21,9 +21,11 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.opencv_tools.autocrop.AutoCropper
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class AutoCropFilter(
     override val value: Float = 5f
 ) : Transformation<Bitmap>, Filter.AutoCrop {

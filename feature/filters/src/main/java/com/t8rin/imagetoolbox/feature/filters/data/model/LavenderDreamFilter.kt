@@ -22,8 +22,9 @@ import com.awxkee.aire.ColorMatrices
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
-
+@FilterInject
 internal class LavenderDreamFilter(
     override val value: Unit = Unit
 ) : Transformation<Bitmap>, Filter.LavenderDream {

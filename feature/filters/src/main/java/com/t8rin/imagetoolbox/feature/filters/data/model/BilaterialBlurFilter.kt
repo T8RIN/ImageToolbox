@@ -24,8 +24,10 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toEdgeMode
 
+@FilterInject
 internal class BilaterialBlurFilter(
     override val value: BilaterialBlurParams = BilaterialBlurParams.Default
 ) : Transformation<Bitmap>, Filter.BilaterialBlur {

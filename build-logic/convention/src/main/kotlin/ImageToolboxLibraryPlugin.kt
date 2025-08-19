@@ -36,7 +36,7 @@ class ImageToolboxLibraryPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
                 apply("kotlin-parcelize")
                 apply("kotlinx-serialization")
-                apply(libs.detekt.gradle.get().group.toString())
+                apply(libs.detekt.gradle.get().group)
             }
 
             configureDetekt(extensions.getByType<DetektExtension>())

@@ -22,10 +22,12 @@ import android.graphics.BitmapFactory
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.Glitcher
 import kotlinx.coroutines.coroutineScope
 import java.io.ByteArrayOutputStream
 
+@FilterInject
 internal class GlitchFilter(
     override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
 ) : Transformation<Bitmap>, Filter.Glitch {

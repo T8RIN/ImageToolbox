@@ -21,9 +21,11 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.trickle.DitheringType
 import com.t8rin.trickle.Trickle
 
+@FilterInject
 internal class YililomaDitheringFilter(
     override val value: Boolean = false,
 ) : Transformation<Bitmap>, Filter.YililomaDithering {

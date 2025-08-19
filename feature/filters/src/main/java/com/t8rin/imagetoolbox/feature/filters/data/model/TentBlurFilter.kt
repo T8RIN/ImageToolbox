@@ -24,7 +24,9 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class TentBlurFilter(
     override val value: Float = 15f,
 ) : Transformation<Bitmap>, Filter.TentBlur {

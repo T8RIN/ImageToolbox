@@ -17,13 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import android.graphics.PointF
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-
+@FilterInject
 internal class BulgeDistortionFilter(
     override val value: Pair<Float, Float> = 0.25f to 0.5f,
 ) : GPUFilterTransformation(), Filter.BulgeDistortion {

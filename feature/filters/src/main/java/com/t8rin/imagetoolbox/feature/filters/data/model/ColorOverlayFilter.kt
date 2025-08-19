@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
@@ -26,9 +27,10 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
 import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.trickle.Trickle
 
-
+@FilterInject
 internal class ColorOverlayFilter(
     override val value: FilterValueWrapper<ColorModel> = Color.Yellow.copy(0.3f).toModel().wrap(),
 ) : Transformation<Bitmap>, Filter.ColorOverlay {

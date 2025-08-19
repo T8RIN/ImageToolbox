@@ -18,11 +18,12 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSmoothToonFilter
 
-
+@FilterInject
 internal class SmoothToonFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.2f, 10f),
 ) : GPUFilterTransformation(), Filter.SmoothToon {

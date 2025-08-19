@@ -24,8 +24,10 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
+@FilterInject
 internal class ContourFilter(
     override val value: Quad<Float, Float, Float, ColorModel> = Quad(
         first = 5f,

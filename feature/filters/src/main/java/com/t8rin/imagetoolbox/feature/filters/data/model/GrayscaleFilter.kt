@@ -22,7 +22,9 @@ import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class GrayscaleFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.299f, 0.587f, 0.114f)
 ) : Transformation<Bitmap>, Filter.Grayscale {

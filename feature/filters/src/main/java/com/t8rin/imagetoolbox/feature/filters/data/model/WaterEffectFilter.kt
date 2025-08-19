@@ -23,7 +23,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class WaterEffectFilter(
     override val value: WaterParams = WaterParams()
 ) : Transformation<Bitmap>, Filter.WaterEffect {

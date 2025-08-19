@@ -23,7 +23,9 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class OldTvFilter(
     override val value: Unit
 ) : ChainTransformation<Bitmap>, Filter.OldTv {

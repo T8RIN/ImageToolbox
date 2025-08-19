@@ -25,7 +25,9 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class CrystallizeFilter(
     override val value: Pair<Float, ColorModel> = 1f to Color.Transparent.toModel()
 ) : Transformation<Bitmap>, Filter.Crystallize {

@@ -22,8 +22,10 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
+@FilterInject
 internal class DropBluesFilter(
     override val value: Float = 1f
 ) : ChainTransformation<Bitmap>, Filter.DropBlues {

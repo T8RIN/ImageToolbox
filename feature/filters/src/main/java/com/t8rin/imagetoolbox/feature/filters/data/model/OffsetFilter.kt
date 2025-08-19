@@ -21,9 +21,11 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.OffsetFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class OffsetFilter(
     override val value: Pair<Float, Float> = 0.25f to 0.25f
 ) : JhFilterTransformation(), Filter.Offset {

@@ -22,8 +22,10 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.mirror
 
+@FilterInject
 internal class MirrorFilter(
     override val value: Pair<Float, MirrorSide> = 0.5f to MirrorSide.LeftToRight,
 ) : Transformation<Bitmap>, Filter.Mirror {

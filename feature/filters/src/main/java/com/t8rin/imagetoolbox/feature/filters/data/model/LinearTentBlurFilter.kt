@@ -25,8 +25,10 @@ import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toFunc
 
+@FilterInject
 internal class LinearTentBlurFilter(
     override val value: Pair<Float, TransferFunc> = 11f to TransferFunc.SRGB,
 ) : Transformation<Bitmap>, Filter.LinearTentBlur {

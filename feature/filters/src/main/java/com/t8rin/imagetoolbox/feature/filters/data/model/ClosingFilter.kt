@@ -27,8 +27,10 @@ import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.trickle.TrickleUtils.checkHasAlpha
 
+@FilterInject
 internal class ClosingFilter(
     override val value: Pair<Float, Boolean> = 25f to true
 ) : Transformation<Bitmap>, Filter.Closing {

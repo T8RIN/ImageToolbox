@@ -23,7 +23,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class EnhancedZoomBlurFilter(
     override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,
 ) : Transformation<Bitmap>, Filter.EnhancedZoomBlur {

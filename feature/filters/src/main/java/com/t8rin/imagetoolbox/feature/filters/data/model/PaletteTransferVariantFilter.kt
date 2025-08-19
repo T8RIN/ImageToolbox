@@ -24,10 +24,12 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toSpace
 
+@FilterInject
 internal class PaletteTransferVariantFilter(
     override val value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
         first = 1f,

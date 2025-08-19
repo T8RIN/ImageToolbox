@@ -24,10 +24,12 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.trickle.Trickle
 import com.t8rin.trickle.TrickleUtils
 import kotlin.math.roundToInt
 
+@FilterInject
 internal class ColorPosterFilter(
     override val value: Pair<Float, ColorModel> = 0.5f to Color(0xFF4DFFE4).toModel()
 ) : Transformation<Bitmap>, Filter.ColorPoster {

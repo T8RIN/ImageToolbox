@@ -19,92 +19,115 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ColorMapType
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.ColorMapTransformation
 
+@FilterInject
 internal class AutumnFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.AUTUMN), Filter.Autumn
 
+@FilterInject
 internal class BoneFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.BONE), Filter.Bone
 
+@FilterInject
 internal class JetFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.JET), Filter.Jet
 
+@FilterInject
 internal class WinterFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.WINTER), Filter.Winter
 
+@FilterInject
 internal class RainbowFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.RAINBOW), Filter.Rainbow
 
+@FilterInject
 internal class OceanFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.OCEAN), Filter.Ocean
 
+@FilterInject
 internal class SummerFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.SUMMER), Filter.Summer
 
+@FilterInject
 internal class SpringFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.SPRING), Filter.Spring
 
+@FilterInject
 internal class CoolVariantFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.COOL), Filter.CoolVariant
 
+@FilterInject
 internal class HsvFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.HSV), Filter.Hsv
 
+@FilterInject
 internal class PinkFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.PINK), Filter.Pink
 
+@FilterInject
 internal class HotFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.HOT), Filter.Hot
 
+@FilterInject
 internal class ParulaFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.PARULA), Filter.Parula
 
+@FilterInject
 internal class MagmaFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.MAGMA), Filter.Magma
 
+@FilterInject
 internal class InfernoFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.INFERNO), Filter.Inferno
 
+@FilterInject
 internal class PlasmaFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.PLASMA), Filter.Plasma
 
+@FilterInject
 internal class ViridisFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.VIRIDIS), Filter.Viridis
 
+@FilterInject
 internal class CividisFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.CIVIDIS), Filter.Cividis
 
+@FilterInject
 internal class TwilightFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.TWILIGHT), Filter.Twilight
 
+@FilterInject
 internal class TwilightShiftedFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.TWILIGHT_SHIFTED), Filter.TwilightShifted
 
+@FilterInject
 internal class TurboFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.TURBO), Filter.Turbo
 
+@FilterInject
 internal class DeepGreenFilter(
     override val value: Unit = Unit
 ) : ColorMapTransformation(ColorMapType.DEEPGREEN), Filter.DeepGreen

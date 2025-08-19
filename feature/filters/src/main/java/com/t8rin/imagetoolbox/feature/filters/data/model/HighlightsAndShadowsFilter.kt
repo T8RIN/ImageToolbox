@@ -18,10 +18,12 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.GPUImageHighlightShadowWideRangeFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
+@FilterInject
 internal class HighlightsAndShadowsFilter(
     override val value: Float = 0.25f,
 ) : GPUFilterTransformation(), Filter.HighlightsAndShadows {

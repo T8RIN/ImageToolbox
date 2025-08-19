@@ -23,7 +23,9 @@ import com.awxkee.aire.AireColorMapper
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
+@FilterInject
 internal class QuantizierFilter(
     override val value: Float = 256f
 ) : Transformation<Bitmap>, Filter.Quantizier {

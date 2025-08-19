@@ -20,8 +20,10 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.EqualizeFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
+@FilterInject
 internal class EqualizeFilter(
     override val value: Unit = Unit
 ) : JhFilterTransformation(), Filter.Equalize {
