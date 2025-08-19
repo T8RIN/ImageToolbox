@@ -130,7 +130,7 @@ fun AddFiltersSheet(
     val context = LocalContext.current
     val groupedFilters by remember(context, canAddTemplates) {
         derivedStateOf {
-            UiFilter.groupedEntries(context).let { lists ->
+            UiFilter.sortedGroupedEntries.let { lists ->
                 if (canAddTemplates) lists
                 else lists.map {
                     it.filterIsNotInstance(

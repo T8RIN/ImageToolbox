@@ -120,7 +120,7 @@ internal fun FilterPreviewSheet(
                             onClick = {
                                 previewSheetData?.forEach { filter ->
                                     onFilterPickedWithParams(
-                                        filter.copy(filter.value!!).also {
+                                        filter.copy(filter.value).also {
                                             it.isVisible = true
                                         }
                                     )

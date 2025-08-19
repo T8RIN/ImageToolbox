@@ -50,7 +50,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystalliz
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 
 
-interface Filter<Value> : VisibilityOwner {
+interface Filter<Value : Any> : VisibilityOwner {
     val value: Value
 
     interface BilaterialBlur : Filter<BilaterialBlurParams>

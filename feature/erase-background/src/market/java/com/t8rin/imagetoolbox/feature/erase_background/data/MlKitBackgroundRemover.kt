@@ -23,24 +23,23 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.segmentation.Segmentation
 import com.google.mlkit.vision.segmentation.Segmenter
 import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 internal object MlKitBackgroundRemover {
 
-    private val segment: Segmenter
+    private var segment: Segmenter? = null
     private var buffer = ByteBuffer.allocate(0)
     private var width = 0
     private var height = 0
 
 
     init {
-        val segmentOptions = SelfieSegmenterOptions.Builder()
-            .setDetectorMode(SelfieSegmenterOptions.SINGLE_IMAGE_MODE)
-            .build()
-        segment = Segmentation.getClient(segmentOptions)
+        runCatching {
+            val segmentOptions = SelfieSegmenterOptions.Builder()
+                .setDetectorMode(SelfieSegmenterOptions.SINGLE_IMAGE_MODE)
+                .build()
+            segment = Segmentation.getClient(segmentOptions)
+        }
     }
 
 
@@ -51,27 +50,24 @@ internal object MlKitBackgroundRemover {
      **/
     fun removeBackground(
         bitmap: Bitmap,
-        scope: CoroutineScope,
-        onFinish: suspend (Result<Bitmap>) -> Unit
+        onFinish: (Result<Bitmap>) -> Unit
     ) {
         //Generate a copy of bitmap just in case the if the bitmap is immutable.
         val copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         val input = InputImage.fromBitmap(copyBitmap, 0)
-        segment.process(input)
+        val segmenter = segment ?: return onFinish(Result.failure(NoClassDefFoundError()))
+
+        segmenter.process(input)
             .addOnSuccessListener { segmentationMask ->
                 buffer = segmentationMask.buffer
                 width = segmentationMask.width
                 height = segmentationMask.height
 
-                scope.launch {
-                    val resultBitmap = removeBackgroundFromImage(copyBitmap)
-                    onFinish(Result.success(resultBitmap))
-                }
+                val resultBitmap = removeBackgroundFromImage(copyBitmap)
+                onFinish(Result.success(resultBitmap))
             }
             .addOnFailureListener { e ->
-                scope.launch {
-                    onFinish(Result.failure(e))
-                }
+                onFinish(Result.failure(e))
             }
     }
 
@@ -79,9 +75,9 @@ internal object MlKitBackgroundRemover {
     /**
      * Change the background pixels color to transparent.
      * */
-    private suspend fun removeBackgroundFromImage(
+    private fun removeBackgroundFromImage(
         image: Bitmap
-    ): Bitmap = coroutineScope {
+    ): Bitmap {
         image.setHasAlpha(true)
         for (y in 0 until height) {
             for (x in 0 until width) {
@@ -93,7 +89,7 @@ internal object MlKitBackgroundRemover {
         }
         buffer.rewind()
 
-        return@coroutineScope image
+        return image
     }
 
 }

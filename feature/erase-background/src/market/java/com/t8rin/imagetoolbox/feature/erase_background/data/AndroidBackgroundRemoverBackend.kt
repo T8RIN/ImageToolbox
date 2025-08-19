@@ -22,7 +22,6 @@ import android.graphics.Bitmap
 import android.os.Build
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(
@@ -52,7 +51,6 @@ internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(
         val old = {
             MlKitBackgroundRemover.removeBackground(
                 bitmap = image,
-                scope = CoroutineScope(defaultDispatcher),
                 onFinish = onFinish
             )
         }
@@ -60,9 +58,7 @@ internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(
             MlKitSubjectBackgroundRemover.removeBackground(
                 bitmap = image,
                 onFinish = {
-                    if (it.isFailure) {
-                        old()
-                    } else onFinish(it)
+                    if (it.isFailure) old() else onFinish(it)
                 }
             )
         }

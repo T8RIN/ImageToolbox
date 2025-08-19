@@ -17,16 +17,16 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
-import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.ui.utils.appContext
 import kotlin.reflect.full.primaryConstructor
 
-sealed class UiFilter<T>(
+sealed class UiFilter<T : Any>(
     @StringRes val title: Int,
     val paramsInfo: List<FilterParam> = listOf(),
     override val value: T,
@@ -47,8 +47,7 @@ sealed class UiFilter<T>(
     )
 
     fun <T : Any> copy(value: T): UiFilter<*> {
-        if (this.value == null) return newInstance()
-        if (this.value!!::class.simpleName != value::class.simpleName) return newInstance()
+        if (this.value::class.simpleName != value::class.simpleName) return newInstance()
         return runCatching {
             this::class.primaryConstructor?.run {
                 callBy(mapOf(parameters[0] to value))
@@ -388,10 +387,9 @@ sealed class UiFilter<T>(
             )
         }
 
-        fun groupedEntries(
-            context: Context,
-        ) = groupedEntries.map { list ->
-            list.sortedBy { context.getString(it.title) }
+        val sortedGroupedEntries
+            get() = groupedEntries.map { list ->
+                list.sortedBy { appContext.getString(it.title) }
         }
     }
 

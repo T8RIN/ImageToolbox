@@ -138,7 +138,7 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         _previewData.update {
             data?.let { filter ->
                 listOf(
-                    filter.copy(filter.value!!).also { it.isVisible = true }
+                    filter.copy(filter.value).apply { isVisible = true }
                 )
             }
         }

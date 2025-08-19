@@ -201,7 +201,9 @@ fun Canvas.drawInfiniteLine(
 internal fun ImageBitmap.clipBitmap(
     path: Path,
     paint: Paint,
-): ImageBitmap = asAndroidBitmap().applyCanvas {
+): ImageBitmap = asAndroidBitmap()
+    .let { it.copy(it.safeConfig, true) }
+    .applyCanvas {
         drawPath(
             NativePath(path.asAndroidPath()).apply {
                 fillType = NativePath.FillType.INVERSE_WINDING

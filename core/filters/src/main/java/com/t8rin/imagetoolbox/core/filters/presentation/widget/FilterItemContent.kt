@@ -77,7 +77,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterP
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 
 @Composable
-internal fun <T> FilterItemContent(
+internal fun <T : Any> FilterItemContent(
     filter: UiFilter<T>,
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,
