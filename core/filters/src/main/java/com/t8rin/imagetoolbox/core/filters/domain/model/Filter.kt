@@ -95,7 +95,7 @@ interface Filter<Value> : VisibilityOwner {
     interface Solarize : FloatFilter
     interface SphereRefraction : PairFloatFilter
     interface StackBlur : PairFloatFilter
-    interface SwirlDistortion : PairFloatFilter
+    interface SwirlDistortion : QuadFloatFilter
     interface Toon : PairFloatFilter
     interface Vibrance : FloatFilter
     interface Vignette : TripleFilter<Float, Float, Color>

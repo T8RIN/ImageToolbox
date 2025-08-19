@@ -18,6 +18,8 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.PointF
+import com.t8rin.imagetoolbox.core.domain.utils.Quad
+import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
@@ -26,12 +28,12 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageSwirlFilter
 
 @FilterInject
 internal class SwirlDistortionFilter(
-    override val value: Pair<Float, Float> = 0.5f to 1f,//TODO: Quad
+    override val value: Quad<Float, Float, Float, Float> = 0.5f to 1f qto (0.5f to 0.5f)
 ) : GPUFilterTransformation(), Filter.SwirlDistortion {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter =
-        GPUImageSwirlFilter(value.first, value.second, PointF(0.5f, 0.5f))
+        GPUImageSwirlFilter(value.first, value.second, PointF(value.third, value.fourth))
 }
