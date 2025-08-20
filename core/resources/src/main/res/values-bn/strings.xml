@@ -32,4 +32,13 @@
     <string name="add_tag">ট্যাগ যোগ করুন</string>
     <string name="reset_image_sub">ছবির পরিবর্তনগুলি প্রাথমিক মানগুলিতে ফিরে যাবে</string>
     <string name="exception">ব্যতিক্রম</string>
+    <string name="cancel">বাতিল করুন</string>
+    <string name="clear_exif_sub">সব ইমেজ EXIF ডেটা মুছে ফেলা হবে। এই কাজের পর আগের অবস্থায় ফিরে আসা যাবে না!</string>
+    <string name="presets">পূর্বনির্ধারণ সমূহ</string>
+    <string name="crop">কেটে ছোট করুন</string>
+    <string name="image_not_saved">সংরক্ষণ করুন</string>
+    <string name="image_not_saved_sub">সব অরক্ষিত পরিবর্তন হারিয়ে যাবে, যদি আপনি এখন বেরিয়ে যান</string>
+    <string name="check_source_code">সৌর্স কোড</string>
+    <string name="check_source_code_sub">সর্বশেষ আপডেট পান, সমস্যাগুলো এবং আরো কিছু নিয়ে আলোচনা করুন</string>
+    <string name="single_edit">একটি পরিবর্তন</string>
 </resources>
