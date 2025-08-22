@@ -41,4 +41,26 @@
     <string name="check_source_code">সৌর্স কোড</string>
     <string name="check_source_code_sub">সর্বশেষ আপডেট পান, সমস্যাগুলো এবং আরো কিছু নিয়ে আলোচনা করুন</string>
     <string name="single_edit">একটি পরিবর্তন</string>
+    <string name="pick_color">রং নির্ণায়ক</string>
+    <string name="pick_color_sub">ছবি থেকে রং নির্ণয়, কপি অথবা শেয়ার করুন</string>
+    <string name="image">ছবি</string>
+    <string name="color">রং</string>
+    <string name="color_copied">রং কপি করা হয়েছে</string>
+    <string name="crop_sub">যেকোনো সীমায় ছবি কাটুন</string>
+    <string name="version">ভার্সন</string>
+    <string name="keep_exif">EXIF রাখুন</string>
+    <string name="change_preview">খসড়া পরিবর্তন করুন</string>
+    <string name="remove">মুছে ফেলুন</string>
+    <string name="palette_sub">প্রদত্ত ছবি থেকে কালার প্যালেট সোয়াচ তৈরি করুন</string>
+    <string name="generate_palette">প্যালেট তৈরি করুন</string>
+    <string name="palette">প্যালেট</string>
+    <string name="update">আপডেট</string>
+    <string name="no_palette">প্রদত্ত ছবি থেকে কালার প্যালেট তৈরি করা যাচ্ছে না</string>
+    <string name="original">আসল</string>
+    <string name="folder">আউটপুট ফোল্ডার</string>
+    <string name="def">সাধারণ</string>
+    <string name="custom">পছন্দমাফিক</string>
+    <string name="unspecified">অনির্ধারিত</string>
+    <string name="device_storage">ডিভাইস স্টোরেজ</string>
+    <string name="max_bytes">KB তে সর্বোচ্চ সাইজ</string>
 </resources>
