@@ -41,6 +41,9 @@ import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RoundedCorner
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -290,6 +293,17 @@ fun CollageMakerContent(
                                 .shimmer(visible = isLoading),
                             contentAlignment = Alignment.Center
                         ) {
+                            var tappedIndex by remember { mutableIntStateOf(-1) }
+                            var tappedUri by remember { mutableStateOf<Uri?>(null) }
+                            var showItemMenu by remember { mutableStateOf(false) }
+
+                            val singlePicker = rememberImagePicker { uri: Uri ->
+                                if (tappedIndex >= 0) component.replaceAt(tappedIndex, uri)
+                            }
+                            val addPicker = rememberImagePicker { uri: Uri ->
+                                component.addImage(uri)
+                            }
+
                             Collage(
                                 modifier = Modifier
                                     .padding(4.dp)
@@ -303,8 +317,47 @@ fun CollageMakerContent(
                                 spacing = component.spacing,
                                 cornerRadius = component.cornerRadius,
                                 aspectRatio = component.aspectRatio.value,
-                                outputScaleRatio = component.outputScaleRatio
+                                outputScaleRatio = component.outputScaleRatio,
+                                onImageTap = { index, uri ->
+                                    tappedIndex = index
+                                    tappedUri = uri
+                                    showItemMenu = true
+                                }
                             )
+
+                            if (showItemMenu) {
+                                androidx.compose.foundation.layout.Row(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .padding(bottom = bottomPadding + 12.dp)
+                                        .container(
+                                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                            shape = ShapeDefaults.large,
+                                            resultPadding = 0.dp
+                                        )
+                                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    EnhancedIconButton(onClick = {
+                                        showItemMenu = false
+                                        singlePicker.pickImage()
+                                    }) {
+                                        Icon(imageVector = Icons.Rounded.SwapHoriz, contentDescription = null)
+                                    }
+                                    EnhancedIconButton(onClick = {
+                                        showItemMenu = false
+                                        addPicker.pickImage()
+                                    }) {
+                                        Icon(imageVector = Icons.Rounded.Add, contentDescription = null)
+                                    }
+                                    EnhancedIconButton(onClick = {
+                                        showItemMenu = false
+                                        if (tappedIndex >= 0) component.removeAt(tappedIndex)
+                                    }) {
+                                        Icon(imageVector = Icons.Rounded.Delete, contentDescription = null)
+                                    }
+                                }
+                            }
                         }
                     }
                 }

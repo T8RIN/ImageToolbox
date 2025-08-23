@@ -121,6 +121,36 @@ class CollageMakerComponent @AssistedInject internal constructor(
         }
     }
 
+    fun replaceAt(index: Int, uri: Uri) {
+        _uris.update { current ->
+            val list = current?.toMutableList() ?: return@update current
+            if (index in list.indices) {
+                list[index] = uri
+                list
+            } else current
+        }
+        registerChanges()
+    }
+
+    fun addImage(uri: Uri) {
+        _uris.update { current ->
+            val list = (current ?: emptyList())
+            if (list.size >= 10) list else list + uri
+        }
+        registerChanges()
+    }
+
+    fun removeAt(index: Int) {
+        _uris.update { current ->
+            val list = current?.toMutableList() ?: return@update current
+            if (index in list.indices) {
+                list.removeAt(index)
+                list
+            } else current
+        }
+        registerChanges()
+    }
+
     fun setQuality(quality: Quality) {
         _quality.update { quality }
         registerChanges()
