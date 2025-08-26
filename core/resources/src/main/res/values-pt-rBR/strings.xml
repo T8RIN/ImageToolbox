@@ -1638,4 +1638,20 @@
     <string name="type_image_link">Digite o link da imagem para iniciar</string>
     <string name="paste_link">Colar link</string>
     <string name="liquid_glass_sub">Um switch baseado no recém-anunciado IOS 26 e em seu sistema de design de vidro líquido</string>
+    <string name="kaleidoscope">Caleidoscópio</string>
+    <string name="secondary_angle">Ângulo secundário</string>
+    <string name="sides">Lados</string>
+    <string name="channel_mix">Mistura de Canais</string>
+    <string name="blue_green">Azul verde</string>
+    <string name="red_blue">Vermelho azul</string>
+    <string name="green_red">Verde vermelho</string>
+    <string name="into_red">No vermelho</string>
+    <string name="into_green">No verde</string>
+    <string name="into_blue">No azul</string>
+    <string name="cyan">Ciano</string>
+    <string name="magenta">Magenta</string>
+    <string name="yellow">Amarelo</string>
+    <string name="color_halftone">Meio-tom de Cor</string>
+    <string name="levels">Níveis</string>
+    <string name="shape">Forma</string>
 </resources>
