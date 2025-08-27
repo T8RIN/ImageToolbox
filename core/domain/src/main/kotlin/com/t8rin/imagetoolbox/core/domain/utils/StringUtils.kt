@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused")
+
 package com.t8rin.imagetoolbox.core.domain.utils
 
 fun String.trimTrailingZero(): String {
