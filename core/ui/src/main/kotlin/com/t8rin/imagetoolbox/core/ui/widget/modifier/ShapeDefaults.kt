@@ -35,7 +35,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
@@ -50,7 +49,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.autoCast
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object ShapeDefaults {
@@ -315,7 +313,6 @@ fun shapeByInteraction(
     pressedShape: Shape,
     interactionSource: InteractionSource?,
     animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
-    delay: Long = 300,
     enabled: Boolean = true
 ): Shape {
     if (!enabled || interactionSource == null) return shape
@@ -325,20 +322,7 @@ fun shapeByInteraction(
 
     val usePressedShape = pressed || focused
 
-    val targetShapeState = remember {
-        mutableStateOf(shape)
-    }
-
-    LaunchedEffect(usePressedShape, shape) {
-        if (usePressedShape) {
-            targetShapeState.value = pressedShape
-        } else {
-            if (shape is CornerBasedShape) delay(delay)
-            targetShapeState.value = shape
-        }
-    }
-
-    val targetShape = targetShapeState.value
+    val targetShape = if (usePressedShape) pressedShape else shape
 
     if (targetShape is CornerBasedShape) {
         return animateShape(
