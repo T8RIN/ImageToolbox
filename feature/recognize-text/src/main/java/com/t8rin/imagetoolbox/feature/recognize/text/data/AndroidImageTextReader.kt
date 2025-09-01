@@ -190,7 +190,6 @@ internal class AndroidImageTextReader @Inject constructor(
     override suspend fun getLanguages(
         type: RecognitionType
     ): List<OCRLanguage> = withContext(ioDispatcher) {
-
         val codes = context.resources.getStringArray(R.array.key_ocr_engine_language_value)
 
         return@withContext codes.mapNotNull { code ->
