@@ -35,8 +35,11 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.SegmentationMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessConstants
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
@@ -62,8 +65,10 @@ internal class AndroidImageTextReader @Inject constructor(
 ) : DispatchersHolder by dispatchersHolder, ImageTextReader {
 
     init {
-        RecognitionType.entries.forEach {
-            File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
+        CoroutineScope(ioDispatcher).launch {
+            RecognitionType.entries.forEach {
+                File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
+            }
         }
     }
 
@@ -191,13 +196,16 @@ internal class AndroidImageTextReader @Inject constructor(
         return@withContext codes.mapNotNull { code ->
             val name = getDisplayName(code, false)
             val localizedName = getDisplayName(code, true)
-            if (name.isEmpty() || localizedName.isEmpty()) return@mapNotNull null
+            if (name.isBlank() || localizedName.isBlank()) return@mapNotNull null
 
             OCRLanguage(
                 name = name,
                 code = code,
                 downloaded = RecognitionType.entries.filter {
-                    isLanguageDataExists(it, code)
+                    isLanguageDataExists(
+                        type = it,
+                        languageCode = code
+                    )
                 },
                 localizedName = localizedName
             )
@@ -235,7 +243,11 @@ internal class AndroidImageTextReader @Inject constructor(
         val needToDownloadLanguages = getNeedToDownloadLanguages(type, languageCode)
 
         return if (needToDownloadLanguages.isNotEmpty()) {
-            downloadTrainingDataImpl(type, needToDownloadLanguages, onProgress)
+            downloadTrainingDataImpl(
+                type = type,
+                needToDownloadLanguages = needToDownloadLanguages,
+                onProgress = onProgress
+            )
         } else false
     }
 
@@ -244,7 +256,11 @@ internal class AndroidImageTextReader @Inject constructor(
         needToDownloadLanguages: List<DownloadData>,
         onProgress: (Float, Long) -> Unit
     ): Boolean = needToDownloadLanguages.map {
-        downloadTrainingDataForCode(type, it.languageCode, onProgress)
+        downloadTrainingDataForCode(
+            type = type,
+            lang = it.languageCode,
+            onProgress = onProgress
+        )
     }.all { it }
 
     private suspend fun downloadTrainingDataForCode(
@@ -311,6 +327,8 @@ internal class AndroidImageTextReader @Inject constructor(
             output.flush()
             output.close()
             input.close()
+        }.onFailure {
+            it.makeLog("ImageTextReader")
         }.isSuccess
     }
 

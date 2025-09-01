@@ -96,7 +96,8 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                         result.append(line)
                     }
                 }
-                println(result)
+
+                result.makeLog("RemoteResources")
 
                 var items = JSONArray(result.toString())
 
