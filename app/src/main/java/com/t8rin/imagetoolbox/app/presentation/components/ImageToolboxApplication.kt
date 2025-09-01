@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.app.presentation.components
 
 import android.app.Application
 import androidx.compose.foundation.ComposeFoundationFlags
+import androidx.compose.material3.isCheckboxStylingFixEnabled
 import com.arkivanov.decompose.DecomposeExperimentFlags
 import com.t8rin.imagetoolbox.app.presentation.components.utils.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.utils.initOpenCV
@@ -32,6 +33,7 @@ import dagger.hilt.android.HiltAndroidApp
 class ImageToolboxApplication : Application() {
 
     init {
+        isCheckboxStylingFixEnabled = true
         DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
         ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true
         registerSecurityProviders()
