@@ -298,9 +298,9 @@ fun CollageMakerContent(
                         )
                 ) {
                     AnimatedContent(
-                        targetState = component.uris to resettingTrigger,
+                        targetState = resettingTrigger,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { (uris) ->
+                    ) { _ ->
                         Box(
                             modifier = Modifier
                                 .zoomable(rememberZoomState())
@@ -311,7 +311,6 @@ fun CollageMakerContent(
                                 .shimmer(visible = showInitialShimmer),
                             contentAlignment = Alignment.Center
                         ) {
-                            // Prepare handle icon inputs without calling @Composable APIs inside remember block
                             val diameterPx = with(LocalDensity.current) { 48.dp.toPx() }
                             val diameterInt = kotlin.math.max(8, diameterPx.toInt())
                             val bgColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.85f).toArgb()
@@ -330,7 +329,7 @@ fun CollageMakerContent(
                                     .padding(4.dp)
                                     .clip(ShapeDefaults.extraSmall)
                                     .transparencyChecker(),
-                                images = uris ?: emptyList(),
+                                images = component.uris ?: emptyList(),
                                 collageType = component.collageType,
                                 collageCreationTrigger = component.collageCreationTrigger,
                                 onCollageCreated = {
