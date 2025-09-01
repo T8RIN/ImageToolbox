@@ -140,7 +140,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     fun addImage(uri: Uri) {
         _uris.update { current ->
-            val list = (current ?: emptyList())
+            val list = current ?: emptyList()
             if (list.size >= 10) list else list + uri
         }
         registerChanges()
