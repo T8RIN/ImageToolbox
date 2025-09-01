@@ -91,6 +91,12 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
+    private val _disableRotation = mutableStateOf(false)
+    val disableRotation: Boolean by _disableRotation
+
+    private val _enableSnapToBorders = mutableStateOf(false)
+    val enableSnapToBorders: Boolean by _enableSnapToBorders
+
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat: ImageFormat by _imageFormat
 
@@ -163,6 +169,16 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     fun setOutputScaleRatio(ratio: Float) {
         _outputScaleRatio.update { ratio }
+        registerChanges()
+    }
+
+    fun setDisableRotation(value: Boolean) {
+        _disableRotation.update { value }
+        registerChanges()
+    }
+
+    fun setEnableSnapToBorders(value: Boolean) {
+        _enableSnapToBorders.update { value }
         registerChanges()
     }
 
