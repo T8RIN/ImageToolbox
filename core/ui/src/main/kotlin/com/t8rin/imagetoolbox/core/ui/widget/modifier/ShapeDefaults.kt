@@ -288,6 +288,7 @@ internal fun rememberAnimatedShape(
     val channel = remember { Channel<CornerBasedShape>(Channel.CONFLATED) }
 
     SideEffect { channel.trySend(currentShape) }
+
     LaunchedEffect(state, channel) {
         for (target in channel) {
             val newTarget = channel.tryReceive().getOrNull() ?: target
