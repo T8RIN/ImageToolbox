@@ -19,6 +19,10 @@ package com.t8rin.imagetoolbox.collage_maker.presentation
 
 import android.content.pm.ActivityInfo
 import android.net.Uri
+import androidx.appcompat.content.res.AppCompatResources
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
@@ -41,6 +45,11 @@ import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.RoundedCorner
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material.icons.outlined.ScreenRotation
+import androidx.compose.material.icons.outlined.CropFree
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -63,6 +72,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.toArgb
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
@@ -79,6 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -118,6 +129,8 @@ fun CollageMakerContent(
     val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
+    var showInitialShimmer by rememberSaveable { mutableStateOf(true) }
+
     LaunchedEffect(component.initialUris) {
         component.initialUris?.takeIf { it.isNotEmpty() }?.let {
             if (it.size in 1..10) {
@@ -133,6 +146,7 @@ fun CollageMakerContent(
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size in 1..10) {
+            showInitialShimmer = true
             component.updateUris(uris)
         } else {
             essentials.showToast(
@@ -251,16 +265,12 @@ fun CollageMakerContent(
             }
         },
         mainContent = {
-            var isLoading by rememberSaveable(component.uris) {
-                mutableStateOf(true)
-            }
-            LaunchedEffect(isLoading) {
-                if (isLoading) {
-                    delay(500)
-                    isLoading = false
+            LaunchedEffect(component.uris) {
+                if (!component.uris.isNullOrEmpty()) {
+                    delay(200)
+                    showInitialShimmer = false
                 }
             }
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -268,6 +278,17 @@ fun CollageMakerContent(
             ) {
                 var bottomPadding by remember {
                     mutableStateOf(0.dp)
+                }
+                var infoHeight by remember {
+                    mutableStateOf(0.dp)
+                }
+                var tappedIndex by remember { mutableIntStateOf(-1) }
+                var showItemMenu by remember { mutableStateOf(false) }
+                val singlePicker = rememberImagePicker { uri: Uri ->
+                    if (tappedIndex >= 0) component.replaceAt(tappedIndex, uri)
+                }
+                val addPicker = rememberImagePicker { uri: Uri ->
+                    component.addImage(uri)
                 }
                 Box(
                     modifier = Modifier
@@ -277,9 +298,9 @@ fun CollageMakerContent(
                         )
                 ) {
                     AnimatedContent(
-                        targetState = component.uris to resettingTrigger,
+                        targetState = resettingTrigger,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { (uris) ->
+                    ) { _ ->
                         Box(
                             modifier = Modifier
                                 .zoomable(rememberZoomState())
@@ -287,23 +308,50 @@ fun CollageMakerContent(
                                     shape = ShapeDefaults.extraSmall,
                                     resultPadding = 0.dp
                                 )
-                                .shimmer(visible = isLoading),
+                                .shimmer(visible = showInitialShimmer),
                             contentAlignment = Alignment.Center
                         ) {
+                            val diameterPx = with(LocalDensity.current) { 48.dp.toPx() }
+                            val diameterInt = kotlin.math.max(8, diameterPx.toInt())
+                            val bgColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.85f).toArgb()
+                            val iconColor = MaterialTheme.colorScheme.onTertiary.toArgb()
+                            val handleDrawable = remember(diameterInt, bgColor, iconColor) {
+                                buildHandleLayerDrawable(
+                                    context = context,
+                                    diameterPx = diameterInt,
+                                    backgroundColor = bgColor,
+                                    iconColor = iconColor
+                                )
+                            }
+
                             Collage(
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .clip(ShapeDefaults.extraSmall)
                                     .transparencyChecker(),
-                                images = uris ?: emptyList(),
+                                images = component.uris ?: emptyList(),
                                 collageType = component.collageType,
                                 collageCreationTrigger = component.collageCreationTrigger,
-                                onCollageCreated = component::updateCollageBitmap,
+                                onCollageCreated = {
+                                    component.updateCollageBitmap(it)
+                                    showInitialShimmer = false
+                                },
                                 backgroundColor = component.backgroundColor,
                                 spacing = component.spacing,
                                 cornerRadius = component.cornerRadius,
                                 aspectRatio = component.aspectRatio.value,
-                                outputScaleRatio = component.outputScaleRatio
+                                outputScaleRatio = component.outputScaleRatio,
+                                disableRotation = component.disableRotation,
+                                enableSnapToBorders = component.enableSnapToBorders,
+                                onImageTap = { index ->
+                                    if (index >= 0) {
+                                        tappedIndex = index
+                                        showItemMenu = true
+                                    } else {
+                                        showItemMenu = false
+                                    }
+                                },
+                                handleDrawable = handleDrawable
                             )
                         }
                     }
@@ -313,11 +361,46 @@ fun CollageMakerContent(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .onGloballyPositioned {
-                            bottomPadding = with(density) { it.size.height.toDp() + 20.dp }
+                            val height = with(density) { it.size.height.toDp() }
+                            infoHeight = height
+                            bottomPadding = height + 20.dp
                         },
                     containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                     text = stringResource(R.string.collages_info)
                 )
+                if (showItemMenu) {
+                    androidx.compose.foundation.layout.Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = infoHeight + 12.dp)
+                            .container(
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                shape = ShapeDefaults.large,
+                                resultPadding = 0.dp
+                            )
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        EnhancedIconButton(onClick = {
+                            showItemMenu = false
+                            singlePicker.pickImage()
+                        }) {
+                            Icon(imageVector = Icons.Rounded.SwapHoriz, contentDescription = null)
+                        }
+                        EnhancedIconButton(onClick = {
+                            showItemMenu = false
+                            addPicker.pickImage()
+                        }) {
+                            Icon(imageVector = Icons.Rounded.Add, contentDescription = null)
+                        }
+                        EnhancedIconButton(onClick = {
+                            showItemMenu = false
+                            if (tappedIndex >= 0) component.removeAt(tappedIndex)
+                        }) {
+                            Icon(imageVector = Icons.Rounded.Delete, contentDescription = null)
+                        }
+                    }
+                }
             }
         },
         controls = {
@@ -446,6 +529,20 @@ fun CollageMakerContent(
                     icon = Icons.Rounded.PhotoSizeSelectSmall,
                     shape = ShapeDefaults.extraLarge
                 )
+                PreferenceRowSwitch(
+                    title = stringResource(id = R.string.disable_rotation),
+                    subtitle = stringResource(id = R.string.disable_rotation_sub),
+                    checked = component.disableRotation,
+                    startIcon = Icons.Outlined.ScreenRotation,
+                    onClick = component::setDisableRotation
+                )
+                PreferenceRowSwitch(
+                    title = stringResource(id = R.string.enable_snapping_to_borders),
+                    subtitle = stringResource(id = R.string.enable_snapping_to_borders_sub),
+                    checked = component.enableSnapToBorders,
+                    startIcon = Icons.Outlined.CropFree,
+                    onClick = component::setEnableSnapToBorders
+                )
                 QualitySelector(
                     imageFormat = component.imageFormat,
                     quality = component.quality,
@@ -517,4 +614,25 @@ fun CollageMakerContent(
         visible = component.isSaving || component.isImageLoading,
         onCancelLoading = component::cancelSaving
     )
+}
+
+private fun buildHandleLayerDrawable(
+    context: android.content.Context,
+    diameterPx: Int,
+    backgroundColor: Int,
+    iconColor: Int
+): LayerDrawable {
+    val circle = GradientDrawable().apply {
+        shape = GradientDrawable.OVAL
+        setColor(backgroundColor)
+        setSize(diameterPx, diameterPx)
+    }
+    val icon = AppCompatResources.getDrawable(context, R.drawable.baseline_unfold_more_24)!!.mutate()
+    DrawableCompat.setTint(icon, iconColor)
+    val layer = LayerDrawable(arrayOf(circle, icon))
+    val inset = (diameterPx * 0.2f).toInt()
+    layer.setLayerInset(0, 0, 0, 0, 0)
+    layer.setLayerInset(1, inset, inset, inset, inset)
+    layer.setBounds(0, 0, diameterPx, diameterPx)
+    return layer
 }
