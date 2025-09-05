@@ -1429,7 +1429,7 @@
     <string name="disable_rotation">Disable rotation</string>
     <string name="disable_rotation_sub">Prevents rotating images with two-finger gestures</string>
     <string name="enable_snapping_to_borders">Enable snapping to borders</string>
-    <string name="enable_snapping_to_borders_sub">After moving or zooming, images snap to fill frame edges</string>
+    <string name="enable_snapping_to_borders_sub">After moving or zooming, images will snap to fill frame edges</string>
     <string name="histogram">Histogram</string>
     <string name="histogram_sub">RGB or Brightness image histogram to help you make adjustments</string>
     <string name="image_for_histogram">This image will be used to generate RGB and Brightness histograms</string>

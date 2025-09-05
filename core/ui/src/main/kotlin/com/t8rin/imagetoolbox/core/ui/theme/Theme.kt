@@ -17,9 +17,11 @@
 
 package com.t8rin.imagetoolbox.core.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -29,13 +31,14 @@ import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 
+@SuppressLint("NewApi")
 @Composable
 fun ImageToolboxTheme(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     DynamicTheme(
-        typography = Typography(settingsState.font),
+        typography = rememberTypography(settingsState.font),
         state = rememberDynamicThemeState(rememberAppColorTuple()),
         colorBlindType = settingsState.colorBlindType,
         defaultColorTuple = settingsState.appColorTuple,
@@ -48,12 +51,7 @@ fun ImageToolboxTheme(
         content = {
             MaterialTheme(
                 motionScheme = CustomMotionScheme,
-                colorScheme = MaterialTheme.colorScheme.copy(
-                    errorContainer = MaterialTheme.colorScheme.errorContainer.blend(
-                        color = MaterialTheme.colorScheme.primary,
-                        fraction = 0.15f
-                    )
-                ),
+                colorScheme = modifiedColorScheme(),
                 content = content
             )
         }
@@ -76,3 +74,11 @@ fun ImageToolboxThemeSurface(
         )
     }
 }
+
+@Composable
+private fun modifiedColorScheme(): ColorScheme = MaterialTheme.colorScheme.copy(
+    errorContainer = MaterialTheme.colorScheme.errorContainer.blend(
+        color = MaterialTheme.colorScheme.primary,
+        fraction = 0.15f
+    )
+)

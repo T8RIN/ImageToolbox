@@ -91,10 +91,10 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _disableRotation = mutableStateOf(false)
+    private val _disableRotation = mutableStateOf(true)
     val disableRotation: Boolean by _disableRotation
 
-    private val _enableSnapToBorders = mutableStateOf(false)
+    private val _enableSnapToBorders = mutableStateOf(true)
     val enableSnapToBorders: Boolean by _enableSnapToBorders
 
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
@@ -127,7 +127,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun replaceAt(index: Int, uri: Uri) {
+    fun replaceImageAt(index: Int, uri: Uri) {
         _uris.update { current ->
             val list = current?.toMutableList() ?: return@update current
             if (index in list.indices) {
@@ -146,7 +146,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun removeAt(index: Int) {
+    fun removeImageAt(index: Int) {
         _uris.update { current ->
             val list = current?.toMutableList() ?: return@update current
             if (index in list.indices) {

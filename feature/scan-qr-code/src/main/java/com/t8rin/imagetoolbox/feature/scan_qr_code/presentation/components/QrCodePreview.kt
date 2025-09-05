@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.theme.Typography
+import com.t8rin.imagetoolbox.core.ui.theme.ProvideTypography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.theme.takeIf
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
@@ -138,9 +138,7 @@ internal fun QrCodePreview(
                     }
 
                     BoxAnimatedVisibility(visible = params.description.isNotEmpty() && params.content.isNotEmpty()) {
-                        MaterialTheme(
-                            typography = Typography(params.descriptionFont)
-                        ) {
+                        ProvideTypography(params.descriptionFont) {
                             Text(
                                 text = params.description,
                                 style = MaterialTheme.typography.headlineSmall,

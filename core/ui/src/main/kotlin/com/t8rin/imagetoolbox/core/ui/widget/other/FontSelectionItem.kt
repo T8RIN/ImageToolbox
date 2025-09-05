@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.Typography
+import com.t8rin.imagetoolbox.core.ui.theme.ProvideTypography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -50,9 +50,7 @@ fun FontSelectionItem(
     val settingsState = LocalSettingsState.current
     val (_, name, isVariable) = font
     val selected = font == settingsState.font
-    MaterialTheme(
-        typography = Typography(font)
-    ) {
+    ProvideTypography(font) {
         PreferenceItem(
             onClick = onClick,
             onLongClick = onLongClick,
@@ -82,7 +80,7 @@ fun FontSelectionItem(
 
 @Composable
 private fun Boolean?.toVariable(context: Context = LocalContext.current): String {
-    if (this == null || this == true) return ""
+    if (this == null || this) return ""
     val s = context.getString(R.string.regular)
     return " ($s)"
 }

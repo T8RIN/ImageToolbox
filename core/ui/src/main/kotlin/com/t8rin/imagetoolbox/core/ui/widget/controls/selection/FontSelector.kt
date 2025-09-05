@@ -53,7 +53,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
-import com.t8rin.imagetoolbox.core.ui.theme.Typography
+import com.t8rin.imagetoolbox.core.ui.theme.ProvideTypography
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -140,16 +140,12 @@ fun FontSelector(
                 ),
             contentPadding = PaddingValues(8.dp)
         ) {
-            items(fonts) {
-                val selected = it == value
-
-                MaterialTheme(
-                    typography = Typography(it)
-                ) {
+            items(fonts) { font ->
+                ProvideTypography(font) {
                     EnhancedChip(
-                        selected = selected,
+                        selected = font == value,
                         onClick = {
-                            onValueChange(it)
+                            onValueChange(font)
                         },
                         selectedColor = MaterialTheme.colorScheme.secondary,
                         contentPadding = PaddingValues(
@@ -159,7 +155,7 @@ fun FontSelector(
                         modifier = Modifier.height(36.dp)
                     ) {
                         AutoSizeText(
-                            text = it.name
+                            text = font.name
                                 ?: stringResource(id = R.string.system),
                             maxLines = 1
                         )
