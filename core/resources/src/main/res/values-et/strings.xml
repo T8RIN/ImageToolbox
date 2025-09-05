@@ -26,4 +26,25 @@
     <string name="image_not_saved">Salvestan</string>
     <string name="image_not_saved_sub">Kui väljud, siis kõik salvestamata muudatused lähevad kaotsi</string>
     <string name="check_source_code">Lähtekood</string>
+    <string name="extension">Lisamoodul</string>
+    <string name="resize_type">Suuruse muutmise tüüp</string>
+    <string name="single_edit">Ühe pildi muutmine</string>
+    <string name="single_edit_sub">Muuda ühe pildi suurust ja muid parameetreid</string>
+    <string name="pick_image_alt">Vali pilt</string>
+    <string name="app_closing_sub">Kas oled kindel, et soovid selle rakenduse sulgeda?</string>
+    <string name="app_closing">Rakendus on sulgemisel</string>
+    <string name="stay">Jää siia</string>
+    <string name="close">Sulge</string>
+    <string name="image">Pilt</string>
+    <string name="color">Värv</string>
+    <string name="color_copied">Värv on kopeeritud</string>
+    <string name="crop_sub">Kadreeri pilti soovitud viisil</string>
+    <string name="version">Versioon</string>
+    <string name="keep_exif">Säilita EXIF-andmed</string>
+    <string name="images">Pildid: %d</string>
+    <string name="change_preview">Muuda eelvaadet</string>
+    <string name="remove">Eemalda</string>
+    <string name="palette_sub">Koosta antud pildi alusel värvipalett</string>
+    <string name="generate_palette">Paleti koostamine</string>
+    <string name="palette">Värvipalett</string>
 </resources>
