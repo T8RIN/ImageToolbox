@@ -74,7 +74,7 @@ internal fun AsciiParamsItem(
                 gradient = gradient.value,
                 fontSize = fontSize.value,
                 backgroundColor = backgroundColor.value,
-                isGrayscale = isGrayscale,
+                isGrayscale = isGrayscale
             )
         )
     }
