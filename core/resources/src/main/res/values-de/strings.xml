@@ -1723,4 +1723,8 @@
     <string name="target_lens_profile">Ziellinsenprofildatei im JSON-Format</string>
     <string name="download_ready_lens_profiles">fertige Objektivprofile herunterladen</string>
     <string name="part_percents">Teilprozent</string>
+    <string name="disable_rotation">Drehen deaktivieren</string>
+    <string name="disable_rotation_sub">Verhindert das Drehen von Bildern mit Zwei-Finger-Gesten</string>
+    <string name="enable_snapping_to_borders">Einrasten an Kanten aktivieren</string>
+    <string name="enable_snapping_to_borders_sub">Nach dem Verschieben oder Zoomen werden Bilder so eingerastet, dass sie die Rahmenkanten ausfüllen</string>
 </resources>
