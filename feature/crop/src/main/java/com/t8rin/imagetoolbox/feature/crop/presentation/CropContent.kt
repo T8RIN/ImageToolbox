@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -310,10 +311,21 @@ fun CropContent(
             var job by remember { mutableStateOf<Job?>(null) }
             BottomButtonsBlock(
                 isNoData = component.bitmap == null,
-                onSecondaryButtonClick = pickImage,
-                onSecondaryButtonLongClick = {
-                    showOneTimeImagePickingDialog = true
+                onSecondaryButtonClick = {
+                    if (component.bitmap == null) {
+                        pickImage()
+                    } else {
+                        job?.cancel()
+                        job = scope.launch {
+                            delay(500)
+                            crop = true
+                        }
+                    }
                 },
+                onSecondaryButtonLongClick = if (component.bitmap == null) {
+                    { showOneTimeImagePickingDialog = true }
+                } else null,
+                secondaryButtonIcon = if (component.bitmap == null) Icons.Rounded.AddPhotoAlt else Icons.Rounded.CropSmall,
                 onPrimaryButtonClick = {
                     saveBitmap(null)
                 },
@@ -321,17 +333,13 @@ fun CropContent(
                 middleFab = {
                     EnhancedFloatingActionButton(
                         onClick = {
-                            job?.cancel()
-                            job = scope.launch {
-                                delay(500)
-                                crop = true
-                            }
+                            showOneTimeImagePickingDialog = true
                         },
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.CropSmall,
-                            contentDescription = stringResource(R.string.crop)
+                            imageVector = Icons.Rounded.AddPhotoAlt,
+                            contentDescription = stringResource(R.string.add_image)
                         )
                     }
                 },
