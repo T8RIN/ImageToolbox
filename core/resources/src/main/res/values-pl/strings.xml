@@ -1723,4 +1723,8 @@
     <string name="target_lens_profile">Plik profilu obiektywu docelowego w formacie JSON</string>
     <string name="download_ready_lens_profiles">Pobierz gotowe profile obiektywów</string>
     <string name="part_percents">Procenty częściowe</string>
+    <string name="disable_rotation">Wyłącz rotację</string>
+    <string name="disable_rotation_sub">Zapobiega obracaniu obrazów za pomocą gestów dwoma palcami</string>
+    <string name="enable_snapping_to_borders">Włącz przyciąganie do krawędzi</string>
+    <string name="enable_snapping_to_borders_sub">Po przesunięciu lub powiększeniu obrazy zostaną dopasowane tak, aby wypełnić krawędzie ramki</string>
 </resources>
