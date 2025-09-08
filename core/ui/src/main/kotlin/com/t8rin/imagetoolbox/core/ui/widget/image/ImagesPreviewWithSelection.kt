@@ -81,6 +81,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFileExtension
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -413,6 +414,7 @@ private fun ImageItem(
 
                 if (showExtension) {
                     val extension = rememberFileExtension(uri.toUri())?.uppercase()
+                    val humanFileSize = rememberHumanFileSize(uri.toUri())
 
                     extension?.let {
                         Row(
@@ -436,6 +438,28 @@ private fun ImageItem(
                                 color = White
                             )
                         }
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(8.dp)
+                            .padding(vertical = 2.dp)
+                            .advancedShadow(
+                                cornersRadius = 4.dp,
+                                shadowBlurRadius = 6.dp,
+                                alpha = 0.4f
+                            )
+                            .padding(horizontal = 2.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier,
+                            text = humanFileSize,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = White
+                        )
                     }
                 }
             }

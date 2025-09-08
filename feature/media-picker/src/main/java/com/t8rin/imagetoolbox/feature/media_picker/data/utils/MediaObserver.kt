@@ -26,8 +26,6 @@ import android.database.MergeCursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import com.t8rin.imagetoolbox.core.data.utils.fileSize
-import com.t8rin.imagetoolbox.core.ui.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.FULL_DATE_FORMAT
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
@@ -156,8 +154,8 @@ fun Cursor.getMediaFromCursor(): Media {
     }
 
     val uri = ContentUris.withAppendedId(contentUri, id)
-    val fileSize = uri.fileSize(appContext) ?: 0
     val formattedDate = modifiedTimestamp.getDate(FULL_DATE_FORMAT)
+
     return Media(
         id = id,
         label = title,
@@ -174,7 +172,6 @@ fun Cursor.getMediaFromCursor(): Media {
         favorite = 0,
         trashed = 0,
         mimeType = mimeType,
-        fileSize = fileSize
     )
 }
 

@@ -34,6 +34,7 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -64,6 +65,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -87,8 +89,12 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.ui.theme.White
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -180,10 +186,14 @@ fun ImagePager(
                     uris?.getOrNull(pagerState.currentPage)
                 )
             }
-            val progress = draggableState.progress(
-                from = false,
-                to = true
-            )
+            val progress by remember(draggableState) {
+                derivedStateOf {
+                    draggableState.progress(
+                        from = false,
+                        to = true
+                    )
+                }
+            }
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -298,8 +308,35 @@ fun ImagePager(
                         )
                     }
                 }
+                val showTopBar by remember(draggableState, hideControls) {
+                    derivedStateOf {
+                        draggableState.offset == 0f && !hideControls
+                    }
+                }
+                val selectedUriFilename = selectedUri?.let { rememberFilename(it) }
+                val selectedUriFileSize = selectedUri?.let { rememberFileSize(it) }
+                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
+                val showLabel by remember(
+                    draggableState,
+                    selectedUriFilename,
+                    moreThanOneUri,
+                    showBottomHist,
+                    hideControls
+                ) {
+                    derivedStateOf {
+                        (!selectedUriFilename.isNullOrEmpty() || (selectedUriFileSize ?: 0) > 0)
+                                && draggableState.offset == 0f
+                                && (!moreThanOneUri || !showBottomHist) && !hideControls
+                    }
+                }
+                val showBottomBar by remember(draggableState, showBottomHist, hideControls) {
+                    derivedStateOf {
+                        draggableState.offset == 0f && showBottomHist && !hideControls
+                    }
+                }
+
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !hideControls,
+                    visible = showTopBar,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -371,42 +408,57 @@ fun ImagePager(
                     )
                 }
 
-                val selectedUriFilename = selectedUri?.let { rememberFilename(it) }
-                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
-
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !selectedUriFilename.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist) && !hideControls,
+                    visible = showLabel,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp,
+                            alignment = Alignment.CenterHorizontally
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateContentSizeNoClip()
+                            .padding(top = 64.dp)
+                            .padding(8.dp)
+                            .statusBarsPadding()
                     ) {
                         selectedUriFilename?.let {
                             Text(
                                 text = it,
                                 modifier = Modifier
-                                    .animateContentSizeNoClip()
-                                    .padding(top = 64.dp)
-                                    .align(Alignment.TopCenter)
-                                    .padding(8.dp)
-                                    .statusBarsPadding()
                                     .background(
                                         color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .weight(1f, false),
                                 color = White,
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
+                        selectedUriFileSize?.takeIf { it > 0 }
+                            ?.let {
+                                Text(
+                                    text = rememberHumanFileSize(it),
+                                    modifier = Modifier
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primaryContainerFixed,
+                                            shape = CircleShape
+                                        )
+                                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
                     }
                 }
 
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && showBottomHist && !hideControls,
+                    visible = showBottomBar,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
@@ -426,17 +478,39 @@ fun ImagePager(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        selectedUriFilename?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .animateContentSizeNoClip()
-                                    .weight(1f),
-                                color = White,
-                                style = MaterialTheme.typography.labelLarge,
-                            )
-                            Spacer(Modifier.width(16.dp))
+                        Row(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            selectedUriFilename?.let {
+                                Text(
+                                    text = it,
+                                    modifier = Modifier
+                                        .animateContentSizeNoClip()
+                                        .weight(1f, false),
+                                    color = White,
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                            }
+                            selectedUriFileSize
+                                ?.takeIf { it > 0 }
+                                ?.let { size ->
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        text = rememberHumanFileSize(size),
+                                        modifier = Modifier
+                                            .animateContentSizeNoClip()
+                                            .padding(bottom = 8.dp)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.primaryContainerFixed,
+                                                shape = CircleShape
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                                        color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                }
                         }
+                        Spacer(Modifier.width(16.dp))
                         histogram()
                     }
                 }

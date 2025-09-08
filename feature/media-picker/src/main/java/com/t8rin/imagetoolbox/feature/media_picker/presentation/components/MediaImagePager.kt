@@ -33,6 +33,7 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -88,6 +89,8 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.theme.White
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -177,10 +180,14 @@ internal fun MediaImagePager(
                     media.size
                 }
             )
-            val progress = draggableState.progress(
-                from = false,
-                to = true
-            )
+            val progress by remember(draggableState) {
+                derivedStateOf {
+                    draggableState.progress(
+                        from = false,
+                        to = true
+                    )
+                }
+            }
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -295,8 +302,33 @@ internal fun MediaImagePager(
                         )
                     }
                 }
+                val showTopBar by remember(hideControls, draggableState) {
+                    derivedStateOf {
+                        draggableState.offset == 0f && !hideControls
+                    }
+                }
+                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
+                val showLabel by remember(
+                    draggableState,
+                    currentMedia,
+                    moreThanOneUri,
+                    showBottomHist,
+                    hideControls
+                ) {
+                    derivedStateOf {
+                        (!currentMedia?.label.isNullOrEmpty() || (currentMedia?.fileSize ?: 0) > 0)
+                                && draggableState.offset == 0f
+                                && (!moreThanOneUri || !showBottomHist) && !hideControls
+                    }
+                }
+                val showBottomBar by remember(draggableState, showBottomHist, hideControls) {
+                    derivedStateOf {
+                        draggableState.offset == 0f && showBottomHist && !hideControls
+                    }
+                }
+
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !hideControls,
+                    visible = showTopBar,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -324,8 +356,9 @@ internal fun MediaImagePager(
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
+                                val isChecked = selectedMedia.contains(currentMedia)
                                 MediaCheckBox(
-                                    isChecked = selectedMedia.contains(currentMedia),
+                                    isChecked = isChecked,
                                     onCheck = {
                                         currentMedia?.let(onMediaClick)
                                     },
@@ -335,7 +368,8 @@ internal fun MediaImagePager(
                                     } else MaterialTheme.colorScheme.primary,
                                     checkedIcon = if (isImageError) {
                                         Icons.Filled.Error
-                                    } else Icons.Filled.CheckCircle
+                                    } else Icons.Filled.CheckCircle,
+                                    addContainer = isChecked
                                 )
                             }
                         },
@@ -355,41 +389,57 @@ internal fun MediaImagePager(
                     )
                 }
 
-                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
-
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && !currentMedia?.label.isNullOrEmpty() && (!moreThanOneUri || !showBottomHist) && !hideControls,
+                    visible = showLabel,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp,
+                            alignment = Alignment.CenterHorizontally
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateContentSizeNoClip()
+                            .padding(top = 64.dp)
+                            .padding(8.dp)
+                            .statusBarsPadding()
                     ) {
                         currentMedia?.label?.let {
                             Text(
                                 text = it,
                                 modifier = Modifier
-                                    .animateContentSizeNoClip()
-                                    .padding(top = 64.dp)
-                                    .align(Alignment.TopCenter)
-                                    .padding(8.dp)
-                                    .statusBarsPadding()
                                     .background(
                                         color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
                                         shape = CircleShape
                                     )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .weight(1f, false),
                                 color = White,
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
+                        currentMedia?.humanFileSize.takeIf { (currentMedia?.fileSize ?: 0) > 0 }
+                            ?.let {
+                                Text(
+                                    text = it,
+                                    modifier = Modifier
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primaryContainerFixed,
+                                            shape = CircleShape
+                                        )
+                                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
                     }
                 }
 
                 AnimatedVisibility(
-                    visible = draggableState.offset == 0f && showBottomHist && !hideControls,
+                    visible = showBottomBar,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
@@ -409,17 +459,39 @@ internal fun MediaImagePager(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        currentMedia?.label?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .animateContentSizeNoClip()
-                                    .weight(1f),
-                                color = White,
-                                style = MaterialTheme.typography.labelLarge,
-                            )
-                            Spacer(Modifier.width(16.dp))
+                        Row(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            currentMedia?.label?.let {
+                                Text(
+                                    text = it,
+                                    modifier = Modifier
+                                        .animateContentSizeNoClip()
+                                        .weight(1f, false),
+                                    color = White,
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                            }
+                            currentMedia?.humanFileSize
+                                ?.takeIf { currentMedia.fileSize > 0 }
+                                ?.let { size ->
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        text = size,
+                                        modifier = Modifier
+                                            .animateContentSizeNoClip()
+                                            .padding(bottom = 8.dp)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.primaryContainerFixed,
+                                                shape = CircleShape
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                                        color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                }
                         }
+                        Spacer(Modifier.width(16.dp))
                         histogram()
                     }
                 }

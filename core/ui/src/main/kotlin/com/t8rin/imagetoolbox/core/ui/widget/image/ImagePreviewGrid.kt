@@ -76,7 +76,7 @@ fun ImagePreviewGrid(
     }
 
     var selectedUri by rememberSaveable(initialShowImagePreviewDialog) {
-        mutableStateOf<String?>(
+        mutableStateOf(
             if (initialShowImagePreviewDialog) data?.firstOrNull()?.toString()
             else null
         )

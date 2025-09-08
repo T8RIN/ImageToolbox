@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ui.theme.suggestContainerColorBy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
@@ -52,7 +53,8 @@ fun MediaCheckBox(
     onCheck: (() -> Unit)? = null,
     checkedIcon: ImageVector = Icons.Filled.CheckCircle,
     checkedColor: Color = MaterialTheme.colorScheme.primary,
-    uncheckedColor: Color = MaterialTheme.colorScheme.onSurface
+    uncheckedColor: Color = MaterialTheme.colorScheme.onSurface,
+    addContainer: Boolean = false
 ) {
     val image = if (isChecked) {
         checkedIcon
@@ -64,7 +66,11 @@ fun MediaCheckBox(
     if (onCheck != null) {
         EnhancedIconButton(
             onClick = onCheck,
-            modifier = modifier
+            modifier = modifier,
+            containerColor = animateColorAsState(
+                if (addContainer) MaterialTheme.colorScheme.suggestContainerColorBy(color)
+                else Color.Transparent
+            ).value
         ) {
             AnimatedContent(
                 targetState = image,
