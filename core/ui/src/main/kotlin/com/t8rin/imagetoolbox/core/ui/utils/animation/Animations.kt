@@ -37,7 +37,7 @@ import androidx.compose.runtime.remember
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
-import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatable
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatableV1
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
@@ -95,7 +95,7 @@ fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
             )
         )
     ),
-    selector = { backEvent, _, _ -> androidPredictiveBackAnimatable(backEvent) },
+    selector = { backEvent, _, _ -> androidPredictiveBackAnimatableV1(backEvent) },
 )
 
 inline fun <T> springySpec() = spring<T>(
