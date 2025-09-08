@@ -15,7 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused")
+
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
+
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 
 
 data class Media(
@@ -34,7 +38,9 @@ data class Media(
     val favorite: Int,
     val trashed: Int,
     val duration: String? = null,
+    val fileSize: Long
 ) {
+    val humanFileSize: String = humanFileSize(fileSize)
 
     val isVideo: Boolean = mimeType.startsWith("video/") && duration != null
 

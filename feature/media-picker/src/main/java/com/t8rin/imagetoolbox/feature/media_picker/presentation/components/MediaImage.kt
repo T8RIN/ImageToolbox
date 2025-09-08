@@ -51,7 +51,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -75,16 +77,16 @@ fun MediaImage(
     onItemLongClick: (Media) -> Unit,
 ) {
     val selectedSize by animateDpAsState(
-        if (isSelected) 12.dp else 0.dp, label = "selectedSize"
+        if (isSelected) 12.dp else 0.dp
     )
     val scale by animateFloatAsState(
-        if (isSelected) 0.5f else 1f, label = "scale"
+        if (isSelected) 0.5f else 1f
     )
     val selectedShapeSize by animateDpAsState(
-        if (isSelected) 16.dp else 4.dp, label = "selectedShapeSize"
+        if (isSelected) 16.dp else 4.dp
     )
     val strokeSize by animateDpAsState(
-        targetValue = if (isSelected) 2.dp else 0.dp, label = "strokeSize"
+        targetValue = if (isSelected) 2.dp else 0.dp
     )
     var isImageError by remember {
         mutableStateOf(false)
@@ -192,6 +194,24 @@ fun MediaImage(
                     media = media
                 )
             }
+        }
+
+        AnimatedVisibility(
+            visible = media.fileSize > 0,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.align(Alignment.BottomStart)
+        ) {
+            MediaSizeFooter(
+                modifier = Modifier
+                    .padding(selectedSize / 2)
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        transformOrigin = TransformOrigin(0.3f, 0.5f)
+                    },
+                media = media
+            )
         }
 
         AnimatedVisibility(
