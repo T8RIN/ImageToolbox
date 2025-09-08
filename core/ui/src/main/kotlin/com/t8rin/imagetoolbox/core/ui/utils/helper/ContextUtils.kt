@@ -360,8 +360,9 @@ object ContextUtils {
         return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
     }
 
-    private const val SCREEN_ID_EXTRA = "screen_id"
-    private const val SHORTCUT_OPEN_ACTION = "shortcut"
+    const val SCREEN_ID_EXTRA = "screen_id"
+    const val SHORTCUT_OPEN_ACTION = "shortcut"
+
     fun Intent?.getScreenOpeningShortcut(
         onNavigate: (Screen) -> Unit,
     ): Boolean {
@@ -398,7 +399,7 @@ object ContextUtils {
                     .setLongLabel(getString(screen.subtitle))
                     .setIcon(IconCompat.createWithBitmap(imageBitmap.asAndroidBitmap()))
                     .setIntent(
-                        Intent(context, AppActivityClass).apply {
+                        context.buildIntent(AppActivityClass) {
                             action = SHORTCUT_OPEN_ACTION
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             putExtra(SCREEN_ID_EXTRA, screen.id)

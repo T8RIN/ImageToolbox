@@ -215,63 +215,6 @@
                 android:value="" />
         </service>
 
-        <service
-            android:name=".feature.quick_tiles.tiles.ColorPickerTile"
-            android:exported="true"
-            android:icon="@drawable/outline_colorize_24"
-            android:label="@string/pick_color"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.ImageToolboxTile"
-            android:exported="true"
-            android:icon="@drawable/ic_launcher_monochrome_24"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.EditScreenshotTile"
-            android:exported="true"
-            android:icon="@drawable/outline_app_registration_24"
-            android:label="@string/edit_screenshot"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".feature.quick_tiles.tiles.TakeScreenshotTile"
-            android:exported="true"
-            android:icon="@drawable/outline_screenshot_24"
-            android:label="@string/screenshot"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name=".feature.quick_tiles.screenshot.ScreenshotLauncher"
-            android:theme="@style/TransparentActivity" />
-
-        <service
-            android:name=".feature.quick_tiles.screenshot.ScreenshotService"
-            android:foregroundServiceType="mediaProjection"
-            android:process=":remote" />
-
         <activity
             android:name=".feature.media_picker.presentation.MediaPickerActivity"
             android:enabled="@bool/at_least_26"

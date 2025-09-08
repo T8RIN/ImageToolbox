@@ -19,14 +19,21 @@ package com.t8rin.imagetoolbox.feature.quick_tiles.utils
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.service.quicksettings.TileService
+import androidx.annotation.RequiresApi
 import androidx.core.service.quicksettings.PendingIntentActivityWrapper
 import androidx.core.service.quicksettings.TileServiceCompat
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SHORTCUT_OPEN_ACTION
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.buildIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.putTileScreenAction
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.quick_tiles.screenshot.ScreenshotLauncher
 
-fun TileService.startActivityAndCollapse(
+@RequiresApi(Build.VERSION_CODES.N)
+internal fun TileService.startActivityAndCollapse(
     screenAction: String? = null,
     clazz: Class<*> = ScreenshotLauncher::class.java
 ) {
@@ -34,6 +41,31 @@ fun TileService.startActivityAndCollapse(
         val intent = buildIntent(clazz) {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putTileScreenAction(screenAction)
+        }
+
+        TileServiceCompat.startActivityAndCollapse(
+            this,
+            PendingIntentActivityWrapper(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT,
+                false
+            )
+        )
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+internal fun TileService.startActivityAndCollapse(
+    screen: Screen
+) {
+    runCatching {
+        val intent = buildIntent(AppActivityClass) {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            action = SHORTCUT_OPEN_ACTION
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(SCREEN_ID_EXTRA, screen.id)
         }
 
         TileServiceCompat.startActivityAndCollapse(
