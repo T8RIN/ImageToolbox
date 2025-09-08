@@ -332,9 +332,7 @@ fun CropContent(
                 isPrimaryButtonVisible = component.isBitmapChanged,
                 middleFab = {
                     EnhancedFloatingActionButton(
-                        onClick = {
-                            showOneTimeImagePickingDialog = true
-                        },
+                        onClick = pickImage,
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ) {
                         Icon(
