@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component7
@@ -302,6 +303,13 @@ internal fun Any.toPair(): Pair<String, String>? {
                 bottomLeft.join(),
                 bottomRight.join(),
                 isAbsolute
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is IntegerSize -> {
+            IntegerSize::class.simpleName!! to listOf(
+                width,
+                height
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -632,6 +640,15 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 bottomLeft = bottomLeft.toFloatPair(),
                 bottomRight = bottomRight.toFloatPair(),
                 isAbsolute = isAbsolute.toBoolean()
+            )
+        }
+
+        name == IntegerSize::class.simpleName -> {
+            val (width, height) = value.split(PROPERTIES_SEPARATOR)
+
+            IntegerSize(
+                width = width.toInt(),
+                height = height.toInt()
             )
         }
 

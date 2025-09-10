@@ -65,10 +65,12 @@ fun ResizeImageField(
     originalSize: IntegerSize?,
     onWidthChange: (Int) -> Unit,
     onHeightChange: (Int) -> Unit,
-    showWarning: Boolean = false
+    modifier: Modifier = Modifier,
+    showWarning: Boolean = false,
+    enabled: Boolean = true,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .container(shape = ShapeDefaults.extraLarge)
             .padding(8.dp)
             .animateContentSizeNoClip()
@@ -99,7 +101,8 @@ fun ResizeImageField(
                             )
                         )
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = enabled
                 )
             }
             val heightField: @Composable RowScope.() -> Unit = {
@@ -128,7 +131,8 @@ fun ResizeImageField(
                             )
                         )
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = enabled
                 )
             }
 
@@ -147,11 +151,12 @@ fun ResizeImageField(
 
 @Composable
 internal fun ResizeImageFieldImpl(
+    modifier: Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: @Composable () -> Unit,
     shape: Shape,
-    modifier: Modifier
+    enabled: Boolean
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -187,7 +192,8 @@ internal fun ResizeImageFieldImpl(
             }
         },
         modifier = modifier,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        enabled = enabled
     )
 
     CalculatorDialog(

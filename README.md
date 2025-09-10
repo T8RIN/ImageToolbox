@@ -469,6 +469,7 @@ or click one of the badges below.
     - [x] Turbo
     - [x] Deep Green 
     - [x] Lens Correction
+    - [x] Seam Carving
 
 
   </details>

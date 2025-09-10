@@ -1749,4 +1749,5 @@
     <string name="part_percents">Part percents</string>
     <string name="export_as_json">Export as JSON</string>
     <string name="export_as_json_sub">Copy string with a palette data as json representation</string>
+    <string name="seam_carving">Seam Carving</string>
 </resources>

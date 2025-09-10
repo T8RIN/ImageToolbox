@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.filters.domain.model
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.VisibilityOwner
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
@@ -345,6 +346,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Turbo : SimpleFilter
     interface DeepGreen : SimpleFilter
     interface LensCorrection : FileFilter
+    interface SeamCarving : Filter<IntegerSize>
 }
 
 interface SimpleFilter : Filter<Unit>

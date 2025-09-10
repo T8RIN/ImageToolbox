@@ -355,7 +355,8 @@ sealed class UiFilter<T : Any>(
                     UiArcFilter(),
                     UiDeskewFilter(),
                     UiCropOrPerspectiveFilter(),
-                    UiLensCorrectionFilter()
+                    UiLensCorrectionFilter(),
+                    UiSeamCarvingFilter()
                 ),
                 //Dithering
                 listOf(

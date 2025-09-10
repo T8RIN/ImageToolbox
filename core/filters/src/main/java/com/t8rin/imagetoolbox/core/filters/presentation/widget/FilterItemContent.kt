@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.cast
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
@@ -59,6 +60,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GlitchParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.IntegerSizeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.KaleidoscopeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearTiltShiftParamsItem
@@ -334,6 +336,15 @@ internal fun <T : Any> FilterItemContent(
 
             is CropOrPerspectiveParams -> {
                 CropOrPerspectiveParamsItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is IntegerSize -> {
+                IntegerSizeParamsItem(
                     value = value,
                     filter = filter.cast(),
                     onFilterChange = onFilterChange,
