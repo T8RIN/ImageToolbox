@@ -22,10 +22,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -47,19 +49,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorPalette
+import com.smarttoolfactory.colordetector.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.model.toPalette
 import kotlinx.coroutines.launch
 
 
 @Composable
-internal fun DefaultPaletteControls(bitmap: Bitmap) {
+internal fun DefaultPaletteControls(
+    bitmap: Bitmap,
+) {
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
@@ -67,17 +76,42 @@ internal fun DefaultPaletteControls(bitmap: Bitmap) {
 
     var count by rememberSaveable { mutableIntStateOf(32) }
 
+    val state = rememberImageColorPaletteState(
+        imageBitmap = bitmap.asImageBitmap(),
+        maximumColorCount = count
+    )
+
     PaletteColorsCountSelector(
         value = count,
         onValueChange = { count = it }
     )
     Spacer(modifier = Modifier.height(16.dp))
+
+    PreferenceItem(
+        title = stringResource(R.string.export_as_json),
+        subtitle = stringResource(R.string.export_as_json_sub),
+        onClick = {
+            context.copyToClipboard(state.toPalette().asJson())
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Rounded.ContentPaste,
+                    message = context.getString(R.string.copied)
+                )
+            }
+        },
+        endIcon = Icons.Rounded.ContentCopy,
+        shape = ShapeDefaults.top,
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.mixedContainer.copy(0.5f),
+        contentColor = MaterialTheme.colorScheme.onMixedContainer
+    )
+    Spacer(modifier = Modifier.height(4.dp))
     ImageColorPalette(
         borderWidth = settingsState.borderWidth,
-        imageBitmap = bitmap.asImageBitmap(),
+        state = state,
         modifier = Modifier
             .fillMaxSize()
-            .container(ShapeDefaults.extraLarge)
+            .container(ShapeDefaults.bottom)
             .padding(4.dp),
         style = LocalTextStyle.current,
         onEmpty = {
@@ -120,7 +154,6 @@ internal fun DefaultPaletteControls(bitmap: Bitmap) {
                 )
             }
         },
-        maximumColorCount = count,
         onColorChange = {
             context.copyToClipboard(it.color.toHex())
             scope.launch {

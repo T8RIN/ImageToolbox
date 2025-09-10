@@ -105,7 +105,8 @@ internal fun OtherContent(
                 Row(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
-                        .height(intrinsicSize = IntrinsicSize.Max)
+                        .height(intrinsicSize = IntrinsicSize.Max),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     ImageSelector(
                         value = previewModel.data,
@@ -151,9 +152,7 @@ internal fun OtherContent(
                         )
                     }
                     Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 4.dp),
+                        modifier = Modifier.fillMaxHeight(),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         repeat(2) { index ->

@@ -1747,4 +1747,6 @@
     <string name="target_lens_profile">Target lens profile file in JSON format</string>
     <string name="download_ready_lens_profiles">Download ready lens profiles</string>
     <string name="part_percents">Part percents</string>
+    <string name="export_as_json">Export as JSON</string>
+    <string name="export_as_json_sub">Copy string with a palette data as json representation</string>
 </resources>

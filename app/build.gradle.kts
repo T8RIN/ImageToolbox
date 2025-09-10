@@ -147,6 +147,7 @@ allprojects {
     configurations.all {
         resolutionStrategy.dependencySubstitution {
             substitute(module("com.caverock:androidsvg-aar:1.4")).using(module("com.github.deckerst:androidsvg:cc9d59a88f"))
+//            substitute(module("org.opencv:opencv:4.11.0")).using(module("org.opencv:opencv:4.12.0"))
         }
     }
 }

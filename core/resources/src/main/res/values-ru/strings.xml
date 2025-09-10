@@ -1722,6 +1722,6 @@
     <string name="deep_green">Темно-зелёный</string>
     <string name="lens_correction">Коррекция объектива</string>
     <string name="target_lens_profile">Целевой файл профиля объектива в формате JSON</string>
-    <string name="download_ready_lens_profiles">Скачать готовые профили объектива</string>
+    <string name="download_ready_lens_profiles">Скачать готовые профили</string>
     <string name="part_percents">Проценты частей</string>
 </resources>
