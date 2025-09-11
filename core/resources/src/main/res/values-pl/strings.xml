@@ -1727,4 +1727,6 @@
     <string name="disable_rotation_sub">Zapobiega obracaniu obrazów za pomocą gestów dwoma palcami</string>
     <string name="enable_snapping_to_borders">Włącz przyciąganie do krawędzi</string>
     <string name="enable_snapping_to_borders_sub">Po przesunięciu lub powiększeniu obrazy zostaną dopasowane tak, aby wypełnić krawędzie ramki</string>
+    <string name="export_as_json">Wyeksportuj do JSON</string>
+    <string name="export_as_json_sub">Skopiuj ciąg znaków z danymi palety jako reprezentacją json</string>
 </resources>

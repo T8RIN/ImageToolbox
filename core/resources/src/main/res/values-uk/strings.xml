@@ -1727,4 +1727,6 @@
     <string name="disable_rotation_sub">Запобігає обертанню зображень жестами двома пальцями</string>
     <string name="enable_snapping_to_borders">Увімкнути прив\'язку до меж</string>
     <string name="enable_snapping_to_borders_sub">Після переміщення або масштабування зображення будуть прив\'язані до країв кадру</string>
+    <string name="export_as_json">Експортувати як JSON</string>
+    <string name="export_as_json_sub">Копіювати рядок з даними палітри у вигляді JSON-представлення</string>
 </resources>

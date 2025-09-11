@@ -1727,4 +1727,6 @@
     <string name="disable_rotation_sub">Verhindert das Drehen von Bildern mit Zwei-Finger-Gesten</string>
     <string name="enable_snapping_to_borders">Einrasten an Kanten aktivieren</string>
     <string name="enable_snapping_to_borders_sub">Nach dem Verschieben oder Zoomen werden Bilder so eingerastet, dass sie die Rahmenkanten ausfüllen</string>
+    <string name="export_as_json">Als JSON exportieren</string>
+    <string name="export_as_json_sub">Zeichenfolge mit Palettendaten als JSON-Darstellung kopieren</string>
 </resources>
