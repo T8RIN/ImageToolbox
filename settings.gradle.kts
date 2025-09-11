@@ -111,6 +111,7 @@ include(":feature:edit-exif")
 include(":feature:image-cutting")
 include(":feature:audio-cover-extractor")
 include(":feature:library-details")
+include(":feature:wallpapers-export")
 
 include(":feature:root")
 

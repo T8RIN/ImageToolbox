@@ -129,7 +129,7 @@
     <string name="permission">Разрешение</string>
     <string name="grant">Одобрить</string>
     <string name="permission_sub">Приложению необходим доступ к памяти вашего телефона, чтобы сохранять изображения, пожалуйста, для продолжения работы разрешите доступ в появшемся окне</string>
-    <string name="grant_permission_manual">Приложению необходим доступ к хранилищу, чтобы продолжать работу, вы запретили это, поэтому предоставьте его самостоятельно</string>
+    <string name="grant_permission_manual">Приложению необходимо это разрешение для работы, предоставьте его вручную</string>
     <string name="external_storage">Внешний накопитель</string>
     <string name="monet_colors">Динамические цвета</string>
     <string name="donation_sub">Это приложение полностью бесплатное, однако если вы хотите поддержать его разработку, вы можете нажать здесь</string>

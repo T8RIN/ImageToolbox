@@ -95,6 +95,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WallpapersExport
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Watermarking
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WebpTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WeightResize
@@ -104,6 +105,7 @@ import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.Scan
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
@@ -161,6 +163,7 @@ internal class ChildProvider @Inject constructor(
     private val imageCutterComponentFactory: ImageCutterComponent.Factory,
     private val audioCoverExtractorComponentFactory: AudioCoverExtractorComponent.Factory,
     private val libraryDetailsComponentFactory: LibraryDetailsComponent.Factory,
+    private val wallpapersExportComponentFactory: WallpapersExportComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -567,6 +570,14 @@ internal class ChildProvider @Inject constructor(
                 onGoBack = ::navigateBack,
                 libraryName = config.name,
                 libraryDescription = config.htmlDescription
+            )
+        )
+
+        is Screen.WallpapersExport -> WallpapersExport(
+            wallpapersExportComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
     }

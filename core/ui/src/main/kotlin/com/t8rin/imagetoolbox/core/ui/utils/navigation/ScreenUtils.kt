@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandStars
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
@@ -121,6 +122,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WeightResize
@@ -185,6 +187,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ImageCutter -> "Image_Cutting"
     is AudioCoverExtractor -> "Audio_Cover_Extractor"
     is LibraryDetails -> "Library_Details"
+    is WallpapersExport -> "Wallpapers_Export"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -235,6 +238,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is EditExif -> Icons.Outlined.ExifEdit
     is ImageCutter -> Icons.Rounded.Scissors
     is AudioCoverExtractor -> Icons.Outlined.Album
+    is WallpapersExport -> Icons.Outlined.WallpaperAlt
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -285,6 +289,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is EditExif -> Icons.TwoTone.ExifEdit
     is ImageCutter -> Icons.TwoTone.Scissors
     is AudioCoverExtractor -> Icons.TwoTone.Album
+    is WallpapersExport -> Icons.Outlined.WallpaperAlt
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -353,6 +358,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     RecognizeText(),
                     Compare(),
                     ImagePreview(),
+                    WallpapersExport,
                     Base64Tools(),
                     SvgMaker(),
                     GeneratePalette(),

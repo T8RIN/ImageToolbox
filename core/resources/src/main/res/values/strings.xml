@@ -1750,4 +1750,12 @@
     <string name="export_as_json">Export as JSON</string>
     <string name="export_as_json_sub">Copy string with a palette data as json representation</string>
     <string name="seam_carving">Seam Carving</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="lock_screen">Lock Screen</string>
+    <string name="built_in">Built-in</string>
+    <string name="wallpapers_export">Wallpapers Export</string>
+    <string name="refresh">Refresh</string>
+    <string name="wallpapers_export_sub">Obtain current Home, Lock and Built-in wallpapers</string>
+    <string name="allow_access_to_all_files_for_wp">Allow access to all files, this is needed to retrieve wallpapers</string>
+    <string name="allow_read_media_images_for_wp">Manage external storage permission is not enough, you need to allow access to your images, make sure to select \"Allow all\"</string>
 </resources>

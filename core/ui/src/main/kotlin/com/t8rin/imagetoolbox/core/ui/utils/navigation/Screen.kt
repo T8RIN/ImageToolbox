@@ -797,6 +797,13 @@ sealed class Screen(
         subtitle = R.string.audio_cover_extractor_sub
     )
 
+    @Serializable
+    data object WallpapersExport : Screen(
+        id = 40,
+        title = R.string.wallpapers_export,
+        subtitle = R.string.wallpapers_export_sub
+    )
+
     companion object : ScreenConstants by ScreenConstantsImpl
 }
 

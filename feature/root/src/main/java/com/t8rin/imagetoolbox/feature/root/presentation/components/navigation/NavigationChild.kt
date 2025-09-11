@@ -94,6 +94,8 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.SvgMakerContent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.WallpapersExportContent
+import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.WatermarkingContent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.WebpToolsContent
@@ -348,5 +350,10 @@ internal sealed interface NavigationChild {
     class LibraryDetails(private val component: LibraryDetailsComponent) : NavigationChild {
         @Composable
         override fun Content() = LibraryDetailsContent(component)
+    }
+
+    class WallpapersExport(private val component: WallpapersExportComponent) : NavigationChild {
+        @Composable
+        override fun Content() = WallpapersExportContent(component)
     }
 }

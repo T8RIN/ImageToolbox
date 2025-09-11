@@ -76,11 +76,14 @@ import kotlin.math.ceil
 
 object ContextUtils {
 
-    fun Activity.requestStoragePermission() {
-        val permissions = listOf(
+    fun Activity.requestStoragePermission() = requestPermissions(
+        permissions = listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
+    )
+
+    fun Activity.requestPermissions(permissions: List<String>) {
         val state = checkPermissions(permissions)
         when (state.permissionStatus.values.first()) {
             PermissionStatus.NOT_GIVEN -> {
