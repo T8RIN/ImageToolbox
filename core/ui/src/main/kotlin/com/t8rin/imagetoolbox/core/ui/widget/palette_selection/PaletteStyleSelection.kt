@@ -66,7 +66,7 @@ fun PaletteStyleSelection(
             }
         }.value,
         shape = shape,
-        color = color,
+        containerColor = color,
         modifier = modifier,
         startIcon = Icons.Rounded.Swatch,
         endIcon = Icons.Rounded.MiniEdit,

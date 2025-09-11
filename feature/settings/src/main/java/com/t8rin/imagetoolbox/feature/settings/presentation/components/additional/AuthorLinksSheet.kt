@@ -83,7 +83,7 @@ fun AuthorLinksSheet(
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     Spacer(Modifier.height(16.dp))
                     PreferenceItem(
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         onClick = {
                             linkHandler.openUri(AUTHOR_TG)
                         },
@@ -95,7 +95,7 @@ fun AuthorLinksSheet(
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
                             val mail = context.getString(R.string.developer_email)
                             runCatching {
@@ -116,7 +116,7 @@ fun AuthorLinksSheet(
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
-                        color = MaterialTheme.colorScheme.primaryContainer,
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
                         onClick = {
                             linkHandler.openUri(AUTHOR_LINK)
                         },

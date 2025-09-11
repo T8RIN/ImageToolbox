@@ -126,7 +126,7 @@ internal fun CompareShareSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
                         endIcon = Icons.Rounded.Save
                     )
                     OneTimeSaveLocationSelectionDialog(
@@ -147,7 +147,7 @@ internal fun CompareShareSheet(
                         onClick = {
                             onCopy(imageFormat)
                         },
-                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         endIcon = Icons.Rounded.ContentCopy
                     )
                     Spacer(Modifier.height(4.dp))
@@ -160,7 +160,7 @@ internal fun CompareShareSheet(
                         onClick = {
                             onShare(imageFormat)
                         },
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         endIcon = Icons.Rounded.Share
                     )
                     Spacer(Modifier.height(16.dp))

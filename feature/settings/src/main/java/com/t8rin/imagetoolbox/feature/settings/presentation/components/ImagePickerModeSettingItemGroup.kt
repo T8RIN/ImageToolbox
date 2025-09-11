@@ -67,7 +67,7 @@ fun ImagePickerModeSettingItemGroup(
                 title = stringResource(mode.title),
                 startIcon = mode.icon,
                 subtitle = stringResource(mode.subtitle),
-                color = takeColorFromScheme {
+                containerColor = takeColorFromScheme {
                     if (selected) secondaryContainer.copy(0.7f)
                     else SafeLocalContainerColor
                 },

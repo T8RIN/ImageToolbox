@@ -259,7 +259,7 @@ internal fun OCRLanguagesColumn(
                         lang = lang
                     )
                 },
-                color = animateColorAsState(
+                containerColor = animateColorAsState(
                     if (selected) {
                         MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
                     } else EnhancedBottomSheetDefaults.contentContainerColor

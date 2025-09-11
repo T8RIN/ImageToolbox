@@ -48,7 +48,7 @@ fun PaletteStyleSelectionItem(
         onClick = onClick,
         title = style.getTitle(context),
         subtitle = style.getSubtitle(context),
-        color = takeColorFromScheme {
+        containerColor = takeColorFromScheme {
             if (selected) secondaryContainer
             else SafeLocalContainerColor
         },

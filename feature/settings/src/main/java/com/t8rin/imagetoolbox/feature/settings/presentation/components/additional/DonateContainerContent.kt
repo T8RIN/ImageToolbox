@@ -88,7 +88,7 @@ fun DonateContainerContent(
             )
         }
         PreferenceItem(
-            color = TONSpaceColor,
+            containerColor = TONSpaceColor,
             overrideIconShapeContentColor = true,
             contentColor = TONSpaceColor.inverse(
                 fraction = { 1f },
@@ -113,7 +113,7 @@ fun DonateContainerContent(
         )
         Spacer(Modifier.height(4.dp))
         PreferenceItem(
-            color = TONColor,
+            containerColor = TONColor,
             overrideIconShapeContentColor = true,
             contentColor = TONColor.inverse(
                 fraction = { 1f },
@@ -138,7 +138,7 @@ fun DonateContainerContent(
         )
         Spacer(Modifier.height(4.dp))
         PreferenceItem(
-            color = BitcoinColor,
+            containerColor = BitcoinColor,
             overrideIconShapeContentColor = true,
             contentColor = BitcoinColor.inverse(
                 fraction = { 1f },
@@ -163,7 +163,7 @@ fun DonateContainerContent(
         )
         Spacer(Modifier.height(4.dp))
         PreferenceItem(
-            color = USDTColor,
+            containerColor = USDTColor,
             overrideIconShapeContentColor = true,
             contentColor = USDTColor.inverse(
                 fraction = { 1f },

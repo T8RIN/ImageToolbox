@@ -48,7 +48,7 @@ fun ResetSettingsSettingItem(
         },
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme
+        containerColor = MaterialTheme.colorScheme
             .errorContainer
             .copy(alpha = 0.8f),
         title = stringResource(R.string.reset),

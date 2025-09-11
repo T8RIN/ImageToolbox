@@ -38,7 +38,7 @@ fun PreviewPdfPreference(
         startIcon = Icons.Rounded.Preview,
         title = stringResource(R.string.preview_pdf),
         subtitle = stringResource(R.string.preview_pdf_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

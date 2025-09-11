@@ -37,7 +37,7 @@ fun MaskFilterPreference(
         startIcon = Icons.Rounded.Texture,
         title = stringResource(R.string.mask_filter),
         subtitle = stringResource(R.string.mask_filter_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

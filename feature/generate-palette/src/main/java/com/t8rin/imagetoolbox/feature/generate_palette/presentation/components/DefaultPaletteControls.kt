@@ -102,7 +102,7 @@ internal fun DefaultPaletteControls(
         endIcon = Icons.Rounded.ContentCopy,
         shape = ShapeDefaults.top,
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.mixedContainer.copy(0.5f),
+        containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.5f),
         contentColor = MaterialTheme.colorScheme.onMixedContainer
     )
     Spacer(modifier = Modifier.height(4.dp))

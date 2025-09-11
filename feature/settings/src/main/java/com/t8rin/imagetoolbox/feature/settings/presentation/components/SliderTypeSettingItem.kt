@@ -118,7 +118,7 @@ fun SliderTypeSettingItem(
                     onClick = { onValueChange(type) },
                     title = type.title,
                     subtitle = type.subtitle,
-                    color = takeColorFromScheme {
+                    containerColor = takeColorFromScheme {
                         if (selected) secondaryContainer
                         else SafeLocalContainerColor
                     },

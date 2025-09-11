@@ -37,7 +37,7 @@ fun BasicFilterPreference(
         startIcon = Icons.Rounded.AutoFixHigh,
         title = stringResource(R.string.filter),
         subtitle = stringResource(R.string.filter_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

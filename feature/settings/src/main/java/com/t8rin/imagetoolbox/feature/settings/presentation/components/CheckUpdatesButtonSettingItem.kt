@@ -40,7 +40,7 @@ fun CheckUpdatesButtonSettingItem(
 ) {
     PreferenceItem(
         title = stringResource(R.string.check_for_updates),
-        color = MaterialTheme.colorScheme.mixedContainer,
+        containerColor = MaterialTheme.colorScheme.mixedContainer,
         contentColor = MaterialTheme.colorScheme.onMixedContainer,
         modifier = modifier,
         shape = shape,

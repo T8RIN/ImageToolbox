@@ -132,7 +132,7 @@ private fun ColorBlindTypeSelectionItem(
         title = type?.localizedTitle ?: stringResource(R.string.not_use_color_blind_scheme),
         subtitle = type?.localizedDescription
             ?: stringResource(R.string.not_use_color_blind_scheme_sub),
-        color = takeColorFromScheme {
+        containerColor = takeColorFromScheme {
             if (selected) secondaryContainer
             else SafeLocalContainerColor
         },

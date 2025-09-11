@@ -100,7 +100,7 @@ fun ModelTypeSelector(
                     onClick = {
                         onValueChange(mode)
                     },
-                    color = animateColorAsState(
+                    containerColor = animateColorAsState(
                         if (value == mode) MaterialTheme.colorScheme.secondaryContainer
                         else MaterialTheme.colorScheme.surfaceContainer
                     ).value,

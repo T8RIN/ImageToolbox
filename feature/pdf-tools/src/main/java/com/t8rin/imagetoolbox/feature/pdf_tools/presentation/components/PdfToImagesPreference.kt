@@ -38,7 +38,7 @@ fun PdfToImagesPreference(
         startIcon = Icons.Rounded.Collections,
         title = stringResource(R.string.pdf_to_images),
         subtitle = stringResource(R.string.pdf_to_images_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

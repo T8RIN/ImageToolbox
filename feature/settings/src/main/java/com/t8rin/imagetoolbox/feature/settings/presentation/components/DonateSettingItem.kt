@@ -53,7 +53,7 @@ fun DonateSettingItem(
             )
             .padding(horizontal = 8.dp),
         shape = shape,
-        color = MaterialTheme.colorScheme.tertiaryContainer,
+        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
         title = stringResource(R.string.donation),
         subtitle = stringResource(R.string.donation_sub),

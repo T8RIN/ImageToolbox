@@ -135,7 +135,7 @@ fun OneTimeImagePickingDialog(
                             onClick = { selectedPickerMode = mode },
                             title = stringResource(mode.title),
                             startIcon = mode.icon,
-                            color = takeColorFromScheme {
+                            containerColor = takeColorFromScheme {
                                 if (selected) secondaryContainer.copy(0.7f)
                                 else SafeLocalContainerColor
                             },

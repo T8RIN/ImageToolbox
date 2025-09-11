@@ -83,7 +83,7 @@ fun RecognizeLanguageSelector(
         onClick = {
             showDetailedLanguageSheet = true
         },
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = ShapeDefaults.extraLarge,
         startIcon = Icons.Outlined.Language,
         endIcon = Icons.Rounded.MiniEdit

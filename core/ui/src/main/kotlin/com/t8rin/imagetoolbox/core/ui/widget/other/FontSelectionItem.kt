@@ -56,7 +56,7 @@ fun FontSelectionItem(
             onLongClick = onLongClick,
             title = (name ?: stringResource(id = R.string.system)) + isVariable.toVariable(),
             subtitle = stringResource(R.string.alphabet_and_numbers),
-            color = takeColorFromScheme {
+            containerColor = takeColorFromScheme {
                 if (selected) secondaryContainer
                 else SafeLocalContainerColor
             },

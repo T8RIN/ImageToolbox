@@ -86,7 +86,7 @@ internal fun OCRLanguageColumnForSearch(
                         lang = lang
                     )
                 },
-                color = animateColorAsState(
+                containerColor = animateColorAsState(
                     if (selected) {
                         MaterialTheme.colorScheme.surfaceColorAtElevation(
                             20.dp

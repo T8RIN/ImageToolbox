@@ -310,7 +310,7 @@ internal fun MainTopAppBar(
                                 title = stringResource(R.string.create_shortcut_title),
                                 subtitle = stringResource(R.string.create_shortcut_subtitle),
                                 startIcon = Icons.Rounded.PushPin,
-                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 modifier = Modifier.padding(bottom = 8.dp),
                                 shape = ShapeDefaults.extremeLarge
                             )

@@ -145,7 +145,7 @@ private fun PermissionItem(
             }
         },
         shape = shape,
-        color = MaterialTheme.colorScheme.errorContainer,
+        containerColor = MaterialTheme.colorScheme.errorContainer,
         endIcon = Icons.Rounded.ArrowCircleRight,
         startIcon = permission.icon
     )

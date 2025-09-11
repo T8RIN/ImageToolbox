@@ -48,7 +48,7 @@ fun SendLogsSettingItem(
         startIcon = Icons.AutoMirrored.Rounded.MobileScreenShare,
         title = stringResource(R.string.send_logs),
         subtitle = stringResource(R.string.send_logs_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

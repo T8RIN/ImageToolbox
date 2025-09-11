@@ -245,7 +245,7 @@ fun AddExifSheet(
                                 title = tag.localizedName,
                                 modifier = Modifier,
                                 endIcon = endIcon,
-                                color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
                                     animateFloatAsState(if (isSelected) 0.35f else 0.1f).value
                                 ),
                                 shape = ShapeDefaults.byIndex(

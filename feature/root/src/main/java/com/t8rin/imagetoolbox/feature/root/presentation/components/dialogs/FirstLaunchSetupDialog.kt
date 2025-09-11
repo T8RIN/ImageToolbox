@@ -113,7 +113,7 @@ internal fun FirstLaunchSetupDialog(
                             startIcon = Icons.Rounded.Webhook,
                             shape = ShapeDefaults.default,
                             modifier = Modifier.padding(bottom = 8.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerHighest
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
                         )
                     }
                     PreferenceRowSwitch(

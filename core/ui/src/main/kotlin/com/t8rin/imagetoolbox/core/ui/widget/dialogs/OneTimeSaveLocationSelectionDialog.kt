@@ -275,7 +275,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 } else Icons.Rounded.FolderOpen,
                                 endIcon = if (selected) Icons.Rounded.RadioButtonChecked
                                 else Icons.Rounded.RadioButtonUnchecked,
-                                color = takeColorFromScheme {
+                                containerColor = takeColorFromScheme {
                                     if (selected) surface
                                     else surfaceContainer
                                 }
@@ -315,7 +315,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp, vertical = 2.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainer
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
 
                 if (formatForFilenameSelection != null) {
@@ -340,7 +340,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 4.dp, vertical = 2.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainer
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     )
                 }
             }

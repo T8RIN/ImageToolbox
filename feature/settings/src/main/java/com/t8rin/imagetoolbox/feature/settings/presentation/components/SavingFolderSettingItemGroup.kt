@@ -71,7 +71,7 @@ fun SavingFolderSettingItemGroup(
             onClick = { onValueChange(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
-            color = takeColorFromScheme {
+            containerColor = takeColorFromScheme {
                 if (currentFolderUri == null) secondaryContainer.copy(0.7f)
                 else SafeLocalContainerColor
             },
@@ -100,7 +100,7 @@ fun SavingFolderSettingItemGroup(
                 context = context,
                 default = stringResource(R.string.unspecified)
             ),
-            color = takeColorFromScheme {
+            containerColor = takeColorFromScheme {
                 if (currentFolderUri != null) secondaryContainer.copy(0.7f)
                 else Color.Unspecified
             },

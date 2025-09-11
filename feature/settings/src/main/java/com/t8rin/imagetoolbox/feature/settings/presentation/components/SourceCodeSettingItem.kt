@@ -51,7 +51,7 @@ fun SourceCodeSettingItem(
         startIcon = Icons.Rounded.Github,
         title = stringResource(R.string.check_source_code),
         subtitle = stringResource(R.string.check_source_code_sub),
-        color = color,
+        containerColor = color,
         modifier = modifier
     )
 }

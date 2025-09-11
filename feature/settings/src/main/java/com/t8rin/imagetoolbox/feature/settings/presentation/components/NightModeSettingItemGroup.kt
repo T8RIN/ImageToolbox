@@ -76,7 +76,7 @@ fun NightModeSettingItemGroup(
             PreferenceItem(
                 onClick = { onValueChange(nightMode) },
                 title = title,
-                color = takeColorFromScheme {
+                containerColor = takeColorFromScheme {
                     if (selected) secondaryContainer.copy(0.7f)
                     else SafeLocalContainerColor
                 },
