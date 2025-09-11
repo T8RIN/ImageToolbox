@@ -38,6 +38,13 @@ sealed class Preset {
 
     fun isAspectRatio(): Boolean = this is AspectRatio
 
+    fun asString() = when (this) {
+        is AspectRatio -> "ratio($ratio)"
+        None -> ""
+        is Percentage -> "$value%"
+        Telegram -> "telegram"
+    }
+
     companion object {
         val Original by lazy {
             Percentage(100)

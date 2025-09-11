@@ -413,7 +413,8 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                                     data = imageCompressor.compressAndTransform(
                                         image = bitmap,
                                         imageInfo = imageInfo
-                                    )
+                                    ),
+                                    presetInfo = presetSelected
                                 ),
                                 keepOriginalMetadata = if (uris!!.size == 1) true else keepExif,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri

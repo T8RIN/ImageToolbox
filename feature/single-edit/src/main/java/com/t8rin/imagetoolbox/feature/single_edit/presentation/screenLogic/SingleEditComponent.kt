@@ -108,9 +108,8 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
-            key = "addFiltersSingle",
-
-            )
+            key = "addFiltersSingle"
+        )
     )
 
     val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
@@ -152,8 +151,8 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
             cropOutlineProperty = CropOutlineProperty(
-                OutlineType.Rect,
-                RectCropShape(
+                outlineType = OutlineType.Rect,
+                cropOutline = RectCropShape(
                     id = 0,
                     title = OutlineType.Rect.name
                 )
@@ -266,7 +265,8 @@ class SingleEditComponent @AssistedInject internal constructor(
                                 imageInfo = imageInfo.copy(
                                     originalUri = uri.toString()
                                 )
-                            )
+                            ),
+                            presetInfo = presetSelected
                         ),
                         keepOriginalMetadata = true,
                         oneTimeSaveLocationUri = oneTimeSaveLocationUri

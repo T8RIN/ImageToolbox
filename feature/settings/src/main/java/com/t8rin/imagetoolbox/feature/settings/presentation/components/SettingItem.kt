@@ -557,6 +557,14 @@ internal fun SettingItem(
             Setting.SendLogs -> {
                 SendLogsSettingItem(onClick = component::shareLogs)
             }
+
+            Setting.AddPresetToFilename -> {
+                AddPresetToFilenameSettingItem(onClick = component::toggleAddPresetInfoToFilename)
+            }
+
+            Setting.AddImageScaleModeToFilename -> {
+                AddImageScaleModeToFilenameSettingItem(onClick = component::toggleAddImageScaleModeInfoToFilename)
+            }
         }
     }
 }

@@ -229,6 +229,8 @@ sealed class SettingsGroup(
             Setting.ReplaceSequenceNumber,
             Setting.AddTimestampToFilename,
             Setting.UseFormattedFilenameTimestamp,
+            Setting.AddPresetToFilename,
+            Setting.AddImageScaleModeToFilename,
             Setting.OverwriteFiles,
             Setting.ChecksumAsFilename,
             Setting.RandomizeFilename

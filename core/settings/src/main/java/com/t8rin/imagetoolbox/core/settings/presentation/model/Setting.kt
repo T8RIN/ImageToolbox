@@ -497,4 +497,14 @@ sealed class Setting(
         title = R.string.send_logs,
         subtitle = R.string.send_logs_sub
     )
+
+    data object AddPresetToFilename : Setting(
+        title = R.string.add_preset_to_filename,
+        subtitle = R.string.add_preset_to_filename_sub
+    )
+
+    data object AddImageScaleModeToFilename : Setting(
+        title = R.string.add_image_scale_mode_to_filename,
+        subtitle = R.string.add_image_scale_mode_to_filename_sub
+    )
 }

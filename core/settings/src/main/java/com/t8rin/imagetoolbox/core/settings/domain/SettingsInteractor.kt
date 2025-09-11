@@ -226,6 +226,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleEnableToolExitConfirmation()
 
     suspend fun createLogsExport(): String
+
+    suspend fun toggleAddPresetInfoToFilename()
+
+    suspend fun toggleAddImageScaleModeInfoToFilename()
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

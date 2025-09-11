@@ -193,7 +193,10 @@ internal fun Preferences.toSettingsState(
         color.toIntOrNull()?.let { ColorModel(it) }
     } ?: default.recentColors,
     backgroundForNoAlphaImageFormats = this[BACKGROUND_COLOR_FOR_NA_FORMATS]?.let { ColorModel(it) }
-        ?: default.backgroundForNoAlphaImageFormats
+        ?: default.backgroundForNoAlphaImageFormats,
+    addPresetInfoToFilename = this[ADD_PRESET_TO_FILENAME] ?: default.addPresetInfoToFilename,
+    addImageScaleModeInfoToFilename = this[ADD_SCALE_MODE_TO_FILENAME]
+        ?: default.addImageScaleModeInfoToFilename
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

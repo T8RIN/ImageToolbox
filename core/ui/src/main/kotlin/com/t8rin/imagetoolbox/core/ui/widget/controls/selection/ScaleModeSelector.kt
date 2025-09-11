@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
+import com.t8rin.imagetoolbox.core.domain.image.model.title
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -367,62 +368,6 @@ val ScaleColorSpace.title: String
         is ScaleColorSpace.JzazbzGamma28 -> "Jzazbz ${stringResource(R.string.gamma)} 2.8"
         is ScaleColorSpace.JzazbzRec709 -> "Jzazbz Rec.709"
         is ScaleColorSpace.JzazbzSRGB -> "Jzazbz sRGB"
-    }
-
-private val ImageScaleMode.title: Int
-    get() = when (this) {
-        ImageScaleMode.Base,
-        ImageScaleMode.NotPresent -> R.string.basic
-
-        is ImageScaleMode.Bilinear -> R.string.bilinear
-        is ImageScaleMode.Nearest -> R.string.nearest
-        is ImageScaleMode.Cubic -> R.string.cubic
-        is ImageScaleMode.Mitchell -> R.string.mitchell
-        is ImageScaleMode.Catmull -> R.string.catmull
-        is ImageScaleMode.Hermite -> R.string.hermite
-        is ImageScaleMode.BSpline -> R.string.bspline
-        is ImageScaleMode.Hann -> R.string.hann
-        is ImageScaleMode.Bicubic -> R.string.bicubic
-        is ImageScaleMode.Hamming -> R.string.hamming
-        is ImageScaleMode.Hanning -> R.string.hanning
-        is ImageScaleMode.Blackman -> R.string.blackman
-        is ImageScaleMode.Welch -> R.string.welch
-        is ImageScaleMode.Quadric -> R.string.quadric
-        is ImageScaleMode.Gaussian -> R.string.gaussian
-        is ImageScaleMode.Sphinx -> R.string.sphinx
-        is ImageScaleMode.Bartlett -> R.string.bartlett
-        is ImageScaleMode.Robidoux -> R.string.robidoux
-        is ImageScaleMode.RobidouxSharp -> R.string.robidoux_sharp
-        is ImageScaleMode.Spline16 -> R.string.spline16
-        is ImageScaleMode.Spline36 -> R.string.spline36
-        is ImageScaleMode.Spline64 -> R.string.spline64
-        is ImageScaleMode.Kaiser -> R.string.kaiser
-        is ImageScaleMode.BartlettHann -> R.string.bartlett_hann
-        is ImageScaleMode.Box -> R.string.box
-        is ImageScaleMode.Bohman -> R.string.bohman
-        is ImageScaleMode.Lanczos2 -> R.string.lanczos2
-        is ImageScaleMode.Lanczos3 -> R.string.lanczos3
-        is ImageScaleMode.Lanczos4 -> R.string.lanczos4
-        is ImageScaleMode.Lanczos2Jinc -> R.string.lanczos2_jinc
-        is ImageScaleMode.Lanczos3Jinc -> R.string.lanczos3_jinc
-        is ImageScaleMode.Lanczos4Jinc -> R.string.lanczos4_jinc
-        is ImageScaleMode.EwaHanning -> R.string.ewa_hanning
-        is ImageScaleMode.EwaRobidoux -> R.string.ewa_robidoux
-        is ImageScaleMode.EwaBlackman -> R.string.ewa_blackman
-        is ImageScaleMode.EwaQuadric -> R.string.ewa_quadric
-        is ImageScaleMode.EwaRobidouxSharp -> R.string.ewa_robidoux_sharp
-        is ImageScaleMode.EwaLanczos3Jinc -> R.string.ewa_lanczos3_jinc
-        is ImageScaleMode.Ginseng -> R.string.ginseng
-        is ImageScaleMode.EwaGinseng -> R.string.ewa_ginseng
-        is ImageScaleMode.EwaLanczosSharp -> R.string.ewa_lanczos_sharp
-        is ImageScaleMode.EwaLanczos4Sharpest -> R.string.ewa_lanczos_4_sharpest
-        is ImageScaleMode.EwaLanczosSoft -> R.string.ewa_lanczos_soft
-        is ImageScaleMode.HaasnSoft -> R.string.haasn_soft
-        is ImageScaleMode.Lagrange2 -> R.string.lagrange_2
-        is ImageScaleMode.Lagrange3 -> R.string.lagrange_3
-        is ImageScaleMode.Lanczos6 -> R.string.lanczos_6
-        is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc
-        is ImageScaleMode.Area -> R.string.area
     }
 
 private val ImageScaleMode.subtitle: Int

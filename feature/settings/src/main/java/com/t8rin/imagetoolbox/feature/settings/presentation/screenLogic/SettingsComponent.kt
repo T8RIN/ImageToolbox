@@ -472,6 +472,11 @@ class SettingsComponent @AssistedInject internal constructor(
         )
     }
 
+    fun toggleAddPresetInfoToFilename() = settingsScope { toggleAddPresetInfoToFilename() }
+
+    fun toggleAddImageScaleModeInfoToFilename() =
+        settingsScope { toggleAddImageScaleModeInfoToFilename() }
+
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit
     ) {

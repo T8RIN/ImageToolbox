@@ -118,6 +118,8 @@ data class SettingsState(
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<ColorModel>,
     val backgroundForNoAlphaImageFormats: ColorModel,
+    val addPresetInfoToFilename: Boolean,
+    val addImageScaleModeInfoToFilename: Boolean,
 ) {
 
     companion object {
@@ -214,6 +216,8 @@ data class SettingsState(
                 enableToolExitConfirmation = true,
                 recentColors = emptyList(),
                 backgroundForNoAlphaImageFormats = ColorModel(-0x1000000),
+                addPresetInfoToFilename = false,
+                addImageScaleModeInfoToFilename = false
             )
         }
     }

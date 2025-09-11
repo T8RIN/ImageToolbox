@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.domain.saving.model
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 
 data class ImageSaveTarget(
@@ -32,7 +33,8 @@ data class ImageSaveTarget(
     override val data: ByteArray,
     override val mimeType: MimeType.Single = imageFormat.mimeType,
     override val extension: String = imageFormat.extension,
-    val readFromUriInsteadOfData: Boolean = false
+    val readFromUriInsteadOfData: Boolean = false,
+    val presetInfo: Preset? = null
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

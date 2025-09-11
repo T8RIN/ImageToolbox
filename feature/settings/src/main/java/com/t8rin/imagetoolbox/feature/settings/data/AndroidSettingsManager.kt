@@ -50,6 +50,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SEQ_NUM_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SIZE_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENAME
@@ -487,6 +489,16 @@ internal class AndroidSettingsManager @Inject constructor(
             filename = "image_toolbox_logs_${timestamp()}.zip"
         ) ?: ""
     }
+
+    override suspend fun toggleAddPresetInfoToFilename() = toggle(
+        key = ADD_PRESET_TO_FILENAME,
+        defaultValue = default.addPresetInfoToFilename
+    )
+
+    override suspend fun toggleAddImageScaleModeInfoToFilename() = toggle(
+        key = ADD_SCALE_MODE_TO_FILENAME,
+        defaultValue = default.addImageScaleModeInfoToFilename
+    )
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {
         it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data

@@ -153,6 +153,8 @@ data class UiSettingsState(
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<Color>,
     val backgroundForNoAlphaImageFormats: Color,
+    val addPresetInfoToFilename: Boolean,
+    val addImageScaleModeInfoToFilename: Boolean,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -396,7 +398,9 @@ fun SettingsState.toUiState(
                 customFonts = customFonts,
                 enableToolExitConfirmation = enableToolExitConfirmation,
                 recentColors = recentColors,
-                backgroundForNoAlphaImageFormats = Color(backgroundForNoAlphaImageFormats.colorInt)
+                backgroundForNoAlphaImageFormats = Color(backgroundForNoAlphaImageFormats.colorInt),
+                addPresetInfoToFilename = addPresetInfoToFilename,
+                addImageScaleModeInfoToFilename = addImageScaleModeInfoToFilename
             )
         }
     }.value

@@ -1758,4 +1758,8 @@
     <string name="wallpapers_export_sub">Obtain current Home, Lock and Built-in wallpapers</string>
     <string name="allow_access_to_all_files_for_wp">Allow access to all files, this is needed to retrieve wallpapers</string>
     <string name="allow_read_media_images_for_wp">Manage external storage permission is not enough, you need to allow access to your images, make sure to select \"Allow all\"</string>
+    <string name="add_preset_to_filename">Add Preset To Filename</string>
+    <string name="add_preset_to_filename_sub">Appends suffix with selected preset to image filename</string>
+    <string name="add_image_scale_mode_to_filename">Add Image Scale Mode To Filename</string>
+    <string name="add_image_scale_mode_to_filename_sub">Appends suffix with selected image scale mode to image filename</string>
 </resources>
