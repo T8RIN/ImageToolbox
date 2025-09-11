@@ -476,7 +476,7 @@ object ContextUtils {
         startActivity(shareIntent)
     }
 
-    fun Context.getExtension(uri: Uri): String? {
+    fun Context.getExtension(uri: Uri): String? = runCatching {
         val filename = getFilename(uri) ?: ""
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"
@@ -488,7 +488,7 @@ object ContextUtils {
         } else {
             MimeTypeMap.getFileExtensionFromUrl(uri.toString()).lowercase(Locale.getDefault())
         }
-    }
+    }.getOrNull()
 
     val Context.density: Density
         get() = object : Density {
