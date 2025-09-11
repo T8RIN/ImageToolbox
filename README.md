@@ -780,6 +780,7 @@ or click one of the badges below.
     - 64 different hashing algorithms
     - Audio files Album Cover export
     - Embedded media picker
+    - Wallpapers Export
 
 **And More!**
 
