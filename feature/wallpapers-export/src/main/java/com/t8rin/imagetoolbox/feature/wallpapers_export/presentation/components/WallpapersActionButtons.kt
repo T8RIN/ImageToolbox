@@ -70,7 +70,7 @@ internal fun WallpapersActionButtons(
         showNullDataButtonAsContainer = true,
         isScreenHaveNoDataContent = true,
         onSecondaryButtonClick = {
-            if (canRefresh) {
+            if (canRefresh && noData) {
                 component.loadWallpapers()
             } else {
                 component.cacheImages {
