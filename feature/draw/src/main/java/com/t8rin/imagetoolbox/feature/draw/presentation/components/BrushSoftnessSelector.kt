@@ -55,6 +55,6 @@ fun BrushSoftnessSelector(
             ),
         icon = Icons.Rounded.Dots,
         shape = ShapeDefaults.extraLarge,
-        color = color
+        containerColor = color
     )
 }

@@ -90,7 +90,7 @@ fun EnhancedSliderItem(
     valueSuffix: String = "",
     internalStateTransformation: (Float) -> Number = { it },
     visible: Boolean = true,
-    color: Color = Color.Unspecified,
+    containerColor: Color = Color.Unspecified,
     contentColor: Color? = null,
     shape: Shape = ShapeDefaults.default,
     valueTextTapEnabled: Boolean = true,
@@ -102,9 +102,9 @@ fun EnhancedSliderItem(
     additionalContent: (@Composable () -> Unit)? = null,
 ) {
     val internalColor = contentColor
-        ?: if (color == MaterialTheme.colorScheme.surfaceContainer) {
+        ?: if (containerColor == MaterialTheme.colorScheme.surfaceContainer) {
             contentColorFor(backgroundColor = MaterialTheme.colorScheme.surfaceVariant)
-        } else contentColorFor(backgroundColor = color)
+        } else contentColorFor(backgroundColor = containerColor)
 
     var showValueDialog by rememberSaveable { mutableStateOf(false) }
     val internalState = remember(value) { mutableStateOf(value) }
@@ -122,7 +122,7 @@ fun EnhancedSliderItem(
                         if (behaveAsContainer) {
                             Modifier.container(
                                 shape = shape,
-                                color = color
+                                color = containerColor
                             )
                         } else Modifier
                     )

@@ -76,7 +76,7 @@ internal fun StackingParamsSelector(
             },
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             shape = ShapeDefaults.extraLarge
         )
     }

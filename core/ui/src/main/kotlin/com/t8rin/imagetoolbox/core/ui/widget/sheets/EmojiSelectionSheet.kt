@@ -349,7 +349,7 @@ fun EmojiSelectionSheet(
                 ) {
                     PreferenceRowSwitch(
                         title = stringResource(R.string.enable_emoji),
-                        color = animateColorAsState(
+                        containerColor = animateColorAsState(
                             if (emojiEnabled) MaterialTheme.colorScheme.primaryContainer
                             else MaterialTheme.colorScheme.surfaceContainer
                         ).value,

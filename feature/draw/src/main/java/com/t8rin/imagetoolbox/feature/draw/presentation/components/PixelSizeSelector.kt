@@ -57,6 +57,6 @@ fun PixelSizeSelector(
             onValueChange(it.roundToTwoDigits())
         },
         shape = ShapeDefaults.default,
-        color = color
+        containerColor = color
     )
 }

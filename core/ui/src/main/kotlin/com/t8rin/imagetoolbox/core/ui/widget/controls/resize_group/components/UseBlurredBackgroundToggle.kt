@@ -41,7 +41,7 @@ fun UseBlurredBackgroundToggle(
         subtitle = stringResource(R.string.blur_edges_sub),
         checked = checked,
         shape = shape,
-        color = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surface,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.BlurLinear
     )

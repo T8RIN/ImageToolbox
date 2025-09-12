@@ -168,7 +168,7 @@ internal fun AsciiParamsItem(
                             it.roundTo(roundTo)
                         },
                         behaveAsContainer = isForText,
-                        color = MaterialTheme.colorScheme.surface,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         shape = itemShape(index)
                     )
                 }

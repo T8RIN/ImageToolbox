@@ -92,7 +92,7 @@ internal fun TextParamsContent(
                 },
                 valueRange = 0.01f..1f,
                 shape = ShapeDefaults.large,
-                color = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
             ColorRowSelector(

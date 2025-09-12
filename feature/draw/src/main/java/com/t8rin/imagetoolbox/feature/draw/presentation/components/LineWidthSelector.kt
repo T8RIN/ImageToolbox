@@ -42,7 +42,7 @@ fun LineWidthSelector(
     EnhancedSliderItem(
         modifier = modifier,
         value = value,
-        color = color,
+        containerColor = color,
         icon = Icons.Rounded.LineWeight,
         title = title,
         valueSuffix = " Pt",

@@ -179,7 +179,7 @@ fun CropMaskSelection(
             internalStateTransformation = {
                 it.roundToInt()
             },
-            color = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surface,
             onValueChange = {
                 cornerRadius = it.roundToInt()
                 if (selectedItem.cropOutline is CutCornerCropShape) {

@@ -231,7 +231,7 @@ fun DrawModeSelector(
                             ) ?: value
                         )
                     },
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     shape = animateShape(
                         if (isDashSizeControlVisible) ShapeDefaults.center
                         else ShapeDefaults.bottom
@@ -266,7 +266,7 @@ fun DrawModeSelector(
                                 ) ?: value
                             )
                         },
-                        color = MaterialTheme.colorScheme.surface,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         valueSuffix = " Pt",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -327,7 +327,7 @@ fun DrawModeSelector(
                             ) ?: value
                         )
                     },
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     valueSuffix = " Pt",
                     modifier = Modifier
                         .fillMaxWidth()

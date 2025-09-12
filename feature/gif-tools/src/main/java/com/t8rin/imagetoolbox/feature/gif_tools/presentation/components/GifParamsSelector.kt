@@ -88,7 +88,7 @@ fun GifParamsSelector(
             },
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -103,7 +103,7 @@ fun GifParamsSelector(
             },
             startIcon = Icons.Outlined.Stack,
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -172,7 +172,7 @@ fun GifParamsSelector(
             },
             startIcon = Icons.Outlined.Opacity,
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             shape = ShapeDefaults.extraLarge
         )
         AnimatedVisibility(value.crossfadeCount > 1) {

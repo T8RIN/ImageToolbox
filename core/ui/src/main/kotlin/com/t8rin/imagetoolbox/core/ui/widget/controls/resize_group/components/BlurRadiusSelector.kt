@@ -61,6 +61,6 @@ fun BlurRadiusSelector(
             onValueChange(it.roundToInt())
         },
         shape = shape,
-        color = color
+        containerColor = color
     )
 }

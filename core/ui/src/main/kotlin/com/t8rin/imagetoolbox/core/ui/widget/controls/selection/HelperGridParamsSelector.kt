@@ -105,7 +105,7 @@ fun HelperGridParamsSelector(
                         onValueChange(value.copy(cellWidth = it))
                     },
                     valueRange = 1f..100f,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 EnhancedSliderItem(
@@ -121,7 +121,7 @@ fun HelperGridParamsSelector(
                         onValueChange(value.copy(cellHeight = it))
                     },
                     valueRange = 1f..100f,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 Spacer(Modifier.height(4.dp))

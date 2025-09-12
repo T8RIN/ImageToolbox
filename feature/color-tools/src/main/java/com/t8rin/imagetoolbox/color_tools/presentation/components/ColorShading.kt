@@ -129,7 +129,7 @@ internal fun ColorShading(
                     onValueChange = { shadingVariation = it.roundToInt() },
                     internalStateTransformation = { it.roundToInt() },
                     behaveAsContainer = true,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     steps = 12
                 )
                 Spacer(modifier = Modifier.height(16.dp))

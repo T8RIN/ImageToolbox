@@ -79,7 +79,7 @@ internal fun CutParamsSelector(
                             )
                         )
                     },
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     shape = ShapeDefaults.small,
                     modifier = Modifier.padding(
                         start = 4.dp,
@@ -121,7 +121,7 @@ internal fun CutParamsSelector(
                             )
                         )
                     },
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     shape = ShapeDefaults.small,
                     modifier = Modifier.padding(
                         start = 4.dp,

@@ -213,7 +213,7 @@ internal fun EditLayerSheet(
                         },
                         valueRange = 0.01f..1f,
                         shape = ShapeDefaults.center,
-                        color = MaterialTheme.colorScheme.surface
+                        containerColor = MaterialTheme.colorScheme.surface
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     ColorRowSelector(
@@ -279,7 +279,7 @@ internal fun EditLayerSheet(
                         title = stringResource(R.string.add_outline),
                         subtitle = stringResource(R.string.add_outline_sub),
                         shape = ShapeDefaults.bottom,
-                        color = MaterialTheme.colorScheme.surface,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         applyHorizontalPadding = false,
                         resultModifier = Modifier.padding(16.dp),
                         checked = haveOutline,
@@ -332,7 +332,7 @@ internal fun EditLayerSheet(
                                         },
                                         valueRange = 0.01f..10f,
                                         shape = ShapeDefaults.bottom,
-                                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                     )
                                 }
                             }

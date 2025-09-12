@@ -207,7 +207,7 @@ fun AsciiArtContent(
                         component.toggleIsInvertImage()
                     },
                     shape = ShapeDefaults.bottom,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp)

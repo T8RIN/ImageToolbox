@@ -38,7 +38,7 @@ fun ScaleSmallImagesToLargeToggle(
         title = stringResource(R.string.scale_small_images_to_large),
         subtitle = stringResource(R.string.scale_small_images_to_large_sub),
         checked = checked,
-        color = Color.Unspecified,
+        containerColor = Color.Unspecified,
         shape = ShapeDefaults.extraLarge,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.LinearScale

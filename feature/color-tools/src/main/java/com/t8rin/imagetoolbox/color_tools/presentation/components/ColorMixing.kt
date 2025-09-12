@@ -135,7 +135,7 @@ internal fun ColorMixing(
                     internalStateTransformation = { it.roundToInt() },
                     shape = ShapeDefaults.bottom,
                     behaveAsContainer = true,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     steps = 12
                 )
                 Spacer(modifier = Modifier.height(16.dp))

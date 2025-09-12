@@ -88,7 +88,7 @@ fun ApngParamsSelector(
             },
             startIcon = Icons.Outlined.PhotoSizeSelectLarge,
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))

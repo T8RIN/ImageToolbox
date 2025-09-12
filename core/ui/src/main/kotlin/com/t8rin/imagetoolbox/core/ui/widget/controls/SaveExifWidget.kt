@@ -56,7 +56,7 @@ fun SaveExifWidget(
         checked = checked,
         enabled = imageFormat.canWriteExif,
         shape = ShapeDefaults.extraLarge,
-        color = backgroundColor,
+        containerColor = backgroundColor,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.Exif
     )

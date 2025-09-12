@@ -65,7 +65,7 @@ internal fun ArrowParamsSelector(
                         value.updateArrow(sizeScale = it)
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -84,7 +84,7 @@ internal fun ArrowParamsSelector(
                         value.updateArrow(angle = it + 90f)
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),

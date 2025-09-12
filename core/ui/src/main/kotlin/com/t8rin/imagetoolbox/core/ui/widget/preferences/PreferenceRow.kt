@@ -63,7 +63,7 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
-    color: Color = Color.Unspecified,
+    containerColor: Color = Color.Unspecified,
     enabled: Boolean = true,
     shape: Shape = ShapeDefaults.default,
     pressedShape: Shape = ShapeDefaults.pressed,
@@ -93,7 +93,7 @@ fun PreferenceRow(
     )
 
     val internalColor = contentColor
-        ?: contentColorFor(backgroundColor = color)
+        ?: contentColorFor(backgroundColor = containerColor)
     CompositionLocalProvider(
         LocalContentColor provides internalColor,
         LocalSettingsState provides LocalSettingsState.current.let {
@@ -115,7 +115,7 @@ fun PreferenceRow(
             .then(
                 if (drawContainer) {
                     Modifier.container(
-                        color = color,
+                        color = containerColor,
                         shape = animatedShape,
                         resultPadding = 0.dp,
                         autoShadowElevation = autoShadowElevation
@@ -155,7 +155,7 @@ fun PreferenceRow(
             ) {
                 startContent?.let { content ->
                     ProvideContainerDefaults(
-                        color = color
+                        color = containerColor
                     ) {
                         if (drawStartIconContainer) {
                             IconShapeContainer(
@@ -246,7 +246,7 @@ fun PreferenceRow(
         subtitle = subtitle,
         changeAlphaWhenDisabled = changeAlphaWhenDisabled,
         autoShadowElevation = autoShadowElevation,
-        color = color,
+        containerColor = color,
         contentColor = contentColor,
         shape = shape,
         titleFontStyle = titleFontStyle,

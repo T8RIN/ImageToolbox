@@ -148,7 +148,7 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
         onClick = {
             isDarkTheme = it
         },
-        color = Color.Unspecified,
+        containerColor = Color.Unspecified,
         shape = ShapeDefaults.top
     )
     Spacer(modifier = Modifier.height(4.dp))
@@ -160,12 +160,12 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
         onClick = {
             invertColors = it
         },
-        color = Color.Unspecified,
+        containerColor = Color.Unspecified,
         shape = ShapeDefaults.center
     )
     Spacer(modifier = Modifier.height(4.dp))
     EnhancedSliderItem(
-        color = Color.Unspecified,
+        containerColor = Color.Unspecified,
         value = contrast.roundToTwoDigits(),
         icon = Icons.Rounded.Contrast,
         title = stringResource(id = R.string.contrast),

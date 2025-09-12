@@ -69,7 +69,7 @@ internal fun DigitalParamsContent(
                     )
                 },
                 shape = ShapeDefaults.large,
-                color = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surface
             )
             AnimatedVisibility(visible = isInvisible) {
                 PreferenceRowSwitch(
@@ -87,7 +87,7 @@ internal fun DigitalParamsContent(
                         )
                     },
                     shape = ShapeDefaults.large,
-                    color = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }

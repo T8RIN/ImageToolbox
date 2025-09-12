@@ -201,7 +201,7 @@ internal fun AddEditMaskSheetControls(
             PreferenceRowSwitch(
                 title = stringResource(id = R.string.mask_preview),
                 subtitle = stringResource(id = R.string.mask_preview_sub),
-                color = animateColorAsState(
+                containerColor = animateColorAsState(
                     if (component.maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
                     else Color.Unspecified,
                 ).value,
@@ -290,7 +290,7 @@ internal fun AddEditMaskSheetControls(
             end = 16.dp,
             top = 8.dp
         ),
-        color = Color.Unspecified,
+        containerColor = Color.Unspecified,
         resultModifier = Modifier.padding(16.dp),
         applyHorizontalPadding = false,
         shape = ShapeDefaults.extraLarge,

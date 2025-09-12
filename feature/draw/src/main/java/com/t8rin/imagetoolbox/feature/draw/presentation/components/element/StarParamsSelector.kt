@@ -70,7 +70,7 @@ internal fun StarParamsSelector(
                         value.updateStar(vertices = it.toInt())
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -89,7 +89,7 @@ internal fun StarParamsSelector(
                         value.updateStar(rotationDegrees = it.toInt())
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -108,7 +108,7 @@ internal fun StarParamsSelector(
                         value.updateStar(innerRadiusRatio = it)
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -124,7 +124,7 @@ internal fun StarParamsSelector(
                         value.updateStar(isRegular = it)
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier
                     .fillMaxWidth()

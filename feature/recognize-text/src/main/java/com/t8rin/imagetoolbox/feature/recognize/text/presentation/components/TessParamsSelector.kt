@@ -96,7 +96,7 @@ fun TessParamsSelector(
                                 it.roundToInt()
                             },
                             shape = ShapeDefaults.byIndex(index, size),
-                            color = MaterialTheme.colorScheme.surface
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                     } else if (paramValue is Boolean) {
                         PreferenceRowSwitch(
@@ -110,7 +110,7 @@ fun TessParamsSelector(
                             shape = ShapeDefaults.byIndex(index, size),
                             modifier = Modifier.fillMaxWidth(),
                             applyHorizontalPadding = false,
-                            color = MaterialTheme.colorScheme.surface
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                     }
                 }

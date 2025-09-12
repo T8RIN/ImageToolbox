@@ -223,7 +223,7 @@ fun PresetSelector(
                             },
                             startIcon = Icons.Outlined.FitScreen,
                             shape = ShapeDefaults.bottom,
-                            color = MaterialTheme.colorScheme.surface
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }

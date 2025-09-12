@@ -267,7 +267,7 @@ fun SvgParamsSelector(
                     )
                 )
             },
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             valueRange = 0f..5f,
             steps = 4,
             shape = ShapeDefaults.extraLarge

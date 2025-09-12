@@ -57,6 +57,6 @@ fun AlphaSelector(
             onValueChange(it.roundToTwoDigits())
         },
         shape = shape,
-        color = color
+        containerColor = color
     )
 }

@@ -74,7 +74,7 @@ internal fun CommonParamsContent(
                 },
                 valueRange = 0f..1f,
                 shape = ShapeDefaults.large,
-                color = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(
@@ -88,7 +88,7 @@ internal fun CommonParamsContent(
                 },
                 valueRange = 0f..1f,
                 shape = ShapeDefaults.large,
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
         }
@@ -109,7 +109,7 @@ internal fun CommonParamsContent(
                 onValueChange(params.copy(rotation = it.roundToInt()))
             },
             shape = ShapeDefaults.large,
-            color = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface
         )
     }
 
@@ -144,7 +144,7 @@ internal fun CommonParamsContent(
                     onValueChange(params.copy(isRepeated = it))
                 },
                 shape = ShapeDefaults.large,
-                color = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surface
             )
             Spacer(Modifier.height(4.dp))
             BlendingModeSelector(

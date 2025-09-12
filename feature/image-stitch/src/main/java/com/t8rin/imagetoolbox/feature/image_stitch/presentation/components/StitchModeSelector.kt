@@ -124,7 +124,7 @@ fun StitchModeSelector(
                 },
                 onValueChange = {},
                 shape = ShapeDefaults.default,
-                color = MaterialTheme.colorScheme.surfaceContainer
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         }
         AnimatedVisibility(
@@ -156,7 +156,7 @@ fun StitchModeSelector(
                 },
                 onValueChange = {},
                 shape = ShapeDefaults.default,
-                color = MaterialTheme.colorScheme.surfaceContainer
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         }
     }

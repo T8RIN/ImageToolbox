@@ -68,7 +68,7 @@ internal fun PolygonParamsSelector(
                         value.updatePolygon(vertices = it.toInt())
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -87,7 +87,7 @@ internal fun PolygonParamsSelector(
                         value.updatePolygon(rotationDegrees = it.toInt())
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
@@ -103,7 +103,7 @@ internal fun PolygonParamsSelector(
                         value.updatePolygon(isRegular = it)
                     )
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier
                     .fillMaxWidth()

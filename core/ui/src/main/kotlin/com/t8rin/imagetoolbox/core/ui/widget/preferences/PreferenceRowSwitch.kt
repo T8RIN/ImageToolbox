@@ -46,7 +46,7 @@ fun PreferenceRowSwitch(
     autoShadowElevation: Dp = 1.dp,
     applyHorizontalPadding: Boolean = true,
     checked: Boolean,
-    color: Color = Color.Unspecified,
+    containerColor: Color = Color.Unspecified,
     contentColor: Color? = null,
     shape: Shape = ShapeDefaults.default,
     startContent: (@Composable () -> Unit)? = null,
@@ -72,7 +72,7 @@ fun PreferenceRowSwitch(
         contentColor = contentColor,
         shape = shape,
         changeAlphaWhenDisabled = changeAlphaWhenDisabled,
-        color = color,
+        containerColor = containerColor,
         subtitle = subtitle,
         startContent = startContent,
         onDisabledClick = onDisabledClick,
@@ -86,12 +86,12 @@ fun PreferenceRowSwitch(
                 thumbIcon = if (checked) Icons.Rounded.Check else null,
                 colors = SwitchDefaults.colors(
                     uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
-                        color, 0.3f
+                        containerColor, 0.3f
                     ),
                     uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
-                        color, 0.3f
+                        containerColor, 0.3f
                     ),
-                    uncheckedTrackColor = color,
+                    uncheckedTrackColor = containerColor,
                     disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
                         .copy(alpha = 0.12f)
                         .compositeOver(MaterialTheme.colorScheme.surface),
@@ -117,7 +117,7 @@ fun PreferenceRowSwitch(
     subtitle: String? = null,
     autoShadowElevation: Dp = 1.dp,
     checked: Boolean,
-    color: Color = Color.Unspecified,
+    containerColor: Color = Color.Unspecified,
     onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
@@ -136,7 +136,7 @@ fun PreferenceRowSwitch(
         changeAlphaWhenDisabled = changeAlphaWhenDisabled,
         autoShadowElevation = autoShadowElevation,
         checked = checked,
-        color = color,
+        containerColor = containerColor,
         contentColor = contentColor,
         shape = shape,
         onDisabledClick = onDisabledClick,

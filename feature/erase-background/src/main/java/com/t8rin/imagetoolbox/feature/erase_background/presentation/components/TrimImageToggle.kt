@@ -40,7 +40,7 @@ fun TrimImageToggle(
         title = stringResource(R.string.trim_image),
         subtitle = stringResource(R.string.trim_image_sub),
         checked = checked,
-        color = color,
+        containerColor = color,
         shape = ShapeDefaults.extraLarge,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.ContentCut
