@@ -136,6 +136,7 @@ internal fun List<Uri>.screenList(
                 Screen.ImagePreview(uris),
                 Screen.PickColorFromImage(uris.firstOrNull()),
                 Screen.GeneratePalette(uris.firstOrNull()),
+                Screen.AsciiArt(uris.firstOrNull()),
                 Screen.ApngTools(
                     Screen.ApngTools.Type.ImageToApng(uris)
                 ),

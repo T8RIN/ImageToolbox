@@ -19,16 +19,9 @@ package com.t8rin.imagetoolbox.feature.ascii_art.presentation
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -42,10 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeAspectRatio
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.AsciiParamsSelector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -61,14 +52,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
-import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.ascii_art.presentation.components.AsciiArtControls
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 
 @Composable
@@ -166,54 +155,7 @@ fun AsciiArtContent(
             }
         },
         controls = {
-            Column(
-                modifier = Modifier
-                    .container(
-                        shape = ShapeDefaults.large,
-                        resultPadding = 0.dp
-                    )
-            ) {
-                TitleItem(
-                    text = stringResource(R.string.params),
-                    icon = Icons.Rounded.Build,
-                )
-                Box(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        )
-                ) {
-                    AsciiParamsSelector(
-                        value = component.asciiParams,
-                        onValueChange = { params ->
-                            component.setGradient(params.gradient)
-                            component.setFontSize(params.fontSize)
-                        },
-                        itemShapes = {
-                            ShapeDefaults.byIndex(
-                                index = it,
-                                size = 3
-                            )
-                        }
-                    )
-                }
-                Spacer(Modifier.height(4.dp))
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.invert_colors),
-                    subtitle = stringResource(R.string.invert_colors_ascii_sub),
-                    startIcon = Icons.Rounded.InvertColors,
-                    checked = component.isInvertImage,
-                    onClick = {
-                        component.toggleIsInvertImage()
-                    },
-                    shape = ShapeDefaults.bottom,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                )
-                Spacer(Modifier.height(12.dp))
-            }
+            AsciiArtControls(component)
         },
         buttons = {
             var showOneTimeImagePickingDialog by rememberSaveable {
