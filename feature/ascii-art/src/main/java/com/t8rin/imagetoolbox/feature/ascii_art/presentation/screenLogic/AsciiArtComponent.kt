@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNegativeFilter
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -63,6 +64,9 @@ class AsciiArtComponent @AssistedInject internal constructor(
     val gradient: String get() = asciiParams.gradient
     val fontSize: Float get() = asciiParams.fontSize
 
+    private val _isInvertImage: MutableState<Boolean> = mutableStateOf(false)
+    val isInvertImage: Boolean by _isInvertImage
+
     fun setUri(uri: Uri) {
         _uri.update { uri }
     }
@@ -95,9 +99,16 @@ class AsciiArtComponent @AssistedInject internal constructor(
         }
     }
 
-    fun getAsciiTransformation(): Transformation = filterProvider.filterToTransformation(
-        UiAsciiFilter(asciiParams)
-    ).toCoil()
+    fun toggleIsInvertImage() {
+        _isInvertImage.update { !it }
+    }
+
+    fun getAsciiTransformations(): List<Transformation> = buildList {
+        if (isInvertImage) add(UiNegativeFilter())
+        add(UiAsciiFilter(asciiParams))
+    }.map {
+        filterProvider.filterToTransformation(it).toCoil()
+    }
 
     @AssistedFactory
     fun interface Factory {

@@ -1765,4 +1765,5 @@
     <string name="ascii_art">Ascii Art</string>
     <string name="ascii_art_sub">Convert picture to ascii text which will look like image</string>
     <string name="params">Params</string>
+    <string name="invert_colors_ascii_sub">Apllies negative filter to image for better result in some cases</string>
 </resources>

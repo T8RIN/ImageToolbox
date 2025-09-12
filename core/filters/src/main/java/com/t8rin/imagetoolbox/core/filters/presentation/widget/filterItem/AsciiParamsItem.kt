@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -59,6 +60,12 @@ internal fun AsciiParamsItem(
     filter: UiFilter<AsciiParams>,
     onFilterChange: (value: AsciiParams) -> Unit,
     previewOnly: Boolean,
+    itemShape: @Composable (Int) -> Shape = {
+        ShapeDefaults.byIndex(
+            index = it,
+            size = 4
+        )
+    },
     isForText: Boolean = false
 ) {
     val gradient: MutableState<String> =
@@ -101,7 +108,7 @@ internal fun AsciiParamsItem(
                         modifier = if (isForText) {
                             Modifier.container(
                                 color = MaterialTheme.colorScheme.surface,
-                                shape = ShapeDefaults.top
+                                shape = itemShape(index)
                             )
                         } else Modifier
                     ) {
@@ -162,7 +169,7 @@ internal fun AsciiParamsItem(
                         },
                         behaveAsContainer = isForText,
                         color = MaterialTheme.colorScheme.surface,
-                        shape = ShapeDefaults.bottom
+                        shape = itemShape(index)
                     )
                 }
 
@@ -211,6 +218,12 @@ internal fun AsciiParamsItem(
 fun AsciiParamsSelector(
     value: AsciiParams,
     onValueChange: (value: AsciiParams) -> Unit,
+    itemShapes: @Composable (Int) -> Shape = {
+        ShapeDefaults.byIndex(
+            index = it,
+            size = 4
+        )
+    }
 ) {
     val filter by remember(value) {
         derivedStateOf {
@@ -223,6 +236,7 @@ fun AsciiParamsSelector(
         filter = filter,
         onFilterChange = onValueChange,
         previewOnly = false,
-        isForText = true
+        isForText = true,
+        itemShape = itemShapes
     )
 }
