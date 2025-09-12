@@ -53,7 +53,7 @@ internal class AndroidWallpapersProvider @Inject constructor(
 
     private val wallpaperManager = WallpaperManager.getInstance(context)
 
-    override suspend fun getWallpapers(): WallpapersResult = withContext(ioDispatcher) {
+    override suspend fun getWallpapers(): WallpapersResult = withContext(defaultDispatcher) {
         val missingPermissions = mutableListOf<Permission>()
 
         if (!context.hasPermissionAllowed(Manifest.permission.READ_MEDIA_IMAGES)) {

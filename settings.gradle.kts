@@ -112,6 +112,7 @@ include(":feature:image-cutting")
 include(":feature:audio-cover-extractor")
 include(":feature:library-details")
 include(":feature:wallpapers-export")
+include(":feature:ascii-art")
 
 include(":feature:root")
 
