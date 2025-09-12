@@ -781,6 +781,7 @@ or click one of the badges below.
     - Audio files Album Cover export
     - Embedded media picker
     - Wallpapers Export
+    - Ascii Art
 
 **And More!**
 
