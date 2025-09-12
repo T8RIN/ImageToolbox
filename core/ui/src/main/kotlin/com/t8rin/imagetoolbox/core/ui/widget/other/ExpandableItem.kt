@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,8 +49,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -57,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import kotlinx.coroutines.delay
 
 @Composable
 fun ExpandableItem(
@@ -79,6 +85,8 @@ fun ExpandableItem(
         pressedShape = pressedShape,
         interactionSource = interactionSource
     )
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -91,9 +99,20 @@ fun ExpandableItem(
             .animateContentSizeNoClip(
                 animationSpec = spec(10)
             )
+            .focusRequester(focusRequester)
+            .focusable()
     ) {
         var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
+        LaunchedEffect(expanded) {
+            if (expanded) {
+                focusManager.clearFocus(true)
+                delay(100)
+                focusRequester.requestFocus()
+            } else {
+                focusRequester.freeFocus()
+            }
+        }
         Row(
             modifier = Modifier
                 .clip(animatedShape)
