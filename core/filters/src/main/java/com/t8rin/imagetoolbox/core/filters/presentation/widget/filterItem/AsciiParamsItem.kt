@@ -21,9 +21,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +40,7 @@ import com.t8rin.ascii.Gradient
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
@@ -45,6 +48,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefau
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 
@@ -53,7 +58,8 @@ internal fun AsciiParamsItem(
     value: AsciiParams,
     filter: UiFilter<AsciiParams>,
     onFilterChange: (value: AsciiParams) -> Unit,
-    previewOnly: Boolean
+    previewOnly: Boolean,
+    isForText: Boolean = false
 ) {
     val gradient: MutableState<String> =
         remember(value) { mutableStateOf(value.gradient) }
@@ -80,50 +86,65 @@ internal fun AsciiParamsItem(
     }
 
     Column(
-        modifier = Modifier.padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(if (isForText) 0.dp else 8.dp),
+        verticalArrangement = Arrangement.spacedBy(
+            if (isForText) 4.dp else 8.dp
+        )
     ) {
-        filter.paramsInfo.forEachIndexed { index, (title, valueRange, roundTo) ->
+        filter.paramsInfo.take(
+            if (isForText) 2 else 4
+        ).forEachIndexed { index, (title, valueRange, roundTo) ->
             when (index) {
                 0 -> {
-                    RoundedTextField(
-                        value = gradient.value,
-                        onValueChange = {
-                            gradient.value = it.toList().distinct().joinToString("")
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 4.dp
-                            ),
-                        label = stringResource(title!!)
-                    )
-                    val items = remember {
-                        listOf(
-                            Gradient.NORMAL,
-                            Gradient.NORMAL2,
-                            Gradient.ARROWS,
-                            Gradient.OLD,
-                            Gradient.EXTENDED_HIGH,
-                            Gradient.MINIMAL,
-                            Gradient.MATH,
-                            Gradient.NUMERICAL
-                        ).map { it.value }
-                    }
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = if (isForText) {
+                            Modifier.container(
+                                color = MaterialTheme.colorScheme.surface,
+                                shape = ShapeDefaults.top
+                            )
+                        } else Modifier
+                    ) {
+                        RoundedTextField(
+                            value = gradient.value,
+                            onValueChange = {
+                                gradient.value = it.toList().distinct().joinToString("")
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .then(if (isForText) Modifier.padding(top = 4.dp) else Modifier)
+                                .padding(
+                                    horizontal = 4.dp
+                                ),
+                            label = stringResource(title!!)
+                        )
+                        val items = remember {
+                            listOf(
+                                Gradient.NORMAL,
+                                Gradient.NORMAL2,
+                                Gradient.ARROWS,
+                                Gradient.OLD,
+                                Gradient.EXTENDED_HIGH,
+                                Gradient.MINIMAL,
+                                Gradient.MATH,
+                                Gradient.NUMERICAL
+                            ).map { it.value }
+                        }
 
-                    EnhancedButtonGroup(
-                        items = items,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 4.dp
-                            ),
-                        selectedIndex = items.indexOf(gradient.value),
-                        onIndexChange = {
-                            gradient.value = items[it]
-                        },
-                        inactiveButtonColor = Color.Unspecified
-                    )
+                        EnhancedButtonGroup(
+                            items = items,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = 4.dp
+                                ),
+                            selectedIndex = items.indexOf(gradient.value),
+                            onIndexChange = {
+                                gradient.value = items[it]
+                            },
+                            inactiveButtonColor = Color.Unspecified
+                        )
+                    }
                 }
 
                 1 -> {
@@ -139,7 +160,9 @@ internal fun AsciiParamsItem(
                         internalStateTransformation = {
                             it.roundTo(roundTo)
                         },
-                        behaveAsContainer = false
+                        behaveAsContainer = isForText,
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = ShapeDefaults.bottom
                     )
                 }
 
@@ -182,4 +205,24 @@ internal fun AsciiParamsItem(
             }
         }
     }
+}
+
+@Composable
+fun AsciiParamsSelector(
+    value: AsciiParams,
+    onValueChange: (value: AsciiParams) -> Unit,
+) {
+    val filter by remember(value) {
+        derivedStateOf {
+            UiAsciiFilter(value)
+        }
+    }
+
+    AsciiParamsItem(
+        value = value,
+        filter = filter,
+        onFilterChange = onValueChange,
+        previewOnly = false,
+        isForText = true
+    )
 }

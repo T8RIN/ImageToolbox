@@ -22,6 +22,7 @@ import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMake
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickCo
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ApngTools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AsciiArt
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
@@ -164,6 +166,7 @@ internal class ChildProvider @Inject constructor(
     private val audioCoverExtractorComponentFactory: AudioCoverExtractorComponent.Factory,
     private val libraryDetailsComponentFactory: LibraryDetailsComponent.Factory,
     private val wallpapersExportComponentFactory: WallpapersExportComponent.Factory,
+    private val asciiArtComponentFactory: AsciiArtComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -578,6 +581,14 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.AsciiArt -> AsciiArt(
+            asciiArtComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
+                onGoBack = ::navigateBack
             )
         )
     }

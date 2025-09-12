@@ -1762,4 +1762,7 @@
     <string name="add_preset_to_filename_sub">Appends suffix with selected preset to image filename</string>
     <string name="add_image_scale_mode_to_filename">Add Image Scale Mode To Filename</string>
     <string name="add_image_scale_mode_to_filename_sub">Appends suffix with selected image scale mode to image filename</string>
+    <string name="ascii_art">Ascii Art</string>
+    <string name="ascii_art_sub">Convert picture to ascii text which will look like image</string>
+    <string name="params">Params</string>
 </resources>

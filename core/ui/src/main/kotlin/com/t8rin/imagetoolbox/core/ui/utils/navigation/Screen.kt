@@ -804,6 +804,15 @@ sealed class Screen(
         subtitle = R.string.wallpapers_export_sub
     )
 
+    @Serializable
+    data class AsciiArt(
+        val uri: Uri? = null,
+    ) : Screen(
+        id = 41,
+        title = R.string.ascii_art,
+        subtitle = R.string.ascii_art_sub
+    )
+
     companion object : ScreenConstants by ScreenConstantsImpl
 }
 

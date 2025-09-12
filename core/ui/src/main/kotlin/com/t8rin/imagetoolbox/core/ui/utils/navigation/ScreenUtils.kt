@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
+import com.t8rin.imagetoolbox.core.resources.icons.Ascii
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
@@ -81,6 +82,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandStars
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
@@ -188,6 +190,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AudioCoverExtractor -> "Audio_Cover_Extractor"
     is LibraryDetails -> "Library_Details"
     is WallpapersExport -> "Wallpapers_Export"
+    is AsciiArt -> "Ascii_Art"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -239,6 +242,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ImageCutter -> Icons.Rounded.Scissors
     is AudioCoverExtractor -> Icons.Outlined.Album
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
+    is AsciiArt -> Icons.Outlined.Ascii
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -290,6 +294,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ImageCutter -> Icons.TwoTone.Scissors
     is AudioCoverExtractor -> Icons.TwoTone.Album
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
+    is AsciiArt -> Icons.Outlined.Ascii
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -378,6 +383,7 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     Cipher(),
                     ChecksumTools(),
                     Zip(),
+                    AsciiArt(),
                     JxlTools(),
                     ApngTools(),
                     WebpTools(),
@@ -394,5 +400,5 @@ internal object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 71
+    override val FEATURES_COUNT = 72
 }

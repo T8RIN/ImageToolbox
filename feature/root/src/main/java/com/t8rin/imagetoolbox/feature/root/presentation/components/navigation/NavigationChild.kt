@@ -24,6 +24,8 @@ import com.t8rin.imagetoolbox.color_tools.presentation.ColorToolsContent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.ascii_art.presentation.AsciiArtContent
+import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.AudioCoverExtractorContent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.Base64ToolsContent
@@ -355,5 +357,10 @@ internal sealed interface NavigationChild {
     class WallpapersExport(private val component: WallpapersExportComponent) : NavigationChild {
         @Composable
         override fun Content() = WallpapersExportContent(component)
+    }
+
+    class AsciiArt(private val component: AsciiArtComponent) : NavigationChild {
+        @Composable
+        override fun Content() = AsciiArtContent(component)
     }
 }

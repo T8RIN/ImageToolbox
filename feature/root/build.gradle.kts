@@ -72,4 +72,5 @@ dependencies {
     implementation(projects.feature.audioCoverExtractor)
     implementation(projects.feature.libraryDetails)
     implementation(projects.feature.wallpapersExport)
+    implementation(projects.feature.asciiArt)
 }
