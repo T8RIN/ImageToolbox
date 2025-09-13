@@ -1729,4 +1729,21 @@
     <string name="enable_snapping_to_borders_sub">Після переміщення або масштабування зображення будуть прив\'язані до країв кадру</string>
     <string name="export_as_json">Експортувати як JSON</string>
     <string name="export_as_json_sub">Копіювати рядок з даними палітри у вигляді JSON-представлення</string>
+    <string name="seam_carving">Різьблення швів</string>
+    <string name="home_screen">Головний екран</string>
+    <string name="lock_screen">Екран блокування</string>
+    <string name="built_in">Вбудований</string>
+    <string name="wallpapers_export">Експорт шпалер</string>
+    <string name="refresh">Оновити</string>
+    <string name="wallpapers_export_sub">Отримайте актуальні шпалери для головної сторінки, блокування та вбудованих екранів</string>
+    <string name="allow_access_to_all_files_for_wp">Дозволити доступ до всіх файлів, це потрібно для отримання шпалер</string>
+    <string name="allow_read_media_images_for_wp">Дозволів на керування зовнішнім сховищем недостатньо, потрібно дозволити доступ до зображень, переконайтеся, що вибрано \"Дозволити всім\"</string>
+    <string name="add_preset_to_filename">Додати пресет до назви файлу</string>
+    <string name="add_preset_to_filename_sub">Додає суфікс із вибраним пресетом до назви файлу зображення</string>
+    <string name="add_image_scale_mode_to_filename">Додати режим масштабування зображення до назви файлу</string>
+    <string name="add_image_scale_mode_to_filename_sub">Додає суфікс із вибраним режимом масштабування зображення до назви файлу зображення</string>
+    <string name="ascii_art">ASCII Art</string>
+    <string name="ascii_art_sub">Перетворити зображення на текст ASCII, який виглядатиме як зображення</string>
+    <string name="params">Параметри</string>
+    <string name="invert_colors_ascii_sub">Застосовує негативний фільтр до зображення для кращого результату в деяких випадках</string>
 </resources>
