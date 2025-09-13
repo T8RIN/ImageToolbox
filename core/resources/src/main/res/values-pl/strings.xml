@@ -1729,4 +1729,21 @@
     <string name="enable_snapping_to_borders_sub">Po przesunięciu lub powiększeniu obrazy zostaną dopasowane tak, aby wypełnić krawędzie ramki</string>
     <string name="export_as_json">Wyeksportuj do JSON</string>
     <string name="export_as_json_sub">Skopiuj ciąg znaków z danymi palety jako reprezentacją json</string>
+    <string name="home_screen">Ekran główny</string>
+    <string name="lock_screen">Zablokuj ekran</string>
+    <string name="built_in">Wbudowany</string>
+    <string name="wallpapers_export">Eksport tapet</string>
+    <string name="refresh">Odśwież</string>
+    <string name="wallpapers_export_sub">Pobierz aktualne tapety domowe, blokujące i wbudowane</string>
+    <string name="allow_access_to_all_files_for_wp">Zezwól na dostęp do wszystkich plików, jest to konieczne do pobrania tapet.</string>
+    <string name="allow_read_media_images_for_wp">Zarządzanie uprawnieniami do pamięci zewnętrznej nie wystarczy, musisz zezwolić na dostęp do swoich zdjęć, upewnij się, że wybrałeś opcję „Zezwól na wszystko”</string>
+    <string name="add_preset_to_filename">Dodaj ustawienie wstępne do nazwy pliku</string>
+    <string name="add_preset_to_filename_sub">Dodaje sufiks z wybranym ustawieniem wstępnym do nazwy pliku obrazu</string>
+    <string name="add_image_scale_mode_to_filename">Dodaj tryb skalowania obrazu do nazwy pliku</string>
+    <string name="add_image_scale_mode_to_filename_sub">Dodaje sufiks z wybranym trybem skalowania obrazu do nazwy pliku obrazu</string>
+    <string name="ascii_art">Sztuka ASCII</string>
+    <string name="ascii_art_sub">Konwertuj obraz na tekst ASCII, który będzie wyglądał jak obraz</string>
+    <string name="params">Parametry</string>
+    <string name="invert_colors_ascii_sub">W niektórych przypadkach stosuje filtr negatywowy do obrazu, aby uzyskać lepszy efekt.</string>
+    <string name="seam_carving">Rzeźbienie szwów</string>
 </resources>
