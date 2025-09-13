@@ -1723,4 +1723,27 @@
     <string name="hsv">HSV</string>
     <string name="cividis">Cividis</string>
     <string name="parula">Parula</string>
+    <string name="disable_rotation">禁用旋转</string>
+    <string name="disable_rotation_sub">防止用双指手势旋转图片</string>
+    <string name="enable_snapping_to_borders">启用贴靠到边缘</string>
+    <string name="enable_snapping_to_borders_sub">移动或缩放后，图像将自动贴靠以填满帧边缘</string>
+    <string name="export_as_json">导出为JSON格式</string>
+    <string name="export_as_json_sub">将包含调色板数据的字符串以JSON格式表示并复制</string>
+    <string name="seam_carving">内容感知缩放</string>
+    <string name="home_screen">主屏幕</string>
+    <string name="lock_screen">锁屏</string>
+    <string name="built_in">内置</string>
+    <string name="wallpapers_export">壁纸导出</string>
+    <string name="refresh">刷新</string>
+    <string name="wallpapers_export_sub">获取当前的主屏幕、锁屏及内置壁纸</string>
+    <string name="allow_access_to_all_files_for_wp">允许访问所有文件，此操作是获取壁纸所必需的</string>
+    <string name="allow_read_media_images_for_wp">仅管理外部存储权限是不够的，您需要允许访问您的图片，请务必选择 “全部允许”</string>
+    <string name="add_preset_to_filename">将预设添加到文件名中</string>
+    <string name="add_preset_to_filename_sub">将带有选定预设的后缀添加到图片文件名中</string>
+    <string name="add_image_scale_mode_to_filename">将图像缩放模式添加到文件名中</string>
+    <string name="add_image_scale_mode_to_filename_sub">将带有选定图像缩放模式的后缀添加到图片文件名中</string>
+    <string name="ascii_art">ASCII 艺术</string>
+    <string name="ascii_art_sub">将图片转换为外观与原图相似的ASCII文本</string>
+    <string name="params">参数</string>
+    <string name="invert_colors_ascii_sub">对图像应用负片滤镜，以在某些情况下获得更好的效果</string>
 </resources>
