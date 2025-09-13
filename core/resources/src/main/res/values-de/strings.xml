@@ -1729,4 +1729,13 @@
     <string name="enable_snapping_to_borders_sub">Nach dem Verschieben oder Zoomen werden Bilder so eingerastet, dass sie die Rahmenkanten ausfüllen</string>
     <string name="export_as_json">Als JSON exportieren</string>
     <string name="export_as_json_sub">Zeichenfolge mit Palettendaten als JSON-Darstellung kopieren</string>
+    <string name="wallpapers_export">Hintergrundbilder Export</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="wallpapers_export_sub">Rufe die aktuellen Hintergrundbilder für Start, Sperr und Built-in ab</string>
+    <string name="allow_access_to_all_files_for_wp">Zugriff auf alle Dateien zulassen, dies wird zum Abrufen von Hintergrundbildern benötigt</string>
+    <string name="allow_read_media_images_for_wp">Die Verwaltung externer Speicherberechtigungen reicht nicht aus. Du musst den Zugriff auf deine Bilder zulassen. Wähle unbedingt „Alle zulassen“ aus</string>
+    <string name="seam_carving">Nahtschnitzen</string>
+    <string name="home_screen">Startbildschirm</string>
+    <string name="lock_screen">Sperrbildschirm</string>
+    <string name="built_in">Eingebaut</string>
 </resources>
