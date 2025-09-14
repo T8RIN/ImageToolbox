@@ -28,9 +28,9 @@ sealed class ScreenTile(val screen: Screen) : TileService() {
         super.onClick()
         startActivityAndCollapse(screen)
     }
-
-    class QrTile : ScreenTile(Screen.ScanQrCode())
-    class DocumentScannerTile : ScreenTile(Screen.DocumentScanner)
-    class TextRecognitionTile : ScreenTile(Screen.RecognizeText())
-    class ResizeAndConvertTile : ScreenTile(Screen.ResizeAndConvert())
 }
+
+class QrTile : ScreenTile(Screen.ScanQrCode())
+class DocumentScannerTile : ScreenTile(Screen.DocumentScanner)
+class TextRecognitionTile : ScreenTile(Screen.RecognizeText())
+class ResizeAndConvertTile : ScreenTile(Screen.ResizeAndConvert())
