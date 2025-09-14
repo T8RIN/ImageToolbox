@@ -348,9 +348,10 @@ internal class AndroidImageTextReader @Inject constructor(
             else if (lang.contains("chi_tra")) "zh-TW"
             else lang
         )
-        return if (useDefaultLocale) {
-            locale.getDisplayName(Locale.getDefault()).replaceFirstChar { it.uppercase(locale) }
-        } else locale.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+        return locale.getDisplayName(
+            if (useDefaultLocale) Locale.getDefault()
+            else locale
+        ).replaceFirstChar { it.uppercase(locale) }
     }
 
     override suspend fun exportLanguagesToZip(): String? = withContext(ioDispatcher) {

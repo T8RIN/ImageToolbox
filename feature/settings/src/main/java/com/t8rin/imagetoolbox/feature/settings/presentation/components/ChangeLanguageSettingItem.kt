@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getLanguages
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -181,7 +182,13 @@ private fun PickLanguageSheet(
                                     }
                                 )
                             },
-                            title = locale.value
+                            title = locale.value,
+                            subtitle = remember(locale) {
+                                getDisplayName(
+                                    lang = locale.key,
+                                    useDefaultLocale = true
+                                )
+                            }.takeIf { locale.value != it }
                         )
                     }
                 }

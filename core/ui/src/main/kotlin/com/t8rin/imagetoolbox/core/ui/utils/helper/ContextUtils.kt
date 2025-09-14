@@ -351,7 +351,10 @@ object ContextUtils {
 
     fun LocaleListCompat.getDisplayName(): String = getDisplayName(toLanguageTags())
 
-    private fun getDisplayName(lang: String?): String {
+    fun getDisplayName(
+        lang: String?,
+        useDefaultLocale: Boolean = false
+    ): String {
         if (lang == null) {
             return ""
         }
@@ -360,7 +363,10 @@ object ContextUtils {
             "" -> LocaleListCompat.getAdjustedDefault()[0]
             else -> Locale.forLanguageTag(lang)
         }
-        return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+        return locale!!.getDisplayName(
+            if (useDefaultLocale) Locale.getDefault()
+            else locale
+        ).replaceFirstChar { it.uppercase(locale) }
     }
 
     const val SCREEN_ID_EXTRA = "screen_id"
