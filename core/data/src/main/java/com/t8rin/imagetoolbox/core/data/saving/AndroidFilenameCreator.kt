@@ -39,6 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -115,7 +116,10 @@ internal class AndroidFilenameCreator @Inject constructor(
 
         if (settingsState.addImageScaleModeInfoToFilename && saveTarget.imageInfo.imageScaleMode != ImageScaleMode.NotPresent) {
             suffix += "_${
-                context.getString(saveTarget.imageInfo.imageScaleMode.title).replace(" ", "-")
+                getStringLocalized(
+                    resId = saveTarget.imageInfo.imageScaleMode.title,
+                    language = Locale.ENGLISH.language
+                ).replace(" ", "-")
             }"
         }
 

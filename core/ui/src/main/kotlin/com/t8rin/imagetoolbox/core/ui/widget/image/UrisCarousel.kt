@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 @Composable
 internal fun UrisCarousel(uris: List<Uri>) {
@@ -88,16 +89,19 @@ internal fun UrisCarousel(uris: List<Uri>) {
             )
     ) {
         uris.fastForEach { uri ->
+            val key = rememberSaveable(uri) { "$uri${Random.nextInt()}" }
             var aspectRatio by rememberSaveable {
                 mutableFloatStateOf(0.5f)
             }
             val context = LocalContext.current
             Picture(
-                model = remember(context, uri) {
+                model = remember(context, uri, key) {
                     ImageRequest.Builder(context)
                         .data(uri)
                         .size(1000)
                         .crossfade(true)
+                        .memoryCacheKey(key)
+                        .diskCacheKey(key)
                         .build()
                 },
                 onSuccess = {
