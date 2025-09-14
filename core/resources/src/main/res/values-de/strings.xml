@@ -1738,4 +1738,12 @@
     <string name="home_screen">Startbildschirm</string>
     <string name="lock_screen">Sperrbildschirm</string>
     <string name="built_in">Eingebaut</string>
+    <string name="add_preset_to_filename">Voreinstellung zum Dateinamen hinzufügen</string>
+    <string name="add_preset_to_filename_sub">Hängt Suffix mit ausgewählter Voreinstellung an den Bilddateinamen an</string>
+    <string name="add_image_scale_mode_to_filename">Bildskalierungsmodus zum Dateinamen hinzufügen</string>
+    <string name="add_image_scale_mode_to_filename_sub">Hängt Suffix mit ausgewähltem Bildskalierungsmodus an den Bilddateinamen an</string>
+    <string name="ascii_art">Ascii Kunst</string>
+    <string name="ascii_art_sub">Konvertiere das Bild in ASCII-Text, der wie ein Bild aussieht</string>
+    <string name="invert_colors_ascii_sub">Wendet in einigen Fällen einen negativen Filter auf das Bild an, um ein besseres Ergebnis zu erzielen</string>
+    <string name="params">Parameter</string>
 </resources>
