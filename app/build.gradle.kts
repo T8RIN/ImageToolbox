@@ -112,6 +112,7 @@ android {
     packaging {
         jniLibs {
             pickFirsts.add("lib/*/libcoder.so")
+            useLegacyPackaging = true
         }
         resources {
             excludes += "META-INF/"
