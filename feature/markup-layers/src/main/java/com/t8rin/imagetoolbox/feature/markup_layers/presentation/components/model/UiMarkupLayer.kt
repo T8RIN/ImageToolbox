@@ -34,9 +34,15 @@ data class UiMarkupLayer(
     val type: LayerType,
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
-    fun copy(isActive: Boolean) = UiMarkupLayer(
+    fun copy(
+        isActive: Boolean = state.isActive,
+        coerceToBounds: Boolean = state.coerceToBounds
+    ) = UiMarkupLayer(
         type = type,
-        state = state.copy(isActive = isActive)
+        state = state.copy(
+            isActive = isActive,
+            coerceToBounds = coerceToBounds
+        )
     )
 }
 
@@ -48,7 +54,8 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
         offsetX = state.offset.x,
         offsetY = state.offset.y,
         alpha = state.alpha,
-        currentCanvasSize = state.canvasSize
+        currentCanvasSize = state.canvasSize,
+        coerceToBounds = state.coerceToBounds
     )
 )
 
@@ -62,7 +69,8 @@ fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
             y = position.offsetY
         ),
         isActive = false,
-        canvasSize = position.currentCanvasSize
+        canvasSize = position.currentCanvasSize,
+        coerceToBounds = position.coerceToBounds
     )
 )
 

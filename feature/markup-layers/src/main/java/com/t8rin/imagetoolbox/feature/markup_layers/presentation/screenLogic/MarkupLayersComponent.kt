@@ -102,6 +102,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     private val _undoneLayers: MutableState<List<UiMarkupLayer>> = mutableStateOf(emptyList())
     val undoneLayers: List<UiMarkupLayer> by _undoneLayers
 
+    val coerceToBounds get() = layers.all { it.state.coerceToBounds }
+
     fun undo() {
         if (layers.isEmpty() && lastLayers.isNotEmpty()) {
             _layers.value = lastLayers
@@ -415,6 +417,18 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             if (it is BackgroundBehavior.Color) {
                 it.copy(color = color.toArgb())
             } else it
+        }
+    }
+
+    fun toggleCoerceToBounds() {
+        val result = !coerceToBounds
+
+        _layers.update { list ->
+            list.map {
+                it.copy(
+                    coerceToBounds = result
+                )
+            }
         }
     }
 

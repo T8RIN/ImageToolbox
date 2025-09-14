@@ -32,7 +32,8 @@ data class LayerPosition(
     val offsetX: Float = 0f,
     val offsetY: Float = 0f,
     val alpha: Float = 1f,
-    val currentCanvasSize: IntegerSize
+    val currentCanvasSize: IntegerSize,
+    val coerceToBounds: Boolean
 ) {
     companion object {
         fun LayerPosition.adjustByCanvasSize(
@@ -102,13 +103,5 @@ sealed interface LayerType {
     ) : LayerType {
         data class Image(override val imageData: Any) : Picture(imageData)
         data class Sticker(override val imageData: Any) : Picture(imageData)
-
-        companion object {
-            val Default by lazy {
-                Image(
-                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg"
-                )
-            }
-        }
     }
 }

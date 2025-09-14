@@ -40,7 +40,8 @@ class EditBoxState(
     alpha: Float = 1f,
     isActive: Boolean = false,
     canvasSize: IntegerSize = IntegerSize.Zero,
-    isVisible: Boolean = true
+    isVisible: Boolean = true,
+    coerceToBounds: Boolean = true
 ) {
     fun copy(
         scale: Float = this.scale,
@@ -49,7 +50,8 @@ class EditBoxState(
         alpha: Float = this.alpha,
         isActive: Boolean = this.isActive,
         canvasSize: IntegerSize = this.canvasSize,
-        isVisible: Boolean = this.isVisible
+        isVisible: Boolean = this.isVisible,
+        coerceToBounds: Boolean = this.coerceToBounds
     ): EditBoxState = EditBoxState(
         scale = scale,
         rotation = rotation,
@@ -57,7 +59,8 @@ class EditBoxState(
         alpha = alpha,
         isActive = isActive,
         canvasSize = canvasSize,
-        isVisible = isVisible
+        isVisible = isVisible,
+        coerceToBounds = coerceToBounds
     )
 
     var isActive by mutableStateOf(isActive)
@@ -106,10 +109,16 @@ class EditBoxState(
         val maxY = extraHeight / 2 // + contentSize.height * scale / 2
 
         offset = Offset(
-            x = (offset.x + panChange.x).coerceIn(-maxX, maxX),
-            y = (offset.y + panChange.y).coerceIn(-maxY, maxY),
+            x = (offset.x + panChange.x).coerceIn(-maxX, maxX, coerceToBounds),
+            y = (offset.y + panChange.y).coerceIn(-maxY, maxY, coerceToBounds),
         )
     }
+
+    private fun Float.coerceIn(
+        minimumValue: Float,
+        maximumValue: Float,
+        enable: Boolean
+    ) = if (enable) coerceIn(minimumValue, maximumValue) else this
 
     var scale by mutableFloatStateOf(scale)
         internal set
@@ -121,6 +130,9 @@ class EditBoxState(
         internal set
 
     var alpha by mutableFloatStateOf(alpha)
+        internal set
+
+    var coerceToBounds by mutableStateOf(coerceToBounds)
         internal set
 
     private val _canvasSize = mutableStateOf(IntegerSize.Zero)

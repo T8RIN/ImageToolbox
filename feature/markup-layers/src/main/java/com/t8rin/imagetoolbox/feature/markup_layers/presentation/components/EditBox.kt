@@ -38,12 +38,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -129,6 +131,24 @@ fun EditBox(
             offsetChange = offsetChange,
             rotationChange = rotationChange
         )
+    }
+
+    var needRecalculations by rememberSaveable(state.coerceToBounds, contentSize) {
+        mutableStateOf(state.coerceToBounds && contentSize != IntSize.Zero)
+    }
+
+    LaunchedEffect(needRecalculations) {
+        if (needRecalculations) {
+            state.applyChanges(
+                parentMaxWidth = parentMaxWidth,
+                parentMaxHeight = parentMaxHeight,
+                contentSize = contentSize,
+                zoomChange = 1f,
+                offsetChange = Offset.Zero,
+                rotationChange = 0f
+            )
+            needRecalculations = false
+        }
     }
 
     val tapScale = remember { Animatable(1f) }
