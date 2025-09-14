@@ -96,6 +96,5 @@ dependencies {
     implementation(libs.zxing.android.embedded)
     implementation(libs.jsoup)
 
-    api(libs.capturable)
     api(libs.evaluator)
 }

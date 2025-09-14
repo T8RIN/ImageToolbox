@@ -70,7 +70,6 @@ jsoup = "1.21.2"
 
 mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
-capturable = "3.0.1"
 moshi = "1.15.2"
 bouncycastle = "1.81"
 pdfviewer = "1.0.0-alpha10"
@@ -93,7 +92,6 @@ mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-
 quickie-bundled = { module = "com.github.T8RIN.QuickieExtended:quickie-bundled", version.ref = "quickie" }
 quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", version.ref = "quickie" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
-capturable = { module = "dev.shreyaspatil:capturable", version.ref = "capturable" }
 
 toolbox-cropper = { module = "com.github.T8RIN.ImageToolboxLibs:cropper", version.ref = "imageToolboxLibs" }
 toolbox-dynamicTheme = { module = "com.github.T8RIN.ImageToolboxLibs:dynamic-theme", version.ref = "imageToolboxLibs" }
