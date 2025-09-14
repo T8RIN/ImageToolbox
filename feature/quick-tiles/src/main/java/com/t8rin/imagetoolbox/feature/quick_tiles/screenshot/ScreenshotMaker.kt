@@ -94,7 +94,7 @@ class ScreenshotMaker(
     }
 
     override fun onImageAvailable(reader: ImageReader) {
-        val image = reader.acquireLatestImage() ?: return
+        val image = reader.acquireLatestImage() ?: return takeScreenshot(300)
         val planes = image.planes
         val buffer = planes[0].buffer.rewind()
         val pixelStride = planes[0].pixelStride

@@ -34,6 +34,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
@@ -53,9 +54,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.startActivity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DataExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ResultCode
@@ -66,13 +65,16 @@ import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
+@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class ScreenshotService : Service() {
 
@@ -115,7 +117,7 @@ class ScreenshotService : Service() {
                     NotificationChannel(
                         channelId.toString(),
                         "screenshot",
-                        NotificationManager.IMPORTANCE_DEFAULT
+                        NotificationManager.IMPORTANCE_MIN
                     )
                 )
 
@@ -124,6 +126,7 @@ class ScreenshotService : Service() {
                     channelId,
                     Notification.Builder(applicationContext, channelId.toString())
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle(getString(R.string.processing_screenshot))
                         .build(),
                     ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
                 )
@@ -132,6 +135,7 @@ class ScreenshotService : Service() {
                     channelId,
                     Notification.Builder(applicationContext, channelId.toString())
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle(getString(R.string.processing_screenshot))
                         .build()
                 )
             }
@@ -188,13 +192,15 @@ class ScreenshotService : Service() {
                     )?.toUri()
 
                     if (intent?.getTileScreenAction() != ScreenshotAction) {
-                        startActivity(AppActivityClass) {
-                            putTileScreenAction(intent?.getTileScreenAction())
-                            type = "image/png"
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                            action = Intent.ACTION_SEND
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
+                        startActivity(
+                            Intent(Intent.ACTION_SEND).apply {
+                                setPackage(applicationContext.packageName)
+                                putTileScreenAction(intent?.getTileScreenAction())
+                                type = "image/png"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                        )
                     } else {
                         fileController.save(
                             saveTarget = FileSaveTarget(
@@ -224,7 +230,22 @@ class ScreenshotService : Service() {
                             fileController.defaultSavingPath
                         )
                     }
+
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                    stopSelf()
                 }
+        }
+
+        CoroutineScope(dispatchersHolder.defaultDispatcher).launch {
+            delay(5.seconds)
+            if (screenshotChannel.isEmpty) {
+                postToast(
+                    textRes = R.string.screenshot_not_captured_try_again,
+                    isLong = true
+                )
+                stopForeground(STOP_FOREGROUND_REMOVE)
+                stopSelf()
+            }
         }
     }
 
