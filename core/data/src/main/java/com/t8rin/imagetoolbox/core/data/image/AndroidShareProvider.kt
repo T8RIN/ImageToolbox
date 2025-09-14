@@ -47,6 +47,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import kotlin.random.Random
 
 internal class AndroidShareProvider @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -91,7 +92,9 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val realFilename = filename ?: filenameCreator.get().constructImageFilename(saveTarget)
+            val realFilename = filename ?: "Cache_${Random.nextInt()}_${
+                filenameCreator.get().constructImageFilename(saveTarget)
+            }"
             val byteArray = imageCompressor.compressAndTransform(image, imageInfo)
 
             cacheByteArray(
