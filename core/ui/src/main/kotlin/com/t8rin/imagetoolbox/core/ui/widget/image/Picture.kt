@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -110,18 +111,6 @@ fun Picture(
             )
         }
 
-        is ImageBitmap -> {
-            Image(
-                bitmap = model,
-                contentDescription = contentDescription,
-                modifier = modifier,
-                alignment = alignment,
-                contentScale = contentScale,
-                alpha = alpha,
-                colorFilter = colorFilter
-            )
-        }
-
         is ImageVector -> {
             Image(
                 imageVector = model,
@@ -136,7 +125,7 @@ fun Picture(
 
         else -> {
             CoilPicture(
-                model = model,
+                model = if (model is ImageBitmap) model.asAndroidBitmap() else model,
                 modifier = modifier,
                 transformations = transformations,
                 contentDescription = contentDescription,
@@ -194,7 +183,6 @@ private fun CoilPicture(
     size: Int?,
     contentPadding: PaddingValues = PaddingValues()
 ) {
-
     val context = LocalComponentActivity.current
 
     var errorOccurred by rememberSaveable { mutableStateOf(false) }

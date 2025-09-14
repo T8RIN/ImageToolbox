@@ -1603,7 +1603,7 @@
     <string name="pick_audio_to_start">Выберите аудио для начала.</string>
     <string name="pick_audio">Выберите аудио.</string>
     <string name="no_covers_found">Обложки не найдены.</string>
-    <string name="send_logs">Отправить логи.</string>
+    <string name="send_logs">Отправить логи</string>
     <string name="send_logs_sub">Нажмите, чтобы поделиться файлом журнала приложения. Это поможет мне выявить и устранить проблему.</string>
     <string name="crash_title">Упс… Что-то пошло не так.</string>
     <string name="crash_subtitle">Вы можете связаться со мной, используя указанные ниже способы, и я постараюсь найти решение.\n(Не забудьте прикрепить логи.)</string>

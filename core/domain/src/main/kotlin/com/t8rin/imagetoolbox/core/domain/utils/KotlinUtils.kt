@@ -53,11 +53,9 @@ inline operator fun CharSequence.times(
 suspend inline fun <T, R> T.runSuspendCatching(block: T.() -> R): Result<R> {
     currentCoroutineContext().ensureActive()
 
-    return try {
-        Result.success(block())
-    } catch (e: Throwable) {
+    return runCatching(block).onFailure {
+        println("ERROR: $it")
         currentCoroutineContext().ensureActive()
-        Result.failure(e)
     }
 }
 
