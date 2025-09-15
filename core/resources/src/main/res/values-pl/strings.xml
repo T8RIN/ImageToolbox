@@ -1744,6 +1744,12 @@
     <string name="ascii_art">Sztuka ASCII</string>
     <string name="ascii_art_sub">Konwertuj obraz na tekst ASCII, który będzie wyglądał jak obraz</string>
     <string name="params">Parametry</string>
-    <string name="invert_colors_ascii_sub">W niektórych przypadkach stosuje filtr negatywowy do obrazu, aby uzyskać lepszy efekt.</string>
+    <string name="invert_colors_ascii_sub">W niektórych przypadkach stosuje filtr negatywowy do obrazu, aby uzyskać lepszy efekt</string>
     <string name="seam_carving">Rzeźbienie szwów</string>
+    <string name="processing_screenshot">Przetwarzanie zrzutu ekranu</string>
+    <string name="screenshot_not_captured_try_again">Nie wykonano zrzutu ekranu, spróbuj ponownie</string>
+    <string name="skipped_saving">Pomijanie zapisu</string>
+    <string name="skipped_saving_multiple">%1$d plików pominięto</string>
+    <string name="allow_skip_if_larger">Pozwól na pomijanie jeśli większe</string>
+    <string name="allow_skip_if_larger_sub">Niektóre narzędzia będą mogły pominąć zapisywanie obrazów, jeśli wynikowy rozmiar pliku będzie większy niż oryginalny</string>
 </resources>
