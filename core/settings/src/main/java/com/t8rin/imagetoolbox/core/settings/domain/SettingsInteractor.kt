@@ -230,6 +230,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleAddPresetInfoToFilename()
 
     suspend fun toggleAddImageScaleModeInfoToFilename()
+
+    suspend fun toggleAllowSkipIfLarger()
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

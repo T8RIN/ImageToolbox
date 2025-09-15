@@ -117,6 +117,8 @@ private sealed interface DirUri {
 }
 
 fun Uri.fileSize(context: Context): Long? {
+    if (this.toString().isEmpty()) return null
+
     runCatching {
         context.contentResolver
             .query(this, null, null, null, null, null)

@@ -565,6 +565,10 @@ internal fun SettingItem(
             Setting.AddImageScaleModeToFilename -> {
                 AddImageScaleModeToFilenameSettingItem(onClick = component::toggleAddImageScaleModeInfoToFilename)
             }
+
+            Setting.AllowSkipIfLarger -> {
+                AllowSkipIfLargerSettingItem(onClick = component::toggleAllowSkipIfLarger)
+            }
         }
     }
 }

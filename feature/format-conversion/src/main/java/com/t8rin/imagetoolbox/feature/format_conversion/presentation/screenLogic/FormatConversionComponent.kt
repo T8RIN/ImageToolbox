@@ -276,7 +276,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
                                     data = imageCompressor.compressAndTransform(
                                         image = bitmap,
                                         imageInfo = imageInfo
-                                    )
+                                    ),
+                                    canSkipIfLarger = true
                                 ),
                                 keepOriginalMetadata = keepExif,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri

@@ -196,7 +196,9 @@ internal fun Preferences.toSettingsState(
         ?: default.backgroundForNoAlphaImageFormats,
     addPresetInfoToFilename = this[ADD_PRESET_TO_FILENAME] ?: default.addPresetInfoToFilename,
     addImageScaleModeInfoToFilename = this[ADD_SCALE_MODE_TO_FILENAME]
-        ?: default.addImageScaleModeInfoToFilename
+        ?: default.addImageScaleModeInfoToFilename,
+    allowSkipIfLarger = this[ALLOW_SKIP_IF_LARGER]
+        ?: default.allowSkipIfLarger
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

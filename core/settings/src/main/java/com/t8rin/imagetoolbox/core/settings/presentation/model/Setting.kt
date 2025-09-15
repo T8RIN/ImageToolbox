@@ -507,4 +507,9 @@ sealed class Setting(
         title = R.string.add_image_scale_mode_to_filename,
         subtitle = R.string.add_image_scale_mode_to_filename_sub
     )
+
+    data object AllowSkipIfLarger : Setting(
+        title = R.string.allow_skip_if_larger,
+        subtitle = R.string.allow_skip_if_larger_sub
+    )
 }

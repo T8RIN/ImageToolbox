@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_AUTO_PASTE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_CRASHLYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
@@ -498,6 +499,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleAddImageScaleModeInfoToFilename() = toggle(
         key = ADD_SCALE_MODE_TO_FILENAME,
         defaultValue = default.addImageScaleModeInfoToFilename
+    )
+
+    override suspend fun toggleAllowSkipIfLarger() = toggle(
+        key = ALLOW_SKIP_IF_LARGER,
+        defaultValue = default.allowSkipIfLarger
     )
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {

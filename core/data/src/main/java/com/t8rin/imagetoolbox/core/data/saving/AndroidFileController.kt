@@ -165,6 +165,15 @@ internal class AndroidFileController @Inject constructor(
 
             val originalUri = saveTarget.originalUri.toUri()
 
+            if (saveTarget is ImageSaveTarget && saveTarget.canSkipIfLarger && settingsState.allowSkipIfLarger) {
+                val originalSize = originalUri.fileSize(context)
+                val newSize = data.size
+
+                if (originalSize != null && newSize > originalSize) {
+                    return@withContext SaveResult.Skipped
+                }
+            }
+
             if (settingsState.overwriteFiles) {
                 runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()

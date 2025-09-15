@@ -1765,7 +1765,11 @@
     <string name="ascii_art">Ascii Art</string>
     <string name="ascii_art_sub">Convert picture to ascii text which will look like image</string>
     <string name="params">Params</string>
-    <string name="invert_colors_ascii_sub">Apllies negative filter to image for better result in some cases</string>
+    <string name="invert_colors_ascii_sub">Applies negative filter to image for better result in some cases</string>
     <string name="processing_screenshot">Processing screenshot</string>
     <string name="screenshot_not_captured_try_again">Screenshot not captured, try again</string>
+    <string name="skipped_saving">Saving skipped</string>
+    <string name="skipped_saving_multiple">%1$d files skipped</string>
+    <string name="allow_skip_if_larger">Allow Skip If Larger</string>
+    <string name="allow_skip_if_larger_sub">Some tools are will be allowed to skip saving images if the resulting file size would be larger than the original</string>
 </resources>

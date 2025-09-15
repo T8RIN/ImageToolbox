@@ -29,10 +29,13 @@ sealed class SaveResult(
 
     sealed class Error(open val throwable: Throwable) : SaveResult("") {
         data object MissingPermissions : Error(IllegalAccessException("MissingPermissions"))
+
         data class Exception(
             override val throwable: Throwable
         ) : Error(throwable)
     }
+
+    data object Skipped : SaveResult("")
 
     fun onSuccess(
         action: () -> Unit

@@ -34,7 +34,8 @@ data class ImageSaveTarget(
     override val mimeType: MimeType.Single = imageFormat.mimeType,
     override val extension: String = imageFormat.extension,
     val readFromUriInsteadOfData: Boolean = false,
-    val presetInfo: Preset? = null
+    val presetInfo: Preset? = null,
+    val canSkipIfLarger: Boolean = false
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

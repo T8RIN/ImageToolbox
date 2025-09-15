@@ -120,6 +120,7 @@ data class SettingsState(
     val backgroundForNoAlphaImageFormats: ColorModel,
     val addPresetInfoToFilename: Boolean,
     val addImageScaleModeInfoToFilename: Boolean,
+    val allowSkipIfLarger: Boolean,
 ) {
 
     companion object {
@@ -217,7 +218,8 @@ data class SettingsState(
                 recentColors = emptyList(),
                 backgroundForNoAlphaImageFormats = ColorModel(-0x1000000),
                 addPresetInfoToFilename = false,
-                addImageScaleModeInfoToFilename = false
+                addImageScaleModeInfoToFilename = false,
+                allowSkipIfLarger = false
             )
         }
     }

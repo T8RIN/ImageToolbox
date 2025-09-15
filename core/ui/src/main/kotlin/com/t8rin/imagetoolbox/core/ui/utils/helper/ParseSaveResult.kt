@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.app.Activity
-import android.content.Context
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -41,6 +41,14 @@ internal fun Activity.parseSaveResult(
             )
         }
 
+        is SaveResult.Skipped -> {
+            essentials.showToast(
+                message = getString(R.string.skipped_saving),
+                icon = Icons.Outlined.Info,
+                duration = ToastDuration.Short
+            )
+        }
+
         is SaveResult.Success -> {
             saveResult.message?.let {
                 essentials.showToast(
@@ -57,23 +65,33 @@ internal fun Activity.parseSaveResult(
     }
 }
 
-internal fun Context.parseFileSaveResult(
+internal fun Activity.parseFileSaveResult(
     saveResult: SaveResult,
     essentials: LocalEssentials
 ) {
-    if (saveResult is SaveResult.Error.Exception) {
-        essentials.showFailureToast(
-            throwable = saveResult.throwable
-        )
-    } else if (saveResult is SaveResult.Success) {
-        essentials.showToast(
-            message = getString(
-                R.string.saved_to_without_filename,
-                ""
-            ),
-            icon = Icons.Rounded.Save
-        )
-        showReview(this@parseFileSaveResult)
+    when (saveResult) {
+        is SaveResult.Error.Exception -> {
+            essentials.showFailureToast(
+                throwable = saveResult.throwable
+            )
+        }
+
+        is SaveResult.Skipped -> {
+            essentials.showToast(
+                message = getString(R.string.skipped_saving),
+                icon = Icons.Outlined.Info
+            )
+        }
+
+        is SaveResult.Success -> {
+            essentials.showToast(
+                message = getString(R.string.saved_to_without_filename, ""),
+                icon = Icons.Rounded.Save
+            )
+            showReview(this@parseFileSaveResult)
+        }
+
+        SaveResult.Error.MissingPermissions -> requestStoragePermission()
     }
 }
 
@@ -88,11 +106,16 @@ internal fun Activity.parseSaveResults(
         )
     }
 
+    if (results.any { it == SaveResult.Error.MissingPermissions }) {
+        requestStoragePermission()
+        return
+    }
+
+    val skipped = results.count { it is SaveResult.Skipped }
     val failed = results.count { it is SaveResult.Error }
     val done = results.count { it is SaveResult.Success }
 
-    if (results.any { it == SaveResult.Error.MissingPermissions }) requestStoragePermission()
-    else if (failed == 0) {
+    if (failed == 0 && done > 0) {
         if (done == 1) {
             val saveResult = results.firstOfType<SaveResult.Success>()
             val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
@@ -127,24 +150,34 @@ internal fun Activity.parseSaveResults(
             }
         }
 
+        if (skipped > 0) {
+            essentials.showToast(
+                message = getString(R.string.skipped_saving_multiple, skipped),
+                icon = Icons.Outlined.Info,
+                duration = ToastDuration.Short
+            )
+        }
+
         showReview(this)
         essentials.showConfetti()
+        return
+    }
 
-    } else if (failed < done) {
-        essentials.showConfetti()
-
+    if (failed > 0) {
         val saveResult = results.firstOfType<SaveResult.Success>()
         val errorSaveResult = results.firstOfType<SaveResult.Error>()
 
-        essentials.showToast(
-            message = saveResult?.message
-                ?: getString(
-                    R.string.saved_to_without_filename,
-                    saveResult?.savingPath
-                ),
-            icon = Icons.Rounded.Save,
-            duration = ToastDuration.Long
-        )
+        if (done > 0) {
+            essentials.showToast(
+                message = saveResult?.message
+                    ?: getString(
+                        R.string.saved_to_without_filename,
+                        saveResult?.savingPath
+                    ),
+                icon = Icons.Rounded.Save,
+                duration = ToastDuration.Long
+            )
+        }
         essentials.showToast(
             message = getString(R.string.failed_to_save, failed),
             icon = Icons.Rounded.ErrorOutline,
@@ -156,19 +189,22 @@ internal fun Activity.parseSaveResults(
                 errorSaveResult?.throwable?.localizedMessage ?: ""
             )
         )
-    } else {
-        val errorSaveResult = results.firstOfType<SaveResult.Error>()
 
-        essentials.showToast(
-            message = getString(R.string.failed_to_save, failed),
-            icon = Icons.Rounded.ErrorOutline,
-            duration = ToastDuration.Long
-        )
-        essentials.showToast(
-            message = getString(
-                R.string.smth_went_wrong,
-                errorSaveResult?.throwable?.localizedMessage ?: ""
+        if (skipped > 0) {
+            essentials.showToast(
+                message = getString(R.string.skipped_saving_multiple, skipped),
+                icon = Icons.Outlined.Info,
+                duration = ToastDuration.Short
             )
+        }
+        return
+    }
+
+    if (skipped > 0 && done == 0 && failed == 0) {
+        essentials.showToast(
+            message = getString(R.string.skipped_saving_multiple, skipped),
+            icon = Icons.Outlined.Info,
+            duration = ToastDuration.Short
         )
     }
 }

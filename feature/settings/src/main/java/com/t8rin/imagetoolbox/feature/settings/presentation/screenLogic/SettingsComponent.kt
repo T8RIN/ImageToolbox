@@ -477,6 +477,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleAddImageScaleModeInfoToFilename() =
         settingsScope { toggleAddImageScaleModeInfoToFilename() }
 
+    fun toggleAllowSkipIfLarger() = settingsScope { toggleAllowSkipIfLarger() }
+
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit
     ) {

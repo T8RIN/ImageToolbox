@@ -377,6 +377,7 @@ sealed class SettingsGroup(
         titleId = R.string.behavior,
         settingsList = listOf(
             Setting.SkipFilePicking,
+            Setting.AllowSkipIfLarger,
             Setting.EnableToolExitConfirmation,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
