@@ -17,21 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
-import android.content.Intent
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-
 const val ScreenshotAction = "shot"
-
-val PickColorAction = Screen.PickColorFromImage::class.simpleName
-
-const val EditAction = "edit"
 
 const val DataExtra = "data"
 
 const val ResultCode = "resultCode"
-
-fun Intent.putTileScreenAction(screenAction: String?): Intent = apply {
-    putExtra("screen", screenAction)
-}
-
-fun Intent.getTileScreenAction(): String? = getStringExtra("screen")

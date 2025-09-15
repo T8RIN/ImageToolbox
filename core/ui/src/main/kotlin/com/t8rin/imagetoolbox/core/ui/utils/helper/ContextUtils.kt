@@ -103,13 +103,6 @@ object ContextUtils {
         }
     }
 
-    fun Context.startActivity(
-        clazz: Class<*>,
-        intentBuilder: Intent.() -> Unit,
-    ) {
-        startActivity(buildIntent(clazz, intentBuilder))
-    }
-
     fun Context.buildIntent(
         clazz: Class<*>,
         intentBuilder: Intent.() -> Unit,
@@ -369,7 +362,8 @@ object ContextUtils {
         ).replaceFirstChar { it.uppercase(locale) }
     }
 
-    const val SCREEN_ID_EXTRA = "screen_id"
+    const val SCREEN_ID_EXTRA =
+        "screen_id" //TODO: Add methods and pass PaletteSwatch.kt to icon of generate palette tile
     const val SHORTCUT_OPEN_ACTION = "shortcut"
 
     fun Intent?.getScreenOpeningShortcut(
@@ -378,8 +372,10 @@ object ContextUtils {
         if (this == null) return false
 
         if (action == SHORTCUT_OPEN_ACTION && hasExtra(SCREEN_ID_EXTRA)) {
+            val screenIdExtra = getIntExtra(SCREEN_ID_EXTRA, -100)
+
             Screen.entries.find {
-                it.id == getIntExtra(SCREEN_ID_EXTRA, -100)
+                it.id == screenIdExtra
             }?.let(onNavigate) ?: return false
 
             return true

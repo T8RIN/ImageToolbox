@@ -28,19 +28,36 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SHORTCUT_OPEN_ACTION
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.buildIntent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.putTileScreenAction
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ScreenshotAction
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.quick_tiles.screenshot.ScreenshotLauncher
 
 @RequiresApi(Build.VERSION_CODES.N)
 internal fun TileService.startActivityAndCollapse(
-    screenAction: String? = null,
-    clazz: Class<*> = ScreenshotLauncher::class.java
+    tileAction: TileAction
 ) {
     runCatching {
-        val intent = buildIntent(clazz) {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putTileScreenAction(screenAction)
+        val intent = buildIntent(tileAction.clazz) {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            when (tileAction) {
+                TileAction.OpenApp -> Unit
+
+                TileAction.Screenshot -> action = ScreenshotAction
+
+                is TileAction.ScreenshotAndOpenScreen -> {
+                    action = SHORTCUT_OPEN_ACTION
+                    tileAction.screen?.let {
+                        putExtra(SCREEN_ID_EXTRA, it.id)
+                    }
+                }
+
+                is TileAction.OpenScreen -> {
+                    action = SHORTCUT_OPEN_ACTION
+                    tileAction.screen?.let {
+                        putExtra(SCREEN_ID_EXTRA, it.id)
+                    }
+                }
+            }
         }
 
         TileServiceCompat.startActivityAndCollapse(
@@ -56,27 +73,14 @@ internal fun TileService.startActivityAndCollapse(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
-internal fun TileService.startActivityAndCollapse(
-    screen: Screen
+internal sealed class TileAction(
+    val clazz: Class<*>
 ) {
-    runCatching {
-        val intent = buildIntent(AppActivityClass) {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            action = SHORTCUT_OPEN_ACTION
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(SCREEN_ID_EXTRA, screen.id)
-        }
+    data class ScreenshotAndOpenScreen(val screen: Screen?) :
+        TileAction(ScreenshotLauncher::class.java)
 
-        TileServiceCompat.startActivityAndCollapse(
-            this,
-            PendingIntentActivityWrapper(
-                applicationContext,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT,
-                false
-            )
-        )
-    }
+    data class OpenScreen(val screen: Screen?) : TileAction(AppActivityClass)
+
+    data object Screenshot : TileAction(ScreenshotLauncher::class.java)
+    data object OpenApp : TileAction(AppActivityClass)
 }
