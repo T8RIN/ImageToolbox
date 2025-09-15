@@ -1746,4 +1746,6 @@
     <string name="ascii_art_sub">Перетворити зображення на текст ASCII, який виглядатиме як зображення</string>
     <string name="params">Параметри</string>
     <string name="invert_colors_ascii_sub">Застосовує негативний фільтр до зображення для кращого результату в деяких випадках</string>
+    <string name="processing_screenshot">Обробка знімка екрана</string>
+    <string name="screenshot_not_captured_try_again">Знімок екрана не зроблено, спробуйте ще раз</string>
 </resources>
