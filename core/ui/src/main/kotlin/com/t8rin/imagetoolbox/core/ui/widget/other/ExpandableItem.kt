@@ -86,7 +86,6 @@ fun ExpandableItem(
         interactionSource = interactionSource
     )
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -104,13 +103,22 @@ fun ExpandableItem(
     ) {
         var expanded by rememberSaveable(initialState) { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
-        LaunchedEffect(expanded) {
-            if (expanded) {
-                focusManager.clearFocus(true)
-                delay(100)
-                focusRequester.requestFocus()
-            } else {
-                focusRequester.freeFocus()
+
+        if (canExpand) {
+            val focusManager = LocalFocusManager.current
+            var firstCompose by remember { mutableStateOf(true) }
+            LaunchedEffect(expanded) {
+                if (firstCompose) {
+                    firstCompose = false
+                    return@LaunchedEffect
+                }
+                if (expanded) {
+                    focusManager.clearFocus(true)
+                    delay(200)
+                    focusRequester.requestFocus()
+                } else {
+                    focusRequester.freeFocus()
+                }
             }
         }
         Row(
