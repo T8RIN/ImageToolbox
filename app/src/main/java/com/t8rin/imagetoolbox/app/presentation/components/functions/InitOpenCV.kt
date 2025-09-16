@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.app.presentation.components.utils
+package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import android.app.Application
 import com.t8rin.opencv_tools.utils.OpenCV
 
-fun Application.initOpenCV() = OpenCV.init(this)
+internal fun Application.initOpenCV() = OpenCV.init(this)

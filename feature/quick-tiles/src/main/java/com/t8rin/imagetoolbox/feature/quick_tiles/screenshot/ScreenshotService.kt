@@ -59,9 +59,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.DATA_EXTRA
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.RESULT_CODE_EXTRA
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.SCREENSHOT_ACTION
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel

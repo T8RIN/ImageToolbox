@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.WindowManager
@@ -84,7 +85,14 @@ abstract class ComposeActivity : AppCompatActivity() {
     @Composable
     abstract fun Content()
 
-    open fun onFirstLaunch() = Unit
+    open fun onFirstLaunch() = handleIntent(intent)
+
+    open fun handleIntent(intent: Intent) = Unit
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
 
     override fun attachBaseContext(newBase: Context) {
         newBase.entryPoint<SettingsStateEntryPoint> {

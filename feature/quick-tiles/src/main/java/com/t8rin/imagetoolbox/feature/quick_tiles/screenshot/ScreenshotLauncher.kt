@@ -29,8 +29,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.buildIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.DATA_EXTRA
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.RESULT_CODE_EXTRA
 
 class ScreenshotLauncher : AppCompatActivity() {
 

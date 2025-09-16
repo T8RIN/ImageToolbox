@@ -22,31 +22,9 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Build.VERSION.SDK_INT
-import com.t8rin.imagetoolbox.core.crash.presentation.components.DeviceInfo
-import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.logger.Logger
-import com.t8rin.logger.attachLogWriter
 import com.t8rin.logger.makeLog
 
-
-internal fun Application.attachLogWriter() {
-    if (isMain()) {
-        Logger.attachLogWriter(
-            context = this@attachLogWriter,
-            fileProvider = getString(R.string.file_provider),
-            logsFilename = "image_toolbox_logs.txt",
-            startupLog = Logger.Log(
-                tag = "Device Info",
-                message = "--${DeviceInfo.get()}--",
-                level = Logger.Level.Info
-            ),
-            isSyncCreate = false,
-            maxFileSize = null
-        )
-    }
-}
-
-private fun Application.isMain(): Boolean =
+internal fun Application.isMain(): Boolean =
     getProcessName().makeLog("Current Process") == packageName
 
 

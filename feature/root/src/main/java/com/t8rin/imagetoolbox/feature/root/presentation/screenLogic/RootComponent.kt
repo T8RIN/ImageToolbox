@@ -51,7 +51,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.parseImageFromIntent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -479,9 +479,8 @@ class RootComponent @AssistedInject internal constructor(
         backEventsObservers.remove(observer)
     }
 
-    fun parseImage(intent: Intent?) {
-        parseImageFromIntent(
-            intent = intent,
+    fun handleDeeplinks(intent: Intent?) {
+        intent.handleDeeplinks(
             onStart = ::hideSelectDialog,
             onHasExtraDataType = ::updateExtraDataType,
             onColdStart = ::cancelShowingExitDialog,

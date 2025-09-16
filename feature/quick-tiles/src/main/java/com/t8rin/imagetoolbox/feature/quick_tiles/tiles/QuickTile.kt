@@ -18,10 +18,10 @@
 package com.t8rin.imagetoolbox.feature.quick_tiles.tiles
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.service.quicksettings.TileService
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.TileAction
-import com.t8rin.imagetoolbox.feature.quick_tiles.utils.startActivityAndCollapse
+import androidx.core.service.quicksettings.PendingIntentActivityWrapper
+import androidx.core.service.quicksettings.TileServiceCompat
 
 @SuppressLint("NewApi")
 sealed class QuickTile(
@@ -29,42 +29,19 @@ sealed class QuickTile(
 ) : TileService() {
     override fun onClick() {
         super.onClick()
-        startActivityAndCollapse(tileAction)
+        startActivityAndCollapse()
+    }
+
+    private fun startActivityAndCollapse() = runCatching {
+        TileServiceCompat.startActivityAndCollapse(
+            this,
+            PendingIntentActivityWrapper(
+                applicationContext,
+                0,
+                tileAction.toIntent(this),
+                PendingIntent.FLAG_UPDATE_CURRENT,
+                false
+            )
+        )
     }
 }
-
-class ImageToolboxTile : QuickTile(
-    tileAction = TileAction.OpenApp
-)
-
-class TakeScreenshotTile : QuickTile(
-    tileAction = TileAction.Screenshot
-)
-
-class EditScreenshotTile : QuickTile(
-    tileAction = TileAction.ScreenshotAndOpenScreen(null)
-)
-
-class GeneratePaletteTile : QuickTile(
-    tileAction = TileAction.ScreenshotAndOpenScreen(Screen.GeneratePalette())
-)
-
-class ColorPickerTile : QuickTile(
-    tileAction = TileAction.ScreenshotAndOpenScreen(Screen.PickColorFromImage())
-)
-
-class QrTile : QuickTile(
-    tileAction = TileAction.OpenScreen(Screen.ScanQrCode())
-)
-
-class DocumentScannerTile : QuickTile(
-    tileAction = TileAction.OpenScreen(Screen.DocumentScanner)
-)
-
-class TextRecognitionTile : QuickTile(
-    tileAction = TileAction.OpenScreen(Screen.RecognizeText())
-)
-
-class ResizeAndConvertTile : QuickTile(
-    tileAction = TileAction.OpenScreen(Screen.ResizeAndConvert())
-)

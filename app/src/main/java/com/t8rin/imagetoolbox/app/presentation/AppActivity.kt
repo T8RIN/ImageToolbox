@@ -36,14 +36,9 @@ class AppActivity : ComposeActivity() {
         retainedComponent(factory = rootComponentFactory::invoke)
     }
 
+    override fun handleIntent(intent: Intent) = component.handleDeeplinks(intent)
+
     @Composable
     override fun Content() = RootContent(component = component)
-
-    override fun onFirstLaunch() = component.parseImage(intent)
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        component.parseImage(intent)
-    }
 
 }

@@ -32,8 +32,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
-fun parseImageFromIntent(
-    intent: Intent?,
+fun Intent?.handleDeeplinks(
     onStart: () -> Unit,
     onColdStart: () -> Unit,
     onShowToast: (message: String, icon: ImageVector) -> Unit,
@@ -44,7 +43,9 @@ fun parseImageFromIntent(
     onWantGithubReview: () -> Unit,
     isOpenEditInsteadOfPreview: Boolean,
 ) {
-    if (intent == null) return
+    if (this == null) return
+
+    val intent = this
 
     onStart()
     if (intent.type != null && !isHasUris) onColdStart()
