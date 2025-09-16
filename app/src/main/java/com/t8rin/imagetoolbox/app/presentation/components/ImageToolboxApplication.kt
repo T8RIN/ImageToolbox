@@ -36,7 +36,6 @@ class ImageToolboxApplication : Application() {
         isCheckboxStylingFixEnabled = true
         DecomposeExperimentFlags.duplicateConfigurationsEnabled = true
         ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true
-        registerSecurityProviders()
     }
 
     override fun onCreate() {
@@ -45,6 +44,7 @@ class ImageToolboxApplication : Application() {
         initOpenCV()
         attachLogWriter()
         applyGlobalExceptionHandler()
+        registerSecurityProviders()
     }
 
 }
