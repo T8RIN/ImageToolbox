@@ -39,7 +39,7 @@ internal fun TileService.startActivityAndCollapse(
         val intent = buildIntent(tileAction.clazz) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             when (tileAction) {
-                TileAction.OpenApp -> Unit
+                TileAction.OpenApp -> setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
                 TileAction.Screenshot -> action = SCREENSHOT_ACTION
 
