@@ -52,8 +52,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.flow.Flow
@@ -67,7 +65,6 @@ internal fun SettingsBackdropWrapper(
     settingsComponent: SettingsComponent,
     children: @Composable () -> Unit
 ) {
-    var shape by remember { mutableStateOf(RectangleShape) }
     val scaffoldState = rememberBackdropScaffoldState(
         initialValue = BackdropValue.Concealed,
         animationSpec = tween(
@@ -109,10 +106,6 @@ internal fun SettingsBackdropWrapper(
 
     BackdropScaffold(
         scaffoldState = scaffoldState,
-        modifier = Modifier.withLayoutCorners {
-            shape = it.toShape(1f)
-            this
-        },
         appBar = {},
         frontLayerContent = {
             val alpha by animateFloatAsState(
