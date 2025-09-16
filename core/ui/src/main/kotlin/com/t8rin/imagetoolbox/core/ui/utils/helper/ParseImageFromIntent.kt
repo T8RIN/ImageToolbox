@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.appContext
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenOpeningShortcut
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
@@ -83,13 +83,7 @@ fun parseImageFromIntent(
 
                 Intent.ACTION_SEND -> {
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        val screenIdExtra = intent.getIntExtra(SCREEN_ID_EXTRA, -100)
-
-                        val screen = Screen.entries.find { screen ->
-                            screen.id == screenIdExtra
-                        }
-
-                        when (screen) {
+                        when (intent.getScreenExtra()) {
                             is Screen.PickColorFromImage -> onNavigate(Screen.PickColorFromImage(it))
                             is Screen.GeneratePalette -> onNavigate(Screen.GeneratePalette(it))
                             else -> {

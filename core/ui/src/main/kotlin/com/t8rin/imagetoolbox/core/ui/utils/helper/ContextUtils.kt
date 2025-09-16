@@ -362,21 +362,38 @@ object ContextUtils {
         ).replaceFirstChar { it.uppercase(locale) }
     }
 
-    const val SCREEN_ID_EXTRA =
-        "screen_id" //TODO: Add methods and pass PaletteSwatch.kt to icon of generate palette tile
+    private const val SCREEN_ID_EXTRA = "screen_id"
     const val SHORTCUT_OPEN_ACTION = "shortcut"
+
+    fun Intent?.getScreenExtra(): Screen? {
+        if (this?.hasExtra(SCREEN_ID_EXTRA) != true) return null
+
+        val screenIdExtra = getIntExtra(SCREEN_ID_EXTRA, -100).takeIf {
+            it != -100
+        } ?: return null
+
+        return Screen.entries.find {
+            it.id == screenIdExtra
+        }
+    }
+
+    fun Intent.putScreenExtra(screen: Screen?) = apply {
+        if (screen == null) {
+            removeExtra(SCREEN_ID_EXTRA)
+        } else {
+            putExtra(SCREEN_ID_EXTRA, screen.id)
+        }
+    }
 
     fun Intent?.getScreenOpeningShortcut(
         onNavigate: (Screen) -> Unit,
     ): Boolean {
         if (this == null) return false
 
-        if (action == SHORTCUT_OPEN_ACTION && hasExtra(SCREEN_ID_EXTRA)) {
-            val screenIdExtra = getIntExtra(SCREEN_ID_EXTRA, -100)
+        val screenExtra = getScreenExtra()
 
-            Screen.entries.find {
-                it.id == screenIdExtra
-            }?.let(onNavigate) ?: return false
+        if (action == SHORTCUT_OPEN_ACTION && screenExtra != null) {
+            onNavigate(screenExtra)
 
             return true
         }
@@ -407,7 +424,7 @@ object ContextUtils {
                         context.buildIntent(AppActivityClass) {
                             action = SHORTCUT_OPEN_ACTION
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            putExtra(SCREEN_ID_EXTRA, screen.id)
+                            putScreenExtra(screen)
                         }
                     )
                     .build()

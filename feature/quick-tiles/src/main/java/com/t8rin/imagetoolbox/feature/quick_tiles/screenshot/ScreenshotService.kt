@@ -54,13 +54,14 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
-import com.t8rin.imagetoolbox.core.ui.utils.helper.DataExtra
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ResultCode
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ScreenshotAction
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
+import com.t8rin.imagetoolbox.feature.quick_tiles.utils.DATA_EXTRA
+import com.t8rin.imagetoolbox.feature.quick_tiles.utils.RESULT_CODE_EXTRA
+import com.t8rin.imagetoolbox.feature.quick_tiles.utils.SCREENSHOT_ACTION
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -111,9 +112,9 @@ class ScreenshotService : Service() {
     ): Int = runCatching {
         startListening()
 
-        val resultCode = intent?.getIntExtra(ResultCode, RESULT_CANCELED) ?: RESULT_CANCELED
+        val resultCode = intent?.getIntExtra(RESULT_CODE_EXTRA, RESULT_CANCELED) ?: RESULT_CANCELED
 
-        val data = intent?.parcelable<Intent>(DataExtra)
+        val data = intent?.parcelable<Intent>(DATA_EXTRA)
         val channelId = 1
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -197,16 +198,12 @@ class ScreenshotService : Service() {
                         )
                     )?.toUri()
 
-                    if (intent?.action != ScreenshotAction) {
+                    if (intent?.action != SCREENSHOT_ACTION) {
                         startActivity(
                             Intent(Intent.ACTION_SEND).apply {
                                 setPackage(applicationContext.packageName)
                                 type = "image/png"
-                                intent?.getIntExtra(SCREEN_ID_EXTRA, -100)
-                                    .takeIf { it != -100 }
-                                    ?.let {
-                                        putExtra(SCREEN_ID_EXTRA, it)
-                                    }
+                                putScreenExtra(intent.getScreenExtra())
                                 putExtra(Intent.EXTRA_STREAM, uri)
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }

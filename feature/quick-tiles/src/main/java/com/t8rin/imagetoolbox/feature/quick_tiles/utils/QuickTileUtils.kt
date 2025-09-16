@@ -25,10 +25,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.service.quicksettings.PendingIntentActivityWrapper
 import androidx.core.service.quicksettings.TileServiceCompat
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SHORTCUT_OPEN_ACTION
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.buildIntent
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ScreenshotAction
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.quick_tiles.screenshot.ScreenshotLauncher
 
@@ -42,20 +41,16 @@ internal fun TileService.startActivityAndCollapse(
             when (tileAction) {
                 TileAction.OpenApp -> Unit
 
-                TileAction.Screenshot -> action = ScreenshotAction
+                TileAction.Screenshot -> action = SCREENSHOT_ACTION
 
                 is TileAction.ScreenshotAndOpenScreen -> {
                     action = SHORTCUT_OPEN_ACTION
-                    tileAction.screen?.let {
-                        putExtra(SCREEN_ID_EXTRA, it.id)
-                    }
+                    putScreenExtra(tileAction.screen)
                 }
 
                 is TileAction.OpenScreen -> {
                     action = SHORTCUT_OPEN_ACTION
-                    tileAction.screen?.let {
-                        putExtra(SCREEN_ID_EXTRA, it.id)
-                    }
+                    putScreenExtra(tileAction.screen)
                 }
             }
         }
@@ -84,3 +79,7 @@ internal sealed class TileAction(
     data object Screenshot : TileAction(ScreenshotLauncher::class.java)
     data object OpenApp : TileAction(AppActivityClass)
 }
+
+internal const val SCREENSHOT_ACTION = "shot"
+internal const val DATA_EXTRA = "data"
+internal const val RESULT_CODE_EXTRA = "resultCode"

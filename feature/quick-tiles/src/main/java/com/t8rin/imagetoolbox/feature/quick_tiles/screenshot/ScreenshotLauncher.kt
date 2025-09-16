@@ -25,11 +25,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.SCREEN_ID_EXTRA
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.buildIntent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.postToast
-import com.t8rin.imagetoolbox.core.ui.utils.helper.DataExtra
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ResultCode
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.putScreenExtra
+import com.t8rin.imagetoolbox.feature.quick_tiles.utils.DATA_EXTRA
+import com.t8rin.imagetoolbox.feature.quick_tiles.utils.RESULT_CODE_EXTRA
 
 class ScreenshotLauncher : AppCompatActivity() {
 
@@ -49,14 +50,10 @@ class ScreenshotLauncher : AppCompatActivity() {
                 val data = result.data
                 if (resultCode == RESULT_OK) {
                     val serviceIntent = buildIntent(ScreenshotService::class.java) {
-                        putExtra(DataExtra, data)
-                        putExtra(ResultCode, resultCode)
+                        putExtra(DATA_EXTRA, data)
+                        putExtra(RESULT_CODE_EXTRA, resultCode)
                         action = intent.action
-                        intent?.getIntExtra(SCREEN_ID_EXTRA, -100)
-                            .takeIf { it != -100 }
-                            ?.let {
-                                putExtra(SCREEN_ID_EXTRA, it)
-                            }
+                        putScreenExtra(intent.getScreenExtra())
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
