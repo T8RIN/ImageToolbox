@@ -71,14 +71,13 @@ internal fun TileService.startActivityAndCollapse(
 internal sealed class TileAction(
     val clazz: Class<*>
 ) {
-    data class ScreenshotAndOpenScreen(val screen: Screen?) :
-        TileAction(ScreenshotLauncher::class.java)
-
+    data class ScreenshotAndOpenScreen(val screen: Screen?) : TileAction(ScreenshotClass)
     data class OpenScreen(val screen: Screen?) : TileAction(AppActivityClass)
-
-    data object Screenshot : TileAction(ScreenshotLauncher::class.java)
+    data object Screenshot : TileAction(ScreenshotClass)
     data object OpenApp : TileAction(AppActivityClass)
 }
+
+private val ScreenshotClass = ScreenshotLauncher::class.java
 
 internal const val SCREENSHOT_ACTION = "shot"
 internal const val DATA_EXTRA = "data"
