@@ -71,7 +71,7 @@ jsoup = "1.21.2"
 mlkitDocumentScanner = "16.0.0-beta1"
 zxingAndroidEmbedded = "4.3.0"
 moshi = "1.15.2"
-bouncycastle = "1.81"
+bouncycastle = "1.82"
 pdfviewer = "1.0.0-alpha10"
 fragmentCompose = "1.8.9"
 
