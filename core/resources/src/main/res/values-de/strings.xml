@@ -1746,4 +1746,10 @@
     <string name="ascii_art_sub">Konvertiere das Bild in ASCII-Text, der wie ein Bild aussieht</string>
     <string name="invert_colors_ascii_sub">Wendet in einigen Fällen einen negativen Filter auf das Bild an, um ein besseres Ergebnis zu erzielen</string>
     <string name="params">Parameter</string>
+    <string name="processing_screenshot">Verarbeite Screenshot</string>
+    <string name="screenshot_not_captured_try_again">Screenshot wurde nicht erfasst, erneut versuchen</string>
+    <string name="skipped_saving">Speichern übersprungen</string>
+    <string name="skipped_saving_multiple">%1$d Dateien übersprungen</string>
+    <string name="allow_skip_if_larger">Überspringen zulassen, wenn größer</string>
+    <string name="allow_skip_if_larger_sub">Einige Tools erlauben es, das Speichern von Bildern zu überspringen, wenn die resultierende Dateigröße größer als das Original wäre.</string>
 </resources>
