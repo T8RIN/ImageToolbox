@@ -1746,4 +1746,10 @@
     <string name="ascii_art_sub">将图片转换为外观与原图相似的ASCII文本</string>
     <string name="params">参数</string>
     <string name="invert_colors_ascii_sub">对图像应用负片滤镜，以在某些情况下获得更好的效果</string>
+    <string name="processing_screenshot">处理截图</string>
+    <string name="screenshot_not_captured_try_again">截图未捕获，请再试一次</string>
+    <string name="skipped_saving">跳过保存</string>
+    <string name="skipped_saving_multiple">%1$d 个文件已跳过</string>
+    <string name="allow_skip_if_larger">若文件过大，允许跳过</string>
+    <string name="allow_skip_if_larger_sub">某些工具在生成的文件大小超过原文件时，将被允许跳过图像保存步骤</string>
 </resources>
