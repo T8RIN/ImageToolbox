@@ -27,21 +27,21 @@ import androidx.core.service.quicksettings.TileServiceCompat
 sealed class QuickTile(
     private val tileAction: TileAction
 ) : TileService() {
+
     override fun onClick() {
         super.onClick()
-        startActivityAndCollapse()
+        runCatching {
+            TileServiceCompat.startActivityAndCollapse(
+                this,
+                PendingIntentActivityWrapper(
+                    applicationContext,
+                    0,
+                    tileAction.toIntent(this),
+                    PendingIntent.FLAG_UPDATE_CURRENT,
+                    false
+                )
+            )
+        }
     }
 
-    private fun startActivityAndCollapse() = runCatching {
-        TileServiceCompat.startActivityAndCollapse(
-            this,
-            PendingIntentActivityWrapper(
-                applicationContext,
-                0,
-                tileAction.toIntent(this),
-                PendingIntent.FLAG_UPDATE_CURRENT,
-                false
-            )
-        )
-    }
 }
