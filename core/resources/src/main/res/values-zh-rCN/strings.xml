@@ -1742,7 +1742,7 @@
     <string name="add_preset_to_filename_sub">将带有选定预设的后缀添加到图片文件名中</string>
     <string name="add_image_scale_mode_to_filename">将图像缩放模式添加到文件名中</string>
     <string name="add_image_scale_mode_to_filename_sub">将带有选定图像缩放模式的后缀添加到图片文件名中</string>
-    <string name="ascii_art">ASCII 艺术</string>
+    <string name="ascii_art">ASCII艺术</string>
     <string name="ascii_art_sub">将图片转换为外观与原图相似的ASCII文本</string>
     <string name="params">参数</string>
     <string name="invert_colors_ascii_sub">对图像应用负片滤镜，以在某些情况下获得更好的效果</string>
