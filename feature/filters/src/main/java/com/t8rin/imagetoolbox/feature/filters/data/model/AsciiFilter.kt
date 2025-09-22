@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import com.t8rin.ascii.ASCIIConverter
 import com.t8rin.ascii.Gradient
 import com.t8rin.ascii.toMapper
@@ -26,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.utils.toTypeface
 
 @FilterInject
 internal class AsciiFilter(
@@ -43,6 +45,7 @@ internal class AsciiFilter(
         mapper = Gradient(value.gradient).toMapper()
     ).convertToAsciiBitmap(
         bitmap = input,
+        typeface = value.font.toTypeface() ?: Typeface.DEFAULT,
         backgroundColor = value.backgroundColor.colorInt,
         isGrayscale = value.isGrayscale
     )

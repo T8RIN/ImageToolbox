@@ -30,6 +30,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNegativeFilter
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -37,6 +39,8 @@ import com.t8rin.imagetoolbox.feature.ascii_art.domain.AsciiConverter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class AsciiArtComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -45,6 +49,7 @@ class AsciiArtComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val asciiConverter: AsciiConverter<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
+    settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -52,6 +57,10 @@ class AsciiArtComponent @AssistedInject internal constructor(
         debounce {
             initialUri?.let(::setUri)
         }
+
+        settingsProvider.getSettingsStateFlow().onEach { settings ->
+            _asciiParams.update { it.copy(font = settings.font.asFontType()) }
+        }.launchIn(componentScope)
     }
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)

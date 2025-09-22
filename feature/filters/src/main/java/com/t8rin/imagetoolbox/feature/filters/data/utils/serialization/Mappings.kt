@@ -53,6 +53,9 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asDomain
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
 import kotlin.io.encoding.Base64
 
 internal fun Any.toPair(): Pair<String, String>? {
@@ -288,11 +291,15 @@ internal fun Any.toPair(): Pair<String, String>? {
         }
 
         is AsciiParams -> {
+            val font = font?.asDomain()?.takeIf { it !is DomainFontFamily.Custom }
+                ?: DomainFontFamily.System
+
             AsciiParams::class.simpleName!! to listOf(
                 Base64.encode(gradient.toByteArray(Charsets.UTF_8)),
                 fontSize,
                 backgroundColor.colorInt,
-                isGrayscale
+                isGrayscale,
+                font.asString()
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -617,7 +624,7 @@ internal fun Pair<String, String>.fromPair(): Any? {
         }
 
         name == AsciiParams::class.simpleName -> {
-            val (gradient, fontSize, backgroundColor, isGrayscale) = value.split(
+            val (gradient, fontSize, backgroundColor, isGrayscale, font) = value.split(
                 PROPERTIES_SEPARATOR
             )
 
@@ -625,7 +632,8 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 gradient = Base64.decode(gradient).toString(Charsets.UTF_8),
                 fontSize = fontSize.toFloat(),
                 backgroundColor = backgroundColor.toInt().toColorModel(),
-                isGrayscale = isGrayscale.toBoolean()
+                isGrayscale = isGrayscale.toBoolean(),
+                font = DomainFontFamily.fromString(font).asFontType()
             )
         }
 

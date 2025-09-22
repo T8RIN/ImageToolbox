@@ -22,19 +22,22 @@ import androidx.compose.ui.graphics.toArgb
 import com.t8rin.ascii.Gradient
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
+import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 
 data class AsciiParams(
     val gradient: String,
     val fontSize: Float,
     val backgroundColor: ColorModel,
     val isGrayscale: Boolean,
+    val font: FontType?
 ) {
     companion object {
         val Default = AsciiParams(
             gradient = Gradient.OLD.value,
             fontSize = 10f,
             backgroundColor = Color.Black.toArgb().toColorModel(),
-            isGrayscale = false
+            isGrayscale = false,
+            font = null
         )
     }
 }

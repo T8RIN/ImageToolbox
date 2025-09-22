@@ -43,10 +43,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -76,18 +79,28 @@ internal fun AsciiParamsItem(
         remember(value) { mutableStateOf(value.backgroundColor) }
     var isGrayscale by remember(value) { mutableStateOf(value.isGrayscale) }
 
+    val currentFont = LocalSettingsState.current.font
+
+    var font by remember(value) {
+        mutableStateOf(
+            value.font?.asUi() ?: currentFont
+        )
+    }
+
     LaunchedEffect(
         gradient.value,
         fontSize.value,
         backgroundColor.value,
         isGrayscale,
+        font
     ) {
         onFilterChange(
             AsciiParams(
                 gradient = gradient.value,
                 fontSize = fontSize.value,
                 backgroundColor = backgroundColor.value,
-                isGrayscale = isGrayscale
+                isGrayscale = isGrayscale,
+                font = font.type
             )
         )
     }
@@ -99,7 +112,7 @@ internal fun AsciiParamsItem(
         )
     ) {
         filter.paramsInfo.take(
-            if (isForText) 2 else 4
+            if (isForText) 2 else 5
         ).forEachIndexed { index, (title, valueRange, roundTo) ->
             when (index) {
                 0 -> {
@@ -174,6 +187,15 @@ internal fun AsciiParamsItem(
                 }
 
                 2 -> {
+                    FontSelector(
+                        value = font,
+                        onValueChange = { font = it },
+                        behaveAsContainer = false,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                3 -> {
                     ColorRowSelector(
                         title = stringResource(title!!),
                         value = backgroundColor.value.toColor(),
@@ -183,12 +205,12 @@ internal fun AsciiParamsItem(
                         allowScroll = !previewOnly,
                         icon = null,
                         defaultColors = ColorSelectionRowDefaults.colorList,
-                        titleFontWeight = FontWeight.Companion.Normal,
+                        titleFontWeight = FontWeight.Normal,
                         contentHorizontalPadding = 16.dp,
                     )
                 }
 
-                3 -> {
+                4 -> {
                     PreferenceRowSwitch(
                         title = stringResource(id = title!!),
                         checked = isGrayscale,

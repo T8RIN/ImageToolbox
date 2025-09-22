@@ -23,11 +23,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.PorterDuffXfermode
-import android.graphics.Typeface
 import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import coil3.transform.RoundedCornersTransformation
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -43,7 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
-import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
+import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.watermarking.domain.DigitalParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.TextParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkApplier
@@ -93,15 +91,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             .setBackgroundColor(type.params.backgroundColor)
                             .setTextColor(type.params.color)
                             .apply {
-                                when (val font = type.params.font) {
-                                    is FontType.File -> Typeface.createFromFile(font.path)
-                                    is FontType.Resource -> ResourcesCompat.getFont(
-                                        context,
-                                        font.resId
-                                    )
-
-                                    null -> null
-                                }?.let(::setTextTypeface)
+                                type.params.font.toTypeface()?.let(::setTextTypeface)
                             }
                             .setTextStyle(
                                 Paint.Style.FILL
@@ -220,15 +210,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                 .setBackgroundColor(params.backgroundColor)
                 .setTextColor(params.color)
                 .apply {
-                    when (val font = params.font) {
-                        is FontType.File -> Typeface.createFromFile(font.path)
-                        is FontType.Resource -> ResourcesCompat.getFont(
-                            context,
-                            font.resId
-                        )
-
-                        null -> null
-                    }?.let(::setTextTypeface)
+                    params.font.toTypeface()?.let(::setTextTypeface)
                 }
                 .setTextStyle(
                     Paint.Style.FILL

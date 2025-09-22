@@ -273,7 +273,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                             )
                         )
                     },
-                    color = Color.Unspecified,
+                    containerColor = Color.Unspecified,
                     shape = ShapeDefaults.bottom,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )

@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
 import com.t8rin.imagetoolbox.app.presentation.components.functions.registerSecurityProviders
 import com.t8rin.imagetoolbox.app.presentation.components.functions.setupFlags
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
-import com.t8rin.imagetoolbox.core.ui.utils.initAppContext
+import com.t8rin.imagetoolbox.core.utils.initAppContext
 import dagger.hilt.android.HiltAndroidApp
 
 

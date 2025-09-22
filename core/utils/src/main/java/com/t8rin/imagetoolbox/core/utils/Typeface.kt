@@ -15,28 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.ui.utils
+package com.t8rin.imagetoolbox.core.utils
 
-import android.app.Application
-import android.content.ContextWrapper
+import android.graphics.Typeface
+import androidx.core.content.res.ResourcesCompat
+import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 
-class AppContext private constructor(
-    application: Application
-) : ContextWrapper(application) {
-
-    companion object {
-        internal var appContext: AppContext? = null
-
-        internal fun init(application: Application) {
-            appContext = AppContext(application)
-        }
-    }
-
+fun FontType?.toTypeface(): Typeface? = when (this) {
+    null -> null
+    is FontType.File -> Typeface.createFromFile(this.path)
+    is FontType.Resource -> ResourcesCompat.getFont(
+        appContext,
+        this.resId
+    )
 }
-
-fun Application.initAppContext() = AppContext.init(this)
-
-val appContext: AppContext
-    get() = checkNotNull(AppContext.appContext) {
-        "AppContext not initialized"
-    }

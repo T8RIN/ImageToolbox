@@ -22,7 +22,7 @@ package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.fileSize
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
-import com.t8rin.imagetoolbox.core.ui.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 
 data class Media(

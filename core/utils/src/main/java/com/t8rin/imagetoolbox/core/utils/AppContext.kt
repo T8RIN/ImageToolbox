@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.compose)
-    alias(libs.plugins.image.toolbox.hilt)
+package com.t8rin.imagetoolbox.core.utils
+
+import android.app.Application
+import android.content.ContextWrapper
+
+class AppContext private constructor(
+    application: Application
+) : ContextWrapper(application) {
+
+    companion object {
+        internal var appContext: AppContext? = null
+
+        internal fun init(application: Application) {
+            appContext = AppContext(application)
+        }
+    }
+
 }
 
-android.namespace = "com.t8rin.imagetoolbox.core.filters"
+fun Application.initAppContext() = AppContext.init(this)
 
-dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.ui)
-    implementation(projects.core.resources)
-    implementation(projects.core.settings)
-    implementation(projects.core.utils)
-    
-    implementation(libs.kotlin.reflect)
-    implementation(libs.toolbox.curves)
-    implementation(libs.toolbox.ascii)
-}
+val appContext: AppContext
+    get() = checkNotNull(AppContext.appContext) {
+        "AppContext not initialized"
+    }

@@ -371,6 +371,24 @@ fun FontType?.toUiFont(): UiFontFamily {
     }.value
 }
 
+fun FontType?.asUi(): UiFontFamily {
+    val entries = UiFontFamily.defaultEntries
+
+    return when (this) {
+        is FontType.File -> UiFontFamily.Custom(
+            name = File(path).nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
+            filePath = path
+        )
+
+        is FontType.Resource -> entries.find { it.type == this } ?: UiFontFamily.System
+        null -> UiFontFamily.System
+    }
+}
+
+fun FontType?.asDomain(): DomainFontFamily = this?.asUi()?.asDomain() ?: DomainFontFamily.System
+
+fun DomainFontFamily?.asFontType(): FontType? = this?.toUiFont()?.type
+
 fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
     DomainFontFamily.Caveat -> UiFontFamily.Caveat
     DomainFontFamily.Comfortaa -> UiFontFamily.Comfortaa

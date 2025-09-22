@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.image
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.toBitmap
-import com.t8rin.imagetoolbox.core.ui.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 internal suspend fun Any.loadBitmap(size: Int? = null) = appContext.imageLoader.execute(
     ImageRequest.Builder(appContext)

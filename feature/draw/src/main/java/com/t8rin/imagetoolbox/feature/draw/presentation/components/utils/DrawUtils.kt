@@ -23,7 +23,6 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Typeface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -54,7 +53,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import coil3.imageLoader
@@ -70,9 +68,9 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNativeStackBlurF
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiPixelationFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.Line
+import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
@@ -306,15 +304,7 @@ internal fun rememberPaint(
                 if (drawMode is DrawMode.Text && !isEraserOn) {
                     isAntiAlias = true
                     textSize = strokeWidth.toPx(canvasSize)
-                    if (drawMode.font != null) {
-                        typeface = when (drawMode.font) {
-                            is FontType.File -> Typeface.createFromFile(drawMode.font.path)
-                            is FontType.Resource -> ResourcesCompat.getFont(
-                                context,
-                                drawMode.font.resId
-                            )
-                        }
-                    }
+                    typeface = drawMode.font.toTypeface()
                 }
             }
         }

@@ -56,6 +56,9 @@ val CoreProjects.di
 val CoreProjects.crash
     get(): ProjectLibrary = project(":core:crash")
 
+val CoreProjects.utils
+    get(): ProjectLibrary = project(":core:utils")
+
 fun DependencyHandlerScope.implementation(
     dependency: Library
 ) = add("implementation", dependency)

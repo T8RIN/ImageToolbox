@@ -26,6 +26,7 @@ android.namespace = "com.t8rin.imagetoolbox.core.ui"
 dependencies {
     api(projects.core.resources)
     api(projects.core.domain)
+    api(projects.core.utils)
     implementation(projects.core.di)
     implementation(projects.core.settings)
 

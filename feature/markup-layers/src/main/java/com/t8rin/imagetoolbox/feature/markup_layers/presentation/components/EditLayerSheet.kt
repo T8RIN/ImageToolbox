@@ -195,7 +195,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         shape = ShapeDefaults.top,
-                        color = MaterialTheme.colorScheme.surface
+                        containerColor = MaterialTheme.colorScheme.surface
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     EnhancedSliderItem(

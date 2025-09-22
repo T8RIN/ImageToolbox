@@ -23,7 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
-import com.t8rin.imagetoolbox.core.ui.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlin.reflect.full.primaryConstructor
 
 sealed class UiFilter<T : Any>(

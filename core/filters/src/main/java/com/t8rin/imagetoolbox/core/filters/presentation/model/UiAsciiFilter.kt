@@ -29,6 +29,7 @@ class UiAsciiFilter(
     paramsInfo = listOf(
         FilterParam(R.string.gradient, 0f..0f),
         FilterParam(R.string.font_size, 1f..100f),
+        FilterParam(R.string.font, 0f..0f),
         FilterParam(R.string.background_color, 0f..0f),
         FilterParam(R.string.gray_scale, 0f..0f)
     ),

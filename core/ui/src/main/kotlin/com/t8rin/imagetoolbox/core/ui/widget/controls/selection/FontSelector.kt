@@ -71,13 +71,18 @@ fun FontSelector(
     onValueChange: (UiFontFamily) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.font),
-    color: Color = MaterialTheme.colorScheme.surface,
-    shape: Shape = ShapeDefaults.large
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    shape: Shape = ShapeDefaults.large,
+    behaveAsContainer: Boolean = true
 ) {
     Column(
-        modifier = modifier.container(
-            shape = shape,
-            color = color
+        modifier = modifier.then(
+            if (behaveAsContainer) {
+                Modifier.container(
+                    shape = shape,
+                    color = containerColor
+                )
+            } else Modifier
         )
     ) {
         val fonts = UiFontFamily.entries
@@ -94,7 +99,7 @@ fun FontSelector(
             val rotation by animateFloatAsState(if (expanded) 180f else 0f)
             TitleItem(
                 text = title,
-                icon = Icons.Outlined.TextFields,
+                icon = if (behaveAsContainer) Icons.Outlined.TextFields else null,
                 modifier = Modifier.padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
             )
             Badge(

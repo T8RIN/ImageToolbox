@@ -21,7 +21,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
-import android.graphics.Typeface
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -43,7 +42,6 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
@@ -60,8 +58,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
+import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedBitmapOnPath
 import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
@@ -262,15 +260,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             if (drawMode is DrawMode.Text && !isErasing) {
                                 isAntiAlias = true
                                 textSize = stroke
-                                if (drawMode.font != null) {
-                                    typeface = when (drawMode.font) {
-                                        is FontType.File -> Typeface.createFromFile(drawMode.font.path)
-                                        is FontType.Resource -> ResourcesCompat.getFont(
-                                            context,
-                                            drawMode.font.resId
-                                        )
-                                    }
-                                }
+                                typeface = drawMode.font.toTypeface()
                             }
                         }
                         val androidPath = path.asAndroidPath()
