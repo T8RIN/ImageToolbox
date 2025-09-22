@@ -198,7 +198,9 @@ internal fun Preferences.toSettingsState(
     addImageScaleModeInfoToFilename = this[ADD_SCALE_MODE_TO_FILENAME]
         ?: default.addImageScaleModeInfoToFilename,
     allowSkipIfLarger = this[ALLOW_SKIP_IF_LARGER]
-        ?: default.allowSkipIfLarger
+        ?: default.allowSkipIfLarger,
+    customAsciiGradients = this[ASCII_CUSTOM_GRADIENTS]
+        ?: default.customAsciiGradients
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

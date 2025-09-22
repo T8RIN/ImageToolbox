@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -64,6 +65,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ASCII_CUSTOM_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AUTO_CACHE_CLEAR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BACKGROUND_COLOR_FOR_NA_FORMATS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BORDER_WIDTH
@@ -879,6 +881,10 @@ internal class AndroidSettingsManager @Inject constructor(
         key = ENABLE_TOOL_EXIT_CONFIRMATION,
         defaultValue = default.enableToolExitConfirmation
     )
+
+    override suspend fun toggleCustomAsciiGradient(gradient: String) = edit {
+        it[ASCII_CUSTOM_GRADIENTS] = (it[ASCII_CUSTOM_GRADIENTS] ?: emptySet()).toggle(gradient)
+    }
 
     private fun MutablePreferences.toggle(
         key: Preferences.Key<Boolean>,

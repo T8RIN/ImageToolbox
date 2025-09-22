@@ -156,6 +156,7 @@ data class UiSettingsState(
     val addPresetInfoToFilename: Boolean,
     val addImageScaleModeInfoToFilename: Boolean,
     val allowSkipIfLarger: Boolean,
+    val customAsciiGradients: Set<String>,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -402,7 +403,8 @@ fun SettingsState.toUiState(
                 backgroundForNoAlphaImageFormats = Color(backgroundForNoAlphaImageFormats.colorInt),
                 addPresetInfoToFilename = addPresetInfoToFilename,
                 addImageScaleModeInfoToFilename = addImageScaleModeInfoToFilename,
-                allowSkipIfLarger = allowSkipIfLarger
+                allowSkipIfLarger = allowSkipIfLarger,
+                customAsciiGradients = customAsciiGradients
             )
         }
     }.value

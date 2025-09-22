@@ -43,7 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.filters.domain.FavoriteFiltersInteractor
+import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -82,7 +82,7 @@ class RootComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val childProvider: ChildProvider,
     private val analyticsManager: AnalyticsManager,
-    favoriteFiltersInteractor: FavoriteFiltersInteractor,
+    filterParamsInteractor: FilterParamsInteractor,
     fileController: FileController,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,
@@ -202,12 +202,12 @@ class RootComponent @AssistedInject internal constructor(
             }
         }
 
-        favoriteFiltersInteractor
+        filterParamsInteractor
             .getFilterPreviewModel().onEach { data ->
                 _filterPreviewModel.update { data }
             }.launchIn(componentScope)
 
-        favoriteFiltersInteractor
+        filterParamsInteractor
             .getCanSetDynamicFilterPreview().onEach { value ->
                 _canSetDynamicFilterPreview.update { value }
             }.launchIn(componentScope)

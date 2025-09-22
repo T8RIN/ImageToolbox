@@ -54,6 +54,11 @@ object ListUtils {
         else this + item
     }
 
+    fun <T> Set<T>.toggle(item: T): Set<T> = run {
+        if (item in this) this - item
+        else this + item
+    }
+
     inline fun <reified R : Any> Iterable<Any?>.firstOfType(): R? = firstOrNull { it is R } as? R
 
     operator fun <E> List<E>.component6(): E = get(5)

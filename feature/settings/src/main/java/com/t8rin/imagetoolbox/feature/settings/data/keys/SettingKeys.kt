@@ -123,3 +123,4 @@ internal val IMAGE_SCALE_COLOR_SPACE = intPreferencesKey("IMAGE_SCALE_COLOR_SPAC
 internal val ADD_PRESET_TO_FILENAME = booleanPreferencesKey("ADD_PRESET_TO_FILENAME")
 internal val ADD_SCALE_MODE_TO_FILENAME = booleanPreferencesKey("ADD_SCALE_MODE_TO_FILENAME")
 internal val ALLOW_SKIP_IF_LARGER = booleanPreferencesKey("ALLOW_SKIP_IF_LARGER")
+internal val ASCII_CUSTOM_GRADIENTS = stringSetPreferencesKey("ASCII_CUSTOM_GRADIENTS")

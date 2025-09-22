@@ -121,6 +121,7 @@ data class SettingsState(
     val addPresetInfoToFilename: Boolean,
     val addImageScaleModeInfoToFilename: Boolean,
     val allowSkipIfLarger: Boolean,
+    val customAsciiGradients: Set<String>,
 ) {
 
     companion object {
@@ -219,7 +220,8 @@ data class SettingsState(
                 backgroundForNoAlphaImageFormats = ColorModel(-0x1000000),
                 addPresetInfoToFilename = false,
                 addImageScaleModeInfoToFilename = false,
-                allowSkipIfLarger = false
+                allowSkipIfLarger = false,
+                customAsciiGradients = emptySet()
             )
         }
     }

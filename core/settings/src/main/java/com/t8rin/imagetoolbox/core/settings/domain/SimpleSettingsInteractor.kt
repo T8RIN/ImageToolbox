@@ -53,4 +53,6 @@ interface SimpleSettingsInteractor {
         color: ColorModel
     )
 
+    suspend fun toggleCustomAsciiGradient(gradient: String)
+
 }

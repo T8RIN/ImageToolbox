@@ -69,7 +69,7 @@ import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.filters.domain.FavoriteFiltersInteractor
+import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -383,7 +383,7 @@ fun FilterTemplateCreationSheet(
 class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
+    private val filterParamsInteractor: FilterParamsInteractor,
     private val filterProvider: FilterProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder,
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory
@@ -409,7 +409,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     val previewBitmap by _previewBitmap
 
     init {
-        favoriteFiltersInteractor
+        filterParamsInteractor
             .getFilterPreviewModel().onEach { data ->
                 _previewModel.update { data }
             }.launchIn(componentScope)
@@ -472,9 +472,9 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     fun saveTemplate(initialTemplateFilter: TemplateFilter?) {
         componentScope.launch {
             if (initialTemplateFilter != null) {
-                favoriteFiltersInteractor.removeTemplateFilter(initialTemplateFilter)
+                filterParamsInteractor.removeTemplateFilter(initialTemplateFilter)
             }
-            favoriteFiltersInteractor.addTemplateFilter(
+            filterParamsInteractor.addTemplateFilter(
                 TemplateFilter(
                     name = templateName,
                     filters = filterList

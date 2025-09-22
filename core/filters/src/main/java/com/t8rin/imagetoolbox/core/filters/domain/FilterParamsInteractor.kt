@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import kotlinx.coroutines.flow.Flow
 
-interface FavoriteFiltersInteractor {
+interface FilterParamsInteractor {
 
     fun getFavoriteFilters(): Flow<List<Filter<*>>>
 

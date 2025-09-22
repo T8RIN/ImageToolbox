@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.filters.domain.FavoriteFiltersInteractor
+import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
@@ -58,7 +58,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val favoriteFiltersInteractor: FavoriteFiltersInteractor,
+    private val filterParamsInteractor: FilterParamsInteractor,
     private val imageBarcodeReader: ImageBarcodeReader,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
@@ -182,8 +182,8 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         onSuccess: (filterName: String, filtersCount: Int) -> Unit
     ) {
         componentScope.launch {
-            if (favoriteFiltersInteractor.isValidTemplateFilter(params.content)) {
-                favoriteFiltersInteractor.addTemplateFilterFromString(
+            if (filterParamsInteractor.isValidTemplateFilter(params.content)) {
+                filterParamsInteractor.addTemplateFilterFromString(
                     string = params.content,
                     onSuccess = onSuccess,
                     onFailure = {}

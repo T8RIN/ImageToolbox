@@ -20,10 +20,10 @@ package com.t8rin.imagetoolbox.feature.filters.di
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import com.t8rin.imagetoolbox.core.filters.domain.FavoriteFiltersInteractor
+import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
-import com.t8rin.imagetoolbox.feature.filters.data.AndroidFavoriteFiltersInteractor
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterMaskApplier
+import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterParamsInteractor
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import dagger.Binds
@@ -52,7 +52,7 @@ internal interface FilterModule {
     @Singleton
     @Binds
     fun favoriteFiltersInteractor(
-        interactor: AndroidFavoriteFiltersInteractor
-    ): FavoriteFiltersInteractor
+        interactor: AndroidFilterParamsInteractor
+    ): FilterParamsInteractor
 
 }

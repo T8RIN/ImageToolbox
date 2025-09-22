@@ -17,10 +17,22 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Save
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,17 +58,20 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asUi
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun AsciiParamsItem(
@@ -71,7 +87,7 @@ internal fun AsciiParamsItem(
     },
     isForText: Boolean = false
 ) {
-    val gradient: MutableState<String> =
+    val gradientState: MutableState<String> =
         remember(value) { mutableStateOf(value.gradient) }
     val fontSize: MutableState<Float> =
         remember(value) { mutableFloatStateOf(value.fontSize) }
@@ -79,7 +95,8 @@ internal fun AsciiParamsItem(
         remember(value) { mutableStateOf(value.backgroundColor) }
     var isGrayscale by remember(value) { mutableStateOf(value.isGrayscale) }
 
-    val currentFont = LocalSettingsState.current.font
+    val settings = LocalSettingsState.current
+    val currentFont = settings.font
 
     var font by remember(value) {
         mutableStateOf(
@@ -88,7 +105,7 @@ internal fun AsciiParamsItem(
     }
 
     LaunchedEffect(
-        gradient.value,
+        gradientState.value,
         fontSize.value,
         backgroundColor.value,
         isGrayscale,
@@ -96,7 +113,7 @@ internal fun AsciiParamsItem(
     ) {
         onFilterChange(
             AsciiParams(
-                gradient = gradient.value,
+                gradient = gradientState.value,
                 fontSize = fontSize.value,
                 backgroundColor = backgroundColor.value,
                 isGrayscale = isGrayscale,
@@ -125,20 +142,9 @@ internal fun AsciiParamsItem(
                             )
                         } else Modifier
                     ) {
-                        RoundedTextField(
-                            value = gradient.value,
-                            onValueChange = {
-                                gradient.value = it.toList().distinct().joinToString("")
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .then(if (isForText) Modifier.padding(top = 4.dp) else Modifier)
-                                .padding(
-                                    horizontal = 4.dp
-                                ),
-                            label = stringResource(title!!)
-                        )
-                        val items = remember {
+                        val scope = rememberCoroutineScope()
+                        val interactor = LocalSimpleSettingsInteractor.current
+                        val defaultItems = remember {
                             listOf(
                                 Gradient.NORMAL,
                                 Gradient.NORMAL2,
@@ -150,6 +156,58 @@ internal fun AsciiParamsItem(
                                 Gradient.NUMERICAL
                             ).map { it.value }
                         }
+                        val customEntries = settings.customAsciiGradients - defaultItems
+
+                        val items = defaultItems + customEntries
+
+                        RoundedTextField(
+                            value = gradientState.value,
+                            onValueChange = { value ->
+                                gradientState.value =
+                                    value.toList().distinct().filter { !it.isWhitespace() }
+                                        .joinToString("")
+                            },
+                            endIcon = {
+                                AnimatedContent(
+                                    targetState = Triple(
+                                        gradientState.value,
+                                        defaultItems,
+                                        customEntries
+                                    ),
+                                    transitionSpec = {
+                                        slideInHorizontally { it / 2 } + fadeIn() togetherWith slideOutHorizontally { it / 2 } + fadeOut()
+                                    },
+                                    contentKey = { (g, d, c) -> (g in d) to (g in c) },
+                                ) { (gradient, default, custom) ->
+                                    if (gradient.length > 1 && gradient !in default) {
+                                        val saved = gradient in custom
+
+                                        EnhancedIconButton(
+                                            onClick = {
+                                                scope.launch {
+                                                    interactor.toggleCustomAsciiGradient(gradient)
+                                                }
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = if (saved) Icons.Outlined.Delete else Icons.Outlined.Save,
+                                                contentDescription = if (saved) "delete" else "add"
+                                            )
+                                        }
+                                    } else {
+                                        Spacer(Modifier.height(40.dp))
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .then(if (isForText) Modifier.padding(top = 4.dp) else Modifier)
+                                .padding(
+                                    horizontal = 4.dp
+                                ),
+                            label = stringResource(title!!)
+                        )
 
                         EnhancedButtonGroup(
                             items = items,
@@ -158,9 +216,9 @@ internal fun AsciiParamsItem(
                                 .padding(
                                     horizontal = 4.dp
                                 ),
-                            selectedIndex = items.indexOf(gradient.value),
+                            selectedIndex = items.indexOf(gradientState.value),
                             onIndexChange = {
-                                gradient.value = items[it]
+                                gradientState.value = items[it]
                             },
                             inactiveButtonColor = Color.Unspecified
                         )

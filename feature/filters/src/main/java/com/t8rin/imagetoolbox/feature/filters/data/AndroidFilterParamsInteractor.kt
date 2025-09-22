@@ -34,7 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.core.filters.domain.FavoriteFiltersInteractor
+import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.resources.R
@@ -50,13 +50,13 @@ import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
-internal class AndroidFavoriteFiltersInteractor @Inject constructor(
+internal class AndroidFilterParamsInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>
-) : FavoriteFiltersInteractor {
+) : FilterParamsInteractor {
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
         prefs[FAVORITE_FILTERS]?.toFiltersList(false, context) ?: emptyList()
