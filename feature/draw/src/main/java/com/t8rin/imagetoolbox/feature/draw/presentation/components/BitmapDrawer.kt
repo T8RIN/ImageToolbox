@@ -118,7 +118,7 @@ fun BitmapDrawer(
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(modifier) {
-            var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+            val motionEvent = remember { mutableStateOf(MotionEvent.Idle) }
             var previousDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
             var drawDownPosition by remember { mutableStateOf(Offset.Unspecified) }
 
@@ -241,7 +241,7 @@ fun BitmapDrawer(
                     isEraserOn = isEraserOn
                 )
 
-                motionEvent.handle(
+                motionEvent.value.handle(
                     onDown = {
                         if (currentDrawPosition.isSpecified) {
                             onDrawStart?.invoke()
@@ -253,7 +253,7 @@ fun BitmapDrawer(
                             pathWithoutTransformations = Path()
                         }
 
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
                     },
                     onMove = {
                         drawHelper.drawPath(
@@ -301,7 +301,7 @@ fun BitmapDrawer(
                             }
                         )
 
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
                     },
                     onUp = {
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
@@ -359,7 +359,7 @@ fun BitmapDrawer(
 
                         currentDrawPosition = Offset.Unspecified
                         previousDrawPosition = Offset.Unspecified
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
 
                         scope.launch {
                             if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal) && !isEraserOn) Unit
@@ -453,7 +453,7 @@ fun BitmapDrawer(
             BitmapDrawerPreview(
                 preview = previewBitmap,
                 globalTouchPointersCount = globalTouchPointersCount,
-                onReceiveMotionEvent = { motionEvent = it },
+                onReceiveMotionEvent = { motionEvent.value = it },
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },

@@ -121,7 +121,7 @@ fun BitmapEraser(
                 invalidations++
             }
 
-            var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+            val motionEvent = remember { mutableStateOf(MotionEvent.Idle) }
             var previousDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
             var drawDownPosition by remember { mutableStateOf(Offset.Unspecified) }
 
@@ -225,7 +225,7 @@ fun BitmapEraser(
                     isEraserOn = false
                 )
 
-                motionEvent.handle(
+                motionEvent.value.handle(
                     onDown = {
                         if (currentDrawPosition.isSpecified) {
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
@@ -233,7 +233,7 @@ fun BitmapEraser(
                         } else {
                             drawPath = Path()
                         }
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
                     },
                     onMove = {
                         drawHelper.drawPath(
@@ -256,7 +256,7 @@ fun BitmapEraser(
                             }
                         )
 
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
                     },
                     onUp = {
                         drawHelper.drawPath(
@@ -289,7 +289,7 @@ fun BitmapEraser(
 
                         currentDrawPosition = Offset.Unspecified
                         previousDrawPosition = Offset.Unspecified
-                        motionEvent = MotionEvent.Idle
+                        motionEvent.value = MotionEvent.Idle
 
                         scope.launch {
                             drawPath = Path()
@@ -359,7 +359,7 @@ fun BitmapEraser(
             BitmapDrawerPreview(
                 preview = outputImage,
                 globalTouchPointersCount = globalTouchPointersCount,
-                onReceiveMotionEvent = { motionEvent = it },
+                onReceiveMotionEvent = { motionEvent.value = it },
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },

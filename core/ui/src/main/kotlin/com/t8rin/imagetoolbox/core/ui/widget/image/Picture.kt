@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -99,6 +98,18 @@ fun Picture(
     contentPadding: PaddingValues = PaddingValues()
 ) {
     when (model) {
+        is ImageBitmap -> {
+            Image(
+                bitmap = model,
+                contentDescription = contentDescription,
+                modifier = modifier,
+                alignment = alignment,
+                contentScale = contentScale,
+                alpha = alpha,
+                colorFilter = colorFilter
+            )
+        }
+
         is Painter -> {
             Image(
                 painter = model,
@@ -125,7 +136,7 @@ fun Picture(
 
         else -> {
             CoilPicture(
-                model = if (model is ImageBitmap) model.asAndroidBitmap() else model,
+                model = model,
                 modifier = modifier,
                 transformations = transformations,
                 contentDescription = contentDescription,
