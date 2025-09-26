@@ -42,7 +42,7 @@ decompose = "3.4.0-beta01"
 
 kotlin = "2.2.20"
 agp = "8.13.0"
-hilt = "2.57.1"
+hilt = "2.57.2"
 gms = "4.4.3"
 
 ktor = "3.3.0"
