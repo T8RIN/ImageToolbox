@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
@@ -65,6 +66,7 @@ import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -73,9 +75,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import org.w3c.dom.Element
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
+import kotlin.time.Duration.Companion.seconds
 
 class RootComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -88,6 +92,8 @@ class RootComponent @AssistedInject internal constructor(
     settingsComponentFactory: SettingsComponent.Factory,
     resourceManager: ResourceManager,
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
+
+    private var updatesJob: Job? by smartJob()
 
     private val _backupRestoredEvents: Channel<Boolean> = Channel(Channel.BUFFERED)
     val backupRestoredEvents: Flow<Boolean> = _backupRestoredEvents.receiveAsFlow()
@@ -244,8 +250,11 @@ class RootComponent @AssistedInject internal constructor(
             }
         } else {
             if (!_isUpdateCancelled.value || isNewRequest) {
-                componentScope.launch {
-                    checkForUpdates(showDialog, onNoUpdates)
+                updatesJob = componentScope.launch {
+                    checkForUpdates(
+                        showDialog = showDialog,
+                        onNoUpdates = onNoUpdates
+                    )
                 }
             }
         }
@@ -255,30 +264,35 @@ class RootComponent @AssistedInject internal constructor(
         showDialog: Boolean,
         onNoUpdates: () -> Unit
     ) = withContext(defaultDispatcher) {
+        "start updates check".makeLog("checkForUpdates")
         runCatching {
-            val nodes =
-                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-                    URL("$APP_RELEASES.atom").openConnection().getInputStream()
-                )?.getElementsByTagName("feed")
+            withTimeoutOrNull(30.seconds) {
+                val nodes =
+                    DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+                        URL("$APP_RELEASES.atom").openConnection().getInputStream()
+                    )?.getElementsByTagName("feed")
 
-            if (nodes != null) {
-                for (i in 0 until nodes.length) {
-                    val element = nodes.item(i) as Element
-                    val title = element.getElementsByTagName("entry")
-                    val line = (title.item(0) as Element)
-                    _tag.value = (line.getElementsByTagName("title")
-                        .item(0) as Element).textContent
-                    _changelog.value = (line.getElementsByTagName("content")
-                        .item(0) as Element).textContent
+                if (nodes != null) {
+                    for (i in 0 until nodes.length) {
+                        val element = nodes.item(i) as Element
+                        val title = element.getElementsByTagName("entry")
+                        val line = (title.item(0) as Element)
+                        _tag.value = (line.getElementsByTagName("title")
+                            .item(0) as Element).textContent
+                        _changelog.value = (line.getElementsByTagName("content")
+                            .item(0) as Element).textContent
+                    }
                 }
             }
 
-            if (
-                isNeedUpdate(
-                    currentName = BuildConfig.VERSION_NAME,
-                    updateName = tag
-                )
-            ) {
+            val isNeedUpdate = isNeedUpdate(
+                currentName = BuildConfig.VERSION_NAME,
+                updateName = tag
+            )
+
+            "isNeedUpdate = $isNeedUpdate".makeLog("checkForUpdates")
+
+            if (isNeedUpdate) {
                 _isUpdateAvailable.value = true
                 if (showDialog) {
                     _showUpdateDialog.value = true
@@ -286,6 +300,9 @@ class RootComponent @AssistedInject internal constructor(
             } else {
                 onNoUpdates()
             }
+        }.onFailure {
+            it.makeLog("checkForUpdates")
+            onNoUpdates()
         }
     }
 

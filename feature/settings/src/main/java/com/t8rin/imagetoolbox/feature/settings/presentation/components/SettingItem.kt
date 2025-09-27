@@ -192,7 +192,7 @@ internal fun SettingItem(
 
                     essentials.toastHostState.currentToastData?.dismiss()
                     if (clicks == 1) {
-                        component.tryGetUpdate {
+                        component.tryGetUpdate(true) {
                             essentials.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
                                 message = context.getString(R.string.no_updates)
@@ -348,7 +348,14 @@ internal fun SettingItem(
 
             Setting.CheckUpdatesButton -> {
                 CheckUpdatesButtonSettingItem(
-                    onClick = component::tryGetUpdate
+                    onClick = {
+                        component.tryGetUpdate(true) {
+                            essentials.showToast(
+                                icon = Icons.Rounded.FileDownloadOff,
+                                message = context.getString(R.string.no_updates)
+                            )
+                        }
+                    }
                 )
             }
 
