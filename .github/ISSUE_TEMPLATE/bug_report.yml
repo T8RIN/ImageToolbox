@@ -2,6 +2,7 @@ name: Bug Report
 description: Create a report to help us improve
 labels: ["bug"]
 
+body:
   - type: textarea
     id: description
     attributes:
@@ -77,6 +78,6 @@ labels: ["bug"]
       description: Which variant of the app are you using?
       options:
         - FOSS
-        - Market (Google Play/App Store)
+        - Market (Google Play)
     validations:
       required: true
