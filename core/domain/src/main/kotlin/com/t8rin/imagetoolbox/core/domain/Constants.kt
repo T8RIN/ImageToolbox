@@ -32,7 +32,7 @@ const val LENS_PROFILES_LINK =
     "https://github.com/T8RIN/ImageToolboxRemoteResources/tree/main/lens_profile"
 
 const val BitcoinWallet = "18QFWMREkjzQa4yetfYsN5Ua51UubKmJut"
-const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
+const val USDTWallet = "TVdw6fP8dYsYA6HgQiSYNijBqPJ3k5BbYo"
 const val TONSpaceWallet = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
 const val TONWallet = "UQB8YI7eEJsFkr05juS-Ix1pRxhgRvCDF9S0g_aXayVJoGtg"
 
