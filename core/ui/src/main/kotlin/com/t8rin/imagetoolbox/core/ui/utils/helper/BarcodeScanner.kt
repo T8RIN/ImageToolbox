@@ -79,7 +79,10 @@ fun rememberBarcodeScanner(
             }
 
             is QRResult.QRSuccess -> {
-                onSuccess(result.content.rawValue ?: "")
+                val rawCode = result.content.rawValue
+                    ?: result.content.rawBytes?.toString(Charsets.UTF_8).orEmpty()
+
+                onSuccess(rawCode)
             }
 
             QRResult.QRUserCanceled -> Unit

@@ -18,25 +18,16 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.Intent
-import android.os.Build
 import android.os.Parcelable
+import androidx.core.content.IntentCompat
 
 object IntentUtils {
-    inline fun <reified T : Parcelable> Intent.parcelable(
-        key: String
-    ): T? = runCatching {
-        when {
-            Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
-            else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
-        }
+    inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = runCatching {
+        IntentCompat.getParcelableExtra(this, key, T::class.java)
     }.getOrNull()
 
-    inline fun <reified T : Parcelable> Intent.parcelableArrayList(
-        key: String
-    ): ArrayList<T>? = runCatching {
-        when {
-            Build.VERSION.SDK_INT >= 33 -> getParcelableArrayListExtra(key, T::class.java)
-            else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
-        }
+    inline fun <reified T : Parcelable> Intent.parcelableArrayList(key: String): ArrayList<T>? =
+        runCatching {
+            IntentCompat.getParcelableArrayListExtra(this, key, T::class.java)
     }.getOrNull()
 }
