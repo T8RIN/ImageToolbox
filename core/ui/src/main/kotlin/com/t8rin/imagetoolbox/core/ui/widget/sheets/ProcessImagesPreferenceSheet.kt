@@ -70,7 +70,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -97,8 +96,6 @@ fun ProcessImagesPreferenceSheet(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val canSearchScreens = LocalSettingsState.current.screensSearchEnabled
-
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
@@ -108,9 +105,9 @@ fun ProcessImagesPreferenceSheet(
 
     val rawScreenList by uris.screenList(extraDataType)
 
-    val urisCorrespondingScreens by remember(rawScreenList, searchKeyword, canSearchScreens) {
+    val urisCorrespondingScreens by remember(rawScreenList, searchKeyword) {
         derivedStateOf {
-            if (searchKeyword.isNotEmpty() && canSearchScreens) {
+            if (searchKeyword.isNotEmpty()) {
                 rawScreenList.filter {
                     val string =
                         context.getString(it.title) + " " + context.getString(it.subtitle)
@@ -194,16 +191,14 @@ fun ProcessImagesPreferenceSheet(
                             icon = Icons.Rounded.Image
                         )
                         Spacer(modifier = Modifier.weight(1f))
-                        if (canSearchScreens) {
-                            EnhancedIconButton(
-                                onClick = { isSearching = true },
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
-                                    contentDescription = stringResource(R.string.search_here)
-                                )
-                            }
+                        EnhancedIconButton(
+                            onClick = { isSearching = true },
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
+                                contentDescription = stringResource(R.string.search_here)
+                            )
                         }
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
