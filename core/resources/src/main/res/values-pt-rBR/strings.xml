@@ -1654,4 +1654,23 @@
     <string name="color_halftone">Meio-tom de Cor</string>
     <string name="levels">Níveis</string>
     <string name="shape">Forma</string>
+    <string name="disable_rotation">Desativar rotação</string>
+    <string name="disable_rotation_sub">Impede a rotação de imagens com gestos de dois dedos</string>
+    <string name="enable_snapping_to_borders">Ativar encaixe nas bordas</string>
+    <string name="enable_snapping_to_borders_sub">Após mover ou ampliar, as imagens se ajustarão para preencher as bordas do quadro</string>
+    <string name="contour">Contorno</string>
+    <string name="voronoi_crystallize">Cristalização Voronoi</string>
+    <string name="stretch">Alongar</string>
+    <string name="randomness">Aleatoriedade</string>
+    <string name="despeckle">Remover manchas</string>
+    <string name="diffuse">Difuso</string>
+    <string name="dog">DoG</string>
+    <string name="second_radius">Segundo raio</string>
+    <string name="equalize">Equalizar</string>
+    <string name="glow">Brilhar</string>
+    <string name="whirl_and_pinch">Girar e Pinçar</string>
+    <string name="pointillize">Pontilhismo</string>
+    <string name="border_color">Cor da borda</string>
+    <string name="polar_coordinates">Coordenadas Polares</string>
+    <string name="rect_to_polar">Rectangular para polar</string>
 </resources>
