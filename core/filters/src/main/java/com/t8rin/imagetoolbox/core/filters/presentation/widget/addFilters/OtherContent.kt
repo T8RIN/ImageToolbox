@@ -73,7 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberForeverLazyListState
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberRetainedLazyListState
 
 @Composable
 internal fun OtherContent(
@@ -93,7 +93,7 @@ internal fun OtherContent(
     val onRequestFilterMapping = component::filterToTransformation
 
     LazyColumn(
-        state = rememberForeverLazyListState("sheet$page"),
+        state = rememberRetainedLazyListState("sheet$page"),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = PaddingValues(16.dp)
     ) {

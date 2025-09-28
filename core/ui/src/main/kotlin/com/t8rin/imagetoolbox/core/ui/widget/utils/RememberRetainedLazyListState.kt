@@ -28,7 +28,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 private val SaveMap = mutableMapOf<String, KeyParams>()
 
 private data class KeyParams(
-    val params: String = "",
+    val params: String,
     val index: Int,
     val scrollOffset: Int
 )
@@ -41,7 +41,7 @@ private data class KeyParams(
  * @param initialFirstVisibleItemScrollOffset see [LazyListState.firstVisibleItemScrollOffset]
  */
 @Composable
-fun rememberForeverLazyListState(
+fun rememberRetainedLazyListState(
     key: String,
     params: String = "",
     initialFirstVisibleItemIndex: Int = 0,

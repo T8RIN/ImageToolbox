@@ -111,7 +111,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberForeverLazyListState
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberRetainedLazyListState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -300,7 +300,7 @@ fun AddFiltersSheet(
                     ) { isNotEmpty ->
                         if (isNotEmpty) {
                             LazyColumn(
-                                state = rememberForeverLazyListState("sheet"),
+                                state = rememberRetainedLazyListState("sheet"),
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                                 modifier = Modifier.animateContentSizeNoClip(),
                                 contentPadding = PaddingValues(16.dp)

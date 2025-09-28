@@ -55,7 +55,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.TemplateFilterSel
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberForeverLazyListState
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberRetainedLazyListState
 
 @Composable
 internal fun TemplatesContent(
@@ -102,7 +102,7 @@ internal fun TemplatesContent(
             }
         } else {
             LazyColumn(
-                state = rememberForeverLazyListState("templates"),
+                state = rememberRetainedLazyListState("templates"),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(16.dp)
