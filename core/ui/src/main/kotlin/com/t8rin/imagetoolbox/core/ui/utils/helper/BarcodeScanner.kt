@@ -58,10 +58,9 @@ interface BarcodeScanner {
     fun scan()
 }
 
-
 @Composable
 fun rememberBarcodeScanner(
-    onSuccess: (rawCode: String) -> Unit
+    onSuccess: (QrType) -> Unit
 ): BarcodeScanner {
     val essentials = rememberLocalEssentials()
 
@@ -78,12 +77,7 @@ fun rememberBarcodeScanner(
                 )
             }
 
-            is QRResult.QRSuccess -> {
-                val rawCode = result.content.rawValue
-                    ?: result.content.rawBytes?.toString(Charsets.UTF_8).orEmpty()
-
-                onSuccess(rawCode)
-            }
+            is QRResult.QRSuccess -> onSuccess(result.content.toQrType())
 
             QRResult.QRUserCanceled -> Unit
         }

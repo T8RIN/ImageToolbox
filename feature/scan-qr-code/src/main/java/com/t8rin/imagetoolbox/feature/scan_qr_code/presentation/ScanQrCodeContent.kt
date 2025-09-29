@@ -84,7 +84,7 @@ fun ScanQrCodeContent(
     val scanner = rememberBarcodeScanner {
         component.updateParams(
             params = params.copy(
-                content = it
+                content = it.raw
             )
         )
     }

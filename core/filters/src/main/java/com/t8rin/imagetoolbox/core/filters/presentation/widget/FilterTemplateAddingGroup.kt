@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 
+@SuppressLint("StringFormatInvalid")
 @Composable
 internal fun FilterTemplateAddingGroup(
     component: FilterTemplateCreationSheetComponent,
@@ -79,7 +81,7 @@ internal fun FilterTemplateAddingGroup(
 
     val scanner = rememberBarcodeScanner {
         addTemplateFilterFromString(
-            string = it,
+            string = it.raw,
             onSuccess = { filterName, filtersCount ->
                 toastHostState.showToast(
                     message = context.getString(
