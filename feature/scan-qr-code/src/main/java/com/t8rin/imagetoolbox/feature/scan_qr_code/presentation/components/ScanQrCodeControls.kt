@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -47,7 +48,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
@@ -71,7 +75,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
     val params by rememberUpdatedState(component.params)
 
     LinkPreviewList(
-        text = params.content,
+        text = params.content.raw,
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
@@ -88,27 +92,43 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 end = 8.dp,
                 bottom = 6.dp
             ),
-        value = params.content,
+        value = params.content.raw,
         onValueChange = {
-            component.updateParams(
+            component.updateParamsAndGetQrType(
                 params.copy(
-                    content = it
+                    content = QrType.Plain(it)
                 )
             )
         },
         maxSymbols = 2500,
         singleLine = false,
+        supportingText = {
+            AnimatedVisibility(
+                visible = params.content.raw.isNotEmpty()
+            ) {
+                Text(
+                    text = params.content.name(),
+                    color = MaterialTheme.colorScheme.onMixedContainer,
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.mixedContainer,
+                            shape = ShapeDefaults.small
+                        )
+                        .padding(horizontal = 5.dp, vertical = 1.dp)
+                )
+            }
+        },
         label = {
             Text(stringResource(id = R.string.code_content))
         },
         keyboardOptions = KeyboardOptions(),
         endIcon = {
-            AnimatedVisibility(params.content.isNotBlank()) {
+            AnimatedVisibility(params.content.raw.isNotBlank()) {
                 EnhancedIconButton(
                     onClick = {
                         component.updateParams(
                             params.copy(
-                                content = ""
+                                content = QrType.Empty
                             )
                         )
                     },
@@ -129,7 +149,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
     )
     Spacer(modifier = Modifier.height(8.dp))
 
-    AnimatedVisibility(visible = params.content.isNotEmpty()) {
+    AnimatedVisibility(visible = params.content.raw.isNotEmpty()) {
         Column {
             DataSelector(
                 value = params.type,

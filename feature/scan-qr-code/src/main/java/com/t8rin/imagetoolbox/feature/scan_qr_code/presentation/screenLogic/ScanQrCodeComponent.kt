@@ -47,6 +47,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -64,11 +65,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _params: MutableState<QrPreviewParams> = mutableStateOf(
-        QrPreviewParams.Default.copy(
-            content = initialQrCodeContent ?: ""
-        )
-    )
+    private val _params: MutableState<QrPreviewParams> = mutableStateOf(QrPreviewParams.Default)
     val params by _params
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
@@ -77,6 +74,8 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
+
+    private var qrTypeJob: Job? by smartJob()
 
     private var settingsState: SettingsState = SettingsState.Default
 
@@ -90,7 +89,17 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             }
         }.launchIn(componentScope)
 
-        uriToAnalyze?.let(::readBarcodeFromImage)
+        componentScope.launch {
+            initialQrCodeContent?.let { content ->
+                _params.update {
+                    it.copy(
+                        content = imageBarcodeReader.convertToQrType(content)
+                    )
+                }
+            }
+
+            uriToAnalyze?.let(::readBarcodeFromImage)
+        }
     }
 
     fun saveBitmap(
@@ -182,9 +191,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         onSuccess: (filterName: String, filtersCount: Int) -> Unit
     ) {
         componentScope.launch {
-            if (filterParamsInteractor.isValidTemplateFilter(params.content)) {
+            if (filterParamsInteractor.isValidTemplateFilter(params.content.raw)) {
                 filterParamsInteractor.addTemplateFilterFromString(
-                    string = params.content,
+                    string = params.content.raw,
                     onSuccess = onSuccess,
                     onFailure = {}
                 )
@@ -198,6 +207,19 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         _params.update { params }
     }
 
+    fun updateParamsAndGetQrType(params: QrPreviewParams) {
+        _params.update { params }
+
+        qrTypeJob = componentScope.launch {
+            delay(300)
+            _params.update {
+                it.copy(
+                    content = imageBarcodeReader.convertToQrType(it.content.raw)
+                )
+            }
+        }
+    }
+
     fun readBarcodeFromImage(
         imageUri: Uri,
         onFailure: (Throwable) -> Unit = {}
@@ -208,7 +230,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                 .onSuccess {
                     updateParams(
                         params.copy(
-                            content = it.raw
+                            content = it
                         )
                     )
                 }

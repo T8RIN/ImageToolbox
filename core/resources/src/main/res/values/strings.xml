@@ -1772,4 +1772,13 @@
     <string name="skipped_saving_multiple">%1$d files skipped</string>
     <string name="allow_skip_if_larger">Allow Skip If Larger</string>
     <string name="allow_skip_if_larger_sub">Some tools are will be allowed to skip saving images if the resulting file size would be larger than the original</string>
+    <string name="qr_type_calendar_event">Calendar Event</string>
+    <string name="qr_type_contact_info">Contact</string>
+    <string name="qr_type_email">Email</string>
+    <string name="qr_type_geo_point">Location</string>
+    <string name="qr_type_phone">Phone</string>
+    <string name="qr_type_plain">Text</string>
+    <string name="qr_type_sms">SMS</string>
+    <string name="qr_type_url">URL</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
 </resources>

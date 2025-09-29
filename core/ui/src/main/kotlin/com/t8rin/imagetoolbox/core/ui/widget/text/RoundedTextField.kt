@@ -233,7 +233,8 @@ fun RoundedTextField(
     Column(
         modifier = modifier.animateContentSizeNoClip()
     ) {
-        val showError = isError && !loading && supportingText != null && supportingTextVisible
+        val showSupportingText =
+            !loading && (isError || (supportingText != null && supportingTextVisible))
         TextField(
             modifier = mergedModifier.clip(shape),
             value = value,
@@ -255,18 +256,19 @@ fun RoundedTextField(
             interactionSource = interactionSource,
             minLines = minLines,
         )
-        if (showError || maxSymbols != Int.MAX_VALUE) {
+        if (showSupportingText || maxSymbols != Int.MAX_VALUE) {
             Spacer(Modifier.height(6.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
             ) {
-                if (showError) {
+                if (showSupportingText) {
                     ProvideTextStyle(
                         LocalTextStyle.current.copy(
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            fontSize = 12.sp,
+                            lineHeight = 12.sp,
                         )
                     ) {
                         Row {

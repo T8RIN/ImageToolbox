@@ -22,10 +22,12 @@ import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
+import com.t8rin.logger.makeLog
 import io.github.g00fy2.quickie.extensions.readQrCode
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -66,12 +68,15 @@ internal class AndroidImageBarcodeReader @Inject constructor(
 
     override suspend fun convertToQrType(
         code: String
-    ): Result<QrType> = readBarcode(
-        generateQrBitmap(
-            content = code,
-            widthPx = 1024,
-            heightPx = 1024,
-            paddingPx = 100
-        )
-    )
+    ): QrType = runSuspendCatching {
+        readBarcode(
+            generateQrBitmap(
+                content = code,
+                widthPx = 1024,
+                heightPx = 1024,
+                paddingPx = 100
+            )
+        ).getOrThrow()
+    }.onFailure { it.makeLog("convertToQrType") }.getOrDefault(QrType.Empty)
+
 }

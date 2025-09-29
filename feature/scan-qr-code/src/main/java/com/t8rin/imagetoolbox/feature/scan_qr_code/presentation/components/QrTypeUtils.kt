@@ -15,18 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.scan_qr_code.domain
+package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.resources.R
 
-interface ImageBarcodeReader {
-
-    suspend fun readBarcode(
-        image: Any
-    ): Result<QrType>
-
-    suspend fun convertToQrType(
-        code: String
-    ): QrType
-
-}
+@Composable
+fun QrType.name(): String = stringResource(
+    when (this) {
+        is QrType.CalendarEvent -> R.string.qr_type_calendar_event
+        is QrType.ContactInfo -> R.string.qr_type_contact_info
+        is QrType.Email -> R.string.qr_type_email
+        is QrType.GeoPoint -> R.string.qr_type_geo_point
+        is QrType.Phone -> R.string.qr_type_phone
+        is QrType.Plain -> R.string.qr_type_plain
+        is QrType.Sms -> R.string.qr_type_sms
+        is QrType.Url -> R.string.qr_type_url
+        is QrType.Wifi -> R.string.qr_type_wifi
+    }
+)

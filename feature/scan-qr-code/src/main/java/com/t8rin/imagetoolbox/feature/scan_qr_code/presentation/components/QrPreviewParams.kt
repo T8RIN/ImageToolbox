@@ -18,13 +18,14 @@
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.net.Uri
+import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
 
 data class QrPreviewParams(
     val imageUri: Uri?,
     val description: String,
-    val content: String,
+    val content: QrType,
     val cornersSize: Int,
     val descriptionFont: UiFontFamily,
     val heightRatio: Float,
@@ -36,7 +37,7 @@ data class QrPreviewParams(
             QrPreviewParams(
                 imageUri = null,
                 description = "",
-                content = "",
+                content = QrType.Empty,
                 cornersSize = 4,
                 descriptionFont = UiFontFamily.System,
                 heightRatio = 2f,

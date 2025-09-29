@@ -101,4 +101,8 @@ sealed interface QrType {
         val status: String,
         val summary: String
     ) : QrType
+
+    companion object {
+        val Empty = Plain("")
+    }
 }

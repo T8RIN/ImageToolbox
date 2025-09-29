@@ -73,7 +73,7 @@ internal fun QrCodePreview(
             BoxWithConstraints(
                 modifier = Modifier
                     .then(
-                        if ((params.imageUri != null || params.description.isNotEmpty()) && params.content.isNotEmpty()) {
+                        if ((params.imageUri != null || params.description.isNotEmpty()) && params.content.raw.isNotEmpty()) {
                             Modifier
                                 .background(
                                     color = takeColorFromScheme {
@@ -95,7 +95,7 @@ internal fun QrCodePreview(
                     val previous = rememberPrevious(params)
 
                     AnimatedContent(
-                        targetState = params.content.isEmpty(),
+                        targetState = params.content.raw.isEmpty(),
                         modifier = Modifier
                             .padding(
                                 top = if (params.imageUri != null) 36.dp else 0.dp,
@@ -120,7 +120,7 @@ internal fun QrCodePreview(
                             )
                         } else {
                             QrCode(
-                                content = params.content,
+                                content = params.content.raw,
                                 modifier = Modifier.width(targetSize),
                                 heightRatio = params.heightRatio,
                                 type = params.type,
@@ -137,7 +137,7 @@ internal fun QrCodePreview(
                         }
                     }
 
-                    BoxAnimatedVisibility(visible = params.description.isNotEmpty() && params.content.isNotEmpty()) {
+                    BoxAnimatedVisibility(visible = params.description.isNotEmpty() && params.content.raw.isNotEmpty()) {
                         ProvideTypography(params.descriptionFont) {
                             Text(
                                 text = params.description,
@@ -149,7 +149,7 @@ internal fun QrCodePreview(
                     }
                 }
 
-                if (params.imageUri != null && params.content.isNotEmpty()) {
+                if (params.imageUri != null && params.content.raw.isNotEmpty()) {
                     Picture(
                         modifier = Modifier
                             .align(Alignment.TopCenter)

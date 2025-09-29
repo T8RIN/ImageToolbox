@@ -84,7 +84,7 @@ fun ScanQrCodeContent(
     val scanner = rememberBarcodeScanner {
         component.updateParams(
             params = params.copy(
-                content = it.raw
+                content = it
             )
         )
     }
@@ -158,7 +158,7 @@ fun ScanQrCodeContent(
         onGoBack = component.onGoBack,
         actions = {
             ShareButton(
-                enabled = params.content.isNotEmpty(),
+                enabled = params.content.raw.isNotEmpty(),
                 onShare = {
                     scope.launch {
                         component.shareImage(
@@ -214,7 +214,7 @@ fun ScanQrCodeContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                isNoData = params.content.isEmpty() && isPortrait,
+                isNoData = params.content.raw.isEmpty() && isPortrait,
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
@@ -227,7 +227,7 @@ fun ScanQrCodeContent(
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
-                isPrimaryButtonVisible = isPortrait || params.content.isNotEmpty(),
+                isPrimaryButtonVisible = isPortrait || params.content.raw.isNotEmpty(),
                 actions = {
                     if (isPortrait) actions()
                 },
@@ -239,7 +239,7 @@ fun ScanQrCodeContent(
                             showOneTimeImagePickingDialog = true
                         },
                         containerColor = takeColorFromScheme {
-                            if (params.content.isEmpty()) tertiaryContainer
+                            if (params.content.raw.isEmpty()) tertiaryContainer
                             else secondaryContainer
                         }
                     ) {
