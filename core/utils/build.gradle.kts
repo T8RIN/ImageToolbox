@@ -10,4 +10,6 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.resources)
     implementation(projects.core.settings)
+    "marketImplementation"(libs.quickie.bundled)
+    "fossImplementation"(libs.quickie.foss)
 }

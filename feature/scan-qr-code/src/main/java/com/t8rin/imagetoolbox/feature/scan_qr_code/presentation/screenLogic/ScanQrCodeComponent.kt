@@ -208,7 +208,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
                 .onSuccess {
                     updateParams(
                         params.copy(
-                            content = it
+                            content = it.raw
                         )
                     )
                 }

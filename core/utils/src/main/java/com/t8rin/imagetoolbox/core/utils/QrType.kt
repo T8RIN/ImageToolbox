@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.utils
 
+import com.t8rin.imagetoolbox.core.domain.model.QrType
 import io.github.g00fy2.quickie.content.QRContent
 import io.github.g00fy2.quickie.content.QRContent.CalendarEvent.CalendarDateTime
 import io.github.g00fy2.quickie.content.QRContent.ContactInfo.Address.AddressType
@@ -25,90 +26,6 @@ import io.github.g00fy2.quickie.content.QRContent.Phone.PhoneType
 import io.github.g00fy2.quickie.extensions.DataType
 import java.util.Calendar
 import java.util.Date
-
-sealed interface QrType {
-    val raw: String
-
-    data class Plain(
-        override val raw: String
-    ) : QrType
-
-    data class Wifi(
-        override val raw: String,
-        val ssid: String,
-        val password: String,
-        val encryptionType: Int
-    ) : QrType
-
-    data class Url(
-        override val raw: String,
-        val title: String,
-        val url: String
-    ) : QrType
-
-    data class Sms(
-        override val raw: String,
-        val message: String,
-        val phoneNumber: String
-    ) : QrType
-
-    data class GeoPoint(
-        override val raw: String,
-        val lat: Double,
-        val lng: Double
-    ) : QrType
-
-    data class Email(
-        override val raw: String,
-        val address: String,
-        val body: String,
-        val subject: String,
-        val type: Int
-    ) : QrType
-
-    data class Phone(
-        override val raw: String,
-        val number: String,
-        val type: Int
-    ) : QrType
-
-    data class ContactInfo(
-        override val raw: String,
-        val addresses: List<Address>,
-        val emails: List<Email>,
-        val name: PersonName,
-        val organization: String,
-        val phones: List<Phone>,
-        val title: String,
-        val urls: List<String>
-    ) : QrType {
-        data class Address(
-            val addressLines: List<String>,
-            val type: Int
-        )
-
-        data class PersonName(
-            val first: String,
-            val formattedName: String,
-            val last: String,
-            val middle: String,
-            val prefix: String,
-            val pronunciation: String,
-            val suffix: String
-        )
-    }
-
-    data class CalendarEvent(
-        override val raw: String,
-        val description: String,
-        val end: Date,
-        val location: String,
-        val organizer: String,
-        val start: Date,
-        val status: String,
-        val summary: String
-    ) : QrType
-}
 
 fun QRContent.toQrType(): QrType {
     val raw = rawValue ?: rawBytes?.toString(Charsets.UTF_8).orEmpty()

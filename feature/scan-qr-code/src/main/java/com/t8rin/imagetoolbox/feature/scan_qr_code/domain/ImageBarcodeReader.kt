@@ -17,10 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.QrType
+
 interface ImageBarcodeReader {
 
     suspend fun readBarcode(
         image: Any
-    ): Result<String>
+    ): Result<QrType>
 
 }

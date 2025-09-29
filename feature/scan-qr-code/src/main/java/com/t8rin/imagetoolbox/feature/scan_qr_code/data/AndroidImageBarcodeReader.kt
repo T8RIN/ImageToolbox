@@ -20,8 +20,10 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.data
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import io.github.g00fy2.quickie.extensions.readQrCode
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -37,7 +39,7 @@ internal class AndroidImageBarcodeReader @Inject constructor(
 
     override suspend fun readBarcode(
         image: Any
-    ): Result<String> = withContext(defaultDispatcher) {
+    ): Result<QrType> = withContext(defaultDispatcher) {
         val bitmap = imageGetter.getImage(
             data = image,
             originalSize = false
@@ -51,7 +53,7 @@ internal class AndroidImageBarcodeReader @Inject constructor(
             bitmap.readQrCode(
                 barcodeFormats = IntArray(0),
                 onSuccess = {
-                    continuation.resume(Result.success(it))
+                    continuation.resume(Result.success(it.toQrType()))
                 },
                 onFailure = {
                     continuation.resume(Result.failure(it))
