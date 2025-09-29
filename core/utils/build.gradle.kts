@@ -12,4 +12,5 @@ dependencies {
     implementation(projects.core.settings)
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
+    implementation(libs.zxing.android.embedded)
 }

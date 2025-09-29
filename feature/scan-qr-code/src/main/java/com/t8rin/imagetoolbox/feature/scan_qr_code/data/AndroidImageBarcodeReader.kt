@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import com.t8rin.imagetoolbox.core.utils.toQrType
 import com.t8rin.imagetoolbox.feature.scan_qr_code.domain.ImageBarcodeReader
 import io.github.g00fy2.quickie.extensions.readQrCode
@@ -40,10 +41,11 @@ internal class AndroidImageBarcodeReader @Inject constructor(
     override suspend fun readBarcode(
         image: Any
     ): Result<QrType> = withContext(defaultDispatcher) {
-        val bitmap = imageGetter.getImage(
-            data = image,
-            originalSize = false
-        )
+        val bitmap = image as? Bitmap
+            ?: imageGetter.getImage(
+                data = image,
+                originalSize = false
+            )
 
         if (bitmap == null) {
             return@withContext Result.failure(NullPointerException(getString(R.string.something_went_wrong)))
@@ -62,4 +64,14 @@ internal class AndroidImageBarcodeReader @Inject constructor(
         }
     }
 
+    override suspend fun convertToQrType(
+        code: String
+    ): Result<QrType> = readBarcode(
+        generateQrBitmap(
+            content = code,
+            widthPx = 1024,
+            heightPx = 1024,
+            paddingPx = 100
+        )
+    )
 }

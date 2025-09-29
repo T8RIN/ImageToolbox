@@ -51,16 +51,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.core.graphics.createBitmap
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.EncodeHintType
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import kotlinx.coroutines.Dispatchers
+import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 /**
  * Creates a [Painter] that draws a QR code for the given [content].
@@ -134,48 +130,6 @@ private class EmptyPainter(
         get() = Size(widthPx.toFloat(), heightPx.toFloat())
 
     override fun DrawScope.onDraw() = Unit
-}
-
-
-/**
- * Generates a QR code bitmap for the given [content].
- * The [widthPx] parameter defines the size of the QR code in pixels.
- * The [paddingPx] parameter defines the padding of the QR code in pixels.
- * Returns null if the QR code could not be generated.
- * This function is suspendable and should be called from a coroutine is thread-safe.
- */
-private suspend fun generateQrBitmap(
-    content: String,
-    widthPx: Int,
-    heightPx: Int,
-    paddingPx: Int,
-    foregroundColor: Color,
-    backgroundColor: Color,
-    format: BarcodeFormat
-): Bitmap = withContext(Dispatchers.IO) {
-    val encodeHints = mutableMapOf<EncodeHintType, Any?>()
-        .apply {
-            this[EncodeHintType.CHARACTER_SET] = Charsets.UTF_8
-            if (format == BarcodeFormat.QR_CODE) {
-                this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
-            }
-            this[EncodeHintType.MARGIN] = paddingPx
-        }
-
-    val bitmapMatrix =
-        MultiFormatWriter().encode(content, format, widthPx, heightPx, encodeHints)
-
-    val matrixWidth = bitmapMatrix.width
-    val matrixHeight = bitmapMatrix.height
-
-    val colors = IntArray(matrixWidth * matrixHeight) { index ->
-        val x = index % matrixWidth
-        val y = index / matrixWidth
-        val shouldColorPixel = bitmapMatrix.get(x, y)
-        if (shouldColorPixel) foregroundColor.toArgb() else backgroundColor.toArgb()
-    }
-
-    Bitmap.createBitmap(colors, matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888)
 }
 
 /**
