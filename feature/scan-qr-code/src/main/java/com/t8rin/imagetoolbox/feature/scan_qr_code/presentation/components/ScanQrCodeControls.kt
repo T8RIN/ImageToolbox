@@ -17,7 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +53,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
@@ -90,34 +95,38 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 top = 8.dp,
                 start = 8.dp,
                 end = 8.dp,
-                bottom = 6.dp
+                bottom = if (params.content.raw.isNotEmpty()) 6.dp else 8.dp
             ),
         value = params.content.raw,
         onValueChange = {
             component.updateParamsAndGetQrType(
                 params.copy(
-                    content = QrType.Plain(it)
+                    content = params.content.copy(it)
                 )
             )
         },
         maxSymbols = 2500,
         singleLine = false,
-        supportingText = {
-            AnimatedVisibility(
-                visible = params.content.raw.isNotEmpty()
-            ) {
-                Text(
-                    text = params.content.name(),
-                    color = MaterialTheme.colorScheme.onMixedContainer,
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.mixedContainer,
-                            shape = ShapeDefaults.small
-                        )
-                        .padding(horizontal = 5.dp, vertical = 1.dp)
-                )
+        supportingText = if (params.content.raw.isNotEmpty()) {
+            {
+                AnimatedContent(
+                    targetState = params.content,
+                    contentKey = { it::class.simpleName },
+                    transitionSpec = { fadeIn() togetherWith fadeOut() }
+                ) { content ->
+                    Text(
+                        text = content.name(),
+                        color = MaterialTheme.colorScheme.onMixedContainer,
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.mixedContainer,
+                                shape = ShapeDefaults.small
+                            )
+                            .padding(horizontal = 5.dp, vertical = 1.dp)
+                    )
+                }
             }
-        },
+        } else null,
         label = {
             Text(stringResource(id = R.string.code_content))
         },

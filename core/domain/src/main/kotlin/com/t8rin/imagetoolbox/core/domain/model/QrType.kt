@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.domain.model
 
+import com.t8rin.imagetoolbox.core.domain.utils.cast
 import java.util.Date
 
 sealed interface QrType {
@@ -26,30 +27,32 @@ sealed interface QrType {
         override val raw: String
     ) : QrType
 
+    sealed interface Complex : QrType
+
     data class Wifi(
         override val raw: String,
         val ssid: String,
         val password: String,
         val encryptionType: Int
-    ) : QrType
+    ) : Complex
 
     data class Url(
         override val raw: String,
         val title: String,
         val url: String
-    ) : QrType
+    ) : Complex
 
     data class Sms(
         override val raw: String,
         val message: String,
         val phoneNumber: String
-    ) : QrType
+    ) : Complex
 
     data class GeoPoint(
         override val raw: String,
         val lat: Double,
         val lng: Double
-    ) : QrType
+    ) : Complex
 
     data class Email(
         override val raw: String,
@@ -57,13 +60,13 @@ sealed interface QrType {
         val body: String,
         val subject: String,
         val type: Int
-    ) : QrType
+    ) : Complex
 
     data class Phone(
         override val raw: String,
         val number: String,
         val type: Int
-    ) : QrType
+    ) : Complex
 
     data class ContactInfo(
         override val raw: String,
@@ -74,7 +77,7 @@ sealed interface QrType {
         val phones: List<Phone>,
         val title: String,
         val urls: List<String>
-    ) : QrType {
+    ) : Complex {
         data class Address(
             val addressLines: List<String>,
             val type: Int
@@ -100,9 +103,21 @@ sealed interface QrType {
         val start: Date,
         val status: String,
         val summary: String
-    ) : QrType
+    ) : Complex
 
     companion object {
         val Empty = Plain("")
     }
 }
+
+inline fun <reified T : QrType> T.copy(raw: String): T = when (this) {
+    is QrType.Plain -> this.copy(raw = raw)
+    is QrType.Wifi -> this.copy(raw = raw)
+    is QrType.Url -> this.copy(raw = raw)
+    is QrType.Sms -> this.copy(raw = raw)
+    is QrType.GeoPoint -> this.copy(raw = raw)
+    is QrType.Email -> this.copy(raw = raw)
+    is QrType.Phone -> this.copy(raw = raw)
+    is QrType.ContactInfo -> this.copy(raw = raw)
+    is QrType.CalendarEvent -> this.copy(raw = raw)
+}.cast()
