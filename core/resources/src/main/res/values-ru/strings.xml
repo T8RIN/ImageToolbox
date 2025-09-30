@@ -1125,7 +1125,7 @@
     <string name="qr_code">QR и баркоды</string>
     <string name="qr_code_sub">Сканируйте QR-код, чтобы получить его содержимое, или вставьте свою строку для генерации нового кода</string>
     <string name="code_content">Содержимое кода</string>
-    <string name="scan_qr_code_to_replace_content">Сканируйте любой баркод, чтобы заменить содержимое в поле, или введите что-нибудь для генерации нового баркода выюранного типа</string>
+    <string name="scan_qr_code_to_replace_content">Сканируйте любой баркод, чтобы заменить содержимое в поле, или введите что-нибудь для генерации нового баркода выбранного типа</string>
     <string name="qr_description">Описание QR</string>
     <string name="min">Мин</string>
     <string name="grant_camera_permission_to_scan_qr_code">Разрешите доступ к камере в настройках для сканирования QR-кода</string>
@@ -1593,7 +1593,7 @@
     <string name="scan_barcode">Сканировать штрихкод</string>
     <string name="height_ratio">Соотношение высоты</string>
     <string name="barcode_type">Тип штрихкода</string>
-    <string name="enforce_bw">Принудительно использовать ч/б</string>
+    <string name="enforce_bw">Принудительно ч/б</string>
     <string name="enforce_bw_sub">Изображение штрихкода будет полностью чёрно-белым и не будет раскрашено темой приложения</string>
     <string name="barcodes_sub">Отсканируйте любой штрихкод (QR, EAN, AZTEC и т. д.) и получите его содержимое или вставьте свой текст для создания нового</string>
     <string name="no_barcode_found">Штрихкод не найден</string>

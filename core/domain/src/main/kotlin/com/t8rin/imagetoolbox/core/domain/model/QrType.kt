@@ -27,20 +27,24 @@ sealed interface QrType {
         override val raw: String
     ) : QrType
 
+    data class Url(
+        override val raw: String,
+        val title: String,
+        val url: String
+    ) : QrType
+
     sealed interface Complex : QrType
 
     data class Wifi(
         override val raw: String,
         val ssid: String,
         val password: String,
-        val encryptionType: Int
-    ) : Complex
-
-    data class Url(
-        override val raw: String,
-        val title: String,
-        val url: String
-    ) : Complex
+        val encryptionType: EncryptionType
+    ) : Complex {
+        enum class EncryptionType {
+            OPEN, WPA, WEP
+        }
+    }
 
     data class Sms(
         override val raw: String,

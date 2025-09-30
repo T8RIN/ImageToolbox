@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.utils
 
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import io.github.g00fy2.quickie.content.QRContent
 import io.github.g00fy2.quickie.content.QRContent.CalendarEvent.CalendarDateTime
 import io.github.g00fy2.quickie.content.QRContent.ContactInfo.Address.AddressType
@@ -37,7 +38,8 @@ fun QRContent.toQrType(): QrType {
             raw = raw,
             ssid = ssid,
             password = password,
-            encryptionType = encryptionType
+            encryptionType = EncryptionType.entries.getOrNull(encryptionType - 1)
+                ?: EncryptionType.OPEN
         )
 
         is QRContent.Url -> QrType.Url(
