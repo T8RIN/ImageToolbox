@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Link
@@ -61,20 +62,25 @@ fun LinkPreviewList(
         mutableStateOf(false)
     }
     var linkPreviewList by remember {
-        mutableStateOf(emptySet<LinkPreview>())
+        mutableStateOf(emptyList<LinkPreview>())
     }
     var expanded by rememberSaveable { mutableStateOf(true) }
     val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
     LaunchedEffect(text) {
         delay(
-            if (linkPreviewList.isNotEmpty()) 1000
+            if (linkPreviewList.isNotEmpty() && text.isNotEmpty()) 1000
             else 0
         )
         isLoading = true
-        linkPreviewList = emptySet()
-        LinkUtils.parseLinks(text).forEach { link ->
-            linkPreviewList += LinkPreview(link)
+        linkPreviewList = emptyList()
+        LinkUtils.parseLinks(text).forEachIndexed { index, link ->
+            linkPreviewList += LinkPreview(
+                link = link,
+                onLoaded = { preview ->
+                    linkPreviewList = linkPreviewList.toMutableList().apply { set(index, preview) }
+                }
+            )
         }
         isLoading = false
     }
@@ -98,15 +104,30 @@ fun LinkPreviewList(
                 )
                 .padding(8.dp)
         ) {
-
             Column {
                 TitleItem(
                     text = stringResource(R.string.links),
                     icon = Icons.Rounded.Link,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp),
+                    endContent = {
+                        AnimatedVisibility(
+                            visible = linkPreviewList.size > 3,
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            EnhancedIconButton(
+                                onClick = { expanded = !expanded }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.KeyboardArrowDown,
+                                    contentDescription = "Expand",
+                                    modifier = Modifier.rotate(rotation)
+                                )
+                            }
+                        }
+                    }
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     links.forEachIndexed { index, link ->
                         LinkPreviewCard(
                             linkPreview = link,
@@ -114,20 +135,6 @@ fun LinkPreviewList(
                                 index = index,
                                 size = links.size
                             )
-                        )
-                    }
-                }
-                AnimatedVisibility(
-                    modifier = Modifier.fillMaxWidth(),
-                    visible = linkPreviewList.size > 3
-                ) {
-                    EnhancedIconButton(
-                        onClick = { expanded = !expanded }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.KeyboardArrowDown,
-                            contentDescription = "Expand",
-                            modifier = Modifier.rotate(rotation)
                         )
                     }
                 }

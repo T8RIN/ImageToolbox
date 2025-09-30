@@ -85,6 +85,12 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     )
+    QrTypeInfo(
+        qrType = params.content,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp)
+    )
     RoundedTextField(
         modifier = Modifier
             .container(

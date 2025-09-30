@@ -18,9 +18,12 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import com.t8rin.imagetoolbox.core.domain.USER_AGENT
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import org.jsoup.Jsoup
+import kotlin.time.Duration.Companion.seconds
 
 object LinkUtils {
     fun parseLinks(text: String): Set<String> {
@@ -39,32 +42,47 @@ data class LinkPreview internal constructor(
     val link: String?
 )
 
-suspend fun LinkPreview(
-    link: String
-): LinkPreview = withContext(Dispatchers.Default) {
+fun LinkPreview(
+    link: String,
+    onLoaded: (LinkPreview) -> Unit
+): LinkPreview {
     var image: String? = null
     var title: String? = null
     var description: String? = null
     var url: String? = null
 
-    runCatching {
-        Jsoup
-            .connect(link)
-            .userAgent(USER_AGENT)
-            .execute()
-            .parse()
-            .getElementsByTag("meta")
-            .forEach { element ->
-                when (element.attr("property")) {
-                    "og:image" -> image = element.attr("content")
-                    "og:title" -> title = element.attr("content")
-                    "og:description" -> description = element.attr("content")
-                    "og:url" -> url = element.attr("content")
-                }
+    CoroutineScope(Dispatchers.Default).launch {
+        runCatching {
+            withTimeoutOrNull(30.seconds) {
+                Jsoup
+                    .connect(link)
+                    .userAgent(USER_AGENT)
+                    .execute()
+                    .parse()
+                    .getElementsByTag("meta")
+                    .forEach { element ->
+                        when (element.attr("property")) {
+                            "og:image" -> image = element.attr("content")
+                            "og:title" -> title = element.attr("content")
+                            "og:description" -> description = element.attr("content")
+                            "og:url" -> url = element.attr("content")
+                        }
+                    }
             }
+        }
+
+        onLoaded(
+            LinkPreview(
+                link = link,
+                image = image,
+                title = title,
+                description = description,
+                url = url
+            )
+        )
     }
 
-    LinkPreview(
+    return LinkPreview(
         link = link,
         image = image,
         title = title,

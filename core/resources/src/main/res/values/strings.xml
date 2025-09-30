@@ -1781,4 +1781,6 @@
     <string name="qr_type_sms">SMS</string>
     <string name="qr_type_url">URL</string>
     <string name="qr_type_wifi">Wi-Fi</string>
+    <string name="open_network">Open network</string>
+    <string name="not_specified">N/A</string>
 </resources>
