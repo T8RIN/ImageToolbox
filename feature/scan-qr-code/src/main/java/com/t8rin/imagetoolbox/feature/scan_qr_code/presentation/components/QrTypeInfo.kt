@@ -44,12 +44,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -76,123 +76,15 @@ private fun ComplexQrTypeInfo(
     qrType: QrType.Complex,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     val essentials = rememberLocalEssentials()
 
     Box(modifier) {
         when (qrType) {
-            is QrType.Wifi -> {
-                val data by remember(qrType) {
-                    derivedStateOf {
-                        buildList {
-                            val ssid = Triple(
-                                first = Icons.Rounded.TextFields,
-                                second = qrType.ssid.ifBlank {
-                                    context.getString(R.string.not_specified)
-                                },
-                                third = qrType.ssid.isNotBlank()
-                            )
-                            when (qrType.encryptionType) {
-                                EncryptionType.OPEN -> {
-                                    add(
-                                        Triple(
-                                            first = Icons.Rounded.Public,
-                                            second = context.getString(R.string.open_network),
-                                            third = false
-                                        )
-                                    )
-                                    add(ssid)
-                                }
-
-                                else -> {
-                                    add(
-                                        Triple(
-                                            first = Icons.Rounded.Security,
-                                            second = qrType.encryptionType.toString(),
-                                            third = false
-                                        )
-                                    )
-                                    add(ssid)
-                                    add(
-                                        Triple(
-                                            first = Icons.Rounded.Password,
-                                            second = qrType.password.ifBlank {
-                                                context.getString(R.string.not_specified)
-                                            },
-                                            third = qrType.password.isNotBlank()
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .then(modifier)
-                        .container(
-                            shape = ShapeDefaults.large,
-                            resultPadding = 0.dp
-                        )
-                        .padding(8.dp)
-                ) {
-                    TitleItem(
-                        text = stringResource(R.string.qr_type_wifi),
-                        icon = Icons.Rounded.Wifi,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        data.forEachIndexed { index, (icon, text, canCopy) ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .container(
-                                        shape = ShapeDefaults.byIndex(
-                                            index = index,
-                                            size = data.size
-                                        ),
-                                        color = MaterialTheme.colorScheme.surface,
-                                        resultPadding = 0.dp
-                                    )
-                                    .clickable(
-                                        enabled = canCopy,
-                                        onClick = { essentials.copyToClipboard(text) }
-                                    )
-                                    .padding(
-                                        vertical = 10.dp,
-                                        horizontal = 12.dp
-                                    ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                Text(
-                                    text = text,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.weight(1f)
-                                )
-                                if (canCopy) {
-                                    Spacer(Modifier.width(16.dp))
-                                    Icon(
-                                        imageVector = Icons.Rounded.ContentCopy,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface.copy(0.5f),
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            is QrType.Wifi -> WifiQrTypeInfo(
+                qrType = qrType,
+                essentials = essentials,
+                modifier = modifier
+            )
 
             is QrType.Email -> Unit //TODO: add other types preview and creation templates
             is QrType.GeoPoint -> Unit
@@ -200,6 +92,124 @@ private fun ComplexQrTypeInfo(
             is QrType.Sms -> Unit
             is QrType.ContactInfo -> Unit
             is QrType.CalendarEvent -> Unit
+        }
+    }
+}
+
+@Composable
+private fun WifiQrTypeInfo(
+    qrType: QrType.Wifi,
+    essentials: LocalEssentials,
+    modifier: Modifier,
+) {
+    val data by remember(qrType) {
+        derivedStateOf {
+            buildList {
+                val ssid = Triple(
+                    first = Icons.Rounded.TextFields,
+                    second = qrType.ssid.ifBlank {
+                        essentials.context.getString(R.string.not_specified)
+                    },
+                    third = qrType.ssid.isNotBlank()
+                )
+                when (qrType.encryptionType) {
+                    EncryptionType.OPEN -> {
+                        add(
+                            Triple(
+                                first = Icons.Rounded.Public,
+                                second = essentials.context.getString(R.string.open_network),
+                                third = false
+                            )
+                        )
+                        add(ssid)
+                    }
+
+                    else -> {
+                        add(
+                            Triple(
+                                first = Icons.Rounded.Security,
+                                second = qrType.encryptionType.toString(),
+                                third = false
+                            )
+                        )
+                        add(ssid)
+                        add(
+                            Triple(
+                                first = Icons.Rounded.Password,
+                                second = qrType.password.ifBlank {
+                                    essentials.context.getString(R.string.not_specified)
+                                },
+                                third = qrType.password.isNotBlank()
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .then(modifier)
+            .container(
+                shape = ShapeDefaults.large,
+                resultPadding = 0.dp
+            )
+            .padding(8.dp)
+    ) {
+        TitleItem(
+            text = stringResource(R.string.qr_type_wifi),
+            icon = Icons.Rounded.Wifi,
+            modifier = Modifier.padding(8.dp)
+        )
+        Spacer(modifier = Modifier.padding(4.dp))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            data.forEachIndexed { index, (icon, text, canCopy) ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .container(
+                            shape = ShapeDefaults.byIndex(
+                                index = index,
+                                size = data.size
+                            ),
+                            color = MaterialTheme.colorScheme.surface,
+                            resultPadding = 0.dp
+                        )
+                        .clickable(
+                            enabled = canCopy,
+                            onClick = { essentials.copyToClipboard(text) }
+                        )
+                        .padding(
+                            vertical = 10.dp,
+                            horizontal = 12.dp
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = text,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (canCopy) {
+                        Spacer(Modifier.width(16.dp))
+                        Icon(
+                            imageVector = Icons.Rounded.ContentCopy,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface.copy(0.5f),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }
