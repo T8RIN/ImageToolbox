@@ -68,7 +68,7 @@ androidxMacroBenchmark = "1.4.1"
 material = "1.14.0-alpha05"
 jsoup = "1.21.2"
 
-mlkitDocumentScanner = "16.0.0-beta1"
+mlkitDocumentScanner = "16.0.0"
 zxingAndroidEmbedded = "4.3.0"
 moshi = "1.15.2"
 bouncycastle = "1.82"
