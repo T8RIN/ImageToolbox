@@ -1752,4 +1752,12 @@
     <string name="skipped_saving_multiple">%1$d 个文件已跳过</string>
     <string name="allow_skip_if_larger">若文件过大，允许跳过</string>
     <string name="allow_skip_if_larger_sub">某些工具在生成的文件大小超过原文件时，将被允许跳过图像保存步骤</string>
+    <string name="qr_type_plain">文本</string>
+    <string name="qr_type_sms">短信</string>
+    <string name="qr_type_phone">电话</string>
+    <string name="qr_type_geo_point">位置</string>
+    <string name="qr_type_email">电子邮箱</string>
+    <string name="qr_type_contact_info">联系</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
+    <string name="qr_type_calendar_event">日历事件</string>
 </resources>
