@@ -21,14 +21,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -41,12 +39,10 @@ import com.t8rin.dynamic.theme.getColorScheme
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun MaterialYouPalette(
@@ -66,8 +62,7 @@ internal fun MaterialYouPalette(
         isInvertColors = isInvertColors
     )
     val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
 
     val themeState = LocalDynamicThemeState.current
     LaunchedEffect(colorScheme.primary) {
@@ -85,13 +80,10 @@ internal fun MaterialYouPalette(
     MaterialYouPaletteGroup(
         colorScheme = colorScheme,
         onCopy = { color ->
-            context.copyToClipboard(color.toHex())
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.ContentPaste,
-                    message = context.getString(R.string.color_copied)
-                )
-            }
+            essentials.copyToClipboard(
+                text = color.toHex(),
+                message = R.string.color_copied
+            )
         }
     )
 
@@ -119,13 +111,7 @@ internal fun MaterialYouPalette(
                 isInvertColors = isInvertColors
             ).asCodeString(true)
 
-            context.copyToClipboard(light + "\n\n" + dark)
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.ContentPaste,
-                    message = context.getString(R.string.copied)
-                )
-            }
+            essentials.copyToClipboard(light + "\n\n" + dark)
         },
         containerColor = MaterialTheme.colorScheme.tertiary
     ) {

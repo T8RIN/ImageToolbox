@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -38,13 +37,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,23 +52,19 @@ import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.model.toPalette
-import kotlinx.coroutines.launch
 
 
 @Composable
 internal fun DefaultPaletteControls(
     bitmap: Bitmap,
 ) {
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
 
     var count by rememberSaveable { mutableIntStateOf(32) }
@@ -91,13 +84,7 @@ internal fun DefaultPaletteControls(
         title = stringResource(R.string.export_as_json),
         subtitle = stringResource(R.string.export_as_json_sub),
         onClick = {
-            context.copyToClipboard(state.toPalette().asJson())
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.ContentPaste,
-                    message = context.getString(R.string.copied)
-                )
-            }
+            essentials.copyToClipboard(state.toPalette().asJson())
         },
         endIcon = Icons.Rounded.ContentCopy,
         shape = ShapeDefaults.top,
@@ -155,13 +142,10 @@ internal fun DefaultPaletteControls(
             }
         },
         onColorChange = {
-            context.copyToClipboard(it.color.toHex())
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.ContentPaste,
-                    message = context.getString(R.string.color_copied)
-                )
-            }
+            essentials.copyToClipboard(
+                text = it.color.toHex(),
+                message = R.string.color_copied
+            )
         }
     )
 }

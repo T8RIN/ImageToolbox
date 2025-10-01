@@ -28,10 +28,8 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,20 +49,16 @@ import com.t8rin.imagetoolbox.core.ui.theme.TONColor
 import com.t8rin.imagetoolbox.core.ui.theme.TONSpaceColor
 import com.t8rin.imagetoolbox.core.ui.theme.USDTColor
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import kotlinx.coroutines.launch
 
 @Composable
 fun DonateContainerContent(
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
 
     val darkMode = !LocalSettingsState.current.isNightMode
 
@@ -96,15 +90,7 @@ fun DonateContainerContent(
             ),
             shape = ShapeDefaults.top,
             onClick = {
-                context.apply {
-                    copyToClipboard(TONSpaceWallet)
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.ContentCopy,
-                            message = getString(R.string.copied),
-                        )
-                    }
-                }
+                essentials.copyToClipboard(TONSpaceWallet)
             },
             endIcon = Icons.Rounded.ContentCopy,
             startIcon = Icons.Rounded.Ton,
@@ -121,15 +107,7 @@ fun DonateContainerContent(
             ),
             shape = ShapeDefaults.center,
             onClick = {
-                context.apply {
-                    copyToClipboard(TONWallet)
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.ContentCopy,
-                            message = getString(R.string.copied),
-                        )
-                    }
-                }
+                essentials.copyToClipboard(TONWallet)
             },
             endIcon = Icons.Rounded.ContentCopy,
             startIcon = Icons.Rounded.Ton,
@@ -146,15 +124,7 @@ fun DonateContainerContent(
             ),
             shape = ShapeDefaults.center,
             onClick = {
-                context.apply {
-                    copyToClipboard(BitcoinWallet)
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.ContentCopy,
-                            message = getString(R.string.copied),
-                        )
-                    }
-                }
+                essentials.copyToClipboard(BitcoinWallet)
             },
             endIcon = Icons.Rounded.ContentCopy,
             title = stringResource(R.string.bitcoin),
@@ -171,15 +141,7 @@ fun DonateContainerContent(
             ),
             shape = ShapeDefaults.bottom,
             onClick = {
-                context.apply {
-                    copyToClipboard(USDTWallet)
-                    scope.launch {
-                        toastHostState.showToast(
-                            icon = Icons.Rounded.ContentCopy,
-                            message = getString(R.string.copied),
-                        )
-                    }
-                }
+                essentials.copyToClipboard(BitcoinWallet)
             },
             endIcon = Icons.Rounded.ContentCopy,
             title = stringResource(R.string.usdt),

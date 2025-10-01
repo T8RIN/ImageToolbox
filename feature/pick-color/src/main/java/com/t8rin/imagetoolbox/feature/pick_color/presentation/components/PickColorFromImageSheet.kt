@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,7 +47,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,8 +55,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
@@ -68,8 +65,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import kotlinx.coroutines.launch
 
 @Composable
 fun PickColorFromImageSheet(
@@ -79,11 +74,8 @@ fun PickColorFromImageSheet(
     onColorChange: (Color) -> Unit,
     color: Color
 ) {
-    val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
-
+    val essentials = rememberLocalEssentials()
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
     EnhancedModalBottomSheet(
@@ -159,13 +151,10 @@ fun PickColorFromImageSheet(
                                     )
                                     .clip(ShapeDefaults.small)
                                     .hapticsClickable {
-                                        context.copyToClipboard(color.toHex())
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                icon = Icons.Rounded.ContentPaste,
-                                                message = context.getString(R.string.color_copied)
-                                            )
-                                        }
+                                        essentials.copyToClipboard(
+                                            text = color.toHex(),
+                                            message = R.string.color_copied
+                                        )
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
@@ -189,13 +178,10 @@ fun PickColorFromImageSheet(
                                 modifier = Modifier
                                     .clip(ShapeDefaults.mini)
                                     .hapticsClickable {
-                                        context.copyToClipboard(color.toHex())
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                icon = Icons.Rounded.ContentPaste,
-                                                message = context.getString(R.string.color_copied)
-                                            )
-                                        }
+                                        essentials.copyToClipboard(
+                                            text = color.toHex(),
+                                            message = R.string.color_copied
+                                        )
                                     }
                                     .background(MaterialTheme.colorScheme.secondaryContainer)
                                     .border(

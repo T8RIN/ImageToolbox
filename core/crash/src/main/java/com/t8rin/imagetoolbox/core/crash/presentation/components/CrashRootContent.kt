@@ -27,15 +27,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.crash.presentation.screenLogic.CrashComponent
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppActivityClass
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ImageToolboxCompositionLocals
@@ -53,10 +50,6 @@ internal fun CrashRootContent(component: CrashComponent) {
         val essentials = rememberLocalEssentials()
         val copyCrashInfo: () -> Unit = {
             essentials.copyToClipboard(crashInfo.textToSend)
-            essentials.showToast(
-                icon = Icons.Rounded.ContentCopy,
-                message = context.getString(R.string.copied),
-            )
         }
 
         Column(

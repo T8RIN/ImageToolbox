@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.runtime.Composable
@@ -27,11 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -46,7 +42,6 @@ internal fun RecognizeTextButtons(
     multipleImagePicker: ImagePicker,
     actions: @Composable RowScope.() -> Unit
 ) {
-    val context = LocalContext.current
     val essentials = rememberLocalEssentials()
     val isPortrait by isPortraitOrientationAsState()
     val type = component.type
@@ -55,13 +50,7 @@ internal fun RecognizeTextButtons(
     val isHaveText = component.editedText.orEmpty().isNotEmpty()
 
     val copyText: () -> Unit = {
-        component.editedText?.let {
-            context.copyToClipboard(it)
-            essentials.showToast(
-                icon = Icons.Rounded.ContentCopy,
-                message = context.getString(R.string.copied),
-            )
-        }
+        component.editedText?.let(essentials::copyToClipboard)
     }
 
     var showOneTimeImagePickingDialog by rememberSaveable {

@@ -67,7 +67,6 @@ fun LinkPreviewCard(
     shape: Shape
 ) {
     val essentials = rememberLocalEssentials()
-    val onLinkCopiedText = stringResource(R.string.copied)
     val linkHandler = LocalUriHandler.current
 
     Row(
@@ -83,11 +82,12 @@ fun LinkPreviewCard(
                     linkPreview.link?.let(linkHandler::openUri)
                 },
                 onLongClick = {
-                    linkPreview.link?.let(essentials::copyToClipboard)
-                    essentials.showToast(
-                        message = onLinkCopiedText,
-                        icon = Icons.Default.Link
-                    )
+                    linkPreview.link?.let {
+                        essentials.copyToClipboard(
+                            text = it,
+                            icon = Icons.Default.Link
+                        )
+                    }
                 },
             ),
         verticalAlignment = Alignment.CenterVertically

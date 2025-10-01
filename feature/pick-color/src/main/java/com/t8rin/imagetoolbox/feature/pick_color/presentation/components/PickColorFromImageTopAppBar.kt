@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -57,7 +56,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -65,7 +63,6 @@ import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -87,7 +84,6 @@ internal fun PickColorFromImageTopAppBar(
     magnifierButton: @Composable () -> Unit,
     color: Color,
 ) {
-    val context = LocalContext.current
     val settingsState = LocalSettingsState.current
 
     val parser = rememberColorParser()
@@ -181,10 +177,9 @@ internal fun PickColorFromImageTopAppBar(
                                                 .padding(horizontal = 8.dp)
                                                 .clip(ShapeDefaults.mini)
                                                 .hapticsClickable {
-                                                    context.copyToClipboard(color.toHex())
-                                                    essentials.showToast(
-                                                        icon = Icons.Rounded.ContentPaste,
-                                                        message = context.getString(R.string.color_copied)
+                                                    essentials.copyToClipboard(
+                                                        text = color.toHex(),
+                                                        message = R.string.color_copied
                                                     )
                                                 }
                                                 .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -235,10 +230,9 @@ internal fun PickColorFromImageTopAppBar(
                                                 )
                                                 .clip(ShapeDefaults.small)
                                                 .hapticsClickable {
-                                                    context.copyToClipboard(color.toHex())
-                                                    essentials.showToast(
-                                                        icon = Icons.Rounded.ContentPaste,
-                                                        message = context.getString(R.string.color_copied)
+                                                    essentials.copyToClipboard(
+                                                        text = color.toHex(),
+                                                        message = R.string.color_copied
                                                     )
                                                 }
                                         )
@@ -270,10 +264,9 @@ internal fun PickColorFromImageTopAppBar(
                                             .padding(horizontal = 8.dp)
                                             .clip(ShapeDefaults.mini)
                                             .hapticsClickable {
-                                                context.copyToClipboard(color.toHex())
-                                                essentials.showToast(
-                                                    icon = Icons.Rounded.ContentPaste,
-                                                    message = context.getString(R.string.color_copied)
+                                                essentials.copyToClipboard(
+                                                    text = color.toHex(),
+                                                    message = R.string.color_copied
                                                 )
                                             }
                                             .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -316,10 +309,9 @@ internal fun PickColorFromImageTopAppBar(
                                             )
                                             .clip(ShapeDefaults.small)
                                             .hapticsClickable {
-                                                context.copyToClipboard(color.toHex())
-                                                essentials.showToast(
-                                                    icon = Icons.Rounded.ContentPaste,
-                                                    message = context.getString(R.string.color_copied)
+                                                essentials.copyToClipboard(
+                                                    text = color.toHex(),
+                                                    message = R.string.color_copied
                                                 )
                                             }
                                     )

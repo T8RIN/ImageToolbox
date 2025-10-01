@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,7 +37,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,20 +44,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.copyToClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -71,9 +67,7 @@ internal fun ColorInfo(
     onColorChange: (Color) -> Unit,
     parser: ColorNameParser
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
 
     ExpandableItem(
         visibleContent = {
@@ -106,13 +100,10 @@ internal fun ColorInfo(
                         .transparencyChecker()
                         .background(boxColor)
                         .hapticsClickable {
-                            context.copyToClipboard(getFormattedColor(selectedColor))
-                            scope.launch {
-                                toastHostState.showToast(
-                                    icon = Icons.Rounded.ContentPaste,
-                                    message = context.getString(R.string.color_copied)
-                                )
-                            }
+                            essentials.copyToClipboard(
+                                text = getFormattedColor(selectedColor),
+                                message = R.string.color_copied
+                            )
                         }
                 ) {
                     Icon(
@@ -177,17 +168,14 @@ internal fun ColorInfo(
                         onColorChange(it ?: selectedColor)
                     },
                     onCopy = {
-                        context.copyToClipboard(it)
-                        scope.launch {
-                            toastHostState.showToast(
-                                icon = Icons.Rounded.ContentPaste,
-                                message = context.getString(R.string.color_copied)
-                            )
-                        }
+                        essentials.copyToClipboard(
+                            text = it,
+                            message = R.string.color_copied
+                        )
                     },
                     onLoseFocus = {
                         resetJob?.cancel()
-                        resetJob = scope.launch {
+                        resetJob = essentials.coroutineScope.launch {
                             delay(100)
                             if (wasNull) {
                                 val temp = selectedColor

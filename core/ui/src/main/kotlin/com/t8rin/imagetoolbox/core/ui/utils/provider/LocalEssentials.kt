@@ -23,6 +23,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CopyAll
@@ -188,12 +189,18 @@ data class LocalEssentials internal constructor(
         }
     }
 
-    fun copyToClipboard(text: CharSequence) {
+    fun copyToClipboard(
+        text: CharSequence,
+        @StringRes message: Int = R.string.copied,
+        icon: ImageVector = Icons.Rounded.CopyAll
+    ) {
         copyToClipboard(ClipEntry(text.toClipData()))
-        showToast(
-            message = context.getString(R.string.copied),
-            icon = Icons.Rounded.CopyAll
-        )
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            showToast(
+                message = context.getString(message),
+                icon = icon
+            )
+        }
     }
 
     fun getTextFromClipboard(
