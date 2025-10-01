@@ -66,7 +66,7 @@ internal data class QrInfo(
     companion object
 }
 
-//TODO: add creation templates
+// TODO: add creation templates
 
 @Composable
 internal fun rememberQrInfo(qrType: QrType.Complex): QrInfo? {

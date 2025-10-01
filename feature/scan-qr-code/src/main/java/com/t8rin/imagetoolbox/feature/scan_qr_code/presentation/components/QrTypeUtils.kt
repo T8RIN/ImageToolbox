@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import android.content.ContentValues
 import android.content.Intent
 import android.provider.CalendarContract
 import android.provider.ContactsContract
@@ -35,6 +36,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
+import io.github.g00fy2.quickie.extensions.DataType
 
 
 val QrType.name: Int
@@ -89,15 +91,108 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
         is QrType.Contact -> {
             Intent(Intent.ACTION_INSERT).apply {
                 type = ContactsContract.Contacts.CONTENT_TYPE
-                putExtra(ContactsContract.Intents.Insert.NAME, name.formattedName)
-                putExtra(ContactsContract.Intents.Insert.COMPANY, organization)
-                putExtra(ContactsContract.Intents.Insert.JOB_TITLE, title)
-                if (phones.isNotEmpty()) {
-                    putExtra(ContactsContract.Intents.Insert.PHONE, phones[0].number)
+                if (name.formattedName.isNotBlank()) {
+                    putExtra(ContactsContract.Intents.Insert.NAME, name.formattedName)
                 }
-                if (emails.isNotEmpty()) {
-                    putExtra(ContactsContract.Intents.Insert.EMAIL, emails[0].address)
+                if (organization.isNotBlank()) {
+                    putExtra(ContactsContract.Intents.Insert.COMPANY, organization)
                 }
+                if (title.isNotBlank()) {
+                    putExtra(ContactsContract.Intents.Insert.JOB_TITLE, title)
+                }
+
+                val data = arrayListOf<ContentValues>()
+
+                phones.forEach { phone ->
+                    val cv = ContentValues()
+                    cv.put(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                    )
+                    cv.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phone.number)
+                    cv.put(
+                        ContactsContract.CommonDataKinds.Phone.TYPE,
+                        when (phone.type) {
+                            DataType.TYPE_HOME -> ContactsContract.CommonDataKinds.Phone.TYPE_HOME
+                            DataType.TYPE_WORK -> ContactsContract.CommonDataKinds.Phone.TYPE_WORK
+                            DataType.TYPE_FAX -> ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK
+                            DataType.TYPE_MOBILE -> ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
+                            else -> ContactsContract.CommonDataKinds.Phone.TYPE_OTHER
+                        }
+                    )
+                    data.add(cv)
+                }
+
+                emails.forEach { email ->
+                    val cv = ContentValues()
+                    cv.put(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+                    )
+                    cv.put(ContactsContract.CommonDataKinds.Email.ADDRESS, email.address)
+                    cv.put(
+                        ContactsContract.CommonDataKinds.Email.TYPE,
+                        when (email.type) {
+                            DataType.TYPE_HOME -> ContactsContract.CommonDataKinds.Email.TYPE_HOME
+                            DataType.TYPE_WORK -> ContactsContract.CommonDataKinds.Email.TYPE_WORK
+                            else -> ContactsContract.CommonDataKinds.Email.TYPE_OTHER
+                        }
+                    )
+                    data.add(cv)
+                }
+
+                addresses.forEach { addr ->
+                    val cv = ContentValues().apply {
+                        put(
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
+                        )
+                        put(
+                            ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
+                            addr.addressLines.joinToString(" ")
+                        )
+                        put(
+                            ContactsContract.CommonDataKinds.StructuredPostal.TYPE,
+                            when (addr.type) {
+                                DataType.TYPE_HOME -> ContactsContract.CommonDataKinds.StructuredPostal.TYPE_HOME
+                                DataType.TYPE_WORK -> ContactsContract.CommonDataKinds.StructuredPostal.TYPE_WORK
+                                else -> ContactsContract.CommonDataKinds.StructuredPostal.TYPE_OTHER
+                            }
+                        )
+                    }
+                    data.add(cv)
+                }
+
+                urls.forEach { url ->
+                    val cv = ContentValues().apply {
+                        put(
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE
+                        )
+                        put(ContactsContract.CommonDataKinds.Website.URL, url)
+                        put(
+                            ContactsContract.CommonDataKinds.Website.TYPE,
+                            ContactsContract.CommonDataKinds.Website.TYPE_OTHER
+                        )
+                    }
+                    data.add(cv)
+                }
+
+                if (name.pronunciation.isNotBlank()) {
+                    val cv = ContentValues().apply {
+                        put(
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                        )
+                        put(
+                            ContactsContract.CommonDataKinds.StructuredName.PHONETIC_NAME,
+                            name.pronunciation
+                        )
+                    }
+                    data.add(cv)
+                }
+
+                putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data)
             }
         }
 
