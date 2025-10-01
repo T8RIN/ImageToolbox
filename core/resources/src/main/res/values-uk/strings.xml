@@ -1752,4 +1752,13 @@
     <string name="skipped_saving_multiple">Пропущено %1$d файлів</string>
     <string name="allow_skip_if_larger">Дозволити пропуск, якщо більший</string>
     <string name="allow_skip_if_larger_sub">Деяким інструментам буде дозволено пропускати збереження зображень, якщо розмір отриманого файлу буде більшим за оригінал.</string>
+    <string name="qr_type_calendar_event">Подія календаря</string>
+    <string name="qr_type_contact_info">Контакти</string>
+    <string name="qr_type_email">Електронна пошта</string>
+    <string name="qr_type_geo_point">Розташування</string>
+    <string name="qr_type_phone">Телефон</string>
+    <string name="qr_type_plain">Текст</string>
+    <string name="qr_type_sms">SMS</string>
+    <string name="qr_type_url">URL</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
 </resources>
