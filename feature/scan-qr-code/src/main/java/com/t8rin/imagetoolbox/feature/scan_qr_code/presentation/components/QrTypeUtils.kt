@@ -20,16 +20,25 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 import android.content.Intent
 import android.provider.CalendarContract
 import android.provider.ContactsContract
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Contacts
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Link
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Phone
+import androidx.compose.material.icons.rounded.Sms
+import androidx.compose.material.icons.rounded.TextFields
+import androidx.compose.material.icons.rounded.Wifi
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
 
-@Composable
-fun QrType.name(): String = stringResource(
-    when (this) {
+
+val QrType.name: Int
+    get() = when (this) {
         is QrType.CalendarEvent -> R.string.qr_type_calendar_event
         is QrType.ContactInfo -> R.string.qr_type_contact_info
         is QrType.Email -> R.string.qr_type_email
@@ -40,7 +49,19 @@ fun QrType.name(): String = stringResource(
         is QrType.Url -> R.string.qr_type_url
         is QrType.Wifi -> R.string.qr_type_wifi
     }
-)
+
+val QrType.icon: ImageVector
+    get() = when (this) {
+        is QrType.CalendarEvent -> Icons.Rounded.CalendarMonth
+        is QrType.ContactInfo -> Icons.Rounded.Contacts
+        is QrType.Email -> Icons.Rounded.Email
+        is QrType.GeoPoint -> Icons.Rounded.LocationOn
+        is QrType.Phone -> Icons.Rounded.Phone
+        is QrType.Sms -> Icons.Rounded.Sms
+        is QrType.Wifi -> Icons.Rounded.Wifi
+        is QrType.Plain -> Icons.Rounded.TextFields
+        is QrType.Url -> Icons.Rounded.Link
+    }
 
 fun QrType.toIntent(): Intent? = ifNotEmpty {
     when (this) {

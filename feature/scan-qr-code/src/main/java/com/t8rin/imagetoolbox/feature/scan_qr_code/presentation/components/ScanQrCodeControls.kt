@@ -121,7 +121,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                     transitionSpec = { fadeIn() togetherWith fadeOut() }
                 ) { content ->
                     Text(
-                        text = content.name(),
+                        text = stringResource(content.name),
                         color = MaterialTheme.colorScheme.onMixedContainer,
                         modifier = Modifier
                             .background(

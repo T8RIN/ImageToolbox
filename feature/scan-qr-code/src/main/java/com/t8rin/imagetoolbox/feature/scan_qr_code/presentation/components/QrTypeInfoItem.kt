@@ -18,6 +18,12 @@
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,16 +35,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
-import androidx.compose.material.icons.automirrored.rounded.ShortText
-import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Password
-import androidx.compose.material.icons.rounded.Public
-import androidx.compose.material.icons.rounded.Security
-import androidx.compose.material.icons.rounded.TextFields
-import androidx.compose.material.icons.rounded.Topic
-import androidx.compose.material.icons.rounded.Wifi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,14 +44,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
-import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 internal fun QrTypeInfoItem(
@@ -63,109 +57,25 @@ internal fun QrTypeInfoItem(
 ) {
     AnimatedContent(
         targetState = qrType,
+        transitionSpec = {
+            if (initialState::class.isInstance(targetState)) {
+                fadeIn(tween(150)) togetherWith fadeOut(tween(150))
+            } else if (targetState !is QrType.Complex) {
+                slideInVertically { it } + fadeIn() togetherWith slideOutVertically { -it } + fadeOut()
+            } else {
+                slideInVertically { -it } + fadeIn() togetherWith slideOutVertically { it } + fadeOut()
+            }
+        },
         modifier = Modifier.fillMaxWidth()
     ) { type ->
         when (type) {
-            is QrType.Complex -> ComplexQrTypeInfo(type, modifier)
+            is QrType.Complex -> {
+                QrInfoItem(
+                    qrInfo = rememberQrInfo(type) ?: return@AnimatedContent,
+                    modifier = modifier
+                )
+            }
             else -> Spacer(Modifier.fillMaxWidth())
-        }
-    }
-}
-
-@Composable
-private fun ComplexQrTypeInfo(
-    qrType: QrType.Complex,
-    modifier: Modifier = Modifier
-) {
-    val qrInfo = when (qrType) {
-        is QrType.Wifi -> wifiQrData(qrType)
-        is QrType.Email -> emailQrData(qrType)
-
-        is QrType.GeoPoint -> return //TODO: add other types preview and creation templates
-        is QrType.Phone -> return
-        is QrType.Sms -> return
-        is QrType.ContactInfo -> return
-        is QrType.CalendarEvent -> return
-    }
-
-    QrInfoItem(
-        qrInfo = qrInfo,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun emailQrData(
-    qrType: QrType.Email
-): QrInfo = qrInfoBuilder(qrType) {
-    title(getString(R.string.qr_type_email))
-    icon(Icons.Rounded.Email)
-
-    entry(
-        InfoEntry(
-            icon = Icons.Rounded.AlternateEmail,
-            text = qrType.address.ifBlank { getString(R.string.not_specified) },
-            canCopy = qrType.address.isNotBlank()
-        )
-    )
-
-    entry(
-        InfoEntry(
-            icon = Icons.Rounded.Topic,
-            text = qrType.subject.ifBlank { getString(R.string.not_specified) },
-            canCopy = qrType.subject.isNotBlank()
-        )
-    )
-
-    entry(
-        InfoEntry(
-            icon = Icons.AutoMirrored.Rounded.ShortText,
-            text = qrType.body.ifBlank { getString(R.string.not_specified) },
-            canCopy = qrType.body.isNotBlank()
-        )
-    )
-}
-
-@Composable
-private fun wifiQrData(
-    qrType: QrType.Wifi
-): QrInfo = qrInfoBuilder(qrType) {
-    title(getString(R.string.qr_type_wifi))
-    icon(Icons.Rounded.Wifi)
-
-    val ssid = InfoEntry(
-        icon = Icons.Rounded.TextFields,
-        text = qrType.ssid.ifBlank { getString(R.string.not_specified) },
-        canCopy = qrType.ssid.isNotBlank()
-    )
-    when (qrType.encryptionType) {
-        EncryptionType.OPEN -> {
-            entry(
-                InfoEntry(
-                    icon = Icons.Rounded.Public,
-                    text = getString(R.string.open_network),
-                    canCopy = false
-                )
-            )
-            entry(ssid)
-        }
-
-        else -> {
-            entry(
-                InfoEntry(
-                    icon = Icons.Rounded.Security,
-                    text = qrType.encryptionType.toString(),
-                    canCopy = false
-                )
-            )
-            entry(ssid)
-            entry(
-                InfoEntry(
-                    icon = Icons.Rounded.Password,
-                    text = qrType.password.ifBlank { getString(R.string.not_specified) },
-                    canCopy = qrType.password.isNotBlank()
-                )
-            )
         }
     }
 }

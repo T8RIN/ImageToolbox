@@ -64,8 +64,8 @@ sealed interface QrType {
 
     data class GeoPoint(
         override val raw: String,
-        val lat: Double,
-        val lng: Double
+        val latitude: Double,
+        val longitude: Double
     ) : Complex {
         override fun isEmpty(): Boolean = false
     }

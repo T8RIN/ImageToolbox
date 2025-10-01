@@ -56,8 +56,8 @@ fun QRContent.toQrType(): QrType {
 
         is QRContent.GeoPoint -> QrType.GeoPoint(
             raw = raw,
-            lat = lat,
-            lng = lng
+            latitude = lat,
+            longitude = lng
         )
 
         is QRContent.Email -> QrType.Email(
