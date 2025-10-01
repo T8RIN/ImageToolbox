@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.utils
 
 import android.app.Application
 import android.content.ContextWrapper
+import androidx.annotation.StringRes
 
 class AppContext private constructor(
     application: Application
@@ -40,3 +41,5 @@ val appContext: AppContext
     get() = checkNotNull(AppContext.appContext) {
         "AppContext not initialized"
     }
+
+fun getString(@StringRes resId: Int): String = appContext.getString(resId)

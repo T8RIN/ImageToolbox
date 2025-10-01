@@ -112,7 +112,7 @@ fun LinkPreviewList(
                     endContent = {
                         AnimatedVisibility(
                             visible = linkPreviewList.size > 3,
-                            modifier = Modifier.size(40.dp)
+                            modifier = Modifier.size(32.dp)
                         ) {
                             EnhancedIconButton(
                                 onClick = { expanded = !expanded }

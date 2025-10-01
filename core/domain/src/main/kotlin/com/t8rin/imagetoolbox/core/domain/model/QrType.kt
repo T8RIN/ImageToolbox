@@ -23,15 +23,21 @@ import java.util.Date
 sealed interface QrType {
     val raw: String
 
+    fun isEmpty(): Boolean
+
     data class Plain(
         override val raw: String
-    ) : QrType
+    ) : QrType {
+        override fun isEmpty(): Boolean = raw.isBlank()
+    }
 
     data class Url(
         override val raw: String,
         val title: String,
         val url: String
-    ) : QrType
+    ) : QrType {
+        override fun isEmpty(): Boolean = title.isBlank() && url.isBlank()
+    }
 
     sealed interface Complex : QrType
 
@@ -44,19 +50,25 @@ sealed interface QrType {
         enum class EncryptionType {
             OPEN, WPA, WEP
         }
+
+        override fun isEmpty(): Boolean = ssid.isBlank() && password.isBlank()
     }
 
     data class Sms(
         override val raw: String,
         val message: String,
         val phoneNumber: String
-    ) : Complex
+    ) : Complex {
+        override fun isEmpty(): Boolean = message.isBlank() && phoneNumber.isBlank()
+    }
 
     data class GeoPoint(
         override val raw: String,
         val lat: Double,
         val lng: Double
-    ) : Complex
+    ) : Complex {
+        override fun isEmpty(): Boolean = false
+    }
 
     data class Email(
         override val raw: String,
@@ -64,13 +76,17 @@ sealed interface QrType {
         val body: String,
         val subject: String,
         val type: Int
-    ) : Complex
+    ) : Complex {
+        override fun isEmpty(): Boolean = address.isBlank() && body.isBlank() && subject.isBlank()
+    }
 
     data class Phone(
         override val raw: String,
         val number: String,
         val type: Int
-    ) : Complex
+    ) : Complex {
+        override fun isEmpty(): Boolean = number.isBlank()
+    }
 
     data class ContactInfo(
         override val raw: String,
@@ -95,7 +111,18 @@ sealed interface QrType {
             val prefix: String,
             val pronunciation: String,
             val suffix: String
-        )
+        ) {
+            fun isEmpty() = first.isBlank() &&
+                    formattedName.isBlank() &&
+                    last.isBlank() &&
+                    middle.isBlank() &&
+                    prefix.isBlank() &&
+                    pronunciation.isBlank() &&
+                    suffix.isBlank()
+        }
+
+        override fun isEmpty(): Boolean =
+            addresses.isEmpty() && emails.isEmpty() && name.isEmpty() && organization.isBlank() && phones.isEmpty() && title.isBlank() && urls.isEmpty()
     }
 
     data class CalendarEvent(
@@ -107,7 +134,10 @@ sealed interface QrType {
         val start: Date,
         val status: String,
         val summary: String
-    ) : Complex
+    ) : Complex {
+        override fun isEmpty(): Boolean =
+            description.isBlank() && location.isBlank() && organizer.isBlank() && status.isBlank() && summary.isBlank()
+    }
 
     companion object {
         val Empty = Plain("")
@@ -125,3 +155,6 @@ inline fun <reified T : QrType> T.copy(raw: String): T = when (this) {
     is QrType.ContactInfo -> this.copy(raw = raw)
     is QrType.CalendarEvent -> this.copy(raw = raw)
 }.cast()
+
+
+inline fun <T> QrType.ifNotEmpty(action: () -> T): T? = if (!isEmpty()) action() else null

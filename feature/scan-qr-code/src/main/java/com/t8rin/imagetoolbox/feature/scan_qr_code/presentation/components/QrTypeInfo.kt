@@ -17,10 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,32 +28,37 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.OpenInNew
+import androidx.compose.material.icons.automirrored.rounded.ShortText
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.TextFields
+import androidx.compose.material.icons.rounded.Topic
 import androidx.compose.material.icons.rounded.Wifi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
 internal fun QrTypeInfo(
@@ -76,77 +81,108 @@ private fun ComplexQrTypeInfo(
     qrType: QrType.Complex,
     modifier: Modifier = Modifier
 ) {
-    val essentials = rememberLocalEssentials()
+    val qrInfo = when (qrType) {
+        is QrType.Wifi -> wifiQrData(qrType)
+        is QrType.Email -> emailQrData(qrType)
 
-    Box(modifier) {
-        when (qrType) {
-            is QrType.Wifi -> WifiQrTypeInfo(
-                qrType = qrType,
-                essentials = essentials,
-                modifier = modifier
+        is QrType.GeoPoint -> return //TODO: add other types preview and creation templates
+        is QrType.Phone -> return
+        is QrType.Sms -> return
+        is QrType.ContactInfo -> return
+        is QrType.CalendarEvent -> return
+    }
+
+    QrInfoItem(
+        qrInfo = qrInfo,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun emailQrData(
+    qrType: QrType.Email
+): QrInfo = qrBuilder(qrType) {
+    title(getString(R.string.qr_type_email))
+    icon(Icons.Rounded.Email)
+    intent(qrType.toIntent())
+
+    entry(
+        InfoEntry(
+            icon = Icons.Rounded.AlternateEmail,
+            text = qrType.address.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.address.isNotBlank()
+        )
+    )
+
+    entry(
+        InfoEntry(
+            icon = Icons.Rounded.Topic,
+            text = qrType.subject.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.subject.isNotBlank()
+        )
+    )
+
+    entry(
+        InfoEntry(
+            icon = Icons.AutoMirrored.Rounded.ShortText,
+            text = qrType.body.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.body.isNotBlank()
+        )
+    )
+}
+
+@Composable
+private fun wifiQrData(
+    qrType: QrType.Wifi
+): QrInfo = qrBuilder(qrType) {
+    title(getString(R.string.qr_type_wifi))
+    icon(Icons.Rounded.Wifi)
+
+    val ssid = InfoEntry(
+        icon = Icons.Rounded.TextFields,
+        text = qrType.ssid.ifBlank { getString(R.string.not_specified) },
+        canCopy = qrType.ssid.isNotBlank()
+    )
+    when (qrType.encryptionType) {
+        EncryptionType.OPEN -> {
+            entry(
+                InfoEntry(
+                    icon = Icons.Rounded.Public,
+                    text = getString(R.string.open_network),
+                    canCopy = false
+                )
             )
+            entry(ssid)
+        }
 
-            is QrType.Email -> Unit //TODO: add other types preview and creation templates
-            is QrType.GeoPoint -> Unit
-            is QrType.Phone -> Unit
-            is QrType.Sms -> Unit
-            is QrType.ContactInfo -> Unit
-            is QrType.CalendarEvent -> Unit
+        else -> {
+            entry(
+                InfoEntry(
+                    icon = Icons.Rounded.Security,
+                    text = qrType.encryptionType.toString(),
+                    canCopy = false
+                )
+            )
+            entry(ssid)
+            entry(
+                InfoEntry(
+                    icon = Icons.Rounded.Password,
+                    text = qrType.password.ifBlank { getString(R.string.not_specified) },
+                    canCopy = qrType.password.isNotBlank()
+                )
+            )
         }
     }
 }
 
 @Composable
-private fun WifiQrTypeInfo(
-    qrType: QrType.Wifi,
-    essentials: LocalEssentials,
+private fun QrInfoItem(
+    qrInfo: QrInfo,
     modifier: Modifier,
 ) {
-    val data by remember(qrType) {
-        derivedStateOf {
-            buildList {
-                val ssid = Triple(
-                    first = Icons.Rounded.TextFields,
-                    second = qrType.ssid.ifBlank {
-                        essentials.context.getString(R.string.not_specified)
-                    },
-                    third = qrType.ssid.isNotBlank()
-                )
-                when (qrType.encryptionType) {
-                    EncryptionType.OPEN -> {
-                        add(
-                            Triple(
-                                first = Icons.Rounded.Public,
-                                second = essentials.context.getString(R.string.open_network),
-                                third = false
-                            )
-                        )
-                        add(ssid)
-                    }
+    if (qrInfo.data.isEmpty()) return
 
-                    else -> {
-                        add(
-                            Triple(
-                                first = Icons.Rounded.Security,
-                                second = qrType.encryptionType.toString(),
-                                third = false
-                            )
-                        )
-                        add(ssid)
-                        add(
-                            Triple(
-                                first = Icons.Rounded.Password,
-                                second = qrType.password.ifBlank {
-                                    essentials.context.getString(R.string.not_specified)
-                                },
-                                third = qrType.password.isNotBlank()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
+    val essentials = rememberLocalEssentials()
 
     Column(
         modifier = Modifier
@@ -158,22 +194,36 @@ private fun WifiQrTypeInfo(
             .padding(8.dp)
     ) {
         TitleItem(
-            text = stringResource(R.string.qr_type_wifi),
-            icon = Icons.Rounded.Wifi,
-            modifier = Modifier.padding(8.dp)
+            text = qrInfo.title,
+            icon = qrInfo.icon,
+            modifier = Modifier.padding(8.dp),
+            endContent = {
+                qrInfo.intent?.let {
+                    EnhancedIconButton(
+                        modifier = Modifier.size(32.dp),
+                        onClick = { essentials.context.startActivity(it) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.OpenInNew,
+                            contentDescription = "open",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+            }
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            data.forEachIndexed { index, (icon, text, canCopy) ->
+            qrInfo.data.forEachIndexed { index, (icon, text, canCopy) ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .container(
                             shape = ShapeDefaults.byIndex(
                                 index = index,
-                                size = data.size
+                                size = qrInfo.data.size
                             ),
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp
@@ -213,3 +263,71 @@ private fun WifiQrTypeInfo(
         }
     }
 }
+
+private data class InfoEntry(
+    val icon: ImageVector,
+    val text: String,
+    val canCopy: Boolean,
+)
+
+private data class QrInfo(
+    val title: String,
+    val icon: ImageVector,
+    val intent: Intent?,
+    val data: List<InfoEntry>,
+) {
+    companion object {
+        operator fun invoke(
+            builder: QrBuilderScope.() -> Unit
+        ): QrInfo = QrBuilderScopeImpl().apply(builder).build()
+    }
+}
+
+private interface QrBuilderScope {
+    fun title(title: String): QrBuilderScope
+    fun icon(icon: ImageVector): QrBuilderScope
+    fun intent(intent: Intent?): QrBuilderScope
+    fun entry(infoEntry: InfoEntry): QrBuilderScope
+
+    fun build(): QrInfo
+}
+
+private class QrBuilderScopeImpl : QrBuilderScope {
+    private var title: String? = null
+    private var icon: ImageVector? = null
+    private var intent: Intent? = null
+    private var data: List<InfoEntry> = emptyList()
+
+    override fun title(title: String) = apply {
+        this.title = title
+    }
+
+    override fun icon(icon: ImageVector) = apply {
+        this.icon = icon
+    }
+
+    override fun intent(intent: Intent?) = apply {
+        this.intent = intent
+    }
+
+    override fun entry(infoEntry: InfoEntry) = apply {
+        data += infoEntry
+    }
+
+    override fun build(): QrInfo = QrInfo(
+        title = requireNotNull(title),
+        icon = requireNotNull(icon),
+        intent = intent,
+        data = data
+    )
+}
+
+@Composable
+private fun qrBuilder(
+    qrType: QrType,
+    builder: QrBuilderScope.() -> Unit
+): QrInfo = remember(qrType) {
+    derivedStateOf {
+        QrInfo(builder)
+    }
+}.value

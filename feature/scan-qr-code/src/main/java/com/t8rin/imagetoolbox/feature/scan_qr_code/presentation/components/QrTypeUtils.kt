@@ -17,9 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
+import android.content.Intent
+import android.provider.CalendarContract
+import android.provider.ContactsContract
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
 
 @Composable
@@ -36,3 +41,46 @@ fun QrType.name(): String = stringResource(
         is QrType.Wifi -> R.string.qr_type_wifi
     }
 )
+
+fun QrType.toIntent(): Intent? = ifNotEmpty {
+    when (this) {
+        is QrType.Plain -> Intent(Intent.ACTION_SEND).setType("text/plain")
+            .putExtra(Intent.EXTRA_TEXT, raw)
+
+        is QrType.Url -> Intent(Intent.ACTION_VIEW, url.toUri())
+
+        is QrType.Email -> Intent(Intent.ACTION_SENDTO, raw.toUri())
+        is QrType.Phone -> Intent(Intent.ACTION_DIAL, raw.toUri())
+        is QrType.Sms -> Intent(Intent.ACTION_SENDTO, raw.toUri())
+
+        is QrType.GeoPoint -> Intent(Intent.ACTION_VIEW, raw.toUri())
+
+        is QrType.Wifi -> null
+
+        is QrType.ContactInfo -> {
+            Intent(Intent.ACTION_INSERT).apply {
+                type = ContactsContract.Contacts.CONTENT_TYPE
+                putExtra(ContactsContract.Intents.Insert.NAME, name.formattedName)
+                putExtra(ContactsContract.Intents.Insert.COMPANY, organization)
+                putExtra(ContactsContract.Intents.Insert.JOB_TITLE, title)
+                if (phones.isNotEmpty()) {
+                    putExtra(ContactsContract.Intents.Insert.PHONE, phones[0].number)
+                }
+                if (emails.isNotEmpty()) {
+                    putExtra(ContactsContract.Intents.Insert.EMAIL, emails[0].address)
+                }
+            }
+        }
+
+        is QrType.CalendarEvent -> {
+            Intent(Intent.ACTION_INSERT).apply {
+                data = CalendarContract.Events.CONTENT_URI
+                putExtra(CalendarContract.Events.TITLE, summary)
+                putExtra(CalendarContract.Events.DESCRIPTION, description)
+                putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.time)
+                putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.time)
+            }
+        }
+    }
+}
