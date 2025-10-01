@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
-import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Latitude
@@ -73,7 +72,7 @@ private fun geoPointQrInfo(
     entry(
         InfoEntry(
             icon = Icons.Outlined.Latitude,
-            text = qrType.latitude.toFloat().roundTo(6).toString().trimTrailingZero(),
+            text = qrType.latitude.toString().trimTrailingZero(),
             canCopy = true
         )
     )
@@ -81,7 +80,7 @@ private fun geoPointQrInfo(
     entry(
         InfoEntry(
             icon = Icons.Outlined.Longitude,
-            text = qrType.longitude.toFloat().roundTo(6).toString().trimTrailingZero(),
+            text = qrType.longitude.toString().trimTrailingZero(),
             canCopy = true
         )
     )
