@@ -85,7 +85,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     )
-    QrTypeInfo(
+    QrTypeInfoItem(
         qrType = params.content,
         modifier = Modifier
             .fillMaxWidth()

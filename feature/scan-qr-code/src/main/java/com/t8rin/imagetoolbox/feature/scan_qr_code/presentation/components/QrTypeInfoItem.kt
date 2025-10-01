@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
-import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,11 +43,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
@@ -61,7 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.utils.getString
 
 @Composable
-internal fun QrTypeInfo(
+internal fun QrTypeInfoItem(
     qrType: QrType,
     modifier: Modifier = Modifier
 ) {
@@ -101,10 +97,9 @@ private fun ComplexQrTypeInfo(
 @Composable
 private fun emailQrData(
     qrType: QrType.Email
-): QrInfo = qrBuilder(qrType) {
+): QrInfo = qrInfoBuilder(qrType) {
     title(getString(R.string.qr_type_email))
     icon(Icons.Rounded.Email)
-    intent(qrType.toIntent())
 
     entry(
         InfoEntry(
@@ -134,7 +129,7 @@ private fun emailQrData(
 @Composable
 private fun wifiQrData(
     qrType: QrType.Wifi
-): QrInfo = qrBuilder(qrType) {
+): QrInfo = qrInfoBuilder(qrType) {
     title(getString(R.string.qr_type_wifi))
     icon(Icons.Rounded.Wifi)
 
@@ -263,71 +258,3 @@ private fun QrInfoItem(
         }
     }
 }
-
-private data class InfoEntry(
-    val icon: ImageVector,
-    val text: String,
-    val canCopy: Boolean,
-)
-
-private data class QrInfo(
-    val title: String,
-    val icon: ImageVector,
-    val intent: Intent?,
-    val data: List<InfoEntry>,
-) {
-    companion object {
-        operator fun invoke(
-            builder: QrBuilderScope.() -> Unit
-        ): QrInfo = QrBuilderScopeImpl().apply(builder).build()
-    }
-}
-
-private interface QrBuilderScope {
-    fun title(title: String): QrBuilderScope
-    fun icon(icon: ImageVector): QrBuilderScope
-    fun intent(intent: Intent?): QrBuilderScope
-    fun entry(infoEntry: InfoEntry): QrBuilderScope
-
-    fun build(): QrInfo
-}
-
-private class QrBuilderScopeImpl : QrBuilderScope {
-    private var title: String? = null
-    private var icon: ImageVector? = null
-    private var intent: Intent? = null
-    private var data: List<InfoEntry> = emptyList()
-
-    override fun title(title: String) = apply {
-        this.title = title
-    }
-
-    override fun icon(icon: ImageVector) = apply {
-        this.icon = icon
-    }
-
-    override fun intent(intent: Intent?) = apply {
-        this.intent = intent
-    }
-
-    override fun entry(infoEntry: InfoEntry) = apply {
-        data += infoEntry
-    }
-
-    override fun build(): QrInfo = QrInfo(
-        title = requireNotNull(title),
-        icon = requireNotNull(icon),
-        intent = intent,
-        data = data
-    )
-}
-
-@Composable
-private fun qrBuilder(
-    qrType: QrType,
-    builder: QrBuilderScope.() -> Unit
-): QrInfo = remember(qrType) {
-    derivedStateOf {
-        QrInfo(builder)
-    }
-}.value
