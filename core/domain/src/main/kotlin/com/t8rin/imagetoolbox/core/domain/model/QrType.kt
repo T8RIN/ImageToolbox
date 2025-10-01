@@ -62,7 +62,7 @@ sealed interface QrType {
         override fun isEmpty(): Boolean = message.isBlank() && phoneNumber.isBlank()
     }
 
-    data class GeoPoint(
+    data class Geo(
         override val raw: String,
         val latitude: Double,
         val longitude: Double
@@ -88,7 +88,7 @@ sealed interface QrType {
         override fun isEmpty(): Boolean = number.isBlank()
     }
 
-    data class ContactInfo(
+    data class Contact(
         override val raw: String,
         val addresses: List<Address>,
         val emails: List<Email>,
@@ -125,7 +125,7 @@ sealed interface QrType {
             addresses.isEmpty() && emails.isEmpty() && name.isEmpty() && organization.isBlank() && phones.isEmpty() && title.isBlank() && urls.isEmpty()
     }
 
-    data class CalendarEvent(
+    data class Calendar(
         override val raw: String,
         val description: String,
         val end: Date,
@@ -149,11 +149,11 @@ inline fun <reified T : QrType> T.copy(raw: String): T = when (this) {
     is QrType.Wifi -> this.copy(raw = raw)
     is QrType.Url -> this.copy(raw = raw)
     is QrType.Sms -> this.copy(raw = raw)
-    is QrType.GeoPoint -> this.copy(raw = raw)
+    is QrType.Geo -> this.copy(raw = raw)
     is QrType.Email -> this.copy(raw = raw)
     is QrType.Phone -> this.copy(raw = raw)
-    is QrType.ContactInfo -> this.copy(raw = raw)
-    is QrType.CalendarEvent -> this.copy(raw = raw)
+    is QrType.Contact -> this.copy(raw = raw)
+    is QrType.Calendar -> this.copy(raw = raw)
 }.cast()
 
 

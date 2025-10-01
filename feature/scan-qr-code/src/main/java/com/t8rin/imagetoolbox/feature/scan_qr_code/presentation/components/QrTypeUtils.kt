@@ -39,10 +39,10 @@ import com.t8rin.imagetoolbox.core.resources.R
 
 val QrType.name: Int
     get() = when (this) {
-        is QrType.CalendarEvent -> R.string.qr_type_calendar_event
-        is QrType.ContactInfo -> R.string.qr_type_contact_info
+        is QrType.Calendar -> R.string.qr_type_calendar_event
+        is QrType.Contact -> R.string.qr_type_contact_info
         is QrType.Email -> R.string.qr_type_email
-        is QrType.GeoPoint -> R.string.qr_type_geo_point
+        is QrType.Geo -> R.string.qr_type_geo_point
         is QrType.Phone -> R.string.qr_type_phone
         is QrType.Plain -> R.string.qr_type_plain
         is QrType.Sms -> R.string.qr_type_sms
@@ -52,10 +52,10 @@ val QrType.name: Int
 
 val QrType.icon: ImageVector
     get() = when (this) {
-        is QrType.CalendarEvent -> Icons.Rounded.CalendarMonth
-        is QrType.ContactInfo -> Icons.Rounded.Contacts
+        is QrType.Calendar -> Icons.Rounded.CalendarMonth
+        is QrType.Contact -> Icons.Rounded.Contacts
         is QrType.Email -> Icons.Rounded.Email
-        is QrType.GeoPoint -> Icons.Rounded.LocationOn
+        is QrType.Geo -> Icons.Rounded.LocationOn
         is QrType.Phone -> Icons.Rounded.Phone
         is QrType.Sms -> Icons.Rounded.Sms
         is QrType.Wifi -> Icons.Rounded.Wifi
@@ -72,13 +72,21 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
 
         is QrType.Email -> Intent(Intent.ACTION_SENDTO, raw.toUri())
         is QrType.Phone -> Intent(Intent.ACTION_DIAL, raw.toUri())
-        is QrType.Sms -> Intent(Intent.ACTION_SENDTO, raw.toUri())
+        is QrType.Sms -> {
+            val cleanNumber = phoneNumber.removePrefix("smsto:").removePrefix("sms:")
 
-        is QrType.GeoPoint -> Intent(Intent.ACTION_VIEW, raw.toUri())
+            return Intent(Intent.ACTION_SENDTO, "smsto:$cleanNumber".toUri()).apply {
+                if (message.isNotBlank()) {
+                    putExtra("sms_body", message)
+                }
+            }
+        }
+
+        is QrType.Geo -> Intent(Intent.ACTION_VIEW, raw.toUri())
 
         is QrType.Wifi -> null
 
-        is QrType.ContactInfo -> {
+        is QrType.Contact -> {
             Intent(Intent.ACTION_INSERT).apply {
                 type = ContactsContract.Contacts.CONTENT_TYPE
                 putExtra(ContactsContract.Intents.Insert.NAME, name.formattedName)
@@ -93,7 +101,7 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
             }
         }
 
-        is QrType.CalendarEvent -> {
+        is QrType.Calendar -> {
             Intent(Intent.ACTION_INSERT).apply {
                 data = CalendarContract.Events.CONTENT_URI
                 putExtra(CalendarContract.Events.TITLE, summary)

@@ -54,7 +54,7 @@ fun QRContent.toQrType(): QrType {
             phoneNumber = phoneNumber
         )
 
-        is QRContent.GeoPoint -> QrType.GeoPoint(
+        is QRContent.GeoPoint -> QrType.Geo(
             raw = raw,
             latitude = lat,
             longitude = lng
@@ -74,10 +74,10 @@ fun QRContent.toQrType(): QrType {
             type = type.toData()
         )
 
-        is QRContent.ContactInfo -> QrType.ContactInfo(
+        is QRContent.ContactInfo -> QrType.Contact(
             raw = raw,
             addresses = addresses.map {
-                QrType.ContactInfo.Address(
+                QrType.Contact.Address(
                     addressLines = it.addressLines,
                     type = it.type.toData()
                 )
@@ -91,7 +91,7 @@ fun QRContent.toQrType(): QrType {
                     type = it.type.toData()
                 )
             },
-            name = QrType.ContactInfo.PersonName(
+            name = QrType.Contact.PersonName(
                 first = name.first,
                 formattedName = name.formattedName,
                 last = name.last,
@@ -112,7 +112,7 @@ fun QRContent.toQrType(): QrType {
             urls = urls
         )
 
-        is QRContent.CalendarEvent -> QrType.CalendarEvent(
+        is QRContent.CalendarEvent -> QrType.Calendar(
             raw = raw,
             description = description,
             end = end.toDate(),

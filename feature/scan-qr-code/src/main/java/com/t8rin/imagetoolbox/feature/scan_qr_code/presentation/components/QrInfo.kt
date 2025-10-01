@@ -19,13 +19,26 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.content.Intent
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.automirrored.rounded.ShortText
+import androidx.compose.material.icons.outlined.Badge
+import androidx.compose.material.icons.outlined.Business
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Link
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
+import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.TextFields
-import androidx.compose.material.icons.rounded.Topic
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.model.QrType
@@ -35,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Latitude
 import com.t8rin.imagetoolbox.core.resources.icons.Longitude
 import com.t8rin.imagetoolbox.core.utils.getString
+import java.text.DateFormat
 
 internal data class InfoEntry(
     val icon: ImageVector,
@@ -51,23 +65,171 @@ internal data class QrInfo(
     companion object
 }
 
+//TODO: add creation templates
+
 @Composable
 internal fun rememberQrInfo(qrType: QrType.Complex): QrInfo? {
     return when (qrType) {
         is QrType.Wifi -> wifiQrInfo(qrType)
         is QrType.Email -> emailQrInfo(qrType)
-        is QrType.GeoPoint -> geoPointQrInfo(qrType)
-
-        is QrType.Phone -> null //TODO: add other types preview and creation templates
-        is QrType.Sms -> null
-        is QrType.ContactInfo -> null
-        is QrType.CalendarEvent -> null
+        is QrType.Geo -> geoQrInfo(qrType)
+        is QrType.Phone -> phoneQrInfo(qrType)
+        is QrType.Sms -> smsQrInfo(qrType)
+        is QrType.Contact -> contactQrInfo(qrType)
+        is QrType.Calendar -> calendarQrInfo(qrType)
     }
 }
 
 @Composable
-private fun geoPointQrInfo(
-    qrType: QrType.GeoPoint
+private fun calendarQrInfo(
+    qrType: QrType.Calendar
+): QrInfo = qrInfoBuilder(qrType) {
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Event,
+            text = qrType.summary.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.summary.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Description,
+            text = qrType.description.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.description.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Place,
+            text = qrType.location.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.location.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Person,
+            text = qrType.organizer.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.organizer.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Schedule,
+            text = DateFormat.getDateTimeInstance().format(qrType.start),
+            canCopy = true
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Schedule,
+            text = DateFormat.getDateTimeInstance().format(qrType.end),
+            canCopy = true
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Info,
+            text = qrType.status.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.status.isNotBlank()
+        )
+    )
+}
+
+@Composable
+private fun contactQrInfo(
+    qrType: QrType.Contact
+): QrInfo = qrInfoBuilder(qrType) {
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Person,
+            text = qrType.name.formattedName.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.name.formattedName.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Business,
+            text = qrType.organization.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.organization.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Badge,
+            text = qrType.title.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.title.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Phone,
+            text = qrType.phones.joinToString("\n") { it.number }
+                .ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.phones.isNotEmpty()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Rounded.AlternateEmail,
+            text = qrType.emails.joinToString("\n") { it.address }
+                .ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.emails.isNotEmpty()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Link,
+            text = qrType.urls.joinToString("\n")
+                .ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.urls.isNotEmpty()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Home,
+            text = qrType.addresses.joinToString("\n") { it.addressLines.joinToString(" ") }
+                .ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.addresses.isNotEmpty()
+        )
+    )
+}
+
+@Composable
+private fun smsQrInfo(
+    qrType: QrType.Sms
+): QrInfo = qrInfoBuilder(qrType) {
+    entry(
+        InfoEntry(
+            icon = Icons.AutoMirrored.Outlined.StickyNote2,
+            text = qrType.message.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.message.isNotBlank()
+        )
+    )
+    entry(
+        InfoEntry(
+            icon = Icons.Outlined.Phone,
+            text = qrType.phoneNumber.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.phoneNumber.isNotBlank()
+        )
+    )
+}
+
+@Composable
+private fun phoneQrInfo(
+    qrType: QrType.Phone
+): QrInfo = qrInfoBuilder(qrType) {
+    entry(
+        InfoEntry(
+            icon = Icons.Rounded.Numbers,
+            text = qrType.number.ifBlank { getString(R.string.not_specified) },
+            canCopy = qrType.number.isNotBlank()
+        )
+    )
+}
+
+@Composable
+private fun geoQrInfo(
+    qrType: QrType.Geo
 ): QrInfo = qrInfoBuilder(qrType) {
     entry(
         InfoEntry(
@@ -100,7 +262,7 @@ private fun emailQrInfo(
 
     entry(
         InfoEntry(
-            icon = Icons.Rounded.Topic,
+            icon = Icons.Outlined.Topic,
             text = qrType.subject.ifBlank { getString(R.string.not_specified) },
             canCopy = qrType.subject.isNotBlank()
         )
