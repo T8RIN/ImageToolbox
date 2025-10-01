@@ -25,6 +25,7 @@ import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Business
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
@@ -112,18 +113,24 @@ private fun calendarQrInfo(
             canCopy = qrType.organizer.isNotBlank()
         )
     )
+    val start =
+        runCatching { DateFormat.getDateTimeInstance().format(qrType.start) }.getOrDefault("")
+
     entry(
         InfoEntry(
             icon = Icons.Outlined.Schedule,
-            text = DateFormat.getDateTimeInstance().format(qrType.start),
-            canCopy = true
+            text = start.ifBlank { getString(R.string.not_specified) },
+            canCopy = start.isNotBlank()
         )
     )
+
+    val end = runCatching { DateFormat.getDateTimeInstance().format(qrType.end) }.getOrDefault("")
+
     entry(
         InfoEntry(
-            icon = Icons.Outlined.Schedule,
-            text = DateFormat.getDateTimeInstance().format(qrType.end),
-            canCopy = true
+            icon = Icons.Outlined.Flag,
+            text = end.ifBlank { getString(R.string.not_specified) },
+            canCopy = end.isNotBlank()
         )
     )
     entry(

@@ -25,6 +25,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +41,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -48,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
@@ -122,20 +125,29 @@ private fun QrInfoItem(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             qrInfo.data.forEachIndexed { index, (icon, text, canCopy) ->
+                val interactionSource = remember(index) { MutableInteractionSource() }
+
+                val shape = shapeByInteraction(
+                    shape = ShapeDefaults.byIndex(
+                        index = index,
+                        size = qrInfo.data.size
+                    ),
+                    pressedShape = ShapeDefaults.pressed,
+                    interactionSource = interactionSource
+                )
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .container(
-                            shape = ShapeDefaults.byIndex(
-                                index = index,
-                                size = qrInfo.data.size
-                            ),
+                            shape = shape,
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp
                         )
                         .clickable(
                             enabled = canCopy,
-                            onClick = { essentials.copyToClipboard(text) }
+                            onClick = { essentials.copyToClipboard(text) },
+                            interactionSource = interactionSource
                         )
                         .padding(
                             vertical = 10.dp,
