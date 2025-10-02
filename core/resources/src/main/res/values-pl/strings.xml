@@ -1752,4 +1752,15 @@
     <string name="skipped_saving_multiple">%1$d plików pominięto</string>
     <string name="allow_skip_if_larger">Pozwól na pomijanie jeśli większe</string>
     <string name="allow_skip_if_larger_sub">Niektóre narzędzia będą mogły pominąć zapisywanie obrazów, jeśli wynikowy rozmiar pliku będzie większy niż oryginalny</string>
+    <string name="qr_type_calendar_event">Wydarzenie w kalendarzu</string>
+    <string name="qr_type_contact_info">Kontakt</string>
+    <string name="qr_type_email">E-mail</string>
+    <string name="qr_type_geo_point">Lokalizacja</string>
+    <string name="qr_type_phone">Telefon</string>
+    <string name="qr_type_plain">Tekst</string>
+    <string name="qr_type_sms">SMS</string>
+    <string name="qr_type_url">URL</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
+    <string name="open_network">Otwórz sieć</string>
+    <string name="not_specified">N/D</string>
 </resources>
