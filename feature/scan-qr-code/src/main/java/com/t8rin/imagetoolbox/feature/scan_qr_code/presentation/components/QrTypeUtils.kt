@@ -38,7 +38,6 @@ import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
 import io.github.g00fy2.quickie.extensions.DataType
 
-
 val QrType.name: Int
     get() = when (this) {
         is QrType.Calendar -> R.string.qr_type_calendar_event
@@ -202,8 +201,8 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
                 putExtra(CalendarContract.Events.TITLE, summary)
                 putExtra(CalendarContract.Events.DESCRIPTION, description)
                 putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.time)
-                putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.time)
+                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start?.time)
+                putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end?.time)
             }
         }
     }

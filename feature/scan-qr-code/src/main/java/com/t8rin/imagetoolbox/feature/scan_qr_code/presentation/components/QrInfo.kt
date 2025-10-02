@@ -66,8 +66,6 @@ internal data class QrInfo(
     companion object
 }
 
-// TODO: add creation templates
-
 @Composable
 internal fun rememberQrInfo(qrType: QrType.Complex): QrInfo? {
     return when (qrType) {
@@ -113,8 +111,11 @@ private fun calendarQrInfo(
             canCopy = qrType.organizer.isNotBlank()
         )
     )
-    val start =
-        runCatching { DateFormat.getDateTimeInstance().format(qrType.start) }.getOrDefault("")
+    val start = runCatching {
+        qrType.start?.let {
+            DateFormat.getDateTimeInstance().format(it)
+        }
+    }.getOrNull().orEmpty()
 
     entry(
         InfoEntry(
@@ -124,7 +125,11 @@ private fun calendarQrInfo(
         )
     )
 
-    val end = runCatching { DateFormat.getDateTimeInstance().format(qrType.end) }.getOrDefault("")
+    val end = runCatching {
+        qrType.end?.let {
+            DateFormat.getDateTimeInstance().format(it)
+        }
+    }.getOrNull().orEmpty()
 
     entry(
         InfoEntry(
@@ -238,19 +243,22 @@ private fun phoneQrInfo(
 private fun geoQrInfo(
     qrType: QrType.Geo
 ): QrInfo = qrInfoBuilder(qrType) {
+    val latitude = qrType.latitude?.toString()?.trimTrailingZero().orEmpty()
+    val longitude = qrType.longitude?.toString()?.trimTrailingZero().orEmpty()
+
     entry(
         InfoEntry(
             icon = Icons.Outlined.Latitude,
-            text = qrType.latitude.toString().trimTrailingZero(),
-            canCopy = true
+            text = latitude.ifBlank { getString(R.string.not_specified) },
+            canCopy = latitude.isNotBlank()
         )
     )
 
     entry(
         InfoEntry(
             icon = Icons.Outlined.Longitude,
-            text = qrType.longitude.toString().trimTrailingZero(),
-            canCopy = true
+            text = longitude.ifBlank { getString(R.string.not_specified) },
+            canCopy = longitude.isNotBlank()
         )
     )
 }

@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused")
+
 package com.t8rin.imagetoolbox.core.domain.model
 
 import com.t8rin.imagetoolbox.core.domain.utils.cast
@@ -28,6 +30,8 @@ sealed interface QrType {
     data class Plain(
         override val raw: String
     ) : QrType {
+        constructor() : this(raw = "")
+
         override fun isEmpty(): Boolean = raw.isBlank()
     }
 
@@ -36,6 +40,12 @@ sealed interface QrType {
         val title: String,
         val url: String
     ) : QrType {
+        constructor() : this(
+            raw = "",
+            title = "",
+            url = ""
+        )
+
         override fun isEmpty(): Boolean = title.isBlank() && url.isBlank()
     }
 
@@ -47,6 +57,13 @@ sealed interface QrType {
         val password: String,
         val encryptionType: EncryptionType
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            ssid = "",
+            password = "",
+            encryptionType = EncryptionType.WPA
+        )
+
         enum class EncryptionType {
             OPEN, WPA, WEP
         }
@@ -59,15 +76,27 @@ sealed interface QrType {
         val message: String,
         val phoneNumber: String
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            message = "",
+            phoneNumber = ""
+        )
+
         override fun isEmpty(): Boolean = message.isBlank() && phoneNumber.isBlank()
     }
 
     data class Geo(
         override val raw: String,
-        val latitude: Double,
-        val longitude: Double
+        val latitude: Double?,
+        val longitude: Double?
     ) : Complex {
-        override fun isEmpty(): Boolean = false
+        constructor() : this(
+            raw = "",
+            latitude = null,
+            longitude = null
+        )
+
+        override fun isEmpty(): Boolean = latitude == null && longitude == null
     }
 
     data class Email(
@@ -77,6 +106,14 @@ sealed interface QrType {
         val subject: String,
         val type: Int
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            address = "",
+            body = "",
+            subject = "",
+            type = 0
+        )
+
         override fun isEmpty(): Boolean = address.isBlank() && body.isBlank() && subject.isBlank()
     }
 
@@ -85,6 +122,12 @@ sealed interface QrType {
         val number: String,
         val type: Int
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            number = "",
+            type = 0
+        )
+
         override fun isEmpty(): Boolean = number.isBlank()
     }
 
@@ -98,6 +141,17 @@ sealed interface QrType {
         val title: String,
         val urls: List<String>
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            addresses = emptyList(),
+            emails = emptyList(),
+            name = PersonName(),
+            organization = "",
+            phones = emptyList(),
+            title = "",
+            urls = emptyList()
+        )
+
         data class Address(
             val addressLines: List<String>,
             val type: Int
@@ -112,6 +166,16 @@ sealed interface QrType {
             val pronunciation: String,
             val suffix: String
         ) {
+            constructor() : this(
+                first = "",
+                formattedName = "",
+                last = "",
+                middle = "",
+                prefix = "",
+                pronunciation = "",
+                suffix = ""
+            )
+
             fun isEmpty() = first.isBlank() &&
                     formattedName.isBlank() &&
                     last.isBlank() &&
@@ -128,19 +192,42 @@ sealed interface QrType {
     data class Calendar(
         override val raw: String,
         val description: String,
-        val end: Date,
+        val end: Date?,
         val location: String,
         val organizer: String,
-        val start: Date,
+        val start: Date?,
         val status: String,
         val summary: String
     ) : Complex {
+        constructor() : this(
+            raw = "",
+            description = "",
+            end = null,
+            location = "",
+            organizer = "",
+            start = null,
+            status = "",
+            summary = "",
+        )
+
         override fun isEmpty(): Boolean =
-            description.isBlank() && location.isBlank() && organizer.isBlank() && status.isBlank() && summary.isBlank()
+            description.isBlank() && end == null && location.isBlank() && organizer.isBlank() && start == null && status.isBlank() && summary.isBlank()
     }
 
     companion object {
         val Empty = Plain("")
+
+        val complexEntries: List<Complex> by lazy {
+            listOf(
+                Wifi(),
+                Sms(),
+                Geo(),
+                Email(),
+                Phone(),
+                Contact(),
+                Calendar()
+            )
+        }
     }
 }
 

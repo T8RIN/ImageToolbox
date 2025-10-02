@@ -21,12 +21,17 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -69,16 +74,19 @@ fun <T : Any> DataSelector(
     value: T,
     onValueChange: (T) -> Unit,
     entries: List<T>,
-    title: String,
+    title: String?,
     titleIcon: ImageVector?,
     itemContentText: @Composable (T) -> String,
+    itemContentIcon: ((T) -> ImageVector)? = null,
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = ShapeDefaults.large,
     color: Color = Color.Unspecified,
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
-    initialExpanded: Boolean = false
+    initialExpanded: Boolean = false,
+    canExpand: Boolean = true,
+    contentPadding: PaddingValues = PaddingValues(8.dp)
 ) {
     val realSpanCount = spanCount.coerceAtLeast(1)
 
@@ -88,115 +96,185 @@ fun <T : Any> DataSelector(
             color = color
         )
     ) {
-        var expanded by rememberSaveable(initialExpanded, realSpanCount) {
+        var expanded by rememberSaveable(initialExpanded, realSpanCount, canExpand) {
             mutableStateOf(
-                initialExpanded && realSpanCount > 1
+                if (canExpand) initialExpanded && realSpanCount > 1 else true
             )
         }
-        Row {
-            val rotation by animateFloatAsState(if (expanded) 180f else 0f)
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TitleItem(
-                    text = title,
-                    icon = titleIcon,
-                    modifier = Modifier
-                        .padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
-                        .weight(1f, false)
-                )
-                badgeContent?.let {
-                    val scope = rememberCoroutineScope()
-                    val confettiHostState = LocalConfettiHostState.current
-                    val showConfetti: () -> Unit = {
-                        scope.launch {
-                            confettiHostState.showConfetti()
+
+        val showExpand = realSpanCount > 1 && canExpand
+        val showTitle = badgeContent != null || title != null
+
+        if (showExpand || showTitle) {
+            Row {
+                if (showTitle) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        title?.let {
+                            TitleItem(
+                                text = title,
+                                icon = titleIcon,
+                                modifier = Modifier
+                                    .padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
+                                    .weight(1f, false)
+                            )
+                        }
+                        badgeContent?.let {
+                            val scope = rememberCoroutineScope()
+                            val confettiHostState = LocalConfettiHostState.current
+                            val showConfetti: () -> Unit = {
+                                scope.launch {
+                                    confettiHostState.showConfetti()
+                                }
+                            }
+                            Badge(
+                                content = badgeContent,
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                                contentColor = MaterialTheme.colorScheme.onTertiary,
+                                modifier = Modifier
+                                    .padding(horizontal = 2.dp)
+                                    .padding(bottom = 12.dp)
+                                    .scaleOnTap {
+                                        showConfetti()
+                                    }
+                            )
                         }
                     }
-                    Badge(
-                        content = badgeContent,
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                        contentColor = MaterialTheme.colorScheme.onTertiary,
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp)
-                            .padding(bottom = 12.dp)
-                            .scaleOnTap {
-                                showConfetti()
-                            }
-                    )
                 }
-            }
 
-            if (realSpanCount > 1) {
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    onClick = { expanded = !expanded }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = "Expand",
-                        modifier = Modifier.rotate(rotation)
-                    )
-                }
-            }
-        }
-        val state = rememberLazyStaggeredGridState()
+                if (showExpand) {
+                    val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
-        LaunchedEffect(value, entries) {
-            delay(300)
-            val targetIndex = entries.indexOf(value).takeIf { it >= 0 } ?: 0
-            if (state.layoutInfo.visibleItemsInfo.all { it.index != targetIndex }) {
-                state.scrollToItem(targetIndex)
-            }
-        }
-
-        LazyHorizontalStaggeredGrid(
-            verticalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
-                alignment = Alignment.CenterVertically
-            ),
-            state = state,
-            horizontalItemSpacing = 8.dp,
-            rows = StaggeredGridCells.Adaptive(30.dp),
-            modifier = Modifier
-                .heightIn(
-                    max = animateDpAsState(
-                        if (expanded) {
-                            52.dp * realSpanCount - 8.dp * (realSpanCount - 1)
-                        } else 52.dp
-                    ).value
-                )
-                .fadingEdges(
-                    scrollableState = state,
-                    isVertical = false,
-                    spanCount = realSpanCount
-                ),
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(entries) {
-                val selected by remember(it, value) {
-                    derivedStateOf {
-                        value == it
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        onClick = { expanded = !expanded }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = "Expand",
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
                 }
-                EnhancedChip(
-                    selected = selected,
-                    onClick = {
-                        onValueChange(it)
-                    },
-                    selectedColor = selectedItemColor,
-                    contentPadding = PaddingValues(
-                        horizontal = 12.dp,
-                        vertical = 8.dp
+            }
+        }
+
+        if (canExpand) {
+            val state = rememberLazyStaggeredGridState()
+
+            LaunchedEffect(value, entries) {
+                delay(300)
+                val targetIndex = entries.indexOf(value).takeIf { it >= 0 } ?: 0
+                if (state.layoutInfo.visibleItemsInfo.all { it.index != targetIndex }) {
+                    state.scrollToItem(targetIndex)
+                }
+            }
+
+            LazyHorizontalStaggeredGrid(
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                state = state,
+                horizontalItemSpacing = 8.dp,
+                rows = StaggeredGridCells.Adaptive(30.dp),
+                modifier = Modifier
+                    .heightIn(
+                        max = animateDpAsState(
+                            if (expanded) {
+                                52.dp * realSpanCount - 8.dp * (realSpanCount - 1)
+                            } else 52.dp
+                        ).value
+                    )
+                    .fadingEdges(
+                        scrollableState = state,
+                        isVertical = false,
+                        spanCount = realSpanCount
                     ),
-                    modifier = Modifier.height(36.dp)
-                ) {
-                    Text(
-                        text = itemContentText(it)
+                contentPadding = contentPadding
+            ) {
+                items(entries) { item ->
+                    ChipItem(
+                        item = item,
+                        value = value,
+                        onValueChange = onValueChange,
+                        itemContentText = itemContentText,
+                        itemContentIcon = itemContentIcon,
+                        selectedItemColor = selectedItemColor
                     )
                 }
             }
+        } else {
+            FlowRow(
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.CenterVertically
+                ),
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 8.dp,
+                    alignment = Alignment.Start
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(contentPadding)
+            ) {
+                entries.forEach { item ->
+                    ChipItem(
+                        item = item,
+                        value = value,
+                        onValueChange = onValueChange,
+                        itemContentText = itemContentText,
+                        itemContentIcon = itemContentIcon,
+                        selectedItemColor = selectedItemColor
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun <T> ChipItem(
+    item: T,
+    value: T,
+    onValueChange: (T) -> Unit,
+    itemContentText: @Composable (T) -> String,
+    itemContentIcon: ((T) -> ImageVector)? = null,
+    selectedItemColor: Color,
+) {
+    val selected by remember(item, value) {
+        derivedStateOf {
+            value == item
+        }
+    }
+    EnhancedChip(
+        selected = selected,
+        onClick = {
+            onValueChange(item)
+        },
+        selectedColor = selectedItemColor,
+        contentPadding = PaddingValues(
+            horizontal = 12.dp,
+            vertical = 8.dp
+        ),
+        modifier = Modifier.height(36.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            itemContentIcon?.let {
+                Icon(
+                    imageVector = itemContentIcon(item),
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+            }
+            Text(
+                text = itemContentText(item)
+            )
         }
     }
 }
