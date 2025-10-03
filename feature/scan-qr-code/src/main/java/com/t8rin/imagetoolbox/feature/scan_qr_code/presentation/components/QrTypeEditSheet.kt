@@ -201,7 +201,7 @@ private fun QrWifiEditField(
             value = value.encryptionType,
             onValueChange = { onValueChange(value.copy(encryptionType = it)) },
             entries = EncryptionType.entries,
-            title = stringResource(R.string.encryption),
+            title = stringResource(R.string.security),
             titleIcon = Icons.Rounded.Security,
             itemContentText = { it.name },
             itemContentIcon = { _, selected -> if (selected) Icons.Rounded.CheckCircleOutline else null },
