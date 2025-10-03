@@ -645,7 +645,16 @@ or click one of the badges below.
 - Document Scanning
 - Barcodes
     - Scanning
-    - Creating
+    - Creating & Parsing common types
+      - Plain
+      - Url
+      - WiFi
+      - Email
+      - Geolocation
+      - Phone
+      - SMS
+      - Contact (vCard)
+      - Calendar event
     - Sharing as images
     - 13 formats available
       - QR CODE
