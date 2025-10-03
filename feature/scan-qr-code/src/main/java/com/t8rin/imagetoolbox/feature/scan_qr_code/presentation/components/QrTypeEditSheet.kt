@@ -25,10 +25,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.rounded.CheckCircleOutline
+import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.QrCode
 import androidx.compose.material.icons.rounded.Security
@@ -44,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
@@ -53,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -98,7 +103,8 @@ internal fun QrTypeEditSheet(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+                .padding(16.dp)
+                .clearFocusOnTap(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -145,11 +151,19 @@ private fun QrEditField(
                 onValueChange = onValueChange
             )
 
-            //TODO: Add all left types
+            is QrType.Phone -> QrPhoneEditField(
+                value = qrType,
+                onValueChange = onValueChange
+            )
+
+            is QrType.Sms -> QrSmsEditField(
+                value = qrType,
+                onValueChange = onValueChange
+            )
+
+            //TODO: Add all left types and add contact picker to phone/sms
             is QrType.Email -> Text("TODO")
             is QrType.Geo -> Text("TODO")
-            is QrType.Phone -> Text("TODO")
-            is QrType.Sms -> Text("TODO")
             is QrType.Contact -> Text("TODO")
             is QrType.Calendar -> Text("TODO")
         }
@@ -157,9 +171,71 @@ private fun QrEditField(
 }
 
 @Composable
+private fun QrSmsEditField(
+    value: QrType.Sms,
+    onValueChange: (QrType.Sms) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        RoundedTextField(
+            value = value.phoneNumber,
+            onValueChange = { onValueChange(value.copy(phoneNumber = it)) },
+            label = { Text(stringResource(R.string.phone)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Numbers,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone
+            )
+        )
+        RoundedTextField(
+            value = value.message,
+            onValueChange = { onValueChange(value.copy(message = it)) },
+            label = { Text(stringResource(R.string.message)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.StickyNote2,
+                    contentDescription = null
+                )
+            },
+            singleLine = false
+        )
+    }
+}
+
+@Composable
+private fun QrPhoneEditField(
+    value: QrType.Phone,
+    onValueChange: (QrType.Phone) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        RoundedTextField(
+            value = value.number,
+            onValueChange = { onValueChange(value.copy(number = it)) },
+            label = { Text(stringResource(R.string.phone)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Numbers,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone
+            )
+        )
+    }
+}
+
+@Composable
 private fun QrWifiEditField(
     value: QrType.Wifi,
-    onValueChange: (QrType.Complex) -> Unit
+    onValueChange: (QrType.Wifi) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -178,7 +254,8 @@ private fun QrWifiEditField(
                     imageVector = Icons.Rounded.TextFields,
                     contentDescription = null
                 )
-            }
+            },
+            singleLine = false
         )
         AnimatedVisibility(
             visible = value.encryptionType != EncryptionType.OPEN,
@@ -193,7 +270,10 @@ private fun QrWifiEditField(
                         imageVector = Icons.Rounded.Password,
                         contentDescription = null
                     )
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                )
             )
         }
 

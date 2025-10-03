@@ -96,7 +96,7 @@ sealed interface QrType {
             longitude = null
         )
 
-        override fun isEmpty(): Boolean = latitude == null && longitude == null
+        override fun isEmpty(): Boolean = latitude == null || longitude == null
     }
 
     data class Email(
