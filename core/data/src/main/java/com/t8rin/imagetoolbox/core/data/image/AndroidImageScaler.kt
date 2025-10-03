@@ -456,7 +456,7 @@ internal class AndroidImageScaler @Inject constructor(
                 image = image,
                 width = width,
                 height = (width / aspectRatio).toInt(),
-                imageScaleMode = ImageScaleMode.NotPresent
+                imageScaleMode = imageScaleMode
             )
         }
 
@@ -466,7 +466,7 @@ internal class AndroidImageScaler @Inject constructor(
                 image = image,
                 width = (height * aspectRatio).toInt(),
                 height = height,
-                imageScaleMode = ImageScaleMode.NotPresent
+                imageScaleMode = imageScaleMode
             )
         }
 

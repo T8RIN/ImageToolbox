@@ -38,7 +38,6 @@ import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -289,27 +288,23 @@ internal class AndroidPdfManager @Inject constructor(
         if (isHorizontal) {
             createScaledBitmap(
                 width = (size.height * aspectRatio).toInt(),
-                height = size.height,
-                imageScaleMode = ImageScaleMode.NotPresent
+                height = size.height
             )
         } else {
             createScaledBitmap(
                 width = size.width,
-                height = (size.width / aspectRatio).toInt(),
-                imageScaleMode = ImageScaleMode.NotPresent
+                height = (size.width / aspectRatio).toInt()
             )
         }
     }
 
     private suspend fun Bitmap.createScaledBitmap(
         width: Int,
-        height: Int,
-        imageScaleMode: ImageScaleMode
+        height: Int
     ): Bitmap = imageScaler.scaleImage(
         image = this,
         width = width,
-        height = height,
-        imageScaleMode = imageScaleMode
+        height = height
     )
 
 }

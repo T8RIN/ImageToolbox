@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -63,8 +62,7 @@ class ImageInfoTransformation @AssistedInject internal constructor(
             image = input,
             width = size.width.pxOrElse { imageInfo.width },
             height = size.height.pxOrElse { imageInfo.height },
-            resizeType = ResizeType.Flexible,
-            imageScaleMode = ImageScaleMode.NotPresent
+            resizeType = ResizeType.Flexible
         )
 
         val originalUri = shareProvider.cacheImage(

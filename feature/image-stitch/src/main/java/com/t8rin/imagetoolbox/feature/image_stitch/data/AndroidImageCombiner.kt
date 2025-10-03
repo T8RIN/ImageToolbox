@@ -34,7 +34,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageWithSize
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.withSize
@@ -185,11 +184,9 @@ internal class AndroidImageCombiner @Inject constructor(
                 }
             }
 
-            return imageScaler.scaleImage(
-                image = bitmap,
+            return bitmap.createScaledBitmap(
                 width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt(),
-                imageScaleMode = ImageScaleMode.NotPresent
+                height = (size.height * imageScale).toInt()
             ) to ImageInfo(
                 width = (size.width * imageScale).toInt(),
                 height = (size.height * imageScale).toInt(),
@@ -412,20 +409,25 @@ internal class AndroidImageCombiner @Inject constructor(
         size: IntegerSize
     ): Bitmap {
         return if (isHorizontal) {
-            imageScaler.scaleImage(
-                image = this,
+            createScaledBitmap(
                 width = (size.height * aspectRatio).toInt(),
-                height = size.height,
-                imageScaleMode = ImageScaleMode.NotPresent
+                height = size.height
             )
         } else {
-            imageScaler.scaleImage(
-                image = this,
+            createScaledBitmap(
                 width = size.width,
-                height = (size.width / aspectRatio).toInt(),
-                imageScaleMode = ImageScaleMode.NotPresent
+                height = (size.width / aspectRatio).toInt()
             )
         }
     }
+
+    private suspend fun Bitmap.createScaledBitmap(
+        width: Int,
+        height: Int
+    ): Bitmap = imageScaler.scaleImage(
+        image = this,
+        width = width,
+        height = height
+    )
 
 }

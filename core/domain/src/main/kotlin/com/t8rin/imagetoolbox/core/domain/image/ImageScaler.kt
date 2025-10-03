@@ -27,7 +27,7 @@ interface ImageScaler<I> {
         width: Int,
         height: Int,
         resizeType: ResizeType = ResizeType.Explicit,
-        imageScaleMode: ImageScaleMode = ImageScaleMode.Default
+        imageScaleMode: ImageScaleMode = ImageScaleMode.NotPresent
     ): I
 
     suspend fun scaleUntilCanShow(
