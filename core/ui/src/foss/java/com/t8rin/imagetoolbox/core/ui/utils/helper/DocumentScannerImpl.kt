@@ -29,14 +29,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import kotlinx.coroutines.launch
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate
 
 private class DocumentScannerImpl(
@@ -64,25 +60,20 @@ private class DocumentScannerImpl(
 internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
-    val context = LocalComponentActivity.current
+    val essentials = rememberLocalEssentials()
 
-    val scanner = remember(context) {
+    val scanner = remember(essentials.context) {
         DocumentScannerDelegate(
-            activity = context,
+            activity = essentials.context,
             successHandler = { imageUris ->
                 onSuccess(
                     ScanResult(imageUris.map { it.toUri() })
                 )
             },
             errorHandler = {
-                scope.launch {
-                    toastHostState.showFailureToast(
-                        context = context,
-                        throwable = Throwable(it)
-                    )
-                }
+                essentials.showFailureToast(
+                    throwable = Throwable(it)
+                )
             }
         )
     }
@@ -101,18 +92,16 @@ internal fun rememberDocumentScannerImpl(
                 scannerLauncher.launch(createDocumentScanIntent())
             }
         } else {
-            scope.launch {
-                toastHostState.showToast(
-                    message = context.getString(R.string.grant_camera_permission_to_scan_document_scanner),
-                    icon = Icons.Outlined.CameraAlt
-                )
-            }
+            essentials.showToast(
+                messageSelector = { getString(R.string.grant_camera_permission_to_scan_document_scanner) },
+                icon = Icons.Outlined.CameraAlt
+            )
         }
     }
 
-    return remember(context, scannerLauncher) {
+    return remember(essentials.context, scannerLauncher) {
         DocumentScannerImpl(
-            context = context,
+            context = essentials.context,
             scanner = scanner,
             scannerLauncher = scannerLauncher,
             requestPermissionLauncher = requestPermissionLauncher

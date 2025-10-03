@@ -30,12 +30,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
 
 
-private data class FolderOpenerImpl(
+private data class FolderPickerImpl(
     val openDocumentTree: ManagedActivityResultLauncher<Uri?, Uri?>,
     val onFailure: (Throwable) -> Unit
-) : FolderOpener {
+) : FolderPicker {
 
-    override fun open(initialLocation: Uri?) {
+    override fun pickFolder(initialLocation: Uri?) {
         "Folder Open Start".makeLog()
         runCatching {
             openDocumentTree.launch(initialLocation)
@@ -52,15 +52,15 @@ private data class FolderOpenerImpl(
 
 @Stable
 @Immutable
-interface FolderOpener {
-    fun open(initialLocation: Uri? = null)
+interface FolderPicker {
+    fun pickFolder(initialLocation: Uri? = null)
 }
 
 @Composable
-fun rememberFolderOpener(
+fun rememberFolderPicker(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
-): FolderOpener {
+): FolderPicker {
     val openDocumentTree = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocumentTree(),
         onResult = { uri ->
@@ -75,7 +75,7 @@ fun rememberFolderOpener(
 
     return remember(openDocumentTree) {
         derivedStateOf {
-            FolderOpenerImpl(
+            FolderPickerImpl(
                 openDocumentTree = openDocumentTree,
                 onFailure = {
                     onFailure()

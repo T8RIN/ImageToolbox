@@ -1809,4 +1809,6 @@
     <string name="edit_barcode">Edit Barcode</string>
     <string name="wifi_configuration">Wi-Fi configuration</string>
     <string name="security">Security</string>
+    <string name="pick_contact">Pick contact</string>
+    <string name="grant_contact_permission">Grant contacts permission in settings to autofill using selected contact</string>
 </resources>

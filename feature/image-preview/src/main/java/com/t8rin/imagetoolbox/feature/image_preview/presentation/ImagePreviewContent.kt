@@ -83,7 +83,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.sortedByType
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -132,7 +132,7 @@ fun ImagePreviewContent(
     var previousFolder by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
-    val openDirectoryLauncher = rememberFolderOpener(
+    val openDirectoryLauncher = rememberFolderPicker(
         onSuccess = { uri ->
             previousFolder = uri
             component.updateUrisFromTree(uri)
@@ -420,7 +420,7 @@ fun ImagePreviewContent(
                     } else {
                         EnhancedFloatingActionButton(
                             onClick = {
-                                openDirectoryLauncher.open(previousFolder)
+                                openDirectoryLauncher.pickFolder(previousFolder)
                             },
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             type = EnhancedFloatingActionButtonType.SecondaryHorizontal,

@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FileType
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PagerScrollPanel
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -77,7 +77,7 @@ internal fun ColumnScope.CompareWithUrisPage(
 
     val isFilesLoading = component.filesLoadingProgress >= 0
 
-    val openDirectoryLauncher = rememberFolderOpener(
+    val openDirectoryLauncher = rememberFolderPicker(
         onSuccess = { uri ->
             previousFolder = uri
             component.setDataForBatchComparisonFromTree(uri)
@@ -112,7 +112,7 @@ internal fun ColumnScope.CompareWithUrisPage(
         PreferenceRow(
             title = stringResource(R.string.pick_directory),
             onClick = {
-                openDirectoryLauncher.open(previousFolder)
+                openDirectoryLauncher.pickFolder(previousFolder)
             },
             shape = ShapeDefaults.end,
             titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,

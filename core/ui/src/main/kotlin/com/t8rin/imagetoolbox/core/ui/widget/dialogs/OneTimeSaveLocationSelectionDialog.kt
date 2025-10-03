@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderOpener
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toUiPath
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -292,7 +292,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                 }
                 val currentFolderUri = selectedSaveFolderUri?.toUri() ?: settingsState.saveFolderUri
-                val launcher = rememberFolderOpener(
+                val launcher = rememberFolderPicker(
                     onSuccess = { uri ->
                         context.contentResolver.takePersistableUriPermission(
                             uri,
@@ -310,7 +310,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     shape = ShapeDefaults.bottom,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     onClick = {
-                        launcher.open(currentFolderUri)
+                        launcher.pickFolder(currentFolderUri)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

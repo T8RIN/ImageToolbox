@@ -22,14 +22,18 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.rounded.CheckCircleOutline
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Password
@@ -53,6 +57,8 @@ import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberContactPicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -204,6 +210,10 @@ private fun QrSmsEditField(
             },
             singleLine = false
         )
+
+        ContactPickerButton(
+            onPicked = { onValueChange(value.copy(phoneNumber = it.phones.firstOrNull()?.number.orEmpty())) }
+        )
     }
 }
 
@@ -228,6 +238,10 @@ private fun QrPhoneEditField(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone
             )
+        )
+
+        ContactPickerButton(
+            onPicked = { onValueChange(value.copy(number = it.phones.firstOrNull()?.number.orEmpty())) }
         )
     }
 }
@@ -292,5 +306,29 @@ private fun QrWifiEditField(
             canExpand = false,
             selectedItemColor = MaterialTheme.colorScheme.secondaryContainer
         )
+    }
+}
+
+@Composable
+private fun ContactPickerButton(onPicked: (Contact) -> Unit) {
+    val contactPicker = rememberContactPicker(onSuccess = onPicked)
+
+    EnhancedButton(
+        onClick = contactPicker::pickContact,
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.secondaryContainer
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Person,
+                contentDescription = null
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = stringResource(R.string.pick_contact)
+            )
+        }
     }
 }

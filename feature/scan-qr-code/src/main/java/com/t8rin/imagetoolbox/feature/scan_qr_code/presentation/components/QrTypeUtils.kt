@@ -215,7 +215,7 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
                 putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end?.time)
             }
         }
-    }
+    }?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 }
 
 fun QrType.Complex.asRaw(): String = raw.ifEmpty {

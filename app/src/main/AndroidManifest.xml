@@ -50,6 +50,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
     <uses-permission android:name="android.permission.PROJECT_MEDIA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
@@ -64,7 +65,6 @@
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:hasFragileUserData="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_launcher_name"
         android:largeHeap="true"
@@ -72,6 +72,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageToolbox.Launcher"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup, android:label"
         tools:targetApi="tiramisu">
 
