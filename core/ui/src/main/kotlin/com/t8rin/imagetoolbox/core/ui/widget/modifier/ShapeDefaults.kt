@@ -82,20 +82,20 @@ object ShapeDefaults {
     val top = RoundedCornerShape(
         topStart = 16.dp,
         topEnd = 16.dp,
-        bottomStart = 6.dp,
-        bottomEnd = 6.dp
+        bottomStart = 4.dp,
+        bottomEnd = 4.dp
     )
 
     val center = RoundedCornerShape(
-        topStart = 6.dp,
-        topEnd = 6.dp,
-        bottomStart = 6.dp,
-        bottomEnd = 6.dp
+        topStart = 4.dp,
+        topEnd = 4.dp,
+        bottomStart = 4.dp,
+        bottomEnd = 4.dp
     )
 
     val bottom = RoundedCornerShape(
-        topStart = 6.dp,
-        topEnd = 6.dp,
+        topStart = 4.dp,
+        topEnd = 4.dp,
         bottomStart = 16.dp,
         bottomEnd = 16.dp
     )
@@ -126,6 +126,20 @@ object ShapeDefaults {
         topStart = 4.dp,
         bottomEnd = 16.dp,
         bottomStart = 4.dp
+    )
+
+    val smallTop = RoundedCornerShape(
+        topStart = 12.dp,
+        topEnd = 12.dp,
+        bottomStart = 4.dp,
+        bottomEnd = 4.dp
+    )
+
+    val smallBottom = RoundedCornerShape(
+        topStart = 4.dp,
+        topEnd = 4.dp,
+        bottomStart = 12.dp,
+        bottomEnd = 12.dp
     )
 
     val smallStart = RoundedCornerShape(

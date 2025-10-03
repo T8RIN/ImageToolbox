@@ -36,7 +36,17 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
+import ezvcard.Ezvcard
+import ezvcard.VCard
+import ezvcard.parameter.EmailType
+import ezvcard.parameter.TelephoneType
+import ezvcard.property.FormattedName
+import ezvcard.property.Organization
+import ezvcard.property.StructuredName
+import ezvcard.property.Telephone
+import ezvcard.property.Title
 import io.github.g00fy2.quickie.extensions.DataType
+import java.util.Date
 
 val QrType.name: Int
     get() = when (this) {
@@ -206,4 +216,123 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
             }
         }
     }
+}
+
+fun QrType.Complex.asRaw(): String = raw.ifEmpty {
+    when (this) {
+        is QrType.Wifi -> buildString {
+            append("WIFI:")
+            append("S:").append(ssid).append(";")
+            if (encryptionType != QrType.Wifi.EncryptionType.OPEN) {
+                append("T:").append(encryptionType.name).append(";")
+                append("P:").append(password).append(";")
+            }
+            append(";")
+        }
+
+        is QrType.Sms -> buildString {
+            append("SMSTO:").append(phoneNumber).append(":").append(message)
+        }
+
+        is QrType.Geo -> buildString {
+            if (latitude != null && longitude != null) {
+                append("geo:").append(latitude).append(",").append(longitude)
+            }
+        }
+
+        is QrType.Email -> buildString {
+            append("MATMSG:TO:").append(address).append(";")
+            append("SUB:").append(subject).append(";")
+            append("BODY:").append(body).append(";;")
+        }
+
+        is QrType.Phone -> "tel:$number"
+
+        is QrType.Contact -> {
+            val vcard = VCard()
+
+            if (!name.isEmpty()) {
+                val structuredName = StructuredName()
+                structuredName.given = name.first
+                structuredName.family = name.last
+                structuredName.additionalNames.add(name.middle)
+                structuredName.prefixes.add(name.prefix)
+                structuredName.suffixes.add(name.suffix)
+                vcard.structuredName = structuredName
+                if (name.formattedName.isNotBlank()) {
+                    vcard.formattedName = FormattedName(name.formattedName)
+                }
+            }
+
+            if (organization.isNotBlank()) {
+                vcard.organization = Organization().apply { values.add(organization) }
+            }
+            if (title.isNotBlank()) {
+                vcard.titles.add(Title(title))
+            }
+
+            phones.forEach {
+                vcard.telephoneNumbers.add(
+                    Telephone(it.number).apply {
+                        types.add(mapPhoneType(it.type))
+                    }
+                )
+            }
+
+            emails.forEach {
+                vcard.emails.add(
+                    ezvcard.property.Email(it.address).apply {
+                        types.add(mapEmailType(it.type))
+                    }
+                )
+            }
+
+            addresses.forEach {
+                vcard.addresses.add(
+                    ezvcard.property.Address().apply {
+                        streetAddress = it.addressLines.joinToString(", ")
+                        types.add(mapAddressType(it.type))
+                    }
+                )
+            }
+
+            urls.forEach {
+                vcard.urls.add(ezvcard.property.Url(it))
+            }
+
+            Ezvcard.write(vcard).go()
+        }
+
+        is QrType.Calendar -> buildString {
+            append("BEGIN:VEVENT\n")
+            if (summary.isNotBlank()) append("SUMMARY:").append(summary).append("\n")
+            if (description.isNotBlank()) append("DESCRIPTION:").append(description).append("\n")
+            if (location.isNotBlank()) append("LOCATION:").append(location).append("\n")
+            if (organizer.isNotBlank()) append("ORGANIZER:").append(organizer).append("\n")
+            if (status.isNotBlank()) append("STATUS:").append(status).append("\n")
+            if (start != null) append("DTSTART:").append((end ?: Date()).time).append("\n")
+            if (end != null) append("DTEND:").append((end ?: Date()).time).append("\n")
+            append("END:VEVENT")
+        }
+    }
+}
+
+private fun mapPhoneType(type: Int): TelephoneType = when (type) {
+    DataType.TYPE_WORK -> TelephoneType.WORK
+    DataType.TYPE_HOME -> TelephoneType.HOME
+    DataType.TYPE_FAX -> TelephoneType.FAX
+    DataType.TYPE_MOBILE -> TelephoneType.CELL
+    else -> TelephoneType.VOICE
+}
+
+private fun mapEmailType(type: Int): EmailType = when (type) {
+    DataType.TYPE_WORK -> EmailType.WORK
+    DataType.TYPE_HOME -> EmailType.HOME
+    else -> EmailType.INTERNET
+}
+
+private fun mapAddressType(type: Int): ezvcard.parameter.AddressType = when (type) {
+    DataType.TYPE_WORK -> ezvcard.parameter.AddressType.WORK
+    DataType.TYPE_HOME -> ezvcard.parameter.AddressType.HOME
+    else -> ezvcard.parameter.AddressType.HOME
 }

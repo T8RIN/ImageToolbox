@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -43,8 +44,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,12 +58,15 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.copy
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -91,72 +98,120 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     )
-    RoundedTextField(
+    Column(
         modifier = Modifier
             .container(
                 shape = MaterialTheme.shapes.large,
                 resultPadding = 0.dp
             )
-            .padding(
-                top = 8.dp,
-                start = 8.dp,
-                end = 8.dp,
-                bottom = if (params.content.raw.isNotEmpty()) 6.dp else 8.dp
+    ) {
+        val noContent = params.content.raw.isEmpty()
+
+        RoundedTextField(
+            modifier = Modifier
+                .padding(
+                    top = 8.dp,
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = if (noContent) 4.dp else 6.dp
+                ),
+            shape = animateShape(
+                if (noContent) ShapeDefaults.smallTop else ShapeDefaults.small
             ),
-        value = params.content.raw,
-        onValueChange = {
-            component.updateParamsAndGetQrType(
-                params.copy(
-                    content = params.content.copy(it)
-                )
-            )
-        },
-        maxSymbols = 2500,
-        singleLine = false,
-        supportingText = if (params.content.raw.isNotEmpty()) {
-            {
-                AnimatedContent(
-                    targetState = params.content,
-                    contentKey = { it::class.simpleName },
-                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                ) { content ->
-                    Text(
-                        text = stringResource(content.name),
-                        color = MaterialTheme.colorScheme.onMixedContainer,
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.mixedContainer,
-                                shape = ShapeDefaults.small
-                            )
-                            .padding(horizontal = 5.dp, vertical = 1.dp)
+            value = params.content.raw,
+            onValueChange = {
+                component.updateParamsAndGetQrType(
+                    params.copy(
+                        content = params.content.copy(it)
                     )
+                )
+            },
+            maxSymbols = 2500,
+            singleLine = false,
+            supportingText = if (!noContent) {
+                {
+                    AnimatedContent(
+                        targetState = params.content,
+                        contentKey = { it::class.simpleName },
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { content ->
+                        Text(
+                            text = stringResource(content.name),
+                            color = MaterialTheme.colorScheme.onMixedContainer,
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.mixedContainer,
+                                    shape = ShapeDefaults.small
+                                )
+                                .padding(horizontal = 5.dp, vertical = 1.dp)
+                        )
+                    }
+                }
+            } else null,
+            label = {
+                Text(stringResource(id = R.string.code_content))
+            },
+            keyboardOptions = KeyboardOptions(),
+            endIcon = {
+                AnimatedVisibility(params.content.raw.isNotBlank()) {
+                    EnhancedIconButton(
+                        onClick = {
+                            component.updateParams(
+                                params.copy(
+                                    content = QrType.Empty
+                                )
+                            )
+                        },
+                        modifier = Modifier.padding(end = 4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Cancel,
+                            contentDescription = stringResource(R.string.cancel)
+                        )
+                    }
                 }
             }
-        } else null,
-        label = {
-            Text(stringResource(id = R.string.code_content))
-        },
-        keyboardOptions = KeyboardOptions(),
-        endIcon = {
-            AnimatedVisibility(params.content.raw.isNotBlank()) {
-                EnhancedIconButton(
-                    onClick = {
-                        component.updateParams(
-                            params.copy(
-                                content = QrType.Empty
-                            )
-                        )
-                    },
-                    modifier = Modifier.padding(end = 4.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Cancel,
-                        contentDescription = stringResource(R.string.cancel)
+        )
+
+        var showEditField by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        EnhancedButton(
+            onClick = { showEditField = true },
+            shape = if (noContent) ShapeDefaults.smallBottom else ShapeDefaults.small,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                ),
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.MiniEdit,
+                    contentDescription = null
+                )
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    text = stringResource(
+                        if (params.content is QrType.Complex) R.string.edit_barcode else R.string.create_barcode
                     )
-                }
+                )
             }
         }
-    )
+
+        QrTypeEditSheet(
+            qrType = params.content.safeCast(),
+            onSave = { component.updateParams(params.copy(content = it)) },
+            onDismiss = { showEditField = false },
+            visible = showEditField
+        )
+    }
     Spacer(modifier = Modifier.height(8.dp))
     InfoContainer(
         text = stringResource(R.string.scan_qr_code_to_replace_content),

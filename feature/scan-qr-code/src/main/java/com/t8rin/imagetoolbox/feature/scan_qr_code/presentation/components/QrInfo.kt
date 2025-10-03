@@ -67,7 +67,7 @@ internal data class QrInfo(
 }
 
 @Composable
-internal fun rememberQrInfo(qrType: QrType.Complex): QrInfo? {
+internal fun rememberQrInfo(qrType: QrType.Complex): QrInfo {
     return when (qrType) {
         is QrType.Wifi -> wifiQrInfo(qrType)
         is QrType.Email -> emailQrInfo(qrType)

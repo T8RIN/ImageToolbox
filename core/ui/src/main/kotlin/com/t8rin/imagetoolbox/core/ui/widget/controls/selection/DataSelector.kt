@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -25,13 +26,11 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -57,6 +56,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
@@ -77,7 +77,8 @@ fun <T : Any> DataSelector(
     title: String?,
     titleIcon: ImageVector?,
     itemContentText: @Composable (T) -> String,
-    itemContentIcon: ((T) -> ImageVector)? = null,
+    itemContentIcon: ((T, Boolean) -> ImageVector?)? = null,
+    itemEqualityDelegate: (T, T) -> Boolean = { t, o -> t == o },
     spanCount: Int = 3,
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
@@ -86,14 +87,24 @@ fun <T : Any> DataSelector(
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
     initialExpanded: Boolean = false,
     canExpand: Boolean = true,
-    contentPadding: PaddingValues = PaddingValues(8.dp)
+    contentPadding: PaddingValues = PaddingValues(8.dp),
+    behaveAsContainer: Boolean = true,
+    titlePadding: PaddingValues = PaddingValues(
+        top = 12.dp,
+        start = 12.dp,
+        bottom = 8.dp
+    )
 ) {
     val realSpanCount = spanCount.coerceAtLeast(1)
 
     Column(
-        modifier = modifier.container(
-            shape = shape,
-            color = color
+        modifier = modifier.then(
+            if (behaveAsContainer) {
+                Modifier.container(
+                    shape = shape,
+                    color = color
+                )
+            } else Modifier
         )
     ) {
         var expanded by rememberSaveable(initialExpanded, realSpanCount, canExpand) {
@@ -117,7 +128,13 @@ fun <T : Any> DataSelector(
                                 text = title,
                                 icon = titleIcon,
                                 modifier = Modifier
-                                    .padding(top = 12.dp, start = 12.dp, bottom = 8.dp)
+                                    .padding(
+                                        top = titlePadding.calculateTopPadding(),
+                                        start = titlePadding.calculateStartPadding(
+                                            LocalLayoutDirection.current
+                                        ),
+                                        bottom = titlePadding.calculateBottomPadding()
+                                    )
                                     .weight(1f, false)
                             )
                         }
@@ -135,7 +152,7 @@ fun <T : Any> DataSelector(
                                 contentColor = MaterialTheme.colorScheme.onTertiary,
                                 modifier = Modifier
                                     .padding(horizontal = 2.dp)
-                                    .padding(bottom = 12.dp)
+                                    .padding(bottom = titlePadding.calculateBottomPadding() + 4.dp)
                                     .scaleOnTap {
                                         showConfetti()
                                     }
@@ -202,6 +219,7 @@ fun <T : Any> DataSelector(
                         onValueChange = onValueChange,
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
+                        itemEqualityDelegate = itemEqualityDelegate,
                         selectedItemColor = selectedItemColor
                     )
                 }
@@ -216,9 +234,7 @@ fun <T : Any> DataSelector(
                     space = 8.dp,
                     alignment = Alignment.Start
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(contentPadding)
+                modifier = Modifier.padding(contentPadding)
             ) {
                 entries.forEach { item ->
                     ChipItem(
@@ -227,6 +243,7 @@ fun <T : Any> DataSelector(
                         onValueChange = onValueChange,
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
+                        itemEqualityDelegate = itemEqualityDelegate,
                         selectedItemColor = selectedItemColor
                     )
                 }
@@ -241,12 +258,13 @@ private fun <T> ChipItem(
     value: T,
     onValueChange: (T) -> Unit,
     itemContentText: @Composable (T) -> String,
-    itemContentIcon: ((T) -> ImageVector)? = null,
+    itemContentIcon: ((T, Boolean) -> ImageVector?)?,
+    itemEqualityDelegate: (T, T) -> Boolean,
     selectedItemColor: Color,
 ) {
     val selected by remember(item, value) {
         derivedStateOf {
-            value == item
+            itemEqualityDelegate(value, item)
         }
     }
     EnhancedChip(
@@ -264,13 +282,19 @@ private fun <T> ChipItem(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            itemContentIcon?.let {
-                Icon(
-                    imageVector = itemContentIcon(item),
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(Modifier.width(8.dp))
+            AnimatedContent(
+                targetState = itemContentIcon?.invoke(item, selected),
+                contentKey = { it == null }
+            ) { icon ->
+                icon?.let {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(18.dp)
+                    )
+                }
             }
             Text(
                 text = itemContentText(item)

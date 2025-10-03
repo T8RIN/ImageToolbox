@@ -74,10 +74,11 @@ internal fun QrTypeInfoItem(
         when (type) {
             is QrType.Complex -> {
                 QrInfoItem(
-                    qrInfo = rememberQrInfo(type) ?: return@AnimatedContent,
+                    qrInfo = rememberQrInfo(type),
                     modifier = modifier
                 )
             }
+
             else -> Spacer(Modifier.fillMaxWidth())
         }
     }
@@ -109,7 +110,11 @@ private fun QrInfoItem(
                 qrInfo.intent?.let {
                     EnhancedIconButton(
                         modifier = Modifier.size(32.dp),
-                        onClick = { essentials.context.startActivity(it) }
+                        onClick = {
+                            runCatching {
+                                essentials.context.startActivity(it)
+                            }.onFailure(essentials::showFailureToast)
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.OpenInNew,

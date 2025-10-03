@@ -1807,4 +1807,5 @@
     <string name="longitude">Longitude</string>
     <string name="create_barcode">Create Barcode</string>
     <string name="edit_barcode">Edit Barcode</string>
+    <string name="wifi_configuration">Wi-Fi configuration</string>
 </resources>
