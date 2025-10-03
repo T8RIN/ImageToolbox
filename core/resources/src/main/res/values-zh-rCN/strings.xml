@@ -1760,4 +1760,7 @@
     <string name="qr_type_contact_info">联系</string>
     <string name="qr_type_wifi">Wi-Fi</string>
     <string name="qr_type_calendar_event">日历事件</string>
+    <string name="not_specified">N/A</string>
+    <string name="qr_type_url">URL</string>
+    <string name="open_network">开放网络</string>
 </resources>
