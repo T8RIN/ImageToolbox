@@ -42,7 +42,7 @@ import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.CheckCircleOutline
@@ -55,6 +55,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDateRangePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -76,12 +77,14 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Latitude
 import com.t8rin.imagetoolbox.core.resources.icons.Longitude
+import com.t8rin.imagetoolbox.core.resources.icons.TimerEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberContactPicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDateRangePickerDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTimePickerDialog
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -200,7 +203,7 @@ private fun QrEditField(
                 value = qrType,
                 onValueChange = onValueChange
             )
-//TODO: Add time pick
+
             is QrType.Calendar -> QrCalendarEditField(
                 value = qrType,
                 onValueChange = onValueChange
@@ -270,6 +273,8 @@ private fun QrCalendarEditField(
         )
 
         var isDateDialogVisible by rememberSaveable { mutableStateOf(false) }
+        var showStartTimePicker by rememberSaveable { mutableStateOf(false) }
+        var showEndTimePicker by rememberSaveable { mutableStateOf(false) }
 
         val startDate = remember(value.start) {
             value.start ?: Date()
@@ -277,6 +282,13 @@ private fun QrCalendarEditField(
         val endDate = remember(value.end) {
             value.end ?: Calendar.getInstance()
                 .apply { add(Calendar.DAY_OF_YEAR, 1) }.time
+        }
+
+        val startCalendar = remember(startDate) {
+            Calendar.getInstance().apply { time = startDate }
+        }
+        val endCalendar = remember(endDate) {
+            Calendar.getInstance().apply { time = endDate }
         }
 
         val startText = remember(startDate) {
@@ -295,7 +307,13 @@ private fun QrCalendarEditField(
                 label = { Text(stringResource(R.string.start_date)) },
                 startIcon = {
                     Icon(
-                        imageVector = Icons.Outlined.Schedule,
+                        imageVector = Icons.Outlined.Start,
+                        contentDescription = null
+                    )
+                },
+                endIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.TimerEdit,
                         contentDescription = null
                     )
                 }
@@ -304,8 +322,12 @@ private fun QrCalendarEditField(
                 Modifier
                     .matchParentSize()
                     .pointerInput(Unit) {
-                        detectTapGestures {
-                            isDateDialogVisible = true
+                        detectTapGestures { offset ->
+                            if (offset.x > size.width - size.height) {
+                                showStartTimePicker = true
+                            } else {
+                                isDateDialogVisible = true
+                            }
                         }
                     }
             )
@@ -322,14 +344,24 @@ private fun QrCalendarEditField(
                         imageVector = Icons.Outlined.Flag,
                         contentDescription = null
                     )
+                },
+                endIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.TimerEdit,
+                        contentDescription = null
+                    )
                 }
             )
             Spacer(
                 Modifier
                     .matchParentSize()
                     .pointerInput(Unit) {
-                        detectTapGestures {
-                            isDateDialogVisible = true
+                        detectTapGestures { offset ->
+                            if (offset.x > size.width - size.height) {
+                                showEndTimePicker = true
+                            } else {
+                                isDateDialogVisible = true
+                            }
                         }
                     }
             )
@@ -350,6 +382,14 @@ private fun QrCalendarEditField(
             initialSelectedStartDateMillis = startDate.time,
             initialSelectedEndDateMillis = endDate.time
         )
+        val startTimeState = rememberTimePickerState(
+            initialHour = startCalendar.get(Calendar.HOUR),
+            initialMinute = startCalendar.get(Calendar.MINUTE)
+        )
+        val endTimeState = rememberTimePickerState(
+            initialHour = endCalendar.get(Calendar.HOUR),
+            initialMinute = endCalendar.get(Calendar.MINUTE)
+        )
 
         EnhancedDateRangePickerDialog(
             visible = isDateDialogVisible,
@@ -360,6 +400,38 @@ private fun QrCalendarEditField(
                     value.copy(
                         start = Date(start),
                         end = Date(end)
+                    )
+                )
+            }
+        )
+
+        EnhancedTimePickerDialog(
+            visible = showStartTimePicker,
+            onDismissRequest = { showStartTimePicker = false },
+            state = startTimeState,
+            onTimePicked = { hour, minute ->
+                onValueChange(
+                    value.copy(
+                        start = startCalendar.apply {
+                            set(Calendar.HOUR, hour)
+                            set(Calendar.MINUTE, minute)
+                        }.time
+                    )
+                )
+            }
+        )
+
+        EnhancedTimePickerDialog(
+            visible = showEndTimePicker,
+            onDismissRequest = { showEndTimePicker = false },
+            state = endTimeState,
+            onTimePicked = { hour, minute ->
+                onValueChange(
+                    value.copy(
+                        end = endCalendar.apply {
+                            set(Calendar.HOUR, hour)
+                            set(Calendar.MINUTE, minute)
+                        }.time
                     )
                 )
             }

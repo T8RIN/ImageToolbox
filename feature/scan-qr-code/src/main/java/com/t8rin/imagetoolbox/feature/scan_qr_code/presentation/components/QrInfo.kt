@@ -32,7 +32,7 @@ import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Numbers
@@ -119,7 +119,7 @@ private fun calendarQrInfo(
 
     entry(
         InfoEntry(
-            icon = Icons.Outlined.Schedule,
+            icon = Icons.Outlined.Start,
             text = start.ifBlank { getString(R.string.not_specified) },
             canCopy = start.isNotBlank()
         )
