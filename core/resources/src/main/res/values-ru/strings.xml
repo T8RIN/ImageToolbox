@@ -1754,7 +1754,7 @@
     <string name="message">Сообщение</string>
     <string name="phone">Номер телефона</string>
     <string name="ssid">Название сети</string>
-    <string name="not_specified">Н/А</string>
+    <string name="not_specified">Н/Д</string>
     <string name="open_network">Открытая сеть</string>
     <string name="qr_type_wifi">Wi-Fi</string>
     <string name="qr_type_url">Ссылка</string>
@@ -1765,6 +1765,6 @@
     <string name="qr_type_email">Электронная почта</string>
     <string name="qr_type_contact_info">Контакт</string>
     <string name="qr_type_calendar_event">Мероприятие</string>
-    <string name="ascii_art">Текст/Ascii арт</string>
+    <string name="ascii_art">Ascii арт</string>
     <string name="ascii_art_sub">Преобразование изображения в текст ascii, который будет выглядеть как картинка</string>
 </resources>

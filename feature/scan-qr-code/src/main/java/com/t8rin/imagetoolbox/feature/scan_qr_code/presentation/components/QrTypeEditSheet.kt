@@ -143,7 +143,9 @@ internal fun QrTypeEditSheet(
         ) {
             DataSelector(
                 value = edited,
-                onValueChange = { edited = it },
+                onValueChange = {
+                    edited = if (qrType != null && it::class.isInstance(qrType)) qrType else it
+                },
                 itemEqualityDelegate = { t, o -> t::class.isInstance(o) },
                 entries = QrType.complexEntries,
                 title = null,
@@ -292,11 +294,15 @@ private fun QrCalendarEditField(
         }
 
         val startText = remember(startDate) {
-            runCatching { DateFormat.getDateTimeInstance().format(startDate) }.getOrDefault("")
+            runCatching {
+                DateFormat.getDateTimeInstance().format(startDate).removeSuffix(":00")
+            }.getOrDefault("")
         }
 
         val endText = remember(endDate) {
-            runCatching { DateFormat.getDateTimeInstance().format(endDate) }.getOrDefault("")
+            runCatching {
+                DateFormat.getDateTimeInstance().format(endDate).removeSuffix(":00")
+            }.getOrDefault("")
         }
 
         Box {
@@ -383,13 +389,21 @@ private fun QrCalendarEditField(
             initialSelectedEndDateMillis = endDate.time
         )
         val startTimeState = rememberTimePickerState(
-            initialHour = startCalendar.get(Calendar.HOUR),
+            initialHour = startCalendar.get(Calendar.HOUR_OF_DAY),
             initialMinute = startCalendar.get(Calendar.MINUTE)
         )
         val endTimeState = rememberTimePickerState(
-            initialHour = endCalendar.get(Calendar.HOUR),
+            initialHour = endCalendar.get(Calendar.HOUR_OF_DAY),
             initialMinute = endCalendar.get(Calendar.MINUTE)
         )
+
+        LaunchedEffect(startCalendar, endCalendar) {
+            startTimeState.hour = startCalendar.get(Calendar.HOUR_OF_DAY)
+            startTimeState.minute = startCalendar.get(Calendar.MINUTE)
+
+            endTimeState.hour = endCalendar.get(Calendar.HOUR_OF_DAY)
+            endTimeState.minute = endCalendar.get(Calendar.MINUTE)
+        }
 
         EnhancedDateRangePickerDialog(
             visible = isDateDialogVisible,
@@ -413,7 +427,7 @@ private fun QrCalendarEditField(
                 onValueChange(
                     value.copy(
                         start = startCalendar.apply {
-                            set(Calendar.HOUR, hour)
+                            set(Calendar.HOUR_OF_DAY, hour)
                             set(Calendar.MINUTE, minute)
                         }.time
                     )
@@ -429,7 +443,7 @@ private fun QrCalendarEditField(
                 onValueChange(
                     value.copy(
                         end = endCalendar.apply {
-                            set(Calendar.HOUR, hour)
+                            set(Calendar.HOUR_OF_DAY, hour)
                             set(Calendar.MINUTE, minute)
                         }.time
                     )

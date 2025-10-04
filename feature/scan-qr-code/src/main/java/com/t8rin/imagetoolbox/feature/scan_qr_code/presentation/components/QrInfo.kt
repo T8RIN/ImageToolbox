@@ -114,7 +114,7 @@ private fun calendarQrInfo(
     val start = runCatching {
         qrType.start?.let {
             DateFormat.getDateTimeInstance().format(it)
-        }
+        }?.removeSuffix(":00")
     }.getOrNull().orEmpty()
 
     entry(
@@ -128,7 +128,7 @@ private fun calendarQrInfo(
     val end = runCatching {
         qrType.end?.let {
             DateFormat.getDateTimeInstance().format(it)
-        }
+        }?.removeSuffix(":00")
     }.getOrNull().orEmpty()
 
     entry(

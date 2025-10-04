@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("unused")
+
 package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.animation.AnimatedContent
@@ -25,6 +27,8 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
@@ -246,38 +250,51 @@ fun EnhancedTimePickerDialog(
         shape = shape,
         tonalElevation = tonalElevation,
         containerColor = colors.containerColor,
-        onConfirmClick = {
-            onTimePicked(state.hour, state.minute)
-            onDismissRequest()
-        },
-        startButton = {
-            EnhancedIconButton(
-                modifier = modifier,
-                onClick = {
-                    displayMode = if (displayMode == TimePickerDisplayMode.Picker) {
-                        TimePickerDisplayMode.Input
-                    } else {
-                        TimePickerDisplayMode.Picker
-                    }
-                }
-            ) {
-                val icon = if (displayMode == TimePickerDisplayMode.Picker) {
-                    Icons.Outlined.Keyboard
-                } else {
-                    Icons.Outlined.Schedule
-                }
-
-                Icon(
-                    imageVector = icon,
-                    contentDescription = icon.name
-                )
-            }
-        },
-        isConfirmEnabled = true
+        onConfirmClick = {},
+        showButtons = false,
+        isConfirmEnabled = false
     ) {
         TimePickerCustomLayout(
             title = { TimePickerDialogDefaults.Title(displayMode) },
-            actions = {}, //TODO кнопки сюда
+            actions = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    EnhancedIconButton(
+                        modifier = modifier,
+                        onClick = {
+                            displayMode = if (displayMode == TimePickerDisplayMode.Picker) {
+                                TimePickerDisplayMode.Input
+                            } else {
+                                TimePickerDisplayMode.Picker
+                            }
+                        }
+                    ) {
+                        val icon = if (displayMode == TimePickerDisplayMode.Picker) {
+                            Icons.Outlined.Keyboard
+                        } else {
+                            Icons.Outlined.Schedule
+                        }
+
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = icon.name
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    EnhancedButton(
+                        onClick = {
+                            onTimePicked(state.hour, state.minute)
+                            onDismissRequest()
+                        }
+                    ) {
+                        Text(stringResource(R.string.ok))
+                    }
+                }
+            },
             content = {
                 AnimatedContent(displayMode) { mode ->
                     if (mode == TimePickerDisplayMode.Picker) {
@@ -309,7 +326,7 @@ private fun EnhancedDatePickerDialogContainer(
     containerColor: Color,
     onConfirmClick: () -> Unit,
     isConfirmEnabled: Boolean,
-    startButton: (@Composable () -> Unit)? = null,
+    showButtons: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
     BasicEnhancedAlertDialog(
@@ -318,12 +335,13 @@ private fun EnhancedDatePickerDialogContainer(
         modifier = modifier,
         placeAboveAll = placeAboveAll,
     ) {
-        val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
-
         Surface(
             modifier = Modifier
                 .alertDialogBorder()
-                .requiredWidth(ContainerWidth)
+                .then(
+                    if (showButtons) Modifier.requiredWidth(ContainerWidth)
+                    else Modifier
+                )
                 .heightIn(max = ContainerHeight),
             shape = shape,
             color = containerColor,
@@ -332,39 +350,42 @@ private fun EnhancedDatePickerDialogContainer(
             Column(verticalArrangement = Arrangement.SpaceBetween) {
                 DatePickerContainer(content = content)
 
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(DialogButtonsPadding)
-                ) {
-                    startButton?.invoke()
-                    FlowRow(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = ButtonsHorizontalSpacing,
-                            alignment = if (isCenterAlignButtons) {
-                                Alignment.CenterHorizontally
-                            } else Alignment.End
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(
-                            space = ButtonsVerticalSpacing,
-                            alignment = if (isCenterAlignButtons) {
-                                Alignment.CenterVertically
-                            } else Alignment.Bottom
-                        ),
-                        itemVerticalAlignment = Alignment.CenterVertically
+                if (showButtons) {
+                    val isCenterAlignButtons = LocalSettingsState.current.isCenterAlignDialogButtons
+
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(DialogButtonsPadding)
                     ) {
-                        EnhancedButton(
-                            onClick = onDismissRequest,
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        FlowRow(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                space = ButtonsHorizontalSpacing,
+                                alignment = if (isCenterAlignButtons) {
+                                    Alignment.CenterHorizontally
+                                } else Alignment.End
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(
+                                space = ButtonsVerticalSpacing,
+                                alignment = if (isCenterAlignButtons) {
+                                    Alignment.CenterVertically
+                                } else Alignment.Bottom
+                            ),
+                            itemVerticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(stringResource(R.string.close))
-                        }
-                        EnhancedButton(
-                            onClick = onConfirmClick,
-                            enabled = isConfirmEnabled
-                        ) {
-                            Text(stringResource(R.string.ok))
+                            EnhancedButton(
+                                onClick = onDismissRequest,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            ) {
+                                Text(stringResource(R.string.close))
+                            }
+                            EnhancedButton(
+                                onClick = onConfirmClick,
+                                enabled = isConfirmEnabled
+                            ) {
+                                Text(stringResource(R.string.ok))
+                            }
                         }
                     }
                 }
