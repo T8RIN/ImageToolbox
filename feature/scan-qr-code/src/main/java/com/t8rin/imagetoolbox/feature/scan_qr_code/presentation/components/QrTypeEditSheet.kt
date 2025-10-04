@@ -32,8 +32,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.StickyNote2
+import androidx.compose.material.icons.automirrored.rounded.ShortText
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Topic
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.CheckCircleOutline
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Password
@@ -46,6 +49,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,7 +60,10 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
 import com.t8rin.imagetoolbox.core.domain.model.copy
+import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Latitude
+import com.t8rin.imagetoolbox.core.resources.icons.Longitude
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberContactPicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
@@ -67,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.ui.widget.value.filterDecimal
 
 @Composable
 internal fun QrTypeEditSheet(
@@ -167,12 +175,130 @@ private fun QrEditField(
                 onValueChange = onValueChange
             )
 
-            //TODO: Add all left types and add contact picker to phone/sms
-            is QrType.Email -> Text("TODO")
-            is QrType.Geo -> Text("TODO")
-            is QrType.Contact -> Text("TODO")
+            is QrType.Email -> QrEmailEditField(
+                value = qrType,
+                onValueChange = onValueChange
+            )
+
+            is QrType.Geo -> QrGeoEditField(
+                value = qrType,
+                onValueChange = onValueChange
+            )
+
             is QrType.Calendar -> Text("TODO")
+
+            //TODO: Add all left types
+            is QrType.Contact -> Text("TODO")
         }
+    }
+}
+
+@Composable
+private fun QrGeoEditField(
+    value: QrType.Geo,
+    onValueChange: (QrType.Geo) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        var latitude by remember(value.latitude) {
+            mutableStateOf(value.latitude?.toString().orEmpty().trimTrailingZero())
+        }
+        var longitude by remember(value.longitude) {
+            mutableStateOf(value.longitude?.toString().orEmpty().trimTrailingZero())
+        }
+
+        RoundedTextField(
+            value = latitude,
+            onValueChange = {
+                latitude = it.filterDecimal()
+
+                latitude.toDoubleOrNull()?.coerceIn(LatitudeRange)?.let { new ->
+                    onValueChange(value.copy(latitude = new))
+                    latitude = new.toString().trimTrailingZero()
+                }
+            },
+            label = { Text(stringResource(R.string.latitude)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Latitude,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal
+            )
+        )
+        RoundedTextField(
+            value = longitude,
+            onValueChange = {
+                longitude = it.filterDecimal()
+
+                longitude.toDoubleOrNull()?.coerceIn(LongitudeRange)?.let { new ->
+                    onValueChange(value.copy(longitude = new))
+                    longitude = new.toString().trimTrailingZero()
+                }
+            },
+            label = { Text(stringResource(R.string.longitude)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Longitude,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal
+            )
+        )
+    }
+}
+
+@Composable
+private fun QrEmailEditField(
+    value: QrType.Email,
+    onValueChange: (QrType.Email) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        RoundedTextField(
+            value = value.address,
+            onValueChange = { onValueChange(value.copy(address = it)) },
+            label = { Text(stringResource(R.string.address)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.AlternateEmail,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email
+            )
+        )
+        RoundedTextField(
+            value = value.subject,
+            onValueChange = { onValueChange(value.copy(subject = it)) },
+            label = { Text(stringResource(R.string.subject)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Topic,
+                    contentDescription = null
+                )
+            },
+            singleLine = false
+        )
+        RoundedTextField(
+            value = value.body,
+            onValueChange = { onValueChange(value.copy(body = it)) },
+            label = { Text(stringResource(R.string.body)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ShortText,
+                    contentDescription = null
+                )
+            },
+            singleLine = false
+        )
     }
 }
 
@@ -332,3 +458,6 @@ private fun ContactPickerButton(onPicked: (Contact) -> Unit) {
         }
     }
 }
+
+private val LatitudeRange = -90.0..90.0
+private val LongitudeRange = -180.0..180.0

@@ -88,33 +88,7 @@ fun ValueDialog(
                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                     maxLines = 1,
                     onValueChange = { number ->
-                        var tempS = number.trim {
-                            it !in listOf(
-                                '1',
-                                '2',
-                                '3',
-                                '4',
-                                '5',
-                                '6',
-                                '7',
-                                '8',
-                                '9',
-                                '0',
-                                '.',
-                                '-'
-                            )
-                        }
-                        tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
-                            tempS.replace("-", "")
-                        )
-                        val temp = tempS.split(".")
-                        value = when (temp.size) {
-                            1 -> temp[0]
-                            2 -> temp[0] + "." + temp[1]
-                            else -> {
-                                temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
-                            }
-                        }
+                        value = number.filterDecimal()
                     }
                 )
             }
@@ -133,6 +107,36 @@ fun ValueDialog(
             }
         }
     )
+}
+
+fun String.filterDecimal(): String {
+    var tempS = trim {
+        it !in listOf(
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '0',
+            '.',
+            '-'
+        )
+    }
+    tempS = (if (tempS.firstOrNull() == '-') "-" else "").plus(
+        tempS.replace("-", "")
+    )
+    val temp = tempS.split(".")
+    return when (temp.size) {
+        1 -> temp[0]
+        2 -> temp[0] + "." + temp[1]
+        else -> {
+            temp[0] + "." + temp[1] + temp.drop(2).joinToString("")
+        }
+    }
 }
 
 private fun Float.roundTo(
