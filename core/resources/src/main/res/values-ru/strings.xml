@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -1724,4 +1723,48 @@
     <string name="target_lens_profile">Целевой файл профиля объектива в формате JSON</string>
     <string name="download_ready_lens_profiles">Скачать готовые профили</string>
     <string name="part_percents">Проценты частей</string>
+    <string name="export_as_json">Экспортировать в JSON</string>
+    <string name="home_screen">Рабочий стол</string>
+    <string name="lock_screen">Экран блокировки</string>
+    <string name="built_in">Встроенные</string>
+    <string name="wallpapers_export">Экспорт обоев</string>
+    <string name="refresh">Обновить</string>
+    <string name="wallpapers_export_sub">Получите актуальные обои рабочего стола, экрана блокировки и встроенные обои</string>
+    <string name="allow_access_to_all_files_for_wp">Разрешите доступ ко всем файлам, это необходимо для получения обоев</string>
+    <string name="security">Безопасность</string>
+    <string name="wifi_configuration">Конфигурация Wi-Fi</string>
+    <string name="edit_barcode">Изменить баркод</string>
+    <string name="create_barcode">Создать баркод</string>
+    <string name="longitude">Долгота</string>
+    <string name="latitude">Широта</string>
+    <string name="status">Статус</string>
+    <string name="end_date">Дата окончания</string>
+    <string name="start_date">Дата начала</string>
+    <string name="organizer">Организатор</string>
+    <string name="location">Местоположение</string>
+    <string name="description">Описание</string>
+    <string name="addresses">Адреса</string>
+    <string name="urls">Ссылки</string>
+    <string name="emails">Электронные почты</string>
+    <string name="phones">Номера телефонов</string>
+    <string name="title">Заголовок</string>
+    <string name="organization">Организация</string>
+    <string name="name">Имя</string>
+    <string name="address">Адрес</string>
+    <string name="message">Сообщение</string>
+    <string name="phone">Номер телефона</string>
+    <string name="ssid">Название сети</string>
+    <string name="not_specified">Н/А</string>
+    <string name="open_network">Открытая сеть</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
+    <string name="qr_type_url">Ссылка</string>
+    <string name="qr_type_sms">СМС</string>
+    <string name="qr_type_plain">Текст</string>
+    <string name="qr_type_phone">Номер телефона</string>
+    <string name="qr_type_geo_point">Местоположение</string>
+    <string name="qr_type_email">Электронная почта</string>
+    <string name="qr_type_contact_info">Контакт</string>
+    <string name="qr_type_calendar_event">Мероприятие</string>
+    <string name="ascii_art">Текст/Ascii арт</string>
+    <string name="ascii_art_sub">Преобразование изображения в текст ascii, который будет выглядеть как картинка</string>
 </resources>
