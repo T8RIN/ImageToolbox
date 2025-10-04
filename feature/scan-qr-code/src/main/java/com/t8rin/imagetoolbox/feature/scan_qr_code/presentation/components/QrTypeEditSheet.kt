@@ -19,7 +19,9 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -34,7 +36,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.automirrored.rounded.ShortText
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.CheckCircleOutline
@@ -46,14 +54,18 @@ import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.retain.retain
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -68,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberContactPicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDateRangePickerDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
@@ -75,6 +88,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.value.filterDecimal
+import java.text.DateFormat
+import java.util.Calendar
+import java.util.Date
 
 @Composable
 internal fun QrTypeEditSheet(
@@ -184,11 +200,183 @@ private fun QrEditField(
                 value = qrType,
                 onValueChange = onValueChange
             )
-
-            is QrType.Calendar -> Text("TODO")
+//TODO: Add time pick
+            is QrType.Calendar -> QrCalendarEditField(
+                value = qrType,
+                onValueChange = onValueChange
+            )
 
             //TODO: Add all left types
             is QrType.Contact -> Text("TODO")
+        }
+    }
+}
+
+@Composable
+private fun QrCalendarEditField(
+    value: QrType.Calendar,
+    onValueChange: (QrType.Calendar) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        RoundedTextField(
+            value = value.summary,
+            onValueChange = { onValueChange(value.copy(summary = it)) },
+            label = { Text(stringResource(R.string.summary)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Event,
+                    contentDescription = null
+                )
+            }
+        )
+
+        RoundedTextField(
+            value = value.description,
+            onValueChange = { onValueChange(value.copy(description = it)) },
+            label = { Text(stringResource(R.string.description)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Description,
+                    contentDescription = null
+                )
+            },
+            singleLine = false
+        )
+
+        RoundedTextField(
+            value = value.location,
+            onValueChange = { onValueChange(value.copy(location = it)) },
+            label = { Text(stringResource(R.string.location)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Place,
+                    contentDescription = null
+                )
+            }
+        )
+
+        RoundedTextField(
+            value = value.organizer,
+            onValueChange = { onValueChange(value.copy(organizer = it)) },
+            label = { Text(stringResource(R.string.organizer)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = null
+                )
+            }
+        )
+
+        var isDateDialogVisible by rememberSaveable { mutableStateOf(false) }
+
+        val startDate = remember(value.start) {
+            value.start ?: Date()
+        }
+        val endDate = remember(value.end) {
+            value.end ?: Calendar.getInstance()
+                .apply { add(Calendar.DAY_OF_YEAR, 1) }.time
+        }
+
+        val startText = remember(startDate) {
+            runCatching { DateFormat.getDateTimeInstance().format(startDate) }.getOrDefault("")
+        }
+
+        val endText = remember(endDate) {
+            runCatching { DateFormat.getDateTimeInstance().format(endDate) }.getOrDefault("")
+        }
+
+        Box {
+            RoundedTextField(
+                value = startText,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(stringResource(R.string.start_date)) },
+                startIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Schedule,
+                        contentDescription = null
+                    )
+                }
+            )
+            Spacer(
+                Modifier
+                    .matchParentSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            isDateDialogVisible = true
+                        }
+                    }
+            )
+        }
+
+        Box {
+            RoundedTextField(
+                value = endText,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(stringResource(R.string.end_date)) },
+                startIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Flag,
+                        contentDescription = null
+                    )
+                }
+            )
+            Spacer(
+                Modifier
+                    .matchParentSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            isDateDialogVisible = true
+                        }
+                    }
+            )
+        }
+
+        RoundedTextField(
+            value = value.status,
+            onValueChange = { onValueChange(value.copy(status = it)) },
+            label = { Text(stringResource(R.string.status)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = null
+                )
+            }
+        )
+        val state = rememberDateRangePickerState(
+            initialSelectedStartDateMillis = startDate.time,
+            initialSelectedEndDateMillis = endDate.time
+        )
+
+        EnhancedDateRangePickerDialog(
+            visible = isDateDialogVisible,
+            onDismissRequest = { isDateDialogVisible = false },
+            state = state,
+            onDatePicked = { start, end ->
+                onValueChange(
+                    value.copy(
+                        start = Date(start),
+                        end = Date(end)
+                    )
+                )
+            }
+        )
+
+        LaunchedEffect(Unit) {
+            val start = state.selectedStartDateMillis
+            val end = state.selectedEndDateMillis
+
+            if (start != null && end != null) {
+                onValueChange(
+                    value.copy(
+                        start = Date(start),
+                        end = Date(end)
+                    )
+                )
+            }
         }
     }
 }
