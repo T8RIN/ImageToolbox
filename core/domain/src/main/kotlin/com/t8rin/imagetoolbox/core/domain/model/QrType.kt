@@ -155,7 +155,12 @@ sealed interface QrType {
         data class Address(
             val addressLines: List<String>,
             val type: Int
-        )
+        ) {
+            constructor() : this(
+                addressLines = emptyList(),
+                type = 0
+            )
+        }
 
         data class PersonName(
             val first: String,

@@ -341,7 +341,7 @@ internal fun QrType.Complex.createRaw(): String = runCatching {
     }
 }.getOrDefault(raw)
 
-internal fun QrType.Complex.updateRaw(): QrType.Complex = copy(createRaw())
+internal fun QrType.Complex.updateRaw(): QrType.Complex = copy(createRaw().trim())
 
 internal fun QrType.Contact.updateFormattedName(): QrType.Contact {
     val formatted = buildString {
