@@ -92,6 +92,7 @@ internal fun QrContactEditField(
         )
 
         // --- ORGANIZATION & TITLE ---
+
         RoundedTextField(
             value = value.organization,
             onValueChange = { onValueChange(value.copy(organization = it)) },
@@ -173,6 +174,7 @@ internal fun QrContactEditField(
         )
 
         // --- ADDRESSES ---
+
         TitleItem(
             text = stringResource(R.string.addresses),
             icon = Icons.Outlined.Home,
@@ -210,6 +212,7 @@ internal fun QrContactEditField(
         )
 
         // --- URLS ---
+
         TitleItem(
             text = stringResource(R.string.urls),
             icon = Icons.Outlined.Public,

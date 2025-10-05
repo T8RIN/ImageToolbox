@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
@@ -302,6 +303,14 @@ internal fun rememberAnimatedShape(
     val channel = remember { Channel<CornerBasedShape>(Channel.CONFLATED) }
 
     SideEffect { channel.trySend(currentShape) }
+
+    LifecycleResumeEffect(Unit) {
+        channel.trySend(currentShape)
+
+        onPauseOrDispose {
+            channel.trySend(currentShape)
+        }
+    }
 
     LaunchedEffect(state, channel) {
         for (target in channel) {

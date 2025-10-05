@@ -17,12 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.editor
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Flag
@@ -31,6 +34,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -42,14 +46,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TimerEdit
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDateRangePickerDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTimePickerDialog
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import java.text.DateFormat
 import java.util.Calendar
@@ -60,6 +65,38 @@ internal fun QrCalendarEditField(
     value: QrType.Calendar,
     onValueChange: (QrType.Calendar) -> Unit
 ) {
+    var isDateDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var showStartTimePicker by rememberSaveable { mutableStateOf(false) }
+    var showEndTimePicker by rememberSaveable { mutableStateOf(false) }
+
+    val startDate = remember(value.start) {
+        value.start ?: Date()
+    }
+    val endDate = remember(value.end) {
+        value.end ?: Calendar.getInstance()
+            .apply { add(Calendar.DAY_OF_YEAR, 1) }.time
+    }
+
+    val startCalendar = remember(startDate) {
+        Calendar.getInstance().apply { time = startDate }
+    }
+    val endCalendar = remember(endDate) {
+        Calendar.getInstance().apply { time = endDate }
+    }
+
+    val dateState = rememberDateRangePickerState(
+        initialSelectedStartDateMillis = startDate.time,
+        initialSelectedEndDateMillis = endDate.time
+    )
+    val startTimeState = rememberTimePickerState(
+        initialHour = startCalendar.get(Calendar.HOUR_OF_DAY),
+        initialMinute = startCalendar.get(Calendar.MINUTE)
+    )
+    val endTimeState = rememberTimePickerState(
+        initialHour = endCalendar.get(Calendar.HOUR_OF_DAY),
+        initialMinute = endCalendar.get(Calendar.MINUTE)
+    )
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -112,25 +149,6 @@ internal fun QrCalendarEditField(
             }
         )
 
-        var isDateDialogVisible by rememberSaveable { mutableStateOf(false) }
-        var showStartTimePicker by rememberSaveable { mutableStateOf(false) }
-        var showEndTimePicker by rememberSaveable { mutableStateOf(false) }
-
-        val startDate = remember(value.start) {
-            value.start ?: Date()
-        }
-        val endDate = remember(value.end) {
-            value.end ?: Calendar.getInstance()
-                .apply { add(Calendar.DAY_OF_YEAR, 1) }.time
-        }
-
-        val startCalendar = remember(startDate) {
-            Calendar.getInstance().apply { time = startDate }
-        }
-        val endCalendar = remember(endDate) {
-            Calendar.getInstance().apply { time = endDate }
-        }
-
         val startText = remember(startDate) {
             runCatching {
                 DateFormat.getDateTimeInstance().format(startDate).removeSuffix(":00")
@@ -143,72 +161,99 @@ internal fun QrCalendarEditField(
             }.getOrDefault("")
         }
 
-        Box {
-            RoundedTextField(
-                value = startText,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(stringResource(R.string.start_date)) },
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Start,
-                        contentDescription = null
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Max),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    RoundedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = startText,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.start_date)) },
+                        startIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Start,
+                                contentDescription = null
+                            )
+                        },
+                        shape = ShapeDefaults.smallStart
                     )
-                },
-                endIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.TimerEdit,
-                        contentDescription = null
-                    )
-                }
-            )
-            Spacer(
-                Modifier
-                    .matchParentSize()
-                    .pointerInput(Unit) {
-                        detectTapGestures { offset ->
-                            if (offset.x > size.width - size.height) {
-                                showStartTimePicker = true
-                            } else {
-                                isDateDialogVisible = true
-                            }
-                        }
+                    EnhancedIconButton(
+                        onClick = {
+                            showStartTimePicker = true
+                        },
+                        modifier = Modifier.fillMaxHeight(),
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        forceMinimumInteractiveComponentSize = false,
+                        shape = ShapeDefaults.smallEnd
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.TimerEdit,
+                            contentDescription = null
+                        )
                     }
-            )
-        }
-
-        Box {
-            RoundedTextField(
-                value = endText,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(stringResource(R.string.end_date)) },
-                startIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Flag,
-                        contentDescription = null
-                    )
-                },
-                endIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.TimerEdit,
-                        contentDescription = null
-                    )
                 }
-            )
-            Spacer(
-                Modifier
-                    .matchParentSize()
-                    .pointerInput(Unit) {
-                        detectTapGestures { offset ->
-                            if (offset.x > size.width - size.height) {
-                                showEndTimePicker = true
-                            } else {
-                                isDateDialogVisible = true
-                            }
-                        }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    RoundedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = endText,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.end_date)) },
+                        startIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Flag,
+                                contentDescription = null
+                            )
+                        },
+                        shape = ShapeDefaults.smallStart
+                    )
+                    EnhancedIconButton(
+                        onClick = {
+                            showEndTimePicker = true
+                        },
+                        modifier = Modifier.fillMaxHeight(),
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        forceMinimumInteractiveComponentSize = false,
+                        shape = ShapeDefaults.smallEnd
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.TimerEdit,
+                            contentDescription = null
+                        )
                     }
-            )
+                }
+            }
+            EnhancedIconButton(
+                onClick = {
+                    isDateDialogVisible = true
+                },
+                modifier = Modifier.fillMaxHeight(),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                forceMinimumInteractiveComponentSize = false,
+                shape = ShapeDefaults.small
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.DateRange,
+                    contentDescription = null
+                )
+            }
         }
 
         RoundedTextField(
@@ -222,36 +267,24 @@ internal fun QrCalendarEditField(
                 )
             }
         )
-        val state = rememberDateRangePickerState(
-            initialSelectedStartDateMillis = startDate.time,
-            initialSelectedEndDateMillis = endDate.time
-        )
-        val startTimeState = rememberTimePickerState(
-            initialHour = startCalendar.get(Calendar.HOUR_OF_DAY),
-            initialMinute = startCalendar.get(Calendar.MINUTE)
-        )
-        val endTimeState = rememberTimePickerState(
-            initialHour = endCalendar.get(Calendar.HOUR_OF_DAY),
-            initialMinute = endCalendar.get(Calendar.MINUTE)
-        )
-
-        LaunchedEffect(startCalendar, endCalendar) {
-            startTimeState.hour = startCalendar.get(Calendar.HOUR_OF_DAY)
-            startTimeState.minute = startCalendar.get(Calendar.MINUTE)
-
-            endTimeState.hour = endCalendar.get(Calendar.HOUR_OF_DAY)
-            endTimeState.minute = endCalendar.get(Calendar.MINUTE)
-        }
 
         EnhancedDateRangePickerDialog(
             visible = isDateDialogVisible,
             onDismissRequest = { isDateDialogVisible = false },
-            state = state,
+            state = dateState,
             onDatePicked = { start, end ->
                 onValueChange(
                     value.copy(
-                        start = Date(start),
-                        end = Date(end)
+                        start = startCalendar.apply {
+                            time = Date(start)
+                            set(Calendar.HOUR_OF_DAY, startTimeState.hour)
+                            set(Calendar.MINUTE, startTimeState.minute)
+                        }.time,
+                        end = endCalendar.apply {
+                            time = Date(end)
+                            set(Calendar.HOUR_OF_DAY, endTimeState.hour)
+                            set(Calendar.MINUTE, endTimeState.minute)
+                        }.time
                     )
                 )
             }
@@ -289,9 +322,17 @@ internal fun QrCalendarEditField(
             }
         )
 
+        LaunchedEffect(startCalendar, endCalendar) {
+            startTimeState.hour = startCalendar.get(Calendar.HOUR_OF_DAY)
+            startTimeState.minute = startCalendar.get(Calendar.MINUTE)
+
+            endTimeState.hour = endCalendar.get(Calendar.HOUR_OF_DAY)
+            endTimeState.minute = endCalendar.get(Calendar.MINUTE)
+        }
+
         LaunchedEffect(Unit) {
-            val start = state.selectedStartDateMillis
-            val end = state.selectedEndDateMillis
+            val start = dateState.selectedStartDateMillis
+            val end = dateState.selectedEndDateMillis
 
             if (start != null && end != null) {
                 onValueChange(
