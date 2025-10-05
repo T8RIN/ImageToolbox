@@ -75,7 +75,7 @@ private data class ContactPickerImpl(
                     Manifest.permission.READ_CONTACTS
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                pickContact.launch(null)
+                pickContact.launch()
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
             }
@@ -94,6 +94,78 @@ private data class ContactPickerImpl(
 @Immutable
 interface ContactPicker {
     fun pickContact()
+}
+
+@Composable
+fun rememberContactPicker(
+    onFailure: () -> Unit = {},
+    onSuccess: (Contact) -> Unit,
+): ContactPicker {
+    val essentials = rememberLocalEssentials()
+    val pickContact = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickContact(),
+        onResult = { uri ->
+            uri?.takeIf {
+                it != Uri.EMPTY
+            }?.let {
+                essentials.coroutineScope.launch {
+                    onSuccess(it.parseContact())
+                }
+            } ?: onFailure()
+        }
+    )
+
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            pickContact.launch()
+        } else {
+            essentials.showToast(
+                messageSelector = { getString(R.string.grant_contact_permission) },
+                icon = Icons.Outlined.PersonOutline
+            )
+        }
+    }
+
+    return remember(pickContact) {
+        derivedStateOf {
+            ContactPickerImpl(
+                context = essentials.context,
+                pickContact = pickContact,
+                requestPermissionLauncher = requestPermissionLauncher,
+                onFailure = {
+                    onFailure()
+                    essentials.showFailureToast(it)
+                }
+            )
+        }
+    }.value
+}
+
+@Composable
+fun ContactPickerButton(onPicked: (Contact) -> Unit) {
+    val contactPicker = rememberContactPicker(onSuccess = onPicked)
+
+    EnhancedButton(
+        onClick = contactPicker::pickContact,
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.mixedContainer,
+        contentColor = MaterialTheme.colorScheme.onMixedContainer
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Person,
+                contentDescription = null
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = stringResource(R.string.pick_contact)
+            )
+        }
+    }
 }
 
 data class Contact(
@@ -178,78 +250,6 @@ data class Contact(
 
     fun isEmpty(): Boolean =
         addresses.isEmpty() && emails.isEmpty() && name.isEmpty() && organization.isBlank() && phones.isEmpty() && title.isBlank() && urls.isEmpty()
-}
-
-@Composable
-fun rememberContactPicker(
-    onFailure: () -> Unit = {},
-    onSuccess: (Contact) -> Unit,
-): ContactPicker {
-    val essentials = rememberLocalEssentials()
-    val pickContact = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickContact(),
-        onResult = { uri ->
-            uri?.takeIf {
-                it != Uri.EMPTY
-            }?.let {
-                essentials.coroutineScope.launch {
-                    onSuccess(it.parseContact())
-                }
-            } ?: onFailure()
-        }
-    )
-
-    val requestPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            pickContact.launch()
-        } else {
-            essentials.showToast(
-                messageSelector = { getString(R.string.grant_contact_permission) },
-                icon = Icons.Outlined.PersonOutline
-            )
-        }
-    }
-
-    return remember(pickContact) {
-        derivedStateOf {
-            ContactPickerImpl(
-                context = essentials.context,
-                pickContact = pickContact,
-                requestPermissionLauncher = requestPermissionLauncher,
-                onFailure = {
-                    onFailure()
-                    essentials.showFailureToast(it)
-                }
-            )
-        }
-    }.value
-}
-
-@Composable
-fun ContactPickerButton(onPicked: (Contact) -> Unit) {
-    val contactPicker = rememberContactPicker(onSuccess = onPicked)
-
-    EnhancedButton(
-        onClick = contactPicker::pickContact,
-        modifier = Modifier.fillMaxWidth(),
-        containerColor = MaterialTheme.colorScheme.mixedContainer,
-        contentColor = MaterialTheme.colorScheme.onMixedContainer
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Person,
-                contentDescription = null
-            )
-            Spacer(Modifier.width(4.dp))
-            Text(
-                text = stringResource(R.string.pick_contact)
-            )
-        }
-    }
 }
 
 private suspend fun Uri.parseContact(): Contact = withContext(Dispatchers.IO) {

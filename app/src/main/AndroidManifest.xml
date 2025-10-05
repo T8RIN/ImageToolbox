@@ -90,7 +90,7 @@
         <activity
             android:name=".app.presentation.AppActivity"
             android:exported="true"
-            android:launchMode="singleInstance">
+            android:launchMode="singleTop">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
