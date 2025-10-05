@@ -43,6 +43,7 @@ import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RecordVoiceOver
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
+import androidx.compose.material.icons.outlined.SupervisedUserCircle
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,6 +57,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Prefix
+import com.t8rin.imagetoolbox.core.resources.icons.Suffix
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ContactPickerButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -293,30 +296,34 @@ private fun ColumnScope.NameEditField(
         value = value.name.first,
         onValueChange = { onValueChange(value.copy(name = value.name.copy(first = it))) },
         label = { Text(stringResource(R.string.first_name)) },
+        startIcon = { Icon(Icons.Outlined.SupervisedUserCircle, null) }
     )
 
     RoundedTextField(
         value = value.name.middle,
         onValueChange = { onValueChange(value.copy(name = value.name.copy(middle = it))) },
         label = { Text(stringResource(R.string.middle_name)) },
+        startIcon = { Icon(Icons.Outlined.SupervisedUserCircle, null) }
     )
 
     RoundedTextField(
         value = value.name.last,
         onValueChange = { onValueChange(value.copy(name = value.name.copy(last = it))) },
         label = { Text(stringResource(R.string.last_name)) },
+        startIcon = { Icon(Icons.Outlined.SupervisedUserCircle, null) }
     )
-
     RoundedTextField(
         value = value.name.prefix,
         onValueChange = { onValueChange(value.copy(name = value.name.copy(prefix = it))) },
-        label = { Text(stringResource(R.string.prefix)) }
+        label = { Text(stringResource(R.string.prefix)) },
+        startIcon = { Icon(Icons.Filled.Prefix, null) }
     )
 
     RoundedTextField(
         value = value.name.suffix,
         onValueChange = { onValueChange(value.copy(name = value.name.copy(suffix = it))) },
         label = { Text(stringResource(R.string.suffix)) },
+        startIcon = { Icon(Icons.Filled.Suffix, null) }
     )
 
 
