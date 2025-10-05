@@ -34,13 +34,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import coil3.request.ImageRequest
+import coil3.size.Precision
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ProvideTypography
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -150,13 +155,22 @@ internal fun QrCodePreview(
                 }
 
                 if (params.imageUri != null && params.content.raw.isNotEmpty()) {
+                    val context = LocalContext.current
+
                     Picture(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .offset(y = (-48).dp)
                             .size(64.dp),
-                        model = params.imageUri,
+                        model = remember(params.imageUri) {
+                            ImageRequest.Builder(context)
+                                .data(params.imageUri)
+                                .size(1000, 1000)
+                                .precision(Precision.INEXACT)
+                                .build()
+                        },
                         contentScale = ContentScale.Crop,
+                        filterQuality = FilterQuality.High,
                         contentDescription = null,
                         shape = MaterialTheme.shapes.medium
                     )
