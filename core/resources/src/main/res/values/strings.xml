@@ -1811,4 +1811,15 @@
     <string name="security">Security</string>
     <string name="pick_contact">Pick contact</string>
     <string name="grant_contact_permission">Grant contacts permission in settings to autofill using selected contact</string>
+    <string name="contact_info">Contact info</string>
+    <string name="first_name">First name</string>
+    <string name="middle_name">Middle name</string>
+    <string name="last_name">Last name</string>
+    <string name="pronunciation">Pronunciation</string>
+    <string name="add_phone">Add phone</string>
+    <string name="add_email">Add email</string>
+    <string name="add_address">Add address</string>
+    <string name="website">Website</string>
+    <string name="add_website">Add website</string>
+    <string name="formatted_name">Formatted name</string>
 </resources>

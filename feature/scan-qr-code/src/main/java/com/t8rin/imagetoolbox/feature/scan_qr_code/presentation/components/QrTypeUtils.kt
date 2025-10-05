@@ -36,6 +36,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
 import ezvcard.Ezvcard
 import ezvcard.VCard
 import ezvcard.parameter.EmailType
@@ -51,7 +52,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-val QrType.name: Int
+internal val QrType.name: Int
     get() = when (this) {
         is QrType.Calendar -> R.string.qr_type_calendar_event
         is QrType.Contact -> R.string.qr_type_contact_info
@@ -64,7 +65,7 @@ val QrType.name: Int
         is QrType.Wifi -> R.string.qr_type_wifi
     }
 
-val QrType.icon: ImageVector
+internal val QrType.icon: ImageVector
     get() = when (this) {
         is QrType.Calendar -> Icons.Rounded.CalendarMonth
         is QrType.Contact -> Icons.Rounded.Contacts
@@ -77,7 +78,7 @@ val QrType.icon: ImageVector
         is QrType.Url -> Icons.Rounded.Link
     }
 
-fun QrType.toIntent(): Intent? = ifNotEmpty {
+internal fun QrType.toIntent(): Intent? = ifNotEmpty {
     when (this) {
         is QrType.Plain -> Intent(Intent.ACTION_SEND).setType("text/plain")
             .putExtra(Intent.EXTRA_TEXT, raw)
@@ -221,7 +222,7 @@ fun QrType.toIntent(): Intent? = ifNotEmpty {
     }?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 }
 
-fun QrType.Complex.asRaw(): String = raw.ifEmpty {
+internal fun QrType.Complex.asRaw(): String = raw.ifEmpty {
     runCatching {
         when (this) {
             is QrType.Wifi -> buildString {
@@ -326,6 +327,46 @@ fun QrType.Complex.asRaw(): String = raw.ifEmpty {
             }
         }
     }.getOrDefault("")
+}
+
+internal fun Contact.toQrType(raw: String = ""): QrType.Contact {
+    return QrType.Contact(
+        raw = raw,
+        addresses = addresses.map {
+            QrType.Contact.Address(
+                addressLines = it.addressLines,
+                type = it.type
+            )
+        },
+        emails = emails.map {
+            QrType.Email(
+                raw = "",
+                address = it.address,
+                body = it.body,
+                subject = it.subject,
+                type = it.type
+            )
+        },
+        name = QrType.Contact.PersonName(
+            first = name.first,
+            formattedName = name.formattedName,
+            last = name.last,
+            middle = name.middle,
+            prefix = name.prefix,
+            pronunciation = name.pronunciation,
+            suffix = name.suffix
+        ),
+        organization = organization,
+        phones = phones.map {
+            QrType.Phone(
+                raw = "",
+                number = it.number,
+                type = it.type
+            )
+        },
+        title = title,
+        urls = urls
+    )
 }
 
 private fun mapPhoneType(type: Int): TelephoneType = when (type) {
