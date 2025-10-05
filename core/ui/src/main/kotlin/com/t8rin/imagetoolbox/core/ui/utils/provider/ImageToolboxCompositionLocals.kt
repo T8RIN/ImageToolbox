@@ -20,11 +20,17 @@ package com.t8rin.imagetoolbox.core.ui.utils.provider
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
@@ -46,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.other.rememberToastHostState
+import kotlinx.coroutines.delay
 
 @Composable
 fun ImageToolboxCompositionLocals(
@@ -114,7 +121,29 @@ val LocalCurrentScreen =
     compositionLocalOf<Screen?> { error("LocalCurrentScreen not present") }
 
 @Composable
-fun currentScreenTwoToneIcon() = LocalCurrentScreen.current?.twoToneIcon
+fun currentScreenTwoToneIcon(
+    default: ImageVector
+): ImageVector {
+    val currentScreen = LocalCurrentScreen.current
+    val screenIcon = currentScreen?.twoToneIcon
+
+    var previous by rememberSaveable {
+        mutableStateOf(currentScreen?.simpleName)
+    }
+
+    var currentIcon by remember {
+        mutableStateOf(screenIcon ?: default)
+    }
+
+    LaunchedEffect(currentScreen) {
+        if (currentScreen?.simpleName != previous) delay(600)
+
+        previous = currentScreen?.simpleName
+        currentIcon = screenIcon ?: default
+    }
+
+    return currentIcon
+}
 
 private infix fun <T : Any> ProvidableCompositionLocal<T>.providesOrNull(
     value: T?

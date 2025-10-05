@@ -74,13 +74,11 @@ fun ImageNotPickedWidget(
     text: String = stringResource(R.string.pick_image),
     containerColor: Color = Color.Unspecified,
 ) {
-    val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.Image
-
     SourceNotPickedWidget(
         onClick = onPickImage,
         modifier = modifier,
         text = text,
-        icon = currentIcon,
+        icon = currentScreenTwoToneIcon(Icons.TwoTone.Image),
         containerColor = containerColor
     )
 }
@@ -92,13 +90,11 @@ fun FileNotPickedWidget(
     text: String = stringResource(R.string.pick_file_to_start),
     containerColor: Color = Color.Unspecified,
 ) {
-    val currentIcon = currentScreenTwoToneIcon() ?: Icons.TwoTone.FileOpen
-
     SourceNotPickedWidget(
         onClick = onPickFile,
         modifier = modifier,
         text = text,
-        icon = currentIcon,
+        icon = currentScreenTwoToneIcon(Icons.TwoTone.FileOpen),
         containerColor = containerColor
     )
 }
