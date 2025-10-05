@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -364,7 +365,6 @@
     <string name="crashlytics_sub">Permet à l\'application de collecter les rapports d\'erreur automatiquement</string>
     <string name="analytics">Analyse</string>
     <string name="analytics_sub">Autoriser la collecte de données statistiques anonymes sur l\'utilisation de l\'application</string>
-    <string name="jxl_sub">Le format JXL n\'est pas officiellement pris en charge par Android, donc quelque chose pourrait ne pas fonctionner. Sauvegarder ne fonctionnera que si vous choisissez un répertoire de sortie personnalisé. Il s\'agit d\'une version expérimentale, les bogues ici ne seront pas corrigés à moins que Google n\'ajoute le support JXL. Cette version peut également afficher ces images</string>
     <string name="image_exif_warning">Actuellement, le format %1$s permet uniquement de lire les métadonnées EXIF sur Android. L\'image de sortie n\'aura aucune métadonnée, lorsque sauvegardée.</string>
     <string name="wait">Patientez</string>
     <string name="effort_sub">Une valeur de %1$d signifie une compression rapide, ce qui entraîne une taille de fichier relativement importante. %2$d signifie une compression plus lente, ce qui donne un fichier plus petit.</string>

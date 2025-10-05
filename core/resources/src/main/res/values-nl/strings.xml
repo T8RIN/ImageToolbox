@@ -405,7 +405,6 @@
     <string name="crashlytics_sub">Hierdoor kan de app crashrapporten handmatig verzamelen</string>
     <string name="analytics">Analyses</string>
     <string name="analytics_sub">Sta het verzamelen van anonieme app-gebruiksstatistieken toe</string>
-    <string name="jxl_sub">JXL-formaat wordt niet officieel ondersteund door Android, dus het kan zijn dat iets niet werkt. Opslaan werkt alleen als je een aangepaste uitvoermap kiest. Dit is een experimentele versie. Bugs hier worden niet opgelost tenzij Google JXL-ondersteuning toevoegt. Deze versie kan JXL-afbeeldingen bekijken</string>
     <string name="image_exif_warning">Momenteel staat het %1$s-formaat alleen het lezen van EXIF-metagegevens op Android toe. De uitvoerafbeelding heeft helemaal geen metagegevens wanneer deze wordt opgeslagen.</string>
     <string name="effort">Poging</string>
     <string name="effort_sub">Een waarde van %1$d betekent een snelle compressie, wat resulteert in een relatief grote bestandsgrootte. %2$d betekent een langzamere compressie, wat resulteert in een kleiner bestand.</string>

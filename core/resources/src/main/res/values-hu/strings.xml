@@ -555,7 +555,6 @@
     <string name="max_colors_count">Max színszám</string>
     <string name="analytics">Analitika</string>
     <string name="analytics_sub">Anonim alkalmazáshasználati statisztikák gyűjtésének engedélyezése</string>
-    <string name="jxl_sub">A JXL formátumot az Android hivatalosan nem támogatja, így előfordulhat, hogy valami nem működik. A mentés csak akkor működik, ha egyéni kimeneti könyvtárat választ. Ez egy kísérleti verzió, a hibákat nem javítjuk ki, hacsak a Google nem adja hozzá a JXL támogatást. Ez a verzió JXL képeket nézhet meg</string>
     <string name="effort">Erőfeszítés</string>
     <string name="effort_sub">A %1$d érték gyors tömörítést jelent, ami viszonylag nagy fájlméretet eredményez. Az %2$d lassabb tömörítést jelent, ami kisebb fájlt eredményez.</string>
     <string name="wait">Várjon</string>

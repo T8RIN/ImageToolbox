@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -682,7 +683,6 @@
     <string name="overlay_mode">Modus Hamparan</string>
     <string name="pixel_size">Ukuran Piksel</string>
     <string name="lock_draw_orientation">Kunci orientasi gambar</string>
-    <string name="jxl_sub">Format JXL tidak didukung secara resmi oleh Android jadi mungkin ada yang tidak berfungsi. Menyimpan hanya akan berfungsi jika Anda memilih direktori keluaran khusus. Ini adalah versi eksperimental, bug di sini tidak akan diperbaiki kecuali Google menambahkan dukungan JXL. Versi ini dapat melihat gambar JXL</string>
     <string name="effort_sub">Nilai %1$d berarti kompresi yang cepat sehingga menghasilkan ukuran file yang relatif besar. %2$d berarti kompresi lebih lambat, sehingga menghasilkan file lebih kecil.</string>
     <string name="lock_draw_orientation_sub">Jika diaktifkan dalam mode menggambar, layar tidak akan berputar</string>
     <string name="bokeh">Bokeh</string>

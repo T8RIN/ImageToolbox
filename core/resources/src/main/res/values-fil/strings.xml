@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -694,7 +695,6 @@
     <string name="pixel_size">Laki ng Pixel</string>
     <string name="lock_draw_orientation">Lock draw orientation</string>
     <string name="max_colors_count">Max na bilang ng kulay</string>
-    <string name="jxl_sub">Hindi opisyal na sinusuportahan ng android ang format na JXL kaya maaaring hindi gumana ang isang bagay. Gagana lang ang pag-save kung pipiliin mo ang custom na direktoryo ng output. Ito ay isang pang-eksperimentong bersyon, ang mga bug dito ay hindi maaayos maliban kung ang google ay nagdaragdag ng suporta sa JXL. Maaaring tingnan ng bersyong ito ang mga larawan ng JXL</string>
     <string name="bokeh">Bokeh</string>
     <string name="gif_tools">GIF Tools</string>
     <string name="gif_tools_sub">I-convert ang mga larawan sa GIF na larawan o i-extract ang mga frame mula sa ibinigay na GIF na larawan</string>

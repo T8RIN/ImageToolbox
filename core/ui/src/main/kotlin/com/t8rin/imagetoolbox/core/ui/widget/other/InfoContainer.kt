@@ -47,7 +47,8 @@ fun InfoContainer(
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
     contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f),
     shape: Shape = ShapeDefaults.default,
-    icon: ImageVector? = Icons.Outlined.Info
+    icon: ImageVector? = Icons.Outlined.Info,
+    textAlign: TextAlign = TextAlign.Center
 ) {
     Row(
         modifier = modifier
@@ -72,7 +73,7 @@ fun InfoContainer(
         Text(
             text = text,
             fontSize = 12.sp,
-            textAlign = TextAlign.Center,
+            textAlign = textAlign,
             fontWeight = FontWeight.SemiBold,
             lineHeight = 14.sp,
             color = contentColor

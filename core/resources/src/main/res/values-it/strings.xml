@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -374,7 +375,6 @@
     <string name="allow_betas">Consenti beta</string>
     <string name="draw_arrows">Disegna Frecce</string>
     <string name="pick_at_least_two_images">Scegli almeno 2 immagini</string>
-    <string name="jxl_sub">Il formato JXL non è ufficialmente supportato da Android, quindi qualcosa potrebbe non funzionare. Il salvataggio funzionerà solo se si sceglie una directory di salvataggio personalizzata. Questa è una versione sperimentale, i bug presenti non saranno risolti a meno che Google non aggiunga il supporto per JXL. Questa versione può visualizzare le immagini JXL</string>
     <string name="draw_arrows_sub">Se abilitato, il percorso di disegno sarà rappresentato da una freccia a punta</string>
     <string name="blur_radius">Raggio sfocatura</string>
     <string name="scale_small_images_to_large_sub">Se abilitato, le immagini piccole saranno scalate sulla base delle dimensioni di quella più grande</string>

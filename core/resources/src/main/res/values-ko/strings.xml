@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -692,7 +693,6 @@
     <string name="gradient_maker_type_image">그라데이션 오버레이</string>
     <string name="transformations">변환</string>
     <string name="camera_sub">카메라를 사용하여 사진을 찍습니다. 이 이미지 소스에서는 단 하나의 이미지만 가져올 수 있습니다.</string>
-    <string name="jxl_sub">JXL 형식은 Android에서 공식적으로 지원하지 않으므로 작동하지 않을 수 있습니다. 저장은 사용자 정의 출력 디렉터리를 선택한 경우에만 작동합니다. 이것은 실험적인 버전이므로 Google이 JXL 지원을 추가하지 않는 한 여기의 버그는 수정되지 않습니다. 이 버전에서는 JXL 이미지를 볼 수 있습니다.</string>
     <string name="pick_at_least_two_images">이미지를 2개 이상 선택하세요.</string>
     <string name="output_image_scale">출력 이미지 크기</string>
     <string name="image_orientation">이미지 방향</string>

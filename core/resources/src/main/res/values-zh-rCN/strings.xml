@@ -367,7 +367,6 @@
     <string name="effort_sub">值为%1$d意味着快速压缩，导致文件大小相对较大。 %2$d表示压缩速度较慢，文件较小。</string>
     <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
     <string name="allow_betas">允许接收测试版</string>
-    <string name="jxl_sub">JXL 格式不被 Android 正式支持，所以有些东西可能无法工作。只有当你选择自定义输出目录时保存才会生效。这是一个实验版本，这里的错误不会被修复，除非谷歌添加 JXL 支持。这个版本可以查看 JXL 图片</string>
     <string name="crashlytics_sub">这允许此应用程序自动收集崩溃报告</string>
     <string name="saving_almost_complete">保存快要完成了。现在取消将需要重新开始保存</string>
     <string name="analytics">分析</string>

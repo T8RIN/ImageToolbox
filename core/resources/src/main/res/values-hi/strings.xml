@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -332,7 +333,6 @@
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="erase_background">पृष्ठभूमि मिटाएं</string>
     <string name="restore_image">छवि पुनर्स्थापित करें</string>
-    <string name="jxl_sub">JXL प्रारूप आधिकारिक तौर पर एंड्रॉइड द्वारा समर्थित नहीं है, इसलिए कुछ काम नहीं कर सकता है। सहेज तभी जायेगा जब आप तदनुकूल आउटपुट डायरेक्टरी चुनेंगे। यह एक प्रायोगिक संस्करण है, यहां बग तब तक ठीक नहीं किए जाएंगे जब तक कि Google JXL समर्थन नहीं जोड़ता। यह संस्करण JXL छवियां देख सकता है</string>
     <string name="delete">मिटाएं</string>
     <string name="aspect_ratio">पहलू अनुपात</string>
     <string name="blur_radius">ब्लर त्रिज्या</string>

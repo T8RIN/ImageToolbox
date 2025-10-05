@@ -429,7 +429,6 @@
     <string name="resize_and_convert_sub">Canvia la mida de les imatges donades o converteix-les a altres formats. Les metadades EXIF també es poden editar aquí si trieu una sola imatge.</string>
     <string name="max_colors_count">Recompte màxim de colors</string>
     <string name="crashlytics_sub">Això permet que l\'aplicació reculli informes d\'error manualment</string>
-    <string name="jxl_sub">El format JXL no és compatible oficialment amb Android, de manera que alguna cosa podria fallar. El desament només funcionarà si trieu un directori de sortida personalitzat. Això és una versió experimental, no se solucionaran errors tret que Google afegeixi suport pel format JXL. Aquesta versió pot visualitzar imatges JXL</string>
     <string name="image_exif_warning">Actualment, el format %1$s només permet llegir metadades EXIF a Android. La imatge de sortida no tindrà metadades en absolut quan es desi.</string>
     <string name="effort_sub">Un valor de %1$d significa una compressió ràpida, que resulta en una mida de fitxer relativament gran. %2$d significa una compressió més lenta, donant lloc a un fitxer més petit.</string>
     <string name="allow_betas">Permet betas</string>

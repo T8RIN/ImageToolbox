@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -397,7 +398,6 @@
     <string name="resize_and_convert_sub">שנה גודל של תמונות נתונות או המר אותן לפורמטים אחרים. ניתן לערוך כאן מטא נתונים של EXIF גם אם בוחרים תמונה בודדת.</string>
     <string name="crashlytics_sub">זה מאפשר לאפליקציה לאסוף דוחות קריסה באופן אוטומטי</string>
     <string name="analytics_sub">אפשר איסוף סטטיסטיקות שימוש אנונימיות באפליקציה</string>
-    <string name="jxl_sub">פורמט JXL לא נתמך רשמית על ידי אנדרואיד אז אולי משהו לא יעבוד. השמירה תעבוד רק אם תבחר בספריית פלט מותאמת אישית. זוהי גרסה ניסיונית, באגים כאן לא יתוקנו אלא אם גוגל תוסיף תמיכה ב-JXL. גרסה זו יכולה להציג תמונות JXL</string>
     <string name="image_exif_warning">נכון לעכשיו, פורמט %1$s מאפשר קריאת מטא נתונים של EXIF רק ב-Android. לתמונת פלט לא יהיו מטא נתונים כלל, כאשר היא נשמרת.</string>
     <string name="effort_sub">ערך של %1$d פירושו דחיסה מהירה, וכתוצאה מכך גודל קובץ גדול יחסית. %2$d פירושו דחיסה איטית יותר, וכתוצאה מכך קובץ קטן יותר.</string>
     <string name="allow_betas">אפשר בטא</string>

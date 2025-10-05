@@ -365,7 +365,6 @@
     <string name="crashlytics_sub">Tämä sallii sovelluksen kerätä kastumisraporteja automaattisesti</string>
     <string name="analytics">Analytiikat</string>
     <string name="analytics_sub">Salli anonyymisen sovelluksen käyttötilastojen keräämiseen</string>
-    <string name="jxl_sub">JXL formaatti ei ole virallisesti Androidin tukema, joten se ei ehkä toimi. Tallentaminen toimii vain jos valitset muokatun tuloskirjaston. Tämä on kokeellinen versio, virheitä täällä ei tulla korjaamaan kunnes Google lisää tuen JXL:lle. Tämä versio voi nähdä JXL kuvia</string>
     <string name="image_exif_warning">Tällä hetkellä, %1$s formaatti salli vain EXIF metatietojen luvun Androidilla. Tuloskuvassa ei tule olemaan yhtään tallennettua metatietoa, kun tallennettu.</string>
     <string name="effort">Ponnistus</string>
     <string name="effort_sub">%1$d :n arvo tarkoittaa nopeaa tiivistystä, johtaen erittäin suureen tiedosto kokoon. %2$d tarkoittaa hitaampaa tiivistystä, johtaen pienempään tiedostoon.</string>

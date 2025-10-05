@@ -365,7 +365,6 @@
     <string name="crashlytics_sub">Điều này cho phép ứng dụng thu thập báo cáo sự cố theo cách thủ công</string>
     <string name="analytics">Phân tích</string>
     <string name="analytics_sub">Cho phép thu thập số liệu thống kê sử dụng ứng dụng ẩn danh</string>
-    <string name="jxl_sub">Định dạng JXL không được Android hỗ trợ chính thức nên có thể có gì đó không hoạt động. Việc lưu sẽ chỉ hoạt động nếu bạn chọn thư mục đầu ra tùy chỉnh. Đây là phiên bản thử nghiệm, các lỗi ở đây sẽ không được sửa trừ khi google bổ sung thêm hỗ trợ JXL. Phiên bản này có thể xem được hình ảnh JXL</string>
     <string name="image_exif_warning">Hiện tại, định dạng %1$s chỉ cho phép đọc siêu dữ liệu EXIF trên Android. Hình ảnh đầu ra sẽ không có siêu dữ liệu nào khi được lưu.</string>
     <string name="effort">Lực nén</string>
     <string name="effort_sub">Giá trị %1$d có nghĩa là nén nhanh, dẫn đến kích thước tệp tương đối lớn. %2$d có nghĩa là nén chậm hơn, dẫn đến tệp nhỏ hơn.</string>

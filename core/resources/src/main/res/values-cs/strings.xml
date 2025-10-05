@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -378,7 +379,6 @@
     <string name="restore_background">Obnovit pozadí</string>
     <string name="something_went_wrong_emphasis">Jejda… Něco se pokazilo. Můžete mi napsat pomocí níže uvedených možností a já se pokusím najít řešení</string>
     <string name="resize_and_convert_sub">Změňte velikost daných obrázků nebo je převeďte do jiných formátů. Metadata EXIF lze zde také upravit, pokud vyberete jeden obrázek.</string>
-    <string name="jxl_sub">Formát JXL není oficiálně podporován Androidem, takže něco nemusí fungovat. Ukládání bude fungovat pouze v případě, že zvolíte vlastní výstupní adresář. Toto je experimentální verze, chyby zde nebudou opraveny, pokud google nepřidá podporu JXL. Tato verze umí prohlížet obrázky JXL</string>
     <string name="crop_description">Obrázky budou oříznuty na střed na zadanou velikost. Pokud je obrázek menší než zadané rozměry, plátno se roztáhne o danou barvu pozadí.</string>
     <string name="stroke_pixelation">Pixelace tahu</string>
     <string name="color_to_remove">Barva k odstranění</string>

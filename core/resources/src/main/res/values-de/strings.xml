@@ -364,7 +364,6 @@
     <string name="crashlytics_sub">Erlaubt der App, Absturzberichte automatisch zu sammeln</string>
     <string name="analytics">Analyse</string>
     <string name="analytics_sub">Erlaube anonymisierte App-Nutzungsstatitiken zu erfassen</string>
-    <string name="jxl_sub">Das JXL-Format wird von Android nicht offiziell unterstützt, so dass mõglicherweise etwas nicht funktioniert. Auch das Speichern wird nur funktionieren, wenn du ein benutzerdefiniertes Ausgabeverzeichnis wählst. Dies ist eine experimentelle Version, Bugs hier werden nicht behoben werden, solange Google keine JXL-Unterstützung nachrüstet. Diese Version kann auch solche Bilder anzeigen.</string>
     <string name="image_exif_warning">Derzeit erlaubt das %1$s-Format auf Android nur das Lesen von Exif-Daten und nicht das Ändern/Speichern, d.h. das ausgegebene Bild wird keine Metadaten haben</string>
     <string name="updates">Aktualisierungen</string>
     <string name="wait">Warten</string>

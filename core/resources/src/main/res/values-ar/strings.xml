@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -372,7 +373,6 @@
     <string name="free">حر</string>
     <string name="images_overwritten">تمت الكتابة فوق الصور في الوجهة الأصلية</string>
     <string name="activities">أنشطة</string>
-    <string name="jxl_sub">تنسيق JXL غير مدعوم رسميًا بواسطة Android لذا قد لا يعمل شيء ما. لن يعمل الحفظ إلا إذا اخترت دليل الإخراج المخصص. هذه نسخة تجريبية، لن يتم إصلاح الأخطاء هنا إلا إذا أضافت Google دعم JXL. يمكن لهذا الإصدار عرض صور JXL</string>
     <string name="draw_arrows_sub">إذا تم تمكين مسار الرسم فسيتم تمثيله كسهم يشير</string>
     <string name="crop_description">سيتم اقتصاص الصور من المنتصف حسب الحجم الذي تم إدخاله. سيتم توسيع اللوحة القماشية بلون الخلفية المحدد إذا كانت الصورة أصغر من الأبعاد المدخلة.</string>
     <string name="donation">هبة</string>

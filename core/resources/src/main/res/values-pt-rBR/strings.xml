@@ -365,7 +365,6 @@
     <string name="crashlytics_sub">Isso permite que o aplicativo colete relatórios de falhas automaticamente</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Permitir a coleta de estatísticas anônimas de uso de aplicativos</string>
-    <string name="jxl_sub">Formato JXL não suportado oficialmente pelo Android, então algo pode não funcionar. Salvar funcionará apenas se você escolher o diretório de saída personalizado. Esta é uma versão experimental, os bugs aqui não serão corrigidos a menos que o Google adicione suporte JXL. Esta versão pode visualizar imagens JXL</string>
     <string name="image_exif_warning">Atualmente, o formato %1$s só permite a leitura de metadados EXIF no Android. A imagem de saída não terá metadados quando salva.</string>
     <string name="effort">Esforço</string>
     <string name="effort_sub">Um valor %1$d significa uma compactação rápida, resultando em um tamanho de arquivo relativamente grande. %2$d significa uma compactação mais lenta, resultando em um arquivo menor.</string>

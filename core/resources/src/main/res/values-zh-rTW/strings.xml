@@ -367,7 +367,6 @@
     <string name="effort_sub">值 %1$d 表示快速的壓縮，會產生相對較大的檔案大小；而值 %2$d 則是較慢的壓縮，可以得到較小的檔案。</string>
     <string name="allow_betas">允許接收測試版本</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
-    <string name="jxl_sub">注意：Android 系統尚未正式支援 JXL 格式。因此，特定功能可能不穩定。您必須選擇自訂的輸出資料夾，才能成功儲存。這是實驗性質的版本，除非 Google 添加對 JXL 的支援，否則這裡的錯誤不會被修復。此版本可以預覽 JXL 格式的圖片</string>
     <string name="emotions">情感模式</string>
     <string name="saving_almost_complete">儲存幾乎完成了。若您現在取消，將需要從頭開始儲存</string>
     <string name="enable_emoji">點擊以啟用表情符號</string>

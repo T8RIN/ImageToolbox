@@ -370,7 +370,6 @@
     <string name="draw_mode">描画モード</string>
     <string name="something_went_wrong_emphasis">おっと…何か問題が発生しました。以下のオプションを使用して私に連絡してください。解決策を見つけようとします</string>
     <string name="resize_and_convert_sub">指定された画像のサイズを変更したり、他の形式に変換したりします。単一の画像を選択する場合はEXIFメタデータもここで編集できます。</string>
-    <string name="jxl_sub">JXL形式はAndroidで公式にサポートされていないため、機能しないことがあります。カスタム出力ディレクトリを選択した場合のみ保存が機能します。これは試験的なバージョンであり、バグが発生する可能性があります</string>
     <string name="image_exif_warning">現在、%1$s形式ではAndroidでのEXIFメタデータの読み取りのみが可能です。保存されると出力画像にはメタデータがまったく含まれません。</string>
     <string name="allow_betas_sub">有効にすると、アップデートチェックにはベータ版のアプリバージョンも含まれます</string>
     <string name="draw_arrows">矢印を描画</string>

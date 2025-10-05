@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -382,7 +383,6 @@
     <string name="max_colors_count">จำนวนสีสูงสุด</string>
     <string name="crashlytics_sub">ซึ่งช่วยให้แอปรวบรวมรายงานข้อขัดข้องด้วยตนเอง</string>
     <string name="analytics">การวิเคราะห์</string>
-    <string name="jxl_sub">Android ไม่รองรับรูปแบบ JXL อย่างเป็นทางการ ดังนั้นบางอย่างอาจไม่ทำงาน การบันทึกจะใช้ได้เฉพาะเมื่อคุณเลือกไดเร็กทอรีเอาต์พุตแบบกำหนดเอง นี่เป็นเวอร์ชันทดลอง ข้อบกพร่องที่นี่จะไม่ได้รับการแก้ไข เว้นแต่ Google จะเพิ่มการรองรับ JXL เวอร์ชันนี้สามารถดูภาพ JXL ได้</string>
     <string name="image_exif_warning">ปัจจุบัน รูปแบบ %1$s อนุญาตให้อ่านเฉพาะข้อมูลเมตา EXIF บน Android เท่านั้น รูปภาพที่ส่งออกจะไม่มีข้อมูลเมตาเลยเมื่อบันทึก</string>
     <string name="effort_sub">ค่า %1$d หมายถึงการบีบอัดที่รวดเร็ว ส่งผลให้ขนาดไฟล์ค่อนข้างใหญ่ %2$d หมายถึงการบีบอัดที่ช้าลง ส่งผลให้ไฟล์มีขนาดเล็กลง</string>
     <string name="wait">รอ</string>

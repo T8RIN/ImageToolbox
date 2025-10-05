@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -97,7 +98,6 @@
     <string name="highlights_shadows">Блікі і цені</string>
     <string name="highlights">Блікі</string>
     <string name="group_options_by_type_sub">Групуе параметры на галоўным экране па іх тыпу замест карыстальніцкага спісу</string>
-    <string name="jxl_sub">Фармат JXL афіцыйна не падтрымліваецца Android, таму нешта можа не працаваць. Захаванне будзе працаваць толькі ў тым выпадку, калі вы вылучыце карыстальніцкі каталог вываду. Гэта эксперыментальная версія, памылкі тут не будуць выпраўлены, пакуль Google не дадасць падтрымку JXL. Гэтая версія можа праглядаць выявы JXL</string>
     <string name="tonal_spot_sub">Стыль палітры па змаўчанні, ён дазваляе наладзіць усе чатыры колеры, іншыя дазваляюць усталяваць толькі асноўны колер</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Немагчыма змяніць каляровую схему праграмы, калі ўключаны дынамічныя колеры</string>
     <string name="dynamic_colors_sub">Калі гэта ўключана, то колеры праграмы будуць прымяняцца да колераў шпалер</string>

@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -370,7 +371,6 @@
     <string name="resize_and_convert_sub">Skift størrelse på givne billeder eller konverter dem til andre formater. EXIF-metadata kan også redigeres her, hvis du vælger et enkelt billede.</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Tillad indsamling af anonym appbrugsstatistik</string>
-    <string name="jxl_sub">JXL-format understøttes ikke officielt af Android, så noget virker muligvis ikke. Gem vil kun fungere, hvis du vælger brugerdefineret output-mappe. Dette er en eksperimentel version, fejl her vil ikke blive rettet, medmindre google tilføjer JXL-understøttelse. Denne version kan se JXL-billeder</string>
     <string name="image_exif_warning">I øjeblikket tillader formatet %1$s kun læsning af EXIF-metadata på Android. Outputbilledet vil slet ikke have metadata, når det er gemt.</string>
     <string name="wait">Vente</string>
     <string name="updates">Opdateringer</string>

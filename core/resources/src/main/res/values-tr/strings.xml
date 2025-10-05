@@ -365,7 +365,6 @@
     <string name="crashlytics_sub">Bu, uygulamanın çökme raporlarını otomatik olarak toplamasına olanak tanır</string>
     <string name="analytics">Analiz</string>
     <string name="analytics_sub">Anonim uygulama kullanım istatistiklerinin toplanmasına izin ver</string>
-    <string name="jxl_sub">JXL formatı Android tarafından resmi olarak desteklenmediği için bazı şeyler çalışmayabilir. Kaydetme, yalnızca özel bir çıktı dizini seçerseniz çalışacaktır. Bu deneysel bir sürümdür, Google JXL desteği eklemedikçe buradaki hatalar düzeltilmeyecektir. Bu sürüm JXL resimlerini görüntüleyebilir</string>
     <string name="image_exif_warning">Şu anda, %1$s formatı yalnızca Android\'de EXIF meta verilerinin okunmasına izin vermektedir. Çıktı resmi kaydedildiğinde hiçbir meta veriye sahip olmayacaktır.</string>
     <string name="effort">Efor</string>
     <string name="effort_sub">%1$d değeri hızlı bir sıkıştırma anlamına gelir ve nispeten büyük bir dosya boyutuyla sonuçlanır. %2$d daha yavaş bir sıkıştırma anlamına gelir ve daha küçük bir dosyayla sonuçlanır.</string>

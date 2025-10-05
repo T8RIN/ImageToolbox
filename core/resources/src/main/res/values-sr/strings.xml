@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -393,7 +394,6 @@
     <string name="crashlytics_sub">Ово омогућава апликацији да ручно прикупља извештаје о паду</string>
     <string name="analytics">Аналитика</string>
     <string name="analytics_sub">Дозволи прикупљање анонимне статистике коришћења апликације</string>
-    <string name="jxl_sub">ЈКСЛ формат није званично подржан од Андроида, тако да нешто можда неће радити. Чување ће радити само ако изаберете прилагођени излазни директоријум. Ово је експериментална верзија, грешке овде неће бити исправљене осим ако Гоогле не дода подршку за ЈКСЛ. Ова верзија може да види ЈКСЛ слике</string>
     <string name="image_exif_warning">Тренутно формат %1$s дозвољава само читање ЕКСИФ метаподатака на андроид-у. Излазна слика уопште неће имати метаподатке када се сачува.</string>
     <string name="effort">Напор</string>
     <string name="effort_sub">Вредност %1$d значи брзу компресију, што резултира релативно великом величином датотеке. %2$d значи спорију компресију, што резултира мањом датотеком.</string>

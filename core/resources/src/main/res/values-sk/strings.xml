@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -401,7 +402,6 @@
     <string name="resize_and_convert_sub">Spremenite velikost danih slik ali jih pretvorite v druge formate. Tukaj lahko urejate tudi metapodatke EXIF, če izberete eno sliko.</string>
     <string name="max_colors_count">Največje število barv</string>
     <string name="analytics_sub">Dovoli zbiranje anonimnih statističnih podatkov o uporabi aplikacije</string>
-    <string name="jxl_sub">Android uradno ne podpira formata JXL, zato nekaj morda ne bo delovalo. Shranjevanje bo delovalo le, če izberete izhodni imenik po meri. To je poskusna različica, napake tukaj ne bodo odpravljene, razen če google doda podporo za JXL. Ta različica si lahko ogleda slike JXL</string>
     <string name="image_exif_warning">Trenutno format %1$s dovoljuje le branje metapodatkov EXIF v sistemu Android. Izhodna slika ob shranjevanju sploh ne bo imela metapodatkov.</string>
     <string name="effort_sub">Vrednost %1$d pomeni hitro stiskanje, kar ima za posledico relativno veliko velikost datoteke. %2$d pomeni počasnejše stiskanje, zaradi česar je datoteka manjša.</string>
     <string name="allow_betas">Dovoli različice beta</string>

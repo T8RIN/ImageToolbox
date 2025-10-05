@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -393,7 +394,6 @@
     <string name="crashlytics_sub">Horri esker, aplikazioak hutsegiteen txostenak eskuz bil ditzake</string>
     <string name="analytics">Analitika</string>
     <string name="analytics_sub">Baimendu aplikazioen erabilera-estatistika anonimoak biltzea</string>
-    <string name="jxl_sub">JXL formatua ez da Android-ek ofizialki onartzen, beraz, baliteke zerbait ez funtzionatzea. Gordetzeak irteerako direktorio pertsonalizatua aukeratzen baduzu bakarrik funtzionatuko du. Bertsio esperimentala da hau, hemen akatsak ez dira konponduko Google-k JXL euskarria gehitzen ez badu. Bertsio honek JXL irudiak ikus ditzake</string>
     <string name="image_exif_warning">Une honetan, %1$s formatuak EXIF metadatuak irakurtzeko aukera ematen du Android-en. Irteerako irudiak ez du metadaturik izango gordetzean.</string>
     <string name="effort_sub">%1$d balioak konpresio azkarra esan nahi du, eta horren ondorioz fitxategiaren tamaina handi samarra da. %2$d-k konpresio motelagoa dela esan nahi du, eta horren ondorioz fitxategi txikiagoa izango da.</string>
     <string name="wait">Itxaron</string>

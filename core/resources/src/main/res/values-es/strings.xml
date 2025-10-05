@@ -334,7 +334,6 @@
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="erase_background">Borrar fondo</string>
     <string name="restore_image">Restaurar imagen</string>
-    <string name="jxl_sub">El formato JXL no es oficialmente admitido por android así que puede que algo no funcione, además el guardado funcionará solamente si eliges un directorio de salida personalizado, esta es una versión experimental, los errores aquí no serán arreglados a menos que google añada soporte para JXL, esta versión también puede ver tales imágenes</string>
     <string name="draw_arrows_sub">Si está habilitado, la dirección de dibujo será representada como una flecha apuntando</string>
     <string name="delete">Borrar</string>
     <string name="aspect_ratio">Relación de aspecto</string>

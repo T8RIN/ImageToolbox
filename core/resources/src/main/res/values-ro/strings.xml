@@ -14,7 +14,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -360,7 +361,6 @@
     <string name="presets_sub_bytes">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
     <string name="analytics_sub">Permite colectarea de statistici anonime privind utilizarea aplicației</string>
-    <string name="jxl_sub">Formatul JXL nu este acceptat oficial de Android, așa că este posibil ca ceva să nu funcționeze. Salvarea va funcționa numai dacă alegeți directorul de ieșire personalizat. Aceasta este o versiune experimentală, erorile de aici nu vor fi rezolvate până când Google nu adaugă suport JXL. Această versiune poate vizualiza imagini JXL</string>
     <string name="image_exif_warning">În prezent, formatul %1$s permite doar citirea metadatelor EXIF pe Android. Imaginea de ieșire nu va avea metadate deloc, atunci când este salvată.</string>
     <string name="effort">Efort</string>
     <string name="updates">Actualizări</string>

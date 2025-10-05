@@ -379,7 +379,6 @@
     <string name="crashlytics_sub">This allows the app to collect crash reports automatically</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
-    <string name="jxl_sub">JXL format not officially supported by android so something might not work. Saving will work only if you choose custom output directory. This is an experimental version, bugs here will not be fixed unless google adds JXL support. This version can view JXL images</string>
     <string name="image_exif_warning">Currently, %1$s format only allows reading EXIF metadata on android. Output image won\'t have metadata at all, when saved.</string>
     <string name="effort">Effort</string>
     <string name="effort_sub">A value of %1$d means a fast compression, resulting in a relatively large file size. %2$d means a slower compression, resulting in a smaller file.</string>
