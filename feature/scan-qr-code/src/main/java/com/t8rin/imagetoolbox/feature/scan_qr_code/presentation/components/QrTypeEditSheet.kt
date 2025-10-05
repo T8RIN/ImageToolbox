@@ -232,6 +232,7 @@ private fun QrEditField(
     }
 }
 
+//TODO: check if everythin OK within this qr type
 @Composable
 private fun QrContactEditField(
     value: QrType.Contact,
