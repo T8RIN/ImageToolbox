@@ -246,7 +246,7 @@ private suspend fun Uri.parseContact(): Contact = withContext(Dispatchers.IO) {
                     last = c.getStringOrEmpty(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME),
                     middle = c.getStringOrEmpty(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME),
                     prefix = c.getStringOrEmpty(ContactsContract.CommonDataKinds.StructuredName.PREFIX),
-                    pronunciation = c.getStringOrEmpty(ContactsContract.CommonDataKinds.StructuredName.PHONETIC_GIVEN_NAME),
+                    pronunciation = c.getStringOrEmpty(ContactsContract.Contacts.PHONETIC_NAME),
                     suffix = c.getStringOrEmpty(ContactsContract.CommonDataKinds.StructuredName.SUFFIX)
                 )
             }

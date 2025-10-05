@@ -36,21 +36,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.StickyNote2
 import androidx.compose.material.icons.automirrored.rounded.ShortText
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Business
 import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.RecordVoiceOver
+import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
@@ -82,7 +84,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.QrType.Wifi.EncryptionType
-import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Latitude
@@ -134,9 +135,7 @@ internal fun QrTypeEditSheet(
         confirmButton = {
             EnhancedButton(
                 onClick = {
-                    onSave(
-                        edited.copy(raw = edited.asRaw())
-                    )
+                    onSave(edited.updateRaw())
                     onDismiss()
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -232,7 +231,6 @@ private fun QrEditField(
     }
 }
 
-//TODO: check if everythin OK within this qr type
 @Composable
 private fun QrContactEditField(
     value: QrType.Contact,
@@ -256,42 +254,39 @@ private fun QrContactEditField(
         )
 
         // --- PERSON NAME FIELDS ---
-        RoundedTextField(
-            value = value.name.formattedName,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(formattedName = it))) },
-            label = { Text(stringResource(R.string.formatted_name)) },
-        )
-
+        val onPersonChange: (QrType.Contact) -> Unit = {
+            onValueChange(it.updateFormattedName())
+        }
         RoundedTextField(
             value = value.name.first,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(first = it))) },
+            onValueChange = { onPersonChange(value.copy(name = value.name.copy(first = it))) },
             label = { Text(stringResource(R.string.first_name)) },
         )
 
         RoundedTextField(
             value = value.name.middle,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(middle = it))) },
+            onValueChange = { onPersonChange(value.copy(name = value.name.copy(middle = it))) },
             label = { Text(stringResource(R.string.middle_name)) },
         )
 
         RoundedTextField(
             value = value.name.last,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(last = it))) },
+            onValueChange = { onPersonChange(value.copy(name = value.name.copy(last = it))) },
             label = { Text(stringResource(R.string.last_name)) },
         )
 
         RoundedTextField(
             value = value.name.prefix,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(prefix = it))) },
+            onValueChange = { onPersonChange(value.copy(name = value.name.copy(prefix = it))) },
             label = { Text(stringResource(R.string.prefix)) }
         )
 
-
         RoundedTextField(
             value = value.name.suffix,
-            onValueChange = { onValueChange(value.copy(name = value.name.copy(suffix = it))) },
+            onValueChange = { onPersonChange(value.copy(name = value.name.copy(suffix = it))) },
             label = { Text(stringResource(R.string.suffix)) },
         )
+
 
         RoundedTextField(
             value = value.name.pronunciation,
@@ -345,7 +340,7 @@ private fun QrContactEditField(
                         onValueChange(value.copy(phones = updated))
                     }
                 ) {
-                    Icon(Icons.Outlined.Delete, null)
+                    Icon(Icons.Outlined.RemoveCircleOutline, null)
                 }
             }
         }
@@ -381,7 +376,7 @@ private fun QrContactEditField(
                         onValueChange(value.copy(emails = updated))
                     },
                     label = { Text("${stringResource(R.string.email)} ${index + 1}") },
-                    startIcon = { Icon(Icons.Outlined.Email, null) },
+                    startIcon = { Icon(Icons.Outlined.AlternateEmail, null) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     modifier = Modifier.weight(1f)
                 )
@@ -392,7 +387,7 @@ private fun QrContactEditField(
                         onValueChange(value.copy(emails = updated))
                     }
                 ) {
-                    Icon(Icons.Outlined.Delete, null)
+                    Icon(Icons.Outlined.RemoveCircleOutline, null)
                 }
             }
         }
@@ -412,7 +407,7 @@ private fun QrContactEditField(
         // --- ADDRESSES ---
         TitleItem(
             text = stringResource(R.string.addresses),
-            icon = Icons.Outlined.Place,
+            icon = Icons.Outlined.Home,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
@@ -428,7 +423,8 @@ private fun QrContactEditField(
                     },
                     label = { Text("${stringResource(R.string.address)} ${index + 1}") },
                     startIcon = { Icon(Icons.Outlined.Place, null) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    singleLine = false,
                 )
                 EnhancedIconButton(
                     onClick = {
@@ -437,7 +433,10 @@ private fun QrContactEditField(
                         onValueChange(value.copy(addresses = updated))
                     }
                 ) {
-                    Icon(Icons.Outlined.Delete, null)
+                    Icon(
+                        imageVector = Icons.Outlined.RemoveCircleOutline,
+                        contentDescription = null
+                    )
                 }
             }
         }
@@ -489,7 +488,7 @@ private fun QrContactEditField(
                         onValueChange(value.copy(urls = updated))
                     }
                 ) {
-                    Icon(Icons.Outlined.Delete, null)
+                    Icon(Icons.Outlined.RemoveCircleOutline, null)
                 }
             }
         }

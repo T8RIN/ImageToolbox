@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.RecordVoiceOver
 import androidx.compose.material.icons.outlined.Start
 import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material.icons.rounded.AlternateEmail
@@ -151,13 +152,23 @@ private fun calendarQrInfo(
 private fun contactQrInfo(
     qrType: QrType.Contact
 ): QrInfo = qrInfoBuilder(qrType) {
+    val formattedName = qrType.name.formattedName.replace("\\", "")
     entry(
         InfoEntry(
             icon = Icons.Outlined.Person,
-            text = qrType.name.formattedName.ifBlank { getString(R.string.not_specified) },
-            canCopy = qrType.name.formattedName.isNotBlank()
+            text = formattedName.ifBlank { getString(R.string.not_specified) },
+            canCopy = formattedName.isNotBlank()
         )
     )
+    if (qrType.name.pronunciation.isNotBlank()) {
+        entry(
+            InfoEntry(
+                icon = Icons.Outlined.RecordVoiceOver,
+                text = qrType.name.pronunciation,
+                canCopy = true
+            )
+        )
+    }
     entry(
         InfoEntry(
             icon = Icons.Outlined.Business,

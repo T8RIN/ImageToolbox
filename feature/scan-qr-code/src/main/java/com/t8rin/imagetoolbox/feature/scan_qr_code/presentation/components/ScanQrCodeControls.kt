@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.InvertColors
 import androidx.compose.material.icons.rounded.QrCode2
@@ -67,7 +66,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -151,26 +149,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             label = {
                 Text(stringResource(id = R.string.code_content))
             },
-            keyboardOptions = KeyboardOptions(),
-            endIcon = {
-                AnimatedVisibility(params.content.raw.isNotBlank()) {
-                    EnhancedIconButton(
-                        onClick = {
-                            component.updateParams(
-                                params.copy(
-                                    content = QrType.Empty
-                                )
-                            )
-                        },
-                        modifier = Modifier.padding(end = 4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Cancel,
-                            contentDescription = stringResource(R.string.cancel)
-                        )
-                    }
-                }
-            }
+            keyboardOptions = KeyboardOptions()
         )
 
         var showEditField by rememberSaveable {

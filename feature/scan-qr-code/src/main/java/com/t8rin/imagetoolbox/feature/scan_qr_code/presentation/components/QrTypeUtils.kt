@@ -34,6 +34,7 @@ import androidx.compose.material.icons.rounded.Wifi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
+import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Contact
@@ -43,6 +44,7 @@ import ezvcard.parameter.EmailType
 import ezvcard.parameter.TelephoneType
 import ezvcard.property.FormattedName
 import ezvcard.property.Organization
+import ezvcard.property.RawProperty
 import ezvcard.property.StructuredName
 import ezvcard.property.Telephone
 import ezvcard.property.Title
@@ -104,17 +106,43 @@ internal fun QrType.toIntent(): Intent? = ifNotEmpty {
         is QrType.Contact -> {
             Intent(Intent.ACTION_INSERT).apply {
                 type = ContactsContract.Contacts.CONTENT_TYPE
-                if (name.formattedName.isNotBlank()) {
-                    putExtra(ContactsContract.Intents.Insert.NAME, name.formattedName)
-                }
                 if (organization.isNotBlank()) {
                     putExtra(ContactsContract.Intents.Insert.COMPANY, organization)
                 }
                 if (title.isNotBlank()) {
                     putExtra(ContactsContract.Intents.Insert.JOB_TITLE, title)
                 }
+                if (name.pronunciation.isNotBlank()) {
+                    putExtra(ContactsContract.Intents.Insert.PHONETIC_NAME, name.pronunciation)
+                }
 
                 val data = arrayListOf<ContentValues>()
+
+                val nameCv = ContentValues().apply {
+                    put(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                    )
+                    if (name.first.isNotBlank())
+                        put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name.first)
+                    if (name.middle.isNotBlank())
+                        put(
+                            ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
+                            name.middle
+                        )
+                    if (name.last.isNotBlank())
+                        put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, name.last)
+                    if (name.prefix.isNotBlank())
+                        put(ContactsContract.CommonDataKinds.StructuredName.PREFIX, name.prefix)
+                    if (name.suffix.isNotBlank())
+                        put(ContactsContract.CommonDataKinds.StructuredName.SUFFIX, name.suffix)
+                    if (name.formattedName.isNotBlank())
+                        put(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                            name.formattedName
+                        )
+                }
+                data.add(nameCv)
 
                 phones.forEach { phone ->
                     val cv = ContentValues()
@@ -191,20 +219,6 @@ internal fun QrType.toIntent(): Intent? = ifNotEmpty {
                     data.add(cv)
                 }
 
-                if (name.pronunciation.isNotBlank()) {
-                    val cv = ContentValues().apply {
-                        put(
-                            ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                        )
-                        put(
-                            ContactsContract.CommonDataKinds.StructuredName.PHONETIC_NAME,
-                            name.pronunciation
-                        )
-                    }
-                    data.add(cv)
-                }
-
                 putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data)
             }
         }
@@ -222,111 +236,127 @@ internal fun QrType.toIntent(): Intent? = ifNotEmpty {
     }?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 }
 
-internal fun QrType.Complex.asRaw(): String = raw.ifEmpty {
-    runCatching {
-        when (this) {
-            is QrType.Wifi -> buildString {
-                append("WIFI:")
-                append("S:").append(ssid).append(";")
-                if (encryptionType != QrType.Wifi.EncryptionType.OPEN) {
-                    append("T:").append(encryptionType.name).append(";")
-                    append("P:").append(password).append(";")
-                }
-                append(";")
+internal fun QrType.Complex.createRaw(): String = runCatching {
+    when (this) {
+        is QrType.Wifi -> buildString {
+            append("WIFI:")
+            append("S:").append(ssid).append(";")
+            if (encryptionType != QrType.Wifi.EncryptionType.OPEN) {
+                append("T:").append(encryptionType.name).append(";")
+                append("P:").append(password).append(";")
             }
+            append(";")
+        }
 
-            is QrType.Sms -> buildString {
-                append("SMSTO:").append(phoneNumber).append(":").append(message)
-            }
+        is QrType.Sms -> buildString {
+            append("SMSTO:").append(phoneNumber).append(":").append(message)
+        }
 
-            is QrType.Geo -> buildString {
-                if (latitude != null && longitude != null) {
-                    append("geo:").append(latitude).append(",").append(longitude)
-                }
-            }
-
-            is QrType.Email -> buildString {
-                append("MATMSG:TO:").append(address).append(";")
-                append("SUB:").append(subject).append(";")
-                append("BODY:").append(body).append(";;")
-            }
-
-            is QrType.Phone -> "tel:$number"
-
-            is QrType.Contact -> {
-                val vcard = VCard()
-
-                if (!name.isEmpty()) {
-                    val structuredName = StructuredName()
-                    structuredName.given = name.first
-                    structuredName.family = name.last
-                    structuredName.additionalNames.add(name.middle)
-                    structuredName.prefixes.add(name.prefix)
-                    structuredName.suffixes.add(name.suffix)
-                    vcard.structuredName = structuredName
-                    if (name.formattedName.isNotBlank()) {
-                        vcard.formattedName = FormattedName(name.formattedName)
-                    }
-                }
-
-                if (organization.isNotBlank()) {
-                    vcard.organization = Organization().apply { values.add(organization) }
-                }
-                if (title.isNotBlank()) {
-                    vcard.titles.add(Title(title))
-                }
-
-                phones.forEach {
-                    vcard.telephoneNumbers.add(
-                        Telephone(it.number).apply {
-                            types.add(mapPhoneType(it.type))
-                        }
-                    )
-                }
-
-                emails.forEach {
-                    vcard.emails.add(
-                        ezvcard.property.Email(it.address).apply {
-                            types.add(mapEmailType(it.type))
-                        }
-                    )
-                }
-
-                addresses.forEach {
-                    vcard.addresses.add(
-                        ezvcard.property.Address().apply {
-                            streetAddress = it.addressLines.joinToString(", ")
-                            types.add(mapAddressType(it.type))
-                        }
-                    )
-                }
-
-                urls.forEach {
-                    vcard.urls.add(ezvcard.property.Url(it))
-                }
-
-                Ezvcard.write(vcard).go()
-            }
-
-            is QrType.Calendar -> buildString {
-                val dateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'", Locale.US).apply {
-                    timeZone = TimeZone.getTimeZone("UTC")
-                }
-
-                append("BEGIN:VEVENT\n")
-                if (summary.isNotBlank()) append("SUMMARY:").append(summary).append("\n")
-                if (description.isNotBlank()) append("DESCRIPTION:").append(description)
-                    .append("\n")
-                if (location.isNotBlank()) append("LOCATION:").append(location).append("\n")
-                if (organizer.isNotBlank()) append("ORGANIZER:").append(organizer).append("\n")
-                if (status.isNotBlank()) append("STATUS:").append(status).append("\n")
-
-                append("DTSTART:").append(dateFormat.format(start ?: Date())).append("\n")
-                append("DTEND:").append(dateFormat.format(end ?: Date())).append("\n")
-                append("END:VEVENT")
+        is QrType.Geo -> buildString {
+            if (latitude != null && longitude != null) {
+                append("geo:").append(latitude).append(",").append(longitude)
             }
         }
-    }.getOrDefault("")
+
+        is QrType.Email -> buildString {
+            append("MATMSG:TO:").append(address).append(";")
+            append("SUB:").append(subject).append(";")
+            append("BODY:").append(body).append(";;")
+        }
+
+        is QrType.Phone -> "tel:$number"
+
+        is QrType.Contact -> {
+            val vcard = VCard()
+
+            val structuredName = StructuredName().apply {
+                given = name.first
+                family = name.last
+                additionalNames.add(name.middle)
+                prefixes.add(name.prefix)
+                suffixes.add(name.suffix)
+            }
+
+            if (name.pronunciation.isNotBlank()) {
+                vcard.addProperty(RawProperty("X-PHONETIC-FIRST-NAME", name.pronunciation))
+                vcard.addProperty(RawProperty("X-PHONETIC-LAST-NAME", name.pronunciation))
+                vcard.addProperty(RawProperty("X-PHONETIC-MIDDLE-NAME", name.pronunciation))
+            }
+
+            vcard.formattedName = FormattedName(name.formattedName)
+            vcard.structuredName = structuredName
+
+            vcard.organization = Organization().apply { values.add(organization) }
+            vcard.titles.add(Title(title))
+
+            phones.forEach {
+                vcard.telephoneNumbers.add(
+                    Telephone(it.number).apply {
+                        types.add(mapPhoneType(it.type))
+                    }
+                )
+            }
+
+            emails.forEach {
+                vcard.emails.add(
+                    ezvcard.property.Email(it.address).apply {
+                        types.add(mapEmailType(it.type))
+                    }
+                )
+            }
+
+            addresses.forEach {
+                vcard.addresses.add(
+                    ezvcard.property.Address().apply {
+                        streetAddress = it.addressLines.joinToString(", ")
+                        types.add(mapAddressType(it.type))
+                    }
+                )
+            }
+
+            urls.forEach {
+                vcard.urls.add(ezvcard.property.Url(it))
+            }
+
+            Ezvcard.write(vcard).go()
+        }
+
+        is QrType.Calendar -> buildString {
+            val dateFormat = SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'", Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
+
+            append("BEGIN:VEVENT\n")
+            if (summary.isNotBlank()) append("SUMMARY:").append(summary).append("\n")
+            if (description.isNotBlank()) append("DESCRIPTION:").append(description)
+                .append("\n")
+            if (location.isNotBlank()) append("LOCATION:").append(location).append("\n")
+            if (organizer.isNotBlank()) append("ORGANIZER:").append(organizer).append("\n")
+            if (status.isNotBlank()) append("STATUS:").append(status).append("\n")
+
+            append("DTSTART:").append(dateFormat.format(start ?: Date())).append("\n")
+            append("DTEND:").append(dateFormat.format(end ?: Date())).append("\n")
+            append("END:VEVENT")
+        }
+    }
+}.getOrDefault(raw)
+
+internal fun QrType.Complex.updateRaw(): QrType.Complex = copy(createRaw())
+
+internal fun QrType.Contact.updateFormattedName(): QrType.Contact {
+    val formatted = buildString {
+        if (name.prefix.isNotBlank()) append(name.prefix.trim()).append(' ')
+        if (name.first.isNotBlank()) append(name.first.trim()).append(' ')
+        if (name.middle.isNotBlank()) append(name.middle.trim()).append(' ')
+        if (name.last.isNotBlank()) append(name.last.trim()).append(' ')
+        if (name.suffix.isNotBlank()) append(", ${name.suffix.trim()}")
+    }.trim()
+
+    return copy(
+        name = name.copy(
+            formattedName = formatted
+        )
+    )
 }
 
 internal fun Contact.toQrType(raw: String = ""): QrType.Contact {
