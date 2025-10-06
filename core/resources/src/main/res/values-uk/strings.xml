@@ -1788,4 +1788,6 @@
     <string name="edit_barcode">Редагувати штрих-код</string>
     <string name="wifi_configuration">Конфігурація Wi-Fi</string>
     <string name="security">Безпека</string>
+    <string name="pick_contact">Вибрати контакт</string>
+    <string name="grant_contact_permission">Надайте контактам у налаштуваннях дозвіл на автозаповнення за допомогою вибраного контакту</string>
 </resources>
