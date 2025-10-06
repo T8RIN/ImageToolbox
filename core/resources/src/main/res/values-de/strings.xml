@@ -1790,4 +1790,15 @@
     <string name="security">Sicherheit</string>
     <string name="pick_contact">Kontakt auswählen</string>
     <string name="grant_contact_permission">Kontakte Berechtigung in den Einstellungn erteilen, um mit ausgewählten Kontakt automatisch Auszufüllen.</string>
+    <string name="middle_name">zweiter Vorname</string>
+    <string name="last_name">Nachname</string>
+    <string name="pronunciation">Betonung</string>
+    <string name="add_phone">Telefon hinzufügen</string>
+    <string name="add_email">Email hinzufügen</string>
+    <string name="add_address">Adresse hinzufügen</string>
+    <string name="website">Webseite</string>
+    <string name="add_website">Webseite hinzufügen</string>
+    <string name="formatted_name">Formatierter Name</string>
+    <string name="contact_info">Kontaktinformationen</string>
+    <string name="first_name">Vorname</string>
 </resources>
