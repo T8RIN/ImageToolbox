@@ -1790,4 +1790,15 @@
     <string name="security">Безпека</string>
     <string name="pick_contact">Вибрати контакт</string>
     <string name="grant_contact_permission">Надайте контактам у налаштуваннях дозвіл на автозаповнення за допомогою вибраного контакту</string>
+    <string name="contact_info">Контактна інформація</string>
+    <string name="first_name">Особисті Ім\'я</string>
+    <string name="middle_name">По батькові</string>
+    <string name="last_name">Прізвище</string>
+    <string name="pronunciation">Вимова</string>
+    <string name="add_phone">Додати телефон</string>
+    <string name="add_email">Додати електронну пошту</string>
+    <string name="add_address">Додати адресу</string>
+    <string name="website">Вебсайт</string>
+    <string name="add_website">Додати веб-сайт</string>
+    <string name="formatted_name">Форматоване ім\'я</string>
 </resources>
