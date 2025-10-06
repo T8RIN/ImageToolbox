@@ -47,10 +47,10 @@ internal fun QrGeoEditField(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        var latitude by remember(value.latitude) {
+        var latitude by remember {
             mutableStateOf(value.latitude?.toString().orEmpty().trimTrailingZero())
         }
-        var longitude by remember(value.longitude) {
+        var longitude by remember {
             mutableStateOf(value.longitude?.toString().orEmpty().trimTrailingZero())
         }
 
@@ -61,7 +61,6 @@ internal fun QrGeoEditField(
 
                 latitude.toDoubleOrNull()?.coerceIn(LatitudeRange)?.let { new ->
                     onValueChange(value.copy(latitude = new))
-                    latitude = new.toString().trimTrailingZero()
                 }
             },
             label = { Text(stringResource(R.string.latitude)) },
@@ -82,7 +81,6 @@ internal fun QrGeoEditField(
 
                 longitude.toDoubleOrNull()?.coerceIn(LongitudeRange)?.let { new ->
                     onValueChange(value.copy(longitude = new))
-                    longitude = new.toString().trimTrailingZero()
                 }
             },
             label = { Text(stringResource(R.string.longitude)) },
