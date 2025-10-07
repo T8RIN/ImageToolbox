@@ -81,215 +81,62 @@ internal fun QrContactEditField(
             }
         )
 
-        // --- PERSON NAME FIELDS ---
-
-        TitleItem(
-            text = stringResource(R.string.contact_info),
-            icon = Icons.Outlined.Person,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-
-        NameEditField(
+        ContactInfoEnterBlock(
             value = value,
-            onValueChange = { onValueChange(it.updateFormattedName()) }
+            onValueChange = onValueChange
         )
 
-        // --- ORGANIZATION & TITLE ---
-
-        RoundedTextField(
-            value = value.organization,
-            onValueChange = { onValueChange(value.copy(organization = it)) },
-            label = { Text(stringResource(R.string.organization)) },
-            startIcon = { Icon(Icons.Outlined.Business, null) }
+        PhonesEnterBlock(
+            value = value,
+            onValueChange = onValueChange
         )
 
-        RoundedTextField(
-            value = value.title,
-            onValueChange = { onValueChange(value.copy(title = it)) },
-            label = { Text(stringResource(R.string.title)) },
-            startIcon = { Icon(Icons.Outlined.Badge, null) }
+        EmailsEnterBlock(
+            value = value,
+            onValueChange = onValueChange
         )
 
-        // --- PHONES ---
-
-        TitleItem(
-            text = stringResource(R.string.phones),
-            icon = Icons.Outlined.Call,
-            modifier = Modifier.padding(vertical = 8.dp)
+        AddressesEnterBlock(
+            value = value,
+            onValueChange = onValueChange
         )
 
-        value.phones.forEachIndexed { index, phone ->
-            RemovableTextField(
-                value = phone.number,
-                onValueChange = {
-                    val updated = value.phones.toMutableList()
-                    updated[index] = phone.copy(number = it)
-                    onValueChange(value.copy(phones = updated))
-                },
-                startIcon = Icons.Rounded.Numbers,
-                label = "${stringResource(R.string.phone)} ${index + 1}",
-                onRemove = {
-                    val updated = value.phones.toMutableList()
-                    updated.removeAt(index)
-                    onValueChange(value.copy(phones = updated))
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-            )
-        }
-
-        AddButton(
-            onClick = {
-                onValueChange(value.copy(phones = value.phones + QrType.Phone()))
-            },
-            title = R.string.add_phone
-        )
-
-        // --- EMAILS ---
-
-        TitleItem(
-            text = stringResource(R.string.emails),
-            icon = Icons.Outlined.Email,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-
-        value.emails.forEachIndexed { index, email ->
-            RemovableTextField(
-                value = email.address,
-                onValueChange = {
-                    val updated = value.emails.toMutableList()
-                    updated[index] = email.copy(address = it)
-                    onValueChange(value.copy(emails = updated))
-                },
-                startIcon = Icons.Outlined.AlternateEmail,
-                label = "${stringResource(R.string.email)} ${index + 1}",
-                onRemove = {
-                    val updated = value.emails.toMutableList()
-                    updated.removeAt(index)
-                    onValueChange(value.copy(emails = updated))
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            )
-        }
-
-        AddButton(
-            onClick = {
-                onValueChange(value.copy(emails = value.emails + QrType.Email()))
-            },
-            title = R.string.add_email
-        )
-
-        // --- ADDRESSES ---
-
-        TitleItem(
-            text = stringResource(R.string.addresses),
-            icon = Icons.Outlined.Home,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-
-        value.addresses.forEachIndexed { index, address ->
-            RemovableTextField(
-                value = address.addressLines.joinToString(", "),
-                onValueChange = {
-                    val updated = value.addresses.toMutableList()
-                    updated[index] =
-                        address.copy(addressLines = it.split(",").map(String::trim))
-                    onValueChange(value.copy(addresses = updated))
-                },
-                startIcon = Icons.Outlined.Place,
-                label = "${stringResource(R.string.address)} ${index + 1}",
-                onRemove = {
-                    val updated = value.addresses.toMutableList()
-                    updated.removeAt(index)
-                    onValueChange(value.copy(addresses = updated))
-                },
-                keyboardOptions = KeyboardOptions()
-            )
-        }
-
-        AddButton(
-            onClick = {
-                onValueChange(
-                    value.copy(
-                        addresses = value.addresses + QrType.Contact.Address()
-                    )
-                )
-            },
-            title = R.string.add_address
-        )
-
-        // --- URLS ---
-
-        TitleItem(
-            text = stringResource(R.string.urls),
-            icon = Icons.Outlined.Public,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-
-        value.urls.forEachIndexed { index, url ->
-            RemovableTextField(
-                value = url,
-                onValueChange = {
-                    val updated = value.urls.toMutableList()
-                    updated[index] = it
-                    onValueChange(value.copy(urls = updated))
-                },
-                startIcon = Icons.Outlined.Link,
-                label = "${stringResource(R.string.website)} ${index + 1}",
-                onRemove = {
-                    val updated = value.urls.toMutableList()
-                    updated.removeAt(index)
-                    onValueChange(value.copy(urls = updated))
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
-            )
-        }
-
-        AddButton(
-            onClick = {
-                onValueChange(value.copy(urls = value.urls + ""))
-            },
-            title = R.string.add_website
+        UrlsEnterBlock(
+            value = value,
+            onValueChange = onValueChange
         )
     }
 }
 
 @Composable
-private fun RemovableTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    onRemove: () -> Unit,
-    startIcon: ImageVector,
-    label: String,
-    keyboardOptions: KeyboardOptions
+private fun ColumnScope.ContactInfoEnterBlock(
+    value: QrType.Contact,
+    onValueChange: (QrType.Contact) -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RoundedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = {
-                Text(text = label)
-            },
-            startIcon = {
-                Icon(
-                    imageVector = startIcon,
-                    contentDescription = null
-                )
-            },
-            keyboardOptions = keyboardOptions,
-            modifier = Modifier.weight(1f)
-        )
-        EnhancedIconButton(
-            onClick = onRemove
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.RemoveCircleOutline,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.error
-            )
-        }
-    }
+    TitleItem(
+        text = stringResource(R.string.contact_info),
+        icon = Icons.Outlined.Person,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+
+    NameEditField(
+        value = value,
+        onValueChange = { onValueChange(it.updateFormattedName()) }
+    )
+
+    RoundedTextField(
+        value = value.organization,
+        onValueChange = { onValueChange(value.copy(organization = it)) },
+        label = { Text(stringResource(R.string.organization)) },
+        startIcon = { Icon(Icons.Outlined.Business, null) }
+    )
+
+    RoundedTextField(
+        value = value.title,
+        onValueChange = { onValueChange(value.copy(title = it)) },
+        label = { Text(stringResource(R.string.title)) },
+        startIcon = { Icon(Icons.Outlined.Badge, null) }
+    )
 }
 
 @Composable
@@ -338,6 +185,202 @@ private fun ColumnScope.NameEditField(
         label = { Text(stringResource(R.string.pronunciation)) },
         startIcon = { Icon(Icons.Outlined.RecordVoiceOver, null) }
     )
+}
+
+@Composable
+private fun ColumnScope.UrlsEnterBlock(
+    value: QrType.Contact,
+    onValueChange: (QrType.Contact) -> Unit
+) {
+    TitleItem(
+        text = stringResource(R.string.urls),
+        icon = Icons.Outlined.Public,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+
+    value.urls.forEachIndexed { index, url ->
+        RemovableTextField(
+            value = url,
+            onValueChange = {
+                val updated = value.urls.toMutableList()
+                updated[index] = it
+                onValueChange(value.copy(urls = updated))
+            },
+            startIcon = Icons.Outlined.Link,
+            label = "${stringResource(R.string.website)} ${index + 1}",
+            onRemove = {
+                val updated = value.urls.toMutableList()
+                updated.removeAt(index)
+                onValueChange(value.copy(urls = updated))
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
+        )
+    }
+
+    AddButton(
+        onClick = {
+            onValueChange(value.copy(urls = value.urls + ""))
+        },
+        title = R.string.add_website
+    )
+}
+
+@Composable
+private fun ColumnScope.AddressesEnterBlock(
+    value: QrType.Contact,
+    onValueChange: (QrType.Contact) -> Unit
+) {
+    TitleItem(
+        text = stringResource(R.string.addresses),
+        icon = Icons.Outlined.Home,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+
+    value.addresses.forEachIndexed { index, address ->
+        RemovableTextField(
+            value = address.addressLines.joinToString(", "),
+            onValueChange = {
+                val updated = value.addresses.toMutableList()
+                updated[index] =
+                    address.copy(addressLines = it.split(",").map(String::trim))
+                onValueChange(value.copy(addresses = updated))
+            },
+            startIcon = Icons.Outlined.Place,
+            label = "${stringResource(R.string.address)} ${index + 1}",
+            onRemove = {
+                val updated = value.addresses.toMutableList()
+                updated.removeAt(index)
+                onValueChange(value.copy(addresses = updated))
+            },
+            keyboardOptions = KeyboardOptions()
+        )
+    }
+
+    AddButton(
+        onClick = {
+            onValueChange(
+                value.copy(
+                    addresses = value.addresses + QrType.Contact.Address()
+                )
+            )
+        },
+        title = R.string.add_address
+    )
+}
+
+@Composable
+private fun ColumnScope.EmailsEnterBlock(
+    value: QrType.Contact,
+    onValueChange: (QrType.Contact) -> Unit
+) {
+    TitleItem(
+        text = stringResource(R.string.emails),
+        icon = Icons.Outlined.Email,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+
+    value.emails.forEachIndexed { index, email ->
+        RemovableTextField(
+            value = email.address,
+            onValueChange = {
+                val updated = value.emails.toMutableList()
+                updated[index] = email.copy(address = it)
+                onValueChange(value.copy(emails = updated))
+            },
+            startIcon = Icons.Outlined.AlternateEmail,
+            label = "${stringResource(R.string.email)} ${index + 1}",
+            onRemove = {
+                val updated = value.emails.toMutableList()
+                updated.removeAt(index)
+                onValueChange(value.copy(emails = updated))
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        )
+    }
+
+    AddButton(
+        onClick = {
+            onValueChange(value.copy(emails = value.emails + QrType.Email()))
+        },
+        title = R.string.add_email
+    )
+}
+
+@Composable
+private fun ColumnScope.PhonesEnterBlock(
+    value: QrType.Contact,
+    onValueChange: (QrType.Contact) -> Unit
+) {
+    TitleItem(
+        text = stringResource(R.string.phones),
+        icon = Icons.Outlined.Call,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+
+    value.phones.forEachIndexed { index, phone ->
+        RemovableTextField(
+            value = phone.number,
+            onValueChange = {
+                val updated = value.phones.toMutableList()
+                updated[index] = phone.copy(number = it)
+                onValueChange(value.copy(phones = updated))
+            },
+            startIcon = Icons.Rounded.Numbers,
+            label = "${stringResource(R.string.phone)} ${index + 1}",
+            onRemove = {
+                val updated = value.phones.toMutableList()
+                updated.removeAt(index)
+                onValueChange(value.copy(phones = updated))
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        )
+    }
+
+    AddButton(
+        onClick = {
+            onValueChange(value.copy(phones = value.phones + QrType.Phone()))
+        },
+        title = R.string.add_phone
+    )
+}
+
+@Composable
+private fun RemovableTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onRemove: () -> Unit,
+    startIcon: ImageVector,
+    label: String,
+    keyboardOptions: KeyboardOptions
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RoundedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = {
+                Text(text = label)
+            },
+            startIcon = {
+                Icon(
+                    imageVector = startIcon,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = keyboardOptions,
+            modifier = Modifier.weight(1f)
+        )
+        EnhancedIconButton(
+            onClick = onRemove
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.RemoveCircleOutline,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error
+            )
+        }
+    }
 }
 
 @Composable
