@@ -132,7 +132,8 @@ internal fun QrContactEditField(
                     val updated = value.phones.toMutableList()
                     updated.removeAt(index)
                     onValueChange(value.copy(phones = updated))
-                }
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
             )
         }
 
@@ -165,7 +166,8 @@ internal fun QrContactEditField(
                     val updated = value.emails.toMutableList()
                     updated.removeAt(index)
                     onValueChange(value.copy(emails = updated))
-                }
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
         }
 
@@ -199,7 +201,8 @@ internal fun QrContactEditField(
                     val updated = value.addresses.toMutableList()
                     updated.removeAt(index)
                     onValueChange(value.copy(addresses = updated))
-                }
+                },
+                keyboardOptions = KeyboardOptions()
             )
         }
 
@@ -236,7 +239,8 @@ internal fun QrContactEditField(
                     val updated = value.urls.toMutableList()
                     updated.removeAt(index)
                     onValueChange(value.copy(urls = updated))
-                }
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
             )
         }
 
@@ -255,7 +259,8 @@ private fun RemovableTextField(
     onValueChange: (String) -> Unit,
     onRemove: () -> Unit,
     startIcon: ImageVector,
-    label: String
+    label: String,
+    keyboardOptions: KeyboardOptions
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -272,7 +277,7 @@ private fun RemovableTextField(
                     contentDescription = null
                 )
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            keyboardOptions = keyboardOptions,
             modifier = Modifier.weight(1f)
         )
         EnhancedIconButton(
