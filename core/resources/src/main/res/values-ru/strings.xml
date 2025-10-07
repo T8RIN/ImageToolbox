@@ -1790,4 +1790,15 @@
     <string name="disable_rotation">Отключить вращение</string>
     <string name="add_preset_to_filename">Добавить пресет в имя файла</string>
     <string name="add_preset_to_filename_sub">Добавляет к имени файла изображения суффикс с выбранной пресетом</string>
+    <string name="contact_info">Информация о контакте</string>
+    <string name="first_name">Имя</string>
+    <string name="middle_name">Второе имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="pronunciation">Произношение</string>
+    <string name="add_phone">Добавить номер телефона</string>
+    <string name="add_email">Добавить электронную почту</string>
+    <string name="add_address">Добавить адрес</string>
+    <string name="website">Вебсайт</string>
+    <string name="add_website">Добавить вебсайт</string>
+    <string name="formatted_name">Форматированное имя</string>
 </resources>
