@@ -1792,7 +1792,7 @@
     <string name="add_preset_to_filename_sub">Добавляет к имени файла изображения суффикс с выбранной пресетом</string>
     <string name="contact_info">Информация о контакте</string>
     <string name="first_name">Имя</string>
-    <string name="middle_name">Второе имя</string>
+    <string name="middle_name">Отчество</string>
     <string name="last_name">Фамилия</string>
     <string name="pronunciation">Произношение</string>
     <string name="add_phone">Добавить номер телефона</string>
