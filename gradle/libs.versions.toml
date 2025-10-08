@@ -23,8 +23,8 @@ jxlCoderCoil = "2.5.0"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha04"
-composeVersion = "1.10.0-alpha04"
+material3 = "1.5.0-alpha06"
+composeVersion = "1.10.0-alpha05"
 materialIconsExtended = "1.7.8"
 androidx-datastorePreferencesAndroid = "1.1.7"
 appUpdateKtx = "2.1.0"
@@ -74,12 +74,14 @@ moshi = "1.15.2"
 bouncycastle = "1.82"
 pdfviewer = "1.0.0-alpha10"
 fragmentCompose = "1.8.9"
+qrose = "1.0.1"
 
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "12.2.4"
 moduleGraphGradle = "0.12.1"
 
 [libraries]
+qrose = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }

@@ -88,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -175,6 +176,7 @@ internal fun FilterTemplateInfoSheet(
                         ) {
                             QrCode(
                                 content = filterContent,
+                                qrParams = QrCodeParams(),
                                 modifier = Modifier
                                     .padding(top = 36.dp, bottom = 16.dp)
                                     .size(targetSize)

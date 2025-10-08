@@ -205,9 +205,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 onValueChange = {
                     component.updateParams(
                         params.copy(
-                            type = it,
-                            heightRatio = if (it == BarcodeType.DATA_MATRIX) 1f
-                            else params.heightRatio
+                            type = it
                         )
                     )
                 },

@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,7 +57,11 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
-import kotlinx.coroutines.delay
+import io.github.alexzhirkevich.qrose.options.QrBrush
+import io.github.alexzhirkevich.qrose.options.QrColors
+import io.github.alexzhirkevich.qrose.options.QrErrorCorrectionLevel
+import io.github.alexzhirkevich.qrose.options.solid
+import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 
 /**
  * Creates a [Painter] that draws a QR code for the given [content].
@@ -64,61 +69,99 @@ import kotlinx.coroutines.delay
  * The [padding] parameter defines the padding of the QR code in dp.
  */
 @Composable
-fun rememberQrBitmapPainter(
+private fun rememberBarcodePainter(
     content: String,
-    width: Dp = 150.dp,
-    height: Dp = width,
-    type: BarcodeType,
-    padding: Dp = 0.5.dp,
-    foregroundColor: Color = MaterialTheme.colorScheme.onTertiaryContainer,
-    backgroundColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    params: BarcodeParams,
     onLoading: () -> Unit = {},
     onSuccess: () -> Unit = {},
     onFailure: (Throwable) -> Unit = {}
-): Painter {
+): Painter = when (params) {
+    is BarcodeParams.Barcode -> {
+        val width = params.width
+        val height = params.height
+        val foregroundColor = params.foregroundColor
+        val backgroundColor = params.backgroundColor
+        val type = params.type
 
-    check(width >= 0.dp && height >= 0.dp) { "Size must be non negative" }
-    check(padding >= 0.dp) { "Padding must be non negative" }
+        val density = LocalDensity.current
+        val widthPx = with(density) { width.roundToPx() }
+        val heightPx = with(density) { height.roundToPx() }
 
-    val density = LocalDensity.current
-    val widthPx = with(density) { width.roundToPx() }
-    val heightPx = with(density) { height.roundToPx() }
-    val paddingPx = with(density) { padding.roundToPx() }
-
-    val bitmapState = remember(content) {
-        mutableStateOf<Bitmap?>(null)
-    }
-
-    // Use dependency on 'content' to re-trigger the effect when content changes
-    LaunchedEffect(content, type, widthPx, heightPx, paddingPx, foregroundColor, backgroundColor) {
-        onLoading()
-
-        if (content.isNotEmpty()) {
-            delay(100)
-            bitmapState.value = runSuspendCatching {
-                generateQrBitmap(
-                    content = content,
-                    widthPx = widthPx,
-                    heightPx = heightPx,
-                    paddingPx = paddingPx,
-                    foregroundColor = foregroundColor,
-                    backgroundColor = backgroundColor,
-                    format = type.zxingFormat
-                )
-            }.onFailure(onFailure).getOrNull()
-        } else {
-            bitmapState.value = null
+        val bitmapState = remember(content) {
+            mutableStateOf<Bitmap?>(null)
         }
 
-        if (bitmapState.value != null) onSuccess()
+        // Use dependency on 'content' to re-trigger the effect when content changes
+        LaunchedEffect(
+            content,
+            type,
+            widthPx,
+            heightPx,
+            foregroundColor,
+            backgroundColor
+        ) {
+            onLoading()
+
+            if (content.isNotEmpty()) {
+                bitmapState.value = runSuspendCatching {
+                    generateQrBitmap(
+                        content = content,
+                        widthPx = widthPx,
+                        heightPx = heightPx,
+                        paddingPx = 0,
+                        foregroundColor = foregroundColor,
+                        backgroundColor = backgroundColor,
+                        format = type.zxingFormat
+                    )
+                }.onFailure(onFailure).getOrNull()
+            } else {
+                bitmapState.value = null
+            }
+
+            if (bitmapState.value != null) onSuccess()
+        }
+
+        val bitmap = bitmapState.value ?: createDefaultBitmap(widthPx, heightPx)
+
+        remember(bitmap) {
+            bitmap?.asImageBitmap()?.let {
+                BitmapPainter(it)
+            } ?: EmptyPainter(widthPx, heightPx)
+        }
     }
 
-    val bitmap = bitmapState.value ?: createDefaultBitmap(widthPx, heightPx)
+    is BarcodeParams.Qr -> {
+        LaunchedEffect(Unit) { onSuccess() }
 
-    return remember(bitmap) {
-        bitmap?.asImageBitmap()?.let {
-            BitmapPainter(it)
-        } ?: EmptyPainter(widthPx, heightPx)
+        //TODO: Fork to fix the crash with long text, and add more customization
+        rememberQrCodePainter(
+            data = content,
+            colors = QrColors(
+                dark = params.foregroundColor,
+                light = params.backgroundColor
+            ),
+            errorCorrectionLevel = params.errorCorrectionLevel
+        )
+    }
+}
+
+private sealed interface BarcodeParams {
+    data class Qr(
+        val foregroundColor: QrBrush,
+        val backgroundColor: QrBrush,
+        val errorCorrectionLevel: QrErrorCorrectionLevel,
+    ) : BarcodeParams
+
+    data class Barcode(
+        val width: Dp = 150.dp,
+        val height: Dp = width,
+        val type: BarcodeType,
+        val foregroundColor: Color,
+        val backgroundColor: Color,
+    ) : BarcodeParams {
+        init {
+            check(width >= 0.dp && height >= 0.dp) { "Size must be non negative" }
+        }
     }
 }
 
@@ -149,17 +192,25 @@ private fun createDefaultBitmap(
     } else null
 }
 
+data class QrCodeParams(
+    val foregroundColor: Color? = null,
+    val backgroundColor: Color? = null,
+    val errorCorrectionLevel: QrErrorCorrectionLevel = QrErrorCorrectionLevel.Auto
+)
+
 @Composable
 fun QrCode(
     content: String,
     modifier: Modifier,
     cornerRadius: Dp = 4.dp,
     heightRatio: Float = 2f,
+    qrParams: QrCodeParams,
     type: BarcodeType = BarcodeType.QR_CODE,
-    enforceBlackAndWhite: Boolean = false,
     onFailure: (Throwable) -> Unit = {},
     onSuccess: () -> Unit = {},
 ) {
+    val settingsState = LocalSettingsState.current
+
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -169,38 +220,56 @@ fun QrCode(
             if (type.isSquare && type != BarcodeType.DATA_MATRIX) width else width / heightRatio
         ).value
 
-        val backgroundColor = if (enforceBlackAndWhite) {
-            Color.White
+        val backgroundColor = qrParams.backgroundColor ?: if (settingsState.isNightMode) {
+            MaterialTheme.colorScheme.onSurface
         } else {
-            if (LocalSettingsState.current.isNightMode) {
-                MaterialTheme.colorScheme.onSurface
-            } else {
-                MaterialTheme.colorScheme.surfaceContainerHigh
-            }
+            MaterialTheme.colorScheme.surfaceContainerHigh
         }
 
-        val foregroundColor = if (enforceBlackAndWhite) {
-            Color.Black
+        val foregroundColor = qrParams.foregroundColor ?: if (settingsState.isNightMode) {
+            MaterialTheme.colorScheme.surfaceContainer
         } else {
-            if (LocalSettingsState.current.isNightMode) {
-                MaterialTheme.colorScheme.surfaceContainer
-            } else {
-                MaterialTheme.colorScheme.onSurface
-            }
+            MaterialTheme.colorScheme.onSurface
         }
 
         var isLoading by remember {
             mutableStateOf(true)
         }
 
-        val painter = rememberQrBitmapPainter(
+        val params by remember(
+            width,
+            height,
+            type,
+            foregroundColor,
+            backgroundColor,
+            qrParams
+        ) {
+            derivedStateOf {
+                when (type) {
+                    BarcodeType.QR_CODE -> {
+                        BarcodeParams.Qr(
+                            foregroundColor = QrBrush.solid(foregroundColor),
+                            backgroundColor = QrBrush.solid(backgroundColor),
+                            errorCorrectionLevel = qrParams.errorCorrectionLevel
+                        )
+                    }
+
+                    else -> {
+                        BarcodeParams.Barcode(
+                            width = width,
+                            height = height,
+                            foregroundColor = foregroundColor,
+                            backgroundColor = backgroundColor,
+                            type = type,
+                        )
+                    }
+                }
+            }
+        }
+
+        val painter = rememberBarcodePainter(
             content = content,
-            width = width,
-            height = height,
-            padding = 0.5.dp,
-            foregroundColor = foregroundColor,
-            backgroundColor = backgroundColor,
-            type = type,
+            params = params,
             onLoading = {
                 isLoading = true
             },
@@ -211,11 +280,15 @@ fun QrCode(
             onFailure = onFailure
         )
 
-        val padding = if (type == BarcodeType.QR_CODE) 0.5.dp else 8.dp
+        val padding = 12.dp
+
         Picture(
             model = painter,
             modifier = Modifier
-                .size(width, height)
+                .size(
+                    width = width,
+                    height = height
+                )
                 .clip(RoundedCornerShape(cornerRadius))
                 .background(backgroundColor)
                 .padding(padding)
@@ -230,7 +303,10 @@ fun QrCode(
 
         Box(
             modifier = Modifier
-                .size(width, height)
+                .size(
+                    width = width,
+                    height = height
+                )
                 .clip(RoundedCornerShape((cornerRadius - 1.dp).coerceAtLeast(0.dp)))
                 .shimmer(isLoading)
         )

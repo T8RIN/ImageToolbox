@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 
 @Composable
 internal fun QrCodePreview(
@@ -129,7 +131,12 @@ internal fun QrCodePreview(
                                 modifier = Modifier.width(targetSize),
                                 heightRatio = params.heightRatio,
                                 type = params.type,
-                                enforceBlackAndWhite = params.enforceBlackAndWhite,
+                                qrParams = remember(params.enforceBlackAndWhite) {
+                                    QrCodeParams(
+                                        foregroundColor = if (params.enforceBlackAndWhite) Color.Black else null,
+                                        backgroundColor = if (params.enforceBlackAndWhite) Color.White else null
+                                    )
+                                },
                                 cornerRadius = animateIntAsState(params.cornersSize).value.dp,
                                 onSuccess = {
                                     essentials.dismissToasts()
