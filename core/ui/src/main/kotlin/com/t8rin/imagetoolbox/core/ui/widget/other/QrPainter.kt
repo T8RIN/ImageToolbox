@@ -137,18 +137,25 @@ private fun rememberBarcodePainter(
         rememberQrCodePainter(
             data = content,
             colors = QrColors(
-                dark = params.foregroundColor,
-                light = params.backgroundColor
+                dark = params.dark,
+                light = params.light,
+                ball = params.ball,
+                frame = params.frame,
+                background = params.background
             ),
-            errorCorrectionLevel = params.errorCorrectionLevel
+            errorCorrectionLevel = params.errorCorrectionLevel,
+            onFailure = onFailure
         )
     }
 }
 
 private sealed interface BarcodeParams {
     data class Qr(
-        val foregroundColor: QrBrush,
-        val backgroundColor: QrBrush,
+        val dark: QrBrush,
+        val light: QrBrush,
+        val ball: QrBrush,
+        val frame: QrBrush,
+        val background: QrBrush,
         val errorCorrectionLevel: QrErrorCorrectionLevel,
     ) : BarcodeParams
 
@@ -248,8 +255,11 @@ fun QrCode(
                 when (type) {
                     BarcodeType.QR_CODE -> {
                         BarcodeParams.Qr(
-                            foregroundColor = QrBrush.solid(foregroundColor),
-                            backgroundColor = QrBrush.solid(backgroundColor),
+                            dark = QrBrush.solid(foregroundColor),
+                            light = QrBrush.solid(backgroundColor),
+                            ball = QrBrush.solid(foregroundColor),
+                            frame = QrBrush.solid(foregroundColor),
+                            background = QrBrush.solid(backgroundColor),
                             errorCorrectionLevel = qrParams.errorCorrectionLevel
                         )
                     }

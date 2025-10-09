@@ -95,7 +95,9 @@ dependencies {
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
     implementation(libs.zxing.android.embedded)
-    implementation(libs.qrose)
+
+    implementation(libs.toolbox.qrose)
+
     implementation(libs.jsoup)
 
     api(libs.evaluator)

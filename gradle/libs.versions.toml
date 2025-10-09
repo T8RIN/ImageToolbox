@@ -8,7 +8,7 @@ versionCode = "186"
 
 jvmTarget = "17"
 
-imageToolboxLibs = "4.3.3"
+imageToolboxLibs = "4.4.1"
 trickle = "1.3.0"
 evaluator = "1.0.0"
 quickie = "1.15.6"
@@ -74,14 +74,12 @@ moshi = "1.15.2"
 bouncycastle = "1.82"
 pdfviewer = "1.0.0-alpha10"
 fragmentCompose = "1.8.9"
-qrose = "1.0.1"
 
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "12.2.4"
 moduleGraphGradle = "0.12.1"
 
 [libraries]
-qrose = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }
@@ -131,6 +129,7 @@ toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref 
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
 toolbox-ascii = { module = "com.github.T8RIN.ImageToolboxLibs:ascii", version.ref = "imageToolboxLibs" }
 toolbox-documentscanner = { module = "com.github.T8RIN.ImageToolboxLibs:documentscanner", version.ref = "imageToolboxLibs" }
+toolbox-qrose = { module = "com.github.T8RIN.ImageToolboxLibs:qrose", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }
