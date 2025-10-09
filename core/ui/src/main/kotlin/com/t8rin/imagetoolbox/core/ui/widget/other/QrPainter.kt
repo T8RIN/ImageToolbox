@@ -62,6 +62,7 @@ import io.github.alexzhirkevich.qrose.options.QrColors
 import io.github.alexzhirkevich.qrose.options.QrErrorCorrectionLevel
 import io.github.alexzhirkevich.qrose.options.solid
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
+import kotlinx.coroutines.delay
 
 /**
  * Creates a [Painter] that draws a QR code for the given [content].
@@ -101,6 +102,7 @@ private fun rememberBarcodePainter(
             backgroundColor
         ) {
             onLoading()
+            delay(50)
 
             if (content.isNotEmpty()) {
                 bitmapState.value = runSuspendCatching {
