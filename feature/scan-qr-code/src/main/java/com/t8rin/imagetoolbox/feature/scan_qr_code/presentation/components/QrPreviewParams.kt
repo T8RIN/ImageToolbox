@@ -21,6 +21,7 @@ import android.net.Uri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 
 data class QrPreviewParams(
     val imageUri: Uri?,
@@ -30,7 +31,7 @@ data class QrPreviewParams(
     val descriptionFont: UiFontFamily,
     val heightRatio: Float,
     val type: BarcodeType,
-    val enforceBlackAndWhite: Boolean
+    val qrParams: QrCodeParams,
 ) {
     companion object {
         val Default by lazy {
@@ -42,7 +43,7 @@ data class QrPreviewParams(
                 descriptionFont = UiFontFamily.System,
                 heightRatio = 2f,
                 type = BarcodeType.QR_CODE,
-                enforceBlackAndWhite = false
+                qrParams = QrCodeParams()
             )
         }
     }

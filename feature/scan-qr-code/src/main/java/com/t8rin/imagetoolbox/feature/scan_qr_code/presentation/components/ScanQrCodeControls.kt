@@ -248,11 +248,23 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 startIcon = Icons.Outlined.InvertColors,
                 title = stringResource(R.string.enforce_bw),
                 subtitle = stringResource(R.string.enforce_bw_sub),
-                checked = params.enforceBlackAndWhite,
-                onClick = {
+                checked = params.qrParams.run { foregroundColor == Color.Black && backgroundColor == Color.White },
+                onClick = { enforceBlackAndWhite ->
                     component.updateParams(
                         params.copy(
-                            enforceBlackAndWhite = it
+                            qrParams = params.qrParams.run {
+                                if (enforceBlackAndWhite) {
+                                    copy(
+                                        foregroundColor = Color.Black,
+                                        backgroundColor = Color.White
+                                    )
+                                } else {
+                                    copy(
+                                        foregroundColor = null,
+                                        backgroundColor = null
+                                    )
+                                }
+                            }
                         )
                     )
                 }

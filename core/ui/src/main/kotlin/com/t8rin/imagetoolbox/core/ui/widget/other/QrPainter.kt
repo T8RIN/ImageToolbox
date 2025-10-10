@@ -46,21 +46,37 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.core.graphics.createBitmap
+import coil3.compose.asPainter
+import coil3.imageLoader
+import coil3.request.ImageRequest
 import com.google.zxing.BarcodeFormat
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
+import io.github.alexzhirkevich.qrose.options.QrBallShape
 import io.github.alexzhirkevich.qrose.options.QrBrush
 import io.github.alexzhirkevich.qrose.options.QrColors
 import io.github.alexzhirkevich.qrose.options.QrErrorCorrectionLevel
+import io.github.alexzhirkevich.qrose.options.QrFrameShape
+import io.github.alexzhirkevich.qrose.options.QrLogo
+import io.github.alexzhirkevich.qrose.options.QrLogoPadding
+import io.github.alexzhirkevich.qrose.options.QrOptions
+import io.github.alexzhirkevich.qrose.options.QrPixelShape
+import io.github.alexzhirkevich.qrose.options.QrShapes
+import io.github.alexzhirkevich.qrose.options.circle
+import io.github.alexzhirkevich.qrose.options.horizontalLines
+import io.github.alexzhirkevich.qrose.options.roundCorners
 import io.github.alexzhirkevich.qrose.options.solid
+import io.github.alexzhirkevich.qrose.options.square
+import io.github.alexzhirkevich.qrose.options.verticalLines
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import kotlinx.coroutines.delay
 
@@ -135,17 +151,9 @@ private fun rememberBarcodePainter(
     is BarcodeParams.Qr -> {
         LaunchedEffect(Unit) { onSuccess() }
 
-        //TODO: Fork to fix the crash with long text, and add more customization
         rememberQrCodePainter(
             data = content,
-            colors = QrColors(
-                dark = params.dark,
-                light = params.light,
-                ball = params.ball,
-                frame = params.frame,
-                background = params.background
-            ),
-            errorCorrectionLevel = params.errorCorrectionLevel,
+            options = params.options,
             onFailure = onFailure
         )
     }
@@ -153,12 +161,7 @@ private fun rememberBarcodePainter(
 
 private sealed interface BarcodeParams {
     data class Qr(
-        val dark: QrBrush,
-        val light: QrBrush,
-        val ball: QrBrush,
-        val frame: QrBrush,
-        val background: QrBrush,
-        val errorCorrectionLevel: QrErrorCorrectionLevel,
+        val options: QrOptions
     ) : BarcodeParams
 
     data class Barcode(
@@ -204,8 +207,31 @@ private fun createDefaultBitmap(
 data class QrCodeParams(
     val foregroundColor: Color? = null,
     val backgroundColor: Color? = null,
-    val errorCorrectionLevel: QrErrorCorrectionLevel = QrErrorCorrectionLevel.Auto
-)
+    val logo: Any? = null,
+    val logoPadding: Float = 0.25f,
+    val logoSize: Float = 0.2f,
+    val fourEyed: Boolean = false,
+    val pixelShape: PixelShape = PixelShape.Square,
+    val frameShape: FrameShape = FrameShape.Square,
+    val ballShape: BallShape = BallShape.Square,
+    val errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.Auto
+) {
+    enum class PixelShape {
+        Square, RoundSquare, Circle, Vertical, Horizontal
+    }
+
+    enum class FrameShape {
+        Square, RoundSquare, Circle
+    }
+
+    enum class BallShape {
+        Square, RoundSquare, Circle
+    }
+
+    enum class ErrorCorrectionLevel {
+        Auto, L, M, Q, H
+    }
+}
 
 @Composable
 fun QrCode(
@@ -219,6 +245,7 @@ fun QrCode(
     onSuccess: () -> Unit = {},
 ) {
     val settingsState = LocalSettingsState.current
+    val context = LocalContext.current
 
     BoxWithConstraints(
         modifier = modifier,
@@ -245,24 +272,54 @@ fun QrCode(
             mutableStateOf(true)
         }
 
+        var logoPainter by remember(qrParams.logo) {
+            mutableStateOf<Painter?>(null)
+        }
+
+        LaunchedEffect(qrParams.logo) {
+            logoPainter = context.imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(qrParams.logo)
+                    .build()
+            ).image?.asPainter(context)
+        }
+
         val params by remember(
             width,
             height,
             type,
             foregroundColor,
             backgroundColor,
-            qrParams
+            qrParams,
+            logoPainter
         ) {
             derivedStateOf {
                 when (type) {
                     BarcodeType.QR_CODE -> {
                         BarcodeParams.Qr(
-                            dark = QrBrush.solid(foregroundColor),
-                            light = QrBrush.solid(backgroundColor),
-                            ball = QrBrush.solid(foregroundColor),
-                            frame = QrBrush.solid(foregroundColor),
-                            background = QrBrush.solid(backgroundColor),
-                            errorCorrectionLevel = qrParams.errorCorrectionLevel
+                            QrOptions(
+                                colors = QrColors(
+                                    dark = QrBrush.solid(foregroundColor),
+                                    light = QrBrush.solid(backgroundColor),
+                                    ball = QrBrush.solid(foregroundColor),
+                                    frame = QrBrush.solid(foregroundColor),
+                                    background = QrBrush.solid(backgroundColor),
+                                ),
+                                logo = logoPainter?.let {
+                                    QrLogo(
+                                        painter = logoPainter,
+                                        padding = QrLogoPadding.Natural(qrParams.logoPadding),
+                                        size = qrParams.logoSize
+                                    )
+                                } ?: QrLogo(),
+                                shapes = QrShapes(
+                                    darkPixel = qrParams.pixelShape.toLib(),
+                                    frame = qrParams.frameShape.toLib(),
+                                    ball = qrParams.ballShape.toLib()
+                                ),
+                                errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib(),
+                                fourEyed = qrParams.fourEyed
+                            )
                         )
                     }
 
@@ -323,6 +380,34 @@ fun QrCode(
                 .shimmer(isLoading)
         )
     }
+}
+
+private fun QrCodeParams.BallShape.toLib(): QrBallShape = when (this) {
+    QrCodeParams.BallShape.Square -> QrBallShape.square()
+    QrCodeParams.BallShape.RoundSquare -> QrBallShape.roundCorners(0.25f)
+    QrCodeParams.BallShape.Circle -> QrBallShape.circle()
+}
+
+private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
+    QrCodeParams.FrameShape.Square -> QrFrameShape.square()
+    QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(0.25f)
+    QrCodeParams.FrameShape.Circle -> QrFrameShape.circle()
+}
+
+private fun QrCodeParams.PixelShape.toLib(): QrPixelShape = when (this) {
+    QrCodeParams.PixelShape.Square -> QrPixelShape.square()
+    QrCodeParams.PixelShape.RoundSquare -> QrPixelShape.roundCorners()
+    QrCodeParams.PixelShape.Circle -> QrPixelShape.circle()
+    QrCodeParams.PixelShape.Vertical -> QrPixelShape.verticalLines()
+    QrCodeParams.PixelShape.Horizontal -> QrPixelShape.horizontalLines()
+}
+
+private fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = when (this) {
+    QrCodeParams.ErrorCorrectionLevel.Auto -> QrErrorCorrectionLevel.Auto
+    QrCodeParams.ErrorCorrectionLevel.L -> QrErrorCorrectionLevel.Low
+    QrCodeParams.ErrorCorrectionLevel.M -> QrErrorCorrectionLevel.Medium
+    QrCodeParams.ErrorCorrectionLevel.Q -> QrErrorCorrectionLevel.MediumHigh
+    QrCodeParams.ErrorCorrectionLevel.H -> QrErrorCorrectionLevel.High
 }
 
 

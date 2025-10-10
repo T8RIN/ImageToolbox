@@ -78,7 +78,6 @@ internal class AndroidImageBarcodeReader @Inject constructor(
             )
         ).getOrThrow()
     }.onFailure { it.makeLog("convertToQrType") }
-        .onSuccess { "Obtain code type = $it".makeLog() }
         .getOrDefault(QrType.Plain(code))
 
 }
