@@ -100,5 +100,8 @@ dependencies {
 
     implementation(libs.jsoup)
 
+    api(libs.androidliquidglass)
+    api(libs.capsule)
+
     api(libs.evaluator)
 }

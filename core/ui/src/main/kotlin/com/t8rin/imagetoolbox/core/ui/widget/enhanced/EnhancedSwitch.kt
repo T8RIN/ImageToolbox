@@ -175,7 +175,8 @@ fun EnhancedSwitch(
                     LiquidGlassSwitch(
                         checked = checked,
                         onCheckedChange = switchOnCheckedChange,
-                        modifier = switchModifier,
+                        internalModifier = switchModifier,
+                        modifier = modifier,
                         enabled = enabled,
                         interactionSource = interactionSource,
                         colors = CupertinoSwitchDefaults.colors()

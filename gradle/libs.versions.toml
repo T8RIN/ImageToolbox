@@ -67,6 +67,8 @@ androidxMacroBenchmark = "1.4.1"
 
 material = "1.14.0-alpha05"
 jsoup = "1.21.2"
+androidliquidglass = "1.0.0-beta01"
+capsule = "2.1.0"
 
 mlkitDocumentScanner = "16.0.0"
 zxingAndroidEmbedded = "4.3.0"
@@ -80,6 +82,8 @@ aboutlibraries = "13.0.0"
 moduleGraphGradle = "0.12.1"
 
 [libraries]
+capsule = { module = "com.github.Kyant0:Capsule", version.ref = "capsule" }
+androidliquidglass = { module = "com.github.Kyant0:AndroidLiquidGlass", version.ref = "androidliquidglass" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfviewer" }
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }

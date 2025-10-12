@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.switches
 
+import android.os.Build
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -58,8 +59,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kyant.backdrop.backdrops.rememberCanvasBackdrop
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 /**
@@ -178,14 +181,72 @@ fun LiquidGlassSwitch(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
+    internalModifier: Modifier = Modifier,
     colors: CupertinoSwitchColors = CupertinoSwitchDefaults.colors(),
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null
 ) {
     val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
 
-    val isPressed by realInteractionSource.collectIsPressedAsState()
-    val isDragged by realInteractionSource.collectIsDraggedAsState()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val backgroundColor = SafeLocalContainerColor
+
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
+            FallbackLiquidGlassSwitch(
+                checked = checked,
+                enabled = false,
+                onCheckedChange = null,
+                modifier = internalModifier,
+                colors = CupertinoSwitchDefaults.colors(
+                    thumbColor = Color.Transparent,
+                    disabledThumbColor = Color.Transparent,
+                    checkedTrackColor = Color.Transparent,
+                    checkedIconColor = Color.Transparent,
+                    uncheckedTrackColor = Color.Transparent,
+                    uncheckedIconColor = Color.Transparent,
+                    disabledCheckedTrackColor = Color.Transparent,
+                    disabledCheckedIconColor = Color.Transparent,
+                    disabledUncheckedTrackColor = Color.Transparent,
+                    disabledUncheckedIconColor = Color.Transparent
+                ),
+                interactionSource = realInteractionSource
+            )
+
+            LiquidToggle(
+                checked = { checked },
+                onCheckedChange = onCheckedChange,
+                backdrop = rememberCanvasBackdrop { drawRect(backgroundColor) },
+                enabled = enabled,
+                colors = colors,
+                interactionSource = realInteractionSource,
+                modifier = modifier,
+            )
+        }
+    } else {
+        FallbackLiquidGlassSwitch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = internalModifier,
+            colors = colors,
+            enabled = enabled,
+            interactionSource = realInteractionSource
+        )
+    }
+}
+
+@Composable
+private fun FallbackLiquidGlassSwitch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    colors: CupertinoSwitchColors = CupertinoSwitchDefaults.colors(),
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource
+) {
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val isDragged by interactionSource.collectIsDraggedAsState()
 
     val animatedAspectRatio by animateFloatAsState(
         targetValue = if (isPressed || isDragged) 1.8f else 1.6f,
@@ -220,13 +281,13 @@ fun LiquidGlassSwitch(
                 },
                 enabled = enabled,
                 role = Role.Switch,
-                interactionSource = realInteractionSource,
+                interactionSource = interactionSource,
                 indication = null
             )
             .draggable(
                 state = state,
                 orientation = Orientation.Horizontal,
-                interactionSource = realInteractionSource,
+                interactionSource = interactionSource,
                 enabled = enabled,
                 onDragStopped = {
                     if (alignment < 1 / 2f) {
