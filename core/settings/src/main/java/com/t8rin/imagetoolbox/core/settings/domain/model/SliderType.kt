@@ -24,17 +24,19 @@ sealed class SliderType(
     data object MaterialYou : SliderType(0)
     data object Fancy : SliderType(1)
     data object Material : SliderType(2)
+    data object HyperOS : SliderType(3)
 
     companion object {
         fun fromInt(ordinal: Int) = when (ordinal) {
             1 -> Fancy
             2 -> Material
+            3 -> HyperOS
             else -> MaterialYou
         }
 
         val entries by lazy {
             listOf(
-                MaterialYou, Fancy, Material
+                MaterialYou, Fancy, Material, HyperOS
             )
         }
     }

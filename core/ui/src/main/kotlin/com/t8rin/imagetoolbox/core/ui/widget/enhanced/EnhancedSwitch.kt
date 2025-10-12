@@ -187,7 +187,9 @@ fun EnhancedSwitch(
                 is SwitchType.HyperOS -> {
                     HyperOSSwitch(
                         modifier = switchModifier,
-                        colors = switchColors,
+                        colors = switchColors.copy(
+                            uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
                         checked = checked,
                         enabled = enabled,
                         onCheckedChange = switchOnCheckedChange,

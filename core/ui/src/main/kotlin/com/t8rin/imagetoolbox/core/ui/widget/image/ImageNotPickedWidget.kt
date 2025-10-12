@@ -115,6 +115,7 @@ fun SourceNotPickedWidget(
         Column(
             modifier = modifier
                 .animateContentSizeNoClip()
+                .padding(0.5.dp)
                 .container(color = containerColor),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.HyperOS
 import com.t8rin.imagetoolbox.core.resources.icons.MaterialDesign
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Slider
@@ -151,6 +152,7 @@ private val SliderType.title: String
         SliderType.Fancy -> stringResource(R.string.fancy)
         SliderType.Material -> stringResource(R.string.material_2)
         SliderType.MaterialYou -> stringResource(R.string.material_you)
+        SliderType.HyperOS -> stringResource(R.string.hyper_os)
     }
 
 private val SliderType.subtitle: String
@@ -159,6 +161,7 @@ private val SliderType.subtitle: String
         SliderType.Fancy -> stringResource(R.string.fancy_sub)
         SliderType.Material -> stringResource(R.string.material_2_sub)
         SliderType.MaterialYou -> stringResource(R.string.material_you_slider_sub)
+        SliderType.HyperOS -> stringResource(R.string.hyper_os_sub)
     }
 
 
@@ -167,4 +170,5 @@ private val SliderType.icon: ImageVector
         SliderType.Fancy -> Icons.Rounded.AutoAwesome
         SliderType.Material -> Icons.Rounded.Android
         SliderType.MaterialYou -> Icons.Outlined.MaterialDesign
+        SliderType.HyperOS -> Icons.Outlined.HyperOS
     }
