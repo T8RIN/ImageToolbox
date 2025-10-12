@@ -197,6 +197,7 @@ class DrawComponent @AssistedInject internal constructor(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
+                                originalUri = _uri.value.toString(),
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,
                                 height = localBitmap.height
@@ -206,6 +207,7 @@ class DrawComponent @AssistedInject internal constructor(
                             data = imageCompressor.compressAndTransform(
                                 image = localBitmap,
                                 imageInfo = ImageInfo(
+                                    originalUri = _uri.value.toString(),
                                     imageFormat = imageFormat,
                                     width = localBitmap.width,
                                     height = localBitmap.height
@@ -352,6 +354,7 @@ class DrawComponent @AssistedInject internal constructor(
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
+                        originalUri = _uri.value.toString(),
                         imageFormat = imageFormat,
                         width = it.width,
                         height = it.height
@@ -428,6 +431,7 @@ class DrawComponent @AssistedInject internal constructor(
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(
+                        originalUri = _uri.value.toString(),
                         imageFormat = imageFormat,
                         width = image.width,
                         height = image.height

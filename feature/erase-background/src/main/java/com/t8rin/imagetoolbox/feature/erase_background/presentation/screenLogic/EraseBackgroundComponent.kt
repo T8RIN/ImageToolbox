@@ -184,6 +184,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                     fileController.save(
                         saveTarget = ImageSaveTarget(
                             imageInfo = ImageInfo(
+                                originalUri = _uri.value.toString(),
                                 imageFormat = imageFormat,
                                 width = localBitmap.width,
                                 height = localBitmap.height
@@ -193,6 +194,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                             data = imageCompressor.compressAndTransform(
                                 image = localBitmap,
                                 imageInfo = ImageInfo(
+                                    originalUri = _uri.value.toString(),
                                     imageFormat = imageFormat,
                                     width = localBitmap.width,
                                     height = localBitmap.height
@@ -232,6 +234,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                 _isSaving.value = true
                 shareProvider.shareImage(
                     imageInfo = ImageInfo(
+                        originalUri = _uri.value.toString(),
                         imageFormat = imageFormat,
                         width = it.width,
                         height = it.height
@@ -354,6 +357,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(
+                        originalUri = _uri.value.toString(),
                         imageFormat = imageFormat,
                         width = image.width,
                         height = image.height

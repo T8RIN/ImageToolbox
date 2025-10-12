@@ -92,9 +92,7 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val realFilename = filename ?: "Cache_${Random.nextInt()}_${
-                filenameCreator.get().constructImageFilename(saveTarget)
-            }"
+            val realFilename = filename ?: filenameCreator.get().constructImageFilename(saveTarget)
             val byteArray = imageCompressor.compressAndTransform(image, imageInfo)
 
             cacheByteArray(
@@ -228,7 +226,11 @@ internal class AndroidShareProvider @Inject constructor(
         writeData: suspend (Writeable) -> Unit,
         filename: String
     ): String? = withContext(ioDispatcher) {
-        val imagesFolder = File(context.cacheDir, "files")
+        val imagesFolder = if (filename.startsWith("temp.")) {
+            File(context.cacheDir, "temp")
+        } else {
+            File(context.cacheDir, "cache/${Random.nextInt()}")
+        }
 
         runSuspendCatching {
             imagesFolder.mkdirs()
