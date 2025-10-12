@@ -1821,4 +1821,19 @@
     <string name="website">Website</string>
     <string name="add_website">Add website</string>
     <string name="formatted_name">Formatted name</string>
+    <string name="qr_code_top_image">This image will be used to place above barcode</string>
+    <string name="code_customization">Code customization</string>
+    <string name="qr_logo_image">This image will be used as logo in the center of QR code</string>
+    <string name="logo">Logo</string>
+    <string name="logo_padding">Logo padding</string>
+    <string name="logo_size">Logo size</string>
+    <string name="logo_corners">Logo corners</string>
+    <string name="fourth_eye">Fourth eye</string>
+    <string name="fourth_eye_description">Adds eye symmetry to qr code by adding fourth eye at the bottom end corner</string>
+    <string name="pixel_shape">Pixel shape</string>
+    <string name="frame_shape">Frame shape</string>
+    <string name="ball_shape">Ball shape</string>
+    <string name="error_correction_level">Error correction level</string>
+    <string name="dark_color">Dark color</string>
+    <string name="light_color">Light color</string>
 </resources>

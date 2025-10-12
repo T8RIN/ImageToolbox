@@ -91,7 +91,7 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            color = Color.Unspecified
+            containerColor = Color.Unspecified
         )
         DataSelector(
             value = value.fractalType,
@@ -105,7 +105,7 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            color = Color.Unspecified
+            containerColor = Color.Unspecified
         )
         AnimatedVisibility(value.fractalType != FractalType.None) {
             Column(
@@ -188,7 +188,7 @@ fun NoiseParamsSelection(
                                 it.name
                             },
                             spanCount = 2,
-                            color = Color.Unspecified
+                            containerColor = Color.Unspecified
                         )
                         Spacer(Modifier.height(8.dp))
                         DataSelector(
@@ -203,7 +203,7 @@ fun NoiseParamsSelection(
                                 it.name
                             },
                             spanCount = 2,
-                            color = Color.Unspecified
+                            containerColor = Color.Unspecified
                         )
                         Spacer(Modifier.height(8.dp))
                         EnhancedSliderItem(
@@ -234,7 +234,7 @@ fun NoiseParamsSelection(
                 it.name
             },
             spanCount = 2,
-            color = Color.Unspecified
+            containerColor = Color.Unspecified
         )
         EnhancedSliderItem(
             value = value.domainWarpAmp,

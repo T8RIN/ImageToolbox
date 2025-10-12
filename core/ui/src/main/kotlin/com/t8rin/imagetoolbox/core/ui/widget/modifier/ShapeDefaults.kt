@@ -122,6 +122,13 @@ object ShapeDefaults {
         bottomStart = 4.dp
     )
 
+    val topStart = RoundedCornerShape(
+        topEnd = 4.dp,
+        topStart = 16.dp,
+        bottomEnd = 4.dp,
+        bottomStart = 4.dp
+    )
+
     val bottomEnd = RoundedCornerShape(
         topEnd = 4.dp,
         topStart = 4.dp,

@@ -142,6 +142,9 @@ dependencies {
 
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)
+
+    "marketImplementation"(libs.quickie.bundled)
+    "fossImplementation"(libs.quickie.foss)
 }
 
 allprojects {

@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -115,6 +116,49 @@ fun EnhancedButtonGroup(
         onIndexChange = onIndexChange,
         title = title,
         inactiveButtonColor = inactiveButtonColor
+    )
+}
+
+@Composable
+fun <T> EnhancedButtonGroup(
+    modifier: Modifier = defaultModifier,
+    enabled: Boolean = true,
+    entries: List<T>,
+    value: T,
+    itemContent: @Composable (item: T) -> Unit,
+    title: String?,
+    onValueChange: (T) -> Unit,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
+    activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
+    isScrollable: Boolean = true
+) {
+    EnhancedButtonGroup(
+        modifier = modifier,
+        enabled = enabled,
+        itemCount = entries.size,
+        selectedIndex = entries.indexOf(value),
+        itemContent = {
+            itemContent(entries[it])
+        },
+        onIndexChange = {
+            onValueChange(
+                entries[it]
+            )
+        },
+        title = {
+            title?.let {
+                Text(
+                    text = title,
+                    style = PreferenceItemDefaults.TitleFontStyleCentered,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(8.dp)
+                )
+            }
+        },
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor,
+        isScrollable = isScrollable
     )
 }
 

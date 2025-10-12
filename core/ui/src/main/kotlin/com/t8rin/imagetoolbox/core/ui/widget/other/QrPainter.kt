@@ -58,6 +58,8 @@ import coil3.request.ImageRequest
 import com.google.zxing.BarcodeFormat
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.painter.centerCrop
+import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
@@ -210,7 +212,7 @@ data class QrCodeParams(
     val logo: Any? = null,
     val logoPadding: Float = 0.25f,
     val logoSize: Float = 0.2f,
-    val fourEyed: Boolean = false,
+    val logoCorners: Float = 0f,
     val pixelShape: PixelShape = PixelShape.Square,
     val frameShape: FrameShape = FrameShape.Square,
     val ballShape: BallShape = BallShape.Square,
@@ -234,6 +236,27 @@ data class QrCodeParams(
 }
 
 @Composable
+fun defaultQrColors(): Pair<Color, Color> {
+    val settingsState = LocalSettingsState.current
+
+    val backgroundColor = if (settingsState.isNightMode) {
+        MaterialTheme.colorScheme.onSurface
+    } else {
+        MaterialTheme.colorScheme.surfaceContainerHigh
+    }
+
+    val foregroundColor = if (settingsState.isNightMode) {
+        MaterialTheme.colorScheme.surfaceContainer
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
+
+    return remember(backgroundColor, foregroundColor) {
+        backgroundColor to foregroundColor
+    }
+}
+
+@Composable
 fun QrCode(
     content: String,
     modifier: Modifier,
@@ -244,7 +267,6 @@ fun QrCode(
     onFailure: (Throwable) -> Unit = {},
     onSuccess: () -> Unit = {},
 ) {
-    val settingsState = LocalSettingsState.current
     val context = LocalContext.current
 
     BoxWithConstraints(
@@ -256,32 +278,31 @@ fun QrCode(
             if (type.isSquare && type != BarcodeType.DATA_MATRIX) width else width / heightRatio
         ).value
 
-        val backgroundColor = qrParams.backgroundColor ?: if (settingsState.isNightMode) {
-            MaterialTheme.colorScheme.onSurface
-        } else {
-            MaterialTheme.colorScheme.surfaceContainerHigh
-        }
+        val (bg, fg) = defaultQrColors()
 
-        val foregroundColor = qrParams.foregroundColor ?: if (settingsState.isNightMode) {
-            MaterialTheme.colorScheme.surfaceContainer
-        } else {
-            MaterialTheme.colorScheme.onSurface
-        }
+        val backgroundColor = qrParams.backgroundColor ?: bg
+
+        val foregroundColor = qrParams.foregroundColor ?: fg
 
         var isLoading by remember {
             mutableStateOf(true)
         }
 
-        var logoPainter by remember(qrParams.logo) {
+        var logoPainterRaw by remember(qrParams.logo) {
             mutableStateOf<Painter?>(null)
         }
 
+        val logoPainter = remember(logoPainterRaw, qrParams.logoCorners) {
+            logoPainterRaw?.roundCorners(qrParams.logoCorners)
+        }
+
         LaunchedEffect(qrParams.logo) {
-            logoPainter = context.imageLoader.execute(
+            logoPainterRaw = context.imageLoader.execute(
                 ImageRequest.Builder(context)
                     .data(qrParams.logo)
+                    .size(1024)
                     .build()
-            ).image?.asPainter(context)
+            ).image?.asPainter(context)?.centerCrop()
         }
 
         val params by remember(
@@ -317,8 +338,7 @@ fun QrCode(
                                     frame = qrParams.frameShape.toLib(),
                                     ball = qrParams.ballShape.toLib()
                                 ),
-                                errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib(),
-                                fourEyed = qrParams.fourEyed
+                                errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib()
                             )
                         )
                     }

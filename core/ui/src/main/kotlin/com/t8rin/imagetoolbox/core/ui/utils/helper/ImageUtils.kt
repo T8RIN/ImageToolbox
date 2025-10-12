@@ -28,9 +28,13 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.BitmapCompat
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.scale
 import androidx.core.text.isDigitsOnly
@@ -364,6 +368,15 @@ object ImageUtils {
                 scale(max, targetHeight)
             }
         }.getOrNull() ?: this
+    }
+
+    fun Bitmap.applyPadding(padding: Int, paddingColor: Color = Color.White): Bitmap {
+        val newWidth = this.width + padding * 2
+        val newHeight = this.height + padding * 2
+        return createBitmap(newWidth, newHeight, getSuitableConfig(this)).applyCanvas {
+            drawColor(paddingColor.toArgb())
+            drawBitmap(this@applyPadding, padding.toFloat(), padding.toFloat(), null)
+        }
     }
 
 }

@@ -83,7 +83,7 @@ fun <T : Any> DataSelector(
     modifier: Modifier = Modifier,
     badgeContent: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = ShapeDefaults.large,
-    color: Color = Color.Unspecified,
+    containerColor: Color = Color.Unspecified,
     selectedItemColor: Color = MaterialTheme.colorScheme.tertiary,
     initialExpanded: Boolean = false,
     canExpand: Boolean = true,
@@ -102,7 +102,7 @@ fun <T : Any> DataSelector(
             if (behaveAsContainer) {
                 Modifier.container(
                     shape = shape,
-                    color = color
+                    color = containerColor
                 )
             } else Modifier
         )

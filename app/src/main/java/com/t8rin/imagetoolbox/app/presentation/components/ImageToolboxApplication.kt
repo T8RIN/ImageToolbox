@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.app.presentation.components
 import android.app.Application
 import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
+import com.t8rin.imagetoolbox.app.presentation.components.functions.initQrScanner
 import com.t8rin.imagetoolbox.app.presentation.components.functions.registerSecurityProviders
 import com.t8rin.imagetoolbox.app.presentation.components.functions.setupFlags
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
@@ -35,6 +36,7 @@ class ImageToolboxApplication : Application() {
         setupFlags()
         initAppContext()
         initOpenCV()
+        initQrScanner()
         attachLogWriter()
         applyGlobalExceptionHandler()
         registerSecurityProviders()

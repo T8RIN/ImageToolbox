@@ -248,7 +248,7 @@ fun ScaleModeSelector(
                 itemContentText = {
                     it.title
                 },
-                color = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier
                     .fillMaxWidth()

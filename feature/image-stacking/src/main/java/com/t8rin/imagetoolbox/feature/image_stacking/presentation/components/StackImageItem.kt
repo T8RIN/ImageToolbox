@@ -210,7 +210,7 @@ fun StackImageItem(
                         itemContentText = {
                             it.title()
                         },
-                        color = Color.Unspecified,
+                        containerColor = Color.Unspecified,
                         shape = ShapeDefaults.bottom
                     )
                 }

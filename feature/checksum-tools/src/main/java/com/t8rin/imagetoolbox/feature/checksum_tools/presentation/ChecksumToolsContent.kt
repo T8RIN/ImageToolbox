@@ -49,7 +49,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.plus
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
@@ -127,7 +126,7 @@ fun ChecksumToolsContent(
                     .padding(horizontal = 20.dp)
                     .padding(insets),
                 value = component.hashingType,
-                color = Color.Unspecified,
+                containerColor = Color.Unspecified,
                 selectedItemColor = MaterialTheme.colorScheme.secondary,
                 onValueChange = component::updateChecksumType,
                 entries = HashingType.entries,

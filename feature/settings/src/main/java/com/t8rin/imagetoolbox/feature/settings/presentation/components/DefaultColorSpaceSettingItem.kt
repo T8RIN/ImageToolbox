@@ -65,7 +65,7 @@ fun DefaultColorSpaceSettingItem(
             title = stringResource(R.string.tag_color_space),
             titleIcon = Icons.Outlined.ColorLens,
             itemContentText = { it.title },
-            color = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surface,
             shape = shape,
             modifier = modifier,
             selectedItemColor = MaterialTheme.colorScheme.secondary

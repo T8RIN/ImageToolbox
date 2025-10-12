@@ -83,7 +83,7 @@ fun ChecksumAsFilenameSettingItem(
                     value = settingsState.hashingTypeForFilename ?: HashingType.entries.first(),
                     onValueChange = onValueChange,
                     entries = HashingType.entries,
-                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                     shape = shape,
                     title = stringResource(R.string.algorithms),
                     titleIcon = null,

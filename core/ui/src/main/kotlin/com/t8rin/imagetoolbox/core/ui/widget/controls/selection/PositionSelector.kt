@@ -49,7 +49,7 @@ fun PositionSelector(
         itemContentText = { it.translatedName },
         modifier = modifier,
         shape = shape,
-        color = color,
+        containerColor = color,
         selectedItemColor = selectedItemColor
     )
 }

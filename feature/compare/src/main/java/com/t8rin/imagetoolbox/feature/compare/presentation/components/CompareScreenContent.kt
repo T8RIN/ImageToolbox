@@ -207,7 +207,7 @@ internal fun CompareScreenContent(
                                 itemContentText = {
                                     it.name
                                 },
-                                color = Color.Unspecified
+                                containerColor = Color.Unspecified
                             )
                         }
                     }

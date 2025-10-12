@@ -337,7 +337,7 @@ internal fun CipherControls(component: CipherComponent) {
         DataSelector(
             modifier = Modifier,
             value = component.cipherType,
-            color = Color.Unspecified,
+            containerColor = Color.Unspecified,
             spanCount = 5,
             selectedItemColor = MaterialTheme.colorScheme.secondary,
             onValueChange = component::updateCipherType,

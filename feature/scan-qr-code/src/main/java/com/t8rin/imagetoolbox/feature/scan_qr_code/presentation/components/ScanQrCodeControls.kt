@@ -22,7 +22,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -36,7 +38,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.InvertColors
+import androidx.compose.material.icons.outlined.RoundedCorner
 import androidx.compose.material.icons.rounded.QrCode2
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,7 +52,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -71,11 +72,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.LinkPreviewList
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import kotlin.math.roundToInt
@@ -242,29 +243,14 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
-            PreferenceRowSwitch(
-                modifier = Modifier.fillMaxWidth(),
-                shape = ShapeDefaults.large,
-                startIcon = Icons.Outlined.InvertColors,
-                title = stringResource(R.string.enforce_bw),
-                subtitle = stringResource(R.string.enforce_bw_sub),
-                checked = params.qrParams.run { foregroundColor == Color.Black && backgroundColor == Color.White },
-                onClick = { enforceBlackAndWhite ->
+            Spacer(modifier = Modifier.height(8.dp))
+            QrParamsSelector(
+                isQrType = params.type == BarcodeType.QR_CODE,
+                value = params.qrParams,
+                onValueChange = {
                     component.updateParams(
                         params.copy(
-                            qrParams = params.qrParams.run {
-                                if (enforceBlackAndWhite) {
-                                    copy(
-                                        foregroundColor = Color.Black,
-                                        backgroundColor = Color.White
-                                    )
-                                } else {
-                                    copy(
-                                        foregroundColor = null,
-                                        backgroundColor = null
-                                    )
-                                }
-                            }
+                            qrParams = it
                         )
                     )
                 }
@@ -275,7 +261,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             ) {
                 ImageSelector(
                     value = params.imageUri,
-                    subtitle = stringResource(id = R.string.watermarking_image_sub),
+                    subtitle = stringResource(id = R.string.qr_code_top_image),
                     onValueChange = {
                         component.updateParams(
                             params.copy(
@@ -289,22 +275,31 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                     shape = ShapeDefaults.extraLarge
                 )
                 BoxAnimatedVisibility(visible = params.imageUri != null) {
+                    val interactionSource = remember { MutableInteractionSource() }
+
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(start = 8.dp)
-                            .clip(ShapeDefaults.default)
-                            .hapticsClickable {
+                            .container(
+                                color = MaterialTheme.colorScheme.errorContainer,
+                                resultPadding = 0.dp,
+                                shape = shapeByInteraction(
+                                    shape = ShapeDefaults.default,
+                                    pressedShape = ShapeDefaults.pressed,
+                                    interactionSource = interactionSource
+                                )
+                            )
+                            .hapticsClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            ) {
                                 component.updateParams(
                                     params.copy(
                                         imageUri = null
                                     )
                                 )
                             }
-                            .container(
-                                color = MaterialTheme.colorScheme.errorContainer,
-                                resultPadding = 0.dp
-                            )
                             .padding(horizontal = 8.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -360,7 +355,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             EnhancedSliderItem(
                 value = params.cornersSize,
                 title = stringResource(R.string.corners),
-                valueRange = 0f..24f,
+                valueRange = 0f..36f,
                 onValueChange = {
                     component.updateParams(
                         params.copy(
@@ -371,6 +366,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 internalStateTransformation = {
                     it.roundToInt()
                 },
+                icon = Icons.Outlined.RoundedCorner,
                 steps = 22
             )
             Spacer(modifier = Modifier.height(8.dp))

@@ -63,6 +63,6 @@ fun BlendingModeSelector(
         itemContentText = { it.toString() },
         modifier = modifier,
         shape = shape,
-        color = color
+        containerColor = color
     )
 }
