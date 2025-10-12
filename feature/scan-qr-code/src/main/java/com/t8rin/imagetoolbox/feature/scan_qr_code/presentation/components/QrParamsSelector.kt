@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.ErrorCorrectionLevel
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.MaskPattern
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.PixelShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -370,6 +371,33 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.error_correction_level),
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                )
+                EnhancedButtonGroup(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .container(
+                            shape = ShapeDefaults.default,
+                            color = MaterialTheme.colorScheme.surface
+                        ),
+                    entries = MaskPattern.entries,
+                    value = value.maskPattern,
+                    itemContent = {
+                        Text(
+                            text = when (it) {
+                                MaskPattern.Auto -> stringResource(R.string.auto)
+                                else -> it.name.removePrefix("P_")
+                            }
+                        )
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.copy(
+                                maskPattern = it
+                            )
+                        )
+                    },
+                    title = stringResource(R.string.mask_pattern),
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
                 )
             }

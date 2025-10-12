@@ -1838,4 +1838,5 @@
     <string name="light_color">Light color</string>
     <string name="hyper_os">Hyper OS</string>
     <string name="hyper_os_sub">Xiaomi HyperOS like style</string>
+    <string name="mask_pattern">Mask pattern</string>
 </resources>

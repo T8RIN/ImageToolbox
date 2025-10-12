@@ -70,6 +70,7 @@ import io.github.alexzhirkevich.qrose.options.QrErrorCorrectionLevel
 import io.github.alexzhirkevich.qrose.options.QrFrameShape
 import io.github.alexzhirkevich.qrose.options.QrLogo
 import io.github.alexzhirkevich.qrose.options.QrLogoPadding
+import io.github.alexzhirkevich.qrose.options.QrLogoShape
 import io.github.alexzhirkevich.qrose.options.QrOptions
 import io.github.alexzhirkevich.qrose.options.QrPixelShape
 import io.github.alexzhirkevich.qrose.options.QrShapes
@@ -79,6 +80,7 @@ import io.github.alexzhirkevich.qrose.options.roundCorners
 import io.github.alexzhirkevich.qrose.options.solid
 import io.github.alexzhirkevich.qrose.options.square
 import io.github.alexzhirkevich.qrose.options.verticalLines
+import io.github.alexzhirkevich.qrose.qrcode.MaskPattern
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import kotlinx.coroutines.delay
 
@@ -151,12 +153,14 @@ private fun rememberBarcodePainter(
     }
 
     is BarcodeParams.Qr -> {
-        LaunchedEffect(Unit) { onSuccess() }
-
         rememberQrCodePainter(
             data = content,
             options = params.options,
-            onFailure = onFailure
+            onSuccess = onSuccess,
+            onFailure = {
+                onLoading()
+                onFailure(it)
+            }
         )
     }
 }
@@ -216,7 +220,8 @@ data class QrCodeParams(
     val pixelShape: PixelShape = PixelShape.Square,
     val frameShape: FrameShape = FrameShape.Square,
     val ballShape: BallShape = BallShape.Square,
-    val errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.Auto
+    val errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.Auto,
+    val maskPattern: MaskPattern = MaskPattern.Auto
 ) {
     enum class PixelShape {
         Square, RoundSquare, Circle, Vertical, Horizontal
@@ -232,6 +237,18 @@ data class QrCodeParams(
 
     enum class ErrorCorrectionLevel {
         Auto, L, M, Q, H
+    }
+
+    enum class MaskPattern {
+        Auto,
+        P_000,
+        P_001,
+        P_010,
+        P_011,
+        P_100,
+        P_101,
+        P_110,
+        P_111
     }
 }
 
@@ -329,6 +346,7 @@ fun QrCode(
                                 logo = logoPainter?.let {
                                     QrLogo(
                                         painter = logoPainter,
+                                        shape = QrLogoShape.roundCorners(qrParams.logoCorners),
                                         padding = QrLogoPadding.Natural(qrParams.logoPadding),
                                         size = qrParams.logoSize
                                     )
@@ -338,7 +356,8 @@ fun QrCode(
                                     frame = qrParams.frameShape.toLib(),
                                     ball = qrParams.ballShape.toLib()
                                 ),
-                                errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib()
+                                errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib(),
+                                maskPattern = qrParams.maskPattern.toLib()
                             )
                         )
                     }
@@ -428,6 +447,18 @@ private fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = 
     QrCodeParams.ErrorCorrectionLevel.M -> QrErrorCorrectionLevel.Medium
     QrCodeParams.ErrorCorrectionLevel.Q -> QrErrorCorrectionLevel.MediumHigh
     QrCodeParams.ErrorCorrectionLevel.H -> QrErrorCorrectionLevel.High
+}
+
+private fun QrCodeParams.MaskPattern.toLib(): MaskPattern? = when (this) {
+    QrCodeParams.MaskPattern.Auto -> null
+    QrCodeParams.MaskPattern.P_000 -> MaskPattern.PATTERN000
+    QrCodeParams.MaskPattern.P_001 -> MaskPattern.PATTERN001
+    QrCodeParams.MaskPattern.P_010 -> MaskPattern.PATTERN010
+    QrCodeParams.MaskPattern.P_011 -> MaskPattern.PATTERN011
+    QrCodeParams.MaskPattern.P_100 -> MaskPattern.PATTERN100
+    QrCodeParams.MaskPattern.P_101 -> MaskPattern.PATTERN101
+    QrCodeParams.MaskPattern.P_110 -> MaskPattern.PATTERN110
+    QrCodeParams.MaskPattern.P_111 -> MaskPattern.PATTERN111
 }
 
 
