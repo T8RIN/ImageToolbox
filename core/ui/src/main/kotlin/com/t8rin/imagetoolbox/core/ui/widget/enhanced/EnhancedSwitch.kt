@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.CupertinoSwitchDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.switches.FluentSwitch
+import com.t8rin.imagetoolbox.core.ui.widget.switches.HyperOSSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.LiquidGlassSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.M3Switch
 import com.t8rin.imagetoolbox.core.ui.widget.switches.PixelSwitch
@@ -180,6 +181,17 @@ fun EnhancedSwitch(
                         enabled = enabled,
                         interactionSource = interactionSource,
                         colors = CupertinoSwitchDefaults.colors()
+                    )
+                }
+
+                is SwitchType.HyperOS -> {
+                    HyperOSSwitch(
+                        modifier = switchModifier,
+                        colors = switchColors,
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource
                     )
                 }
             }
