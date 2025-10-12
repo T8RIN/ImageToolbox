@@ -199,18 +199,7 @@ fun LiquidGlassSwitch(
                 enabled = false,
                 onCheckedChange = null,
                 modifier = internalModifier,
-                colors = CupertinoSwitchDefaults.colors(
-                    thumbColor = Color.Transparent,
-                    disabledThumbColor = Color.Transparent,
-                    checkedTrackColor = Color.Transparent,
-                    checkedIconColor = Color.Transparent,
-                    uncheckedTrackColor = Color.Transparent,
-                    uncheckedIconColor = Color.Transparent,
-                    disabledCheckedTrackColor = Color.Transparent,
-                    disabledCheckedIconColor = Color.Transparent,
-                    disabledUncheckedTrackColor = Color.Transparent,
-                    disabledUncheckedIconColor = Color.Transparent
-                ),
+                colors = CupertinoSwitchDefaults.transparentColors(),
                 interactionSource = realInteractionSource
             )
 
@@ -486,6 +475,21 @@ object CupertinoSwitchDefaults {
         disabledCheckedIconColor = disabledCheckedIconColor,
         disabledUncheckedTrackColor = disabledUncheckedTrackColor,
         disabledUncheckedIconColor = disabledUncheckedIconColor
+    )
+
+    @Composable
+    @ReadOnlyComposable
+    fun transparentColors() = colors(
+        thumbColor = Color.Transparent,
+        disabledThumbColor = Color.Transparent,
+        checkedTrackColor = Color.Transparent,
+        checkedIconColor = Color.Transparent,
+        uncheckedTrackColor = Color.Transparent,
+        uncheckedIconColor = Color.Transparent,
+        disabledCheckedTrackColor = Color.Transparent,
+        disabledCheckedIconColor = Color.Transparent,
+        disabledUncheckedTrackColor = Color.Transparent,
+        disabledUncheckedIconColor = Color.Transparent
     )
 }
 

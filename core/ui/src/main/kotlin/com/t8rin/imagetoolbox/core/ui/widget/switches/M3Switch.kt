@@ -38,10 +38,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.transparentColors
 import kotlinx.coroutines.launch
 
 
@@ -199,3 +199,23 @@ fun M3Switch(
         )
     }
 }
+
+@Suppress("UnusedReceiverParameter")
+private fun SwitchDefaults.transparentColors() = SwitchColors(
+    checkedThumbColor = Color.Transparent,
+    checkedTrackColor = Color.Transparent,
+    checkedBorderColor = Color.Transparent,
+    checkedIconColor = Color.Transparent,
+    uncheckedThumbColor = Color.Transparent,
+    uncheckedTrackColor = Color.Transparent,
+    uncheckedBorderColor = Color.Transparent,
+    uncheckedIconColor = Color.Transparent,
+    disabledCheckedThumbColor = Color.Transparent,
+    disabledCheckedTrackColor = Color.Transparent,
+    disabledCheckedBorderColor = Color.Transparent,
+    disabledCheckedIconColor = Color.Transparent,
+    disabledUncheckedThumbColor = Color.Transparent,
+    disabledUncheckedTrackColor = Color.Transparent,
+    disabledUncheckedBorderColor = Color.Transparent,
+    disabledUncheckedIconColor = Color.Transparent
+)

@@ -200,23 +200,3 @@ fun EnhancedSwitch(
         }
     }
 }
-
-@Suppress("UnusedReceiverParameter")
-fun SwitchDefaults.transparentColors() = SwitchColors(
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent
-)
