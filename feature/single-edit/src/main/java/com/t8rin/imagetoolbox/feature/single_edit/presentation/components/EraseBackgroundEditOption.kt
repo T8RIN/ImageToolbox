@@ -108,7 +108,7 @@ fun EraseBackgroundEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
-    onGetBitmap: (Bitmap) -> Unit,
+    onGetBitmap: (Bitmap, Boolean) -> Unit,
     clearErasing: (Boolean) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
@@ -357,10 +357,17 @@ fun EraseBackgroundEditOption(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 onClick = {
                                     scope.launch {
-                                        onGetBitmap(
-                                            if (trimImage) autoBackgroundRemover.trimEmptyParts(
+                                        val trimmed = if (trimImage) {
+                                            autoBackgroundRemover.trimEmptyParts(
                                                 erasedBitmap
-                                            ) else erasedBitmap
+                                            )
+                                        } else {
+                                            erasedBitmap
+                                        }
+
+                                        onGetBitmap(
+                                            trimmed,
+                                            trimmed.width == erasedBitmap.width && trimmed.height == erasedBitmap.height
                                         )
                                         clearErasing(false)
                                     }

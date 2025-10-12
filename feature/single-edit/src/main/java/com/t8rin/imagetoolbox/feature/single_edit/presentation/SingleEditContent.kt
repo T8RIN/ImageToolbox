@@ -444,8 +444,11 @@ fun SingleEditContent(
         },
         useScaffold = isPortrait,
         bitmap = component.previewBitmap,
-        onGetBitmap = {
-            component.updateBitmapAfterEditing(it, true)
+        onGetBitmap = { bitmap, saveSize ->
+            component.updateBitmapAfterEditing(
+                bitmap = bitmap,
+                saveOriginalSize = saveSize
+            )
         },
         clearErasing = component::clearErasing,
         undo = component::undoErase,
