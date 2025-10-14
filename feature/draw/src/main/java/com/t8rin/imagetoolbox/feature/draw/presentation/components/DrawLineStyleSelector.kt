@@ -269,9 +269,8 @@ fun DrawLineStyleSelector(
             else MaterialStarShape
 
             Column {
-                val shapes = remember {
-                    IconShape.entries.dropLast(1)
-                }
+                val shapes = IconShape.entriesNoRandom
+
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)

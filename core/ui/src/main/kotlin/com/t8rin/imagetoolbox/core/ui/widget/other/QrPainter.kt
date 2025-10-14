@@ -41,6 +41,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -48,7 +51,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.core.graphics.createBitmap
@@ -57,12 +62,14 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import com.google.zxing.BarcodeFormat
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.painter.centerCrop
 import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
+import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
 import io.github.alexzhirkevich.qrose.options.QrBrush
 import io.github.alexzhirkevich.qrose.options.QrColors
@@ -223,16 +230,65 @@ data class QrCodeParams(
     val errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.Auto,
     val maskPattern: MaskPattern = MaskPattern.Auto
 ) {
-    enum class PixelShape {
-        Square, RoundSquare, Circle, Vertical, Horizontal
+    sealed interface PixelShape {
+        sealed interface Predefined : PixelShape
+
+        data object Square : Predefined
+        data object RoundSquare : Predefined
+        data object Circle : Predefined
+        data object Vertical : Predefined
+        data object Horizontal : Predefined
+
+        data object Random : PixelShape
+        data class Shaped(val shape: Shape) : PixelShape
+
+        companion object {
+            val entries by lazy {
+                listOf(
+                    Random,
+                    Square,
+                    RoundSquare,
+                    Circle,
+                    Vertical,
+                    Horizontal,
+                ) + (IconShape.entries - IconShape.Random).mapNotNull {
+                    if (it.shape is RoundedCornerShape) return@mapNotNull null
+
+                    Shaped(it.shape)
+                }
+            }
+        }
     }
 
     enum class FrameShape {
         Square, RoundSquare, Circle
     }
 
-    enum class BallShape {
-        Square, RoundSquare, Circle
+    sealed interface BallShape {
+        sealed interface Predefined : BallShape
+
+        data object Square : Predefined
+        data object RoundSquare : Predefined
+        data object Circle : Predefined
+
+        data object Random : BallShape
+        data class Shaped(val shape: Shape) : BallShape
+
+        //TODO: inspect which ones cannot be read
+        companion object {
+            val entries by lazy {
+                listOf(
+                    Random,
+                    Square,
+                    RoundSquare,
+                    Circle,
+                ) + (IconShape.entries - IconShape.Random).mapNotNull {
+                    if (it.shape is RoundedCornerShape) return@mapNotNull null
+
+                    Shaped(it.shape)
+                }
+            }
+        }
     }
 
     enum class ErrorCorrectionLevel {
@@ -322,6 +378,8 @@ fun QrCode(
             ).image?.asPainter(context)?.centerCrop()
         }
 
+        val density = LocalDensity.current
+
         val params by remember(
             width,
             height,
@@ -329,7 +387,8 @@ fun QrCode(
             foregroundColor,
             backgroundColor,
             qrParams,
-            logoPainter
+            logoPainter,
+            density
         ) {
             derivedStateOf {
                 when (type) {
@@ -352,9 +411,9 @@ fun QrCode(
                                     )
                                 } ?: QrLogo(),
                                 shapes = QrShapes(
-                                    darkPixel = qrParams.pixelShape.toLib(),
+                                    darkPixel = qrParams.pixelShape.toLib(density),
                                     frame = qrParams.frameShape.toLib(),
-                                    ball = qrParams.ballShape.toLib()
+                                    ball = qrParams.ballShape.toLib(density)
                                 ),
                                 errorCorrectionLevel = qrParams.errorCorrectionLevel.toLib(),
                                 maskPattern = qrParams.maskPattern.toLib()
@@ -421,10 +480,48 @@ fun QrCode(
     }
 }
 
-private fun QrCodeParams.BallShape.toLib(): QrBallShape = when (this) {
+private fun pixelShape(
+    density: Density,
+    shape: () -> Shape
+) = object : QrPixelShape {
+    override fun Path.path(
+        size: Float,
+        neighbors: Neighbors
+    ): Path = apply {
+        addOutline(
+            shape().createOutline(
+                size = Size(size, size),
+                layoutDirection = LayoutDirection.Ltr,
+                density = density
+            )
+        )
+    }
+}
+
+private fun ballShape(
+    density: Density,
+    shape: () -> Shape
+) = object : QrBallShape {
+    override fun Path.path(
+        size: Float,
+        neighbors: Neighbors
+    ): Path = apply {
+        addOutline(
+            shape().createOutline(
+                size = Size(size, size),
+                layoutDirection = LayoutDirection.Ltr,
+                density = density
+            )
+        )
+    }
+}
+
+private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (this) {
     QrCodeParams.BallShape.Square -> QrBallShape.square()
     QrCodeParams.BallShape.RoundSquare -> QrBallShape.roundCorners(0.25f)
     QrCodeParams.BallShape.Circle -> QrBallShape.circle()
+    QrCodeParams.BallShape.Random -> ballShape(density) { IconShape.entriesNoRandom.random().shape }
+    is QrCodeParams.BallShape.Shaped -> ballShape(density) { shape }
 }
 
 private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
@@ -433,12 +530,14 @@ private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
     QrCodeParams.FrameShape.Circle -> QrFrameShape.circle()
 }
 
-private fun QrCodeParams.PixelShape.toLib(): QrPixelShape = when (this) {
+private fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
     QrCodeParams.PixelShape.Square -> QrPixelShape.square()
     QrCodeParams.PixelShape.RoundSquare -> QrPixelShape.roundCorners()
     QrCodeParams.PixelShape.Circle -> QrPixelShape.circle()
     QrCodeParams.PixelShape.Vertical -> QrPixelShape.verticalLines()
     QrCodeParams.PixelShape.Horizontal -> QrPixelShape.horizontalLines()
+    QrCodeParams.PixelShape.Random -> pixelShape(density) { IconShape.entriesNoRandom.random().shape }
+    is QrCodeParams.PixelShape.Shaped -> pixelShape(density) { shape }
 }
 
 private fun QrCodeParams.ErrorCorrectionLevel.toLib(): QrErrorCorrectionLevel = when (this) {

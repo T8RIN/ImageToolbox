@@ -19,16 +19,19 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DeleteOutline
@@ -37,10 +40,12 @@ import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RoundedCorner
 import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.RoundedCorner
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.ViewColumn
 import androidx.compose.material.icons.sharp.Square
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -280,12 +285,7 @@ internal fun QrParamsSelector(
                         ),
                     entries = PixelShape.entries,
                     value = value.pixelShape,
-                    itemContent = {
-                        Icon(
-                            imageVector = it.icon,
-                            contentDescription = null
-                        )
-                    },
+                    itemContent = { it.Content() },
                     onValueChange = {
                         onValueChange(
                             value.copy(
@@ -330,12 +330,7 @@ internal fun QrParamsSelector(
                         ),
                     entries = BallShape.entries,
                     value = value.ballShape,
-                    itemContent = {
-                        Icon(
-                            imageVector = it.icon,
-                            contentDescription = null
-                        )
-                    },
+                    itemContent = { it.Content() },
                     onValueChange = {
                         onValueChange(
                             value.copy(
@@ -405,14 +400,43 @@ internal fun QrParamsSelector(
     }
 }
 
-private val PixelShape.icon: ImageVector
-    get() = when (this) {
-        PixelShape.Square -> Icons.Sharp.Square
-        PixelShape.RoundSquare -> Icons.Rounded.RoundedCorner
-        PixelShape.Circle -> Icons.Rounded.Circle
-        PixelShape.Vertical -> Icons.Rounded.ViewColumn
-        PixelShape.Horizontal -> Icons.Rounded.TableRows
+@Composable
+private fun PixelShape.Content() {
+    when (this) {
+        is PixelShape.Predefined -> {
+            Icon(
+                imageVector = when (this) {
+                    PixelShape.Square -> Icons.Sharp.Square
+                    PixelShape.RoundSquare -> Icons.Rounded.RoundedCorner
+                    PixelShape.Circle -> Icons.Rounded.Circle
+                    PixelShape.Vertical -> Icons.Rounded.ViewColumn
+                    PixelShape.Horizontal -> Icons.Rounded.TableRows
+                },
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        is PixelShape.Random -> {
+            Icon(
+                imageVector = Icons.Rounded.Shuffle,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        is PixelShape.Shaped -> {
+            Spacer(
+                modifier = Modifier
+                    .size(20.dp)
+                    .background(
+                        color = LocalContentColor.current,
+                        shape = shape,
+                    )
+            )
+        }
     }
+}
 
 private val FrameShape.icon: ImageVector
     get() = when (this) {
@@ -421,9 +445,38 @@ private val FrameShape.icon: ImageVector
         FrameShape.Circle -> Icons.Rounded.Circle
     }
 
-private val BallShape.icon: ImageVector
-    get() = when (this) {
-        BallShape.Square -> Icons.Sharp.Square
-        BallShape.RoundSquare -> Icons.Rounded.RoundedCorner
-        BallShape.Circle -> Icons.Rounded.Circle
+@Composable
+private fun BallShape.Content() {
+    when (this) {
+        is BallShape.Predefined -> {
+            Icon(
+                imageVector = when (this) {
+                    BallShape.Square -> Icons.Sharp.Square
+                    BallShape.RoundSquare -> Icons.Rounded.RoundedCorner
+                    BallShape.Circle -> Icons.Rounded.Circle
+                },
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        is BallShape.Random -> {
+            Icon(
+                imageVector = Icons.Rounded.Shuffle,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        is BallShape.Shaped -> {
+            Spacer(
+                modifier = Modifier
+                    .size(20.dp)
+                    .background(
+                        color = LocalContentColor.current,
+                        shape = shape,
+                    )
+            )
+        }
     }
+}

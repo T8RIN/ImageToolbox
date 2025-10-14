@@ -68,7 +68,7 @@ data class IconShape(
             )
         }
 
-        val entries: ImmutableList<IconShape> by lazy {
+        val entriesNoRandom: ImmutableList<IconShape> by lazy {
             listOf(
                 IconShape(SquircleShape),
                 IconShape(RoundedCornerShape(15)),
@@ -127,8 +127,11 @@ data class IconShape(
                     IconShape(it.toShape(), 10.dp, 20.dp)
                 }
                 addAll(shapes)
-                add(Random)
             }.toPersistentList()
+        }
+
+        val entries: ImmutableList<IconShape> by lazy {
+            (entriesNoRandom + Random).toPersistentList()
         }
     }
 }
