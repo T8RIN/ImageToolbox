@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DeleteOutline
@@ -52,7 +54,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
@@ -74,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.MaskPattern
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.PixelShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import kotlin.math.roundToInt
 
 @Composable
 internal fun QrParamsSelector(
@@ -305,12 +307,7 @@ internal fun QrParamsSelector(
                         ),
                     entries = FrameShape.entries,
                     value = value.frameShape,
-                    itemContent = {
-                        Icon(
-                            imageVector = it.icon,
-                            contentDescription = null
-                        )
-                    },
+                    itemContent = { it.Content() },
                     onValueChange = {
                         onValueChange(
                             value.copy(
@@ -438,12 +435,24 @@ private fun PixelShape.Content() {
     }
 }
 
-private val FrameShape.icon: ImageVector
-    get() = when (this) {
-        FrameShape.Square -> Icons.Sharp.Square
-        FrameShape.RoundSquare -> Icons.Rounded.RoundedCorner
-        FrameShape.Circle -> Icons.Rounded.Circle
+@Composable
+private fun FrameShape.Content() {
+    when (this) {
+        is FrameShape.RoundSquare -> {
+            Spacer(
+                modifier = Modifier
+                    .size(20.dp)
+                    .border(
+                        width = 2.dp,
+                        color = LocalContentColor.current,
+                        shape = RoundedCornerShape(
+                            percent = (percent * 100).roundToInt()
+                        )
+                    )
+            )
+        }
     }
+}
 
 @Composable
 private fun BallShape.Content() {

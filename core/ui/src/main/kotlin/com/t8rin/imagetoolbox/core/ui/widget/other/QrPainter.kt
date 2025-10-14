@@ -26,7 +26,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,12 +64,31 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import com.google.zxing.BarcodeFormat
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.resources.shapes.ArrowShape
+import com.t8rin.imagetoolbox.core.resources.shapes.BookmarkShape
+import com.t8rin.imagetoolbox.core.resources.shapes.BurgerShape
+import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
+import com.t8rin.imagetoolbox.core.resources.shapes.DropletShape
+import com.t8rin.imagetoolbox.core.resources.shapes.EggShape
+import com.t8rin.imagetoolbox.core.resources.shapes.ExplosionShape
+import com.t8rin.imagetoolbox.core.resources.shapes.MapShape
+import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.shapes.OctagonShape
+import com.t8rin.imagetoolbox.core.resources.shapes.OvalShape
+import com.t8rin.imagetoolbox.core.resources.shapes.PentagonShape
+import com.t8rin.imagetoolbox.core.resources.shapes.PillShape
+import com.t8rin.imagetoolbox.core.resources.shapes.ShieldShape
+import com.t8rin.imagetoolbox.core.resources.shapes.ShurikenShape
+import com.t8rin.imagetoolbox.core.resources.shapes.SmallMaterialStarShape
+import com.t8rin.imagetoolbox.core.resources.shapes.SquircleShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.utils.toShape
 import com.t8rin.imagetoolbox.core.ui.utils.painter.centerCrop
 import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
@@ -251,17 +272,36 @@ data class QrCodeParams(
                     Circle,
                     Vertical,
                     Horizontal,
-                ) + (IconShape.entries - IconShape.Random).mapNotNull {
-                    if (it.shape is RoundedCornerShape) return@mapNotNull null
-
-                    Shaped(it.shape)
-                }
+                ) + IconShape.entriesNoRandom.map { Shaped(it.shape) }
             }
         }
     }
 
-    enum class FrameShape {
-        Square, RoundSquare, Circle
+    sealed interface FrameShape {
+        data class RoundSquare(
+            val percent: Float
+        ) : FrameShape
+
+        companion object {
+            val Square = RoundSquare(0.00f)
+            val Circle = RoundSquare(0.50f)
+
+            val entries by lazy {
+                listOf(
+                    Square,
+                    RoundSquare(0.05f),
+                    RoundSquare(0.10f),
+                    RoundSquare(0.15f),
+                    RoundSquare(0.20f),
+                    RoundSquare(0.25f),
+                    RoundSquare(0.30f),
+                    RoundSquare(0.35f),
+                    RoundSquare(0.40f),
+                    RoundSquare(0.45f),
+                    Circle,
+                )
+            }
+        }
     }
 
     sealed interface BallShape {
@@ -273,17 +313,61 @@ data class QrCodeParams(
 
         data class Shaped(val shape: Shape) : BallShape
 
-        //TODO: inspect which ones cannot be read
         companion object {
             val entries by lazy {
                 listOf(
                     Square,
                     RoundSquare,
                     Circle,
-                ) + (IconShape.entries - IconShape.Random).mapNotNull {
-                    if (it.shape is RoundedCornerShape) return@mapNotNull null
-
-                    Shaped(it.shape)
+                ) + listOf(
+                    Shaped(SquircleShape),
+                    Shaped(CutCornerShape(25)),
+                    Shaped(CutCornerShape(35)),
+                    Shaped(CutCornerShape(50)),
+                    Shaped(RoundedCornerShape(15)),
+                    Shaped(RoundedCornerShape(25)),
+                    Shaped(RoundedCornerShape(35)),
+                    Shaped(RoundedCornerShape(45)),
+                    Shaped(CloverShape),
+                    Shaped(MaterialStarShape),
+                    Shaped(SmallMaterialStarShape),
+                    Shaped(BookmarkShape),
+                    Shaped(PillShape),
+                    Shaped(BurgerShape),
+                    Shaped(OvalShape),
+                    Shaped(ShieldShape),
+                    Shaped(EggShape),
+                    Shaped(DropletShape),
+                    Shaped(ArrowShape),
+                    Shaped(PentagonShape),
+                    Shaped(OctagonShape),
+                    Shaped(ShurikenShape),
+                    Shaped(ExplosionShape),
+                    Shaped(MapShape),
+                ) + listOf(
+                    MaterialShapes.Slanted,
+                    MaterialShapes.Arch,
+                    MaterialShapes.Oval,
+                    MaterialShapes.Diamond,
+                    MaterialShapes.Gem,
+                    MaterialShapes.Sunny,
+                    MaterialShapes.VerySunny,
+                    MaterialShapes.Cookie4Sided,
+                    MaterialShapes.Cookie6Sided,
+                    MaterialShapes.Cookie9Sided,
+                    MaterialShapes.Cookie12Sided,
+                    MaterialShapes.Ghostish,
+                    MaterialShapes.Clover4Leaf,
+                    MaterialShapes.Clover8Leaf,
+                    MaterialShapes.Burst,
+                    MaterialShapes.SoftBurst,
+                    MaterialShapes.SoftBoom,
+                    MaterialShapes.Flower,
+                    MaterialShapes.Puffy,
+                    MaterialShapes.PuffyDiamond,
+                    MaterialShapes.PixelCircle
+                ).map {
+                    Shaped(it.toShape())
                 }
             }
         }
@@ -515,13 +599,11 @@ private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (
     QrCodeParams.BallShape.Square -> QrBallShape.square()
     QrCodeParams.BallShape.RoundSquare -> QrBallShape.roundCorners(0.25f)
     QrCodeParams.BallShape.Circle -> QrBallShape.circle()
-    is QrCodeParams.BallShape.Shaped -> shape.toBallShape(density)
+    is Shaped -> shape.toBallShape(density)
 }
 
 private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
-    QrCodeParams.FrameShape.Square -> QrFrameShape.square()
-    QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(0.25f)
-    QrCodeParams.FrameShape.Circle -> QrFrameShape.circle()
+    is QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(percent)
 }
 
 private fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
