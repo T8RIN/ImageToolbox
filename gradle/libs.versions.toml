@@ -78,7 +78,7 @@ pdfviewer = "1.0.0-alpha10"
 fragmentCompose = "1.8.9"
 
 firebaseCrashlyticsGradle = "3.0.6"
-aboutlibraries = "13.0.0"
+aboutlibraries = "13.1.0"
 moduleGraphGradle = "0.12.1"
 
 [libraries]
