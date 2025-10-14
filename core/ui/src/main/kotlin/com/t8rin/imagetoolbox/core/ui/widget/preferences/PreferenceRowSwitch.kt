@@ -30,10 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
@@ -100,7 +102,8 @@ fun PreferenceRowSwitch(
                 enabled = enabled,
                 checked = checked,
                 onCheckedChange = onClick,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
+                colorUnderSwitch = containerColor.takeOrElse { SafeLocalContainerColor }
             )
         },
         interactionSource = interactionSource,

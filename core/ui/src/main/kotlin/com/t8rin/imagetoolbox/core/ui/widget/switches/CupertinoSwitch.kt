@@ -62,7 +62,6 @@ import androidx.compose.ui.unit.dp
 import com.kyant.backdrop.backdrops.rememberCanvasBackdrop
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 /**
@@ -184,13 +183,12 @@ fun LiquidGlassSwitch(
     internalModifier: Modifier = Modifier,
     colors: CupertinoSwitchColors = CupertinoSwitchDefaults.colors(),
     enabled: Boolean = true,
-    interactionSource: MutableInteractionSource? = null
+    interactionSource: MutableInteractionSource? = null,
+    backgroundColor: Color
 ) {
     val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val backgroundColor = SafeLocalContainerColor
-
         Box(
             contentAlignment = Alignment.Center
         ) {

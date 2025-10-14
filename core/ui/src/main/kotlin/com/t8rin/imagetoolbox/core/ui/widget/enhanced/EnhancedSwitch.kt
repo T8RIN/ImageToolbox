@@ -64,6 +64,7 @@ fun EnhancedSwitch(
     enabled: Boolean = true,
     colors: SwitchColors? = null,
     interactionSource: MutableInteractionSource? = null,
+    colorUnderSwitch: Color = Color.Unspecified
 ) {
     val switchColors = colors ?: SwitchDefaults.colors(
         disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
@@ -180,7 +181,8 @@ fun EnhancedSwitch(
                         modifier = modifier,
                         enabled = enabled,
                         interactionSource = interactionSource,
-                        colors = CupertinoSwitchDefaults.colors()
+                        colors = CupertinoSwitchDefaults.colors(),
+                        backgroundColor = colorUnderSwitch
                     )
                 }
 
