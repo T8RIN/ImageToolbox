@@ -132,7 +132,10 @@ class RecognizeTextComponent @AssistedInject internal constructor(
 
     val onGoBack: () -> Unit = {
         if (type == null) onGoBack()
-        else _type.update { null }
+        else {
+            _recognitionData.update { null }
+            _type.update { null }
+        }
     }
 
     private val _recognitionData = mutableStateOf<RecognitionData?>(null)

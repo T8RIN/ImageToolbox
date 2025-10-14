@@ -50,6 +50,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -347,6 +348,20 @@ fun EmojiSelectionSheet(
                         }
                     }
                 ) {
+                    var toggleEmoji by remember {
+                        mutableIntStateOf(0)
+                    }
+                    var checked by remember {
+                        mutableStateOf(emojiEnabled)
+                    }
+
+                    LaunchedEffect(toggleEmoji) {
+                        if (toggleEmoji > 0) {
+                            if (checked) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
+                            else onEmojiPicked(-1)
+                        }
+                    }
+
                     PreferenceRowSwitch(
                         title = stringResource(R.string.enable_emoji),
                         containerColor = animateColorAsState(
@@ -360,10 +375,7 @@ fun EmojiSelectionSheet(
                         shape = ShapeDefaults.extremeLarge,
                         checked = emojiEnabled,
                         startIcon = Icons.Outlined.Face6,
-                        onClick = {
-                            if (!emojiEnabled) onEmojiPicked(Random.nextInt(0, allEmojis.lastIndex))
-                            else onEmojiPicked(-1)
-                        }
+                        onClick = { checked = it; toggleEmoji++ }
                     )
                     GradientEdge(
                         modifier = Modifier

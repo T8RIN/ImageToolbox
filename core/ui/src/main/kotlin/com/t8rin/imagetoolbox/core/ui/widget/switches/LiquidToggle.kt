@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -95,6 +96,8 @@ internal fun LiquidToggle(
     interactionSource: MutableInteractionSource,
     modifier: Modifier = Modifier
 ) {
+    val interactions by interactionSource.interactions.collectAsState(initial = null)
+
     val accentColor by colors.trackColor(
         enabled = enabled,
         checked = true
@@ -175,10 +178,10 @@ internal fun LiquidToggle(
         }
     }
 
-    LaunchedEffect(dampedDragAnimation.value, onCheckedChange, checked()) {
+    LaunchedEffect(dampedDragAnimation.value, onCheckedChange, checked(), interactions) {
         delay(500)
         val new = dampedDragAnimation.value >= 0.5f
-        if (new != checked() && dampedDragAnimation.pressProgress <= 0f) {
+        if (new != checked() && dampedDragAnimation.pressProgress <= 0f && interactions == null) {
             onCheckedChange?.invoke(new)
         }
     }
