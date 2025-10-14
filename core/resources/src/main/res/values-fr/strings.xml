@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -235,7 +234,7 @@
     <string name="bulge">Bosse</string>
     <string name="refractive_index">indice de réfraction</string>
     <string name="opacity">Opacité</string>
-    <string name="limits_resize">Redimensionner par Limites</string>
+    <string name="limits_resize">Redimensionner avec des limites</string>
     <string name="limits_resize_sub">Redimensionner les images à la hauteur et à la largeur données tout en conservant le rapport hauteur/largeur</string>
     <string name="sketch">Esquisse</string>
     <string name="threshold">Seuil</string>
@@ -279,7 +278,7 @@
     <string name="features">Fonctionnalités</string>
     <string name="implementation">Exécution</string>
     <string name="compatibility">Compatibilité</string>
-    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets par défaut. Vous pouvez sélectionner l\'algorithme nécessaire. Les clés sont utilisées comme hachages SHA-3 (256 bits).</string>
+    <string name="implementation_sub">AES-256, mode GCM, pas de rembourrage, IV aléatoires de 12 octets par défaut. Vous pouvez sélectionner l\'algorithme nécessaire. Les clés sont utilisées comme hachages SHA-3 de 256 bits.</string>
     <string name="file_size">Taille du fichier</string>
     <string name="pick_file">Choisir un dossier</string>
     <string name="cipher">Chiffrement</string>
@@ -547,7 +546,7 @@
     <string name="bilinear_sub">L\'interpolation linéaire (ou bilinéaire, en deux dimensions) est généralement efficace pour modifier la taille d\'une image, mais provoque un adoucissement indésirable des détails et peut encore être quelque peu irrégulière.</string>
     <string name="lanczos_sub">Méthode de rééchantillonnage qui maintient une interpolation de haute qualité en appliquant une fonction sinc pondérée aux valeurs des pixels</string>
     <string name="mitchell_sub">Méthode de rééchantillonnage utilisant un filtre de convolution avec des paramètres réglables pour obtenir un équilibre entre netteté et anticrénelage dans l\'image mise à l\'échelle</string>
-    <string name="spline_sub">Utilise des fonctions polynomiales définies par morceaux pour interpoler et approximer en douceur une courbe ou une surface, une représentation de forme flexible et continue</string>
+    <string name="spline_sub">Utilise des fonctions polynomiales définies par morceaux pour interpoler et approximer en douceur une courbe ou une surface, donnant une représentation de forme flexible et continue</string>
     <string name="use_pixel_switch_sub">Utilise un bouton de type Google Pixel</string>
     <string name="magnifier">Loupe</string>
     <string name="magnifier_sub">Active la loupe sur le dessus du doigt dans les modes de dessin pour une meilleure accessibilité</string>
@@ -1021,7 +1020,7 @@
     <string name="tag_body_serial_number">Numéro de Série du Corps</string>
     <string name="tag_lens_model">Modèle de lentille</string>
     <string name="tag_lens_make">Créer un objectif</string>
-    <string name="harmony_complementary">Complementaire</string>
+    <string name="harmony_complementary">Complémentaire</string>
     <string name="triangle">Triangle</string>
     <string name="tones">Tons</string>
     <string name="shades">Ombrages</string>
@@ -1031,7 +1030,7 @@
     <string name="star">Étoile</string>
     <string name="linear">Linéaire</string>
     <string name="template">Modèle</string>
-    <string name="center">Centre</string>
+    <string name="center">Milieu</string>
     <string name="kodak">Kodak</string>
     <string name="coffee">Café</string>
     <string name="auto">Auto</string>
@@ -1095,5 +1094,40 @@
     <string name="tag_orf_preview_image_start">Démarrage de la prévisualisation de l\'image</string>
     <string name="tag_orf_aspect_frame">Aspect du cadre</string>
     <string name="repeat_text">Répétez le texte</string>
-    <string name="repeat_text_sub">Le texte en cours sera répété jusqu\'à la fin du chemin au lieu d\'un dessin en une fois</string>
+    <string name="repeat_text_sub">Le texte actuel sera répété jusqu\'à la fin du chemin au lieu d\'être dessiné une seule fois</string>
+    <string name="open_edit_instead_of_preview">Ouvrir l\'édition au lieu de la prévisualisation</string>
+    <string name="open_edit_instead_of_preview_sub">Quand vous ouvrez une image avec ImageToolbox, le panneau d\'édition sera visible au lieu de celui de prévisualisation</string>
+    <string name="document_scanner">Numériseur de document</string>
+    <string name="document_scanner_sub">Numérisez des documents et enregistrez-les en fichiers PDF ou en images</string>
+    <string name="click_to_start_scanning">Cliquez pour commencer la numérisation</string>
+    <string name="start_scanning">Commencer la numérisation</string>
+    <string name="save_as_pdf">Enregistrer en PDF</string>
+    <string name="share_as_pdf">Partager en PDF</string>
+    <string name="options_below_is_for_images">Les options ci-dessous sont utilisées lors d\'un enregistrement en image et non en PDF</string>
+    <string name="color_to_ignore">Couleur à ignorer</string>
+    <string name="create_new">Créer un nouveau</string>
+    <string name="create_template">Créer un modèle</string>
+    <string name="template_name">Nom du modèle</string>
+    <string name="as_file">En tant que fichier</string>
+    <string name="save_as_file">Enregistrer en tant que fichier</string>
+    <string name="save_as_qr_code_image">Enregistrer en tant qu\'image QR code</string>
+    <string name="delete_template">Supprimer le modèle</string>
+    <string name="add_image">Ajouter une image</string>
+    <string name="image_stacking">Empilement d\'images</string>
+    <string name="image_stacking_sub">Empiler les images les unes au dessus des autres avec le fondu sélectionné</string>
+    <string name="top_left">En haut à gauche</string>
+    <string name="top_right">En haut à droite</string>
+    <string name="bottom_left">En bas à gauche</string>
+    <string name="bottom_right">En bas à droite</string>
+    <string name="top_center">En haut au milieu</string>
+    <string name="center_right">Au centre à droite</string>
+    <string name="bottom_center">En bas au centre</string>
+    <string name="center_left">Au centre à gauche</string>
+    <string name="target_image">Image cible</string>
+    <string name="no_favorite_options_selected">Aucune option favorite sélectionnée, ajoutez-les dans la page d\'outils</string>
+    <string name="add_favorites">Ajouter des favoris</string>
+    <string name="harmony_analogous">Analogue</string>
+    <string name="tints">Tintes</string>
+    <string name="color_mixing">Mélange des couleurs</string>
+    <string name="color_info">Information sur les couleurs</string>
 </resources>

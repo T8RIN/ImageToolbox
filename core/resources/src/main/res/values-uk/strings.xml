@@ -1801,4 +1801,22 @@
     <string name="website">Вебсайт</string>
     <string name="add_website">Додати веб-сайт</string>
     <string name="formatted_name">Форматоване ім\'я</string>
+    <string name="qr_code_top_image">Це зображення буде розміщено над штрих-кодом</string>
+    <string name="code_customization">Налаштування коду</string>
+    <string name="qr_logo_image">Це зображення буде використано як логотип у центрі QR-коду</string>
+    <string name="logo">Логотип</string>
+    <string name="logo_padding">Відступи логотипу</string>
+    <string name="logo_size">Розмір логотипу</string>
+    <string name="logo_corners">Куточки логотипу</string>
+    <string name="fourth_eye">Четверте око</string>
+    <string name="fourth_eye_description">Додає симетрію очей до QR-коду, додаючи четверте око в нижньому кутку</string>
+    <string name="pixel_shape">Форма пікселя</string>
+    <string name="frame_shape">Форма рами</string>
+    <string name="ball_shape">Форма кулі</string>
+    <string name="error_correction_level">Рівень корекції помилок</string>
+    <string name="dark_color">Темний колір</string>
+    <string name="light_color">Світлий колір</string>
+    <string name="hyper_os">Hyper OS</string>
+    <string name="hyper_os_sub">Стиль, схожий на Xiaomi HyperOS</string>
+    <string name="mask_pattern">Візерунок маски</string>
 </resources>
