@@ -271,14 +271,12 @@ data class QrCodeParams(
         data object RoundSquare : Predefined
         data object Circle : Predefined
 
-        data object Random : BallShape
         data class Shaped(val shape: Shape) : BallShape
 
         //TODO: inspect which ones cannot be read
         companion object {
             val entries by lazy {
                 listOf(
-                    Random,
                     Square,
                     RoundSquare,
                     Circle,
@@ -498,16 +496,13 @@ private fun pixelShape(
     }
 }
 
-private fun ballShape(
-    density: Density,
-    shape: () -> Shape
-) = object : QrBallShape {
+private fun Shape.toBallShape(density: Density) = object : QrBallShape {
     override fun Path.path(
         size: Float,
         neighbors: Neighbors
     ): Path = apply {
         addOutline(
-            shape().createOutline(
+            createOutline(
                 size = Size(size, size),
                 layoutDirection = LayoutDirection.Ltr,
                 density = density
@@ -520,8 +515,7 @@ private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (
     QrCodeParams.BallShape.Square -> QrBallShape.square()
     QrCodeParams.BallShape.RoundSquare -> QrBallShape.roundCorners(0.25f)
     QrCodeParams.BallShape.Circle -> QrBallShape.circle()
-    QrCodeParams.BallShape.Random -> ballShape(density) { IconShape.entriesNoRandom.random().shape }
-    is QrCodeParams.BallShape.Shaped -> ballShape(density) { shape }
+    is QrCodeParams.BallShape.Shaped -> shape.toBallShape(density)
 }
 
 private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {

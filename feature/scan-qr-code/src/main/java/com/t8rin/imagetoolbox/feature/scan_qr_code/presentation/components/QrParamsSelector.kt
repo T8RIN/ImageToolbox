@@ -460,14 +460,6 @@ private fun BallShape.Content() {
             )
         }
 
-        is BallShape.Random -> {
-            Icon(
-                imageVector = Icons.Rounded.Shuffle,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-        }
-
         is BallShape.Shaped -> {
             Spacer(
                 modifier = Modifier
