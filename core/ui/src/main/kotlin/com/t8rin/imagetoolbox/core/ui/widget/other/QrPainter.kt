@@ -135,6 +135,7 @@ private fun rememberBarcodePainter(
         val density = LocalDensity.current
         val widthPx = with(density) { width.roundToPx() }
         val heightPx = with(density) { height.roundToPx() }
+        val paddingPx = with(density) { 6.dp.roundToPx() }
 
         val bitmapState = remember(content) {
             mutableStateOf<Bitmap?>(null)
@@ -158,7 +159,7 @@ private fun rememberBarcodePainter(
                         content = content,
                         widthPx = widthPx,
                         heightPx = heightPx,
-                        paddingPx = 0,
+                        paddingPx = paddingPx,
                         foregroundColor = foregroundColor,
                         backgroundColor = backgroundColor,
                         format = type.zxingFormat
@@ -289,16 +290,16 @@ data class QrCodeParams(
             val entries by lazy {
                 listOf(
                     Square,
+                    RoundSquare(0.25f),
+                    Circle,
                     RoundSquare(0.05f),
                     RoundSquare(0.10f),
                     RoundSquare(0.15f),
                     RoundSquare(0.20f),
-                    RoundSquare(0.25f),
                     RoundSquare(0.30f),
                     RoundSquare(0.35f),
                     RoundSquare(0.40f),
                     RoundSquare(0.45f),
-                    Circle,
                 )
             }
         }
@@ -529,7 +530,7 @@ fun QrCode(
             onFailure = onFailure
         )
 
-        val padding = 12.dp
+        val padding = 16.dp
 
         Picture(
             model = painter,

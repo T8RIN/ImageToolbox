@@ -296,7 +296,8 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.pixel_shape),
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                    activeButtonColor = MaterialTheme.colorScheme.primary
                 )
                 EnhancedButtonGroup(
                     modifier = Modifier
@@ -316,7 +317,8 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.frame_shape),
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                    activeButtonColor = MaterialTheme.colorScheme.primary
                 )
                 EnhancedButtonGroup(
                     modifier = Modifier
@@ -336,7 +338,8 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.ball_shape),
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                    activeButtonColor = MaterialTheme.colorScheme.primary
                 )
                 EnhancedButtonGroup(
                     modifier = Modifier
@@ -363,7 +366,8 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.error_correction_level),
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                    activeButtonColor = MaterialTheme.colorScheme.secondaryContainer
                 )
                 EnhancedButtonGroup(
                     modifier = Modifier
@@ -390,7 +394,8 @@ internal fun QrParamsSelector(
                         )
                     },
                     title = stringResource(R.string.mask_pattern),
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                    activeButtonColor = MaterialTheme.colorScheme.secondaryContainer
                 )
             }
         }
