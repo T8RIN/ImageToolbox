@@ -1801,4 +1801,20 @@
     <string name="website">Вебсайт</string>
     <string name="add_website">Добавить вебсайт</string>
     <string name="formatted_name">Форматированное имя</string>
+    <string name="qr_code_top_image">Это изображение будет использоваться для размещения над баркодом</string>
+    <string name="code_customization">Кастомизация кода</string>
+    <string name="qr_logo_image">Это изображение будет использоваться в качестве логотипа в центре QR-кода</string>
+    <string name="logo">Логотип</string>
+    <string name="logo_padding">Отступы логотипа</string>
+    <string name="logo_size">Размер логотипа</string>
+    <string name="logo_corners">Углы логотипа</string>
+    <string name="pixel_shape">Форма пикселя</string>
+    <string name="frame_shape">Форма рамки</string>
+    <string name="ball_shape">Форма круга</string>
+    <string name="error_correction_level">Уровень коррекции ошибок</string>
+    <string name="dark_color">Тёмный цвет</string>
+    <string name="light_color">Светлый цвет</string>
+    <string name="hyper_os">Hyper OS</string>
+    <string name="hyper_os_sub">Стиль как в Xiaomi HyperOS</string>
+    <string name="mask_pattern">Шаблон маски</string>
 </resources>
