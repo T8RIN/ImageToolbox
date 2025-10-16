@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -70,6 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -262,11 +264,18 @@ fun CropContent(
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
-                    CoercePointsToImageBoundsToggle(
-                        value = coercePointsToImageArea,
-                        onValueChange = { coercePointsToImageArea = it },
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Column {
+                        CoercePointsToImageBoundsToggle(
+                            value = coercePointsToImageArea,
+                            onValueChange = { coercePointsToImageArea = it },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        MagnifierEnabledSelector(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = ShapeDefaults.extraLarge,
+                        )
+                    }
                 }
                 BoxAnimatedVisibility(
                     visible = component.cropType != CropType.FreeCorners,

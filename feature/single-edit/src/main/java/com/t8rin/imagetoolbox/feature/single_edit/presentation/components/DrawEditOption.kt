@@ -43,7 +43,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
-import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,7 +55,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -75,12 +73,12 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -88,7 +86,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -105,7 +102,6 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.OpenColorPickerCard
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
-import kotlinx.coroutines.launch
 
 @Composable
 fun DrawEditOption(
@@ -368,22 +364,11 @@ fun DrawEditOption(
                         onValueChange = onUpdateHelperGridParams,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
-                    val settingsInteractor = LocalSimpleSettingsInteractor.current
-                    val scope = rememberCoroutineScope()
-                    PreferenceRowSwitch(
+                    MagnifierEnabledSelector(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
                         shape = ShapeDefaults.extraLarge,
-                        title = stringResource(R.string.magnifier),
-                        subtitle = stringResource(R.string.magnifier_sub),
-                        checked = settingsState.magnifierEnabled,
-                        onClick = {
-                            scope.launch {
-                                settingsInteractor.toggleMagnifierEnabled()
-                            }
-                        },
-                        startIcon = Icons.Outlined.ZoomIn
                     )
                 }
             },

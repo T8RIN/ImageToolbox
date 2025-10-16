@@ -40,7 +40,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -65,7 +64,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -79,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -91,7 +90,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -406,19 +404,9 @@ fun EraseBackgroundContent(
                     onValueChange = component::updateHelperGridParams,
                     modifier = Modifier.fillMaxWidth()
                 )
-                val settingsInteractor = LocalSimpleSettingsInteractor.current
-                PreferenceRowSwitch(
+                MagnifierEnabledSelector(
                     modifier = Modifier.fillMaxWidth(),
                     shape = ShapeDefaults.extraLarge,
-                    title = stringResource(R.string.magnifier),
-                    subtitle = stringResource(R.string.magnifier_sub),
-                    checked = settingsState.magnifierEnabled,
-                    onClick = {
-                        scope.launch {
-                            settingsInteractor.toggleMagnifierEnabled()
-                        }
-                    },
-                    startIcon = Icons.Outlined.ZoomIn
                 )
                 SaveExifWidget(
                     imageFormat = component.imageFormat,

@@ -30,14 +30,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,17 +46,15 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
@@ -73,7 +69,6 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.OpenColorPickerCard
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun DrawContentControls(
@@ -95,10 +90,6 @@ internal fun DrawContentControls(
     val drawMode = component.drawMode
     val drawPathMode = component.drawPathMode
     val drawLineStyle = component.drawLineStyle
-
-
-    val settingsState = LocalSettingsState.current
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -260,19 +251,9 @@ internal fun DrawContentControls(
             onValueChange = component::updateHelperGridParams,
             modifier = Modifier.fillMaxWidth()
         )
-        val settingsInteractor = LocalSimpleSettingsInteractor.current
-        PreferenceRowSwitch(
+        MagnifierEnabledSelector(
             modifier = Modifier.fillMaxWidth(),
             shape = ShapeDefaults.extraLarge,
-            title = stringResource(R.string.magnifier),
-            subtitle = stringResource(R.string.magnifier_sub),
-            checked = settingsState.magnifierEnabled,
-            onClick = {
-                scope.launch {
-                    settingsInteractor.toggleMagnifierEnabled()
-                }
-            },
-            startIcon = Icons.Outlined.ZoomIn
         )
         SaveExifWidget(
             modifier = Modifier.fillMaxWidth(),

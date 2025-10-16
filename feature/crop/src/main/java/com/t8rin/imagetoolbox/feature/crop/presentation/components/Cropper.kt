@@ -182,6 +182,8 @@ fun Cropper(
             }
 
             CropType.FreeCorners -> {
+                val settingsState = LocalSettingsState.current
+
                 FreeCornersCropper(
                     bitmap = bitmap,
                     croppingTrigger = crop,
@@ -195,7 +197,8 @@ fun Cropper(
                             if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
                             else it.only(WindowInsetsSides.Horizontal)
                         }
-                        .asPaddingValues() + PaddingValues(16.dp)
+                        .asPaddingValues() + PaddingValues(16.dp),
+                    showMagnifier = settingsState.magnifierEnabled
                 )
             }
         }

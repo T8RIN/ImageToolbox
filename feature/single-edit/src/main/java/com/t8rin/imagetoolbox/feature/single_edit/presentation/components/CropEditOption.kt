@@ -60,12 +60,14 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.utils.notNullAnd
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.CoercePointsToImageBoundsToggle
@@ -164,14 +166,22 @@ fun CropEditOption(
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
-                    CoercePointsToImageBoundsToggle(
-                        value = coercePointsToImageArea,
-                        onValueChange = { coercePointsToImageArea = it },
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(top = 8.dp)
                             .padding(horizontal = 16.dp)
-                    )
+                    ) {
+                        CoercePointsToImageBoundsToggle(
+                            value = coercePointsToImageArea,
+                            onValueChange = { coercePointsToImageArea = it },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        MagnifierEnabledSelector(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = ShapeDefaults.extraLarge,
+                        )
+                    }
                 }
                 BoxAnimatedVisibility(
                     visible = cropType != CropType.FreeCorners,
