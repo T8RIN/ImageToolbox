@@ -1801,4 +1801,22 @@
     <string name="first_name">姓氏</string>
     <string name="middle_name">中间名</string>
     <string name="last_name">名字</string>
+    <string name="dark_color">深色</string>
+    <string name="light_color">浅色</string>
+    <string name="hyper_os">Hyper OS</string>
+    <string name="hyper_os_sub">小米澎湃OS风格</string>
+    <string name="mask_pattern">面具图案</string>
+    <string name="qr_code_top_image">此图像将用于放置在条形码上方</string>
+    <string name="code_customization">代码定制</string>
+    <string name="qr_logo_image">此图像将用作二维码中心的logo</string>
+    <string name="logo">Logo</string>
+    <string name="logo_padding">Logo内边距</string>
+    <string name="logo_size">Logo大小</string>
+    <string name="logo_corners">Logo角部</string>
+    <string name="fourth_eye">第四只眼</string>
+    <string name="fourth_eye_description">通过在底端角落添加第四只眼，为二维码增加眼睛对称性</string>
+    <string name="pixel_shape">像素形状</string>
+    <string name="frame_shape">框形</string>
+    <string name="ball_shape">球形</string>
+    <string name="error_correction_level">纠错等级</string>
 </resources>
