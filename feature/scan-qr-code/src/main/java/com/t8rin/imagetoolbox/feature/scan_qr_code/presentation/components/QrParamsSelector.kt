@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
@@ -77,7 +78,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.ErrorCorrectionLevel
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape
-import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape.RoundSquare.Corner
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape.Corners.CornerSide
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.MaskPattern
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.PixelShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
@@ -311,9 +312,9 @@ internal fun QrParamsSelector(
                 val frameShapes by remember(frameShape) {
                     derivedStateOf {
                         FrameShape.entries.map {
-                            if (it is FrameShape.RoundSquare && frameShape is FrameShape.RoundSquare) {
+                            if (it is FrameShape.Corners && frameShape is FrameShape.Corners) {
                                 it.copy(
-                                    corners = frameShape.corners
+                                    sides = frameShape.sides
                                 )
                             } else it
                         }
@@ -332,8 +333,8 @@ internal fun QrParamsSelector(
                     onValueChange = {
                         onValueChange(
                             value.copy(
-                                frameShape = if (it is FrameShape.RoundSquare && it.percent <= 0f) {
-                                    it.copy(corners = Corner.entries)
+                                frameShape = if (it is FrameShape.Corners && it.percent <= 0f) {
+                                    it.copy(sides = CornerSide.entries)
                                 } else it
                             )
                         )
@@ -344,10 +345,10 @@ internal fun QrParamsSelector(
                 )
 
                 AnimatedVisibility(
-                    visible = frameShape is FrameShape.RoundSquare && frameShape.percent > 0f,
+                    visible = frameShape is FrameShape.Corners && frameShape.percent > 0f,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    val shape = frameShape.safeCast<FrameShape.RoundSquare>()
+                    val shape = frameShape.safeCast<FrameShape.Corners>()
 
                     EnhancedButtonGroup(
                         modifier = Modifier
@@ -356,18 +357,18 @@ internal fun QrParamsSelector(
                                 shape = ShapeDefaults.default,
                                 color = MaterialTheme.colorScheme.surface
                             ),
-                        entries = Corner.entries,
-                        values = shape?.corners ?: emptyList(),
+                        entries = CornerSide.entries,
+                        values = shape?.sides ?: emptyList(),
                         itemContent = { it.Content() },
                         onValueChange = {
                             shape?.apply {
-                                val newCorners = shape.corners.toggle(it)
+                                val newCorners = shape.sides.toggle(it)
 
                                 if (newCorners.isNotEmpty()) {
                                     onValueChange(
                                         value.copy(
                                             frameShape = shape.copy(
-                                                corners = newCorners
+                                                sides = newCorners
                                             )
                                         )
                                     )
@@ -462,7 +463,7 @@ internal fun QrParamsSelector(
 }
 
 @Composable
-private fun Corner.Content() {
+private fun CornerSide.Content() {
     Icon(
         imageVector = Icons.Outlined.TopLeft,
         contentDescription = null,
@@ -513,16 +514,29 @@ private fun PixelShape.Content() {
 @Composable
 private fun FrameShape.Content() {
     when (this) {
-        is FrameShape.RoundSquare -> {
+        is FrameShape.Corners -> {
+            val percent = (percent * 100).roundToInt()
             Spacer(
                 modifier = Modifier
                     .size(20.dp)
                     .border(
                         width = 2.dp,
                         color = LocalContentColor.current,
-                        shape = RoundedCornerShape(
-                            percent = (percent * 100).roundToInt()
-                        )
+                        shape = if (isCut) {
+                            CutCornerShape(
+                                topStartPercent = if (topLeft) percent else 0,
+                                topEndPercent = if (topRight) percent else 0,
+                                bottomStartPercent = if (bottomLeft) percent else 0,
+                                bottomEndPercent = if (bottomRight) percent else 0
+                            )
+                        } else {
+                            RoundedCornerShape(
+                                topStartPercent = if (topLeft) percent else 0,
+                                topEndPercent = if (topRight) percent else 0,
+                                bottomStartPercent = if (bottomLeft) percent else 0,
+                                bottomEndPercent = if (bottomRight) percent else 0
+                            )
+                        }
                     )
             )
         }

@@ -89,7 +89,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
-import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape.RoundSquare.Corner
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
@@ -104,6 +103,7 @@ import io.github.alexzhirkevich.qrose.options.QrOptions
 import io.github.alexzhirkevich.qrose.options.QrPixelShape
 import io.github.alexzhirkevich.qrose.options.QrShapes
 import io.github.alexzhirkevich.qrose.options.circle
+import io.github.alexzhirkevich.qrose.options.cutCorners
 import io.github.alexzhirkevich.qrose.options.horizontalLines
 import io.github.alexzhirkevich.qrose.options.roundCorners
 import io.github.alexzhirkevich.qrose.options.solid
@@ -280,32 +280,66 @@ data class QrCodeParams(
     }
 
     sealed interface FrameShape {
-        data class RoundSquare(
+        data class Corners(
             val percent: Float,
-            val corners: List<Corner> = Corner.entries
+            val sides: List<CornerSide> = CornerSide.entries,
+            val isCut: Boolean = false
         ) : FrameShape {
-            enum class Corner {
+            enum class CornerSide {
                 TopLeft, TopRight, BottomRight, BottomLeft
             }
+
+            val topLeft = CornerSide.TopLeft in sides
+            val topRight = CornerSide.TopRight in sides
+            val bottomLeft = CornerSide.BottomLeft in sides
+            val bottomRight = CornerSide.BottomRight in sides
         }
 
         companion object {
-            val Square = RoundSquare(0.00f)
-            val Circle = RoundSquare(0.50f)
+            val Square = Corners(0.00f)
+            val Circle = Corners(0.50f)
 
             val entries: List<FrameShape> by lazy {
                 listOf(
                     Square,
-                    RoundSquare(0.25f),
+                    Corners(0.25f),
                     Circle,
-                    RoundSquare(0.05f),
-                    RoundSquare(0.10f),
-                    RoundSquare(0.15f),
-                    RoundSquare(0.20f),
-                    RoundSquare(0.30f),
-                    RoundSquare(0.35f),
-                    RoundSquare(0.40f),
-                    RoundSquare(0.45f),
+                    Corners(0.05f),
+                    Corners(0.10f),
+                    Corners(0.15f),
+                    Corners(0.20f),
+                    Corners(0.30f),
+                    Corners(0.35f),
+                    Corners(0.40f),
+                    Corners(0.45f),
+                    Corners(
+                        percent = 0.05f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.10f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.15f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.20f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.25f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.30f,
+                        isCut = true
+                    ),
+                    Corners(
+                        percent = 0.35f,
+                        isCut = true
+                    ),
                 )
             }
         }
@@ -610,13 +644,25 @@ private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (
 }
 
 private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
-    is QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(
-        corner = percent,
-        topLeft = Corner.TopLeft in corners,
-        topRight = Corner.TopRight in corners,
-        bottomLeft = Corner.BottomLeft in corners,
-        bottomRight = Corner.BottomRight in corners
-    )
+    is QrCodeParams.FrameShape.Corners -> {
+        if (isCut) {
+            QrFrameShape.cutCorners(
+                corner = percent,
+                topLeft = topLeft,
+                topRight = topRight,
+                bottomLeft = bottomLeft,
+                bottomRight = bottomRight
+            )
+        } else {
+            QrFrameShape.roundCorners(
+                corner = percent,
+                topLeft = topLeft,
+                topRight = topRight,
+                bottomLeft = bottomLeft,
+                bottomRight = bottomRight
+            )
+        }
+    }
 }
 
 private fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
