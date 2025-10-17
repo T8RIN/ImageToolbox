@@ -42,7 +42,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -186,6 +188,55 @@ fun EnhancedButtonGroup(
         inactiveButtonColor = inactiveButtonColor,
         activeButtonColor = activeButtonColor,
         isScrollable = isScrollable,
+    )
+}
+
+@Composable
+fun <T> EnhancedButtonGroup(
+    modifier: Modifier = defaultModifier,
+    enabled: Boolean = true,
+    entries: List<T>,
+    values: List<T>,
+    itemContent: @Composable (item: T) -> Unit,
+    title: String?,
+    onValueChange: (T) -> Unit,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
+    activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
+    isScrollable: Boolean = true
+) {
+    val selectedIndices by remember(values, entries) {
+        derivedStateOf {
+            values.mapTo(mutableSetOf()) { entries.indexOf(it) }
+        }
+    }
+
+    EnhancedButtonGroup(
+        modifier = modifier,
+        enabled = enabled,
+        itemCount = entries.size,
+        selectedIndices = selectedIndices,
+        itemContent = {
+            itemContent(entries[it])
+        },
+        onIndexChange = {
+            onValueChange(
+                entries[it]
+            )
+        },
+        title = {
+            title?.let {
+                Text(
+                    text = title,
+                    style = PreferenceItemDefaults.TitleFontStyleCentered,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(8.dp)
+                )
+            }
+        },
+        inactiveButtonColor = inactiveButtonColor,
+        activeButtonColor = activeButtonColor,
+        isScrollable = isScrollable
     )
 }
 

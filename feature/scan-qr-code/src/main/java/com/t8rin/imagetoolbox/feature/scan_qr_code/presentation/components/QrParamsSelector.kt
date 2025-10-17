@@ -51,13 +51,19 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.TopLeft
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -71,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.ErrorCorrectionLevel
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape.RoundSquare.Corner
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.MaskPattern
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.PixelShape
 import com.t8rin.imagetoolbox.core.ui.widget.other.defaultQrColors
@@ -299,6 +306,19 @@ internal fun QrParamsSelector(
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
                     activeButtonColor = MaterialTheme.colorScheme.primary
                 )
+                val frameShape = value.frameShape
+
+                val frameShapes by remember(frameShape) {
+                    derivedStateOf {
+                        FrameShape.entries.map {
+                            if (it is FrameShape.RoundSquare && frameShape is FrameShape.RoundSquare) {
+                                it.copy(
+                                    corners = frameShape.corners
+                                )
+                            } else it
+                        }
+                    }
+                }
                 EnhancedButtonGroup(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -306,13 +326,15 @@ internal fun QrParamsSelector(
                             shape = ShapeDefaults.default,
                             color = MaterialTheme.colorScheme.surface
                         ),
-                    entries = FrameShape.entries,
+                    entries = frameShapes,
                     value = value.frameShape,
                     itemContent = { it.Content() },
                     onValueChange = {
                         onValueChange(
                             value.copy(
-                                frameShape = it
+                                frameShape = if (it is FrameShape.RoundSquare && it.percent <= 0f) {
+                                    it.copy(corners = Corner.entries)
+                                } else it
                             )
                         )
                     },
@@ -320,6 +342,43 @@ internal fun QrParamsSelector(
                     inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
                     activeButtonColor = MaterialTheme.colorScheme.primary
                 )
+
+                AnimatedVisibility(
+                    visible = frameShape is FrameShape.RoundSquare && frameShape.percent > 0f,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    val shape = frameShape.safeCast<FrameShape.RoundSquare>()
+
+                    EnhancedButtonGroup(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .container(
+                                shape = ShapeDefaults.default,
+                                color = MaterialTheme.colorScheme.surface
+                            ),
+                        entries = Corner.entries,
+                        values = shape?.corners ?: emptyList(),
+                        itemContent = { it.Content() },
+                        onValueChange = {
+                            shape?.apply {
+                                val newCorners = shape.corners.toggle(it)
+
+                                if (newCorners.isNotEmpty()) {
+                                    onValueChange(
+                                        value.copy(
+                                            frameShape = shape.copy(
+                                                corners = newCorners
+                                            )
+                                        )
+                                    )
+                                }
+                            }
+                        },
+                        title = stringResource(R.string.corners),
+                        inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                        activeButtonColor = MaterialTheme.colorScheme.tertiaryContainer
+                    )
+                }
                 EnhancedButtonGroup(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -400,6 +459,17 @@ internal fun QrParamsSelector(
             }
         }
     }
+}
+
+@Composable
+private fun Corner.Content() {
+    Icon(
+        imageVector = Icons.Outlined.TopLeft,
+        contentDescription = null,
+        modifier = Modifier
+            .size(24.dp)
+            .rotate(90f * ordinal)
+    )
 }
 
 @Composable

@@ -89,6 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
+import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.FrameShape.RoundSquare.Corner
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
@@ -280,14 +281,19 @@ data class QrCodeParams(
 
     sealed interface FrameShape {
         data class RoundSquare(
-            val percent: Float
-        ) : FrameShape
+            val percent: Float,
+            val corners: List<Corner> = Corner.entries
+        ) : FrameShape {
+            enum class Corner {
+                TopLeft, TopRight, BottomRight, BottomLeft
+            }
+        }
 
         companion object {
             val Square = RoundSquare(0.00f)
             val Circle = RoundSquare(0.50f)
 
-            val entries by lazy {
+            val entries: List<FrameShape> by lazy {
                 listOf(
                     Square,
                     RoundSquare(0.25f),
@@ -604,7 +610,13 @@ private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (
 }
 
 private fun QrCodeParams.FrameShape.toLib(): QrFrameShape = when (this) {
-    is QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(percent)
+    is QrCodeParams.FrameShape.RoundSquare -> QrFrameShape.roundCorners(
+        corner = percent,
+        topLeft = Corner.TopLeft in corners,
+        topRight = Corner.TopRight in corners,
+        bottomLeft = Corner.BottomLeft in corners,
+        bottomRight = Corner.BottomRight in corners
+    )
 }
 
 private fun QrCodeParams.PixelShape.toLib(density: Density): QrPixelShape = when (this) {
