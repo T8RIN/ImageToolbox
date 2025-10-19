@@ -31,9 +31,11 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.utils.onResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
@@ -47,7 +49,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -75,9 +76,10 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    private var qrTypeJob: Job? by smartJob()
-
     private var settingsState: SettingsState = SettingsState.Default
+
+    private val _mayBeNotScannable = mutableStateOf(false)
+    val mayBeNotScannable by _mayBeNotScannable
 
     init {
         settingsProvider.getSettingsStateFlow().onEach { state ->
@@ -89,17 +91,15 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
             }
         }.launchIn(componentScope)
 
-        componentScope.launch {
-            initialQrCodeContent?.let { content ->
-                _params.update {
-                    it.copy(
-                        content = imageBarcodeReader.convertToQrType(content)
-                    )
-                }
-            }
-
-            uriToAnalyze?.let(::readBarcodeFromImage)
+        initialQrCodeContent?.let { content ->
+            updateParams(
+                params.copy(
+                    content = QrType.Plain(content)
+                )
+            )
         }
+
+        uriToAnalyze?.let(::readBarcodeFromImage)
     }
 
     fun saveBitmap(
@@ -207,36 +207,27 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
         _params.update { params }
     }
 
-    fun updateParamsAndGetQrType(params: QrPreviewParams) {
-        _params.update { params }
-
-        qrTypeJob = componentScope.launch {
-            delay(300)
-            _params.update {
-                it.copy(
-                    content = imageBarcodeReader.convertToQrType(it.content.raw)
-                )
-            }
-        }
-    }
-
     fun readBarcodeFromImage(
-        imageUri: Uri,
+        image: Any,
         onFailure: (Throwable) -> Unit = {}
     ) {
         componentScope.launch {
-            imageBarcodeReader
-                .readBarcode(imageUri)
-                .onSuccess {
-                    updateParams(
-                        params.copy(
-                            content = it
-                        )
-                    )
-                }
-                .onFailure(onFailure)
+            syncReadBarcodeFromImage(image).onFailure(onFailure)
         }
     }
+
+    suspend fun syncReadBarcodeFromImage(
+        image: Any
+    ) = imageBarcodeReader
+        .readBarcode(image)
+        .onResult { isSuccess -> _mayBeNotScannable.value = !isSuccess }
+        .onSuccess {
+            updateParams(
+                params.copy(
+                    content = it
+                )
+            )
+        }
 
     @AssistedFactory
     fun interface Factory {

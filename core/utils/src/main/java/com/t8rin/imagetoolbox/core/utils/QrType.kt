@@ -31,6 +31,15 @@ import java.util.Date
 fun QRContent.toQrType(): QrType {
     val raw = rawValue ?: rawBytes?.toString(Charsets.UTF_8).orEmpty()
 
+    if (raw.startsWith("geo:", true)) {
+        val data = raw.drop(4).split(";")
+        return QrType.Geo(
+            raw = raw,
+            latitude = data.getOrNull(0)?.toDoubleOrNull(),
+            longitude = data.getOrNull(1)?.toDoubleOrNull()
+        )
+    }
+
     return when (this) {
         is QRContent.Plain -> QrType.Plain(raw)
 

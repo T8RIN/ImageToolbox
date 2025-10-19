@@ -40,8 +40,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -51,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberBarcodeScanner
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -66,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrCodePreview
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.ScanQrCodeControls
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("StringFormatInvalid")
@@ -73,7 +73,7 @@ import kotlinx.coroutines.launch
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent
 ) {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
 
     val essentials = rememberLocalEssentials()
     val scope = essentials.coroutineScope
@@ -91,12 +91,22 @@ fun ScanQrCodeContent(
 
     val analyzerImagePicker = rememberImagePicker { uri: Uri ->
         component.readBarcodeFromImage(
-            imageUri = uri,
+            image = uri,
             onFailure = {
                 essentials.showFailureToast(
                     Throwable(context.getString(R.string.no_barcode_found), it)
                 )
             }
+        )
+    }
+
+    val captureController = rememberCaptureController()
+
+    LaunchedEffect(params) {
+        if (params.content.raw.isEmpty()) return@LaunchedEffect
+        delay(500)
+        component.syncReadBarcodeFromImage(
+            image = captureController.bitmap()
         )
     }
 
@@ -114,8 +124,6 @@ fun ScanQrCodeContent(
             }
         )
     }
-
-    val captureController = rememberCaptureController()
 
     val saveBitmap: (oneTimeSaveLocationUri: String?, bitmap: Bitmap) -> Unit =
         { oneTimeSaveLocationUri, bitmap ->
@@ -220,8 +228,7 @@ fun ScanQrCodeContent(
                 onSecondaryButtonClick = scanner::scan,
                 onPrimaryButtonClick = {
                     scope.launch {
-                        val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        saveBitmap(null, bitmap)
+                        saveBitmap(null, captureController.bitmap())
                     }
                 },
                 onPrimaryButtonLongClick = {
@@ -255,8 +262,7 @@ fun ScanQrCodeContent(
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = {
                     scope.launch {
-                        val bitmap = captureController.captureAsync().await().asAndroidBitmap()
-                        saveBitmap(it, bitmap)
+                        saveBitmap(it, captureController.bitmap())
                     }
                 },
                 formatForFilenameSelection = component.getFormatForFilenameSelection()

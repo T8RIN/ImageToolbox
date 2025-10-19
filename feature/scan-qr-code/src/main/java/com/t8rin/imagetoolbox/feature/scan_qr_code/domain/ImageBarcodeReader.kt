@@ -25,8 +25,4 @@ interface ImageBarcodeReader {
         image: Any
     ): Result<QrType>
 
-    suspend fun convertToQrType(
-        code: String
-    ): QrType
-
 }

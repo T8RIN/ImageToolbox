@@ -54,7 +54,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -226,15 +228,20 @@ internal fun QrParamsSelector(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
+                            var logoPadding by remember {
+                                mutableFloatStateOf(value.logoPadding)
+                            }
                             EnhancedSliderItem(
-                                value = value.logoPadding,
+                                value = logoPadding,
                                 title = stringResource(R.string.logo_padding),
                                 valueRange = 0f..1f,
                                 internalStateTransformation = { it.roundToTwoDigits() },
                                 onValueChange = {
+                                    logoPadding = it.roundToTwoDigits()
+
                                     onValueChange(
                                         value.copy(
-                                            logoPadding = it.roundToTwoDigits()
+                                            logoPadding = logoPadding
                                         )
                                     )
                                 },
@@ -245,15 +252,19 @@ internal fun QrParamsSelector(
                                     size = logoParamsSize
                                 )
                             )
+                            var logoSize by remember {
+                                mutableFloatStateOf(value.logoSize)
+                            }
                             EnhancedSliderItem(
-                                value = value.logoSize,
+                                value = logoSize,
                                 title = stringResource(R.string.logo_size),
                                 valueRange = 0f..1f,
                                 internalStateTransformation = { it.roundToTwoDigits() },
                                 onValueChange = {
+                                    logoSize = it.roundToTwoDigits()
                                     onValueChange(
                                         value.copy(
-                                            logoSize = it.roundToTwoDigits()
+                                            logoSize = logoSize
                                         )
                                     )
                                 },
@@ -264,15 +275,19 @@ internal fun QrParamsSelector(
                                     size = logoParamsSize
                                 )
                             )
+                            var logoCorners by remember {
+                                mutableFloatStateOf(value.logoCorners)
+                            }
                             EnhancedSliderItem(
-                                value = value.logoCorners,
+                                value = logoCorners,
                                 title = stringResource(R.string.logo_corners),
                                 valueRange = 0f..1f,
                                 internalStateTransformation = { it.roundToTwoDigits() },
                                 onValueChange = {
+                                    logoCorners = it.roundToTwoDigits()
                                     onValueChange(
                                         value.copy(
-                                            logoCorners = it.roundToTwoDigits()
+                                            logoCorners = logoCorners
                                         )
                                     )
                                 },
@@ -550,7 +565,6 @@ private fun BallShape.Content() {
             Icon(
                 imageVector = when (this) {
                     BallShape.Square -> Icons.Sharp.Square
-                    BallShape.RoundSquare -> Icons.Rounded.RoundedCorner
                     BallShape.Circle -> Icons.Rounded.Circle
                 },
                 contentDescription = null,

@@ -39,6 +39,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.RoundedCorner
+import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.QrCode2
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -97,6 +98,22 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             .fillMaxWidth()
             .padding(bottom = 8.dp)
     )
+
+    val noContent = params.content.raw.isEmpty()
+
+    AnimatedVisibility(
+        visible = !noContent && component.mayBeNotScannable,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        InfoContainer(
+            text = stringResource(R.string.code_may_be_not_scannable),
+            modifier = Modifier.padding(8.dp),
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            icon = Icons.Rounded.ErrorOutline
+        )
+    }
+
     Column(
         modifier = Modifier
             .container(
@@ -104,8 +121,6 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
                 resultPadding = 0.dp
             )
     ) {
-        val noContent = params.content.raw.isEmpty()
-
         RoundedTextField(
             modifier = Modifier
                 .padding(
@@ -119,7 +134,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             ),
             value = params.content.raw,
             onValueChange = {
-                component.updateParamsAndGetQrType(
+                component.updateParams(
                     params.copy(
                         content = params.content.copy(it)
                     )

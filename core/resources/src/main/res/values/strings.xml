@@ -1839,4 +1839,5 @@
     <string name="hyper_os">Hyper OS</string>
     <string name="hyper_os_sub">Xiaomi HyperOS like style</string>
     <string name="mask_pattern">Mask pattern</string>
+    <string name="code_may_be_not_scannable">This code may be not scannable, change appearance params to make it readable with all devices</string>
 </resources>

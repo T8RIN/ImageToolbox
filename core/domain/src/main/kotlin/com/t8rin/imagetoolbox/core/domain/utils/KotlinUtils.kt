@@ -72,3 +72,7 @@ inline fun tryAll(
 
     return false
 }
+
+inline fun <T> Result<T>.onResult(
+    action: (isSuccess: Boolean) -> Unit
+): Result<T> = apply { action(isSuccess) }

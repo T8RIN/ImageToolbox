@@ -349,7 +349,6 @@ data class QrCodeParams(
         sealed interface Predefined : BallShape
 
         data object Square : Predefined
-        data object RoundSquare : Predefined
         data object Circle : Predefined
 
         data class Shaped(val shape: Shape) : BallShape
@@ -358,7 +357,6 @@ data class QrCodeParams(
             val entries by lazy {
                 listOf(
                     Square,
-                    RoundSquare,
                     Circle,
                 ) + listOf(
                     Shaped(SquircleShape),
@@ -638,7 +636,6 @@ private fun Shape.toBallShape(density: Density) = object : QrBallShape {
 
 private fun QrCodeParams.BallShape.toLib(density: Density): QrBallShape = when (this) {
     QrCodeParams.BallShape.Square -> QrBallShape.square()
-    QrCodeParams.BallShape.RoundSquare -> QrBallShape.roundCorners(0.25f)
     QrCodeParams.BallShape.Circle -> QrBallShape.circle()
     is Shaped -> shape.toBallShape(density)
 }
