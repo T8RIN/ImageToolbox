@@ -32,10 +32,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.cornerRadius
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isRect
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rotationDegrees
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateRect
@@ -68,7 +70,24 @@ internal fun RectParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ShapeDefaults.default
+                shape = ShapeDefaults.top
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            EnhancedSliderItem(
+                value = value.cornerRadius(),
+                title = stringResource(R.string.radius),
+                valueRange = 0f..0.5f,
+                internalStateTransformation = { it.roundToTwoDigits() },
+                onValueChange = {
+                    onValueChange(
+                        value.updateRect(cornerRadius = it.roundToTwoDigits())
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                shape = ShapeDefaults.bottom
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

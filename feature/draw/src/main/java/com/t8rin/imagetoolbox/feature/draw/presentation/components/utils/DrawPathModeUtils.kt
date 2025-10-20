@@ -42,13 +42,15 @@ internal fun DrawPathMode.saveState(
 ): DrawPathMode = when {
     value is DrawPathMode.Rect && this is DrawPathMode.OutlinedRect -> {
         copy(
-            rotationDegrees = value.rotationDegrees
+            rotationDegrees = value.rotationDegrees,
+            cornerRadius = value.cornerRadius
         )
     }
 
     value is DrawPathMode.OutlinedRect && this is DrawPathMode.Rect -> {
         copy(
-            rotationDegrees = value.rotationDegrees
+            rotationDegrees = value.rotationDegrees,
+            cornerRadius = value.cornerRadius
         )
     }
 
@@ -207,6 +209,12 @@ internal fun DrawPathMode.rotationDegrees(): Int = when (this) {
     else -> 0
 }
 
+internal fun DrawPathMode.cornerRadius(): Float = when (this) {
+    is DrawPathMode.Rect -> cornerRadius
+    is DrawPathMode.OutlinedRect -> cornerRadius
+    else -> 0f
+}
+
 internal fun DrawPathMode.isRegular(): Boolean = when (this) {
     is DrawPathMode.Polygon -> isRegular
     is DrawPathMode.OutlinedPolygon -> isRegular
@@ -273,17 +281,20 @@ internal fun DrawPathMode.updateStar(
 }
 
 internal fun DrawPathMode.updateRect(
-    rotationDegrees: Int? = null
+    rotationDegrees: Int? = null,
+    cornerRadius: Float? = null
 ) = when (this) {
     is DrawPathMode.Rect -> {
         copy(
-            rotationDegrees = rotationDegrees ?: this.rotationDegrees
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
+            cornerRadius = cornerRadius ?: this.cornerRadius
         )
     }
 
     is DrawPathMode.OutlinedRect -> {
         copy(
-            rotationDegrees = rotationDegrees ?: this.rotationDegrees
+            rotationDegrees = rotationDegrees ?: this.rotationDegrees,
+            cornerRadius = cornerRadius ?: this.cornerRadius
         )
     }
 

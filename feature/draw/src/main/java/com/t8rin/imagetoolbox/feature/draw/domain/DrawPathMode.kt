@@ -47,13 +47,15 @@ sealed class DrawPathMode(
     data object Lasso : DrawPathMode(6)
 
     data class OutlinedRect(
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val cornerRadius: Float = 0f
     ) : DrawPathMode(7)
 
     data object OutlinedOval : DrawPathMode(8)
 
     data class Rect(
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val cornerRadius: Float = 0f
     ) : DrawPathMode(9)
 
     data object Oval : DrawPathMode(10)

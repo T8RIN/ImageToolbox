@@ -58,7 +58,8 @@ sealed class UiDrawPathMode : Parcelable {
 
     @Parcelize
     data class OutlinedRect(
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val cornerRadius: Float = 0f
     ) : UiDrawPathMode()
 
     @Parcelize
@@ -66,7 +67,8 @@ sealed class UiDrawPathMode : Parcelable {
 
     @Parcelize
     data class Rect(
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val cornerRadius: Float = 0f
     ) : UiDrawPathMode()
 
     @Parcelize
@@ -135,7 +137,11 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
         isRegular = isRegular
     )
 
-    is DrawPathMode.OutlinedRect -> UiDrawPathMode.OutlinedRect(rotationDegrees)
+    is DrawPathMode.OutlinedRect -> UiDrawPathMode.OutlinedRect(
+        rotationDegrees = rotationDegrees,
+        cornerRadius = cornerRadius
+    )
+
     is DrawPathMode.OutlinedStar -> UiDrawPathMode.OutlinedStar(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
@@ -156,7 +162,11 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
         isRegular = isRegular
     )
 
-    is DrawPathMode.Rect -> UiDrawPathMode.Rect(rotationDegrees)
+    is DrawPathMode.Rect -> UiDrawPathMode.Rect(
+        rotationDegrees = rotationDegrees,
+        cornerRadius = cornerRadius
+    )
+
     is DrawPathMode.Star -> UiDrawPathMode.Star(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
@@ -193,7 +203,11 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
         isRegular = isRegular
     )
 
-    is UiDrawPathMode.OutlinedRect -> DrawPathMode.OutlinedRect(rotationDegrees)
+    is UiDrawPathMode.OutlinedRect -> DrawPathMode.OutlinedRect(
+        rotationDegrees = rotationDegrees,
+        cornerRadius = cornerRadius
+    )
+
     is UiDrawPathMode.OutlinedStar -> DrawPathMode.OutlinedStar(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
@@ -214,7 +228,11 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
         isRegular = isRegular
     )
 
-    is UiDrawPathMode.Rect -> DrawPathMode.Rect(rotationDegrees)
+    is UiDrawPathMode.Rect -> DrawPathMode.Rect(
+        rotationDegrees = rotationDegrees,
+        cornerRadius = cornerRadius
+    )
+
     is UiDrawPathMode.Star -> DrawPathMode.Star(
         vertices = vertices,
         rotationDegrees = rotationDegrees,
