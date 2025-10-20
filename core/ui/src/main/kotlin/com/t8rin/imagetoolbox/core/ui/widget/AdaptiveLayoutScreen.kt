@@ -108,7 +108,8 @@ fun AdaptiveLayoutScreen(
         WindowInsets.displayCutout.only(
             WindowInsetsSides.Horizontal
         )
-    )
+    ),
+    listState: LazyListState = rememberLazyListState()
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val settingsState = LocalSettingsState.current
@@ -213,7 +214,6 @@ fun AdaptiveLayoutScreen(
                                     .calculateStartPadding(direction)
                             } else 0.dp
 
-                        val listState = rememberLazyListState()
                         var isScrolled by rememberSaveable(canShowScreenData) {
                             mutableStateOf(false)
                         }

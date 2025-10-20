@@ -101,8 +101,10 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
 
     val noContent = params.content.raw.isEmpty()
 
+    val isNotScannable = !noContent && component.mayBeNotScannable
+
     AnimatedVisibility(
-        visible = !noContent && component.mayBeNotScannable,
+        visible = isNotScannable,
         modifier = Modifier.fillMaxWidth()
     ) {
         InfoContainer(

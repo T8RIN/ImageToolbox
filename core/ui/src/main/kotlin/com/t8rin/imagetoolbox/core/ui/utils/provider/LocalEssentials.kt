@@ -89,7 +89,7 @@ data class LocalEssentials internal constructor(
     val coroutineScope: CoroutineScope,
     val context: ComponentActivity,
     val clipboard: Clipboard
-) {
+) : CoroutineScope by coroutineScope {
     fun showToast(
         message: String,
         icon: ImageVector? = null,

@@ -89,6 +89,8 @@ fun ScanQrCodeContent(
         )
     }
 
+    val isNotScannable = params.content.raw.isNotEmpty() && component.mayBeNotScannable
+
     val analyzerImagePicker = rememberImagePicker { uri: Uri ->
         component.readBarcodeFromImage(
             image = uri,
@@ -230,6 +232,14 @@ fun ScanQrCodeContent(
                     scope.launch {
                         saveBitmap(null, captureController.bitmap())
                     }
+                },
+                primaryButtonContainerColor = takeColorFromScheme {
+                    if (isNotScannable) error
+                    else primaryContainer
+                },
+                primaryButtonContentColor = takeColorFromScheme {
+                    if (isNotScannable) onError
+                    else onPrimaryContainer
                 },
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
