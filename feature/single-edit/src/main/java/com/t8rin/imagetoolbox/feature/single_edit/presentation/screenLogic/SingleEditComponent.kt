@@ -54,6 +54,8 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
+import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
@@ -218,10 +220,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             }
         }
         componentScope.launch {
-            val params = fileController.restoreObject(
-                "helperGridParams",
-                HelperGridParams::class
-            ) ?: HelperGridParams()
+            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
             _helperGridParams.update { params }
         }
     }
@@ -776,10 +775,7 @@ class SingleEditComponent @AssistedInject internal constructor(
 
         smartSavingJob = componentScope.launch {
             delay(200)
-            fileController.saveObject(
-                key = "helperGridParams",
-                value = params
-            )
+            fileController.saveObject(params)
         }
     }
 

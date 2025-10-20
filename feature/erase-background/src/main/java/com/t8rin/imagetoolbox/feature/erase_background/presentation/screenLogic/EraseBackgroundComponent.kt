@@ -36,6 +36,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
+import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -121,10 +123,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
     init {
         componentScope.launch {
-            val params = fileController.restoreObject(
-                "helperGridParams",
-                HelperGridParams::class
-            ) ?: HelperGridParams()
+            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
             _helperGridParams.update { params }
         }
     }
@@ -383,10 +382,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
         smartSavingJob = componentScope.launch {
             delay(200)
-            fileController.saveObject(
-                key = "helperGridParams",
-                value = params
-            )
+            fileController.saveObject(params)
         }
     }
 

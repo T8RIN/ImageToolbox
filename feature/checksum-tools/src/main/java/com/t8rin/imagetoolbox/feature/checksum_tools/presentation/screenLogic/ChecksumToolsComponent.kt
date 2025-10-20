@@ -27,6 +27,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
+import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -73,10 +75,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
     init {
         debounce {
             initialUri?.let(::setUri)
-            fileController.restoreObject(
-                key = "checksum_type",
-                kClass = HashingType::class
-            )?.let(::updateChecksumType)
+            fileController.restoreObject<HashingType>()?.let(::updateChecksumType)
         }
     }
 
@@ -159,10 +158,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
         compareWithUriPage.uri?.let(::setDataForComparison)
         setDataForBatchComparison(forceReload = true)
         componentScope.launch {
-            fileController.saveObject(
-                key = "checksum_type",
-                value = type
-            )
+            fileController.saveObject(type)
         }
     }
 

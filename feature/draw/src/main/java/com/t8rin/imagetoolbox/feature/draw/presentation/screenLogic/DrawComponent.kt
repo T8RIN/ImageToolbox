@@ -40,6 +40,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
+import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -167,17 +169,11 @@ class DrawComponent @AssistedInject internal constructor(
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
         }
         componentScope.launch {
-            val params = fileController.restoreObject(
-                "drawOnBackgroundParams",
-                DrawOnBackgroundParams::class
-            )
+            val params = fileController.restoreObject<DrawOnBackgroundParams>()
             _drawOnBackgroundParams.update { params }
         }
         componentScope.launch {
-            val params = fileController.restoreObject(
-                "helperGridParams",
-                HelperGridParams::class
-            ) ?: HelperGridParams()
+            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
             _helperGridParams.update { params }
         }
     }
@@ -340,10 +336,7 @@ class DrawComponent @AssistedInject internal constructor(
             )
 
             _drawOnBackgroundParams.update { newValue }
-            fileController.saveObject(
-                key = "drawOnBackgroundParams",
-                value = newValue
-            )
+            fileController.saveObject(newValue)
         }
     }
 
@@ -465,10 +458,7 @@ class DrawComponent @AssistedInject internal constructor(
 
         smartSavingJob = componentScope.launch {
             delay(200)
-            fileController.saveObject(
-                key = "helperGridParams",
-                value = params
-            )
+            fileController.saveObject(params)
         }
     }
 
