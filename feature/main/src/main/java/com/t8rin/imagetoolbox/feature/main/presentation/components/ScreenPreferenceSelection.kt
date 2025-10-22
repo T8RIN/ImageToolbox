@@ -153,7 +153,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                     isGrid, navBarsPadding,
                     showClipButton, showSearchButton,
                     isSheetSlideable, layoutDirection,
-                    cutout, showNavRail
+                    cutout, showNavRail, isScreenSelectionLauncherMode
                 ) {
                     derivedStateOf {
                         PaddingValues(
