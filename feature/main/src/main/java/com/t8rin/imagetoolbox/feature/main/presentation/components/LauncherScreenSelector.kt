@@ -165,7 +165,8 @@ internal fun LauncherScreenSelector(
                                             shape = shape,
                                             color = MaterialTheme.colorScheme.surface
                                         )
-                                        .padding(3.dp),
+                                        .padding(2.dp)
+                                        .padding(bottom = 0.5.dp),
                                     containerColor = containerColor.copy(0.5f),
                                     contentColor = LocalContentColor.current,
                                     interactionSource = interactionSource
