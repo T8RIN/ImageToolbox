@@ -479,6 +479,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleAllowSkipIfLarger() = settingsScope { toggleAllowSkipIfLarger() }
 
+    fun toggleIsScreenSelectionLauncherMode() =
+        settingsScope { toggleIsScreenSelectionLauncherMode() }
+
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit
     ) {

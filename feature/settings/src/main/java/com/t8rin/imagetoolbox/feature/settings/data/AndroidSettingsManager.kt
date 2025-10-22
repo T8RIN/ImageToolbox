@@ -112,6 +112,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_CODES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INITIAL_OCR_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.INVERT_THEME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LAUNCHER_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
@@ -506,6 +507,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleAllowSkipIfLarger() = toggle(
         key = ALLOW_SKIP_IF_LARGER,
         defaultValue = default.allowSkipIfLarger
+    )
+
+    override suspend fun toggleIsScreenSelectionLauncherMode() = toggle(
+        key = IS_LAUNCHER_MODE,
+        defaultValue = default.isScreenSelectionLauncherMode
     )
 
     override suspend fun setScreensWithBrightnessEnforcement(data: String) = edit {

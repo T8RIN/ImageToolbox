@@ -122,6 +122,7 @@ data class SettingsState(
     val addImageScaleModeInfoToFilename: Boolean,
     val allowSkipIfLarger: Boolean,
     val customAsciiGradients: Set<String>,
+    val isScreenSelectionLauncherMode: Boolean,
 ) {
 
     companion object {
@@ -221,7 +222,8 @@ data class SettingsState(
                 addPresetInfoToFilename = false,
                 addImageScaleModeInfoToFilename = false,
                 allowSkipIfLarger = false,
-                customAsciiGradients = emptySet()
+                customAsciiGradients = emptySet(),
+                isScreenSelectionLauncherMode = false
             )
         }
     }

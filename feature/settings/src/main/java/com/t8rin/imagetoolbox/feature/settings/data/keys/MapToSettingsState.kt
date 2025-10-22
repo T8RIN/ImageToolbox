@@ -200,7 +200,8 @@ internal fun Preferences.toSettingsState(
     allowSkipIfLarger = this[ALLOW_SKIP_IF_LARGER]
         ?: default.allowSkipIfLarger,
     customAsciiGradients = this[ASCII_CUSTOM_GRADIENTS]
-        ?: default.customAsciiGradients
+        ?: default.customAsciiGradients,
+    isScreenSelectionLauncherMode = this[IS_LAUNCHER_MODE] ?: default.isScreenSelectionLauncherMode
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

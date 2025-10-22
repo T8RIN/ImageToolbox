@@ -154,6 +154,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.ScreenOrder,
             Setting.ScreenSearch,
+            Setting.EnableLauncherMode,
             Setting.GroupOptions
         ),
         initialState = false

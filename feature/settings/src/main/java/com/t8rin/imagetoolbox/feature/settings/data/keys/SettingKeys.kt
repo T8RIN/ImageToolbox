@@ -124,3 +124,4 @@ internal val ADD_PRESET_TO_FILENAME = booleanPreferencesKey("ADD_PRESET_TO_FILEN
 internal val ADD_SCALE_MODE_TO_FILENAME = booleanPreferencesKey("ADD_SCALE_MODE_TO_FILENAME")
 internal val ALLOW_SKIP_IF_LARGER = booleanPreferencesKey("ALLOW_SKIP_IF_LARGER")
 internal val ASCII_CUSTOM_GRADIENTS = stringSetPreferencesKey("ASCII_CUSTOM_GRADIENTS")
+internal val IS_LAUNCHER_MODE = booleanPreferencesKey("IS_LAUNCHER_MODE")

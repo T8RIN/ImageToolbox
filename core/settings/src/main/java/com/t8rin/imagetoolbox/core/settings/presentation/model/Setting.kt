@@ -512,4 +512,9 @@ sealed class Setting(
         title = R.string.allow_skip_if_larger,
         subtitle = R.string.allow_skip_if_larger_sub
     )
+
+    data object EnableLauncherMode : Setting(
+        title = R.string.launcher_mode,
+        subtitle = R.string.launcher_mode_sub
+    )
 }

@@ -22,10 +22,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import java.util.Locale
 
 @Composable
@@ -35,7 +35,7 @@ internal fun filteredScreenListFor(
     showScreenSearch: Boolean
 ): State<List<Screen>> {
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     val canSearchScreens = settingsState.screensSearchEnabled
 
     val screenList by remember(settingsState.screenList) {

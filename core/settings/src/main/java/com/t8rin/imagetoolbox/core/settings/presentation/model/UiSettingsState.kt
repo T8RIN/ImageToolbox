@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -157,6 +158,7 @@ data class UiSettingsState(
     val addImageScaleModeInfoToFilename: Boolean,
     val allowSkipIfLarger: Boolean,
     val customAsciiGradients: Set<String>,
+    val isScreenSelectionLauncherMode: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -292,13 +294,7 @@ fun SettingsState.toUiState(
         }
     }
 
-    val mainScreenTitle by remember(mainScreenTitle) {
-        derivedStateOf {
-            mainScreenTitle.ifEmpty {
-                context.getString(R.string.app_name)
-            }
-        }
-    }
+    val mainScreenTitle = mainScreenTitle.ifEmpty { stringResource(R.string.app_name) }
 
     val customFonts by remember(customFonts) {
         derivedStateOf {
@@ -404,7 +400,8 @@ fun SettingsState.toUiState(
                 addPresetInfoToFilename = addPresetInfoToFilename,
                 addImageScaleModeInfoToFilename = addImageScaleModeInfoToFilename,
                 allowSkipIfLarger = allowSkipIfLarger,
-                customAsciiGradients = customAsciiGradients
+                customAsciiGradients = customAsciiGradients,
+                isScreenSelectionLauncherMode = isScreenSelectionLauncherMode,
             )
         }
     }.value

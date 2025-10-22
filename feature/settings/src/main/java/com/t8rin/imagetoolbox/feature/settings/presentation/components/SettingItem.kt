@@ -576,6 +576,10 @@ internal fun SettingItem(
             Setting.AllowSkipIfLarger -> {
                 AllowSkipIfLargerSettingItem(onClick = component::toggleAllowSkipIfLarger)
             }
+
+            Setting.EnableLauncherMode -> {
+                EnableLauncherModeSettingItem(onClick = component::toggleIsScreenSelectionLauncherMode)
+            }
         }
     }
 }

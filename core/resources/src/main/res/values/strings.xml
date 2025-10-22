@@ -1841,4 +1841,6 @@
     <string name="mask_pattern">Mask pattern</string>
     <string name="code_may_be_not_scannable">This code may be not scannable, change appearance params to make it readable with all devices</string>
     <string name="not_scannable">Not scannable</string>
+    <string name="launcher_mode_sub">Tools will look like home screen app launcher to be more compact</string>
+    <string name="launcher_mode">Launcher Mode</string>
 </resources>
