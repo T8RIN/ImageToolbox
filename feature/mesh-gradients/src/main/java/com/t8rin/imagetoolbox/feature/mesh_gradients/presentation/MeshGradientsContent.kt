@@ -21,7 +21,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -50,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
-import com.t8rin.imagetoolbox.core.ui.utils.helper.plus
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -124,7 +122,14 @@ fun MeshGradientsContent(
                                 WindowInsets.displayCutout.only(
                                     WindowInsetsSides.Horizontal
                                 )
-                            ).asPaddingValues() + PaddingValues(12.dp)
+                            ).union(
+                                WindowInsets(
+                                    left = 12.dp,
+                                    top = 12.dp,
+                                    right = 12.dp,
+                                    bottom = 12.dp
+                                )
+                            ).asPaddingValues()
                         )
                     } else {
                         val meshGradientDownloadProgress =

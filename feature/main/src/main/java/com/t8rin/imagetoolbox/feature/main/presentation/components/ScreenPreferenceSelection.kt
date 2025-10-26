@@ -156,6 +156,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                     cutout, showNavRail, isScreenSelectionLauncherMode
                 ) {
                     derivedStateOf {
+                        val vertical = if (isScreenSelectionLauncherMode) 12.dp else 0.dp
+
                         PaddingValues(
                             bottom = 12.dp + if (isGrid) {
                                 navBarsPadding
@@ -165,16 +167,16 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 76.dp + 48.dp
                             } else if (showClipButton || showSearchButton) {
                                 76.dp
-                            } else 0.dp,
-                            top = 12.dp,
+                            } else {
+                                0.dp
+                            } + vertical,
+                            top = 12.dp + vertical,
                             end = 12.dp + if (isSheetSlideable) {
                                 cutout.calculateEndPadding(layoutDirection)
                             } else 0.dp,
                             start = 12.dp + if (!showNavRail) {
                                 cutout.calculateStartPadding(layoutDirection)
                             } else 0.dp
-                        ) + PaddingValues(
-                            vertical = if (isScreenSelectionLauncherMode) 12.dp else 0.dp
                         )
                     }
                 }

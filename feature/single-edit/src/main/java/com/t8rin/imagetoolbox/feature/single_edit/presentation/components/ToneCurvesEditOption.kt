@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.single_edit.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -51,7 +50,6 @@ import com.t8rin.curves.ImageCurvesEditor
 import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
-import com.t8rin.imagetoolbox.core.ui.utils.helper.plus
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShowOriginalButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
@@ -193,7 +191,15 @@ fun ToneCurvesEditOption(
                             if (!useScaffold) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
                             else it.only(WindowInsetsSides.Horizontal)
                         }
-                        .asPaddingValues() + PaddingValues(16.dp),
+                        .union(
+                            WindowInsets(
+                                left = 16.dp,
+                                top = 16.dp,
+                                right = 16.dp,
+                                bottom = 16.dp
+                            )
+                        )
+                        .asPaddingValues(),
                     containerModifier = Modifier.align(Alignment.Center),
                     showOriginal = showOriginal,
                     onStateChange = {

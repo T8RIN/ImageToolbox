@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.checksum_tools.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -140,7 +139,7 @@ fun ChecksumToolsContent(
             HorizontalPager(
                 state = pagerState,
                 beyondViewportPageCount = 3,
-                contentPadding = insets + PaddingValues(20.dp),
+                contentPadding = insets,
                 pageSpacing = remember(insets, direction) {
                     20.dp + insets.calculateStartPadding(direction) + insets.calculateEndPadding(
                         direction
@@ -149,7 +148,9 @@ fun ChecksumToolsContent(
                 verticalAlignment = Alignment.Top
             ) { pageIndex ->
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

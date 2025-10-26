@@ -18,32 +18,13 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalLayoutDirection
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
-
-@Composable
-operator fun PaddingValues.plus(paddingValues: PaddingValues): PaddingValues {
-    val ld = LocalLayoutDirection.current
-    return remember(ld, paddingValues) {
-        derivedStateOf {
-            PaddingValues(
-                start = calculateStartPadding(ld) + paddingValues.calculateStartPadding(ld),
-                top = calculateTopPadding() + paddingValues.calculateTopPadding(),
-                end = calculateEndPadding(ld) + paddingValues.calculateEndPadding(ld),
-                bottom = calculateBottomPadding() + paddingValues.calculateBottomPadding(),
-            )
-        }
-    }.value
-}
 
 @Composable
 fun isPortraitOrientationAsState(): State<Boolean> {

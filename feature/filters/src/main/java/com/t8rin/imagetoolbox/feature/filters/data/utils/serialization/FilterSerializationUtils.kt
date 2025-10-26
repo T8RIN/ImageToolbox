@@ -29,8 +29,8 @@ internal fun List<Filter<*>>.toDatastoreString(
     filter::class.qualifiedName!!.replace(
         context.applicationInfo.packageName,
         PACKAGE_ALIAS
-    ) + if (includeValue && filter.value != null) {
-        VALUE_SEPARATOR + filter.value!!.toPair()
+    ) + if (includeValue) {
+        VALUE_SEPARATOR + filter.value.toPair()
             ?.let { it.first + VALUE_SEPARATOR + it.second }
     } else ""
 }.trim()

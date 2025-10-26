@@ -27,7 +27,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -197,7 +196,15 @@ fun Cropper(
                             if (addVerticalInsets) it.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
                             else it.only(WindowInsetsSides.Horizontal)
                         }
-                        .asPaddingValues() + PaddingValues(16.dp),
+                        .union(
+                            WindowInsets(
+                                left = 16.dp,
+                                top = 16.dp,
+                                right = 16.dp,
+                                bottom = 16.dp
+                            )
+                        )
+                        .asPaddingValues(),
                     showMagnifier = settingsState.magnifierEnabled
                 )
             }
