@@ -51,7 +51,8 @@ internal fun filteredScreenListFor(
         settingsState.favoriteScreenList,
         screenSearchKeyword,
         screenList,
-        selectedNavigationItem
+        selectedNavigationItem,
+        showScreenSearch
     ) {
         derivedStateOf {
             if (settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {

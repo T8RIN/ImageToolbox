@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
+import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 
 @SuppressLint("NewApi")
 @Composable
@@ -48,6 +50,10 @@ fun ImageToolboxTheme(
         contrastLevel = settingsState.themeContrastLevel,
         style = settingsState.themeStyle,
         isInvertColors = settingsState.isInvertThemeColors,
+        colorAnimationSpec = tween(
+            durationMillis = 400,
+            easing = FancyTransitionEasing
+        ),
         content = {
             MaterialTheme(
                 motionScheme = CustomMotionScheme,
