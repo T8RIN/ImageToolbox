@@ -40,8 +40,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
+import com.mikepenz.aboutlibraries.ui.compose.m3.chipColors
+import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.mikepenz.aboutlibraries.util.withContext
 import com.t8rin.imagetoolbox.core.resources.R
@@ -51,6 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.libraries_info.presentation.components.LibrariesContainer
 import com.t8rin.imagetoolbox.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 import kotlinx.collections.immutable.toPersistentList
 
@@ -96,35 +100,56 @@ fun LibrariesInfoContent(
             )
 
             val linkHandler = LocalUriHandler.current
-            LibrariesContainer(
-                libraries = remember {
-                    Libs.Builder()
-                        .withContext(essentials.context)
-                        .build().let { libs ->
-                            libs.copy(
-                                libraries = libs.libraries.distinctBy {
-                                    it.name
-                                }.sortedWith(
-                                    compareBy(
-                                        { !it.name.contains("T8RIN", true) },
-                                        { it.name }
-                                    ),
-                                ).toPersistentList()
-                            )
-                        }
-                },
-                modifier = Modifier.weight(1f),
-                contentPadding = WindowInsets
-                    .navigationBars
-                    .only(WindowInsetsSides.Bottom)
-                    .union(WindowInsets.ime)
-                    .union(
-                        WindowInsets.displayCutout
-                            .only(
-                                WindowInsetsSides.Horizontal
-                            )
+
+            val libraries = remember {
+                Libs.Builder()
+                    .withContext(essentials.context)
+                    .build().let { libs ->
+                        libs.copy(
+                            libraries = libs.libraries.distinctBy {
+                                it.name
+                            }.filter { it.licenses.isNotEmpty() }.sortedWith(
+                                compareBy(
+                                    { !it.name.contains("T8RIN", true) },
+                                    { it.name }
+                                ),
+                            ).toPersistentList()
+                        )
+                    }
+            }
+            val contentPadding = WindowInsets
+                .navigationBars
+                .only(WindowInsetsSides.Bottom)
+                .union(WindowInsets.ime)
+                .union(
+                    WindowInsets.displayCutout
+                        .only(
+                            WindowInsetsSides.Horizontal
+                        )
+                )
+                .union(
+                    WindowInsets(
+                        left = 12.dp,
+                        top = 12.dp,
+                        right = 12.dp,
+                        bottom = 12.dp
                     )
-                    .asPaddingValues(),
+                )
+                .asPaddingValues()
+
+            LibrariesContainer(
+                libraries = libraries,
+                modifier = Modifier.weight(1f),
+                contentPadding = contentPadding,
+                dimensions = LibraryDefaults.libraryDimensions(
+                    itemSpacing = 4.dp
+                ),
+                colors = LibraryDefaults.libraryColors(
+                    versionChipColors = LibraryDefaults.chipColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ),
                 onLibraryClick = { library ->
                     val license = library.licenses.firstOrNull()
                     if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {

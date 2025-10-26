@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.HtmlText
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -84,7 +85,10 @@ fun LibraryDetailsContent(
                                 )
                                 .asPaddingValues()
                         )
-                        .padding(16.dp),
+                        .padding(12.dp)
+                        .container(
+                            resultPadding = 12.dp
+                        ),
                     html = component.libraryDescription
                 )
             }
