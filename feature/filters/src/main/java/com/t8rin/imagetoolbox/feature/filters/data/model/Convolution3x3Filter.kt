@@ -40,7 +40,7 @@ internal class Convolution3x3Filter(
 ) : Transformation<Bitmap>, Filter.Convolution3x3 {
 
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = value.contentHashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,

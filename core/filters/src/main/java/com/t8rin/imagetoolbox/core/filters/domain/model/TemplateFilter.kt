@@ -24,30 +24,39 @@ data class TemplateFilter(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is TemplateFilter) return false
 
-        other as TemplateFilter
+        if (name != other.name) return false
+        if (filters.size != other.filters.size) return false
 
-        if (other.name != name) return false
-        if (other.filters.size != filters.size) return false
-        val filters1 = other.filters.sortedBy { it::class.simpleName }
-        val filters2 = filters.sortedBy { it::class.simpleName }
+        val filters1 = filters.sortedBy { it::class.simpleName }
+        val filters2 = other.filters.sortedBy { it::class.simpleName }
 
         filters1.forEachIndexed { index, filter1 ->
             val filter2 = filters2[index]
             val filter1Name = filter1::class.simpleName
             val filter2Name = filter2::class.simpleName
 
-            val filter1Value = filter1.value
-            val filter2Value = filter2.value
-
             if (filter1Name != filter2Name) return false
-            if (filter1Value is FloatArray) {
-                if (filter2Value !is FloatArray) return false
-                if (filter1Value.joinToString() != filter2Value.joinToString()) return false
-            }
 
-            if (filter1Value != filter2Value) return false
+            val v1 = filter1.value
+            val v2 = filter2.value
+
+            when {
+                v1 is FloatArray && v2 is FloatArray -> {
+                    if (!v1.contentEquals(v2)) return false
+                }
+
+                v1 is IntArray && v2 is IntArray -> {
+                    if (!v1.contentEquals(v2)) return false
+                }
+
+                v1 is DoubleArray && v2 is DoubleArray -> {
+                    if (!v1.contentEquals(v2)) return false
+                }
+
+                else -> if (v1 != v2) return false
+            }
         }
 
         return true
@@ -55,9 +64,16 @@ data class TemplateFilter(
 
     override fun hashCode(): Int {
         var result = name.hashCode()
-        result = 31 * result + filters.hashCode()
+        filters.forEach { filter ->
+            result = 31 * result + filter::class.simpleName.hashCode()
+            val v = filter.value
+            result = 31 * result + when (v) {
+                is FloatArray -> v.contentHashCode()
+                is IntArray -> v.contentHashCode()
+                is DoubleArray -> v.contentHashCode()
+                else -> v.hashCode()
+            }
+        }
         return result
     }
-
-
 }

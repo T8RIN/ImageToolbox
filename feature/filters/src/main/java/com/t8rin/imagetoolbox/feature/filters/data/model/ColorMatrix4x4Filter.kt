@@ -35,7 +35,7 @@ internal class ColorMatrix4x4Filter(
 ) : GPUFilterTransformation(), Filter.ColorMatrix4x4 {
 
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = value.contentHashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageColorMatrixFilter(1f, value)
 }

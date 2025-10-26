@@ -33,7 +33,7 @@ internal class ColorBalanceFilter(
 ) : GPUFilterTransformation(), Filter.ColorBalance {
 
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = value.contentHashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageColorBalanceFilter().apply {
         setHighlights(value.take(3).toFloatArray())
