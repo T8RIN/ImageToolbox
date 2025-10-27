@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 @Composable
 fun AllowSkipIfLargerSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.top,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.Companion.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

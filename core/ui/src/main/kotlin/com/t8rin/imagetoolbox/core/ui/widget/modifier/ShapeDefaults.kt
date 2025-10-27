@@ -274,7 +274,9 @@ internal class AnimatedShape(
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        this.size = size
+        if (size.width > 1f && size.height > 1f) {
+            this.size = size
+        }
 
         return RoundedCornerShape(
             topStart = topStart.boundedValue(),

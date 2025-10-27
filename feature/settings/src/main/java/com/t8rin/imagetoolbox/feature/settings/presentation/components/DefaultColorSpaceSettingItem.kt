@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -65,7 +66,7 @@ fun DefaultColorSpaceSettingItem(
             title = stringResource(R.string.tag_color_space),
             titleIcon = Icons.Outlined.ColorLens,
             itemContentText = { it.title },
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = Color.Unspecified,
             shape = shape,
             modifier = modifier,
             selectedItemColor = MaterialTheme.colorScheme.secondary
