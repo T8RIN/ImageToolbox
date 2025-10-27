@@ -67,7 +67,7 @@ androidxMacroBenchmark = "1.4.1"
 
 material = "1.14.0-alpha06"
 jsoup = "1.21.2"
-androidliquidglass = "1.0.0-beta03"
+androidliquidglass = "1.0.0-rc01"
 capsule = "2.1.0"
 
 mlkitDocumentScanner = "16.0.0"
