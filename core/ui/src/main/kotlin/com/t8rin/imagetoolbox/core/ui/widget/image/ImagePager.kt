@@ -129,7 +129,7 @@ fun ImagePager(
             mutableFloatStateOf(0f)
         }
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
-        val scale = (1f - animatedPredictiveBackProgress * 1.5f).coerceAtLeast(0.75f)
+        val scale = (1f - animatedPredictiveBackProgress).coerceAtLeast(0.75f)
 
         LaunchedEffect(predictiveBackProgress, visible) {
             if (!visible && predictiveBackProgress != 0f) {
@@ -527,7 +527,7 @@ fun ImagePager(
 
             PredictiveBackObserver(
                 onProgress = {
-                    predictiveBackProgress = it
+                    predictiveBackProgress = it / 6f
                 },
                 onClean = { isCompleted ->
                     if (isCompleted) {

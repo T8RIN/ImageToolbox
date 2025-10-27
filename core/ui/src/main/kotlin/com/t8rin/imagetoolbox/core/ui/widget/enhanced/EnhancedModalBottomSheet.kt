@@ -330,7 +330,7 @@ private fun EnhancedModalSheetImpl(
             content = {
                 PredictiveBackObserver(
                     onProgress = { progress ->
-                        predictiveBackProgress = progress
+                        predictiveBackProgress = progress / 6f
                     },
                     onClean = { isCompleted ->
                         if (isCompleted) {
@@ -352,7 +352,7 @@ private fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): F
     return if (width.isNaN() || width == 0f) {
         1f
     } else {
-        (1f - progress).coerceAtLeast(0.8f)
+        (1f - progress).coerceAtLeast(0.85f)
     }
 }
 
@@ -361,7 +361,7 @@ private fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): F
     return if (height.isNaN() || height == 0f) {
         1f
     } else {
-        (1f - progress).coerceAtLeast(0.8f)
+        (1f - progress).coerceAtLeast(0.85f)
     }
 }
 

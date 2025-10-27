@@ -224,7 +224,7 @@ fun BasicEnhancedAlertDialog(
             if (onDismissRequest != null) {
                 PredictiveBackObserver(
                     onProgress = { progress ->
-                        scale = (1f - progress * 1.5f).coerceAtLeast(0.75f)
+                        scale = (1f - progress / 6f).coerceAtLeast(0.85f)
                     },
                     onClean = { isCompleted ->
                         if (isCompleted) {

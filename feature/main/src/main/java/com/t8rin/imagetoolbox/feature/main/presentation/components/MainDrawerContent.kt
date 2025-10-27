@@ -111,7 +111,7 @@ internal fun MainDrawerContent(
 
     PredictiveBackObserver(
         onProgress = {
-            predictiveBackProgress = it
+            predictiveBackProgress = it / 6f
         },
         onClean = { isCompleted ->
             if (isCompleted) {
@@ -171,7 +171,7 @@ fun GraphicsLayerScope.calculatePredictiveBackScaleX(progress: Float): Float {
     return if (width.isNaN() || width == 0f) {
         1f
     } else {
-        (1f - progress).coerceAtLeast(0.8f)
+        (1f - progress).coerceAtLeast(0.85f)
     }
 }
 
@@ -180,6 +180,6 @@ fun GraphicsLayerScope.calculatePredictiveBackScaleY(progress: Float): Float {
     return if (height.isNaN() || height == 0f) {
         1f
     } else {
-        (1f - progress).coerceAtLeast(0.8f)
+        (1f - progress).coerceAtLeast(0.85f)
     }
 }
