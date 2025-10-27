@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -25,13 +26,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
+import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
 
 @SuppressLint("NewApi")
 @Composable
@@ -39,12 +45,30 @@ fun ImageToolboxTheme(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val context = LocalContext.current
+
     DynamicTheme(
         typography = rememberTypography(settingsState.font),
         state = rememberDynamicThemeState(rememberAppColorTuple()),
         colorBlindType = settingsState.colorBlindType,
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
+        dynamicColorsOverride = { isNightMode ->
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.BAKLAVA && DeviceInfo.isPixel()) {
+                val colors = if (isNightMode) {
+                    dynamicDarkColorScheme(context)
+                } else {
+                    dynamicLightColorScheme(context)
+                }
+
+                ColorTuple(
+                    primary = colors.primary,
+                    secondary = colors.secondary,
+                    tertiary = colors.tertiary,
+                    surface = colors.surface
+                )
+            } else null
+        },
         amoledMode = settingsState.isAmoledMode,
         isDarkTheme = settingsState.isNightMode,
         contrastLevel = settingsState.themeContrastLevel,

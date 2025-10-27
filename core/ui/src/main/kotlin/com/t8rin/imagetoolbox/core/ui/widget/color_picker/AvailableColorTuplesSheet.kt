@@ -187,11 +187,11 @@ fun AvailableColorTuplesSheet(
                                     shape = MaterialStarShape,
                                     color = rememberColorScheme(
                                         isDarkTheme = settingsState.isNightMode,
-                                        amoledMode = settingsState.isDynamicColors,
+                                        amoledMode = settingsState.isAmoledMode,
                                         colorTuple = currentColorTuple,
                                         contrastLevel = settingsState.themeContrastLevel,
                                         style = settingsState.themeStyle,
-                                        dynamicColor = settingsState.isDynamicColors,
+                                        dynamicColor = false,
                                         isInvertColors = settingsState.isInvertThemeColors
                                     ).surfaceVariant.copy(alpha = 0.8f),
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),

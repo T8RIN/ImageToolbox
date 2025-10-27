@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import android.app.Application
 import com.t8rin.imagetoolbox.app.presentation.components.utils.isMain
-import com.t8rin.imagetoolbox.core.crash.presentation.components.DeviceInfo
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
 import com.t8rin.logger.Logger
 import com.t8rin.logger.attachLogWriter
 

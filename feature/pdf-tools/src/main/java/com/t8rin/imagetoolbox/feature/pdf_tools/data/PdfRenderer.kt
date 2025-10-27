@@ -24,7 +24,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.os.ext.SdkExtensions
 import androidx.annotation.ChecksSdkIntAtLeast
-import com.t8rin.imagetoolbox.core.crash.presentation.components.DeviceInfo
+import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
 
 fun ParcelFileDescriptor.createPdfRenderer(
     password: String?,
