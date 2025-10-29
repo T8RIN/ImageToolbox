@@ -77,6 +77,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import kotlinx.coroutines.delay
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.snapBackZoomable
 import kotlin.math.abs
 
 
@@ -162,6 +164,7 @@ fun LazyListScope.imageStickyHeader(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val zoomState = rememberZoomState()
                 Box(
                     modifier = Modifier
                         .weight(1f, false)
@@ -188,6 +191,7 @@ fun LazyListScope.imageStickyHeader(
                                 }
                             } else Modifier
                         )
+                        .snapBackZoomable(zoomState = zoomState)
                 ) {
                     imageBlock()
                 }
