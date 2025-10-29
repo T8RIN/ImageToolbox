@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
@@ -89,7 +90,8 @@ internal fun MediaPickerHavePermissions(
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
     onRequestManagePermission: () -> Unit,
-    isManagePermissionAllowed: Boolean
+    isManagePermissionAllowed: Boolean,
+    onPicked: (List<Uri>) -> Unit
 ) {
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
 
@@ -250,7 +252,8 @@ internal fun MediaPickerHavePermissions(
             onRequestManagePermission = onRequestManagePermission,
             isManagePermissionAllowed = isManagePermissionAllowed,
             selectedAlbumIndex = selectedAlbumIndex,
-            onSearchingChange = { isSearching = it }
+            onSearchingChange = { isSearching = it },
+            onPicked = onPicked
         )
     }
     BackHandler(selectedAlbumIndex != -1L) {

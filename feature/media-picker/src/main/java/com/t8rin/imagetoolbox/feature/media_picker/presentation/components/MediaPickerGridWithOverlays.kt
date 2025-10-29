@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -36,9 +37,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -48,7 +46,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -67,12 +67,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -84,7 +82,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -94,7 +91,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun ColumnScope.MediaPickerGridWithOverlays(
@@ -105,14 +101,11 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
     selectedAlbumIndex: Long,
-    onSearchingChange: (Boolean) -> Unit
+    onSearchingChange: (Boolean) -> Unit,
+    onPicked: (List<Uri>) -> Unit
 ) {
-    val context = LocalComponentActivity.current
-    val layoutDirection = LocalLayoutDirection.current
-
     val albumsState by component.albumsState.collectAsState()
     val mediaState by component.mediaState.collectAsState()
-    val scope = rememberCoroutineScope()
     val selectedMedia = component.selectedMedia
 
     var searchKeyword by rememberSaveable(isSearching) {
@@ -213,9 +206,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                             contentColor = contentColor,
                             onClick = {
                                 if (enabled) {
-                                    scope.launch {
-                                        context.sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
-                                    }
+                                    onPicked(selectedMedia.map { it.uri.toUri() })
                                 }
                             },
                             modifier = Modifier
@@ -251,16 +242,9 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(
-                        start = WindowInsets.displayCutout
-                            .asPaddingValues()
-                            .calculateStartPadding(layoutDirection),
-                        end = WindowInsets.displayCutout
-                            .asPaddingValues()
-                            .calculateEndPadding(layoutDirection),
-                        bottom = WindowInsets.navigationBars
-                            .asPaddingValues()
-                            .calculateBottomPadding()
+                    .windowInsetsPadding(
+                        WindowInsets.displayCutout
+                            .union(WindowInsets.navigationBars)
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -361,12 +345,12 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                 transitionSpec = {
                     fadeIn() togetherWith fadeOut()
                 }
-            ) {
+            ) { searchMode ->
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.BottomStart
                 ) {
-                    if (it) {
+                    if (searchMode) {
                         RoundedTextField(
                             maxLines = 1,
                             hint = { Text(stringResource(id = R.string.search_here)) },

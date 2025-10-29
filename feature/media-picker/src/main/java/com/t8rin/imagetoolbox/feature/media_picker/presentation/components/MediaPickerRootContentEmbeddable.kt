@@ -18,18 +18,24 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -72,10 +78,12 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
-internal fun MediaPickerRootContentImpl(
+fun MediaPickerRootContentEmbeddable(
     component: MediaPickerComponent,
-    allowedMedia: AllowedMedia,
-    allowMultiple: Boolean
+    onPicked: (List<Uri>) -> Unit,
+    allowedMedia: AllowedMedia = AllowedMedia.Photos(null),
+    allowMultiple: Boolean = true,
+    onBack: (() -> Unit)? = null
 ) {
     val context = LocalComponentActivity.current
 
@@ -124,37 +132,7 @@ internal fun MediaPickerRootContentImpl(
         }
     }
 
-    Scaffold(
-        topBar = {
-            EnhancedTopAppBar(
-                title = {
-                    Text(
-                        text = if (allowMultiple) {
-                            stringResource(R.string.pick_multiple_media)
-                        } else {
-                            stringResource(R.string.pick_single_media)
-                        },
-                        modifier = Modifier.marquee()
-                    )
-                },
-                navigationIcon = {
-                    EnhancedIconButton(
-                        onClick = context::finish,
-                        containerColor = Color.Transparent
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.close)
-                        )
-                    }
-                },
-                actions = {
-                    TopAppBarEmoji()
-                },
-                drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
-            )
-        }
-    ) {
+    val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
             targetState = isPermissionAllowed,
             modifier = Modifier
@@ -170,7 +148,8 @@ internal fun MediaPickerRootContentImpl(
                         allowMultiple = allowMultiple,
                         component = component,
                         isManagePermissionAllowed = isManagePermissionAllowed,
-                        onRequestManagePermission = requestManagePermission
+                        onRequestManagePermission = requestManagePermission,
+                        onPicked = onPicked
                     )
                     LaunchedEffect(Unit) {
                         component.init(allowedMedia = allowedMedia)
@@ -215,5 +194,44 @@ internal fun MediaPickerRootContentImpl(
                 }
             }
         }
+    }
+
+    if (onBack == null) {
+        Box(Modifier.consumeWindowInsets(WindowInsets.safeDrawing)) {
+            content(PaddingValues())
+        }
+    } else {
+        Scaffold(
+            topBar = {
+                EnhancedTopAppBar(
+                    title = {
+                        Text(
+                            text = if (allowMultiple) {
+                                stringResource(R.string.pick_multiple_media)
+                            } else {
+                                stringResource(R.string.pick_single_media)
+                            },
+                            modifier = Modifier.marquee()
+                        )
+                    },
+                    navigationIcon = {
+                        EnhancedIconButton(
+                            onClick = onBack,
+                            containerColor = Color.Transparent
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.close)
+                            )
+                        }
+                    },
+                    actions = {
+                        TopAppBarEmoji()
+                    },
+                    drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
+                )
+            },
+            content = content
+        )
     }
 }

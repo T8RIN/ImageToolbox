@@ -32,10 +32,12 @@ internal fun MediaPickerRootContent(component: MediaPickerComponent) {
     ImageToolboxCompositionLocals(
         settingsState = component.settingsState.toUiState()
     ) {
-        MediaPickerRootContentImpl(
+        MediaPickerRootContentEmbeddable(
             component = component,
             allowedMedia = context.intent.type.allowedMedia,
-            allowMultiple = context.intent.allowMultiple
+            allowMultiple = context.intent.allowMultiple,
+            onPicked = context::sendMediaAsResult,
+            onBack = context::finish
         )
 
         ObserveColorSchemeExtra()
