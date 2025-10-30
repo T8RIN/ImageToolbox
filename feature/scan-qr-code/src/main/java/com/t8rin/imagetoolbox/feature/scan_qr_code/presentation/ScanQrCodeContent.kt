@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.BarcodeType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.other.renderAsQr
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.QrCodePreview
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components.ScanQrCodeControls
@@ -108,7 +109,10 @@ fun ScanQrCodeContent(
         if (params.content.raw.isEmpty()) return@LaunchedEffect
         delay(500)
         component.syncReadBarcodeFromImage(
-            image = captureController.bitmap()
+            image = params.qrParams.renderAsQr(
+                content = params.content.raw,
+                type = params.type
+            )
         )
     }
 

@@ -92,7 +92,7 @@ internal fun QrCodePreview(
                         } else Modifier
                     )
             ) {
-                val targetSize = min(min(this.maxWidth, this.maxHeight), 300.dp)
+                val targetSize = min(min(this.maxWidth, this.maxHeight), 400.dp)
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

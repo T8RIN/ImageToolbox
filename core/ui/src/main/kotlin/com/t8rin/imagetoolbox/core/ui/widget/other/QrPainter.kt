@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.addOutline
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -84,12 +85,15 @@ import com.t8rin.imagetoolbox.core.resources.shapes.SquircleShape
 import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.utils.toShape
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.applyPadding
 import com.t8rin.imagetoolbox.core.ui.utils.painter.centerCrop
 import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
+import io.github.alexzhirkevich.qrose.QrCodePainter
 import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
 import io.github.alexzhirkevich.qrose.options.QrBrush
@@ -111,6 +115,8 @@ import io.github.alexzhirkevich.qrose.options.square
 import io.github.alexzhirkevich.qrose.options.verticalLines
 import io.github.alexzhirkevich.qrose.qrcode.MaskPattern
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
+import io.github.alexzhirkevich.qrose.toImageBitmap
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
 /**
@@ -136,7 +142,7 @@ private fun rememberBarcodePainter(
         val density = LocalDensity.current
         val widthPx = with(density) { width.roundToPx() }
         val heightPx = with(density) { height.roundToPx() }
-        val paddingPx = with(density) { 6.dp.roundToPx() }
+        val paddingPx = with(density) { 0.dp.roundToPx() }
 
         val bitmapState = remember(content) {
             mutableStateOf<Bitmap?>(null)
@@ -598,6 +604,72 @@ fun QrCode(
                 .clip(RoundedCornerShape((cornerRadius - 1.dp).coerceAtLeast(0.dp)))
                 .shimmer(isLoading)
         )
+    }
+}
+
+suspend fun QrCodeParams.renderAsQr(
+    content: String,
+    type: BarcodeType
+): Bitmap = coroutineScope {
+    val widthPx = 1500
+    val heightPx = 1500
+    val paddingPx = 100
+
+    val logoPainter: Painter? = logo?.let {
+        appContext.imageLoader.execute(
+            ImageRequest.Builder(appContext)
+                .data(logo)
+                .size(1024)
+                .build()
+        ).image?.asPainter(appContext)?.centerCrop()?.roundCorners(logoCorners)
+    }
+
+    val options = QrOptions(
+        colors = QrColors(
+            dark = QrBrush.solid(foregroundColor ?: Color.Black),
+            light = QrBrush.solid(backgroundColor ?: Color.White),
+            ball = QrBrush.solid(foregroundColor ?: Color.Black),
+            frame = QrBrush.solid(foregroundColor ?: Color.Black),
+            background = QrBrush.solid(backgroundColor ?: Color.White),
+        ),
+        logo = logoPainter?.let {
+            QrLogo(
+                painter = logoPainter,
+                shape = QrLogoShape.roundCorners(logoCorners),
+                padding = QrLogoPadding.Natural(logoPadding),
+                size = logoSize
+            )
+        } ?: QrLogo(),
+        shapes = QrShapes(
+            darkPixel = pixelShape.toLib(Density(1f)),
+            frame = frameShape.toLib(),
+            ball = ballShape.toLib(Density(1f))
+        ),
+        errorCorrectionLevel = errorCorrectionLevel.toLib(),
+        maskPattern = maskPattern.toLib()
+    )
+
+    when (type) {
+        BarcodeType.QR_CODE -> {
+            QrCodePainter(
+                data = content,
+                options = options,
+                onSuccess = {},
+                onFailure = {}
+            ).toImageBitmap(widthPx, heightPx).asAndroidBitmap().applyPadding(paddingPx)
+        }
+
+        else -> {
+            generateQrBitmap(
+                content = content,
+                widthPx = widthPx,
+                heightPx = heightPx,
+                paddingPx = paddingPx,
+                foregroundColor = foregroundColor ?: Color.Black,
+                backgroundColor = backgroundColor ?: Color.White,
+                format = type.zxingFormat
+            )
+        }
     }
 }
 
