@@ -28,13 +28,7 @@ import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
-import androidx.compose.material.icons.rounded.PhoneAndroid
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
-import androidx.compose.material.icons.rounded.ShieldMoon
-import androidx.compose.material.icons.rounded.SortByAlpha
-import androidx.compose.material.icons.rounded.SystemSecurityUpdate
-import androidx.compose.material.icons.rounded.Vibration
-import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
@@ -44,9 +38,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Firebase
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
+import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
+import com.t8rin.imagetoolbox.core.resources.icons.Mobile
+import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
+import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.Mop
+import com.t8rin.imagetoolbox.core.resources.icons.Routine
 import com.t8rin.imagetoolbox.core.resources.icons.Shadow
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 
@@ -97,7 +97,7 @@ sealed class SettingsGroup(
 
     data object Layout : SettingsGroup(
         id = 3,
-        icon = Icons.Rounded.ViewCarousel,
+        icon = Icons.Rounded.MobileLayout,
         titleId = R.string.layout,
         settingsList = listOf(
             Setting.SwitchType,
@@ -112,7 +112,7 @@ sealed class SettingsGroup(
 
     data object NightMode : SettingsGroup(
         id = 4,
-        icon = Icons.Rounded.ShieldMoon,
+        icon = Icons.Rounded.Routine,
         titleId = R.string.night_mode,
         settingsList = listOf(
             Setting.NightMode
@@ -137,7 +137,7 @@ sealed class SettingsGroup(
 
     data object Font : SettingsGroup(
         id = 6,
-        icon = Icons.Rounded.SortByAlpha,
+        icon = Icons.Outlined.Glyphs,
         titleId = R.string.text,
         settingsList = listOf(
             Setting.ChangeLanguage,
@@ -285,7 +285,7 @@ sealed class SettingsGroup(
 
     data object Updates : SettingsGroup(
         id = 18,
-        icon = Icons.Rounded.SystemSecurityUpdate,
+        icon = Icons.Rounded.MobileArrowDown,
         titleId = R.string.updates,
         settingsList = listOf(
             Setting.AutoCheckUpdates,
@@ -326,7 +326,7 @@ sealed class SettingsGroup(
 
     data object Haptics : SettingsGroup(
         id = 21,
-        icon = Icons.Rounded.Vibration,
+        icon = Icons.Outlined.MobileVibrate,
         titleId = R.string.vibration,
         settingsList = listOf(
             Setting.VibrationStrength
@@ -336,7 +336,7 @@ sealed class SettingsGroup(
 
     data object Screen : SettingsGroup(
         id = 22,
-        icon = Icons.Rounded.PhoneAndroid,
+        icon = Icons.Outlined.Mobile,
         titleId = R.string.screen,
         settingsList = listOf(
             Setting.BrightnessEnforcement,

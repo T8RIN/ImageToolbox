@@ -18,13 +18,13 @@
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
@@ -41,7 +41,7 @@ internal fun DeleteLanguageDialog(
         visible = languageToDelete != null,
         icon = {
             Icon(
-                imageVector = Icons.Outlined.DeleteOutline,
+                imageVector = Icons.Outlined.Delete,
                 contentDescription = null
             )
         },

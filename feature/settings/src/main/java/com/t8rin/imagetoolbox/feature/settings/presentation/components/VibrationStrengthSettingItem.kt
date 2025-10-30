@@ -19,16 +19,16 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Power
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.collections.immutable.persistentMapOf
@@ -42,14 +42,14 @@ fun VibrationStrengthSettingItem(
     shape: Shape = ShapeDefaults.default
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
 
     EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
         value = settingsState.hapticsStrength,
         title = stringResource(R.string.vibration_strength),
-        icon = Icons.Outlined.Power,
+        icon = Icons.Outlined.Exercise,
         onValueChange = {
             onValueChange(it.roundToInt())
         },

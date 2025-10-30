@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Memory
-import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -55,7 +55,7 @@ fun ClearCacheSettingItem(
         modifier = modifier,
         title = stringResource(R.string.cache_size),
         subtitle = stringResource(R.string.found_s, cache),
-        endIcon = Icons.Rounded.DeleteOutline,
+        endIcon = Icons.Outlined.Delete,
         startIcon = Icons.Outlined.Memory
     )
 }

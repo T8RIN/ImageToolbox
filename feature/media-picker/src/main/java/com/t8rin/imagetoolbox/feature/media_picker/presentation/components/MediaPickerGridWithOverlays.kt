@@ -54,7 +54,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.twotone.ImageNotSupported
@@ -81,6 +80,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -393,7 +393,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                                         modifier = Modifier.padding(end = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Rounded.DeleteOutline,
+                                            imageVector = Icons.Outlined.Delete,
                                             contentDescription = stringResource(R.string.close),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )

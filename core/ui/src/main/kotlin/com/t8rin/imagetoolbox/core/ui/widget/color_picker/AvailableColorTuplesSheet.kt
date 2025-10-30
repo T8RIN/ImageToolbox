@@ -41,11 +41,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -76,6 +74,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.nearestFor
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Theme
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape

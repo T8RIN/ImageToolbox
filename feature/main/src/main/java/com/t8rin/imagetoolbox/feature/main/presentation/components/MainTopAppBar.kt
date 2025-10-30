@@ -74,6 +74,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AppShortcut
+import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowUpRight
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoPrints
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -151,10 +152,11 @@ private fun PinShortcutButton() {
         EnhancedIconButton(
             onClick = {
                 showShortcutAddingSheet = true
-            }
+            },
+            forceMinimumInteractiveComponentSize = false
         ) {
             Icon(
-                imageVector = Icons.Outlined.AppShortcut,
+                imageVector = Icons.Outlined.MobileArrowUpRight,
                 contentDescription = null
             )
         }
@@ -336,7 +338,8 @@ private fun EmbeddedPickerButton(
 
     EnhancedIconButton(
         onClick = imagePicker::pickImage,
-        onLongClick = { showOneTimeImagePickingDialog = true }
+        onLongClick = { showOneTimeImagePickingDialog = true },
+        forceMinimumInteractiveComponentSize = false
     ) {
         Icon(
             imageVector = Icons.Outlined.PhotoPrints,
@@ -386,7 +389,8 @@ private fun SettingsButton(
                     range = 0.95f..1.2f,
                     enabled = settingsState.isFirstLaunch()
                 )
-                .rotateAnimation(enabled = settingsState.isFirstLaunch())
+                .rotateAnimation(enabled = settingsState.isFirstLaunch()),
+            forceMinimumInteractiveComponentSize = false
         ) {
             Icon(
                 imageVector = Icons.Rounded.Settings,

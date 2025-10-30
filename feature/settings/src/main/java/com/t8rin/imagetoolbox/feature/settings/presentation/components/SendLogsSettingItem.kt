@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.MobileScreenShare
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.MobileShare
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -45,7 +45,7 @@ fun SendLogsSettingItem(
         contentColor = contentColor,
         shape = shape,
         onClick = onClick,
-        startIcon = Icons.AutoMirrored.Rounded.MobileScreenShare,
+        startIcon = Icons.Outlined.MobileShare,
         title = stringResource(R.string.send_logs),
         subtitle = stringResource(R.string.send_logs_sub),
         containerColor = color,

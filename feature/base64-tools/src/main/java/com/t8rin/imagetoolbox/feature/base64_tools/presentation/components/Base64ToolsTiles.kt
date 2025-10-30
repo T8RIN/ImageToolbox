@@ -32,11 +32,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.CopyAll
-import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -121,7 +121,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                 pickLauncher.launch(arrayOf("text/plain"))
             },
             shape = shape,
-            icon = Icons.Rounded.FileOpen,
+            icon = Icons.Outlined.FileOpen,
             textRes = R.string.import_base_64,
             isButton = component.uri != null
         )

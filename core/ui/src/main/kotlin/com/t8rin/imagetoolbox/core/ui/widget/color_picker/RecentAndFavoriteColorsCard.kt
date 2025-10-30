@@ -37,7 +37,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentPasteGo
-import androidx.compose.material.icons.rounded.DeleteSweep
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -58,6 +57,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -121,7 +121,7 @@ fun RecentAndFavoriteColorsCard(
                                 modifier = Modifier.offset(x = 8.dp)
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.DeleteSweep,
+                                    imageVector = Icons.Outlined.DeleteSweep,
                                     contentDescription = null,
                                     tint = takeColorFromScheme {
                                         primary.blend(error, 0.8f)

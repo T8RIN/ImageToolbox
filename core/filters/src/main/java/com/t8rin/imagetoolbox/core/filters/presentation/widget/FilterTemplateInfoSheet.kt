@@ -37,8 +37,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.rounded.FilePresent
 import androidx.compose.material.icons.rounded.QrCode
@@ -74,6 +72,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
@@ -210,7 +209,7 @@ internal fun FilterTemplateInfoSheet(
                         containerColor = MaterialTheme.colorScheme.error
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.DeleteOutline,
+                            imageVector = Icons.Outlined.Delete,
                             contentDescription = stringResource(R.string.delete)
                         )
                     }
