@@ -610,7 +610,7 @@ fun QrCode(
 suspend fun QrCodeParams.renderAsQr(
     content: String,
     type: BarcodeType
-): Bitmap = coroutineScope {
+): Bitmap? = coroutineScope {
     val widthPx = 1500
     val heightPx = 1500
     val paddingPx = 100
@@ -649,28 +649,30 @@ suspend fun QrCodeParams.renderAsQr(
         maskPattern = maskPattern.toLib()
     )
 
-    when (type) {
-        BarcodeType.QR_CODE -> {
-            QrCodePainter(
-                data = content,
-                options = options,
-                onSuccess = {},
-                onFailure = {}
-            ).toImageBitmap(widthPx, heightPx).asAndroidBitmap().applyPadding(paddingPx)
-        }
+    runSuspendCatching {
+        when (type) {
+            BarcodeType.QR_CODE -> {
+                QrCodePainter(
+                    data = content,
+                    options = options,
+                    onSuccess = {},
+                    onFailure = {}
+                ).toImageBitmap(widthPx, heightPx).asAndroidBitmap().applyPadding(paddingPx)
+            }
 
-        else -> {
-            generateQrBitmap(
-                content = content,
-                widthPx = widthPx,
-                heightPx = heightPx,
-                paddingPx = paddingPx,
-                foregroundColor = foregroundColor ?: Color.Black,
-                backgroundColor = backgroundColor ?: Color.White,
-                format = type.zxingFormat
-            )
+            else -> {
+                generateQrBitmap(
+                    content = content,
+                    widthPx = widthPx,
+                    heightPx = heightPx,
+                    paddingPx = paddingPx,
+                    foregroundColor = foregroundColor ?: Color.Black,
+                    backgroundColor = backgroundColor ?: Color.White,
+                    format = type.zxingFormat
+                )
+            }
         }
-    }
+    }.getOrNull()
 }
 
 private fun pixelShape(

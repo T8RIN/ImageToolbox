@@ -91,6 +91,7 @@ fun ScanQrCodeContent(
     }
 
     val isNotScannable = params.content.raw.isNotEmpty() && component.mayBeNotScannable
+    val isSaveEnabled = params.content.raw.isNotEmpty() && component.isSaveEnabled
 
     val analyzerImagePicker = rememberImagePicker { uri: Uri ->
         component.readBarcodeFromImage(
@@ -232,6 +233,7 @@ fun ScanQrCodeContent(
                 secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
+                isPrimaryButtonEnabled = isSaveEnabled,
                 onPrimaryButtonClick = {
                     scope.launch {
                         saveBitmap(null, captureController.bitmap())

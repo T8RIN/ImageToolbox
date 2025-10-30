@@ -81,6 +81,9 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     private val _mayBeNotScannable = mutableStateOf(false)
     val mayBeNotScannable by _mayBeNotScannable
 
+    private val _isSaveEnabled = mutableStateOf(false)
+    val isSaveEnabled by _isSaveEnabled
+
     init {
         settingsProvider.getSettingsStateFlow().onEach { state ->
             settingsState = state
@@ -217,17 +220,25 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     }
 
     suspend fun syncReadBarcodeFromImage(
-        image: Any
-    ) = imageBarcodeReader
-        .readBarcode(image)
-        .onResult { isSuccess -> _mayBeNotScannable.value = !isSuccess }
-        .onSuccess {
-            updateParams(
-                params.copy(
-                    content = it
+        image: Any?
+    ): Result<QrType> {
+        _isSaveEnabled.value = image != null
+
+        if (image == null) return Result.failure(Throwable("Barcode not rendered"))
+
+        return imageBarcodeReader
+            .readBarcode(image)
+            .onResult { isSuccess ->
+                _mayBeNotScannable.value = !isSuccess
+            }
+            .onSuccess {
+                updateParams(
+                    params.copy(
+                        content = it
+                    )
                 )
-            )
-        }
+            }
+    }
 
     @AssistedFactory
     fun interface Factory {
