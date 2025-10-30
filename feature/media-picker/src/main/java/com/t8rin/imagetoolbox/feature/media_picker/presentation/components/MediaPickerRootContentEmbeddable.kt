@@ -29,13 +29,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -81,6 +78,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.Medi
 fun MediaPickerRootContentEmbeddable(
     component: MediaPickerComponent,
     onPicked: (List<Uri>) -> Unit,
+    modifier: Modifier = Modifier,
     allowedMedia: AllowedMedia = AllowedMedia.Photos(null),
     allowMultiple: Boolean = true,
     onBack: (() -> Unit)? = null
@@ -196,42 +194,42 @@ fun MediaPickerRootContentEmbeddable(
         }
     }
 
-    if (onBack == null) {
-        Box(Modifier.consumeWindowInsets(WindowInsets.safeDrawing)) {
+    Box(modifier = modifier) {
+        if (onBack == null) {
             content(PaddingValues())
-        }
-    } else {
-        Scaffold(
-            topBar = {
-                EnhancedTopAppBar(
-                    title = {
-                        Text(
-                            text = if (allowMultiple) {
-                                stringResource(R.string.pick_multiple_media)
-                            } else {
-                                stringResource(R.string.pick_single_media)
-                            },
-                            modifier = Modifier.marquee()
-                        )
-                    },
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = onBack,
-                            containerColor = Color.Transparent
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.close)
+        } else {
+            Scaffold(
+                topBar = {
+                    EnhancedTopAppBar(
+                        title = {
+                            Text(
+                                text = if (allowMultiple) {
+                                    stringResource(R.string.pick_multiple_media)
+                                } else {
+                                    stringResource(R.string.pick_single_media)
+                                },
+                                modifier = Modifier.marquee()
                             )
-                        }
-                    },
-                    actions = {
-                        TopAppBarEmoji()
-                    },
-                    drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
-                )
-            },
-            content = content
-        )
+                        },
+                        navigationIcon = {
+                            EnhancedIconButton(
+                                onClick = onBack,
+                                containerColor = Color.Transparent
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.close)
+                                )
+                            }
+                        },
+                        actions = {
+                            TopAppBarEmoji()
+                        },
+                        drawHorizontalStroke = component.albumsState.collectAsState().value.albums.size <= 1
+                    )
+                },
+                content = content
+            )
+        }
     }
 }

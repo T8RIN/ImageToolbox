@@ -39,18 +39,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ColorSchemeName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayList
-import com.t8rin.imagetoolbox.core.ui.utils.helper.MediaPickerActivityClass
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
+import com.t8rin.imagetoolbox.core.ui.utils.helper.createMediaPickerIntent
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
 import java.io.File
@@ -102,11 +100,11 @@ private class ImagePickerImpl(
             )
         }
         val galleryAction = {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            ).apply {
-                type = "image/$imageExtension"
+            val intent = Intent(Intent.ACTION_PICK).apply {
+                setDataAndType(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    "image/$imageExtension"
+                )
                 if (mode == ImagePickerMode.GalleryMultiple) {
                     putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
@@ -119,19 +117,14 @@ private class ImagePickerImpl(
             )
         }
         val embeddedAction = {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                context,
-                MediaPickerActivityClass
-            ).apply {
-                type = "image/$imageExtension"
-                if (mode == ImagePickerMode.EmbeddedMultiple) {
-                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                }
-                putExtra(ColorSchemeName, currentAccent.toArgb())
-            }
-            getContent.launch(intent)
+            getContent.launch(
+                createMediaPickerIntent(
+                    context = context,
+                    allowMultiple = mode == ImagePickerMode.EmbeddedMultiple,
+                    currentAccent = currentAccent,
+                    imageExtension = imageExtension
+                )
+            )
         }
         val getContentAction = {
             val intent = Intent().apply {
@@ -303,7 +296,7 @@ fun rememberImagePicker(
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): ImagePicker {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),

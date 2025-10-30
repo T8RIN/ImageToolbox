@@ -449,8 +449,9 @@ object ContextUtils {
         }
     }
 
-    fun Context.canPinShortcuts(): Boolean =
+    fun Context.canPinShortcuts(): Boolean = runCatching {
         ShortcutManagerCompat.isRequestPinShortcutSupported(this)
+    }.getOrNull() == true
 
     @SuppressLint("MissingPermission")
     fun Context.isNetworkAvailable(): Boolean {

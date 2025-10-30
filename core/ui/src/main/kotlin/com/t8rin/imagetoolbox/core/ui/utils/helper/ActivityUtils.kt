@@ -17,6 +17,11 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.content.Context
+import android.content.Intent
+import android.provider.MediaStore
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 
 val AppActivityClass: Class<*> by lazy {
@@ -29,6 +34,27 @@ val MediaPickerActivityClass: Class<*> by lazy {
     Class.forName(
         "com.t8rin.imagetoolbox.feature.media_picker.presentation.MediaPickerActivity"
     )
+}
+
+fun createMediaPickerIntent(
+    context: Context,
+    allowMultiple: Boolean,
+    currentAccent: Color,
+    imageExtension: String
+): Intent = Intent(
+    Intent.ACTION_PICK,
+    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+    context,
+    MediaPickerActivityClass
+).apply {
+    setDataAndType(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        "image/$imageExtension"
+    )
+    if (allowMultiple) {
+        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    }
+    putExtra(ColorSchemeName, currentAccent.toArgb())
 }
 
 val AppVersionPreRelease: String by lazy {

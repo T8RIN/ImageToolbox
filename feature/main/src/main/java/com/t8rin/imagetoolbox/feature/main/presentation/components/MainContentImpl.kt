@@ -84,9 +84,7 @@ internal fun MainContentImpl(
                 onShowSnowfall = onShowSnowfall,
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable,
-                onNavigateToSettings = {
-                    onNavigate(Screen.Settings())
-                }
+                onNavigate = onNavigate
             )
 
             Row(
