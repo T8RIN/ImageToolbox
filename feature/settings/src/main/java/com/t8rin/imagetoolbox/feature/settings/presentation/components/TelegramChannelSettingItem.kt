@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.RssFeed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.TELEGRAM_CHANNEL_LINK
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Sitemap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 
@@ -43,7 +43,7 @@ fun TelegramChannelSettingItem(
         onClick = {
             linkHandler.openUri(TELEGRAM_CHANNEL_LINK)
         },
-        startIcon = Icons.Outlined.Sitemap,
+        startIcon = Icons.Outlined.RssFeed,
         title = stringResource(R.string.ci_channel),
         subtitle = stringResource(R.string.ci_channel_sub),
         color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f),

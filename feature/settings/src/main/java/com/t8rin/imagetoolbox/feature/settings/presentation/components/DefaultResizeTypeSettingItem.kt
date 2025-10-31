@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Resize
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.state.derivedValueOf
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -53,7 +53,7 @@ fun DefaultResizeTypeSettingItem(
     Column(modifier = modifier.container(shape = shape)) {
         TitleItem(
             text = stringResource(R.string.resize_type),
-            icon = Icons.Outlined.Resize,
+            icon = Icons.Outlined.PhotoSizeSelectSmall,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp)

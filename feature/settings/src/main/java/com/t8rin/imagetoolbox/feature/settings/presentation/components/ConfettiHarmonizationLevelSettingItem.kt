@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Leaderboard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -54,7 +54,7 @@ fun ConfettiHarmonizationLevelSettingItem(
         value = value,
         title = stringResource(R.string.harmonization_level),
         enabled = settingsState.isConfettiEnabled,
-        icon = Icons.Outlined.Leaderboard,
+        icon = Icons.Outlined.Exercise,
         onValueChange = {
             value = it.roundToTwoDigits()
             onValueChange(value)

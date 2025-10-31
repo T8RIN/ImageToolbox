@@ -55,7 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.resources.icons.Line
-import com.t8rin.imagetoolbox.core.resources.icons.Resize
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -133,7 +133,7 @@ fun SvgParamsSelector(
                     value.copy(isImageSampled = it)
                 )
             },
-            startIcon = Icons.Outlined.Resize,
+            startIcon = Icons.Outlined.PhotoSizeSelectSmall,
             modifier = Modifier.fillMaxWidth(),
             shape = ShapeDefaults.extraLarge
         )

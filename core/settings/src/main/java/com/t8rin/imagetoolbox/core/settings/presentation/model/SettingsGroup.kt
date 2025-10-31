@@ -26,24 +26,23 @@ import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.PersonSearch
-import androidx.compose.material.icons.rounded.SettingsBackupRestore
-import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
 import com.t8rin.imagetoolbox.core.resources.icons.Database
+import com.t8rin.imagetoolbox.core.resources.icons.DesignServices
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Firebase
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpened
 import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
+import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
 import com.t8rin.imagetoolbox.core.resources.icons.Mobile
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
+import com.t8rin.imagetoolbox.core.resources.icons.MobileCast
 import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
@@ -59,7 +58,7 @@ sealed class SettingsGroup(
 ) {
     data object ContactMe : SettingsGroup(
         id = 0,
-        icon = Icons.Rounded.PersonSearch,
+        icon = Icons.Rounded.MobileCast,
         titleId = R.string.contact_me,
         settingsList = listOf(
             Setting.Author,
@@ -71,13 +70,12 @@ sealed class SettingsGroup(
 
     data object PrimaryCustomization : SettingsGroup(
         id = 1,
-        icon = Icons.Rounded.Palette,
+        icon = Icons.Rounded.DesignServices,
         titleId = R.string.customization,
         settingsList = listOf(
             Setting.ColorScheme,
             Setting.DynamicColors,
             Setting.AmoledMode,
-            Setting.AllowImageMonet,
             Setting.IconShape
         ),
         initialState = true
@@ -85,10 +83,11 @@ sealed class SettingsGroup(
 
     data object SecondaryCustomization : SettingsGroup(
         id = 2,
-        icon = Icons.TwoTone.Palette,
+        icon = Icons.TwoTone.DesignServices,
         titleId = R.string.secondary_customization,
         settingsList = listOf(
             Setting.ColorBlindScheme,
+            Setting.AllowImageMonet,
             Setting.BorderThickness,
             Setting.MainScreenTitle
         ),
@@ -262,7 +261,7 @@ sealed class SettingsGroup(
 
     data object BackupRestore : SettingsGroup(
         id = 16,
-        icon = Icons.Rounded.SettingsBackupRestore,
+        icon = Icons.Rounded.HardDrive,
         titleId = R.string.backup_and_restore,
         settingsList = listOf(
             Setting.Backup,
@@ -326,7 +325,7 @@ sealed class SettingsGroup(
 
     data object Haptics : SettingsGroup(
         id = 21,
-        icon = Icons.Outlined.MobileVibrate,
+        icon = Icons.Rounded.MobileVibrate,
         titleId = R.string.vibration,
         settingsList = listOf(
             Setting.VibrationStrength
@@ -336,7 +335,7 @@ sealed class SettingsGroup(
 
     data object Screen : SettingsGroup(
         id = 22,
-        icon = Icons.Outlined.Mobile,
+        icon = Icons.Rounded.Mobile,
         titleId = R.string.screen,
         settingsList = listOf(
             Setting.BrightnessEnforcement,
