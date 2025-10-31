@@ -406,69 +406,74 @@ data class PathHelper(
     fun drawPath(
         onDrawFreeArrow: DrawArrowsScope.() -> Unit,
         onBaseDraw: () -> Unit,
-    ) = if (!isEraserOn) {
-        when (drawPathMode) {
-            is DrawPathMode.PointingArrow,
-            is DrawPathMode.DoublePointingArrow -> onDrawFreeArrow(drawArrowsScope)
+        onFloodFill: (tolerance: Float) -> Unit
+    ) {
+        if (!isEraserOn) {
+            when (drawPathMode) {
+                is DrawPathMode.PointingArrow,
+                is DrawPathMode.DoublePointingArrow -> onDrawFreeArrow(drawArrowsScope)
 
-            is DrawPathMode.DoubleLinePointingArrow,
-            DrawPathMode.Line,
-            is DrawPathMode.LinePointingArrow -> drawLine()
+                is DrawPathMode.DoubleLinePointingArrow,
+                DrawPathMode.Line,
+                is DrawPathMode.LinePointingArrow -> drawLine()
 
-            is DrawPathMode.Rect -> drawRect(
-                rotationDegrees = drawPathMode.rotationDegrees,
-                cornerRadius = drawPathMode.cornerRadius
-            )
-
-            is DrawPathMode.OutlinedRect -> drawRect(
-                rotationDegrees = drawPathMode.rotationDegrees,
-                cornerRadius = drawPathMode.cornerRadius
-            )
-
-            DrawPathMode.Triangle,
-            DrawPathMode.OutlinedTriangle -> drawTriangle()
-
-            is DrawPathMode.Polygon -> {
-                drawPolygon(
-                    vertices = drawPathMode.vertices,
+                is DrawPathMode.Rect -> drawRect(
                     rotationDegrees = drawPathMode.rotationDegrees,
-                    isRegular = drawPathMode.isRegular
+                    cornerRadius = drawPathMode.cornerRadius
                 )
-            }
 
-            is DrawPathMode.OutlinedPolygon -> {
-                drawPolygon(
-                    vertices = drawPathMode.vertices,
+                is DrawPathMode.OutlinedRect -> drawRect(
                     rotationDegrees = drawPathMode.rotationDegrees,
-                    isRegular = drawPathMode.isRegular
+                    cornerRadius = drawPathMode.cornerRadius
                 )
+
+                DrawPathMode.Triangle,
+                DrawPathMode.OutlinedTriangle -> drawTriangle()
+
+                is DrawPathMode.Polygon -> {
+                    drawPolygon(
+                        vertices = drawPathMode.vertices,
+                        rotationDegrees = drawPathMode.rotationDegrees,
+                        isRegular = drawPathMode.isRegular
+                    )
+                }
+
+                is DrawPathMode.OutlinedPolygon -> {
+                    drawPolygon(
+                        vertices = drawPathMode.vertices,
+                        rotationDegrees = drawPathMode.rotationDegrees,
+                        isRegular = drawPathMode.isRegular
+                    )
+                }
+
+                is DrawPathMode.Star -> {
+                    drawStar(
+                        vertices = drawPathMode.vertices,
+                        innerRadiusRatio = drawPathMode.innerRadiusRatio,
+                        rotationDegrees = drawPathMode.rotationDegrees,
+                        isRegular = drawPathMode.isRegular
+                    )
+                }
+
+                is DrawPathMode.OutlinedStar -> {
+                    drawStar(
+                        vertices = drawPathMode.vertices,
+                        innerRadiusRatio = drawPathMode.innerRadiusRatio,
+                        rotationDegrees = drawPathMode.rotationDegrees,
+                        isRegular = drawPathMode.isRegular
+                    )
+                }
+
+                DrawPathMode.Oval,
+                DrawPathMode.OutlinedOval -> drawOval()
+
+                DrawPathMode.Free,
+                DrawPathMode.Lasso -> onBaseDraw()
+
+                is DrawPathMode.FloodFill -> onFloodFill(drawPathMode.tolerance)
             }
-
-            is DrawPathMode.Star -> {
-                drawStar(
-                    vertices = drawPathMode.vertices,
-                    innerRadiusRatio = drawPathMode.innerRadiusRatio,
-                    rotationDegrees = drawPathMode.rotationDegrees,
-                    isRegular = drawPathMode.isRegular
-                )
-            }
-
-            is DrawPathMode.OutlinedStar -> {
-                drawStar(
-                    vertices = drawPathMode.vertices,
-                    innerRadiusRatio = drawPathMode.innerRadiusRatio,
-                    rotationDegrees = drawPathMode.rotationDegrees,
-                    isRegular = drawPathMode.isRegular
-                )
-            }
-
-            DrawPathMode.Oval,
-            DrawPathMode.OutlinedOval -> drawOval()
-
-            DrawPathMode.Free,
-            DrawPathMode.Lasso -> onBaseDraw()
-        }
-    } else onBaseDraw()
+        } else onBaseDraw()
+    }
 }
 
 interface DrawArrowsScope {

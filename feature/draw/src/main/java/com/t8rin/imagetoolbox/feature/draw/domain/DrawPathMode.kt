@@ -88,6 +88,10 @@ sealed class DrawPathMode(
         val isRegular: Boolean = false
     ) : DrawPathMode(16)
 
+    data class FloodFill(
+        val tolerance: Float = 0f
+    ) : DrawPathMode(17)
+
     val isStroke: Boolean
         get() = !isFilled
 
@@ -97,7 +101,7 @@ sealed class DrawPathMode(
         }
 
     val isSharpEdge: Boolean
-        get() = listOf(OutlinedRect(), OutlinedOval, Rect(), Oval, Lasso).any {
+        get() = listOf(OutlinedRect(), OutlinedOval, Rect(), Oval, Lasso, FloodFill()).any {
             this::class.isInstance(it)
         }
 
@@ -105,6 +109,7 @@ sealed class DrawPathMode(
         val entries by lazy {
             listOf(
                 Free,
+                FloodFill(),
                 Line,
                 PointingArrow(),
                 DoublePointingArrow(),

@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionE
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.floodFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.handle
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pointerDrawObserver
@@ -298,7 +299,8 @@ fun BitmapDrawer(
                                     )
                                 }
                                 previousDrawPosition = currentDrawPosition
-                            }
+                            },
+                            onFloodFill = {}
                         )
 
                         motionEvent.value = MotionEvent.Idle
@@ -339,6 +341,15 @@ fun BitmapDrawer(
                                             currentDrawPosition.y
                                         )
                                     }
+                                },
+                                onFloodFill = { tolerance ->
+                                    outputImage.overlay(drawPathBitmap).asAndroidBitmap()
+                                        .floodFill(
+                                            offset = currentDrawPosition,
+                                            fillColor = drawColor,
+                                            tolerance = tolerance
+                                        )
+                                        ?.let { drawPath = it }
                                 }
                             )
 
