@@ -20,12 +20,12 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components.addition
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Payments
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.VolunteerActivism
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -45,7 +45,7 @@ fun DonateSheet(
         title = {
             TitleItem(
                 text = stringResource(R.string.donation),
-                icon = Icons.Rounded.Payments
+                icon = Icons.Rounded.VolunteerActivism
             )
         },
         confirmButton = {

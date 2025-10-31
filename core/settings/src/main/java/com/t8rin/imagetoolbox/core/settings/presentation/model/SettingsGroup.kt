@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
+import com.t8rin.imagetoolbox.core.resources.icons.Database
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Firebase
@@ -45,10 +46,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Mobile
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
-import com.t8rin.imagetoolbox.core.resources.icons.Mop
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
-import com.t8rin.imagetoolbox.core.resources.icons.Shadow
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.Tonality
 
 sealed class SettingsGroup(
     val id: Int,
@@ -122,7 +122,7 @@ sealed class SettingsGroup(
 
     data object Shadows : SettingsGroup(
         id = 5,
-        icon = Icons.Filled.Shadow,
+        icon = Icons.Rounded.Tonality,
         titleId = R.string.shadows,
         settingsList = listOf(
             Setting.ContainerShadows,
@@ -241,7 +241,7 @@ sealed class SettingsGroup(
 
     data object Cache : SettingsGroup(
         id = 14,
-        icon = Icons.Rounded.Mop,
+        icon = Icons.Rounded.Database,
         titleId = R.string.cache,
         settingsList = listOf(
             Setting.ClearCache,

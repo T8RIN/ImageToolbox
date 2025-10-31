@@ -176,7 +176,7 @@ private fun PinShortcutButton() {
             title = {
                 TitleItem(
                     text = stringResource(R.string.create_shortcut),
-                    icon = Icons.Rounded.AppShortcut
+                    icon = Icons.Rounded.MobileArrowUpRight,
                 )
             }
         ) {

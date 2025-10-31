@@ -27,11 +27,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Link
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,9 +37,11 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_LINK
 import com.t8rin.imagetoolbox.core.domain.AUTHOR_TG
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Forum
 import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.bottom
@@ -56,7 +56,7 @@ fun AuthorLinksSheet(
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     val linkHandler = LocalUriHandler.current
 
     EnhancedModalBottomSheet(
@@ -67,7 +67,7 @@ fun AuthorLinksSheet(
         title = {
             TitleItem(
                 text = stringResource(R.string.app_developer_nick),
-                icon = Icons.Rounded.Person
+                icon = Icons.Rounded.Forum
             )
         },
         confirmButton = {

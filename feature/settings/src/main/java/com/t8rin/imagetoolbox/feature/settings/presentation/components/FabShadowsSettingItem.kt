@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.FloatingActionButton
+import com.t8rin.imagetoolbox.core.resources.icons.FabCorner
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -47,6 +47,6 @@ fun FabShadowsSettingItem(
         onClick = {
             onClick()
         },
-        startIcon = Icons.Rounded.FloatingActionButton
+        startIcon = Icons.Outlined.FabCorner
     )
 }

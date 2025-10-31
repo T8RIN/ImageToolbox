@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.material.icons.outlined.VolunteerActivism
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,7 +57,7 @@ fun DonateSettingItem(
         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
         title = stringResource(R.string.donation),
         subtitle = stringResource(R.string.donation_sub),
-        startIcon = Icons.Outlined.Payments,
+        startIcon = Icons.Outlined.VolunteerActivism,
         onClick = {
             showDonateSheet = true
         }

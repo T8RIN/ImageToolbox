@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Titlecase
+import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -60,7 +60,7 @@ fun FontScaleSettingItem(
         shape = shape,
         value = sliderValue,
         title = stringResource(R.string.font_scale),
-        icon = Icons.Outlined.Titlecase,
+        icon = Icons.Outlined.TextFields,
         onValueChange = {
             sliderValue = it.roundToTwoDigits()
         },
