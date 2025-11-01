@@ -71,6 +71,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.settings.presentation.model.IconShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -206,6 +207,11 @@ internal fun LauncherScreenSelector(
                             }
                         }
                     ) {
+                        val iconShape by remember(settingsState.iconShape) {
+                            derivedStateOf {
+                                settingsState.iconShape?.takeOrElseFrom(IconShape.entries)
+                            }
+                        }
                         Box(
                             modifier = Modifier
                                 .size(64.dp)
@@ -213,12 +219,12 @@ internal fun LauncherScreenSelector(
                                     resultPadding = 0.dp,
                                     color = containerColor,
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = settingsState.iconShape?.shape ?: CircleShape
+                                    shape = iconShape?.shape ?: CircleShape
                                 )
                                 .hapticsClickable {
                                     onNavigateToScreenWithPopUpTo(screen)
                                 }
-                                .padding(settingsState.iconShape?.padding ?: 0.dp),
+                                .padding(iconShape?.padding ?: 0.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             AnimatedContent(

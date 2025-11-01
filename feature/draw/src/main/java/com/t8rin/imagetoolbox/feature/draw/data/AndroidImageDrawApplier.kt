@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.max
+import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -65,6 +66,7 @@ import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -119,7 +121,12 @@ internal class AndroidImageDrawApplier @Inject constructor(
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
                 pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle) ->
-                    val stroke = nonScaledStroke.toPx(canvasSize)
+                    val stroke = if (drawPathMode is DrawPathMode.FloodFill) {
+                        2.pt.toPx(canvasSize)
+                    } else {
+                        nonScaledStroke.toPx(canvasSize)
+                    }
+
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
                         oldSize = size
@@ -333,7 +340,11 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 style = PaintingStyle.Fill
                             } else {
                                 style = PaintingStyle.Stroke
-                                this.strokeWidth = stroke.toPx(canvasSize)
+                                this.strokeWidth = if (mode is DrawPathMode.FloodFill) {
+                                    2.pt.toPx(canvasSize)
+                                } else {
+                                    stroke.toPx(canvasSize)
+                                }
                                 if (mode.isSharpEdge) {
                                     strokeCap = StrokeCap.Square
                                 } else {
