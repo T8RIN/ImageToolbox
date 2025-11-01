@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
@@ -161,7 +161,7 @@ internal fun DrawContentControls(
             ColorRowSelector(
                 value = component.backgroundColor,
                 onValueChange = component::updateBackgroundColor,
-                icon = Icons.Rounded.FormatColorFill,
+                icon = Icons.Outlined.BackgroundColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .container(

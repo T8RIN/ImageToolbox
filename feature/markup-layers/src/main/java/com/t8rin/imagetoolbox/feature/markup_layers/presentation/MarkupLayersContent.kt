@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Rectangle
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -68,6 +67,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.graphics.applyCanvas
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
@@ -327,7 +327,7 @@ fun MarkupLayersContent(
                     ColorRowSelector(
                         value = behavior.color.toColor(),
                         onValueChange = component::updateBackgroundColor,
-                        icon = Icons.Rounded.FormatColorFill,
+                        icon = Icons.Outlined.BackgroundColor,
                         modifier = Modifier
                             .fillMaxWidth()
                             .container(

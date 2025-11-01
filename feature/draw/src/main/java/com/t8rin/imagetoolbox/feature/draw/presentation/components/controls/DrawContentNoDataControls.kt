@@ -38,7 +38,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -57,6 +56,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImageTooltip
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
@@ -225,7 +225,7 @@ internal fun DrawContentNoDataControls(
                     ColorRowSelector(
                         value = sheetBackgroundColor,
                         onValueChange = { sheetBackgroundColor = it },
-                        icon = Icons.Rounded.FormatColorFill,
+                        icon = Icons.Outlined.BackgroundColor,
                         modifier = Modifier
                             .padding(
                                 start = 16.dp,

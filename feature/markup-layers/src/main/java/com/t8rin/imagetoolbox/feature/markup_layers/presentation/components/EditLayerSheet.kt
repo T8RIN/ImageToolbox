@@ -34,7 +34,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderColor
-import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
+import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
@@ -228,7 +228,7 @@ internal fun EditLayerSheet(
                             )
                         },
                         title = stringResource(R.string.background_color),
-                        icon = Icons.Rounded.FormatColorFill,
+                        icon = Icons.Outlined.BackgroundColor,
                         titleFontWeight = FontWeight.Medium,
                         modifier = Modifier.container(
                             shape = ShapeDefaults.center,

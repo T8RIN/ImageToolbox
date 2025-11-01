@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BorderColor
+import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
@@ -49,7 +49,7 @@ fun DefaultDrawColorSettingItem(
         onValueChange = {
             onValueChange(it.toModel())
         },
-        icon = Icons.Outlined.BorderColor,
+        icon = Icons.Outlined.BrushColor,
         title = stringResource(R.string.default_draw_color),
         defaultColors = ColorSelectionRowDefaults.colorList
     )

@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BorderColor
+import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -51,7 +51,7 @@ fun DrawColorSelector(
             ),
         title = titleText,
         allowAlpha = false,
-        icon = Icons.Outlined.BorderColor,
+        icon = Icons.Outlined.BrushColor,
         defaultColors = defaultColors
     )
 }
