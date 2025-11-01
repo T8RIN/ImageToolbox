@@ -58,7 +58,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
-import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
@@ -199,7 +198,7 @@ fun BitmapEraser(
                         blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
                         shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
                         this.strokeWidth = if (drawPathMode is DrawPathMode.FloodFill) {
-                            2.pt.toPx(canvasSize)
+                            DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
                         } else {
                             strokeWidth.toPx(canvasSize)
                         }
@@ -262,7 +261,7 @@ fun BitmapEraser(
 
                                     if (isRecoveryOn) shader = shaderBitmap?.let { ImageShader(it) }
                                     this.strokeWidth = if (mode is DrawPathMode.FloodFill) {
-                                        2.pt.toPx(canvasSize)
+                                        DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
                                     } else {
                                         strokeWidth.toPx(canvasSize)
                                     }

@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.pt
+
 sealed class DrawPathMode(
     val ordinal: Int
 ) {
@@ -89,8 +91,12 @@ sealed class DrawPathMode(
     ) : DrawPathMode(16)
 
     data class FloodFill(
-        val tolerance: Float = 0f
-    ) : DrawPathMode(17)
+        val tolerance: Float = 0.25f
+    ) : DrawPathMode(17) {
+        companion object {
+            val StrokeSize = 2f.pt
+        }
+    }
 
     val isStroke: Boolean
         get() = !isFilled

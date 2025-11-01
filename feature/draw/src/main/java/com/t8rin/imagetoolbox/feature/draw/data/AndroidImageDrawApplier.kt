@@ -53,7 +53,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.max
-import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -122,7 +121,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                 pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle) ->
                     val stroke = if (drawPathMode is DrawPathMode.FloodFill) {
-                        2.pt.toPx(canvasSize)
+                        DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
                     } else {
                         nonScaledStroke.toPx(canvasSize)
                     }
@@ -341,7 +340,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             } else {
                                 style = PaintingStyle.Stroke
                                 this.strokeWidth = if (mode is DrawPathMode.FloodFill) {
-                                    2.pt.toPx(canvasSize)
+                                    DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
                                 } else {
                                     stroke.toPx(canvasSize)
                                 }

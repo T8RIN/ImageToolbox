@@ -63,7 +63,6 @@ import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.max
-import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNativeStackBlurFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiPixelationFilter
@@ -277,7 +276,7 @@ internal fun rememberPaint(
                         } else {
                             style = PaintingStyle.Stroke
                             this.strokeWidth = if (drawPathMode is DrawPathMode.FloodFill) {
-                                2.pt.toPx(canvasSize)
+                                DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
                             } else {
                                 strokeWidth.toPx(canvasSize)
                             }

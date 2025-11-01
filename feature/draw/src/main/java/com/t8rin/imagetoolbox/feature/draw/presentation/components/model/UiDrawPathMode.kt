@@ -112,7 +112,7 @@ sealed class UiDrawPathMode : Parcelable {
 
     @Parcelize
     data class FloodFill(
-        val tolerance: Float = 0f
+        val tolerance: Float = 0.25f
     ) : UiDrawPathMode()
 }
 
