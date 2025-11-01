@@ -273,6 +273,7 @@ fun EraseBackgroundEditOption(
                         values = remember {
                             listOf(
                                 DrawPathMode.Free,
+                                DrawPathMode.FloodFill(),
                                 DrawPathMode.Line,
                                 DrawPathMode.Lasso,
                                 DrawPathMode.Rect(),

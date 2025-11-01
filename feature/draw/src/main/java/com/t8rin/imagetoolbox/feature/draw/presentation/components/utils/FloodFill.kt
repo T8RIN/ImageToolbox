@@ -21,13 +21,12 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Path
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asComposePath
-import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.graphics.toArgb
 import java.util.LinkedList
 import java.util.Queue
 import kotlin.math.roundToInt
-import androidx.compose.ui.graphics.Color as ComposeColor
 import androidx.compose.ui.graphics.Path as ComposePath
 
 internal class FloodFill(image: Bitmap) {
@@ -45,6 +44,7 @@ internal class FloodFill(image: Bitmap) {
     private var startColorRed = 0
     private var startColorGreen = 0
     private var startColorBlue = 0
+    private var startColorAlpha = 0
 
     init {
         image.getPixels(pixels, 0, width, 0, 0, width, height)
@@ -61,7 +61,6 @@ internal class FloodFill(image: Bitmap) {
     fun performFloodFill(
         x: Int,
         y: Int,
-        fillColor: Int,
         tolerance: Float
     ): Path? {
         path.rewind()
@@ -71,13 +70,10 @@ internal class FloodFill(image: Bitmap) {
 
         // Get starting color.
         val startPixel = pixels.getOrNull(width * y + x) ?: return null
-        if (startPixel == fillColor) {
-            // No-op.
-            return null
-        }
         startColorRed = Color.red(startPixel)
         startColorGreen = Color.green(startPixel)
         startColorBlue = Color.blue(startPixel)
+        startColorAlpha = Color.alpha(startPixel)
 
         // Do first call to flood-fill.
         linearFill(x, y)
@@ -167,23 +163,28 @@ internal class FloodFill(image: Bitmap) {
 
     // Sees if a pixel is within the color tolerance range.
     private fun isPixelColorWithinTolerance(px: Int): Boolean {
+        val alpha = pixels[px] ushr 24 and 0xff
         val red = pixels[px] ushr 16 and 0xff
         val green = pixels[px] ushr 8 and 0xff
         val blue = pixels[px] and 0xff
-        return red >= startColorRed - tolerance && red <= startColorRed + tolerance && green >= startColorGreen - tolerance && green <= startColorGreen + tolerance && blue >= startColorBlue - tolerance && blue <= startColorBlue + tolerance
+
+        return alpha >= startColorAlpha - tolerance && alpha <= startColorAlpha + tolerance &&
+                red >= startColorRed - tolerance && red <= startColorRed + tolerance &&
+                green >= startColorGreen - tolerance && green <= startColorGreen + tolerance &&
+                blue >= startColorBlue - tolerance && blue <= startColorBlue + tolerance
     }
 
     //  Represents a linear range to be filled and branched from.
     private inner class FloodFillRange(var startX: Int, var endX: Int, var Y: Int)
 }
 
-fun Bitmap.floodFill(
+fun ImageBitmap.floodFill(
     offset: Offset,
-    fillColor: ComposeColor,
     tolerance: Float
-): ComposePath? = FloodFill(this).performFloodFill(
+): ComposePath? = FloodFill(
+    asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+).performFloodFill(
     x = offset.x.roundToInt(),
     y = offset.y.roundToInt(),
-    fillColor = if (fillColor.isSpecified) fillColor.toArgb() else -1,
     tolerance = tolerance
 )?.asComposePath()

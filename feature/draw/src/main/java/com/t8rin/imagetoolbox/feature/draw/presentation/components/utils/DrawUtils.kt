@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.max
+import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNativeStackBlurFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiPixelationFilter
@@ -78,6 +79,11 @@ import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import android.graphics.Paint as NativePaint
 import android.graphics.Path as NativePath
+
+/**
+ *  Needed to trigger recomposition
+ **/
+fun ImageBitmap.copy(): ImageBitmap = asAndroidBitmap().asImageBitmap()
 
 internal fun Path.copy(): Path = copyAsAndroidPath().asComposePath()
 
@@ -270,7 +276,11 @@ internal fun rememberPaint(
                             style = PaintingStyle.Fill
                         } else {
                             style = PaintingStyle.Stroke
-                            this.strokeWidth = strokeWidth.toPx(canvasSize)
+                            this.strokeWidth = if (drawPathMode is DrawPathMode.FloodFill) {
+                                2.pt.toPx(canvasSize)
+                            } else {
+                                strokeWidth.toPx(canvasSize)
+                            }
                             if (drawMode is DrawMode.Highlighter || isSharpEdge) {
                                 strokeCap = StrokeCap.Square
                             } else {

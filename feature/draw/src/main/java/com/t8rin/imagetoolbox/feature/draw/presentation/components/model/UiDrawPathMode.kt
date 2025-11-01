@@ -109,6 +109,11 @@ sealed class UiDrawPathMode : Parcelable {
         val innerRadiusRatio: Float = 0.5f,
         val isRegular: Boolean = false
     ) : UiDrawPathMode()
+
+    @Parcelize
+    data class FloodFill(
+        val tolerance: Float = 0f
+    ) : UiDrawPathMode()
 }
 
 fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
@@ -175,6 +180,8 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
     )
 
     DrawPathMode.Triangle -> UiDrawPathMode.Triangle
+
+    is DrawPathMode.FloodFill -> UiDrawPathMode.FloodFill(tolerance)
 }
 
 fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
@@ -241,4 +248,6 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
     )
 
     UiDrawPathMode.Triangle -> DrawPathMode.Triangle
+
+    is UiDrawPathMode.FloodFill -> DrawPathMode.FloodFill(tolerance)
 }

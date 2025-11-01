@@ -232,6 +232,62 @@ fun BitmapDrawer(
             ) { mutableStateOf(Path()) }
 
             with(canvas) {
+                with(nativeCanvas) {
+                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                    drawColor(backgroundColor.toArgb())
+
+                    paths.forEach { uiPathPaint ->
+                        UiPathPaintCanvasAction(
+                            uiPathPaint = uiPathPaint,
+                            invalidations = invalidations,
+                            onInvalidate = { invalidations++ },
+                            pathsCount = paths.size,
+                            backgroundColor = backgroundColor,
+                            drawImageBitmap = drawImageBitmap,
+                            drawBitmap = drawBitmap,
+                            onClearDrawPath = { drawPath = Path() },
+                            onRequestFiltering = onRequestFiltering,
+                            canvasSize = canvasSize
+                        )
+                    }
+
+                    if (drawMode !is DrawMode.PathEffect || isEraserOn) {
+                        val androidPath by remember(drawPath) {
+                            derivedStateOf {
+                                drawPath.asAndroidPath()
+                            }
+                        }
+                        if (drawMode is DrawMode.Text && !isEraserOn) {
+                            if (drawMode.isRepeated) {
+                                drawRepeatedTextOnPath(
+                                    text = drawMode.text,
+                                    path = androidPath,
+                                    paint = drawPaint,
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
+                                )
+                            } else {
+                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                            }
+                        } else if (drawMode is DrawMode.Image && !isEraserOn) {
+                            drawRepeatedImageOnPath(
+                                drawMode = drawMode,
+                                strokeWidth = strokeWidth,
+                                canvasSize = canvasSize,
+                                path = androidPath,
+                                paint = drawPaint,
+                                invalidations = invalidations
+                            )
+                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+                            drawPath(
+                                androidPath,
+                                drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
+                            )
+                        } else {
+                            drawPath(androidPath, drawPaint)
+                        }
+                    }
+                }
+
                 val drawHelper by rememberPathHelper(
                     drawDownPosition = drawDownPosition,
                     currentDrawPosition = currentDrawPosition,
@@ -343,10 +399,9 @@ fun BitmapDrawer(
                                     }
                                 },
                                 onFloodFill = { tolerance ->
-                                    outputImage.overlay(drawPathBitmap).asAndroidBitmap()
+                                    outputImage
                                         .floodFill(
                                             offset = currentDrawPosition,
-                                            fillColor = drawColor,
                                             tolerance = tolerance
                                         )
                                         ?.let { drawPath = it }
@@ -381,62 +436,6 @@ fun BitmapDrawer(
                         onDrawFinish?.invoke()
                     }
                 )
-
-                with(nativeCanvas) {
-                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                    drawColor(backgroundColor.toArgb())
-
-                    paths.forEach { uiPathPaint ->
-                        UiPathPaintCanvasAction(
-                            uiPathPaint = uiPathPaint,
-                            invalidations = invalidations,
-                            onInvalidate = { invalidations++ },
-                            pathsCount = paths.size,
-                            backgroundColor = backgroundColor,
-                            drawImageBitmap = drawImageBitmap,
-                            drawBitmap = drawBitmap,
-                            onClearDrawPath = { drawPath = Path() },
-                            onRequestFiltering = onRequestFiltering,
-                            canvasSize = canvasSize
-                        )
-                    }
-
-                    if (drawMode !is DrawMode.PathEffect || isEraserOn) {
-                        val androidPath by remember(drawPath) {
-                            derivedStateOf {
-                                drawPath.asAndroidPath()
-                            }
-                        }
-                        if (drawMode is DrawMode.Text && !isEraserOn) {
-                            if (drawMode.isRepeated) {
-                                drawRepeatedTextOnPath(
-                                    text = drawMode.text,
-                                    path = androidPath,
-                                    paint = drawPaint,
-                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
-                                )
-                            } else {
-                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
-                            }
-                        } else if (drawMode is DrawMode.Image && !isEraserOn) {
-                            drawRepeatedImageOnPath(
-                                drawMode = drawMode,
-                                strokeWidth = strokeWidth,
-                                canvasSize = canvasSize,
-                                path = androidPath,
-                                paint = drawPaint,
-                                invalidations = invalidations
-                            )
-                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
-                            drawPath(
-                                androidPath,
-                                drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
-                            )
-                        } else {
-                            drawPath(androidPath, drawPaint)
-                        }
-                    }
-                }
             }
 
             if (drawMode is DrawMode.PathEffect && !isEraserOn) {

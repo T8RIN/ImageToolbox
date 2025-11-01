@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
@@ -172,7 +173,18 @@ internal fun DrawPathMode.saveState(
         )
     }
 
+    value is DrawPathMode.FloodFill && this is DrawPathMode.FloodFill -> {
+        copy(
+            tolerance = value.tolerance
+        )
+    }
+
     else -> this
+}
+
+internal fun DrawPathMode.tolerance(): Float = when (this) {
+    is DrawPathMode.FloodFill -> tolerance
+    else -> 0f
 }
 
 internal fun DrawPathMode.sizeScale(): Float = when (this) {
@@ -336,6 +348,18 @@ internal fun DrawPathMode.updateArrow(
     else -> this
 }
 
+internal fun DrawPathMode.updateFloodFill(
+    tolerance: Float? = null,
+) = when (this) {
+    is DrawPathMode.FloodFill -> {
+        copy(
+            tolerance = tolerance ?: this.tolerance
+        )
+    }
+
+    else -> this
+}
+
 internal fun DrawPathMode.isArrow(): Boolean =
     this is DrawPathMode.PointingArrow || this is DrawPathMode.LinePointingArrow
             || this is DrawPathMode.DoublePointingArrow || this is DrawPathMode.DoubleLinePointingArrow
@@ -348,6 +372,9 @@ internal fun DrawPathMode.isPolygon(): Boolean =
 
 internal fun DrawPathMode.isStar(): Boolean =
     this is DrawPathMode.Star || this is DrawPathMode.OutlinedStar
+
+internal fun DrawPathMode.isFloodFill(): Boolean =
+    this is DrawPathMode.FloodFill
 
 internal fun DrawPathMode.getSubtitle(): Int = when (this) {
     is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
@@ -367,6 +394,7 @@ internal fun DrawPathMode.getSubtitle(): Int = when (this) {
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
     is DrawPathMode.OutlinedStar -> R.string.outlined_star_sub
     is DrawPathMode.Star -> R.string.star_sub
+    is DrawPathMode.FloodFill -> R.string.flood_fill_sub
 }
 
 internal fun DrawPathMode.getTitle(): Int = when (this) {
@@ -387,6 +415,7 @@ internal fun DrawPathMode.getTitle(): Int = when (this) {
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
     is DrawPathMode.OutlinedStar -> R.string.outlined_star
     is DrawPathMode.Star -> R.string.star
+    is DrawPathMode.FloodFill -> R.string.flood_fill
 }
 
 internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -407,4 +436,5 @@ internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
     is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
     is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
     is DrawPathMode.Star -> Icons.Rounded.Star
+    is DrawPathMode.FloodFill -> Icons.Rounded.FormatColorFill
 }

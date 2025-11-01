@@ -1843,4 +1843,6 @@
     <string name="not_scannable">Not scannable</string>
     <string name="launcher_mode_sub">Tools will look like home screen app launcher to be more compact</string>
     <string name="launcher_mode">Launcher Mode</string>
+    <string name="flood_fill_sub">Fills an area with selected brush and style</string>
+    <string name="flood_fill">Flood Fill</string>
 </resources>

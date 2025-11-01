@@ -389,8 +389,7 @@ private fun SettingsButton(
                     range = 0.95f..1.2f,
                     enabled = settingsState.isFirstLaunch()
                 )
-                .rotateAnimation(enabled = settingsState.isFirstLaunch()),
-            forceMinimumInteractiveComponentSize = false
+                .rotateAnimation(enabled = settingsState.isFirstLaunch())
         ) {
             Icon(
                 imageVector = Icons.Rounded.Settings,

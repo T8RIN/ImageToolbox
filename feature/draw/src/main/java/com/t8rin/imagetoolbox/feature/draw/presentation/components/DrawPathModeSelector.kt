@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.ArrowParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.DrawPathModeInfoSheet
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.FloodFillParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PolygonParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.RectParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.StarParamsSelector
@@ -127,6 +128,11 @@ fun DrawPathModeSelector(
         )
 
         ArrowParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
+
+        FloodFillParamsSelector(
             value = value,
             onValueChange = onValueChange
         )
