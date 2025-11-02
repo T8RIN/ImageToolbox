@@ -505,6 +505,7 @@ or click one of the badges below.
     - Digital (Steganography)
 - Drawing on Image/Background
     - Pen
+    - Flood Fill
     - Neon
     - Highlighter
     - Privacy Blur
@@ -883,11 +884,14 @@ or click one of the badges below.
     - Pixel
     - Fluent
     - Cupertino
-  - Liquid Glass
+    - Liquid Glas
+    - HyperOS
 - Slider Type Selection:
     - Fancy
     - Material You
     - Material
+    - HyperOS
+- Main screen layout customization
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
