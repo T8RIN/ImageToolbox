@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
-import com.t8rin.imagetoolbox.core.resources.icons.FolderImage
+import com.t8rin.imagetoolbox.core.resources.icons.FolderImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -370,8 +370,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     LoadNetImage(),
                 ),
                 title = R.string.image,
-                selectedIcon = Icons.Rounded.FolderImage,
-                baseIcon = Icons.Outlined.FolderImage
+                selectedIcon = Icons.Rounded.FolderImageAlt,
+                baseIcon = Icons.Outlined.FolderImageAlt
             ),
             ScreenGroup(
                 entries = listOf(

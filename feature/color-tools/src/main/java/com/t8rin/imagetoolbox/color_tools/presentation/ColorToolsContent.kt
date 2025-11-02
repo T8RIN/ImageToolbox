@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -102,6 +104,7 @@ fun ColorToolsContent(
                         .container(
                             shape = ShapeDefaults.large
                         ),
+                    icon = Icons.Rounded.Palette,
                     title = stringResource(R.string.selected_color)
                 )
                 Spacer(modifier = Modifier.fillMaxWidth())
