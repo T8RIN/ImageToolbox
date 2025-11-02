@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
-import com.t8rin.imagetoolbox.core.resources.icons.ImageText
+import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
@@ -354,7 +354,7 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is Extraction -> Icons.Outlined.ImageText
+                    is Extraction -> Icons.Outlined.ImageToText
                     is WriteToFile -> Icons.Outlined.FilePresent
                     is WriteToMetadata -> Icons.Outlined.Exif
                 }

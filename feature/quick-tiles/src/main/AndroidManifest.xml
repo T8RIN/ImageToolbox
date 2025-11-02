@@ -94,7 +94,7 @@
         <service
             android:name=".tiles.TextRecognitionTile"
             android:exported="true"
-            android:icon="@drawable/image_text_outlined"
+            android:icon="@drawable/image_to_text_outlined"
             android:label="@string/recognize_text"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:process=":remote">

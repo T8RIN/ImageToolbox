@@ -15,7 +15,7 @@ val Icons.Outlined.WallpaperAlt: ImageVector by lazy(LazyThreadSafetyMode.NONE) 
         viewportWidth = 960f,
         viewportHeight = 960f
     ).apply {
-        path(fill = SolidColor(Color(0xFFE3E3E3))) {
+        path(fill = SolidColor(Color(0xFF000000))) {
             moveTo(280f, 920f)
             quadToRelative(-33f, 0f, -56.5f, -23.5f)
             reflectiveQuadTo(200f, 840f)

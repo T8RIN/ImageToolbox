@@ -67,7 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageLimit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
-import com.t8rin.imagetoolbox.core.resources.icons.ImageText
+import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
@@ -220,7 +220,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is LoadNetImage -> Icons.Outlined.ImageDownload
     is PdfTools -> Icons.Outlined.PictureAsPdf
     is PickColorFromImage -> Icons.Outlined.Eyedropper
-    is RecognizeText -> Icons.Outlined.ImageText
+    is RecognizeText -> Icons.Outlined.ImageToText
     is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
     is WeightResize -> Icons.Outlined.ImageWeight
     is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
@@ -272,7 +272,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is LoadNetImage -> Icons.TwoTone.ImageDownload
     is PdfTools -> Icons.TwoTone.PictureAsPdf
     is PickColorFromImage -> Icons.TwoTone.Eyedropper
-    is RecognizeText -> Icons.TwoTone.ImageText
+    is RecognizeText -> Icons.Outlined.ImageToText
     is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
     is WeightResize -> Icons.TwoTone.ImageWeight
     is Watermarking -> Icons.AutoMirrored.TwoTone.BrandingWatermark
