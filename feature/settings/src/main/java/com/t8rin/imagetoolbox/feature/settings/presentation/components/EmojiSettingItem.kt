@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Casino
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,15 +36,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cool
-import com.t8rin.imagetoolbox.core.resources.icons.Robot
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -66,7 +66,7 @@ fun EmojiSettingItem(
     val settingsState = LocalSettingsState.current
     val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     var showSecretDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     var showEmojiDialog by rememberSaveable { mutableStateOf(false) }
@@ -85,7 +85,7 @@ fun EmojiSettingItem(
             scope.launch {
                 toastHost.showToast(
                     message = context.getString(R.string.emoji_selection_error),
-                    icon = Icons.Rounded.Robot
+                    icon = Icons.Rounded.Casino
                 )
             }
         },

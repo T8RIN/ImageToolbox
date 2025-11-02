@@ -22,13 +22,12 @@ package com.t8rin.imagetoolbox.core.settings.presentation.model
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
-import androidx.compose.material.icons.rounded.Explore
-import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
+import com.t8rin.imagetoolbox.core.resources.icons.Cool
 import com.t8rin.imagetoolbox.core.resources.icons.Database
 import com.t8rin.imagetoolbox.core.resources.icons.DesignServices
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
@@ -44,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MobileCast
 import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
+import com.t8rin.imagetoolbox.core.resources.icons.Psychology
 import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
@@ -348,7 +348,7 @@ sealed class SettingsGroup(
 
     data object Emoji : SettingsGroup(
         id = 23,
-        icon = Icons.Rounded.Face6,
+        icon = Icons.Rounded.Cool,
         titleId = R.string.emoji,
         settingsList = listOf(
             Setting.Emoji,
@@ -373,7 +373,7 @@ sealed class SettingsGroup(
 
     data object Behavior : SettingsGroup(
         id = 25,
-        icon = Icons.Rounded.Explore,
+        icon = Icons.Rounded.Psychology,
         titleId = R.string.behavior,
         settingsList = listOf(
             Setting.SkipFilePicking,
