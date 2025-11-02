@@ -45,8 +45,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MobileCast
 import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
+import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
-import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Tonality
 
 sealed class SettingsGroup(
@@ -148,7 +148,7 @@ sealed class SettingsGroup(
 
     data object ToolsArrangement : SettingsGroup(
         id = 7,
-        icon = Icons.Rounded.Stacks,
+        icon = Icons.Rounded.ResponsiveLayout,
         titleId = R.string.tools_arrangement,
         settingsList = listOf(
             Setting.ScreenOrder,

@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SettingsInputComposite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -40,7 +40,7 @@ fun GroupOptionsSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        startIcon = Icons.Outlined.SettingsInputComposite,
+        startIcon = Icons.Outlined.BatchPrediction,
         title = stringResource(R.string.group_tools_by_type),
         subtitle = stringResource(R.string.group_tools_by_type_sub),
         checked = settingsState.groupOptionsByTypes,

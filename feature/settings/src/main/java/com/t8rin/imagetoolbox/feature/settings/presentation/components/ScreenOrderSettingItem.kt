@@ -27,7 +27,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DataArray
+import androidx.compose.material.icons.outlined.FormatLineSpacing
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -41,15 +41,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -80,7 +81,7 @@ fun ScreenOrderSettingItem(
     var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
 
     val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current
+    val context = LocalComponentActivity.current
     val scope = rememberCoroutineScope()
 
     PreferenceItem(
@@ -92,13 +93,13 @@ fun ScreenOrderSettingItem(
         onDisabledClick = {
             scope.launch {
                 toastHostState.showToast(
-                    icon = Icons.Rounded.Stacks,
+                    icon = Icons.Outlined.BatchPrediction,
                     message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
                 )
             }
         },
         enabled = !settingsState.groupOptionsByTypes,
-        startIcon = Icons.Outlined.DataArray,
+        startIcon = Icons.Outlined.FormatLineSpacing,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),
         endIcon = Icons.Rounded.MiniEdit,
