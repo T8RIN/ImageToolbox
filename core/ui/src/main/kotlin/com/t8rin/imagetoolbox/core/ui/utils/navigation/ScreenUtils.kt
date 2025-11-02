@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
+import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
@@ -70,7 +71,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
-import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Scissors
@@ -336,8 +336,8 @@ internal object ScreenConstantsImpl : ScreenConstants {
                     DeleteExif(),
                 ),
                 title = R.string.edit,
-                selectedIcon = Icons.Rounded.MiniEditLarge,
-                baseIcon = Icons.Outlined.MiniEditLarge
+                selectedIcon = Icons.Filled.EditAlt,
+                baseIcon = Icons.Rounded.EditAlt
             ),
             ScreenGroup(
                 entries = listOf(
