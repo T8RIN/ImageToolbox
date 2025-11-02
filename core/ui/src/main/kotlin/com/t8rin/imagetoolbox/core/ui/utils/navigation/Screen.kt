@@ -813,7 +813,7 @@ sealed class Screen(
         subtitle = R.string.ascii_art_sub
     )
 
-    companion object : ScreenConstants by ScreenConstantsImpl
+    companion object : ScreenConstants by ScreenConstants
 }
 
 data class ScreenGroup(

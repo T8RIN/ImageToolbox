@@ -318,9 +318,11 @@ internal interface ScreenConstants {
     val entries: List<Screen>
 
     val FEATURES_COUNT: Int
+
+    companion object : ScreenConstants by ScreenConstantsImpl
 }
 
-internal object ScreenConstantsImpl : ScreenConstants {
+private object ScreenConstantsImpl : ScreenConstants {
     override val typedEntries by lazy {
         listOf(
             ScreenGroup(

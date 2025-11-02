@@ -20,7 +20,6 @@
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Architecture
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Explore
@@ -47,6 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
+import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.resources.icons.Tonality
 
 sealed class SettingsGroup(
@@ -172,7 +172,7 @@ sealed class SettingsGroup(
 
     data object DefaultValues : SettingsGroup(
         id = 9,
-        icon = Icons.Outlined.Architecture,
+        icon = Icons.Rounded.SquareFoot,
         titleId = R.string.default_values,
         settingsList = listOf(
             Setting.DefaultScaleMode,
