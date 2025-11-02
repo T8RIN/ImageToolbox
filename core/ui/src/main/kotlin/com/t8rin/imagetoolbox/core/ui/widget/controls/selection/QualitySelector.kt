@@ -35,7 +35,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.rounded.Speed
+import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -220,7 +220,7 @@ fun QualitySelector(
                         EnhancedSliderItem(
                             value = jxlQuality?.speed ?: 0,
                             title = stringResource(R.string.speed),
-                            icon = Icons.Rounded.Speed,
+                            icon = Icons.Outlined.Speed,
                             valueRange = 0f..4f,
                             steps = 3,
                             internalStateTransformation = {

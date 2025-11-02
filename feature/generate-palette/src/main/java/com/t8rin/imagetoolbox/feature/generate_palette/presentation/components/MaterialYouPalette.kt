@@ -116,7 +116,7 @@ internal fun MaterialYouPalette(
         containerColor = MaterialTheme.colorScheme.tertiary
     ) {
         Icon(
-            imageVector = Icons.Rounded.Cube,
+            imageVector = Icons.Outlined.Cube,
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(8.dp))

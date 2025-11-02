@@ -36,8 +36,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.Speed
-import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -97,7 +95,7 @@ internal fun OtherContent(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        if (tabs[page].first == Icons.Rounded.Speed) {
+        if (tabs[page].first.name.contains("Speed")) {
             item {
                 val previewProvider = LocalFilterPreviewModelProvider.current
                 val canSetDynamicFilterPreview = previewProvider.canSetDynamicFilterPreview
@@ -198,7 +196,7 @@ internal fun OtherContent(
                 }
             }
         }
-        if (tabs[page].first == Icons.Rounded.TableChart) {
+        if (tabs[page].first.name.contains("Table")) {
             item {
                 PreferenceItemOverload(
                     title = stringResource(R.string.save_empty_lut),

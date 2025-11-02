@@ -178,7 +178,7 @@ private val SwitchType.subtitle: String
 private val SwitchType.icon: ImageVector
     get() = when (this) {
         SwitchType.MaterialYou -> Icons.Outlined.MaterialDesign
-        SwitchType.Compose -> Icons.Rounded.Cube
+        SwitchType.Compose -> Icons.Outlined.Cube
         SwitchType.Pixel -> Icons.Rounded.Android
         SwitchType.Fluent -> Icons.Rounded.Windows
         SwitchType.Cupertino -> Icons.Rounded.IOS

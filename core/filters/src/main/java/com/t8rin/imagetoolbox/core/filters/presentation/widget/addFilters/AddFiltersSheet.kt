@@ -47,20 +47,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.EditRoad
 import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.FilterHdr
-import androidx.compose.material.icons.rounded.FormatColorFill
-import androidx.compose.material.icons.rounded.LensBlur
-import androidx.compose.material.icons.rounded.Light
+import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
-import androidx.compose.material.icons.rounded.Speed
-import androidx.compose.material.icons.rounded.TableChart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
@@ -95,7 +89,13 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterPreviewShee
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
+import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.resources.icons.Speed
+import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -159,22 +159,24 @@ fun AddFiltersSheet(
 
     val tabs: List<Pair<ImageVector, String>> by remember(canAddTemplates) {
         derivedStateOf {
-            listOf(
-                Icons.Rounded.Bookmark to context.getString(R.string.favorite),
-                Icons.Rounded.Speed to context.getString(R.string.simple_effects),
-                Icons.Rounded.FormatColorFill to context.getString(R.string.color),
-                Icons.Rounded.TableChart to context.getString(R.string.lut),
-                Icons.Rounded.Light to context.getString(R.string.light_aka_illumination),
-                Icons.Rounded.FilterHdr to context.getString(R.string.effect),
-                Icons.Rounded.LensBlur to context.getString(R.string.blur),
-                Icons.Rounded.Cube to context.getString(R.string.pixelation),
-                Icons.Rounded.Animation to context.getString(R.string.distortion),
-                Icons.Rounded.EditRoad to context.getString(R.string.dithering)
-            ).let {
-                if (canAddTemplates) listOf(
-                    Icons.Rounded.Extension to context.getString(R.string.template)
-                ) + it
-                else it
+            buildList {
+                if (canAddTemplates) {
+                    add(Icons.Rounded.Extension to context.getString(R.string.template))
+                }
+                addAll(
+                    listOf(
+                        Icons.Rounded.Bookmark to context.getString(R.string.favorite),
+                        Icons.Rounded.Speed to context.getString(R.string.simple_effects),
+                        Icons.Rounded.FloodFill to context.getString(R.string.color),
+                        Icons.Rounded.TableEye to context.getString(R.string.lut),
+                        Icons.Rounded.Lightbulb to context.getString(R.string.light_aka_illumination),
+                        Icons.Rounded.FilterHdr to context.getString(R.string.effect),
+                        Icons.Rounded.BlurCircular to context.getString(R.string.blur),
+                        Icons.Rounded.Cube to context.getString(R.string.pixelation),
+                        Icons.Rounded.Animation to context.getString(R.string.distortion),
+                        Icons.Rounded.Gradient to context.getString(R.string.dithering)
+                    )
+                )
             }
         }
     }

@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.Cube: ImageVector by lazy {
+val Icons.Outlined.Cube: ImageVector by lazy {
     Builder(
         name = "Cube", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
         viewportWidth = 24.0f, viewportHeight = 24.0f
@@ -72,4 +72,57 @@ val Icons.Rounded.Cube: ImageVector by lazy {
         }
     }
         .build()
+}
+
+val Icons.Rounded.Cube: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    Builder(
+        name = "Rounded.DeployedCode",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(440f, 869f)
+            lineTo(160f, 708f)
+            quadTo(141f, 697f, 130.5f, 679f)
+            quadTo(120f, 661f, 120f, 639f)
+            lineTo(120f, 321f)
+            quadTo(120f, 299f, 130.5f, 281f)
+            quadTo(141f, 263f, 160f, 252f)
+            lineTo(440f, 91f)
+            quadTo(459f, 80f, 480f, 80f)
+            quadTo(501f, 80f, 520f, 91f)
+            lineTo(800f, 252f)
+            quadTo(819f, 263f, 829.5f, 281f)
+            quadTo(840f, 299f, 840f, 321f)
+            lineTo(840f, 639f)
+            quadTo(840f, 661f, 829.5f, 679f)
+            quadTo(819f, 697f, 800f, 708f)
+            lineTo(520f, 869f)
+            quadTo(501f, 880f, 480f, 880f)
+            quadTo(459f, 880f, 440f, 869f)
+            close()
+            moveTo(440f, 503f)
+            lineTo(440f, 777f)
+            lineTo(480f, 800f)
+            quadTo(480f, 800f, 480f, 800f)
+            quadTo(480f, 800f, 480f, 800f)
+            lineTo(520f, 777f)
+            lineTo(520f, 503f)
+            lineTo(760f, 364f)
+            lineTo(760f, 322f)
+            quadTo(760f, 322f, 760f, 322f)
+            quadTo(760f, 322f, 760f, 322f)
+            lineTo(717f, 297f)
+            lineTo(480f, 434f)
+            lineTo(243f, 297f)
+            lineTo(200f, 322f)
+            quadTo(200f, 322f, 200f, 322f)
+            quadTo(200f, 322f, 200f, 322f)
+            lineTo(200f, 364f)
+            lineTo(440f, 503f)
+            close()
+        }
+    }.build()
 }

@@ -515,7 +515,7 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.Neon -> Icons.Outlined.NeonBrush
     is DrawMode.Pen -> Icons.Outlined.Pen
     is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
-    is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
+    is DrawMode.PathEffect.Pixelation -> Icons.Outlined.Cube
     is DrawMode.Text -> Icons.Rounded.TextFormat
     is DrawMode.Image -> Icons.Outlined.Image
     is DrawMode.PathEffect.Custom -> Icons.Outlined.AutoFixHigh

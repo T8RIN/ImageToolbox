@@ -52,7 +52,7 @@ sealed class CompareType(
     )
 
     data object PixelByPixel : CompareType(
-        icon = Icons.Rounded.Cube,
+        icon = Icons.Outlined.Cube,
         title = R.string.pixel_by_pixel
     )
 

@@ -48,7 +48,7 @@ fun PixelSizeSelector(
                 end = 12.dp,
                 bottom = 10.dp
             ),
-        icon = Icons.Rounded.Cube,
+        icon = Icons.Outlined.Cube,
         valueRange = 10f..75f,
         internalStateTransformation = {
             it.roundToTwoDigits()
