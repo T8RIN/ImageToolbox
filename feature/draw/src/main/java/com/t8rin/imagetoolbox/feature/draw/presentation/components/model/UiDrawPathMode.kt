@@ -114,6 +114,11 @@ sealed class UiDrawPathMode : Parcelable {
     data class FloodFill(
         val tolerance: Float = 0.25f
     ) : UiDrawPathMode()
+
+    @Parcelize
+    data class Spray(
+        val density: Int = 50
+    ) : UiDrawPathMode()
 }
 
 fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
@@ -188,6 +193,8 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
     DrawPathMode.Triangle -> UiDrawPathMode.Triangle
 
     is DrawPathMode.FloodFill -> UiDrawPathMode.FloodFill(tolerance)
+
+    is DrawPathMode.Spray -> UiDrawPathMode.Spray(density)
 }
 
 fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
@@ -262,4 +269,6 @@ fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {
     UiDrawPathMode.Triangle -> DrawPathMode.Triangle
 
     is UiDrawPathMode.FloodFill -> DrawPathMode.FloodFill(tolerance)
+
+    is UiDrawPathMode.Spray -> DrawPathMode.Spray(density)
 }

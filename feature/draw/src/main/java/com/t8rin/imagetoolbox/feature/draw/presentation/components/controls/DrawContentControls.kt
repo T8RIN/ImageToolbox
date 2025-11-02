@@ -130,7 +130,7 @@ internal fun DrawContentControls(
             )
         }
         AnimatedVisibility(
-            visible = drawPathMode.isStroke && drawPathMode !is DrawPathMode.FloodFill,
+            visible = drawPathMode.canChangeStrokeWidth,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {

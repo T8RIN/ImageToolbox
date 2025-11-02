@@ -274,6 +274,7 @@ fun EraseBackgroundEditOption(
                             listOf(
                                 DrawPathMode.Free,
                                 DrawPathMode.FloodFill(),
+                                DrawPathMode.Spray(),
                                 DrawPathMode.Line,
                                 DrawPathMode.Lasso,
                                 DrawPathMode.Rect(),
@@ -281,7 +282,7 @@ fun EraseBackgroundEditOption(
                             )
                         }
                     )
-                    BoxAnimatedVisibility(drawPathMode.isStroke) {
+                    BoxAnimatedVisibility(drawPathMode.canChangeStrokeWidth) {
                         LineWidthSelector(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                             value = strokeWidth.value,

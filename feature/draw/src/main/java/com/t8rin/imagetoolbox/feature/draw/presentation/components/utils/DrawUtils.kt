@@ -119,6 +119,7 @@ internal fun NativePath.mirror(
     return mirroredPath
 }
 
+@Suppress("unused")
 internal fun Path.mirrorIfNeeded(
     canvasSize: IntegerSize,
     mirroringLines: List<Line>
@@ -147,6 +148,7 @@ internal fun NativePath.mirrorIfNeeded(
     this
 }
 
+@Suppress("unused")
 internal fun Path.mirror(
     x: Float,
     y: Float,
@@ -159,7 +161,7 @@ internal fun Path.mirror(
     y1 = y1
 ).asComposePath()
 
-
+@Suppress("unused")
 fun Canvas.drawInfiniteLine(
     line: Line,
     paint: NativePaint = NativePaint().apply {
@@ -275,11 +277,10 @@ internal fun rememberPaint(
                             style = PaintingStyle.Fill
                         } else {
                             style = PaintingStyle.Stroke
-                            this.strokeWidth = if (drawPathMode is DrawPathMode.FloodFill) {
-                                DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
-                            } else {
-                                strokeWidth.toPx(canvasSize)
-                            }
+                            this.strokeWidth = drawPathMode.convertStrokeWidth(
+                                strokeWidth = strokeWidth,
+                                canvasSize = canvasSize
+                            )
                             if (drawMode is DrawMode.Highlighter || isSharpEdge) {
                                 strokeCap = StrokeCap.Square
                             } else {

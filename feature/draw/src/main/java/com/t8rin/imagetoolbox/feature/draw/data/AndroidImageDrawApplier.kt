@@ -65,7 +65,6 @@ import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -120,12 +119,10 @@ internal class AndroidImageDrawApplier @Inject constructor(
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
                 pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle) ->
-                    val stroke = if (drawPathMode is DrawPathMode.FloodFill) {
-                        DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
-                    } else {
-                        nonScaledStroke.toPx(canvasSize)
-                    }
-
+                    val stroke = drawPathMode.convertStrokeWidth(
+                        strokeWidth = nonScaledStroke,
+                        canvasSize = canvasSize
+                    )
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
                         oldSize = size
@@ -339,11 +336,10 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 style = PaintingStyle.Fill
                             } else {
                                 style = PaintingStyle.Stroke
-                                this.strokeWidth = if (mode is DrawPathMode.FloodFill) {
-                                    DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
-                                } else {
-                                    stroke.toPx(canvasSize)
-                                }
+                                this.strokeWidth = mode.convertStrokeWidth(
+                                    strokeWidth = stroke,
+                                    canvasSize = canvasSize
+                                )
                                 if (mode.isSharpEdge) {
                                     strokeCap = StrokeCap.Square
                                 } else {

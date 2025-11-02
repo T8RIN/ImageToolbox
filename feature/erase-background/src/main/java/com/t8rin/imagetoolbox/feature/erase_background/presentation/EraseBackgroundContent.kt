@@ -376,6 +376,7 @@ fun EraseBackgroundContent(
                         listOf(
                             DrawPathMode.Free,
                             DrawPathMode.FloodFill(),
+                            DrawPathMode.Spray(),
                             DrawPathMode.Line,
                             DrawPathMode.Lasso,
                             DrawPathMode.Rect(),
@@ -383,7 +384,7 @@ fun EraseBackgroundContent(
                         )
                     }
                 )
-                BoxAnimatedVisibility(drawPathMode.isStroke) {
+                BoxAnimatedVisibility(drawPathMode.canChangeStrokeWidth) {
                     LineWidthSelector(
                         modifier = Modifier.fillMaxWidth(),
                         value = strokeWidth.value,

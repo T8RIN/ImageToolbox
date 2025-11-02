@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.DrawP
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.FloodFillParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PolygonParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.RectParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.SprayParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.StarParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.getIcon
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.saveState
@@ -133,6 +134,11 @@ fun DrawPathModeSelector(
         )
 
         FloodFillParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
+
+        SprayParamsSelector(
             value = value,
             onValueChange = onValueChange
         )

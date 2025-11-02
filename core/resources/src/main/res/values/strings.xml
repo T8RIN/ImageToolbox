@@ -1845,4 +1845,6 @@
     <string name="launcher_mode">Launcher Mode</string>
     <string name="flood_fill_sub">Fills an area with selected brush and style</string>
     <string name="flood_fill">Flood Fill</string>
+    <string name="spray">Spray</string>
+    <string name="spray_sub">Draws graffity styled path</string>
 </resources>

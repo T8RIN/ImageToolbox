@@ -17,7 +17,19 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.FloodFill
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Lasso
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedOval
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedRect
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Oval
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Polygon
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Rect
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Spray
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Star
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Triangle
 
 sealed class DrawPathMode(
     val ordinal: Int
@@ -98,24 +110,25 @@ sealed class DrawPathMode(
         }
     }
 
-    val isStroke: Boolean
-        get() = !isFilled
+    data class Spray(
+        val density: Int = 50
+    ) : DrawPathMode(18)
+
+    val canChangeStrokeWidth: Boolean
+        get() = this !is FloodFill && (!isFilled || this is Spray)
 
     val isFilled: Boolean
-        get() = listOf(Lasso, Rect(), Oval, Triangle, Polygon(), Star()).any {
-            this::class.isInstance(it)
-        }
+        get() = filled.any { this::class.isInstance(it) }
 
     val isSharpEdge: Boolean
-        get() = listOf(OutlinedRect(), OutlinedOval, Rect(), Oval, Lasso, FloodFill()).any {
-            this::class.isInstance(it)
-        }
+        get() = sharp.any { this::class.isInstance(it) }
 
     companion object {
         val entries by lazy {
             listOf(
                 Free,
                 FloodFill(),
+                Spray(),
                 Line,
                 PointingArrow(),
                 DoublePointingArrow(),
@@ -141,4 +154,32 @@ sealed class DrawPathMode(
             it.ordinal == ordinal
         } ?: Free
     }
+
+    fun convertStrokeWidth(
+        strokeWidth: Pt,
+        canvasSize: IntegerSize
+    ): Float = when (this) {
+        is FloodFill -> FloodFill.StrokeSize.toPx(canvasSize)
+        else -> strokeWidth.toPx(canvasSize)
+    }
 }
+
+private val filled = listOf(
+    Lasso,
+    Rect(),
+    Oval,
+    Triangle,
+    Polygon(),
+    Star(),
+    Spray()
+)
+
+private val sharp = listOf(
+    OutlinedRect(),
+    OutlinedOval,
+    Rect(),
+    Oval,
+    Lasso,
+    FloodFill(),
+    Spray()
+)

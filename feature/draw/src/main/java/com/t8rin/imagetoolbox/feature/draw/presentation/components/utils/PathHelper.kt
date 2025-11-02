@@ -40,6 +40,8 @@ import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.random.Random
 
 data class PathHelper(
     val drawDownPosition: Offset,
@@ -404,9 +406,10 @@ data class PathHelper(
     }
 
     fun drawPath(
-        onDrawFreeArrow: DrawArrowsScope.() -> Unit,
-        onBaseDraw: () -> Unit,
-        onFloodFill: (tolerance: Float) -> Unit
+        currentDrawPath: Path? = null,
+        onDrawFreeArrow: DrawArrowsScope.() -> Unit = {},
+        onBaseDraw: () -> Unit = {},
+        onFloodFill: (tolerance: Float) -> Unit = {}
     ) {
         if (!isEraserOn) {
             when (drawPathMode) {
@@ -471,6 +474,32 @@ data class PathHelper(
                 DrawPathMode.Lasso -> onBaseDraw()
 
                 is DrawPathMode.FloodFill -> onFloodFill(drawPathMode.tolerance)
+
+                is DrawPathMode.Spray -> {
+                    currentDrawPath?.let {
+                        val path = currentDrawPath.copy().apply {
+                            val pi = (Math.PI * 2).toFloat()
+                            val stroke = strokeWidth.toPx(canvasSize)
+
+                            repeat(drawPathMode.density) {
+                                val angle = Random.nextFloat() * pi
+                                val radius = sqrt(Random.nextFloat()) * stroke
+                                val x = currentDrawPosition.x + radius * cos(angle)
+                                val y = currentDrawPosition.y + radius * sin(angle)
+                                addRect(
+                                    Rect(
+                                        left = x,
+                                        top = y,
+                                        right = x + 1,
+                                        bottom = y + 1
+                                    )
+                                )
+                            }
+                        }
+
+                        onPathChange(path)
+                    }
+                }
             }
         } else onBaseDraw()
     }

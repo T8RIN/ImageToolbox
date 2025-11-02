@@ -314,6 +314,7 @@ fun BitmapDrawer(
                     },
                     onMove = {
                         drawHelper.drawPath(
+                            currentDrawPath = drawPath,
                             onDrawFreeArrow = {
                                 if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
                                     drawPath = Path().apply {
@@ -356,7 +357,6 @@ fun BitmapDrawer(
                                 }
                                 previousDrawPosition = currentDrawPosition
                             },
-                            onFloodFill = {}
                         )
 
                         motionEvent.value = MotionEvent.Idle
@@ -364,6 +364,7 @@ fun BitmapDrawer(
                     onUp = {
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
                             drawHelper.drawPath(
+                                currentDrawPath = null,
                                 onDrawFreeArrow = {
                                     drawPath = pathWithoutTransformations
                                     PathMeasure().apply {

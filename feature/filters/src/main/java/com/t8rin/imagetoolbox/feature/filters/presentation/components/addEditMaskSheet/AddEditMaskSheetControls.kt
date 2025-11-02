@@ -252,6 +252,7 @@ internal fun AddEditMaskSheetControls(
                 listOf(
                     DrawPathMode.Free,
                     DrawPathMode.FloodFill(),
+                    DrawPathMode.Spray(),
                     DrawPathMode.Lasso,
                     DrawPathMode.Rect(),
                     DrawPathMode.Oval,

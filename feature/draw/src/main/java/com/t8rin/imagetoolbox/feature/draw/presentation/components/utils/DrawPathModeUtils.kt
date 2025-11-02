@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
 import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
+import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
@@ -179,7 +180,18 @@ internal fun DrawPathMode.saveState(
         )
     }
 
+    value is DrawPathMode.Spray && this is DrawPathMode.Spray -> {
+        copy(
+            density = value.density
+        )
+    }
+
     else -> this
+}
+
+internal fun DrawPathMode.density(): Int = when (this) {
+    is DrawPathMode.Spray -> density
+    else -> 0
 }
 
 internal fun DrawPathMode.tolerance(): Float = when (this) {
@@ -360,6 +372,18 @@ internal fun DrawPathMode.updateFloodFill(
     else -> this
 }
 
+internal fun DrawPathMode.updateSpray(
+    density: Int? = null,
+) = when (this) {
+    is DrawPathMode.Spray -> {
+        copy(
+            density = density ?: this.density
+        )
+    }
+
+    else -> this
+}
+
 internal fun DrawPathMode.isArrow(): Boolean =
     this is DrawPathMode.PointingArrow || this is DrawPathMode.LinePointingArrow
             || this is DrawPathMode.DoublePointingArrow || this is DrawPathMode.DoubleLinePointingArrow
@@ -375,6 +399,9 @@ internal fun DrawPathMode.isStar(): Boolean =
 
 internal fun DrawPathMode.isFloodFill(): Boolean =
     this is DrawPathMode.FloodFill
+
+internal fun DrawPathMode.isSpray(): Boolean =
+    this is DrawPathMode.Spray
 
 internal fun DrawPathMode.getSubtitle(): Int = when (this) {
     is DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
@@ -395,6 +422,7 @@ internal fun DrawPathMode.getSubtitle(): Int = when (this) {
     is DrawPathMode.OutlinedStar -> R.string.outlined_star_sub
     is DrawPathMode.Star -> R.string.star_sub
     is DrawPathMode.FloodFill -> R.string.flood_fill_sub
+    is DrawPathMode.Spray -> R.string.spray_sub
 }
 
 internal fun DrawPathMode.getTitle(): Int = when (this) {
@@ -416,6 +444,7 @@ internal fun DrawPathMode.getTitle(): Int = when (this) {
     is DrawPathMode.OutlinedStar -> R.string.outlined_star
     is DrawPathMode.Star -> R.string.star
     is DrawPathMode.FloodFill -> R.string.flood_fill
+    is DrawPathMode.Spray -> R.string.spray
 }
 
 internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -437,4 +466,5 @@ internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
     is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
     is DrawPathMode.Star -> Icons.Rounded.Star
     is DrawPathMode.FloodFill -> Icons.Rounded.FloodFill
+    is DrawPathMode.Spray -> Icons.Outlined.Spray
 }

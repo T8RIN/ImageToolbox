@@ -197,11 +197,10 @@ fun BitmapEraser(
 
                         blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
                         shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                        this.strokeWidth = if (drawPathMode is DrawPathMode.FloodFill) {
-                            DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
-                        } else {
-                            strokeWidth.toPx(canvasSize)
-                        }
+                        this.strokeWidth = drawPathMode.convertStrokeWidth(
+                            strokeWidth = strokeWidth,
+                            canvasSize = canvasSize
+                        )
                         if (drawPathMode.isSharpEdge) {
                             strokeCap = StrokeCap.Square
                         } else {
@@ -260,11 +259,10 @@ fun BitmapEraser(
                                     blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
 
                                     if (isRecoveryOn) shader = shaderBitmap?.let { ImageShader(it) }
-                                    this.strokeWidth = if (mode is DrawPathMode.FloodFill) {
-                                        DrawPathMode.FloodFill.StrokeSize.toPx(canvasSize)
-                                    } else {
-                                        strokeWidth.toPx(canvasSize)
-                                    }
+                                    this.strokeWidth = drawPathMode.convertStrokeWidth(
+                                        strokeWidth = stroke,
+                                        canvasSize = canvasSize
+                                    )
                                     if (mode.isSharpEdge) {
                                         strokeCap = StrokeCap.Square
                                     } else {
@@ -313,7 +311,6 @@ fun BitmapEraser(
                     },
                     onMove = {
                         drawHelper.drawPath(
-                            onDrawFreeArrow = {},
                             onBaseDraw = {
                                 if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
                                     drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
@@ -330,14 +327,13 @@ fun BitmapEraser(
                                 }
                                 previousDrawPosition = currentDrawPosition
                             },
-                            onFloodFill = {}
+                            currentDrawPath = drawPath
                         )
 
                         motionEvent.value = MotionEvent.Idle
                     },
                     onUp = {
                         drawHelper.drawPath(
-                            onDrawFreeArrow = {},
                             onBaseDraw = {
                                 PathMeasure().apply {
                                     setPath(drawPath, false)
@@ -356,7 +352,8 @@ fun BitmapEraser(
                                     offset = currentDrawPosition,
                                     tolerance = tolerance
                                 )?.let { drawPath = it }
-                            }
+                            },
+                            currentDrawPath = null
                         )
 
                         onAddPath(
