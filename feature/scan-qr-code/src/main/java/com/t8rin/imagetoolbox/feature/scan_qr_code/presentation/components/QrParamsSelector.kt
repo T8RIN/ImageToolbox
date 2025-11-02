@@ -37,6 +37,8 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Padding
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RoundedCorner
@@ -126,7 +128,8 @@ internal fun QrParamsSelector(
                         color = MaterialTheme.colorScheme.surface,
                         shape = ShapeDefaults.top
                     ),
-                title = stringResource(R.string.dark_color)
+                title = stringResource(R.string.dark_color),
+                icon = Icons.Outlined.DarkMode
             )
             ColorRowSelector(
                 value = value.backgroundColor ?: bg,
@@ -143,7 +146,8 @@ internal fun QrParamsSelector(
                         color = MaterialTheme.colorScheme.surface,
                         shape = ShapeDefaults.bottom
                     ),
-                title = stringResource(R.string.light_color)
+                title = stringResource(R.string.light_color),
+                icon = Icons.Outlined.LightMode
             )
         }
         AnimatedVisibility(
