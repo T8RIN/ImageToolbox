@@ -71,7 +71,6 @@ import kotlin.math.roundToInt
 internal fun ColorMixing(
     selectedColor: Color,
     appColorTuple: ColorTuple,
-    parser: ColorNameParser
 ) {
     val essentials = rememberLocalEssentials()
 
@@ -197,7 +196,7 @@ internal fun ColorMixing(
                             Text(
                                 text = remember(color) {
                                     derivedStateOf {
-                                        parser.parseColorName(color)
+                                        ColorNameParser.parseColorName(color)
                                     }
                                 }.value,
                                 color = contentColor,

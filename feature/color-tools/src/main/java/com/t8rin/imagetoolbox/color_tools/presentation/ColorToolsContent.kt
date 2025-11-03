@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHarmonies
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHistogram
@@ -91,8 +90,6 @@ fun ColorToolsContent(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val parser = rememberColorParser()
-
                 if (isPortrait) {
                     Spacer(modifier = Modifier.height(12.dp))
                 }
@@ -110,13 +107,11 @@ fun ColorToolsContent(
                 Spacer(modifier = Modifier.fillMaxWidth())
                 ColorInfo(
                     selectedColor = selectedColor,
-                    onColorChange = component::updateSelectedColor,
-                    parser = parser
+                    onColorChange = component::updateSelectedColor
                 )
                 ColorMixing(
                     selectedColor = selectedColor,
-                    appColorTuple = appColorTuple,
-                    parser = parser
+                    appColorTuple = appColorTuple
                 )
                 ColorHarmonies(
                     selectedColor = selectedColor

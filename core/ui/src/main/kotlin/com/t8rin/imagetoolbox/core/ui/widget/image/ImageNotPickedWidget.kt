@@ -101,8 +101,8 @@ fun FileNotPickedWidget(
 
 @Composable
 fun SourceNotPickedWidget(
-    modifier: Modifier,
-    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)?,
     text: String,
     icon: ImageVector,
     containerColor: Color = Color.Unspecified,
@@ -141,7 +141,7 @@ fun SourceNotPickedWidget(
 @Composable
 fun ClickableActionIcon(
     icon: ImageVector,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -184,11 +184,15 @@ fun ClickableActionIcon(
                 resultPadding = 0.dp,
                 color = MaterialTheme.colorScheme.mixedContainer.copy(0.8f)
             )
-            .hapticsClickable(
-                onClick = onClick,
-                interactionSource = interactionSource,
-                indication = LocalIndication.current,
-                enableHaptics = false
+            .then(
+                if (onClick != null) {
+                    Modifier.hapticsClickable(
+                        onClick = onClick,
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current,
+                        enableHaptics = false
+                    )
+                } else Modifier
             )
             .scale(1f / scale)
     ) {

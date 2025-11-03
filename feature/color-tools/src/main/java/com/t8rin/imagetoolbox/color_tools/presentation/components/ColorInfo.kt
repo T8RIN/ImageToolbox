@@ -65,7 +65,6 @@ import kotlinx.coroutines.launch
 internal fun ColorInfo(
     selectedColor: Color,
     onColorChange: (Color) -> Unit,
-    parser: ColorNameParser
 ) {
     val essentials = rememberLocalEssentials()
 
@@ -138,7 +137,7 @@ internal fun ColorInfo(
                     Text(
                         text = remember(selectedColor) {
                             derivedStateOf {
-                                parser.parseColorName(selectedColor)
+                                ColorNameParser.parseColorName(selectedColor)
                             }
                         }.value,
                         color = contentColor,

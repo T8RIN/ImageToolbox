@@ -59,7 +59,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.parser.rememberColorParser
+import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -85,8 +85,6 @@ internal fun PickColorFromImageTopAppBar(
     color: Color,
 ) {
     val settingsState = LocalSettingsState.current
-
-    val parser = rememberColorParser()
 
     val essentials = rememberLocalEssentials()
 
@@ -204,7 +202,7 @@ internal fun PickColorFromImageTopAppBar(
                                                 .padding(2.dp),
                                             text = remember(color) {
                                                 derivedStateOf {
-                                                    parser.parseColorName(color)
+                                                    ColorNameParser.parseColorName(color)
                                                 }
                                             }.value
                                         )
