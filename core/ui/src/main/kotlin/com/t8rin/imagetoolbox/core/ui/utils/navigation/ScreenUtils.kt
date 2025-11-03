@@ -221,7 +221,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools -> Icons.Outlined.PictureAsPdf
     is PickColorFromImage -> Icons.Outlined.Eyedropper
     is RecognizeText -> Icons.Outlined.ImageToText
-    is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
+    is ResizeAndConvert -> Icons.Outlined.MultipleImageEdit
     is WeightResize -> Icons.Outlined.ImageWeight
     is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
     is Zip -> Icons.Outlined.FolderZip

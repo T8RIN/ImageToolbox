@@ -1,0 +1,35 @@
+<!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M19.725,6.65c-0.183,-0.25 -0.425,-0.433 -0.725,-0.55v-3.1c0,-0.55 -0.196,-1.021 -0.588,-1.412s-0.862,-0.588 -1.412,-0.588H7c-0.55,0 -1.021,0.196 -1.412,0.588s-0.588,0.862 -0.588,1.412v18c0,0.55 0.196,1.021 0.588,1.412s0.862,0.588 1.412,0.588h10c0.55,0 1.021,-0.196 1.412,-0.588s0.588,-0.862 0.588,-1.412v-10.1c0.3,-0.117 0.542,-0.3 0.725,-0.55 0.183,-0.25 0.275,-0.533 0.275,-0.85v-2c0,-0.317 -0.092,-0.6 -0.275,-0.85ZM17,21H7V3h10v18Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M7,21V3v18Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,20l4,0l0,-4l-1.5,0l0,2.5l-2.5,0l0,1.5z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M8,8l1.5,0l0,-2.5l2.5,0l0,-1.5l-4,0l0,4z" />
+</vector>

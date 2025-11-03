@@ -1,0 +1,38 @@
+<!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M6,6.5c0,-0.417 0.146,-0.771 0.438,-1.063 0.292,-0.292 0.646,-0.438 1.063,-0.438h9c0.417,0 0.771,0.146 1.063,0.438s0.438,0.646 0.438,1.063H6Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M7,3.5c0,-0.417 0.146,-0.771 0.438,-1.063s0.646,-0.438 1.063,-0.438h7c0.417,0 0.771,0.146 1.063,0.438s0.438,0.646 0.438,1.063H7Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M20.615,16.463c-0.062,-0.151 -0.148,-0.288 -0.257,-0.412l-0.762,-0.762c-0.124,-0.124 -0.261,-0.216 -0.412,-0.278s-0.309,-0.093 -0.474,-0.093c-0.151,0 -0.302,0.027 -0.453,0.082s-0.288,0.144 -0.412,0.268l-4.552,4.531v2.533h2.533l4.531,-4.531c0.124,-0.124 0.213,-0.264 0.268,-0.422 0.055,-0.158 0.082,-0.312 0.082,-0.463s-0.031,-0.302 -0.093,-0.453ZM15.311,21.097h-0.783v-0.783l2.513,-2.492 0.391,0.371 0.371,0.391 -2.492,2.513Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M18.412,8.588c-0.392,-0.392 -0.862,-0.588 -1.412,-0.588H7c-0.55,0 -1.021,0.196 -1.412,0.588s-0.588,0.862 -0.588,1.412v10c0,0.55 0.196,1.021 0.588,1.412s0.862,0.588 1.412,0.588h4.801v-2h-4.801v-10h10v3.642h2v-3.642c0,-0.55 -0.196,-1.021 -0.588,-1.412Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M14.93,15.73l-1.387,-1.849l-1.875,2.5l-1.375,-1.825l-2.125,2.825l5.111,0l1.651,-1.651z" />
+</vector>

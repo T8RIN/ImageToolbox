@@ -46,7 +46,7 @@
         <service
             android:name=".tiles.EditScreenshotTile"
             android:exported="true"
-            android:icon="@drawable/outline_app_registration_24"
+            android:icon="@drawable/app_registration_24px"
             android:label="@string/edit_screenshot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:process=":remote">
@@ -58,7 +58,7 @@
         <service
             android:name=".tiles.TakeScreenshotTile"
             android:exported="true"
-            android:icon="@drawable/outline_screenshot_24"
+            android:icon="@drawable/mobile_screenshot"
             android:label="@string/screenshot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:process=":remote">
@@ -106,7 +106,7 @@
         <service
             android:name=".tiles.ResizeAndConvertTile"
             android:exported="true"
-            android:icon="@drawable/multiple_image_edit_rounded"
+            android:icon="@drawable/multiple_image_edit"
             android:label="@string/resize_and_convert"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:process=":remote">

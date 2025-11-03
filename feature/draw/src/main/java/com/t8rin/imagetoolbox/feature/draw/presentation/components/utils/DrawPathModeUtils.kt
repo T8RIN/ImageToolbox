@@ -41,22 +41,22 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 
 internal fun DrawPathMode.saveState(
     value: DrawPathMode
-): DrawPathMode = when {
-    value is DrawPathMode.Rect && this is DrawPathMode.OutlinedRect -> {
+): DrawPathMode = when (value) {
+    is DrawPathMode.Rect if this is DrawPathMode.OutlinedRect -> {
         copy(
             rotationDegrees = value.rotationDegrees,
             cornerRadius = value.cornerRadius
         )
     }
 
-    value is DrawPathMode.OutlinedRect && this is DrawPathMode.Rect -> {
+    is DrawPathMode.OutlinedRect if this is DrawPathMode.Rect -> {
         copy(
             rotationDegrees = value.rotationDegrees,
             cornerRadius = value.cornerRadius
         )
     }
 
-    value is DrawPathMode.Polygon && this is DrawPathMode.OutlinedPolygon -> {
+    is DrawPathMode.Polygon if this is DrawPathMode.OutlinedPolygon -> {
         copy(
             vertices = value.vertices,
             rotationDegrees = value.rotationDegrees,
@@ -64,7 +64,7 @@ internal fun DrawPathMode.saveState(
         )
     }
 
-    value is DrawPathMode.OutlinedPolygon && this is DrawPathMode.Polygon -> {
+    is DrawPathMode.OutlinedPolygon if this is DrawPathMode.Polygon -> {
         copy(
             vertices = value.vertices,
             rotationDegrees = value.rotationDegrees,
@@ -72,7 +72,7 @@ internal fun DrawPathMode.saveState(
         )
     }
 
-    value is DrawPathMode.Star && this is DrawPathMode.OutlinedStar -> {
+    is DrawPathMode.Star if this is DrawPathMode.OutlinedStar -> {
         copy(
             vertices = value.vertices,
             innerRadiusRatio = innerRadiusRatio,
@@ -81,7 +81,7 @@ internal fun DrawPathMode.saveState(
         )
     }
 
-    value is DrawPathMode.OutlinedStar && this is DrawPathMode.Star -> {
+    is DrawPathMode.OutlinedStar if this is DrawPathMode.Star -> {
         copy(
             vertices = value.vertices,
             innerRadiusRatio = innerRadiusRatio,
@@ -90,97 +90,97 @@ internal fun DrawPathMode.saveState(
         )
     }
 
-    value is DrawPathMode.PointingArrow && this is DrawPathMode.LinePointingArrow -> {
+    is DrawPathMode.PointingArrow if this is DrawPathMode.LinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.PointingArrow -> {
+    is DrawPathMode.LinePointingArrow if this is DrawPathMode.PointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.PointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+    is DrawPathMode.PointingArrow if this is DrawPathMode.DoublePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.PointingArrow -> {
+    is DrawPathMode.DoublePointingArrow if this is DrawPathMode.PointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.PointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+    is DrawPathMode.PointingArrow if this is DrawPathMode.DoubleLinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.PointingArrow -> {
+    is DrawPathMode.DoubleLinePointingArrow if this is DrawPathMode.PointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+    is DrawPathMode.LinePointingArrow if this is DrawPathMode.DoublePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.LinePointingArrow -> {
+    is DrawPathMode.DoublePointingArrow if this is DrawPathMode.LinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.LinePointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+    is DrawPathMode.LinePointingArrow if this is DrawPathMode.DoubleLinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.LinePointingArrow -> {
+    is DrawPathMode.DoubleLinePointingArrow if this is DrawPathMode.LinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoublePointingArrow && this is DrawPathMode.DoubleLinePointingArrow -> {
+    is DrawPathMode.DoublePointingArrow if this is DrawPathMode.DoubleLinePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.DoubleLinePointingArrow && this is DrawPathMode.DoublePointingArrow -> {
+    is DrawPathMode.DoubleLinePointingArrow if this is DrawPathMode.DoublePointingArrow -> {
         copy(
             sizeScale = value.sizeScale,
             angle = value.angle
         )
     }
 
-    value is DrawPathMode.FloodFill && this is DrawPathMode.FloodFill -> {
+    is DrawPathMode.FloodFill if this is DrawPathMode.FloodFill -> {
         copy(
             tolerance = value.tolerance
         )
     }
 
-    value is DrawPathMode.Spray && this is DrawPathMode.Spray -> {
+    is DrawPathMode.Spray if this is DrawPathMode.Spray -> {
         copy(
             density = value.density
         )

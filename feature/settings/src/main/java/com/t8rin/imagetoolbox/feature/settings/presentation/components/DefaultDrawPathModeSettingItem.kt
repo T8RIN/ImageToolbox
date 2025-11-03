@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Line
 import com.t8rin.imagetoolbox.core.resources.icons.LineArrow
 import com.t8rin.imagetoolbox.core.resources.icons.LineDoubleArrow
 import com.t8rin.imagetoolbox.core.resources.icons.Polygon
+import com.t8rin.imagetoolbox.core.resources.icons.Spray
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.Triangle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -71,23 +73,45 @@ fun DefaultDrawPathModeSettingItem(
         )
         EnhancedButtonGroup(
             enabled = true,
-            itemCount = 17,
+            itemCount = ordinals.size,
             title = {},
-            selectedIndex = settingsState.defaultDrawPathMode,
+            selectedIndex = ordinals.indexOf(settingsState.defaultDrawPathMode),
             activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
             itemContent = {
                 Icon(
-                    imageVector = it.getIcon(),
+                    imageVector = ordinals[it].getIcon(),
                     contentDescription = null
                 )
             },
             onIndexChange = {
-                onValueChange(it)
+                onValueChange(ordinals[it])
             }
         )
     }
 }
+
+private val ordinals = listOf(
+    0,
+    17,
+    18,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+)
 
 private fun Int.getIcon(): ImageVector = when (this) {
     5 -> Icons.Rounded.LineDoubleArrow
@@ -107,5 +131,7 @@ private fun Int.getIcon(): ImageVector = when (this) {
     14 -> Icons.Outlined.Polygon
     16 -> Icons.Rounded.StarOutline
     15 -> Icons.Rounded.Star
+    17 -> Icons.Rounded.FloodFill
+    18 -> Icons.Outlined.Spray
     else -> Icons.Rounded.HourglassEmpty
 }
