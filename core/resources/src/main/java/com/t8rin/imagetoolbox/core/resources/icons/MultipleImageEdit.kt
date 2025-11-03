@@ -212,5 +212,16 @@ val Icons.TwoTone.MultipleImageEdit: ImageVector by lazy(LazyThreadSafetyMode.NO
             lineToRelative(0f, -1.138f)
             close()
         }
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(13.628f, 20.412f)
+            lineToRelative(4.057f, -4.057f)
+            lineToRelative(1.49f, 1.49f)
+            lineToRelative(-4.057f, 4.057f)
+            close()
+        }
     }.build()
 }
