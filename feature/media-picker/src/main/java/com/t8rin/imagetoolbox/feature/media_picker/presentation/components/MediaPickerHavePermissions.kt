@@ -120,8 +120,7 @@ internal fun MediaPickerHavePermissions(
                         .fadingEdges(listState)
                         .padding(vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
-                        alignment = Alignment.CenterHorizontally
+                        space = 8.dp
                     ),
                     contentPadding = PaddingValues(
                         start = WindowInsets.displayCutout
@@ -136,16 +135,16 @@ internal fun MediaPickerHavePermissions(
                     items(
                         items = albumsState.albums,
                         key = Album::toString
-                    ) {
-                        val selected = selectedAlbumIndex == it.id
-                        val isImageVisible = showAlbumThumbnail && it.uri.isNotEmpty()
+                    ) { album ->
+                        val selected = selectedAlbumIndex == album.id
+                        val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
                         EnhancedChip(
                             selected = selected,
                             selectedColor = MaterialTheme.colorScheme.secondaryContainer,
                             unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             onClick = {
-                                selectedAlbumIndex = it.id
+                                selectedAlbumIndex = album.id
                                 component.getAlbum(selectedAlbumIndex)
                             },
                             contentPadding = PaddingValues(
@@ -160,11 +159,17 @@ internal fun MediaPickerHavePermissions(
                             ),
                             label = {
                                 val title =
-                                    if (it.id == -1L) stringResource(R.string.all) else it.label
+                                    if (album.id == -1L) stringResource(R.string.all) else album.label
                                 Column(
-                                    modifier = Modifier.animateContentSizeNoClip(
-                                        alignment = Alignment.Center
-                                    ),
+                                    modifier = Modifier
+                                        .animateContentSizeNoClip(
+                                            alignment = Alignment.Center
+                                        )
+                                        .then(
+                                            if (showAlbumThumbnail && album.uri.isEmpty()) {
+                                                Modifier.height(140.dp)
+                                            } else Modifier
+                                        ),
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
@@ -192,7 +197,7 @@ internal fun MediaPickerHavePermissions(
                                                 exit = fadeOut() + scaleOut()
                                             ) {
                                                 Picture(
-                                                    model = it.uri,
+                                                    model = album.uri,
                                                     modifier = Modifier
                                                         .padding(top = 8.dp)
                                                         .height(100.dp)
@@ -215,7 +220,7 @@ internal fun MediaPickerHavePermissions(
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 AutoSizeText(
-                                                    text = it.count.toString(),
+                                                    text = album.count.toString(),
                                                     style = MaterialTheme.typography.headlineLarge.copy(
                                                         fontSize = 20.sp,
                                                         color = MaterialTheme.colorScheme.onSurface,
