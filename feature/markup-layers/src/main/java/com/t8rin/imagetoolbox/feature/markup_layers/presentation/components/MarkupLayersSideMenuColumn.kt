@@ -58,8 +58,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
-import kotlin.math.abs
-import kotlin.math.roundToInt
 
 @Composable
 internal fun MarkupLayersSideMenuColumn(
@@ -158,17 +156,9 @@ internal fun MarkupLayersSideMenuColumn(
                         ) {
                             val scope = this
 
-                            val rounded = abs(state.rotation.roundToInt())
-
                             Box(
                                 modifier = Modifier
-                                    .padding(
-                                        if (rounded % 90 == 0) {
-                                            0.dp
-                                        } else {
-                                            12.dp * (rounded % 360) / 180f
-                                        }
-                                    )
+                                    .padding(12.dp)
                                     .graphicsLayer {
                                         rotationZ = state.rotation
                                         alpha = state.alpha
