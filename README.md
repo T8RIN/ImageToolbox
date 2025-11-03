@@ -505,7 +505,8 @@ or click one of the badges below.
     - Digital (Steganography)
 - Drawing on Image/Background
     - Pen
-    - Flood Fill
+    - Flood Fil
+    - Spray
     - Neon
     - Highlighter
     - Privacy Blur
