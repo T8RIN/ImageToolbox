@@ -493,11 +493,7 @@ data class PathHelper(
                                     bottom = y + drawPathMode.pixelSize
                                 )
 
-                                if (drawPathMode.isSquareShaped) {
-                                    addRect(rect)
-                                } else {
-                                    addOval(rect)
-                                }
+                                if (drawPathMode.isSquareShaped) addRect(rect) else addOval(rect)
                             }
                         }
 
