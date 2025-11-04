@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.erase_background.data
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
 import javax.inject.Inject
 

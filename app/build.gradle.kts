@@ -17,14 +17,15 @@
 
 @file:Suppress("UnstableApiUsage")
 
+var isFoss = false
+var isDebug = false
+
 plugins {
     alias(libs.plugins.image.toolbox.application)
     alias(libs.plugins.image.toolbox.hilt)
 }
 
 android {
-    var isFoss = false
-
     val supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
 
     namespace = "com.t8rin.imagetoolbox"
@@ -67,6 +68,7 @@ android {
 
     buildTypes {
         debug {
+            isDebug = true
             applicationIdSuffix = ".debug"
             resValue("string", "app_launcher_name", "Image Toolbox DEBUG")
             resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider.debug")
@@ -151,7 +153,7 @@ allprojects {
     configurations.all {
         resolutionStrategy.dependencySubstitution {
             substitute(module("com.caverock:androidsvg-aar:1.4")).using(module("com.github.deckerst:androidsvg:cc9d59a88f"))
-//            substitute(module("org.opencv:opencv:4.11.0")).using(module("org.opencv:opencv:4.12.0"))
+            if (!isDebug) substitute(module("org.opencv:opencv:4.11.0")).using(module("org.opencv:opencv:4.12.0"))
         }
     }
 }
