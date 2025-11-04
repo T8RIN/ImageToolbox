@@ -678,11 +678,8 @@ suspend fun QrCodeParams.renderAsQr(
 private fun pixelShape(
     density: Density,
     shape: () -> Shape
-) = object : QrPixelShape {
-    override fun Path.path(
-        size: Float,
-        neighbors: Neighbors
-    ): Path = apply {
+) = QrPixelShape { size, _ ->
+    apply {
         addOutline(
             shape().createOutline(
                 size = Size(size, size),
