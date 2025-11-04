@@ -52,6 +52,7 @@ data class PathHelper(
     val drawPathMode: DrawPathMode,
     val isEraserOn: Boolean,
 ) {
+    private val strokeWidthSized = strokeWidth.toPx(canvasSize)
 
     private val drawArrowsScope by lazy {
         object : DrawArrowsScope {
@@ -64,16 +65,12 @@ data class PathHelper(
                 ) {
                     drawEndArrow(
                         drawPath = drawPath,
-                        strokeWidth = strokeWidth,
-                        canvasSize = canvasSize,
                         arrowSize = sizeScale,
                         arrowAngle = angle.toDouble()
                     )
 
                     drawStartArrow(
                         drawPath = drawPath,
-                        strokeWidth = strokeWidth,
-                        canvasSize = canvasSize,
                         arrowSize = sizeScale,
                         arrowAngle = angle.toDouble()
                     )
@@ -98,8 +95,6 @@ data class PathHelper(
                     is DrawPathMode.PointingArrow -> {
                         drawEndArrow(
                             drawPath = drawPath,
-                            strokeWidth = strokeWidth,
-                            canvasSize = canvasSize,
                             arrowSize = drawPathMode.sizeScale,
                             arrowAngle = drawPathMode.angle.toDouble()
                         )
@@ -108,8 +103,6 @@ data class PathHelper(
                     is DrawPathMode.LinePointingArrow -> {
                         drawEndArrow(
                             drawPath = drawPath,
-                            strokeWidth = strokeWidth,
-                            canvasSize = canvasSize,
                             arrowSize = drawPathMode.sizeScale,
                             arrowAngle = drawPathMode.angle.toDouble()
                         )
@@ -121,8 +114,6 @@ data class PathHelper(
 
             private fun drawEndArrow(
                 drawPath: Path,
-                strokeWidth: Pt,
-                canvasSize: IntegerSize,
                 arrowSize: Float = 3f,
                 arrowAngle: Double = 150.0
             ) {
@@ -130,7 +121,7 @@ data class PathHelper(
                     setPath(drawPath, false)
                 }.let {
                     Pair(
-                        it.getPosition(it.length - strokeWidth.toPx(canvasSize) * arrowSize)
+                        it.getPosition(it.length - strokeWidthSized * arrowSize)
                             .takeOrElse { Offset.Zero },
                         it.getPosition(it.length).takeOrElse { Offset.Zero }
                     )
@@ -149,8 +140,8 @@ data class PathHelper(
                     }
                 }
 
-                if (abs(arrowVector.x) < arrowSize * strokeWidth.toPx(canvasSize) &&
-                    abs(arrowVector.y) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                if (abs(arrowVector.x) < arrowSize * strokeWidthSized &&
+                    abs(arrowVector.y) < arrowSize * strokeWidthSized &&
                     preLastPoint != Offset.Zero
                 ) {
                     drawArrow()
@@ -159,8 +150,6 @@ data class PathHelper(
 
             private fun drawStartArrow(
                 drawPath: Path,
-                strokeWidth: Pt,
-                canvasSize: IntegerSize,
                 arrowSize: Float = 3f,
                 arrowAngle: Double = 150.0
             ) {
@@ -169,7 +158,7 @@ data class PathHelper(
                 }.let {
                     Pair(
                         it.getPosition(0f).takeOrElse { Offset.Zero },
-                        it.getPosition(strokeWidth.toPx(canvasSize) * arrowSize)
+                        it.getPosition(strokeWidthSized * arrowSize)
                             .takeOrElse { Offset.Zero }
                     )
                 }
@@ -188,8 +177,8 @@ data class PathHelper(
                     }
                 }
 
-                if (abs(arrowVector.x) < arrowSize * strokeWidth.toPx(canvasSize) &&
-                    abs(arrowVector.y) < arrowSize * strokeWidth.toPx(canvasSize) &&
+                if (abs(arrowVector.x) < arrowSize * strokeWidthSized &&
+                    abs(arrowVector.y) < arrowSize * strokeWidthSized &&
                     secondPoint != Offset.Zero
                 ) {
                     drawArrow()
@@ -478,14 +467,12 @@ data class PathHelper(
                 is DrawPathMode.Spray -> {
                     currentDrawPath?.let {
                         val path = currentDrawPath.copy().apply {
-                            val pi = (Math.PI * 2).toFloat()
-                            val stroke = strokeWidth.toPx(canvasSize)
-
                             repeat(drawPathMode.density) {
-                                val angle = Random.nextFloat() * pi
-                                val radius = sqrt(Random.nextFloat()) * stroke
+                                val angle = Random.nextFloat() * PI_2
+                                val radius = sqrt(Random.nextFloat()) * strokeWidthSized
                                 val x = currentDrawPosition.x + radius * cos(angle)
                                 val y = currentDrawPosition.y + radius * sin(angle)
+
                                 val rect = Rect(
                                     left = x,
                                     top = y,
@@ -504,6 +491,8 @@ data class PathHelper(
         } else onBaseDraw()
     }
 }
+
+private const val PI_2 = (Math.PI * 2).toFloat()
 
 interface DrawArrowsScope {
     fun drawArrowsIfNeeded(
