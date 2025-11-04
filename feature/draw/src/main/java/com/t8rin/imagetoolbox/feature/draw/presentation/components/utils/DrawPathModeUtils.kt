@@ -182,7 +182,9 @@ internal fun DrawPathMode.saveState(
 
     is DrawPathMode.Spray if this is DrawPathMode.Spray -> {
         copy(
-            density = value.density
+            density = value.density,
+            pixelSize = value.pixelSize,
+            isSquareShaped = value.isSquareShaped
         )
     }
 
@@ -192,6 +194,16 @@ internal fun DrawPathMode.saveState(
 internal fun DrawPathMode.density(): Int = when (this) {
     is DrawPathMode.Spray -> density
     else -> 0
+}
+
+internal fun DrawPathMode.pixelSize(): Float = when (this) {
+    is DrawPathMode.Spray -> pixelSize
+    else -> 0f
+}
+
+internal fun DrawPathMode.isSquareShaped(): Boolean = when (this) {
+    is DrawPathMode.Spray -> isSquareShaped
+    else -> false
 }
 
 internal fun DrawPathMode.tolerance(): Float = when (this) {
@@ -374,10 +386,14 @@ internal fun DrawPathMode.updateFloodFill(
 
 internal fun DrawPathMode.updateSpray(
     density: Int? = null,
+    pixelSize: Float? = null,
+    isSquareShaped: Boolean? = null,
 ) = when (this) {
     is DrawPathMode.Spray -> {
         copy(
-            density = density ?: this.density
+            density = density ?: this.density,
+            pixelSize = pixelSize ?: this.pixelSize,
+            isSquareShaped = isSquareShaped ?: this.isSquareShaped
         )
     }
 

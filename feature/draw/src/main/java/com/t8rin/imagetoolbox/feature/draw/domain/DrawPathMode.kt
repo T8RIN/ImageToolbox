@@ -111,7 +111,9 @@ sealed class DrawPathMode(
     }
 
     data class Spray(
-        val density: Int = 50
+        val density: Int = 50,
+        val pixelSize: Float = 1f,
+        val isSquareShaped: Boolean = false
     ) : DrawPathMode(18)
 
     val canChangeStrokeWidth: Boolean

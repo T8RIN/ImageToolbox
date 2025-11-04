@@ -1847,4 +1847,6 @@
     <string name="flood_fill">Flood Fill</string>
     <string name="spray">Spray</string>
     <string name="spray_sub">Draws graffity styled path</string>
+    <string name="square_particles">Square Particles</string>
+    <string name="square_particles_sub">Spray particles will be square shaped instead of circles</string>
 </resources>

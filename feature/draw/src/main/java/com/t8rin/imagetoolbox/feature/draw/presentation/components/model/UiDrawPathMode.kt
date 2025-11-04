@@ -117,7 +117,9 @@ sealed class UiDrawPathMode : Parcelable {
 
     @Parcelize
     data class Spray(
-        val density: Int = 50
+        val density: Int = 50,
+        val pixelSize: Float = 1f,
+        val isSquareShaped: Boolean = false
     ) : UiDrawPathMode()
 }
 
@@ -194,7 +196,11 @@ fun DrawPathMode.toUi(): UiDrawPathMode = when (this) {
 
     is DrawPathMode.FloodFill -> UiDrawPathMode.FloodFill(tolerance)
 
-    is DrawPathMode.Spray -> UiDrawPathMode.Spray(density)
+    is DrawPathMode.Spray -> UiDrawPathMode.Spray(
+        density = density,
+        pixelSize = pixelSize,
+        isSquareShaped = isSquareShaped
+    )
 }
 
 fun UiDrawPathMode.toDomain(): DrawPathMode = when (this) {

@@ -486,14 +486,18 @@ data class PathHelper(
                                 val radius = sqrt(Random.nextFloat()) * stroke
                                 val x = currentDrawPosition.x + radius * cos(angle)
                                 val y = currentDrawPosition.y + radius * sin(angle)
-                                addRect(
-                                    Rect(
-                                        left = x,
-                                        top = y,
-                                        right = x + 1,
-                                        bottom = y + 1
-                                    )
+                                val rect = Rect(
+                                    left = x,
+                                    top = y,
+                                    right = x + drawPathMode.pixelSize,
+                                    bottom = y + drawPathMode.pixelSize
                                 )
+
+                                if (drawPathMode.isSquareShaped) {
+                                    addRect(rect)
+                                } else {
+                                    addOval(rect)
+                                }
                             }
                         }
 

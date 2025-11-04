@@ -27,17 +27,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CropSquare
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.density
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isSpray
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isSquareShaped
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pixelSize
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateSpray
 import kotlin.math.roundToInt
 
@@ -65,12 +71,49 @@ internal fun SprayParamsSelector(
                     )
                 },
                 containerColor = MaterialTheme.colorScheme.surface,
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 shape = ShapeDefaults.default
             )
-            Spacer(modifier = Modifier.Companion.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            EnhancedSliderItem(
+                value = value.pixelSize(),
+                title = stringResource(R.string.pixel_size),
+                valueRange = 0.5f..20f,
+                internalStateTransformation = {
+                    it.roundToTwoDigits()
+                },
+                onValueChange = {
+                    onValueChange(
+                        value.updateSpray(pixelSize = it.roundToTwoDigits())
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                shape = ShapeDefaults.center
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            PreferenceRowSwitch(
+                title = stringResource(R.string.square_particles),
+                subtitle = stringResource(R.string.square_particles_sub),
+                checked = value.isSquareShaped(),
+                onClick = {
+                    onValueChange(
+                        value.updateSpray(isSquareShaped = it)
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                resultModifier = Modifier.padding(16.dp),
+                startIcon = Icons.Rounded.CropSquare
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
