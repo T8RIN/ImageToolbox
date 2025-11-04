@@ -27,7 +27,6 @@ import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
-import androidx.compose.material.icons.outlined.Grain
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
@@ -41,7 +40,6 @@ import androidx.compose.material.icons.twotone.DocumentScanner
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
-import androidx.compose.material.icons.twotone.Grain
 import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
@@ -72,6 +70,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
+import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
@@ -233,7 +232,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ImageSplitting -> Icons.Outlined.SplitAlt
     is ColorTools -> Icons.Outlined.ColorLens
     is WebpTools -> Icons.Outlined.WebpBox
-    is NoiseGeneration -> Icons.Outlined.Grain
+    is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stack
     is Base64Tools -> Icons.Outlined.Base64
@@ -285,7 +284,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ImageSplitting -> Icons.TwoTone.SplitAlt
     is ColorTools -> Icons.TwoTone.ColorLens
     is WebpTools -> Icons.TwoTone.WebpBox
-    is NoiseGeneration -> Icons.TwoTone.Grain
+    is NoiseGeneration -> Icons.Outlined.NoiseAlt
     is CollageMaker -> Icons.TwoTone.Collage
     is MarkupLayers -> Icons.TwoTone.Stack
     is Base64Tools -> Icons.TwoTone.Base64
