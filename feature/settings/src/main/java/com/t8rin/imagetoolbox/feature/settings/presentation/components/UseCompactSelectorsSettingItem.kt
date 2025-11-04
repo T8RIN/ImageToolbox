@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ViewComfy
+import androidx.compose.material.icons.rounded.FullscreenExit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -46,6 +46,6 @@ fun UseCompactSelectorsSettingItem(
         title = stringResource(R.string.compact_selectors),
         subtitle = stringResource(R.string.compact_selectors_sub),
         checked = settingsState.isCompactSelectorsLayout,
-        startIcon = Icons.Outlined.ViewComfy
+        startIcon = Icons.Rounded.FullscreenExit
     )
 }
