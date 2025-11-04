@@ -38,8 +38,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 fun SourceCodeSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.bottom,
-    color: Color = MaterialTheme.colorScheme.primaryContainer.copy(0.7f),
-    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.9f)
+    color: Color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.7f),
+    contentColor: Color = MaterialTheme.colorScheme.onTertiaryContainer
 ) {
     val linkHandler = LocalUriHandler.current
     PreferenceItem(

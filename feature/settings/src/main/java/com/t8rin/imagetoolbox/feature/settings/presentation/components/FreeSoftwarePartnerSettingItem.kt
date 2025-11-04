@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import java.util.Locale
 
-@Suppress("KotlinConstantConditions")
+@Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
 @Composable
 fun FreeSoftwarePartnerSettingItem(
     shape: Shape = ShapeDefaults.center,
@@ -52,9 +52,9 @@ fun FreeSoftwarePartnerSettingItem(
         startIcon = Icons.Outlined.HandshakeAlt,
         title = stringResource(R.string.free_software_partner),
         subtitle = stringResource(R.string.free_software_partner_sub),
-        color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.2f)
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f)
             .compositeOver(MaterialTheme.colorScheme.surface),
-        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.9f),
         modifier = modifier
     )
 }

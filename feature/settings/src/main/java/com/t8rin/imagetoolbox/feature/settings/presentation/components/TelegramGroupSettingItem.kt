@@ -46,10 +46,8 @@ fun TelegramGroupSettingItem(
         startIcon = Icons.Rounded.Telegram,
         title = stringResource(R.string.tg_chat),
         subtitle = stringResource(R.string.tg_chat_sub),
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-            alpha = 0.9f
-        ),
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
         modifier = modifier
     )
 }

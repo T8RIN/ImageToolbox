@@ -46,8 +46,8 @@ fun TelegramChannelSettingItem(
         startIcon = Icons.Outlined.RssFeed,
         title = stringResource(R.string.ci_channel),
         subtitle = stringResource(R.string.ci_channel_sub),
-        color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.5f),
-        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         modifier = modifier
     )
 }
