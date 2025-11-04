@@ -21,7 +21,7 @@ package com.t8rin.imagetoolbox.feature.cipher.data
 
 import com.t8rin.imagetoolbox.core.data.saving.io.StringReadable
 import com.t8rin.imagetoolbox.core.data.utils.computeBytesFromReadable
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager

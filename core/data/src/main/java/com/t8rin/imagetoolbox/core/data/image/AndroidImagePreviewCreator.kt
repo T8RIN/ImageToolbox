@@ -19,7 +19,8 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import android.graphics.Bitmap
 import android.os.Build
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
@@ -30,9 +31,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -45,18 +45,17 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    appScope: AppScope
 ) : DispatchersHolder by dispatchersHolder, ImagePreviewCreator<Bitmap> {
 
-    private var generatePreviews = SettingsState.Default.generatePreviews
+    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = SettingsState.Default
+    )
 
-    init {
-        settingsProvider
-            .getSettingsStateFlow()
-            .onEach {
-                generatePreviews = it.generatePreviews
-            }.launchIn(CoroutineScope(defaultDispatcher))
-    }
+    private val settingsState get() = _settingsState.value
 
     override suspend fun createPreview(
         image: Bitmap,
@@ -75,7 +74,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             )
         }
 
-        if (!generatePreviews) return@withContext null
+        if (!settingsState.generatePreviews) return@withContext null
 
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
         val targetImage: Bitmap

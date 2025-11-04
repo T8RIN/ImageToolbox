@@ -34,7 +34,7 @@ import com.t8rin.gif_converter.GifEncoder
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat

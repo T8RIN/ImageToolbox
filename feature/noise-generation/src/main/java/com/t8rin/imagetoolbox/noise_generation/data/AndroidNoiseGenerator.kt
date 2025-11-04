@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.noise_generation.data
 
 import android.graphics.Bitmap
 import com.t8rin.fast_noise.FastNoise
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.noise_generation.domain.NoiseGenerator
 import com.t8rin.imagetoolbox.noise_generation.domain.model.NoiseParams
 import kotlinx.coroutines.withContext

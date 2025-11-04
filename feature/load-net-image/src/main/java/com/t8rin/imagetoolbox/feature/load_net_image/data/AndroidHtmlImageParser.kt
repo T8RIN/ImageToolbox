@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.load_net_image.data
 import android.content.Context
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.USER_AGENT
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat

@@ -23,7 +23,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid.SvgListener
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator

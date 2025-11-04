@@ -21,7 +21,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.googlecode.tesseract.android.TessBaseAPI
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.resources.R
@@ -37,7 +38,6 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,11 +61,12 @@ internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     @ApplicationContext private val context: Context,
     private val shareProvider: ShareProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    appScope: AppScope,
 ) : DispatchersHolder by dispatchersHolder, ImageTextReader {
 
     init {
-        CoroutineScope(ioDispatcher).launch {
+        appScope.launch {
             RecognitionType.entries.forEach {
                 File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
             }

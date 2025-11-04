@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.data.remote
 import android.content.Context
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.decodeEscaped
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResource
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress

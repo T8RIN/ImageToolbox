@@ -17,12 +17,17 @@
 
 package com.t8rin.imagetoolbox.core.data.di
 
+import com.t8rin.imagetoolbox.core.data.coroutines.AndroidDispatchersHolder
+import com.t8rin.imagetoolbox.core.data.coroutines.AppScopeImpl
 import com.t8rin.imagetoolbox.core.data.utils.executorDispatcher
 import com.t8rin.imagetoolbox.core.di.DecodingDispatcher
 import com.t8rin.imagetoolbox.core.di.DefaultDispatcher
 import com.t8rin.imagetoolbox.core.di.EncodingDispatcher
 import com.t8rin.imagetoolbox.core.di.IoDispatcher
 import com.t8rin.imagetoolbox.core.di.UiDispatcher
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,39 +40,55 @@ import kotlin.coroutines.CoroutineContext
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object CoroutinesModule {
+internal interface CoroutinesModule {
 
-    @DefaultDispatcher
+    @Binds
     @Singleton
-    @Provides
-    fun defaultDispatcher(): CoroutineContext = executorDispatcher {
-        Executors.newCachedThreadPool()
+    fun dispatchersHolder(
+        dispatchers: AndroidDispatchersHolder
+    ): DispatchersHolder
+
+    @Binds
+    @Singleton
+    fun appScope(
+        impl: AppScopeImpl
+    ): AppScope
+
+    companion object {
+
+        @DefaultDispatcher
+        @Singleton
+        @Provides
+        fun defaultDispatcher(): CoroutineContext = executorDispatcher {
+            Executors.newCachedThreadPool()
+        }
+
+        @DecodingDispatcher
+        @Singleton
+        @Provides
+        fun decodingDispatcher(): CoroutineContext = executorDispatcher {
+            Executors.newFixedThreadPool(
+                2 * Runtime.getRuntime().availableProcessors() + 1
+            )
+        }
+
+        @EncodingDispatcher
+        @Singleton
+        @Provides
+        fun encodingDispatcher(): CoroutineContext = executorDispatcher {
+            Executors.newSingleThreadExecutor()
+        }
+
+        @IoDispatcher
+        @Singleton
+        @Provides
+        fun ioDispatcher(): CoroutineContext = Dispatchers.IO
+
+        @UiDispatcher
+        @Singleton
+        @Provides
+        fun uiDispatcher(): CoroutineContext = Dispatchers.Main.immediate
+
     }
-
-    @DecodingDispatcher
-    @Singleton
-    @Provides
-    fun decodingDispatcher(): CoroutineContext = executorDispatcher {
-        Executors.newFixedThreadPool(
-            2 * Runtime.getRuntime().availableProcessors() + 1
-        )
-    }
-
-    @EncodingDispatcher
-    @Singleton
-    @Provides
-    fun encodingDispatcher(): CoroutineContext = executorDispatcher {
-        Executors.newSingleThreadExecutor()
-    }
-
-    @IoDispatcher
-    @Singleton
-    @Provides
-    fun ioDispatcher(): CoroutineContext = Dispatchers.IO
-
-    @UiDispatcher
-    @Singleton
-    @Provides
-    fun uiDispatcher(): CoroutineContext = Dispatchers.Main.immediate
 
 }

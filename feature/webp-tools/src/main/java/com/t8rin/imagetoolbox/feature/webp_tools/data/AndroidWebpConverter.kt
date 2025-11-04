@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.t8rin.awebp.decoder.AnimatedWebpDecoder
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider

@@ -22,7 +22,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
 import com.t8rin.imagetoolbox.feature.checksum_tools.domain.ChecksumManager

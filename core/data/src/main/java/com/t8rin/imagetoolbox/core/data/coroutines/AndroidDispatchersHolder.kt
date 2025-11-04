@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.data.dispatchers
+package com.t8rin.imagetoolbox.core.data.coroutines
 
 import com.t8rin.imagetoolbox.core.di.DecodingDispatcher
 import com.t8rin.imagetoolbox.core.di.DefaultDispatcher
 import com.t8rin.imagetoolbox.core.di.EncodingDispatcher
 import com.t8rin.imagetoolbox.core.di.IoDispatcher
 import com.t8rin.imagetoolbox.core.di.UiDispatcher
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

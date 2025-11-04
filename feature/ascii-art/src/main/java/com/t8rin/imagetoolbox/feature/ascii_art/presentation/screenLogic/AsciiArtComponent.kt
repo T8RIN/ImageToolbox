@@ -24,7 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams

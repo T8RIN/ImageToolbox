@@ -22,7 +22,7 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.image_cutting.domain.CutParams

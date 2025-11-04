@@ -37,7 +37,8 @@ import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
 import com.t8rin.imagetoolbox.core.data.utils.toUiPath
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
@@ -58,11 +59,10 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
@@ -78,23 +78,20 @@ internal class AndroidFileController @Inject constructor(
     private val shareProvider: ShareProvider,
     private val filenameCreator: FilenameCreator,
     private val jsonParser: JsonParser,
+    private val appScope: AppScope,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
 ) : DispatchersHolder by dispatchersHolder,
     ResourceManager by resourceManager,
     FileController {
 
-    private var _settingsState: SettingsState = SettingsState.Default
+    private val _settingsState = settingsManager.getSettingsStateFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = SettingsState.Default
+    )
 
-    private val settingsState get() = _settingsState
-
-    init {
-        settingsManager
-            .getSettingsStateFlow()
-            .onEach { state ->
-                _settingsState = state
-            }.launchIn(CoroutineScope(defaultDispatcher))
-    }
+    private val settingsState get() = _settingsState.value
 
     override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)
 
@@ -346,7 +343,7 @@ internal class AndroidFileController @Inject constructor(
     override fun clearCache(
         onComplete: (String) -> Unit,
     ) {
-        CoroutineScope(ioDispatcher).launch {
+        appScope.launch {
             context.clearCache()
             onComplete(getReadableCacheSize())
         }

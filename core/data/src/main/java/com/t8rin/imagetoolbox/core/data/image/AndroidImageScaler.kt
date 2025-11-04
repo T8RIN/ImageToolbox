@@ -30,7 +30,8 @@ import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
@@ -44,10 +45,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
@@ -59,17 +60,17 @@ internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    appScope: AppScope,
 ) : DispatchersHolder by dispatchersHolder, ImageScaler<Bitmap> {
 
-    private var defaultImageScaleMode: ImageScaleMode = ImageScaleMode.Default
+    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = SettingsState.Default
+    )
 
-    init {
-        settingsProvider
-            .getSettingsStateFlow().onEach {
-                defaultImageScaleMode = it.defaultImageScaleMode
-            }.launchIn(CoroutineScope(defaultDispatcher))
-    }
+    private val settingsState get() = _settingsState.value
 
     override suspend fun scaleImage(
         image: Bitmap,
@@ -353,7 +354,7 @@ internal class AndroidImageScaler @Inject constructor(
 
         val mode = imageScaleMode.takeIf {
             it != ImageScaleMode.NotPresent && it.value >= 0
-        } ?: defaultImageScaleMode
+        } ?: settingsState.defaultImageScaleMode
 
         Aire.scale(
             bitmap = softwareImage,

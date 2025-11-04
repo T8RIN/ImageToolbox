@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.weight_resize.data
 
 import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat

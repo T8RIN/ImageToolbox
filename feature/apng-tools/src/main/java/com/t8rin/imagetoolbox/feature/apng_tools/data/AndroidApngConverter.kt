@@ -26,7 +26,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider

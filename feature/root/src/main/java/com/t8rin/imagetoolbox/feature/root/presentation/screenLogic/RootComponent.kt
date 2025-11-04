@@ -36,7 +36,7 @@ import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.t8rin.imagetoolbox.core.domain.APP_RELEASES
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
@@ -186,15 +186,11 @@ class RootComponent @AssistedInject internal constructor(
         }
         settingsManager
             .getSettingsStateFlow()
-            .onEach {
-                _settingsState.value = it
-            }
-            .launchIn(componentScope)
-
-        settingsManager
-            .getNeedToShowTelegramGroupDialog()
-            .onEach { value ->
-                _showTelegramGroupDialog.update { value }
+            .onEach { state ->
+                _showTelegramGroupDialog.update {
+                    state.appOpenCount % 6 == 0 && state.appOpenCount != 0 && !state.isTelegramGroupOpened
+                }
+                _settingsState.value = state
             }
             .launchIn(componentScope)
 

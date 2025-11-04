@@ -35,7 +35,8 @@ import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.data.utils.tryRequireOriginal
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageData
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -47,9 +48,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -58,20 +58,18 @@ import javax.inject.Inject
 internal class AndroidImageGetter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
+    private val appScope: AppScope,
     settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap> {
 
-    private var settingsState: SettingsState = SettingsState.Default
+    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = SettingsState.Default
+    )
 
-    init {
-        settingsProvider
-            .getSettingsStateFlow()
-            .onEach {
-                settingsState = it
-            }
-            .launchIn(CoroutineScope(defaultDispatcher))
-    }
+    private val settingsState get() = _settingsState.value
 
     override suspend fun getImage(
         uri: String,
@@ -175,7 +173,7 @@ internal class AndroidImageGetter @Inject constructor(
         onGetImage: (ImageData<Bitmap>) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        CoroutineScope(imageLoader.defaults.decoderCoroutineContext).launch {
+        appScope.launch {
             getImage(
                 uri = uri,
                 originalSize = originalSize,

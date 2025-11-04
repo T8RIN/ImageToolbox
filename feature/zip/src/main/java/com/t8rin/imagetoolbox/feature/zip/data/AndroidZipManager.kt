@@ -22,7 +22,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
 import dagger.hilt.android.qualifiers.ApplicationContext

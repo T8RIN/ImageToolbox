@@ -201,7 +201,9 @@ internal fun Preferences.toSettingsState(
         ?: default.allowSkipIfLarger,
     customAsciiGradients = this[ASCII_CUSTOM_GRADIENTS]
         ?: default.customAsciiGradients,
-    isScreenSelectionLauncherMode = this[IS_LAUNCHER_MODE] ?: default.isScreenSelectionLauncherMode
+    isScreenSelectionLauncherMode = this[IS_LAUNCHER_MODE] ?: default.isScreenSelectionLauncherMode,
+    isTelegramGroupOpened = this[IS_TELEGRAM_GROUP_OPENED] ?: default.isTelegramGroupOpened,
+    initialOcrMode = this[INITIAL_OCR_MODE] ?: default.initialOcrMode
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

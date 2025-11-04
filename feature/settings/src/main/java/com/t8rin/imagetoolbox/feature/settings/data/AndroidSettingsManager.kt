@@ -30,7 +30,8 @@ import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
 import com.t8rin.imagetoolbox.core.domain.GlobalStorageName
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
@@ -153,7 +154,6 @@ import com.t8rin.logger.Logger
 import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -173,10 +173,11 @@ internal class AndroidSettingsManager @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val shareProvider: Lazy<ShareProvider>,
     dispatchersHolder: DispatchersHolder,
+    appScope: AppScope,
 ) : DispatchersHolder by dispatchersHolder, SettingsManager {
 
     init {
-        CoroutineScope(ioDispatcher).launch {
+        appScope.launch {
             registerAppOpen()
         }
     }
@@ -189,10 +190,6 @@ internal class AndroidSettingsManager @Inject constructor(
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map {
         it.toSettingsState(default)
     }.onEach { currentSettings = it }
-
-    override fun getNeedToShowTelegramGroupDialog(): Flow<Boolean> = getSettingsStateFlow().map {
-        it.appOpenCount % 6 == 0 && it.appOpenCount != 0 && (dataStore.data.first()[IS_TELEGRAM_GROUP_OPENED] != true)
-    }
 
     override suspend fun toggleAddSequenceNumber() = toggle(
         key = ADD_SEQ_NUM_TO_FILENAME,
@@ -455,14 +452,6 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setInitialOCRLanguageCodes(list: List<String>) = edit {
         it[INITIAL_OCR_CODES] = list.joinToString(separator = "+")
-    }
-
-    override suspend fun getInitialOCRLanguageCodes(): List<String> = dataStore.data.first().let {
-        it[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes
-    }
-
-    override suspend fun getInitialOcrMode(): Int = dataStore.data.first().let {
-        it[INITIAL_OCR_MODE] ?: 1
     }
 
     override suspend fun createLogsExport(): String = withContext(ioDispatcher) {

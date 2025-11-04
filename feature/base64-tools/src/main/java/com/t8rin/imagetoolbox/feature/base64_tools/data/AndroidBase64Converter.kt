@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.base64_tools.data
 
 import android.graphics.Bitmap
 import android.util.Base64
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider

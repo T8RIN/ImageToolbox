@@ -26,7 +26,8 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -49,9 +50,8 @@ import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -65,18 +65,17 @@ internal class AndroidImageCombiner @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder
+    dispatchersHolder: DispatchersHolder,
+    appScope: AppScope,
 ) : DispatchersHolder by dispatchersHolder, ImageCombiner<Bitmap> {
 
-    private var generatePreviews = SettingsState.Default.generatePreviews
+    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = SettingsState.Default
+    )
 
-    init {
-        settingsProvider
-            .getSettingsStateFlow()
-            .onEach {
-                generatePreviews = it.generatePreviews
-            }.launchIn(CoroutineScope(defaultDispatcher))
-    }
+    private val settingsState get() = _settingsState.value
 
     override suspend fun combineImages(
         imageUris: List<String>,
@@ -376,7 +375,7 @@ internal class AndroidImageCombiner @Inject constructor(
             combiningParams = combiningParams
         )
 
-        if (!generatePreviews) return@withContext null withSize imageSize
+        if (!settingsState.generatePreviews) return@withContext null withSize imageSize
 
         combineImages(
             imageUris = imageUris,

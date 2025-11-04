@@ -32,7 +32,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.toAndroidBlendMode
 import com.t8rin.imagetoolbox.core.data.image.utils.toPorterDuffMode
 import com.t8rin.imagetoolbox.core.data.utils.asDomain
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer

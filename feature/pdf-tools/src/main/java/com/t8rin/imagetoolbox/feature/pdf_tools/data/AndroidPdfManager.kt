@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset

@@ -27,7 +27,7 @@ import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator

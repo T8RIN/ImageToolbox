@@ -37,7 +37,7 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientMaker
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientState

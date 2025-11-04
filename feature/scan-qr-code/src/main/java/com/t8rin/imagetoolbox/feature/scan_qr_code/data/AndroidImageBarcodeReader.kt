@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.data
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager

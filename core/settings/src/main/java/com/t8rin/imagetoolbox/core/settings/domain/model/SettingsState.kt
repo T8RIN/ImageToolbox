@@ -123,6 +123,8 @@ data class SettingsState(
     val allowSkipIfLarger: Boolean,
     val customAsciiGradients: Set<String>,
     val isScreenSelectionLauncherMode: Boolean,
+    val isTelegramGroupOpened: Boolean,
+    val initialOcrMode: Int
 ) {
 
     companion object {
@@ -223,7 +225,9 @@ data class SettingsState(
                 addImageScaleModeInfoToFilename = false,
                 allowSkipIfLarger = false,
                 customAsciiGradients = emptySet(),
-                isScreenSelectionLauncherMode = false
+                isScreenSelectionLauncherMode = false,
+                isTelegramGroupOpened = false,
+                initialOcrMode = 1
             )
         }
     }

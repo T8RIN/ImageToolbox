@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.limits_resize.data
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.feature.limits_resize.domain.LimitsImageScaler

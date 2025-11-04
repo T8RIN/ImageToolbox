@@ -37,7 +37,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.t8rin.imagetoolbox.core.di.entryPoint
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob

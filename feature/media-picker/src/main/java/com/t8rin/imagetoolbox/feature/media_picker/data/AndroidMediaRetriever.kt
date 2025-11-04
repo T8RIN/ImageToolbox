@@ -22,7 +22,7 @@ import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.Query
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.contentFlowObserver
@@ -146,7 +146,7 @@ internal class AndroidMediaRetriever @Inject constructor(
 
     override fun getMediaByType(
         allowedMedia: AllowedMedia
-    ): Flow<Result<List<Media>>> = context.retrieveMedia { it ->
+    ): Flow<Result<List<Media>>> = context.retrieveMedia {
         val query = when (allowedMedia) {
             is AllowedMedia.Photos -> Query.PhotoQuery()
             AllowedMedia.Videos -> Query.VideoQuery()

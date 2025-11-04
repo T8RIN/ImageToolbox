@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.domain.dispatchers
+package com.t8rin.imagetoolbox.core.domain.coroutines
 
 import kotlin.coroutines.CoroutineContext
 

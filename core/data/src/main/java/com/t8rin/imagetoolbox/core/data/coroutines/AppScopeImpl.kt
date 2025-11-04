@@ -15,30 +15,20 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.ascii_art.data
+package com.t8rin.imagetoolbox.core.data.coroutines
 
-import android.graphics.Bitmap
-import com.t8rin.ascii.ASCIIConverter
-import com.t8rin.ascii.Gradient
-import com.t8rin.ascii.toMapper
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.feature.ascii_art.domain.AsciiConverter
-import kotlinx.coroutines.withContext
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.SupervisorJob
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-internal class AndroidAsciiConverter @Inject constructor(
+
+internal class AppScopeImpl @Inject constructor(
     dispatchersHolder: DispatchersHolder
-) : AsciiConverter<Bitmap>, DispatchersHolder by dispatchersHolder {
-
-    override suspend fun imageToAscii(
-        image: Bitmap,
-        fontSize: Float,
-        gradient: String
-    ): String = withContext(defaultDispatcher) {
-        ASCIIConverter(
-            fontSize = fontSize,
-            mapper = Gradient(gradient).toMapper()
-        ).convertToAscii(image)
-    }
-
+) : AppScope, DispatchersHolder by dispatchersHolder {
+    override val coroutineContext: CoroutineContext =
+        defaultDispatcher + CoroutineExceptionHandler { _, e -> e.makeLog("AppScopeImpl") } + SupervisorJob()
 }

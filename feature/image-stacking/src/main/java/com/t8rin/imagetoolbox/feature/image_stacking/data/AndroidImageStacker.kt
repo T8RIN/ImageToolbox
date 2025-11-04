@@ -25,7 +25,7 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.toPorterDuffMode
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler

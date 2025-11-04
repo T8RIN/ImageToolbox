@@ -25,7 +25,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -128,7 +128,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
             _done.value = 0
             _left.value = uris.size
 
-            uris.forEachIndexed { index, url ->
+            uris.forEach { url ->
                 imageGetter.getImage(data = url)?.let { bitmap ->
                     fileController.save(
                         saveTarget = ImageSaveTarget(

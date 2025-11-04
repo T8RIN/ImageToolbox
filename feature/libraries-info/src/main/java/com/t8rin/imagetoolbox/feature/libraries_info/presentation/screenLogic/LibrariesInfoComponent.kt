@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.libraries_info.presentation.screenLogic
 import com.arkivanov.decompose.ComponentContext
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
-import com.t8rin.imagetoolbox.core.domain.dispatchers.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import dagger.assisted.Assisted
