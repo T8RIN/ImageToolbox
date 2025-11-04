@@ -181,14 +181,14 @@ fun Any.toImageModel() = ImageModel(this)
 
 fun String.toFileModel() = FileModel(this)
 
-fun String.decodeEscaped(): String {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+fun String.decodeEscaped(): String = runCatching {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         URLDecoder.decode(URLDecoder.decode(this, Charsets.UTF_8), Charsets.UTF_8)
     } else {
         @Suppress("DEPRECATION")
         URLDecoder.decode(URLDecoder.decode(this))
     }
-}
+}.getOrDefault(this)
 
 fun String.encodeEscaped(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
