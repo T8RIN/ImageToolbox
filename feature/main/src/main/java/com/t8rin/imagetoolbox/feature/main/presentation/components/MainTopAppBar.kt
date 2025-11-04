@@ -73,7 +73,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AppShortcut
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowUpRight
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoPrints
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
@@ -236,7 +235,7 @@ private fun PinShortcutButton() {
                 },
                 icon = {
                     Icon(
-                        imageVector = Icons.Rounded.AppShortcut,
+                        imageVector = Icons.Rounded.MobileArrowUpRight,
                         contentDescription = null
                     )
                 },
@@ -264,7 +263,7 @@ private fun PinShortcutButton() {
                         ) {
                             Icon(
                                 imageVector = selectedScreen?.icon
-                                    ?: Icons.Rounded.AppShortcut,
+                                    ?: Icons.Rounded.MobileArrowUpRight,
                                 contentDescription = null,
                                 tint = shortcutColor,
                                 modifier = Modifier.size(36.dp)
