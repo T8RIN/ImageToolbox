@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import android.os.Build
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CameraAlt
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Wallpaper
-import androidx.compose.material.icons.outlined.WebStories
-import androidx.compose.material.icons.rounded.FolderOpen
+import androidx.compose.material.icons.outlined.PhotoCameraBack
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FolderImage
+import com.t8rin.imagetoolbox.core.resources.icons.ImageEmbedded
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoPickerMobile
 
 sealed class PicturePickerMode(
     val ordinal: Int,
@@ -35,35 +35,35 @@ sealed class PicturePickerMode(
 ) {
     data object Embedded : PicturePickerMode(
         ordinal = 0,
-        icon = Icons.Outlined.Wallpaper,
+        icon = Icons.Outlined.ImageEmbedded,
         title = R.string.embedded_picker,
         subtitle = R.string.embedded_picker_sub
     )
 
     data object PhotoPicker : PicturePickerMode(
         ordinal = 1,
-        icon = Icons.Outlined.WebStories,
+        icon = Icons.Outlined.PhotoPickerMobile,
         title = R.string.photo_picker,
         subtitle = R.string.photo_picker_sub
     )
 
     data object Gallery : PicturePickerMode(
         ordinal = 2,
-        icon = Icons.Outlined.Image,
+        icon = Icons.Outlined.ImagesMode,
         title = R.string.gallery_picker,
         subtitle = R.string.gallery_picker_sub
     )
 
     data object GetContent : PicturePickerMode(
         ordinal = 3,
-        icon = Icons.Rounded.FolderOpen,
+        icon = Icons.Outlined.FolderImage,
         title = R.string.file_explorer_picker,
         subtitle = R.string.file_explorer_picker_sub
     )
 
     data object CameraCapture : PicturePickerMode(
         ordinal = 4,
-        icon = Icons.Outlined.CameraAlt,
+        icon = Icons.Outlined.PhotoCameraBack,
         title = R.string.camera,
         subtitle = R.string.camera_sub
     )
