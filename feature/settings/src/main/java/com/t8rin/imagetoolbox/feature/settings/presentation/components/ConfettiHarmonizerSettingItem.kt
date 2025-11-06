@@ -36,7 +36,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,6 +54,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.RecentAndFavoriteColorsCard
@@ -184,8 +184,9 @@ fun ConfettiHarmonizerSettingItem(
     }
 
     var tempColor by remember(settingsState.confettiColorHarmonizer) {
-        mutableIntStateOf(
-            (settingsState.confettiColorHarmonizer as? ColorHarmonizer.Custom)?.color ?: 0
+        mutableStateOf(
+            (settingsState.confettiColorHarmonizer as? ColorHarmonizer.Custom)?.color?.toColor()
+                ?: Color.Black
         )
     }
     EnhancedModalBottomSheet(
@@ -196,13 +197,13 @@ fun ConfettiHarmonizerSettingItem(
                     .padding(24.dp)
             ) {
                 RecentAndFavoriteColorsCard(
-                    onRecentColorClick = { tempColor = it.toArgb() },
-                    onFavoriteColorClick = { tempColor = it.toArgb() }
+                    onRecentColorClick = { tempColor = it },
+                    onFavoriteColorClick = { tempColor = it }
                 )
 
                 ColorSelection(
-                    color = tempColor,
-                    onColorChange = {
+                    value = tempColor,
+                    onValueChange = {
                         tempColor = it
                     }
                 )
@@ -223,7 +224,7 @@ fun ConfettiHarmonizerSettingItem(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
                     confettiHostState.currentToastData?.dismiss()
-                    onValueChange(ColorHarmonizer.Custom(tempColor))
+                    onValueChange(ColorHarmonizer.Custom(tempColor.toArgb()))
                     scope.launch {
                         delay(200L)
                         confettiHostState.showConfetti()

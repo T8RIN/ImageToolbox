@@ -52,7 +52,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -64,7 +63,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorInfo
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -109,10 +107,8 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         ColorInfo(
-            color = keyColor.toArgb(),
-            onColorChange = {
-                keyColor = it.toColor()
-            },
+            color = keyColor,
+            onColorChange = { keyColor = it },
             supportButtonIcon = Icons.Rounded.MiniEdit,
             onSupportButtonClick = {
                 showColorPicker = true
@@ -246,10 +242,8 @@ internal fun MaterialYouPaletteControls(bitmap: Bitmap) {
                         )
                 ) {
                     ColorSelection(
-                        color = keyColor.toArgb(),
-                        onColorChange = {
-                            keyColor = it.toColor()
-                        }
+                        value = keyColor,
+                        onValueChange = { keyColor = it }
                     )
                 }
             }

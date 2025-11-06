@@ -153,8 +153,7 @@ fun ColorSelectionRow(
                             onLongClick = {
                                 context.pasteColorFromClipboard(
                                     onPastedColor = {
-                                        val color = if (allowAlpha) Color(it)
-                                        else Color(it).copy(1f)
+                                        val color = if (allowAlpha) it else it.copy(1f)
 
                                         onValueChange(color)
                                         customColor = color

@@ -38,13 +38,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
@@ -56,10 +54,12 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import kotlinx.coroutines.delay
@@ -74,21 +74,23 @@ fun ColorTuplePicker(
 ) {
     val settingsState = LocalSettingsState.current
 
-    var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
-    var secondary by rememberSaveable(colorTuple) {
-        mutableIntStateOf(
-            colorTuple.secondary?.toArgb() ?: colorTuple.primary.calculateSecondaryColor()
+    var primary by rememberSaveable(colorTuple, stateSaver = ColorSaver) {
+        mutableStateOf(colorTuple.primary)
+    }
+    var secondary by rememberSaveable(colorTuple, stateSaver = ColorSaver) {
+        mutableStateOf(
+            colorTuple.secondary ?: colorTuple.primary.calculateSecondaryColor().toColor()
         )
     }
-    var tertiary by rememberSaveable(colorTuple) {
-        mutableIntStateOf(
-            colorTuple.tertiary?.toArgb() ?: colorTuple.primary.calculateTertiaryColor()
+    var tertiary by rememberSaveable(colorTuple, stateSaver = ColorSaver) {
+        mutableStateOf(
+            colorTuple.tertiary ?: colorTuple.primary.calculateTertiaryColor().toColor()
         )
     }
 
-    var surface by rememberSaveable(colorTuple) {
-        mutableIntStateOf(
-            colorTuple.surface?.toArgb() ?: colorTuple.primary.calculateSurfaceColor()
+    var surface by rememberSaveable(colorTuple, stateSaver = ColorSaver) {
+        mutableStateOf(
+            colorTuple.surface ?: colorTuple.primary.calculateSurfaceColor().toColor()
         )
     }
 
@@ -111,15 +113,15 @@ fun ColorTuplePicker(
     LaunchedEffect(visible) {
         if (!visible) {
             delay(1000)
-            primary = colorTuple.primary.toArgb()
-            secondary = colorTuple.secondary?.toArgb()
-                ?: colorTuple.primary.calculateSecondaryColor()
+            primary = colorTuple.primary
+            secondary = colorTuple.secondary
+                ?: colorTuple.primary.calculateSecondaryColor().toColor()
             tertiary =
-                colorTuple.tertiary?.toArgb()
-                    ?: colorTuple.primary.calculateTertiaryColor()
+                colorTuple.tertiary
+                    ?: colorTuple.primary.calculateTertiaryColor().toColor()
             surface =
-                colorTuple.surface?.toArgb()
-                    ?: colorTuple.primary.calculateSurfaceColor()
+                colorTuple.surface
+                    ?: colorTuple.primary.calculateSurfaceColor().toColor()
         }
     }
 
@@ -169,11 +171,11 @@ fun ColorTuplePicker(
                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
                                     scheme.apply {
-                                        primary = this.primary.toArgb()
+                                        primary = this.primary
                                         if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                                            secondary = this.secondary.toArgb()
-                                            tertiary = this.tertiary.toArgb()
-                                            surface = this.surface.toArgb()
+                                            secondary = this.secondary
+                                            tertiary = this.tertiary
+                                            surface = this.surface
                                         }
                                     }
                                 },
@@ -202,12 +204,12 @@ fun ColorTuplePicker(
                         ) {
                             TitleItem(text = stringResource(R.string.primary))
                             ColorSelection(
-                                color = primary,
-                                onColorChange = {
+                                value = primary,
+                                onValueChange = {
                                     if (primary != it && settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                                        secondary = Color(it).calculateSecondaryColor()
-                                        tertiary = Color(it).calculateTertiaryColor()
-                                        surface = Color(it).calculateSurfaceColor()
+                                        secondary = it.calculateSecondaryColor().toColor()
+                                        tertiary = it.calculateTertiaryColor().toColor()
+                                        surface = it.calculateSurfaceColor().toColor()
                                     }
                                     primary = it
                                 },
@@ -225,8 +227,8 @@ fun ColorTuplePicker(
                             ) {
                                 TitleItem(text = stringResource(R.string.secondary))
                                 ColorSelection(
-                                    color = secondary,
-                                    onColorChange = {
+                                    value = secondary,
+                                    onValueChange = {
                                         secondary = it
                                     },
                                     infoContainerColor = MaterialTheme.colorScheme.surface
@@ -242,8 +244,8 @@ fun ColorTuplePicker(
                             ) {
                                 TitleItem(text = stringResource(R.string.tertiary))
                                 ColorSelection(
-                                    color = tertiary,
-                                    onColorChange = {
+                                    value = tertiary,
+                                    onValueChange = {
                                         tertiary = it
                                     },
                                     infoContainerColor = MaterialTheme.colorScheme.surface
@@ -259,8 +261,8 @@ fun ColorTuplePicker(
                             ) {
                                 TitleItem(text = stringResource(R.string.surface))
                                 ColorSelection(
-                                    color = surface,
-                                    onColorChange = {
+                                    value = surface,
+                                    onValueChange = {
                                         surface = it
                                     },
                                     infoContainerColor = MaterialTheme.colorScheme.surface
@@ -276,10 +278,10 @@ fun ColorTuplePicker(
                 onClick = {
                     onColorChange(
                         ColorTuple(
-                            Color(primary),
-                            Color(secondary),
-                            Color(tertiary),
-                            Color(surface)
+                            primary = primary,
+                            secondary = secondary,
+                            tertiary = tertiary,
+                            surface = surface
                         )
                     )
                     onDismiss()

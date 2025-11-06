@@ -34,7 +34,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -65,7 +65,7 @@ fun ColorPickerSheet(
 ) {
     val scope = rememberCoroutineScope()
     var tempColor by remember(visible) {
-        mutableIntStateOf(color?.toArgb() ?: 0)
+        mutableStateOf(color ?: Color.Black)
     }
     val settingsState = LocalSettingsState.current
 
@@ -79,15 +79,13 @@ fun ColorPickerSheet(
                         .padding(24.dp)
                 ) {
                     RecentAndFavoriteColorsCard(
-                        onRecentColorClick = { tempColor = it.toArgb() },
-                        onFavoriteColorClick = { tempColor = it.toArgb() }
+                        onRecentColorClick = { tempColor = it },
+                        onFavoriteColorClick = { tempColor = it }
                     )
 
                     ColorSelection(
-                        color = tempColor,
-                        onColorChange = {
-                            tempColor = it
-                        },
+                        value = tempColor,
+                        onValueChange = { tempColor = it },
                         withAlpha = allowAlpha
                     )
                 }
@@ -112,7 +110,7 @@ fun ColorPickerSheet(
 
                 val inFavorite by remember(tempColor, favoriteColors) {
                     derivedStateOf {
-                        Color(tempColor) in favoriteColors
+                        tempColor in favoriteColors
                     }
                 }
 
@@ -130,7 +128,9 @@ fun ColorPickerSheet(
                     contentColor = contentColor,
                     onClick = {
                         scope.launch {
-                            simpleSettingsInteractor.toggleFavoriteColor(tempColor.toColorModel())
+                            simpleSettingsInteractor.toggleFavoriteColor(
+                                tempColor.toArgb().toColorModel()
+                            )
                         }
                     }
                 ) {
@@ -146,9 +146,11 @@ fun ColorPickerSheet(
                 EnhancedButton(
                     onClick = {
                         scope.launch {
-                            simpleSettingsInteractor.toggleRecentColor(tempColor.toColorModel())
+                            simpleSettingsInteractor.toggleRecentColor(
+                                tempColor.toArgb().toColorModel()
+                            )
                         }
-                        onColorSelected(Color(tempColor))
+                        onColorSelected(tempColor)
                         onDismiss()
                     }
                 ) {

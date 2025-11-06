@@ -64,7 +64,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -77,7 +76,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowUpRight
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoPrints
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersionPreReleaseFlavored
@@ -271,10 +269,8 @@ private fun PinShortcutButton() {
                         }
                         Spacer(Modifier.height(16.dp))
                         ColorSelection(
-                            color = shortcutColor.toArgb(),
-                            onColorChange = {
-                                shortcutColor = it.toColor()
-                            }
+                            value = shortcutColor,
+                            onValueChange = { shortcutColor = it }
                         )
                     }
                 }

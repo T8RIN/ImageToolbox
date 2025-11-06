@@ -24,30 +24,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ColorSelection(
-    color: Int,
-    onColorChange: (Int) -> Unit,
+    value: Color,
+    onValueChange: (Color) -> Unit,
     withAlpha: Boolean = false,
     infoContainerColor: Color = Color.Unspecified,
 ) {
-    val colorMapped = Color(color)
-
     Column {
         ColorInfo(
-            color = colorMapped.let {
+            color = value.let {
                 if (withAlpha) it else it.copy(1f)
-            }.toArgb(),
-            onColorChange = onColorChange,
+            },
+            onColorChange = onValueChange,
             infoContainerColor = infoContainerColor
         )
         Spacer(Modifier.height(16.dp))
         ColorPicker(
-            onColorSelected = { onColorChange(it.toArgb()) },
-            selectedColor = colorMapped,
+            onColorSelected = onValueChange,
+            selectedColor = value,
             containerColor = infoContainerColor,
             modifier = Modifier
                 .fillMaxWidth()

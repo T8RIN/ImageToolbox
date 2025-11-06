@@ -278,7 +278,7 @@ object ContextUtils {
     ).getText(resId).toString()
 
     fun Context.pasteColorFromClipboard(
-        onPastedColor: (Int) -> Unit,
+        onPastedColor: (Color) -> Unit,
         onPastedColorFailure: (String) -> Unit,
     ) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -286,7 +286,7 @@ object ContextUtils {
         val text = item?.text?.toString()
         text?.let {
             runCatching {
-                onPastedColor(it.toColorInt())
+                onPastedColor(Color(it.toColorInt()))
             }.getOrElse {
                 onPastedColorFailure(getString(R.string.clipboard_paste_invalid_color_code))
             }

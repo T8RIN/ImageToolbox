@@ -44,7 +44,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -141,10 +140,8 @@ fun ColorStopSelection(
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
                     ColorSelection(
-                        color = color.toArgb(),
-                        onColorChange = {
-                            color = Color(it)
-                        },
+                        value = color,
+                        onValueChange = { color = it },
                         withAlpha = true
                     )
                 }
@@ -245,9 +242,9 @@ private fun ColorStopSelectionItem(
                     )
             ) {
                 ColorInfo(
-                    color = color.toArgb(),
+                    color = color,
                     onColorChange = {
-                        onValueChange(value to Color(it))
+                        onValueChange(value to it)
                     },
                     supportButtonIcon = Icons.Rounded.MiniEdit,
                     onSupportButtonClick = {
@@ -301,9 +298,9 @@ private fun ColorStopSelectionItem(
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
                     ColorSelection(
-                        color = color.toArgb(),
-                        onColorChange = {
-                            onValueChange(value to Color(it))
+                        value = color,
+                        onValueChange = {
+                            onValueChange(value to it)
                         },
                         withAlpha = true
                     )
