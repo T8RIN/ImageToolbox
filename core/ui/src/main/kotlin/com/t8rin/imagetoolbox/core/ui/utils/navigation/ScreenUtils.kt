@@ -64,8 +64,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
-import com.t8rin.imagetoolbox.core.resources.icons.ImageLimit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
+import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSaw
 import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
@@ -215,7 +215,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ImagePreview -> Icons.Outlined.Photo
     is ImageStitching -> Icons.Rounded.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
-    is LimitResize -> Icons.Outlined.ImageLimit
+    is LimitResize -> Icons.Outlined.ImageResize
     is LoadNetImage -> Icons.Outlined.ImageDownload
     is PdfTools -> Icons.Outlined.PictureAsPdf
     is PickColorFromImage -> Icons.Outlined.Eyedropper
@@ -267,7 +267,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ImagePreview -> Icons.TwoTone.Photo
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
-    is LimitResize -> Icons.TwoTone.ImageLimit
+    is LimitResize -> Icons.TwoTone.ImageResize
     is LoadNetImage -> Icons.TwoTone.ImageDownload
     is PdfTools -> Icons.TwoTone.PictureAsPdf
     is PickColorFromImage -> Icons.TwoTone.Eyedropper

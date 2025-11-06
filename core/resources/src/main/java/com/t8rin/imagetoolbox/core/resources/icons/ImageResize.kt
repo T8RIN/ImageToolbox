@@ -1,0 +1,215 @@
+package com.t8rin.imagetoolbox.core.resources.icons
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+
+val Icons.Outlined.ImageResize: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Outlined.ImageResize",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(19f, 9f)
+            verticalLineToRelative(-4f)
+            horizontalLineToRelative(-4f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 21f)
+            verticalLineToRelative(-6f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(4f)
+            horizontalLineToRelative(4f)
+            verticalLineToRelative(2f)
+            horizontalLineTo(3f)
+            close()
+            moveTo(3f, 13f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 9f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(7f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(11f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(11f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(15f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 17f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 13f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(6.5f, 16.792f)
+            lineToRelative(11f, 0f)
+            lineToRelative(-3.438f, -4.583f)
+            lineToRelative(-2.75f, 3.667f)
+            lineToRelative(-2.063f, -2.75f)
+            lineToRelative(-2.75f, 3.667f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.TwoTone.ImageResize: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.ImageResize",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(19f, 9f)
+            verticalLineToRelative(-4f)
+            horizontalLineToRelative(-4f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(6f)
+            verticalLineToRelative(6f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 21f)
+            verticalLineToRelative(-6f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(4f)
+            horizontalLineToRelative(4f)
+            verticalLineToRelative(2f)
+            horizontalLineTo(3f)
+            close()
+            moveTo(3f, 13f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 9f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(3f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(7f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(11f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(11f, 5f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(15f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 21f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 17f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+            moveTo(19f, 13f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(2f)
+            horizontalLineToRelative(-2f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(5f, 5f)
+            horizontalLineToRelative(14f)
+            verticalLineToRelative(14f)
+            horizontalLineToRelative(-14f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(6.5f, 16.792f)
+            lineToRelative(11f, 0f)
+            lineToRelative(-3.438f, -4.583f)
+            lineToRelative(-2.75f, 3.667f)
+            lineToRelative(-2.063f, -2.75f)
+            lineToRelative(-2.75f, 3.667f)
+            close()
+        }
+    }.build()
+}
