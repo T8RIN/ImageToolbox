@@ -52,8 +52,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
-import com.t8rin.imagetoolbox.core.ui.widget.color_picker.AlphaColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorInfo
+import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
@@ -140,11 +140,12 @@ fun ColorStopSelection(
                         .verticalScroll(rememberScrollState())
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
-                    AlphaColorSelection(
+                    ColorSelection(
                         color = color.toArgb(),
                         onColorChange = {
                             color = Color(it)
-                        }
+                        },
+                        withAlpha = true
                     )
                 }
             }
@@ -299,11 +300,12 @@ private fun ColorStopSelectionItem(
                         .verticalScroll(rememberScrollState())
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
-                    AlphaColorSelection(
+                    ColorSelection(
                         color = color.toArgb(),
                         onColorChange = {
                             onValueChange(value to Color(it))
-                        }
+                        },
+                        withAlpha = true
                     )
                 }
             }

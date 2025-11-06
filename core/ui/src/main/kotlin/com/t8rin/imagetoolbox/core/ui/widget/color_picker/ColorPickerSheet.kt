@@ -83,21 +83,13 @@ fun ColorPickerSheet(
                         onFavoriteColorClick = { tempColor = it.toArgb() }
                     )
 
-                    if (allowAlpha) {
-                        AlphaColorSelection(
-                            color = tempColor,
-                            onColorChange = {
-                                tempColor = it
-                            }
-                        )
-                    } else {
-                        ColorSelection(
-                            color = tempColor,
-                            onColorChange = {
-                                tempColor = it
-                            }
-                        )
-                    }
+                    ColorSelection(
+                        color = tempColor,
+                        onColorChange = {
+                            tempColor = it
+                        },
+                        withAlpha = allowAlpha
+                    )
                 }
             }
         },

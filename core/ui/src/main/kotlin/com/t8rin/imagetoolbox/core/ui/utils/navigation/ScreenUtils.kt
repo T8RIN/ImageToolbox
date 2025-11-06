@@ -66,13 +66,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageLimit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSaw
 import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
-import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
@@ -238,7 +238,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Base64Tools -> Icons.Outlined.Base64
     is ChecksumTools -> Icons.Rounded.Tag
     is EditExif -> Icons.Outlined.ExifEdit
-    is ImageCutter -> Icons.Rounded.Scissors
+    is ImageCutter -> Icons.Outlined.ImageSaw
     is AudioCoverExtractor -> Icons.Outlined.Album
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
     is AsciiArt -> Icons.Outlined.Ascii
@@ -290,7 +290,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Base64Tools -> Icons.TwoTone.Base64
     is ChecksumTools -> Icons.TwoTone.Tag
     is EditExif -> Icons.TwoTone.ExifEdit
-    is ImageCutter -> Icons.TwoTone.Scissors
+    is ImageCutter -> Icons.TwoTone.ImageSaw
     is AudioCoverExtractor -> Icons.TwoTone.Album
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
     is AsciiArt -> Icons.Outlined.Ascii

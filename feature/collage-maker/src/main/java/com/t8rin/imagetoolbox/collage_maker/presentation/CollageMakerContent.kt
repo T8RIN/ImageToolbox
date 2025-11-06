@@ -442,19 +442,28 @@ fun CollageMakerContent(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                val canChangeCollage = (component.uris?.size ?: 0) > 1
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.container(
-                        resultPadding = 0.dp,
-                        shape = ShapeDefaults.extraLarge
-                    )
+                    modifier = Modifier
+                        .then(
+                            if (canChangeCollage) {
+                                Modifier.container(
+                                    resultPadding = 0.dp,
+                                    shape = ShapeDefaults.extraLarge
+                                )
+                            } else Modifier
+                        )
                 ) {
-                    Text(
-                        fontWeight = FontWeight.Medium,
-                        text = stringResource(R.string.collage_type),
-                        modifier = Modifier.padding(top = 16.dp),
-                        fontSize = 18.sp
-                    )
+                    if (canChangeCollage) {
+                        Text(
+                            fontWeight = FontWeight.Medium,
+                            text = stringResource(R.string.collage_type),
+                            modifier = Modifier.padding(top = 16.dp),
+                            fontSize = 18.sp
+                        )
+                    }
                     val state = rememberLazyListState()
                     CollageTypeSelection(
                         state = state,
