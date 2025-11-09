@@ -39,7 +39,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -49,11 +48,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
+import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Theme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
@@ -134,13 +133,10 @@ fun PaletteToolsContent(
 
     val preferences: @Composable () -> Unit = {
         val preference1 = @Composable {
-            val screen = remember {
-                Screen.PaletteTools()
-            }
             PreferenceItem(
-                title = stringResource(screen.title),
-                subtitle = stringResource(screen.subtitle),
-                startIcon = screen.icon,
+                title = stringResource(R.string.generate_palette),
+                subtitle = stringResource(R.string.palette_sub),
+                startIcon = Icons.Outlined.PaletteSwatch,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     if (component.bitmap == null) {
