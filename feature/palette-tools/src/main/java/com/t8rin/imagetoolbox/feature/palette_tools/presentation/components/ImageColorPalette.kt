@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation.components
+package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.LocalIndication

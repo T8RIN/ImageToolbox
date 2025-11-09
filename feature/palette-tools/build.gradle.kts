@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation.components
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-enum class PaletteType {
-    Default,
-    MaterialYou
+android.namespace = "com.t8rin.imagetoolbox.feature.palette_tools"
+
+dependencies {
+    implementation(projects.feature.pickColor)
+    implementation(libs.toolbox.palette)
 }

@@ -1849,4 +1849,6 @@
     <string name="spray_sub">Draws graffity styled path</string>
     <string name="square_particles">Square Particles</string>
     <string name="square_particles_sub">Spray particles will be square shaped instead of circles</string>
+    <string name="palette_tools">Palette Tools</string>
+    <string name="palette_tools_sub">Generate basic/material you palette from image, or import/export across different palette formats</string>
 </resources>

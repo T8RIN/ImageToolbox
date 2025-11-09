@@ -54,8 +54,6 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.FiltersContent
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.FormatConversionContent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.GeneratePaletteContent
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.GifToolsContent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.GradientMakerContent
@@ -80,6 +78,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.MarkupLayersCon
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsContent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.PdfToolsContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
@@ -187,9 +187,9 @@ internal sealed interface NavigationChild {
         override fun Content() = FormatConversionContent(component)
     }
 
-    class GeneratePalette(private val component: GeneratePaletteComponent) : NavigationChild {
+    class PaletteTools(private val component: PaletteToolsComponent) : NavigationChild {
         @Composable
-        override fun Content() = GeneratePaletteContent(component)
+        override fun Content() = PaletteToolsContent(component)
     }
 
     class GifTools(private val component: GifToolsComponent) : NavigationChild {

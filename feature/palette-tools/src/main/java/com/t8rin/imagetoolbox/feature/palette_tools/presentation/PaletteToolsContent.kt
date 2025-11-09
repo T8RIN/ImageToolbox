@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation
+package com.t8rin.imagetoolbox.feature.palette_tools.presentation
 
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
@@ -72,19 +72,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.GeneratePaletteScreenControls
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.PaletteType
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteToolsScreenControls
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @Composable
-fun GeneratePaletteContent(
-    component: GeneratePaletteComponent
+fun PaletteToolsContent(
+    component: PaletteToolsComponent
 ) {
     val paletteType = component.paletteType
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
-        mutableStateOf(component.initialUri != null)
+        mutableStateOf(component.initialUri != null && paletteType == PaletteType.Default || paletteType == PaletteType.MaterialYou)
     }
 
     AutoContentBasedColors(
@@ -135,7 +135,7 @@ fun GeneratePaletteContent(
     val preferences: @Composable () -> Unit = {
         val preference1 = @Composable {
             val screen = remember {
-                Screen.GeneratePalette()
+                Screen.PaletteTools()
             }
             PreferenceItem(
                 title = stringResource(screen.title),
@@ -200,7 +200,8 @@ fun GeneratePaletteContent(
             TopAppBarTitle(
                 title = when (paletteType) {
                     PaletteType.MaterialYou -> stringResource(R.string.material_you)
-                    PaletteType.Default, null -> stringResource(R.string.palette)
+                    PaletteType.Default -> stringResource(R.string.generate_palette)
+                    null -> stringResource(R.string.palette_tools)
                 },
                 input = component.bitmap,
                 isLoading = component.isImageLoading,
@@ -244,7 +245,7 @@ fun GeneratePaletteContent(
         placeImagePreview = paletteType == PaletteType.Default,
         controls = {
             component.bitmap?.let { bitmap ->
-                GeneratePaletteScreenControls(
+                PaletteToolsScreenControls(
                     bitmap = bitmap,
                     paletteType = paletteType
                 )

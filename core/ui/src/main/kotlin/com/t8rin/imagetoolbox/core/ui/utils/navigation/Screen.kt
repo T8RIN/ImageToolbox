@@ -246,12 +246,12 @@ sealed class Screen(
     )
 
     @Serializable
-    data class GeneratePalette(
+    data class PaletteTools(
         val uri: Uri? = null
     ) : Screen(
         id = 12,
-        title = R.string.generate_palette,
-        subtitle = R.string.palette_sub
+        title = R.string.palette_tools,
+        subtitle = R.string.palette_tools_sub
     )
 
     @Serializable

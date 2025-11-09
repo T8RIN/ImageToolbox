@@ -86,7 +86,7 @@ fun Intent?.handleDeeplinks(
                     intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
                         when (intent.getScreenExtra()) {
                             is Screen.PickColorFromImage -> onNavigate(Screen.PickColorFromImage(it))
-                            is Screen.GeneratePalette -> onNavigate(Screen.GeneratePalette(it))
+                            is Screen.PaletteTools -> onNavigate(Screen.PaletteTools(it))
                             else -> {
                                 if (intent.type?.contains("gif") == true) {
                                     onHasExtraDataType(ExtraDataType.Gif)

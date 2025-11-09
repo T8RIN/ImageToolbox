@@ -37,7 +37,6 @@ import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExi
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.screenLogic.GeneratePaletteComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
@@ -50,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.Lo
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
@@ -72,7 +72,6 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EraseBackground
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Filter
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FormatConversion
-import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GeneratePalette
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GifTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GradientMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ImageCutter
@@ -89,6 +88,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MarkupLayers
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MeshGradients
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RecognizeText
@@ -130,7 +130,7 @@ internal class ChildProvider @Inject constructor(
     private val eraseBackgroundComponentFactory: EraseBackgroundComponent.Factory,
     private val filtersComponentFactory: FiltersComponent.Factory,
     private val formatConversionComponentFactory: FormatConversionComponent.Factory,
-    private val generatePaletteComponentFactory: GeneratePaletteComponent.Factory,
+    private val paletteToolsComponentFactory: PaletteToolsComponent.Factory,
     private val gifToolsComponentFactory: GifToolsComponent.Factory,
     private val gradientMakerComponentFactory: GradientMakerComponent.Factory,
     private val imagePreviewComponentFactory: ImagePreviewComponent.Factory,
@@ -294,8 +294,8 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.GeneratePalette -> GeneratePalette(
-            generatePaletteComponentFactory(
+        is Screen.PaletteTools -> PaletteTools(
+            paletteToolsComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
                 onGoBack = ::navigateBack

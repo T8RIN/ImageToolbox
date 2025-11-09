@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation.screenLogic
+package com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -28,12 +28,12 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.PaletteType
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-class GeneratePaletteComponent @AssistedInject internal constructor(
+class PaletteToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
@@ -89,6 +89,6 @@ class GeneratePaletteComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialUri: Uri?,
             onGoBack: () -> Unit,
-        ): GeneratePaletteComponent
+        ): PaletteToolsComponent
     }
 }

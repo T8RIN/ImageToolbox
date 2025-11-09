@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.model
+package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model
 
 import com.smarttoolfactory.colordetector.ImageColorPaletteState
 import com.smarttoolfactory.colordetector.PaletteData
@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import org.json.JSONArray
 import org.json.JSONObject
 
-data class Palette(
+data class UiPalette(
     private val data: List<PaletteData>
 ) {
     private val jsonValue by lazy {
@@ -43,4 +43,4 @@ data class Palette(
     fun asJson(): String = jsonValue
 }
 
-fun ImageColorPaletteState.toPalette(): Palette = Palette(paletteData)
+fun ImageColorPaletteState.toUiPalette(): UiPalette = UiPalette(paletteData)

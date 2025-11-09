@@ -36,7 +36,7 @@ class EditScreenshotTile : QuickTile(
 )
 
 class GeneratePaletteTile : QuickTile(
-    tileAction = ScreenshotAndOpenScreen(Screen.GeneratePalette())
+    tileAction = ScreenshotAndOpenScreen(Screen.PaletteTools())
 )
 
 class ColorPickerTile : QuickTile(

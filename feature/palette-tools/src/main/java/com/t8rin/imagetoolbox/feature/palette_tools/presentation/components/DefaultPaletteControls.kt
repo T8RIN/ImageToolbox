@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.generate_palette.presentation.components
+package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Spacer
@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.feature.generate_palette.presentation.components.model.toPalette
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toUiPalette
 
 
 @Composable
@@ -70,7 +70,7 @@ internal fun DefaultPaletteControls(
         title = stringResource(R.string.export_as_json),
         subtitle = stringResource(R.string.export_as_json_sub),
         onClick = {
-            essentials.copyToClipboard(state.toPalette().asJson())
+            essentials.copyToClipboard(state.toUiPalette().asJson())
         },
         endIcon = Icons.Rounded.ContentCopy,
         shape = ShapeDefaults.top,

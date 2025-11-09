@@ -98,7 +98,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GeneratePalette
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ImageCutter
@@ -115,6 +114,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Main
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MarkupLayers
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PickColorFromImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
@@ -151,7 +151,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is EasterEgg -> "Easter_Egg"
     is EraseBackground -> "Erase_Background"
     is Filter -> "Filter"
-    is GeneratePalette -> "Generate_Palette"
+    is PaletteTools -> "Palette_Tools"
     is GifTools -> "GIF_Tools"
     is GradientMaker -> "Gradient_Maker"
     is ImagePreview -> "Image_Preview"
@@ -209,7 +209,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Draw -> Icons.Outlined.Draw
     is EraseBackground -> Icons.Rounded.Eraser
     is Filter -> Icons.Outlined.AutoFixHigh
-    is GeneratePalette -> Icons.Outlined.PaletteSwatch
+    is PaletteTools -> Icons.Outlined.PaletteSwatch
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
     is ImagePreview -> Icons.Outlined.Photo
@@ -261,7 +261,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Draw -> Icons.TwoTone.Draw
     is EraseBackground -> Icons.TwoTone.Eraser
     is Filter -> Icons.TwoTone.AutoFixHigh
-    is GeneratePalette -> Icons.TwoTone.PaletteSwatch
+    is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
     is ImagePreview -> Icons.TwoTone.Photo
@@ -367,7 +367,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     WallpapersExport,
                     Base64Tools(),
                     SvgMaker(),
-                    GeneratePalette(),
+                    PaletteTools(),
                     LoadNetImage(),
                 ),
                 title = R.string.image,
