@@ -34,13 +34,9 @@ object PaletteFormatHelper {
         )
 
     fun entriesFor(filename: String): Set<PaletteFormat> = buildSet {
-        val format = entries.firstOrNull { format ->
-            format.fileExtension.isNotEmpty() && format.fileExtension.any(filename::endsWith)
-        }
-
-        format?.let {
-            add(format)
-            addAll(entries - format)
+        PaletteFormat.fromFilename(filename)?.let {
+            add(it)
+            addAll(entries - it)
         } ?: addAll(entries)
     }
 }
