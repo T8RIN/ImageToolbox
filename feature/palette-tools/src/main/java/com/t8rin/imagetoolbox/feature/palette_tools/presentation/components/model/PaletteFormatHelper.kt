@@ -21,7 +21,7 @@ import com.t8rin.palette.PaletteFormat
 
 object PaletteFormatHelper {
     val entries: Set<PaletteFormat> =
-        PaletteFormat.formatsWithDecodeAndEncode.toSet().minus(
+        PaletteFormat.entries.toSet().minus(
             setOf(
                 PaletteFormat.CSV,
                 PaletteFormat.HEX_RGBA
