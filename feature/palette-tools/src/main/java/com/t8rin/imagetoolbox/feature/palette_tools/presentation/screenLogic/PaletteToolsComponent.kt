@@ -128,7 +128,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        val format = paletteFormat ?: PaletteFormat.entries.first()
+        val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         savingJob = componentScope.launch {
             _isSaving.value = true
@@ -147,7 +147,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     fun sharePalette(
         onComplete: () -> Unit
     ) {
-        val format = paletteFormat ?: PaletteFormat.entries.first()
+        val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         savingJob = componentScope.launch {
             _isSaving.value = true
@@ -188,7 +188,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     }
 
     fun createPaletteFilename(): String {
-        val format = paletteFormat ?: PaletteFormat.entries.first()
+        val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
         val endPart = "_${timestamp()}.${format.fileExtension.maxBy { it.length }}"
 

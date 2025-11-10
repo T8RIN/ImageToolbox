@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedColor
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.PaletteFormatHelper
 import com.t8rin.palette.PaletteFormat
 
 
@@ -79,7 +80,7 @@ internal fun EditPaletteControls(
 ) {
     Spacer(modifier = Modifier.height(16.dp))
 
-    val entries = PaletteFormat.entries
+    val entries = PaletteFormatHelper.entries
     val format = paletteFormat ?: entries.first()
 
     AnimatedContent(
