@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -78,33 +79,53 @@ internal fun EditPaletteControls(
 ) {
     Spacer(modifier = Modifier.height(16.dp))
 
-    RoundedTextField(
-        value = palette.name,
-        onValueChange = {
-            onPaletteChange(
-                palette.copy(
-                    name = it
-                )
-            )
-        },
-        modifier = Modifier
-            .container(
-                shape = ShapeDefaults.top,
-                resultPadding = 8.dp
-            ),
-        label = { Text(stringResource(R.string.palette_name)) },
-        startIcon = {
-            Icon(
-                imageVector = Icons.Rounded.Swatch,
-                contentDescription = null
-            )
-        }
-    )
-    Spacer(modifier = Modifier.height(4.dp))
     val entries = PaletteFormat.entries
+    val format = paletteFormat ?: entries.first()
+
+    AnimatedContent(
+        targetState = format,
+        contentKey = { it.withPaletteName },
+        modifier = Modifier.fillMaxWidth()
+    ) { formatAnimated ->
+        RoundedTextField(
+            value = palette.name,
+            onValueChange = {
+                onPaletteChange(
+                    palette.copy(
+                        name = it
+                    )
+                )
+            },
+            enabled = formatAnimated.withPaletteName,
+            modifier = Modifier
+                .container(
+                    shape = ShapeDefaults.top,
+                    resultPadding = 8.dp
+                ),
+            isError = !formatAnimated.withPaletteName,
+            supportingText = if (!formatAnimated.withPaletteName) {
+                {
+                    Text(
+                        stringResource(
+                            R.string.palette_name_not_supported,
+                            formatAnimated.name.uppercase().replace("_", " ")
+                        )
+                    )
+                }
+            } else null,
+            label = { Text(stringResource(R.string.palette_name)) },
+            startIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Swatch,
+                    contentDescription = null
+                )
+            }
+        )
+    }
+    Spacer(modifier = Modifier.height(4.dp))
     DataSelector(
         shape = ShapeDefaults.bottom,
-        value = paletteFormat ?: entries.first(),
+        value = format,
         onValueChange = onPaletteFormatChange,
         entries = entries,
         title = stringResource(R.string.palette_format),

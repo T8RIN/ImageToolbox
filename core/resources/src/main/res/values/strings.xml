@@ -1858,4 +1858,5 @@
     <string name="palette_format">Palette Format</string>
     <string name="export_palette_sub">Export generated palette to different formats</string>
     <string name="add_color_palette_sub">Adds new color to current palette</string>
+    <string name="palette_name_not_supported">%s format doesn\'t support providing palette name</string>
 </resources>
