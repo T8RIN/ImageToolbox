@@ -88,7 +88,6 @@ fun PaletteToolsContent(
     component: PaletteToolsComponent
 ) {
     val paletteType = component.paletteType
-
     val essentials = rememberLocalEssentials()
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
