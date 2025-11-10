@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model
 
 import androidx.compose.ui.graphics.Color
+import com.t8rin.palette.ColorGroup
 import com.t8rin.palette.Palette
 import com.t8rin.palette.PaletteColor
 
@@ -37,6 +38,29 @@ data class NamedPalette(
     val groups: List<NamedColorGroup> = emptyList()
 ) {
     fun isNotEmpty() = name.isNotBlank() || colors.isNotEmpty() || groups.isNotEmpty()
+}
+
+fun NamedPalette.toPalette(): Palette {
+    return Palette(
+        name = name,
+        colors = colors.map {
+            PaletteColor(
+                color = it.color,
+                name = it.name
+            )
+        },
+        groups = groups.map { group ->
+            ColorGroup(
+                name = group.name,
+                colors = group.colors.map {
+                    PaletteColor(
+                        color = it.color,
+                        name = it.name
+                    )
+                }
+            )
+        }.distinct(),
+    )
 }
 
 fun Palette.toNamed(): NamedPalette? {

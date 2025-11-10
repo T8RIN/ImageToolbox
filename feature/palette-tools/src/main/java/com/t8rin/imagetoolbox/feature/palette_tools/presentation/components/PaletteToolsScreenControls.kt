@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 
 @Composable
@@ -38,8 +39,26 @@ internal fun PaletteToolsScreenControls(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (type) {
-                PaletteType.Default -> bitmap?.let { DefaultPaletteControls(bitmap) }
-                PaletteType.MaterialYou -> bitmap?.let { MaterialYouPaletteControls(bitmap) }
+                PaletteType.Default -> {
+                    DefaultPaletteControls(
+                        bitmap = bitmap ?: return@AnimatedContent,
+                        onOpenExport = { colors ->
+                            component.setPaletteType(PaletteType.Edit)
+                            component.updatePalette(
+                                NamedPalette(
+                                    name = "",
+                                    colors = colors
+                                )
+                            )
+                        }
+                    )
+                }
+
+                PaletteType.MaterialYou -> {
+                    MaterialYouPaletteControls(
+                        bitmap = bitmap ?: return@AnimatedContent
+                    )
+                }
 
                 PaletteType.Edit -> {
                     EditPaletteControls(

@@ -114,7 +114,7 @@ internal class AndroidShareProvider @Inject constructor(
             shareUri(
                 uri = it,
                 type = imageInfo.imageFormat.mimeType,
-                onComplete = onComplete
+                onComplete = {}
             )
         }
         onComplete()
@@ -217,7 +217,7 @@ internal class AndroidShareProvider @Inject constructor(
         shareData(
             writeData = { it.writeBytes(byteArray) },
             filename = filename,
-            onComplete = onComplete
+            onComplete = {}
         )
         onComplete()
     }
@@ -272,7 +272,7 @@ internal class AndroidShareProvider @Inject constructor(
             shareUri(
                 uri = it,
                 type = mimeType,
-                onComplete = onComplete
+                onComplete = {}
             )
         }
 

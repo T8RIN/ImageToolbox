@@ -27,15 +27,21 @@ import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.PaletteFormatHelper
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toNamed
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toPalette
 import com.t8rin.palette.PaletteFormat
 import com.t8rin.palette.decode
+import com.t8rin.palette.encode
 import com.t8rin.palette.getCoder
 import com.t8rin.palette.use
 import dagger.assisted.Assisted
@@ -49,6 +55,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -71,7 +78,11 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     val bitmap: Bitmap? by _bitmap
 
     private val _uri = mutableStateOf<Uri?>(null)
-    val uri by _uri
+
+    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
+    val isSaving by _isSaving
+
+    private var savingJob by smartJob()
 
     fun setUri(uri: Uri?) {
         _uri.value = uri
@@ -93,7 +104,8 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                 )
             )
 
-            if (bitmap == null) {
+            if (bitmap == null || paletteType == PaletteType.Edit) {
+                _bitmap.update { null }
                 val data = fileController.readBytes(uri.toString())
                 val entries = PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
 
@@ -106,13 +118,56 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                         }
                     }
                 }
-
-                if (palette.isNotEmpty()) {
-
-                }
             }
 
             _isImageLoading.value = false
+        }
+    }
+
+    fun savePaletteTo(
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
+    ) {
+        val format = paletteFormat ?: PaletteFormat.formatsWithDecodeAndEncode.first()
+
+        savingJob = componentScope.launch {
+            _isSaving.value = true
+            fileController.writeBytes(
+                uri = uri.toString(),
+                block = {
+                    it.writeBytes(
+                        format.getCoder().encode(palette.toPalette())
+                    )
+                }
+            ).also(onResult).onSuccess(::registerSave)
+            _isSaving.value = false
+        }
+    }
+
+    fun sharePalette(
+        onComplete: () -> Unit
+    ) {
+        val format = paletteFormat ?: PaletteFormat.formatsWithDecodeAndEncode.first()
+
+        savingJob = componentScope.launch {
+            _isSaving.value = true
+            val data = format.getCoder().use {
+                encode(palette.toPalette())
+            }.getOrNull()
+
+            if (data == null) {
+                _isSaving.update { false }
+                return@launch
+            }
+
+            shareProvider.shareByteArray(
+                byteArray = data,
+                filename = createPaletteFilename(),
+                onComplete = {
+                    _isSaving.value = false
+                    onComplete()
+                }
+            )
         }
     }
 
@@ -130,6 +185,15 @@ class PaletteToolsComponent @AssistedInject internal constructor(
             _palette.update { NamedPalette() }
             _paletteFormat.update { null }
         }
+    }
+
+    fun createPaletteFilename(): String {
+        val format = paletteFormat
+            ?: PaletteFormat.formatsWithDecodeAndEncode.first()
+
+        val endPart = "_${timestamp()}.${format.fileExtension.maxBy { it.length }}"
+
+        return palette.name.ifBlank { "Palette_Export" } + endPart
     }
 
     @AssistedFactory

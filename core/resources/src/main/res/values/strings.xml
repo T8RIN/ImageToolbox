@@ -1856,4 +1856,6 @@
     <string name="color_name">Color name</string>
     <string name="palette_name">Palette name</string>
     <string name="palette_format">Palette Format</string>
+    <string name="export_palette_sub">Export generated palette to different formats</string>
+    <string name="add_color_palette_sub">Adds new color to current palette</string>
 </resources>

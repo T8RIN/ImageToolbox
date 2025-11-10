@@ -54,11 +54,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Theme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -85,6 +88,8 @@ fun PaletteToolsContent(
     component: PaletteToolsComponent
 ) {
     val paletteType = component.paletteType
+
+    val essentials = rememberLocalEssentials()
 
     var showPreferencePicker by rememberSaveable(component.initialUri) {
         mutableStateOf(component.initialUri != null && paletteType == PaletteType.Default || paletteType == PaletteType.MaterialYou)
@@ -125,6 +130,13 @@ fun PaletteToolsContent(
         PaletteType.Default -> paletteImageLauncher::pickImage
         PaletteType.Edit -> paletteFormatPicker::pickFile
         null -> imagePicker::pickImage
+    }
+
+    val paletteSaver = rememberFileCreator { uri ->
+        component.savePaletteTo(
+            uri = uri,
+            onResult = essentials::parseFileSaveResult
+        )
     }
 
     val isPortrait by isPortraitOrientationAsState()
@@ -261,6 +273,16 @@ fun PaletteToolsContent(
                     )
                 }
             }
+            if (paletteType == PaletteType.Edit) {
+                ShareButton(
+                    onShare = {
+                        component.sharePalette(
+                            onComplete = essentials::showConfetti
+                        )
+                    },
+                    enabled = component.palette.isNotEmpty()
+                )
+            }
         },
         topAppBarPersistentActions = {
             if (component.bitmap == null) {
@@ -289,13 +311,15 @@ fun PaletteToolsContent(
                     paletteType == null || component.bitmap == null
                 },
                 onSecondaryButtonClick = pickImage,
-                isPrimaryButtonVisible = false,
+                isPrimaryButtonVisible = paletteType == PaletteType.Edit && component.palette.isNotEmpty(),
                 secondaryButtonIcon = if (paletteType == PaletteType.Edit) Icons.Rounded.FileOpen else Icons.Rounded.AddPhotoAlt,
                 secondaryButtonText = stringResource(
                     if (paletteType == PaletteType.Edit) R.string.pick_file else R.string.pick_image_alt
                 ),
-                onPrimaryButtonClick = {},
-                showNullDataButtonAsContainer = paletteType != PaletteType.Edit,
+                onPrimaryButtonClick = {
+                    paletteSaver.make(component.createPaletteFilename())
+                },
+                showNullDataButtonAsContainer = true,
                 actions = {
                     if (isPortrait) actions()
                 },
@@ -365,7 +389,7 @@ fun PaletteToolsContent(
 
 
     LoadingDialog(
-        visible = component.isImageLoading,
+        visible = component.isImageLoading || component.isSaving,
         canCancel = false
     )
 }

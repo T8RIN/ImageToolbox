@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 
 
@@ -50,7 +51,11 @@ internal fun PaletteColorNameField(
     value: String,
     onValueChange: (String) -> Unit,
     shape: Shape = RoundedCornerShape(20.dp),
-    colors: TextFieldColors = RoundedTextFieldColors(false),
+    colors: TextFieldColors = RoundedTextFieldColors(
+        isError = false,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant.inverse({ 0.2f })
+            .copy(0.5f)
+    ),
     modifier: Modifier = Modifier
 ) {
     var isFocused by remember {

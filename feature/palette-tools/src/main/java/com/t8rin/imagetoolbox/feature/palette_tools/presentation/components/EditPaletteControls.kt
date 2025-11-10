@@ -17,15 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,10 +31,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
+import androidx.compose.material.icons.outlined.AddCircleOutline
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,25 +45,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.replaceAt
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
+import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPickerSheet
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedColor
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
 import com.t8rin.palette.PaletteFormat
 
@@ -102,21 +101,70 @@ internal fun EditPaletteControls(
         }
     )
     Spacer(modifier = Modifier.height(4.dp))
-    PaletteFormatSelector(
+    val entries = PaletteFormat.entries
+    DataSelector(
         shape = ShapeDefaults.bottom,
-        value = paletteFormat ?: PaletteFormat.JSON,
-        onValueChange = onPaletteFormatChange
+        value = paletteFormat ?: entries.first(),
+        onValueChange = onPaletteFormatChange,
+        entries = entries,
+        title = stringResource(R.string.palette_format),
+        titleIcon = Icons.AutoMirrored.Rounded.InsertDriveFile,
+        itemContentText = {
+            it.name.uppercase().replace("_", " ")
+        },
+        badgeContent = {
+            Text(entries.size.toString())
+        }
     )
     Spacer(modifier = Modifier.height(12.dp))
-    AnimatedVisibility(
-        visible = palette.colors.isNotEmpty(),
-        modifier = Modifier.fillMaxWidth()
+    Column(
+        modifier = Modifier.container(resultPadding = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Column(
-            modifier = Modifier.container(resultPadding = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            palette.colors.forEachIndexed { index, data ->
+        (palette.colors + null).forEachIndexed { index, data ->
+            var showColorPicker by remember {
+                mutableStateOf(false)
+            }
+
+            ColorPickerSheet(
+                visible = showColorPicker,
+                onDismiss = { showColorPicker = false },
+                color = data?.color,
+                onColorSelected = {
+                    onPaletteChange(
+                        palette.copy(
+                            colors = if (data == null) {
+                                palette.colors + NamedColor(
+                                    color = it,
+                                    name = ""
+                                )
+                            } else {
+                                palette.colors.replaceAt(index) { item ->
+                                    item.copy(
+                                        color = it.copy(1f)
+                                    )
+                                }
+                            }
+                        )
+                    )
+                },
+                allowAlpha = false
+            )
+
+            if (data == null) {
+                PreferenceItem(
+                    onClick = { showColorPicker = true },
+                    title = stringResource(R.string.add_color),
+                    subtitle = stringResource(R.string.add_color_palette_sub),
+                    startIcon = Icons.Rounded.Palette,
+                    endIcon = Icons.Outlined.AddCircleOutline,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    shape = ShapeDefaults.default,
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            } else {
                 val baseShape = ShapeDefaults.byIndex(
                     index = index,
                     size = palette.colors.size
@@ -126,27 +174,6 @@ internal fun EditPaletteControls(
                     shape = baseShape,
                     pressedShape = ShapeDefaults.pressed,
                     interactionSource = interactionSource
-                )
-                var showColorPicker by remember {
-                    mutableStateOf(false)
-                }
-
-                ColorPickerSheet(
-                    visible = showColorPicker,
-                    onDismiss = { showColorPicker = false },
-                    color = data.color,
-                    onColorSelected = {
-                        onPaletteChange(
-                            palette.copy(
-                                colors = palette.colors.replaceAt(index) { item ->
-                                    item.copy(
-                                        color = it.copy(1f)
-                                    )
-                                }
-                            )
-                        )
-                    },
-                    allowAlpha = false
                 )
 
                 Row(
@@ -158,16 +185,58 @@ internal fun EditPaletteControls(
                         )
                         .fillMaxWidth()
                         .padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Box(
+                    val colorInteractionSource =
+                        remember { MutableInteractionSource() }
+
+                    Row(
                         modifier = Modifier
-                            .size(40.dp)
                             .container(
                                 shape = CircleShape,
-                                color = data.color
+                                color = data.color.inverse(
+                                    fraction = { 0.8f },
+                                    darkMode = data.color.luminance() < 0.3f
+                                )
                             )
-                    )
+                            .hapticsClickable(
+                                interactionSource = colorInteractionSource,
+                                indication = LocalIndication.current
+                            ) {
+                                showColorPicker = true
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .container(
+                                    shape = CircleShape,
+                                    color = data.color
+                                )
+                        )
+
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.padding(
+                                horizontal = 8.dp
+                            )
+                        ) {
+                            Text(
+                                text = "#FFFFFF",
+                                fontSize = 15.sp,
+                                modifier = Modifier.alpha(0f)
+                            )
+
+                            Text(
+                                text = remember(data.color) {
+                                    data.color.toHex().uppercase()
+                                },
+                                color = data.color,
+                                fontSize = 15.sp
+                            )
+                        }
+                    }
 
                     PaletteColorNameField(
                         value = data.name,
@@ -187,54 +256,23 @@ internal fun EditPaletteControls(
                             .heightIn(min = 40.dp)
                     )
 
-                    val containerColor =
-                        MaterialTheme.colorScheme.secondaryContainer
-                    val interactionSource =
-                        remember { MutableInteractionSource() }
-
-                    Box(
-                        modifier = Modifier
-                            .container(
-                                shape = shapeByInteraction(
-                                    shape = CircleShape,
-                                    pressedShape = ShapeDefaults.pressed,
-                                    interactionSource = interactionSource
-                                ),
-                                color = containerColor,
-                                resultPadding = 0.dp,
+                    EnhancedIconButton(
+                        onClick = {
+                            onPaletteChange(
+                                palette.copy(
+                                    colors = palette.colors - data
+                                )
                             )
-                            .hapticsClickable(
-                                interactionSource = interactionSource,
-                                indication = LocalIndication.current
-                            ) {
-                                showColorPicker = true
-                            },
-                        contentAlignment = Alignment.Center
+                        },
+                        modifier = Modifier.size(28.dp, 40.dp),
+                        forceMinimumInteractiveComponentSize = false,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.5f)
                     ) {
-                        Text(
-                            text = "#FFFFFF",
-                            fontSize = 15.sp,
-                            modifier = Modifier
-                                .padding(
-                                    vertical = 8.dp,
-                                    horizontal = 16.dp
-                                )
-                                .alpha(0f)
-                        )
-
-                        Text(
-                            text = remember(data.color) {
-                                data.color.toHex().uppercase()
-                            },
-                            color = MaterialTheme.colorScheme.contentColorFor(
-                                containerColor
-                            ),
-                            fontSize = 15.sp,
-                            modifier = Modifier
-                                .padding(
-                                    vertical = 8.dp,
-                                    horizontal = 16.dp
-                                )
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                 }
@@ -242,74 +280,4 @@ internal fun EditPaletteControls(
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-internal fun PaletteFormatSelector(
-    modifier: Modifier = Modifier,
-    shape: Shape = ShapeDefaults.extraLarge,
-    backgroundColor: Color = Color.Unspecified,
-    entries: List<PaletteFormat> = PaletteFormat.formatsWithDecodeAndEncode,
-    value: PaletteFormat,
-    onValueChange: (PaletteFormat) -> Unit
-) {
-    Column(
-        modifier = modifier
-            .container(
-                shape = shape,
-                color = backgroundColor
-            )
-            .animateContentSizeNoClip(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.palette_format),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 4.dp),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Medium
-        )
-
-        AnimatedContent(
-            targetState = entries,
-            modifier = Modifier.fillMaxWidth()
-        ) { items ->
-            FlowRow(
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterVertically
-                ),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
-                    .container(
-                        shape = ShapeDefaults.default,
-                        color = MaterialTheme.colorScheme.surface
-                    )
-                    .padding(horizontal = 8.dp, vertical = 12.dp)
-            ) {
-                items.forEach {
-                    EnhancedChip(
-                        onClick = {
-                            onValueChange(it)
-                        },
-                        selected = value == it,
-                        label = {
-                            Text(text = it.name.uppercase().replace("_", " "))
-                        },
-                        selectedColor = MaterialTheme.colorScheme.tertiary,
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
-                    )
-                }
-            }
-        }
-        Spacer(Modifier.height(4.dp))
-    }
 }

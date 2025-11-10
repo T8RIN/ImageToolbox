@@ -88,6 +88,7 @@ internal fun Activity.parseFileSaveResult(
                 message = getString(R.string.saved_to_without_filename, ""),
                 icon = Icons.Rounded.Save
             )
+            essentials.showConfetti()
             showReview(this@parseFileSaveResult)
         }
 
@@ -158,8 +159,8 @@ internal fun Activity.parseSaveResults(
             )
         }
 
-        showReview(this)
         essentials.showConfetti()
+        showReview(this)
         return
     }
 

@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileExport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
@@ -44,12 +44,13 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toUiPalette
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedColor
 
 
 @Composable
 internal fun DefaultPaletteControls(
     bitmap: Bitmap,
+    onOpenExport: (List<NamedColor>) -> Unit
 ) {
     val essentials = rememberLocalEssentials()
 
@@ -67,12 +68,19 @@ internal fun DefaultPaletteControls(
     Spacer(modifier = Modifier.height(16.dp))
 
     PreferenceItem(
-        title = stringResource(R.string.export_as_json),
-        subtitle = stringResource(R.string.export_as_json_sub),
+        title = stringResource(R.string.export),
+        subtitle = stringResource(R.string.export_palette_sub),
         onClick = {
-            essentials.copyToClipboard(state.toUiPalette().asJson())
+            onOpenExport(
+                state.paletteData.map {
+                    NamedColor(
+                        color = it.colorData.color,
+                        name = it.colorData.name
+                    )
+                }
+            )
         },
-        endIcon = Icons.Rounded.ContentCopy,
+        endIcon = Icons.Outlined.FileExport,
         shape = ShapeDefaults.top,
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.5f),
