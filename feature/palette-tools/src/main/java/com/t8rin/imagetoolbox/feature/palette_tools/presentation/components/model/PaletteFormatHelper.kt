@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.mod
 import com.t8rin.palette.PaletteFormat
 
 object PaletteFormatHelper {
-    val entries: Set<PaletteFormat> =
+    val entries: List<PaletteFormat> =
         PaletteFormat.entries.toSet().minus(
             setOf(
                 PaletteFormat.CSV,
@@ -31,7 +31,7 @@ object PaletteFormatHelper {
                 PaletteFormat.HEX_RGBA,
                 PaletteFormat.CSV
             )
-        )
+        ).toList()
 
     fun entriesFor(filename: String): Set<PaletteFormat> = buildSet {
         PaletteFormat.fromFilename(filename)?.let {
