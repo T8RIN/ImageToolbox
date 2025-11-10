@@ -33,6 +33,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
+import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -47,10 +49,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Theme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -111,9 +115,15 @@ fun PaletteToolsContent(
         component.setUri(uri)
     }
 
+    val paletteFormatPicker = rememberFilePicker { uri: Uri ->
+        component.setPaletteType(PaletteType.Edit)
+        component.setUri(uri)
+    }
+
     val pickImage = when (paletteType) {
         PaletteType.MaterialYou -> materialYouImageLauncher::pickImage
         PaletteType.Default -> paletteImageLauncher::pickImage
+        PaletteType.Edit -> paletteFormatPicker::pickFile
         null -> imagePicker::pickImage
     }
 
@@ -164,16 +174,30 @@ fun PaletteToolsContent(
                 }
             )
         }
+        val preference3 = @Composable {
+            PreferenceItem(
+                title = stringResource(R.string.edit_palette),
+                subtitle = stringResource(R.string.edit_palette_sub),
+                startIcon = Icons.AutoMirrored.Outlined.InsertDriveFile,
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    component.setPaletteType(PaletteType.Edit)
+                    showPreferencePicker = false
+                }
+            )
+        }
         if (isPortrait) {
             Column {
                 preference1()
                 Spacer(modifier = Modifier.height(8.dp))
                 preference2()
+                Spacer(modifier = Modifier.height(8.dp))
+                preference3()
             }
         } else {
             val direction = LocalLayoutDirection.current
-            Row(
-                modifier = Modifier.padding(
+            Column(
+                Modifier.padding(
                     WindowInsets.displayCutout.asPaddingValues()
                         .let {
                             PaddingValues(
@@ -183,9 +207,17 @@ fun PaletteToolsContent(
                         }
                 )
             ) {
-                preference1.withModifier(modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(8.dp))
-                preference2.withModifier(modifier = Modifier.weight(1f))
+                Row {
+                    preference1.withModifier(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    preference2.withModifier(modifier = Modifier.weight(1f))
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    preference3()
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(Modifier.weight(1f))
+                }
             }
         }
     }
@@ -197,6 +229,7 @@ fun PaletteToolsContent(
                 title = when (paletteType) {
                     PaletteType.MaterialYou -> stringResource(R.string.material_you)
                     PaletteType.Default -> stringResource(R.string.generate_palette)
+                    PaletteType.Edit -> stringResource(R.string.edit_palette)
                     null -> stringResource(R.string.palette_tools)
                 },
                 input = component.bitmap,
@@ -216,7 +249,7 @@ fun PaletteToolsContent(
                 onClick = { showZoomSheet = true },
                 visible = component.bitmap != null,
             )
-            if (component.uri != null) {
+            if (component.bitmap != null) {
                 EnhancedIconButton(
                     onClick = {
                         showColorPickerSheet = true
@@ -240,12 +273,9 @@ fun PaletteToolsContent(
         showImagePreviewAsStickyHeader = paletteType == PaletteType.Default,
         placeImagePreview = paletteType == PaletteType.Default,
         controls = {
-            component.bitmap?.let { bitmap ->
-                PaletteToolsScreenControls(
-                    bitmap = bitmap,
-                    paletteType = paletteType
-                )
-            }
+            PaletteToolsScreenControls(
+                component = component
+            )
         },
         buttons = { actions ->
             var showOneTimeImagePickingDialog by rememberSaveable {
@@ -253,17 +283,25 @@ fun PaletteToolsContent(
             }
 
             BottomButtonsBlock(
-                isNoData = paletteType == null || component.bitmap == null,
+                isNoData = if (paletteType == PaletteType.Edit) {
+                    !component.palette.isNotEmpty()
+                } else {
+                    paletteType == null || component.bitmap == null
+                },
                 onSecondaryButtonClick = pickImage,
                 isPrimaryButtonVisible = false,
+                secondaryButtonIcon = if (paletteType == PaletteType.Edit) Icons.Rounded.FileOpen else Icons.Rounded.AddPhotoAlt,
+                secondaryButtonText = stringResource(
+                    if (paletteType == PaletteType.Edit) R.string.pick_file else R.string.pick_image_alt
+                ),
                 onPrimaryButtonClick = {},
-                showNullDataButtonAsContainer = true,
+                showNullDataButtonAsContainer = paletteType != PaletteType.Edit,
                 actions = {
                     if (isPortrait) actions()
                 },
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
-                }
+                }.takeIf { paletteType != PaletteType.Edit }
             )
 
             OneTimeImagePickingDialog(
@@ -278,10 +316,8 @@ fun PaletteToolsContent(
             else 20.dp
         ).value,
         insetsForNoData = WindowInsets(0),
-        noDataControls = {
-            preferences()
-        },
-        canShowScreenData = paletteType != null && component.bitmap != null
+        noDataControls = { preferences() },
+        canShowScreenData = paletteType != null && (paletteType == PaletteType.Edit || component.bitmap != null)
     )
 
     var colorPickerValue by rememberSaveable(stateSaver = ColorSaver) {

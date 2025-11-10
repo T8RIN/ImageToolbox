@@ -23,12 +23,21 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.PaletteFormatHelper
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.toNamed
+import com.t8rin.palette.PaletteFormat
+import com.t8rin.palette.decode
+import com.t8rin.palette.getCoder
+import com.t8rin.palette.use
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -39,6 +48,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
+    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -51,6 +61,12 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     private val _paletteType: MutableState<PaletteType?> = mutableStateOf(null)
     val paletteType by _paletteType
 
+    private val _paletteFormat: MutableState<PaletteFormat?> = mutableStateOf(null)
+    val paletteFormat by _paletteFormat
+
+    private val _palette: MutableState<NamedPalette> = mutableStateOf(NamedPalette())
+    val palette by _palette
+
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
@@ -61,26 +77,59 @@ class PaletteToolsComponent @AssistedInject internal constructor(
         _uri.value = uri
         if (uri == null) {
             _paletteType.update { null }
+            _paletteFormat.update { null }
+            _palette.update { NamedPalette() }
             _bitmap.value = null
             return
         }
 
-        imageGetter.getImageAsync(
-            uri = uri.toString(),
-            originalSize = false,
-            onGetImage = {
-                componentScope.launch {
-                    _isImageLoading.value = true
-                    _bitmap.value = imageScaler.scaleUntilCanShow(it.image)
-                    _isImageLoading.value = false
+        componentScope.launch {
+            _isImageLoading.value = true
+
+            _bitmap.value = imageScaler.scaleUntilCanShow(
+                imageGetter.getImage(
+                    data = uri.toString(),
+                    originalSize = false
+                )
+            )
+
+            if (bitmap == null) {
+                val data = fileController.readBytes(uri.toString())
+                val entries = PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
+
+                for (format in entries) {
+                    format.getCoder().use { decode(data) }.onSuccess { palette ->
+                        palette.toNamed()?.let { named ->
+                            _palette.update { named }
+                            updatePaletteFormat(format)
+                            break
+                        }
+                    }
                 }
-            },
-            onFailure = {}
-        )
+
+                if (palette.isNotEmpty()) {
+
+                }
+            }
+
+            _isImageLoading.value = false
+        }
+    }
+
+    fun updatePalette(palette: NamedPalette) {
+        _palette.update { palette }
+    }
+
+    fun updatePaletteFormat(format: PaletteFormat) {
+        _paletteFormat.update { format }
     }
 
     fun setPaletteType(type: PaletteType) {
         _paletteType.update { type }
+        if (type != PaletteType.Edit) {
+            _palette.update { NamedPalette() }
+            _paletteFormat.update { null }
+        }
     }
 
     @AssistedFactory

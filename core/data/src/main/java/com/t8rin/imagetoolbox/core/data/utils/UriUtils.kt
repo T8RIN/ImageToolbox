@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.filterIsInstance
@@ -190,7 +191,7 @@ internal fun Uri.tryRequireOriginal(context: Context): Uri {
 }
 
 fun Uri.getFilename(
-    context: Context
+    context: Context = appContext
 ): String? = DocumentFile.fromSingleUri(context, this)?.name
 
 fun String.decodeEscaped(): String = runCatching {

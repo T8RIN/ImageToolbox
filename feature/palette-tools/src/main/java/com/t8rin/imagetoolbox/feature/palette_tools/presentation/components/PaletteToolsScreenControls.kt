@@ -17,18 +17,19 @@
 
 package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 
 @Composable
 internal fun PaletteToolsScreenControls(
-    bitmap: Bitmap,
-    paletteType: PaletteType?
+    component: PaletteToolsComponent
 ) {
-    if (paletteType == null) return
+    val paletteType = component.paletteType ?: return
+
+    val bitmap = component.bitmap
 
     AnimatedContent(
         targetState = paletteType
@@ -37,8 +38,17 @@ internal fun PaletteToolsScreenControls(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (type) {
-                PaletteType.Default -> DefaultPaletteControls(bitmap)
-                PaletteType.MaterialYou -> MaterialYouPaletteControls(bitmap)
+                PaletteType.Default -> bitmap?.let { DefaultPaletteControls(bitmap) }
+                PaletteType.MaterialYou -> bitmap?.let { MaterialYouPaletteControls(bitmap) }
+
+                PaletteType.Edit -> {
+                    EditPaletteControls(
+                        paletteFormat = component.paletteFormat,
+                        onPaletteFormatChange = component::updatePaletteFormat,
+                        palette = component.palette,
+                        onPaletteChange = component::updatePalette
+                    )
+                }
             }
         }
     }

@@ -401,5 +401,5 @@ private object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 72
+    override val FEATURES_COUNT = 73
 }

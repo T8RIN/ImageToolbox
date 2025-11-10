@@ -19,5 +19,6 @@ package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
 
 enum class PaletteType {
     Default,
-    MaterialYou
+    MaterialYou,
+    Edit
 }

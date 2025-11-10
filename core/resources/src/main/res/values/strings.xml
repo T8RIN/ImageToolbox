@@ -1851,4 +1851,9 @@
     <string name="square_particles_sub">Spray particles will be square shaped instead of circles</string>
     <string name="palette_tools">Palette Tools</string>
     <string name="palette_tools_sub">Generate basic/material you palette from image, or import/export across different palette formats</string>
+    <string name="edit_palette">Edit Palette</string>
+    <string name="edit_palette_sub">Export/import palette across various formats</string>
+    <string name="color_name">Color name</string>
+    <string name="palette_name">Palette name</string>
+    <string name="palette_format">Palette Format</string>
 </resources>

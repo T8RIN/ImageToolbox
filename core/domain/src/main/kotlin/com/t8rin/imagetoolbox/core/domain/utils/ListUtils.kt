@@ -54,6 +54,11 @@ object ListUtils {
         else this + item
     }
 
+    inline fun <T> Iterable<T>.replaceAt(index: Int, transform: (T) -> T): List<T> =
+        toMutableList().apply {
+            this[index] = transform(this[index])
+        }
+
     fun <T> Set<T>.toggle(item: T): Set<T> = run {
         if (item in this) this - item
         else this + item
