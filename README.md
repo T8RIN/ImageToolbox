@@ -764,6 +764,48 @@ or click one of the badges below.
     - Palette generation
         - Material You Scheme
         - Simple Colors
+    - Import/Export palette across 40 formats
+      - ACB
+      - ACO
+      - ACT  
+      - Android Xml  
+      - ASE
+      - Basic Xml  
+      - Corel Painter  
+      - Corel Draw  
+      - Scribus Xml  
+      - Corel Palette  
+      - CSV
+      - DCP
+      - Gimp
+      - Hex Rgba  
+      - Image  
+      - Json  
+      - Open Office  
+      - Paint Net  
+      - Paint Shop Pro  
+      - Rgba  
+      - Rgb  
+      - Riff  
+      - Sketch  
+      - SKP
+      - SVG  
+      - Swift  
+      - Kotlin  
+      - Corel Draw V3  
+      - CLF
+      - Swatches  
+      - Autodesk Color Book  
+      - Simple Palette  
+      - Swatchbooker  
+      - Afpalette  
+      - Xara  
+      - Koffice
+      - KPL
+      - HPL
+      - Skencil  
+      - Vga 24Bit  
+      - Vga 18Bit  
     - Picking color from image
     - Gradient creation (Mesh gradients too)
     - Overlaying image with gradient
