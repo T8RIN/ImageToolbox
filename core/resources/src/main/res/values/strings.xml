@@ -1859,4 +1859,10 @@
     <string name="export_palette_sub">Export generated palette to different formats</string>
     <string name="add_color_palette_sub">Adds new color to current palette</string>
     <string name="palette_name_not_supported">%s format doesn\'t support providing palette name</string>
+    <plurals name="color_count">
+        <item quantity="one">%s color</item>
+        <item quantity="few">%s colors</item>
+        <item quantity="many">%s colors</item>
+        <item quantity="other">%s colors</item>
+    </plurals>
 </resources>

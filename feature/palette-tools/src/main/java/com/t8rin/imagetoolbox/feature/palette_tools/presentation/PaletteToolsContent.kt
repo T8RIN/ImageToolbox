@@ -46,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -239,8 +240,18 @@ fun PaletteToolsContent(
             TopAppBarTitle(
                 title = when (paletteType) {
                     PaletteType.MaterialYou -> stringResource(R.string.material_you)
+
                     PaletteType.Default -> stringResource(R.string.generate_palette)
-                    PaletteType.Edit -> stringResource(R.string.edit_palette)
+
+                    PaletteType.Edit -> {
+                        val base = stringResource(R.string.edit_palette)
+                        val end = component.palette.colors.size.takeIf { it > 0 }?.let {
+                            ": " + pluralStringResource(R.plurals.color_count, it, it)
+                        }.orEmpty()
+
+                        base + end
+                    }
+
                     null -> stringResource(R.string.palette_tools)
                 },
                 input = component.bitmap,
