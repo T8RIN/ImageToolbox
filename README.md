@@ -764,7 +764,7 @@ or click one of the badges below.
     - Palette generation
         - Material You Scheme
         - Simple Colors
-    - Import/Export palette across 40 formats
+    - Import/Export palette across 41 format
       - ACB
       - ACO
       - ACT  
