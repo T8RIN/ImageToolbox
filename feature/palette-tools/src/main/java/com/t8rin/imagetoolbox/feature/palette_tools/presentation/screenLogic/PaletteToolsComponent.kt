@@ -188,11 +188,11 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     }
 
     fun createPaletteFilename(): String {
+        val name = palette.name.ifBlank { "Palette_Export" }
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
+        val extension = format.fileExtension.maxBy { it.length }
 
-        val endPart = "_${timestamp()}.${format.fileExtension.maxBy { it.length }}"
-
-        return palette.name.ifBlank { "Palette_Export" } + endPart
+        return "${name}_${timestamp()}.$extension"
     }
 
     @AssistedFactory
