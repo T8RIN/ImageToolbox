@@ -1859,6 +1859,8 @@
     <string name="export_palette_sub">Export generated palette to different formats</string>
     <string name="add_color_palette_sub">Adds new color to current palette</string>
     <string name="palette_name_not_supported">%s format doesn\'t support providing palette name</string>
+    <string name="wallpapers_export_not_avaialbe">Due to Play Store policies, this feature cannot be included in the current build. To access this functionality, please download ImageToolbox from an alternative source. You can find the available builds on GitHub below.</string>
+    <string name="open_github_page">Open Github page</string>
     <plurals name="color_count">
         <item quantity="one">%s color</item>
         <item quantity="few">%s colors</item>

@@ -17,19 +17,24 @@
 
 package com.t8rin.imagetoolbox.feature.wallpapers_export.presentation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.other.FeatureNotAvailableContent
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.wallpapers_export.domain.model.WallpapersResult
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.components.WallpapersActionButtons
@@ -42,6 +47,19 @@ fun WallpapersExportContent(
     component: WallpapersExportComponent
 ) {
     val essentials = rememberLocalEssentials()
+
+    if (essentials.context.isInstalledFromPlayStore()) {
+        FeatureNotAvailableContent(
+            title = {
+                Text(
+                    text = stringResource(R.string.wallpapers_export),
+                    modifier = Modifier.marquee()
+                )
+            },
+            onGoBack = component.onGoBack
+        )
+        return
+    }
 
     val isPortrait by isPortraitOrientationAsState()
     val lifecycleEvent = rememberCurrentLifecycleEvent()

@@ -105,6 +105,7 @@ fun SourceNotPickedWidget(
     onClick: (() -> Unit)?,
     text: String,
     icon: ImageVector,
+    maxLines: Int = 3,
     containerColor: Color = Color.Unspecified,
 ) {
     BoxWithConstraints(
@@ -132,7 +133,7 @@ fun SourceNotPickedWidget(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 key = { it.length },
-                maxLines = 2
+                maxLines = maxLines
             )
         }
     }
