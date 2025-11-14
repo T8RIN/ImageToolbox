@@ -18,7 +18,6 @@
 @file:Suppress("UnstableApiUsage")
 
 var isFoss = false
-var isDebug = false
 
 plugins {
     alias(libs.plugins.image.toolbox.application)
@@ -68,7 +67,6 @@ android {
 
     buildTypes {
         debug {
-            isDebug = true
             applicationIdSuffix = ".debug"
             resValue("string", "app_launcher_name", "Image Toolbox DEBUG")
             resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider.debug")
@@ -82,6 +80,13 @@ android {
             )
             resValue("string", "app_launcher_name", "Image Toolbox")
             resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider")
+
+            dependencySubstitution {
+                substitute(
+                    dependency = "org.opencv:opencv:4.11.0",
+                    using = "org.opencv:opencv:4.12.0"
+                )
+            }
         }
         create("benchmark") {
             initWith(buildTypes.getByName("release"))
@@ -149,13 +154,11 @@ dependencies {
     "fossImplementation"(libs.quickie.foss)
 }
 
-allprojects {
-    configurations.all {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("com.caverock:androidsvg-aar:1.4")).using(module("com.github.deckerst:androidsvg:cc9d59a88f"))
-            if (!isDebug) substitute(module("org.opencv:opencv:4.11.0")).using(module("org.opencv:opencv:4.12.0"))
-        }
-    }
+dependencySubstitution {
+    substitute(
+        dependency = "com.caverock:androidsvg-aar:1.4",
+        using = "com.github.deckerst:androidsvg:cc9d59a88f"
+    )
 }
 
 afterEvaluate {
@@ -173,3 +176,16 @@ afterEvaluate {
         }
     }
 }
+
+fun dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
+    allprojects {
+        configurations.all {
+            resolutionStrategy.dependencySubstitution(action)
+        }
+    }
+}
+
+fun DependencySubstitutions.substitute(
+    dependency: String,
+    using: String
+) = substitute(module(dependency)).using(module(using))
