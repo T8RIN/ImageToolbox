@@ -49,11 +49,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -71,35 +70,20 @@ internal class AndroidGifConverter @Inject constructor(
         imageFrames: ImageFrames,
         quality: Quality,
         onGetFramesCount: (frames: Int) -> Unit
-    ): Flow<String> = flow {
-        val bytes = gifUri.bytes
-        val decoder = GifDecoder().apply {
-            read(bytes)
-        }
-        onGetFramesCount(decoder.frameCount)
-        val indexes = imageFrames
-            .getFramePositions(decoder.frameCount)
-            .map { it - 1 }
-        repeat(decoder.frameCount) { pos ->
-            if (!currentCoroutineContext().isActive) {
-                currentCoroutineContext().cancel(null)
-                return@repeat
-            }
-            decoder.advance()
-            decoder.nextFrame?.let { frame ->
-                imageShareProvider.cacheImage(
-                    image = frame,
-                    imageInfo = ImageInfo(
-                        width = frame.width,
-                        height = frame.height,
-                        imageFormat = imageFormat,
-                        quality = quality
-                    )
-                )
-            }?.takeIf {
-                pos in indexes
-            }?.let { emit(it) }
-        }
+    ): Flow<String> = extractFramesFromGif(
+        gifUri = gifUri,
+        imageFrames = imageFrames,
+        onGetFramesCount = onGetFramesCount
+    ).mapNotNull { (frame) ->
+        imageShareProvider.cacheImage(
+            image = frame,
+            imageInfo = ImageInfo(
+                width = frame.width,
+                height = frame.height,
+                imageFormat = imageFormat,
+                quality = quality
+            )
+        )
     }
 
     override suspend fun createGifFromImageUris(
@@ -206,22 +190,53 @@ internal class AndroidGifConverter @Inject constructor(
         onProgress: suspend (String, ByteArray) -> Unit
     ) = withContext(defaultDispatcher) {
         gifUris.forEach { uri ->
-            runCatching {
+            runSuspendCatching {
                 val encoder = AnimatedWebpEncoder(
                     quality = quality.qualityValue,
                     loopCount = 1,
                     backgroundColor = Color.Transparent.toArgb()
                 )
 
-                runSuspendCatching {
-                    encoder
-                        .loadGif(uri.file)
-                        .encode()
-                        .let {
-                            onProgress(uri, it)
-                        }
-                }.getOrNull()
+                extractFramesFromGif(
+                    gifUri = uri,
+                    imageFrames = ImageFrames.All,
+                    onGetFramesCount = {}
+                ).collect { (frame, duration) ->
+                    encoder.addFrame(
+                        bitmap = frame.copy(frame.safeConfig, false),
+                        duration = duration
+                    )
+                }
+
+                onProgress(uri, encoder.encode())
             }
+        }
+    }
+
+    private fun extractFramesFromGif(
+        gifUri: String,
+        imageFrames: ImageFrames,
+        onGetFramesCount: (frames: Int) -> Unit
+    ): Flow<Pair<Bitmap, Int>> = flow {
+        val bytes = gifUri.bytes
+        val decoder = GifDecoder().apply {
+            read(bytes)
+        }
+        onGetFramesCount(decoder.frameCount)
+        val indexes = imageFrames
+            .getFramePositions(decoder.frameCount)
+            .map { it - 1 }
+        repeat(decoder.frameCount) { pos ->
+            if (!currentCoroutineContext().isActive) {
+                currentCoroutineContext().cancel(null)
+                return@repeat
+            }
+            decoder.advance()
+            decoder.nextFrame?.let { frame ->
+                frame to decoder.nextDelay
+            }?.takeIf {
+                pos in indexes
+            }?.let { emit(it) }
         }
     }
 
@@ -235,12 +250,4 @@ internal class AndroidGifConverter @Inject constructor(
             it.readBytes()
         }
 
-    private val String.file: File
-        get() {
-            val gifFile = File(context.cacheDir, "temp.gif")
-            inputStream?.use { gifStream ->
-                gifStream.copyTo(FileOutputStream(gifFile))
-            }
-            return gifFile
-        }
 }
