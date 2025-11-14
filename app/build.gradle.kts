@@ -177,7 +177,7 @@ afterEvaluate {
     }
 }
 
-fun dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
+fun Project.dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
     allprojects {
         configurations.all {
             resolutionStrategy.dependencySubstitution(action)
