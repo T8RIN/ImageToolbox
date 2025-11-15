@@ -23,7 +23,7 @@
 
     <style name="Theme.ImageToolbox.Launcher" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_animated</item>
         <item name="postSplashScreenTheme">@style/Theme.ImageToolbox</item>
     </style>
 
