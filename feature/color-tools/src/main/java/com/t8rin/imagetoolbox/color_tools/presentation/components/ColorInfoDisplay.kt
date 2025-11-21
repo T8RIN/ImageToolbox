@@ -34,13 +34,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.smarttoolfactory.colordetector.util.HexUtil
 import com.smarttoolfactory.colorpicker.util.HexVisualTransformation
 import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import kotlin.math.roundToInt
@@ -146,6 +149,35 @@ fun ColorInfoDisplay(
             onCopy = onCopy,
             modifier = Modifier.fillMaxWidth(),
             onLoseFocus = onLoseFocus
+        )
+
+        var name by remember {
+            mutableStateOf(ColorNameParser.parseColorName(color = value))
+        }
+        ColorEditableField(
+            label = stringResource(R.string.name),
+            value = name,
+            onValueChange = { newName ->
+                name = newName
+                onValueChange(
+                    ColorNameParser.parseColorFromName(newName)
+                        .sortedBy { it.name.length }
+                        .run {
+                            find {
+                                it.name.equals(
+                                    other = newName,
+                                    ignoreCase = true
+                                )
+                            }?.color ?: firstOrNull()?.color ?: Color.Black
+                        }
+                )
+            },
+            onCopy = onCopy,
+            modifier = Modifier.fillMaxWidth(),
+            onLoseFocus = {
+                name = ColorNameParser.parseColorName(value)
+                onLoseFocus()
+            }
         )
     }
 }
