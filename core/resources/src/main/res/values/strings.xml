@@ -1867,4 +1867,5 @@
         <item quantity="many">%s colors</item>
         <item quantity="other">%s colors</item>
     </plurals>
+    <string name="overwrite_files_sub_short">Original file will be replaced with new one instead of saving in selected folder</string>
 </resources>

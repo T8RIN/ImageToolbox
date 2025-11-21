@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -80,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.SwipeToReveal
 import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import kotlinx.coroutines.launch
 
 
@@ -91,6 +93,8 @@ fun OneTimeSaveLocationSelectionDialog(
     formatForFilenameSelection: ImageFormat? = null
 ) {
     val settingsState = LocalSettingsState.current
+    val settingsInteractor = LocalSimpleSettingsInteractor.current
+    val scope = rememberCoroutineScope()
     var tempSelectedSaveFolderUri by rememberSaveable(visible) {
         mutableStateOf(settingsState.saveFolderUri?.toString())
     }
@@ -192,7 +196,6 @@ fun OneTimeSaveLocationSelectionDialog(
                         }
                     }
                     val selected = selectedSaveFolderUri == item?.uri
-                    val scope = rememberCoroutineScope()
                     val state = rememberRevealState()
                     val interactionSource = remember {
                         MutableInteractionSource()
@@ -203,7 +206,6 @@ fun OneTimeSaveLocationSelectionDialog(
                         size = data.size + 1,
                         forceDefault = isDragged
                     )
-                    val settingsInteractor = LocalSimpleSettingsInteractor.current
                     val canDeleteItem by remember(item, settingsState) {
                         derivedStateOf {
                             item != null && item in settingsState.oneTimeSaveLocations
@@ -266,6 +268,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                         }
                                     }
                                 } else null,
+                                enabled = !settingsState.overwriteFiles,
                                 startIconTransitionSpec = {
                                     fadeIn() togetherWith fadeOut()
                                 },
@@ -281,7 +284,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 }
                             )
                         },
-                        enableSwipe = canDeleteItem,
+                        enableSwipe = canDeleteItem && !settingsState.overwriteFiles,
                         interactionSource = interactionSource,
                         modifier = Modifier
                             .fadingEdges(
@@ -312,6 +315,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     onClick = {
                         launcher.pickFolder(currentFolderUri)
                     },
+                    enabled = !settingsState.overwriteFiles,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp, vertical = 2.dp),
@@ -334,6 +338,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         startIcon = Icons.Outlined.DriveFileRenameOutline,
                         shape = ShapeDefaults.default,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                        enabled = !settingsState.overwriteFiles,
                         onClick = {
                             createLauncher.make("$imageString.${formatForFilenameSelection.extension}")
                         },
@@ -343,6 +348,23 @@ fun OneTimeSaveLocationSelectionDialog(
                         containerColor = MaterialTheme.colorScheme.surfaceContainer
                     )
                 }
+
+                PreferenceRowSwitch(
+                    title = stringResource(id = R.string.overwrite_files),
+                    subtitle = stringResource(id = R.string.overwrite_files_sub_short),
+                    startIcon = Icons.Outlined.FileReplace,
+                    enabled = !settingsState.randomizeFilename && settingsState.hashingTypeForFilename == null,
+                    shape = ShapeDefaults.default,
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                    checked = settingsState.overwriteFiles,
+                    onClick = {
+                        scope.launch { settingsInteractor.toggleOverwriteFiles() }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                )
             }
         }
     )

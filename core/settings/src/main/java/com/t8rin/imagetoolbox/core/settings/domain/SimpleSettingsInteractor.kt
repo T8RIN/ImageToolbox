@@ -55,4 +55,6 @@ interface SimpleSettingsInteractor {
 
     suspend fun toggleCustomAsciiGradient(gradient: String)
 
+    suspend fun toggleOverwriteFiles()
+
 }

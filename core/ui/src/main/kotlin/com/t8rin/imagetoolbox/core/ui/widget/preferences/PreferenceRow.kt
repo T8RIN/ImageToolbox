@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -148,9 +149,9 @@ fun PreferenceRow(
                 else Modifier
             )
 
-        val rowContent: @Composable (Modifier) -> Unit = {
+        val rowContent: @Composable (Modifier) -> Unit = { modifier ->
             Row(
-                modifier = it,
+                modifier = modifier,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 startContent?.let { content ->
@@ -179,7 +180,6 @@ fun PreferenceRow(
                             text = it,
                             maxLines = maxLines,
                             style = titleFontStyle,
-                            fontWeight = FontWeight.Medium,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -194,6 +194,7 @@ fun PreferenceRow(
                             Text(
                                 text = it,
                                 fontSize = 12.sp,
+                                textAlign = TextAlign.Start,
                                 fontWeight = FontWeight.Normal,
                                 lineHeight = 14.sp,
                                 color = LocalContentColor.current.copy(alpha = 0.5f)

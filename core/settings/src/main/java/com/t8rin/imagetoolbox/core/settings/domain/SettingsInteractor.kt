@@ -125,8 +125,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setVibrationStrength(strength: Int)
 
-    suspend fun toggleOverwriteFiles()
-
     suspend fun setFilenameSuffix(name: String)
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)

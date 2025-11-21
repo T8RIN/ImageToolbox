@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -62,6 +63,7 @@ fun PreferenceRowSwitch(
     additionalContent: (@Composable () -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     drawContainer: Boolean = true,
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     PreferenceRow(
@@ -108,7 +110,8 @@ fun PreferenceRowSwitch(
         },
         interactionSource = interactionSource,
         drawContainer = drawContainer,
-        additionalContent = additionalContent
+        additionalContent = additionalContent,
+        titleFontStyle = titleFontStyle
     )
 }
 
@@ -129,7 +132,8 @@ fun PreferenceRowSwitch(
     onClick: (Boolean) -> Unit,
     additionalContent: (@Composable () -> Unit)? = null,
     drawContainer: Boolean = true,
-    resultModifier: Modifier = Modifier.padding(16.dp)
+    resultModifier: Modifier = Modifier.padding(16.dp),
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
@@ -156,6 +160,7 @@ fun PreferenceRowSwitch(
         applyHorizontalPadding = false,
         onClick = onClick,
         additionalContent = additionalContent,
-        drawContainer = drawContainer
+        drawContainer = drawContainer,
+        titleFontStyle = titleFontStyle
     )
 }
