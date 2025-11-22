@@ -53,13 +53,12 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
-import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
-import com.t8rin.imagetoolbox.core.resources.icons.FolderImageAlt
+import com.t8rin.imagetoolbox.core.resources.icons.FileImage
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -70,6 +69,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageSaw
 import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
@@ -337,8 +337,8 @@ private object ScreenConstantsImpl : ScreenConstants {
                     DeleteExif(),
                 ),
                 title = R.string.edit,
-                selectedIcon = Icons.Filled.EditAlt,
-                baseIcon = Icons.Rounded.EditAlt
+                selectedIcon = Icons.Rounded.MiniEditLarge,
+                baseIcon = Icons.Outlined.MiniEditLarge
             ),
             ScreenGroup(
                 entries = listOf(
@@ -371,8 +371,8 @@ private object ScreenConstantsImpl : ScreenConstants {
                     LoadNetImage(),
                 ),
                 title = R.string.image,
-                selectedIcon = Icons.Rounded.FolderImageAlt,
-                baseIcon = Icons.Outlined.FolderImageAlt
+                selectedIcon = Icons.Rounded.FileImage,
+                baseIcon = Icons.Outlined.FileImage
             ),
             ScreenGroup(
                 entries = listOf(
