@@ -66,7 +66,6 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.math.roundToInt
 
-
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap>,
