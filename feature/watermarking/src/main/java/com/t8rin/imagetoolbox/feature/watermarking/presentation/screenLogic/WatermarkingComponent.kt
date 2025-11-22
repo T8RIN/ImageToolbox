@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkApplier
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import dagger.assisted.Assisted
@@ -113,11 +114,18 @@ class WatermarkingComponent @AssistedInject internal constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(-1)
     val left by _left
 
+    private val _currentHiddenWatermark: MutableState<HiddenWatermark?> = mutableStateOf(null)
+    val currentHiddenWatermark by _currentHiddenWatermark
 
     private fun updateBitmap(
         bitmap: Bitmap,
         onComplete: () -> Unit = {}
     ) {
+        componentScope.launch {
+            _currentHiddenWatermark.update {
+                watermarkApplier.checkHiddenWatermark(bitmap)
+            }
+        }
         componentScope.launch {
             _isImageLoading.value = true
             _internalBitmap.value = imageScaler.scaleUntilCanShow(bitmap)

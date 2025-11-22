@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.watermarking.domain
 
-interface WatermarkApplier<I> {
-
-    suspend fun applyWatermark(
-        image: I,
-        originalSize: Boolean,
-        params: WatermarkParams
-    ): I?
-
-    suspend fun checkHiddenWatermark(
-        image: I
-    ): HiddenWatermark?
-
+sealed interface HiddenWatermark {
+    data class Image(val image: Any) : HiddenWatermark
+    data class Text(val text: String) : HiddenWatermark
 }

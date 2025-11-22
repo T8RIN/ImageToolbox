@@ -23,15 +23,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DisabledVisible
-import androidx.compose.material.icons.rounded.GraphicEq
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -71,26 +67,26 @@ internal fun DigitalParamsContent(
                 shape = ShapeDefaults.large,
                 containerColor = MaterialTheme.colorScheme.surface
             )
-            AnimatedVisibility(visible = isInvisible) {
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.use_lsb),
-                    subtitle = stringResource(id = R.string.use_lsb_sub),
-                    checked = digitalParams?.isLSB ?: false,
-                    startIcon = Icons.Rounded.GraphicEq,
-                    onClick = {
-                        onValueChange(
-                            params.copy(
-                                digitalParams = digitalParams?.copy(
-                                    isLSB = !digitalParams.isLSB
-                                )
-                            )
-                        )
-                    },
-                    shape = ShapeDefaults.large,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
+//            AnimatedVisibility(visible = isInvisible) {
+//                PreferenceRowSwitch(
+//                    title = stringResource(id = R.string.use_lsb),
+//                    subtitle = stringResource(id = R.string.use_lsb_sub),
+//                    checked = digitalParams?.isLSB ?: false,
+//                    startIcon = Icons.Rounded.GraphicEq,
+//                    onClick = {
+//                        onValueChange(
+//                            params.copy(
+//                                digitalParams = digitalParams?.copy(
+//                                    isLSB = !digitalParams.isLSB
+//                                )
+//                            )
+//                        )
+//                    },
+//                    shape = ShapeDefaults.large,
+//                    containerColor = MaterialTheme.colorScheme.surface,
+//                    modifier = Modifier.padding(top = 4.dp)
+//                )
+//            }
         }
     }
 }

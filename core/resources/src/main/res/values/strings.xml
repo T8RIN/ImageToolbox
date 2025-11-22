@@ -1868,4 +1868,7 @@
         <item quantity="other">%s colors</item>
     </plurals>
     <string name="overwrite_files_sub_short">Original file will be replaced with new one instead of saving in selected folder</string>
+    <string name="hidden_watermark_text_detected">Detected hidden watermark text</string>
+    <string name="hidden_watermark_image_detected">Detected hidden watermark image</string>
+    <string name="this_image_was_hidden">This image was hidden</string>
 </resources>

@@ -18,10 +18,19 @@
 package com.t8rin.imagetoolbox.feature.watermarking.presentation
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -31,10 +40,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
+import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -58,14 +71,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
+import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.components.WatermarkDataSelector
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.components.WatermarkParamsSelectionGroup
@@ -201,6 +219,9 @@ fun WatermarkingContent(
                         showPickImageFromUrisSheet = true
                     }
                 )
+                HiddenWatermarkInfo(
+                    hiddenWatermark = component.currentHiddenWatermark
+                )
                 WatermarkingTypeSelector(
                     value = component.watermarkParams,
                     onValueChange = component::updateWatermarkParams
@@ -230,9 +251,9 @@ fun WatermarkingContent(
             }
         },
         buttons = {
-            val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+            val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = { oneTimeSaveLocationUri ->
                 component.saveBitmaps(
-                    oneTimeSaveLocationUri = it,
+                    oneTimeSaveLocationUri = oneTimeSaveLocationUri,
                     onResult = essentials::parseSaveResults
                 )
             }
@@ -344,4 +365,78 @@ fun WatermarkingContent(
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
+}
+
+@Composable
+internal fun HiddenWatermarkInfo(
+    hiddenWatermark: HiddenWatermark?
+) {
+    val essentials = rememberLocalEssentials()
+
+    AnimatedContent(
+        targetState = hiddenWatermark,
+        modifier = Modifier.fillMaxWidth()
+    ) { hidden ->
+        hidden?.let {
+            PreferenceItemOverload(
+                title = stringResource(
+                    when (hidden) {
+                        is HiddenWatermark.Text -> R.string.hidden_watermark_text_detected
+                        is HiddenWatermark.Image -> R.string.hidden_watermark_image_detected
+                    }
+                ),
+                subtitle = when (hidden) {
+                    is HiddenWatermark.Text -> hidden.text
+                    is HiddenWatermark.Image -> stringResource(R.string.this_image_was_hidden)
+                },
+                onClick = if (hidden is HiddenWatermark.Text) {
+                    { essentials.copyToClipboard(hidden.text) }
+                } else null,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),
+                titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
+                startIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = null
+                    )
+                },
+                endIcon = {
+                    when (hidden) {
+                        is HiddenWatermark.Text -> {
+                            Icon(
+                                imageVector = Icons.Rounded.ContentCopy,
+                                contentDescription = null
+                            )
+                        }
+
+                        is HiddenWatermark.Image -> {
+                            Picture(
+                                model = hidden.image,
+                                shape = CloverShape,
+                                modifier = Modifier.size(48.dp),
+                                error = {
+                                    Icon(
+                                        imageVector = Icons.TwoTone.AddPhotoAlt,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(CloverShape)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.secondaryContainer
+                                                    .copy(0.5f)
+                                                    .compositeOver(MaterialTheme.colorScheme.surfaceContainer)
+                                            )
+                                            .padding(8.dp)
+                                    )
+                                }
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.large
+            )
+        }
+    }
 }

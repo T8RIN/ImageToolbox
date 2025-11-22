@@ -40,25 +40,32 @@ import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.watermarking.domain.DigitalParams
+import com.t8rin.imagetoolbox.feature.watermarking.domain.HiddenWatermark
 import com.t8rin.imagetoolbox.feature.watermarking.domain.TextParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkApplier
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
 import com.watermark.androidwm.WatermarkBuilder
+import com.watermark.androidwm.WatermarkDetector
 import com.watermark.androidwm.bean.WatermarkImage
 import com.watermark.androidwm.bean.WatermarkText
 import com.watermark.androidwm.listener.BuildFinishListener
+import com.watermark.androidwm.listener.DetectFinishListener
+import com.watermark.androidwm.task.DetectionReturnValue
 import com.watermark.androidwm.utils.BitmapUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.math.roundToInt
+
 
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -174,21 +181,48 @@ internal class AndroidWatermarkApplier @Inject constructor(
         }
     }
 
+    @OptIn(InternalCoroutinesApi::class)
+    override suspend fun checkHiddenWatermark(
+        image: Bitmap
+    ): HiddenWatermark? = runSuspendCatching {
+        suspendCancellableCoroutine { continuation ->
+            WatermarkDetector
+                .create(image, true)
+                .detect(
+                    object : DetectFinishListener {
+                        override fun onSuccess(
+                            returnValue: DetectionReturnValue
+                        ) = continuation.resume(
+                            returnValue.watermarkBitmap
+                                ?.let(HiddenWatermark::Image)
+                                ?: returnValue.watermarkString?.takeIf { it.isNotEmpty() }
+                                    ?.let(HiddenWatermark::Text)
+                        )
+
+                        override fun onFailure(message: String?) = continuation.resume(null)
+                    }
+                )
+        }
+    }.getOrNull()
+
+    @OptIn(InternalCoroutinesApi::class)
     private suspend fun WatermarkBuilder.generateImage(
         params: DigitalParams
-    ): Bitmap? = if (params.isInvisible) {
-        suspendCancellableCoroutine { cont ->
-            setInvisibleWMListener(
-                params.isLSB,
-                object : BuildFinishListener<Bitmap> {
-                    override fun onSuccess(image: Bitmap) = cont.resume(image)
-                    override fun onFailure(reason: String) = cont.resume(null)
-                }
-            )
+    ): Bitmap? = runSuspendCatching {
+        if (params.isInvisible) {
+            suspendCancellableCoroutine { continuation ->
+                setInvisibleWMListener(
+                    params.isLSB,
+                    object : BuildFinishListener<Bitmap> {
+                        override fun onSuccess(image: Bitmap) = continuation.resume(image)
+                        override fun onFailure(reason: String) = continuation.resume(null)
+                    }
+                )
+            }
+        } else {
+            watermark?.outputImage
         }
-    } else {
-        watermark?.outputImage
-    }
+    }.getOrNull()
 
     private suspend fun drawStamp(
         image: Bitmap,
