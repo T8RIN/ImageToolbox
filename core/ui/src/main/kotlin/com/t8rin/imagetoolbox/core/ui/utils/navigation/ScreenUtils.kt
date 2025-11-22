@@ -78,7 +78,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
-import com.t8rin.imagetoolbox.core.resources.icons.WandStars
+import com.t8rin.imagetoolbox.core.resources.icons.WandShine
 import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
@@ -355,8 +355,8 @@ private object ScreenConstantsImpl : ScreenConstants {
                     NoiseGeneration,
                 ),
                 title = R.string.create,
-                selectedIcon = Icons.Rounded.WandStars,
-                baseIcon = Icons.Outlined.WandStars
+                selectedIcon = Icons.Rounded.WandShine,
+                baseIcon = Icons.Outlined.WandShine
             ),
             ScreenGroup(
                 entries = listOf(
