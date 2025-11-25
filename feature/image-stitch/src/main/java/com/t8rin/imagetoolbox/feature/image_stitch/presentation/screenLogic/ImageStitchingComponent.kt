@@ -36,14 +36,19 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
+import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.SavableCombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.toParams
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.toSavable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -61,12 +66,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
-
-    init {
-        debounce {
-            initialUris?.let(::updateUris)
-        }
-    }
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
     val imageSize by _imageSize
@@ -94,6 +93,18 @@ class ImageStitchingComponent @AssistedInject internal constructor(
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
+
+    init {
+        debounce {
+            initialUris?.let(::updateUris)
+        }
+
+        componentScope.launch {
+            fileController.restoreObject<SavableCombiningParams>()
+                ?.toParams()
+                ?.let(::updateCombiningParams)
+        }
+    }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.update { it.copy(imageFormat = imageFormat) }
@@ -229,40 +240,40 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun setStitchMode(value: StitchMode) {
-        _combiningParams.update {
-            it.copy(
+        updateCombiningParams(
+            combiningParams.copy(
                 stitchMode = value,
                 scaleSmallImagesToLarge = false
             )
-        }
+        )
         calculatePreview()
     }
 
     fun setFadingEdgesMode(mode: Int?) {
-        _combiningParams.update {
-            it.copy(fadingEdgesMode = mode)
-        }
+        updateCombiningParams(
+            combiningParams.copy(fadingEdgesMode = mode)
+        )
         calculatePreview()
     }
 
     fun updateImageSpacing(spacing: Int) {
-        _combiningParams.update {
-            it.copy(spacing = spacing)
-        }
+        updateCombiningParams(
+            combiningParams.copy(spacing = spacing)
+        )
         calculatePreview()
     }
 
     fun toggleScaleSmallImagesToLarge(checked: Boolean) {
-        _combiningParams.update {
-            it.copy(scaleSmallImagesToLarge = checked)
-        }
+        updateCombiningParams(
+            combiningParams.copy(scaleSmallImagesToLarge = checked)
+        )
         calculatePreview()
     }
 
     fun updateBackgroundSelector(color: Int) {
-        _combiningParams.update {
-            it.copy(backgroundColor = color)
-        }
+        updateCombiningParams(
+            combiningParams.copy(backgroundColor = color)
+        )
         calculatePreview()
     }
 
@@ -317,8 +328,15 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun setStitchAlignment(stitchAlignment: StitchAlignment) {
-        _combiningParams.update { it.copy(alignment = stitchAlignment) }
+        updateCombiningParams(combiningParams.copy(alignment = stitchAlignment))
         calculatePreview()
+    }
+
+    private fun updateCombiningParams(params: CombiningParams) {
+        _combiningParams.update { params }
+        componentScope.launch {
+            fileController.saveObject(params.toSavable())
+        }
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat

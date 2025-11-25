@@ -437,6 +437,7 @@ internal class AndroidFileController @Inject constructor(
         key: String,
         value: O,
     ): Boolean = withContext(ioDispatcher) {
+        "saveObject".makeLog(key)
         val json = jsonParser.toJson(value, value::class.java) ?: return@withContext false
         val file = File(context.filesDir, "$key.json")
 
@@ -445,8 +446,10 @@ internal class AndroidFileController @Inject constructor(
                 it.write(json.toByteArray(Charsets.UTF_8))
             }
         }.onSuccess {
+            "saveObject success".makeLog(key)
             return@withContext true
         }.onFailure {
+            it.makeLog("saveObject $key")
             return@withContext false
         }
 
@@ -458,11 +461,16 @@ internal class AndroidFileController @Inject constructor(
         kClass: KClass<O>,
     ): O? = withContext(ioDispatcher) {
         runCatching {
+            "restoreObject".makeLog(key)
             val file = File(context.filesDir, "$key.json").apply {
                 if (!exists()) createNewFile()
             }
 
             jsonParser.fromJson<O>(file.readText(Charsets.UTF_8), kClass.java)
+        }.onFailure {
+            it.makeLog("restoreObject $key")
+        }.onSuccess {
+            "restoreObject success".makeLog(key)
         }.getOrNull()
     }
 

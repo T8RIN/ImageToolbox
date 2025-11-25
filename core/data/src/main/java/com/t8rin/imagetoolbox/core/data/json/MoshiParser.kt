@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.json
 
 import com.squareup.moshi.Moshi
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.logger.makeLog
 import java.lang.reflect.Type
 import javax.inject.Inject
 
@@ -31,13 +32,13 @@ internal class MoshiParser @Inject constructor(
         type: Type,
     ): String? = runCatching {
         moshi.adapter<T>(type).toJson(obj)
-    }.getOrNull()
+    }.onFailure { it.makeLog("MoshiParser toJson") }.getOrNull()
 
     override fun <T> fromJson(
         json: String,
         type: Type,
     ): T? = runCatching {
         moshi.adapter<T>(type).fromJson(json)
-    }.getOrNull()
+    }.onFailure { it.makeLog("MoshiParser fromJson") }.getOrNull()
 
 }

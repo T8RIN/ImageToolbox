@@ -17,12 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
-sealed class StitchMode {
-    data object Horizontal : StitchMode()
-    data object Vertical : StitchMode()
-    sealed class Grid : StitchMode() {
-        data class Horizontal(val rows: Int = 2) : Grid()
-        data class Vertical(val columns: Int = 2) : Grid()
+sealed class StitchMode(val ordinal: Int) {
+    data object Horizontal : StitchMode(0)
+
+    data object Vertical : StitchMode(1)
+
+    sealed class Grid(ordinal: Int) : StitchMode(ordinal) {
+        data class Horizontal(val rows: Int = 2) : Grid(2)
+        data class Vertical(val columns: Int = 2) : Grid(3)
     }
 
     fun gridCellsCount(): Int {
@@ -34,4 +36,14 @@ sealed class StitchMode {
     }
 
     fun isHorizontal(): Boolean = this is Horizontal || this is Grid.Horizontal
+
+    companion object {
+        fun fromOrdinal(ordinal: Int) = when (ordinal) {
+            0 -> Horizontal
+            1 -> Vertical
+            2 -> Grid.Horizontal()
+            3 -> Grid.Vertical()
+            else -> Horizontal
+        }
+    }
 }

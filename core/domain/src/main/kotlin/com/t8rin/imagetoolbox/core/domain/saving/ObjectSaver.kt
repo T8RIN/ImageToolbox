@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.domain.saving
 
 import kotlin.reflect.KClass
-import kotlin.uuid.ExperimentalUuidApi
 
 interface ObjectSaver {
 
@@ -34,13 +33,11 @@ interface ObjectSaver {
 
 }
 
-@OptIn(ExperimentalUuidApi::class)
 suspend inline fun <reified O : Any> ObjectSaver.saveObject(value: O): Boolean = saveObject(
     key = O::class.simpleName.toString(),
     value = value
 )
 
-@OptIn(ExperimentalUuidApi::class)
 suspend inline fun <reified O : Any> ObjectSaver.restoreObject(): O? = restoreObject(
     key = O::class.simpleName.toString(),
     kClass = O::class
