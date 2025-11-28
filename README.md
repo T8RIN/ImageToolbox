@@ -84,6 +84,7 @@
 
 <div align="center">
 
+
 # 🗺️ Project Overview
 
 ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows
