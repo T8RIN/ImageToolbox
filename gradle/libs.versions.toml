@@ -3,8 +3,8 @@ androidMinSdk = "23"
 androidTargetSdk = "36"
 androidCompileSdk = "36"
 
-versionName = "3.4.0-rc01"
-versionCode = "190"
+versionName = "3.4.0"
+versionCode = "191"
 
 jvmTarget = "17"
 
@@ -45,7 +45,7 @@ agp = "8.13.1"
 hilt = "2.57.2"
 gms = "4.4.4"
 
-ktor = "3.3.2"
+ktor = "3.3.3"
 coil = "3.3.0"
 appCompat = "1.7.1"
 androidxCore = "1.17.0"
@@ -73,7 +73,7 @@ capsule = "2.1.0"
 mlkitDocumentScanner = "16.0.0"
 zxingAndroidEmbedded = "4.3.0"
 moshi = "1.15.2"
-bouncycastle = "1.82"
+bouncycastle = "1.83"
 pdfviewer = "1.0.0-alpha11"
 fragmentCompose = "1.8.9"
 
