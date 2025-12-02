@@ -119,6 +119,7 @@ android {
     packaging {
         jniLibs {
             pickFirsts.add("lib/*/libcoder.so")
+            pickFirsts.add("**/libc++_shared.so")
             useLegacyPackaging = true
         }
         resources {

@@ -15,30 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.data
+package com.t8rin.imagetoolbox.feature.erase_background.data.backend
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
-import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.feature.erase_background.data.backend.impl.MlKitBackgroundRemover
+import com.t8rin.imagetoolbox.feature.erase_background.data.backend.impl.MlKitSubjectBackgroundRemover
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
-import javax.inject.Inject
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
-internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(
-    dispatchersHolder: DispatchersHolder
-) : AutoBackgroundRemoverBackend<Bitmap>, DispatchersHolder by dispatchersHolder {
+internal object MlKitBackgroundRemoverBackend : AutoBackgroundRemoverBackend<Bitmap> {
 
-    override fun performBackgroundRemove(
-        image: Bitmap,
-        onFinish: (Result<Bitmap>) -> Unit
-    ) {
+    override suspend fun performBackgroundRemove(
+        image: Bitmap
+    ): Result<Bitmap> = suspendCancellableCoroutine { continuation ->
         runCatching {
             autoRemove(
                 image = image,
-                onFinish = onFinish
+                onFinish = { continuation.resume(it) }
             )
         }.onFailure {
-            onFinish(Result.failure(it))
+            continuation.resume(Result.failure(it))
         }
     }
 
@@ -72,7 +71,7 @@ internal class AndroidAutoBackgroundRemoverBackend @Inject constructor(
     private enum class ApiType {
         Old, New;
 
-        companion object {
+        companion object Companion {
             val Best: ApiType get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) New else Old
         }
     }

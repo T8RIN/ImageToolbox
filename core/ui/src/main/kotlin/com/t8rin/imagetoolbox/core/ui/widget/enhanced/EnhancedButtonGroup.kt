@@ -25,6 +25,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -132,7 +133,8 @@ fun <T> EnhancedButtonGroup(
     onValueChange: (T) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
-    isScrollable: Boolean = true
+    isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding
 ) {
     EnhancedButtonGroup(
         modifier = modifier,
@@ -160,7 +162,8 @@ fun <T> EnhancedButtonGroup(
         },
         inactiveButtonColor = inactiveButtonColor,
         activeButtonColor = activeButtonColor,
-        isScrollable = isScrollable
+        isScrollable = isScrollable,
+        contentPadding = contentPadding
     )
 }
 
@@ -175,7 +178,8 @@ fun EnhancedButtonGroup(
     onIndexChange: (Int) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
-    isScrollable: Boolean = true
+    isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding
 ) {
     EnhancedButtonGroup(
         modifier = modifier,
@@ -188,6 +192,7 @@ fun EnhancedButtonGroup(
         inactiveButtonColor = inactiveButtonColor,
         activeButtonColor = activeButtonColor,
         isScrollable = isScrollable,
+        contentPadding = contentPadding
     )
 }
 
@@ -202,7 +207,8 @@ fun <T> EnhancedButtonGroup(
     onValueChange: (T) -> Unit,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
-    isScrollable: Boolean = true
+    isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding
 ) {
     val selectedIndices by remember(values, entries) {
         derivedStateOf {
@@ -236,7 +242,8 @@ fun <T> EnhancedButtonGroup(
         },
         inactiveButtonColor = inactiveButtonColor,
         activeButtonColor = activeButtonColor,
-        isScrollable = isScrollable
+        isScrollable = isScrollable,
+        contentPadding = contentPadding
     )
 }
 
@@ -252,6 +259,7 @@ fun EnhancedButtonGroup(
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
     isScrollable: Boolean = true,
+    contentPadding: PaddingValues = DefaultContentPadding
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -295,12 +303,7 @@ fun EnhancedButtonGroup(
                                         .horizontalScroll(scrollState)
                                 } else Modifier.fillMaxWidth()
                             )
-                            .padding(
-                                start = 6.dp,
-                                end = 6.dp,
-                                bottom = 6.dp,
-                                top = 8.dp
-                            ),
+                            .padding(contentPadding),
                         horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
                     ) {
                         repeat(itemCount) { index ->
@@ -363,3 +366,10 @@ fun EnhancedButtonGroup(
 private val defaultModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
+
+private val DefaultContentPadding = PaddingValues(
+    start = 6.dp,
+    end = 6.dp,
+    bottom = 6.dp,
+    top = 8.dp
+)

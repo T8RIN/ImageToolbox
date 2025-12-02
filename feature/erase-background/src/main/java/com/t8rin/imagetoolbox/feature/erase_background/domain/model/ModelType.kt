@@ -15,22 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.data
+package com.t8rin.imagetoolbox.feature.erase_background.domain.model
 
-import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
-import javax.inject.Inject
-
-internal class AndroidAutoBackgroundRemoverBackend @Inject constructor() :
-    AutoBackgroundRemoverBackend<Bitmap> {
-
-    override fun performBackgroundRemove(
-        image: Bitmap,
-        onFinish: (Result<Bitmap>) -> Unit
-    ) {
-        onFinish(
-            Result.failure(UnsupportedOperationException("FOSS"))
-        )
-    }
-
+enum class ModelType {
+    MlKit, U2Net
 }

@@ -20,15 +20,19 @@ package com.t8rin.imagetoolbox.feature.erase_background.data
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
-import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
+import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class AndroidAutoBackgroundRemover @Inject constructor(
-    private val backend: AutoBackgroundRemoverBackend<Bitmap>
+    private val backendFactory: AutoBackgroundRemoverBackendFactory<Bitmap>,
+    private val appScope: AppScope
 ) : AutoBackgroundRemover<Bitmap> {
 
     override suspend fun trimEmptyParts(
@@ -94,18 +98,18 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
 
     override fun removeBackgroundFromImage(
         image: Bitmap,
+        modelType: ModelType,
         onSuccess: (Bitmap) -> Unit,
         onFailure: (Throwable) -> Unit
-    ) = backend.performBackgroundRemove(
-        image = image,
-        onFinish = { result ->
-            result
+    ) {
+        appScope.launch {
+            backendFactory.create(modelType).performBackgroundRemove(image)
                 .onSuccess(onSuccess)
                 .onFailure {
                     it.makeLog()
                     onFailure(it)
                 }
         }
-    )
+    }
 
 }

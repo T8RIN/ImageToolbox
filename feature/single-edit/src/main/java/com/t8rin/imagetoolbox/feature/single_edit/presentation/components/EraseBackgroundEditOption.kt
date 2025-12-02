@@ -228,13 +228,14 @@ fun EraseBackgroundEditOption(
                         onClick = { isRecoveryOn = !isRecoveryOn }
                     )
                     AutoEraseBackgroundCard(
-                        onClick = {
+                        onClick = { modelType ->
                             scope.launch {
                                 scaffoldState?.bottomSheetState?.partialExpand()
                             }
                             loading = true
                             autoBackgroundRemover.removeBackgroundFromImage(
                                 image = erasedBitmap,
+                                modelType = modelType,
                                 onSuccess = {
                                     loading = false
                                     bitmapState = it

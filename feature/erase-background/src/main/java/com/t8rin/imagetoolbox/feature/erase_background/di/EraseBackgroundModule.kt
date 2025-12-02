@@ -19,9 +19,9 @@ package com.t8rin.imagetoolbox.feature.erase_background.di
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.feature.erase_background.data.AndroidAutoBackgroundRemover
-import com.t8rin.imagetoolbox.feature.erase_background.data.AndroidAutoBackgroundRemoverBackend
+import com.t8rin.imagetoolbox.feature.erase_background.data.AndroidAutoBackgroundRemoverBackendFactory
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
-import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
+import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,8 +40,8 @@ internal interface EraseBackgroundModule {
 
     @Binds
     @Singleton
-    fun provideBackend(
-        backend: AndroidAutoBackgroundRemoverBackend
-    ): AutoBackgroundRemoverBackend<Bitmap>
+    fun provideBackendFactory(
+        backend: AndroidAutoBackgroundRemoverBackendFactory
+    ): AutoBackgroundRemoverBackendFactory<Bitmap>
 
 }

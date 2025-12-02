@@ -350,10 +350,11 @@ fun EraseBackgroundContent(
                 )
                 AutoEraseBackgroundCard(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
+                    onClick = { modelType ->
                         scope.launch {
                             scaffoldState.bottomSheetState.partialExpand()
                             component.autoEraseBackground(
+                                modelType = modelType,
                                 onSuccess = showConfetti,
                                 onFailure = essentials::showFailureToast
                             )

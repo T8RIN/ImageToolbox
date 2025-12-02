@@ -17,10 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.erase_background.domain
 
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+
 interface AutoBackgroundRemover<I> {
 
     fun removeBackgroundFromImage(
         image: I,
+        modelType: ModelType,
         onSuccess: (I) -> Unit,
         onFailure: (Throwable) -> Unit
     )

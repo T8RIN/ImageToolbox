@@ -15,30 +15,27 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.data
+package com.t8rin.imagetoolbox.feature.erase_background.data.backend.impl
 
 import android.graphics.Bitmap
-import androidx.core.graphics.set
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.segmentation.Segmentation
-import com.google.mlkit.vision.segmentation.Segmenter
-import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
-import java.nio.ByteBuffer
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmentation
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmenter
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmenterOptions
 
-internal object MlKitBackgroundRemover {
+@RequiresApi(api = Build.VERSION_CODES.N)
+internal object MlKitSubjectBackgroundRemover {
 
-    private var segment: Segmenter? = null
-    private var buffer = ByteBuffer.allocate(0)
-    private var width = 0
-    private var height = 0
-
+    private var segment: SubjectSegmenter? = null
 
     init {
         runCatching {
-            val segmentOptions = SelfieSegmenterOptions.Builder()
-                .setDetectorMode(SelfieSegmenterOptions.SINGLE_IMAGE_MODE)
+            val segmentOptions = SubjectSegmenterOptions.Builder()
+                .enableForegroundBitmap()
                 .build()
-            segment = Segmentation.getClient(segmentOptions)
+            segment = SubjectSegmentation.getClient(segmentOptions)
         }
     }
 
@@ -48,6 +45,7 @@ internal object MlKitBackgroundRemover {
      * @param bitmap Bitmap which you want to remove background.
      * @param onFinish listener for success and failure callback.
      **/
+    @RequiresApi(api = Build.VERSION_CODES.N)
     fun removeBackground(
         bitmap: Bitmap,
         onFinish: (Result<Bitmap>) -> Unit
@@ -58,38 +56,12 @@ internal object MlKitBackgroundRemover {
         val segmenter = segment ?: return onFinish(Result.failure(NoClassDefFoundError()))
 
         segmenter.process(input)
-            .addOnSuccessListener { segmentationMask ->
-                buffer = segmentationMask.buffer
-                width = segmentationMask.width
-                height = segmentationMask.height
-
-                val resultBitmap = removeBackgroundFromImage(copyBitmap)
-                onFinish(Result.success(resultBitmap))
+            .addOnSuccessListener {
+                onFinish(Result.success(it?.foregroundBitmap ?: bitmap))
             }
             .addOnFailureListener { e ->
                 onFinish(Result.failure(e))
             }
-    }
-
-
-    /**
-     * Change the background pixels color to transparent.
-     * */
-    private fun removeBackgroundFromImage(
-        image: Bitmap
-    ): Bitmap {
-        image.setHasAlpha(true)
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
-                if (bgConfidence >= 100) {
-                    image[x, y] = 0
-                }
-            }
-        }
-        buffer.rewind()
-
-        return image
     }
 
 }

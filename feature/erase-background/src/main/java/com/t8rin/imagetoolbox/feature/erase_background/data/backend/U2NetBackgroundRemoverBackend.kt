@@ -15,10 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.domain
+package com.t8rin.imagetoolbox.feature.erase_background.data.backend
 
-internal interface AutoBackgroundRemoverBackend<I> {
+import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
+import com.t8rin.neural_tools.bgremover.U2NetBackgroundRemover
 
-    suspend fun performBackgroundRemove(image: I): Result<I>
+internal object U2NetBackgroundRemoverBackend : AutoBackgroundRemoverBackend<Bitmap> {
+
+    override suspend fun performBackgroundRemove(
+        image: Bitmap
+    ): Result<Bitmap> = runCatching {
+        U2NetBackgroundRemover.removeBackground(
+            context = appContext,
+            image = image
+        )
+    }
 
 }
