@@ -168,7 +168,7 @@ or click one of the badges below.
 |    **Feature**     |      **FOSS**      |     **Market**     |
 |:------------------:|:------------------:|:------------------:|
 |     QR Scanner     |       Zxing        |       MlKit        |
-|   Auto erase BG    |        :x:         |       MlKit        |
+|   Auto erase BG    |       U2Net        |       MlKit        |
 |  Document Scanner  |       OpenCV       |       MlKit        |
 |     Analytics      |        :x:         | :white_check_mark: |
 |    Crashlytics     |        :x:         | :white_check_mark: |
