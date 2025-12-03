@@ -282,7 +282,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Greenish : FloatFilter
     interface RetroYellow : FloatFilter
     interface AutoCrop : FloatFilter
-    interface SpotHeal : TripleFilter<Image, Float, Int>
+    interface SpotHeal : Filter<Image>
     interface Opening : FloatBooleanFilter
     interface Closing : FloatBooleanFilter
     interface MorphologicalGradient : FloatBooleanFilter

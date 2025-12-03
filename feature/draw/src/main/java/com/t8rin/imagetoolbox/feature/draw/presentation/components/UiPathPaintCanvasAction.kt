@@ -151,21 +151,17 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 shaderSource = onRequestFiltering(
                     drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
                     listOf(
-                        createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
-                            Triple(
-                                first = createBitmap(
-                                    width = canvasSize.width,
-                                    height = canvasSize.height
-                                ).applyCanvas {
-                                    drawColor(Color.Black.toArgb())
-                                    drawPath(
-                                        path,
-                                        paint.asFrameworkPaint()
-                                    )
-                                }.toImageModel(),
-                                second = 3f,
-                                third = 1
-                            )
+                        createFilter<ImageModel, Filter.SpotHeal>(
+                            createBitmap(
+                                width = canvasSize.width,
+                                height = canvasSize.height
+                            ).applyCanvas {
+                                drawColor(Color.Black.toArgb())
+                                drawPath(
+                                    path,
+                                    paint.asFrameworkPaint()
+                                )
+                            }.toImageModel()
                         )
                     )
                 )?.asImageBitmap()?.clipBitmap(

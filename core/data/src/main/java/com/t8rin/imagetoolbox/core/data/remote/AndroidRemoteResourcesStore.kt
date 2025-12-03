@@ -51,9 +51,9 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
         onDownloadRequest: suspend (name: String) -> RemoteResources?
     ): RemoteResources? = withContext(ioDispatcher) {
         val availableFiles = getSavingDir(name).listFiles()
+        val shouldDownload = forceUpdate || availableFiles.isNullOrEmpty()
 
-        if (forceUpdate || availableFiles.isNullOrEmpty()) onDownloadRequest(name)
-        else {
+        val availableResources = if (!availableFiles.isNullOrEmpty()) {
             RemoteResources(
                 name = name,
                 list = availableFiles.mapNotNull {
@@ -65,7 +65,10 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     )
                 }.sortedBy { it.name }
             )
-        }
+        } else null
+
+        if (shouldDownload) onDownloadRequest(name) ?: availableResources
+        else availableResources
     }
 
     override suspend fun downloadResources(

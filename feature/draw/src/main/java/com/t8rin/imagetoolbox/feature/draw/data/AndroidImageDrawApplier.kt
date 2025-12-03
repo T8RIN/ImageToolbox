@@ -181,21 +181,17 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
 
                         val filter = filterProvider.filterToTransformation(
-                            createFilter<Triple<ImageModel, Float, Int>, Filter.SpotHeal>(
-                                Triple(
-                                    first = createBitmap(
-                                        canvasSize.width,
-                                        canvasSize.height
-                                    ).applyCanvas {
-                                        drawColor(Color.Black.toArgb())
-                                        drawPath(
-                                            path.asAndroidPath(),
-                                            paint.asFrameworkPaint()
-                                        )
-                                    }.toImageModel(),
-                                    second = 3f,
-                                    third = 1
-                                )
+                            createFilter<ImageModel, Filter.SpotHeal>(
+                                createBitmap(
+                                    canvasSize.width,
+                                    canvasSize.height
+                                ).applyCanvas {
+                                    drawColor(Color.Black.toArgb())
+                                    drawPath(
+                                        path.asAndroidPath(),
+                                        paint.asFrameworkPaint()
+                                    )
+                                }.toImageModel()
                             )
                         )
 

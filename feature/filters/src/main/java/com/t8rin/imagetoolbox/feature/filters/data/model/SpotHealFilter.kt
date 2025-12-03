@@ -29,7 +29,7 @@ import com.t8rin.opencv_tools.spot_heal.model.HealType
 
 @FilterInject
 internal class SpotHealFilter(
-    override val value: Triple<ImageModel, Float, Int>,
+    override val value: ImageModel,
 ) : Transformation<Bitmap>, Filter.SpotHeal {
 
     override val cacheKey: String
@@ -39,16 +39,13 @@ internal class SpotHealFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val mask = value.first.data.loadBitmap() ?: return input
+        val mask = value.data.loadBitmap() ?: return input
 
         return SpotHealer.heal(
             image = input,
             mask = mask,
-            radius = value.second,
-            type = when (value.third) {
-                0 -> HealType.NS
-                else -> HealType.TELEA
-            }
+            radius = 3f,
+            type = HealType.TELEA
         )
     }
 
