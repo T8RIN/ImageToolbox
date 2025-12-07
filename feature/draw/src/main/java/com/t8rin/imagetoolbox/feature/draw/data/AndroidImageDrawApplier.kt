@@ -196,9 +196,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                             paint.asFrameworkPaint()
                                         )
                                     }.toImageModel(),
-                                    SpotHealMode.entries.getOrNull(
-                                        settingsProvider.settingsState.value.spotHealMode
-                                    ) ?: SpotHealMode.OpenCV
+                                    drawMode.mode
                                 )
                             )
                         )

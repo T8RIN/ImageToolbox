@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.draw.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 
 sealed class DrawMode(open val ordinal: Int) {
@@ -52,14 +53,16 @@ sealed class DrawMode(open val ordinal: Int) {
         val repeatingInterval: Pt = Pt.Zero
     ) : DrawMode(7)
 
-    data object SpotHeal : DrawMode(8)
+    data class SpotHeal(
+        val mode: SpotHealMode = SpotHealMode.OpenCV
+    ) : DrawMode(8)
 
     companion object {
         val entries by lazy {
             listOf(
                 Pen,
                 PathEffect.PrivacyBlur(),
-                SpotHeal,
+                SpotHeal(),
                 Text(),
                 Image(),
                 Neon,

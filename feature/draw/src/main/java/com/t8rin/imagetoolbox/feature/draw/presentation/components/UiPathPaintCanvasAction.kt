@@ -154,7 +154,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
         var shaderSource by remember(backgroundColor) {
             mutableStateOf<ImageBitmap?>(null)
         }
-        val settingsState = LocalSettingsState.current
+        LocalSettingsState.current
         LaunchedEffect(shaderSource, invalidations) {
             if (shaderSource == null || invalidations <= pathsCount) {
                 isLoading = true
@@ -173,9 +173,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                                         paint.asFrameworkPaint()
                                     )
                                 }.toImageModel(),
-                                SpotHealMode.entries.getOrNull(
-                                    settingsState.spotHealMode
-                                ) ?: SpotHealMode.OpenCV
+                                drawMode.mode
                             )
                         )
                     )

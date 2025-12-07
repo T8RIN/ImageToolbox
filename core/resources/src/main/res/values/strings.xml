@@ -1871,4 +1871,7 @@
     <string name="hidden_watermark_text_detected">Detected hidden watermark text</string>
     <string name="hidden_watermark_image_detected">Detected hidden watermark image</string>
     <string name="this_image_was_hidden">This image was hidden</string>
+    <string name="generative_inpaint">Generative Inpainting</string>
+    <string name="generative_inpaint_sub">Allows you to remove objects in an image using an AI model, without relying on OpenCV. To use this feature, app will download the required model (~200 MB) from GitHub</string>
+    <string name="generative_inpaint_ready_sub">Allows you to remove objects in an image using an AI model, without relying on OpenCV. This could be a long running operation</string>
 </resources>

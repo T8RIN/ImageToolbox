@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.preferences
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -63,6 +64,7 @@ fun PreferenceRowSwitch(
     additionalContent: (@Composable () -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     drawContainer: Boolean = true,
+    contentInsteadOfSwitch: (@Composable () -> Unit)? = null,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -81,32 +83,38 @@ fun PreferenceRowSwitch(
         startContent = startContent,
         onDisabledClick = onDisabledClick,
         onClick = {
-            onClick(!checked)
+            if (contentInsteadOfSwitch == null) {
+                onClick(!checked)
+            }
         },
         drawStartIconContainer = drawStartIconContainer,
         endContent = {
-            EnhancedSwitch(
+            AnimatedContent(
+                targetState = contentInsteadOfSwitch,
                 modifier = Modifier.padding(start = 8.dp),
-                thumbIcon = if (checked) Icons.Rounded.Check else null,
-                colors = SwitchDefaults.colors(
-                    uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
-                        containerColor, 0.3f
+            ) { contentOfSwitch ->
+                contentOfSwitch?.invoke() ?: EnhancedSwitch(
+                    thumbIcon = if (checked) Icons.Rounded.Check else null,
+                    colors = SwitchDefaults.colors(
+                        uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
+                            containerColor, 0.3f
+                        ),
+                        uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
+                            containerColor, 0.3f
+                        ),
+                        uncheckedTrackColor = containerColor,
+                        disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
+                            .copy(alpha = 0.12f)
+                            .compositeOver(MaterialTheme.colorScheme.surface),
+                        checkedIconColor = MaterialTheme.colorScheme.primary
                     ),
-                    uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
-                        containerColor, 0.3f
-                    ),
-                    uncheckedTrackColor = containerColor,
-                    disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
-                        .copy(alpha = 0.12f)
-                        .compositeOver(MaterialTheme.colorScheme.surface),
-                    checkedIconColor = MaterialTheme.colorScheme.primary
-                ),
-                enabled = enabled,
-                checked = checked,
-                onCheckedChange = onClick,
-                interactionSource = interactionSource,
-                colorUnderSwitch = containerColor.takeOrElse { SafeLocalContainerColor }
-            )
+                    enabled = enabled,
+                    checked = checked,
+                    onCheckedChange = onClick,
+                    interactionSource = interactionSource,
+                    colorUnderSwitch = containerColor.takeOrElse { SafeLocalContainerColor }
+                )
+            }
         },
         interactionSource = interactionSource,
         drawContainer = drawContainer,
@@ -133,6 +141,7 @@ fun PreferenceRowSwitch(
     additionalContent: (@Composable () -> Unit)? = null,
     drawContainer: Boolean = true,
     resultModifier: Modifier = Modifier.padding(16.dp),
+    contentInsteadOfSwitch: (@Composable () -> Unit)? = null,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
 ) {
     PreferenceRowSwitch(
@@ -161,6 +170,7 @@ fun PreferenceRowSwitch(
         onClick = onClick,
         additionalContent = additionalContent,
         drawContainer = drawContainer,
+        contentInsteadOfSwitch = contentInsteadOfSwitch,
         titleFontStyle = titleFontStyle
     )
 }

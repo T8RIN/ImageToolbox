@@ -33,4 +33,5 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.toolbox.curves)
     implementation(libs.toolbox.ascii)
+    implementation(libs.toolbox.neuralTools)
 }
