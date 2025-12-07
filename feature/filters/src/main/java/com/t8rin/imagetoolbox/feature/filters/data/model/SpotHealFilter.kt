@@ -69,19 +69,12 @@ internal class SpotHealFilter(
     private fun lama(
         input: Bitmap,
         mask: Bitmap
-    ) = if (LaMaProcessor.isDownloaded.value) {
-        LaMaProcessor.inpaint(
-            image = input,
-            mask = mask
-        ) ?: openCV(
-            input = input,
-            mask = mask
-        )
-    } else {
-        openCV(
-            input = input,
-            mask = mask
-        )
-    }
+    ) = LaMaProcessor.inpaint(
+        image = input,
+        mask = mask
+    ) ?: openCV(
+        input = input,
+        mask = mask
+    )
 
 }

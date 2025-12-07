@@ -17,19 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -37,7 +29,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Healing
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.rounded.AutoFixNormal
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.Icon
@@ -45,11 +36,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,52 +48,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.Pt
-import com.t8rin.imagetoolbox.core.domain.model.coerceIn
-import com.t8rin.imagetoolbox.core.domain.model.pt
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
-import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Highlighter
 import com.t8rin.imagetoolbox.core.resources.icons.NeonBrush
 import com.t8rin.imagetoolbox.core.resources.icons.Pen
-import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
-import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
-import com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
-import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.CustomPathEffectParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.ImageParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PixelationParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PrivacyBlurParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.SpotHealParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.TextParamsSelector
 
 @Composable
 fun DrawModeSelector(
@@ -160,377 +125,38 @@ fun DrawModeSelector(
             }
         )
 
-        AnimatedVisibility(
-            visible = value is DrawMode.SpotHeal,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            val settingsState = LocalSettingsState.current
-            val scope = retain { CoroutineScope(Dispatchers.IO) }
-            val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
-            var downloadJob by remember {
-                mutableStateOf<Job?>(null)
-            }
-            var downloadProgress by remember(LamaLoader.isDownloaded) {
-                mutableStateOf<RemoteResourcesDownloadProgress?>(null)
-            }
-            var useLama by remember(settingsState.spotHealMode) {
-                mutableStateOf(settingsState.spotHealMode == 1)
-            }
-            LaunchedEffect(LamaLoader.isDownloaded) {
-                if (!LamaLoader.isDownloaded) {
-                    useLama = false
-                    simpleSettingsInteractor.setSpotHealMode(0)
-                }
-            }
+        SpotHealParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
 
-            LaunchedEffect(useLama) {
-                onValueChange(
-                    DrawMode.SpotHeal(
-                        if (useLama) SpotHealMode.LaMa else SpotHealMode.OpenCV
-                    )
-                )
-            }
+        PrivacyBlurParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
 
-            PreferenceRowSwitch(
-                title = stringResource(R.string.generative_inpaint),
-                subtitle = stringResource(
-                    if (LamaLoader.isDownloaded) R.string.generative_inpaint_ready_sub
-                    else R.string.generative_inpaint_sub
-                ),
-                checked = useLama,
-                onClick = { new ->
-                    if (downloadJob == null) {
-                        useLama = new
+        PixelationParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
 
-                        scope.launch { simpleSettingsInteractor.setSpotHealMode(if (useLama) 1 else 0) }
+        TextParamsSelector(
+            value = value,
+            onValueChange = onValueChange
+        )
 
-                        if (useLama && !LamaLoader.isDownloaded) {
-                            downloadJob?.cancel()
-                            downloadJob = scope.launch {
-                                LamaLoader.download()
-                                    .onStart {
-                                        downloadProgress = RemoteResourcesDownloadProgress(
-                                            currentPercent = 0f,
-                                            currentTotalSize = 0,
-                                            itemsCount = 1,
-                                            itemsDownloaded = 0
-                                        )
-                                    }
-                                    .onCompletion {
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .collect {
-                                        downloadProgress = it
-                                    }
-                            }
-                        }
-                    }
-                },
-                contentInsteadOfSwitch = downloadProgress?.let { progress ->
-                    {
-                        EnhancedCircularProgressIndicator(
-                            progress = { progress.currentPercent },
-                            modifier = Modifier.size(24.dp),
-                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                            strokeWidth = 3.dp
-                        )
-                    }
-                },
-                containerColor = MaterialTheme.colorScheme.surface,
-                shape = ShapeDefaults.default,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                resultModifier = Modifier.padding(16.dp),
-                applyHorizontalPadding = false
-            )
-        }
+        ImageParamsSelector(
+            value = value,
+            onValueChange = onValueChange,
+            strokeWidth = strokeWidth
+        )
 
-        AnimatedVisibility(
-            visible = value is DrawMode.PathEffect.PrivacyBlur,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            BlurRadiusSelector(
-                modifier = Modifier.padding(8.dp),
-                value = (value as? DrawMode.PathEffect.PrivacyBlur)?.blurRadius ?: 0,
-                valueRange = 5f..50f,
-                onValueChange = {
-                    onValueChange(DrawMode.PathEffect.PrivacyBlur(it))
-                },
-                color = MaterialTheme.colorScheme.surface
-            )
-        }
-
-        AnimatedVisibility(
-            visible = value is DrawMode.PathEffect.Pixelation,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            PixelSizeSelector(
-                modifier = Modifier.padding(8.dp),
-                value = (value as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
-                onValueChange = {
-                    onValueChange(DrawMode.PathEffect.Pixelation(it))
-                },
-                color = MaterialTheme.colorScheme.surface
-            )
-        }
-
-        AnimatedVisibility(
-            visible = value is DrawMode.Text,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            Column {
-                RoundedTextField(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .container(
-                            shape = ShapeDefaults.top,
-                            color = MaterialTheme.colorScheme.surface,
-                            resultPadding = 8.dp
-                        ),
-                    value = (value as? DrawMode.Text)?.text ?: "",
-                    singleLine = false,
-                    onValueChange = {
-                        onValueChange(
-                            (value as? DrawMode.Text)?.copy(
-                                text = it
-                            ) ?: value
-                        )
-                    },
-                    label = {
-                        Text(stringResource(R.string.text))
-                    }
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                FontSelector(
-                    value = (value as? DrawMode.Text)?.font.toUiFont(),
-                    onValueChange = {
-                        onValueChange(
-                            (value as? DrawMode.Text)?.copy(
-                                font = it.type
-                            ) ?: value
-                        )
-                    },
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp),
-                    shape = ShapeDefaults.center
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                val isDashSizeControlVisible = (value as? DrawMode.Text)?.isRepeated == true
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.repeat_text),
-                    subtitle = stringResource(R.string.repeat_text_sub),
-                    checked = (value as? DrawMode.Text)?.isRepeated == true,
-                    onClick = {
-                        onValueChange(
-                            (value as? DrawMode.Text)?.copy(
-                                isRepeated = it
-                            ) ?: value
-                        )
-                    },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    shape = animateShape(
-                        if (isDashSizeControlVisible) ShapeDefaults.center
-                        else ShapeDefaults.bottom
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    resultModifier = Modifier.padding(16.dp),
-                    applyHorizontalPadding = false
-                )
-                Spacer(
-                    modifier = Modifier.height(
-                        if (isDashSizeControlVisible) 4.dp else 8.dp
-                    )
-                )
-                AnimatedVisibility(
-                    visible = isDashSizeControlVisible,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    EnhancedSliderItem(
-                        value = (value as? DrawMode.Text)?.repeatingInterval?.value ?: 0f,
-                        title = stringResource(R.string.dash_size),
-                        valueRange = 0f..100f,
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onValueChange(
-                                (value as? DrawMode.Text)?.copy(
-                                    repeatingInterval = it.pt
-                                ) ?: value
-                            )
-                        },
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        valueSuffix = " Pt",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .padding(bottom = 8.dp),
-                        shape = ShapeDefaults.bottom
-                    )
-                }
-            }
-        }
-
-        AnimatedVisibility(
-            visible = value is DrawMode.Image,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            Column {
-                ImageSelector(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp),
-                    value = (value as? DrawMode.Image)?.imageData ?: "",
-                    onValueChange = {
-                        onValueChange(
-                            (value as? DrawMode.Image)?.copy(
-                                imageData = it
-                            ) ?: value
-                        )
-                    },
-                    subtitle = stringResource(id = R.string.draw_image_sub),
-                    shape = ShapeDefaults.top,
-                    color = MaterialTheme.colorScheme.surface
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                val dashMinimum = -((strokeWidth.value * 0.9f) / 2).toInt().toFloat()
-                LaunchedEffect(dashMinimum, value) {
-                    if (value is DrawMode.Image && value.repeatingInterval < dashMinimum.pt) {
-                        onValueChange(
-                            value.copy(
-                                repeatingInterval = value.repeatingInterval.coerceIn(
-                                    dashMinimum.pt,
-                                    100.pt
-                                )
-                            )
-                        )
-                    }
-                }
-                EnhancedSliderItem(
-                    value = (value as? DrawMode.Image)?.repeatingInterval?.value ?: 0f,
-                    title = stringResource(R.string.dash_size),
-                    valueRange = dashMinimum..100f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
-                    onValueChange = {
-                        onValueChange(
-                            (value as? DrawMode.Image)?.copy(
-                                repeatingInterval = it.pt.coerceIn(dashMinimum.pt, 100.pt)
-                            ) ?: value
-                        )
-                    },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    valueSuffix = " Pt",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    shape = ShapeDefaults.bottom
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-        }
-
-        AnimatedVisibility(
-            visible = value is DrawMode.PathEffect.Custom,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            val filter by remember(value) {
-                derivedStateOf {
-                    (value as? DrawMode.PathEffect.Custom)?.filter?.toUiFilter()
-                }
-            }
-            var showFilterSelection by rememberSaveable {
-                mutableStateOf(false)
-            }
-            AnimatedContent(
-                targetState = filter,
-                contentKey = { it != null }
-            ) { filter ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    if (filter != null) {
-                        FilterItem(
-                            filter = filter,
-                            showDragHandle = false,
-                            onRemove = {
-                                onValueChange(
-                                    DrawMode.PathEffect.Custom()
-                                )
-                            },
-                            onFilterChange = { value ->
-                                onValueChange(
-                                    DrawMode.PathEffect.Custom(filter.copy(value))
-                                )
-                            },
-                            backgroundColor = MaterialTheme.colorScheme.surface,
-                            shape = ShapeDefaults.default,
-                            canHide = false,
-                            onCreateTemplate = null
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.mixedContainer,
-                            onClick = {
-                                showFilterSelection = true
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AutoFixNormal,
-                                contentDescription = stringResource(R.string.replace_filter)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(id = R.string.replace_filter))
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                    } else {
-                        InfoContainer(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                            text = stringResource(R.string.pick_filter_info)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        AddFilterButton(
-                            onClick = {
-                                showFilterSelection = true
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                }
-                AddFiltersSheet(
-                    component = addFiltersSheetComponent,
-                    filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
-                    visible = showFilterSelection,
-                    onVisibleChange = {
-                        showFilterSelection = it
-                    },
-                    canAddTemplates = false,
-                    previewBitmap = null,
-                    onFilterPicked = {
-                        onValueChange(
-                            DrawMode.PathEffect.Custom(it.newInstance())
-                        )
-                    },
-                    onFilterPickedWithParams = {
-                        onValueChange(
-                            DrawMode.PathEffect.Custom(it)
-                        )
-                    }
-                )
-            }
-        }
+        CustomPathEffectParamsSelector(
+            value = value,
+            onValueChange = onValueChange,
+            addFiltersSheetComponent = addFiltersSheetComponent,
+            filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent
+        )
     }
     EnhancedModalBottomSheet(
         sheetContent = {
