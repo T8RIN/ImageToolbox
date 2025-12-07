@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.computeFromByteArray
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -34,10 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -48,18 +44,12 @@ internal class AndroidFilenameCreator @Inject constructor(
     @ApplicationContext private val context: Context,
     settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder,
-    resourceManager: ResourceManager,
-    appScope: AppScope,
+    resourceManager: ResourceManager
 ) : FilenameCreator,
     DispatchersHolder by dispatchersHolder,
     ResourceManager by resourceManager {
 
-    private val _settingsState = settingsManager.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
-
+    private val _settingsState = settingsManager.settingsState
     private val settingsState get() = _settingsState.value
 
     override fun constructImageFilename(

@@ -24,6 +24,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
@@ -120,17 +121,23 @@ private sealed interface DirUri {
 fun Uri.fileSize(context: Context): Long? {
     if (this.toString().isEmpty()) return null
 
-    runCatching {
-        context.contentResolver
-            .query(this, null, null, null, null, null)
-            .use { cursor ->
-                if (cursor != null && cursor.moveToFirst()) {
-                    val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
-                    if (!cursor.isNull(sizeIndex)) {
-                        return cursor.getLong(sizeIndex)
+    if (this.scheme == "content") {
+        runCatching {
+            context.contentResolver
+                .query(this, null, null, null, null, null)
+                .use { cursor ->
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                        if (!cursor.isNull(sizeIndex)) {
+                            return cursor.getLong(sizeIndex)
+                        }
                     }
                 }
-            }
+        }
+    } else {
+        runCatching {
+            return this.toFile().length()
+        }
     }
     return null
 }

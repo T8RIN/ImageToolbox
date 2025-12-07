@@ -117,7 +117,7 @@ abstract class ComposeActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         settingsProvider
-            .getSettingsStateFlow()
+            .settingsState
             .onEach { state ->
                 _settingsState.update { state }
                 handleSystemBarsBehavior()
@@ -151,7 +151,7 @@ abstract class ComposeActivity : AppCompatActivity() {
     }
 
     suspend fun applyGlobalNightMode() {
-        settingsProvider.getSettingsStateFlow().collect {
+        settingsProvider.settingsState.collect {
             AppCompatDelegate.setDefaultNightMode(
                 when (it.nightMode) {
                     NightMode.Dark -> AppCompatDelegate.MODE_NIGHT_YES

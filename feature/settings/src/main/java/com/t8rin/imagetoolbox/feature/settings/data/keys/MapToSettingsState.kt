@@ -203,7 +203,8 @@ internal fun Preferences.toSettingsState(
         ?: default.customAsciiGradients,
     isScreenSelectionLauncherMode = this[IS_LAUNCHER_MODE] ?: default.isScreenSelectionLauncherMode,
     isTelegramGroupOpened = this[IS_TELEGRAM_GROUP_OPENED] ?: default.isTelegramGroupOpened,
-    initialOcrMode = this[INITIAL_OCR_MODE] ?: default.initialOcrMode
+    initialOcrMode = this[INITIAL_OCR_MODE] ?: default.initialOcrMode,
+    spotHealMode = this[SPOT_HEAL_MODE] ?: default.spotHealMode
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

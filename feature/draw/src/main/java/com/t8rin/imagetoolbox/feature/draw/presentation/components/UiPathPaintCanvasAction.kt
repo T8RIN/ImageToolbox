@@ -47,8 +47,11 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
@@ -57,6 +60,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transformationsForMode
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun Canvas.UiPathPaintCanvasAction(
@@ -143,25 +147,36 @@ internal fun Canvas.UiPathPaintCanvasAction(
             }
         }
 
+        var isLoading by remember {
+            mutableStateOf(false)
+        }
+
         var shaderSource by remember(backgroundColor) {
             mutableStateOf<ImageBitmap?>(null)
         }
+        val settingsState = LocalSettingsState.current
         LaunchedEffect(shaderSource, invalidations) {
             if (shaderSource == null || invalidations <= pathsCount) {
+                isLoading = true
                 shaderSource = onRequestFiltering(
                     drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
                     listOf(
-                        createFilter<ImageModel, Filter.SpotHeal>(
-                            createBitmap(
-                                width = canvasSize.width,
-                                height = canvasSize.height
-                            ).applyCanvas {
-                                drawColor(Color.Black.toArgb())
-                                drawPath(
-                                    path,
-                                    paint.asFrameworkPaint()
-                                )
-                            }.toImageModel()
+                        createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(
+                            Pair(
+                                createBitmap(
+                                    width = canvasSize.width,
+                                    height = canvasSize.height
+                                ).applyCanvas {
+                                    drawColor(Color.Black.toArgb())
+                                    drawPath(
+                                        path,
+                                        paint.asFrameworkPaint()
+                                    )
+                                }.toImageModel(),
+                                SpotHealMode.entries.getOrNull(
+                                    settingsState.spotHealMode
+                                ) ?: SpotHealMode.OpenCV
+                            )
                         )
                     )
                 )?.asImageBitmap()?.clipBitmap(
@@ -173,6 +188,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                     it.prepareToDraw()
                     onInvalidate()
                 }
+                isLoading = false
             }
         }
         if (shaderSource != null) {
@@ -187,6 +203,33 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 paint = imagePaint
             )
         }
+
+        var progress by remember {
+            mutableStateOf(0f)
+        }
+        LaunchedEffect(isLoading) {
+            if (isLoading) {
+                while (progress < 0.5f) {
+                    progress += 0.01f
+                    delay(100)
+                }
+                while (progress < 0.75f) {
+                    progress += 0.0025f
+                    delay(100)
+                }
+                while (progress < 1f) {
+                    progress += 0.0025f
+                    delay(500)
+                }
+            } else {
+                progress = 1f
+            }
+        }
+        LoadingDialog(
+            visible = isLoading,
+            canCancel = false,
+            progress = { progress }
+        )
     } else {
         val pathPaint by rememberPaint(
             strokeWidth = strokeWidth,

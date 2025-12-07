@@ -85,7 +85,7 @@ class ScanQrCodeComponent @AssistedInject internal constructor(
     val isSaveEnabled by _isSaveEnabled
 
     init {
-        settingsProvider.getSettingsStateFlow().onEach { state ->
+        settingsProvider.settingsState.onEach { state ->
             settingsState = state
             _params.update {
                 it.copy(

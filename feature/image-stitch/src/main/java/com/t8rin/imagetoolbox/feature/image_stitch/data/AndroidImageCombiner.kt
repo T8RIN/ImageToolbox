@@ -26,7 +26,6 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
@@ -45,13 +44,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -65,16 +61,10 @@ internal class AndroidImageCombiner @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder,
-    appScope: AppScope,
+    dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCombiner<Bitmap> {
 
-    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
-
+    private val _settingsState = settingsProvider.settingsState
     private val settingsState get() = _settingsState.value
 
     override suspend fun combineImages(

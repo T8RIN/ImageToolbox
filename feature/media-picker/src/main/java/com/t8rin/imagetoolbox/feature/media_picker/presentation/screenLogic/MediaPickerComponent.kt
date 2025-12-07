@@ -271,7 +271,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         runBlocking {
             _settingsState.value = settingsManager.getSettingsState()
         }
-        settingsManager.getSettingsStateFlow().onEach {
+        settingsManager.settingsState.onEach {
             _settingsState.value = it
         }.launchIn(componentScope)
     }

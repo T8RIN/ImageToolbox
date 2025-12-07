@@ -56,13 +56,10 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
@@ -85,12 +82,7 @@ internal class AndroidFileController @Inject constructor(
     ResourceManager by resourceManager,
     FileController {
 
-    private val _settingsState = settingsManager.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
-
+    private val _settingsState = settingsManager.settingsState
     private val settingsState get() = _settingsState.value
 
     override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)

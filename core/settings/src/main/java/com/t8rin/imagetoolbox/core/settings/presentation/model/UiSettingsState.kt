@@ -158,7 +158,8 @@ data class UiSettingsState(
     val addImageScaleModeInfoToFilename: Boolean,
     val allowSkipIfLarger: Boolean,
     val customAsciiGradients: Set<String>,
-    val isScreenSelectionLauncherMode: Boolean
+    val isScreenSelectionLauncherMode: Boolean,
+    val spotHealMode: Int
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -402,6 +403,7 @@ fun SettingsState.toUiState(
                 allowSkipIfLarger = allowSkipIfLarger,
                 customAsciiGradients = customAsciiGradients,
                 isScreenSelectionLauncherMode = isScreenSelectionLauncherMode,
+                spotHealMode = spotHealMode
             )
         }
     }.value

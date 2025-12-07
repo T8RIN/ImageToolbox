@@ -57,7 +57,9 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedBitmapOnPath
@@ -77,7 +79,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val filterProvider: FilterProvider<Bitmap>
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val settingsProvider: SettingsProvider,
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 
     override suspend fun applyDrawToImage(
@@ -181,17 +184,22 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
 
                         val filter = filterProvider.filterToTransformation(
-                            createFilter<ImageModel, Filter.SpotHeal>(
-                                createBitmap(
-                                    canvasSize.width,
-                                    canvasSize.height
-                                ).applyCanvas {
-                                    drawColor(Color.Black.toArgb())
-                                    drawPath(
-                                        path.asAndroidPath(),
-                                        paint.asFrameworkPaint()
-                                    )
-                                }.toImageModel()
+                            createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(
+                                Pair(
+                                    createBitmap(
+                                        canvasSize.width,
+                                        canvasSize.height
+                                    ).applyCanvas {
+                                        drawColor(Color.Black.toArgb())
+                                        drawPath(
+                                            path.asAndroidPath(),
+                                            paint.asFrameworkPaint()
+                                        )
+                                    }.toImageModel(),
+                                    SpotHealMode.entries.getOrNull(
+                                        settingsProvider.settingsState.value.spotHealMode
+                                    ) ?: SpotHealMode.OpenCV
+                                )
                             )
                         )
 

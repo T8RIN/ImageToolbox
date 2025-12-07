@@ -25,7 +25,6 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.data.utils.fileSize
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -38,12 +37,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.trickle.Trickle
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -55,16 +51,10 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val shareProvider: Lazy<ShareProvider>,
     settingsProvider: SettingsProvider,
-    dispatchersHolder: DispatchersHolder,
-    appScope: AppScope,
+    dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCompressor<Bitmap> {
 
-    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
-
+    private val _settingsState = settingsProvider.settingsState
     private val settingsState get() = _settingsState.value
 
     override suspend fun compress(

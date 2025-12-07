@@ -185,7 +185,7 @@ class RootComponent @AssistedInject internal constructor(
             if (settingsState.clearCacheOnLaunch) fileController.clearCache()
         }
         settingsManager
-            .getSettingsStateFlow()
+            .settingsState
             .onEach { state ->
                 _showTelegramGroupDialog.update {
                     state.appOpenCount % 6 == 0 && state.appOpenCount != 0 && !state.isTelegramGroupOpened

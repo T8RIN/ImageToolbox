@@ -22,7 +22,6 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.bouncycastle.asn1.ASN1ObjectIdentifier
 import org.bouncycastle.jce.provider.BouncyCastleProvider
@@ -31,8 +30,6 @@ import java.security.Security
 
 internal fun registerSecurityProviders() {
     CoroutineScope(Dispatchers.Default).launch {
-        delay(1000)
-
         initBouncyCastle()
 
         HashingType.registerSecurityMessageDigests(

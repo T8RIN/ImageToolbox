@@ -147,14 +147,14 @@ fun BitmapDrawer(
                 }
             }
 
-            val drawPathBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
+            var invalidations by remember {
+                mutableIntStateOf(0)
+            }
+
+            val drawPathBitmap: ImageBitmap by remember(imageWidth, imageHeight, invalidations) {
                 derivedStateOf {
                     createBitmap(imageWidth, imageHeight).asImageBitmap()
                 }
-            }
-
-            var invalidations by remember {
-                mutableIntStateOf(0)
             }
 
             LaunchedEffect(
@@ -278,10 +278,13 @@ fun BitmapDrawer(
                                 invalidations = invalidations
                             )
                         } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
-                            drawPath(
-                                androidPath,
-                                drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
-                            )
+                            with(drawPathCanvas.nativeCanvas) {
+                                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                                drawPath(
+                                    androidPath,
+                                    drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
+                                )
+                            }
                         } else {
                             drawPath(androidPath, drawPaint)
                         }

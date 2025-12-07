@@ -57,4 +57,6 @@ interface SimpleSettingsInteractor {
 
     suspend fun toggleOverwriteFiles()
 
+    suspend fun setSpotHealMode(mode: Int)
+
 }

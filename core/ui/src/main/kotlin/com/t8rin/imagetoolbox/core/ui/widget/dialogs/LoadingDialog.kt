@@ -100,6 +100,58 @@ fun LoadingDialog(
 }
 
 @Composable
+fun LoadingDialog(
+    visible: Boolean,
+    progress: () -> Float,
+    onCancelLoading: () -> Unit = {},
+    canCancel: Boolean = true,
+) {
+    val progress = progress()
+
+    if (progress == 1f && visible) {
+        LoadingDialog(
+            visible = true,
+            onCancelLoading = onCancelLoading,
+            canCancel = canCancel
+        )
+    } else {
+        var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
+        BasicEnhancedAlertDialog(
+            visible = visible,
+            onDismissRequest = { showWantDismissDialog = canCancel },
+            modifier = Modifier.keepScreenOn()
+        ) {
+            val focus = LocalFocusManager.current
+            LaunchedEffect(focus) {
+                focus.clearFocus()
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .tappable(Unit) {
+                        showWantDismissDialog = canCancel
+                    },
+                contentAlignment = Alignment.Center,
+                content = {
+                    EnhancedLoadingIndicator(
+                        progress = progress()
+                    )
+                }
+            )
+        }
+        WantCancelLoadingDialog(
+            visible = showWantDismissDialog,
+            onCancelLoading = onCancelLoading,
+            onDismissDialog = {
+                showWantDismissDialog = false
+            },
+            modifier = Modifier.keepScreenOn()
+        )
+    }
+}
+
+
+@Composable
 private fun ProgressLoadingDialog(
     visible: Boolean,
     done: Int,

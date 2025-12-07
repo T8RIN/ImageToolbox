@@ -30,7 +30,6 @@ import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
@@ -45,10 +44,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
@@ -60,16 +56,10 @@ internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    dispatchersHolder: DispatchersHolder,
-    appScope: AppScope,
+    dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageScaler<Bitmap> {
 
-    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
-
+    private val _settingsState = settingsProvider.settingsState
     private val settingsState get() = _settingsState.value
 
     override suspend fun scaleImage(

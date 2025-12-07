@@ -45,11 +45,8 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -63,11 +60,7 @@ internal class AndroidImageGetter @Inject constructor(
     dispatchersHolder: DispatchersHolder,
 ) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap> {
 
-    private val _settingsState = settingsProvider.getSettingsStateFlow().stateIn(
-        scope = appScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SettingsState.Default
-    )
+    private val _settingsState = settingsProvider.settingsState
 
     private val settingsState get() = _settingsState.value
 

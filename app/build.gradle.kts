@@ -80,13 +80,6 @@ android {
             )
             resValue("string", "app_launcher_name", "Image Toolbox")
             resValue("string", "file_provider", "com.t8rin.imagetoolbox.fileprovider")
-
-            dependencySubstitution {
-                substitute(
-                    dependency = "org.opencv:opencv:4.11.0",
-                    using = "org.opencv:opencv:4.12.0"
-                )
-            }
         }
         create("benchmark") {
             initWith(buildTypes.getByName("release"))
@@ -147,6 +140,7 @@ dependencies {
     implementation(projects.feature.quickTiles)
 
     implementation(libs.toolbox.opencvTools)
+    implementation(libs.toolbox.neuralTools)
 
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)

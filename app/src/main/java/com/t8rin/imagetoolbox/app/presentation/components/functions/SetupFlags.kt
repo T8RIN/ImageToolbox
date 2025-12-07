@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import androidx.compose.foundation.ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled
-import androidx.compose.material3.isCheckboxStylingFixEnabled
+import androidx.compose.material3.ComposeMaterial3Flags.isCheckboxStylingFixEnabled
 import com.arkivanov.decompose.DecomposeExperimentFlags.duplicateConfigurationsEnabled
 
 internal fun setupFlags() {

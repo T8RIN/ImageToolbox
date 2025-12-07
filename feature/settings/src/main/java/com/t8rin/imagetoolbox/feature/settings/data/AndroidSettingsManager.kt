@@ -139,6 +139,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSC
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SLIDER_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SPOT_HEAL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_CONTRAST_LEVEL
@@ -155,9 +156,11 @@ import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
@@ -183,13 +186,19 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     private val default = SettingsState.Default
-    private var currentSettings: SettingsState = default
+    private val currentSettings: SettingsState get() = settingsState.value
 
-    override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
+    override suspend fun getSettingsState(): SettingsState = rawFlow().first()
 
-    override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map {
+    private fun rawFlow(): Flow<SettingsState> = dataStore.data.map {
         it.toSettingsState(default)
-    }.onEach { currentSettings = it }
+    }
+
+    override val settingsState: StateFlow<SettingsState> = rawFlow().stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = default
+    )
 
     override suspend fun toggleAddSequenceNumber() = toggle(
         key = ADD_SEQ_NUM_TO_FILENAME,
@@ -429,6 +438,10 @@ internal class AndroidSettingsManager @Inject constructor(
         )
 
         it[IMAGE_PICKER_MODE] = 2
+    }
+
+    override suspend fun setSpotHealMode(mode: Int) = edit {
+        it[SPOT_HEAL_MODE] = mode
     }
 
     override suspend fun setFilenameSuffix(name: String) = edit {

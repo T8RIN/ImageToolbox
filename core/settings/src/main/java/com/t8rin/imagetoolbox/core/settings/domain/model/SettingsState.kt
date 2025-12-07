@@ -124,7 +124,8 @@ data class SettingsState(
     val customAsciiGradients: Set<String>,
     val isScreenSelectionLauncherMode: Boolean,
     val isTelegramGroupOpened: Boolean,
-    val initialOcrMode: Int
+    val initialOcrMode: Int,
+    val spotHealMode: Int
 ) {
 
     companion object {
@@ -227,7 +228,8 @@ data class SettingsState(
                 customAsciiGradients = emptySet(),
                 isScreenSelectionLauncherMode = false,
                 isTelegramGroupOpened = false,
-                initialOcrMode = 1
+                initialOcrMode = 1,
+                spotHealMode = 0
             )
         }
     }

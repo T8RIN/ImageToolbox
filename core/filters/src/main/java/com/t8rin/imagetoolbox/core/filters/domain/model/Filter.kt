@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
@@ -282,7 +283,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Greenish : FloatFilter
     interface RetroYellow : FloatFilter
     interface AutoCrop : FloatFilter
-    interface SpotHeal : Filter<Image>
+    interface SpotHeal : PairFilter<Image, SpotHealMode>
     interface Opening : FloatBooleanFilter
     interface Closing : FloatBooleanFilter
     interface MorphologicalGradient : FloatBooleanFilter

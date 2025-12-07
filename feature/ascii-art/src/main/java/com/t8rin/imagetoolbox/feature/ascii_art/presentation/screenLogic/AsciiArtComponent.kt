@@ -58,7 +58,7 @@ class AsciiArtComponent @AssistedInject internal constructor(
             initialUri?.let(::setUri)
         }
 
-        settingsProvider.getSettingsStateFlow().onEach { settings ->
+        settingsProvider.settingsState.onEach { settings ->
             _asciiParams.update { it.copy(font = settings.font.asFontType()) }
         }.launchIn(componentScope)
     }

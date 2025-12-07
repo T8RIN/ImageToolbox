@@ -162,7 +162,7 @@ class SettingsComponent @AssistedInject internal constructor(
             _settingsState.value = getSettingsState().also {
                 if (it.clearCacheOnLaunch) clearCache()
             }
-            getSettingsStateFlow().onEach {
+            settingsState.onEach {
                 _settingsState.value = it
             }.collect()
         }
@@ -301,11 +301,11 @@ class SettingsComponent @AssistedInject internal constructor(
             )
             val colorTupleS = listOf(colorTuple).asString()
             setColorTuple(colorTuple)
-            setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
+            setColorTuples(this@SettingsComponent.settingsState.colorTupleList + "*" + colorTupleS)
             setThemeContrast(0f)
             setThemeStyle(0)
-            if (settingsState.useEmojiAsPrimaryColor) toggleUseEmojiAsPrimaryColor()
-            if (settingsState.isInvertThemeColors) toggleInvertColors()
+            if (this@SettingsComponent.settingsState.useEmojiAsPrimaryColor) toggleUseEmojiAsPrimaryColor()
+            if (this@SettingsComponent.settingsState.isInvertThemeColors) toggleInvertColors()
         } else {
             imageGetter.getImage(data = emoji)
                 ?.extractPrimaryColor()
@@ -313,13 +313,13 @@ class SettingsComponent @AssistedInject internal constructor(
                     val colorTuple = ColorTuple(primary)
                     setColorTuple(colorTuple)
                     settingsManager.setColorTuples(
-                        settingsState.colorTupleList + "*" + listOf(
+                        this@SettingsComponent.settingsState.colorTupleList + "*" + listOf(
                             colorTuple
                         ).asString()
                     )
                 }
         }
-        if (settingsState.isDynamicColors) toggleDynamicColors()
+        if (this@SettingsComponent.settingsState.isDynamicColors) toggleDynamicColors()
     }
 
     fun setThemeContrast(value: Float) = settingsScope { setThemeContrast(value.toDouble()) }
@@ -367,7 +367,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleExifWidgetInitialState() = settingsScope { toggleExifWidgetInitialState() }
 
     fun setScreensWithBrightnessEnforcement(screen: Screen) = settingsScope {
-        val screens = settingsState.screenListWithMaxBrightnessEnforcement.toggle(screen.id)
+        val screens =
+            this@SettingsComponent.settingsState.screenListWithMaxBrightnessEnforcement
+                .toggle(screen.id)
 
         setScreensWithBrightnessEnforcement(
             screens.joinToString("/") { it.toString() }
