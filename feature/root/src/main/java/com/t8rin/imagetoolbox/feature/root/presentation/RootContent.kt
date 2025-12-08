@@ -37,7 +37,6 @@ fun RootContent(
         toastHostState = component.toastHostState,
         filterPreviewModel = component.filterPreviewModel,
         canSetDynamicFilterPreview = component.canSetDynamicFilterPreview,
-        simpleSettingsInteractor = component.simpleSettingsInteractor,
         currentScreen = stack.items.lastOrNull()?.configuration
     ) {
         ScreenSelector(component)

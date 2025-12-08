@@ -34,11 +34,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
-import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberEditPresetsController
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeSurface
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHost
@@ -61,7 +59,6 @@ fun ImageToolboxCompositionLocals(
     filterPreviewModel: ImageModel? = null,
     canSetDynamicFilterPreview: Boolean = false,
     currentScreen: Screen? = null,
-    simpleSettingsInteractor: SimpleSettingsInteractor? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     val editPresetsController = rememberEditPresetsController()
@@ -80,7 +77,6 @@ fun ImageToolboxCompositionLocals(
         context,
         toastHostState,
         settingsState,
-        simpleSettingsInteractor,
         editPresetsController,
         confettiHostState,
         customHapticFeedback,
@@ -92,7 +88,6 @@ fun ImageToolboxCompositionLocals(
             listOfNotNull(
                 LocalToastHostState provides toastHostState,
                 LocalSettingsState provides settingsState,
-                LocalSimpleSettingsInteractor providesOrNull simpleSettingsInteractor,
                 LocalEditPresetsController provides editPresetsController,
                 LocalFilterPreviewModelProvider providesOrNull previewProvider,
                 LocalConfettiHostState provides confettiHostState,

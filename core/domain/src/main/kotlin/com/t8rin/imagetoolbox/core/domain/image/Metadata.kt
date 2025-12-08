@@ -73,3 +73,7 @@ inline fun Metadata.copyTo(metadata: Metadata): Metadata {
 
     return metadata
 }
+
+fun interface MetadataProvider {
+    suspend fun readMetadata(imageUri: String): Metadata?
+}

@@ -26,6 +26,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -40,13 +41,18 @@ import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMetadataProvider
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +75,10 @@ abstract class ComposeActivity : AppCompatActivity() {
     @Inject
     lateinit var dispatchersHolder: DispatchersHolder
 
-    private lateinit var settingsProvider: SettingsProvider
+    @Inject
+    lateinit var fileController: FileController
+
+    private lateinit var settingsManager: SettingsManager
 
     private val activityScope: CoroutineScope
         get() = lifecycleScope + dispatchersHolder.defaultDispatcher
@@ -96,10 +105,10 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         newBase.entryPoint<SettingsStateEntryPoint> {
-            settingsProvider = settingsManager
+            this@ComposeActivity.settingsManager = this.settingsManager
             _settingsState.update {
                 runBlocking {
-                    settingsProvider.getSettingsState()
+                    settingsManager.getSettingsState()
                 }
             }
             handleSystemBarsBehavior()
@@ -116,7 +125,7 @@ abstract class ComposeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        settingsProvider
+        settingsManager
             .settingsState
             .onEach { state ->
                 _settingsState.update { state }
@@ -137,7 +146,13 @@ abstract class ComposeActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) onFirstLaunch()
 
-        setContentWithWindowSizeClass { Content() }
+        setContentWithWindowSizeClass {
+            CompositionLocalProvider(
+                LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
+                LocalMetadataProvider provides fileController.toMetadataProvider(),
+                content = ::Content
+            )
+        }
     }
 
     fun applyDynamicColors() {
@@ -151,7 +166,7 @@ abstract class ComposeActivity : AppCompatActivity() {
     }
 
     suspend fun applyGlobalNightMode() {
-        settingsProvider.settingsState.collect {
+        settingsManager.settingsState.collect {
             AppCompatDelegate.setDefaultNightMode(
                 when (it.nightMode) {
                     NightMode.Dark -> AppCompatDelegate.MODE_NIGHT_YES

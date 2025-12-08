@@ -24,6 +24,7 @@ import android.net.Uri
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
@@ -477,6 +478,10 @@ internal class AndroidFileController @Inject constructor(
             originalUri = imageUri.toUri()
         )
     }
+
+    override suspend fun readMetadata(
+        imageUri: String
+    ): Metadata? = context.openFileDescriptor(imageUri.toUri())?.fileDescriptor?.toMetadata()
 
     override suspend fun listFilesInDirectory(
         treeUri: String

@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -63,6 +65,7 @@ internal fun SpotHealParamsSelector(
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()
     ) {
+        val essentials = rememberLocalEssentials()
         val settingsState = LocalSettingsState.current
         val scope = retain { CoroutineScope(Dispatchers.IO) }
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
@@ -116,6 +119,13 @@ internal fun SpotHealParamsSelector(
                                     )
                                 }
                                 .onCompletion {
+                                    downloadProgress = null
+                                    downloadJob = null
+                                }
+                                .catch {
+                                    simpleSettingsInteractor.setSpotHealMode(0)
+                                    essentials.showFailureToast(it)
+                                    useLama = false
                                     downloadProgress = null
                                     downloadJob = null
                                 }
