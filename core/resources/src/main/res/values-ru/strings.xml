@@ -921,7 +921,7 @@
     <string name="tag_white_point">Белая точка</string>
     <string name="tag_primary_chromaticities">Первичная цветность</string>
     <string name="tag_model">Модель</string>
-    <string name="tag_make">Сделать</string>
+    <string name="tag_make">Производитель</string>
     <string name="tag_datetime">Время</string>
     <string name="tag_artist">Художник</string>
     <string name="tag_maker_note">Примечание создателя</string>

@@ -34,7 +34,6 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -50,7 +49,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
@@ -85,6 +83,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
@@ -209,17 +208,6 @@ fun ImagePager(
                         MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
             ) {
-                val moreThanOneUri = (uris?.size ?: 0) > 1
-
-                val histogram: @Composable () -> Unit = {
-                    HistogramChart(
-                        model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(90.dp),
-                        bordersColor = Color.White
-                    )
-                }
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
                 }
@@ -315,20 +303,7 @@ fun ImagePager(
                 }
                 val selectedUriFilename = selectedUri?.let { rememberFilename(it) }
                 val selectedUriFileSize = selectedUri?.let { rememberFileSize(it) }
-                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
-                val showLabel by remember(
-                    draggableState,
-                    selectedUriFilename,
-                    moreThanOneUri,
-                    showBottomHist,
-                    hideControls
-                ) {
-                    derivedStateOf {
-                        (!selectedUriFilename.isNullOrEmpty() || (selectedUriFileSize ?: 0) > 0)
-                                && draggableState.offset == 0f
-                                && (!moreThanOneUri || !showBottomHist) && !hideControls
-                    }
-                }
+                val showBottomHist = pagerState.currentPage !in imageErrorPages
                 val showBottomBar by remember(draggableState, showBottomHist, hideControls) {
                     derivedStateOf {
                         draggableState.offset == 0f && showBottomHist && !hideControls
@@ -355,7 +330,7 @@ fun ImagePager(
                                         .padding(vertical = 4.dp, horizontal = 12.dp),
                                     color = White
                                 )
-                            } ?: histogram()
+                            }
                         },
                         actions = {
                             AnimatedVisibility(
@@ -409,55 +384,6 @@ fun ImagePager(
                 }
 
                 AnimatedVisibility(
-                    visible = showLabel,
-                    modifier = Modifier.fillMaxWidth(),
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp,
-                            alignment = Alignment.CenterHorizontally
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateContentSizeNoClip()
-                            .padding(top = 64.dp)
-                            .padding(8.dp)
-                            .statusBarsPadding()
-                    ) {
-                        selectedUriFilename?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .background(
-                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                        shape = CircleShape
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .weight(1f, false),
-                                color = White,
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                        }
-                        selectedUriFileSize?.takeIf { it > 0 }
-                            ?.let {
-                                Text(
-                                    text = rememberHumanFileSize(it),
-                                    modifier = Modifier
-                                        .background(
-                                            color = MaterialTheme.colorScheme.primaryContainerFixed,
-                                            shape = CircleShape
-                                        )
-                                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                                    color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
-                    }
-                }
-
-                AnimatedVisibility(
                     visible = showBottomBar,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
@@ -479,7 +405,8 @@ fun ImagePager(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             selectedUriFilename?.let {
                                 Text(
@@ -489,6 +416,7 @@ fun ImagePager(
                                         .weight(1f, false),
                                     color = White,
                                     style = MaterialTheme.typography.labelLarge,
+                                    fontSize = 13.sp
                                 )
                             }
                             selectedUriFileSize
@@ -499,7 +427,6 @@ fun ImagePager(
                                         text = rememberHumanFileSize(size),
                                         modifier = Modifier
                                             .animateContentSizeNoClip()
-                                            .padding(bottom = 8.dp)
                                             .background(
                                                 color = MaterialTheme.colorScheme.primaryContainerFixed,
                                                 shape = CircleShape
@@ -509,9 +436,18 @@ fun ImagePager(
                                         style = MaterialTheme.typography.labelMedium
                                     )
                                 }
+                            MetadataPreviewButton(
+                                uri = selectedUri
+                            )
                         }
                         Spacer(Modifier.width(16.dp))
-                        histogram()
+                        HistogramChart(
+                            model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
+                            modifier = Modifier
+                                .height(50.dp)
+                                .width(90.dp),
+                            bordersColor = Color.White
+                        )
                     }
                 }
             }

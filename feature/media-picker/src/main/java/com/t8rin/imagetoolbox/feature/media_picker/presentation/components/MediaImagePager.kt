@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -33,7 +34,6 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -49,7 +49,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
@@ -85,6 +84,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -100,6 +100,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
+import com.t8rin.imagetoolbox.core.ui.widget.image.MetadataPreviewButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
@@ -204,17 +205,7 @@ internal fun MediaImagePager(
                         MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
             ) {
-                val moreThanOneUri = media.size > 1
                 val currentMedia = media.getOrNull(pagerState.currentPage)
-                val histogram: @Composable () -> Unit = {
-                    HistogramChart(
-                        model = currentMedia?.uri?.toUri(),
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(90.dp),
-                        bordersColor = Color.White
-                    )
-                }
                 val imageErrorPages = remember {
                     mutableStateListOf<Int>()
                 }
@@ -308,20 +299,7 @@ internal fun MediaImagePager(
                         draggableState.offset == 0f && !hideControls
                     }
                 }
-                val showBottomHist = pagerState.currentPage !in imageErrorPages && moreThanOneUri
-                val showLabel by remember(
-                    draggableState,
-                    currentMedia,
-                    moreThanOneUri,
-                    showBottomHist,
-                    hideControls
-                ) {
-                    derivedStateOf {
-                        (!currentMedia?.label.isNullOrEmpty() || (currentMedia?.fileSize ?: 0) > 0)
-                                && draggableState.offset == 0f
-                                && (!moreThanOneUri || !showBottomHist) && !hideControls
-                    }
-                }
+                val showBottomHist = pagerState.currentPage !in imageErrorPages
                 val showBottomBar by remember(draggableState, showBottomHist, hideControls) {
                     derivedStateOf {
                         draggableState.offset == 0f && showBottomHist && !hideControls
@@ -348,7 +326,7 @@ internal fun MediaImagePager(
                                         .padding(vertical = 4.dp, horizontal = 12.dp),
                                     color = White
                                 )
-                            } ?: histogram()
+                            }
                         },
                         actions = {
                             val isImageError = imageErrorPages.contains(pagerState.currentPage)
@@ -391,55 +369,6 @@ internal fun MediaImagePager(
                 }
 
                 AnimatedVisibility(
-                    visible = showLabel,
-                    modifier = Modifier.fillMaxWidth(),
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp,
-                            alignment = Alignment.CenterHorizontally
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateContentSizeNoClip()
-                            .padding(top = 64.dp)
-                            .padding(8.dp)
-                            .statusBarsPadding()
-                    ) {
-                        currentMedia?.label?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .background(
-                                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
-                                        shape = CircleShape
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .weight(1f, false),
-                                color = White,
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                        }
-                        currentMedia?.humanFileSize.takeIf { (currentMedia?.fileSize ?: 0) > 0 }
-                            ?.let {
-                                Text(
-                                    text = it,
-                                    modifier = Modifier
-                                        .background(
-                                            color = MaterialTheme.colorScheme.primaryContainerFixed,
-                                            shape = CircleShape
-                                        )
-                                        .padding(horizontal = 8.dp, vertical = 4.dp),
-                                    color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
-                    }
-                }
-
-                AnimatedVisibility(
                     visible = showBottomBar,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
@@ -461,7 +390,8 @@ internal fun MediaImagePager(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             currentMedia?.label?.let {
                                 Text(
@@ -471,6 +401,7 @@ internal fun MediaImagePager(
                                         .weight(1f, false),
                                     color = White,
                                     style = MaterialTheme.typography.labelLarge,
+                                    fontSize = 13.sp
                                 )
                             }
                             currentMedia?.humanFileSize
@@ -481,7 +412,6 @@ internal fun MediaImagePager(
                                         text = size,
                                         modifier = Modifier
                                             .animateContentSizeNoClip()
-                                            .padding(bottom = 8.dp)
                                             .background(
                                                 color = MaterialTheme.colorScheme.primaryContainerFixed,
                                                 shape = CircleShape
@@ -491,9 +421,18 @@ internal fun MediaImagePager(
                                         style = MaterialTheme.typography.labelMedium
                                     )
                                 }
+                            MetadataPreviewButton(
+                                uri = currentMedia?.uri?.toUri()
+                            )
                         }
                         Spacer(Modifier.width(16.dp))
-                        histogram()
+                        HistogramChart(
+                            model = currentMedia?.uri ?: Uri.EMPTY,
+                            modifier = Modifier
+                                .height(50.dp)
+                                .width(90.dp),
+                            bordersColor = Color.White
+                        )
                     }
                 }
             }

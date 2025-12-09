@@ -36,6 +36,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -47,7 +49,9 @@ fun SupportingButton(
     modifier: Modifier = Modifier,
     icon: ImageVector = Icons.Outlined.Info,
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
-    contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor)
+    contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor),
+    style: TextStyle = LocalTextStyle.current,
+    iconPadding: Dp = 1.dp
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val shape = shapeByInteraction(
@@ -68,10 +72,10 @@ fun SupportingButton(
                 interactionSource = interactionSource,
                 indication = LocalIndication.current
             )
-            .padding(1.dp)
+            .padding(iconPadding)
             .size(
                 with(LocalDensity.current) {
-                    LocalTextStyle.current.fontSize.toDp()
+                    style.fontSize.toDp()
                 }
             )
     )

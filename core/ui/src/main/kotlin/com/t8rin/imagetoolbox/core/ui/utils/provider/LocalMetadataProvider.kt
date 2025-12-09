@@ -17,8 +17,28 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
+import android.net.Uri
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.MetadataProvider
 
 val LocalMetadataProvider =
     compositionLocalOf<MetadataProvider> { error("MetadataProvider not registered") }
+
+@Composable
+fun rememberImageMetadataAsState(imageUri: Uri): State<Metadata?> {
+    val provider = LocalMetadataProvider.current
+    val metadata = remember {
+        mutableStateOf<Metadata?>(null)
+    }
+    LaunchedEffect(imageUri) {
+        metadata.value = provider.readMetadata(imageUri.toString())
+    }
+
+    return metadata
+}

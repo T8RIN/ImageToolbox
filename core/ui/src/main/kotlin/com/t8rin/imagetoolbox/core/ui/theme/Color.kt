@@ -81,6 +81,17 @@ inline val ColorScheme.onPrimaryContainerFixed: Color
         if (LocalSettingsState.current.isNightMode) onPrimaryContainer else onPrimary
     }.blend(Color.White)
 
+inline val ColorScheme.secondaryContainerFixed: Color
+    @Composable get() = run {
+        if (LocalSettingsState.current.isNightMode) secondaryContainer.copy(alpha = 0.6f)
+        else secondary.copy(alpha = 0.6f)
+    }
+
+inline val ColorScheme.onSecondaryContainerFixed: Color
+    @Composable get() = run {
+        if (LocalSettingsState.current.isNightMode) onSecondaryContainer else onSecondary
+    }.blend(Color.White)
+
 inline val ColorScheme.onMixedContainer: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
