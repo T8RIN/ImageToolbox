@@ -515,7 +515,7 @@ or click one of the badges below.
     - Text
     - Image Brush
     - Filter Brush
-    - Spot Healing
+    - Spot Healing (with ability to download AI model for generative inpainting)
     - Pointing Arrow
     - Line
     - Double Pointing Arrow
