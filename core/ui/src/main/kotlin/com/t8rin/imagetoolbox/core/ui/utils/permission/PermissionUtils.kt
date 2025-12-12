@@ -71,6 +71,14 @@ object PermissionUtils {
             return permissionResult
         }
 
+        val isAnyPermissionNotGiven =
+            permissionStatus.values.any { it == PermissionStatus.NOT_GIVEN }
+
+        if (isAnyPermissionNotGiven) {
+            permissionResult.finalStatus = PermissionStatus.NOT_GIVEN
+            return permissionResult
+        }
+
         permissionResult.finalStatus = PermissionStatus.ALLOWED
         return permissionResult
     }

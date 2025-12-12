@@ -63,7 +63,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.appSettingsInten
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAllFilesIntent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.manageAppAllFilesIntent
-import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
+import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionStatus
+import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -86,7 +88,7 @@ fun MediaPickerRootContentEmbeddable(
     val context = LocalComponentActivity.current
 
     var isPermissionAllowed by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     var isManagePermissionAllowed by remember {
         mutableStateOf(true)
@@ -115,17 +117,23 @@ fun MediaPickerRootContentEmbeddable(
     LaunchedEffect(lifecycleEvent, invalidator) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
-            isPermissionAllowed = context.hasPermissionAllowed(permission)
             isManagePermissionAllowed =
                 Environment.isExternalStorageManager() || context.isInstalledFromPlayStore()
-            if (!context.hasPermissionAllowed(permission)) {
-                ActivityCompat.requestPermissions(
-                    context,
-                    arrayOf(permission),
-                    0
-                )
-            } else {
-                component.init(allowedMedia)
+            when (context.checkPermissions(listOf(permission)).finalStatus) {
+                PermissionStatus.ALLOWED -> {
+                    isPermissionAllowed = true
+                    component.init(allowedMedia)
+                }
+
+                PermissionStatus.NOT_GIVEN -> {
+                    ActivityCompat.requestPermissions(
+                        context,
+                        arrayOf(permission),
+                        0
+                    )
+                }
+
+                PermissionStatus.DENIED_PERMANENTLY -> Unit
             }
         }
     }
@@ -177,14 +185,13 @@ fun MediaPickerRootContentEmbeddable(
                     Spacer(modifier = Modifier.height(16.dp))
                     EnhancedButton(
                         onClick = {
-                            ActivityCompat.requestPermissions(
-                                context,
+                            val permission =
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-                                } else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                0
-                            )
-                            invalidator++
+                                    Manifest.permission.READ_MEDIA_IMAGES
+                                } else {
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                                }
+                            context.requestPermissions(listOf(permission))
                         }
                     ) {
                         Text(stringResource(id = R.string.request))
