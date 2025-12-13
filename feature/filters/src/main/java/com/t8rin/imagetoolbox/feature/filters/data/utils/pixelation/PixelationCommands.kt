@@ -136,5 +136,4 @@ internal object PixelationCommands {
             .build()
     )
 
-
 }

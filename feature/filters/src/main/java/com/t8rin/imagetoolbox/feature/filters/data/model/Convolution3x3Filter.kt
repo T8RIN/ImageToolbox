@@ -17,18 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
-import com.awxkee.aire.EdgeMode
-import com.awxkee.aire.KernelShape
-import com.awxkee.aire.MorphOpMode
-import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-
-
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.feature.filters.data.utils.convolution.convolve2D
 
 @FilterInject
 internal class Convolution3x3Filter(
@@ -46,12 +42,9 @@ internal class Convolution3x3Filter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.convolve2D(
-        bitmap = input,
-        kernel = value,
-        kernelShape = KernelShape(3, 3),
-        edgeMode = EdgeMode.REFLECT_101,
-        scalar = Scalar.ZEROS,
-        mode = MorphOpMode.RGBA
+        input = input,
+        kernelProducer = { value },
+        size = 3
     )
 
 }
