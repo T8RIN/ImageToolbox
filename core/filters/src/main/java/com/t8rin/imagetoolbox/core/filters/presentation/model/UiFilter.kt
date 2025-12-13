@@ -151,7 +151,9 @@ sealed class UiFilter<T : Any>(
                     UiTwilightShiftedFilter(),
                     UiAutoPerspectiveFilter(),
                     UiTurboFilter(),
-                    UiDeepGreenFilter()
+                    UiDeepGreenFilter(),
+                    UiLuminanceGradientFilter(),
+                    UiAverageDistanceFilter(),
                 ),
                 //Color
                 listOf(
@@ -270,7 +272,9 @@ sealed class UiFilter<T : Any>(
                     UiLookupFilter(),
                     UiConvolution3x3Filter(),
                     UiThresholdFilter(),
-                    UiDoGFilter()
+                    UiDoGFilter(),
+                    UiErrorLevelAnalysisFilter(),
+                    UiCopyMoveDetectionFilter()
                 ),
                 //Blur
                 listOf(

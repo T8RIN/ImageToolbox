@@ -348,6 +348,10 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface DeepGreen : SimpleFilter
     interface LensCorrection : FileFilter
     interface SeamCarving : Filter<IntegerSize>
+    interface ErrorLevelAnalysis : FloatFilter
+    interface LuminanceGradient : SimpleFilter
+    interface AverageDistance : SimpleFilter
+    interface CopyMoveDetection : PairFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

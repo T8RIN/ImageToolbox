@@ -1874,4 +1874,10 @@
     <string name="generative_inpaint">Generative Inpainting</string>
     <string name="generative_inpaint_sub">Allows you to remove objects in an image using an AI model, without relying on OpenCV. To use this feature, app will download the required model (~200 MB) from GitHub</string>
     <string name="generative_inpaint_ready_sub">Allows you to remove objects in an image using an AI model, without relying on OpenCV. This could be a long running operation</string>
+    <string name="error_level_analysis">Error Level Analysis</string>
+    <string name="luminance_gradient">Luminance Gradient</string>
+    <string name="average_distance">Average Distance</string>
+    <string name="copy_move_detection">Copy Move Detection</string>
+    <string name="retain">Retain</string>
+    <string name="coefficent">Coefficent</string>
 </resources>
