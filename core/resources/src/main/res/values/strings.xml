@@ -1880,4 +1880,6 @@
     <string name="copy_move_detection">Copy Move Detection</string>
     <string name="retain">Retain</string>
     <string name="coefficent">Coefficent</string>
+    <string name="clipboard_data_is_too_large">Clipboard data is too large</string>
+    <string name="data_is_too_large_to_copy">Data is too large to copy</string>
 </resources>

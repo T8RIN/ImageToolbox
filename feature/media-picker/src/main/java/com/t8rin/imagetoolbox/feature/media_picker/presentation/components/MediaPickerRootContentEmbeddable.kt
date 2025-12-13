@@ -88,7 +88,7 @@ fun MediaPickerRootContentEmbeddable(
     val context = LocalComponentActivity.current
 
     var isPermissionAllowed by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     var isManagePermissionAllowed by remember {
         mutableStateOf(true)

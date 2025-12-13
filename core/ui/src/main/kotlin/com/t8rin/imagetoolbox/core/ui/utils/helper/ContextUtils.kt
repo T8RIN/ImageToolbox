@@ -21,7 +21,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentResolver
 import android.content.Context
@@ -259,14 +258,6 @@ object ContextUtils {
         is Activity -> this
         is ContextWrapper -> baseContext.findActivity()
         else -> null
-    }
-
-    fun Context.copyToClipboard(
-        value: String,
-    ) {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("plain text", value)
-        clipboard.setPrimaryClip(clip)
     }
 
     fun Context.getStringLocalized(

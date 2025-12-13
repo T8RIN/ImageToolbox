@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
 import android.content.ActivityNotFoundException
-import android.content.ClipData
 import android.content.Context
 import android.net.Uri
 import android.os.Build
@@ -38,6 +37,7 @@ import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
@@ -121,6 +121,14 @@ data class LocalEssentials internal constructor(
         }
     }
 
+    fun showFailureToast(message: String) {
+        coroutineScope.launch {
+            toastHostState.showFailureToast(
+                message = message
+            )
+        }
+    }
+
     fun dismissToasts() {
         toastHostState.currentToastData?.dismiss()
     }
@@ -176,17 +184,38 @@ data class LocalEssentials internal constructor(
         }
     }
 
-    fun copyToClipboard(clipEntry: ClipEntry?) {
+    fun copyToClipboard(
+        clipEntry: ClipEntry?,
+        onSuccess: () -> Unit = {}
+    ) {
         coroutineScope.launch {
-            clipboard.setClipEntry(clipEntry)
+            runSuspendCatching {
+                clipboard.setClipEntry(clipEntry)
+            }.onSuccess {
+                onSuccess()
+            }.onFailure {
+                showFailureToast(context.getString(R.string.data_is_too_large_to_copy))
+            }
         }
     }
 
-    fun copyToClipboard(uri: Uri) {
-        coroutineScope.launch {
-            clipboard.setClipEntry(uri.asClip(context))
-            showConfetti()
-        }
+    fun copyToClipboard(
+        uri: Uri,
+        @StringRes message: Int = R.string.copied,
+        icon: ImageVector = Icons.Rounded.CopyAll
+    ) {
+        copyToClipboard(
+            clipEntry = uri.asClip(context),
+            onSuccess = {
+                showConfetti()
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    showToast(
+                        message = context.getString(message),
+                        icon = icon
+                    )
+                }
+            }
+        )
     }
 
     fun copyToClipboard(
@@ -194,44 +223,41 @@ data class LocalEssentials internal constructor(
         @StringRes message: Int = R.string.copied,
         icon: ImageVector = Icons.Rounded.CopyAll
     ) {
-        copyToClipboard(ClipEntry(text.toClipData()))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            showToast(
-                message = context.getString(message),
-                icon = icon
-            )
-        }
+        copyToClipboard(
+            clipEntry = ClipEntry(text.toClipData()),
+            onSuccess = {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    showToast(
+                        message = context.getString(message),
+                        icon = icon
+                    )
+                }
+            }
+        )
     }
 
     fun getTextFromClipboard(
         onSuccess: (CharSequence) -> Unit
     ) {
         coroutineScope.launch {
-            clipboard.getClipEntry()
-                ?.clipData?.let { primaryClip ->
-                    if (primaryClip.itemCount > 0) {
-                        primaryClip.getItemAt(0)?.text
-                    } else {
-                        null
-                    }
-                }?.takeIf { it.isNotEmpty() }?.let(onSuccess)
+            runSuspendCatching {
+                clipboard.getClipEntry()
+                    ?.clipData?.let { primaryClip ->
+                        if (primaryClip.itemCount > 0) {
+                            primaryClip.getItemAt(0)?.text
+                        } else {
+                            null
+                        }
+                    }?.takeIf { it.isNotEmpty() }?.let(onSuccess)
+            }.onFailure {
+                showFailureToast(context.getString(R.string.clipboard_data_is_too_large))
+            }
         }
     }
 
     fun clearClipboard() {
-        val clipboardManager = clipboard.nativeClipboard
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            runCatching {
-                clipboardManager.clearPrimaryClip()
-            }.onFailure {
-                clipboardManager.setPrimaryClip(
-                    ClipData.newPlainText(null, "")
-                )
-            }
-        } else {
-            clipboardManager.setPrimaryClip(
-                ClipData.newPlainText(null, "")
-            )
+        coroutineScope.launch {
+            clipboard.setClipEntry(null)
         }
     }
 

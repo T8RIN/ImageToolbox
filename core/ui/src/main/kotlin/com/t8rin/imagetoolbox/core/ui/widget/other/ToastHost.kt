@@ -337,11 +337,17 @@ val LocalToastHostState = compositionLocalOf { ToastHostState() }
 suspend fun ToastHostState.showFailureToast(
     context: Context,
     throwable: Throwable
-) = showToast(
+) = showFailureToast(
     message = context.getString(
         R.string.smth_went_wrong,
         throwable.localizedMessage ?: ""
-    ),
+    )
+)
+
+suspend fun ToastHostState.showFailureToast(
+    message: String
+) = showToast(
+    message = message,
     icon = Icons.Rounded.ErrorOutline,
     duration = ToastDuration.Long
 )
