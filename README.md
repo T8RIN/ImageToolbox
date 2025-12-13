@@ -471,6 +471,10 @@ or click one of the badges below.
     - [x] Deep Green 
     - [x] Lens Correction
     - [x] Seam Carving
+    - [x] Error Level Analysis
+    - [x] Luminance Gradient
+    - [x] Average Distance
+    - [x] Copy Move Detection
 
 
   </details>
