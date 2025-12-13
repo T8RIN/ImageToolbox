@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -105,6 +106,8 @@ fun LoadingDialog(
     progress: () -> Float,
     onCancelLoading: () -> Unit = {},
     canCancel: Boolean = true,
+    loaderSize: Dp = 60.dp,
+    additionalContent: @Composable (Dp) -> Unit = {}
 ) {
     val progress = progress()
 
@@ -134,7 +137,9 @@ fun LoadingDialog(
                 contentAlignment = Alignment.Center,
                 content = {
                     EnhancedLoadingIndicator(
-                        progress = progress()
+                        progress = progress(),
+                        loaderSize = loaderSize,
+                        additionalContent = additionalContent
                     )
                 }
             )
