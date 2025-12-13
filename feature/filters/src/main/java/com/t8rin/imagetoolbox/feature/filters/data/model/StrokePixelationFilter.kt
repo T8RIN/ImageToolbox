@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationLayer
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
 import com.t8rin.trickle.Trickle
 
 @FilterInject
@@ -40,31 +40,9 @@ internal class StrokePixelationFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val pixelSize = value.first
         return Pixelate.fromBitmap(
             input = input,
-            layers = arrayOf(
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(pixelSize)
-                    .setSize(pixelSize / 5)
-                    .setOffset(pixelSize / 4)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(pixelSize)
-                    .setSize(pixelSize / 4)
-                    .setOffset(pixelSize / 2)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(pixelSize)
-                    .setSize(pixelSize / 3)
-                    .setOffset(pixelSize / 1.3f)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(pixelSize)
-                    .setSize(pixelSize / 4)
-                    .setOffset(0f)
-                    .build()
-            )
+            layers = PixelationCommands.stroke(value.first)
         ).let {
             Trickle.drawColorBehind(
                 input = it,

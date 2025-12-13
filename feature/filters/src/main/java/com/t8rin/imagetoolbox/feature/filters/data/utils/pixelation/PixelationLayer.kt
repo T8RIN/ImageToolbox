@@ -20,7 +20,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation
 
 
-class PixelationLayer private constructor(val shape: Shape) {
+internal class PixelationLayer private constructor(val shape: Shape) {
     var enableDominantColor = false
     var resolution = 16f
     var size: Float? = null

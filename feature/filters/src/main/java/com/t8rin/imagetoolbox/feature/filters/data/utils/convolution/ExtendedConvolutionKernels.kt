@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.convolution
 
 import kotlin.math.abs
 
-object ExtendedConvolutionKernels {
+internal object ExtendedConvolutionKernels {
 
     /**
      * Diamond blur

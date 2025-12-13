@@ -31,8 +31,7 @@ import androidx.core.graphics.withClip
 import androidx.core.graphics.withSave
 import kotlin.math.sqrt
 
-
-object Pixelate {
+internal object Pixelate {
     private val SQRT2 = sqrt(2.0).toFloat()
 
     fun fromBitmap(

@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationLayer
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
 
 @FilterInject
 internal class DiamondPixelationFilter(
@@ -38,20 +38,7 @@ internal class DiamondPixelationFilter(
     ): Bitmap {
         return Pixelate.fromBitmap(
             input = input,
-            layers = arrayOf(
-                PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
-                    .setResolution(value)
-                    .setSize(value + 1)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
-                    .setResolution(value)
-                    .setOffset(value / 2)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Square)
-                    .setResolution(value)
-                    .setAlpha(0.6f)
-                    .build()
-            )
+            layers = PixelationCommands.diamond(value)
         )
     }
 }

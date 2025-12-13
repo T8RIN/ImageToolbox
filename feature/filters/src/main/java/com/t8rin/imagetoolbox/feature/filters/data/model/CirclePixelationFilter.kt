@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationLayer
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
 
 @FilterInject
 internal class CirclePixelationFilter(
@@ -38,16 +38,7 @@ internal class CirclePixelationFilter(
     ): Bitmap {
         return Pixelate.fromBitmap(
             input = input,
-            layers = arrayOf(
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(value)
-                    .build(),
-                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
-                    .setResolution(value)
-                    .setSize(value / 3f)
-                    .setOffset(value / 2)
-                    .build()
-            )
+            layers = PixelationCommands.circle(value)
         )
     }
 }
