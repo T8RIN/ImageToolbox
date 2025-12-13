@@ -62,7 +62,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface BulgeDistortion : PairFloatFilter
     interface CGAColorSpace : SimpleFilter
     interface ColorBalance : FloatArrayFilter
-    interface ColorOverlay : WrapperFilter<Color>
+    interface ColorOverlay : ColorFilter
     interface ColorMatrix4x4 : FloatArrayFilter
     interface Contrast : FloatFilter
     interface Convolution3x3 : FloatArrayFilter
@@ -87,7 +87,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface NonMaximumSuppression : SimpleFilter
     interface Opacity : FloatFilter
     interface Posterize : FloatFilter
-    interface RGB : WrapperFilter<Color>
+    interface RGB : ColorFilter
     interface Saturation : FloatBooleanFilter
     interface Sepia : SimpleFilter
     interface Sharpen : FloatFilter
@@ -228,11 +228,11 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface EqualizeHistogramAdaptiveLUV : TripleFloatFilter
     interface EqualizeHistogramAdaptiveLAB : TripleFloatFilter
     interface Clahe : TripleFloatFilter
-    interface ClaheLUV : Filter<ClaheParams>
-    interface ClaheLAB : Filter<ClaheParams>
+    interface ClaheLUV : ClaheFilter
+    interface ClaheLAB : ClaheFilter
     interface CropToContent : FloatColorModelFilter
-    interface ClaheHSL : Filter<ClaheParams>
-    interface ClaheHSV : Filter<ClaheParams>
+    interface ClaheHSL : ClaheFilter
+    interface ClaheHSV : ClaheFilter
     interface EqualizeHistogramAdaptiveHSV : TripleFloatFilter
     interface EqualizeHistogramAdaptiveHSL : TripleFloatFilter
     interface LinearBoxBlur : PairFilter<Int, TransferFunc>
@@ -253,9 +253,9 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Gotham : SimpleFilter
     interface ColorPoster : FloatColorModelFilter
     interface TriTone : TripleFilter<Color, Color, Color>
-    interface ClaheOklch : Filter<ClaheParams>
-    interface ClaheJzazbz : Filter<ClaheParams>
-    interface ClaheOklab : Filter<ClaheParams>
+    interface ClaheOklch : ClaheFilter
+    interface ClaheJzazbz : ClaheFilter
+    interface ClaheOklab : ClaheFilter
     interface PolkaDot : TripleFilter<Int, Int, Color>
     interface Clustered2x2Dithering : BooleanFilter
     interface Clustered4x4Dithering : BooleanFilter
@@ -370,6 +370,8 @@ interface FileImageFilter : PairFilter<Float, Image>
 interface FloatBooleanFilter : PairFilter<Float, Boolean>
 interface FloatColorModelFilter : PairFilter<Float, Color>
 interface BooleanFilter : Filter<Boolean>
+interface ClaheFilter : Filter<ClaheParams>
+interface ColorFilter : WrapperFilter<Color>
 
 interface WrapperFilter<Wrapped : Any> : Filter<FilterValueWrapper<Wrapped>>
 
