@@ -26,6 +26,8 @@ import com.awxkee.aire.MorphOpMode
 import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
@@ -40,13 +42,15 @@ internal class CrossBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.convolve2D(
-        bitmap = input,
-        kernel = ConvolveKernels.cross(value.toInt()),
-        kernelShape = KernelShape(value.toInt(), value.toInt()),
-        edgeMode = EdgeMode.REFLECT_101,
-        scalar = Scalar.ZEROS,
-        mode = MorphOpMode.RGBA
-    )
+    ): Bitmap = value.roundTo(NEAREST_ODD_ROUNDING).toInt().let { size ->
+        Aire.convolve2D(
+            bitmap = input,
+            kernel = ConvolveKernels.cross(size),
+            kernelShape = KernelShape(size, size),
+            edgeMode = EdgeMode.REFLECT_101,
+            scalar = Scalar.ZEROS,
+            mode = MorphOpMode.RGBA
+        )
+    }
 
 }

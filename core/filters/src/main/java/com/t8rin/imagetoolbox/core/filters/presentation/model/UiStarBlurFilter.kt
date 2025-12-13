@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
+import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.resources.R
@@ -30,7 +31,7 @@ class UiStarBlurFilter(
         FilterParam(
             title = null,
             valueRange = 3f..200f,
-            roundTo = 0
+            roundTo = NEAREST_ODD_ROUNDING
         )
     )
 ), Filter.StarBlur
