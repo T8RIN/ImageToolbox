@@ -152,7 +152,9 @@ fun PdfViewer(
 
     val loading = @Composable {
         Box(
-            modifier = modifier.animateContentSizeNoClip(),
+            modifier = modifier
+                .fillMaxSize()
+                .animateContentSizeNoClip(),
             contentAlignment = Alignment.Center
         ) {
             EnhancedLoadingIndicator()
@@ -506,7 +508,7 @@ fun PdfViewer(
                     }
                     if (pageCount == 0) {
                         Box(
-                            modifier = Modifier.matchParentSize(),
+                            modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
                             EnhancedLoadingIndicator()

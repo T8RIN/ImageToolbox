@@ -36,13 +36,15 @@ internal data class TiffBackend(
     ): ByteArray {
         val tiffQuality = quality as? Quality.Tiff ?: Quality.Tiff()
 
-        val file = File(context.cacheDir, "temp")
+        val file = File(context.cacheDir, "temp.tiff").apply { createNewFile() }
         val options = TiffSaver.SaveOptions().apply {
             compressionScheme = CompressionScheme.entries[tiffQuality.compressionScheme]
             orientation = Orientation.TOP_LEFT
         }
         TiffSaver.saveBitmap(file, image, options)
 
-        return file.readBytes()
+        return file.readBytes().also {
+            file.delete()
+        }
     }
 }

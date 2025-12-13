@@ -54,5 +54,9 @@ enum class TiffCompressionScheme(val value: Int) {
     /**
      * All other compression schemes
      */
-    OTHER(0)
+    OTHER(0);
+
+    companion object {
+        val safeEntries by lazy { TiffCompressionScheme.entries - OTHER }
+    }
 }

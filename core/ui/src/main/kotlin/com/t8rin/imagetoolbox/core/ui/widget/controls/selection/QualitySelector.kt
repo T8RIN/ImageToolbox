@@ -303,9 +303,7 @@ fun QualitySelector(
                 }
                 AnimatedVisibility(actualImageFormat is ImageFormat.Tiff || actualImageFormat is ImageFormat.Tif) {
                     val tiffQuality = quality as? Quality.Tiff
-                    val compressionItems = remember {
-                        TiffCompressionScheme.entries
-                    }
+                    val compressionItems = TiffCompressionScheme.safeEntries
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
