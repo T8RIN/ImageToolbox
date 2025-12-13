@@ -81,7 +81,7 @@ fun CropMaskSelection(
 ) {
     var cornerRadius by rememberSaveable { mutableIntStateOf(20) }
 
-    val outlineProperties = outlineProperties()
+    val outlineProperties = DefaultOutlineProperties
 
     val scope = rememberCoroutineScope()
 
