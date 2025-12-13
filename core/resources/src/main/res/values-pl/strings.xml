@@ -1801,4 +1801,22 @@
     <string name="website">Strona internetowa</string>
     <string name="add_website">Dodaj stronę internetową</string>
     <string name="formatted_name">Sformatowana nazwa</string>
+    <string name="qr_code_top_image">Ten obraz zostanie umieszczony nad kodem kreskowym</string>
+    <string name="code_customization">Dostosowanie kodu</string>
+    <string name="qr_logo_image">Ten obraz zostanie użyty jako logo w środku kodu QR</string>
+    <string name="logo">Logo</string>
+    <string name="logo_padding">Wypełnienie logo</string>
+    <string name="logo_size">Rozmiar logo</string>
+    <string name="logo_corners">Narożniki logo</string>
+    <string name="fourth_eye">Czwarte oko</string>
+    <string name="fourth_eye_description">Dodaje symetrię oczu do kodu QR poprzez dodanie czwartego oka w dolnym rogu</string>
+    <string name="pixel_shape">Kształt piksela</string>
+    <string name="frame_shape">Kształt ramki</string>
+    <string name="ball_shape">Kształt kuli</string>
+    <string name="error_correction_level">Poziom korekcji błędów</string>
+    <string name="dark_color">Ciemny kolor</string>
+    <string name="light_color">Jasny kolor</string>
+    <string name="hyper_os">Hyper OS</string>
+    <string name="hyper_os_sub">Styl podobny do Xiaomi HyperOS</string>
+    <string name="mask_pattern">Wzór maski</string>
 </resources>
