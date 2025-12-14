@@ -25,5 +25,5 @@ class UiDiamondPixelationFilter(
 ) : UiFilter<Float>(
     title = R.string.diamond_pixelation,
     value = value,
-    valueRange = 10f..60f
+    valueRange = 10f..200f
 ), Filter.DiamondPixelation

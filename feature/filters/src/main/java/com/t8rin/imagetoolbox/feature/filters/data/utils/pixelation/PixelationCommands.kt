@@ -136,4 +136,168 @@ internal object PixelationCommands {
             .build()
     )
 
+    fun simpleWeave(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .setSize(value / 2)
+            .setOffset(value / 2)
+            .setAlpha(0.5f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
+            .setResolution(value)
+            .setSize(value / 3)
+            .setOffset(value / 4)
+            .setAlpha(0.4f)
+            .build()
+    )
+
+    fun staggeredBlocks(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .setOffset(value / 2)
+            .setSize(value * 0.85f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value * 2)
+            .setAlpha(0.35f)
+            .build()
+    )
+
+    fun crossPixel(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
+            .setResolution(value)
+            .setSize(value * 0.7f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value / 2)
+            .setSize(value / 3)
+            .setAlpha(0.45f)
+            .build()
+    )
+
+    fun microMacro(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value * 2)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value / 2)
+            .setSize(value / 3)
+            .build()
+    )
+
+    fun orbital(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.9f)
+            .setOffset(value / 3)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.6f)
+            .setOffset(value / 1.5f)
+            .build()
+    )
+
+    fun vortex(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.85f)
+            .setOffset(value / 3)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value * 1.4f)
+            .setSize(value * 0.6f)
+            .setOffset(value / 1.1f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value / 2)
+            .setSize(value / 3)
+            .build()
+    )
+
+    fun pulseGrid(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value * 1.5f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.7f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value / 1.8f)
+            .setSize(value / 2.8f)
+            .setOffset(value / 2)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value / 2.5f)
+            .setAlpha(0.35f)
+            .build()
+    )
+
+    fun nucleus(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.6f)
+            .setOffset(value / 2)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value / 2)
+            .setSize(value / 3)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value * 2)
+            .setAlpha(0.25f)
+            .build()
+    )
+
+    fun radialWeave(value: Float): Array<PixelationLayer> = arrayOf(
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.9f)
+            .setOffset(value / 3)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value)
+            .setSize(value * 0.6f)
+            .setOffset(value / 1.5f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Circle)
+            .setResolution(value / 2)
+            .setSize(value / 3)
+            .setOffset(value / 4)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
+            .setResolution(value / 3)
+            .setSize(value / 5)
+            .setOffset(value / 6)
+            .setAlpha(0.35f)
+            .build(),
+        PixelationLayer.Builder(PixelationLayer.Shape.Square)
+            .setResolution(value / 4)
+            .setAlpha(0.25f)
+            .build()
+    )
+
 }

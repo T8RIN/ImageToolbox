@@ -25,5 +25,5 @@ class UiEnhancedPixelationFilter(
 ) : UiFilter<Float>(
     title = R.string.enhanced_pixelation,
     value = value,
-    valueRange = 10f..100f
+    valueRange = 10f..200f
 ), Filter.EnhancedPixelation

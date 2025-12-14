@@ -26,5 +26,5 @@ class UiEnhancedCirclePixelationFilter(
 ) : UiFilter<Float>(
     title = R.string.enhanced_circle_pixelation,
     value = value,
-    valueRange = 15f..100f
+    valueRange = 15f..200f
 ), Filter.EnhancedCirclePixelation

@@ -32,7 +32,7 @@ class UiStrokePixelationFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.pixel_size,
-            valueRange = 5f..75f
+            valueRange = 5f..200f
         ),
         FilterParam(
             title = R.string.background_color,
