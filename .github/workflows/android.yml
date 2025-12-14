@@ -13,7 +13,9 @@ jobs:
         uses: pierotofy/set-swap-space@master
         with:
           swap-size-gb: 10
+
       - uses: actions/checkout@v3
+
       - name: set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -21,42 +23,64 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
+      - name: Install Android SDK Build Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip wget
+          yes | sdkmanager "build-tools;36.0.0"
+        env:
+          ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
+
       - run: bash ./gradlew assembleRelease
 
-      - uses: iota9star/sign-android-release@v1.0.5
-        name: Sign FOSS APK
-        # ID used to access action output
-        id: sign_app_foss
-        with:
-          releaseDirectory: app/build/outputs/apk/foss/release
-          fileRex: .*apk
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
-          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+      - name: Sign FOSS APK
+        run: |
+          echo "${SIGNING_KEY}" | base64 --decode > /tmp/keystore.jks
+          chmod 600 /tmp/keystore.jks
+          for apk in app/build/outputs/apk/foss/release/*.apk; do
+            $ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner sign \
+              --ks /tmp/keystore.jks \
+              --ks-key-alias "${ALIAS}" \
+              --ks-pass pass:"${KEY_STORE_PASS}" \
+              --key-pass pass:"${KEY_PASS}" \
+              --out "$apk" \
+              "$apk"
+          done
+          rm -f /tmp/keystore.jks
         env:
-          BUILD_TOOLS_VERSION: "34.0.0"
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          ALIAS: ${{ secrets.ALIAS }}
+          KEY_STORE_PASS: ${{ secrets.KEY_STORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_STORE_PASS }}
+          ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
 
       - uses: actions/upload-artifact@v4
         with:
           name: Signed apks FOSS
-          path: app/build/outputs/apk/foss/release/*-signed.apk
+          path: app/build/outputs/apk/foss/release/*.apk
 
-      - uses: iota9star/sign-android-release@v1.0.5
-        name: Sign Market APK
-        # ID used to access action output
-        id: sign_app_market
-        with:
-          releaseDirectory: app/build/outputs/apk/market/release
-          fileRex: .*apk
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
-          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+      - name: Sign Market APK
+        run: |
+          echo "${SIGNING_KEY}" | base64 --decode > /tmp/keystore.jks
+          chmod 600 /tmp/keystore.jks
+          for apk in app/build/outputs/apk/market/release/*.apk; do
+            $ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner sign \
+              --ks /tmp/keystore.jks \
+              --ks-key-alias "${ALIAS}" \
+              --ks-pass pass:"${KEY_STORE_PASS}" \
+              --key-pass pass:"${KEY_PASS}" \
+              --out "$apk" \
+              "$apk"
+          done
+          rm -f /tmp/keystore.jks
         env:
-          BUILD_TOOLS_VERSION: "34.0.0"
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          ALIAS: ${{ secrets.ALIAS }}
+          KEY_STORE_PASS: ${{ secrets.KEY_STORE_PASS }}
+          KEY_PASS: ${{ secrets.KEY_STORE_PASS }}
+          ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
 
       - uses: actions/upload-artifact@v4
         with:
           name: Signed apks Market
-          path: app/build/outputs/apk/market/release/*-signed.apk
+          path: app/build/outputs/apk/market/release/*.apk
