@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalUriHandler
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.rememberConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberFilterPreviewProvider
+import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberSafeUriHandler
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
@@ -72,6 +74,7 @@ fun ImageToolboxCompositionLocals(
             canSetDynamicFilterPreview = canSetDynamicFilterPreview
         )
     }
+    val safeUriHandler = rememberSafeUriHandler()
 
     val values = remember(
         context,
@@ -82,7 +85,8 @@ fun ImageToolboxCompositionLocals(
         customHapticFeedback,
         screenSize,
         filterPreviewModel,
-        currentScreen
+        currentScreen,
+        safeUriHandler
     ) {
         derivedStateOf {
             listOfNotNull(
@@ -93,7 +97,8 @@ fun ImageToolboxCompositionLocals(
                 LocalConfettiHostState provides confettiHostState,
                 LocalHapticFeedback provides customHapticFeedback,
                 LocalScreenSize provides screenSize,
-                LocalCurrentScreen provides currentScreen
+                LocalCurrentScreen provides currentScreen,
+                LocalUriHandler provides safeUriHandler
             ).toTypedArray()
         }
     }

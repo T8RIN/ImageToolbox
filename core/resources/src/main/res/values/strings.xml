@@ -1891,4 +1891,5 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
+    <string name="cannot_open_uri">Cannot open uri \"%s\"</string>
 </resources>
