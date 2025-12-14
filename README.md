@@ -178,7 +178,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 290 various filters)
+- Applying filter chains (More than 300 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -475,6 +475,15 @@ or click one of the badges below.
     - [x] Luminance Gradient
     - [x] Average Distance
     - [x] Copy Move Detection
+    - [x] Simple Weave Pixelization
+    - [x] Staggered Pixelization
+    - [x] Cross Pixelization
+    - [x] Micro Macro Pixelization
+    - [x] Orbital Pixelization
+    - [x] Vortex Pixelization
+    - [x] Pulse Grid Pixelization
+    - [x] Nucleus Pixelization
+    - [x] Radial Weave Pixelization
 
 
   </details>
