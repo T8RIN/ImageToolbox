@@ -23,14 +23,19 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
-      - name: Install Android SDK Build Tools
+      - name: Install Android SDK Command line tools and Build Tools 36
         run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip wget
-          yes | sdkmanager "build-tools;36.0.0"
+            mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+            cd $ANDROID_SDK_ROOT/cmdline-tools
+            wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+            unzip cmdline-tools.zip
+            rm cmdline-tools.zip
+            mv cmdline-tools latest
+            yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;36.0.0"
         env:
-          ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
-
+            ANDROID_SDK_ROOT: ${{ runner.tool_cache }}/android-sdk
+    
+      
       - run: bash ./gradlew assembleRelease
 
       - name: Sign FOSS APK
