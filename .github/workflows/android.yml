@@ -24,9 +24,6 @@ jobs:
           java-package: 'jdk'
           cache: gradle
 
-      - name: Build APKs
-        run: bash ./gradlew assembleRelease
-
       - name: Set up Keystore
         run: |
           sudo apt update -y || true
@@ -34,8 +31,10 @@ jobs:
           mkdir -p $RUNNER_TEMP/keystores
           echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > $RUNNER_TEMP/keystores/keystore.jks
 
+      - name: Build FOSS APKs
+        run: bash ./gradlew assembleFossRelease
 
-      - name: Sign FOSS APK
+      - name: Sign FOSS APKs
         run: |
           ANDROID_SDK_PATH=$ANDROID_HOME/build-tools/35.0.0/apksigner
           for apk in app/build/outputs/apk/foss/release/*.apk; do
@@ -50,10 +49,16 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Signed apks FOSS
+          name: Signed FOSS APKs
           path: app/build/outputs/apk/foss/release/*.apk
 
-      - name: Sign Market APK
+      - name: Delete FOSS APKs
+        run: rm -rf app/build/outputs/apk/foss
+
+      - name: Build Market APKs
+        run: bash ./gradlew assembleMarketRelease
+
+      - name: Sign Market APKs
         run: |
           ANDROID_SDK_PATH=$ANDROID_HOME/build-tools/35.0.0/apksigner
           for apk in app/build/outputs/apk/market/release/*.apk; do
@@ -70,3 +75,6 @@ jobs:
         with:
           name: Signed apks Market
           path: app/build/outputs/apk/market/release/*.apk
+
+      - name: Delete Market APKs
+        run: rm -rf app/build/outputs/apk/market
