@@ -34,20 +34,18 @@ internal class StrokePixelationFilter(
     override val value: Pair<Float, ColorModel> = 20f to Color.Black.toModel(),
 ) : Transformation<Bitmap>, Filter.StrokePixelation {
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        return Pixelate.fromBitmap(
-            input = input,
-            layers = PixelationCommands.stroke(value.first)
-        ).let {
-            Trickle.drawColorBehind(
-                input = it,
-                color = value.second.colorInt
-            )
-        }
+    ): Bitmap = Pixelate.fromBitmap(
+        input = input,
+        layers = PixelationCommands.stroke(value.first)
+    ).let {
+        Trickle.drawColorBehind(
+            input = it,
+            color = value.second.colorInt
+        )
     }
 }

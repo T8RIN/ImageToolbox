@@ -30,15 +30,14 @@ internal class DiamondPixelationFilter(
     override val value: Float = 24f,
 ) : Transformation<Bitmap>, Filter.DiamondPixelation {
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        return Pixelate.fromBitmap(
-            input = input,
-            layers = PixelationCommands.diamond(value)
-        )
-    }
+    ): Bitmap = Pixelate.fromBitmap(
+        input = input,
+        layers = PixelationCommands.diamond(value)
+    )
+
 }

@@ -31,7 +31,7 @@ internal class OldTvFilter(
 ) : ChainTransformation<Bitmap>, Filter.OldTv {
 
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
         GrainFilter(0.36f),

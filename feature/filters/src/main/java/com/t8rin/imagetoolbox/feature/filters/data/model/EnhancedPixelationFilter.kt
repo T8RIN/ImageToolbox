@@ -30,15 +30,14 @@ internal class EnhancedPixelationFilter(
     override val value: Float = 48f,
 ) : Transformation<Bitmap>, Filter.EnhancedPixelation {
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        return Pixelate.fromBitmap(
-            input = input,
-            layers = PixelationCommands.enhancedSquare(value)
-        )
-    }
+    ): Bitmap = Pixelate.fromBitmap(
+        input = input,
+        layers = PixelationCommands.enhancedSquare(value)
+    )
+
 }

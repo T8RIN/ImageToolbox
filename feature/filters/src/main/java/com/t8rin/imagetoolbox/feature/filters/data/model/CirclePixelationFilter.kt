@@ -29,16 +29,16 @@ import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCo
 internal class CirclePixelationFilter(
     override val value: Float = 24f,
 ) : Transformation<Bitmap>, Filter.CirclePixelation {
+
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap {
-        return Pixelate.fromBitmap(
-            input = input,
-            layers = PixelationCommands.circle(value)
-        )
-    }
+    ): Bitmap = Pixelate.fromBitmap(
+        input = input,
+        layers = PixelationCommands.circle(value)
+    )
+
 }

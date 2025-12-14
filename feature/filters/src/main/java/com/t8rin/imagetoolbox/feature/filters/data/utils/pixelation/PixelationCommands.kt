@@ -154,7 +154,7 @@ internal object PixelationCommands {
             .build()
     )
 
-    fun staggeredBlocks(value: Float): Array<PixelationLayer> = arrayOf(
+    fun staggered(value: Float): Array<PixelationLayer> = arrayOf(
         PixelationLayer.Builder(PixelationLayer.Shape.Square)
             .setResolution(value)
             .build(),
@@ -169,7 +169,7 @@ internal object PixelationCommands {
             .build()
     )
 
-    fun crossPixel(value: Float): Array<PixelationLayer> = arrayOf(
+    fun cross(value: Float): Array<PixelationLayer> = arrayOf(
         PixelationLayer.Builder(PixelationLayer.Shape.Square)
             .setResolution(value)
             .build(),

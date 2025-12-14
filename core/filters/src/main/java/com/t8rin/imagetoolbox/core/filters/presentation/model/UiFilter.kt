@@ -331,7 +331,16 @@ sealed class UiFilter<T : Any>(
                     UiPointillizeFilter(),
                     UiWeaveFilter(),
                     UiSmearFilter(),
-                    UiAsciiFilter()
+                    UiAsciiFilter(),
+                    UiSimpleWeavePixelizationFilter(),
+                    UiStaggeredPixelizationFilter(),
+                    UiCrossPixelizationFilter(),
+                    UiMicroMacroPixelizationFilter(),
+                    UiOrbitalPixelizationFilter(),
+                    UiVortexPixelizationFilter(),
+                    UiPulseGridPixelizationFilter(),
+                    UiNucleusPixelizationFilter(),
+                    UiRadialWeavePixelizationFilter()
                 ),
                 //Distortion
                 listOf(
@@ -395,7 +404,7 @@ sealed class UiFilter<T : Any>(
         val sortedGroupedEntries
             get() = groupedEntries.map { list ->
                 list.sortedBy { appContext.getString(it.title) }
-        }
+            }
     }
 
 }

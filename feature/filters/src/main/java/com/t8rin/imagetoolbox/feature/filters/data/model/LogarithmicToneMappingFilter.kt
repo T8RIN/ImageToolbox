@@ -30,7 +30,7 @@ internal class LogarithmicToneMappingFilter(
 ) : Transformation<Bitmap>, Filter.LogarithmicToneMapping {
 
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,

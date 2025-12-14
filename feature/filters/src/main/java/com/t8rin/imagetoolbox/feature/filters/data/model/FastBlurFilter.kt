@@ -31,7 +31,7 @@ internal class FastBlurFilter(
     override val value: Pair<Float, Float> = 0.5f to 5f,
 ) : Transformation<Bitmap>, Filter.FastBlur {
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,

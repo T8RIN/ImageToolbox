@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
 import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
 
 @FilterInject
-internal class PixelationFilter(
+internal class VortexPixelationFilter(
     override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.Pixelation {
+) : Transformation<Bitmap>, Filter.VortexPixelation {
     override val cacheKey: String
         get() = value.hashCode().toString()
 
@@ -37,6 +37,6 @@ internal class PixelationFilter(
         size: IntegerSize
     ): Bitmap = Pixelate.fromBitmap(
         input = input,
-        layers = PixelationCommands.square(value)
+        layers = PixelationCommands.vortex(value)
     )
 }

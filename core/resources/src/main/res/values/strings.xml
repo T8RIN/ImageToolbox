@@ -1882,4 +1882,13 @@
     <string name="coefficent">Coefficent</string>
     <string name="clipboard_data_is_too_large">Clipboard data is too large</string>
     <string name="data_is_too_large_to_copy">Data is too large to copy</string>
+    <string name="simple_weave_pixelization">Simple Weave Pixelization</string>
+    <string name="staggered_pixelization">Staggered Pixelization</string>
+    <string name="cross_pixelization">Cross Pixelization</string>
+    <string name="micro_macro_pixelization">Micro Macro Pixelization</string>
+    <string name="orbital_pixelization">Orbital Pixelization</string>
+    <string name="vortex_pixelization">Vortex Pixelization</string>
+    <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
+    <string name="nucleus_pixelization">Nucleus Pixelization</string>
+    <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
 </resources>

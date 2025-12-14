@@ -352,6 +352,15 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface LuminanceGradient : SimpleFilter
     interface AverageDistance : SimpleFilter
     interface CopyMoveDetection : PairFloatFilter
+    interface SimpleWeavePixelation : FloatFilter
+    interface StaggeredPixelation : FloatFilter
+    interface CrossPixelation : FloatFilter
+    interface MicroMacroPixelation : FloatFilter
+    interface OrbitalPixelation : FloatFilter
+    interface VortexPixelation : FloatFilter
+    interface PulseGridPixelation : FloatFilter
+    interface NucleusPixelation : FloatFilter
+    interface RadialWeavePixelation : FloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

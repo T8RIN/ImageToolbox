@@ -31,7 +31,7 @@ internal class RemoveColorFilter(
     override val value: Pair<Float, ColorModel> = 0f to Color(0xFF000000).toModel(),
 ) : Transformation<Bitmap>, Filter.RemoveColor {
     override val cacheKey: String
-        get() = (value).hashCode().toString()
+        get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
