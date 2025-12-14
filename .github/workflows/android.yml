@@ -23,12 +23,6 @@ jobs:
 
       - run: bash ./gradlew assembleRelease
 
-      - name: Rename FOSS APK to *-signed.apk
-        run: |
-          for f in app/build/outputs/apk/foss/release/*.apk; do
-            mv "$f" "${f%.apk}-signed.apk"
-          done
-      
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign FOSS APK
         # ID used to access action output
@@ -47,12 +41,6 @@ jobs:
         with:
           name: Signed apks FOSS
           path: app/build/outputs/apk/foss/release/*-signed.apk
-
-      - name: Rename Market APK to *-signed.apk
-        run: |
-          for f in app/build/outputs/apk/market/release/*.apk; do
-            mv "$f" "${f%.apk}-signed.apk"
-          done
 
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign Market APK
