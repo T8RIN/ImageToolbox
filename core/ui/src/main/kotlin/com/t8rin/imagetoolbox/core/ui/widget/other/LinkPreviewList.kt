@@ -53,6 +53,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun LinkPreviewList(
     text: String,
+    externalLinks: List<String>? = null,
     modifier: Modifier
 ) {
     val settingsState = LocalSettingsState.current
@@ -67,14 +68,14 @@ fun LinkPreviewList(
     var expanded by rememberSaveable { mutableStateOf(true) }
     val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
-    LaunchedEffect(text) {
+    LaunchedEffect(text, externalLinks) {
         delay(
             if (linkPreviewList.isNotEmpty() && text.isNotEmpty()) 1000
             else 0
         )
         isLoading = true
         linkPreviewList = emptyList()
-        LinkUtils.parseLinks(text).forEachIndexed { index, link ->
+        (LinkUtils.parseLinks(text) + externalLinks.orEmpty()).forEachIndexed { index, link ->
             linkPreviewList += LinkPreview(
                 link = link,
                 onLoaded = { preview ->

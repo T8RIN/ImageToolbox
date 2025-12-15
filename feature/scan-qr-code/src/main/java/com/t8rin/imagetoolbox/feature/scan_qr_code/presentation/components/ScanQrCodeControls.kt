@@ -88,6 +88,9 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
 
     LinkPreviewList(
         text = params.content.raw,
+        externalLinks = remember(params.content) {
+            (params.content as? QrType.Url)?.let { listOf(it.url) }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp)
