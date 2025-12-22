@@ -1862,4 +1862,14 @@
     <string name="coefficent">Коефіцієнт</string>
     <string name="clipboard_data_is_too_large">Дані буфера обміну занадто великі</string>
     <string name="data_is_too_large_to_copy">Дані занадто великі для копіювання</string>
+    <string name="simple_weave_pixelization">Проста пікселізація переплетення</string>
+    <string name="staggered_pixelization">Ступінчаста пікселізація</string>
+    <string name="cross_pixelization">Крос-пікселізація</string>
+    <string name="micro_macro_pixelization">Мікро-макро-пікселізація</string>
+    <string name="orbital_pixelization">Орбітальна пікселізація</string>
+    <string name="vortex_pixelization">Пікселізація вихрів</string>
+    <string name="pulse_grid_pixelization">Пікселізація імпульсної сітки</string>
+    <string name="nucleus_pixelization">Пікселізація ядра</string>
+    <string name="radial_weave_pixelization">Пікселізація радіального переплетення</string>
+    <string name="cannot_open_uri">Не вдається відкрити uri \"%s\"</string>
 </resources>
