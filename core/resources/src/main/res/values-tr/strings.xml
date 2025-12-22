@@ -1637,4 +1637,8 @@
     <string name="pick_image_or_base64">Bir resim seçin veya aşağıya Base64 verisi yapıştırın/içe aktarın</string>
     <string name="type_image_link">Başlamak için resim bağlantısı yazın</string>
     <string name="paste_link">Bağlantıyı yapıştır</string>
+    <plurals name="color_count">
+        <item quantity="one">%s renk</item>
+        <item quantity="other">%s renk</item>
+    </plurals>
 </resources>
