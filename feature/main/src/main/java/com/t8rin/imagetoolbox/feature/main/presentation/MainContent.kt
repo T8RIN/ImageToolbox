@@ -146,7 +146,7 @@ fun MainContent(
         }
     }
 
-    var showSnowfall by rememberSaveable { mutableStateOf(false) }
+    var showFeaturesFall by rememberSaveable { mutableStateOf(false) }
 
     val content = remember {
         movableContentOf {
@@ -159,8 +159,8 @@ fun MainContent(
                 sideSheetState = sideSheetState,
                 sheetExpanded = sheetExpanded,
                 isGrid = isGrid,
-                onShowSnowfall = {
-                    showSnowfall = true
+                onShowFeaturesFall = {
+                    showFeaturesFall = true
                 },
                 onGetClipList = component::parseClipList,
                 onTryGetUpdate = {
@@ -236,7 +236,7 @@ fun MainContent(
         }
 
         AnimatedVisibility(
-            visible = showSnowfall,
+            visible = showFeaturesFall,
             modifier = Modifier
                 .fillMaxSize(),
             enter = fadeIn(tween(1000)) + slideInVertically(tween(1000)) { -it / 4 },
@@ -254,14 +254,14 @@ fun MainContent(
                         color = color
                     )
             )
-            LaunchedEffect(showSnowfall) {
-                if (showSnowfall) {
+            LaunchedEffect(showFeaturesFall) {
+                if (showFeaturesFall) {
                     delay(5000)
-                    showSnowfall = false
+                    showFeaturesFall = false
                 }
             }
             DisposableEffect(Unit) {
-                onDispose { showSnowfall = false }
+                onDispose { showFeaturesFall = false }
             }
         }
     }

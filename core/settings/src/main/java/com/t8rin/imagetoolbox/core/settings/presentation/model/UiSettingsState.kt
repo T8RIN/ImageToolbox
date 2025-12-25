@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
+import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -159,7 +160,8 @@ data class UiSettingsState(
     val allowSkipIfLarger: Boolean,
     val customAsciiGradients: Set<String>,
     val isScreenSelectionLauncherMode: Boolean,
-    val spotHealMode: Int
+    val spotHealMode: Int,
+    val snowfallMode: SnowfallMode,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -403,7 +405,8 @@ fun SettingsState.toUiState(
                 allowSkipIfLarger = allowSkipIfLarger,
                 customAsciiGradients = customAsciiGradients,
                 isScreenSelectionLauncherMode = isScreenSelectionLauncherMode,
-                spotHealMode = spotHealMode
+                spotHealMode = spotHealMode,
+                snowfallMode = snowfallMode
             )
         }
     }.value

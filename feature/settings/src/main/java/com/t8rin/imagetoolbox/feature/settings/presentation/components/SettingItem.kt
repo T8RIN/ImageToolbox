@@ -580,6 +580,10 @@ internal fun SettingItem(
             Setting.EnableLauncherMode -> {
                 EnableLauncherModeSettingItem(onClick = component::toggleIsScreenSelectionLauncherMode)
             }
+
+            Setting.SnowfallMode -> {
+                SnowfallModeSettingItem(onValueChange = component::setSnowfallMode)
+            }
         }
     }
 }

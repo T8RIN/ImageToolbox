@@ -383,6 +383,7 @@ sealed class SettingsGroup(
             Setting.UseFullscreenSettings,
             Setting.FastSettingsSide,
             Setting.OpenEditInsteadOfPreview,
+            Setting.SnowfallMode,
             Setting.EnableLinksPreview,
             Setting.GeneratePreviews
         ),

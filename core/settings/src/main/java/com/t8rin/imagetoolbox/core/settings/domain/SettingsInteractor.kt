@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
+import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 
 interface SettingsInteractor : SimpleSettingsInteractor {
@@ -232,6 +233,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleAllowSkipIfLarger()
 
     suspend fun toggleIsScreenSelectionLauncherMode()
+
+    suspend fun setSnowfallMode(snowfallMode: SnowfallMode)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

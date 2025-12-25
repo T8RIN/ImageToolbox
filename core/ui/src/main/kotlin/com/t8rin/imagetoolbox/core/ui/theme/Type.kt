@@ -71,7 +71,7 @@ fun rememberTypography(
             ),
             headlineSmall = TextStyle(
                 fontFamily = fontRes.fontFamily,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.SemiBold,
                 fontSize = 24.sp,
                 lineHeight = 32.sp,
                 letterSpacing = 0.sp,

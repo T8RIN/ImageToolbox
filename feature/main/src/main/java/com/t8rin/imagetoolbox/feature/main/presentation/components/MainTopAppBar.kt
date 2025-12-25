@@ -103,19 +103,23 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import kotlinx.coroutines.launch
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 internal fun MainTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onShowSnowfall: () -> Unit,
+    onShowFeaturesFall: () -> Unit,
     onNavigate: (Screen) -> Unit,
     sideSheetState: DrawerState,
-    isSheetSlideable: Boolean
+    isSheetSlideable: Boolean,
+    type: EnhancedTopAppBarType = EnhancedTopAppBarType.Large,
+    modifier: Modifier = Modifier
 ) {
     EnhancedTopAppBar(
-        type = EnhancedTopAppBarType.Large,
+        type = type,
         title = {
-            MainTitle(onShowSnowfall = onShowSnowfall)
+            MainTitle(onShowSnowfall = onShowFeaturesFall)
         },
         actions = {
             PinShortcutButton()
@@ -130,7 +134,8 @@ internal fun MainTopAppBar(
                 isSheetSlideable = isSheetSlideable
             )
         },
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
+        modifier = modifier
     )
 }
 

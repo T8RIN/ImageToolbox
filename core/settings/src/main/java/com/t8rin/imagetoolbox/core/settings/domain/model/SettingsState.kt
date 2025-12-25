@@ -125,7 +125,8 @@ data class SettingsState(
     val isScreenSelectionLauncherMode: Boolean,
     val isTelegramGroupOpened: Boolean,
     val initialOcrMode: Int,
-    val spotHealMode: Int
+    val spotHealMode: Int,
+    val snowfallMode: SnowfallMode
 ) {
 
     companion object {
@@ -229,7 +230,8 @@ data class SettingsState(
                 isScreenSelectionLauncherMode = false,
                 isTelegramGroupOpened = false,
                 initialOcrMode = 1,
-                spotHealMode = 0
+                spotHealMode = 0,
+                snowfallMode = SnowfallMode.Auto
             )
         }
     }

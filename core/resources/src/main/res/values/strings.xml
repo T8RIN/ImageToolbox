@@ -1892,4 +1892,6 @@
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
     <string name="cannot_open_uri">Cannot open uri \"%s\"</string>
+    <string name="snowfall_mode">Snowfall Mode</string>
+    <string name="enabled">Enabled</string>
 </resources>

@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
+import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
@@ -483,6 +484,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleIsScreenSelectionLauncherMode() =
         settingsScope { toggleIsScreenSelectionLauncherMode() }
+
+    fun setSnowfallMode(snowfallMode: SnowfallMode) =
+        settingsScope { setSnowfallMode(snowfallMode) }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

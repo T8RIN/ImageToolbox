@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
+import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
@@ -139,6 +140,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSC
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SLIDER_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SNOWFALL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SPOT_HEAL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
@@ -892,6 +894,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun toggleCustomAsciiGradient(gradient: String) = edit {
         it[ASCII_CUSTOM_GRADIENTS] = (it[ASCII_CUSTOM_GRADIENTS] ?: emptySet()).toggle(gradient)
+    }
+
+    override suspend fun setSnowfallMode(snowfallMode: SnowfallMode) = edit {
+        it[SNOWFALL_MODE] = snowfallMode.ordinal
     }
 
     private fun MutablePreferences.toggle(
