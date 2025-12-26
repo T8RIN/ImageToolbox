@@ -162,8 +162,8 @@ internal object GlitchTool {
     suspend fun glitchVariant(
         src: Bitmap,
         iterations: Int = 30,
-        maxOffset: Float = 0.1f,   // 0f..1f
-        channelShift: Float = 0.02f // 0f..1f
+        maxOffsetFraction: Float = 0.1f,   // 0f..1f
+        channelShiftFraction: Float = 0.02f // 0f..1f
     ): Bitmap = coroutineScope {
         val w = src.width
         val h = src.height
@@ -174,8 +174,8 @@ internal object GlitchTool {
         result.getPixels(pixels, 0, w, 0, 0, w, h)
         pixels.copyInto(out)
 
-        val maxOffset = ((w / 2) * maxOffset).roundToInt()
-        val channelShift = ((w / 10) * channelShift).roundToInt()
+        val maxOffset = ((w / 2) * maxOffsetFraction).roundToInt()
+        val channelShift = ((w / 10) * channelShiftFraction).roundToInt()
 
         repeat(iterations) {
             val y = Random.nextInt(h)
@@ -277,6 +277,61 @@ internal object GlitchTool {
                             (g shl 8) or
                             b
             }
+        }
+
+        result.setPixels(out, 0, w, 0, 0, w, h)
+
+        result
+    }
+
+    suspend fun blockGlitch(
+        src: Bitmap,
+        strength: Float = 0.5f,   // 0f..1f
+        blockSizeFraction: Float = 0.02f // 0f..1f (от ширины)
+    ): Bitmap = coroutineScope {
+        val w = src.width
+        val h = src.height
+
+        val blockSize = (w * blockSizeFraction)
+            .toInt()
+            .coerceAtLeast(4)
+
+        val maxOffset = (w * 0.15f * strength).toInt()
+
+        val result = src.copy(Bitmap.Config.ARGB_8888, true)
+
+        val pixels = IntArray(w * h)
+        val out = IntArray(w * h)
+        result.getPixels(pixels, 0, w, 0, 0, w, h)
+        pixels.copyInto(out)
+
+        var y = 0
+        while (y < h) {
+            var x = 0
+            while (x < w) {
+                if (Random.nextFloat() < strength * 0.4f) {
+
+                    val offsetX = Random.nextInt(-maxOffset, maxOffset + 1)
+                    val offsetY = Random.nextInt(-blockSize, blockSize + 1)
+
+                    for (dy in 0 until blockSize) {
+                        val sy = (y + dy + offsetY).coerceIn(0, h - 1)
+                        val dyOut = y + dy
+                        if (dyOut !in 0 until h) continue
+
+                        for (dx in 0 until blockSize) {
+                            val sx = (x + dx + offsetX).coerceIn(0, w - 1)
+                            val dxOut = x + dx
+                            if (dxOut !in 0 until w) continue
+
+                            out[dyOut * w + dxOut] =
+                                pixels[sy * w + sx]
+                        }
+                    }
+                }
+                x += blockSize
+            }
+            y += blockSize
         }
 
         result.setPixels(out, 0, w, 0, 0, w, h)

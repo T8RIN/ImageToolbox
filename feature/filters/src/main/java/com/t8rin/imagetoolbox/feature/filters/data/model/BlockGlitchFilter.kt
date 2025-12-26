@@ -23,12 +23,11 @@ import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.GlitchTool
-import kotlin.math.roundToInt
 
 @FilterInject
-internal class GlitchVariantFilter(
-    override val value: Triple<Float, Float, Float> = Triple(30f, 0.25f, 0.3f),
-) : Transformation<Bitmap>, Filter.GlitchVariant {
+internal class BlockGlitchFilter(
+    override val value: Pair<Float, Float> = 0.02f to 0.5f,
+) : Transformation<Bitmap>, Filter.BlockGlitch {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -36,11 +35,10 @@ internal class GlitchVariantFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = GlitchTool.glitchVariant(
+    ): Bitmap = GlitchTool.blockGlitch(
         src = input,
-        iterations = value.first.roundToInt(),
-        maxOffsetFraction = value.second,
-        channelShiftFraction = value.third
+        blockSizeFraction = value.first,
+        strength = value.second
     )
 
 }
