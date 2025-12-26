@@ -311,8 +311,7 @@ sealed class UiFilter<T : Any>(
                     UiLinearFastGaussianBlurFilter(),
                     UiLinearGaussianBlurFilter(),
                     UiMotionBlurFilter(),
-                    UiDiffuseFilter(),
-                    UiPixelMeltFilter()
+                    UiDiffuseFilter()
                 ),
                 //Pixelation
                 listOf(
@@ -375,7 +374,8 @@ sealed class UiFilter<T : Any>(
                     UiGlitchVariantFilter(),
                     UiVHSFilter(),
                     UiBlockGlitchFilter(),
-                    UiCrtCurvatureFilter()
+                    UiCrtCurvatureFilter(),
+                    UiPixelMeltFilter()
                 ),
                 //Dithering
                 listOf(
