@@ -30,6 +30,8 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.floor
+import kotlin.math.roundToInt
+import kotlin.random.Random
 
 internal object Glitcher {
 
@@ -155,6 +157,62 @@ internal object Glitcher {
         }
         imageByteArray
     }
+
+    suspend fun glitchVariant(
+        src: Bitmap,
+        iterations: Int = 30,
+        maxOffset: Float = 0.1f,   // 0f..1f
+        channelShift: Float = 0.02f // 0f..1f
+    ): Bitmap = coroutineScope {
+        val w = src.width
+        val h = src.height
+        val result = src.copy(Bitmap.Config.ARGB_8888, true)
+
+        val pixels = IntArray(w * h)
+        val out = IntArray(w * h)
+        result.getPixels(pixels, 0, w, 0, 0, w, h)
+        pixels.copyInto(out)
+
+        val maxOffset = ((w / 2) * maxOffset).roundToInt()
+        val channelShift = ((w / 10) * channelShift).roundToInt()
+
+        repeat(iterations) {
+            val y = Random.nextInt(h)
+            val height = Random.nextInt(1, 6)
+            val offset = Random.nextInt(-maxOffset, maxOffset)
+
+            for (dy in 0 until height) {
+                val row = y + dy
+                if (row !in 0 until h) continue
+
+                for (x in 0 until w) {
+                    val srcX = (x + offset).coerceIn(0, w - 1)
+                    out[row * w + x] = pixels[row * w + srcX]
+                }
+            }
+        }
+
+        for (y in 0 until h) {
+            for (x in 0 until w) {
+                val i = y * w + x
+
+                val rSrc = ((x + channelShift).coerceIn(0, w - 1)) + y * w
+                val bSrc = ((x - channelShift).coerceIn(0, w - 1)) + y * w
+
+                val r = (pixels[rSrc] shr 16) and 0xFF
+                val g = (out[i] shr 8) and 0xFF
+                val b = pixels[bSrc] and 0xFF
+                val a = (out[i] ushr 24) and 0xFF
+
+                out[i] = (a shl 24) or (r shl 16) or (g shl 8) or b
+            }
+        }
+
+        result.setPixels(out, 0, w, 0, 0, w, h)
+
+        result
+    }
+
 
     private fun glitchJpegBytes(
         pos: Int,

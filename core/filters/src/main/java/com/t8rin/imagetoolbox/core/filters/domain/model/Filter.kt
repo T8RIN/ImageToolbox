@@ -362,6 +362,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface NucleusPixelation : FloatFilter
     interface RadialWeavePixelation : FloatFilter
     interface BorderFrame : FloatColorModelFilter
+    interface GlitchVariant : TripleFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

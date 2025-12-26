@@ -1895,4 +1895,7 @@
     <string name="snowfall_mode">Snowfall Mode</string>
     <string name="enabled">Enabled</string>
     <string name="border_frame">Border Frame</string>
+    <string name="glitch_variant">Glitch Variant</string>
+    <string name="channel_shift">Channel Shift</string>
+    <string name="max_offset">Max Offset</string>
 </resources>
