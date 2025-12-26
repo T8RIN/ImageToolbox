@@ -178,7 +178,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 300 various filters)
+- Applying filter chains (More than 310 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -484,6 +484,12 @@ or click one of the badges below.
     - [x] Pulse Grid Pixelization
     - [x] Nucleus Pixelization
     - [x] Radial Weave Pixelization
+    - [x] Border Frame
+    - [x] Glitch Variant
+    - [x] VHS
+    - [x] Block Glitch
+    - [x] Crt Curvature
+    - [x] Pixel Melt
 
 
   </details>
