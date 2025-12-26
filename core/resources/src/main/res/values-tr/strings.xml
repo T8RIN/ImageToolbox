@@ -326,7 +326,7 @@
     <string name="corrupted_file_or_not_a_backup">Bozuk dosya veya yedekleme değil</string>
     <string name="settings_restored">Ayarlar başarıyla geri yüklendi</string>
     <string name="contact_me">Bana Ulaşın</string>
-    <string name="reset_settings_sub">Bu, ayarlarınızı varsayılan değerlere geri döndürecektir. Bu işlemin yukarıda belirtilen bir yedekleme dosyası olmadan geri alınamayacağını unutmayın.</string>
+    <string name="reset_settings_sub">Bu, ayarlarınızı varsayılan değerlere geri döndürecektir. Yukarıda bahsedilen yedekleme dosyası olmadan bu işlemin geri alınamayacağını unutmayın.</string>
     <string name="delete">Sil</string>
     <string name="delete_color_scheme_warn">Seçili renk şemasını silmek üzeresiniz. Bu işlem geri alınamaz</string>
     <string name="delete_color_scheme_title">Şemayı sil</string>
@@ -698,7 +698,7 @@
     <string name="strength">Güç</string>
     <string name="erode">Aşındırma</string>
     <string name="anisotropic_diffusion">Anizotropik Difüzyon</string>
-    <string name="diffusion">Difüzyon</string>
+    <string name="diffusion">Dağılım</string>
     <string name="conduction">İletim</string>
     <string name="horizontal_wind_stagger">Yatay Rüzgar Titremesi</string>
     <string name="fast_bilaterial_blur">Hızlı Bilateral Bulanıklık</string>
@@ -1641,4 +1641,38 @@
         <item quantity="one">%s renk</item>
         <item quantity="other">%s renk</item>
     </plurals>
+    <string name="disable_rotation">Dönmeyi kapat</string>
+    <string name="disable_rotation_sub">İki parmak hareketiyle görüntülerin dönmesini engeller</string>
+    <string name="enable_snapping_to_borders">Kenarlara yapıştırmayı etkinleştir</string>
+    <string name="enable_snapping_to_borders_sub">Taşıma veya yakınlaştırmadan sonra görüntüler çerçeve kenarlarını doldurmak için otomatik olarak yerleştirilir</string>
+    <string name="kaleidoscope">Kaleydoskop</string>
+    <string name="secondary_angle">İkincil açı</string>
+    <string name="sides">Yanlar</string>
+    <string name="channel_mix">Kanal Karışımı</string>
+    <string name="blue_green">Mavi yeşil</string>
+    <string name="red_blue">Kırmızı mavi</string>
+    <string name="green_red">Yeşil kırmızı</string>
+    <string name="into_red">Kırmızıya</string>
+    <string name="into_green">Yeşile</string>
+    <string name="into_blue">Maviye</string>
+    <string name="cyan">Camgöbeği</string>
+    <string name="magenta">Eflatun</string>
+    <string name="yellow">Sarı</string>
+    <string name="color_halftone">Renkli Yarım Ton</string>
+    <string name="contour">Kontur</string>
+    <string name="levels">Seviyeler</string>
+    <string name="offset">Çıkıntı</string>
+    <string name="voronoi_crystallize">Voronoi Kristalleştirme</string>
+    <string name="shape">Şekil</string>
+    <string name="stretch">Esnetme</string>
+    <string name="randomness">Rastgelelik</string>
+    <string name="despeckle">Kusurları gider</string>
+    <string name="diffuse">Dağıt</string>
+    <string name="dog">DoG</string>
+    <string name="second_radius">İkinci yarıçap</string>
+    <string name="equalize">Eşitle</string>
+    <string name="glow">Parıltı</string>
+    <string name="whirl_and_pinch">Döndür ve Sıkıştır</string>
+    <string name="pointillize">Noktalama</string>
+    <string name="border_color">Kenar rengi</string>
 </resources>

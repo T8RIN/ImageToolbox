@@ -1801,4 +1801,14 @@
     <string name="formatted_name">Formatierter Name</string>
     <string name="contact_info">Kontaktinformationen</string>
     <string name="first_name">Vorname</string>
+    <string name="qr_code_top_image">Dieses Bild wird über dem Barcode platziert.</string>
+    <string name="code_customization">Code-Anpassung</string>
+    <string name="qr_logo_image">Dieses Bild wird als Logo in der Mitte des QR-Codes verwendet</string>
+    <string name="logo">Logo</string>
+    <string name="logo_padding">Logo-Ausgleich</string>
+    <string name="logo_size">Logo-Größe</string>
+    <string name="logo_corners">Logo-Ecken</string>
+    <string name="fourth_eye">Viertes Auge</string>
+    <string name="fourth_eye_description">Fügt dem QR-Code Augensymmetrie hinzu, indem ein viertes Auge an der unteren Ecke hinzugefügt wird.</string>
+    <string name="pixel_shape">Pixelform</string>
 </resources>
