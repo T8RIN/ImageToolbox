@@ -1904,4 +1904,6 @@
     <string name="crt_curvature">CRT curvature</string>
     <string name="curvature">Curvature</string>
     <string name="chroma">Chroma</string>
+    <string name="pixel_melt">Pixel Melt</string>
+    <string name="max_drop">Max Drop</string>
 </resources>

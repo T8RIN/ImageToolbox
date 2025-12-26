@@ -311,7 +311,8 @@ sealed class UiFilter<T : Any>(
                     UiLinearFastGaussianBlurFilter(),
                     UiLinearGaussianBlurFilter(),
                     UiMotionBlurFilter(),
-                    UiDiffuseFilter()
+                    UiDiffuseFilter(),
+                    UiPixelMeltFilter()
                 ),
                 //Pixelation
                 listOf(

@@ -410,6 +410,36 @@ internal object GlitchTool {
         Bitmap.createBitmap(out, w, h, Bitmap.Config.ARGB_8888)
     }
 
+    suspend fun pixelMelt(
+        src: Bitmap,
+        strength: Float = 0.5f,   // 0f..1f,
+        maxDrop: Int = 20
+    ): Bitmap = coroutineScope {
+        val w = src.width
+        val h = src.height
+
+        val pixels = IntArray(w * h)
+        val out = IntArray(w * h)
+        src.getPixels(pixels, 0, w, 0, 0, w, h)
+        pixels.copyInto(out)
+
+        for (x in 0 until w) {
+            var drop = 0
+            for (y in 0 until h) {
+                val i = y * w + x
+
+                if (Random.nextFloat() < strength) {
+                    drop = Random.nextInt(1, maxDrop + 1)
+                }
+
+                val newY = (y + drop).coerceAtMost(h - 1)
+                out[newY * w + x] = pixels[i]
+            }
+        }
+
+        Bitmap.createBitmap(out, w, h, Bitmap.Config.ARGB_8888)
+    }
+
     private fun glitchJpegBytes(
         pos: Int,
         imageByteArray: ByteArray,
