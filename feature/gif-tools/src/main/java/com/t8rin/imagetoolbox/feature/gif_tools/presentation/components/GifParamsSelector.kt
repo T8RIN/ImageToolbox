@@ -109,7 +109,6 @@ fun GifParamsSelector(
         Spacer(modifier = Modifier.height(8.dp))
         QualitySelector(
             imageFormat = ImageFormat.Jpeg,
-            enabled = true,
             quality = value.quality,
             onQualityChange = {
                 onValueChange(

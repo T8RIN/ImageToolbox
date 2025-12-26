@@ -177,6 +177,8 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.DefaultScaleMode,
             Setting.DefaultColorSpace,
+            Setting.DefaultImageFormat,
+            Setting.DefaultQuality,
             Setting.DefaultResizeType
         ),
         initialState = false

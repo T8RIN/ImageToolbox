@@ -17,9 +17,11 @@
 
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset.Percentage
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
@@ -126,7 +128,9 @@ data class SettingsState(
     val isTelegramGroupOpened: Boolean,
     val initialOcrMode: Int,
     val spotHealMode: Int,
-    val snowfallMode: SnowfallMode
+    val snowfallMode: SnowfallMode,
+    val defaultImageFormat: ImageFormat?,
+    val defaultQuality: Quality
 ) {
 
     companion object {
@@ -231,7 +235,9 @@ data class SettingsState(
                 isTelegramGroupOpened = false,
                 initialOcrMode = 1,
                 spotHealMode = 0,
-                snowfallMode = SnowfallMode.Auto
+                snowfallMode = SnowfallMode.Auto,
+                defaultImageFormat = null,
+                defaultQuality = Quality.Base()
             )
         }
     }

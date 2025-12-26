@@ -469,7 +469,6 @@ fun PdfToolsContent(
                         }
                         QualitySelector(
                             imageFormat = component.imageInfo.imageFormat,
-                            enabled = true,
                             quality = component.imageInfo.quality,
                             onQualityChange = component::setQuality
                         )

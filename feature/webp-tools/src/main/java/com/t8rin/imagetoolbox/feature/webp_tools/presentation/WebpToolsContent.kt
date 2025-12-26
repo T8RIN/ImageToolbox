@@ -281,7 +281,6 @@ fun WebpToolsContent(
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
                         imageFormat = component.imageFormat,
-                        enabled = true,
                         quality = component.params.quality,
                         onQualityChange = component::setQuality
                     )

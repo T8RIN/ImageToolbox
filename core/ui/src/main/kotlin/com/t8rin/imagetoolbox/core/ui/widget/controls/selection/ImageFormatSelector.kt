@@ -25,6 +25,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -47,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,8 +77,21 @@ fun ImageFormatSelector(
     backgroundColor: Color = Color.Unspecified,
     entries: List<ImageFormatGroup> = ImageFormatGroup.entries,
     forceEnabled: Boolean = false,
-    value: ImageFormat,
-    onValueChange: (ImageFormat) -> Unit
+    value: ImageFormat?,
+    onValueChange: (ImageFormat) -> Unit,
+    shape: Shape = ShapeDefaults.extraLarge,
+    enableItemsCardBackground: Boolean = true,
+    title: @Composable ColumnScope.() -> Unit = {
+        Text(
+            text = stringResource(R.string.image_format),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium
+        )
+    },
+    onAutoClick: (() -> Unit)? = null
 ) {
     val enabled = !LocalSettingsState.current.overwriteFiles || forceEnabled
     val context = LocalContext.current
@@ -99,7 +114,7 @@ fun ImageFormatSelector(
     }
 
     LaunchedEffect(value, allFormats) {
-        if (value !in allFormats) {
+        if (value != null && value !in allFormats) {
             onValueChange(
                 if (ImageFormat.Png.Lossless in allFormats) {
                     ImageFormat.Png.Lossless
@@ -114,7 +129,7 @@ fun ImageFormatSelector(
         Column(
             modifier = modifier
                 .container(
-                    shape = ShapeDefaults.extraLarge,
+                    shape = shape,
                     color = backgroundColor
                 )
                 .animateContentSizeNoClip()
@@ -123,14 +138,7 @@ fun ImageFormatSelector(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Spacer(Modifier.height(4.dp))
-            Text(
-                text = stringResource(R.string.image_format),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 4.dp),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium
-            )
+            title(this)
 
             val formats by remember(value) {
                 derivedStateOf {
@@ -139,8 +147,13 @@ fun ImageFormatSelector(
                     }?.formats ?: emptyList()
                 }
             }
-            val filteredFormats = formats.filteredFormats()
-            val showBackgroundSelector = value !in ImageFormat.alphaContainedEntries
+            val filteredFormats = if (enableItemsCardBackground) {
+                formats.filteredFormats()
+            } else {
+                allFormats.filteredFormats()
+            }
+            val showBackgroundSelector =
+                value != null && value !in ImageFormat.alphaContainedEntries
 
             val entriesSize = (if (filteredFormats.size > 1) 1 else 0)
                 .plus(if (showBackgroundSelector) 1 else 0)
@@ -161,44 +174,78 @@ fun ImageFormatSelector(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                        .container(
-                            shape = ShapeDefaults.byIndex(0, entriesSize),
-                            color = MaterialTheme.colorScheme.surface
+                        .then(
+                            if (enableItemsCardBackground) {
+                                Modifier
+                                    .padding(horizontal = 8.dp)
+                                    .container(
+                                        shape = ShapeDefaults.byIndex(0, entriesSize),
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 12.dp)
+                            } else Modifier.padding(8.dp)
                         )
-                        .padding(horizontal = 8.dp, vertical = 12.dp)
                 ) {
-                    items.forEach {
+                    onAutoClick?.let {
                         EnhancedChip(
-                            onClick = {
-                                if (enabled) {
-                                    onValueChange(it.formats[0])
-                                } else cannotChangeFormat()
-                            },
-                            selected = value in it.formats,
+                            onClick = onAutoClick,
+                            selected = value == null,
                             label = {
-                                Text(text = it.title)
+                                Text(text = stringResource(R.string.auto))
                             },
                             selectedColor = MaterialTheme.colorScheme.tertiary,
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
                         )
                     }
+                    if (enableItemsCardBackground) {
+                        items.forEach {
+                            EnhancedChip(
+                                onClick = {
+                                    if (enabled) {
+                                        onValueChange(it.formats[0])
+                                    } else cannotChangeFormat()
+                                },
+                                selected = value in it.formats,
+                                label = {
+                                    Text(text = it.title)
+                                },
+                                selectedColor = MaterialTheme.colorScheme.tertiary,
+                                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
+                            )
+                        }
+                    } else {
+                        filteredFormats.forEach {
+                            EnhancedChip(
+                                onClick = {
+                                    if (enabled) {
+                                        onValueChange(it)
+                                    } else cannotChangeFormat()
+                                },
+                                selected = value == it,
+                                label = {
+                                    Text(text = it.title)
+                                },
+                                selectedColor = MaterialTheme.colorScheme.tertiary,
+                                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
+                            )
+                        }
+                    }
                 }
             }
 
             AnimatedVisibility(
-                visible = filteredFormats.size > 1,
+                visible = filteredFormats.size > 1 && enableItemsCardBackground,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .container(
                             color = MaterialTheme.colorScheme.surface,
                             resultPadding = 0.dp,
                             shape = ShapeDefaults.byIndex(1, entriesSize),
                         )
-                        .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -252,16 +299,22 @@ fun ImageFormatSelector(
                 visible = showBackgroundSelector,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                val index = if (filteredFormats.size > 1) 2 else 1
+                val index = if (filteredFormats.size > 1 && enableItemsCardBackground) 2 else 1
                 ColorRowSelector(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .container(
-                            color = MaterialTheme.colorScheme.surface,
-                            resultPadding = 0.dp,
-                            shape = ShapeDefaults.byIndex(index, entriesSize),
-                        )
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .then(
+                            if (enableItemsCardBackground) {
+                                Modifier
+                                    .padding(horizontal = 8.dp)
+                                    .container(
+                                        color = MaterialTheme.colorScheme.surface,
+                                        resultPadding = 0.dp,
+                                        shape = ShapeDefaults.byIndex(index, entriesSize),
+                                    )
+                                    .padding(8.dp)
+                            } else Modifier
+                        ),
                     value = settingsState.backgroundForNoAlphaImageFormats,
                     icon = Icons.Outlined.FormatPaint,
                     onValueChange = {
@@ -270,18 +323,22 @@ fun ImageFormatSelector(
                                 color = it.toModel()
                             )
                             val previous = value
-                            onValueChange(
-                                ImageFormat.entries.run {
-                                    rightFrom(indexOf(value))
-                                }
-                            )
-                            onValueChange(previous)
+
+                            previous?.let {
+                                onValueChange(
+                                    ImageFormat.entries.run {
+                                        rightFrom(indexOf(value))
+                                    }
+                                )
+                                onValueChange(previous)
+                            }
                         }
                     },
                     allowAlpha = false
                 )
             }
-            Spacer(Modifier.height(4.dp))
+
+            if (enableItemsCardBackground) Spacer(Modifier.height(4.dp))
         }
         if (!enabled) {
             Surface(

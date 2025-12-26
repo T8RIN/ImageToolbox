@@ -89,6 +89,7 @@ androidx-pdfviewer-fragment = { module = "androidx.pdf:pdf-viewer-fragment", ver
 evaluator = { module = "com.github.T8RIN:KotlinEvaluator", version.ref = "evaluator" }
 aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
 symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 trickle = { module = "com.github.t8rin:trickle", version.ref = "trickle" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }

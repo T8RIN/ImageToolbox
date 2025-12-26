@@ -202,7 +202,6 @@ internal fun FiltersContentControls(
                 )
                 QualitySelector(
                     imageFormat = component.imageInfo.imageFormat,
-                    enabled = component.bitmap != null,
                     quality = component.imageInfo.quality,
                     onQualityChange = component::setQuality
                 )
@@ -322,7 +321,6 @@ internal fun FiltersContentControls(
                 )
                 QualitySelector(
                     imageFormat = component.imageInfo.imageFormat,
-                    enabled = component.bitmap != null,
                     quality = component.imageInfo.quality,
                     onQualityChange = component::setQuality
                 )

@@ -522,4 +522,14 @@ sealed class Setting(
         title = R.string.snowfall_mode,
         subtitle = null
     )
+
+    data object DefaultImageFormat : Setting(
+        title = R.string.image_format,
+        subtitle = null
+    )
+
+    data object DefaultQuality : Setting(
+        title = R.string.quality,
+        subtitle = null
+    )
 }

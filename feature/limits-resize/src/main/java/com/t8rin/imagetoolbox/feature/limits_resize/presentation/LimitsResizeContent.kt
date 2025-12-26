@@ -199,7 +199,6 @@ fun LimitsResizeContent(
             )
             QualitySelector(
                 imageFormat = component.imageInfo.imageFormat,
-                enabled = component.bitmap != null,
                 quality = component.imageInfo.quality,
                 onQualityChange = component::setQuality
             )

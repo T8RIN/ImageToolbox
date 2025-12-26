@@ -42,7 +42,6 @@ internal fun GifToolsControls(component: GifToolsComponent) {
             Spacer(modifier = Modifier.height(8.dp))
             QualitySelector(
                 imageFormat = component.imageFormat,
-                enabled = true,
                 quality = component.params.quality,
                 onQualityChange = component::setQuality
             )
@@ -71,7 +70,6 @@ internal fun GifToolsControls(component: GifToolsComponent) {
         is Screen.GifTools.Type.GifToJxl -> {
             QualitySelector(
                 imageFormat = ImageFormat.Jxl.Lossy,
-                enabled = true,
                 quality = component.jxlQuality,
                 onQualityChange = component::setJxlQuality
             )
@@ -80,7 +78,6 @@ internal fun GifToolsControls(component: GifToolsComponent) {
         is Screen.GifTools.Type.GifToWebp -> {
             QualitySelector(
                 imageFormat = ImageFormat.Jpg,
-                enabled = true,
                 quality = component.webpQuality,
                 onQualityChange = component::setWebpQuality
             )

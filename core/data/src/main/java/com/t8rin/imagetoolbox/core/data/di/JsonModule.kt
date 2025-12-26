@@ -18,8 +18,10 @@
 package com.t8rin.imagetoolbox.core.data.di
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.t8rin.imagetoolbox.core.data.json.MoshiParser
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import dagger.Binds
 import dagger.Module
@@ -43,6 +45,15 @@ internal interface JsonModule {
         @Provides
         @Singleton
         fun moshi(): Moshi = Moshi.Builder()
+            .add(
+                PolymorphicJsonAdapterFactory.of(Quality::class.java, "Quality")
+                    .withSubtype(Quality.Jxl::class.java, "Jxl")
+                    .withSubtype(Quality.Avif::class.java, "Avif")
+                    .withSubtype(Quality.PngLossy::class.java, "PngLossy")
+                    .withSubtype(Quality.Tiff::class.java, "Tiff")
+                    .withSubtype(Quality.Base::class.java, "Base")
+                    .withDefaultValue(Quality.Base())
+            )
             .addLast(KotlinJsonAdapterFactory())
             .build()
 

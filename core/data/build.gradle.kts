@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.jpegli.coder)
 
     implementation(libs.moshi)
+    implementation(libs.moshi.adapters)
 
     api(libs.androidx.documentfile)
 

@@ -108,7 +108,6 @@ fun AnimatedJxlParamsSelector(
             imageFormat = if (value.isLossy) {
                 ImageFormat.Jxl.Lossy
             } else ImageFormat.Jxl.Lossless,
-            enabled = true,
             quality = value.quality,
             onQualityChange = {
                 onValueChange(

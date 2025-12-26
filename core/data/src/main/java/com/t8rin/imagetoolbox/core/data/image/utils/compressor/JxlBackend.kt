@@ -37,7 +37,7 @@ internal data class JxlBackend(
     ): ByteArray {
         val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl()
         return JxlCoder.encode(
-            bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
+            bitmap = if (jxlQuality.channels == Quality.Channels.Monochrome) {
                 Aire.grayscale(image)
             } else image,
             channelsConfiguration = when (jxlQuality.channels) {

@@ -110,18 +110,10 @@ sealed class Quality(
         override val qualityValue: Int = 100
     ) : Quality(qualityValue)
 
-    sealed class Channels(
-        val ordinal: Int
-    ) {
-        data object RGBA : Channels(0)
-        data object RGB : Channels(1)
-        data object Monochrome : Channels(2)
+    enum class Channels {
+        RGBA, RGB, Monochrome;
 
         companion object {
-            val entries by lazy {
-                listOf(RGBA, RGB, Monochrome)
-            }
-
             fun fromInt(int: Int) = when (int) {
                 1 -> RGB
                 2 -> Monochrome

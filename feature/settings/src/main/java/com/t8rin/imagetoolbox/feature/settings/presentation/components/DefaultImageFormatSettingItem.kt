@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,65 +17,70 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FitScreen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Png
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ScaleModeSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 
 @Composable
-fun DefaultScaleModeSettingItem(
-    onValueChange: (ImageScaleMode) -> Unit,
-    shape: Shape = ShapeDefaults.top,
+fun DefaultImageFormatSettingItem(
+    onValueChange: (ImageFormat?) -> Unit,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    ScaleModeSelector(
+
+    ImageFormatSelector(
         modifier = modifier,
         shape = shape,
         backgroundColor = Color.Unspecified,
-        value = settingsState.defaultImageScaleMode,
+        value = settingsState.defaultImageFormat,
         onValueChange = onValueChange,
-        titlePadding = PaddingValues(
-            top = 12.dp,
-            start = 12.dp,
-            end = 12.dp
-        ),
-        titleArrangement = Arrangement.Start,
         enableItemsCardBackground = false,
+        onAutoClick = { onValueChange(null) },
         title = {
-            IconShapeContainer(
-                enabled = true,
-                content = {
-                    Icon(
-                        imageVector = Icons.Outlined.FitScreen,
-                        contentDescription = null
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = stringResource(R.string.scale_mode),
-                style = PreferenceItemDefaults.TitleFontStyle,
-                modifier = Modifier.weight(1f, false)
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp)
+                    .padding(top = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconShapeContainer(
+                    enabled = true,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Outlined.Png,
+                            contentDescription = null
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.image_format),
+                    style = PreferenceItemDefaults.TitleFontStyle,
+                    modifier = Modifier.weight(1f, false)
+                )
+            }
         }
     )
 }

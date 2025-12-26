@@ -362,7 +362,6 @@ fun ApngToolsContent(
                     Spacer(modifier = Modifier.height(8.dp))
                     QualitySelector(
                         imageFormat = component.imageFormat,
-                        enabled = true,
                         quality = component.params.quality,
                         onQualityChange = component::setQuality
                     )
@@ -392,7 +391,6 @@ fun ApngToolsContent(
                 is Screen.ApngTools.Type.ApngToJxl -> {
                     QualitySelector(
                         imageFormat = ImageFormat.Jxl.Lossy,
-                        enabled = true,
                         quality = component.jxlQuality,
                         onQualityChange = component::setJxlQuality
                     )

@@ -254,7 +254,6 @@ fun ImageStackingContent(
                 }
                 QualitySelector(
                     imageFormat = component.imageInfo.imageFormat,
-                    enabled = component.stackImages.isNotEmpty(),
                     quality = component.imageInfo.quality,
                     onQualityChange = component::setQuality
                 )

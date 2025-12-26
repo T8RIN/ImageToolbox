@@ -18,10 +18,13 @@
 package com.t8rin.imagetoolbox.feature.settings.data.keys
 
 import androidx.datastore.preferences.core.Preferences
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
+import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -37,7 +40,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 
 internal fun Preferences.toSettingsState(
-    default: SettingsState
+    default: SettingsState,
+    jsonParser: JsonParser
 ): SettingsState = SettingsState(
     nightMode = NightMode.fromOrdinal(this[NIGHT_MODE]) ?: default.nightMode,
     isDynamicColors = this[DYNAMIC_COLORS] ?: default.isDynamicColors,
@@ -206,7 +210,20 @@ internal fun Preferences.toSettingsState(
     isTelegramGroupOpened = this[IS_TELEGRAM_GROUP_OPENED] ?: default.isTelegramGroupOpened,
     initialOcrMode = this[INITIAL_OCR_MODE] ?: default.initialOcrMode,
     spotHealMode = this[SPOT_HEAL_MODE] ?: default.spotHealMode,
-    snowfallMode = this[SNOWFALL_MODE]?.let { SnowfallMode.entries[it] } ?: default.snowfallMode
+    snowfallMode = this[SNOWFALL_MODE]?.let { SnowfallMode.entries[it] } ?: default.snowfallMode,
+    defaultImageFormat = this[DEFAULT_IMAGE_FORMAT].let { title ->
+        if (title.isNullOrBlank()) {
+            null
+        } else {
+            ImageFormat.entries.find { it.title == title } ?: default.defaultImageFormat
+        }
+    },
+    defaultQuality = this[DEFAULT_QUALITY]?.let {
+        jsonParser.fromJson(
+            json = it,
+            type = Quality::class.java
+        )
+    } ?: default.defaultQuality,
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

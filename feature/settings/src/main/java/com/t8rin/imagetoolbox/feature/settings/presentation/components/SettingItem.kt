@@ -584,6 +584,14 @@ internal fun SettingItem(
             Setting.SnowfallMode -> {
                 SnowfallModeSettingItem(onValueChange = component::setSnowfallMode)
             }
+
+            Setting.DefaultImageFormat -> {
+                DefaultImageFormatSettingItem(onValueChange = component::setDefaultImageFormat)
+            }
+
+            Setting.DefaultQuality -> {
+                DefaultQualitySettingItem(onValueChange = component::setDefaultQuality)
+            }
         }
     }
 }

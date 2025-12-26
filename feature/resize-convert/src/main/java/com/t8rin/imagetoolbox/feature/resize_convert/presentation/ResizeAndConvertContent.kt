@@ -303,7 +303,6 @@ fun ResizeAndConvertContent(
             }
             QualitySelector(
                 imageFormat = imageInfo.imageFormat,
-                enabled = component.bitmap != null,
                 quality = imageInfo.quality,
                 onQualityChange = component::setQuality
             )

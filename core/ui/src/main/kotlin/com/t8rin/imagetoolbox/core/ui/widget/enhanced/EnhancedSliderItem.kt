@@ -99,6 +99,9 @@ fun EnhancedSliderItem(
     titleHorizontalPadding: Dp = if (behaveAsContainer) 16.dp
     else 6.dp,
     valuesPreviewMapping: ImmutableMap<Float, String> = remember { persistentMapOf() },
+    titleFontWeight: FontWeight = if (behaveAsContainer) {
+        FontWeight.Medium
+    } else FontWeight.Normal,
     additionalContent: (@Composable () -> Unit)? = null,
 ) {
     val internalColor = contentColor
@@ -320,9 +323,7 @@ fun EnhancedSliderItem(
                                         )
                                         .weight(1f),
                                     lineHeight = 18.sp,
-                                    fontWeight = if (behaveAsContainer) {
-                                        FontWeight.Medium
-                                    } else FontWeight.Normal
+                                    fontWeight = titleFontWeight
                                 )
                                 ValueText(
                                     enabled = valueTextTapEnabled && enabled,

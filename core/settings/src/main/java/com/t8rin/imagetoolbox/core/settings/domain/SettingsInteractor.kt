@@ -17,7 +17,9 @@
 
 package com.t8rin.imagetoolbox.core.settings.domain
 
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
@@ -235,6 +237,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleIsScreenSelectionLauncherMode()
 
     suspend fun setSnowfallMode(snowfallMode: SnowfallMode)
+
+    suspend fun setDefaultImageFormat(imageFormat: ImageFormat?)
+
+    suspend fun setDefaultQuality(quality: Quality)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

@@ -242,7 +242,6 @@ fun ImageStitchingContent(
                 )
                 QualitySelector(
                     imageFormat = component.imageInfo.imageFormat,
-                    enabled = !component.uris.isNullOrEmpty(),
                     quality = component.imageInfo.quality,
                     onQualityChange = component::setQuality
                 )

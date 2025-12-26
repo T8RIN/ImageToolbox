@@ -42,8 +42,10 @@ import com.t8rin.dynamic.theme.ColorBlindType
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
@@ -162,6 +164,8 @@ data class UiSettingsState(
     val isScreenSelectionLauncherMode: Boolean,
     val spotHealMode: Int,
     val snowfallMode: SnowfallMode,
+    val defaultImageFormat: ImageFormat?,
+    val defaultQuality: Quality
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -406,7 +410,9 @@ fun SettingsState.toUiState(
                 customAsciiGradients = customAsciiGradients,
                 isScreenSelectionLauncherMode = isScreenSelectionLauncherMode,
                 spotHealMode = spotHealMode,
-                snowfallMode = snowfallMode
+                snowfallMode = snowfallMode,
+                defaultImageFormat = defaultImageFormat,
+                defaultQuality = defaultQuality
             )
         }
     }.value
