@@ -371,7 +371,8 @@ sealed class UiFilter<T : Any>(
                     UiCropOrPerspectiveFilter(),
                     UiLensCorrectionFilter(),
                     UiSeamCarvingFilter(),
-                    UiGlitchVariantFilter()
+                    UiGlitchVariantFilter(),
+                    UiVHSFilter()
                 ),
                 //Dithering
                 listOf(

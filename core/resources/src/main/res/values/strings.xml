@@ -1898,4 +1898,5 @@
     <string name="glitch_variant">Glitch Variant</string>
     <string name="channel_shift">Channel Shift</string>
     <string name="max_offset">Max Offset</string>
+    <string name="vhs">VHS</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.GlitchTool
 
 @FilterInject
-internal class AnaglyphFilter(
-    override val value: Float = 20f
-) : Transformation<Bitmap>, Filter.Anaglyph {
+internal class VHSFilter(
+    override val value: Pair<Float, Float> = 2f to 3f,
+) : Transformation<Bitmap>, Filter.VHS {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -35,6 +35,10 @@ internal class AnaglyphFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = GlitchTool.anaglyph(input, value.toInt())
+    ): Bitmap = GlitchTool.vhsGlitch(
+        src = input,
+        time = value.first,
+        strength = value.second
+    )
 
 }

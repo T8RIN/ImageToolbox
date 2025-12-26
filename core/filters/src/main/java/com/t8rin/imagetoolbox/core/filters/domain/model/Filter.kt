@@ -363,6 +363,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface RadialWeavePixelation : FloatFilter
     interface BorderFrame : FloatColorModelFilter
     interface GlitchVariant : TripleFloatFilter
+    interface VHS : PairFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

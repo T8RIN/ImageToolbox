@@ -31,9 +31,10 @@ import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.floor
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import kotlin.random.Random
 
-internal object Glitcher {
+internal object GlitchTool {
 
     private val leftArray = floatArrayOf(
         1.0f,
@@ -213,6 +214,75 @@ internal object Glitcher {
         result
     }
 
+    suspend fun vhsGlitch(
+        src: Bitmap,
+        time: Float = 0f,
+        strength: Float = 1f
+    ): Bitmap = coroutineScope {
+        val w = src.width
+        val h = src.height
+
+        val lineJitterPx = (w * 0.015f * strength).toInt()
+        val rgbShiftPx = (w * 0.008f * strength).toInt()
+        val waveAmp = 2f * strength
+        val noiseAmp = (20 * strength).toInt()
+
+        val result = src.copy(Bitmap.Config.ARGB_8888, true)
+
+        val pixels = IntArray(w * h)
+        val out = IntArray(w * h)
+        result.getPixels(pixels, 0, w, 0, 0, w, h)
+
+        for (y in 0 until h) {
+            val wave =
+                sin((y * 0.06f) + time * 4f) * waveAmp
+
+            val jitter =
+                if (Random.nextFloat() < 0.08f * strength)
+                    Random.nextInt(-lineJitterPx, lineJitterPx + 1)
+                else 0
+
+            val row = y * w
+
+            for (x in 0 until w) {
+                val baseX = (x + wave + jitter).toInt()
+                    .coerceIn(0, w - 1)
+
+                val rX = (baseX + rgbShiftPx).coerceIn(0, w - 1)
+                val bX = (baseX - rgbShiftPx).coerceIn(0, w - 1)
+
+                val pR = pixels[row + rX]
+                val pG = pixels[row + baseX]
+                val pB = pixels[row + bX]
+
+                var r = (pR shr 16) and 0xFF
+                var g = (pG shr 8) and 0xFF
+                var b = pB and 0xFF
+                val a = (pG ushr 24)
+
+                val noise = Random.nextInt(-noiseAmp, noiseAmp + 1)
+                r = (r + noise).coerceIn(0, 255)
+                g = (g + noise).coerceIn(0, 255)
+                b = (b + noise).coerceIn(0, 255)
+
+                if ((y % 3) == 0) {
+                    r = (r * 0.92f).toInt()
+                    g = (g * 0.92f).toInt()
+                    b = (b * 0.92f).toInt()
+                }
+
+                out[row + x] =
+                    (a shl 24) or
+                            (r shl 16) or
+                            (g shl 8) or
+                            b
+            }
+        }
+
+        result.setPixels(out, 0, w, 0, 0, w, h)
+
+        result
+    }
 
     private fun glitchJpegBytes(
         pos: Int,
