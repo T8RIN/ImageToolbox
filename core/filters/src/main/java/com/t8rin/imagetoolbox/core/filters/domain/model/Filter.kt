@@ -365,6 +365,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface GlitchVariant : TripleFloatFilter
     interface VHS : PairFloatFilter
     interface BlockGlitch : PairFloatFilter
+    interface CrtCurvature : TripleFloatFilter
 }
 
 interface SimpleFilter : Filter<Unit>

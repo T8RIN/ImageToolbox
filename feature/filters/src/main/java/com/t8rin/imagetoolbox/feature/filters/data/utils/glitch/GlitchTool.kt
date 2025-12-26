@@ -30,8 +30,10 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.floor
+import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 internal object GlitchTool {
@@ -287,7 +289,7 @@ internal object GlitchTool {
     suspend fun blockGlitch(
         src: Bitmap,
         strength: Float = 0.5f,   // 0f..1f
-        blockSizeFraction: Float = 0.02f // 0f..1f (от ширины)
+        blockSizeFraction: Float = 0.02f // 0f..1f
     ): Bitmap = coroutineScope {
         val w = src.width
         val h = src.height
@@ -337,6 +339,75 @@ internal object GlitchTool {
         result.setPixels(out, 0, w, 0, 0, w, h)
 
         result
+    }
+
+    suspend fun crtCurvature(
+        src: Bitmap,
+        curvature: Float = 0.25f,   // -1f..1f,
+        vignette: Float = 0.35f,    // 0f..1f,
+        chroma: Float = 0.015f      // 0f..1f
+    ): Bitmap = coroutineScope {
+        val w = src.width
+        val h = src.height
+
+        val cx = w * 0.5f
+        val cy = h * 0.5f
+        val maxR = sqrt(cx * cx + cy * cy)
+
+        val curve = curvature * 0.45f
+        val chromaPx = (w * chroma).toInt()
+
+        // Масштаб, чтобы края не уходили за пределы
+        val scaleFactor = 1f - curve * 0.2f
+
+        val srcPixels = IntArray(w * h)
+        val out = IntArray(w * h)
+        src.getPixels(srcPixels, 0, w, 0, 0, w, h)
+
+        for (y in 0 until h) {
+            for (x in 0 until w) {
+
+                // нормализуем координаты и применяем scale
+                val nx = ((x - cx) / cx) * scaleFactor
+                val ny = ((y - cy) / cy) * scaleFactor
+
+                val r2 = nx * nx + ny * ny
+                val k = 1f - r2 * curve // выпуклость наружу
+
+                val sx = (cx + nx * cx / k).toInt().coerceIn(0, w - 1)
+                val sy = (cy + ny * cy / k).toInt().coerceIn(0, h - 1)
+
+                val base = sy * w + sx
+
+                val rSrc = (sx + chromaPx).coerceIn(0, w - 1) + sy * w
+                val bSrc = (sx - chromaPx).coerceIn(0, w - 1) + sy * w
+
+                val pR = srcPixels[rSrc]
+                val pG = srcPixels[base]
+                val pB = srcPixels[bSrc]
+
+                var r = (pR shr 16) and 0xFF
+                var g = (pG shr 8) and 0xFF
+                var b = pB and 0xFF
+                val a = (pG ushr 24)
+
+                // Vignette
+                val dist = sqrt((x - cx).pow(2) + (y - cy).pow(2)) / maxR
+                val vig = 1f - vignette * dist * dist
+
+                r = (r * vig).toInt().coerceIn(0, 255)
+                g = (g * vig).toInt().coerceIn(0, 255)
+                b = (b * vig).toInt().coerceIn(0, 255)
+
+                out[y * w + x] =
+                    (a shl 24) or
+                            (r shl 16) or
+                            (g shl 8) or
+                            b
+            }
+        }
+
+        Bitmap.createBitmap(out, w, h, Bitmap.Config.ARGB_8888)
     }
 
     private fun glitchJpegBytes(
