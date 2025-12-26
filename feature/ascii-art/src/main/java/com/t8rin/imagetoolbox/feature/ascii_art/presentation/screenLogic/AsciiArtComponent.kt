@@ -53,16 +53,6 @@ class AsciiArtComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    init {
-        debounce {
-            initialUri?.let(::setUri)
-        }
-
-        settingsProvider.settingsState.onEach { settings ->
-            _asciiParams.update { it.copy(font = settings.font.asFontType()) }
-        }.launchIn(componentScope)
-    }
-
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
 
@@ -75,6 +65,16 @@ class AsciiArtComponent @AssistedInject internal constructor(
 
     private val _isInvertImage: MutableState<Boolean> = mutableStateOf(false)
     val isInvertImage: Boolean by _isInvertImage
+
+    init {
+        debounce {
+            initialUri?.let(::setUri)
+        }
+
+        settingsProvider.settingsState.onEach { settings ->
+            _asciiParams.update { it.copy(font = settings.font.asFontType()) }
+        }.launchIn(componentScope)
+    }
 
     fun setUri(uri: Uri) {
         _uri.update { uri }
