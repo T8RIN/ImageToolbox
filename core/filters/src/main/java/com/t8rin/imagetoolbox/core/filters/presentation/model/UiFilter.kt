@@ -274,7 +274,8 @@ sealed class UiFilter<T : Any>(
                     UiThresholdFilter(),
                     UiDoGFilter(),
                     UiErrorLevelAnalysisFilter(),
-                    UiCopyMoveDetectionFilter()
+                    UiCopyMoveDetectionFilter(),
+                    UiBorderFrameFilter()
                 ),
                 //Blur
                 listOf(

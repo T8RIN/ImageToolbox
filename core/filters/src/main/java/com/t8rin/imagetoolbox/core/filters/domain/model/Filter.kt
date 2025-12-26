@@ -361,6 +361,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface PulseGridPixelation : FloatFilter
     interface NucleusPixelation : FloatFilter
     interface RadialWeavePixelation : FloatFilter
+    interface BorderFrame : FloatColorModelFilter
 }
 
 interface SimpleFilter : Filter<Unit>
