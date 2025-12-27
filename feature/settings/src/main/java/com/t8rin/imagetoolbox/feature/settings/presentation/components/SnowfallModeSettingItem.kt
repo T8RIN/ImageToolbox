@@ -54,9 +54,10 @@ fun SnowfallModeSettingItem(
         TitleItem(
             text = stringResource(R.string.snowfall_mode),
             icon = Icons.Outlined.Snowflake,
+            iconEndPadding = 14.dp,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
-                .padding(top = 12.dp)
+                .padding(top = 8.dp)
         )
         EnhancedButtonGroup(
             enabled = true,
