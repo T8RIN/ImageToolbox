@@ -75,7 +75,7 @@ jobs:
       - name: Upload Market APKs
         uses: actions/upload-artifact@v4
         with:
-          name: Signed apks Market
+          name: Signed Market APKs
           path: app/build/outputs/apk/market/release/*.apk
 
       - name: Delete Market APKs
