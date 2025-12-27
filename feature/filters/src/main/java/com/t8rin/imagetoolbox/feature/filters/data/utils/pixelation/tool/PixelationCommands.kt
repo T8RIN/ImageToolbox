@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation
+package com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.tool
 
 internal object PixelationCommands {
 

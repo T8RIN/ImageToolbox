@@ -29,70 +29,40 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.get
 import androidx.core.graphics.withClip
 import androidx.core.graphics.withSave
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.tool.PixelationCommands
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.tool.PixelationLayer
 import kotlin.math.sqrt
 
-internal object Pixelate {
-    private val SQRT2 = sqrt(2.0).toFloat()
+internal object PixelationTool {
 
-    fun fromBitmap(
+    fun pixelate(
         input: Bitmap,
-        vararg layers: PixelationLayer
-    ): Bitmap {
-        val out = createBitmap(input.width, input.height)
-        render(
-            input = input,
-            out = out,
-            layers = layers
-        )
-        return out
-    }
+        inBounds: Rect? = null,
+        outBounds: Rect? = null,
+        layers: PixelationCommands.() -> Array<PixelationLayer>,
+    ): Bitmap = pixelate(
+        input = input,
+        inBounds = inBounds,
+        outBounds = outBounds,
+        layers = layers(PixelationCommands)
+    )
 
-    fun render(
+    fun pixelate(
         input: Bitmap,
-        out: Bitmap,
-        vararg layers: PixelationLayer
-    ) {
-        render(
-            input = input,
-            inBounds = null,
-            out = out,
-            layers = layers
-        )
-    }
-
-    fun render(
-        input: Bitmap,
-        inBounds: Rect?,
-        out: Bitmap,
-        vararg layers: PixelationLayer
-    ) {
-        render(
-            input = input,
-            inBounds = inBounds,
-            out = out,
-            outBounds = null,
-            layers = layers
-        )
-    }
-
-    fun render(
-        input: Bitmap,
-        inBounds: Rect?,
-        out: Bitmap,
-        outBounds: Rect?,
+        inBounds: Rect? = null,
+        outBounds: Rect? = null,
         vararg layers: PixelationLayer,
-    ) {
-        var bounds = outBounds
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG or Paint.FILTER_BITMAP_FLAG)
-        if (bounds == null) {
-            bounds = Rect(0, 0, out.width, out.height)
-        }
-        out.applyCanvas {
+    ): Bitmap {
+        val bounds = outBounds ?: Rect(0, 0, input.width, input.height)
+
+        return createBitmap(
+            width = bounds.width(),
+            height = bounds.height()
+        ).applyCanvas {
             render(
                 input = input,
                 inBounds = inBounds,
                 outBounds = bounds,
-                paint = paint,
                 layers = layers
             )
         }
@@ -102,7 +72,6 @@ internal object Pixelate {
         input: Bitmap,
         inBounds: Rect?,
         outBounds: Rect,
-        paint: Paint,
         vararg layers: PixelationLayer,
     ) {
         val inWidth = inBounds?.width() ?: input.width
@@ -119,7 +88,7 @@ internal object Pixelate {
             scale(scaleX, scaleY)
             for (layer in layers) {
                 // option defaults
-                val size: Float = if (layer.size == null) layer.resolution else layer.size!!
+                val size: Float = layer.size ?: layer.resolution
                 val cols = (inWidth / layer.resolution + 1).toInt()
                 val rows = (inHeight / layer.resolution + 1).toInt()
                 val halfSize = size / 2f
@@ -212,4 +181,9 @@ internal object Pixelate {
         val alpha = (opts.alpha * Color.alpha(pixel)).toInt()
         return Color.argb(alpha, red, green, blue)
     }
+
+    private val SQRT2 = sqrt(2.0).toFloat()
+
+    private val paint =
+        Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG or Paint.FILTER_BITMAP_FLAG)
 }

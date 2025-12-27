@@ -18,14 +18,11 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.GlitchTool
-import kotlinx.coroutines.coroutineScope
-import java.io.ByteArrayOutputStream
 
 @FilterInject
 internal class GlitchFilter(
@@ -38,20 +35,11 @@ internal class GlitchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = GlitchTool.glitch(
-        bitmap = coroutineScope {
-            ByteArrayOutputStream().use {
-                input.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                it.toByteArray()
-            }
-        },
+    ): Bitmap = GlitchTool.jpegGlitch(
+        input = input,
         amount = value.first.toInt(),
         seed = value.second.toInt(),
         iterations = value.third.toInt()
-    ).let {
-        coroutineScope {
-            BitmapFactory.decodeByteArray(it, 0, it.size)
-        }
-    }
+    )
 
 }

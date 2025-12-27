@@ -22,8 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationTool
 
 @FilterInject
 internal class NucleusPixelationFilter(
@@ -35,8 +34,8 @@ internal class NucleusPixelationFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Pixelate.fromBitmap(
+    ): Bitmap = PixelationTool.pixelate(
         input = input,
-        layers = PixelationCommands.nucleus(value)
+        layers = { nucleus(value) }
     )
 }

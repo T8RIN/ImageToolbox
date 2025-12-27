@@ -25,8 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.Pixelate
-import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationCommands
+import com.t8rin.imagetoolbox.feature.filters.data.utils.pixelation.PixelationTool
 import com.t8rin.trickle.Trickle
 
 @FilterInject
@@ -39,9 +38,9 @@ internal class StrokePixelationFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Pixelate.fromBitmap(
+    ): Bitmap = PixelationTool.pixelate(
         input = input,
-        layers = PixelationCommands.stroke(value.first)
+        layers = { stroke(value.first) }
     ).let {
         Trickle.drawColorBehind(
             input = it,
