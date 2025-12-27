@@ -1869,4 +1869,7 @@
     <string name="nucleus_pixelization">核心像素化</string>
     <string name="radial_weave_pixelization">径向编织像素化</string>
     <string name="cannot_open_uri">无法打开URI“%s”</string>
+    <string name="snowfall_mode">降雪模式</string>
+    <string name="enabled">已启用</string>
+    <string name="border_frame">边框框架</string>
 </resources>
