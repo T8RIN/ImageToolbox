@@ -29,5 +29,5 @@ object IntentUtils {
     inline fun <reified T : Parcelable> Intent.parcelableArrayList(key: String): ArrayList<T>? =
         runCatching {
             IntentCompat.getParcelableArrayListExtra(this, key, T::class.java)
-    }.getOrNull()
+        }.getOrNull()
 }

@@ -96,65 +96,65 @@ internal class AndroidFilterMaskApplier @Inject constructor(
     ).apply { setHasAlpha(true) }.applyCanvas {
         val canvasSize = IntegerSize(width, height)
 
-            pathPaints.forEach { pathPaint ->
-                val path = pathPaint.path.scaleToFitCanvas(
-                    currentSize = canvasSize,
-                    oldSize = pathPaint.canvasSize
-                )
-                val drawPathMode = pathPaint.drawPathMode
-                val isSharpEdge = drawPathMode.isSharpEdge
-                val isFilled = drawPathMode.isFilled
+        pathPaints.forEach { pathPaint ->
+            val path = pathPaint.path.scaleToFitCanvas(
+                currentSize = canvasSize,
+                oldSize = pathPaint.canvasSize
+            )
+            val drawPathMode = pathPaint.drawPathMode
+            val isSharpEdge = drawPathMode.isSharpEdge
+            val isFilled = drawPathMode.isFilled
 
-                drawPath(
-                    path,
-                    Paint().apply {
-                        if (pathPaint.isErasing) {
+            drawPath(
+                path,
+                Paint().apply {
+                    if (pathPaint.isErasing) {
+                        style = PaintingStyle.Stroke
+                        this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
+                        strokeCap = StrokeCap.Round
+                        strokeJoin = StrokeJoin.Round
+                    } else {
+                        if (isFilled) {
+                            style = PaintingStyle.Fill
+                        } else {
                             style = PaintingStyle.Stroke
-                            this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
-                            strokeCap = StrokeCap.Round
-                            strokeJoin = StrokeJoin.Round
-                        } else {
-                            if (isFilled) {
-                                style = PaintingStyle.Fill
+                            if (isSharpEdge) {
+                                strokeCap = StrokeCap.Square
                             } else {
-                                style = PaintingStyle.Stroke
-                                if (isSharpEdge) {
-                                    strokeCap = StrokeCap.Square
-                                } else {
-                                    strokeCap = StrokeCap.Round
-                                    strokeJoin = StrokeJoin.Round
-                                }
-                                this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
+                                strokeCap = StrokeCap.Round
+                                strokeJoin = StrokeJoin.Round
                             }
-                        }
-                        color = pathPaint.drawColor
-                        if (pathPaint.isErasing) {
-                            blendMode = BlendMode.Clear
-                        }
-                    }.asFrameworkPaint().apply {
-                        if (pathPaint.brushSoftness.value > 0f) {
-                            maskFilter = BlurMaskFilter(
-                                pathPaint.brushSoftness.toPx(canvasSize),
-                                BlurMaskFilter.Blur.NORMAL
-                            )
+                            this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
                         }
                     }
-                )
-            }
-            drawBitmap(
-                this@clipBitmap,
-                0f,
-                0f,
-                NativePaint()
-                    .apply {
-                        xfermode = if (!inverse) {
-                            PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                        } else {
-                            PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
-                        }
+                    color = pathPaint.drawColor
+                    if (pathPaint.isErasing) {
+                        blendMode = BlendMode.Clear
                     }
+                }.asFrameworkPaint().apply {
+                    if (pathPaint.brushSoftness.value > 0f) {
+                        maskFilter = BlurMaskFilter(
+                            pathPaint.brushSoftness.toPx(canvasSize),
+                            BlurMaskFilter.Blur.NORMAL
+                        )
+                    }
+                }
             )
         }
+        drawBitmap(
+            this@clipBitmap,
+            0f,
+            0f,
+            NativePaint()
+                .apply {
+                    xfermode = if (!inverse) {
+                        PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                    } else {
+                        PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
+                    }
+                }
+        )
+    }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
         val image = this

@@ -25,10 +25,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.findActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.findActivity
 
 internal object ReviewHandlerImpl : ReviewHandler {
     private val Context.dataStore by preferencesDataStore("saves_count")

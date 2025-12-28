@@ -18,10 +18,10 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorInvertFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 
 @FilterInject
 internal class NegativeFilter(

@@ -27,8 +27,8 @@ import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.trickle.TrickleUtils.checkHasAlpha
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.trickle.TrickleUtils.checkHasAlpha
 
 @FilterInject
 internal class MorphologicalGradientFilter(

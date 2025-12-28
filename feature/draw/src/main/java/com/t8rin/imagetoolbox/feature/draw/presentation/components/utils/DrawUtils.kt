@@ -215,7 +215,7 @@ internal fun ImageBitmap.clipBitmap(
             },
             paint.asFrameworkPaint()
         )
-}.asImageBitmap()
+    }.asImageBitmap()
 
 internal fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()

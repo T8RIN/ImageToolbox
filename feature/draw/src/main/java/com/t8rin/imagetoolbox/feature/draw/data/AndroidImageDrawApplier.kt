@@ -321,52 +321,52 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
             drawBitmap(bitmap)
 
-                val recoveryShader = imageGetter.getImage(
-                    data = shaderSourceUri
-                )?.asImageBitmap()?.let { bmp -> ImageShader(bmp) }
+            val recoveryShader = imageGetter.getImage(
+                data = shaderSourceUri
+            )?.asImageBitmap()?.let { bmp -> ImageShader(bmp) }
 
-                pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size, mode) ->
-                    val path = nonScaledPath.scaleToFitCanvas(
-                        currentSize = canvasSize,
-                        oldSize = size
-                    )
+            pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size, mode) ->
+                val path = nonScaledPath.scaleToFitCanvas(
+                    currentSize = canvasSize,
+                    oldSize = size
+                )
 
-                    drawPath(
-                        path.asAndroidPath(),
-                        Paint().apply {
-                            if (mode.isFilled) {
-                                style = PaintingStyle.Fill
+                drawPath(
+                    path.asAndroidPath(),
+                    Paint().apply {
+                        if (mode.isFilled) {
+                            style = PaintingStyle.Fill
+                        } else {
+                            style = PaintingStyle.Stroke
+                            this.strokeWidth = mode.convertStrokeWidth(
+                                strokeWidth = stroke,
+                                canvasSize = canvasSize
+                            )
+                            if (mode.isSharpEdge) {
+                                strokeCap = StrokeCap.Square
                             } else {
-                                style = PaintingStyle.Stroke
-                                this.strokeWidth = mode.convertStrokeWidth(
-                                    strokeWidth = stroke,
-                                    canvasSize = canvasSize
-                                )
-                                if (mode.isSharpEdge) {
-                                    strokeCap = StrokeCap.Square
-                                } else {
-                                    strokeCap = StrokeCap.Round
-                                    strokeJoin = StrokeJoin.Round
-                                }
-                            }
-                            if (isRecoveryOn) {
-                                shader = recoveryShader
-                            } else {
-                                blendMode = BlendMode.Clear
-                            }
-                        }.asFrameworkPaint().apply {
-                            if (radius.value > 0f) {
-                                maskFilter =
-                                    BlurMaskFilter(
-                                        radius.toPx(canvasSize),
-                                        BlurMaskFilter.Blur.NORMAL
-                                    )
+                                strokeCap = StrokeCap.Round
+                                strokeJoin = StrokeJoin.Round
                             }
                         }
-                    )
-                }
-
+                        if (isRecoveryOn) {
+                            shader = recoveryShader
+                        } else {
+                            blendMode = BlendMode.Clear
+                        }
+                    }.asFrameworkPaint().apply {
+                        if (radius.value > 0f) {
+                            maskFilter =
+                                BlurMaskFilter(
+                                    radius.toPx(canvasSize),
+                                    BlurMaskFilter.Blur.NORMAL
+                                )
+                        }
+                    }
+                )
             }
+
+        }
     }
 
     private fun transformationsForMode(
