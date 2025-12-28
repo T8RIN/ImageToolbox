@@ -1811,4 +1811,20 @@
     <string name="fourth_eye">Viertes Auge</string>
     <string name="fourth_eye_description">Fügt dem QR-Code Augensymmetrie hinzu, indem ein viertes Auge an der unteren Ecke hinzugefügt wird.</string>
     <string name="pixel_shape">Pixelform</string>
+    <string name="snowfall_mode">Schneefallmodus</string>
+    <string name="enabled">Aktiviert</string>
+    <string name="border_frame">Rahmen</string>
+    <string name="frame_shape">Rahmenform</string>
+    <string name="ball_shape">Kugelform</string>
+    <string name="error_correction_level">Fehlerkorrekturstufe</string>
+    <string name="dark_color">Dunkle Farbe</string>
+    <string name="light_color">Helle Farbe</string>
+    <string name="hyper_os">Hyper OS</string>
+    <string name="hyper_os_sub">Im Stil von Xiaomi HyperOS</string>
+    <string name="mask_pattern">Maskenmuster</string>
+    <string name="code_may_be_not_scannable">Dieser Code ist möglicherweise nicht scanbar. Ändern Sie die Darstellungsparameter, damit er mit allen Geräten lesbar ist.</string>
+    <string name="not_scannable">Nicht scanbar</string>
+    <string name="launcher_mode_sub">Die Tools werden wie der App-Launcher auf dem Startbildschirm aussehen, um kompakter zu sein.</string>
+    <string name="launcher_mode">Launcher Modus</string>
+    <string name="flood_fill_sub">Füllt einen Bereich mit ausgewähltem Pinsel und Stil</string>
 </resources>

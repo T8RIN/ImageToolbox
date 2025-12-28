@@ -1872,4 +1872,7 @@
     <string name="nucleus_pixelization">Пікселізація ядра</string>
     <string name="radial_weave_pixelization">Пікселізація радіального переплетення</string>
     <string name="cannot_open_uri">Не вдається відкрити uri \"%s\"</string>
+    <string name="snowfall_mode">Режим снігопаду</string>
+    <string name="enabled">Увімкнено</string>
+    <string name="border_frame">Рамка кордону</string>
 </resources>
