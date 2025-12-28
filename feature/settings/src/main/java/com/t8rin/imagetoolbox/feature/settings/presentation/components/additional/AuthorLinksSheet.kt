@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -40,10 +41,14 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Forum
 import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.bottom
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.center
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.top
@@ -58,6 +63,7 @@ fun AuthorLinksSheet(
 ) {
     val context = LocalComponentActivity.current
     val linkHandler = LocalUriHandler.current
+    val settingsState = LocalSettingsState.current
 
     EnhancedModalBottomSheet(
         visible = visible,
@@ -82,17 +88,26 @@ fun AuthorLinksSheet(
             Box {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     Spacer(Modifier.height(16.dp))
-                    PreferenceItem(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        onClick = {
-                            linkHandler.openUri(AUTHOR_TG)
-                        },
-                        endIcon = Icons.Rounded.Link,
-                        shape = top,
-                        title = stringResource(R.string.telegram),
-                        startIcon = Icons.Rounded.Telegram,
-                        subtitle = stringResource(R.string.app_developer_nick)
-                    )
+                    CompositionLocalProvider(
+                        LocalIconShapeContentColor provides MaterialTheme.colorScheme.onTertiaryContainer,
+                        LocalIconShapeContainerColor provides MaterialTheme.colorScheme.tertiaryContainer.blend(
+                            color = MaterialTheme.colorScheme.tertiary,
+                            fraction = if (settingsState.isNightMode) 0.2f else 0.1f
+                        )
+                    ) {
+                        PreferenceItem(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            onClick = {
+                                linkHandler.openUri(AUTHOR_TG)
+                            },
+                            endIcon = Icons.Rounded.Link,
+                            shape = top,
+                            title = stringResource(R.string.telegram),
+                            startIcon = Icons.Rounded.Telegram,
+                            subtitle = stringResource(R.string.app_developer_nick),
+                            overrideIconShapeContentColor = true
+                        )
+                    }
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
