@@ -87,6 +87,7 @@ fun ConfettiTypeSettingItem(
                     bottom = 16.dp,
                     start = 12.dp
                 ),
+                iconEndPadding = 14.dp,
                 text = stringResource(R.string.confetti_type),
                 icon = Icons.Outlined.Emergency
             )

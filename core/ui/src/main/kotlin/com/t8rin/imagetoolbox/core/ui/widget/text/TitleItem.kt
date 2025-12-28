@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.icons.Firebase
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 
 @Composable
 fun TitleItem(
@@ -85,7 +86,6 @@ fun TitleItem(
     iconEndPadding: Dp = 8.dp,
     iconContainerColor: Color = IconShapeDefaults.containerColor,
     iconContentColor: Color = IconShapeDefaults.contentColor,
-    fontWeight: FontWeight = FontWeight.Bold,
 ) {
     Row(
         modifier = modifier,
@@ -112,9 +112,7 @@ fun TitleItem(
         ) {
             Text(
                 text = text,
-                fontWeight = fontWeight,
-                fontSize = 16.sp,
-                lineHeight = 18.sp
+                style = PreferenceItemDefaults.TitleFontStyle
             )
             subtitle?.let {
                 Spacer(modifier = Modifier.height(2.dp))

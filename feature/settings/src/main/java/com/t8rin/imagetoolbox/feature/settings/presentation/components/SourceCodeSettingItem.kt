@@ -21,8 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.APP_LINK
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Github
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
@@ -38,21 +41,29 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 fun SourceCodeSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.bottom,
-    color: Color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.7f),
-    contentColor: Color = MaterialTheme.colorScheme.onTertiaryContainer
 ) {
     val linkHandler = LocalUriHandler.current
-    PreferenceItem(
-        contentColor = contentColor,
-        shape = shape,
-        onClick = {
-            linkHandler.openUri(APP_LINK)
-        },
-        startIcon = Icons.Rounded.Github,
-        title = stringResource(R.string.check_source_code),
-        subtitle = stringResource(R.string.check_source_code_sub),
-        containerColor = color,
-        modifier = modifier
-    )
+
+    CompositionLocalProvider(
+        LocalIconShapeContentColor provides MaterialTheme.colorScheme.onTertiaryContainer,
+        LocalIconShapeContainerColor provides MaterialTheme.colorScheme.tertiaryContainer.blend(
+            color = MaterialTheme.colorScheme.tertiary,
+            fraction = 0.1f
+        )
+    ) {
+        PreferenceItem(
+            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            shape = shape,
+            onClick = {
+                linkHandler.openUri(APP_LINK)
+            },
+            startIcon = Icons.Rounded.Github,
+            title = stringResource(R.string.check_source_code),
+            subtitle = stringResource(R.string.check_source_code_sub),
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.7f),
+            modifier = modifier,
+            overrideIconShapeContentColor = true
+        )
+    }
 }
 

@@ -69,7 +69,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun ConfettiHarmonizerSettingItem(
+fun ConfettiHarmonizationColorSettingItem(
     onValueChange: (ColorHarmonizer) -> Unit,
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
@@ -108,6 +108,7 @@ fun ConfettiHarmonizerSettingItem(
                     bottom = 16.dp,
                     start = 12.dp
                 ),
+                iconEndPadding = 14.dp,
                 text = stringResource(R.string.harmonization_color),
                 icon = Icons.Outlined.ColorLens
             )

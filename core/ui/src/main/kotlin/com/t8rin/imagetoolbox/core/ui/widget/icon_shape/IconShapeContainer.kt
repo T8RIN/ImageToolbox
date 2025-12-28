@@ -25,6 +25,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -99,8 +100,10 @@ fun IconShapeContainer(
     enabled: Boolean,
     modifier: Modifier = Modifier,
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
-    contentColor: Color = IconShapeDefaults.contentColor,
-    containerColor: Color = IconShapeDefaults.containerColor,
+    contentColor: Color = LocalIconShapeContentColor.current
+        ?: IconShapeDefaults.contentColor,
+    containerColor: Color = LocalIconShapeContainerColor.current
+        ?: IconShapeDefaults.containerColor,
     content: @Composable (Boolean) -> Unit = {}
 ) {
     CompositionLocalProvider(
@@ -154,3 +157,6 @@ fun IconShapeContainer(
         }
     }
 }
+
+val LocalIconShapeContentColor = compositionLocalOf<Color?> { null }
+val LocalIconShapeContainerColor = compositionLocalOf<Color?> { null }

@@ -451,7 +451,7 @@ internal fun SettingItem(
             }
 
             Setting.ConfettiHarmonizer -> {
-                ConfettiHarmonizerSettingItem(onValueChange = component::setConfettiHarmonizer)
+                ConfettiHarmonizationColorSettingItem(onValueChange = component::setConfettiHarmonizer)
             }
 
             Setting.ConfettiHarmonizationLevel -> {

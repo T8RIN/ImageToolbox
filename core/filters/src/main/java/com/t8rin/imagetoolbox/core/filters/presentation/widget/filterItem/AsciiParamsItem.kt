@@ -47,7 +47,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.ascii.Gradient
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
@@ -263,7 +262,6 @@ internal fun AsciiParamsItem(
                         allowScroll = !previewOnly,
                         icon = null,
                         defaultColors = ColorSelectionRowDefaults.colorList,
-                        titleFontWeight = FontWeight.Normal,
                         contentHorizontalPadding = 16.dp,
                     )
                 }

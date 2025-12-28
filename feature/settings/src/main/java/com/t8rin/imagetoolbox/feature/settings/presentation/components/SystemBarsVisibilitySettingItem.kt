@@ -65,6 +65,7 @@ fun SystemBarsVisibilitySettingItem(
                 bottom = 16.dp,
                 start = 12.dp
             ),
+            iconEndPadding = 14.dp,
             text = stringResource(R.string.system_bars_visibility),
             icon = Icons.Outlined.TelevisionAmbientLight
         )

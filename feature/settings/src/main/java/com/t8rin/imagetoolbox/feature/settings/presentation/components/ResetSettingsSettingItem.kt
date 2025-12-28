@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
@@ -42,19 +45,27 @@ fun ResetSettingsSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     var showResetDialog by remember { mutableStateOf(false) }
-    PreferenceItem(
-        onClick = {
-            showResetDialog = true
-        },
-        shape = shape,
-        modifier = modifier,
-        containerColor = MaterialTheme.colorScheme
-            .errorContainer
-            .copy(alpha = 0.8f),
-        title = stringResource(R.string.reset),
-        subtitle = stringResource(R.string.reset_settings_sub),
-        startIcon = Icons.Rounded.RestartAlt
-    )
+
+    CompositionLocalProvider(
+        LocalIconShapeContentColor provides MaterialTheme.colorScheme.onErrorContainer,
+        LocalIconShapeContainerColor provides MaterialTheme.colorScheme.errorContainer
+    ) {
+        PreferenceItem(
+            onClick = {
+                showResetDialog = true
+            },
+            shape = shape,
+            modifier = modifier,
+            containerColor = MaterialTheme.colorScheme
+                .errorContainer
+                .copy(alpha = 0.5f),
+            title = stringResource(R.string.reset),
+            subtitle = stringResource(R.string.reset_settings_sub),
+            startIcon = Icons.Rounded.RestartAlt,
+            overrideIconShapeContentColor = true
+        )
+    }
+
     ResetDialog(
         visible = showResetDialog,
         onDismiss = {

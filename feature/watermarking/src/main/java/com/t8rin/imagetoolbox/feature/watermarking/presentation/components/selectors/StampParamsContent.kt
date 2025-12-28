@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
@@ -146,7 +145,6 @@ internal fun StampParamsContent(
                     )
                 },
                 title = stringResource(R.string.text_color),
-                titleFontWeight = FontWeight.Medium,
                 modifier = Modifier.container(
                     shape = ShapeDefaults.large,
                     color = MaterialTheme.colorScheme.surface
@@ -167,7 +165,6 @@ internal fun StampParamsContent(
                     )
                 },
                 title = stringResource(R.string.background_color),
-                titleFontWeight = FontWeight.Medium,
                 modifier = Modifier.container(
                     shape = ShapeDefaults.large,
                     color = MaterialTheme.colorScheme.surface

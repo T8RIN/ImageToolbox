@@ -29,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
@@ -113,7 +112,7 @@ internal fun VoronoiCrystallizeParamsItem(
     }
 
     Column(
-        modifier = Modifier.Companion.padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         paramsInfo.take(8).forEach { (state, info) ->
             val (title, valueRange, roundTo) = info
@@ -142,9 +141,8 @@ internal fun VoronoiCrystallizeParamsItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Companion.Normal,
                 contentHorizontalPadding = 16.dp,
-                modifier = Modifier.Companion.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp)
             )
         }
     }

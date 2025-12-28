@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -73,7 +72,7 @@ fun PreferenceRow(
     maxLines: Int = Int.MAX_VALUE,
     startContent: (@Composable () -> Unit)? = null,
     endContent: (@Composable () -> Unit)? = null,
-    titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
     resultModifier: Modifier = Modifier.padding(
         horizontal = if (startContent != null) 0.dp else 16.dp,
         vertical = 8.dp
@@ -234,7 +233,7 @@ fun PreferenceRow(
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
     shape: Shape = ShapeDefaults.default,
-    titleFontStyle: TextStyle = LocalTextStyle.current.copy(lineHeight = 18.sp),
+    titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
     startIcon: ImageVector?,
     endContent: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null,

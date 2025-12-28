@@ -29,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -67,7 +66,6 @@ internal fun ColorModelPairItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 0.dp
             )
             Spacer(Modifier.height(8.dp))
@@ -81,7 +79,6 @@ internal fun ColorModelPairItem(
                 allowScroll = !previewOnly,
                 icon = null,
                 defaultColors = ColorSelectionRowDefaults.colorList,
-                titleFontWeight = FontWeight.Normal,
                 contentHorizontalPadding = 0.dp
             )
         }

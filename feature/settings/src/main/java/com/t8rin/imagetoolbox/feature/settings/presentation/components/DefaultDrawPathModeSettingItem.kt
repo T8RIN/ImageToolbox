@@ -67,6 +67,7 @@ fun DefaultDrawPathModeSettingItem(
         TitleItem(
             text = stringResource(R.string.default_draw_path_mode),
             icon = Icons.Outlined.TouchApp,
+            iconEndPadding = 14.dp,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp)
