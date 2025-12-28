@@ -1672,4 +1672,22 @@
     <string name="border_color">Cor da borda</string>
     <string name="polar_coordinates">Coordenadas Polares</string>
     <string name="rect_to_polar">Rectangular para polar</string>
+    <string name="offset">Deslocamento</string>
+    <string name="invert_in_circle">Inverter em círculo</string>
+    <string name="reduce_noise">Reduzir Ruído</string>
+    <string name="simple_solarize">Solarizar Simples</string>
+    <string name="weave">Entrelaçar</string>
+    <string name="x_gap">Espaço X</string>
+    <string name="y_gap">Espaço Y</string>
+    <string name="x_width">Largura X</string>
+    <string name="y_wdth">Largura Y</string>
+    <string name="twirl">Rodopiar</string>
+    <string name="rubber_stmp">Carimbo de Borracha</string>
+    <string name="smear">Mancha</string>
+    <string name="density">Densidade</string>
+    <string name="mix">Mistura</string>
+    <string name="sphere_lensh_distortion">Distorção por Lente Esférica</string>
+    <string name="refraction_index">Índice de Refração</string>
+    <string name="arc">Arco</string>
+    <string name="spread_angle">Ângulo aberto</string>
 </resources>
