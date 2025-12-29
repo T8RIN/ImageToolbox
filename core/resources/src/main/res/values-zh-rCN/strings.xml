@@ -1872,4 +1872,15 @@
     <string name="snowfall_mode">降雪模式</string>
     <string name="enabled">已启用</string>
     <string name="border_frame">边框框架</string>
+    <string name="glitch_variant">故障变体</string>
+    <string name="channel_shift">通道偏移</string>
+    <string name="max_offset">最大偏移量</string>
+    <string name="block_glitch">方块故障</string>
+    <string name="block_size">方块大小</string>
+    <string name="crt_curvature">CRT曲率</string>
+    <string name="curvature">曲率</string>
+    <string name="chroma">色度</string>
+    <string name="pixel_melt">像素融解</string>
+    <string name="max_drop">最大落差</string>
+    <string name="vhs">VHS</string>
 </resources>
