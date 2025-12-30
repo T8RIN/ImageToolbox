@@ -1875,4 +1875,15 @@
     <string name="snowfall_mode">Режим снігопаду</string>
     <string name="enabled">Увімкнено</string>
     <string name="border_frame">Рамка кордону</string>
+    <string name="glitch_variant">Варіант глюка</string>
+    <string name="channel_shift">Зміна каналу</string>
+    <string name="max_offset">Максимальне зміщення</string>
+    <string name="vhs">VHS</string>
+    <string name="block_glitch">Збій блоку</string>
+    <string name="block_size">Розмір блоку</string>
+    <string name="crt_curvature">Кривизна ЕПТ</string>
+    <string name="curvature">Кривизна</string>
+    <string name="chroma">Хрома</string>
+    <string name="pixel_melt">Розплавлення пікселів</string>
+    <string name="max_drop">Макс. падіння</string>
 </resources>
