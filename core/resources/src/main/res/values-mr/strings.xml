@@ -1,3 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
+    <string name="size">आकार %1$s</string>
+    <string name="loading">लोड होत आहे…</string>
+    <string name="image_too_large_preview">प्रतिदर्शनासाठी प्रतिमा खूप मोठी आहे, परंतु तरीही ती सेव्ह करण्याचा प्रयत्न केला जाईल.</string>
+    <string name="pick_image">सुरू करण्यासाठी प्रतिमा निवडा</string>
+    <string name="width">रुंदी %1$s</string>
+    <string name="height">उंची %1$s</string>
+    <string name="quality">गुणवत्ता</string>
+    <string name="extension">विस्तार</string>
+    <string name="resize_type">आकाराचा प्रकार बदला</string>
+    <string name="explicit">स्पष्ट</string>
+    <string name="flexible">लवचिक</string>
+    <string name="pick_image_alt">प्रतिमा निवडा</string>
+    <string name="app_closing_sub">तुम्हाला खात्री आहे की तुम्हाला ॲप बंद करायचे आहे?</string>
+    <string name="app_closing">ॲप बंद होत आहे</string>
+    <string name="stay">थांबा</string>
+    <string name="close">बंद करा</string>
+    <string name="reset_image">प्रतिमा रीसेट करा</string>
+    <string name="reset_image_sub">प्रतिमांमध्ये केलेले बदल त्यांच्या सुरुवातीच्या मूल्यांवर परत येतील.</string>
+    <string name="values_reset">मूल्ये योग्यरित्या रीसेट केली गेली.</string>
+    <string name="reset">रीसेट करा</string>
+    <string name="something_went_wrong">काहीतरी चूक झाली.</string>
+    <string name="restart_app">ॲप रीस्टार्ट करा</string>
+    <string name="copied">क्लिपबोर्डवर कॉपी केले</string>
+    <string name="exception">अपवाद</string>
+    <string name="edit_exif">EXIF संपादित करा</string>
+    <string name="ok">ठीक आहे</string>
+    <string name="nearest">सर्वात जवळचे</string>
+    <string name="sort_by_size">आकार</string>
+    <string name="something_went_wrong_emphasis">अरेरे... काहीतरी चूक झाली आहे. तुम्ही खाली दिलेल्या पर्यायांचा वापर करून मला लिहू शकता आणि मी त्यावर उपाय शोधण्याचा प्रयत्न करेन.</string>
+    <string name="repeat_watermark_sub">दिलेल्या ठिकाणी एकदाच वॉटरमार्क लावण्याऐवजी, तो प्रतिमेवर पुन्हा लावतो.</string>
+    <string name="offset_x">ऑफसेट एक्स</string>
+    <string name="not_scannable">स्कॅन करण्यायोग्य नाही</string>
+    <string name="lanczos_6_jinc">लॅन्झोस ६ जिंक</string>
 </resources>
