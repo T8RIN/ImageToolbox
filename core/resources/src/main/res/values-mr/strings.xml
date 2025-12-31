@@ -34,4 +34,13 @@
     <string name="offset_x">ऑफसेट एक्स</string>
     <string name="not_scannable">स्कॅन करण्यायोग्य नाही</string>
     <string name="lanczos_6_jinc">लॅन्झोस ६ जिंक</string>
+    <string name="lanczos">लॅन्झोस</string>
+    <string name="max_bytes">कमाल आकार केबी मध्ये</string>
+    <string name="by_bytes_resize_sub">दिलेल्या केबी (KB) आकारानुसार प्रतिमेचा आकार बदला.</string>
+    <string name="compare">तुलना करा</string>
+    <string name="compare_sub">दिलेल्या दोन प्रतिमांची तुलना करा.</string>
+    <string name="pick_two_images">सुरुवात करण्यासाठी दोन प्रतिमा निवडा.</string>
+    <string name="pick_images">प्रतिमा निवडा</string>
+    <string name="settings">सेटिंग्ज</string>
+    <string name="night_mode">रात्री मोड</string>
 </resources>
