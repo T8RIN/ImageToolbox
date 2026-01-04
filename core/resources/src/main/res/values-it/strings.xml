@@ -14,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -58,7 +57,7 @@
     <string name="check_source_code_sub">Ricevi gli ultimi aggiornamenti, discuti dei problemi e altro.</string>
     <string name="single_edit">Ridimensionamento Singolo</string>
     <string name="single_edit_sub">Modifica e ridimensiona una singola immagine.</string>
-    <string name="pick_color">Estrai colore</string>
+    <string name="pick_color">Selettore colore</string>
     <string name="pick_color_sub">Estrai, copia o condividi un colore da un\'immagine.</string>
     <string name="image">Immagine</string>
     <string name="color">Colore</string>
@@ -70,7 +69,7 @@
     <string name="change_preview">Cambia anteprima</string>
     <string name="remove">Rimuovi</string>
     <string name="palette_sub">Genera una palette di colori da un\'immagine.</string>
-    <string name="generate_palette">Genera palette</string>
+    <string name="generate_palette">Genera Palette</string>
     <string name="palette">Palette</string>
     <string name="update">Aggiorna</string>
     <string name="new_version">Nuova versione %1$s</string>
@@ -82,7 +81,7 @@
     <string name="custom">Personalizzata</string>
     <string name="unspecified">Non specificata</string>
     <string name="device_storage">Memoria del telefono</string>
-    <string name="by_bytes_resize">Riduci grandezza</string>
+    <string name="by_bytes_resize">Ridimensiona per Peso</string>
     <string name="max_bytes">Dimensione massima in KB</string>
     <string name="by_bytes_resize_sub">Ridimensiona un\'immagine in base alla grandezza specificata in KB.</string>
     <string name="compare">Confrontare</string>
@@ -106,7 +105,7 @@
     <string name="color_scheme">Schema di colore</string>
     <string name="color_blue">Blu</string>
     <string name="color_green">Verde</string>
-    <string name="clipboard_paste_invalid_color_code">Incolla un codice RGB valido.</string>
+    <string name="clipboard_paste_invalid_color_code">Incolla un codice aRGB valido</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Impossibile modificare la combinazione di colori dell\'app mentre i colori dinamici sono attivi</string>
     <string name="pick_accent_color">Il tema dell\'app sarà basato sul colore selezionato</string>
     <string name="issue_tracker">Segnalazioni bug</string>
@@ -164,7 +163,7 @@
     <string name="luminance_threshold">Soglia di luminanza</string>
     <string name="delete_exif">Elimina EXIF</string>
     <string name="delete_exif_sub">Elimina i metadati EXIF da qualsiasi set di immagini</string>
-    <string name="image_preview">Anteprima dell\'immagine</string>
+    <string name="image_preview">Anteprima Immagine</string>
     <string name="image_preview_sub">Visualizza l\'anteprima di qualsiasi tipo di immagine: GIF, SVG e così via</string>
     <string name="image_source">Fonte immagine</string>
     <string name="photo_picker">Selettore di foto</string>
@@ -1059,4 +1058,39 @@
     <string name="gaussian">Gaussiana</string>
     <string name="format_conversion">Conversione Formato</string>
     <string name="format_conversion_sub">Converti una serie di immagini da un formato all\'altro</string>
+    <string name="tag_copyright">Diritti d\'autore</string>
+    <string name="tag_flashpix_version">Versione Flashpix</string>
+    <string name="tag_color_space">Spazio Colore</string>
+    <string name="tag_compressed_bits_per_pixel">Bit Compressi Per Pixel</string>
+    <string name="tag_related_sound_file">File Audio Associato</string>
+    <string name="tag_strip_offsets">Scostamenti Striscia</string>
+    <string name="tag_strip_byte_counts">Numero Byte Striscia</string>
+    <string name="tag_offset_time">Tempo Scostamento</string>
+    <string name="tag_offset_time_original">Tempo Scostamento Originale</string>
+    <string name="tag_offset_time_digitized">Tempo Scostamento Digitalizzato</string>
+    <string name="offset">Scostamento</string>
+    <string name="max_offset">Scostamento Massimo</string>
+    <string name="tag_subsec_time">Tempo Sub Sec</string>
+    <string name="tag_subsec_time_original">Tempo Sub Sec Originale</string>
+    <string name="tag_subsec_time_digitized">Tempo Sub Sec Digitalizzato</string>
+    <string name="tag_recommended_exposure_index">Indice Esposizione Consigliato</string>
+    <string name="tag_shutter_speed_value">Valore Velocità Otturatore</string>
+    <string name="tag_metering_mode">Modalità Misurazione</string>
+    <string name="tag_spatial_frequency_response">Risposta Frequenza Spaziale</string>
+    <string name="tag_sensing_method">Metodo Rilevamento</string>
+    <string name="tag_digital_zoom_ratio">Rapporto Zoom Digitale</string>
+    <string name="tag_focal_length_in_35mm_film">Distanza Focale in pellicola da 35mm</string>
+    <string name="tag_scene_capture_type">Tipo Cattura Scena</string>
+    <string name="tag_default_crop_size">Dimensione Ritaglio Predefinita</string>
+    <string name="tag_orf_preview_image_start">Inizio Anteprima Immagine</string>
+    <string name="tag_orf_preview_image_length">Lunghezza Anteprima Immagine</string>
+    <string name="tag_rw2_sensor_left_border">Bordo Sinistro Sensore</string>
+    <string name="tag_rw2_sensor_right_border">Bordo Destro Sensore</string>
+    <string name="tag_rw2_sensor_top_border">Bordo Superiore Sensore</string>
+    <string name="tag_rw2_sensor_bottom_border">Bordo Inferiore Sensore</string>
+    <string name="border_color">Colore bordo</string>
+    <string name="linear">Lineare</string>
+    <string name="scale_color_space">Scala Spazio Colore</string>
+    <string name="grid_size_x">Dimensione Griglia X</string>
+    <string name="grid_size_y">Dimensione Griglia Y</string>
 </resources>
