@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -148,7 +149,7 @@ data class SettingsState(
                 selectedEmoji = 0,
                 picturePickerModeInt = 0,
                 clearCacheOnLaunch = false,
-                showUpdateDialogOnStartup = true,
+                showUpdateDialogOnStartup = !Flavor.isFoss(),
                 groupOptionsByTypes = true,
                 screenList = emptyList(),
                 colorTupleList = null,
@@ -162,7 +163,7 @@ data class SettingsState(
                 fontScale = 1f,
                 allowCollectCrashlytics = true,
                 allowCollectAnalytics = true,
-                allowBetas = true,
+                allowBetas = !Flavor.isFoss(),
                 drawContainerShadows = true,
                 drawButtonShadows = true,
                 drawSwitchShadows = true,

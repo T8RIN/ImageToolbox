@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,7 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
@@ -57,8 +56,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 
-@Suppress("KotlinConstantConditions")
 @Composable
 internal fun FirstLaunchSetupDialog(
     toggleAllowBetas: () -> Unit,
@@ -68,21 +67,17 @@ internal fun FirstLaunchSetupDialog(
     val context = LocalContext.current
 
     val settingsState = LocalSettingsState.current
-    var updateOnFirstOpen by rememberSaveable(settingsState.appOpenCount) {
-        mutableStateOf(true)
+    var updateOnFirstOpen by rememberSaveable {
+        mutableStateOf(false)
     }
-    val visible = settingsState.isFirstLaunch(false) && updateOnFirstOpen
-    LaunchedEffect(visible) {
-        if (visible) {
-            if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
-                toggleShowUpdateDialog()
-                toggleAllowBetas()
-            }
-            adjustPerformance(context.performanceClass)
-        }
+
+    OneTimeEffect {
+        updateOnFirstOpen = settingsState.isFirstLaunch(false)
+        adjustPerformance(context.performanceClass)
     }
+
     EnhancedAlertDialog(
-        visible = visible,
+        visible = updateOnFirstOpen,
         onDismissRequest = {},
         icon = {
             Icon(
@@ -106,7 +101,7 @@ internal fun FirstLaunchSetupDialog(
                         .verticalScroll(state)
                         .padding(2.dp)
                 ) {
-                    if (BuildConfig.FLAVOR == "foss") {
+                    if (Flavor.isFoss()) {
                         PreferenceItem(
                             title = stringResource(id = R.string.attention),
                             subtitle = stringResource(R.string.foss_update_checker_warning),

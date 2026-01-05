@@ -24,7 +24,7 @@ import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ClipboardFile
 import com.t8rin.imagetoolbox.core.resources.icons.Cool
@@ -422,7 +422,7 @@ sealed class SettingsGroup(
                 Updates,
                 AboutApp
             ).filter {
-                !(it is Firebase && BuildConfig.FLAVOR == "foss")
+                !(it is Firebase && Flavor.isFoss())
             }
         }
     }

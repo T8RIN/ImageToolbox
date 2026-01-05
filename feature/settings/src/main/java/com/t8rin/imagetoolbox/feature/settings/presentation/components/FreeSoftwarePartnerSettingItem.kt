@@ -28,20 +28,19 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.PARTNER_FREE_SOFTWARE
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.HandshakeAlt
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
 import java.util.Locale
 
-@Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
 @Composable
 fun FreeSoftwarePartnerSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    if (BuildConfig.FLAVOR == "foss" || Locale.getDefault().language != "ru") return
+    if (Flavor.isFoss() || Locale.getDefault().language != "ru") return
 
     val linkHandler = LocalUriHandler.current
     PreferenceRow(

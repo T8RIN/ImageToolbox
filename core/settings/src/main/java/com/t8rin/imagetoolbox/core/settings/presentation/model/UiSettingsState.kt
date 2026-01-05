@@ -172,7 +172,7 @@ fun UiSettingsState.isFirstLaunch(
     approximate: Boolean = true,
 ) = if (approximate) {
     appOpenCount <= 3
-} else appOpenCount < 1
+} else appOpenCount <= 1
 
 @Composable
 fun SettingsState.toUiState(

@@ -42,8 +42,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
-import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
@@ -129,8 +129,7 @@ fun AutoEraseBackgroundCard(
     }
 }
 
-@Suppress("SimplifyBooleanWithConstants")
 private val flavoredEntries: List<ModelType> = ModelType.entries.let {
-    if (BuildConfig.FLAVOR == "foss") it.toggle(ModelType.MlKit)
+    if (Flavor.isFoss()) it.toggle(ModelType.MlKit)
     else it
 }
