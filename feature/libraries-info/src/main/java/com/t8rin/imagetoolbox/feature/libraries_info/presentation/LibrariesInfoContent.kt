@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.libraries_info.presentation.components.LibrariesContainer
+import com.t8rin.imagetoolbox.feature.libraries_info.presentation.components.link
 import com.t8rin.imagetoolbox.feature.libraries_info.presentation.screenLogic.LibrariesInfoComponent
 import kotlinx.collections.immutable.toPersistentList
 
@@ -152,14 +153,12 @@ fun LibrariesInfoContent(
                 ),
                 onLibraryClick = { library ->
                     val license = library.licenses.firstOrNull()
+                    val url = library.link()
+
                     if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
                         component.selectLibrary(library)
-                    } else if (!license?.url.isNullOrBlank()) {
-                        license.url?.also {
-                            runCatching {
-                                linkHandler.openUri(it)
-                            }.onFailure(essentials::showFailureToast)
-                        }
+                    } else if (!url.isNullOrBlank()) {
+                        linkHandler.openUri(url)
                     }
                 }
             )

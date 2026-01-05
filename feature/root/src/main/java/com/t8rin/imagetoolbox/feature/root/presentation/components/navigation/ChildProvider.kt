@@ -572,7 +572,8 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 libraryName = config.name,
-                libraryDescription = config.htmlDescription
+                libraryDescription = config.htmlDescription,
+                libraryLink = config.link
             )
         )
 

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.app.presentation.components
 
-import android.app.Application
 import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initAI
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
@@ -25,15 +24,24 @@ import com.t8rin.imagetoolbox.app.presentation.components.functions.initQrScanne
 import com.t8rin.imagetoolbox.app.presentation.components.functions.registerSecurityProviders
 import com.t8rin.imagetoolbox.app.presentation.components.functions.setupFlags
 import com.t8rin.imagetoolbox.core.crash.presentation.components.applyGlobalExceptionHandler
+import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class ImageToolboxApplication : Application() {
+class ImageToolboxApplication : ComposeApplication() {
+
+    private var isSetupCompleted: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
+        runSetup()
+    }
+
+    override fun runSetup() {
+        if (isSetupCompleted) return
+
         setupFlags()
         initAppContext()
         initOpenCV()
@@ -42,6 +50,8 @@ class ImageToolboxApplication : Application() {
         attachLogWriter()
         applyGlobalExceptionHandler()
         registerSecurityProviders()
+
+        isSetupCompleted = true
     }
 
 }

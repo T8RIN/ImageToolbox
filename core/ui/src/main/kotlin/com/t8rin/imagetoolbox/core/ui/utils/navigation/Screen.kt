@@ -62,7 +62,8 @@ sealed class Screen(
     @Serializable
     data class LibraryDetails(
         val name: String,
-        val htmlDescription: String
+        val htmlDescription: String,
+        val link: String?
     ) : Screen(
         id = -5,
         title = 0,

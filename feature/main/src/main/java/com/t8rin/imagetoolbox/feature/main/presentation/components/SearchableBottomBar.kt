@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.GooglePlay
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppVersion
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.asUnsafe
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -163,7 +164,7 @@ internal fun SearchableBottomBar(
         },
         floatingActionButton = {
             val context = LocalContext.current
-            val linkHandler = LocalUriHandler.current
+            val linkHandler = LocalUriHandler.current.asUnsafe()
             if (!searching) {
                 EnhancedFloatingActionButton(
                     onClick = {

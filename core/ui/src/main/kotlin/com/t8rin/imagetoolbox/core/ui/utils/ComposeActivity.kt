@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
@@ -124,6 +125,7 @@ abstract class ComposeActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        wrap(application)?.runSetup()
 
         settingsManager
             .settingsState

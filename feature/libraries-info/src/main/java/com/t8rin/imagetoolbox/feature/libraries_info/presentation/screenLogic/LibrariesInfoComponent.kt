@@ -23,6 +23,7 @@ import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.feature.libraries_info.presentation.components.link
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -42,7 +43,8 @@ class LibrariesInfoComponent @AssistedInject constructor(
                     it.htmlReadyLicenseContent
                         .orEmpty()
                         .trimIndent()
-                }
+                },
+                link = library.link()
             )
         )
     }

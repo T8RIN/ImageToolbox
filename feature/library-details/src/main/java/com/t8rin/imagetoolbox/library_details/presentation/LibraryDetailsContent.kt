@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,6 +24,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -38,6 +40,7 @@ fun LibraryDetailsContent(
     component: LibraryDetailsComponent
 ) {
     val childScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val linkHandler = LocalUriHandler.current
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -66,7 +69,18 @@ fun LibraryDetailsContent(
                     }
                 },
                 actions = {
-                    TopAppBarEmoji()
+                    if (component.libraryLink.isNullOrBlank()) {
+                        TopAppBarEmoji()
+                    } else {
+                        EnhancedIconButton(
+                            onClick = { linkHandler.openUri(component.libraryLink) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.OpenInNew,
+                                contentDescription = component.libraryLink
+                            )
+                        }
+                    }
                 },
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = childScrollBehavior

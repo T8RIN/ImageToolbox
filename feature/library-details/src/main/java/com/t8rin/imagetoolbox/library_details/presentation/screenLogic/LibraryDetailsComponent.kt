@@ -29,6 +29,7 @@ class LibraryDetailsComponent @AssistedInject constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted("libraryName") val libraryName: String,
     @Assisted("libraryDescription") val libraryDescription: String,
+    @Assisted("libraryLink") val libraryLink: String?,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -38,7 +39,8 @@ class LibraryDetailsComponent @AssistedInject constructor(
             @Assisted componentContext: ComponentContext,
             @Assisted onGoBack: () -> Unit,
             @Assisted("libraryName") libraryName: String,
-            @Assisted("libraryDescription") libraryDescription: String
+            @Assisted("libraryDescription") libraryDescription: String,
+            @Assisted("libraryLink") libraryLink: String?,
         ): LibraryDetailsComponent
     }
 
