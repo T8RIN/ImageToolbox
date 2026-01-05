@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.domain.utils.withProgress
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
@@ -98,8 +99,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             client.prepareGet(url).execute { response ->
                 val total = response.contentLength() ?: -1L
 
-                val progressStream = ProgressInputStream(
-                    source = response.bodyAsChannel().toInputStream(),
+                val source = response.bodyAsChannel().toInputStream().withProgress(
                     total = total,
                     onProgress = { percent ->
                         onProgress(
@@ -111,7 +111,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     }
                 )
 
-                ZipInputStream(progressStream).use { zipIn ->
+                ZipInputStream(source).use { zipIn ->
                     var entry: ZipEntry?
                     while (zipIn.nextEntry.also { entry = it } != null) {
                         entry?.let { zipEntry ->

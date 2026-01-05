@@ -15,11 +15,20 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.data.remote
+package com.t8rin.imagetoolbox.core.domain.utils
 
 import java.io.InputStream
 
-internal class ProgressInputStream(
+fun InputStream.withProgress(
+    total: Long,
+    onProgress: (Float) -> Unit
+): InputStream = ProgressInputStream(
+    source = this,
+    total = total,
+    onProgress = onProgress
+)
+
+private class ProgressInputStream(
     private val source: InputStream,
     private val total: Long,
     private val onProgress: (Float) -> Unit
@@ -47,7 +56,7 @@ internal class ProgressInputStream(
 
     private fun report() {
         if (total > 0) {
-            onProgress((readBytes.toFloat() / total) * 100)
+            onProgress(readBytes.toFloat() / total)
         }
     }
 
