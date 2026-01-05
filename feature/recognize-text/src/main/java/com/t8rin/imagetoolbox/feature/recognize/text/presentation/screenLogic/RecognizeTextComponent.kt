@@ -463,7 +463,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             if (type !is Screen.RecognizeText.Type.Extraction) return@launch
             delay(400L)
             _textLoadingProgress.update { 0 }
-            type.uri?.readText()?.also { result ->
+            (previewBitmap ?: type.uri)?.readText()?.also { result ->
                 when (result) {
                     is TextRecognitionResult.Error -> {
                         onFailure(result.throwable)
