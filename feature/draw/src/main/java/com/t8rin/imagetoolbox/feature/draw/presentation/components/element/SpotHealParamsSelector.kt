@@ -113,9 +113,7 @@ internal fun SpotHealParamsSelector(
                                 .onStart {
                                     downloadProgress = RemoteResourcesDownloadProgress(
                                         currentPercent = 0f,
-                                        currentTotalSize = 0,
-                                        itemsCount = 1,
-                                        itemsDownloaded = 0
+                                        currentTotalSize = 0
                                     )
                                 }
                                 .onCompletion {

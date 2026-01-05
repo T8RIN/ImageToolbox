@@ -28,14 +28,17 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.request.prepareGet
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.contentLength
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
-import org.json.JSONArray
-import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.net.HttpURLConnection
-import java.net.URL
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
 
@@ -44,6 +47,15 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : RemoteResourcesStore, DispatchersHolder by dispatchersHolder {
+
+    private val client = HttpClient {
+        install(HttpTimeout) {
+            val timeout = 5.minutes.inWholeMilliseconds
+            requestTimeoutMillis = timeout
+            connectTimeoutMillis = timeout
+            socketTimeoutMillis = timeout
+        }
+    }
 
     override suspend fun getResources(
         name: String,
@@ -78,203 +90,93 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
         downloadOnlyNewData: Boolean
     ): RemoteResources? = withContext(defaultDispatcher) {
         runSuspendCatching {
-            withTimeout(5.minutes) {
-                val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
+            val url = getResourcesLink(name)
+            val savingDir = getSavingDir(name)
 
-                connection.apply {
-                    doOutput = false
-                    requestMethod = "GET"
-                    setRequestProperty("Accept-Charset", Charsets.UTF_8.toString())
-                    connectTimeout = 15000
-                    connect()
-                }
+            val downloadedUris = mutableListOf<RemoteResource>()
 
-                name to connection.url makeLog "downloadResources"
+            client.prepareGet(url).execute { response ->
+                val total = response.contentLength() ?: -1L
 
-                val result = StringBuilder()
-
-                connection.inputStream.bufferedReader().use { reader ->
-                    var line: String?
-                    while ((reader.readLine().also { line = it }) != null) {
-                        result.append(line)
-                    }
-                }
-
-                result.makeLog("RemoteResources")
-
-                var items = JSONArray(result.toString())
-
-                val savingDir = getSavingDir(name)
-
-                if (downloadOnlyNewData) {
-                    val newItems = JSONArray()
-                    for (i in 0..<items.length()) {
-                        val item = items.getJSONObject(i)
-
-                        val file = savingDir.listFiles()?.find {
-                            it.name == item.get("name") && it.length() > 0L
-                        }
-
-                        if (file == null) {
-                            newItems.put(item)
-                        }
-                    }
-
-                    items = newItems
-                }
-
-                val downloadedUris = mutableListOf<RemoteResource>()
-
-                onProgress(
-                    RemoteResourcesDownloadProgress(
-                        currentPercent = 0f,
-                        currentTotalSize = 0,
-                        itemsCount = items.length(),
-                        itemsDownloaded = 0
-                    )
-                )
-
-                for (i in 0..<items.length()) {
-                    val item = items.getJSONObject(i)
-                    val fileName = item.get("name") as String
-
-                    val conn = URL(
-                        item.get("download_url") as String
-                    ).openStream()
-
-                    val totalContentSize = (item.get("size") as Int).toLong()
-                    onProgress(
-                        RemoteResourcesDownloadProgress(
-                            currentPercent = 0f,
-                            currentTotalSize = totalContentSize,
-                            itemsCount = items.length(),
-                            itemsDownloaded = downloadedUris.size
-                        )
-                    )
-
-                    val outFile = File(
-                        savingDir,
-                        fileName.decodeEscaped()
-                    ).apply {
-                        delete()
-                        createNewFile()
-                    }
-
-                    val data = ByteArray(1024 * 8)
-                    var count: Int
-                    var downloaded = 0
-
-                    val isSuccess = runSuspendCatching {
-                        BufferedInputStream(conn).use { input ->
-                            FileOutputStream(outFile).use { output ->
-                                withContext(ioDispatcher) {
-                                    while (input.read(data).also { count = it } != -1) {
-                                        output.write(data, 0, count)
-                                        downloaded += count
-                                        val percentage = downloaded * 100f / totalContentSize
-                                        onProgress(
-                                            RemoteResourcesDownloadProgress(
-                                                currentPercent = percentage,
-                                                currentTotalSize = totalContentSize,
-                                                itemsCount = items.length(),
-                                                itemsDownloaded = downloadedUris.size
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }.isSuccess
-
-                    if (isSuccess) {
-                        downloadedUris.add(
-                            RemoteResource(
-                                uri = outFile.toUri().toString(),
-                                name = fileName.decodeEscaped()
-                            )
-                        )
+                val progressStream = ProgressInputStream(
+                    source = response.bodyAsChannel().toInputStream(),
+                    total = total,
+                    onProgress = { percent ->
                         onProgress(
                             RemoteResourcesDownloadProgress(
-                                currentPercent = 100f,
-                                currentTotalSize = totalContentSize,
-                                itemsCount = items.length(),
-                                itemsDownloaded = downloadedUris.size
+                                currentPercent = percent,
+                                currentTotalSize = total
                             )
                         )
                     }
-                }
+                )
 
-                val savedAlready = savingDir.listFiles()?.mapNotNull {
-                    it.toUri().toString()
-                }?.map { uri ->
-                    RemoteResource(
-                        uri = uri,
-                        name = uri.takeLastWhile { it != '/' }.decodeEscaped()
-                    )
-                } ?: emptyList()
+                ZipInputStream(progressStream).use { zipIn ->
+                    var entry: ZipEntry?
+                    while (zipIn.nextEntry.also { entry = it } != null) {
+                        entry?.let { zipEntry ->
+                            val filename = zipEntry.name
 
-                if (downloadedUris.isNotEmpty()) {
-                    RemoteResources(
-                        name = name,
-                        list = (savedAlready + downloadedUris).distinct().sortedBy { it.name }
-                    )
-                } else {
-                    RemoteResources(
-                        name = name,
-                        list = savedAlready.sortedBy { it.name }
-                    )
-                }
-            }
-        }.onFailure {
-            it.printStackTrace()
-            onFailure(it)
-        }.getOrNull()
-    }
+                            if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
 
-    override suspend fun getResourceLinks(
-        name: String
-    ): RemoteResources? = withContext(defaultDispatcher) {
-        runSuspendCatching {
-            val connection = URL(getResourcesLink(name)).openConnection() as HttpURLConnection
+                            val outFile = File(
+                                savingDir,
+                                filename.decodeEscaped()
+                            ).apply {
+                                delete()
+                                parentFile?.mkdirs()
+                                createNewFile()
+                            }
 
-            connection.apply {
-                doOutput = false
-                requestMethod = "GET"
-                setRequestProperty("Accept-Charset", Charsets.UTF_8.toString())
-                connectTimeout = 15000
-                connect()
-            }
+                            if (downloadOnlyNewData) {
+                                val file = savingDir.listFiles()?.find {
+                                    it.name == filename && it.length() > 0L
+                                }
 
-            val result = StringBuilder()
+                                if (file != null) return@let
+                            }
 
-            connection.inputStream.bufferedReader().use { reader ->
-                var line: String?
-                while ((reader.readLine().also { line = it }) != null) {
-                    result.append(line)
+                            FileOutputStream(outFile).use { fos ->
+                                zipIn.copyTo(fos)
+                            }
+                            zipIn.closeEntry()
+
+                            downloadedUris.add(
+                                RemoteResource(
+                                    uri = outFile.toUri().toString(),
+                                    name = filename.decodeEscaped()
+                                )
+                            )
+                        }
+                    }
                 }
             }
 
-            val items = JSONArray(result.toString())
+            name to url makeLog "downloadResources"
 
-            val resources = mutableSetOf<RemoteResource>()
+            val savedAlready = savingDir.listFiles()?.mapNotNull {
+                it.toUri().toString()
+            }?.map { uri ->
+                RemoteResource(
+                    uri = uri,
+                    name = uri.takeLastWhile { it != '/' }.decodeEscaped()
+                )
+            } ?: emptyList()
 
-            for (i in 0..<items.length()) {
-                val item = items.getJSONObject(i)
-                val fileName = item.get("name") as String
-                val url = item.get("download_url") as String
-
-                resources.add(
-                    RemoteResource(
-                        uri = url,
-                        name = fileName.decodeEscaped()
-                    )
+            if (downloadedUris.isNotEmpty()) {
+                RemoteResources(
+                    name = name,
+                    list = (savedAlready + downloadedUris).distinct().sortedBy { it.name }
+                )
+            } else {
+                RemoteResources(
+                    name = name,
+                    list = savedAlready.sortedBy { it.name }
                 )
             }
-
-            RemoteResources(
-                name = name,
-                list = resources.toList()
-            )
+        }.onFailure {
+            it.makeLog()
+            onFailure(it)
         }.getOrNull()
     }
 
@@ -285,11 +187,11 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
     private fun getSavingDir(
         dirName: String
-    ): File = File(rootDir, dirName).apply(File::mkdirs)
+    ): File = File(rootDir, dirName.substringBefore("/")).apply(File::mkdirs)
 
     private val rootDir = File(context.filesDir, "remoteResources").apply(File::mkdirs)
 
 }
 
 private const val BaseUrl =
-    "https://api.github.com/repos/T8RIN/ImageToolboxRemoteResources/contents/*?ref=main"
+    "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/*"

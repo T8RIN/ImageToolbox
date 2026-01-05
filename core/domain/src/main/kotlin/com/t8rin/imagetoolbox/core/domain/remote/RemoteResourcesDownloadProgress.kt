@@ -19,7 +19,5 @@ package com.t8rin.imagetoolbox.core.domain.remote
 
 data class RemoteResourcesDownloadProgress(
     val currentPercent: Float,
-    val currentTotalSize: Long,
-    val itemsCount: Int,
-    val itemsDownloaded: Int
+    val currentTotalSize: Long
 )

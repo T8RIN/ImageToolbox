@@ -23,8 +23,8 @@ data class RemoteResources(
 ) {
 
     companion object {
-        const val CUBE_LUT = "cubelut"
-        const val MESH_GRADIENTS = "mesh_gradient"
+        const val CUBE_LUT = "cubelut/luts.zip"
+        const val MESH_GRADIENTS = "mesh_gradient/mesh_gradients.zip"
 
         val CubeLutDefault = RemoteResources(
             name = CUBE_LUT,

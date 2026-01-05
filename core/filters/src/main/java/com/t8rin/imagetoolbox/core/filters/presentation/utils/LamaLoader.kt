@@ -51,9 +51,7 @@ private object LamaLoaderImpl : LamaLoader {
         LaMaProcessor.startDownload().map {
             RemoteResourcesDownloadProgress(
                 currentPercent = it.currentPercent,
-                currentTotalSize = it.currentTotalSize,
-                itemsCount = 1,
-                itemsDownloaded = 0
+                currentTotalSize = it.currentTotalSize
             )
         }
 }
