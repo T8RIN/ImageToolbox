@@ -30,7 +30,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.withProgress
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
@@ -41,22 +40,13 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.minutes
 
 
 internal class AndroidRemoteResourcesStore @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val client: HttpClient,
     dispatchersHolder: DispatchersHolder
 ) : RemoteResourcesStore, DispatchersHolder by dispatchersHolder {
-
-    private val client = HttpClient {
-        install(HttpTimeout) {
-            val timeout = 5.minutes.inWholeMilliseconds
-            requestTimeoutMillis = timeout
-            connectTimeoutMillis = timeout
-            socketTimeoutMillis = timeout
-        }
-    }
 
     override suspend fun getResources(
         name: String,
