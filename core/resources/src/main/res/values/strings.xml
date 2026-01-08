@@ -1943,5 +1943,20 @@
     <string name="model_desharpen">Removes oversharpening</string>
     <string name="model_dither">Slow, dithering</string>
     <string name="model_gainres">Anti-aliasing, general artifacts, CGI</string>
+    <string name="model_debink_v4">Video deblocking (Debink v4)</string>
+    <string name="model_debink_v5">Video deblocking (Debink v5)</string>
+    <string name="model_debink_v6">Video deblocking (Debink v6)</string>
+    <string name="model_kdm003_scans">KDM003 scans processing</string>
+    <string name="model_nmkd_jaywreck3_lite">NMKD Jaywreck3 Lite - lightweight image enhancement model</string>
+    <string name="model_spongecolor_lite">SpongeColor Lite - color enhancement</string>
+    <string name="model_cinepak">Cinepak video processing</string>
+    <string name="model_bcgone_detailed_v2">Compression artifact removal (BCGone Detailed V2)</string>
+    <string name="model_bcgone_smooth">Compression artifact removal (BCGone Smooth)</string>
+    <string name="model_bandage_smooth">Bandage removal with smooth results</string>
+    <string name="model_bendel_halftone">Halftone pattern processing (Bendel)</string>
+    <string name="model_dither_deleter_v3_smooth">Dither pattern removal V3 (Smooth)</string>
+    <string name="model_jpeg_destroyer_v2">JPEG artifact removal V2</string>
+    <string name="model_nmkd_h264_texturize">H.264 texture enhancement (NMKD)</string>
+    <string name="model_vhs_sharpen">VHS sharpening and enhancement</string>
     <string name="merging">Merging</string>
 </resources>
