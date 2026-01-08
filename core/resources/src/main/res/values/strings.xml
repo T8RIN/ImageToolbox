@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -1958,4 +1958,13 @@
     <string name="chunk_size">Chunk Size</string>
     <string name="overlap_size">Overlap Size</string>
     <string name="note_chunk_info">Images over %1$d px will be sliced and processed in chunks, overlap blends these to prevent visible seams.</string>
+    <string name="large_chunk_warning">Large sizes can cause instability with low-end devices</string>
+    <string name="select_one_to_start">Select one to start</string>
+    <string name="delete_model_sub">Do you want to delete %s model? You will need to download it again</string>
+    <string name="confirm">Confirm</string>
+    <string name="models">Models</string>
+    <string name="downloaded_models">Downloaded Models</string>
+    <string name="available_models">Available Models</string>
+    <string name="preparing">Preparing</string>
+    <string name="active_model">Active model</string>
 </resources>

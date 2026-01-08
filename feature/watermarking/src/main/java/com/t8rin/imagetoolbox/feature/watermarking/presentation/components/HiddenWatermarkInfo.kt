@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ internal fun HiddenWatermarkInfo(
                     { essentials.copyToClipboard(hidden.text) }
                 } else null,
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f),
                 titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                 startIcon = {
                     Icon(

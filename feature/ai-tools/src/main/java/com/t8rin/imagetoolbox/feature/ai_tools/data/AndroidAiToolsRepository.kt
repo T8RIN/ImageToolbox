@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.data
 
 import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.OrtException
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
@@ -107,7 +108,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                             trySend(
                                 NeuralDownloadProgress(
                                     currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                    currentTotalSize = downloaded
+                                    currentTotalSize = total
                                 )
                             )
                         }
@@ -143,11 +144,17 @@ internal class AndroidAiToolsRepository @Inject constructor(
         )
     }
 
-    override suspend fun selectModel(model: NeuralModel): Boolean {
-        if (downloadedModels.value.none { it.name == model.name }) return false
+    override suspend fun deleteModel(model: NeuralModel) {
+        model.file.delete()
+        if (selectedModel.value?.name == model.name) selectModel(null)
+        updateDownloadedModels()
+    }
+
+    override suspend fun selectModel(model: NeuralModel?): Boolean {
+        if (model != null && downloadedModels.value.none { it.name == model.name }) return false
 
         dataStore.edit {
-            it[SELECTED_MODEL] = model.name
+            it[SELECTED_MODEL] = model?.name.orEmpty()
         }
 
         closeSession()
@@ -160,17 +167,45 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     private fun createSession(model: NeuralModel?): OrtSession? {
-        val options = OrtSession.SessionOptions().apply {
-            runCatching { addCUDA() }
-            runCatching { setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT) }
-            runCatching { setInterOpNumThreads(8) }
-            runCatching { setIntraOpNumThreads(8) }
-            runCatching { setMemoryPatternOptimization(true) }
-        }
+        return runCatching {
+            val options = OrtSession.SessionOptions().apply {
+                runCatching { addCUDA() }
 
-        return OrtEnvironment.getEnvironment()
-            .createSession((model ?: return null).file.absolutePath, options)
-            .also { session = it }
+                val processors = Runtime.getRuntime().availableProcessors()
+                try {
+                    setIntraOpNumThreads(if (processors <= 2) 1 else (processors * 3) / 4)
+                } catch (e: OrtException) {
+                    "Error setting IntraOpNumThreads: ${e.message}".makeLog("ModelManager")
+                }
+                try {
+                    setInterOpNumThreads(4)
+                } catch (e: OrtException) {
+                    "Error setting InterOpNumThreads: ${e.message}".makeLog("ModelManager")
+                }
+                try {
+                    when {
+                        model?.name.orEmpty().startsWith("fbcnn_") -> setOptimizationLevel(
+                            OrtSession.SessionOptions.OptLevel.EXTENDED_OPT
+                        )
+
+                        model?.name.orEmpty().startsWith("scunet_") -> setOptimizationLevel(
+                            OrtSession.SessionOptions.OptLevel.NO_OPT
+                        )
+                    }
+                } catch (e: OrtException) {
+                    "Error setting OptimizationLevel: ${e.message}".makeLog("ModelManager")
+                }
+            }
+
+            OrtEnvironment.getEnvironment()
+                .createSession((model ?: return null).file.absolutePath, options)
+                .also { session = it }
+        }.onFailure { e ->
+            e.makeLog("createSession")
+            model?.let {
+                appScope.launch { deleteModel(it) }
+            }
+        }.getOrNull()
     }
 
     private fun closeSession() {

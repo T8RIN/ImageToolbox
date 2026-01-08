@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.UploadFile
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
-import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MultipleStop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -235,7 +235,7 @@ internal fun OCRLanguagesColumn(
         if (notDownloadedLanguages.isNotEmpty()) {
             item {
                 TitleItem(
-                    icon = Icons.Rounded.DownloadForOffline,
+                    icon = Icons.Rounded.Download,
                     text = stringResource(id = R.string.available_languages)
                 )
             }

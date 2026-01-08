@@ -156,6 +156,7 @@ decomposeExtensions = { module = "com.arkivanov.decompose:extensions-compose", v
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }
 
 ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 coilNetwork = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 coilCompose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coilGif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ fun ValueText(
     enabled: Boolean = true,
     valueSuffix: String = "",
     customText: String? = null,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         0.25f
     )
@@ -91,11 +91,15 @@ fun ValueText(
                 color = LocalContentColor.current.copy(0.5f),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .hapticsClickable(
-                        enabled = enabled,
-                        onClick = onClick,
-                        interactionSource = interactionSource,
-                        indication = LocalIndication.current
+                    .then(
+                        if (onClick != null) {
+                            Modifier.hapticsClickable(
+                                enabled = enabled,
+                                onClick = onClick,
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            )
+                        } else Modifier
                     )
                     .padding(horizontal = 16.dp, vertical = 6.dp),
                 lineHeight = 18.sp

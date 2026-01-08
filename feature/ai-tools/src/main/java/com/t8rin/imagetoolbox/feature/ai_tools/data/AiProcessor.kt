@@ -150,8 +150,8 @@ internal class AiProcessor @Inject constructor(
         val rows = 1.coerceAtLeast(ceil(height.toDouble() / maxChunkSize).toInt())
         val actualChunkWidth = (width + (cols - 1) * overlap) / cols
         val actualChunkHeight = (height + (rows - 1) * overlap) / rows
-        "AiProcessor".makeLog(
-            "Processing tiled: image=${width}x${height}, max=$maxChunkSize, actual=${actualChunkWidth}x${actualChunkHeight}, grid=${cols}x${rows}, overlap=$overlap"
+        "Processing tiled: image=${width}x${height}, max=$maxChunkSize, actual=${actualChunkWidth}x${actualChunkHeight}, grid=${cols}x${rows}, overlap=$overlap".makeLog(
+            "AiProcessor"
         )
         val totalChunks = cols * rows
 
@@ -168,7 +168,7 @@ internal class AiProcessor @Inject constructor(
 
         val chunkInfoList = mutableListOf<ChunkInfo>()
 
-        "AiProcessor".makeLog("Phase 1: Extracting $totalChunks chunks to disk")
+        "Phase 1: Extracting $totalChunks chunks to disk".makeLog("AiProcessor")
         var chunkIndex = 0
         for (row in 0 until rows) {
             for (col in 0 until cols) {
@@ -209,10 +209,8 @@ internal class AiProcessor @Inject constructor(
                 chunkIndex++
             }
         }
-        "AiProcessor".makeLog(
-            "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}"
-        )
-        "AiProcessor".makeLog("Phase 2: Processing $totalChunks chunks")
+        "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}".makeLog("AiProcessor")
+        "Phase 2: Processing $totalChunks chunks".makeLog("AiProcessor")
         if (totalChunks > 1) {
             withContext(Dispatchers.Main) {
                 callback.onChunkProgress(0, totalChunks)
@@ -343,7 +341,7 @@ internal class AiProcessor @Inject constructor(
         }
         val needsPadding = w != originalW || h != originalH
         val paddedChunk = if (needsPadding) {
-            "AiProcessor".makeLog("Padding chunk from ${originalW}x${originalH} to ${w}x${h}")
+            "Padding chunk from ${originalW}x${originalH} to ${w}x${h}".makeLog("AiProcessor")
             val padded = createBitmap(w, h, config)
             val canvas = Canvas(padded)
             canvas.drawBitmap(chunk, 0f, 0f, null)
@@ -465,22 +463,22 @@ internal class AiProcessor @Inject constructor(
     }
 
     private fun extractOutputArray(outputValue: Any, channels: Int, h: Int, w: Int): FloatArray {
-        "AiProcessor".makeLog("Output type received: ${outputValue.javaClass.name}")
+        "Output type received: ${outputValue.javaClass.name}".makeLog("AiProcessor")
         return when (outputValue) {
             is FloatArray -> {
-                "AiProcessor".makeLog("Output is FloatArray (FP32 or auto-converted from FP16)")
+                "Output is FloatArray (FP32 or auto-converted from FP16)".makeLog("AiProcessor")
                 outputValue
             }
 
             is ShortArray -> {
-                "AiProcessor".makeLog("Output is ShortArray (FP16) - converting to Float32")
+                "Output is ShortArray (FP16) - converting to Float32".makeLog("AiProcessor")
                 FloatArray(outputValue.size) { i -> float16ToFloat(outputValue[i]) }
             }
 
             is Array<*> -> {
                 try {
                     val arr = outputValue as Array<Array<Array<FloatArray>>>
-                    "AiProcessor".makeLog("Output is multi-dimensional FloatArray")
+                    "Output is multi-dimensional FloatArray".makeLog("AiProcessor")
                     val out = FloatArray(channels * h * w)
                     for (ch in 0 until channels) {
                         for (y in 0 until h) {
@@ -493,7 +491,7 @@ internal class AiProcessor @Inject constructor(
                 } catch (e: Exception) {
                     try {
                         val arr = outputValue as Array<Array<Array<ShortArray>>>
-                        "AiProcessor".makeLog("Output is multi-dimensional ShortArray (FP16)")
+                        "Output is multi-dimensional ShortArray (FP16)".makeLog("AiProcessor")
                         val out = FloatArray(channels * h * w)
                         for (ch in 0 until channels) {
                             for (y in 0 until h) {

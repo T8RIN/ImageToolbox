@@ -22,7 +22,9 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -72,6 +74,11 @@ class AiToolsComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUris?.let(::updateUris)
+
+            _params.value = fileController.restoreObject(
+                key = "NeuralParams",
+                kClass = NeuralParams::class
+            ) ?: params
         }
     }
 
@@ -91,7 +98,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    private var downloadJob: Job? by smartJob()
+    private var downloadJobs: MutableMap<String, Job> = mutableMapOf()
 
 
     val downloadedModels: StateFlow<List<NeuralModel>> = aiToolsRepository.downloadedModels
@@ -106,9 +113,9 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     val selectedModel: StateFlow<NeuralModel?> = aiToolsRepository.selectedModel
 
-    private val _downloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
-        mutableStateOf(null)
-    val downloadProgress by _downloadProgress
+    private val _downloadProgresses: SnapshotStateMap<String, RemoteResourcesDownloadProgress> =
+        mutableStateMapOf()
+    val downloadProgresses: Map<String, RemoteResourcesDownloadProgress> = _downloadProgresses
 
     private val _params: MutableState<NeuralParams> = mutableStateOf(NeuralParams.Default)
     val params by _params
@@ -121,34 +128,37 @@ class AiToolsComponent @AssistedInject internal constructor(
     }
 
     fun downloadModel(model: NeuralModel) {
-        downloadJob = componentScope.launch {
+        downloadJobs[model.name]?.cancel()
+        downloadJobs[model.name] = componentScope.launch {
             delay(500)
             aiToolsRepository
                 .downloadModel(model)
                 .onStart {
-                    _downloadProgress.update {
-                        RemoteResourcesDownloadProgress(
-                            currentPercent = 0f,
-                            currentTotalSize = 0
-                        )
-                    }
+                    _downloadProgresses[model.name] = RemoteResourcesDownloadProgress(
+                        currentPercent = 0f,
+                        currentTotalSize = 0
+                    )
                 }
                 .onCompletion {
-                    _downloadProgress.update { null }
-                    downloadJob = null
+                    _downloadProgresses.remove(model.name)
+                    downloadJobs.remove(model.name)
                 }
                 .catch {
-                    _downloadProgress.update { null }
-                    downloadJob = null
+                    _downloadProgresses.remove(model.name)
+                    downloadJobs.remove(model.name)
                 }
                 .collect { progress ->
-                    _downloadProgress.update {
-                        RemoteResourcesDownloadProgress(
-                            currentPercent = progress.currentPercent,
-                            currentTotalSize = progress.currentTotalSize
-                        )
-                    }
+                    _downloadProgresses[model.name] = RemoteResourcesDownloadProgress(
+                        currentPercent = progress.currentPercent,
+                        currentTotalSize = progress.currentTotalSize
+                    )
                 }
+        }
+    }
+
+    fun deleteModel(model: NeuralModel) {
+        componentScope.launch {
+            aiToolsRepository.deleteModel(model)
         }
     }
 
@@ -156,6 +166,12 @@ class AiToolsComponent @AssistedInject internal constructor(
         action: NeuralParams.() -> NeuralParams
     ) {
         _params.update { action(it) }
+        componentScope.launch {
+            fileController.saveObject(
+                key = "NeuralParams",
+                value = params
+            )
+        }
         registerChanges()
     }
 

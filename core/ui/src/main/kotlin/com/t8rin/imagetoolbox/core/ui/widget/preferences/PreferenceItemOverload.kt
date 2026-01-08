@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +76,8 @@ fun PreferenceItemOverload(
     badge: (@Composable RowScope.() -> Unit)? = null,
     shape: Shape = ShapeDefaults.default,
     pressedShape: Shape = ShapeDefaults.pressed,
-    color: Color = Color.Unspecified,
-    contentColor: Color = contentColorFor(backgroundColor = color),
+    containerColor: Color = Color.Unspecified,
+    contentColor: Color = contentColorFor(backgroundColor = containerColor),
     overrideIconShapeContentColor: Boolean = false,
     resultModifier: Modifier = Modifier.padding(16.dp),
     modifier: Modifier = Modifier
@@ -111,7 +111,7 @@ fun PreferenceItemOverload(
                 .container(
                     shape = animatedShape,
                     resultPadding = 0.dp,
-                    color = color,
+                    color = containerColor,
                     autoShadowElevation = autoShadowElevation
                 )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
@@ -145,7 +145,7 @@ fun PreferenceItemOverload(
             ) {
                 startIcon?.let {
                     ProvideContainerDefaults(
-                        color = color
+                        color = containerColor
                     ) {
                         Row {
                             IconShapeContainer(

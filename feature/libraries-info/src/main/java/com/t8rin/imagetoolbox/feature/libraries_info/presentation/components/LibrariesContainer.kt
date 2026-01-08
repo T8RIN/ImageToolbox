@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.libraries_info.presentation.components
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,6 +65,7 @@ import com.mikepenz.aboutlibraries.ui.compose.LibraryTextStyles
 import com.mikepenz.aboutlibraries.ui.compose.m3.component.LibraryChip
 import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.author
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -335,7 +336,8 @@ private fun LibrariesScaffold(
                         ),
                         resultPadding = 0.dp
                     )
-                    .clickable(
+                    .hapticsClickable(
+                        indication = LocalIndication.current,
                         interactionSource = interactionSource
                     ) {
                         val license = library.licenses.firstOrNull()

@@ -71,6 +71,7 @@ internal fun PowerSliderItem(
             }.toPersistentMap()
         },
         icon = icon,
-        isAnimated = false
+        isAnimated = false,
+        canInputValue = false
     )
 }

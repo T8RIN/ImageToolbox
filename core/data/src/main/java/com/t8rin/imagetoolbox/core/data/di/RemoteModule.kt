@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.di
 
 import com.t8rin.imagetoolbox.core.data.remote.AndroidRemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
+import com.t8rin.logger.makeLog
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -26,6 +27,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.minutes
 
@@ -48,6 +52,15 @@ internal interface RemoteModule {
                 requestTimeoutMillis = timeout
                 connectTimeoutMillis = timeout
                 socketTimeoutMillis = timeout
+            }
+
+            install(Logging) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        message.makeLog("Ktor")
+                    }
+                }
+                level = LogLevel.HEADERS
             }
         }
     }

@@ -28,7 +28,7 @@ interface AiToolsRepository<Image> {
 
     val selectedModel: StateFlow<NeuralModel?>
 
-    suspend fun selectModel(model: NeuralModel): Boolean
+    suspend fun selectModel(model: NeuralModel?): Boolean
 
     fun downloadModel(model: NeuralModel): Flow<NeuralDownloadProgress>
 
@@ -37,5 +37,7 @@ interface AiToolsRepository<Image> {
         callback: AiProcessCallback,
         params: NeuralParams
     ): Image?
+
+    suspend fun deleteModel(model: NeuralModel)
 
 }

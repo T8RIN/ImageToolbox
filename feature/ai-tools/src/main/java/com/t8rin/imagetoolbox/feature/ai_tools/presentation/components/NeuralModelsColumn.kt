@@ -1,0 +1,264 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.DownloadDone
+import androidx.compose.material.icons.rounded.DownloadForOffline
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
+import com.t8rin.imagetoolbox.core.ui.widget.other.RevealValue
+import com.t8rin.imagetoolbox.core.ui.widget.other.SwipeToReveal
+import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import kotlinx.coroutines.launch
+
+@Composable
+internal fun NeuralModelsColumn(
+    selectedModel: NeuralModel?,
+    downloadedModels: List<NeuralModel>,
+    notDownloadedModels: List<NeuralModel>,
+    onSelectModel: (NeuralModel) -> Unit,
+    onDownloadModel: (NeuralModel) -> Unit,
+    onWantDelete: (NeuralModel) -> Unit,
+    downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+) {
+    val scope = rememberCoroutineScope()
+
+    LazyColumn(
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            bottom = 16.dp,
+            end = 16.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        if (downloadedModels.isNotEmpty()) {
+            item {
+                TitleItem(
+                    icon = Icons.Rounded.DownloadDone,
+                    text = stringResource(id = R.string.downloaded_models)
+                )
+            }
+        }
+        itemsIndexed(
+            items = downloadedModels,
+            key = { _, m -> m.name }
+        ) { index, model ->
+            val selected = selectedModel?.name == model.name
+            val state = rememberRevealState()
+            val interactionSource = remember {
+                MutableInteractionSource()
+            }
+            val isDragged by interactionSource.collectIsDraggedAsState()
+            val shape = ShapeDefaults.byIndex(
+                index = index,
+                size = downloadedModels.size,
+                forceDefault = isDragged
+            )
+            SwipeToReveal(
+                state = state,
+                modifier = Modifier.animateItem(),
+                revealedContentEnd = {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.errorContainer,
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                onWantDelete(model)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = stringResource(R.string.delete),
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(end = 8.dp)
+                                .align(Alignment.CenterEnd),
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                },
+                directions = setOf(RevealDirection.EndToStart),
+                swipeableContent = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .container(
+                                shape = shape,
+                                color = animateColorAsState(
+                                    if (selected) {
+                                        MaterialTheme
+                                            .colorScheme
+                                            .mixedContainer
+                                            .copy(0.8f)
+                                    } else EnhancedBottomSheetDefaults.contentContainerColor
+                                ).value,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsCombinedClickable(
+                                onLongClick = {
+                                    scope.launch {
+                                        state.animateTo(RevealValue.FullyRevealedStart)
+                                    }
+                                },
+                                onClick = {
+                                    onSelectModel(model)
+                                }
+                            )
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = model.title,
+                                style = LocalTextStyle.current.copy(
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    lineHeight = 18.sp
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = stringResource(model.description),
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                lineHeight = 14.sp,
+                                color = LocalContentColor.current.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                },
+                interactionSource = interactionSource
+            )
+        }
+        if (notDownloadedModels.isNotEmpty()) {
+            item {
+                TitleItem(
+                    icon = Icons.Rounded.Download,
+                    text = stringResource(id = R.string.available_models)
+                )
+            }
+        }
+        itemsIndexed(
+            items = notDownloadedModels,
+            key = { _, m -> m.name }
+        ) { index, model ->
+            PreferenceItemOverload(
+                title = model.title,
+                subtitle = stringResource(model.description),
+                onClick = {
+                    onDownloadModel(model)
+                },
+                containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
+                shape = ShapeDefaults.byIndex(
+                    index = index,
+                    size = notDownloadedModels.size
+                ),
+                modifier = Modifier
+                    .animateItem()
+                    .fillMaxWidth(),
+                endIcon = {
+                    downloadProgresses[model.name]?.let { progress ->
+                        Row(
+                            modifier = Modifier.container(
+                                shape = CircleShape,
+                                color = MaterialTheme.colorScheme.surface,
+                                resultPadding = 8.dp
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = if (progress.currentTotalSize > 0) {
+                                    rememberHumanFileSize(progress.currentTotalSize)
+                                } else {
+                                    stringResource(R.string.preparing)
+                                },
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            EnhancedCircularProgressIndicator(
+                                progress = { progress.currentPercent },
+                                modifier = Modifier.size(24.dp),
+                                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                strokeWidth = 3.dp
+                            )
+                        }
+                    } ?: Icon(
+                        imageVector = Icons.Rounded.DownloadForOffline,
+                        contentDescription = null
+                    )
+                }
+            )
+        }
+    }
+}
