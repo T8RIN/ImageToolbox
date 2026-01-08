@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,16 @@ inline fun <T> MutableState<T>.update(
     transform(this.value).also {
         this.value = it
     }
+}
+
+inline fun <T : Any> MutableState<T?>.updateNotNull(
+    transform: (T) -> T
+): T? = run {
+    this.value?.let { nonNull ->
+        transform(nonNull).also {
+            this.value = it
+        }
+    } ?: this.value
 }
 
 inline fun <T> MutableState<T>.update(

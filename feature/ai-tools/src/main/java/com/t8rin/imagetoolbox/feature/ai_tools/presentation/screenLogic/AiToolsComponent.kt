@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -41,10 +40,12 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgress
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -85,17 +86,11 @@ class AiToolsComponent @AssistedInject internal constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
-    val isSaving: Boolean by _isSaving
-
-    private val _done: MutableState<Int> = mutableIntStateOf(0)
-    val done by _done
-
-    private val _total: MutableState<Int> = mutableIntStateOf(0)
-    val total by _total
+    private val _saveProgress: MutableState<NeuralSaveProgress?> = mutableStateOf(null)
+    val saveProgress by _saveProgress
 
     private var savingJob: Job? by smartJob {
-        _isSaving.update { false }
+        _saveProgress.update { null }
     }
 
     private var downloadJobs: MutableMap<String, Job> = mutableMapOf()
@@ -185,12 +180,17 @@ class AiToolsComponent @AssistedInject internal constructor(
         onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = componentScope.launch {
-            _isSaving.value = true
-            val results = mutableListOf<SaveResult>()
-            _done.value = 0
-            uris?.forEach { uri ->
-                val totalDone = done
+            _saveProgress.update {
+                NeuralSaveProgress(
+                    doneImages = 0,
+                    totalImages = uris.orEmpty().size,
+                    doneChunks = 0,
+                    totalChunks = 0
+                )
+            }
 
+            val results = mutableListOf<SaveResult>()
+            uris?.forEach { uri ->
                 runSuspendCatching {
                     val (image, imageInfo) = imageGetter.getImage(uri.toString())
                         ?: return@runSuspendCatching null
@@ -202,8 +202,12 @@ class AiToolsComponent @AssistedInject internal constructor(
                                 currentChunkIndex: Int,
                                 totalChunks: Int
                             ) {
-                                _total.value = totalChunks
-                                _done.value = currentChunkIndex + 1
+                                _saveProgress.updateNotNull {
+                                    it.copy(
+                                        doneChunks = currentChunkIndex,
+                                        totalChunks = totalChunks
+                                    )
+                                }
                             }
                         },
                         params = params
@@ -219,7 +223,7 @@ class AiToolsComponent @AssistedInject internal constructor(
                                     height = image.height
                                 ),
                                 originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
+                                sequenceNumber = _saveProgress.value?.doneImages?.plus(1),
                                 data = imageCompressor.compressAndTransform(
                                     image = image,
                                     imageInfo = imageInfo.copy(
@@ -236,30 +240,37 @@ class AiToolsComponent @AssistedInject internal constructor(
                     SaveResult.Error.Exception(Throwable())
                 )
 
-                _done.value = totalDone + 1
-                _total.value = uris.orEmpty().size
+                _saveProgress.updateNotNull {
+                    it.copy(
+                        doneImages = it.doneImages + 1
+                    )
+                }
             }
             onResult(results.onSuccess(::registerSave))
-            _isSaving.value = false
+            _saveProgress.update { null }
         }
     }
 
     fun cancelSaving() {
         savingJob?.cancel()
         savingJob = null
-        _isSaving.value = false
+        _saveProgress.update { null }
     }
 
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = componentScope.launch {
-            _isSaving.value = true
-            _done.value = 0
+            _saveProgress.update {
+                NeuralSaveProgress(
+                    doneImages = 0,
+                    totalImages = uris.orEmpty().size,
+                    doneChunks = 0,
+                    totalChunks = 0
+                )
+            }
             val list = mutableListOf<Uri>()
             uris?.forEach { uri ->
-                val totalDone = done
-
                 runSuspendCatching {
                     val (image, imageInfo) = imageGetter.getImage(uri.toString())
                         ?: return@runSuspendCatching null
@@ -271,8 +282,12 @@ class AiToolsComponent @AssistedInject internal constructor(
                                 currentChunkIndex: Int,
                                 totalChunks: Int
                             ) {
-                                _total.value = totalChunks
-                                _done.value = currentChunkIndex + 1
+                                _saveProgress.updateNotNull {
+                                    it.copy(
+                                        doneChunks = currentChunkIndex,
+                                        totalChunks = totalChunks
+                                    )
+                                }
                             }
                         },
                         params = params
@@ -288,11 +303,14 @@ class AiToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
-                _done.value = totalDone + 1
-                _total.value = uris.orEmpty().size
+                _saveProgress.updateNotNull {
+                    it.copy(
+                        doneImages = it.doneImages + 1
+                    )
+                }
             }
             onComplete(list)
-            _isSaving.value = false
+            _saveProgress.update { null }
         }
     }
 
