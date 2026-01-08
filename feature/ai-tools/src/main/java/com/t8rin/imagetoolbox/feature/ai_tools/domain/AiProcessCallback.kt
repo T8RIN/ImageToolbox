@@ -15,23 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.ai_tools.di
+package com.t8rin.imagetoolbox.feature.ai_tools.domain
 
-import android.graphics.Bitmap
-import com.t8rin.imagetoolbox.feature.ai_tools.data.AndroidAiToolsRepository
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface AiToolsModule {
-
-    @Binds
-    @Singleton
-    fun repository(impl: AndroidAiToolsRepository): AiToolsRepository<Bitmap>
-
+interface AiProcessCallback {
+    fun onError(error: String) {}
+    fun onProgress(message: String) {}
+    fun onChunkProgress(currentChunkIndex: Int, totalChunks: Int) {}
 }

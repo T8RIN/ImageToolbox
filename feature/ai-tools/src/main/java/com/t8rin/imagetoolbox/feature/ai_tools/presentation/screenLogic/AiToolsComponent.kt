@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -38,18 +39,29 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 class AiToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
-    private val aiToolsRepository: AiToolsRepository,
+    private val aiToolsRepository: AiToolsRepository<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
@@ -72,16 +84,77 @@ class AiToolsComponent @AssistedInject internal constructor(
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
-    private val _canSave: MutableState<Boolean> = mutableStateOf(false)
-    val canSave by _canSave
+    private val _total: MutableState<Int> = mutableIntStateOf(0)
+    val total by _total
+
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
+
+    private var downloadJob: Job? by smartJob()
+
+
+    val downloadedModels: StateFlow<List<NeuralModel>> = aiToolsRepository.downloadedModels
+
+    val notDownloadedModels: StateFlow<List<NeuralModel>> = downloadedModels.map {
+        NeuralModel.entries - it.toSet()
+    }.stateIn(
+        scope = componentScope,
+        started = SharingStarted.Eagerly,
+        initialValue = NeuralModel.entries
+    )
+
+    val selectedModel: StateFlow<NeuralModel?> = aiToolsRepository.selectedModel
+
+    private val _downloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
+        mutableStateOf(null)
+    val downloadProgress by _downloadProgress
+
+    private val _params: MutableState<NeuralParams> = mutableStateOf(NeuralParams.Default)
+    val params by _params
+
+    fun selectModel(model: NeuralModel) {
+        componentScope.launch {
+            aiToolsRepository.selectModel(model)
+        }
+    }
+
+    fun downloadModel(model: NeuralModel) {
+        downloadJob = componentScope.launch {
+            delay(500)
+            aiToolsRepository
+                .downloadModel(model)
+                .onStart {
+                    _downloadProgress.update {
+                        RemoteResourcesDownloadProgress(
+                            currentPercent = 0f,
+                            currentTotalSize = 0
+                        )
+                    }
+                }
+                .onCompletion {
+                    _downloadProgress.update { null }
+                    downloadJob = null
+                }
+                .catch {
+                    _downloadProgress.update { null }
+                    downloadJob = null
+                }
+                .collect { progress ->
+                    _downloadProgress.update {
+                        RemoteResourcesDownloadProgress(
+                            currentPercent = progress.currentPercent,
+                            currentTotalSize = progress.currentTotalSize
+                        )
+                    }
+                }
+        }
+    }
+
 
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
-    }
-
-    private var savingJob: Job? by smartJob {
-        _isSaving.update { false }
     }
 
     fun saveBitmaps(
@@ -93,8 +166,27 @@ class AiToolsComponent @AssistedInject internal constructor(
             val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
+                val totalDone = done
+
                 runSuspendCatching {
-                    imageGetter.getImage(uri.toString())
+                    val (image, imageInfo) = imageGetter.getImage(uri.toString())
+                        ?: return@runSuspendCatching null
+
+                    aiToolsRepository.processImage(
+                        image = image,
+                        callback = object : AiProcessCallback {
+                            override fun onChunkProgress(
+                                currentChunkIndex: Int,
+                                totalChunks: Int
+                            ) {
+                                _total.value = totalChunks
+                                _done.value = currentChunkIndex + 1
+                            }
+                        },
+                        params = params
+                    )?.let {
+                        it to imageInfo
+                    }
                 }.getOrNull()?.let { (image, imageInfo) ->
                     results.add(
                         fileController.save(
@@ -121,7 +213,8 @@ class AiToolsComponent @AssistedInject internal constructor(
                     SaveResult.Error.Exception(Throwable())
                 )
 
-                _done.value += 1
+                _done.value = totalDone + 1
+                _total.value = uris.orEmpty().size
             }
             onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
@@ -142,9 +235,28 @@ class AiToolsComponent @AssistedInject internal constructor(
             _done.value = 0
             val list = mutableListOf<Uri>()
             uris?.forEach { uri ->
-                imageGetter.getImage(
-                    uri = uri.toString()
-                )?.let { (image, imageInfo) ->
+                val totalDone = done
+
+                runSuspendCatching {
+                    val (image, imageInfo) = imageGetter.getImage(uri.toString())
+                        ?: return@runSuspendCatching null
+
+                    aiToolsRepository.processImage(
+                        image = image,
+                        callback = object : AiProcessCallback {
+                            override fun onChunkProgress(
+                                currentChunkIndex: Int,
+                                totalChunks: Int
+                            ) {
+                                _total.value = totalChunks
+                                _done.value = currentChunkIndex + 1
+                            }
+                        },
+                        params = params
+                    )?.let {
+                        it to imageInfo
+                    }
+                }.getOrNull()?.let { (image, imageInfo) ->
                     shareProvider.cacheImage(
                         image = image,
                         imageInfo = imageInfo.copy(originalUri = uri.toString())
@@ -152,7 +264,9 @@ class AiToolsComponent @AssistedInject internal constructor(
                         list.add(uri.toUri())
                     }
                 }
-                _done.value += 1
+
+                _done.value = totalDone + 1
+                _total.value = uris.orEmpty().size
             }
             onComplete(list)
             _isSaving.value = false
@@ -160,26 +274,11 @@ class AiToolsComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob = componentScope.launch {
-            _isSaving.value = true
-            shareProvider.shareImages(
-                uris = uris?.map { it.toString() } ?: emptyList(),
-                imageLoader = { uri ->
-                    imageGetter.getImage(uri)?.let {
-                        it.image to it.imageInfo
-                    }
-                },
-                onProgressChange = {
-                    if (it == -1) {
-                        onComplete()
-                        _done.value = 0
-                        _isSaving.value = false
-                    } else {
-                        _done.value = it
-                    }
-                }
-            )
+        cacheImages { uris ->
+            componentScope.launch {
+                shareProvider.shareUris(uris.map { it.toString() })
+                onComplete()
+            }
         }
     }
 

@@ -19,10 +19,11 @@ package com.t8rin.imagetoolbox.feature.ai_tools.domain
 
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface AiToolsRepository {
+interface AiToolsRepository<Image> {
     val downloadedModels: StateFlow<List<NeuralModel>>
 
     val selectedModel: StateFlow<NeuralModel?>
@@ -30,5 +31,11 @@ interface AiToolsRepository {
     suspend fun selectModel(model: NeuralModel): Boolean
 
     fun downloadModel(model: NeuralModel): Flow<NeuralDownloadProgress>
+
+    suspend fun processImage(
+        image: Image,
+        callback: AiProcessCallback,
+        params: NeuralParams
+    ): Image?
 
 }

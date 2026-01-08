@@ -118,7 +118,7 @@ fun BoxScope.EnhancedLoadingIndicator(done: Int, left: Int) {
                     text = "$done / $left",
                     maxLines = 1,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.width(it * 0.8f),
+                    modifier = Modifier.width(it * 0.7f),
                     textAlign = TextAlign.Center
                 )
             }

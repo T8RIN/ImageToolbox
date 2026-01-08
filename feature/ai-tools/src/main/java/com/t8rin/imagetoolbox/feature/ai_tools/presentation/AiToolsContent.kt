@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -92,6 +93,8 @@ fun AiToolsContent(
             uris = uris
         )
     }
+
+    val selectedModel by component.selectedModel.collectAsStateWithLifecycle()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -167,7 +170,7 @@ fun AiToolsContent(
             }
             BottomButtonsBlock(
                 isNoData = component.uris.isNullOrEmpty(),
-                isPrimaryButtonVisible = component.canSave,
+                isPrimaryButtonVisible = selectedModel != null,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
@@ -205,7 +208,7 @@ fun AiToolsContent(
     LoadingDialog(
         visible = component.isSaving,
         done = component.done,
-        left = component.uris?.size ?: 1,
+        left = component.total,
         onCancelLoading = component::cancelSaving
     )
 

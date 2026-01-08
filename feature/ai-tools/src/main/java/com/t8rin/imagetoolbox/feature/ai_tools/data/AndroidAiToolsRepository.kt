@@ -17,22 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.data
 
+import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.OrtSession
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,6 +47,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.io.readByteArray
 import java.io.File
 import java.io.FileOutputStream
@@ -51,10 +58,12 @@ internal class AndroidAiToolsRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val client: HttpClient,
     private val dataStore: DataStore<Preferences>,
-    private val appScope: AppScope
-) : AiToolsRepository {
+    private val appScope: AppScope,
+    private val processor: AiProcessor,
+    dispatchersHolder: DispatchersHolder
+) : AiToolsRepository<Bitmap>, DispatchersHolder by dispatchersHolder {
 
-    private val directory: File = File(context.filesDir, "ai_models").apply(File::mkdirs)
+    private val directory: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
     override val downloadedModels: MutableStateFlow<List<NeuralModel>> =
         MutableStateFlow(emptyList())
@@ -66,14 +75,16 @@ internal class AndroidAiToolsRepository @Inject constructor(
             initialValue = null
         )
 
+    private var session: OrtSession? = null
+
     init {
-        updateDownloadedModels()
+        appScope.launch { updateDownloadedModels() }
     }
 
     override fun downloadModel(
         model: NeuralModel
     ): Flow<NeuralDownloadProgress> = callbackFlow {
-        val modelFile = File(directory, model.name)
+        val modelFile = model.file
 
         client.prepareGet(model.downloadLink).execute { response ->
             val total = response.contentLength() ?: -1L
@@ -101,8 +112,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     }
 
                     tmp.renameTo(modelFile)
-                    selectModel(model)
                     updateDownloadedModels()
+                    selectModel(model)
                     close()
                 } catch (e: Throwable) {
                     tmp.delete()
@@ -110,25 +121,68 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun processImage(
+        image: Bitmap,
+        callback: AiProcessCallback,
+        params: NeuralParams
+    ): Bitmap? {
+        return processor.processImage(
+            session = session ?: createSession() ?: return null,
+            inputBitmap = image,
+            strength = params.strength,
+            callback = callback,
+            chunkSize = params.chunkSize,
+            overlap = params.overlap
+        )
+    }
 
     override suspend fun selectModel(model: NeuralModel): Boolean {
-        if (model !in downloadedModels.value) return false
+        if (downloadedModels.value.none { it.name == model.name }) return false
 
         dataStore.edit {
             it[SELECTED_MODEL] = model.name
         }
 
+        closeSession()
+
+        System.gc()
+
+        createSession(model)
+
         return true
     }
 
-    private fun updateDownloadedModels() {
+    private fun createSession(model: NeuralModel? = selectedModel.value): OrtSession? {
+        val options = OrtSession.SessionOptions().apply {
+            runCatching { addCUDA() }
+            runCatching { setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT) }
+            runCatching { setInterOpNumThreads(8) }
+            runCatching { setIntraOpNumThreads(8) }
+            runCatching { setMemoryPatternOptimization(true) }
+        }
+
+        return OrtEnvironment.getEnvironment()
+            .createSession((model ?: return null).file.absolutePath, options)
+            .also { session = it }
+    }
+
+    private fun closeSession() {
+        session?.close()
+        session = null
+    }
+
+    private suspend fun updateDownloadedModels() = withContext(ioDispatcher) {
         downloadedModels.update {
             directory.listFiles().orEmpty().mapNotNull {
                 NeuralModel.find(it.name)
             }
         }
     }
+
+    private val NeuralModel.file: File get() = File(directory, name)
+
 }
 
 private val SELECTED_MODEL = stringPreferencesKey("SELECTED_MODEL")
