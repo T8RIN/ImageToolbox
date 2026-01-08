@@ -113,6 +113,7 @@ include(":feature:audio-cover-extractor")
 include(":feature:library-details")
 include(":feature:wallpapers-export")
 include(":feature:ascii-art")
+include(":feature:ai-tools")
 
 include(":feature:root")
 

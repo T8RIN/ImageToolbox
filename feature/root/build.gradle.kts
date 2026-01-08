@@ -73,4 +73,5 @@ dependencies {
     implementation(projects.feature.libraryDetails)
     implementation(projects.feature.wallpapersExport)
     implementation(projects.feature.asciiArt)
+    implementation(projects.feature.aiTools)
 }

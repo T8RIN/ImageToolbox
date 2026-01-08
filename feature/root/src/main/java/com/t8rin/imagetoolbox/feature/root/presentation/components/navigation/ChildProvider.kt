@@ -21,6 +21,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
@@ -54,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfTool
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AiTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ApngTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AsciiArt
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
@@ -167,6 +169,7 @@ internal class ChildProvider @Inject constructor(
     private val libraryDetailsComponentFactory: LibraryDetailsComponent.Factory,
     private val wallpapersExportComponentFactory: WallpapersExportComponent.Factory,
     private val asciiArtComponentFactory: AsciiArtComponent.Factory,
+    private val aiToolsComponentFactory: AiToolsComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -590,6 +593,15 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialUri = config.uri,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        is Screen.AiTools -> AiTools(
+            aiToolsComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
     }

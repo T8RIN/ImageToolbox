@@ -190,6 +190,7 @@ internal fun List<Uri>.screenList(
                 if (uris.size in 1..10) {
                     add(Screen.CollageMaker(uris))
                 }
+                add(Screen.AiTools(uris))
                 add(Screen.GradientMaker(uris))
                 add(
                     Screen.RecognizeText(

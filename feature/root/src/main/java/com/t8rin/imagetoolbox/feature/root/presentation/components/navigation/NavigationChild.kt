@@ -22,6 +22,8 @@ import com.t8rin.imagetoolbox.collage_maker.presentation.CollageMakerContent
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.color_tools.presentation.ColorToolsContent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.AsciiArtContent
@@ -362,5 +364,10 @@ internal sealed interface NavigationChild {
     class AsciiArt(private val component: AsciiArtComponent) : NavigationChild {
         @Composable
         override fun Content() = AsciiArtContent(component)
+    }
+
+    class AiTools(private val component: AiToolsComponent) : NavigationChild {
+        @Composable
+        override fun Content() = AiToolsContent(component)
     }
 }

@@ -814,6 +814,15 @@ sealed class Screen(
         subtitle = R.string.ascii_art_sub
     )
 
+    @Serializable
+    data class AiTools(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 41,
+        title = R.string.ai_tools,
+        subtitle = R.string.ai_tools_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 }
 

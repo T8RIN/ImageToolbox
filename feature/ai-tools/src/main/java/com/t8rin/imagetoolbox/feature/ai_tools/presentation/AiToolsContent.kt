@@ -1,0 +1,217 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.ai_tools.presentation
+
+import android.net.Uri
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
+
+@Composable
+fun AiToolsContent(
+    component: AiToolsComponent
+) {
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
+
+    val imagePicker = rememberImagePicker { uris: List<Uri> ->
+        component.updateUris(
+            uris = uris
+        )
+    }
+
+    val pickImage = imagePicker::pickImage
+
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
+    )
+
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+    val onBack = {
+        if (component.haveChanges) showExitDialog = true
+        else component.onGoBack()
+    }
+
+    val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+        component.saveBitmaps(
+            oneTimeSaveLocationUri = it,
+            onResult = essentials::parseSaveResults
+        )
+    }
+
+    val isPortrait by isPortraitOrientationAsState()
+
+    val addImagesImagePicker = rememberImagePicker { uris: List<Uri> ->
+        component.addUris(
+            uris = uris
+        )
+    }
+
+    AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
+        title = {
+            TopAppBarTitle(
+                title = stringResource(R.string.ai_tools),
+                input = component.uris,
+                isLoading = component.isImageLoading,
+                size = null
+            )
+        },
+        onGoBack = onBack,
+        actions = {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
+            ShareButton(
+                onShare = {
+                    component.shareBitmaps(showConfetti)
+                },
+                onEdit = {
+                    component.cacheImages {
+                        editSheetData = it
+                    }
+                }
+            )
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    editSheetData = emptyList()
+                },
+                onNavigate = component.onNavigate
+            )
+        },
+        showImagePreviewAsStickyHeader = false,
+        imagePreview = {
+            UrisPreview(
+                modifier = Modifier
+                    .then(
+                        if (!isPortrait) {
+                            Modifier
+                                .layout { measurable, constraints ->
+                                    val placeable = measurable.measure(
+                                        constraints = constraints.copy(
+                                            maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                        )
+                                    )
+                                    layout(placeable.width, placeable.height) {
+                                        placeable.place(0, 0)
+                                    }
+                                }
+                                .verticalScroll(rememberScrollState())
+                        } else Modifier
+                    )
+                    .padding(vertical = 24.dp),
+                uris = component.uris.orEmpty(),
+                isPortrait = true,
+                onRemoveUri = component::removeUri,
+                onAddUris = addImagesImagePicker::pickImage
+            )
+        },
+        controls = {},
+        noDataControls = {
+            ImageNotPickedWidget(onPickImage = pickImage)
+        },
+        buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+            BottomButtonsBlock(
+                isNoData = component.uris.isNullOrEmpty(),
+                isPrimaryButtonVisible = component.canSave,
+                onSecondaryButtonClick = pickImage,
+                onPrimaryButtonClick = {
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
+                actions = {
+                    if (isPortrait) actions()
+                },
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
+                }
+            )
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = saveBitmaps
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
+            )
+        },
+        topAppBarPersistentActions = {
+            if (component.uris.isNullOrEmpty()) {
+                TopAppBarEmoji()
+            }
+        },
+        canShowScreenData = !component.uris.isNullOrEmpty()
+    )
+
+    LoadingDialog(
+        visible = component.isSaving,
+        done = component.done,
+        left = component.uris?.size ?: 1,
+        onCancelLoading = component::cancelSaving
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component.onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
+}
