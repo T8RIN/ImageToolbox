@@ -34,7 +34,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -193,11 +192,6 @@ fun FiltersContent(
                 }
             ) { title ->
                 if (title == null) {
-                    val text by remember {
-                        derivedStateOf {
-                            UiFilter.groupedEntries.flatten().size.toString()
-                        }
-                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.marquee()
@@ -208,7 +202,7 @@ fun FiltersContent(
                         Badge(
                             content = {
                                 Text(
-                                    text = text
+                                    text = UiFilter.count.toString()
                                 )
                             },
                             containerColor = MaterialTheme.colorScheme.tertiary,

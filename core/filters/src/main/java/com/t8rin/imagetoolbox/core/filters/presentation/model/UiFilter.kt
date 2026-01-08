@@ -18,11 +18,26 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.Extension
+import androidx.compose.material.icons.rounded.FilterHdr
+import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.filterIsNotInstance
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
+import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
+import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.resources.icons.Speed
+import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlin.reflect.full.primaryConstructor
 
@@ -63,354 +78,440 @@ sealed class UiFilter<T : Any>(
         } else instance
     }
 
-    companion object {
-        val groupedEntries by lazy {
-            listOf(
-                //Simple
-                listOf(
-                    UiSepiaFilter(),
-                    UiNegativeFilter(),
-                    UiBlackAndWhiteFilter(),
-                    UiCGAColorSpaceFilter(),
-                    UiLaplacianFilter(),
-                    UiNonMaximumSuppressionFilter(),
-                    UiWeakPixelFilter(),
-                    UiTritanopiaFilter(),
-                    UiDeutaronotopiaFilter(),
-                    UiProtanopiaFilter(),
-                    UiTritonomalyFilter(),
-                    UiDeutaromalyFilter(),
-                    UiProtonomalyFilter(),
-                    UiVintageFilter(),
-                    UiBrowniFilter(),
-                    UiCodaChromeFilter(),
-                    UiNightVisionFilter(),
-                    UiWarmFilter(),
-                    UiCoolFilter(),
-                    UiPolaroidFilter(),
-                    UiAchromatopsiaFilter(),
-                    UiAchromatomalyFilter(),
-                    UiPastelFilter(),
-                    UiOrangeHazeFilter(),
-                    UiPinkDreamFilter(),
-                    UiGoldenHourFilter(),
-                    UiHotSummerFilter(),
-                    UiPurpleMistFilter(),
-                    UiSunriseFilter(),
-                    UiColorfulSwirlFilter(),
-                    UiSoftSpringLightFilter(),
-                    UiAutumnTonesFilter(),
-                    UiLavenderDreamFilter(),
-                    UiCyberpunkFilter(),
-                    UiLemonadeLightFilter(),
-                    UiSpectralFireFilter(),
-                    UiNightMagicFilter(),
-                    UiFantasyLandscapeFilter(),
-                    UiColorExplosionFilter(),
-                    UiElectricGradientFilter(),
-                    UiCaramelDarknessFilter(),
-                    UiFuturisticGradientFilter(),
-                    UiGreenSunFilter(),
-                    UiRainbowWorldFilter(),
-                    UiDeepPurpleFilter(),
-                    UiSpacePortalFilter(),
-                    UiRedSwirlFilter(),
-                    UiDigitalCodeFilter(),
-                    UiOldTvFilter(),
-                    UiEqualizeHistogramFilter(),
-                    UiSimpleOldTvFilter(),
-                    UiGothamFilter(),
-                    UiHDRFilter(),
-                    UiSimpleSketchFilter(),
-                    UiSobelSimpleFilter(),
-                    UiLaplacianSimpleFilter(),
-                    UiDespeckleFilter(),
-                    UiEqualizeFilter(),
-                    UiReduceNoiseFilter(),
-                    UiSimpleSolarizeFilter(),
-                    UiMoireFilter(),
-                    UiAutumnFilter(),
-                    UiBoneFilter(),
-                    UiJetFilter(),
-                    UiWinterFilter(),
-                    UiRainbowFilter(),
-                    UiOceanFilter(),
-                    UiSummerFilter(),
-                    UiSpringFilter(),
-                    UiCoolVariantFilter(),
-                    UiHsvFilter(),
-                    UiPinkFilter(),
-                    UiHotFilter(),
-                    UiParulaFilter(),
-                    UiMagmaFilter(),
-                    UiInfernoFilter(),
-                    UiPlasmaFilter(),
-                    UiViridisFilter(),
-                    UiCividisFilter(),
-                    UiTwilightFilter(),
-                    UiTwilightShiftedFilter(),
-                    UiAutoPerspectiveFilter(),
-                    UiTurboFilter(),
-                    UiDeepGreenFilter(),
-                    UiLuminanceGradientFilter(),
-                    UiAverageDistanceFilter(),
-                ),
-                //Color
-                listOf(
-                    UiHueFilter(),
-                    UiColorOverlayFilter(),
-                    UiNeonFilter(),
-                    UiSaturationFilter(),
-                    UiRGBFilter(),
-                    UiReplaceColorFilter(),
-                    UiRemoveColorFilter(),
-                    UiFalseColorFilter(),
-                    UiGrayscaleFilter(),
-                    UiMonochromeFilter(),
-                    UiColorMatrix4x4Filter(),
-                    UiColorMatrix3x3Filter(),
-                    UiColorBalanceFilter(),
-                    UiPaletteTransferFilter(),
-                    UiPaletteTransferVariantFilter(),
-                    UiPosterizeFilter(),
-                    UiColorPosterFilter(),
-                    UiTriToneFilter(),
-                    UiPopArtFilter(),
-                    UiToneCurvesFilter(),
-                    UiChannelMixFilter(),
-                    UiRubberStampFilter()
-                ),
-                //LUT
-                listOf(
-                    UiLUT512x512Filter(),
-                    UiAmatorkaFilter(),
-                    UiMissEtikateFilter(),
-                    UiSoftEleganceFilter(),
-                    UiSoftEleganceVariantFilter(),
-                    UiCubeLutFilter(),
-                    UiBleachBypassFilter(),
-                    UiCandlelightFilter(),
-                    UiDropBluesFilter(),
-                    UiEdgyAmberFilter(),
-                    UiFallColorsFilter(),
-                    UiFilmStock50Filter(),
-                    UiFoggyNightFilter(),
-                    UiKodakFilter(),
-                    UiCelluloidFilter(),
-                    UiCoffeeFilter(),
-                    UiGoldenForestFilter(),
-                    UiGreenishFilter(),
-                    UiRetroYellowFilter()
-                ),
-                //Light
-                listOf(
-                    UiBrightnessFilter(),
-                    UiContrastFilter(),
-                    UiVibranceFilter(),
-                    UiExposureFilter(),
-                    UiWhiteBalanceFilter(),
-                    UiGammaFilter(),
-                    UiHighlightsAndShadowsFilter(),
-                    UiSolarizeFilter(),
-                    UiHazeFilter(),
-                    UiDehazeFilter(),
-                    UiLogarithmicToneMappingFilter(),
-                    UiAcesFilmicToneMappingFilter(),
-                    UiAcesHillToneMappingFilter(),
-                    UiHableFilmicToneMappingFilter(),
-                    UiHejlBurgessToneMappingFilter(),
-                    UiEqualizeHistogramAdaptiveFilter(),
-                    UiEqualizeHistogramAdaptiveLUVFilter(),
-                    UiEqualizeHistogramAdaptiveLABFilter(),
-                    UiEqualizeHistogramAdaptiveHSLFilter(),
-                    UiEqualizeHistogramAdaptiveHSVFilter(),
-                    UiEqualizeHistogramHSVFilter(),
-                    UiClaheHSVFilter(),
-                    UiClaheHSLFilter(),
-                    UiClaheFilter(),
-                    UiClaheLABFilter(),
-                    UiClaheLUVFilter(),
-                    UiMobiusFilter(),
-                    UiAldridgeFilter(),
-                    UiUchimuraFilter(),
-                    UiDragoFilter(),
-                    UiClaheOklabFilter(),
-                    UiClaheOklchFilter(),
-                    UiClaheJzazbzFilter(),
-                    UiAutoRemoveRedEyesFilter(),
-                    UiGlowFilter(),
-                    UiSparkleFilter()
-                ),
-                //Effects
-                listOf(
-                    UiNoiseFilter(),
-                    UiAnisotropicDiffusionFilter(),
-                    UiSharpenFilter(),
-                    UiUnsharpFilter(),
-                    UiGrainFilter(),
-                    UiSobelEdgeDetectionFilter(),
-                    UiCannyFilter(),
-                    UiOilFilter(),
-                    UiEnhancedOilFilter(),
-                    UiEmbossFilter(),
-                    UiVignetteFilter(),
-                    UiKuwaharaFilter(),
-                    UiErodeFilter(),
-                    UiDilationFilter(),
-                    UiOpeningFilter(),
-                    UiClosingFilter(),
-                    UiMorphologicalGradientFilter(),
-                    UiTopHatFilter(),
-                    UiBlackHatFilter(),
-                    UiOpacityFilter(),
-                    UiSideFadeFilter(),
-                    UiCropToContentFilter(),
-                    UiAutoCropFilter(),
-                    UiToonFilter(),
-                    UiSmoothToonFilter(),
-                    UiSketchFilter(),
-                    UiLookupFilter(),
-                    UiConvolution3x3Filter(),
-                    UiThresholdFilter(),
-                    UiDoGFilter(),
-                    UiErrorLevelAnalysisFilter(),
-                    UiCopyMoveDetectionFilter(),
-                    UiBorderFrameFilter()
-                ),
-                //Blur
-                listOf(
-                    UiShuffleBlurFilter(),
-                    UiRingBlurFilter(),
-                    UiCircleBlurFilter(),
-                    UiCrossBlurFilter(),
-                    UiStarBlurFilter(),
-                    UiRadialTiltShiftFilter(),
-                    UiLinearTiltShiftFilter(),
-                    UiGaussianBlurFilter(),
-                    UiNativeStackBlurFilter(),
-                    UiBoxBlurFilter(),
-                    UiBilaterialBlurFilter(),
-                    UiTentBlurFilter(),
-                    UiStackBlurFilter(),
-                    UiFastBlurFilter(),
-                    UiZoomBlurFilter(),
-                    UiEnhancedZoomBlurFilter(),
-                    UiFastBilaterialBlurFilter(),
-                    UiPoissonBlurFilter(),
-                    UiMedianBlurFilter(),
-                    UiBokehFilter(),
-                    UiFastGaussianBlur2DFilter(),
-                    UiFastGaussianBlur3DFilter(),
-                    UiFastGaussianBlur4DFilter(),
-                    UiLinearBoxBlurFilter(),
-                    UiLinearTentBlurFilter(),
-                    UiLinearGaussianBoxBlurFilter(),
-                    UiLinearStackBlurFilter(),
-                    UiGaussianBoxBlurFilter(),
-                    UiLinearFastGaussianBlurNextFilter(),
-                    UiLinearFastGaussianBlurFilter(),
-                    UiLinearGaussianBlurFilter(),
-                    UiMotionBlurFilter(),
-                    UiDiffuseFilter()
-                ),
-                //Pixelation
-                listOf(
-                    UiCrystallizeFilter(),
-                    UiEqualizeHistogramPixelationFilter(),
-                    UiPixelationFilter(),
-                    UiEnhancedPixelationFilter(),
-                    UiDiamondPixelationFilter(),
-                    UiEnhancedDiamondPixelationFilter(),
-                    UiCirclePixelationFilter(),
-                    UiEnhancedCirclePixelationFilter(),
-                    UiStrokePixelationFilter(),
-                    UiLowPolyFilter(),
-                    UiSandPaintingFilter(),
-                    UiPolkaDotFilter(),
-                    UiContourFilter(),
-                    UiVoronoiCrystallizeFilter(),
-                    UiPointillizeFilter(),
-                    UiWeaveFilter(),
-                    UiSmearFilter(),
-                    UiAsciiFilter(),
-                    UiSimpleWeavePixelizationFilter(),
-                    UiStaggeredPixelizationFilter(),
-                    UiCrossPixelizationFilter(),
-                    UiMicroMacroPixelizationFilter(),
-                    UiOrbitalPixelizationFilter(),
-                    UiVortexPixelizationFilter(),
-                    UiPulseGridPixelizationFilter(),
-                    UiNucleusPixelizationFilter(),
-                    UiRadialWeavePixelizationFilter()
-                ),
-                //Distortion
-                listOf(
-                    UiEnhancedGlitchFilter(),
-                    UiFractalGlassFilter(),
-                    UiGlitchFilter(),
-                    UiMarbleFilter(),
-                    UiConvexFilter(),
-                    UiColorAnomalyFilter(),
-                    UiWaterEffectFilter(),
-                    UiPerlinDistortionFilter(),
-                    UiAnaglyphFilter(),
-                    UiHorizontalWindStaggerFilter(),
-                    UiSwirlDistortionFilter(),
-                    UiBulgeDistortionFilter(),
-                    UiSphereRefractionFilter(),
-                    UiGlassSphereRefractionFilter(),
-                    UiMirrorFilter(),
-                    UiKaleidoscopeFilter(),
-                    UiOffsetFilter(),
-                    UiPinchFilter(),
-                    UiPolarCoordinatesFilter(),
-                    UiTwirlFilter(),
-                    UiSphereLensDistortionFilter(),
-                    UiArcFilter(),
-                    UiDeskewFilter(),
-                    UiCropOrPerspectiveFilter(),
-                    UiLensCorrectionFilter(),
-                    UiSeamCarvingFilter(),
-                    UiGlitchVariantFilter(),
-                    UiVHSFilter(),
-                    UiBlockGlitchFilter(),
-                    UiCrtCurvatureFilter(),
-                    UiPixelMeltFilter()
-                ),
-                //Dithering
-                listOf(
-                    UiHalftoneFilter(),
-                    UiCrosshatchFilter(),
-                    UiBayerTwoDitheringFilter(),
-                    UiBayerThreeDitheringFilter(),
-                    UiBayerFourDitheringFilter(),
-                    UiBayerEightDitheringFilter(),
-                    UiFloydSteinbergDitheringFilter(),
-                    UiJarvisJudiceNinkeDitheringFilter(),
-                    UiSierraDitheringFilter(),
-                    UiTwoRowSierraDitheringFilter(),
-                    UiSierraLiteDitheringFilter(),
-                    UiAtkinsonDitheringFilter(),
-                    UiStuckiDitheringFilter(),
-                    UiBurkesDitheringFilter(),
-                    UiFalseFloydSteinbergDitheringFilter(),
-                    UiLeftToRightDitheringFilter(),
-                    UiRandomDitheringFilter(),
-                    UiSimpleThresholdDitheringFilter(),
-                    UiQuantizierFilter(),
-                    UiClustered2x2DitheringFilter(),
-                    UiClustered4x4DitheringFilter(),
-                    UiClustered8x8DitheringFilter(),
-                    UiYililomaDitheringFilter(),
-                    UiColorHalftoneFilter()
-                )
+    sealed class Group(
+        val icon: ImageVector,
+        val title: Int,
+        data: List<UiFilter<*>>
+    ) {
+        operator fun component1() = icon
+        operator fun component2() = title
+
+        internal val filters: List<UiFilter<*>> by lazy {
+            data.sortedBy { appContext.getString(it.title) }
+        }
+
+        private val filtersForTemplateCreation: List<UiFilter<*>> by lazy {
+            filters.filterIsNotInstance(
+                Filter.PaletteTransfer::class,
+                Filter.LUT512x512::class,
+                Filter.PaletteTransferVariant::class,
+                Filter.CubeLut::class,
+                Filter.LensCorrection::class
             )
         }
 
-        val sortedGroupedEntries
-            get() = groupedEntries.map { list ->
-                list.sortedBy { appContext.getString(it.title) }
-            }
+        fun filters(canAddTemplates: Boolean) =
+            if (canAddTemplates) filters else filtersForTemplateCreation
+
+        data object Template : Group(
+            icon = Icons.Rounded.Extension,
+            title = R.string.template,
+            data = emptyList()
+        )
+
+        class Favorite(
+            data: List<UiFilter<*>>
+        ) : Group(
+            icon = Icons.Rounded.Bookmark,
+            title = R.string.favorite,
+            data = data
+        ) {
+            override fun toString(): String = "Favorite"
+        }
+
+        data object Simple : Group(
+            icon = Icons.Rounded.Speed,
+            title = R.string.simple_effects,
+            data = listOf(
+                UiSepiaFilter(),
+                UiNegativeFilter(),
+                UiBlackAndWhiteFilter(),
+                UiCGAColorSpaceFilter(),
+                UiLaplacianFilter(),
+                UiNonMaximumSuppressionFilter(),
+                UiWeakPixelFilter(),
+                UiTritanopiaFilter(),
+                UiDeutaronotopiaFilter(),
+                UiProtanopiaFilter(),
+                UiTritonomalyFilter(),
+                UiDeutaromalyFilter(),
+                UiProtonomalyFilter(),
+                UiVintageFilter(),
+                UiBrowniFilter(),
+                UiCodaChromeFilter(),
+                UiNightVisionFilter(),
+                UiWarmFilter(),
+                UiCoolFilter(),
+                UiPolaroidFilter(),
+                UiAchromatopsiaFilter(),
+                UiAchromatomalyFilter(),
+                UiPastelFilter(),
+                UiOrangeHazeFilter(),
+                UiPinkDreamFilter(),
+                UiGoldenHourFilter(),
+                UiHotSummerFilter(),
+                UiPurpleMistFilter(),
+                UiSunriseFilter(),
+                UiColorfulSwirlFilter(),
+                UiSoftSpringLightFilter(),
+                UiAutumnTonesFilter(),
+                UiLavenderDreamFilter(),
+                UiCyberpunkFilter(),
+                UiLemonadeLightFilter(),
+                UiSpectralFireFilter(),
+                UiNightMagicFilter(),
+                UiFantasyLandscapeFilter(),
+                UiColorExplosionFilter(),
+                UiElectricGradientFilter(),
+                UiCaramelDarknessFilter(),
+                UiFuturisticGradientFilter(),
+                UiGreenSunFilter(),
+                UiRainbowWorldFilter(),
+                UiDeepPurpleFilter(),
+                UiSpacePortalFilter(),
+                UiRedSwirlFilter(),
+                UiDigitalCodeFilter(),
+                UiOldTvFilter(),
+                UiEqualizeHistogramFilter(),
+                UiSimpleOldTvFilter(),
+                UiGothamFilter(),
+                UiHDRFilter(),
+                UiSimpleSketchFilter(),
+                UiSobelSimpleFilter(),
+                UiLaplacianSimpleFilter(),
+                UiDespeckleFilter(),
+                UiEqualizeFilter(),
+                UiReduceNoiseFilter(),
+                UiSimpleSolarizeFilter(),
+                UiMoireFilter(),
+                UiAutumnFilter(),
+                UiBoneFilter(),
+                UiJetFilter(),
+                UiWinterFilter(),
+                UiRainbowFilter(),
+                UiOceanFilter(),
+                UiSummerFilter(),
+                UiSpringFilter(),
+                UiCoolVariantFilter(),
+                UiHsvFilter(),
+                UiPinkFilter(),
+                UiHotFilter(),
+                UiParulaFilter(),
+                UiMagmaFilter(),
+                UiInfernoFilter(),
+                UiPlasmaFilter(),
+                UiViridisFilter(),
+                UiCividisFilter(),
+                UiTwilightFilter(),
+                UiTwilightShiftedFilter(),
+                UiAutoPerspectiveFilter(),
+                UiTurboFilter(),
+                UiDeepGreenFilter(),
+                UiLuminanceGradientFilter(),
+                UiAverageDistanceFilter(),
+            )
+        )
+
+        data object Color : Group(
+            icon = Icons.Rounded.FloodFill,
+            title = R.string.color,
+            data = listOf(
+                UiHueFilter(),
+                UiColorOverlayFilter(),
+                UiNeonFilter(),
+                UiSaturationFilter(),
+                UiRGBFilter(),
+                UiReplaceColorFilter(),
+                UiRemoveColorFilter(),
+                UiFalseColorFilter(),
+                UiGrayscaleFilter(),
+                UiMonochromeFilter(),
+                UiColorMatrix4x4Filter(),
+                UiColorMatrix3x3Filter(),
+                UiColorBalanceFilter(),
+                UiPaletteTransferFilter(),
+                UiPaletteTransferVariantFilter(),
+                UiPosterizeFilter(),
+                UiColorPosterFilter(),
+                UiTriToneFilter(),
+                UiPopArtFilter(),
+                UiToneCurvesFilter(),
+                UiChannelMixFilter(),
+                UiRubberStampFilter()
+            )
+        )
+
+        data object LUT : Group(
+            icon = Icons.Rounded.TableEye,
+            title = R.string.lut,
+            data = listOf(
+                UiLUT512x512Filter(),
+                UiAmatorkaFilter(),
+                UiMissEtikateFilter(),
+                UiSoftEleganceFilter(),
+                UiSoftEleganceVariantFilter(),
+                UiCubeLutFilter(),
+                UiBleachBypassFilter(),
+                UiCandlelightFilter(),
+                UiDropBluesFilter(),
+                UiEdgyAmberFilter(),
+                UiFallColorsFilter(),
+                UiFilmStock50Filter(),
+                UiFoggyNightFilter(),
+                UiKodakFilter(),
+                UiCelluloidFilter(),
+                UiCoffeeFilter(),
+                UiGoldenForestFilter(),
+                UiGreenishFilter(),
+                UiRetroYellowFilter()
+            )
+        )
+
+        data object Light : Group(
+            icon = Icons.Rounded.Lightbulb,
+            title = R.string.light_aka_illumination,
+            data = listOf(
+                UiBrightnessFilter(),
+                UiContrastFilter(),
+                UiVibranceFilter(),
+                UiExposureFilter(),
+                UiWhiteBalanceFilter(),
+                UiGammaFilter(),
+                UiHighlightsAndShadowsFilter(),
+                UiSolarizeFilter(),
+                UiHazeFilter(),
+                UiDehazeFilter(),
+                UiLogarithmicToneMappingFilter(),
+                UiAcesFilmicToneMappingFilter(),
+                UiAcesHillToneMappingFilter(),
+                UiHableFilmicToneMappingFilter(),
+                UiHejlBurgessToneMappingFilter(),
+                UiEqualizeHistogramAdaptiveFilter(),
+                UiEqualizeHistogramAdaptiveLUVFilter(),
+                UiEqualizeHistogramAdaptiveLABFilter(),
+                UiEqualizeHistogramAdaptiveHSLFilter(),
+                UiEqualizeHistogramAdaptiveHSVFilter(),
+                UiEqualizeHistogramHSVFilter(),
+                UiClaheHSVFilter(),
+                UiClaheHSLFilter(),
+                UiClaheFilter(),
+                UiClaheLABFilter(),
+                UiClaheLUVFilter(),
+                UiMobiusFilter(),
+                UiAldridgeFilter(),
+                UiUchimuraFilter(),
+                UiDragoFilter(),
+                UiClaheOklabFilter(),
+                UiClaheOklchFilter(),
+                UiClaheJzazbzFilter(),
+                UiAutoRemoveRedEyesFilter(),
+                UiGlowFilter(),
+                UiSparkleFilter()
+            )
+        )
+
+        data object Effects : Group(
+            icon = Icons.Rounded.FilterHdr,
+            title = R.string.effect,
+            data = listOf(
+                UiNoiseFilter(),
+                UiAnisotropicDiffusionFilter(),
+                UiSharpenFilter(),
+                UiUnsharpFilter(),
+                UiGrainFilter(),
+                UiSobelEdgeDetectionFilter(),
+                UiCannyFilter(),
+                UiOilFilter(),
+                UiEnhancedOilFilter(),
+                UiEmbossFilter(),
+                UiVignetteFilter(),
+                UiKuwaharaFilter(),
+                UiErodeFilter(),
+                UiDilationFilter(),
+                UiOpeningFilter(),
+                UiClosingFilter(),
+                UiMorphologicalGradientFilter(),
+                UiTopHatFilter(),
+                UiBlackHatFilter(),
+                UiOpacityFilter(),
+                UiSideFadeFilter(),
+                UiCropToContentFilter(),
+                UiAutoCropFilter(),
+                UiToonFilter(),
+                UiSmoothToonFilter(),
+                UiSketchFilter(),
+                UiLookupFilter(),
+                UiConvolution3x3Filter(),
+                UiThresholdFilter(),
+                UiDoGFilter(),
+                UiErrorLevelAnalysisFilter(),
+                UiCopyMoveDetectionFilter(),
+                UiBorderFrameFilter()
+            )
+        )
+
+        data object Blur : Group(
+            icon = Icons.Rounded.BlurCircular,
+            title = R.string.blur,
+            data = listOf(
+                UiShuffleBlurFilter(),
+                UiRingBlurFilter(),
+                UiCircleBlurFilter(),
+                UiCrossBlurFilter(),
+                UiStarBlurFilter(),
+                UiRadialTiltShiftFilter(),
+                UiLinearTiltShiftFilter(),
+                UiGaussianBlurFilter(),
+                UiNativeStackBlurFilter(),
+                UiBoxBlurFilter(),
+                UiBilaterialBlurFilter(),
+                UiTentBlurFilter(),
+                UiStackBlurFilter(),
+                UiFastBlurFilter(),
+                UiZoomBlurFilter(),
+                UiEnhancedZoomBlurFilter(),
+                UiFastBilaterialBlurFilter(),
+                UiPoissonBlurFilter(),
+                UiMedianBlurFilter(),
+                UiBokehFilter(),
+                UiFastGaussianBlur2DFilter(),
+                UiFastGaussianBlur3DFilter(),
+                UiFastGaussianBlur4DFilter(),
+                UiLinearBoxBlurFilter(),
+                UiLinearTentBlurFilter(),
+                UiLinearGaussianBoxBlurFilter(),
+                UiLinearStackBlurFilter(),
+                UiGaussianBoxBlurFilter(),
+                UiLinearFastGaussianBlurNextFilter(),
+                UiLinearFastGaussianBlurFilter(),
+                UiLinearGaussianBlurFilter(),
+                UiMotionBlurFilter(),
+                UiDiffuseFilter()
+            )
+        )
+
+        data object Pixelation : Group(
+            icon = Icons.Rounded.Cube,
+            title = R.string.pixelation,
+            data = listOf(
+                UiCrystallizeFilter(),
+                UiEqualizeHistogramPixelationFilter(),
+                UiPixelationFilter(),
+                UiEnhancedPixelationFilter(),
+                UiDiamondPixelationFilter(),
+                UiEnhancedDiamondPixelationFilter(),
+                UiCirclePixelationFilter(),
+                UiEnhancedCirclePixelationFilter(),
+                UiStrokePixelationFilter(),
+                UiLowPolyFilter(),
+                UiSandPaintingFilter(),
+                UiPolkaDotFilter(),
+                UiContourFilter(),
+                UiVoronoiCrystallizeFilter(),
+                UiPointillizeFilter(),
+                UiWeaveFilter(),
+                UiSmearFilter(),
+                UiAsciiFilter(),
+                UiSimpleWeavePixelizationFilter(),
+                UiStaggeredPixelizationFilter(),
+                UiCrossPixelizationFilter(),
+                UiMicroMacroPixelizationFilter(),
+                UiOrbitalPixelizationFilter(),
+                UiVortexPixelizationFilter(),
+                UiPulseGridPixelizationFilter(),
+                UiNucleusPixelizationFilter(),
+                UiRadialWeavePixelizationFilter()
+            )
+        )
+
+        data object Distortion : Group(
+            icon = Icons.Rounded.Animation,
+            title = R.string.distortion,
+            data = listOf(
+                UiEnhancedGlitchFilter(),
+                UiFractalGlassFilter(),
+                UiGlitchFilter(),
+                UiMarbleFilter(),
+                UiConvexFilter(),
+                UiColorAnomalyFilter(),
+                UiWaterEffectFilter(),
+                UiPerlinDistortionFilter(),
+                UiAnaglyphFilter(),
+                UiHorizontalWindStaggerFilter(),
+                UiSwirlDistortionFilter(),
+                UiBulgeDistortionFilter(),
+                UiSphereRefractionFilter(),
+                UiGlassSphereRefractionFilter(),
+                UiMirrorFilter(),
+                UiKaleidoscopeFilter(),
+                UiOffsetFilter(),
+                UiPinchFilter(),
+                UiPolarCoordinatesFilter(),
+                UiTwirlFilter(),
+                UiSphereLensDistortionFilter(),
+                UiArcFilter(),
+                UiDeskewFilter(),
+                UiCropOrPerspectiveFilter(),
+                UiLensCorrectionFilter(),
+                UiSeamCarvingFilter(),
+                UiGlitchVariantFilter(),
+                UiVHSFilter(),
+                UiBlockGlitchFilter(),
+                UiCrtCurvatureFilter(),
+                UiPixelMeltFilter()
+            )
+        )
+
+        data object Dithering : Group(
+            icon = Icons.Rounded.Gradient,
+            title = R.string.dithering,
+            data = listOf(
+                UiHalftoneFilter(),
+                UiCrosshatchFilter(),
+                UiBayerTwoDitheringFilter(),
+                UiBayerThreeDitheringFilter(),
+                UiBayerFourDitheringFilter(),
+                UiBayerEightDitheringFilter(),
+                UiFloydSteinbergDitheringFilter(),
+                UiJarvisJudiceNinkeDitheringFilter(),
+                UiSierraDitheringFilter(),
+                UiTwoRowSierraDitheringFilter(),
+                UiSierraLiteDitheringFilter(),
+                UiAtkinsonDitheringFilter(),
+                UiStuckiDitheringFilter(),
+                UiBurkesDitheringFilter(),
+                UiFalseFloydSteinbergDitheringFilter(),
+                UiLeftToRightDitheringFilter(),
+                UiRandomDitheringFilter(),
+                UiSimpleThresholdDitheringFilter(),
+                UiQuantizierFilter(),
+                UiClustered2x2DitheringFilter(),
+                UiClustered4x4DitheringFilter(),
+                UiClustered8x8DitheringFilter(),
+                UiYililomaDitheringFilter(),
+                UiColorHalftoneFilter()
+            )
+        )
+    }
+
+    companion object {
+        val groups: List<Group> by lazy {
+            listOf(
+                Group.Simple,
+                Group.Color,
+                Group.LUT,
+                Group.Light,
+                Group.Effects,
+                Group.Blur,
+                Group.Pixelation,
+                Group.Distortion,
+                Group.Dithering
+            )
+        }
+
+        val count: Int by lazy {
+            groups.sumOf { it.filters.size }
+        }
     }
 
 }
