@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderColors
@@ -54,7 +56,8 @@ fun EnhancedSlider(
     enabled: Boolean = true,
     colors: SliderColors? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    drawContainer: Boolean = true
+    drawContainer: Boolean = true,
+    isAnimated: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     val sliderType = settingsState.sliderType
@@ -89,6 +92,15 @@ fun EnhancedSlider(
 
             compositions++
         }
+    }
+
+    val value = if (isAnimated) {
+        animateFloatAsState(
+            targetValue = value,
+            animationSpec = tween(100)
+        ).value
+    } else {
+        value
     }
 
     when (sliderType) {

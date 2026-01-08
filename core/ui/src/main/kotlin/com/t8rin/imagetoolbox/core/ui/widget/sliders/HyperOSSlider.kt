@@ -83,7 +83,6 @@ fun HyperOSSlider(
     decimalPlaces: Int = 2,
     drawContainer: Boolean = true
 ) {
-    val value by animateFloatAsState(value)
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val minValue = valueRange.start
     val maxValue = valueRange.endInclusive
@@ -351,7 +350,7 @@ fun HyperOSRangeSlider(
                                             )
                                         }
                                     },
-                                    onHorizontalDrag = { change, dragAmount ->
+                                    onHorizontalDrag = { _, dragAmount ->
                                         val width = size.width
                                         val deltaValue =
                                             (dragAmount / width) * (maxValue - minValue)

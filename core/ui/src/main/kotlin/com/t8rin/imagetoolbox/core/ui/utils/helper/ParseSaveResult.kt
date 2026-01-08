@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestStoragePe
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler.Companion.showReview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
+import com.t8rin.logger.makeLog
 
 internal fun Activity.parseSaveResult(
     saveResult: SaveResult,
@@ -36,6 +37,7 @@ internal fun Activity.parseSaveResult(
 ) {
     when (saveResult) {
         is SaveResult.Error.Exception -> {
+            saveResult.throwable.makeLog("parseSaveResult")
             essentials.showFailureToast(
                 throwable = saveResult.throwable
             )

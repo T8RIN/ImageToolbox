@@ -116,6 +116,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     fun selectModel(model: NeuralModel) {
         componentScope.launch {
             aiToolsRepository.selectModel(model)
+            registerChanges()
         }
     }
 
@@ -151,6 +152,12 @@ class AiToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun updateParams(
+        action: NeuralParams.() -> NeuralParams
+    ) {
+        _params.update { action(it) }
+        registerChanges()
+    }
 
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null

@@ -25,7 +25,7 @@ data class NeuralParams(
     companion object {
         val Default by lazy {
             NeuralParams(
-                strength = 75f,
+                strength = 65f,
                 chunkSize = 512,
                 overlap = 8
             )

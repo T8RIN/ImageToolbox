@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
@@ -68,12 +69,13 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override val downloadedModels: MutableStateFlow<List<NeuralModel>> =
         MutableStateFlow(emptyList())
 
-    override val selectedModel: StateFlow<NeuralModel?>
-        get() = dataStore.data.map { NeuralModel.find(it[SELECTED_MODEL]) }.stateIn(
-            scope = appScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = null
-        )
+    override val selectedModel: StateFlow<NeuralModel?> =
+        dataStore.data.map { NeuralModel.find(it[SELECTED_MODEL]) }
+            .stateIn(
+                scope = appScope,
+                started = SharingStarted.Eagerly,
+                initialValue = null
+            )
 
     private var session: OrtSession? = null
 
@@ -128,8 +130,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         callback: AiProcessCallback,
         params: NeuralParams
     ): Bitmap? {
+        "start processing".makeLog()
         return processor.processImage(
-            session = session ?: createSession() ?: return null,
+            session = session.makeLog("Held session")
+                ?: createSession(selectedModel.value).makeLog("New session")
+                ?: return null,
             inputBitmap = image,
             strength = params.strength,
             callback = callback,
@@ -154,7 +159,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         return true
     }
 
-    private fun createSession(model: NeuralModel? = selectedModel.value): OrtSession? {
+    private fun createSession(model: NeuralModel?): OrtSession? {
         val options = OrtSession.SessionOptions().apply {
             runCatching { addCUDA() }
             runCatching { setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT) }

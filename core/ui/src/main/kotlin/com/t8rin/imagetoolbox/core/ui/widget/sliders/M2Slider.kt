@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.sliders
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -102,7 +101,7 @@ fun M2Slider(
                         .padding(horizontal = 12.dp)
                 } else Modifier
             ),
-        value = animateFloatAsState(value).value,
+        value = value,
         colors = colors.toCustom(),
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,

@@ -19,8 +19,6 @@ package com.t8rin.imagetoolbox.core.ui.widget.sliders
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
@@ -86,11 +84,10 @@ fun FancySlider(
         if (enabled) colors.thumbColor else colors.disabledThumbColor
     )
 
-    val animatedValue by animateFloatAsState(value)
     val thumb: @Composable (CustomSliderState) -> Unit = { sliderState ->
         val sliderFraction by remember {
             derivedStateOf {
-                (animatedValue - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
+                (value - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
             }
         }
         Spacer(
@@ -159,10 +156,7 @@ fun FancySlider(
                     } else Modifier
                 ),
             colors = colors.toCustom(),
-            value = animateFloatAsState(
-                targetValue = value,
-                animationSpec = tween(100)
-            ).value,
+            value = value,
             onValueChange = onValueChange,
             onValueChangeFinished = onValueChangeFinished,
             valueRange = valueRange,
@@ -170,7 +164,7 @@ fun FancySlider(
             track = { sliderState ->
                 val sliderFraction by remember {
                     derivedStateOf {
-                        (animatedValue - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
+                        (value - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
                     }
                 }
 

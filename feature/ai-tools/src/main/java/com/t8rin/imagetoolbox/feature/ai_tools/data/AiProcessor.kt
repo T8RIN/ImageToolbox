@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package com.t8rin.imagetoolbox.feature.ai_tools.data
 
 import ai.onnxruntime.NodeInfo
@@ -31,11 +33,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import android.util.Log
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -148,8 +150,7 @@ internal class AiProcessor @Inject constructor(
         val rows = 1.coerceAtLeast(ceil(height.toDouble() / maxChunkSize).toInt())
         val actualChunkWidth = (width + (cols - 1) * overlap) / cols
         val actualChunkHeight = (height + (rows - 1) * overlap) / rows
-        Log.d(
-            "ImageProcessor",
+        "AiProcessor".makeLog(
             "Processing tiled: image=${width}x${height}, max=$maxChunkSize, actual=${actualChunkWidth}x${actualChunkHeight}, grid=${cols}x${rows}, overlap=$overlap"
         )
         val totalChunks = cols * rows
@@ -167,7 +168,7 @@ internal class AiProcessor @Inject constructor(
 
         val chunkInfoList = mutableListOf<ChunkInfo>()
 
-        Log.d("ImageProcessor", "Phase 1: Extracting $totalChunks chunks to disk")
+        "AiProcessor".makeLog("Phase 1: Extracting $totalChunks chunks to disk")
         var chunkIndex = 0
         for (row in 0 until rows) {
             for (col in 0 until cols) {
@@ -208,11 +209,10 @@ internal class AiProcessor @Inject constructor(
                 chunkIndex++
             }
         }
-        Log.d(
-            "ImageProcessor",
+        "AiProcessor".makeLog(
             "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}"
         )
-        Log.d("ImageProcessor", "Phase 2: Processing $totalChunks chunks")
+        "AiProcessor".makeLog("Phase 2: Processing $totalChunks chunks")
         if (totalChunks > 1) {
             withContext(Dispatchers.Main) {
                 callback.onChunkProgress(0, totalChunks)
@@ -343,7 +343,7 @@ internal class AiProcessor @Inject constructor(
         }
         val needsPadding = w != originalW || h != originalH
         val paddedChunk = if (needsPadding) {
-            Log.d("ImageProcessor", "Padding chunk from ${originalW}x${originalH} to ${w}x${h}")
+            "AiProcessor".makeLog("Padding chunk from ${originalW}x${originalH} to ${w}x${h}")
             val padded = createBitmap(w, h, config)
             val canvas = Canvas(padded)
             canvas.drawBitmap(chunk, 0f, 0f, null)
@@ -465,23 +465,22 @@ internal class AiProcessor @Inject constructor(
     }
 
     private fun extractOutputArray(outputValue: Any, channels: Int, h: Int, w: Int): FloatArray {
-        Log.d("ImageProcessor", "Output type received: ${outputValue.javaClass.name}")
+        "AiProcessor".makeLog("Output type received: ${outputValue.javaClass.name}")
         return when (outputValue) {
             is FloatArray -> {
-                Log.d("ImageProcessor", "Output is FloatArray (FP32 or auto-converted from FP16)")
+                "AiProcessor".makeLog("Output is FloatArray (FP32 or auto-converted from FP16)")
                 outputValue
             }
 
             is ShortArray -> {
-                Log.d("ImageProcessor", "Output is ShortArray (FP16) - converting to Float32")
+                "AiProcessor".makeLog("Output is ShortArray (FP16) - converting to Float32")
                 FloatArray(outputValue.size) { i -> float16ToFloat(outputValue[i]) }
             }
 
             is Array<*> -> {
                 try {
-                    @Suppress("UNCHECKED_CAST")
                     val arr = outputValue as Array<Array<Array<FloatArray>>>
-                    Log.d("ImageProcessor", "Output is multi-dimensional FloatArray")
+                    "AiProcessor".makeLog("Output is multi-dimensional FloatArray")
                     val out = FloatArray(channels * h * w)
                     for (ch in 0 until channels) {
                         for (y in 0 until h) {
@@ -493,9 +492,8 @@ internal class AiProcessor @Inject constructor(
                     out
                 } catch (e: Exception) {
                     try {
-                        @Suppress("UNCHECKED_CAST")
                         val arr = outputValue as Array<Array<Array<ShortArray>>>
-                        Log.d("ImageProcessor", "Output is multi-dimensional ShortArray (FP16)")
+                        "AiProcessor".makeLog("Output is multi-dimensional ShortArray (FP16)")
                         val out = FloatArray(channels * h * w)
                         for (ch in 0 until channels) {
                             for (y in 0 until h) {

@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsControls
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 
 @Composable
@@ -157,7 +158,11 @@ fun AiToolsContent(
                 onAddUris = addImagesImagePicker::pickImage
             )
         },
-        controls = {},
+        controls = {
+            AiToolsControls(
+                component = component
+            )
+        },
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)
         },
