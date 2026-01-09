@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
+import kotlinx.coroutines.delay
 
 @Composable
 fun SendLogsSettingItem(
@@ -60,6 +61,7 @@ fun SendLogsSettingItem(
     val progress = progressAnimatable.value
 
     LaunchedEffect(isLoading) {
+        delay(400)
         if (isLoading) {
             progressAnimatable.animateTo(
                 targetValue = 1f,
