@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
+import com.t8rin.imagetoolbox.core.utils.appContext
+import java.io.File
+import kotlin.random.Random
 
 @Composable
 fun rememberClipboardData(): State<List<Uri>> {
@@ -122,8 +128,23 @@ fun ClipboardManager?.clipText(): String = runCatching {
 
 fun ClipData.clipList() = List(
     size = itemCount,
-    init = {
-        getItemAt(it).uri
+    init = { index ->
+        appContext.run {
+            getItemAt(index).uri?.let { uri ->
+                if (uri.toString().contains(getString(R.string.file_provider))) return@let uri
+
+                contentResolver.openInputStream(uri)?.use { stream ->
+                    val file = File(
+                        cacheDir,
+                        getFilename(uri) ?: "clipboard_${Random.nextInt()}.tmp"
+                    ).apply { createNewFile() }
+
+                    file.outputStream().use { stream.copyTo(it) }
+
+                    file.toUri()
+                }
+            }
+        }
     }
 ).filterNotNull()
 

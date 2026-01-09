@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.askUserTo
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -521,6 +523,18 @@ object ContextUtils {
     fun Context.appSettingsIntent(): Intent {
         return Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             .setData("package:${packageName}".toUri())
+    }
+
+    fun Uri.takePersistablePermission(): Uri = apply {
+        runCatching {
+            appContext.contentResolver.takePersistableUriPermission(
+                this,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        }.onFailure {
+            it.makeLog("takePersistablePermission")
+        }
     }
 
 }

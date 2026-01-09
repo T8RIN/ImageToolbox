@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
-import android.content.Intent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -297,11 +296,6 @@ fun OneTimeSaveLocationSelectionDialog(
                 val currentFolderUri = selectedSaveFolderUri?.toUri() ?: settingsState.saveFolderUri
                 val launcher = rememberFolderPicker(
                     onSuccess = { uri ->
-                        context.contentResolver.takePersistableUriPermission(
-                            uri,
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                        )
                         tempSelectedSaveFolderUri = uri.toString()
                         selectedSaveFolderUri = uri.toString()
                     }
