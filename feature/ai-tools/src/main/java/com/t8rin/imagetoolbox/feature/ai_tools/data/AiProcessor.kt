@@ -37,7 +37,7 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -72,15 +72,15 @@ internal class AiProcessor @Inject constructor(
         session: OrtSession,
         inputBitmap: Bitmap,
         strength: Float,
-        callback: AiProcessCallback,
+        listener: AiProgressListener,
         chunkSize: Int,
         overlap: Int
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
-            processBitmap(
+            processBitmapImpl(
                 session = session,
                 inputBitmap = inputBitmap,
-                callback = callback,
+                listener = listener,
                 info = ModelInfo(
                     strength = strength,
                     session = session,
@@ -95,15 +95,15 @@ internal class AiProcessor @Inject constructor(
                 cancel()
                 throw it
             } else {
-                callback.onError(formatError(it))
+                listener.onError(formatError(it))
             }
         }.getOrNull()
     }
 
-    private suspend fun processBitmap(
+    private suspend fun processBitmapImpl(
         session: OrtSession,
         inputBitmap: Bitmap,
-        callback: AiProcessCallback,
+        listener: AiProgressListener,
         info: ModelInfo,
     ): Bitmap {
         isCancelled = false
@@ -122,7 +122,7 @@ internal class AiProcessor @Inject constructor(
         return if (mustTile) processTiled(
             session = session,
             inputBitmap = inputBitmap,
-            callback = callback,
+            listener = listener,
             info = info,
             config = processingConfig,
             hasTransparency = hasTransparency,
@@ -133,7 +133,7 @@ internal class AiProcessor @Inject constructor(
                 if (inputBitmap.config != processingConfig) inputBitmap.copy(processingConfig, true)
                 else inputBitmap
 
-            callback.onProgress(getString(R.string.loading))
+            listener.onProgress(getString(R.string.loading))
 
             val result = processChunkUnified(
                 session = session,
@@ -149,7 +149,7 @@ internal class AiProcessor @Inject constructor(
     private suspend fun processTiled(
         session: OrtSession,
         inputBitmap: Bitmap,
-        callback: AiProcessCallback,
+        listener: AiProgressListener,
         info: ModelInfo,
         config: Bitmap.Config,
         hasTransparency: Boolean,
@@ -229,12 +229,12 @@ internal class AiProcessor @Inject constructor(
         "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}".makeLog("AiProcessor")
         "Phase 2: Processing $totalChunks chunks".makeLog("AiProcessor")
         if (totalChunks > 1) {
-            callback.onChunkProgress(0, totalChunks)
+            listener.onChunkProgress(0, totalChunks)
         }
         for (chunkInfo in chunkInfoList) {
             ensureActiveOrThrow()
 
-            callback.onProgress(
+            listener.onProgress(
                 if (totalChunks > 1) {
                     "${chunkInfo.index + 1}/$totalChunks"
                 } else {
@@ -266,10 +266,10 @@ internal class AiProcessor @Inject constructor(
 
             if (totalChunks > 1) {
                 val nextChunkIndex = chunkInfo.index + 1
-                callback.onChunkProgress(nextChunkIndex, totalChunks)
+                listener.onChunkProgress(nextChunkIndex, totalChunks)
             }
         }
-        callback.onProgress(getString(R.string.merging))
+        listener.onProgress(getString(R.string.merging))
 
         val result = createBitmap(width, height, config)
         val canvas = Canvas(result)

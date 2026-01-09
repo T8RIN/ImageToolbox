@@ -39,7 +39,7 @@ interface AiToolsRepository<Image> {
 
     suspend fun processImage(
         image: Image,
-        callback: AiProcessCallback,
+        listener: AiProgressListener,
         params: NeuralParams
     ): Image?
 

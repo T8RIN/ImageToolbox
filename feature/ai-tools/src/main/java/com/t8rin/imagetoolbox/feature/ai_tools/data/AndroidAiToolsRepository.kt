@@ -31,7 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -136,7 +136,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     override suspend fun processImage(
         image: Bitmap,
-        callback: AiProcessCallback,
+        listener: AiProgressListener,
         params: NeuralParams
     ): Bitmap? = withContext(defaultDispatcher) {
         "start processing".makeLog()
@@ -144,11 +144,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
             session = session.makeLog("Held session")
                 ?: createSession(selectedModel.value).makeLog("New session")
                 ?: return@withContext null.also {
-                    callback.onError(getString(R.string.failed_to_open_session))
+                    listener.onError(getString(R.string.failed_to_open_session))
                 },
             inputBitmap = image,
             strength = params.strength,
-            callback = callback,
+            listener = listener,
             chunkSize = params.chunkSize,
             overlap = params.overlap
         )

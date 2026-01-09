@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.domain
 
-interface AiProcessCallback {
+interface AiProgressListener {
     fun onError(error: String)
     fun onProgress(message: String) {}
     fun onChunkProgress(currentChunkIndex: Int, totalChunks: Int)

@@ -18,14 +18,9 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation
 
 import android.net.Uri
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,14 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -51,7 +42,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
-import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
@@ -59,9 +49,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsControls
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgressDialog
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import kotlinx.coroutines.flow.collectLatest
 
@@ -228,47 +218,9 @@ fun AiToolsContent(
         canShowScreenData = !component.uris.isNullOrEmpty()
     )
 
-    component.saveProgress?.let { saveProgress ->
-        LoadingDialog(
-            visible = true,
-            onCancelLoading = component::cancelSaving,
-            progress = { saveProgress.totalProgress },
-            loaderSize = 72.dp,
-            isLayoutSwappable = false,
-            additionalContent = {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AutoSizeText(
-                        text = if (saveProgress.totalImages > 1) {
-                            "${saveProgress.doneImages} / ${saveProgress.totalImages}"
-                        } else {
-                            "${saveProgress.doneChunks} / ${saveProgress.totalChunks}"
-                        },
-                        maxLines = 1,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.width(it * 0.7f),
-                        textAlign = TextAlign.Center
-                    )
-                    if (saveProgress.totalImages > 1 && saveProgress.totalChunks > 0) {
-                        AutoSizeText(
-                            text = "${saveProgress.doneChunks} / ${saveProgress.totalChunks}",
-                            maxLines = 1,
-                            style = LocalTextStyle.current.copy(
-                                fontSize = 12.sp,
-                                lineHeight = 12.sp
-                            ),
-                            color = LocalContentColor.current.copy(0.5f),
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.width(it * 0.45f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-        )
-    }
+    NeuralSaveProgressDialog(
+        component = component
+    )
 
     ExitWithoutSavingDialog(
         onExit = component.onGoBack,

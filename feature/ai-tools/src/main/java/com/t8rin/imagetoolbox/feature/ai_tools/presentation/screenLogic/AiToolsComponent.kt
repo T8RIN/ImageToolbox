@@ -41,7 +41,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
@@ -121,7 +121,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     private val errorsChannel: Channel<String> = Channel(Channel.BUFFERED)
     val errors: Flow<String> = errorsChannel.receiveAsFlow()
 
-    private val aiProcessCallback = object : AiProcessCallback {
+    private val aiProgressListener = object : AiProgressListener {
         override fun onError(error: String) {
             errorsChannel.trySend(error)
         }
@@ -221,7 +221,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
                     aiToolsRepository.processImage(
                         image = image,
-                        callback = aiProcessCallback,
+                        listener = aiProgressListener,
                         params = params
                     )?.let {
                         it to imageInfo
@@ -289,7 +289,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
                     aiToolsRepository.processImage(
                         image = image,
-                        callback = aiProcessCallback,
+                        listener = aiProgressListener,
                         params = params
                     )?.let {
                         it to imageInfo
