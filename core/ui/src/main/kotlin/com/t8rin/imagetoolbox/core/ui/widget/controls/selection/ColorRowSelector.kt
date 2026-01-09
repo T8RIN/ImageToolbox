@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ fun ColorRowSelector(
     icon: ImageVector? = Icons.Outlined.Palette,
     allowAlpha: Boolean = true,
     allowScroll: Boolean = true,
-    defaultColors: List<Color> = defaultColorList,
+    defaultColors: List<Color> = ColorSelectionRowDefaults.colorListVariant,
     contentHorizontalPadding: Dp = 12.dp
 ) {
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
@@ -199,15 +199,4 @@ fun ColorRowSelector(
             )
         }
     }
-}
-
-private val defaultColorList by lazy {
-    listOf(
-        Color(0xFFFFFFFF),
-        Color(0xFF768484),
-        Color(0xFF333333),
-        Color(0xFF000000),
-    ).plus(
-        ColorSelectionRowDefaults.colorList.reversed().drop(4)
-    )
 }
