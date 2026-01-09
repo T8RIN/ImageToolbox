@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -199,7 +199,11 @@ internal fun Uri.tryRequireOriginal(context: Context): Uri {
 
 fun Uri.getFilename(
     context: Context = appContext
-): String? = DocumentFile.fromSingleUri(context, this)?.name
+): String? = if (this.toString().startsWith("file:///")) {
+    this.toString().takeLastWhile { it != '/' }
+} else {
+    DocumentFile.fromSingleUri(context, this)?.name
+}?.decodeEscaped()
 
 fun String.decodeEscaped(): String = runCatching {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

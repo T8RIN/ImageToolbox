@@ -22,15 +22,20 @@ import ai.onnxruntime.OrtException
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
@@ -47,6 +52,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -65,14 +71,15 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val appScope: AppScope,
     private val processor: AiProcessor,
     dispatchersHolder: DispatchersHolder,
-    resourceManager: ResourceManager
+    resourceManager: ResourceManager,
+    private val fileController: FileController
 ) : AiToolsRepository<Bitmap>,
     DispatchersHolder by dispatchersHolder,
     ResourceManager by resourceManager {
 
-    private val directory: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
+    private val modelsDir: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
-    override val downloadedModels: StateFlow<List<NeuralModel>> = directory
+    override val downloadedModels: StateFlow<List<NeuralModel>> = modelsDir
         .observeHasChanges()
         .debounce(100)
         .map { fetchDownloadedModels() }
@@ -82,13 +89,16 @@ internal class AndroidAiToolsRepository @Inject constructor(
             initialValue = emptyList()
         )
 
-    override val selectedModel: StateFlow<NeuralModel?> =
-        dataStore.data.map { NeuralModel.find(it[SELECTED_MODEL]) }
-            .stateIn(
-                scope = appScope,
-                started = SharingStarted.Eagerly,
-                initialValue = null
-            )
+    override val selectedModel: StateFlow<NeuralModel?> = combine(
+        downloadedModels,
+        dataStore.data
+    ) { downloaded, data ->
+        downloaded.find { it.name == data[SELECTED_MODEL] }
+    }.stateIn(
+        scope = appScope,
+        started = SharingStarted.Eagerly,
+        initialValue = null
+    )
 
     private var session: OrtSession? = null
 
@@ -135,6 +145,28 @@ internal class AndroidAiToolsRepository @Inject constructor(
             }
         }
     }.flowOn(ioDispatcher)
+
+    override suspend fun importModel(
+        uri: String
+    ): SaveResult = withContext(ioDispatcher) {
+        val modelName = context.getFilename(uri.toUri()).orEmpty().ifEmpty {
+            "imported_model_${System.currentTimeMillis()}.onnx"
+        }
+
+        if (downloadedModels.value.any { it.name.equals(modelName, true) }) {
+            return@withContext SaveResult.Skipped
+        }
+
+        fileController.transferBytes(
+            fromUri = uri,
+            to = FileWriteable(
+                File(
+                    modelsDir,
+                    modelName
+                ).apply(File::createNewFile)
+            )
+        )
+    }
 
     override suspend fun processImage(
         image: Bitmap,
@@ -227,12 +259,16 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     private suspend fun fetchDownloadedModels() = withContext(ioDispatcher) {
-        directory.listFiles().orEmpty().mapNotNull {
-            NeuralModel.find(it.name)
+        modelsDir.listFiles().orEmpty().mapNotNull {
+            val name = it.name
+
+            if (name.isNullOrEmpty()) return@mapNotNull null
+
+            NeuralModel.find(name) ?: NeuralModel.Imported(name)
         }
     }
 
-    private val NeuralModel.file: File get() = File(directory, name)
+    private val NeuralModel.file: File get() = File(modelsDir, name)
 
 }
 

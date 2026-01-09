@@ -1936,7 +1936,7 @@
     <string name="model_sponge">Colorization, cartoons</string>
     <string name="model_bandage">Color banding</string>
     <string name="model_halftone">Slow, removing halftones</string>
-    <string name="model_colorizer">General colorizer</string>
+    <string name="model_colorizer">General colorizer for grayscale/bw images</string>
     <string name="model_deedge">Edge removal</string>
     <string name="model_desharpen">Removes oversharpening</string>
     <string name="model_dither">Slow, dithering</string>
@@ -1966,4 +1966,8 @@
     <string name="preparing">Preparing</string>
     <string name="active_model">Active model</string>
     <string name="failed_to_open_session">Failed to open session</string>
+    <string name="only_onnx_models">Only ONNX models can be imported</string>
+    <string name="import_model">Import model</string>
+    <string name="import_model_sub">Import custom onnx model to further use, only onnx models are accepted, supports almost all esrgan like variants</string>
+    <string name="imported_models">Imported Models</string>
 </resources>

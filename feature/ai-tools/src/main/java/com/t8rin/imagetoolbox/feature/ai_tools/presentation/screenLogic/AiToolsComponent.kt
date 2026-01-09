@@ -175,6 +175,15 @@ class AiToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun importModel(
+        uri: Uri,
+        onResult: (SaveResult) -> Unit
+    ) {
+        componentScope.launch {
+            onResult(aiToolsRepository.importModel(uri.toString()))
+        }
+    }
+
     fun deleteModel(model: NeuralModel) {
         componentScope.launch {
             aiToolsRepository.deleteModel(model)

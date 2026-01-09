@@ -53,6 +53,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         onSelectModel = component::selectModel,
         onDownloadModel = component::downloadModel,
         onDeleteModel = component::deleteModel,
+        onImportModel = component::importModel,
         downloadedModels = downloadedModels,
         notDownloadedModels = notDownloadedModels,
         downloadProgresses = component.downloadProgresses

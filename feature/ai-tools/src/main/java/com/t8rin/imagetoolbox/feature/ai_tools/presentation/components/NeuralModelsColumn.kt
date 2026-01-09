@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -36,9 +37,11 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
+import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.Icon
@@ -46,6 +49,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,11 +57,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.FileImport
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -83,8 +92,10 @@ internal fun NeuralModelsColumn(
     onSelectModel: (NeuralModel) -> Unit,
     onDownloadModel: (NeuralModel) -> Unit,
     onWantDelete: (NeuralModel) -> Unit,
+    onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
 ) {
+    val essentials = rememberLocalEssentials()
     val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
@@ -106,11 +117,122 @@ internal fun NeuralModelsColumn(
         scrollToSelected()
     }
 
+    val filePicker = rememberFilePicker { uri: Uri ->
+        if (uri.getFilename(essentials.context).orEmpty().endsWith(".onnx")) {
+            onImportModel(uri, essentials::parseFileSaveResult)
+        } else {
+            essentials.showFailureToast(
+                essentials.context.getString(R.string.only_onnx_models)
+            )
+        }
+    }
+
+    val (importedModels, downloadedModels) = remember(downloadedModels) {
+        derivedStateOf {
+            downloadedModels.partition { it.isImported }
+        }
+    }.value
+
     LazyColumn(
         state = listState,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        item {
+            PreferenceItem(
+                title = stringResource(R.string.import_model),
+                subtitle = stringResource(R.string.import_model_sub),
+                onClick = filePicker::pickFile,
+                startIcon = Icons.Rounded.ModelTraining,
+                containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
+                shape = ShapeDefaults.default,
+                modifier = Modifier.fillMaxWidth(),
+                endIcon = Icons.Rounded.FileImport
+            )
+        }
+        if (importedModels.isNotEmpty()) {
+            item {
+                TitleItem(
+                    icon = Icons.AutoMirrored.Rounded.InsertDriveFile,
+                    text = stringResource(id = R.string.imported_models)
+                )
+            }
+        }
+        itemsIndexed(
+            items = importedModels,
+            key = { _, m -> m.name }
+        ) { index, model ->
+            val selected = selectedModel?.name == model.name
+            val state = rememberRevealState()
+            val interactionSource = remember {
+                MutableInteractionSource()
+            }
+            val isDragged by interactionSource.collectIsDraggedAsState()
+            val shape = ShapeDefaults.byIndex(
+                index = index,
+                size = importedModels.size,
+                forceDefault = isDragged
+            )
+            SwipeToReveal(
+                state = state,
+                modifier = Modifier.animateItem(),
+                revealedContentEnd = {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.errorContainer,
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                onWantDelete(model)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = stringResource(R.string.delete),
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(end = 8.dp)
+                                .align(Alignment.CenterEnd),
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                },
+                directions = setOf(RevealDirection.EndToStart),
+                swipeableContent = {
+                    PreferenceItem(
+                        shape = shape,
+                        containerColor = animateColorAsState(
+                            if (selected) {
+                                MaterialTheme
+                                    .colorScheme
+                                    .mixedContainer
+                                    .copy(0.8f)
+                            } else EnhancedBottomSheetDefaults.contentContainerColor
+                        ).value,
+                        onLongClick = {
+                            scope.launch {
+                                state.animateTo(RevealValue.FullyRevealedStart)
+                            }
+                        },
+                        onClick = {
+                            onSelectModel(model)
+                        },
+                        title = model.title,
+                        subtitle = model.description?.let { stringResource(it) },
+                        modifier = Modifier.fillMaxWidth(),
+                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                    )
+                },
+                interactionSource = interactionSource
+            )
+        }
         if (downloadedModels.isNotEmpty()) {
             item {
                 TitleItem(
@@ -186,7 +308,7 @@ internal fun NeuralModelsColumn(
                             onSelectModel(model)
                         },
                         title = model.title,
-                        subtitle = stringResource(model.description),
+                        subtitle = model.description?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
                         endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
                     )
@@ -208,7 +330,7 @@ internal fun NeuralModelsColumn(
         ) { index, model ->
             PreferenceItemOverload(
                 title = model.title,
-                subtitle = stringResource(model.description),
+                subtitle = model.description?.let { stringResource(it) },
                 onClick = {
                     onDownloadModel(model)
                 },

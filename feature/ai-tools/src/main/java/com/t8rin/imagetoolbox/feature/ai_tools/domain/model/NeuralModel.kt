@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("FunctionName")
+
 package com.t8rin.imagetoolbox.feature.ai_tools.domain.model
 
 import com.t8rin.imagetoolbox.core.resources.R
@@ -23,10 +25,10 @@ data class NeuralModel(
     val downloadLink: String,
     val name: String,
     val title: String,
-    val description: Int
+    val description: Int?
 ) {
-
     val supportsStrength = name.contains("fbcnn", true)
+    val isImported = downloadLink == "imported"
 
     companion object {
         val entries: List<NeuralModel> by lazy {
@@ -247,6 +249,13 @@ data class NeuralModel(
         fun find(name: String?): NeuralModel? = entries.find { model ->
             model.name.equals(name, true)
         }
+
+        fun Imported(name: String): NeuralModel = NeuralModel(
+            downloadLink = "imported",
+            name = name,
+            title = name.replace("_", " ").replace("-", "").substringBefore('.'),
+            description = null
+        )
     }
 
 }

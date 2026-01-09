@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -48,6 +50,7 @@ internal fun NeuralModelSelector(
     onDeleteModel: (NeuralModel) -> Unit,
     downloadedModels: List<NeuralModel>,
     notDownloadedModels: List<NeuralModel>,
+    onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
 ) {
     var showDetails by rememberSaveable {
@@ -101,6 +104,7 @@ internal fun NeuralModelSelector(
                 onSelectModel = onSelectModel,
                 onDownloadModel = onDownloadModel,
                 onWantDelete = { deleteDialogData = it },
+                onImportModel = onImportModel,
                 downloadProgresses = downloadProgresses
             )
         }

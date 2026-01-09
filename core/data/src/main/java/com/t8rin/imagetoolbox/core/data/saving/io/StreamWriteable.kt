@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import java.io.InputStream
 import java.io.OutputStream
 
-internal class StreamWriteable(
+class StreamWriteable(
     outputStream: OutputStream
 ) : Writeable {
 
@@ -39,7 +39,7 @@ internal class StreamWriteable(
 
 }
 
-internal class StreamReadable(
+class StreamReadable(
     inputStream: InputStream
 ) : Readable {
 
