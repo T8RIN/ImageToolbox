@@ -50,13 +50,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 
 class AiToolsComponent @AssistedInject internal constructor(
@@ -114,6 +117,27 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private val _params: MutableState<NeuralParams> = mutableStateOf(NeuralParams.Default)
     val params by _params
+
+    private val errorsChannel: Channel<String> = Channel(Channel.BUFFERED)
+    val errors: Flow<String> = errorsChannel.receiveAsFlow()
+
+    private val aiProcessCallback = object : AiProcessCallback {
+        override fun onError(error: String) {
+            errorsChannel.trySend(error)
+        }
+
+        override fun onChunkProgress(
+            currentChunkIndex: Int,
+            totalChunks: Int
+        ) {
+            _saveProgress.updateNotNull {
+                it.copy(
+                    doneChunks = currentChunkIndex,
+                    totalChunks = totalChunks
+                )
+            }
+        }
+    }
 
     fun selectModel(model: NeuralModel) {
         componentScope.launch {
@@ -197,19 +221,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
                     aiToolsRepository.processImage(
                         image = image,
-                        callback = object : AiProcessCallback {
-                            override fun onChunkProgress(
-                                currentChunkIndex: Int,
-                                totalChunks: Int
-                            ) {
-                                _saveProgress.updateNotNull {
-                                    it.copy(
-                                        doneChunks = currentChunkIndex,
-                                        totalChunks = totalChunks
-                                    )
-                                }
-                            }
-                        },
+                        callback = aiProcessCallback,
                         params = params
                     )?.let {
                         it to imageInfo
@@ -277,19 +289,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
                     aiToolsRepository.processImage(
                         image = image,
-                        callback = object : AiProcessCallback {
-                            override fun onChunkProgress(
-                                currentChunkIndex: Int,
-                                totalChunks: Int
-                            ) {
-                                _saveProgress.updateNotNull {
-                                    it.copy(
-                                        doneChunks = currentChunkIndex,
-                                        totalChunks = totalChunks
-                                    )
-                                }
-                            }
-                        },
+                        callback = aiProcessCallback,
                         params = params
                     )?.let {
                         it to imageInfo

@@ -35,12 +35,14 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -56,8 +58,15 @@ import kotlin.use
 
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
-    dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder {
+    dispatchersHolder: DispatchersHolder,
+    resourceManager: ResourceManager
+) : DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
+
+    private var isCancelled = false
+
+    fun cancel() {
+        isCancelled = true
+    }
 
     suspend fun processImage(
         session: OrtSession,
@@ -81,7 +90,9 @@ internal class AiProcessor @Inject constructor(
             )
         }.onFailure {
             if (it is CancellationException) {
+                "Cancelled".makeLog("AiProcessor")
                 clearChunks()
+                cancel()
                 throw it
             } else {
                 callback.onError(formatError(it))
@@ -95,6 +106,7 @@ internal class AiProcessor @Inject constructor(
         callback: AiProcessCallback,
         info: ModelInfo,
     ): Bitmap {
+        isCancelled = false
         val width = inputBitmap.getWidth()
         val height = inputBitmap.getHeight()
         val hasTransparency = detectTransparency(inputBitmap)
@@ -121,7 +133,7 @@ internal class AiProcessor @Inject constructor(
                 if (inputBitmap.config != processingConfig) inputBitmap.copy(processingConfig, true)
                 else inputBitmap
 
-            callback.onProgress(context.getString(R.string.loading))
+            callback.onProgress(getString(R.string.loading))
 
             val result = processChunkUnified(
                 session = session,
@@ -143,6 +155,7 @@ internal class AiProcessor @Inject constructor(
         hasTransparency: Boolean,
         maxChunkSize: Int
     ): Bitmap {
+        ensureActiveOrThrow()
         val width = inputBitmap.width
         val height = inputBitmap.height
         val overlap = info.overlap
@@ -172,6 +185,7 @@ internal class AiProcessor @Inject constructor(
         var chunkIndex = 0
         for (row in 0 until rows) {
             for (col in 0 until cols) {
+                ensureActiveOrThrow()
                 val chunkX = 0.coerceAtLeast(col * (actualChunkWidth - overlap))
                 val chunkY = 0.coerceAtLeast(row * (actualChunkHeight - overlap))
                 val chunkW =
@@ -189,6 +203,9 @@ internal class AiProcessor @Inject constructor(
                 } else {
                     chunk
                 }
+
+                ensureActiveOrThrow()
+
                 val chunkFile = File(chunksDir, "chunk_${chunkIndex}.png")
                 FileOutputStream(chunkFile).use {
                     converted.compress(Bitmap.CompressFormat.PNG, 100, it)
@@ -212,16 +229,16 @@ internal class AiProcessor @Inject constructor(
         "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}".makeLog("AiProcessor")
         "Phase 2: Processing $totalChunks chunks".makeLog("AiProcessor")
         if (totalChunks > 1) {
-            withContext(Dispatchers.Main) {
-                callback.onChunkProgress(0, totalChunks)
-            }
+            callback.onChunkProgress(0, totalChunks)
         }
         for (chunkInfo in chunkInfoList) {
+            ensureActiveOrThrow()
+
             callback.onProgress(
                 if (totalChunks > 1) {
                     "${chunkInfo.index + 1}/$totalChunks"
                 } else {
-                    context.getString(R.string.loading)
+                    getString(R.string.loading)
                 }
             )
             val loadedChunk = BitmapFactory.decodeFile(chunkInfo.file.absolutePath)
@@ -242,6 +259,9 @@ internal class AiProcessor @Inject constructor(
             }
             chunkInfo.file.delete()
 
+
+            ensureActiveOrThrow()
+
             processed.recycle()
 
             if (totalChunks > 1) {
@@ -249,12 +269,13 @@ internal class AiProcessor @Inject constructor(
                 callback.onChunkProgress(nextChunkIndex, totalChunks)
             }
         }
-        callback.onProgress(context.getString(R.string.merging))
+        callback.onProgress(getString(R.string.merging))
 
         val result = createBitmap(width, height, config)
         val canvas = Canvas(result)
 
         for (chunkInfo in chunkInfoList) {
+            ensureActiveOrThrow()
             val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
             val loadedProcessed = BitmapFactory.decodeFile(processedChunkFile.absolutePath)
             val feathered = createFeatheredChunk(
@@ -279,7 +300,7 @@ internal class AiProcessor @Inject constructor(
         return result
     }
 
-    private fun createFeatheredChunk(
+    private suspend fun createFeatheredChunk(
         chunk: Bitmap,
         overlap: Int,
         totalCols: Int,
@@ -303,6 +324,7 @@ internal class AiProcessor @Inject constructor(
         }
         val featherSize = overlap / 2
         for (y in 0 until chunkH) for (x in 0 until chunkW) {
+            ensureActiveOrThrow()
             val idx = y * chunkW + x
             var alpha = 1.0f
             if (col > 0 && x < featherSize) alpha = alpha.coerceAtMost(x.toFloat() / featherSize)
@@ -318,13 +340,15 @@ internal class AiProcessor @Inject constructor(
         return feathered
     }
 
-    private fun processChunkUnified(
+    private suspend fun processChunkUnified(
         session: OrtSession,
         chunk: Bitmap,
         config: Bitmap.Config,
         hasAlpha: Boolean,
         info: ModelInfo
-    ): Bitmap {
+    ): Bitmap = withContext(defaultDispatcher) {
+        ensureActiveOrThrow()
+
         val originalW = chunk.width
         val originalH = chunk.height
         val w = if (info.expectedWidth != null && info.expectedWidth > 0) {
@@ -348,6 +372,7 @@ internal class AiProcessor @Inject constructor(
             if (w > originalW) {
                 val rightStrip = Bitmap.createBitmap(chunk, originalW - 1, 0, 1, originalH)
                 for (x in originalW until w) {
+                    ensureActiveOrThrow()
                     canvas.drawBitmap(rightStrip, x.toFloat(), 0f, null)
                 }
                 rightStrip.recycle()
@@ -355,6 +380,7 @@ internal class AiProcessor @Inject constructor(
             if (h > originalH) {
                 val bottomStrip = Bitmap.createBitmap(padded, 0, originalH - 1, w, 1)
                 for (y in originalH until h) {
+                    ensureActiveOrThrow()
                     canvas.drawBitmap(bottomStrip, 0f, y.toFloat(), null)
                 }
                 bottomStrip.recycle()
@@ -370,6 +396,8 @@ internal class AiProcessor @Inject constructor(
         val inputArray = FloatArray(inputChannels * w * h)
         val alphaChannel = if (hasAlpha) FloatArray(w * h) else null
         for (i in 0 until w * h) {
+            ensureActiveOrThrow()
+
             val color = pixels[i]
             if (inputChannels == 1) {
                 val gray = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3
@@ -399,14 +427,17 @@ internal class AiProcessor @Inject constructor(
         }
         inputs[info.inputName] = inputTensor
         for ((key, nodeInfo) in info.inputInfoMap) {
+            ensureActiveOrThrow()
             if (key == info.inputName) continue
             val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
             if (tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) {
                 val shape = tensorInfo.shape.clone()
                 for (i in shape.indices) {
+                    ensureActiveOrThrow()
                     if (shape[i] == -1L) shape[i] = 1L
                 }
                 if (shape.size == 2 && shape[0] == 1L && shape[1] == 1L) {
+                    ensureActiveOrThrow()
                     val strengthTensor = if (tensorInfo.type == OnnxJavaType.FLOAT16) {
                         val strengthFp16 = floatToFloat16(info.strength / 100f)
                         val byteBuffer = ByteBuffer.allocateDirect(2).order(ByteOrder.nativeOrder())
@@ -432,6 +463,7 @@ internal class AiProcessor @Inject constructor(
                 val outPixels = IntArray(w * h)
 
                 for (i in 0 until w * h) {
+                    ensureActiveOrThrow()
                     val alpha = if (hasAlpha) clamp255(alphaChannel!![i] * 255f) else 255
 
                     if (outputChannels == 1) {
@@ -459,10 +491,16 @@ internal class AiProcessor @Inject constructor(
                 paddedChunk.recycle()
             }
         }
-        return result
+        return@withContext result
     }
 
-    private fun extractOutputArray(outputValue: Any, channels: Int, h: Int, w: Int): FloatArray {
+    private suspend fun extractOutputArray(
+        outputValue: Any,
+        channels: Int,
+        h: Int,
+        w: Int
+    ): FloatArray {
+        ensureActiveOrThrow()
         "Output type received: ${outputValue.javaClass.name}".makeLog("AiProcessor")
         return when (outputValue) {
             is FloatArray -> {
@@ -483,6 +521,7 @@ internal class AiProcessor @Inject constructor(
                     for (ch in 0 until channels) {
                         for (y in 0 until h) {
                             for (x in 0 until w) {
+                                ensureActiveOrThrow()
                                 out[ch * h * w + y * w + x] = arr[0][ch][y][x]
                             }
                         }
@@ -496,6 +535,7 @@ internal class AiProcessor @Inject constructor(
                         for (ch in 0 until channels) {
                             for (y in 0 until h) {
                                 for (x in 0 until w) {
+                                    ensureActiveOrThrow()
                                     out[ch * h * w + y * w + x] = float16ToFloat(arr[0][ch][y][x])
                                 }
                             }
@@ -634,5 +674,10 @@ internal class AiProcessor @Inject constructor(
             chunksDir.listFiles()?.size ?: 0
             chunksDir.deleteRecursively()
         }
+    }
+
+    private suspend fun ensureActiveOrThrow() {
+        currentCoroutineContext().ensureActive()
+        if (isCancelled) throw CancellationException()
     }
 }

@@ -22,12 +22,15 @@ import ai.onnxruntime.OrtException
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.FileObserver
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProcessCallback
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
@@ -40,15 +43,14 @@ import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.io.readByteArray
@@ -62,13 +64,21 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
-    dispatchersHolder: DispatchersHolder
-) : AiToolsRepository<Bitmap>, DispatchersHolder by dispatchersHolder {
+    dispatchersHolder: DispatchersHolder,
+    resourceManager: ResourceManager
+) : AiToolsRepository<Bitmap>,
+    DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager {
 
     private val directory: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
-    override val downloadedModels: MutableStateFlow<List<NeuralModel>> =
-        MutableStateFlow(emptyList())
+    override val downloadedModels: StateFlow<List<NeuralModel>> = directoryChangesFlow(directory)
+        .map { fetchDownloadedModels() }
+        .stateIn(
+            scope = appScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
     override val selectedModel: StateFlow<NeuralModel?> =
         dataStore.data.map { NeuralModel.find(it[SELECTED_MODEL]) }
@@ -79,10 +89,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
             )
 
     private var session: OrtSession? = null
-
-    init {
-        appScope.launch { updateDownloadedModels() }
-    }
 
     override fun downloadModel(
         model: NeuralModel
@@ -115,8 +121,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     }
 
                     tmp.renameTo(modelFile)
-                    updateDownloadedModels()
-                    selectModel(model)
+                    selectModel(
+                        model = model,
+                        forced = true
+                    )
                     close()
                 } catch (e: Throwable) {
                     tmp.delete()
@@ -130,12 +138,14 @@ internal class AndroidAiToolsRepository @Inject constructor(
         image: Bitmap,
         callback: AiProcessCallback,
         params: NeuralParams
-    ): Bitmap? {
+    ): Bitmap? = withContext(defaultDispatcher) {
         "start processing".makeLog()
-        return processor.processImage(
+        processor.processImage(
             session = session.makeLog("Held session")
                 ?: createSession(selectedModel.value).makeLog("New session")
-                ?: return null,
+                ?: return@withContext null.also {
+                    callback.onError(getString(R.string.failed_to_open_session))
+                },
             inputBitmap = image,
             strength = params.strength,
             callback = callback,
@@ -144,14 +154,17 @@ internal class AndroidAiToolsRepository @Inject constructor(
         )
     }
 
-    override suspend fun deleteModel(model: NeuralModel) {
+    override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {
         model.file.delete()
         if (selectedModel.value?.name == model.name) selectModel(null)
-        updateDownloadedModels()
     }
 
-    override suspend fun selectModel(model: NeuralModel?): Boolean {
-        if (model != null && downloadedModels.value.none { it.name == model.name }) return false
+    override suspend fun selectModel(
+        model: NeuralModel?,
+        forced: Boolean
+    ): Boolean = withContext(ioDispatcher) {
+        if (!forced && model != null && downloadedModels.value.none { it.name == model.name }) return@withContext false
+        if (model != null && model.name == selectedModel.value?.name) return@withContext false
 
         dataStore.edit {
             it[SELECTED_MODEL] = model?.name.orEmpty()
@@ -161,9 +174,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
         System.gc()
 
-        createSession(model)
-
-        return true
+        return@withContext true
     }
 
     private fun createSession(model: NeuralModel?): OrtSession? {
@@ -213,15 +224,28 @@ internal class AndroidAiToolsRepository @Inject constructor(
         session = null
     }
 
-    private suspend fun updateDownloadedModels() = withContext(ioDispatcher) {
-        downloadedModels.update {
-            directory.listFiles().orEmpty().mapNotNull {
-                NeuralModel.find(it.name)
-            }
+    private suspend fun fetchDownloadedModels() = withContext(ioDispatcher) {
+        directory.listFiles().orEmpty().mapNotNull {
+            NeuralModel.find(it.name)
         }
     }
 
     private val NeuralModel.file: File get() = File(directory, name)
+
+    private fun directoryChangesFlow(dir: File): Flow<Unit> = callbackFlow {
+        val observer = object : FileObserver(
+            dir,
+            CREATE or DELETE or MOVED_FROM or MOVED_TO
+        ) {
+            override fun onEvent(event: Int, path: String?) {
+                trySend(Unit)
+            }
+        }
+        send(Unit)
+        observer.startWatching()
+        awaitClose { observer.stopWatching() }
+    }
+
 
 }
 

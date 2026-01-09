@@ -28,9 +28,14 @@ interface AiToolsRepository<Image> {
 
     val selectedModel: StateFlow<NeuralModel?>
 
-    suspend fun selectModel(model: NeuralModel?): Boolean
+    suspend fun selectModel(
+        model: NeuralModel?,
+        forced: Boolean = false
+    ): Boolean
 
-    fun downloadModel(model: NeuralModel): Flow<NeuralDownloadProgress>
+    fun downloadModel(
+        model: NeuralModel
+    ): Flow<NeuralDownloadProgress>
 
     suspend fun processImage(
         image: Image,

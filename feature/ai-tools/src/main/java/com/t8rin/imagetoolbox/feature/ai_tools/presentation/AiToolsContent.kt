@@ -27,6 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsControls
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AiToolsContent(
@@ -69,6 +71,12 @@ fun AiToolsContent(
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
+
+    LaunchedEffect(component) {
+        component.errors.collectLatest { message ->
+            essentials.showFailureToast(message)
+        }
+    }
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         component.updateUris(

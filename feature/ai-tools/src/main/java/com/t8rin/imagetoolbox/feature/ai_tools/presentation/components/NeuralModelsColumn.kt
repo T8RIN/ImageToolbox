@@ -22,38 +22,36 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
+import androidx.compose.material.icons.rounded.RadioButtonChecked
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -62,16 +60,18 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileS
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealDirection
 import com.t8rin.imagetoolbox.core.ui.widget.other.RevealValue
 import com.t8rin.imagetoolbox.core.ui.widget.other.SwipeToReveal
 import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
+import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -86,7 +86,27 @@ internal fun NeuralModelsColumn(
 ) {
     val scope = rememberCoroutineScope()
 
+    val listState = rememberLazyListState()
+
+    val scrollToSelected = suspend {
+        downloadedModels.indexOf(selectedModel).takeIf {
+            it != -1
+        }.let {
+            listState.animateScrollToItem(it ?: 0)
+        }
+    }
+
+    OneTimeEffect {
+        scrollToSelected()
+    }
+
+    LaunchedEffect(downloadedModels) {
+        delay(250)
+        scrollToSelected()
+    }
+
     LazyColumn(
+        state = listState,
         contentPadding = PaddingValues(
             start = 16.dp,
             bottom = 16.dp,
@@ -150,53 +170,29 @@ internal fun NeuralModelsColumn(
                 },
                 directions = setOf(RevealDirection.EndToStart),
                 swipeableContent = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .container(
-                                shape = shape,
-                                color = animateColorAsState(
-                                    if (selected) {
-                                        MaterialTheme
-                                            .colorScheme
-                                            .mixedContainer
-                                            .copy(0.8f)
-                                    } else EnhancedBottomSheetDefaults.contentContainerColor
-                                ).value,
-                                resultPadding = 0.dp
-                            )
-                            .hapticsCombinedClickable(
-                                onLongClick = {
-                                    scope.launch {
-                                        state.animateTo(RevealValue.FullyRevealedStart)
-                                    }
-                                },
-                                onClick = {
-                                    onSelectModel(model)
-                                }
-                            )
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(
-                                text = model.title,
-                                style = LocalTextStyle.current.copy(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    lineHeight = 18.sp
-                                )
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = stringResource(model.description),
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Normal,
-                                lineHeight = 14.sp,
-                                color = LocalContentColor.current.copy(alpha = 0.5f)
-                            )
-                        }
-                    }
+                    PreferenceItem(
+                        shape = shape,
+                        containerColor = animateColorAsState(
+                            if (selected) {
+                                MaterialTheme
+                                    .colorScheme
+                                    .mixedContainer
+                                    .copy(0.8f)
+                            } else EnhancedBottomSheetDefaults.contentContainerColor
+                        ).value,
+                        onLongClick = {
+                            scope.launch {
+                                state.animateTo(RevealValue.FullyRevealedStart)
+                            }
+                        },
+                        onClick = {
+                            onSelectModel(model)
+                        },
+                        title = model.title,
+                        subtitle = stringResource(model.description),
+                        modifier = Modifier.fillMaxWidth(),
+                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                    )
                 },
                 interactionSource = interactionSource
             )

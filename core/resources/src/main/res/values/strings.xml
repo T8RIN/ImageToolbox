@@ -1967,4 +1967,5 @@
     <string name="available_models">Available Models</string>
     <string name="preparing">Preparing</string>
     <string name="active_model">Active model</string>
+    <string name="failed_to_open_session">Failed to open session</string>
 </resources>

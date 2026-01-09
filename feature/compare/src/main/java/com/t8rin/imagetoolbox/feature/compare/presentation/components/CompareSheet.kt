@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.BeforeAfterLayout
-import com.smarttoolfactory.beforeafter.OverlayStyle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -96,13 +95,11 @@ fun CompareSheet(
                             val after = remember(data) { a?.asImageBitmap() }
                             if (before != null && after != null) {
                                 BeforeAfterImage(
-                                    overlayStyle = OverlayStyle(),
                                     modifier = Modifier.clip(ShapeDefaults.extraSmall),
                                     progress = animateFloatAsState(targetValue = progress).value,
                                     onProgressChange = {
                                         progress = it
                                     },
-                                    enableZoom = false,
                                     beforeImage = before,
                                     afterImage = after,
                                     beforeLabel = { },
@@ -178,13 +175,11 @@ fun CompareSheet(
                     contentAlignment = Alignment.Center
                 ) {
                     BeforeAfterLayout(
-                        overlayStyle = OverlayStyle(),
                         modifier = Modifier.clip(shape),
                         progress = animateFloatAsState(targetValue = progress).value,
                         onProgressChange = {
                             progress = it
                         },
-                        enableZoom = false,
                         beforeContent = beforeContent,
                         afterContent = afterContent,
                         beforeLabel = { },
