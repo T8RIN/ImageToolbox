@@ -100,6 +100,22 @@ internal fun NeuralModelsColumn(
 
     val listState = rememberLazyListState()
 
+    val filePicker = rememberFilePicker { uri: Uri ->
+        if (uri.getFilename(essentials.context).orEmpty().endsWith(".onnx")) {
+            onImportModel(uri, essentials::parseFileSaveResult)
+        } else {
+            essentials.showFailureToast(
+                essentials.context.getString(R.string.only_onnx_models)
+            )
+        }
+    }
+
+    val (importedModels, downloadedModels) = remember(downloadedModels) {
+        derivedStateOf {
+            downloadedModels.partition { it.isImported }
+        }
+    }.value
+
     val scrollToSelected = suspend {
         downloadedModels.indexOf(selectedModel).takeIf {
             it != -1
@@ -117,21 +133,6 @@ internal fun NeuralModelsColumn(
         scrollToSelected()
     }
 
-    val filePicker = rememberFilePicker { uri: Uri ->
-        if (uri.getFilename(essentials.context).orEmpty().endsWith(".onnx")) {
-            onImportModel(uri, essentials::parseFileSaveResult)
-        } else {
-            essentials.showFailureToast(
-                essentials.context.getString(R.string.only_onnx_models)
-            )
-        }
-    }
-
-    val (importedModels, downloadedModels) = remember(downloadedModels) {
-        derivedStateOf {
-            downloadedModels.partition { it.isImported }
-        }
-    }.value
 
     LazyColumn(
         state = listState,

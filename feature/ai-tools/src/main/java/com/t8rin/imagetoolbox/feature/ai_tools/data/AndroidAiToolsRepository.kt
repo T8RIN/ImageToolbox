@@ -184,7 +184,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
             strength = params.strength,
             listener = listener,
             chunkSize = params.chunkSize,
-            overlap = params.overlap
+            overlap = params.overlap,
+            model = selectedModel.value!!
         )
     }
 

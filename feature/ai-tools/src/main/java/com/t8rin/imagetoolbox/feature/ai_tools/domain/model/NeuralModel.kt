@@ -27,7 +27,7 @@ data class NeuralModel(
     val title: String,
     val description: Int?
 ) {
-    val supportsStrength = name.contains("fbcnn", true)
+    val supportsStrength = name.contains("fbcnn_", true)
     val isImported = downloadLink == "imported"
 
     companion object {
@@ -80,6 +80,24 @@ data class NeuralModel(
                     name = "scunet_gray_50_fp16.onnx",
                     title = "SCUNet Grayscale 50",
                     description = R.string.model_scunet_gray_50_fp16
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color_15_fp16.onnx",
+                    name = "scunet_color_15_fp16.onnx",
+                    title = "SCUNet Color 15",
+                    description = R.string.model_scunet_color_15_fp16
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color_25_fp16.onnx",
+                    name = "scunet_color_25_fp16.onnx",
+                    title = "SCUNet Color 25",
+                    description = R.string.model_scunet_color_25_fp16
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color_50_fp16.onnx",
+                    name = "scunet_color_50_fp16.onnx",
+                    title = "SCUNet Color 50",
+                    description = R.string.model_scunet_color_50_fp16
                 ),
                 NeuralModel(
                     downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/nanomodels/1x-AnimeUndeint-Compact-fp16.onnx",

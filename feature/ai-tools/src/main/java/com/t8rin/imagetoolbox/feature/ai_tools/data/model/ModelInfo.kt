@@ -21,13 +21,15 @@ import ai.onnxruntime.NodeInfo
 import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import kotlin.math.abs
 
 internal class ModelInfo(
     val strength: Float,
     session: OrtSession,
     val chunkSize: Int,
-    val overlap: Int
+    val overlap: Int,
+    model: NeuralModel
 ) {
     val inputName: String
     val inputInfoMap: Map<String, NodeInfo> = session.inputInfo
@@ -36,6 +38,7 @@ internal class ModelInfo(
     val isFp16: Boolean
     val expectedWidth: Int?
     val expectedHeight: Int?
+    val isScu = model.name.startsWith("scunet_")
 
     init {
         var foundInputName: String? = null

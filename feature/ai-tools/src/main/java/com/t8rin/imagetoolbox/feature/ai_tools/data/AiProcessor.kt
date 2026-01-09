@@ -29,9 +29,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
@@ -39,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -66,16 +64,14 @@ internal class AiProcessor @Inject constructor(
     private val chunksDir: File
         get() = File(context.cacheDir, "processing_chunks").apply(File::mkdirs)
 
-    private val srcOverPaint =
-        Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER) }
-
     suspend fun processImage(
         session: OrtSession,
         inputBitmap: Bitmap,
         strength: Float,
         listener: AiProgressListener,
         chunkSize: Int,
-        overlap: Int
+        overlap: Int,
+        model: NeuralModel
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
             processBitmapImpl(
@@ -86,7 +82,8 @@ internal class AiProcessor @Inject constructor(
                     strength = strength,
                     session = session,
                     chunkSize = chunkSize,
-                    overlap = overlap
+                    overlap = overlap,
+                    model = model
                 )
             )
         }.onFailure { e ->
@@ -108,6 +105,12 @@ internal class AiProcessor @Inject constructor(
         listener: AiProgressListener,
         info: ModelInfo,
     ): Bitmap = withContext(defaultDispatcher) {
+        // to handle edge artifacts, dunno if it's needed for *all* models, but it helped with SCUNet
+        val inputBitmap = if (info.isScu) {
+            addBlackBorder(inputBitmap)
+        } else {
+            inputBitmap
+        }
         val width = inputBitmap.getWidth()
         val height = inputBitmap.getHeight()
 
@@ -119,7 +122,7 @@ internal class AiProcessor @Inject constructor(
             info.chunkSize
         }
 
-        if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
+        val processed = if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
             processTiled(
                 session = session,
                 inputBitmap = inputBitmap,
@@ -129,13 +132,38 @@ internal class AiProcessor @Inject constructor(
                 maxChunkSize = effectiveMaxChunkSize
             )
         } else {
-            processChunkUnified(
+            processChunk(
                 session = session,
                 chunk = inputBitmap.copy(processingConfig, true),
                 config = processingConfig,
                 info = info
             )
         }
+
+        if (info.isScu) {
+            removeBlackBorder(processed)
+        } else {
+            processed
+        }
+    }
+
+    private fun addBlackBorder(bitmap: Bitmap, borderSize: Int = 8): Bitmap {
+        val newWidth = bitmap.width + 2 * borderSize
+        val newHeight = bitmap.height + 2 * borderSize
+        val borderedBitmap = createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(borderedBitmap)
+        canvas.drawColor(Color.BLACK)
+        canvas.drawBitmap(bitmap, borderSize.toFloat(), borderSize.toFloat(), null)
+        return borderedBitmap
+    }
+
+    private fun removeBlackBorder(bitmap: Bitmap, borderSize: Int = 8): Bitmap {
+        val croppedWidth = bitmap.width - 2 * borderSize
+        val croppedHeight = bitmap.height - 2 * borderSize
+        if (croppedWidth <= 0 || croppedHeight <= 0) {
+            return bitmap
+        }
+        return Bitmap.createBitmap(bitmap, borderSize, borderSize, croppedWidth, croppedHeight)
     }
 
     private suspend fun processTiled(
@@ -150,11 +178,12 @@ internal class AiProcessor @Inject constructor(
         val width = inputBitmap.width
         val height = inputBitmap.height
         val overlap = info.overlap
-        val cols = 1.coerceAtLeast(ceil(width.toDouble() / maxChunkSize).toInt())
-        val rows = 1.coerceAtLeast(ceil(height.toDouble() / maxChunkSize).toInt())
-        val actualChunkWidth = (width + (cols - 1) * overlap) / cols
-        val actualChunkHeight = (height + (rows - 1) * overlap) / rows
-        "Processing tiled: image=${width}x${height}, max=$maxChunkSize, actual=${actualChunkWidth}x${actualChunkHeight}, grid=${cols}x${rows}, overlap=$overlap".makeLog(
+        val stride = maxChunkSize - overlap
+        val cols =
+            if (width <= maxChunkSize) 1 else ceil((width - overlap).toFloat() / stride).toInt()
+        val rows =
+            if (height <= maxChunkSize) 1 else ceil((height - overlap).toFloat() / stride).toInt()
+        "Processing tiled: image=${width}x${height}, chunkSize=$maxChunkSize, stride=$stride, grid=${cols}x${rows}, overlap=$overlap".makeLog(
             "AiProcessor"
         )
         val totalChunks = cols * rows
@@ -166,14 +195,10 @@ internal class AiProcessor @Inject constructor(
         for (row in 0 until rows) {
             for (col in 0 until cols) {
                 ensureActive()
-                val chunkX = 0.coerceAtLeast(col * (actualChunkWidth - overlap))
-                val chunkY = 0.coerceAtLeast(row * (actualChunkHeight - overlap))
-                val chunkW =
-                    if (col == cols - 1) width - chunkX else actualChunkWidth.coerceAtMost(width - chunkX)
-                val chunkH =
-                    if (row == rows - 1) height - chunkY else actualChunkHeight.coerceAtMost(
-                        height - chunkY
-                    )
+                val chunkX = col * stride
+                val chunkY = row * stride
+                val chunkW = minOf(chunkX + maxChunkSize, width) - chunkX
+                val chunkH = minOf(chunkY + maxChunkSize, height) - chunkY
                 if (chunkW <= 0 || chunkH <= 0) continue
                 val chunk = Bitmap.createBitmap(inputBitmap, chunkX, chunkY, chunkW, chunkH)
                 val converted = if (chunk.config != config) {
@@ -216,7 +241,7 @@ internal class AiProcessor @Inject constructor(
 
             val loadedChunk = BitmapFactory.decodeFile(chunkInfo.file.absolutePath)
 
-            val processed = processChunkUnified(
+            val processed = processChunk(
                 session = session,
                 chunk = loadedChunk,
                 config = config,
@@ -243,24 +268,13 @@ internal class AiProcessor @Inject constructor(
         }
 
         val result = createBitmap(width, height, config)
-        val canvas = Canvas(result)
-
         for (chunkInfo in chunkInfoList) {
             ensureActive()
             val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
             val loadedProcessed = BitmapFactory.decodeFile(processedChunkFile.absolutePath)
-            val feathered = createFeatheredChunk(
-                chunk = loadedProcessed,
-                overlap = overlap,
-                totalCols = cols,
-                totalRows = rows,
-                col = chunkInfo.col,
-                row = chunkInfo.row
-            )
 
-            canvas.drawBitmap(feathered, chunkInfo.x.toFloat(), chunkInfo.y.toFloat(), srcOverPaint)
+            mergeChunkWithBlending(result, loadedProcessed, chunkInfo, overlap)
             loadedProcessed.recycle()
-            feathered.recycle()
             processedChunkFile.delete()
         }
         clearChunks()
@@ -268,39 +282,7 @@ internal class AiProcessor @Inject constructor(
         return result
     }
 
-    private suspend fun createFeatheredChunk(
-        chunk: Bitmap,
-        overlap: Int,
-        totalCols: Int,
-        totalRows: Int,
-        col: Int,
-        row: Int
-    ): Bitmap {
-        val chunkW = chunk.width
-        val chunkH = chunk.height
-        val feathered = chunk.copy(Bitmap.Config.ARGB_8888, true)
-        val pixels = IntArray(chunkW * chunkH).apply {
-            feathered.getPixels(this, 0, chunkW, 0, 0, chunkW, chunkH)
-        }
-        val featherSize = overlap / 2
-        for (y in 0 until chunkH) for (x in 0 until chunkW) {
-            ensureActive()
-            val idx = y * chunkW + x
-            var alpha = 1.0f
-            if (col > 0 && x < featherSize) alpha = alpha.coerceAtMost(x.toFloat() / featherSize)
-            if (row > 0 && y < featherSize) alpha = alpha.coerceAtMost(y.toFloat() / featherSize)
-            if (col < totalCols - 1 && x >= chunkW - featherSize) alpha =
-                alpha.coerceAtMost((chunkW - x).toFloat() / featherSize)
-            if (row < totalRows - 1 && y >= chunkH - featherSize) alpha =
-                alpha.coerceAtMost((chunkH - y).toFloat() / featherSize)
-
-            pixels[idx] = (pixels[idx] and 0x00FFFFFF) or ((alpha * 255).toInt() shl 24)
-        }
-        feathered.setPixels(pixels, 0, chunkW, 0, 0, chunkW, chunkH)
-        return feathered
-    }
-
-    private suspend fun processChunkUnified(
+    private suspend fun processChunk(
         session: OrtSession,
         chunk: Bitmap,
         config: Bitmap.Config,
@@ -418,7 +400,12 @@ internal class AiProcessor @Inject constructor(
 
         try {
             session.run(inputs).use { sessionResult ->
-                val outputArray = extractOutputArray(sessionResult[0].value, outputChannels, h, w)
+                val (outputArray, actualOutputChannels) = extractOutputArray(
+                    sessionResult[0].value,
+                    outputChannels,
+                    h,
+                    w
+                )
                 val fullResultBitmap = createBitmap(width = w, height = h, config = config)
                 val outPixels = IntArray(w * h)
 
@@ -426,7 +413,7 @@ internal class AiProcessor @Inject constructor(
                     this@AiProcessor.ensureActive()
                     val alpha = if (hasAlpha) clamp255(alphaChannel!![i] * 255f) else 255
 
-                    if (outputChannels == 1) {
+                    if (actualOutputChannels == 1) {
                         val gray = clamp255(outputArray[i] * 255f)
                         outPixels[i] = Color.argb(alpha, gray, gray, gray)
                     } else {
@@ -453,31 +440,106 @@ internal class AiProcessor @Inject constructor(
         }
     }
 
+    private fun mergeChunkWithBlending(
+        result: Bitmap,
+        processedChunk: Bitmap,
+        chunkInfo: ChunkInfo,
+        overlap: Int
+    ) {
+        val width = processedChunk.width
+        val height = processedChunk.height
+        val x = chunkInfo.x
+        val y = chunkInfo.y
+
+        val needsLeftBlend = chunkInfo.col > 0
+        val needsTopBlend = chunkInfo.row > 0
+
+        if (!needsLeftBlend && !needsTopBlend) {
+            val canvas = Canvas(result)
+            canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
+            return
+        }
+
+        val existingPixels = IntArray(width * height)
+        try {
+            result.getPixels(existingPixels, 0, width, x, y, width, height)
+        } catch (_: Exception) {
+            val canvas = Canvas(result)
+            canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
+            return
+        }
+
+        val newPixels = IntArray(width * height)
+        processedChunk.getPixels(newPixels, 0, width, 0, 0, width, height)
+
+        for (localY in 0 until height) {
+            for (localX in 0 until width) {
+                val inLeftOverlap = needsLeftBlend && localX < overlap
+                val inTopOverlap = needsTopBlend && localY < overlap
+
+                if (!inLeftOverlap && !inTopOverlap) continue
+
+                val idx = localY * width + localX
+
+                var blendFactor = 1.0f
+                if (inLeftOverlap) {
+                    blendFactor = minOf(blendFactor, (localX + 1).toFloat() / overlap)
+                }
+                if (inTopOverlap) {
+                    blendFactor = minOf(blendFactor, (localY + 1).toFloat() / overlap)
+                }
+
+                val existingColor = existingPixels[idx]
+                val newColor = newPixels[idx]
+
+                val r =
+                    ((1 - blendFactor) * Color.red(existingColor) + blendFactor * Color.red(newColor)).toInt()
+                val g = ((1 - blendFactor) * Color.green(existingColor) + blendFactor * Color.green(
+                    newColor
+                )).toInt()
+                val b = ((1 - blendFactor) * Color.blue(existingColor) + blendFactor * Color.blue(
+                    newColor
+                )).toInt()
+                val a = ((1 - blendFactor) * Color.alpha(existingColor) + blendFactor * Color.alpha(
+                    newColor
+                )).toInt()
+
+                newPixels[idx] = Color.argb(a, r, g, b)
+            }
+        }
+
+        result.setPixels(newPixels, 0, width, x, y, width, height)
+    }
+
     private suspend fun extractOutputArray(
         outputValue: Any,
         channels: Int,
         h: Int,
         w: Int
-    ): FloatArray {
+    ): Pair<FloatArray, Int> {
         ensureActive()
         "Output type received: ${outputValue.javaClass.name}".makeLog("AiProcessor")
         return when (outputValue) {
             is FloatArray -> {
                 "Output is FloatArray (FP32 or auto-converted from FP16)".makeLog("AiProcessor")
-                outputValue
+                outputValue to channels
             }
 
             is ShortArray -> {
                 "Output is ShortArray (FP16) - converting to Float32".makeLog("AiProcessor")
-                FloatArray(outputValue.size) { i -> float16ToFloat(outputValue[i]) }
+                FloatArray(outputValue.size) { i -> float16ToFloat(outputValue[i]) } to channels
             }
 
             is Array<*> -> {
                 try {
                     val arr = outputValue as Array<Array<Array<FloatArray>>>
                     "Output is multi-dimensional FloatArray".makeLog("AiProcessor")
+                    val actualChannels = arr[0].size
+                    "Expected channels: $channels, Actual channels: $actualChannels".makeLog("AiProcessor")
+
                     val out = FloatArray(channels * h * w)
-                    for (ch in 0 until channels) {
+                    val channelsToProcess = minOf(channels, actualChannels)
+                    for (ch in 0 until channelsToProcess) {
                         for (y in 0 until h) {
                             for (x in 0 until w) {
                                 ensureActive()
@@ -485,13 +547,17 @@ internal class AiProcessor @Inject constructor(
                             }
                         }
                     }
-                    out
+                    out to actualChannels
                 } catch (e: Exception) {
                     try {
                         val arr = outputValue as Array<Array<Array<ShortArray>>>
                         "Output is multi-dimensional ShortArray (FP16)".makeLog("AiProcessor")
+                        val actualChannels = arr[0].size
+                        "Expected channels: $channels, Actual channels: $actualChannels".makeLog("AiProcessor")
+
                         val out = FloatArray(channels * h * w)
-                        for (ch in 0 until channels) {
+                        val channelsToProcess = minOf(channels, actualChannels)
+                        for (ch in 0 until channelsToProcess) {
                             for (y in 0 until h) {
                                 for (x in 0 until w) {
                                     ensureActive()
@@ -499,7 +565,7 @@ internal class AiProcessor @Inject constructor(
                                 }
                             }
                         }
-                        out
+                        out to actualChannels
                     } catch (e2: Exception) {
                         throw RuntimeException("Failed to extract output array: ${e.message}, ${e2.message}")
                     }
