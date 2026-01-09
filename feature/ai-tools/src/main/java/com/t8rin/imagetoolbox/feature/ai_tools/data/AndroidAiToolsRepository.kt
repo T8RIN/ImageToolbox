@@ -22,11 +22,11 @@ import ai.onnxruntime.OrtException
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.FileObserver
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
@@ -43,11 +43,11 @@ import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -72,7 +72,9 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     private val directory: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
-    override val downloadedModels: StateFlow<List<NeuralModel>> = directoryChangesFlow(directory)
+    override val downloadedModels: StateFlow<List<NeuralModel>> = directory
+        .observeHasChanges()
+        .debounce(100)
         .map { fetchDownloadedModels() }
         .stateIn(
             scope = appScope,
@@ -231,21 +233,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     private val NeuralModel.file: File get() = File(directory, name)
-
-    private fun directoryChangesFlow(dir: File): Flow<Unit> = callbackFlow {
-        val observer = object : FileObserver(
-            dir,
-            CREATE or DELETE or MOVED_FROM or MOVED_TO
-        ) {
-            override fun onEvent(event: Int, path: String?) {
-                trySend(Unit)
-            }
-        }
-        send(Unit)
-        observer.startWatching()
-        awaitClose { observer.stopWatching() }
-    }
-
 
 }
 

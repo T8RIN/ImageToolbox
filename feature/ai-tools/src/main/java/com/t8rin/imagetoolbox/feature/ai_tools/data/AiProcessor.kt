@@ -19,7 +19,6 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.data
 
-import ai.onnxruntime.NodeInfo
 import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
@@ -37,6 +36,8 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
+import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -62,11 +63,11 @@ internal class AiProcessor @Inject constructor(
     resourceManager: ResourceManager
 ) : DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
 
-    private var isCancelled = false
+    private val chunksDir: File
+        get() = File(context.cacheDir, "processing_chunks").apply(File::mkdirs)
 
-    fun cancel() {
-        isCancelled = true
-    }
+    private val srcOverPaint =
+        Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER) }
 
     suspend fun processImage(
         session: OrtSession,
@@ -88,14 +89,15 @@ internal class AiProcessor @Inject constructor(
                     overlap = overlap
                 )
             )
-        }.onFailure {
-            if (it is CancellationException) {
+        }.onFailure { e ->
+            if (e is CancellationException) {
                 "Cancelled".makeLog("AiProcessor")
                 clearChunks()
-                cancel()
-                throw it
+                throw e
             } else {
-                listener.onError(formatError(it))
+                listener.onError(
+                    e.localizedMessage ?: e.message ?: getString(R.string.something_went_wrong)
+                )
             }
         }.getOrNull()
     }
@@ -105,11 +107,9 @@ internal class AiProcessor @Inject constructor(
         inputBitmap: Bitmap,
         listener: AiProgressListener,
         info: ModelInfo,
-    ): Bitmap {
-        isCancelled = false
+    ): Bitmap = withContext(defaultDispatcher) {
         val width = inputBitmap.getWidth()
         val height = inputBitmap.getHeight()
-        val hasTransparency = detectTransparency(inputBitmap)
 
         val processingConfig = Bitmap.Config.ARGB_8888
         // Use the smaller of chunkSize or model's fixed dimensions
@@ -118,31 +118,23 @@ internal class AiProcessor @Inject constructor(
         } else {
             info.chunkSize
         }
-        val mustTile = width > effectiveMaxChunkSize || height > effectiveMaxChunkSize
-        return if (mustTile) processTiled(
-            session = session,
-            inputBitmap = inputBitmap,
-            listener = listener,
-            info = info,
-            config = processingConfig,
-            hasTransparency = hasTransparency,
-            maxChunkSize = effectiveMaxChunkSize
-        )
-        else {
-            val bitmapToProcess =
-                if (inputBitmap.config != processingConfig) inputBitmap.copy(processingConfig, true)
-                else inputBitmap
 
-            listener.onProgress(getString(R.string.loading))
-
-            val result = processChunkUnified(
+        if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
+            processTiled(
                 session = session,
-                chunk = bitmapToProcess,
+                inputBitmap = inputBitmap,
+                listener = listener,
+                info = info,
                 config = processingConfig,
-                hasAlpha = hasTransparency,
+                maxChunkSize = effectiveMaxChunkSize
+            )
+        } else {
+            processChunkUnified(
+                session = session,
+                chunk = inputBitmap.copy(processingConfig, true),
+                config = processingConfig,
                 info = info
             )
-            result
         }
     }
 
@@ -152,10 +144,9 @@ internal class AiProcessor @Inject constructor(
         listener: AiProgressListener,
         info: ModelInfo,
         config: Bitmap.Config,
-        hasTransparency: Boolean,
         maxChunkSize: Int
     ): Bitmap {
-        ensureActiveOrThrow()
+        ensureActive()
         val width = inputBitmap.width
         val height = inputBitmap.height
         val overlap = info.overlap
@@ -168,24 +159,13 @@ internal class AiProcessor @Inject constructor(
         )
         val totalChunks = cols * rows
 
-        data class ChunkInfo(
-            val index: Int,
-            val file: File,
-            val x: Int,
-            val y: Int,
-            val width: Int,
-            val height: Int,
-            val col: Int,
-            val row: Int
-        )
-
         val chunkInfoList = mutableListOf<ChunkInfo>()
 
         "Phase 1: Extracting $totalChunks chunks to disk".makeLog("AiProcessor")
         var chunkIndex = 0
         for (row in 0 until rows) {
             for (col in 0 until cols) {
-                ensureActiveOrThrow()
+                ensureActive()
                 val chunkX = 0.coerceAtLeast(col * (actualChunkWidth - overlap))
                 val chunkY = 0.coerceAtLeast(row * (actualChunkHeight - overlap))
                 val chunkW =
@@ -204,7 +184,7 @@ internal class AiProcessor @Inject constructor(
                     chunk
                 }
 
-                ensureActiveOrThrow()
+                ensureActive()
 
                 val chunkFile = File(chunksDir, "chunk_${chunkIndex}.png")
                 FileOutputStream(chunkFile).use {
@@ -229,25 +209,17 @@ internal class AiProcessor @Inject constructor(
         "Saved ${chunkInfoList.size} chunks to ${chunksDir.absolutePath}".makeLog("AiProcessor")
         "Phase 2: Processing $totalChunks chunks".makeLog("AiProcessor")
         if (totalChunks > 1) {
-            listener.onChunkProgress(0, totalChunks)
+            listener.onProgress(0, totalChunks)
         }
         for (chunkInfo in chunkInfoList) {
-            ensureActiveOrThrow()
+            ensureActive()
 
-            listener.onProgress(
-                if (totalChunks > 1) {
-                    "${chunkInfo.index + 1}/$totalChunks"
-                } else {
-                    getString(R.string.loading)
-                }
-            )
             val loadedChunk = BitmapFactory.decodeFile(chunkInfo.file.absolutePath)
 
             val processed = processChunkUnified(
                 session = session,
                 chunk = loadedChunk,
                 config = config,
-                hasAlpha = hasTransparency,
                 info = info
             )
 
@@ -260,22 +232,21 @@ internal class AiProcessor @Inject constructor(
             chunkInfo.file.delete()
 
 
-            ensureActiveOrThrow()
+            ensureActive()
 
             processed.recycle()
 
             if (totalChunks > 1) {
                 val nextChunkIndex = chunkInfo.index + 1
-                listener.onChunkProgress(nextChunkIndex, totalChunks)
+                listener.onProgress(nextChunkIndex, totalChunks)
             }
         }
-        listener.onProgress(getString(R.string.merging))
 
         val result = createBitmap(width, height, config)
         val canvas = Canvas(result)
 
         for (chunkInfo in chunkInfoList) {
-            ensureActiveOrThrow()
+            ensureActive()
             val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
             val loadedProcessed = BitmapFactory.decodeFile(processedChunkFile.absolutePath)
             val feathered = createFeatheredChunk(
@@ -287,10 +258,7 @@ internal class AiProcessor @Inject constructor(
                 row = chunkInfo.row
             )
 
-            val paint = Paint()
-            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
-
-            canvas.drawBitmap(feathered, chunkInfo.x.toFloat(), chunkInfo.y.toFloat(), paint)
+            canvas.drawBitmap(feathered, chunkInfo.x.toFloat(), chunkInfo.y.toFloat(), srcOverPaint)
             loadedProcessed.recycle()
             feathered.recycle()
             processedChunkFile.delete()
@@ -312,19 +280,11 @@ internal class AiProcessor @Inject constructor(
         val chunkH = chunk.height
         val feathered = chunk.copy(Bitmap.Config.ARGB_8888, true)
         val pixels = IntArray(chunkW * chunkH).apply {
-            feathered.getPixels(
-                this,
-                0,
-                chunkW,
-                0,
-                0,
-                chunkW,
-                chunkH
-            )
+            feathered.getPixels(this, 0, chunkW, 0, 0, chunkW, chunkH)
         }
         val featherSize = overlap / 2
         for (y in 0 until chunkH) for (x in 0 until chunkW) {
-            ensureActiveOrThrow()
+            ensureActive()
             val idx = y * chunkW + x
             var alpha = 1.0f
             if (col > 0 && x < featherSize) alpha = alpha.coerceAtMost(x.toFloat() / featherSize)
@@ -344,10 +304,9 @@ internal class AiProcessor @Inject constructor(
         session: OrtSession,
         chunk: Bitmap,
         config: Bitmap.Config,
-        hasAlpha: Boolean,
         info: ModelInfo
     ): Bitmap = withContext(defaultDispatcher) {
-        ensureActiveOrThrow()
+        this@AiProcessor.ensureActive()
 
         val originalW = chunk.width
         val originalH = chunk.height
@@ -372,7 +331,7 @@ internal class AiProcessor @Inject constructor(
             if (w > originalW) {
                 val rightStrip = Bitmap.createBitmap(chunk, originalW - 1, 0, 1, originalH)
                 for (x in originalW until w) {
-                    ensureActiveOrThrow()
+                    this@AiProcessor.ensureActive()
                     canvas.drawBitmap(rightStrip, x.toFloat(), 0f, null)
                 }
                 rightStrip.recycle()
@@ -380,7 +339,7 @@ internal class AiProcessor @Inject constructor(
             if (h > originalH) {
                 val bottomStrip = Bitmap.createBitmap(padded, 0, originalH - 1, w, 1)
                 for (y in originalH until h) {
-                    ensureActiveOrThrow()
+                    this@AiProcessor.ensureActive()
                     canvas.drawBitmap(bottomStrip, 0f, y.toFloat(), null)
                 }
                 bottomStrip.recycle()
@@ -389,6 +348,7 @@ internal class AiProcessor @Inject constructor(
         } else {
             chunk
         }
+        val hasAlpha = chunk.hasAlpha()
         val inputChannels = info.inputChannels
         val outputChannels = info.outputChannels
         val pixels = IntArray(w * h)
@@ -396,7 +356,7 @@ internal class AiProcessor @Inject constructor(
         val inputArray = FloatArray(inputChannels * w * h)
         val alphaChannel = if (hasAlpha) FloatArray(w * h) else null
         for (i in 0 until w * h) {
-            ensureActiveOrThrow()
+            this@AiProcessor.ensureActive()
 
             val color = pixels[i]
             if (inputChannels == 1) {
@@ -427,17 +387,17 @@ internal class AiProcessor @Inject constructor(
         }
         inputs[info.inputName] = inputTensor
         for ((key, nodeInfo) in info.inputInfoMap) {
-            ensureActiveOrThrow()
+            this@AiProcessor.ensureActive()
             if (key == info.inputName) continue
             val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
             if (tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) {
                 val shape = tensorInfo.shape.clone()
                 for (i in shape.indices) {
-                    ensureActiveOrThrow()
+                    this@AiProcessor.ensureActive()
                     if (shape[i] == -1L) shape[i] = 1L
                 }
                 if (shape.size == 2 && shape[0] == 1L && shape[1] == 1L) {
-                    ensureActiveOrThrow()
+                    this@AiProcessor.ensureActive()
                     val strengthTensor = if (tensorInfo.type == OnnxJavaType.FLOAT16) {
                         val strengthFp16 = floatToFloat16(info.strength / 100f)
                         val byteBuffer = ByteBuffer.allocateDirect(2).order(ByteOrder.nativeOrder())
@@ -456,14 +416,14 @@ internal class AiProcessor @Inject constructor(
             }
         }
 
-        val result = try {
+        try {
             session.run(inputs).use { sessionResult ->
                 val outputArray = extractOutputArray(sessionResult[0].value, outputChannels, h, w)
-                val fullResultBitmap = createBitmap(w, h, config)
+                val fullResultBitmap = createBitmap(width = w, height = h, config = config)
                 val outPixels = IntArray(w * h)
 
                 for (i in 0 until w * h) {
-                    ensureActiveOrThrow()
+                    this@AiProcessor.ensureActive()
                     val alpha = if (hasAlpha) clamp255(alphaChannel!![i] * 255f) else 255
 
                     if (outputChannels == 1) {
@@ -491,7 +451,6 @@ internal class AiProcessor @Inject constructor(
                 paddedChunk.recycle()
             }
         }
-        return@withContext result
     }
 
     private suspend fun extractOutputArray(
@@ -500,7 +459,7 @@ internal class AiProcessor @Inject constructor(
         h: Int,
         w: Int
     ): FloatArray {
-        ensureActiveOrThrow()
+        ensureActive()
         "Output type received: ${outputValue.javaClass.name}".makeLog("AiProcessor")
         return when (outputValue) {
             is FloatArray -> {
@@ -521,7 +480,7 @@ internal class AiProcessor @Inject constructor(
                     for (ch in 0 until channels) {
                         for (y in 0 until h) {
                             for (x in 0 until w) {
-                                ensureActiveOrThrow()
+                                ensureActive()
                                 out[ch * h * w + y * w + x] = arr[0][ch][y][x]
                             }
                         }
@@ -535,7 +494,7 @@ internal class AiProcessor @Inject constructor(
                         for (ch in 0 until channels) {
                             for (y in 0 until h) {
                                 for (x in 0 until w) {
-                                    ensureActiveOrThrow()
+                                    ensureActive()
                                     out[ch * h * w + y * w + x] = float16ToFloat(arr[0][ch][y][x])
                                 }
                             }
@@ -551,17 +510,7 @@ internal class AiProcessor @Inject constructor(
         }
     }
 
-    private fun detectTransparency(bitmap: Bitmap): Boolean {
-        return bitmap.hasAlpha()
-    }
-
-    private fun clamp255(v: Float): Int {
-        return 0.coerceAtLeast(255.coerceAtMost(v.toInt()))
-    }
-
-    private fun formatError(e: Throwable): String {
-        return "${e.javaClass.simpleName}${if (e.message != null) ": ${e.message}" else ""}"
-    }
+    private fun clamp255(v: Float): Int = 0.coerceAtLeast(255.coerceAtMost(v.toInt()))
 
     private fun floatToFloat16(value: Float): Short {
         val bits = floatToIntBits(value)
@@ -607,77 +556,7 @@ internal class AiProcessor @Inject constructor(
         return intBitsToFloat(sign or ((exponent - 15 + 127) shl 23) or (mantissa shl 13))
     }
 
-    private class ModelInfo(
-        val strength: Float,
-        session: OrtSession,
-        val chunkSize: Int,
-        val overlap: Int
-    ) {
-        val inputName: String
-        val inputInfoMap: Map<String, NodeInfo> = session.inputInfo
-        val inputChannels: Int
-        val outputChannels: Int
-        val isFp16: Boolean
-        val expectedWidth: Int?
-        val expectedHeight: Int?
+    private suspend fun ensureActive() = currentCoroutineContext().ensureActive()
 
-        init {
-            var foundInputName: String? = null
-            var foundInputChannels = 3
-            var foundOutputChannels = 3
-            var foundIsFp16 = false
-            var foundExpectedWidth: Int? = null
-            var foundExpectedHeight: Int? = null
-
-            for ((key, nodeInfo) in inputInfoMap) {
-                val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
-                val shape = tensorInfo.shape
-                if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                    foundInputName = key
-                    foundInputChannels = if (shape[1] == 1L) 1 else 3
-                    foundIsFp16 = (tensorInfo.type == OnnxJavaType.FLOAT16)
-                    if (shape[2] > 0) foundExpectedHeight = shape[2].toInt()
-                    if (shape[3] > 0) foundExpectedWidth = shape[3].toInt()
-                    break
-                }
-            }
-
-            val outputInfoMap = session.outputInfo
-            for ((_, nodeInfo) in outputInfoMap) {
-                val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
-                val shape = tensorInfo.shape
-                if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                    foundOutputChannels = if (shape[1] == 1L) 1 else 3
-                    break
-                }
-            }
-
-            inputName =
-                foundInputName ?: throw RuntimeException("Could not find valid input tensor")
-            inputChannels = foundInputChannels
-            outputChannels = foundOutputChannels
-            isFp16 = foundIsFp16
-            expectedWidth = foundExpectedWidth
-            expectedHeight = foundExpectedHeight
-        }
-    }
-
-    private val chunksDir: File
-        get() = File(
-            context.cacheDir,
-            "processing_chunks"
-        ).apply(File::mkdirs)
-
-    private fun clearChunks() {
-        val chunksDir = File(context.cacheDir, "processing_chunks")
-        if (chunksDir.exists()) {
-            chunksDir.listFiles()?.size ?: 0
-            chunksDir.deleteRecursively()
-        }
-    }
-
-    private suspend fun ensureActiveOrThrow() {
-        currentCoroutineContext().ensureActive()
-        if (isCancelled) throw CancellationException()
-    }
+    private fun clearChunks() = chunksDir.deleteRecursively()
 }

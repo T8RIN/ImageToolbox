@@ -15,25 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
+package com.t8rin.imagetoolbox.feature.ai_tools.data.model
 
-data class NeuralSaveProgress(
-    val doneImages: Int,
-    val totalImages: Int,
-    val doneChunks: Int,
-    val totalChunks: Int
-) {
-    val chunkProgress = if (totalChunks > 0) {
-        doneChunks / totalChunks.toFloat()
-    } else {
-        0f
-    }
+import java.io.File
 
-    val totalProgress = if (totalImages > 0) {
-        (doneImages.toFloat() + chunkProgress) / totalImages.toFloat()
-    } else {
-        0f
-    }
-
-    val isZero = doneImages == 0 && (totalImages < 2) && doneChunks == 0 && totalChunks == 0
-}
+internal data class ChunkInfo(
+    val index: Int,
+    val file: File,
+    val x: Int,
+    val y: Int,
+    val width: Int,
+    val height: Int,
+    val col: Int,
+    val row: Int
+)

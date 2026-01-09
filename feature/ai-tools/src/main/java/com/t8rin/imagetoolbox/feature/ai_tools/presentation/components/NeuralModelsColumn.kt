@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -107,11 +108,7 @@ internal fun NeuralModelsColumn(
 
     LazyColumn(
         state = listState,
-        contentPadding = PaddingValues(
-            start = 16.dp,
-            bottom = 16.dp,
-            end = 16.dp
-        ),
+        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         if (downloadedModels.isNotEmpty()) {
@@ -207,7 +204,7 @@ internal fun NeuralModelsColumn(
         }
         itemsIndexed(
             items = notDownloadedModels,
-            key = { _, m -> m.name }
+            key = { _, m -> m.name + "not" }
         ) { index, model ->
             PreferenceItemOverload(
                 title = model.title,
@@ -224,35 +221,42 @@ internal fun NeuralModelsColumn(
                     .animateItem()
                     .fillMaxWidth(),
                 endIcon = {
-                    downloadProgresses[model.name]?.let { progress ->
-                        Row(
-                            modifier = Modifier.container(
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.surface,
-                                resultPadding = 8.dp
-                            ),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = if (progress.currentTotalSize > 0) {
-                                    rememberHumanFileSize(progress.currentTotalSize)
-                                } else {
-                                    stringResource(R.string.preparing)
-                                },
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            EnhancedCircularProgressIndicator(
-                                progress = { progress.currentPercent },
-                                modifier = Modifier.size(24.dp),
-                                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                strokeWidth = 3.dp
+                    AnimatedContent(
+                        targetState = downloadProgresses[model.name],
+                        contentKey = { key -> key?.currentTotalSize?.let { it > 0 } }
+                    ) { progress ->
+                        if (progress != null) {
+                            Row(
+                                modifier = Modifier.container(
+                                    shape = CircleShape,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    resultPadding = 8.dp
+                                ),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = if (progress.currentTotalSize > 0) {
+                                        rememberHumanFileSize(progress.currentTotalSize)
+                                    } else {
+                                        stringResource(R.string.preparing)
+                                    },
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                EnhancedCircularProgressIndicator(
+                                    progress = { progress.currentPercent },
+                                    modifier = Modifier.size(24.dp),
+                                    trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                    strokeWidth = 3.dp
+                                )
+                            }
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.DownloadForOffline,
+                                contentDescription = null
                             )
                         }
-                    } ?: Icon(
-                        imageVector = Icons.Rounded.DownloadForOffline,
-                        contentDescription = null
-                    )
+                    }
                 }
             )
         }

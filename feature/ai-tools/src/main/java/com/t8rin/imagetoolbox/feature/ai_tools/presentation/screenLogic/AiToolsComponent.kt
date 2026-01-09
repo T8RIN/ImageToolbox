@@ -126,7 +126,7 @@ class AiToolsComponent @AssistedInject internal constructor(
             errorsChannel.trySend(error)
         }
 
-        override fun onChunkProgress(
+        override fun onProgress(
             currentChunkIndex: Int,
             totalChunks: Int
         ) {
@@ -204,6 +204,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = componentScope.launch {
+            delay(400)
             _saveProgress.update {
                 NeuralSaveProgress(
                     doneImages = 0,
@@ -226,6 +227,10 @@ class AiToolsComponent @AssistedInject internal constructor(
                     )?.let {
                         it to imageInfo
                     }
+                }.onFailure {
+                    results.add(
+                        SaveResult.Error.Exception(it)
+                    )
                 }.getOrNull()?.let { (image, imageInfo) ->
                     results.add(
                         fileController.save(
@@ -248,9 +253,7 @@ class AiToolsComponent @AssistedInject internal constructor(
                             oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         )
                     )
-                } ?: results.add(
-                    SaveResult.Error.Exception(Throwable())
-                )
+                }
 
                 _saveProgress.updateNotNull {
                     it.copy(
@@ -273,6 +276,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = componentScope.launch {
+            delay(400)
             _saveProgress.update {
                 NeuralSaveProgress(
                     doneImages = 0,

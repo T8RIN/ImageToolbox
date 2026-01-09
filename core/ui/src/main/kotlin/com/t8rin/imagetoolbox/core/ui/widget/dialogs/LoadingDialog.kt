@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -107,6 +108,7 @@ fun LoadingDialog(
     onCancelLoading: () -> Unit = {},
     canCancel: Boolean = true,
     loaderSize: Dp = 60.dp,
+    switchToIndicator: Boolean = false,
     isLayoutSwappable: Boolean = true,
     additionalContent: @Composable (Dp) -> Unit = {}
 ) {
@@ -137,11 +139,29 @@ fun LoadingDialog(
                     },
                 contentAlignment = Alignment.Center,
                 content = {
-                    EnhancedLoadingIndicator(
-                        progress = progress(),
-                        loaderSize = loaderSize,
-                        additionalContent = additionalContent
-                    )
+                    AnimatedContent(
+                        targetState = switchToIndicator,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .align(Alignment.Center)
+                    ) { isIndicator ->
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (isIndicator) {
+                                EnhancedLoadingIndicator(
+                                    modifier = Modifier.size(108.dp)
+                                )
+                            } else {
+                                EnhancedLoadingIndicator(
+                                    progress = progress(),
+                                    loaderSize = loaderSize,
+                                    additionalContent = additionalContent
+                                )
+                            }
+                        }
+                    }
                 }
             )
         }

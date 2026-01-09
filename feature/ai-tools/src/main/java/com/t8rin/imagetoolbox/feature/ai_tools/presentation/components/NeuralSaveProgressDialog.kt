@@ -42,6 +42,7 @@ internal fun NeuralSaveProgressDialog(
             visible = true,
             onCancelLoading = component::cancelSaving,
             progress = { saveProgress.totalProgress },
+            switchToIndicator = saveProgress.isZero,
             loaderSize = 72.dp,
             isLayoutSwappable = false,
             additionalContent = {
