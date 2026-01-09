@@ -138,7 +138,7 @@
     <string name="filename">Nombre de archivo</string>
     <string name="share">Compartir</string>
     <string name="external_storage">Almacenamiento externo</string>
-    <string name="monet_colors">Colores de monet</string>
+    <string name="monet_colors">"Colores  Monet"</string>
     <string name="explicit_description">Redimensiona las imágenes a la altura y anchura dadas. La relación de aspecto puede cambiar.</string>
     <string name="brightness">Brillo</string>
     <string name="contrast">Contraste</string>
