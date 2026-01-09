@@ -665,6 +665,7 @@ or click one of the badges below.
     - Images to PDF
     - PDF previewing
 - Document Scanning
+- AI tools
 - Barcodes
     - Scanning
     - Creating & Parsing common types
