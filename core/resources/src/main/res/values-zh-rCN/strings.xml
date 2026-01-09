@@ -1904,8 +1904,6 @@
     <string name="model_jaywreck">通用压缩</string>
     <string name="model_h264">纹理化、H.264压缩</string>
     <string name="model_vhs">VHS压缩</string>
-    <string name="model_bc_smooth">非标准压缩（BC1）</string>
-    <string name="model_bc_detailed">非标准压缩（BC1）</string>
     <string name="model_cinepak">非标准压缩（Cinepak、MSVideo1、RoQ）</string>
     <string name="model_debink_v4">闪烁压缩，几何图形效果更佳</string>
     <string name="model_debink_v5">闪烁压缩，增强型</string>
