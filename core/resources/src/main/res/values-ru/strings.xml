@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -1886,7 +1886,7 @@
     <string name="chroma">Цветность</string>
     <string name="pixel_melt">Плавление пикселей</string>
     <string name="max_drop">Максимальное падение</string>
-    <string name="ai_tools">AI инструменты</string>
+    <string name="ai_tools">ИИ инструменты</string>
     <string name="ai_tools_sub">Различные инструменты для обработки изображений с помощью моделей искусственного интеллекта, такие как удаление артефактов или шумоподавление</string>
     <string name="model_anime_undeint">Сжатие, рваные линии</string>
     <string name="model_broadcast">Мультфильмы, сжатие трансляций</string>
