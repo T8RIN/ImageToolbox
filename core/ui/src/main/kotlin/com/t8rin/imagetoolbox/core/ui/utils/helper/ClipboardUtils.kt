@@ -30,13 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
-import com.t8rin.imagetoolbox.core.utils.appContext
-import java.io.File
-import kotlin.random.Random
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isFromAppFileProvider
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.moveToCache
 
 @Composable
 fun rememberClipboardData(): State<List<Uri>> {
@@ -129,21 +125,8 @@ fun ClipboardManager?.clipText(): String = runCatching {
 fun ClipData.clipList() = List(
     size = itemCount,
     init = { index ->
-        appContext.run {
-            getItemAt(index).uri?.let { uri ->
-                if (uri.toString().contains(getString(R.string.file_provider))) return@let uri
-
-                contentResolver.openInputStream(uri)?.use { stream ->
-                    val file = File(
-                        cacheDir,
-                        getFilename(uri) ?: "clipboard_${Random.nextInt()}.tmp"
-                    ).apply { createNewFile() }
-
-                    file.outputStream().use { stream.copyTo(it) }
-
-                    file.toUri()
-                }
-            }
+        getItemAt(index).uri?.let { uri ->
+            if (uri.isFromAppFileProvider()) uri else uri.moveToCache()
         }
     }
 ).filterNotNull()

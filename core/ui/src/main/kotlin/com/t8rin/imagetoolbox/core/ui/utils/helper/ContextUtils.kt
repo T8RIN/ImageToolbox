@@ -69,10 +69,12 @@ import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.io.RandomAccessFile
 import java.util.Locale
 import kotlin.math.ceil
+import kotlin.random.Random
 
 
 object ContextUtils {
@@ -536,5 +538,21 @@ object ContextUtils {
             it.makeLog("takePersistablePermission")
         }
     }
+
+    fun Uri.moveToCache(): Uri? = appContext.run {
+        contentResolver.openInputStream(this@moveToCache)?.use { stream ->
+            val file = File(
+                cacheDir,
+                getFilename(this@moveToCache) ?: "cache_${Random.nextInt()}.tmp"
+            ).apply { createNewFile() }
+
+            file.outputStream().use { stream.copyTo(it) }
+
+            file.toUri()
+        }
+    }
+
+    fun Uri.isFromAppFileProvider() =
+        toString().contains(appContext.getString(R.string.file_provider))
 
 }
