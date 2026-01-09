@@ -1907,8 +1907,6 @@
     <string name="model_jaywreck">Общее сжатие</string>
     <string name="model_h264">Texturization, h264 compression</string>
     <string name="model_vhs">Сжатие VHS</string>
-    <string name="model_bc_smooth">Нестандартное сжатие (BC1)</string>
-    <string name="model_bc_detailed">Нестандартное сжатие (BC1)</string>
     <string name="model_cinepak">Нестандартное сжатие (cinepak, msvideo1, roq)</string>
     <string name="model_debink_v4">Сжатие мигания, лучше для геометрии</string>
     <string name="model_debink_v5">Сжатие мигания, более сильное</string>

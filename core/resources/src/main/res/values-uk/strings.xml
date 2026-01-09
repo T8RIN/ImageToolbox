@@ -1907,8 +1907,6 @@
     <string name="model_jaywreck">Загальне стиснення</string>
     <string name="model_h264">Текстурування, стиснення h264</string>
     <string name="model_vhs">стиснення VHS</string>
-    <string name="model_bc_smooth">Нестандартне стиснення (BC1)</string>
-    <string name="model_bc_detailed">Нестандартне стиснення (BC1)</string>
     <string name="model_cinepak">Нестандартне стиснення (cinepak, msvideo1, roq)</string>
     <string name="model_debink_v4">Стиснення моргання, краще для геометрії</string>
     <string name="model_debink_v5">Стиснення моргання, сильніше</string>
