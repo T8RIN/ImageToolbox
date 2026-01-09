@@ -53,3 +53,6 @@
 
 -keep class org.bouncycastle.jcajce.provider.** { *; }
 -keep class org.bouncycastle.jce.provider.** { *; }
+
+-dontwarn com.google.re2j.Matcher
+-dontwarn com.google.re2j.Pattern
