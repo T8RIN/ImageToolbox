@@ -21,6 +21,7 @@ import ai.onnxruntime.NodeInfo
 import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
+import kotlin.math.abs
 
 internal class ModelInfo(
     val strength: Float,
@@ -62,7 +63,7 @@ internal class ModelInfo(
             val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
             val shape = tensorInfo.shape
             if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                foundOutputChannels = if (shape[1] == 1L) 1 else 3
+                foundOutputChannels = if (abs(shape[1]) == 1L) 1 else 3
                 break
             }
         }
