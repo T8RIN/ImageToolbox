@@ -260,6 +260,67 @@ data class NeuralModel(
                     name = "VHS-Sharpen-1x_46000_G-fp16.onnx",
                     title = "VHS Sharpen",
                     description = R.string.model_vhs_sharpen
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_dithering_alsa-fp16.onnx",
+                    name = "1x_artifacts_dithering_alsa-fp16.onnx",
+                    title = "Artifacts Dithering ALSA",
+                    description = R.string.model_artifacts_dithering_alsa
+                ),
+
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NMKD-BrightenRedux_200k-fp16.onnx",
+                    name = "1x_NMKD-BrightenRedux_200k-fp16.onnx",
+                    title = "NMKD Brighten Redux",
+                    description = R.string.model_nmkd_brighten_redux
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_nmkdbrighten_10000_G-fp16.onnx",
+                    name = "1x_nmkdbrighten_10000_G-fp16.onnx",
+                    title = "NMKD Brighten",
+                    description = R.string.model_nmkd_brighten
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NMKDDetoon_97500_G-fp16.onnx",
+                    name = "1x_NMKDDetoon_97500_G-fp16.onnx",
+                    title = "NMKD Detoon",
+                    description = R.string.model_nmkd_detoon
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NoiseToner-Poisson-Detailed_108000_G-fp16.onnx",
+                    name = "1x_NoiseToner-Poisson-Detailed_108000_G-fp16.onnx",
+                    title = "Noise Toner Poisson Detailed",
+                    description = R.string.model_noise_toner_poisson_detailed
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NoiseToner-Poisson-Soft_101000_G-fp16.onnx",
+                    name = "1x_NoiseToner-Poisson-Soft_101000_G-fp16.onnx",
+                    title = "Noise Toner Poisson Soft",
+                    description = R.string.model_noise_toner_poisson_soft
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NoiseToner-Uniform-Detailed_100000_G-fp16.onnx",
+                    name = "1x_NoiseToner-Uniform-Detailed_100000_G-fp16.onnx",
+                    title = "Noise Toner Uniform Detailed",
+                    description = R.string.model_noise_toner_uniform_detailed
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_NoiseToner-Uniform-Soft_100000_G-fp16.onnx",
+                    name = "1x_NoiseToner-Uniform-Soft_100000_G-fp16.onnx",
+                    title = "Noise Toner Uniform Soft",
+                    description = R.string.model_noise_toner_uniform_soft
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_Repainter_20000_G-fp16.onnx",
+                    name = "1x_Repainter_20000_G-fp16.onnx",
+                    title = "Repainter",
+                    description = R.string.model_repainter
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x-Debandurh-FS-Ultra-lite-fp16.onnx",
+                    name = "1x-Debandurh-FS-Ultra-lite-fp16.onnx",
+                    title = "Debandurh FS Ultra Lite",
+                    description = R.string.model_debandurh_fs_ultra_lite
                 )
             )
         }

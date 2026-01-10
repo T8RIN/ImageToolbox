@@ -1973,4 +1973,14 @@
     <string name="model_scunet_color_15_fp16">General noise, colored images</string>
     <string name="model_scunet_color_25_fp16">General noise, colored images, stronger</string>
     <string name="model_scunet_color_50_fp16">General noise, colored images, strongest</string>
+    <string name="model_artifacts_dithering_alsa">Reduces dithering artifacts and color banding, improving smooth gradients and flat color areas.</string>
+    <string name="model_nmkd_brighten_redux">Enhances image brightness and contrast with balanced highlights while preserving natural colors.</string>
+    <string name="model_nmkd_brighten">Brightens dark images while keeping details and avoiding overexposure.</string>
+    <string name="model_nmkd_detoon">Removes excessive color toning and restores a more neutral and natural color balance.</string>
+    <string name="model_noise_toner_poisson_detailed">Applies Poisson-based noise toning with emphasis on preserving fine details and textures.</string>
+    <string name="model_noise_toner_poisson_soft">Applies soft Poisson noise toning for smoother and less aggressive visual results.</string>
+    <string name="model_noise_toner_uniform_detailed">Uniform noise toning focused on detail preservation and image clarity.</string>
+    <string name="model_noise_toner_uniform_soft">Gentle uniform noise toning for subtle texture and smooth appearance.</string>
+    <string name="model_repainter">Repairs damaged or uneven areas by repainting artifacts and improving image consistency.</string>
+    <string name="model_debandurh_fs_ultra_lite">Lightweight debanding model that removes color banding with minimal performance cost.</string>
 </resources>
