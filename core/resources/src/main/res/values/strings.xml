@@ -1943,7 +1943,6 @@
     <string name="model_gainres">Anti-aliasing, general artifacts, CGI</string>
     <string name="model_kdm003_scans">KDM003 scans processing</string>
     <string name="model_nmkd_jaywreck3_lite">Lightweight image enhancement model</string>
-    <string name="model_spongecolor_lite">Color enhancement</string>
     <string name="model_bcgone_detailed_v2">Compression artifact removal</string>
     <string name="model_bcgone_smooth">Compression artifact removal</string>
     <string name="model_bandage_smooth">Bandage removal with smooth results</string>
@@ -1988,4 +1987,6 @@
     <string name="model_jpeg_40_60">Improves images with moderate compression (40-60% quality), balancing sharpness and smoothness.</string>
     <string name="model_jpeg_60_80">Refines images with light compression (60-80% quality) to enhance subtle details and textures.</string>
     <string name="model_jpeg_80_100">Slightly enhances near-lossless images (80-100% quality) while preserving natural look and details.</string>
+    <string name="model_spongecolor_lite">Fast colorization model that quickly adds natural colors to grayscale images.</string>
+    <string name="model_deblr">Slightly reduces image blur, improving sharpness without introducing artifacts.</string>
 </resources>

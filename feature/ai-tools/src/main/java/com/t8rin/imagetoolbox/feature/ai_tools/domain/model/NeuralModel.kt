@@ -351,6 +351,18 @@ data class NeuralModel(
                     name = "1x_JPEG_80-100.ort",
                     title = "JPEG 80-100",
                     description = R.string.model_jpeg_80_100
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x-SpongeColor-Lite.ort",
+                    name = "1x-SpongeColor-Lite.ort",
+                    title = "SpongeColor Lite",
+                    description = R.string.model_spongecolor_lite
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_DeBLR.ort",
+                    name = "1x_DeBLR.ort",
+                    title = "DeBLR",
+                    description = R.string.model_deblr
                 )
             )
         }
