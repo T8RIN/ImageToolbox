@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -79,8 +80,12 @@ internal fun AiToolsControls(component: AiToolsComponent) {
 
     Spacer(Modifier.height(8.dp))
 
-    val chunkPowers = generateSequence(16) { it * 2 }.takeWhile { it <= 2048 }.toList()
-    val overlapPowers = generateSequence(8) { it * 2 }.takeWhile { it <= 256 }.toList()
+    val chunkPowers = remember {
+        generateSequence(128) { it * 2 }.takeWhile { it <= 2048 }.toList()
+    }
+    val overlapPowers = remember {
+        generateSequence(8) { it * 2 }.takeWhile { it <= 32 }.toList()
+    }
 
     PowerSliderItem(
         label = stringResource(id = R.string.chunk_size),
