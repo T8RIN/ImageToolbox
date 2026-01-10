@@ -292,18 +292,40 @@ internal class AiProcessor @Inject constructor(
 
         val originalW = chunk.width
         val originalH = chunk.height
-        val w = if (info.expectedWidth != null && info.expectedWidth > 0) {
-            info.expectedWidth
+        var w: Int
+        var h: Int
+
+        if (info.isScuColor) {
+            val minModelSize = 256
+            w = if (info.expectedWidth != null && info.expectedWidth > 0) {
+                info.expectedWidth
+            } else {
+                val padFactor = 8
+                val paddedW = ((originalW + padFactor - 1) / padFactor) * padFactor
+                maxOf(paddedW, minModelSize)
+            }
+            h = if (info.expectedHeight != null && info.expectedHeight > 0) {
+                info.expectedHeight
+            } else {
+                val padFactor = 8
+                val paddedH = ((originalH + padFactor - 1) / padFactor) * padFactor
+                maxOf(paddedH, minModelSize)
+            }
         } else {
-            val padFactor = 8
-            ((originalW + padFactor - 1) / padFactor) * padFactor
+            w = if (info.expectedWidth != null && info.expectedWidth > 0) {
+                info.expectedWidth
+            } else {
+                val padFactor = 8
+                ((originalW + padFactor - 1) / padFactor) * padFactor
+            }
+            h = if (info.expectedHeight != null && info.expectedHeight > 0) {
+                info.expectedHeight
+            } else {
+                val padFactor = 8
+                ((originalH + padFactor - 1) / padFactor) * padFactor
+            }
         }
-        val h = if (info.expectedHeight != null && info.expectedHeight > 0) {
-            info.expectedHeight
-        } else {
-            val padFactor = 8
-            ((originalH + padFactor - 1) / padFactor) * padFactor
-        }
+
         val needsPadding = w != originalW || h != originalH
         val paddedChunk = if (needsPadding) {
             "Padding chunk from ${originalW}x${originalH} to ${w}x${h}".makeLog("AiProcessor")

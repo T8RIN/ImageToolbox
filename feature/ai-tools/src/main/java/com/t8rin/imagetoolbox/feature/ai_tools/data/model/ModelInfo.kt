@@ -39,6 +39,7 @@ internal class ModelInfo(
     val expectedWidth: Int?
     val expectedHeight: Int?
     val isScu = model.name.startsWith("scunet_")
+    val isScuColor = model.name.startsWith("scunet_color")
 
     init {
         var foundInputName: String? = null
