@@ -140,7 +140,7 @@
     <string name="prefix">Predpona</string>
     <string name="filename">Názov súboru</string>
     <string name="brightness">Jas</string>
-    <string name="exposure">Vystavenie</string>
+    <string name="exposure">Expozícia</string>
     <string name="white_balance">vyváženie bielej</string>
     <string name="temperature">Teplota</string>
     <string name="tint">Odtieň</string>
