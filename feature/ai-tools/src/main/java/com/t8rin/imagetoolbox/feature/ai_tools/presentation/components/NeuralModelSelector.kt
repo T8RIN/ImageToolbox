@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -70,10 +69,6 @@ internal fun NeuralModelSelector(
         endIcon = Icons.Rounded.MiniEdit
     )
 
-    var deleteDialogData by remember {
-        mutableStateOf<NeuralModel?>(null)
-    }
-
     EnhancedModalBottomSheet(
         visible = showDetails,
         onDismiss = {
@@ -103,16 +98,10 @@ internal fun NeuralModelSelector(
                 notDownloadedModels = notDownloadedModels,
                 onSelectModel = onSelectModel,
                 onDownloadModel = onDownloadModel,
-                onWantDelete = { deleteDialogData = it },
+                onDeleteModel = onDeleteModel,
                 onImportModel = onImportModel,
                 downloadProgresses = downloadProgresses
             )
         }
-    )
-
-    DeleteModelDialog(
-        model = deleteDialogData,
-        onDismiss = { deleteDialogData = null },
-        onDeleteModel = onDeleteModel
     )
 }

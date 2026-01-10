@@ -43,7 +43,9 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,7 +77,7 @@ internal fun OCRLanguagesColumn(
     onExportLanguages: () -> Unit,
     downloadedLanguages: List<OCRLanguage>,
     notDownloadedLanguages: List<OCRLanguage>,
-    onWantDelete: (OCRLanguage) -> Unit,
+    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit,
     onToggleAllowMultipleLanguagesSelection: () -> Unit
 ) {
     fun onValueChangeImpl(
@@ -95,6 +97,17 @@ internal fun OCRLanguagesColumn(
             )
         } else onValueChange(listOf(lang), type)
     }
+
+    var deleteDialogData by remember {
+        mutableStateOf<OCRLanguage?>(null)
+    }
+
+    DeleteLanguageDialog(
+        languageToDelete = deleteDialogData,
+        onDismiss = { deleteDialogData = null },
+        onDeleteLanguage = onDeleteLanguage,
+        currentRecognitionType = currentRecognitionType
+    )
 
     LazyColumn(
         state = listState,
@@ -220,7 +233,7 @@ internal fun OCRLanguagesColumn(
                 value = value,
                 lang = lang,
                 downloadedLanguages = downloadedLanguages,
-                onWantDelete = onWantDelete,
+                onWantDelete = { deleteDialogData = it },
                 onValueChange = { selected, language ->
                     onValueChangeImpl(
                         selected = selected,

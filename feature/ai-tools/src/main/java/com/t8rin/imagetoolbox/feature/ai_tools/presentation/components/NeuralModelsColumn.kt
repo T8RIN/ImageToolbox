@@ -51,8 +51,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -91,7 +93,7 @@ internal fun NeuralModelsColumn(
     notDownloadedModels: List<NeuralModel>,
     onSelectModel: (NeuralModel) -> Unit,
     onDownloadModel: (NeuralModel) -> Unit,
-    onWantDelete: (NeuralModel) -> Unit,
+    onDeleteModel: (NeuralModel) -> Unit,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
 ) {
@@ -134,6 +136,15 @@ internal fun NeuralModelsColumn(
         scrollToSelected()
     }
 
+    var deleteDialogData by remember {
+        mutableStateOf<NeuralModel?>(null)
+    }
+
+    DeleteModelDialog(
+        model = deleteDialogData,
+        onDismiss = { deleteDialogData = null },
+        onDeleteModel = onDeleteModel
+    )
 
     LazyColumn(
         state = listState,
@@ -192,7 +203,7 @@ internal fun NeuralModelsColumn(
                                 scope.launch {
                                     state.animateTo(RevealValue.Default)
                                 }
-                                onWantDelete(model)
+                                deleteDialogData = model
                             }
                     ) {
                         Icon(
@@ -275,7 +286,7 @@ internal fun NeuralModelsColumn(
                                 scope.launch {
                                     state.animateTo(RevealValue.Default)
                                 }
-                                onWantDelete(model)
+                                deleteDialogData = model
                             }
                     ) {
                         Icon(

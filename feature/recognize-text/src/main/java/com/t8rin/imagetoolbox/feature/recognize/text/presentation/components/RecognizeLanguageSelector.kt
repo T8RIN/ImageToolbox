@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -88,10 +87,6 @@ fun RecognizeLanguageSelector(
         startIcon = Icons.Outlined.Language,
         endIcon = Icons.Rounded.MiniEdit
     )
-
-    var deleteDialogData by remember {
-        mutableStateOf<OCRLanguage?>(null)
-    }
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -206,15 +201,8 @@ fun RecognizeLanguageSelector(
                 isSearching = isSearching,
                 searchKeyword = searchKeyword,
                 availableLanguages = availableLanguages,
-                onWantDelete = { deleteDialogData = it }
+                onDeleteLanguage = onDeleteLanguage
             )
         }
-    )
-
-    DeleteLanguageDialog(
-        languageToDelete = deleteDialogData,
-        onDismiss = { deleteDialogData = null },
-        onDeleteLanguage = onDeleteLanguage,
-        currentRecognitionType = currentRecognitionType
     )
 }
