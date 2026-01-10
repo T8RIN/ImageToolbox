@@ -113,7 +113,11 @@ internal class AiProcessor @Inject constructor(
                     info = ModelInfo(
                         strength = strength,
                         session = session,
-                        chunkSize = chunkSize,
+                        chunkSize = if (model.name.startsWith("scunet_")) {
+                            minOf(chunkSize, 256)
+                        } else {
+                            chunkSize
+                        },
                         overlap = overlap,
                         model = model
                     )

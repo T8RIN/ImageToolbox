@@ -52,7 +52,6 @@ internal class AndroidKeepAliveService @Inject constructor(
             putExtra(EXTRA_REMOVE_NOTIFICATION, removeNotification)
         }
         tryAll(
-            { ContextCompat.startForegroundService(context, intent) },
             { context.startService(intent) },
             { context.stopService(intent) }
         )
