@@ -321,6 +321,36 @@ data class NeuralModel(
                     name = "1x-Debandurh-FS-Ultra-lite-fp16.onnx",
                     title = "Debandurh FS Ultra Lite",
                     description = R.string.model_debandurh_fs_ultra_lite
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_JPEG_00-20.ort",
+                    name = "1x_JPEG_00-20.ort",
+                    title = "JPEG 0-20",
+                    description = R.string.model_jpeg_0_20
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_JPEG_20-40.ort",
+                    name = "1x_JPEG_20-40.ort",
+                    title = "JPEG 20-40",
+                    description = R.string.model_jpeg_20_40
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_JPEG_40-60.ort",
+                    name = "1x_JPEG_40-60.ort",
+                    title = "JPEG 40-60",
+                    description = R.string.model_jpeg_40_60
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_JPEG_60-80.ort",
+                    name = "1x_JPEG_60-80.ort",
+                    title = "JPEG 60-80",
+                    description = R.string.model_jpeg_60_80
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_JPEG_80-100.ort",
+                    name = "1x_JPEG_80-100.ort",
+                    title = "JPEG 80-100",
+                    description = R.string.model_jpeg_80_100
                 )
             )
         }
@@ -332,7 +362,7 @@ data class NeuralModel(
         fun Imported(name: String): NeuralModel = NeuralModel(
             downloadLink = "imported",
             name = name,
-            title = name.replace("_", " ").replace("-", "").substringBefore('.'),
+            title = name.replace("_", " ").replace("-", " ").substringBefore('.'),
             description = null
         )
     }

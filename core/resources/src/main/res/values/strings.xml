@@ -1966,9 +1966,9 @@
     <string name="preparing">Preparing</string>
     <string name="active_model">Active model</string>
     <string name="failed_to_open_session">Failed to open session</string>
-    <string name="only_onnx_models">Only ONNX models can be imported</string>
+    <string name="only_onnx_models">Only .onnx/.ort models can be imported</string>
     <string name="import_model">Import model</string>
-    <string name="import_model_sub">Import custom onnx model to further use, only onnx models are accepted, supports almost all esrgan like variants</string>
+    <string name="import_model_sub">Import custom onnx model to further use, only onnx/ort models are accepted, supports almost all esrgan like variants</string>
     <string name="imported_models">Imported Models</string>
     <string name="model_scunet_color_15_fp16">General noise, colored images</string>
     <string name="model_scunet_color_25_fp16">General noise, colored images, stronger</string>
@@ -1983,4 +1983,9 @@
     <string name="model_noise_toner_uniform_soft">Gentle uniform noise toning for subtle texture and smooth appearance.</string>
     <string name="model_repainter">Repairs damaged or uneven areas by repainting artifacts and improving image consistency.</string>
     <string name="model_debandurh_fs_ultra_lite">Lightweight debanding model that removes color banding with minimal performance cost.</string>
+    <string name="model_jpeg_0_20">Optimizes images with very high compression artifacts (0-20% quality) for improved clarity.</string>
+    <string name="model_jpeg_20_40">Enhances images with high compression artifacts (20-40% quality), restoring details and reducing noise.</string>
+    <string name="model_jpeg_40_60">Improves images with moderate compression (40-60% quality), balancing sharpness and smoothness.</string>
+    <string name="model_jpeg_60_80">Refines images with light compression (60-80% quality) to enhance subtle details and textures.</string>
+    <string name="model_jpeg_80_100">Slightly enhances near-lossless images (80-100% quality) while preserving natural look and details.</string>
 </resources>

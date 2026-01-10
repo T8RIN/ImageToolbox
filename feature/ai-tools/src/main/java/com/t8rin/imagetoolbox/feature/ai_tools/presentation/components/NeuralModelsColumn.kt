@@ -101,7 +101,8 @@ internal fun NeuralModelsColumn(
     val listState = rememberLazyListState()
 
     val filePicker = rememberFilePicker { uri: Uri ->
-        if (uri.getFilename(essentials.context).orEmpty().endsWith(".onnx")) {
+        val name = uri.getFilename(essentials.context).orEmpty()
+        if (name.endsWith(".onnx") || name.endsWith(".ort")) {
             onImportModel(uri, essentials::parseFileSaveResult)
         } else {
             essentials.showFailureToast(

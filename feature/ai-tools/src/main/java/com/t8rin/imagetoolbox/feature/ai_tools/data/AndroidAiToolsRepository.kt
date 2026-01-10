@@ -82,7 +82,14 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override val downloadedModels: StateFlow<List<NeuralModel>> = modelsDir
         .observeHasChanges()
         .debounce(100)
-        .map { fetchDownloadedModels() }
+        .map {
+            fetchDownloadedModels().sortedWith(
+                compareBy(
+                    { NeuralModel.entries.indexOfFirst { e -> e.name == it.name } },
+                    { it.title },
+                )
+            )
+        }
         .stateIn(
             scope = appScope,
             started = SharingStarted.Eagerly,
