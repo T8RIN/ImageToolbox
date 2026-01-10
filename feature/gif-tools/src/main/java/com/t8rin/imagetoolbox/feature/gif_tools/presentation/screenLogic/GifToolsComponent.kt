@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -199,7 +200,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             gifData?.let { byteArray ->
                 fileController.writeBytes(
@@ -217,7 +218,7 @@ class GifToolsComponent @AssistedInject internal constructor(
         onGifSaveResult: (filename: String) -> Unit,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -239,6 +240,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                                     )
                                 }
                                 _left.value = gifFrames.getFramePositions(it).size
+                                updateProgress(
+                                    done = done,
+                                    total = left
+                                )
                             }
                         ).onCompletion {
                             onResult(results.onSuccess(::registerSave))
@@ -276,6 +281,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                                 SaveResult.Error.Exception(Throwable())
                             )
                             _done.value++
+                            updateProgress(
+                                done = done,
+                                total = left
+                            )
                         }
                     }
                 }
@@ -288,6 +297,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             params = params,
                             onProgress = {
                                 _done.update { it + 1 }
+                                updateProgress(
+                                    done = done,
+                                    total = left
+                                )
                             },
                             onFailure = {
                                 onResult(listOf(SaveResult.Error.Exception(it)))
@@ -317,6 +330,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             )
                         )
                         _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
 
                     onResult(results.onSuccess(::registerSave))
@@ -341,6 +358,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             )
                         )
                         _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
 
                     onResult(results.onSuccess(::registerSave))
@@ -460,7 +481,7 @@ class GifToolsComponent @AssistedInject internal constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -484,6 +505,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             params = params,
                             onProgress = {
                                 _done.update { it + 1 }
+                                updateProgress(
+                                    done = done,
+                                    total = left
+                                )
                             },
                             onFailure = { }
                         )?.also { byteArray ->
@@ -514,6 +539,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             )
                         )
                         _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
 
                     shareProvider.shareUris(results.filterNotNull())
@@ -537,6 +566,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                             )
                         )
                         _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
 
                     shareProvider.shareUris(results.filterNotNull())

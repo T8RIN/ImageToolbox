@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -260,7 +261,7 @@ class FiltersComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -299,6 +300,11 @@ class FiltersComponent @AssistedInject internal constructor(
                 )
 
                 _done.value += 1
+
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
             onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
@@ -402,7 +408,7 @@ class FiltersComponent @AssistedInject internal constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } == true
 
     fun performSharing(onComplete: () -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             when (filterType) {
@@ -428,6 +434,11 @@ class FiltersComponent @AssistedInject internal constructor(
                             } else {
                                 _done.value = it
                             }
+
+                            updateProgress(
+                                done = done,
+                                total = left
+                            )
                         }
                     )
                 }
@@ -444,7 +455,13 @@ class FiltersComponent @AssistedInject internal constructor(
                                     filterMaskApplier.filterByMask(
                                         filterMask = mask, image = bmp
                                     )
-                                }?.also { _done.value++ }
+                                }?.also {
+                                    _done.value++
+                                    updateProgress(
+                                        done = done,
+                                        total = left
+                                    )
+                                }
                             }
                         )?.let { bitmap ->
                             shareProvider.shareImage(
@@ -552,7 +569,7 @@ class FiltersComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             _left.value = maskingFilterState.masks.size
@@ -566,7 +583,13 @@ class FiltersComponent @AssistedInject internal constructor(
                             filterMaskApplier.filterByMask(
                                 filterMask = mask, image = bmp
                             )
-                        }?.also { _done.value++ }
+                        }?.also {
+                            _done.value++
+                            updateProgress(
+                                done = done,
+                                total = left
+                            )
+                        }
                     }
                 )?.let { localBitmap ->
                     onComplete(
@@ -645,7 +668,7 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             when (filterType) {
                 is Screen.Filter.Type.Basic -> {
@@ -677,7 +700,13 @@ class FiltersComponent @AssistedInject internal constructor(
                                         filterMask = mask,
                                         image = bmp
                                     )
-                                }?.also { _done.value++ }
+                                }?.also {
+                                    _done.value++
+                                    updateProgress(
+                                        done = done,
+                                        total = left
+                                    )
+                                }
                             }
                         )?.let { bitmap ->
                             shareProvider.cacheImage(
@@ -702,7 +731,7 @@ class FiltersComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             val list = mutableListOf<Uri>()
             when (filterType) {
@@ -724,6 +753,10 @@ class FiltersComponent @AssistedInject internal constructor(
                             }
                         }
                         _done.value++
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
                 }
 
@@ -741,7 +774,13 @@ class FiltersComponent @AssistedInject internal constructor(
                                         filterMask = mask,
                                         image = bmp
                                     )
-                                }?.also { _done.value++ }
+                                }?.also {
+                                    _done.value++
+                                    updateProgress(
+                                        done = done,
+                                        total = left
+                                    )
+                                }
                             }
                         )?.let { bitmap ->
                             shareProvider.cacheImage(

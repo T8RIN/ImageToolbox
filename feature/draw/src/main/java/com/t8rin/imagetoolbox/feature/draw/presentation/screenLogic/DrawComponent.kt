@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,7 +186,7 @@ class DrawComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
@@ -341,7 +341,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getDrawingBitmap()?.let {
                 shareProvider.shareImage(
@@ -418,7 +418,7 @@ class DrawComponent @AssistedInject internal constructor(
     )
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getDrawingBitmap()?.let { image ->
                 shareProvider.cacheImage(

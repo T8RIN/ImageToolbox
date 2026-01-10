@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -80,10 +81,10 @@ class ZipComponent @AssistedInject internal constructor(
     fun startCompression(
         onFailure: (Throwable) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             if (uris.isEmpty()) {
-                return@launch
+                return@trackProgress
             }
             runSuspendCatching {
                 _done.update { 0 }
@@ -92,6 +93,10 @@ class ZipComponent @AssistedInject internal constructor(
                     files = uris.map { it.toString() },
                     onProgress = {
                         _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     }
                 )
             }.onFailure(onFailure)
@@ -107,7 +112,7 @@ class ZipComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _compressedArchiveUri.value?.let { byteArray ->
                 fileController.transferBytes(
@@ -123,7 +128,7 @@ class ZipComponent @AssistedInject internal constructor(
         onComplete: () -> Unit
     ) {
         compressedArchiveUri?.let { uri ->
-            savingJob = componentScope.launch {
+            savingJob = trackProgress {
                 _done.update { 0 }
                 _left.update { 0 }
 

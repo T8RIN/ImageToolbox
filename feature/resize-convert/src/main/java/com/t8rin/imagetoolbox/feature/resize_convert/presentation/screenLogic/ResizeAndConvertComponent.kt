@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -386,7 +387,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             val results = mutableListOf<SaveResult>()
             _done.update { 0 }
@@ -427,6 +428,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                 )
 
                 _done.value += 1
+                updateProgress(
+                    done = done,
+                    total = uris.orEmpty().size
+                )
             }
             onComplete(results.onSuccess(::registerSave))
             _isSaving.update { false }
@@ -561,7 +566,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
                 bmp to imageInfo.copy(
@@ -588,7 +593,7 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             _done.update { 0 }
             val list = mutableListOf<Uri>()
@@ -612,6 +617,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     }
                 }
                 _done.value += 1
+                updateProgress(
+                    done = done,
+                    total = uris.orEmpty().size
+                )
             }
             onComplete(list)
             _isSaving.update { false }

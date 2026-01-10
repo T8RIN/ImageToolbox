@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -177,7 +177,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getErasedBitmap(true)?.let { localBitmap ->
                 onComplete(
@@ -354,7 +354,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getErasedBitmap(true)?.let { image ->
                 shareProvider.cacheImage(

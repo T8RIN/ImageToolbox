@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -206,7 +207,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
 
             val targetUris = covers.mapNotNull { it.imageCoverUri?.toString() }
@@ -222,6 +223,10 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
                     )?.toUri()
                 }.also {
                     _done.value += 1
+                    updateProgress(
+                        done = done,
+                        total = left
+                    )
                 }
             }
 
@@ -243,7 +248,7 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             val results = mutableListOf<SaveResult>()
             val coverUris = covers.mapNotNull { it.imageCoverUri?.toString() }
             _done.value = 0
@@ -274,6 +279,10 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
                 )
 
                 _done.value += 1
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
 
             onResult(results.onSuccess(::registerSave))

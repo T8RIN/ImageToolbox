@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -117,7 +118,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
 
             val results = mutableListOf<SaveResult>()
@@ -153,6 +154,10 @@ class WallpapersExportComponent @AssistedInject internal constructor(
                     SaveResult.Error.Exception(Throwable())
                 )
                 _done.value++
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
             onResult(results.onSuccess(::registerSave))
             _isSaving.update { false }
@@ -173,7 +178,7 @@ class WallpapersExportComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
 
             val uris = wallpapers.mapIndexedNotNull { index, wallpaper ->
@@ -195,7 +200,13 @@ class WallpapersExportComponent @AssistedInject internal constructor(
                             imageFormat = imageFormat,
                             quality = quality
                         )
-                    )?.toUri()
+                    )?.toUri().also {
+                        _done.value++
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
+                    }
                 }
             )
             _isSaving.value = false

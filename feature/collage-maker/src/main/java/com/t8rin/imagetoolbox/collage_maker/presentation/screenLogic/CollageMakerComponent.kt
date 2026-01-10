@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -193,7 +193,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _isSaving.update { true }
         _collageCreationTrigger.update { true }
         requestedOperation = {
-            savingJob = componentScope.launch {
+            savingJob = trackProgress {
                 collageBitmap?.let { image ->
                     _isSaving.update { true }
                     val imageInfo = ImageInfo(
@@ -231,7 +231,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _collageCreationTrigger.update { true }
         requestedOperation = {
             collageBitmap?.let { image ->
-                savingJob = componentScope.launch {
+                savingJob = trackProgress {
                     _isSaving.update { true }
                     shareProvider.cacheImage(
                         image = image,
@@ -260,7 +260,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _collageCreationTrigger.update { true }
         requestedOperation = {
             collageBitmap?.let { image ->
-                savingJob = componentScope.launch {
+                savingJob = trackProgress {
                     _isSaving.update { true }
                     shareProvider.cacheImage(
                         image = image,

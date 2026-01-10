@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -86,7 +87,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             val results = mutableListOf<SaveResult>()
 
             _isSaving.value = true
@@ -110,6 +111,10 @@ class SvgMakerComponent @AssistedInject internal constructor(
                     )
                 )
                 _done.update { it + 1 }
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
 
             _isSaving.value = false
@@ -121,7 +126,7 @@ class SvgMakerComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _done.update { 0 }
             _left.update { uris.size }
 
@@ -140,6 +145,10 @@ class SvgMakerComponent @AssistedInject internal constructor(
                     )
                 )
                 _done.update { it + 1 }
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
 
             shareProvider.shareUris(results.filterNotNull())

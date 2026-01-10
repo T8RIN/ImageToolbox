@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
 import com.t8rin.imagetoolbox.core.domain.saving.saveObject
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -158,7 +159,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(
@@ -167,6 +168,10 @@ class ImageStitchingComponent @AssistedInject internal constructor(
                 imageScale = imageScale,
                 onProgress = {
                     _done.value = it
+                    updateProgress(
+                        done = done,
+                        total = uris.orEmpty().size
+                    )
                 }
             ).let { (image, info) ->
                 val imageInfo = info.copy(
@@ -195,7 +200,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(
@@ -204,6 +209,10 @@ class ImageStitchingComponent @AssistedInject internal constructor(
                 imageScale = imageScale,
                 onProgress = {
                     _done.value = it
+                    updateProgress(
+                        done = done,
+                        total = uris.orEmpty().size
+                    )
                 }
             ).let {
                 it.copy(
@@ -298,7 +307,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             imageCombiner.combineImages(
@@ -307,6 +316,10 @@ class ImageStitchingComponent @AssistedInject internal constructor(
                 imageScale = imageScale,
                 onProgress = {
                     _done.value = it
+                    updateProgress(
+                        done = done,
+                        total = uris.orEmpty().size
+                    )
                 }
             ).let {
                 it.copy(

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
 
             val results = mutableListOf<SaveResult>()
@@ -173,7 +173,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
 
             val positions =
@@ -214,7 +214,7 @@ class LoadNetImageComponent @AssistedInject internal constructor(
         _left.value = 1
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             imageFrames.getFramePositions(parsedImages.size).firstOrNull()?.let {
                 imageGetter.getImage(data = parsedImages[it - 1])

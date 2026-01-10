@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             uri?.let { imageGetter.getImage(it) }?.let { image ->
                 shareProvider.shareImage(
@@ -150,7 +150,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             uri?.let { imageGetter.getImage(it) }?.let { image ->
                 shareProvider.cacheImage(
@@ -180,7 +180,7 @@ class Base64ToolsComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.update { true }
             uri?.let { imageGetter.getImage(it) }?.let { image ->
                 val imageInfo = ImageInfo(

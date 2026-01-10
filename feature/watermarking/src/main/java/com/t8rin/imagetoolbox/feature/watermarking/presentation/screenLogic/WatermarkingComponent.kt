@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
@@ -151,7 +152,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _left.value = -1
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
@@ -190,6 +191,10 @@ class WatermarkingComponent @AssistedInject internal constructor(
                 )
 
                 _done.value += 1
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
             onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
@@ -211,7 +216,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         _left.value = -1
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             _left.value = uris.size
@@ -238,6 +243,10 @@ class WatermarkingComponent @AssistedInject internal constructor(
                     } else {
                         _done.value = it
                     }
+                    updateProgress(
+                        done = done,
+                        total = left
+                    )
                 }
             )
             _isSaving.value = false
@@ -336,7 +345,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             getWatermarkedBitmap(
                 data = selectedUri,
@@ -363,7 +372,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
             _left.value = uris.size
@@ -388,6 +397,10 @@ class WatermarkingComponent @AssistedInject internal constructor(
                     }
                 }
                 _done.value += 1
+                updateProgress(
+                    done = done,
+                    total = left
+                )
             }
             onComplete(list)
             _isSaving.value = false

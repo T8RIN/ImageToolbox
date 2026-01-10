@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
@@ -122,7 +123,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         uri: Uri,
         onResult: (SaveResult) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _outputPdfUri.value?.let { pdfUri ->
                 fileController.transferBytes(
@@ -228,7 +229,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _done.value = 0
         _left.value = 1
         val results = mutableListOf<SaveResult>()
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             pdfManager.convertPdfToImages(
                 pdfUri = _pdfToImageState.value?.uri.toString(),
                 pages = _pdfToImageState.value?.selectedPages,
@@ -257,6 +258,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
                         )
                     )
                     _done.value += 1
+                    updateProgress(
+                        done = done,
+                        total = left
+                    )
                 },
                 onGetPagesCount = { size ->
                     _left.update { size }
@@ -277,7 +282,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     fun convertImagesToPdf(onComplete: () -> Unit) {
         _done.value = 0
         _left.value = 0
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             _left.value = imagesToPdfState?.size ?: 0
             _outputPdfUri.value = runSuspendCatching {
@@ -285,6 +290,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
                     onProgressChange = {
                         _done.value = it
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
                     },
                     scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                     preset = _presetSelected.value,
@@ -306,7 +315,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             when (val type = _pdfType.value) {
                 is Screen.PdfTools.Type.ImagesToPdf -> {
@@ -317,6 +326,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
                             imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
                             onProgressChange = {
                                 _done.value = it
+                                updateProgress(
+                                    done = done,
+                                    total = left
+                                )
                             },
                             scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                             preset = _presetSelected.value,
@@ -337,43 +350,46 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     _left.value = 1
                     _isSaving.value = false
                     val uris: MutableList<String?> = mutableListOf()
-                    savingJob = componentScope.launch {
-                        pdfManager.convertPdfToImages(
-                            pdfUri = _pdfToImageState.value?.uri.toString(),
-                            pages = _pdfToImageState.value?.selectedPages,
-                            onProgressChange = { _, bitmap ->
-                                imageInfo.copy(
-                                    originalUri = _pdfToImageState.value?.uri?.toString()
-                                ).let {
-                                    imageTransformer.applyPresetBy(
-                                        image = bitmap,
-                                        preset = _presetSelected.value,
-                                        currentInfo = it
+
+                    pdfManager.convertPdfToImages(
+                        pdfUri = _pdfToImageState.value?.uri.toString(),
+                        pages = _pdfToImageState.value?.selectedPages,
+                        onProgressChange = { _, bitmap ->
+                            imageInfo.copy(
+                                originalUri = _pdfToImageState.value?.uri?.toString()
+                            ).let {
+                                imageTransformer.applyPresetBy(
+                                    image = bitmap,
+                                    preset = _presetSelected.value,
+                                    currentInfo = it
+                                )
+                            }.apply {
+                                uris.add(
+                                    shareProvider.cacheImage(
+                                        imageInfo = this,
+                                        image = bitmap
                                     )
-                                }.apply {
-                                    uris.add(
-                                        shareProvider.cacheImage(
-                                            imageInfo = this,
-                                            image = bitmap
-                                        )
-                                    )
-                                }
-                                _done.value += 1
-                            },
-                            preset = presetSelected,
-                            onGetPagesCount = { size ->
-                                _left.update { size }
-                                _isSaving.value = true
-                            },
-                            onComplete = {
-                                _isSaving.value = false
-                                shareProvider.shareUris(uris.filterNotNull())
-                                onSuccess()
-                            },
-                            password = _pdfPassword,
-                            onFailure = onFailure
-                        )
-                    }
+                                )
+                            }
+                            _done.value += 1
+                            updateProgress(
+                                done = done,
+                                total = left
+                            )
+                        },
+                        preset = presetSelected,
+                        onGetPagesCount = { size ->
+                            _left.update { size }
+                            _isSaving.value = true
+                        },
+                        onComplete = {
+                            _isSaving.value = false
+                            shareProvider.shareUris(uris.filterNotNull())
+                            onSuccess()
+                        },
+                        password = _pdfPassword,
+                        onFailure = onFailure
+                    )
                 }
 
                 is Screen.PdfTools.Type.Preview -> {

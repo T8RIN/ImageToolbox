@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -68,6 +70,12 @@ abstract class BaseComponent(
 
     protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(false)
     open val haveChanges: Boolean by _haveChanges
+
+    fun trackProgress(
+        action: suspend KeepAliveService.() -> Unit
+    ): Job = componentScope.launch {
+        keepAliveService.trackSafe(action = action)
+    }
 
     protected fun registerSave() {
         _haveChanges.update { false }
@@ -149,4 +157,19 @@ abstract class BaseComponent(
         block()
     }
 
+    companion object {
+        internal var keepAliveService: KeepAliveService = object : KeepAliveService {
+            override fun updateOrStart(
+                title: String,
+                description: String,
+                progress: Float
+            ) = Unit
+
+            override fun stop(removeNotification: Boolean) = Unit
+        }
+
+        fun inject(keepAliveService: KeepAliveService) {
+            this.keepAliveService = keepAliveService
+        }
+    }
 }

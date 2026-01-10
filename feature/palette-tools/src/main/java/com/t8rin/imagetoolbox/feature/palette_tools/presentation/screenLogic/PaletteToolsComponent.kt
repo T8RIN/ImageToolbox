@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     ) {
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             fileController.writeBytes(
                 uri = uri.toString(),
@@ -149,7 +149,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     ) {
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
 
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             _isSaving.value = true
             val data = format.getCoder().use {
                 encode(palette.toPalette())
@@ -157,7 +157,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
             if (data == null) {
                 _isSaving.update { false }
-                return@launch
+                return@trackProgress
             }
 
             shareProvider.shareByteArray(
