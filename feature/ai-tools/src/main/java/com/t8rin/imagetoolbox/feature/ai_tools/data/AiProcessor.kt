@@ -32,6 +32,9 @@ import android.graphics.Color
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.domain.saving.track
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
@@ -39,7 +42,6 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -57,6 +59,7 @@ import kotlin.use
 
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val service: KeepAliveService,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager
 ) : DispatchersHolder by dispatchersHolder, ResourceManager by resourceManager {
@@ -73,30 +76,50 @@ internal class AiProcessor @Inject constructor(
         overlap: Int,
         model: NeuralModel
     ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
-            processBitmapImpl(
-                session = session,
-                inputBitmap = inputBitmap,
-                listener = listener,
-                info = ModelInfo(
-                    strength = strength,
-                    session = session,
-                    chunkSize = chunkSize,
-                    overlap = overlap,
-                    model = model
-                )
-            )
-        }.onFailure { e ->
-            if (e is CancellationException) {
+        service.track(
+            onCancel = {
                 "Cancelled".makeLog("AiProcessor")
                 clearChunks()
-                throw e
-            } else {
+            },
+            onFailure = { e ->
                 listener.onError(
                     e.localizedMessage ?: e.message ?: getString(R.string.something_went_wrong)
                 )
+            },
+            action = {
+                processBitmapImpl(
+                    session = session,
+                    inputBitmap = inputBitmap,
+                    listener = object : AiProgressListener {
+                        override fun onError(error: String) {
+                            listener.onError(error)
+                            stop()
+                        }
+
+                        override fun onProgress(currentChunkIndex: Int, totalChunks: Int) {
+                            listener.onProgress(
+                                currentChunkIndex = currentChunkIndex,
+                                totalChunks = totalChunks
+                            )
+
+                            if (totalChunks > 0) {
+                                updateProgress(
+                                    done = currentChunkIndex,
+                                    total = totalChunks
+                                )
+                            }
+                        }
+                    },
+                    info = ModelInfo(
+                        strength = strength,
+                        session = session,
+                        chunkSize = chunkSize,
+                        overlap = overlap,
+                        model = model
+                    )
+                )
             }
-        }.getOrNull()
+        )
     }
 
     private suspend fun processBitmapImpl(
@@ -462,58 +485,51 @@ internal class AiProcessor @Inject constructor(
         }
     }
 
-    private fun mergeChunkWithBlending(
+    private suspend fun mergeChunkWithBlending(
         result: Bitmap,
         processedChunk: Bitmap,
         chunkInfo: ChunkInfo,
         overlap: Int
-    ) {
+    ) = withContext(defaultDispatcher) {
         val width = processedChunk.width
         val height = processedChunk.height
         val x = chunkInfo.x
         val y = chunkInfo.y
-
         val needsLeftBlend = chunkInfo.col > 0
         val needsTopBlend = chunkInfo.row > 0
-
         if (!needsLeftBlend && !needsTopBlend) {
             val canvas = Canvas(result)
             canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
-            return
+            return@withContext
         }
-
         val existingPixels = IntArray(width * height)
         try {
             result.getPixels(existingPixels, 0, width, x, y, width, height)
-        } catch (_: Exception) {
+        } catch (_: Throwable) {
             val canvas = Canvas(result)
             canvas.drawBitmap(processedChunk, x.toFloat(), y.toFloat(), null)
-            return
+            return@withContext
         }
-
         val newPixels = IntArray(width * height)
         processedChunk.getPixels(newPixels, 0, width, 0, 0, width, height)
-
         for (localY in 0 until height) {
             for (localX in 0 until width) {
+                ensureActive()
                 val inLeftOverlap = needsLeftBlend && localX < overlap
                 val inTopOverlap = needsTopBlend && localY < overlap
-
                 if (!inLeftOverlap && !inTopOverlap) continue
-
                 val idx = localY * width + localX
-
                 var blendFactor = 1.0f
                 if (inLeftOverlap) {
-                    blendFactor = minOf(blendFactor, (localX + 1).toFloat() / overlap)
+                    val t = (localX.toFloat() / (overlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
+                    blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
                 }
                 if (inTopOverlap) {
-                    blendFactor = minOf(blendFactor, (localY + 1).toFloat() / overlap)
+                    val t = (localY.toFloat() / (overlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
+                    blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
                 }
-
                 val existingColor = existingPixels[idx]
                 val newColor = newPixels[idx]
-
                 val r =
                     ((1 - blendFactor) * Color.red(existingColor) + blendFactor * Color.red(newColor)).toInt()
                 val g = ((1 - blendFactor) * Color.green(existingColor) + blendFactor * Color.green(
@@ -525,11 +541,9 @@ internal class AiProcessor @Inject constructor(
                 val a = ((1 - blendFactor) * Color.alpha(existingColor) + blendFactor * Color.alpha(
                     newColor
                 )).toInt()
-
                 newPixels[idx] = Color.argb(a, r, g, b)
             }
         }
-
         result.setPixels(newPixels, 0, width, x, y, width, height)
     }
 
@@ -570,7 +584,7 @@ internal class AiProcessor @Inject constructor(
                         }
                     }
                     out to actualChannels
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     try {
                         val arr = outputValue as Array<Array<Array<ShortArray>>>
                         "Output is multi-dimensional ShortArray (FP16)".makeLog("AiProcessor")
@@ -588,7 +602,7 @@ internal class AiProcessor @Inject constructor(
                             }
                         }
                         out to actualChannels
-                    } catch (e2: Exception) {
+                    } catch (e2: Throwable) {
                         throw RuntimeException("Failed to extract output array: ${e.message}, ${e2.message}")
                     }
                 }

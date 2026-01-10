@@ -221,9 +221,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     private fun createSession(model: NeuralModel?): OrtSession? {
         return runCatching {
+            val modelName = model?.name.orEmpty()
             val options = OrtSession.SessionOptions().apply {
-                runCatching { addCUDA() }
-
                 val processors = Runtime.getRuntime().availableProcessors()
                 try {
                     setIntraOpNumThreads(if (processors <= 2) 1 else (processors * 3) / 4)
@@ -237,11 +236,17 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
                 try {
                     when {
-                        model?.name.orEmpty().startsWith("fbcnn_") -> setOptimizationLevel(
+                        modelName.endsWith(".ort") -> { // prevent double optimizations (.ort models are already optimized)
+                            setOptimizationLevel(
+                                OrtSession.SessionOptions.OptLevel.NO_OPT
+                            )
+                        }
+
+                        modelName.startsWith("fbcnn_") -> setOptimizationLevel(
                             OrtSession.SessionOptions.OptLevel.EXTENDED_OPT
                         )
 
-                        model?.name.orEmpty().startsWith("scunet_") -> setOptimizationLevel(
+                        modelName.startsWith("scunet_") -> setOptimizationLevel(
                             OrtSession.SessionOptions.OptLevel.NO_OPT
                         )
                     }

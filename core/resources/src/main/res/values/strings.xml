@@ -1989,4 +1989,15 @@
     <string name="model_jpeg_80_100">Slightly enhances near-lossless images (80-100% quality) while preserving natural look and details.</string>
     <string name="model_spongecolor_lite">Fast colorization model that quickly adds natural colors to grayscale images.</string>
     <string name="model_deblr">Slightly reduces image blur, improving sharpness without introducing artifacts.</string>
+    <string name="processing_channel">Long running operations</string>
+    <string name="processing_image">Processing image</string>
+    <string name="processing">Processing</string>
+    <string name="model_artifacts_jpg_0_20">Removes heavy JPEG compression artifacts in very low quality images (0-20%).</string>
+    <string name="model_artifacts_jpg_20_40">Reduces strong JPEG artifacts in highly compressed images (20-40%).</string>
+    <string name="model_artifacts_jpg_40_60">Cleans up moderate JPEG artifacts while preserving image details (40-60%).</string>
+    <string name="model_artifacts_jpg_60_80">Refines light JPEG artifacts in fairly high quality images (60-80%).</string>
+    <string name="model_artifacts_jpg_80_100">Subtly reduces minor JPEG artifacts in near-lossless images (80-100%).</string>
+    <string name="model_redetail_v2">Enhances fine details and textures, improving perceived sharpness without heavy artifacts.</string>
+    <string name="processing_finished">Processing finished</string>
+    <string name="processing_failed">Processing failed</string>
 </resources>

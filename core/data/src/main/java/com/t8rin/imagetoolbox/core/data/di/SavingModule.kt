@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@ package com.t8rin.imagetoolbox.core.data.di
 
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFileController
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFilenameCreator
+import com.t8rin.imagetoolbox.core.data.saving.AndroidKeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -42,5 +44,11 @@ internal interface SavingModule {
     fun filenameCreator(
         impl: AndroidFilenameCreator
     ): FilenameCreator
+
+    @Singleton
+    @Binds
+    fun service(
+        impl: AndroidKeepAliveService
+    ): KeepAliveService
 
 }

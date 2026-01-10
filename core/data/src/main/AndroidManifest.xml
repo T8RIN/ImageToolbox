@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,6 +15,18 @@
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
 
-<manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application>
+        <service
+            android:name=".saving.AndroidKeepAliveServiceImpl"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="true" />
+    </application>
 
 </manifest>

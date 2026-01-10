@@ -1,0 +1,43 @@
+<!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="2.1"
+        android:scaleY="2.1"
+        android:translateX="-59"
+        android:translateY="-59">
+
+        <path
+            android:fillColor="@color/onPrimary"
+            android:fillType="evenOdd"
+            android:pathData="M57.74,43.82V47.67C57.74,48.33 57.97,48.89 58.42,49.33C58.87,49.78 59.43,50 60.1,50H64C64.32,50 64.62,49.95 64.92,49.83C65.21,49.71 65.48,49.54 65.71,49.3L78,37.17C78.35,36.82 78.61,36.42 78.76,35.97C78.92,35.52 79,35.09 79,34.66C79,34.23 78.91,33.8 78.73,33.38C78.56,32.95 78.31,32.56 78,32.21L75.81,30.05C75.46,29.7 75.06,29.44 74.63,29.26C74.2,29.09 73.74,29 73.27,29C72.84,29 72.41,29.08 71.97,29.23C71.54,29.39 71.15,29.64 70.79,29.99L58.45,42.13C58.21,42.36 58.04,42.62 57.92,42.92C57.8,43.21 57.74,43.51 57.74,43.82ZM63.53,46.5H61.28V44.29L68.49,37.23L70.67,39.39L63.53,46.5Z" />
+        <path
+            android:fillColor="@color/onPrimary"
+            android:pathData="M69.89,56.22C69.89,53.33 69.89,50.99 69.83,49.03L73.81,45.1C74.11,47.9 74.11,51.47 74.11,56.22C74.11,65.82 74.11,70.61 71.6,73.95C70.86,74.92 69.99,75.79 69,76.51C65.63,79 60.77,79 51.06,79C41.35,79 36.49,79 33.11,76.51C32.13,75.79 31.25,74.92 30.52,73.95C28,70.61 28,65.82 28,56.22C28,46.62 28,41.83 30.52,38.49C31.25,37.52 32.13,36.65 33.11,35.93C36.49,33.44 41.35,33.44 51.06,33.44C56.32,33.44 60.16,33.44 63.1,33.84L59.19,37.7C57.05,37.61 54.42,37.61 51.06,37.61C46.11,37.61 42.74,37.62 40.17,37.9C37.69,38.17 36.47,38.65 35.63,39.27C34.98,39.75 34.39,40.33 33.9,40.98C33.27,41.81 32.78,43.01 32.51,45.47C32.23,48 32.22,51.33 32.22,56.22C32.22,61.11 32.23,64.44 32.51,66.97C32.57,67.53 32.64,68.01 32.73,68.45L32.77,68.42C36.59,65.67 40.54,62.82 43.92,64.75L46.82,66.5C49.64,68.23 52.89,65.29 56.42,62.08C58.8,59.93 61.31,57.65 63.89,56.62C66.26,55.68 67.84,56.49 69.89,58.17C69.89,57.55 69.89,56.9 69.89,56.22Z"
+            tools:ignore="VectorPath" />
+        <path
+            android:fillColor="@color/onPrimary"
+            android:pathData="M38.98,48.81C38.98,51.54 41.18,53.71 43.94,53.71C46.71,53.71 48.91,51.45 48.91,48.81C48.91,46.07 46.71,43.9 43.94,43.9C41.18,43.9 38.98,46.07 38.98,48.81Z" />
+
+    </group>
+</vector>

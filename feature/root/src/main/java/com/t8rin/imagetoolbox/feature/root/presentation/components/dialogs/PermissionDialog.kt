@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,13 +69,20 @@ internal fun PermissionDialog() {
     }
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !requestedOnce) {
-            val permission = Manifest.permission.ACCESS_MEDIA_LOCATION
-            if (!context.hasPermissionAllowed(permission)) {
+            val notAllowed = listOf(
+                Manifest.permission.ACCESS_MEDIA_LOCATION,
+                Manifest.permission.POST_NOTIFICATIONS
+            ).filter { !context.hasPermissionAllowed(it) }
+
+            if (notAllowed.isNotEmpty()) {
                 ActivityCompat.requestPermissions(
                     context,
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        arrayOf(permission, Manifest.permission.READ_MEDIA_IMAGES)
-                    } else arrayOf(permission),
+                    buildList {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            add(Manifest.permission.READ_MEDIA_IMAGES)
+                        }
+                        addAll(notAllowed)
+                    }.toTypedArray(),
                     0
                 )
             }

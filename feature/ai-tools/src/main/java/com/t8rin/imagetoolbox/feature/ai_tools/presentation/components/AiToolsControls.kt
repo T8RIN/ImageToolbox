@@ -84,7 +84,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         generateSequence(128) { it * 2 }.takeWhile { it <= 2048 }.toList()
     }
     val overlapPowers = remember {
-        generateSequence(8) { it * 2 }.takeWhile { it <= 32 }.toList()
+        generateSequence(16) { it * 2 }.takeWhile { it <= 128 }.toList()
     }
 
     PowerSliderItem(

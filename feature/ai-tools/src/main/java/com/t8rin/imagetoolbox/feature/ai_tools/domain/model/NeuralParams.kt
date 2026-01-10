@@ -27,7 +27,7 @@ data class NeuralParams(
             NeuralParams(
                 strength = 65f,
                 chunkSize = 512,
-                overlap = 8
+                overlap = 16
             )
         }
     }

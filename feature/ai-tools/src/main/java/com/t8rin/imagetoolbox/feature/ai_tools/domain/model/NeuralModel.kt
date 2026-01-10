@@ -363,6 +363,42 @@ data class NeuralModel(
                     name = "1x_DeBLR.ort",
                     title = "DeBLR",
                     description = R.string.model_deblr
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_jpg_00_20_alsa-fp16.ort",
+                    name = "1x_artifacts_jpg_00_20_alsa-fp16.ort",
+                    title = "JPEG Artifacts 0-20",
+                    description = R.string.model_artifacts_jpg_0_20
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_jpg_20_40_alsa-fp16.ort",
+                    name = "1x_artifacts_jpg_20_40_alsa-fp16.ort",
+                    title = "JPEG Artifacts 20-40",
+                    description = R.string.model_artifacts_jpg_20_40
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_jpg_40_60_alsa-fp16.ort",
+                    name = "1x_artifacts_jpg_40_60_alsa-fp16.ort",
+                    title = "JPEG Artifacts 40-60",
+                    description = R.string.model_artifacts_jpg_40_60
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_jpg_60_80_alsa-fp16.ort",
+                    name = "1x_artifacts_jpg_60_80_alsa-fp16.ort",
+                    title = "JPEG Artifacts 60-80",
+                    description = R.string.model_artifacts_jpg_60_80
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_artifacts_jpg_80_100_alsa-fp16.ort",
+                    name = "1x_artifacts_jpg_80_100_alsa-fp16.ort",
+                    title = "JPEG Artifacts 80-100",
+                    description = R.string.model_artifacts_jpg_80_100
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_ReDetail_v2_126000_G-fp16.ort",
+                    name = "1x_ReDetail_v2_126000_G-fp16.ort",
+                    title = "ReDetail v2",
+                    description = R.string.model_redetail_v2
                 )
             )
         }
