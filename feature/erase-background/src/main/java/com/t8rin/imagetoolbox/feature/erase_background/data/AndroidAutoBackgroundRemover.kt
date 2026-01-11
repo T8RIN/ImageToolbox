@@ -106,40 +106,36 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
         onFailure: (Throwable) -> Unit
     ) {
         appScope.launch {
-            backendFactory.create(modelType).performBackgroundRemove(image)
-                .onSuccess { processed ->
-                    onSuccess(restoreOriginalAlpha(image, processed))
-                }
+            backendFactory.create(modelType)
+                .performBackgroundRemove(image)
+                .map { it.healAlpha(image) }
+                .onSuccess(onSuccess)
                 .onFailure {
-                    it.makeLog()
-                    onFailure(it)
+                    onFailure(it.makeLog())
                 }
         }
     }
 
-    private suspend fun restoreOriginalAlpha(
-        original: Bitmap,
-        processed: Bitmap
+    private suspend fun Bitmap.healAlpha(
+        original: Bitmap
     ): Bitmap = coroutineScope {
-        val width = original.width
-        val height = original.height
-        val result = processed.copy(Bitmap.Config.ARGB_8888, true)
+        val processed = this@healAlpha
 
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                ensureActive()
-                val origPixel = original[x, y]
-                val procPixel = processed[x, y]
+        copy(Bitmap.Config.ARGB_8888, true).also { result ->
+            for (y in 0 until original.height) {
+                for (x in 0 until original.width) {
+                    ensureActive()
+                    val origPixel = original[x, y]
+                    val procPixel = processed[x, y]
 
-                val origAlpha = origPixel ushr 24
-                if (origAlpha >= 255) continue
-                val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
+                    val origAlpha = origPixel ushr 24
+                    if (origAlpha >= 255) continue
+                    val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
 
-                result[x, y] = newPixel
+                    result[x, y] = newPixel
+                }
             }
         }
-
-        result
     }
 
 }

@@ -39,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.retain.retain
@@ -81,8 +82,8 @@ fun AutoEraseBackgroundCard(
     var downloadJob by remember {
         mutableStateOf<Job?>(null)
     }
-    var downloadProgress by remember(RMBGLoader.isDownloaded, RMBGNewestLoader.isDownloaded) {
-        mutableStateOf<RemoteResourcesDownloadProgress?>(null)
+    val downloadProgresses = remember(RMBGLoader.isDownloaded, RMBGNewestLoader.isDownloaded) {
+        mutableStateMapOf<ModelType, RemoteResourcesDownloadProgress>()
     }
 
     LaunchedEffect(RMBGLoader.isDownloaded) {
@@ -117,52 +118,33 @@ fun AutoEraseBackgroundCard(
                     if (downloadJob == null) {
                         selectedModel = type
 
-                        if (type == ModelType.RMBG && !RMBGLoader.isDownloaded) {
-                            downloadJob?.cancel()
-                            downloadJob = scope.launch {
-                                RMBGLoader.download()
-                                    .onStart {
-                                        downloadProgress = RemoteResourcesDownloadProgress(
-                                            currentPercent = 0f,
-                                            currentTotalSize = 0
-                                        )
-                                    }
-                                    .onCompletion {
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .catch {
-                                        selectedModel = ModelType.U2Net
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .collect {
-                                        downloadProgress = it
-                                    }
-                            }
-                        } else if (type == ModelType.RMBG2_0 && !RMBGNewestLoader.isDownloaded) {
-                            downloadJob?.cancel()
-                            downloadJob = scope.launch {
-                                RMBGNewestLoader.download()
-                                    .onStart {
-                                        downloadProgress = RemoteResourcesDownloadProgress(
-                                            currentPercent = 0f,
-                                            currentTotalSize = 0
-                                        )
-                                    }
-                                    .onCompletion {
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .catch {
-                                        selectedModel = ModelType.U2Net
-                                        downloadProgress = null
-                                        downloadJob = null
-                                    }
-                                    .collect {
-                                        downloadProgress = it
-                                    }
-                            }
+                        val download = when (type) {
+                            ModelType.RMBG if !RMBGLoader.isDownloaded -> RMBGLoader.download()
+                            ModelType.RMBG2_0 if !RMBGNewestLoader.isDownloaded -> RMBGNewestLoader.download()
+                            else -> return@EnhancedButtonGroup
+                        }
+
+                        downloadJob?.cancel()
+                        downloadJob = scope.launch {
+                            download
+                                .onStart {
+                                    downloadProgresses[type] = RemoteResourcesDownloadProgress(
+                                        currentPercent = 0f,
+                                        currentTotalSize = 0
+                                    )
+                                }
+                                .onCompletion {
+                                    downloadProgresses.remove(type)
+                                    downloadJob = null
+                                }
+                                .catch {
+                                    selectedModel = ModelType.U2Net
+                                    downloadProgresses.remove(type)
+                                    downloadJob = null
+                                }
+                                .collect {
+                                    downloadProgresses[type] = it
+                                }
                         }
                     }
                 },
@@ -184,7 +166,7 @@ fun AutoEraseBackgroundCard(
                                         else -> false
                                     }
                                 ) {
-                                    downloadProgress?.let { progress ->
+                                    downloadProgresses[type]?.let { progress ->
                                         EnhancedCircularProgressIndicator(
                                             progress = { progress.currentPercent },
                                             modifier = Modifier
