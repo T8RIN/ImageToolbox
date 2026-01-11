@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,18 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
 class UiBorderFrameFilter(
-    override val value: Pair<Float, ColorModel> = 20f to Color.White.toModel()
-) : UiFilter<Pair<Float, ColorModel>>(
+    override val value: Triple<Float, Float, ColorModel> = Triple(20f, 40f, Color.White.toModel())
+) : UiFilter<Triple<Float, Float, ColorModel>>(
     title = R.string.border_frame,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.border_thickness,
+            title = R.string.horizontal_border_thinkness,
+            valueRange = 0f..500f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.vertical_border_thinkness,
             valueRange = 0f..500f,
             roundTo = 0
         ),

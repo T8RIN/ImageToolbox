@@ -32,7 +32,7 @@ data class NeuralModel(
     val isImported = downloadLink == "imported"
 
     enum class Type {
-        UPSCALE, DEJPEG, DENOISE, COLORIZE, ARTIFACTS, ENHANCE, ANIME, SCANS
+        UPSCALE, REMOVEBG, DEJPEG, DENOISE, COLORIZE, ARTIFACTS, ENHANCE, ANIME, SCANS
     }
 
     companion object {
@@ -548,6 +548,20 @@ data class NeuralModel(
                     title = "UltraSharp x4 V2 Lite",
                     description = R.string.model_ultrasharp_v2_lite_x4,
                     type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/RMBG_1.4.ort",
+                    name = "RMBG_1.4.ort",
+                    title = "RMBG 1.4",
+                    description = R.string.model_rmbg_1_4,
+                    type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/generic_bg_remover_fp32.onnx",
+                    name = "generic_bg_remover_fp32.onnx",
+                    title = "RMBG 2.0",
+                    description = R.string.model_rmbg_2_0,
+                    type = Type.REMOVEBG
                 )
             ).sortedBy { it.type?.ordinal }
         }

@@ -33,7 +33,9 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
@@ -42,6 +44,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgre
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
+import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
+import com.t8rin.neural_tools.bgremover.RMBGBackgroundRemover
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
@@ -52,6 +56,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
@@ -70,6 +75,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
+    private val keepAliveService: KeepAliveService,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
     private val fileController: FileController
@@ -113,6 +119,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         model: NeuralModel
     ): Flow<NeuralDownloadProgress> = callbackFlow {
         val modelFile = model.file
+        val title = model.title
 
         client.prepareGet(model.downloadLink).execute { response ->
             val total = response.contentLength() ?: -1L
@@ -140,6 +147,13 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     }
 
                     tmp.renameTo(modelFile)
+
+                    when {
+                        title.contains("RMBG 1.4") -> RMBGBackgroundRemover.startDownload()
+                        title.contains("RMBG 2.0") -> GenericBackgroundRemover.startDownload()
+                        else -> null
+                    }?.collect()
+
                     selectModel(
                         model = model,
                         forced = true
@@ -181,19 +195,65 @@ internal class AndroidAiToolsRepository @Inject constructor(
         params: NeuralParams
     ): Bitmap? = withContext(defaultDispatcher) {
         "start processing".makeLog()
-        processor.processImage(
-            session = session.makeLog("Held session")
-                ?: createSession(selectedModel.value).makeLog("New session")
-                ?: return@withContext null.also {
-                    listener.onError(getString(R.string.failed_to_open_session))
-                },
-            inputBitmap = image,
-            strength = params.strength,
-            listener = listener,
-            chunkSize = params.chunkSize,
-            overlap = params.overlap,
-            model = selectedModel.value!!
+
+        val model = selectedModel.value
+
+        when {
+            model == null -> return@withContext listener.failedSession()
+
+            model.type == NeuralModel.Type.REMOVEBG -> {
+                val title = model.title
+                when {
+                    title.contains("RMBG 1.4") -> withClosedSession(listener) {
+                        RMBGBackgroundRemover.removeBackground(image)
+                    }
+
+                    title.contains("RMBG 2.0") -> withClosedSession(listener) {
+                        GenericBackgroundRemover.removeBackground(image)
+                    }
+
+                    else -> listener.failedSession()
+                }
+            }
+
+            else -> {
+                val ortSession = session.makeLog("Held session")
+                    ?: createSession(selectedModel.value).makeLog("New session")
+                    ?: return@withContext null.also {
+                        listener.onError(getString(R.string.failed_to_open_session))
+                    }
+
+                processor.processImage(
+                    session = ortSession,
+                    inputBitmap = image,
+                    strength = params.strength,
+                    listener = listener,
+                    chunkSize = params.chunkSize,
+                    overlap = params.overlap,
+                    model = selectedModel.value!!
+                )
+            }
+        }
+    }
+
+    private suspend fun withClosedSession(
+        listener: AiProgressListener,
+        function: () -> Bitmap?
+    ): Bitmap? {
+        closeSession()
+
+        return keepAliveService.track(
+            onFailure = {
+                listener.onError(it.message ?: it::class.simpleName.orEmpty())
+            },
+            action = {
+                function()
+            }
         )
+    }
+
+    private fun <T> AiProgressListener.failedSession(): T? = null.also {
+        onError(getString(R.string.failed_to_open_session))
     }
 
     override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {

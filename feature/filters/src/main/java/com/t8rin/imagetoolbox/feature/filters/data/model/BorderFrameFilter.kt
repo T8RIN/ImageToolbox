@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import kotlin.math.roundToInt
 
 @FilterInject
 internal class BorderFrameFilter(
-    override val value: Pair<Float, ColorModel> = 20f to Color.White.toModel()
+    override val value: Triple<Float, Float, ColorModel> = Triple(20f, 40f, Color.White.toModel())
 ) : Transformation<Bitmap>, Filter.BorderFrame {
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -42,13 +42,14 @@ internal class BorderFrameFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val size = value.first.roundToInt()
+        val horizontal = value.first.roundToInt()
+        val vertical = value.second.roundToInt()
 
         return createBitmap(
-            width = input.width + size * 2,
-            height = input.height + size * 2
+            width = input.width + horizontal * 2,
+            height = input.height + vertical * 2
         ).applyCanvas {
-            drawColor(value.second.colorInt)
+            drawColor(value.third.colorInt)
 
             drawBitmap(
                 bitmap = input,

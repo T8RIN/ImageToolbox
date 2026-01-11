@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -361,7 +361,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface PulseGridPixelation : FloatFilter
     interface NucleusPixelation : FloatFilter
     interface RadialWeavePixelation : FloatFilter
-    interface BorderFrame : FloatColorModelFilter
+    interface BorderFrame : TripleFilter<Float, Float, Color>
     interface GlitchVariant : TripleFloatFilter
     interface VHS : PairFloatFilter
     interface BlockGlitch : PairFloatFilter

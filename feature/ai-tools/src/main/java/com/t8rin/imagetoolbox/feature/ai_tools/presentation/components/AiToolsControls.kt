@@ -19,7 +19,9 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,6 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import kotlin.math.roundToInt
 
@@ -61,68 +64,75 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     )
 
     AnimatedVisibility(
-        visible = selectedModel?.supportsStrength == true,
-        modifier = Modifier.fillMaxWidth()
+        visible = selectedModel?.type != NeuralModel.Type.REMOVEBG,
+        modifier = Modifier.fillMaxSize()
     ) {
-        EnhancedSliderItem(
-            value = component.params.strength,
-            internalStateTransformation = { it.roundToInt() },
-            steps = 100,
-            valueRange = 0f..100f,
-            onValueChange = {
-                component.updateParams { copy(strength = it) }
-            },
-            title = stringResource(R.string.strength),
-            icon = Icons.Outlined.Exercise,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
+        Column {
+            AnimatedVisibility(
+                visible = selectedModel?.supportsStrength == true,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                EnhancedSliderItem(
+                    value = component.params.strength,
+                    internalStateTransformation = { it.roundToInt() },
+                    steps = 100,
+                    valueRange = 0f..100f,
+                    onValueChange = {
+                        component.updateParams { copy(strength = it) }
+                    },
+                    title = stringResource(R.string.strength),
+                    icon = Icons.Outlined.Exercise,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
 
-    Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(8.dp))
 
-    val chunkPowers = remember {
-        generateSequence(128) { it * 2 }.takeWhile { it <= 2048 }.toList()
-    }
-    val overlapPowers = remember {
-        generateSequence(16) { it * 2 }.takeWhile { it <= 128 }.toList()
-    }
+            val chunkPowers = remember {
+                generateSequence(128) { it * 2 }.takeWhile { it <= 2048 }.toList()
+            }
+            val overlapPowers = remember {
+                generateSequence(16) { it * 2 }.takeWhile { it <= 128 }.toList()
+            }
 
-    PowerSliderItem(
-        label = stringResource(id = R.string.chunk_size),
-        icon = Icons.Rounded.GridOn,
-        value = component.params.chunkSize,
-        powers = chunkPowers,
-        onValueChange = { component.updateParams { copy(chunkSize = it) } }
-    )
-    AnimatedVisibility(
-        visible = component.params.chunkSize >= 2048,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
+            PowerSliderItem(
+                label = stringResource(id = R.string.chunk_size),
+                icon = Icons.Rounded.GridOn,
+                value = component.params.chunkSize,
+                powers = chunkPowers,
+                onValueChange = { component.updateParams { copy(chunkSize = it) } }
+            )
+            AnimatedVisibility(
+                visible = component.params.chunkSize >= 2048,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    InfoContainer(
+                        text = stringResource(R.string.large_chunk_warning),
+                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.4f),
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(0.7f),
+                        icon = Icons.Rounded.ErrorOutline,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+            }
+            Spacer(Modifier.height(8.dp))
+            PowerSliderItem(
+                label = stringResource(R.string.overlap_size),
+                icon = Icons.Outlined.Stack,
+                value = component.params.overlap,
+                powers = overlapPowers,
+                maxAllowed = component.params.chunkSize,
+                onValueChange = { component.updateParams { copy(overlap = it) } }
+            )
+            Spacer(Modifier.height(8.dp))
             InfoContainer(
-                text = stringResource(R.string.large_chunk_warning),
-                containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.4f),
-                contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(0.7f),
-                icon = Icons.Rounded.ErrorOutline,
-                modifier = Modifier.padding(top = 8.dp)
+                text = stringResource(R.string.note_chunk_info, component.params.chunkSize),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f),
             )
         }
     }
-    Spacer(Modifier.height(8.dp))
-    PowerSliderItem(
-        label = stringResource(R.string.overlap_size),
-        icon = Icons.Outlined.Stack,
-        value = component.params.overlap,
-        powers = overlapPowers,
-        maxAllowed = component.params.chunkSize,
-        onValueChange = { component.updateParams { copy(overlap = it) } }
-    )
-    Spacer(Modifier.height(8.dp))
-    InfoContainer(
-        text = stringResource(R.string.note_chunk_info, component.params.chunkSize),
-        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f),
-    )
 }

@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -44,13 +45,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
@@ -87,21 +89,32 @@ fun CompareSheet(
                             )
                             .transparencyChecker()
                             .clipToBounds()
-                            .zoomable(rememberZoomState(maxScale = 10f)),
+                            .zoomable(rememberZoomState(maxScale = 15f)),
                         contentAlignment = Alignment.Center
                     ) {
                         data.let { (b, a) ->
                             val before = remember(data) { b?.asImageBitmap() }
                             val after = remember(data) { a?.asImageBitmap() }
                             if (before != null && after != null) {
-                                BeforeAfterImage(
+                                BeforeAfterLayout(
                                     modifier = Modifier.clip(ShapeDefaults.extraSmall),
                                     progress = animateFloatAsState(targetValue = progress).value,
+                                    enableZoom = false,
                                     onProgressChange = {
                                         progress = it
                                     },
-                                    beforeImage = before,
-                                    afterImage = after,
+                                    beforeContent = {
+                                        Picture(
+                                            model = before,
+                                            modifier = Modifier.aspectRatio(before.safeAspectRatio)
+                                        )
+                                    },
+                                    afterContent = {
+                                        Picture(
+                                            model = after,
+                                            modifier = Modifier.aspectRatio(after.safeAspectRatio)
+                                        )
+                                    },
                                     beforeLabel = { },
                                     afterLabel = { }
                                 )
@@ -171,7 +184,7 @@ fun CompareSheet(
                         )
                         .transparencyChecker()
                         .clipToBounds()
-                        .zoomable(rememberZoomState(maxScale = 10f)),
+                        .zoomable(rememberZoomState(maxScale = 15f)),
                     contentAlignment = Alignment.Center
                 ) {
                     BeforeAfterLayout(
@@ -180,6 +193,7 @@ fun CompareSheet(
                         onProgressChange = {
                             progress = it
                         },
+                        enableZoom = false,
                         beforeContent = beforeContent,
                         afterContent = afterContent,
                         beforeLabel = { },

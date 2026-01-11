@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,9 +47,9 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import coil3.transform.Transformation
-import com.smarttoolfactory.beforeafter.BeforeAfterImage
+import com.smarttoolfactory.beforeafter.BeforeAfterLayout
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
@@ -89,12 +90,23 @@ internal fun CompareScreenContentImpl(
                         val before = remember(data) { beforeData.image.asImageBitmap() }
                         val after = remember(data) { afterData.image.asImageBitmap() }
 
-                        BeforeAfterImage(
+                        BeforeAfterLayout(
                             modifier = modifier,
                             progress = animateFloatAsState(targetValue = compareProgress).value,
                             onProgressChange = onCompareProgressChange,
-                            beforeImage = before,
-                            afterImage = after,
+                            enableZoom = false,
+                            beforeContent = {
+                                Picture(
+                                    model = before,
+                                    modifier = Modifier.aspectRatio(before.safeAspectRatio)
+                                )
+                            },
+                            afterContent = {
+                                Picture(
+                                    model = after,
+                                    modifier = Modifier.aspectRatio(after.safeAspectRatio)
+                                )
+                            },
                             beforeLabel = {
                                 Box(
                                     modifier = Modifier.matchParentSize()
@@ -147,7 +159,7 @@ internal fun CompareScreenContentImpl(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             if (first != null) {
-                                AsyncImage(
+                                Picture(
                                     model = first,
                                     contentDescription = null,
                                     modifier = Modifier
@@ -158,7 +170,7 @@ internal fun CompareScreenContentImpl(
                                 HorizontalDivider()
                             }
                             if (second != null) {
-                                AsyncImage(
+                                Picture(
                                     model = second,
                                     contentDescription = null,
                                     modifier = Modifier
@@ -190,7 +202,7 @@ internal fun CompareScreenContentImpl(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (first != null) {
-                                AsyncImage(
+                                Picture(
                                     model = first,
                                     contentDescription = null,
                                     modifier = Modifier
@@ -201,7 +213,7 @@ internal fun CompareScreenContentImpl(
                                 VerticalDivider()
                             }
                             if (second != null) {
-                                AsyncImage(
+                                Picture(
                                     model = second,
                                     contentDescription = null,
                                     modifier = Modifier
@@ -243,14 +255,14 @@ internal fun CompareScreenContentImpl(
                     val first = bitmapPair.first?.image
                     val second = bitmapPair.second?.image
                     if (!showSecondImage && first != null) {
-                        AsyncImage(
+                        Picture(
                             model = first,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
                         )
                     }
                     if (showSecondImage && second != null) {
-                        AsyncImage(
+                        Picture(
                             model = second,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
@@ -286,14 +298,14 @@ internal fun CompareScreenContentImpl(
                     val first = bitmapPair.first?.image
                     val second = bitmapPair.second?.image
                     if (first != null) {
-                        AsyncImage(
+                        Picture(
                             model = first,
                             contentDescription = null,
                             contentScale = ContentScale.Inside
                         )
                     }
                     if (second != null) {
-                        AsyncImage(
+                        Picture(
                             model = second,
                             contentDescription = null,
                             contentScale = ContentScale.Inside,
