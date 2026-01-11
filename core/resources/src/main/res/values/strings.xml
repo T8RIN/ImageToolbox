@@ -2011,4 +2011,10 @@
     <string name="type_enhance">Enhance</string>
     <string name="type_anime">Anime</string>
     <string name="type_scans">Scans</string>
+    <string name="type_upscale">Upscale</string>
+    <string name="model_realesrgan_x4v3">X4 upscaler for general images; tiny model that uses less GPU and time, with moderate deblur and denoise.</string>
+    <string name="model_realesrgan_x2plus">X2 upscaler for general images, preserving textures and natural details.</string>
+    <string name="model_realesrgan_x4plus">X4 upscaler for general images with enhanced textures and realistic results.</string>
+    <string name="model_realesrgan_x4plus_anime">X4 upscaler optimized for anime images; 6 RRDB blocks for sharper lines and details.</string>
+    <string name="model_realesrnet_x4plus">X4 upscaler with MSE loss, produces smoother results and reduced artifacts for general images.</string>
 </resources>

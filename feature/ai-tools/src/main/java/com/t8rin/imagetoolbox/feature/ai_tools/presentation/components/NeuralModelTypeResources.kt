@@ -28,4 +28,5 @@ fun NeuralModel.Type.title(): Int = when (this) {
     NeuralModel.Type.ENHANCE -> R.string.type_enhance
     NeuralModel.Type.ANIME -> R.string.type_anime
     NeuralModel.Type.SCANS -> R.string.type_scans
+    NeuralModel.Type.UPSCALE -> R.string.type_upscale
 }

@@ -32,7 +32,7 @@ data class NeuralModel(
     val isImported = downloadLink == "imported"
 
     enum class Type {
-        DEJPEG, DENOISE, COLORIZE, ARTIFACTS, ENHANCE, ANIME, SCANS,
+        UPSCALE, DEJPEG, DENOISE, COLORIZE, ARTIFACTS, ENHANCE, ANIME, SCANS
     }
 
     companion object {
@@ -492,6 +492,41 @@ data class NeuralModel(
                     title = "DDColor Tiny",
                     description = R.string.model_ddcolor_tiny,
                     type = Type.COLORIZE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN-x4v3.ort",
+                    name = "RealESRGAN-x4v3.ort",
+                    title = "RealESRGAN x4v3",
+                    description = R.string.model_realesrgan_x4v3,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN_x2plus.ort",
+                    name = "RealESRGAN_x2plus.ort",
+                    title = "RealESRGAN x2 Plus",
+                    description = R.string.model_realesrgan_x2plus,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN_x4plus.ort",
+                    name = "RealESRGAN_x4plus.ort",
+                    title = "RealESRGAN x4 Plus",
+                    description = R.string.model_realesrgan_x4plus,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN_x4plus_anime_6B.ort",
+                    name = "RealESRGAN_x4plus_anime_6B.ort",
+                    title = "RealESRGAN x4 Plus Anime",
+                    description = R.string.model_realesrgan_x4plus_anime,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRNet_x4plus.ort",
+                    name = "RealESRNet_x4plus.ort",
+                    title = "RealESRNet x4 Plus",
+                    description = R.string.model_realesrnet_x4plus,
+                    type = Type.UPSCALE
                 )
             ).sortedBy { it.type?.ordinal }
         }
