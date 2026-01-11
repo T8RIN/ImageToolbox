@@ -1909,11 +1909,11 @@
     <string name="model_debink_v4">Blink sıkıştırması, geometri için daha iyi</string>
     <string name="model_debink_v5">Blink sıkıştırma, daha güçlü</string>
     <string name="model_debink_v6">Blink sıkıştırma, yumuşak, ayrıntıları korur</string>
-    <string name="model_antialias">Kenar yumuşatma</string>
+    <string name="model_antialias">Merdiven basamağı etkisini ortadan kaldırma, düzleştirme</string>
     <string name="model_kdm_scans">Taranmış çizimler, hafif sıkıştırma, muare</string>
     <string name="model_bandage">Renk bantlaması</string>
     <string name="model_halftone">Yavaş, yarı tonları kaldırma</string>
-    <string name="model_colorizer">Genel renklendirici</string>
+    <string name="model_colorizer">Grisel/siyah beyaz görüntüler için genel renklendirici, daha iyi sonuçlar için DDColor kullanın</string>
     <string name="model_deedge">Kenar kaldırma</string>
     <string name="model_desharpen">Aşırı keskinleştirmeyi kaldırır</string>
     <string name="model_dither">Yavaş, titreşimli</string>
@@ -1943,4 +1943,17 @@
     <string name="preparing">Hazırlanıyor</string>
     <string name="active_model">Aktif Model</string>
     <string name="failed_to_open_session">Oturum açılamadı</string>
+    <string name="only_onnx_models">Yalnızca .onnx/.ort modelleri içe aktarılabilir</string>
+    <string name="import_model">Model içe aktar</string>
+    <string name="import_model_sub">Özel onnx modelini daha sonra kullanmak üzere içe aktarın, yalnızca onnx/ort modelleri kabul edilir, neredeyse tüm esrgan benzeri varyantları destekler</string>
+    <string name="imported_models">İçeri Aktarılan Modeller</string>
+    <string name="model_scunet_color_15_fp16">Genel gürültü, renkli görüntüler</string>
+    <string name="model_scunet_color_25_fp16">Genel gürültü, renkli görüntüler, daha güçlü</string>
+    <string name="model_scunet_color_50_fp16">Genel gürültü, renkli görüntüler, en güçlü</string>
+    <string name="model_artifacts_dithering_alsa">Titreşim artefaktlarını ve renk bantlamasını azaltarak, yumuşak gradyanları ve düz renk alanlarını iyileştirir.</string>
+    <string name="model_nmkd_brighten_redux">Doğal renkleri korurken, dengeli vurgularla görüntünün parlaklığını ve kontrastını artırır.</string>
+    <string name="model_nmkd_brighten">Ayrıntıları koruyarak ve aşırı pozlamayı önleyerek karanlık görüntüleri aydınlatır.</string>
+    <string name="model_nmkd_detoon">Aşırı renk tonlamasını giderir ve daha nötr ve doğal bir renk dengesi sağlar.</string>
+    <string name="model_noise_toner_poisson_detailed">İnce ayrıntıları ve dokuları korumaya önem vererek Poisson tabanlı gürültü tonlaması uygular.</string>
+    <string name="model_noise_toner_poisson_soft">Daha yumuşak ve daha az agresif görsel sonuçlar için yumuşak Poisson gürültü tonlaması uygular.</string>
 </resources>
