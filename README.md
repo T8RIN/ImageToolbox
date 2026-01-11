@@ -168,7 +168,7 @@ or click one of the badges below.
 |    **Feature**     |      **FOSS**      |     **Market**     |
 |:------------------:|:------------------:|:------------------:|
 |     QR Scanner     |       Zxing        |       MlKit        |
-|   Auto erase BG    |       U2Net        |       MlKit        |
+|   Auto erase BG    |    U2Net / RMBG    |       MlKit        |
 |  Document Scanner  |       OpenCV       |       MlKit        |
 |     Analytics      |        :x:         | :white_check_mark: |
 |    Crashlytics     |        :x:         | :white_check_mark: |
@@ -516,7 +516,7 @@ or click one of the badges below.
 - Image Splitting
 - Background Removal
     - By drawing
-    - Automatically
+    - Automatically (U2Net, RMBG-1.4, MlKit)
 - Watermarking
     - Repeating Text
     - Image
@@ -665,7 +665,15 @@ or click one of the badges below.
     - Images to PDF
     - PDF previewing
 - Document Scanning
-- AI tools
+- AI tools (70 ready to use models available)
+    - Upscale
+    - DeJPEG
+    - DeNoise
+    - Colorize
+    - Artifacts
+    - Enhance
+    - Anime
+    - Scans
 - Barcodes
     - Scanning
     - Creating & Parsing common types
