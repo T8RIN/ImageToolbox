@@ -294,13 +294,15 @@ internal class AiProcessor @Inject constructor(
             }
         }
 
-        val result = createBitmap(width, height, config)
+        val resultWidth = width * info.scaleFactor
+        val resultHeight = height * info.scaleFactor
+        val result = createBitmap(resultWidth, resultHeight, config)
         for (chunkInfo in chunkInfoList) {
             ensureActive()
             val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
             val loadedProcessed = BitmapFactory.decodeFile(processedChunkFile.absolutePath)
 
-            mergeChunkWithBlending(result, loadedProcessed, chunkInfo, overlap)
+            mergeChunkWithBlending(result, loadedProcessed, chunkInfo, overlap, info.scaleFactor)
             loadedProcessed.recycle()
             processedChunkFile.delete()
         }
@@ -449,32 +451,44 @@ internal class AiProcessor @Inject constructor(
 
         try {
             session.run(inputs).use { sessionResult ->
+                val outputH = h * info.scaleFactor
+                val outputW = w * info.scaleFactor
                 val (outputArray, actualOutputChannels) = extractOutputArray(
                     sessionResult[0].value,
                     outputChannels,
-                    h,
-                    w
+                    outputH,
+                    outputW
                 )
-                val fullResultBitmap = createBitmap(width = w, height = h, config = config)
-                val outPixels = IntArray(w * h)
+                val fullResultBitmap =
+                    createBitmap(width = outputW, height = outputH, config = config)
+                val outPixels = IntArray(outputW * outputH)
 
-                for (i in 0 until w * h) {
+                for (i in 0 until outputW * outputH) {
                     this@AiProcessor.ensureActive()
-                    val alpha = if (hasAlpha) clamp255(alphaChannel!![i] * 255f) else 255
+                    val alpha = if (hasAlpha) {
+                        val srcY = ((i / outputW) / info.scaleFactor).coerceIn(0, h - 1)
+                        val srcX = ((i % outputW) / info.scaleFactor).coerceIn(0, w - 1)
+                        val srcIdx = srcY * w + srcX
+                        clamp255(alphaChannel!![srcIdx] * 255f)
+                    } else {
+                        255
+                    }
 
                     if (actualOutputChannels == 1) {
                         val gray = clamp255(outputArray[i] * 255f)
                         outPixels[i] = Color.argb(alpha, gray, gray, gray)
                     } else {
                         val r = clamp255(outputArray[i] * 255f)
-                        val g = clamp255(outputArray[w * h + i] * 255f)
-                        val b = clamp255(outputArray[2 * w * h + i] * 255f)
+                        val g = clamp255(outputArray[outputW * outputH + i] * 255f)
+                        val b = clamp255(outputArray[2 * outputW * outputH + i] * 255f)
                         outPixels[i] = Color.argb(alpha, r, g, b)
                     }
                 }
-                fullResultBitmap.setPixels(outPixels, 0, w, 0, 0, w, h)
+                fullResultBitmap.setPixels(outPixels, 0, outputW, 0, 0, outputW, outputH)
                 if (needsPadding) {
-                    val cropped = Bitmap.createBitmap(fullResultBitmap, 0, 0, originalW, originalH)
+                    val croppedW = originalW * info.scaleFactor
+                    val croppedH = originalH * info.scaleFactor
+                    val cropped = Bitmap.createBitmap(fullResultBitmap, 0, 0, croppedW, croppedH)
                     fullResultBitmap.recycle()
                     cropped
                 } else {
@@ -493,12 +507,14 @@ internal class AiProcessor @Inject constructor(
         result: Bitmap,
         processedChunk: Bitmap,
         chunkInfo: ChunkInfo,
-        overlap: Int
+        overlap: Int,
+        scaleFactor: Int
     ) = withContext(defaultDispatcher) {
         val width = processedChunk.width
         val height = processedChunk.height
-        val x = chunkInfo.x
-        val y = chunkInfo.y
+        val x = chunkInfo.x * scaleFactor
+        val y = chunkInfo.y * scaleFactor
+        val scaledOverlap = overlap * scaleFactor
         val needsLeftBlend = chunkInfo.col > 0
         val needsTopBlend = chunkInfo.row > 0
         if (!needsLeftBlend && !needsTopBlend) {
@@ -519,17 +535,19 @@ internal class AiProcessor @Inject constructor(
         for (localY in 0 until height) {
             for (localX in 0 until width) {
                 ensureActive()
-                val inLeftOverlap = needsLeftBlend && localX < overlap
-                val inTopOverlap = needsTopBlend && localY < overlap
+                val inLeftOverlap = needsLeftBlend && localX < scaledOverlap
+                val inTopOverlap = needsTopBlend && localY < scaledOverlap
                 if (!inLeftOverlap && !inTopOverlap) continue
                 val idx = localY * width + localX
                 var blendFactor = 1.0f
                 if (inLeftOverlap) {
-                    val t = (localX.toFloat() / (overlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
+                    val t =
+                        (localX.toFloat() / (scaledOverlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
                     blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
                 }
                 if (inTopOverlap) {
-                    val t = (localY.toFloat() / (overlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
+                    val t =
+                        (localY.toFloat() / (scaledOverlap - 1).coerceAtLeast(1)).coerceIn(0f, 1f)
                     blendFactor = minOf(blendFactor, t * t * (3f - 2f * t))
                 }
                 val existingColor = existingPixels[idx]

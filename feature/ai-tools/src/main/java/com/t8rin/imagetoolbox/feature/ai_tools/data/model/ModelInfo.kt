@@ -41,6 +41,13 @@ internal class ModelInfo(
     val isScu = model.name.startsWith("scunet_")
     val isScuColor = model.name.startsWith("scunet_color")
 
+    val scaleFactor: Int = when {
+        model.name.contains("x8") -> 8
+        model.name.contains("x4") -> 4
+        model.name.contains("x2") -> 2
+        else -> 1
+    }
+
     init {
         var foundInputName: String? = null
         var foundInputChannels = 3
