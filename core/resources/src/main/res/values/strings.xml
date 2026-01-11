@@ -1933,7 +1933,6 @@
     <string name="model_debink_v6">Blink compression, soft, retains detail</string>
     <string name="model_antialias">Eliminating the stair-step effect, smoothing</string>
     <string name="model_kdm_scans">Scanned art/drawings, mild compression, moire</string>
-    <string name="model_sponge">Simple and fast colorization, cartoons, not ideal</string>
     <string name="model_bandage">Color banding</string>
     <string name="model_halftone">Slow, removing halftones</string>
     <string name="model_colorizer">General colorizer for grayscale/bw images, for better results use DDColor</string>
@@ -1987,7 +1986,7 @@
     <string name="model_jpeg_40_60">Improves images with moderate compression (40-60% quality), balancing sharpness and smoothness.</string>
     <string name="model_jpeg_60_80">Refines images with light compression (60-80% quality) to enhance subtle details and textures.</string>
     <string name="model_jpeg_80_100">Slightly enhances near-lossless images (80-100% quality) while preserving natural look and details.</string>
-    <string name="model_spongecolor_lite">Fast colorization model that quickly adds natural colors to grayscale images.</string>
+    <string name="model_spongecolor_lite">Simple and fast colorization, cartoons, not ideal</string>
     <string name="model_deblr">Slightly reduces image blur, improving sharpness without introducing artifacts.</string>
     <string name="processing_channel">Long running operations</string>
     <string name="processing_image">Processing image</string>
