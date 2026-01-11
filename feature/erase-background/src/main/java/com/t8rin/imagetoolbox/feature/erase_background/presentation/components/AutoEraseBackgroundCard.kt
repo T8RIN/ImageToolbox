@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,22 +27,28 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
@@ -49,10 +56,18 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 @Composable
 fun AutoEraseBackgroundCard(
@@ -63,6 +78,21 @@ fun AutoEraseBackgroundCard(
     var selectedModel by rememberSaveable {
         mutableStateOf(flavoredEntries.first())
     }
+    var downloadJob by remember {
+        mutableStateOf<Job?>(null)
+    }
+    var downloadProgress by remember(RMBGLoader.isDownloaded) {
+        mutableStateOf<RemoteResourcesDownloadProgress?>(null)
+    }
+
+    LaunchedEffect(RMBGLoader.isDownloaded) {
+        if (!RMBGLoader.isDownloaded && selectedModel == ModelType.RMBG) {
+            selectedModel = ModelType.U2Net
+        }
+    }
+
+    val scope = retain { CoroutineScope(Dispatchers.IO) }
+
     Column(
         Modifier
             .then(modifier)
@@ -77,9 +107,65 @@ fun AutoEraseBackgroundCard(
                 entries = flavoredEntries,
                 value = selectedModel,
                 title = null,
-                onValueChange = { selectedModel = it },
+                onValueChange = { type ->
+                    if (downloadJob == null) {
+                        selectedModel = type
+
+                        if (type == ModelType.RMBG && !RMBGLoader.isDownloaded) {
+                            downloadJob?.cancel()
+                            downloadJob = scope.launch {
+                                RMBGLoader.download()
+                                    .onStart {
+                                        downloadProgress = RemoteResourcesDownloadProgress(
+                                            currentPercent = 0f,
+                                            currentTotalSize = 0
+                                        )
+                                    }
+                                    .onCompletion {
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .catch {
+                                        selectedModel = ModelType.U2Net
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .collect {
+                                        downloadProgress = it
+                                    }
+                            }
+                        }
+                    }
+                },
                 itemContent = {
-                    Text(it.name)
+                    when (it) {
+                        ModelType.RMBG -> {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(it.name)
+
+                                AnimatedVisibility(!RMBGLoader.isDownloaded) {
+                                    downloadProgress?.let { progress ->
+                                        EnhancedCircularProgressIndicator(
+                                            progress = { progress.currentPercent },
+                                            modifier = Modifier
+                                                .padding(start = 8.dp)
+                                                .size(24.dp),
+                                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                            strokeWidth = 3.dp
+                                        )
+                                    } ?: Icon(
+                                        imageVector = Icons.Rounded.DownloadForOffline,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(start = 8.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> Text(it.name)
+                    }
                 },
                 isScrollable = false,
                 contentPadding = PaddingValues(0.dp),
