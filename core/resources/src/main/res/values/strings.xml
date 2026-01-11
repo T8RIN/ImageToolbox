@@ -2000,4 +2000,8 @@
     <string name="model_redetail_v2">Enhances fine details and textures, improving perceived sharpness without heavy artifacts.</string>
     <string name="processing_finished">Processing finished</string>
     <string name="processing_failed">Processing failed</string>
+    <string name="model_itf_skin_diffdetail_lite">Enhances skin textures and details while keeping a natural look, optimized for speed.</string>
+    <string name="model_sbdv_dejpeg">Removes JPEG compression artifacts and restores image quality for compressed photos.</string>
+    <string name="model_iso_denoise_v1">Reduces ISO noise in photos taken in low-light conditions, preserving details.</string>
+    <string name="model_dejumbo">Corrects overexposed or “jumbo” highlights and restores better tonal balance.</string>
 </resources>

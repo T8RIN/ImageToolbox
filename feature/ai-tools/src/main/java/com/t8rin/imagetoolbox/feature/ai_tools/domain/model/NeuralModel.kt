@@ -399,6 +399,30 @@ data class NeuralModel(
                     name = "1x_ReDetail_v2_126000_G-fp16.ort",
                     title = "ReDetail v2",
                     description = R.string.model_redetail_v2
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x-ITF-Skin DiffDetail-Lite-v1.ort",
+                    name = "1x-ITF-Skin DiffDetail-Lite-v1.ort",
+                    title = "ITF Skin DiffDetail Lite",
+                    description = R.string.model_itf_skin_diffdetail_lite
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_SBDV-DeJPEG...e_130000_G.ort",
+                    name = "1x_SBDV-DeJPEG...e_130000_G.ort",
+                    title = "SBDV DeJPEG",
+                    description = R.string.model_sbdv_dejpeg
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_ISO_denoise_v1.ort",
+                    name = "1x_ISO_denoise_v1.ort",
+                    title = "ISO Denoise v1",
+                    description = R.string.model_iso_denoise_v1
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/other-models/1x_DeJumbo.ort",
+                    name = "1x_DeJumbo.ort",
+                    title = "DeJumbo",
+                    description = R.string.model_dejumbo
                 )
             )
         }
