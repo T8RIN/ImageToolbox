@@ -1913,7 +1913,6 @@
     <string name="model_debink_v6">Стиснення моргання, м\'яке, зберігає деталі</string>
     <string name="model_antialias">Згладжування</string>
     <string name="model_kdm_scans">Відскановані ілюстрації/малюнки, легке стиснення, муар</string>
-    <string name="model_sponge">Розфарбовування, мультфільми</string>
     <string name="model_bandage">Кольорове смугастість</string>
     <string name="model_halftone">Повільно, вилучення півтонів</string>
     <string name="model_colorizer">Загальний колоризатор</string>

@@ -1911,7 +1911,6 @@
     <string name="model_debink_v6">Blink sıkıştırma, yumuşak, ayrıntıları korur</string>
     <string name="model_antialias">Kenar yumuşatma</string>
     <string name="model_kdm_scans">Taranmış çizimler, hafif sıkıştırma, muare</string>
-    <string name="model_sponge">Renklendirme, çizgi filmler</string>
     <string name="model_bandage">Renk bantlaması</string>
     <string name="model_halftone">Yavaş, yarı tonları kaldırma</string>
     <string name="model_colorizer">Genel renklendirici</string>

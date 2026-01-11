@@ -1829,7 +1829,6 @@
     <string name="flood_fill_sub">Füllt einen Bereich mit ausgewähltem Pinsel und Stil</string>
     <string name="overlap_size">Überlappungsgröße</string>
     <string name="model_antialias">Kantenglättung</string>
-    <string name="model_sponge">Kolorierung, Cartoons</string>
     <string name="model_bandage">Farbstreifenbildung</string>
     <string name="model_deedge">Kantenentfernung</string>
     <string name="model_gainres">Kantenglättung, allgemeine Artefakte, CGI</string>
