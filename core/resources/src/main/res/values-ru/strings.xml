@@ -1913,7 +1913,6 @@
     <string name="model_debink_v6">Сжатие мигания, мягкое, сохраняет детали</string>
     <string name="model_antialias">Устранение эффекта лесенки, сглаживание</string>
     <string name="model_kdm_scans">Отсканированные изображения/рисунки, легкое сжатие, муар</string>
-    <string name="model_sponge">Простая и быстрая раскраска, мультфильмы, не идеальный вариант</string>
     <string name="model_bandage">Цветовая маркировка</string>
     <string name="model_halftone">Медленно, удаляет полутона</string>
     <string name="model_colorizer">Универсальный раскрашиватель для черно-белых изображений; для достижения лучших результатов используйте DDColor</string>

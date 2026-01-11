@@ -1910,7 +1910,6 @@
     <string name="model_debink_v6">闪烁压缩，柔和款，保留细节</string>
     <string name="model_antialias">抗锯齿</string>
     <string name="model_kdm_scans">扫描艺术品/画作，轻度压缩，摩尔纹</string>
-    <string name="model_sponge">上色、卡通</string>
     <string name="model_bandage">色带失真</string>
     <string name="model_halftone">慢速、去除半色调网点</string>
     <string name="model_colorizer">通用上色器</string>

@@ -1912,7 +1912,6 @@
     <string name="model_debink_v6">Compressão Blink, suave, mantém detalhes</string>
     <string name="model_antialias">Anti-aliasing</string>
     <string name="model_kdm_scans">Arte/desenhos digitalizados, compressão moderada, moiré</string>
-    <string name="model_sponge">Colorização, desenhos animados</string>
     <string name="model_bandage">Faixas coloridas</string>
     <string name="model_halftone">Lento, removendo meios-tons</string>
     <string name="model_colorizer">Colorizador geral para imagens em escala de cinza/preto e branco</string>
