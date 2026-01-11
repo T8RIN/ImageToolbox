@@ -15,10 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.domain.model
+package com.t8rin.imagetoolbox.feature.erase_background.data.backend
 
-enum class ModelType(
-    val title: String
-) {
-    MlKit("MlKit"), U2Net("U2Net"), RMBG("RMBG"), RMBG2_0("RMBG 2.0")
+import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
+import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
+
+internal object RMBGNewestBackgroundRemoverBackend : AutoBackgroundRemoverBackend<Bitmap> {
+
+    override suspend fun performBackgroundRemove(
+        image: Bitmap
+    ): Result<Bitmap> = runCatching {
+        GenericBackgroundRemover.removeBackground(image)!!
+    }
+
 }

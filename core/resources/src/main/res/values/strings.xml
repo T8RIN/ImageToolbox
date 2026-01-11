@@ -2017,4 +2017,7 @@
     <string name="model_realesrgan_x4plus">X4 upscaler for general images with enhanced textures and realistic results.</string>
     <string name="model_realesrgan_x4plus_anime">X4 upscaler optimized for anime images; 6 RRDB blocks for sharper lines and details.</string>
     <string name="model_realesrnet_x4plus">X4 upscaler with MSE loss, produces smoother results and reduced artifacts for general images.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler optimized for anime images; 4B32F variant with sharper details and smooth lines.</string>
+    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 model for general images; emphasizes sharpness and clarity.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; faster and smaller, preserves detail while using less GPU memory.</string>
 </resources>

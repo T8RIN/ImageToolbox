@@ -517,7 +517,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN_x4plus_anime_6B.ort",
                     name = "RealESRGAN_x4plus_anime_6B.ort",
-                    title = "RealESRGAN x4 Plus Anime",
+                    title = "RealESRGAN x4 Plus Anime 6B",
                     description = R.string.model_realesrgan_x4plus_anime,
                     type = Type.UPSCALE
                 ),
@@ -526,6 +526,27 @@ data class NeuralModel(
                     name = "RealESRNet_x4plus.ort",
                     title = "RealESRNet x4 Plus",
                     description = R.string.model_realesrnet_x4plus,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/RealESRGAN_x4plus_anime_4B32F.ort",
+                    name = "RealESRGAN_x4plus_anime_4B32F.ort",
+                    title = "RealESRGAN x4 Plus Anime 4B",
+                    description = R.string.model_realesrgan_x4plus_anime_4b32f,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/x4-UltraSharpV2_fp32_op17.ort",
+                    name = "x4-UltraSharpV2_fp32_op17.ort",
+                    title = "UltraSharp x4 V2",
+                    description = R.string.model_ultrasharp_v2_x4,
+                    type = Type.UPSCALE
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/upscale/x4-UltraSharpV2_Lite_fp16_op17.ort",
+                    name = "x4-UltraSharpV2_Lite_fp16_op17.ort",
+                    title = "UltraSharp x4 V2 Lite",
+                    description = R.string.model_ultrasharp_v2_lite_x4,
                     type = Type.UPSCALE
                 )
             ).sortedBy { it.type?.ordinal }

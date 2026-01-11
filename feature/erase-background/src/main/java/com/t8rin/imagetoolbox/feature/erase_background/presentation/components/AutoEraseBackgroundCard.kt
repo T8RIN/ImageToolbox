@@ -81,12 +81,18 @@ fun AutoEraseBackgroundCard(
     var downloadJob by remember {
         mutableStateOf<Job?>(null)
     }
-    var downloadProgress by remember(RMBGLoader.isDownloaded) {
+    var downloadProgress by remember(RMBGLoader.isDownloaded, RMBGNewestLoader.isDownloaded) {
         mutableStateOf<RemoteResourcesDownloadProgress?>(null)
     }
 
     LaunchedEffect(RMBGLoader.isDownloaded) {
         if (!RMBGLoader.isDownloaded && selectedModel == ModelType.RMBG) {
+            selectedModel = ModelType.U2Net
+        }
+    }
+
+    LaunchedEffect(RMBGNewestLoader.isDownloaded) {
+        if (!RMBGNewestLoader.isDownloaded && selectedModel == ModelType.RMBG2_0) {
             selectedModel = ModelType.U2Net
         }
     }
@@ -134,18 +140,50 @@ fun AutoEraseBackgroundCard(
                                         downloadProgress = it
                                     }
                             }
+                        } else if (type == ModelType.RMBG2_0 && !RMBGNewestLoader.isDownloaded) {
+                            downloadJob?.cancel()
+                            downloadJob = scope.launch {
+                                RMBGNewestLoader.download()
+                                    .onStart {
+                                        downloadProgress = RemoteResourcesDownloadProgress(
+                                            currentPercent = 0f,
+                                            currentTotalSize = 0
+                                        )
+                                    }
+                                    .onCompletion {
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .catch {
+                                        selectedModel = ModelType.U2Net
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .collect {
+                                        downloadProgress = it
+                                    }
+                            }
                         }
                     }
                 },
-                itemContent = {
-                    when (it) {
-                        ModelType.RMBG -> {
+                itemContent = { type ->
+                    when (type) {
+                        ModelType.RMBG,
+                        ModelType.RMBG2_0 -> {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(it.name)
+                                Text(
+                                    text = type.title
+                                )
 
-                                AnimatedVisibility(!RMBGLoader.isDownloaded) {
+                                AnimatedVisibility(
+                                    when (type) {
+                                        ModelType.RMBG -> !RMBGLoader.isDownloaded
+                                        ModelType.RMBG2_0 -> !RMBGNewestLoader.isDownloaded
+                                        else -> false
+                                    }
+                                ) {
                                     downloadProgress?.let { progress ->
                                         EnhancedCircularProgressIndicator(
                                             progress = { progress.currentPercent },
@@ -164,10 +202,14 @@ fun AutoEraseBackgroundCard(
                             }
                         }
 
-                        else -> Text(it.name)
+                        else -> {
+                            Text(
+                                text = type.title
+                            )
+                        }
                     }
                 },
-                isScrollable = false,
+                isScrollable = true,
                 contentPadding = PaddingValues(0.dp),
                 activeButtonColor = MaterialTheme.colorScheme.secondaryContainer
             )

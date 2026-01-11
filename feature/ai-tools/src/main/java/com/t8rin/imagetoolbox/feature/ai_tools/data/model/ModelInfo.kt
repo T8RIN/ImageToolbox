@@ -41,12 +41,9 @@ internal class ModelInfo(
     val isScu = model.name.startsWith("scunet_")
     val isScuColor = model.name.startsWith("scunet_color")
 
-    val scaleFactor: Int = when {
-        model.name.contains("x8") -> 8
-        model.name.contains("x4") -> 4
-        model.name.contains("x2") -> 2
-        else -> 1
-    }
+    val scaleFactor: Int = scaleMap.entries.find {
+        model.name.contains(it.key)
+    }?.value ?: 1
 
     init {
         var foundInputName: String? = null
@@ -86,5 +83,14 @@ internal class ModelInfo(
         isFp16 = foundIsFp16
         expectedWidth = foundExpectedWidth
         expectedHeight = foundExpectedHeight
+    }
+}
+
+private val scaleMap = buildMap {
+    repeat(16) {
+        val scale = it + 1
+
+        put("x$scale", scale)
+        put("${scale}x", scale)
     }
 }
