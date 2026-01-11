@@ -18,9 +18,6 @@
 package com.t8rin.imagetoolbox.app.presentation.components.functions
 
 import com.t8rin.imagetoolbox.app.presentation.components.ImageToolboxApplication
-import com.t8rin.neural_tools.NeuralTool
+import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 
-internal fun ImageToolboxApplication.initAI() = NeuralTool.init(
-    context = this,
-    httpClient = httpClient
-)
+internal fun ImageToolboxApplication.injectBaseComponent() = BaseComponent.inject(keepAliveService)

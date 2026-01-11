@@ -450,6 +450,7 @@ internal class AiProcessor @Inject constructor(
         }
 
         try {
+            this@AiProcessor.ensureActive()
             session.run(inputs).use { sessionResult ->
                 val outputH = h * info.scaleFactor
                 val outputW = w * info.scaleFactor

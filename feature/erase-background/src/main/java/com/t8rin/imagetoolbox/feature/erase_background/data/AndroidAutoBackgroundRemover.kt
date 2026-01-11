@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.feature.erase_background.data
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.get
+import androidx.core.graphics.set
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
@@ -27,6 +29,7 @@ import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -104,12 +107,39 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
     ) {
         appScope.launch {
             backendFactory.create(modelType).performBackgroundRemove(image)
-                .onSuccess(onSuccess)
+                .onSuccess { processed ->
+                    onSuccess(restoreOriginalAlpha(image, processed))
+                }
                 .onFailure {
                     it.makeLog()
                     onFailure(it)
                 }
         }
+    }
+
+    private suspend fun restoreOriginalAlpha(
+        original: Bitmap,
+        processed: Bitmap
+    ): Bitmap = coroutineScope {
+        val width = original.width
+        val height = original.height
+        val result = processed.copy(Bitmap.Config.ARGB_8888, true)
+
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                ensureActive()
+                val origPixel = original[x, y]
+                val procPixel = processed[x, y]
+
+                val origAlpha = origPixel ushr 24
+                if (origAlpha >= 255) continue
+                val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
+
+                result[x, y] = newPixel
+            }
+        }
+
+        result
     }
 
 }
