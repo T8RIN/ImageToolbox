@@ -165,15 +165,15 @@ or click one of the badges below.
 
 # ⚔️ FOSS vs MARKET
 
-|    **Feature**     |      **FOSS**      |     **Market**     |
-|:------------------:|:------------------:|:------------------:|
-|     QR Scanner     |       Zxing        |       MlKit        |
-|   Auto erase BG    |    U2Net / RMBG    |       MlKit        |
-|  Document Scanner  |       OpenCV       |       MlKit        |
-|     Analytics      |        :x:         | :white_check_mark: |
-|    Crashlytics     |        :x:         | :white_check_mark: |
-| Other Google deps  |        :x:         | :white_check_mark: |
-| All Other Features | :white_check_mark: | :white_check_mark: |
+|    **Feature**     |        **FOSS**         |     **Market**     |
+|:------------------:|:-----------------------:|:------------------:|
+|     QR Scanner     |          Zxing          |       MlKit        |
+|   Auto erase BG    | U2Net, RMBG (1.4 / 2.0) |       MlKit        |
+|  Document Scanner  |         OpenCV          |       MlKit        |
+|     Analytics      |           :x:           | :white_check_mark: |
+|    Crashlytics     |           :x:           | :white_check_mark: |
+| Other Google deps  |           :x:           | :white_check_mark: |
+| All Other Features |   :white_check_mark:    | :white_check_mark: |
 
 # ✨ Features
 
