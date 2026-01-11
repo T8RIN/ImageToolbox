@@ -2004,4 +2004,12 @@
     <string name="model_sbdv_dejpeg">Removes JPEG compression artifacts and restores image quality for compressed photos.</string>
     <string name="model_iso_denoise_v1">Reduces ISO noise in photos taken in low-light conditions, preserving details.</string>
     <string name="model_dejumbo">Corrects overexposed or “jumbo” highlights and restores better tonal balance.</string>
+    <string name="model_ddcolor_tiny">Lightweight and fast colorization model that adds natural colors to grayscale images.</string>
+    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_denoise">Denoise</string>
+    <string name="type_colorize">Colorize</string>
+    <string name="type_artifacts">Artifacts</string>
+    <string name="type_enhance">Enhance</string>
+    <string name="type_anime">Anime</string>
+    <string name="type_scans">Scans</string>
 </resources>

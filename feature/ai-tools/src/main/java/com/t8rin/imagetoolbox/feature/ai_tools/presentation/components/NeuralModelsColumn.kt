@@ -44,6 +44,7 @@ import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -302,7 +303,7 @@ internal fun NeuralModelsColumn(
                 },
                 directions = setOf(RevealDirection.EndToStart),
                 swipeableContent = {
-                    PreferenceItem(
+                    PreferenceItemOverload(
                         shape = shape,
                         containerColor = animateColorAsState(
                             if (selected) {
@@ -323,7 +324,27 @@ internal fun NeuralModelsColumn(
                         title = model.title,
                         subtitle = model.description?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                        placeBottomContentInside = true,
+                        endIcon = {
+                            Icon(
+                                imageVector = if (selected) {
+                                    Icons.Rounded.RadioButtonChecked
+                                } else {
+                                    Icons.Rounded.RadioButtonUnchecked
+                                },
+                                contentDescription = null
+                            )
+                        },
+                        bottomContent = model.type?.let { type ->
+                            {
+                                Badge(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    containerColor = MaterialTheme.colorScheme.secondary
+                                ) {
+                                    Text(stringResource(type.title()))
+                                }
+                            }
+                        }
                     )
                 },
                 interactionSource = interactionSource
@@ -390,6 +411,17 @@ internal fun NeuralModelsColumn(
                                 imageVector = Icons.Rounded.DownloadForOffline,
                                 contentDescription = null
                             )
+                        }
+                    }
+                },
+                placeBottomContentInside = true,
+                bottomContent = model.type?.let { type ->
+                    {
+                        Badge(
+                            modifier = Modifier.padding(top = 8.dp),
+                            containerColor = MaterialTheme.colorScheme.secondary
+                        ) {
+                            Text(stringResource(type.title()))
                         }
                     }
                 }

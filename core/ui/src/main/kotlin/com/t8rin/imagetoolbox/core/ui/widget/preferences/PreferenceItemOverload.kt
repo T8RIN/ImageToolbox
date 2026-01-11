@@ -87,6 +87,7 @@ fun PreferenceItemOverload(
     onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    placeBottomContentInside: Boolean = false,
     bottomContent: (@Composable () -> Unit)? = null
 ) {
     CompositionLocalProvider(
@@ -120,89 +121,97 @@ fun PreferenceItemOverload(
                 contentColor = contentColor
             )
         ) {
-            Row(
+            val onClickModifier = onClick
+                ?.let {
+                    if (enabled) {
+                        Modifier.hapticsCombinedClickable(
+                            interactionSource = interactionSource,
+                            indication = LocalIndication.current,
+                            onClick = onClick,
+                            onLongClick = onLongClick
+                        )
+                    } else {
+                        if (onDisabledClick != null) {
+                            Modifier.hapticsClickable(onClick = onDisabledClick)
+                        } else Modifier
+                    }
+                } ?: Modifier
+
+            Column(
                 modifier = Modifier
-                    .clip(animatedShape)
                     .then(
-                        onClick
-                            ?.let {
-                                if (enabled) {
-                                    Modifier.hapticsCombinedClickable(
-                                        interactionSource = interactionSource,
-                                        indication = LocalIndication.current,
-                                        onClick = onClick,
-                                        onLongClick = onLongClick
-                                    )
-                                } else {
-                                    if (onDisabledClick != null) {
-                                        Modifier.hapticsClickable(onClick = onDisabledClick)
-                                    } else Modifier
-                                }
-                            } ?: Modifier
+                        onClickModifier.takeIf { placeBottomContentInside } ?: Modifier
                     )
-                    .then(resultModifier),
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                startIcon?.let {
-                    ProvideContainerDefaults(
-                        color = containerColor
-                    ) {
-                        Row {
-                            IconShapeContainer(
-                                enabled = drawStartIconContainer,
-                                contentColor = if (overrideIconShapeContentColor) {
-                                    Color.Unspecified
-                                } else IconShapeDefaults.contentColor,
-                                content = {
-                                    startIcon()
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(16.dp))
-                        }
-                    }
-                }
-                Column(
-                    Modifier
-                        .weight(1f)
-                        .padding(end = 16.dp)
+                Row(
+                    modifier = Modifier
+                        .clip(animatedShape)
+                        .then(onClickModifier.takeIf { !placeBottomContentInside } ?: Modifier)
+                        .then(resultModifier),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row {
-                        AnimatedContent(
-                            targetState = title,
-                            transitionSpec = { fadeIn() togetherWith fadeOut() },
-                            modifier = Modifier.weight(1f, fill = badge == null)
-                        ) { title ->
-                            Text(
-                                text = title,
-                                style = titleFontStyle
-                            )
-                        }
-                        badge?.invoke(this)
-                    }
-                    AnimatedContent(
-                        targetState = subtitle,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { sub ->
-                        sub?.let {
-                            Column {
-                                Spacer(modifier = Modifier.height(2.dp))
-                                Text(
-                                    text = sub,
-                                    fontSize = 12.sp,
-                                    textAlign = TextAlign.Start,
-                                    fontWeight = FontWeight.Normal,
-                                    lineHeight = 14.sp,
-                                    color = LocalContentColor.current.copy(alpha = 0.5f)
+                    startIcon?.let {
+                        ProvideContainerDefaults(
+                            color = containerColor
+                        ) {
+                            Row {
+                                IconShapeContainer(
+                                    enabled = drawStartIconContainer,
+                                    contentColor = if (overrideIconShapeContentColor) {
+                                        Color.Unspecified
+                                    } else IconShapeDefaults.contentColor,
+                                    content = {
+                                        startIcon()
+                                    }
                                 )
+                                Spacer(modifier = Modifier.width(16.dp))
                             }
                         }
                     }
+                    Column(
+                        Modifier
+                            .weight(1f)
+                            .padding(end = 16.dp)
+                    ) {
+                        Row {
+                            AnimatedContent(
+                                targetState = title,
+                                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                                modifier = Modifier.weight(1f, fill = badge == null)
+                            ) { title ->
+                                Text(
+                                    text = title,
+                                    style = titleFontStyle
+                                )
+                            }
+                            badge?.invoke(this)
+                        }
+                        AnimatedContent(
+                            targetState = subtitle,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { sub ->
+                            sub?.let {
+                                Column {
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = sub,
+                                        fontSize = 12.sp,
+                                        textAlign = TextAlign.Start,
+                                        fontWeight = FontWeight.Normal,
+                                        lineHeight = 14.sp,
+                                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                        if (placeBottomContentInside) bottomContent?.invoke()
+                    }
+                    ProvideContainerDefaults {
+                        endIcon?.invoke()
+                    }
                 }
-                ProvideContainerDefaults {
-                    endIcon?.invoke()
-                }
+                if (!placeBottomContentInside) bottomContent?.invoke()
             }
-            bottomContent?.invoke()
         }
     }
 }
