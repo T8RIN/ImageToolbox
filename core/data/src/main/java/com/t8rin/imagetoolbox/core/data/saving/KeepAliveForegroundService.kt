@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
 import kotlin.math.roundToInt
 
-internal class AndroidKeepAliveServiceImpl : Service() {
+internal class KeepAliveForegroundService : Service() {
 
     private val notificationManager: NotificationManager by lazy {
         getSystemService<NotificationManager>()!!
@@ -67,12 +67,11 @@ internal class AndroidKeepAliveServiceImpl : Service() {
 
     private fun handleIntent(intent: Intent) {
         when (intent.action.makeLog("AndroidKeepAliveServiceImpl")) {
-            AndroidKeepAliveService.ACTION_UPDATE -> {
-                title = intent.getStringExtra(AndroidKeepAliveService.EXTRA_TITLE) ?: title
-                description =
-                    intent.getStringExtra(AndroidKeepAliveService.EXTRA_DESC) ?: description
+            ACTION_UPDATE -> {
+                title = intent.getStringExtra(EXTRA_TITLE) ?: title
+                description = intent.getStringExtra(EXTRA_DESC) ?: description
                 progress = intent.getFloatExtra(
-                    AndroidKeepAliveService.EXTRA_PROGRESS,
+                    EXTRA_PROGRESS,
                     KeepAliveService.PROGRESS_NO_PROGRESS
                 )
 
@@ -81,9 +80,9 @@ internal class AndroidKeepAliveServiceImpl : Service() {
                 startForeground()
             }
 
-            AndroidKeepAliveService.ACTION_STOP -> {
+            ACTION_STOP -> {
                 removeNotification = intent.getBooleanExtra(
-                    AndroidKeepAliveService.EXTRA_REMOVE_NOTIFICATION, true
+                    EXTRA_REMOVE_NOTIFICATION, true
                 ).makeLog("AndroidKeepAliveServiceImpl")
 
                 stopForegroundSafe()
@@ -97,7 +96,7 @@ internal class AndroidKeepAliveServiceImpl : Service() {
         runCatching {
             ServiceCompat.startForeground(
                 this,
-                AndroidKeepAliveService.NOTIFICATION_ID,
+                NOTIFICATION_ID,
                 buildNotification(),
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
@@ -111,7 +110,7 @@ internal class AndroidKeepAliveServiceImpl : Service() {
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                AndroidKeepAliveService.CHANNEL_ID,
+                CHANNEL_ID,
                 getString(R.string.processing_channel),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
@@ -131,7 +130,7 @@ internal class AndroidKeepAliveServiceImpl : Service() {
             }
         )
         if (removeNotification) {
-            notificationManager.cancel(AndroidKeepAliveService.NOTIFICATION_ID)
+            notificationManager.cancel(NOTIFICATION_ID)
         }
         stopSelf()
     }
@@ -151,7 +150,7 @@ internal class AndroidKeepAliveServiceImpl : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or (PendingIntent.FLAG_IMMUTABLE)
         )
 
-        return NotificationCompat.Builder(this, AndroidKeepAliveService.CHANNEL_ID)
+        return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title.ifEmpty { getString(R.string.processing) })
             .setContentText(description.takeIf { it.isNotEmpty() })
             .setSmallIcon(R.drawable.ic_notification_icon)
@@ -166,9 +165,21 @@ internal class AndroidKeepAliveServiceImpl : Service() {
             .setContentIntent(contentPendingIntent)
             .build()
             .also {
-                notificationManager.notify(AndroidKeepAliveService.NOTIFICATION_ID, it)
+                notificationManager.notify(NOTIFICATION_ID, it)
             }
     }
 
     override fun onBind(intent: Intent?) = null
+
+    companion object {
+        internal const val CHANNEL_ID = "keep_alive_channel"
+        internal const val NOTIFICATION_ID = 1
+
+        internal const val ACTION_STOP = "ACTION_STOP"
+        internal const val ACTION_UPDATE = "ACTION_UPDATE"
+        internal const val EXTRA_TITLE = "EXTRA_TITLE"
+        internal const val EXTRA_DESC = "EXTRA_DESC"
+        internal const val EXTRA_PROGRESS = "EXTRA_PROGRESS"
+        internal const val EXTRA_REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION"
+    }
 }

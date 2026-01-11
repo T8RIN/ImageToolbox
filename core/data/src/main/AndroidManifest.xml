@@ -23,7 +23,7 @@
 
     <application>
         <service
-            android:name=".saving.AndroidKeepAliveServiceImpl"
+            android:name=".saving.KeepAliveForegroundService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             android:stopWithTask="true" />
