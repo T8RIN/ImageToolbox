@@ -1931,12 +1931,12 @@
     <string name="model_debink_v4">Blink compression, better on geometry</string>
     <string name="model_debink_v5">Blink compression, stronger</string>
     <string name="model_debink_v6">Blink compression, soft, retains detail</string>
-    <string name="model_antialias">Anti-aliasing</string>
+    <string name="model_antialias">Eliminating the stair-step effect, smoothing</string>
     <string name="model_kdm_scans">Scanned art/drawings, mild compression, moire</string>
-    <string name="model_sponge">Colorization, cartoons</string>
+    <string name="model_sponge">Simple and fast colorization, cartoons, not ideal</string>
     <string name="model_bandage">Color banding</string>
     <string name="model_halftone">Slow, removing halftones</string>
-    <string name="model_colorizer">General colorizer for grayscale/bw images</string>
+    <string name="model_colorizer">General colorizer for grayscale/bw images, for better results use DDColor</string>
     <string name="model_deedge">Edge removal</string>
     <string name="model_desharpen">Removes oversharpening</string>
     <string name="model_dither">Slow, dithering</string>

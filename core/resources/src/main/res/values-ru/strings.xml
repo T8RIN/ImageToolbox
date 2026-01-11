@@ -1911,7 +1911,7 @@
     <string name="model_debink_v4">Сжатие мигания, лучше для геометрии</string>
     <string name="model_debink_v5">Сжатие мигания, более сильное</string>
     <string name="model_debink_v6">Сжатие мигания, мягкое, сохраняет детали</string>
-    <string name="model_antialias">Антиалиас</string>
+    <string name="model_antialias">Устранение эффекта лесенки, сглаживание</string>
     <string name="model_kdm_scans">Отсканированные изображения/рисунки, легкое сжатие, муар</string>
     <string name="model_sponge">Раскрашивание, мультфильмы</string>
     <string name="model_bandage">Цветовая маркировка</string>
