@@ -1827,4 +1827,16 @@
     <string name="launcher_mode_sub">Die Tools werden wie der App-Launcher auf dem Startbildschirm aussehen, um kompakter zu sein.</string>
     <string name="launcher_mode">Launcher Modus</string>
     <string name="flood_fill_sub">Füllt einen Bereich mit ausgewähltem Pinsel und Stil</string>
+    <string name="overlap_size">Überlappungsgröße</string>
+    <string name="model_antialias">Kantenglättung</string>
+    <string name="model_sponge">Kolorierung, Cartoons</string>
+    <string name="model_bandage">Farbstreifenbildung</string>
+    <string name="model_deedge">Kantenentfernung</string>
+    <string name="model_gainres">Kantenglättung, allgemeine Artefakte, CGI</string>
+    <string name="model_bcgone_detailed_v2">Entfernung von Kompressionsartefakten</string>
+    <string name="model_bcgone_smooth">Entfernung von Kompressionsartefakten</string>
+    <string name="model_jpeg_destroyer_v2">JPEG-Artefaktentfernung V2</string>
+    <string name="model_nmkd_h264_texturize">H.264-Texturverbesserung</string>
+    <string name="model_vhs_sharpen">VHS-Schärfung und -Verbesserung</string>
+    <string name="merging">Zusammenführung</string>
 </resources>
