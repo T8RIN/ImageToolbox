@@ -2023,6 +2023,6 @@
     <string name="model_rmbg_1_4">Lightweight model for quick background removal. Balanced performance and accuracy. Works with portraits, objects, and scenes. Recommended for most use cases.</string>
     <string name="model_rmbg_2_0">Enhanced version with superior detail handling. Better with complex backgrounds and transparent objects. Higher precision but requires more processing power.</string>
     <string name="type_removebg">Remove BG</string>
-    <string name="horizontal_border_thinkness">Horizontal Border Thickness</string>
-    <string name="vertical_border_thinkness">Vertical Border Thickness</string>
+    <string name="horizontal_border_thickness">Horizontal Border Thickness</string>
+    <string name="vertical_border_thickness">Vertical Border Thickness</string>
 </resources>

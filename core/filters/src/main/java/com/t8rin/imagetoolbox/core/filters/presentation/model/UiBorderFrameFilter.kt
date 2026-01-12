@@ -31,12 +31,12 @@ class UiBorderFrameFilter(
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.horizontal_border_thinkness,
+            title = R.string.horizontal_border_thickness,
             valueRange = 0f..500f,
             roundTo = 0
         ),
         FilterParam(
-            title = R.string.vertical_border_thinkness,
+            title = R.string.vertical_border_thickness,
             valueRange = 0f..500f,
             roundTo = 0
         ),

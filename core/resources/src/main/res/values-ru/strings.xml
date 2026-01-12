@@ -2003,6 +2003,6 @@
     <string name="model_rmbg_1_4">Легкая модель для быстрого удаления фона. Сбалансированная производительность и точность. Работает с портретами, объектами и сценами. Рекомендуется для большинства случаев использования</string>
     <string name="model_rmbg_2_0">Улучшенная версия с более детальной обработкой. Лучше работает со сложными фонами и прозрачными объектами. Более высокая точность, но требует большей вычислительной мощности</string>
     <string name="type_removebg">Удаление фона</string>
-    <string name="horizontal_border_thinkness">Толщина горизонтальной границы</string>
-    <string name="vertical_border_thinkness">Толщина вертикальной границы</string>
+    <string name="horizontal_border_thickness">Толщина горизонтальной границы</string>
+    <string name="vertical_border_thickness">Толщина вертикальной границы</string>
 </resources>
