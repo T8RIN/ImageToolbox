@@ -847,7 +847,7 @@
     <string name="apng_type_to_jxl">APNG vers JXL</string>
     <string name="jxl_type_to_images">JXL en Images</string>
     <string name="jxl_type_to_jxl">Images en JXL</string>
-    <string name="generate_previews_sub">"Activer la génération  d\'aperçu, ce qui peut permettre d\'éviter des crashs sur certains appareils. Cela désactive quelques fonctions d\'édition dans la fonction d\'édition simple"</string>
+    <string name="generate_previews_sub">Activer la génération d\'aperçu, ce qui peut permettre d\'éviter des crashs sur certains appareils. Cela désactive quelques fonctions d\'édition dans la fonction d\'édition simple</string>
     <string name="compression_type">Type de compression</string>
     <string name="sort_by_date">Date</string>
     <string name="sort_by_date_reversed">Date (inversé)</string>
@@ -1612,7 +1612,7 @@
     <string name="ocr_write_to_file">Écrire dans un fichier</string>
     <string name="ocr_write_to_file_sub">Extrayez le texte d\'un lot d\'images et stockez-le dans un seul fichier texte</string>
     <string name="ocr_write_to_metadata">Écrire dans les métadonnées</string>
-    <string name="ocr_write_to_metadata_sub">Extrayez le texte de chaque image et placez-le dans les informations EXIF ​​des photos relatives</string>
+    <string name="ocr_write_to_metadata_sub">Extrayez le texte de chaque image et placez-le dans les informations EXIF des photos relatives</string>
     <string name="invisible_mode">Mode invisible</string>
     <string name="invisible_mode_sub">Utilisez la stéganographie pour créer des filigranes invisibles à l\'œil nu dans les octets de vos images</string>
     <string name="use_lsb">Utiliser LSB</string>
@@ -2001,6 +2001,7 @@
     <string name="vertical_border_thickness">Épaisseur de la bordure verticale</string>
     <plurals name="color_count">
         <item quantity="one">%s couleur</item>
+        <item quantity="many">%s couleurs</item>
         <item quantity="other">%s couleurs</item>
     </plurals>
 </resources>
