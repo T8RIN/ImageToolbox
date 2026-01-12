@@ -515,15 +515,15 @@
     <string name="stitch_mode">স্টিচ মোড</string>
     <string name="rows_count">সারি গণনা</string>
     <string name="columns_count">কলাম সংখ্যা</string>
-    <string name="no_such_directory">কোনো \\"%1$s\\" ডিরেক্টরি পাওয়া যায়নি, আমরা এটিকে ডিফল্টে স্যুইচ করেছি, অনুগ্রহ করে ফাইলটি আবার সংরক্ষণ করুন</string>
+    <string name="no_such_directory">কোনো \"%1$s\" ডিরেক্টরি পাওয়া যায়নি, আমরা এটিকে ডিফল্টে স্যুইচ করেছি, অনুগ্রহ করে ফাইলটি আবার সংরক্ষণ করুন</string>
     <string name="clipboard">ক্লিপবোর্ড</string>
     <string name="auto_pin">অটো পিন</string>
     <string name="auto_pin_sub">সক্রিয় থাকলে স্বয়ংক্রিয়ভাবে ক্লিপবোর্ডে সংরক্ষিত ছবি যোগ করে</string>
     <string name="vibration">কম্পন</string>
     <string name="vibration_strength">কম্পন শক্তি</string>
-    <string name="overwrite_file_requirements">ফাইলগুলিকে ওভাররাইট করার জন্য আপনাকে \\"এক্সপ্লোরার\\" ইমেজ সোর্স ব্যবহার করতে হবে, রিপিক ইমেজ চেষ্টা করুন, আমরা ইমেজ সোর্সকে প্রয়োজনীয় একটিতে পরিবর্তন করেছি</string>
+    <string name="overwrite_file_requirements">ফাইলগুলিকে ওভাররাইট করার জন্য আপনাকে \"এক্সপ্লোরার\" ইমেজ সোর্স ব্যবহার করতে হবে, রিপিক ইমেজ চেষ্টা করুন, আমরা ইমেজ সোর্সকে প্রয়োজনীয় একটিতে পরিবর্তন করেছি</string>
     <string name="overwrite_files">ফাইল ওভাররাইট করুন</string>
-    <string name="overwrite_files_sub">আসল ফাইলটি নির্বাচিত ফোল্ডারে সংরক্ষণ করার পরিবর্তে নতুন ফাইলের সাথে প্রতিস্থাপিত হবে, এই বিকল্পটিকে \\"এক্সপ্লোরার\\" বা GetContent হতে ইমেজ সোর্স করতে হবে, এটি টগল করার সময়, এটি স্বয়ংক্রিয়ভাবে সেট হয়ে যাবে</string>
+    <string name="overwrite_files_sub">আসল ফাইলটি নির্বাচিত ফোল্ডারে সংরক্ষণ করার পরিবর্তে নতুন ফাইলের সাথে প্রতিস্থাপিত হবে, এই বিকল্পটিকে \"এক্সপ্লোরার\" বা GetContent হতে ইমেজ সোর্স করতে হবে, এটি টগল করার সময়, এটি স্বয়ংক্রিয়ভাবে সেট হয়ে যাবে</string>
     <string name="empty">খালি</string>
     <string name="suffix">প্রত্যয়</string>
     <string name="scale_mode">স্কেল মোড</string>
@@ -595,7 +595,7 @@
     <string name="segmentation_mode_sparse_text">স্পার্স টেক্সট</string>
     <string name="segmentation_mode_sparse_text_osd">স্পার্স টেক্সট ওরিয়েন্টেশন এবং স্ক্রিপ্ট সনাক্তকরণ</string>
     <string name="segmentation_mode_raw_line">কাঁচা লাইন</string>
-    <string name="delete_language_sub">আপনি কি সমস্ত স্বীকৃতি প্রকারের জন্য ভাষা \\"%1$s\\" OCR প্রশিক্ষণ ডেটা মুছতে চান, নাকি শুধুমাত্র নির্বাচিত একটি (%2$s) এর জন্য?</string>
+    <string name="delete_language_sub">আপনি কি সমস্ত স্বীকৃতি প্রকারের জন্য ভাষা \"%1$s\" OCR প্রশিক্ষণ ডেটা মুছতে চান, নাকি শুধুমাত্র নির্বাচিত একটি (%2$s) এর জন্য?</string>
     <string name="current">কারেন্ট</string>
     <string name="all">সব</string>
     <string name="gradient_maker">গ্রেডিয়েন্ট মেকার</string>
@@ -884,9 +884,9 @@
     <string name="resize_anchor">অ্যাঙ্করের আকার পরিবর্তন করুন</string>
     <string name="pixel_switch">পিক্সেল</string>
     <string name="fluent_switch">সাবলীল</string>
-    <string name="fluent_switch_sub">\\"ফ্লুয়েন্ট\\" ডিজাইন সিস্টেমের উপর ভিত্তি করে একটি সুইচ</string>
+    <string name="fluent_switch_sub">\"ফ্লুয়েন্ট\" ডিজাইন সিস্টেমের উপর ভিত্তি করে একটি সুইচ</string>
     <string name="cupertino_switch">কুপারটিনো</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" ডিজাইন সিস্টেমের উপর ভিত্তি করে একটি সুইচ</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" ডিজাইন সিস্টেমের উপর ভিত্তি করে একটি সুইচ</string>
     <string name="images_to_svg">SVG-তে ছবি</string>
     <string name="images_to_svg_sub">SVG চিত্রগুলিতে প্রদত্ত চিত্রগুলি ট্রেস করুন৷</string>
     <string name="use_sampled_palette">নমুনা প্যালেট ব্যবহার করুন</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR কোড ইমেজ হিসাবে সংরক্ষণ করুন</string>
     <string name="delete_template">টেমপ্লেট মুছুন</string>
     <string name="delete_template_warn">আপনি নির্বাচিত টেমপ্লেট ফিল্টার মুছে ফেলতে চলেছেন৷ এই অপারেশন পূর্বাবস্থায় ফেরানো যাবে না</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) নামের সাথে ফিল্টার টেমপ্লেট যোগ করা হয়েছে</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) নামের সাথে ফিল্টার টেমপ্লেট যোগ করা হয়েছে</string>
     <string name="filter_preview">ফিল্টার প্রিভিউ</string>
     <string name="qr_code">QR এবং বারকোড</string>
     <string name="qr_code_sub">QR কোড স্ক্যান করুন এবং এর বিষয়বস্তু পান বা নতুন একটি তৈরি করতে আপনার স্ট্রিং পেস্ট করুন</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseract অপশন</string>
     <string name="tesseract_options_sub">টেসার্যাক্ট ইঞ্জিনের জন্য কিছু ইনপুট ভেরিয়েবল প্রয়োগ করুন</string>
     <string name="custom_options">কাস্টম বিকল্প</string>
-    <string name="custom_params_info">এই প্যাটার্ন অনুসরণ করে বিকল্পগুলি লিখতে হবে: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">এই প্যাটার্ন অনুসরণ করে বিকল্পগুলি লিখতে হবে: \"--{option_name} {value}\"</string>
     <string name="auto_crop">অটো ক্রপ</string>
     <string name="free_corners">বিনামূল্যে কর্নার</string>
     <string name="free_corners_sub">বহুভুজ দ্বারা চিত্র ক্রপ করুন, এটি দৃষ্টিকোণকেও সংশোধন করে</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">জিগজ্যাগ অনুপাত</string>
     <string name="create_shortcut">শর্টকাট তৈরি করুন</string>
     <string name="create_shortcut_title">পিন করার জন্য টুল বেছে নিন</string>
-    <string name="create_shortcut_subtitle">টুলটি আপনার লঞ্চারের হোম স্ক্রিনে শর্টকাট হিসাবে যোগ করা হবে, প্রয়োজনীয় আচরণ অর্জন করতে \\"ফাইল পিকিং এড়িয়ে যান\\" সেটিংসের সাথে এটি ব্যবহার করুন</string>
+    <string name="create_shortcut_subtitle">টুলটি আপনার লঞ্চারের হোম স্ক্রিনে শর্টকাট হিসাবে যোগ করা হবে, প্রয়োজনীয় আচরণ অর্জন করতে \"ফাইল পিকিং এড়িয়ে যান\" সেটিংসের সাথে এটি ব্যবহার করুন</string>
     <string name="dont_stack_frames">ফ্রেম স্ট্যাক করবেন না</string>
     <string name="dont_stack_frames_sub">পূর্ববর্তী ফ্রেম নিষ্পত্তি সক্ষম করে, তাই তারা একে অপরের উপর স্ট্যাক করবে না</string>
     <string name="crossfade">ক্রসফেড</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">ওপেন সোর্স লাইসেন্স</string>
     <string name="open_source_licenses_sub">এই অ্যাপে ব্যবহৃত ওপেন সোর্স লাইব্রেরির লাইসেন্স দেখুন</string>
     <string name="area">এলাকা</string>
-    <string name="area_sub">পিক্সেল এরিয়া রিলেশন ব্যবহার করে রিস্যাম্পলিং। এটি ইমেজ ডিসিমেশনের জন্য একটি পছন্দের পদ্ধতি হতে পারে, কারণ এটি ময়ার\\'-মুক্ত ফলাফল দেয়। কিন্তু যখন ছবিটি জুম করা হয়, তখন এটি \\"নিকটবর্তী\\" পদ্ধতির অনুরূপ।</string>
+    <string name="area_sub">পিক্সেল এরিয়া রিলেশন ব্যবহার করে রিস্যাম্পলিং। এটি ইমেজ ডিসিমেশনের জন্য একটি পছন্দের পদ্ধতি হতে পারে, কারণ এটি ময়ার\'-মুক্ত ফলাফল দেয়। কিন্তু যখন ছবিটি জুম করা হয়, তখন এটি \"নিকটবর্তী\" পদ্ধতির অনুরূপ।</string>
     <string name="enable_tonemapping">টোনম্যাপিং সক্ষম করুন</string>
     <string name="enter_percent">% লিখুন</string>
     <string name="unknown_host">সাইটটি অ্যাক্সেস করতে পারবেন না, ভিপিএন ব্যবহার করার চেষ্টা করুন বা ইউআরএল সঠিক কিনা তা পরীক্ষা করুন</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">দ্রুত সেটিংস সাইড</string>
     <string name="fast_settings_side_sub">ছবি সম্পাদনা করার সময় নির্বাচিত পাশে একটি ভাসমান স্ট্রিপ যোগ করুন, যা ক্লিক করলে দ্রুত সেটিংস খুলবে</string>
     <string name="clear_selection">নির্বাচন পরিষ্কার করুন</string>
-    <string name="settings_group_visibility_hidden">সেট করা গোষ্ঠী \\"%s\\" ডিফল্টরূপে ভেঙে যাবে</string>
-    <string name="settings_group_visibility_visible">সেট করা গ্রুপ \\"%s\\" ডিফল্টরূপে প্রসারিত হবে</string>
+    <string name="settings_group_visibility_hidden">সেট করা গোষ্ঠী \"%s\" ডিফল্টরূপে ভেঙে যাবে</string>
+    <string name="settings_group_visibility_visible">সেট করা গ্রুপ \"%s\" ডিফল্টরূপে প্রসারিত হবে</string>
     <string name="base_64_tools">বেস64 টুলস</string>
     <string name="base_64_tools_sub">Base64 স্ট্রিংকে ইমেজ ডিকোড করুন, বা Base64 ফরম্যাটে ইমেজ এনকোড করুন</string>
     <string name="base_64">বেস64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">রিফ্রেশ</string>
     <string name="wallpapers_export_sub">বর্তমান হোম, লক এবং অন্তর্নির্মিত ওয়ালপেপার পান</string>
     <string name="allow_access_to_all_files_for_wp">সমস্ত ফাইল অ্যাক্সেস করার অনুমতি দিন, ওয়ালপেপার পুনরুদ্ধার করার জন্য এটি প্রয়োজন</string>
-    <string name="allow_read_media_images_for_wp">বাহ্যিক সঞ্চয়স্থানের অনুমতি পরিচালনা করা যথেষ্ট নয়, আপনাকে আপনার চিত্রগুলিতে অ্যাক্সেসের অনুমতি দিতে হবে, \\"সমস্তকে অনুমতি দিন\\" নির্বাচন করতে ভুলবেন না</string>
+    <string name="allow_read_media_images_for_wp">বাহ্যিক সঞ্চয়স্থানের অনুমতি পরিচালনা করা যথেষ্ট নয়, আপনাকে আপনার চিত্রগুলিতে অ্যাক্সেসের অনুমতি দিতে হবে, \"সমস্তকে অনুমতি দিন\" নির্বাচন করতে ভুলবেন না</string>
     <string name="add_preset_to_filename">ফাইলনামে প্রিসেট যোগ করুন</string>
     <string name="add_preset_to_filename_sub">ইমেজ ফাইলনামে নির্বাচিত প্রিসেটের সাথে প্রত্যয় যুক্ত করে</string>
     <string name="add_image_scale_mode_to_filename">ফাইলনামে ইমেজ স্কেল মোড যোগ করুন</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">পালস গ্রিড পিক্সেলাইজেশন</string>
     <string name="nucleus_pixelization">নিউক্লিয়াস পিক্সেলাইজেশন</string>
     <string name="radial_weave_pixelization">রেডিয়াল ওয়েভ পিক্সেলাইজেশন</string>
-    <string name="cannot_open_uri">uri \\"%s\\" খুলতে পারে না</string>
+    <string name="cannot_open_uri">uri \"%s\" খুলতে পারে না</string>
     <string name="snowfall_mode">তুষারপাত মোড</string>
     <string name="enabled">সক্রিয়</string>
     <string name="border_frame">বর্ডার ফ্রেম</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">বিজি সরান</string>
     <string name="horizontal_border_thickness">অনুভূমিক সীমানা পুরুত্ব</string>
     <string name="vertical_border_thickness">উল্লম্ব সীমানা বেধ</string>
+    <plurals name="color_count">
+        <item quantity="one">%s রঙ</item>
+        <item quantity="other">%s রং</item>
+    </plurals>
 </resources>

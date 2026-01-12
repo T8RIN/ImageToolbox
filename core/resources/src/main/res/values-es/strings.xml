@@ -1587,8 +1587,8 @@
     <string name="spot_heal">Punto de curación</string>
     <string name="use_circle_kernel">Usar núcleo circular</string>
     <string name="top_hat">Sombrero de copa</string>
-    <string name="settings_group_visibility_hidden">El grupo de configuración \\"%s\\" se contraerá de forma predeterminada</string>
-    <string name="settings_group_visibility_visible">El grupo de configuración \\"%s\\" se expandirá de forma predeterminada</string>
+    <string name="settings_group_visibility_hidden">El grupo de configuración \"%s\" se contraerá de forma predeterminada</string>
+    <string name="settings_group_visibility_visible">El grupo de configuración \"%s\" se expandirá de forma predeterminada</string>
     <string name="base_64_tools">Herramientas Base64</string>
     <string name="base_64_tools_sub">Decodificar cadena Base64 en imagen o codificar imagen en formato Base64</string>
     <string name="base_64">Base64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Refrescar</string>
     <string name="wallpapers_export_sub">Obtenga fondos de pantalla actuales de Inicio, Bloqueo e Integrados</string>
     <string name="allow_access_to_all_files_for_wp">Permitir el acceso a todos los archivos, esto es necesario para recuperar fondos de pantalla</string>
-    <string name="allow_read_media_images_for_wp">Administrar el permiso de almacenamiento externo no es suficiente, debe permitir el acceso a sus imágenes, asegúrese de seleccionar \\"Permitir todo\\"</string>
+    <string name="allow_read_media_images_for_wp">Administrar el permiso de almacenamiento externo no es suficiente, debe permitir el acceso a sus imágenes, asegúrese de seleccionar \"Permitir todo\"</string>
     <string name="add_preset_to_filename">Agregar preset al nombre de archivo</string>
     <string name="add_preset_to_filename_sub">Agrega el sufijo con el ajuste preestablecido seleccionado al nombre del archivo de imagen</string>
     <string name="add_image_scale_mode_to_filename">Agregar modo de escala de imagen al nombre de archivo</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelización de cuadrícula de pulso</string>
     <string name="nucleus_pixelization">Pixelización del núcleo</string>
     <string name="radial_weave_pixelization">Pixelización de tejido radial</string>
-    <string name="cannot_open_uri">No se puede abrir la uri \\"%s\\"</string>
+    <string name="cannot_open_uri">No se puede abrir la uri \"%s\"</string>
     <string name="snowfall_mode">Modo nevadas</string>
     <string name="enabled">Activado</string>
     <string name="border_frame">Marco de borde</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Eliminar glucemia</string>
     <string name="horizontal_border_thickness">Grosor del borde horizontal</string>
     <string name="vertical_border_thickness">Grosor del borde vertical</string>
+    <plurals name="color_count">
+        <item quantity="one">%s color</item>
+        <item quantity="other">%s colores</item>
+    </plurals>
 </resources>

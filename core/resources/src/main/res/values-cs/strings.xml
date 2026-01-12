@@ -1205,7 +1205,7 @@
     <string name="template_filter">Filtr šablony</string>
     <string name="as_qr_code">Jako obrázek s QR kódem</string>
     <string name="delete_template_warn">Chystáte se smazat vybraný filtr šablony. Tuto operaci nelze vrátit zpět</string>
-    <string name="added_filter_template">Byla přidána šablona filtru s názvem \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Byla přidána šablona filtru s názvem \"%1$s\" (%2$d)</string>
     <string name="scan_qr_code_to_replace_content">Naskenujte libovolný čárový kód, abyste nahradili obsah v poli, nebo něco napište a vygenerujte nový čárový kód s vybraným typem</string>
     <string name="qr_description">Popis QR</string>
     <string name="min">Min</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Možnosti Tesseractu</string>
     <string name="tesseract_options_sub">Použijte některé vstupní proměnné pro engine tesseract</string>
     <string name="custom_options">Vlastní možnosti</string>
-    <string name="custom_params_info">Možnosti je třeba zadat podle tohoto vzoru: \\"--{název_možnosti} {hodnota}\\"</string>
+    <string name="custom_params_info">Možnosti je třeba zadat podle tohoto vzoru: \"--{název_možnosti} {hodnota}\"</string>
     <string name="auto_crop">Automatické oříznutí</string>
     <string name="free_corners">Volné rohy</string>
     <string name="free_corners_sub">Oříznout obrázek podle mnohoúhelníku, to také opraví perspektivu</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Cikcak poměr</string>
     <string name="create_shortcut">Vytvořit zástupce</string>
     <string name="create_shortcut_title">Vyberte nástroj, který chcete připnout</string>
-    <string name="create_shortcut_subtitle">Nástroj bude přidán na domovskou obrazovku vašeho spouštěče jako zkratka, použijte jej v kombinaci s nastavením \\"Přeskočit výběr souboru\\", abyste dosáhli potřebného chování</string>
+    <string name="create_shortcut_subtitle">Nástroj bude přidán na domovskou obrazovku vašeho spouštěče jako zkratka, použijte jej v kombinaci s nastavením \"Přeskočit výběr souboru\", abyste dosáhli potřebného chování</string>
     <string name="dont_stack_frames">Neskládejte rámečky</string>
     <string name="dont_stack_frames_sub">Umožňuje likvidaci předchozích snímků, takže se nebudou skládat na sebe</string>
     <string name="crossfade">Prolínání</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Open Source licence</string>
     <string name="open_source_licenses_sub">Zobrazit licence knihoven s otevřeným zdrojovým kódem používaných v této aplikaci</string>
     <string name="area">Plocha</string>
-    <string name="area_sub">Převzorkování pomocí vztahu plochy pixelů. Může to být preferovaná metoda pro decimaci obrazu, protože poskytuje výsledky bez moaré. Ale když je obrázek přiblížený, je to podobné jako u metody \\"Nejbližší\\".</string>
+    <string name="area_sub">Převzorkování pomocí vztahu plochy pixelů. Může to být preferovaná metoda pro decimaci obrazu, protože poskytuje výsledky bez moaré. Ale když je obrázek přiblížený, je to podobné jako u metody \"Nejbližší\".</string>
     <string name="enable_tonemapping">Povolit mapování tónů</string>
     <string name="enter_percent">Zadejte %</string>
     <string name="unknown_host">Nelze získat přístup k webu, zkuste použít VPN nebo zkontrolujte, zda je adresa URL správná</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Strana rychlého nastavení</string>
     <string name="fast_settings_side_sub">Při úpravě obrázků přidejte na vybranou stranu plovoucí pruh, který po kliknutí otevře rychlé nastavení</string>
     <string name="clear_selection">Jasný výběr</string>
-    <string name="settings_group_visibility_hidden">Skupina nastavení \\"%s\\" bude ve výchozím nastavení sbalená</string>
-    <string name="settings_group_visibility_visible">Skupina nastavení \\"%s\\" bude ve výchozím nastavení rozbalena</string>
+    <string name="settings_group_visibility_hidden">Skupina nastavení \"%s\" bude ve výchozím nastavení sbalená</string>
+    <string name="settings_group_visibility_visible">Skupina nastavení \"%s\" bude ve výchozím nastavení rozbalena</string>
     <string name="base_64_tools">Nástroje Base64</string>
     <string name="base_64_tools_sub">Dekódujte řetězec Base64 na obrázek nebo zakódujte obrázek do formátu Base64</string>
     <string name="base_64">Základní 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Obnovit</string>
     <string name="wallpapers_export_sub">Získejte aktuální tapety Home, Lock a Built-in</string>
     <string name="allow_access_to_all_files_for_wp">Povolit přístup ke všem souborům, to je potřeba k načtení tapet</string>
-    <string name="allow_read_media_images_for_wp">Oprávnění ke správě externího úložiště nestačí, musíte povolit přístup ke svým obrázkům, nezapomeňte vybrat možnost \\"Povolit vše\\"</string>
+    <string name="allow_read_media_images_for_wp">Oprávnění ke správě externího úložiště nestačí, musíte povolit přístup ke svým obrázkům, nezapomeňte vybrat možnost \"Povolit vše\"</string>
     <string name="add_preset_to_filename">Přidat předvolbu k názvu souboru</string>
     <string name="add_preset_to_filename_sub">Připojí příponu s vybranou předvolbou k názvu souboru obrázku</string>
     <string name="add_image_scale_mode_to_filename">Přidat režim měřítka obrázku k názvu souboru</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelizace pulzní mřížky</string>
     <string name="nucleus_pixelization">Pixelizace jádra</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Nelze otevřít uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Nelze otevřít uri \"%s\"</string>
     <string name="snowfall_mode">Režim sněžení</string>
     <string name="enabled">Povoleno</string>
     <string name="border_frame">Hraniční rám</string>
@@ -2001,4 +2001,10 @@
     <string name="type_removebg">Odebrat BG</string>
     <string name="horizontal_border_thickness">Tloušťka horizontálního okraje</string>
     <string name="vertical_border_thickness">Tloušťka vertikálního okraje</string>
+    <plurals name="color_count">
+        <item quantity="many">%s barev</item>
+        <item quantity="one">%s barva</item>
+        <item quantity="few">%s barev</item>
+        <item quantity="other">%s barev</item>
+    </plurals>
 </resources>

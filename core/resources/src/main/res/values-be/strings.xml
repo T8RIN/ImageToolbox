@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Захаваць як відарыс QR-кода</string>
     <string name="delete_template">Выдаліць шаблон</string>
     <string name="delete_template_warn">Вы збіраецеся выдаліць выбраны фільтр шаблона. Гэтую аперацыю нельга адмяніць</string>
-    <string name="added_filter_template">Дададзены шаблон фільтра з назвай \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Дададзены шаблон фільтра з назвай \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Папярэдні прагляд фільтра</string>
     <string name="qr_code">QR і штрых-код</string>
     <string name="qr_code_sub">Адсканіруйце QR-код і атрымайце яго змесціва або ўстаўце свой радок, каб стварыць новы</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Параметры тэсеракта</string>
     <string name="tesseract_options_sub">Прымяніць некаторыя ўваходныя зменныя для рухавіка tesseract</string>
     <string name="custom_options">Карыстальніцкія параметры</string>
-    <string name="custom_params_info">Варыянты трэба ўводзіць па наступным шаблоне: \\"--{назва_опцыі} {значэнне}\\"</string>
+    <string name="custom_params_info">Варыянты трэба ўводзіць па наступным шаблоне: \"--{назва_опцыі} {значэнне}\"</string>
     <string name="auto_crop">Аўтаматычнае абрэзка</string>
     <string name="free_corners">Свабодныя куткі</string>
     <string name="free_corners_sub">Абрэзаць малюнак па шматкутніку, гэта таксама карэктуе ракурс</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Зігзагападобныя суадносіны</string>
     <string name="create_shortcut">Стварыць ярлык</string>
     <string name="create_shortcut_title">Выберыце інструмент для замацавання</string>
-    <string name="create_shortcut_subtitle">Інструмент будзе дададзены на галоўны экран праграмы запуску ў якасці цэтліка, выкарыстоўвайце яго ў спалучэнні з наладай \\"Прапусціць выбар файлаў\\", каб дасягнуць неабходных паводзін</string>
+    <string name="create_shortcut_subtitle">Інструмент будзе дададзены на галоўны экран праграмы запуску ў якасці цэтліка, выкарыстоўвайце яго ў спалучэнні з наладай \"Прапусціць выбар файлаў\", каб дасягнуць неабходных паводзін</string>
     <string name="dont_stack_frames">Не складайце кадры</string>
     <string name="dont_stack_frames_sub">Дазваляе ўтылізаваць папярэднія кадры, каб яны не накладваліся адзін на аднаго</string>
     <string name="crossfade">Перакрыжаваны плынь</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Ліцэнзіі з адкрытым зыходным кодам</string>
     <string name="open_source_licenses_sub">Праглядзіце ліцэнзіі на бібліятэкі з адкрытым зыходным кодам, якія выкарыстоўваюцца ў гэтым дадатку</string>
     <string name="area">Плошча</string>
-    <string name="area_sub">Паўторная выбарка з выкарыстаннем адносіны плошчы пікселяў. Гэта можа быць пераважным метадам для дэцымацыі выявы, паколькі ён дае вынікі без муара. Але калі выява павялічана, гэта падобна на метад \\"Бліжэйшы\\".</string>
+    <string name="area_sub">Паўторная выбарка з выкарыстаннем адносіны плошчы пікселяў. Гэта можа быць пераважным метадам для дэцымацыі выявы, паколькі ён дае вынікі без муара. Але калі выява павялічана, гэта падобна на метад \"Бліжэйшы\".</string>
     <string name="enable_tonemapping">Уключыць Tonemapping</string>
     <string name="enter_percent">Увядзіце %</string>
     <string name="unknown_host">Немагчыма атрымаць доступ да сайта, паспрабуйце выкарыстоўваць VPN або праверце, ці правільны URL</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Бок хуткіх налад</string>
     <string name="fast_settings_side_sub">Дадайце плаваючую паласу на абраным баку падчас рэдагавання малюнкаў, якая адкрые хуткія налады пры націску</string>
     <string name="clear_selection">Ачысціць выбар</string>
-    <string name="settings_group_visibility_hidden">Група налад \\"%s\\" будзе згорнута па змаўчанні</string>
-    <string name="settings_group_visibility_visible">Група налад \\"%s\\" будзе пашырана па змаўчанні</string>
+    <string name="settings_group_visibility_hidden">Група налад \"%s\" будзе згорнута па змаўчанні</string>
+    <string name="settings_group_visibility_visible">Група налад \"%s\" будзе пашырана па змаўчанні</string>
     <string name="base_64_tools">Інструменты Base64</string>
     <string name="base_64_tools_sub">Дэкадзіраваць радок Base64 у відарыс або закадзіраваць відарыс у фармат Base64</string>
     <string name="base_64">База64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Абнавіць</string>
     <string name="wallpapers_export_sub">Атрымайце бягучыя шпалеры Home, Lock і Built-in</string>
     <string name="allow_access_to_all_files_for_wp">Дазволіць доступ да ўсіх файлаў, гэта неабходна для атрымання шпалер</string>
-    <string name="allow_read_media_images_for_wp">Дазволу на кіраванне знешнім сховішчам недастаткова, вам трэба дазволіць доступ да вашых малюнкаў, не забудзьцеся выбраць \\"Дазволіць усё\\"</string>
+    <string name="allow_read_media_images_for_wp">Дазволу на кіраванне знешнім сховішчам недастаткова, вам трэба дазволіць доступ да вашых малюнкаў, не забудзьцеся выбраць \"Дазволіць усё\"</string>
     <string name="add_preset_to_filename">Дадаць наладку да імя файла</string>
     <string name="add_preset_to_filename_sub">Дадае суфікс з выбранай перадусталёўкай да назвы файла выявы</string>
     <string name="add_image_scale_mode_to_filename">Дадайце рэжым маштабавання выявы ў імя файла</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Піксэлізацыя імпульснай сеткі</string>
     <string name="nucleus_pixelization">Пікселізацыю ядра</string>
     <string name="radial_weave_pixelization">Радыяльнае перапляценне пікселізацыі</string>
-    <string name="cannot_open_uri">Немагчыма адкрыць uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Немагчыма адкрыць uri \"%s\"</string>
     <string name="snowfall_mode">Рэжым снегападу</string>
     <string name="enabled">Уключаны</string>
     <string name="border_frame">Бардзюрная рамка</string>
@@ -2001,4 +2001,10 @@
     <string name="type_removebg">Выдаліць BG</string>
     <string name="horizontal_border_thickness">Таўшчыня гарызантальнай мяжы</string>
     <string name="vertical_border_thickness">Таўшчыня вертыкальнай мяжы</string>
+    <plurals name="color_count">
+        <item quantity="one">%s колер</item>
+        <item quantity="few">%s колераў</item>
+        <item quantity="many">%s колераў</item>
+        <item quantity="other">%s колераў</item>
+    </plurals>
 </resources>

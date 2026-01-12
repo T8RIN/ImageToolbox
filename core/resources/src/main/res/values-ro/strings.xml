@@ -1472,7 +1472,7 @@
     <string name="histogram">Histogramă</string>
     <string name="histogram_sub">Histograma imaginii RGB sau Luminozitate pentru a vă ajuta să faceți ajustări</string>
     <string name="custom_options">Opțiuni personalizate</string>
-    <string name="custom_params_info">Opțiunile trebuie introduse după acest model: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Opțiunile trebuie introduse după acest model: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Decupare automată</string>
     <string name="free_corners">Colțuri libere</string>
     <string name="free_corners_sub">Decupați imaginea după poligon, aceasta corectează și perspectiva</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelizare grilă de impulsuri</string>
     <string name="nucleus_pixelization">Pixelizarea nucleului</string>
     <string name="radial_weave_pixelization">Pixelizare țesătură radială</string>
-    <string name="cannot_open_uri">Nu se poate deschide uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Nu se poate deschide uri \"%s\"</string>
     <string name="snowfall_mode">Modul Zăpadă</string>
     <string name="enabled">Activat</string>
     <string name="border_frame">Cadru de chenar</string>
@@ -2001,4 +2001,9 @@
     <string name="type_removebg">Eliminați BG</string>
     <string name="horizontal_border_thickness">Grosimea marginii orizontale</string>
     <string name="vertical_border_thickness">Grosimea chenarului vertical</string>
+    <plurals name="color_count">
+        <item quantity="one">%s culoare</item>
+        <item quantity="few">%s culori</item>
+        <item quantity="other">%s culori</item>
+    </plurals>
 </resources>

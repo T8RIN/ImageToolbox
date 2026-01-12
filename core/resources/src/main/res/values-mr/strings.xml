@@ -522,15 +522,15 @@
     <string name="stitch_mode">स्टिच मोड</string>
     <string name="rows_count">पंक्तींची संख्या</string>
     <string name="columns_count">स्तंभांची संख्या</string>
-    <string name="no_such_directory">कोणतीही \\"%1$s\\" निर्देशिका आढळली नाही, आम्ही ती डीफॉल्टवर स्विच केली, कृपया फाइल पुन्हा सेव्ह करा</string>
+    <string name="no_such_directory">कोणतीही \"%1$s\" निर्देशिका आढळली नाही, आम्ही ती डीफॉल्टवर स्विच केली, कृपया फाइल पुन्हा सेव्ह करा</string>
     <string name="clipboard">क्लिपबोर्ड</string>
     <string name="auto_pin">ऑटो पिन</string>
     <string name="auto_pin_sub">सक्षम असल्यास क्लिपबोर्डवर जतन केलेली प्रतिमा स्वयंचलितपणे जोडते</string>
     <string name="vibration">कंपन</string>
     <string name="vibration_strength">कंपन शक्ती</string>
-    <string name="overwrite_file_requirements">फाइल्स ओव्हरराइट करण्यासाठी तुम्हाला \\"एक्सप्लोरर\\" इमेज सोर्स वापरण्याची गरज आहे, इमेज रिपिक करून पहा, आम्ही इमेज सोर्स आवश्यकतेनुसार बदलला आहे.</string>
+    <string name="overwrite_file_requirements">फाइल्स ओव्हरराइट करण्यासाठी तुम्हाला \"एक्सप्लोरर\" इमेज सोर्स वापरण्याची गरज आहे, इमेज रिपिक करून पहा, आम्ही इमेज सोर्स आवश्यकतेनुसार बदलला आहे.</string>
     <string name="overwrite_files">फायली अधिलिखित करा</string>
-    <string name="overwrite_files_sub">मूळ फाइल निवडलेल्या फोल्डरमध्ये सेव्ह करण्याऐवजी नवीन फाइलने बदलली जाईल, या पर्यायाला इमेज सोर्स \\"एक्सप्लोरर\\" किंवा GetContent असणे आवश्यक आहे, हे टॉगल करताना, ते स्वयंचलितपणे सेट केले जाईल.</string>
+    <string name="overwrite_files_sub">मूळ फाइल निवडलेल्या फोल्डरमध्ये सेव्ह करण्याऐवजी नवीन फाइलने बदलली जाईल, या पर्यायाला इमेज सोर्स \"एक्सप्लोरर\" किंवा GetContent असणे आवश्यक आहे, हे टॉगल करताना, ते स्वयंचलितपणे सेट केले जाईल.</string>
     <string name="empty">रिकामे</string>
     <string name="suffix">प्रत्यय</string>
     <string name="scale_mode">स्केल मोड</string>
@@ -600,7 +600,7 @@
     <string name="segmentation_mode_sparse_text">विरळ मजकूर</string>
     <string name="segmentation_mode_sparse_text_osd">विरळ मजकूर अभिमुखता आणि स्क्रिप्ट शोध</string>
     <string name="segmentation_mode_raw_line">कच्ची ओळ</string>
-    <string name="delete_language_sub">तुम्ही सर्व ओळख प्रकारांसाठी भाषा \\"%1$s\\" OCR प्रशिक्षण डेटा हटवू इच्छिता की फक्त निवडलेल्या (%2$s) साठी?</string>
+    <string name="delete_language_sub">तुम्ही सर्व ओळख प्रकारांसाठी भाषा \"%1$s\" OCR प्रशिक्षण डेटा हटवू इच्छिता की फक्त निवडलेल्या (%2$s) साठी?</string>
     <string name="current">चालू</string>
     <string name="all">सर्व</string>
     <string name="gradient_maker">ग्रेडियंट मेकर</string>
@@ -887,9 +887,9 @@
     <string name="resize_anchor">अँकरचा आकार बदला</string>
     <string name="pixel_switch">पिक्सेल</string>
     <string name="fluent_switch">अस्खलित</string>
-    <string name="fluent_switch_sub">\\"फ्लुएंट\\" डिझाइन प्रणालीवर आधारित स्विच</string>
+    <string name="fluent_switch_sub">\"फ्लुएंट\" डिझाइन प्रणालीवर आधारित स्विच</string>
     <string name="cupertino_switch">क्युपर्टिनो</string>
-    <string name="cupertino_switch_sub">\\"क्युपर्टिनो\\" डिझाइन प्रणालीवर आधारित एक स्विच</string>
+    <string name="cupertino_switch_sub">\"क्युपर्टिनो\" डिझाइन प्रणालीवर आधारित एक स्विच</string>
     <string name="images_to_svg">SVG साठी प्रतिमा</string>
     <string name="images_to_svg_sub">SVG प्रतिमांना दिलेल्या प्रतिमा ट्रेस करा</string>
     <string name="use_sampled_palette">नमुना पॅलेट वापरा</string>
@@ -1125,7 +1125,7 @@
     <string name="save_as_qr_code_image">QR कोड प्रतिमा म्हणून जतन करा</string>
     <string name="delete_template">टेम्पलेट हटवा</string>
     <string name="delete_template_warn">तुम्ही निवडलेले टेम्पलेट फिल्टर हटवणार आहात. हे ऑपरेशन पूर्ववत केले जाऊ शकत नाही</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) नावासह फिल्टर टेम्पलेट जोडले</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) नावासह फिल्टर टेम्पलेट जोडले</string>
     <string name="filter_preview">फिल्टर पूर्वावलोकन</string>
     <string name="qr_code">QR आणि बारकोड</string>
     <string name="qr_code_sub">QR कोड स्कॅन करा आणि त्याची सामग्री मिळवा किंवा नवीन तयार करण्यासाठी तुमची स्ट्रिंग पेस्ट करा</string>
@@ -1419,7 +1419,7 @@
     <string name="tesseract_options">टेसरॅक्ट पर्याय</string>
     <string name="tesseract_options_sub">टेसरॅक्ट इंजिनसाठी काही इनपुट व्हेरिएबल्स लागू करा</string>
     <string name="custom_options">सानुकूल पर्याय</string>
-    <string name="custom_params_info">या पॅटर्ननुसार पर्याय प्रविष्ट केले पाहिजेत: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">या पॅटर्ननुसार पर्याय प्रविष्ट केले पाहिजेत: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ऑटो क्रॉप</string>
     <string name="free_corners">मोफत कोपरे</string>
     <string name="free_corners_sub">बहुभुजानुसार प्रतिमा क्रॉप करा, हे दृष्टीकोन देखील सुधारते</string>
@@ -1451,7 +1451,7 @@
     <string name="zigzag_ratio">झिगझॅग प्रमाण</string>
     <string name="create_shortcut">शॉर्टकट तयार करा</string>
     <string name="create_shortcut_title">पिन करण्यासाठी साधन निवडा</string>
-    <string name="create_shortcut_subtitle">शॉर्टकट म्हणून तुमच्या लाँचरच्या होम स्क्रीनवर टूल जोडले जाईल, आवश्यक वर्तन साध्य करण्यासाठी ते \\"फाइल निवडणे वगळा\\" सेटिंगसह एकत्र वापरा</string>
+    <string name="create_shortcut_subtitle">शॉर्टकट म्हणून तुमच्या लाँचरच्या होम स्क्रीनवर टूल जोडले जाईल, आवश्यक वर्तन साध्य करण्यासाठी ते \"फाइल निवडणे वगळा\" सेटिंगसह एकत्र वापरा</string>
     <string name="dont_stack_frames">फ्रेम स्टॅक करू नका</string>
     <string name="dont_stack_frames_sub">मागील फ्रेम्सची विल्हेवाट लावणे सक्षम करते, जेणेकरून ते एकमेकांवर स्टॅक करणार नाहीत</string>
     <string name="crossfade">क्रॉसफेड</string>
@@ -1495,7 +1495,7 @@
     <string name="open_source_licenses">मुक्त स्रोत परवाने</string>
     <string name="open_source_licenses_sub">या ॲपमध्ये वापरलेल्या मुक्त स्रोत लायब्ररींचे परवाने पहा</string>
     <string name="area">क्षेत्रफळ</string>
-    <string name="area_sub">पिक्सेल एरिया रिलेशन वापरून रिसॅम्पलिंग. प्रतिमा नष्ट करण्यासाठी ही एक पसंतीची पद्धत असू शकते, कारण ती मोअर\\'-मुक्त परिणाम देते. परंतु जेव्हा प्रतिमा झूम केली जाते, तेव्हा ती \\"जवळपास\\" पद्धतीसारखी असते.</string>
+    <string name="area_sub">पिक्सेल एरिया रिलेशन वापरून रिसॅम्पलिंग. प्रतिमा नष्ट करण्यासाठी ही एक पसंतीची पद्धत असू शकते, कारण ती मोअर\'-मुक्त परिणाम देते. परंतु जेव्हा प्रतिमा झूम केली जाते, तेव्हा ती \"जवळपास\" पद्धतीसारखी असते.</string>
     <string name="enable_tonemapping">टोनमॅपिंग सक्षम करा</string>
     <string name="enter_percent">% प्रविष्ट करा</string>
     <string name="unknown_host">साइटवर प्रवेश करू शकत नाही, VPN वापरून पहा किंवा url बरोबर आहे का ते तपासा</string>
@@ -1510,8 +1510,8 @@
     <string name="fast_settings_side">जलद सेटिंग्ज बाजूला</string>
     <string name="fast_settings_side_sub">प्रतिमा संपादित करताना निवडलेल्या बाजूला फ्लोटिंग स्ट्रिप जोडा, जे क्लिक केल्यावर जलद सेटिंग्ज उघडेल</string>
     <string name="clear_selection">निवड साफ करा</string>
-    <string name="settings_group_visibility_hidden">सेट करणे गट \\"%s\\" डीफॉल्टनुसार संकुचित केले जाईल</string>
-    <string name="settings_group_visibility_visible">सेटिंग गट \\"%s\\" डीफॉल्टनुसार विस्तारित केला जाईल</string>
+    <string name="settings_group_visibility_hidden">सेट करणे गट \"%s\" डीफॉल्टनुसार संकुचित केले जाईल</string>
+    <string name="settings_group_visibility_visible">सेटिंग गट \"%s\" डीफॉल्टनुसार विस्तारित केला जाईल</string>
     <string name="base_64_tools">बेस64 साधने</string>
     <string name="base_64_tools_sub">Base64 स्ट्रिंगला इमेज डीकोड करा किंवा Base64 फॉरमॅटमध्ये इमेज एन्कोड करा</string>
     <string name="base_64">बेस64</string>
@@ -1739,7 +1739,7 @@
     <string name="refresh">रिफ्रेश करा</string>
     <string name="wallpapers_export_sub">वर्तमान घर, लॉक आणि अंगभूत वॉलपेपर मिळवा</string>
     <string name="allow_access_to_all_files_for_wp">सर्व फायलींमध्ये प्रवेश करण्याची परवानगी द्या, वॉलपेपर पुनर्प्राप्त करण्यासाठी हे आवश्यक आहे</string>
-    <string name="allow_read_media_images_for_wp">बाह्य संचयन परवानगी व्यवस्थापित करणे पुरेसे नाही, तुम्हाला तुमच्या प्रतिमांमध्ये प्रवेश देण्याची आवश्यकता आहे, \\"सर्वांना अनुमती द्या\\" निवडण्याचे सुनिश्चित करा</string>
+    <string name="allow_read_media_images_for_wp">बाह्य संचयन परवानगी व्यवस्थापित करणे पुरेसे नाही, तुम्हाला तुमच्या प्रतिमांमध्ये प्रवेश देण्याची आवश्यकता आहे, \"सर्वांना अनुमती द्या\" निवडण्याचे सुनिश्चित करा</string>
     <string name="add_preset_to_filename">फाइलनावमध्ये प्रीसेट जोडा</string>
     <string name="add_preset_to_filename_sub">इमेज फाइलनावामध्ये निवडलेल्या प्रीसेटसह प्रत्यय जोडते</string>
     <string name="add_image_scale_mode_to_filename">फाइलनावामध्ये इमेज स्केल मोड जोडा</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">पल्स ग्रिड पिक्सेलायझेशन</string>
     <string name="nucleus_pixelization">न्यूक्लियस पिक्सेलायझेशन</string>
     <string name="radial_weave_pixelization">रेडियल विणणे पिक्सेलायझेशन</string>
-    <string name="cannot_open_uri">uri \\"%s\\" उघडू शकत नाही</string>
+    <string name="cannot_open_uri">uri \"%s\" उघडू शकत नाही</string>
     <string name="snowfall_mode">हिमवर्षाव मोड</string>
     <string name="enabled">सक्षम केले</string>
     <string name="border_frame">सीमा फ्रेम</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">बीजी काढा</string>
     <string name="horizontal_border_thickness">क्षैतिज सीमा जाडी</string>
     <string name="vertical_border_thickness">अनुलंब सीमा जाडी</string>
+    <plurals name="color_count">
+        <item quantity="one">%s रंग</item>
+        <item quantity="other">%s रंग</item>
+    </plurals>
 </resources>

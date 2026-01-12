@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">टेसेरैक्ट विकल्प</string>
     <string name="tesseract_options_sub">टेसेरैक्ट इंजन के लिए कुछ इनपुट वेरिएबल लागू करें</string>
     <string name="custom_options">कस्टम विकल्प</string>
-    <string name="custom_params_info">विकल्प इस पैटर्न का अनुसरण करते हुए दर्ज किए जाने चाहिए: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">विकल्प इस पैटर्न का अनुसरण करते हुए दर्ज किए जाने चाहिए: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ऑटो क्रॉप</string>
     <string name="free_corners">निःशुल्क कोने</string>
     <string name="free_corners_sub">छवि को बहुभुज द्वारा काटें, इससे परिप्रेक्ष्य भी सही हो जाता है</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">ज़िगज़ैग अनुपात</string>
     <string name="create_shortcut">शॉर्टकट बनाएं</string>
     <string name="create_shortcut_title">पिन करने के लिए टूल चुनें</string>
-    <string name="create_shortcut_subtitle">टूल आपके लॉन्चर की होम स्क्रीन पर शॉर्टकट के रूप में जोड़ा जाएगा, आवश्यक व्यवहार प्राप्त करने के लिए इसे \\"फ़ाइल चुनना छोड़ें\\" सेटिंग के साथ संयोजन करके उपयोग करें</string>
+    <string name="create_shortcut_subtitle">टूल आपके लॉन्चर की होम स्क्रीन पर शॉर्टकट के रूप में जोड़ा जाएगा, आवश्यक व्यवहार प्राप्त करने के लिए इसे \"फ़ाइल चुनना छोड़ें\" सेटिंग के साथ संयोजन करके उपयोग करें</string>
     <string name="dont_stack_frames">फ़्रेमों का ढेर न लगाएं</string>
     <string name="dont_stack_frames_sub">पिछले फ़्रेमों का निपटान सक्षम बनाता है, ताकि वे एक-दूसरे पर ढेर न हों</string>
     <string name="crossfade">क्रॉसफ़ेड</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">ओपन सोर्स लाइसेंस</string>
     <string name="open_source_licenses_sub">इस ऐप में प्रयुक्त ओपन सोर्स लाइब्रेरीज़ के लाइसेंस देखें</string>
     <string name="area">क्षेत्र</string>
-    <string name="area_sub">पिक्सेल क्षेत्र संबंध का उपयोग करके पुन: नमूनाकरण। यह छवि विच्छेदन के लिए एक पसंदीदा तरीका हो सकता है, क्योंकि यह मौयर-मुक्त परिणाम देता है। लेकिन जब छवि ज़ूम की जाती है, तो यह \\"निकटतम\\" विधि के समान होती है।</string>
+    <string name="area_sub">पिक्सेल क्षेत्र संबंध का उपयोग करके पुन: नमूनाकरण। यह छवि विच्छेदन के लिए एक पसंदीदा तरीका हो सकता है, क्योंकि यह मौयर-मुक्त परिणाम देता है। लेकिन जब छवि ज़ूम की जाती है, तो यह \"निकटतम\" विधि के समान होती है।</string>
     <string name="enable_tonemapping">टोनमैपिंग सक्षम करें</string>
     <string name="enter_percent">प्रवेश करना %</string>
     <string name="unknown_host">साइट तक नहीं पहुंच सकते, वीपीएन का उपयोग करने का प्रयास करें या जांचें कि यूआरएल सही है या नहीं</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">फास्ट सेटिंग्स साइड</string>
     <string name="fast_settings_side_sub">छवियों को संपादित करते समय चयनित पक्ष में एक फ्लोटिंग स्ट्रिप जोड़ें, जिस पर क्लिक करने पर तेज़ सेटिंग्स खुल जाएंगी</string>
     <string name="clear_selection">स्पष्ट चयन</string>
-    <string name="settings_group_visibility_hidden">सेटिंग समूह \\"%s\\" डिफ़ॉल्ट रूप से संक्षिप्त हो जाएगा</string>
-    <string name="settings_group_visibility_visible">सेटिंग समूह \\"%s\\" को डिफ़ॉल्ट रूप से विस्तारित किया जाएगा</string>
+    <string name="settings_group_visibility_hidden">सेटिंग समूह \"%s\" डिफ़ॉल्ट रूप से संक्षिप्त हो जाएगा</string>
+    <string name="settings_group_visibility_visible">सेटिंग समूह \"%s\" को डिफ़ॉल्ट रूप से विस्तारित किया जाएगा</string>
     <string name="base_64_tools">बेस64 उपकरण</string>
     <string name="base_64_tools_sub">बेस64 स्ट्रिंग को छवि में डीकोड करें, या छवि को बेस64 प्रारूप में एनकोड करें</string>
     <string name="base_64">बेस 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">ताज़ा करना</string>
     <string name="wallpapers_export_sub">वर्तमान होम, लॉक और अंतर्निर्मित वॉलपेपर प्राप्त करें</string>
     <string name="allow_access_to_all_files_for_wp">सभी फ़ाइलों तक पहुंच की अनुमति दें, वॉलपेपर पुनः प्राप्त करने के लिए यह आवश्यक है</string>
-    <string name="allow_read_media_images_for_wp">बाह्य संग्रहण प्रबंधित करने की अनुमति पर्याप्त नहीं है, आपको अपनी छवियों तक पहुंच की अनुमति देनी होगी, सुनिश्चित करें कि \\"सभी को अनुमति दें\\" का चयन करें</string>
+    <string name="allow_read_media_images_for_wp">बाह्य संग्रहण प्रबंधित करने की अनुमति पर्याप्त नहीं है, आपको अपनी छवियों तक पहुंच की अनुमति देनी होगी, सुनिश्चित करें कि \"सभी को अनुमति दें\" का चयन करें</string>
     <string name="add_preset_to_filename">फ़ाइल नाम में प्रीसेट जोड़ें</string>
     <string name="add_preset_to_filename_sub">छवि फ़ाइल नाम में चयनित प्रीसेट के साथ प्रत्यय जोड़ता है</string>
     <string name="add_image_scale_mode_to_filename">फ़ाइल नाम में छवि स्केल मोड जोड़ें</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">पल्स ग्रिड पिक्सेलाइजेशन</string>
     <string name="nucleus_pixelization">न्यूक्लियस पिक्सेलाइजेशन</string>
     <string name="radial_weave_pixelization">रेडियल बुनाई पिक्सेलाइजेशन</string>
-    <string name="cannot_open_uri">uri \\"%s\\" नहीं खुल सकता</string>
+    <string name="cannot_open_uri">uri \"%s\" नहीं खुल सकता</string>
     <string name="snowfall_mode">बर्फबारी मोड</string>
     <string name="enabled">सक्रिय</string>
     <string name="border_frame">सीमा फ़्रेम</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">बीजी हटाएँ</string>
     <string name="horizontal_border_thickness">क्षैतिज सीमा मोटाई</string>
     <string name="vertical_border_thickness">ऊर्ध्वाधर सीमा मोटाई</string>
+    <plurals name="color_count">
+        <item quantity="one">%s रंग</item>
+        <item quantity="other">%s रंग</item>
+    </plurals>
 </resources>

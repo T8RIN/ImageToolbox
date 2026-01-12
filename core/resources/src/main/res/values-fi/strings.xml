@@ -515,15 +515,15 @@
     <string name="stitch_mode">Ommeltila</string>
     <string name="rows_count">Rivien määrä</string>
     <string name="columns_count">Sarakkeiden määrä</string>
-    <string name="no_such_directory">Ei löytynyt \\"%1$s\\" hakemistoa, vaihdoimme sen oletushakemistoon, tallenna tiedosto uudelleen</string>
+    <string name="no_such_directory">Ei löytynyt \"%1$s\" hakemistoa, vaihdoimme sen oletushakemistoon, tallenna tiedosto uudelleen</string>
     <string name="clipboard">Leikepöytä</string>
     <string name="auto_pin">Automaattinen pin</string>
     <string name="auto_pin_sub">Lisää tallennetun kuvan automaattisesti leikepöydälle, jos se on käytössä</string>
     <string name="vibration">Tärinä</string>
     <string name="vibration_strength">Värähtelyn voimakkuus</string>
-    <string name="overwrite_file_requirements">Tiedostojen korvaamiseksi sinun on käytettävä \\"Explorer\\"-kuvalähdettä, kokeile kuvien uudelleenpoimimista, olemme vaihtaneet kuvalähteen tarvittavaan</string>
+    <string name="overwrite_file_requirements">Tiedostojen korvaamiseksi sinun on käytettävä \"Explorer\"-kuvalähdettä, kokeile kuvien uudelleenpoimimista, olemme vaihtaneet kuvalähteen tarvittavaan</string>
     <string name="overwrite_files">Korvaa tiedostot</string>
-    <string name="overwrite_files_sub">Alkuperäinen tiedosto korvataan uudella sen sijaan, että tallennettaisiin valittuun kansioon. Tämän vaihtoehdon kuvan lähteen on oltava \\"Explorer\\" tai GetContent, kun tätä vaihdetaan, se asetetaan automaattisesti</string>
+    <string name="overwrite_files_sub">Alkuperäinen tiedosto korvataan uudella sen sijaan, että tallennettaisiin valittuun kansioon. Tämän vaihtoehdon kuvan lähteen on oltava \"Explorer\" tai GetContent, kun tätä vaihdetaan, se asetetaan automaattisesti</string>
     <string name="empty">Tyhjä</string>
     <string name="suffix">Suffiksi</string>
     <string name="scale_mode">Skaalaustila</string>
@@ -595,7 +595,7 @@
     <string name="segmentation_mode_sparse_text">Vähän tekstiä</string>
     <string name="segmentation_mode_sparse_text_osd">Harva tekstin suuntaus ja komentosarjan tunnistus</string>
     <string name="segmentation_mode_raw_line">Raaka linja</string>
-    <string name="delete_language_sub">Haluatko poistaa kielen \\"%1$s\\" OCR-harjoitustiedot kaikille tunnistustyypeille vai vain valitulle (%2$s)?</string>
+    <string name="delete_language_sub">Haluatko poistaa kielen \"%1$s\" OCR-harjoitustiedot kaikille tunnistustyypeille vai vain valitulle (%2$s)?</string>
     <string name="current">Nykyinen</string>
     <string name="all">Kaikki</string>
     <string name="gradient_maker">Gradientin tekijä</string>
@@ -884,9 +884,9 @@
     <string name="resize_anchor">Muuta ankkurin kokoa</string>
     <string name="pixel_switch">Pikseli</string>
     <string name="fluent_switch">Sujuva</string>
-    <string name="fluent_switch_sub">Kytkin, joka perustuu \\"Fluent\\"-suunnittelujärjestelmään</string>
+    <string name="fluent_switch_sub">Kytkin, joka perustuu \"Fluent\"-suunnittelujärjestelmään</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Kytkin perustuu \\"Cupertino\\"-suunnittelujärjestelmään</string>
+    <string name="cupertino_switch_sub">Kytkin perustuu \"Cupertino\"-suunnittelujärjestelmään</string>
     <string name="images_to_svg">Kuvat SVG:hen</string>
     <string name="images_to_svg_sub">Jäljitä annetut kuvat SVG-kuviin</string>
     <string name="use_sampled_palette">Käytä näytepalettia</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Tallenna QR-koodikuvana</string>
     <string name="delete_template">Poista malli</string>
     <string name="delete_template_warn">Olet poistamassa valitun mallisuodattimen. Tätä toimintoa ei voi kumota</string>
-    <string name="added_filter_template">Lisätty suodatinmalli, jonka nimi on \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Lisätty suodatinmalli, jonka nimi on \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Suodattimen esikatselu</string>
     <string name="qr_code">QR &amp;amp; Viivakoodi</string>
     <string name="qr_code_sub">Skannaa QR-koodi ja hae sen sisältö tai liitä merkkijonosi luodaksesi uuden koodin</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseact-asetukset</string>
     <string name="tesseract_options_sub">Käytä joitain syöttömuuttujia tesseract-moottorille</string>
     <string name="custom_options">Mukautetut asetukset</string>
-    <string name="custom_params_info">Vaihtoehdot tulee syöttää seuraavan mallin mukaisesti: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Vaihtoehdot tulee syöttää seuraavan mallin mukaisesti: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automaattinen rajaus</string>
     <string name="free_corners">Vapaat kulmat</string>
     <string name="free_corners_sub">Rajaa kuvaa polygonin mukaan, tämä myös korjaa perspektiiviä</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Siksak-suhde</string>
     <string name="create_shortcut">Luo pikakuvake</string>
     <string name="create_shortcut_title">Valitse kiinnitettävä työkalu</string>
-    <string name="create_shortcut_subtitle">Työkalu lisätään käynnistysohjelman aloitusnäyttöön pikakuvakkeena. Käytä sitä yhdessä \\"Ohita tiedostojen poiminta\\" -asetuksen kanssa saavuttaaksesi tarvittavan toiminnan</string>
+    <string name="create_shortcut_subtitle">Työkalu lisätään käynnistysohjelman aloitusnäyttöön pikakuvakkeena. Käytä sitä yhdessä \"Ohita tiedostojen poiminta\" -asetuksen kanssa saavuttaaksesi tarvittavan toiminnan</string>
     <string name="dont_stack_frames">Älä pinoa kehyksiä</string>
     <string name="dont_stack_frames_sub">Mahdollistaa aikaisempien kehysten hävittämisen, joten ne eivät pinoudu päällekkäin</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Avoimen lähdekoodin lisenssit</string>
     <string name="open_source_licenses_sub">Tarkastele tässä sovelluksessa käytettyjen avoimen lähdekoodin kirjastojen lisenssejä</string>
     <string name="area">Alue</string>
-    <string name="area_sub">Uudelleennäytteenotto pikselialuerelaation avulla. Se voi olla suositeltava menetelmä kuvan desimointiin, koska se antaa moire-vapaat tulokset. Mutta kun kuvaa zoomataan, se on samanlainen kuin \\"Lähin\\"-menetelmä.</string>
+    <string name="area_sub">Uudelleennäytteenotto pikselialuerelaation avulla. Se voi olla suositeltava menetelmä kuvan desimointiin, koska se antaa moire-vapaat tulokset. Mutta kun kuvaa zoomataan, se on samanlainen kuin \"Lähin\"-menetelmä.</string>
     <string name="enable_tonemapping">Ota Tonemapping käyttöön</string>
     <string name="enter_percent">Anna %</string>
     <string name="unknown_host">Sivustolle ei pääse, yritä käyttää VPN:ää tai tarkista, onko URL-osoite oikein</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Pika-asetukset-puoli</string>
     <string name="fast_settings_side_sub">Lisää kelluva nauha valitulle puolelle kuvien muokkauksen aikana, joka avaa nopeat asetukset, kun sitä napsautetaan</string>
     <string name="clear_selection">Tyhjennä valinta</string>
-    <string name="settings_group_visibility_hidden">Asetusryhmä \\"%s\\" tiivistetään oletuksena</string>
-    <string name="settings_group_visibility_visible">Asetusryhmä \\"%s\\" laajennetaan oletuksena</string>
+    <string name="settings_group_visibility_hidden">Asetusryhmä \"%s\" tiivistetään oletuksena</string>
+    <string name="settings_group_visibility_visible">Asetusryhmä \"%s\" laajennetaan oletuksena</string>
     <string name="base_64_tools">Base64 työkalut</string>
     <string name="base_64_tools_sub">Pura Base64-merkkijono kuvaksi tai koodaa kuva Base64-muotoon</string>
     <string name="base_64">Perus64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Päivitä</string>
     <string name="wallpapers_export_sub">Hanki nykyiset koti-, lukko- ja sisäänrakennetut taustakuvat</string>
     <string name="allow_access_to_all_files_for_wp">Salli pääsy kaikkiin tiedostoihin, tätä tarvitaan taustakuvien hakemiseen</string>
-    <string name="allow_read_media_images_for_wp">Hallinnoi ulkoista tallennustilaa ei riitä, sinun on sallittava kuviesi käyttö. Muista valita \\"Salli kaikki\\".</string>
+    <string name="allow_read_media_images_for_wp">Hallinnoi ulkoista tallennustilaa ei riitä, sinun on sallittava kuviesi käyttö. Muista valita \"Salli kaikki\".</string>
     <string name="add_preset_to_filename">Lisää esiasetus tiedostonimeen</string>
     <string name="add_preset_to_filename_sub">Lisää valitun esiasetuksen mukaisen päätteen kuvatiedoston nimeen</string>
     <string name="add_image_scale_mode_to_filename">Lisää kuvan skaalaustila tiedostonimeen</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pulssiruudukon pikselointi</string>
     <string name="nucleus_pixelization">Ytimen pikselisaatio</string>
     <string name="radial_weave_pixelization">Radial Weave -pikselointi</string>
-    <string name="cannot_open_uri">Ei voi avata uria \\"%s\\"</string>
+    <string name="cannot_open_uri">Ei voi avata uria \"%s\"</string>
     <string name="snowfall_mode">Lumisadetila</string>
     <string name="enabled">Käytössä</string>
     <string name="border_frame">Reunuskehys</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Poista BG</string>
     <string name="horizontal_border_thickness">Vaakasuora reunan paksuus</string>
     <string name="vertical_border_thickness">Pystysuuntaisen reunan paksuus</string>
+    <plurals name="color_count">
+        <item quantity="one">%s väri</item>
+        <item quantity="other">%s väriä</item>
+    </plurals>
 </resources>

@@ -1427,7 +1427,7 @@
     <string name="tesseract_options">Opzioni Tesseract</string>
     <string name="tesseract_options_sub">Applica alcune variabili di input per il motore tesseract</string>
     <string name="custom_options">Opzioni personalizzate</string>
-    <string name="custom_params_info">Le opzioni devono essere inserite seguendo questo schema: \\"--{nome_opzione} {valore}\\"</string>
+    <string name="custom_params_info">Le opzioni devono essere inserite seguendo questo schema: \"--{nome_opzione} {valore}\"</string>
     <string name="auto_crop">Ritaglio automatico</string>
     <string name="free_corners">Angoli liberi</string>
     <string name="free_corners_sub">Ritaglia l\'immagine per poligono, questo corregge anche la prospettiva</string>
@@ -1459,7 +1459,7 @@
     <string name="zigzag_ratio">Rapporto a zigzag</string>
     <string name="create_shortcut">Crea collegamento</string>
     <string name="create_shortcut_title">Scegli lo strumento da appuntare</string>
-    <string name="create_shortcut_subtitle">Lo strumento verrà aggiunto alla schermata iniziale del programma di avvio come scorciatoia, utilizzalo in combinazione con l\'impostazione \\"Salta selezione file\\" per ottenere il comportamento necessario</string>
+    <string name="create_shortcut_subtitle">Lo strumento verrà aggiunto alla schermata iniziale del programma di avvio come scorciatoia, utilizzalo in combinazione con l\'impostazione \"Salta selezione file\" per ottenere il comportamento necessario</string>
     <string name="dont_stack_frames">Non impilare i fotogrammi</string>
     <string name="dont_stack_frames_sub">Abilita l\'eliminazione dei fotogrammi precedenti, in modo che non si accumulino l\'uno sull\'altro</string>
     <string name="crossfade">Dissolvenza incrociata</string>
@@ -1503,7 +1503,7 @@
     <string name="open_source_licenses">Licenze Open Source</string>
     <string name="open_source_licenses_sub">Visualizza le licenze delle librerie open source utilizzate in questa app</string>
     <string name="area">Zona</string>
-    <string name="area_sub">Ricampionamento utilizzando la relazione dell\'area dei pixel. Potrebbe essere il metodo preferito per la decimazione delle immagini, poiché fornisce risultati privi di effetto moiré. Ma quando l\'immagine viene ingrandita, è simile al metodo \\"Più vicino\\".</string>
+    <string name="area_sub">Ricampionamento utilizzando la relazione dell\'area dei pixel. Potrebbe essere il metodo preferito per la decimazione delle immagini, poiché fornisce risultati privi di effetto moiré. Ma quando l\'immagine viene ingrandita, è simile al metodo \"Più vicino\".</string>
     <string name="enable_tonemapping">Abilita la mappatura dei toni</string>
     <string name="enter_percent">Inserisci %</string>
     <string name="unknown_host">Impossibile accedere al sito, provare a utilizzare la VPN o verificare se l\'URL è corretto</string>
@@ -1518,8 +1518,8 @@
     <string name="fast_settings_side">Lato Impostazioni veloci</string>
     <string name="fast_settings_side_sub">Aggiungi una striscia mobile sul lato selezionato durante la modifica delle immagini, che aprirà le impostazioni rapide quando si fa clic</string>
     <string name="clear_selection">Cancella selezione</string>
-    <string name="settings_group_visibility_hidden">Il gruppo di impostazioni \\"%s\\" verrà compresso per impostazione predefinita</string>
-    <string name="settings_group_visibility_visible">Il gruppo di impostazioni \\"%s\\" verrà espanso per impostazione predefinita</string>
+    <string name="settings_group_visibility_hidden">Il gruppo di impostazioni \"%s\" verrà compresso per impostazione predefinita</string>
+    <string name="settings_group_visibility_visible">Il gruppo di impostazioni \"%s\" verrà espanso per impostazione predefinita</string>
     <string name="base_64_tools">Strumenti Base64</string>
     <string name="base_64_tools_sub">Decodifica la stringa Base64 in immagine o codifica l\'immagine in formato Base64</string>
     <string name="base_64">Base64</string>
@@ -1739,7 +1739,7 @@
     <string name="refresh">Aggiorna</string>
     <string name="wallpapers_export_sub">Ottieni gli sfondi attuali per la casa, il blocco e gli sfondi integrati</string>
     <string name="allow_access_to_all_files_for_wp">Consenti l\'accesso a tutti i file, è necessario per recuperare gli sfondi</string>
-    <string name="allow_read_media_images_for_wp">L\'autorizzazione per gestire l\'archiviazione esterna non è sufficiente, devi consentire l\'accesso alle tue immagini, assicurati di selezionare \\"Consenti tutto\\"</string>
+    <string name="allow_read_media_images_for_wp">L\'autorizzazione per gestire l\'archiviazione esterna non è sufficiente, devi consentire l\'accesso alle tue immagini, assicurati di selezionare \"Consenti tutto\"</string>
     <string name="add_preset_to_filename">Aggiungi preimpostazione al nome file</string>
     <string name="add_preset_to_filename_sub">Aggiunge il suffisso con la preimpostazione selezionata al nome del file immagine</string>
     <string name="add_image_scale_mode_to_filename">Aggiungi la modalità scala immagine al nome file</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Pixelizzazione della griglia di impulsi</string>
     <string name="nucleus_pixelization">Pixelizzazione del nucleo</string>
     <string name="radial_weave_pixelization">Pixelizzazione della trama radiale</string>
-    <string name="cannot_open_uri">Impossibile aprire l\'URI \\"%s\\"</string>
+    <string name="cannot_open_uri">Impossibile aprire l\'URI \"%s\"</string>
     <string name="snowfall_mode">Modalità nevicata</string>
     <string name="enabled">Abilitato</string>
     <string name="border_frame">Cornice di confine</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Rimuovi BG</string>
     <string name="horizontal_border_thickness">Spessore del bordo orizzontale</string>
     <string name="vertical_border_thickness">Spessore del bordo verticale</string>
+    <plurals name="color_count">
+        <item quantity="one">%s colore</item>
+        <item quantity="other">%s colori</item>
+    </plurals>
 </resources>

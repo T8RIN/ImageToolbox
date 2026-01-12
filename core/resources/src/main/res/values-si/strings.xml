@@ -516,15 +516,15 @@
     <string name="stitch_mode">මැහුම් මාදිලිය</string>
     <string name="rows_count">පේළි ගණන</string>
     <string name="columns_count">තීරු ගණන</string>
-    <string name="no_such_directory">\\"%1$s\\" නාමාවලියක් හමු නොවීය, අපි එය පෙරනිමි එකට මාරු කළෙමු, කරුණාකර ගොනුව නැවත සුරකින්න</string>
+    <string name="no_such_directory">\"%1$s\" නාමාවලියක් හමු නොවීය, අපි එය පෙරනිමි එකට මාරු කළෙමු, කරුණාකර ගොනුව නැවත සුරකින්න</string>
     <string name="clipboard">පසුරු පුවරුව</string>
     <string name="auto_pin">ස්වයංක්‍රීය පින්</string>
     <string name="auto_pin_sub">සබල කර ඇත්නම් ස්වයංක්‍රීයව සුරකින ලද රූපය පසුරු පුවරුවට එක් කරයි</string>
     <string name="vibration">කම්පනය</string>
     <string name="vibration_strength">කම්පන ශක්තිය</string>
-    <string name="overwrite_file_requirements">ගොනු උඩින් ලිවීම සඳහා ඔබට \\"Explorer\\" රූප මූලාශ්‍රය භාවිතා කිරීමට අවශ්‍ය වේ, පින්තූර නැවත කිරීමට උත්සාහ කරන්න, අපි අවශ්‍ය එක වෙත රූප මූලාශ්‍රය වෙනස් කර ඇත.</string>
+    <string name="overwrite_file_requirements">ගොනු උඩින් ලිවීම සඳහා ඔබට \"Explorer\" රූප මූලාශ්‍රය භාවිතා කිරීමට අවශ්‍ය වේ, පින්තූර නැවත කිරීමට උත්සාහ කරන්න, අපි අවශ්‍ය එක වෙත රූප මූලාශ්‍රය වෙනස් කර ඇත.</string>
     <string name="overwrite_files">ගොනු උඩින් ලියන්න</string>
-    <string name="overwrite_files_sub">තෝරාගත් ෆෝල්ඩරය තුළ සුරැකීම වෙනුවට මුල් ගොනුව අලුත් එකක් සමඟ ප්‍රතිස්ථාපනය වනු ඇත, මෙම විකල්පය රූප මූලාශ්‍රය \\"Explorer\\" හෝ GetContent විය යුතුය, මෙය ටොගල් කරන විට, එය ස්වයංක්‍රීයව සකසනු ඇත.</string>
+    <string name="overwrite_files_sub">තෝරාගත් ෆෝල්ඩරය තුළ සුරැකීම වෙනුවට මුල් ගොනුව අලුත් එකක් සමඟ ප්‍රතිස්ථාපනය වනු ඇත, මෙම විකල්පය රූප මූලාශ්‍රය \"Explorer\" හෝ GetContent විය යුතුය, මෙය ටොගල් කරන විට, එය ස්වයංක්‍රීයව සකසනු ඇත.</string>
     <string name="empty">හිස්</string>
     <string name="suffix">උපසර්ගය</string>
     <string name="scale_mode">පරිමාණ මාදිලිය</string>
@@ -596,7 +596,7 @@
     <string name="segmentation_mode_sparse_text">විරල පෙළ</string>
     <string name="segmentation_mode_sparse_text_osd">විරල පෙළ දිශානතිය සහ ස්ක්‍රිප්ට් හඳුනාගැනීම</string>
     <string name="segmentation_mode_raw_line">අමු රේඛාව</string>
-    <string name="delete_language_sub">ඔබට භාෂා \\"%1$s\\" OCR පුහුණු දත්ත සියලු හඳුනාගැනීම් වර්ග සඳහා මැකීමට අවශ්‍යද, නැතහොත් තෝරාගත් එකක් සඳහා පමණක් (%2$s)?</string>
+    <string name="delete_language_sub">ඔබට භාෂා \"%1$s\" OCR පුහුණු දත්ත සියලු හඳුනාගැනීම් වර්ග සඳහා මැකීමට අවශ්‍යද, නැතහොත් තෝරාගත් එකක් සඳහා පමණක් (%2$s)?</string>
     <string name="current">වත්මන්</string>
     <string name="all">සියල්ල</string>
     <string name="gradient_maker">Gradient Maker</string>
@@ -885,9 +885,9 @@
     <string name="resize_anchor">නැංගුරම ප්‍රමාණය වෙනස් කරන්න</string>
     <string name="pixel_switch">පික්සල</string>
     <string name="fluent_switch">චතුර</string>
-    <string name="fluent_switch_sub">\\"Fluent\\" සැලසුම් පද්ධතිය මත පදනම් වූ ස්විචයක්</string>
+    <string name="fluent_switch_sub">\"Fluent\" සැලසුම් පද්ධතිය මත පදනම් වූ ස්විචයක්</string>
     <string name="cupertino_switch">කුපර්ටිනෝ</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" සැලසුම් පද්ධතිය මත පදනම් වූ ස්විචයක්</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" සැලසුම් පද්ධතිය මත පදනම් වූ ස්විචයක්</string>
     <string name="images_to_svg">SVG වෙත පින්තූර</string>
     <string name="images_to_svg_sub">ලබා දී ඇති පින්තූර SVG පින්තූර වෙත ලුහුබඳින්න</string>
     <string name="use_sampled_palette">නියැදි පැලට් භාවිතා කරන්න</string>
@@ -1123,7 +1123,7 @@
     <string name="save_as_qr_code_image">QR කේත රූපයක් ලෙස සුරකින්න</string>
     <string name="delete_template">අච්චුව මකන්න</string>
     <string name="delete_template_warn">ඔබ තෝරාගත් අච්චු පෙරහන මැකීමට සූදානම් වේ. මෙම මෙහෙයුම පසුගමනය කළ නොහැක</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) නම සහිත පෙරහන් අච්චුව එක් කරන ලදී</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) නම සහිත පෙරහන් අච්චුව එක් කරන ලදී</string>
     <string name="filter_preview">පෙරහන් පෙරදසුන</string>
     <string name="qr_code">QR සහ තීරු කේතය</string>
     <string name="qr_code_sub">QR කේතය පරිලෝකනය කර එහි අන්තර්ගතය ලබා ගන්න හෝ අලුත් එකක් ජනනය කිරීමට ඔබේ තන්තුව අලවන්න</string>
@@ -1418,7 +1418,7 @@
     <string name="tesseract_options">Tesseract විකල්ප</string>
     <string name="tesseract_options_sub">ටෙසරැක්ට් එන්ජිම සඳහා ආදාන විචල්‍ය කිහිපයක් යොදන්න</string>
     <string name="custom_options">අභිරුචි විකල්ප</string>
-    <string name="custom_params_info">මෙම රටාව අනුව විකල්ප ඇතුළත් කළ යුතුය: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">මෙම රටාව අනුව විකල්ප ඇතුළත් කළ යුතුය: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ස්වයංක්‍රීය බෝග</string>
     <string name="free_corners">නිදහස් කෝනර්</string>
     <string name="free_corners_sub">බහුඅස්‍රයෙන් රූපය කපන්න, මෙය ද ඉදිරිදර්ශනය නිවැරදි කරයි</string>
@@ -1450,7 +1450,7 @@
     <string name="zigzag_ratio">සිග්සැග් අනුපාතය</string>
     <string name="create_shortcut">කෙටිමං සාදන්න</string>
     <string name="create_shortcut_title">පින් කිරීමට මෙවලම තෝරන්න</string>
-    <string name="create_shortcut_subtitle">මෙවලම කෙටිමඟ ලෙස ඔබේ දියත් කිරීමේ මුල් තිරයට එක් කරනු ඇත, අවශ්‍ය හැසිරීම් සාක්ෂාත් කර ගැනීම සඳහා \\"ගොනු තේරීම මඟ හරින්න\\" සැකසීම සමඟ එය භාවිතා කරන්න.</string>
+    <string name="create_shortcut_subtitle">මෙවලම කෙටිමඟ ලෙස ඔබේ දියත් කිරීමේ මුල් තිරයට එක් කරනු ඇත, අවශ්‍ය හැසිරීම් සාක්ෂාත් කර ගැනීම සඳහා \"ගොනු තේරීම මඟ හරින්න\" සැකසීම සමඟ එය භාවිතා කරන්න.</string>
     <string name="dont_stack_frames">රාමු ගොඩ නොගසන්න</string>
     <string name="dont_stack_frames_sub">පෙර රාමු බැහැර කිරීම සක්‍රීය කරයි, එබැවින් ඒවා එකිනෙක ගොඩ ගැසෙන්නේ නැත</string>
     <string name="crossfade">හරස්කඩ</string>
@@ -1494,7 +1494,7 @@
     <string name="open_source_licenses">විවෘත මූලාශ්ර බලපත්ර</string>
     <string name="open_source_licenses_sub">මෙම යෙදුමේ භාවිතා කරන විවෘත මූලාශ්‍ර පුස්තකාලවල බලපත්‍ර බලන්න</string>
     <string name="area">ප්රදේශය</string>
-    <string name="area_sub">පික්සල් ප්‍රදේශ සම්බන්ධය භාවිතයෙන් නැවත නියැදීම. එය moire\'-නිදහස් ප්‍රතිඵල ලබා දෙන බැවින්, රූප විනාශය සඳහා වඩාත් කැමති ක්‍රමයක් විය හැක. නමුත් රූපය විශාලනය කළ විට එය \\"ළඟම \\" ක්‍රමයට සමාන වේ.</string>
+    <string name="area_sub">පික්සල් ප්‍රදේශ සම්බන්ධය භාවිතයෙන් නැවත නියැදීම. එය moire\'-නිදහස් ප්‍රතිඵල ලබා දෙන බැවින්, රූප විනාශය සඳහා වඩාත් කැමති ක්‍රමයක් විය හැක. නමුත් රූපය විශාලනය කළ විට එය \"ළඟම \" ක්‍රමයට සමාන වේ.</string>
     <string name="enable_tonemapping">Tonemapping සබල කරන්න</string>
     <string name="enter_percent">% ඇතුලත් කරන්න</string>
     <string name="unknown_host">වෙබ් අඩවියට පිවිසිය නොහැක, VPN භාවිතා කිරීමට උත්සාහ කරන්න හෝ url එක නිවැරදිදැයි පරීක්ෂා කරන්න</string>
@@ -1509,8 +1509,8 @@
     <string name="fast_settings_side">වේගවත් සැකසුම් පැත්ත</string>
     <string name="fast_settings_side_sub">පින්තූර සංස්කරණය කරන අතරතුර තෝරාගත් පැත්තේ පාවෙන තීරුවක් එක් කරන්න, එය ක්ලික් කළ විට වේගවත් සැකසුම් විවෘත වේ</string>
     <string name="clear_selection">පැහැදිලි තේරීම</string>
-    <string name="settings_group_visibility_hidden">\\"%s\\" කණ්ඩායම සැකසීම පෙරනිමියෙන් හකුළනු ඇත</string>
-    <string name="settings_group_visibility_visible">\\"%s\\" කණ්ඩායම සැකසීම පෙරනිමියෙන් පුළුල් වනු ඇත</string>
+    <string name="settings_group_visibility_hidden">\"%s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් හකුළනු ඇත</string>
+    <string name="settings_group_visibility_visible">\"%s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් පුළුල් වනු ඇත</string>
     <string name="base_64_tools">Base64 මෙවලම්</string>
     <string name="base_64_tools_sub">Base64 තන්තුව රූපයට විකේතනය කරන්න, නැතහොත් රූපය Base64 ආකෘතියට සංකේතනය කරන්න</string>
     <string name="base_64">පදනම64</string>
@@ -1739,7 +1739,7 @@
     <string name="refresh">නැවුම් කරන්න</string>
     <string name="wallpapers_export_sub">වත්මන් නිවස, අගුලු දැමීම සහ බිල්ට්-ඉන් බිතුපත් ලබා ගන්න</string>
     <string name="allow_access_to_all_files_for_wp">සියලුම ගොනු වෙත ප්‍රවේශ වීමට ඉඩ දෙන්න, බිතුපත් ලබා ගැනීමට මෙය අවශ්‍ය වේ</string>
-    <string name="allow_read_media_images_for_wp">බාහිර ගබඩා අවසරය කළමනාකරණය කිරීම ප්‍රමාණවත් නොවේ, ඔබ ඔබේ පින්තූර වෙත ප්‍රවේශ වීමට ඉඩ දිය යුතුය, \\"සියල්ලට ඉඩ දෙන්න\\" තේරීමට වග බලා ගන්න</string>
+    <string name="allow_read_media_images_for_wp">බාහිර ගබඩා අවසරය කළමනාකරණය කිරීම ප්‍රමාණවත් නොවේ, ඔබ ඔබේ පින්තූර වෙත ප්‍රවේශ වීමට ඉඩ දිය යුතුය, \"සියල්ලට ඉඩ දෙන්න\" තේරීමට වග බලා ගන්න</string>
     <string name="add_preset_to_filename">ගොනු නාමයට පෙරසිටුව එක් කරන්න</string>
     <string name="add_preset_to_filename_sub">පින්තූර ගොනු නාමයට තෝරාගත් පෙරසිටුවක් සමඟ උපසර්ගය එකතු කරයි</string>
     <string name="add_image_scale_mode_to_filename">ගොනු නාමයට රූප පරිමාණ මාදිලිය එක් කරන්න</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">න්යෂ්ටිය පික්සලීකරණය</string>
     <string name="radial_weave_pixelization">රේඩියල් වීව් පික්සලීකරණය</string>
-    <string name="cannot_open_uri">uri \\"%s\\" විවෘත කළ නොහැක</string>
+    <string name="cannot_open_uri">uri \"%s\" විවෘත කළ නොහැක</string>
     <string name="snowfall_mode">හිම පතන මාදිලිය</string>
     <string name="enabled">සබල කර ඇත</string>
     <string name="border_frame">මායිම් රාමුව</string>
@@ -2002,4 +2002,8 @@
     <string name="type_removebg">BG ඉවත් කරන්න</string>
     <string name="horizontal_border_thickness">තිරස් මායිම් ඝණකම</string>
     <string name="vertical_border_thickness">සිරස් මායිම් ඝණකම</string>
+    <plurals name="color_count">
+        <item quantity="one">%s වර්ණය</item>
+        <item quantity="other">%s වර්ණ</item>
+    </plurals>
 </resources>

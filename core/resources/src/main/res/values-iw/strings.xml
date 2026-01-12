@@ -884,9 +884,9 @@
     <string name="resize_anchor">שנה גודל עוגן</string>
     <string name="pixel_switch">פיקסל</string>
     <string name="fluent_switch">שׁוֹטֵף</string>
-    <string name="fluent_switch_sub">מתג המבוסס על מערכת העיצוב \\"Fluent\\".</string>
+    <string name="fluent_switch_sub">מתג המבוסס על מערכת העיצוב \"Fluent\".</string>
     <string name="cupertino_switch">קופרטינו</string>
-    <string name="cupertino_switch_sub">מתג המבוסס על מערכת העיצוב \\"קופרטינו\\".</string>
+    <string name="cupertino_switch_sub">מתג המבוסס על מערכת העיצוב \"קופרטינו\".</string>
     <string name="images_to_svg">תמונות ל-SVG</string>
     <string name="images_to_svg_sub">עקבו אחר תמונות שניתנו לתמונות SVG</string>
     <string name="use_sampled_palette">השתמש בלוח מדגם</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">שמור כתמונת קוד QR</string>
     <string name="delete_template">מחק תבנית</string>
     <string name="delete_template_warn">אתה עומד למחוק את מסנן התבניות שנבחר. לא ניתן לבטל פעולה זו</string>
-    <string name="added_filter_template">נוספה תבנית סינון בשם \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">נוספה תבנית סינון בשם \"%1$s\" (%2$d)</string>
     <string name="filter_preview">תצוגה מקדימה של מסנן</string>
     <string name="qr_code">QR &amp;amp; ברקוד</string>
     <string name="qr_code_sub">סרוק קוד QR וקבל את התוכן שלו או הדבק את המחרוזת שלך כדי ליצור מחרוזת חדשה</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">אפשרויות Tesseract</string>
     <string name="tesseract_options_sub">החל כמה משתני קלט עבור מנוע tesseract</string>
     <string name="custom_options">אפשרויות מותאמות אישית</string>
-    <string name="custom_params_info">יש להזין אפשרויות לפי הדפוס הזה: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">יש להזין אפשרויות לפי הדפוס הזה: \"--{option_name} {value}\"</string>
     <string name="auto_crop">חיתוך אוטומטי</string>
     <string name="free_corners">פינות חופשיות</string>
     <string name="free_corners_sub">חתוך תמונה לפי מצולע, זה גם מתקן פרספקטיבה</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">יחס זיגזג</string>
     <string name="create_shortcut">צור קיצור דרך</string>
     <string name="create_shortcut_title">בחר כלי להצמדה</string>
-    <string name="create_shortcut_subtitle">הכלי יתווסף למסך הבית של המשגר ​​שלך כקיצור דרך, השתמש בו בשילוב עם הגדרת \\"דלג על בחירת קבצים\\" כדי להשיג התנהגות נדרשת</string>
+    <string name="create_shortcut_subtitle">הכלי יתווסף למסך הבית של המשגר ​​שלך כקיצור דרך, השתמש בו בשילוב עם הגדרת \"דלג על בחירת קבצים\" כדי להשיג התנהגות נדרשת</string>
     <string name="dont_stack_frames">אל תערמו מסגרות</string>
     <string name="dont_stack_frames_sub">מאפשר סילוק מסגרות קודמות, כך שהן לא ייערמו אחת על השנייה</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">רישיונות קוד פתוח</string>
     <string name="open_source_licenses_sub">הצג רישיונות של ספריות קוד פתוח המשמשות באפליקציה זו</string>
     <string name="area">אֵזוֹר</string>
-    <string name="area_sub">דגימה מחדש באמצעות יחס שטח פיקסלים. זו עשויה להיות שיטה מועדפת להפחתת תמונה, מכיוון שהיא נותנת תוצאות נטולות מואר. אבל כשהתמונה מוגדלת, היא דומה לשיטת ה\\"קרוב\\".</string>
+    <string name="area_sub">דגימה מחדש באמצעות יחס שטח פיקסלים. זו עשויה להיות שיטה מועדפת להפחתת תמונה, מכיוון שהיא נותנת תוצאות נטולות מואר. אבל כשהתמונה מוגדלת, היא דומה לשיטת ה\"קרוב\".</string>
     <string name="enable_tonemapping">הפעל מיפוי גוונים</string>
     <string name="enter_percent">הזן %</string>
     <string name="unknown_host">לא מצליח לגשת לאתר, נסה להשתמש ב-VPN או בדוק אם כתובת האתר נכונה</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">צד הגדרות מהיר</string>
     <string name="fast_settings_side_sub">הוסף רצועה צפה בצד הנבחר בעת עריכת תמונות, אשר תפתח הגדרות מהירות בלחיצה</string>
     <string name="clear_selection">נקה בחירה</string>
-    <string name="settings_group_visibility_hidden">קבוצת ההגדרה \\"%s\\" תכווץ כברירת מחדל</string>
-    <string name="settings_group_visibility_visible">קבוצת ההגדרה \\"%s\\" תורחב כברירת מחדל</string>
+    <string name="settings_group_visibility_hidden">קבוצת ההגדרה \"%s\" תכווץ כברירת מחדל</string>
+    <string name="settings_group_visibility_visible">קבוצת ההגדרה \"%s\" תורחב כברירת מחדל</string>
     <string name="base_64_tools">כלים של Base64</string>
     <string name="base_64_tools_sub">פענח מחרוזת Base64 לתמונה, או קידד תמונה לפורמט Base64</string>
     <string name="base_64">בסיס 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">לְרַעֲנֵן</string>
     <string name="wallpapers_export_sub">השג טפטים עדכניים של בית, מנעול וטפטים מובנים</string>
     <string name="allow_access_to_all_files_for_wp">אפשר גישה לכל הקבצים, זה נחוץ כדי לאחזר טפטים</string>
-    <string name="allow_read_media_images_for_wp">ניהול הרשאת אחסון חיצוני אינו מספיק, אתה צריך לאפשר גישה לתמונות שלך, הקפד לבחור \\"אפשר הכל\\"</string>
+    <string name="allow_read_media_images_for_wp">ניהול הרשאת אחסון חיצוני אינו מספיק, אתה צריך לאפשר גישה לתמונות שלך, הקפד לבחור \"אפשר הכל\"</string>
     <string name="add_preset_to_filename">הוסף מוגדר מראש לשם הקובץ</string>
     <string name="add_preset_to_filename_sub">מוסיף סיומת עם הגדרה מראש שנבחרה לשם קובץ התמונה</string>
     <string name="add_image_scale_mode_to_filename">הוסף מצב סולם תמונה לשם הקובץ</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelization של רשת הדופק</string>
     <string name="nucleus_pixelization">פיקסליזציה של גרעין</string>
     <string name="radial_weave_pixelization">Pixelization של אריגה רדיאלית</string>
-    <string name="cannot_open_uri">לא ניתן לפתוח את uri \\"%s\\"</string>
+    <string name="cannot_open_uri">לא ניתן לפתוח את uri \"%s\"</string>
     <string name="snowfall_mode">מצב שלג</string>
     <string name="enabled">מופעל</string>
     <string name="border_frame">מסגרת גבול</string>
@@ -2001,4 +2001,10 @@
     <string name="type_removebg">הסר את BG</string>
     <string name="horizontal_border_thickness">עובי גבול אופקי</string>
     <string name="vertical_border_thickness">עובי גבול אנכי</string>
+    <plurals name="color_count">
+        <item quantity="other">%s צבעים</item>
+        <item quantity="many">%s צבעים</item>
+        <item quantity="one">%s צבעים</item>
+        <item quantity="two">%s צבעים</item>
+    </plurals>
 </resources>

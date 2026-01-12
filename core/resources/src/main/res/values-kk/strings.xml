@@ -884,9 +884,9 @@
     <string name="resize_anchor">Анкордың өлшемін өзгерту</string>
     <string name="pixel_switch">пиксел</string>
     <string name="fluent_switch">Еркін</string>
-    <string name="fluent_switch_sub">\\"Fluent\\" дизайн жүйесіне негізделген қосқыш</string>
+    <string name="fluent_switch_sub">\"Fluent\" дизайн жүйесіне негізделген қосқыш</string>
     <string name="cupertino_switch">Купертино</string>
-    <string name="cupertino_switch_sub">\\"Купертино\\" дизайн жүйесіне негізделген қосқыш</string>
+    <string name="cupertino_switch_sub">\"Купертино\" дизайн жүйесіне негізделген қосқыш</string>
     <string name="images_to_svg">Суреттер SVG</string>
     <string name="images_to_svg_sub">SVG кескіндеріне берілген кескіндерді қадағалаңыз</string>
     <string name="use_sampled_palette">Үлгі палитрасын пайдаланыңыз</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR код суреті ретінде сақтаңыз</string>
     <string name="delete_template">Үлгіні жою</string>
     <string name="delete_template_warn">Таңдалған үлгі сүзгісін жойғалы жатырсыз. Бұл әрекетті қайтару мүмкін емес</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) атты сүзгі үлгісі қосылды</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) атты сүзгі үлгісі қосылды</string>
     <string name="filter_preview">Сүзгі алдын ала қарау</string>
     <string name="qr_code">QR және штрих-код</string>
     <string name="qr_code_sub">QR кодын сканерлеңіз және оның мазмұнын алыңыз немесе жаңасын жасау үшін жолды қойыңыз</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseract опциялары</string>
     <string name="tesseract_options_sub">Тессеракт қозғалтқышы үшін кейбір кіріс айнымалыларын қолданыңыз</string>
     <string name="custom_options">Теңшелетін опциялар</string>
-    <string name="custom_params_info">Параметрлерді мына үлгі бойынша енгізу керек: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Параметрлерді мына үлгі бойынша енгізу керек: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Автоматты қию</string>
     <string name="free_corners">Еркін бұрыштар</string>
     <string name="free_corners_sub">Кескінді көпбұрыш бойынша қию, бұл да перспективаны түзетеді</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Зигзаг қатынасы</string>
     <string name="create_shortcut">Таңбаша жасау</string>
     <string name="create_shortcut_title">Бекіту үшін құралды таңдаңыз</string>
-    <string name="create_shortcut_subtitle">Құрал іске қосу құралының негізгі экранына таңбаша ретінде қосылады, қажетті әрекетке жету үшін оны \\"Файлды таңдауды өткізіп жіберу\" параметрімен біріктіріп пайдаланыңыз.</string>
+    <string name="create_shortcut_subtitle">Құрал іске қосу құралының негізгі экранына таңбаша ретінде қосылады, қажетті әрекетке жету үшін оны \"Файлды таңдауды өткізіп жіберу\" параметрімен біріктіріп пайдаланыңыз.</string>
     <string name="dont_stack_frames">Жақтауларды жинақтамаңыз</string>
     <string name="dont_stack_frames_sub">Алдыңғы кадрларды жоюға мүмкіндік береді, сондықтан олар бір-біріне жиналмайды</string>
     <string name="crossfade">Кроссфад</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Ашық бастапқы лицензиялар</string>
     <string name="open_source_licenses_sub">Осы қолданбада пайдаланылатын ашық бастапқы кітапханалардың лицензияларын қараңыз</string>
     <string name="area">Аудан</string>
-    <string name="area_sub">Пиксель аймағы қатынасын пайдаланып қайта үлгілеу. Ол муарсыз нәтижелер беретіндіктен кескінді жоюдың таңдаулы әдісі болуы мүмкін. Бірақ кескінді үлкейткенде, ол \\"Ең жақын\\" әдісіне ұқсайды.</string>
+    <string name="area_sub">Пиксель аймағы қатынасын пайдаланып қайта үлгілеу. Ол муарсыз нәтижелер беретіндіктен кескінді жоюдың таңдаулы әдісі болуы мүмкін. Бірақ кескінді үлкейткенде, ол \"Ең жақын\" әдісіне ұқсайды.</string>
     <string name="enable_tonemapping">Tonemapping қосу</string>
     <string name="enter_percent">% енгізіңіз</string>
     <string name="unknown_host">Сайтқа кіру мүмкін емес, VPN пайдаланып көріңіз немесе URL мекенжайының дұрыстығын тексеріңіз</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Жылдам параметрлер жағы</string>
     <string name="fast_settings_side_sub">Суреттерді өңдеу кезінде таңдалған жағына қалқымалы жолақты қосыңыз, ол басқан кезде жылдам параметрлерді ашады</string>
     <string name="clear_selection">Таңдауды тазалау</string>
-    <string name="settings_group_visibility_hidden">\\"%s\\" параметр тобы әдепкі бойынша жиырылады</string>
-    <string name="settings_group_visibility_visible">\\"%s\\" параметр тобы әдепкі бойынша кеңейтіледі</string>
+    <string name="settings_group_visibility_hidden">\"%s\" параметр тобы әдепкі бойынша жиырылады</string>
+    <string name="settings_group_visibility_visible">\"%s\" параметр тобы әдепкі бойынша кеңейтіледі</string>
     <string name="base_64_tools">Base64 құралдары</string>
     <string name="base_64_tools_sub">Base64 жолын кескінге декодтаңыз немесе кескінді Base64 пішіміне кодтаңыз</string>
     <string name="base_64">База 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Жаңарту</string>
     <string name="wallpapers_export_sub">Ағымдағы үй, құлып және кірістірілген тұсқағаздарды алыңыз</string>
     <string name="allow_access_to_all_files_for_wp">Барлық файлдарға кіруге рұқсат беріңіз, бұл тұсқағаздарды алу үшін қажет</string>
-    <string name="allow_read_media_images_for_wp">Сыртқы жадты басқару рұқсаты жеткіліксіз, суреттерге кіруге рұқсат беру керек, \\"Барлығына рұқсат беру\\" опциясын таңдауды ұмытпаңыз.</string>
+    <string name="allow_read_media_images_for_wp">Сыртқы жадты басқару рұқсаты жеткіліксіз, суреттерге кіруге рұқсат беру керек, \"Барлығына рұқсат беру\" опциясын таңдауды ұмытпаңыз.</string>
     <string name="add_preset_to_filename">Файл атауына алдын ала орнатуды қосыңыз</string>
     <string name="add_preset_to_filename_sub">Кескін файлының атына таңдалған алдын ала орнатылған жұрнақ қосады</string>
     <string name="add_image_scale_mode_to_filename">Файл атына кескін масштабы режимін қосыңыз</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Импульстік тордың пикселизациясы</string>
     <string name="nucleus_pixelization">Ядроның пикселизациясы</string>
     <string name="radial_weave_pixelization">Радиалды тоқыма пикселизациясы</string>
-    <string name="cannot_open_uri">\\"%s\\" uri ашылмады</string>
+    <string name="cannot_open_uri">\"%s\" uri ашылмады</string>
     <string name="snowfall_mode">Қар жауу режимі</string>
     <string name="enabled">Қосылған</string>
     <string name="border_frame">Жиек жақтауы</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">BG алып тастаңыз</string>
     <string name="horizontal_border_thickness">Көлденең шекараның қалыңдығы</string>
     <string name="vertical_border_thickness">Тік жиек қалыңдығы</string>
+    <plurals name="color_count">
+        <item quantity="one">%s түстер</item>
+        <item quantity="other">%s түстер</item>
+    </plurals>
 </resources>

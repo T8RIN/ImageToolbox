@@ -515,13 +515,13 @@
     <string name="stitch_mode">Õmblusrežiim</string>
     <string name="rows_count">Ridade arv</string>
     <string name="columns_count">Veergude arv</string>
-    <string name="no_such_directory">Kataloogi \\"%1$s\\" ei leitud, vahetasime selle vaikekataloogi, palun salvestage fail uuesti</string>
+    <string name="no_such_directory">Kataloogi \"%1$s\" ei leitud, vahetasime selle vaikekataloogi, palun salvestage fail uuesti</string>
     <string name="clipboard">Lõikelaud</string>
     <string name="auto_pin">Automaatne pin</string>
     <string name="auto_pin_sub">Kui see on lubatud, lisab salvestatud pildi automaatselt lõikelauale</string>
     <string name="vibration">Vibratsioon</string>
     <string name="vibration_strength">Vibratsiooni tugevus</string>
-    <string name="overwrite_file_requirements">Failide ülekirjutamiseks peate kasutama \\"Exploreri\\" pildiallikat, proovige pilte uuesti valida, oleme muutnud pildiallika vajalikuks</string>
+    <string name="overwrite_file_requirements">Failide ülekirjutamiseks peate kasutama \"Exploreri\" pildiallikat, proovige pilte uuesti valida, oleme muutnud pildiallika vajalikuks</string>
     <string name="overwrite_files">Failide ülekirjutamine</string>
     <string name="overwrite_files_sub">Algne fail asendatakse uuega, selle asemel, et salvestada valitud kausta</string>
     <string name="empty">Tühi</string>
@@ -595,7 +595,7 @@
     <string name="segmentation_mode_sparse_text">Vähene tekst</string>
     <string name="segmentation_mode_sparse_text_osd">Hõreda teksti suund ja skripti tuvastamine</string>
     <string name="segmentation_mode_raw_line">Toores joon</string>
-    <string name="delete_language_sub">Kas soovite kustutada keele \\"%1$s\\" OCR treeningu andmed kõigi tuvastustüüpide või ainult valitud ühe (%2$s) jaoks?</string>
+    <string name="delete_language_sub">Kas soovite kustutada keele \"%1$s\" OCR treeningu andmed kõigi tuvastustüüpide või ainult valitud ühe (%2$s) jaoks?</string>
     <string name="current">Praegune</string>
     <string name="all">Kõik</string>
     <string name="gradient_maker">Gradiendi tegija</string>
@@ -884,9 +884,9 @@
     <string name="resize_anchor">Ankru suuruse muutmine</string>
     <string name="pixel_switch">piksel</string>
     <string name="fluent_switch">Ladus</string>
-    <string name="fluent_switch_sub">Lüliti, mis põhineb disainisüsteemil \\"Fluent\\".</string>
+    <string name="fluent_switch_sub">Lüliti, mis põhineb disainisüsteemil \"Fluent\".</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" disainisüsteemil põhinev lüliti</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" disainisüsteemil põhinev lüliti</string>
     <string name="images_to_svg">Pildid SVG-sse</string>
     <string name="images_to_svg_sub">Jälgige antud kujutised SVG-kujutisteks</string>
     <string name="use_sampled_palette">Kasutage proovide paletti</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Salvesta QR-koodi kujutisena</string>
     <string name="delete_template">Kustuta mall</string>
     <string name="delete_template_warn">Olete kustutamas valitud mallifiltrit. Seda toimingut ei saa tagasi võtta</string>
-    <string name="added_filter_template">Lisatud filtrimall nimega \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Lisatud filtrimall nimega \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Filtri eelvaade</string>
     <string name="qr_code">QR ja vöötkood</string>
     <string name="qr_code_sub">Skannige QR-kood ja hankige selle sisu või kleepige oma string uue koodi loomiseks</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseracti valikud</string>
     <string name="tesseract_options_sub">Rakendage tesseract-mootori jaoks mõned sisendmuutujad</string>
     <string name="custom_options">Kohandatud valikud</string>
-    <string name="custom_params_info">Valikud tuleb sisestada järgmise skeemi järgi: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Valikud tuleb sisestada järgmise skeemi järgi: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automaatne kärpimine</string>
     <string name="free_corners">Vabad nurgad</string>
     <string name="free_corners_sub">Kärbi pilti hulknurga kaupa, see parandab ka perspektiivi</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Siksak-suhe</string>
     <string name="create_shortcut">Loo otsetee</string>
     <string name="create_shortcut_title">Valige kinnitamiseks tööriist</string>
-    <string name="create_shortcut_subtitle">Tööriist lisatakse teie käivitusprogrammi avakuvale otseteena. Vajaliku käitumise saavutamiseks kasutage seda koos sättega \\"Jäta faili valimine vahele\\".</string>
+    <string name="create_shortcut_subtitle">Tööriist lisatakse teie käivitusprogrammi avakuvale otseteena. Vajaliku käitumise saavutamiseks kasutage seda koos sättega \"Jäta faili valimine vahele\".</string>
     <string name="dont_stack_frames">Ärge virna raame</string>
     <string name="dont_stack_frames_sub">Võimaldab eelmiste raamide utiliseerimist, nii et need ei virna üksteise peale</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Avatud lähtekoodiga litsentsid</string>
     <string name="open_source_licenses_sub">Vaadake selles rakenduses kasutatavate avatud lähtekoodiga teekide litsentse</string>
     <string name="area">Piirkond</string>
-    <string name="area_sub">Resampling kasutades piksli pindala seost. See võib olla eelistatud meetod kujutiste detsimeerimiseks, kuna see annab muare-vabad tulemused. Kui aga pilti suumida, sarnaneb see \\"Lähima\\" meetodiga.</string>
+    <string name="area_sub">Resampling kasutades piksli pindala seost. See võib olla eelistatud meetod kujutiste detsimeerimiseks, kuna see annab muare-vabad tulemused. Kui aga pilti suumida, sarnaneb see \"Lähima\" meetodiga.</string>
     <string name="enable_tonemapping">Luba Tonemapping</string>
     <string name="enter_percent">Sisesta %</string>
     <string name="unknown_host">Saidile ei pääse juurde, proovige kasutada VPN-i või kontrollige, kas URL on õige</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Kiirseadete külg</string>
     <string name="fast_settings_side_sub">Lisage piltide redigeerimise ajal valitud küljele ujuv riba, millel klõpsamisel avanevad kiired sätted</string>
     <string name="clear_selection">Tühjenda valik</string>
-    <string name="settings_group_visibility_hidden">Seadete rühm \\"%s\\" ahendatakse vaikimisi</string>
-    <string name="settings_group_visibility_visible">Seadete gruppi \\"%s\\" laiendatakse vaikimisi</string>
+    <string name="settings_group_visibility_hidden">Seadete rühm \"%s\" ahendatakse vaikimisi</string>
+    <string name="settings_group_visibility_visible">Seadete gruppi \"%s\" laiendatakse vaikimisi</string>
     <string name="base_64_tools">Base64 tööriistad</string>
     <string name="base_64_tools_sub">Dekodeerige Base64 string pildiks või kodeerige pilt Base64 vormingusse</string>
     <string name="base_64">Alus64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Värskenda</string>
     <string name="wallpapers_export_sub">Hankige praegused kodu-, luku- ja sisseehitatud taustapildid</string>
     <string name="allow_access_to_all_files_for_wp">Luba juurdepääs kõikidele failidele, seda on vaja taustapiltide toomiseks</string>
-    <string name="allow_read_media_images_for_wp">Välise salvestusruumi haldamise loast ei piisa, peate lubama juurdepääsu oma piltidele, tehke kindlasti valik \\"Luba kõik\\".</string>
+    <string name="allow_read_media_images_for_wp">Välise salvestusruumi haldamise loast ei piisa, peate lubama juurdepääsu oma piltidele, tehke kindlasti valik \"Luba kõik\".</string>
     <string name="add_preset_to_filename">Lisa failinimele eelseade</string>
     <string name="add_preset_to_filename_sub">Lisab pildifaili nimele sufiks koos valitud eelseadistuse</string>
     <string name="add_image_scale_mode_to_filename">Lisage failinimele pildiskaala režiim</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Impulssvõrgu pikseliseerimine</string>
     <string name="nucleus_pixelization">Tuuma pikseliseerimine</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Ei saa avada uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Ei saa avada uri \"%s\"</string>
     <string name="snowfall_mode">Lumesaju režiim</string>
     <string name="enabled">Lubatud</string>
     <string name="border_frame">Piiriraam</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Eemaldage BG</string>
     <string name="horizontal_border_thickness">Horisontaalne piiri paksus</string>
     <string name="vertical_border_thickness">Vertikaalse piiri paksus</string>
+    <plurals name="color_count">
+        <item quantity="one">%s värvi</item>
+        <item quantity="other">%s värvid</item>
+    </plurals>
 </resources>

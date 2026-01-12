@@ -884,9 +884,9 @@
     <string name="resize_anchor">ਐਂਕਰ ਦਾ ਆਕਾਰ ਬਦਲੋ</string>
     <string name="pixel_switch">ਪਿਕਸਲ</string>
     <string name="fluent_switch">ਪ੍ਰਵਾਹ</string>
-    <string name="fluent_switch_sub">\\"Fluent\\" ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ \'ਤੇ ਆਧਾਰਿਤ ਇੱਕ ਸਵਿੱਚ</string>
+    <string name="fluent_switch_sub">\"Fluent\" ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ \'ਤੇ ਆਧਾਰਿਤ ਇੱਕ ਸਵਿੱਚ</string>
     <string name="cupertino_switch">ਕੁਪਰਟੀਨੋ</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ \'ਤੇ ਆਧਾਰਿਤ ਇੱਕ ਸਵਿੱਚ</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" ਡਿਜ਼ਾਈਨ ਸਿਸਟਮ \'ਤੇ ਆਧਾਰਿਤ ਇੱਕ ਸਵਿੱਚ</string>
     <string name="images_to_svg">SVG ਲਈ ਚਿੱਤਰ</string>
     <string name="images_to_svg_sub">ਦਿੱਤੇ ਚਿੱਤਰਾਂ ਨੂੰ SVG ਚਿੱਤਰਾਂ ਨੂੰ ਟਰੇਸ ਕਰੋ</string>
     <string name="use_sampled_palette">ਸੈਂਪਲ ਪੈਲੇਟ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR ਕੋਡ ਚਿੱਤਰ ਵਜੋਂ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="delete_template">ਟੈਮਪਲੇਟ ਮਿਟਾਓ</string>
     <string name="delete_template_warn">ਤੁਸੀਂ ਚੁਣੇ ਹੋਏ ਟੈਮਪਲੇਟ ਫਿਲਟਰ ਨੂੰ ਮਿਟਾਉਣ ਲੱਗੇ ਹੋ। ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) ਨਾਮ ਨਾਲ ਫਿਲਟਰ ਟੈਮਪਲੇਟ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) ਨਾਮ ਨਾਲ ਫਿਲਟਰ ਟੈਮਪਲੇਟ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ</string>
     <string name="filter_preview">ਫਿਲਟਰ ਪ੍ਰੀਵਿਊ</string>
     <string name="qr_code">QR ਅਤੇ ਬਾਰਕੋਡ</string>
     <string name="qr_code_sub">QR ਕੋਡ ਨੂੰ ਸਕੈਨ ਕਰੋ ਅਤੇ ਇਸਦੀ ਸਮੱਗਰੀ ਪ੍ਰਾਪਤ ਕਰੋ ਜਾਂ ਨਵਾਂ ਬਣਾਉਣ ਲਈ ਆਪਣੀ ਸਟ੍ਰਿੰਗ ਪੇਸਟ ਕਰੋ</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">ਟੈਸਰੈਕਟ ਵਿਕਲਪ</string>
     <string name="tesseract_options_sub">ਟੈਸਰੈਕਟ ਇੰਜਣ ਲਈ ਕੁਝ ਇਨਪੁਟ ਵੇਰੀਏਬਲ ਲਾਗੂ ਕਰੋ</string>
     <string name="custom_options">ਕਸਟਮ ਵਿਕਲਪ</string>
-    <string name="custom_params_info">ਵਿਕਲਪਾਂ ਨੂੰ ਇਸ ਪੈਟਰਨ ਦੇ ਬਾਅਦ ਦਾਖਲ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">ਵਿਕਲਪਾਂ ਨੂੰ ਇਸ ਪੈਟਰਨ ਦੇ ਬਾਅਦ ਦਾਖਲ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ਆਟੋ ਕ੍ਰੌਪ</string>
     <string name="free_corners">ਮੁਫਤ ਕੋਨੇ</string>
     <string name="free_corners_sub">ਬਹੁਭੁਜ ਦੁਆਰਾ ਚਿੱਤਰ ਨੂੰ ਕੱਟੋ, ਇਹ ਦ੍ਰਿਸ਼ਟੀਕੋਣ ਨੂੰ ਵੀ ਠੀਕ ਕਰਦਾ ਹੈ</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">ਜ਼ਿਗਜ਼ੈਗ ਅਨੁਪਾਤ</string>
     <string name="create_shortcut">ਸ਼ਾਰਟਕੱਟ ਬਣਾਓ</string>
     <string name="create_shortcut_title">ਪਿੰਨ ਕਰਨ ਲਈ ਟੂਲ ਚੁਣੋ</string>
-    <string name="create_shortcut_subtitle">ਟੂਲ ਨੂੰ ਤੁਹਾਡੇ ਲਾਂਚਰ ਦੀ ਹੋਮ ਸਕ੍ਰੀਨ \'ਤੇ ਸ਼ਾਰਟਕੱਟ ਦੇ ਤੌਰ \'ਤੇ ਜੋੜਿਆ ਜਾਵੇਗਾ, ਲੋੜੀਂਦੇ ਵਿਹਾਰ ਨੂੰ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇਸਨੂੰ \\"ਫਾਇਲ ਚੁਣਨਾ ਛੱਡੋ\\" ਸੈਟਿੰਗ ਦੇ ਨਾਲ ਜੋੜ ਕੇ ਵਰਤੋ।</string>
+    <string name="create_shortcut_subtitle">ਟੂਲ ਨੂੰ ਤੁਹਾਡੇ ਲਾਂਚਰ ਦੀ ਹੋਮ ਸਕ੍ਰੀਨ \'ਤੇ ਸ਼ਾਰਟਕੱਟ ਦੇ ਤੌਰ \'ਤੇ ਜੋੜਿਆ ਜਾਵੇਗਾ, ਲੋੜੀਂਦੇ ਵਿਹਾਰ ਨੂੰ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇਸਨੂੰ \"ਫਾਇਲ ਚੁਣਨਾ ਛੱਡੋ\" ਸੈਟਿੰਗ ਦੇ ਨਾਲ ਜੋੜ ਕੇ ਵਰਤੋ।</string>
     <string name="dont_stack_frames">ਫਰੇਮਾਂ ਨੂੰ ਸਟੈਕ ਨਾ ਕਰੋ</string>
     <string name="dont_stack_frames_sub">ਪਿਛਲੇ ਫਰੇਮਾਂ ਦੇ ਨਿਪਟਾਰੇ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਂਦਾ ਹੈ, ਇਸਲਈ ਉਹ ਇੱਕ ਦੂਜੇ \'ਤੇ ਸਟੈਕ ਨਹੀਂ ਕਰਨਗੇ</string>
     <string name="crossfade">ਕਰਾਸਫੇਡ</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">ਓਪਨ ਸੋਰਸ ਲਾਇਸੰਸ</string>
     <string name="open_source_licenses_sub">ਇਸ ਐਪ ਵਿੱਚ ਵਰਤੀਆਂ ਗਈਆਂ ਓਪਨ ਸੋਰਸ ਲਾਇਬ੍ਰੇਰੀਆਂ ਦੇ ਲਾਇਸੰਸ ਦੇਖੋ</string>
     <string name="area">ਖੇਤਰ</string>
-    <string name="area_sub">ਪਿਕਸਲ ਏਰੀਆ ਰਿਲੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਰੀਸੈਪਲਿੰਗ। ਇਹ ਚਿੱਤਰ ਨੂੰ ਖਤਮ ਕਰਨ ਲਈ ਇੱਕ ਤਰਜੀਹੀ ਢੰਗ ਹੋ ਸਕਦਾ ਹੈ, ਕਿਉਂਕਿ ਇਹ ਮੋਇਰ\\'-ਮੁਕਤ ਨਤੀਜੇ ਦਿੰਦਾ ਹੈ। ਪਰ ਜਦੋਂ ਚਿੱਤਰ ਨੂੰ ਜ਼ੂਮ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਇਹ \\"ਨੇੜਲੇ\\" ਵਿਧੀ ਦੇ ਸਮਾਨ ਹੁੰਦਾ ਹੈ।</string>
+    <string name="area_sub">ਪਿਕਸਲ ਏਰੀਆ ਰਿਲੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਰੀਸੈਪਲਿੰਗ। ਇਹ ਚਿੱਤਰ ਨੂੰ ਖਤਮ ਕਰਨ ਲਈ ਇੱਕ ਤਰਜੀਹੀ ਢੰਗ ਹੋ ਸਕਦਾ ਹੈ, ਕਿਉਂਕਿ ਇਹ ਮੋਇਰ\'-ਮੁਕਤ ਨਤੀਜੇ ਦਿੰਦਾ ਹੈ। ਪਰ ਜਦੋਂ ਚਿੱਤਰ ਨੂੰ ਜ਼ੂਮ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਇਹ \"ਨੇੜਲੇ\" ਵਿਧੀ ਦੇ ਸਮਾਨ ਹੁੰਦਾ ਹੈ।</string>
     <string name="enable_tonemapping">ਟੋਨਮੈਪਿੰਗ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="enter_percent">% ਦਰਜ ਕਰੋ</string>
     <string name="unknown_host">ਸਾਈਟ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ, VPN ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਜਾਂਚ ਕਰੋ ਕਿ ਕੀ url ਸਹੀ ਹੈ</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">ਤੇਜ਼ ਸੈਟਿੰਗ ਸਾਈਡ</string>
     <string name="fast_settings_side_sub">ਚਿੱਤਰਾਂ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰਦੇ ਸਮੇਂ ਚੁਣੇ ਹੋਏ ਪਾਸੇ \'ਤੇ ਫਲੋਟਿੰਗ ਸਟ੍ਰਿਪ ਸ਼ਾਮਲ ਕਰੋ, ਜੋ ਕਿ ਕਲਿੱਕ ਕਰਨ \'ਤੇ ਤੇਜ਼ ਸੈਟਿੰਗਾਂ ਨੂੰ ਖੋਲ੍ਹ ਦੇਵੇਗੀ</string>
     <string name="clear_selection">ਚੋਣ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="settings_group_visibility_hidden">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \\"%s\\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਸਮੇਟਿਆ ਜਾਵੇਗਾ</string>
-    <string name="settings_group_visibility_visible">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \\"%s\\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਵਿਸਤਾਰ ਕੀਤਾ ਜਾਵੇਗਾ</string>
+    <string name="settings_group_visibility_hidden">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਸਮੇਟਿਆ ਜਾਵੇਗਾ</string>
+    <string name="settings_group_visibility_visible">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਵਿਸਤਾਰ ਕੀਤਾ ਜਾਵੇਗਾ</string>
     <string name="base_64_tools">ਬੇਸ 64 ਟੂਲ</string>
     <string name="base_64_tools_sub">ਬੇਸ 64 ਸਟ੍ਰਿੰਗ ਨੂੰ ਚਿੱਤਰ ਵਿੱਚ ਡੀਕੋਡ ਕਰੋ, ਜਾਂ ਚਿੱਤਰ ਨੂੰ ਬੇਸ64 ਫਾਰਮੈਟ ਵਿੱਚ ਏਨਕੋਡ ਕਰੋ</string>
     <string name="base_64">ਬੇਸ 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">ਤਾਜ਼ਾ ਕਰੋ</string>
     <string name="wallpapers_export_sub">ਮੌਜੂਦਾ ਘਰ, ਲਾਕ ਅਤੇ ਬਿਲਟ-ਇਨ ਵਾਲਪੇਪਰ ਪ੍ਰਾਪਤ ਕਰੋ</string>
     <string name="allow_access_to_all_files_for_wp">ਸਾਰੀਆਂ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ, ਵਾਲਪੇਪਰਾਂ ਨੂੰ ਮੁੜ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇਸਦੀ ਲੋੜ ਹੈ</string>
-    <string name="allow_read_media_images_for_wp">ਬਾਹਰੀ ਸਟੋਰੇਜ ਦੀ ਇਜਾਜ਼ਤ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਨਾ ਕਾਫ਼ੀ ਨਹੀਂ ਹੈ, ਤੁਹਾਨੂੰ ਆਪਣੀਆਂ ਤਸਵੀਰਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣ ਦੀ ਲੋੜ ਹੈ, \\"ਸਭ ਨੂੰ ਇਜਾਜ਼ਤ ਦਿਓ\\" ਨੂੰ ਚੁਣਨਾ ਯਕੀਨੀ ਬਣਾਓ।</string>
+    <string name="allow_read_media_images_for_wp">ਬਾਹਰੀ ਸਟੋਰੇਜ ਦੀ ਇਜਾਜ਼ਤ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਨਾ ਕਾਫ਼ੀ ਨਹੀਂ ਹੈ, ਤੁਹਾਨੂੰ ਆਪਣੀਆਂ ਤਸਵੀਰਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦੇਣ ਦੀ ਲੋੜ ਹੈ, \"ਸਭ ਨੂੰ ਇਜਾਜ਼ਤ ਦਿਓ\" ਨੂੰ ਚੁਣਨਾ ਯਕੀਨੀ ਬਣਾਓ।</string>
     <string name="add_preset_to_filename">ਫਾਈਲ ਨਾਮ ਵਿੱਚ ਪ੍ਰੀਸੈਟ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="add_preset_to_filename_sub">ਚਿੱਤਰ ਫਾਈਲ ਨਾਮ ਵਿੱਚ ਚੁਣੇ ਹੋਏ ਪ੍ਰੀਸੈਟ ਨਾਲ ਪਿਛੇਤਰ ਜੋੜਦਾ ਹੈ</string>
     <string name="add_image_scale_mode_to_filename">ਫਾਈਲ ਨਾਮ ਵਿੱਚ ਚਿੱਤਰ ਸਕੇਲ ਮੋਡ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">ਪਲਸ ਗਰਿੱਡ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
     <string name="nucleus_pixelization">ਨਿਊਕਲੀਅਸ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
     <string name="radial_weave_pixelization">ਰੇਡੀਅਲ ਵੇਵ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
-    <string name="cannot_open_uri">uri \\"%s\\" ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
+    <string name="cannot_open_uri">uri \"%s\" ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
     <string name="snowfall_mode">ਬਰਫ਼ਬਾਰੀ ਮੋਡ</string>
     <string name="enabled">ਸਮਰਥਿਤ</string>
     <string name="border_frame">ਬਾਰਡਰ ਫਰੇਮ</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">BG ਨੂੰ ਹਟਾਓ</string>
     <string name="horizontal_border_thickness">ਹਰੀਜ਼ੱਟਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
     <string name="vertical_border_thickness">ਵਰਟੀਕਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
+    <plurals name="color_count">
+        <item quantity="one">%s ਰੰਗ</item>
+        <item quantity="other">%s ਰੰਗ</item>
+    </plurals>
 </resources>

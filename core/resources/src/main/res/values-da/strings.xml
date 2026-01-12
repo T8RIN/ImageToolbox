@@ -886,9 +886,9 @@
     <string name="resize_anchor">Ændr størrelse på anker</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">Flydende</string>
-    <string name="fluent_switch_sub">En switch baseret på \\"Fluent\\" designsystemet</string>
+    <string name="fluent_switch_sub">En switch baseret på \"Fluent\" designsystemet</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">En switch baseret på \\"Cupertino\\" designsystemet</string>
+    <string name="cupertino_switch_sub">En switch baseret på \"Cupertino\" designsystemet</string>
     <string name="images_to_svg">Billeder til SVG</string>
     <string name="images_to_svg_sub">Spor givne billeder til SVG-billeder</string>
     <string name="use_sampled_palette">Brug Sampled Palette</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Gem som QR-kodebillede</string>
     <string name="delete_template">Slet skabelon</string>
     <string name="delete_template_warn">Du er ved at slette det valgte skabelonfilter. Denne handling kan ikke fortrydes</string>
-    <string name="added_filter_template">Tilføjet filterskabelon med navnet \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Tilføjet filterskabelon med navnet \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Forhåndsvisning af filter</string>
     <string name="qr_code">QR &amp;amp; stregkode</string>
     <string name="qr_code_sub">Scan QR-koden og få dens indhold, eller indsæt din streng for at generere en ny</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseract muligheder</string>
     <string name="tesseract_options_sub">Anvend nogle inputvariabler til tesseract-motoren</string>
     <string name="custom_options">Brugerdefinerede indstillinger</string>
-    <string name="custom_params_info">Indstillinger skal indtastes efter dette mønster: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Indstillinger skal indtastes efter dette mønster: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automatisk beskæring</string>
     <string name="free_corners">Frie hjørner</string>
     <string name="free_corners_sub">Beskær billede efter polygon, dette korrigerer også perspektivet</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Zigzag-forhold</string>
     <string name="create_shortcut">Opret genvej</string>
     <string name="create_shortcut_title">Vælg værktøj til at fastgøre</string>
-    <string name="create_shortcut_subtitle">Værktøjet vil blive tilføjet til startskærmen på din launcher som genvej, brug det i kombination med indstillingen \\"Spring filvalg over\\" for at opnå den nødvendige adfærd</string>
+    <string name="create_shortcut_subtitle">Værktøjet vil blive tilføjet til startskærmen på din launcher som genvej, brug det i kombination med indstillingen \"Spring filvalg over\" for at opnå den nødvendige adfærd</string>
     <string name="dont_stack_frames">Stable ikke rammer</string>
     <string name="dont_stack_frames_sub">Gør det muligt at bortskaffe tidligere rammer, så de ikke stables på hinanden</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Open Source-licenser</string>
     <string name="open_source_licenses_sub">Se licenser til open source-biblioteker, der bruges i denne app</string>
     <string name="area">Areal</string>
-    <string name="area_sub">Resampling ved hjælp af pixelarealrelation. Det kan være en foretrukken metode til billeddecimering, da det giver moire\\'-fri resultater. Men når billedet er zoomet ind, ligner det \\"Nærmeste\\"-metoden.</string>
+    <string name="area_sub">Resampling ved hjælp af pixelarealrelation. Det kan være en foretrukken metode til billeddecimering, da det giver moire\'-fri resultater. Men når billedet er zoomet ind, ligner det \"Nærmeste\"-metoden.</string>
     <string name="enable_tonemapping">Aktiver tonemapping</string>
     <string name="enter_percent">Indtast %</string>
     <string name="unknown_host">Kan ikke få adgang til webstedet, prøv at bruge VPN eller tjek om url\'en er korrekt</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Hurtige indstillinger side</string>
     <string name="fast_settings_side_sub">Tilføj en flydende strimmel på den valgte side, mens du redigerer billeder, som åbner hurtige indstillinger, når der klikkes på</string>
     <string name="clear_selection">Ryd markering</string>
-    <string name="settings_group_visibility_hidden">Indstillingsgruppen \\"%s\\" vil blive skjult som standard</string>
-    <string name="settings_group_visibility_visible">Indstillingsgruppen \\"%s\\" udvides som standard</string>
+    <string name="settings_group_visibility_hidden">Indstillingsgruppen \"%s\" vil blive skjult som standard</string>
+    <string name="settings_group_visibility_visible">Indstillingsgruppen \"%s\" udvides som standard</string>
     <string name="base_64_tools">Base64 værktøjer</string>
     <string name="base_64_tools_sub">Afkod Base64-streng til billede, eller indkod billede til Base64-format</string>
     <string name="base_64">Base 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Opfriske</string>
     <string name="wallpapers_export_sub">Få aktuelle hjem, lås og indbyggede tapeter</string>
     <string name="allow_access_to_all_files_for_wp">Tillad adgang til alle filer, dette er nødvendigt for at hente wallpapers</string>
-    <string name="allow_read_media_images_for_wp">Administrer ekstern lagringstilladelse er ikke nok, du skal give adgang til dine billeder, sørg for at vælge \\"Tillad alle\\"</string>
+    <string name="allow_read_media_images_for_wp">Administrer ekstern lagringstilladelse er ikke nok, du skal give adgang til dine billeder, sørg for at vælge \"Tillad alle\"</string>
     <string name="add_preset_to_filename">Tilføj forudindstilling til filnavn</string>
     <string name="add_preset_to_filename_sub">Tilføjer suffiks med valgt forudindstilling til billedfilnavn</string>
     <string name="add_image_scale_mode_to_filename">Tilføj billedskalatilstand til filnavn</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Puls Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial vævningspixelisering</string>
-    <string name="cannot_open_uri">Kan ikke åbne uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Kan ikke åbne uri \"%s\"</string>
     <string name="snowfall_mode">Snefaldstilstand</string>
     <string name="enabled">Aktiveret</string>
     <string name="border_frame">Kantramme</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Fjern BG</string>
     <string name="horizontal_border_thickness">Vandret kanttykkelse</string>
     <string name="vertical_border_thickness">Lodret kanttykkelse</string>
+    <plurals name="color_count">
+        <item quantity="one">%s farve</item>
+        <item quantity="other">%s farver</item>
+    </plurals>
 </resources>

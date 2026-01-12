@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Alisin ang BG</string>
     <string name="horizontal_border_thickness">Pahalang na Kapal ng Border</string>
     <string name="vertical_border_thickness">Vertical Border Thickness</string>
+    <plurals name="color_count">
+        <item quantity="one">%s kulay</item>
+        <item quantity="other">%s kulay</item>
+    </plurals>
 </resources>

@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Mentés QR-kód képként</string>
     <string name="delete_template">Sablon törlése</string>
     <string name="delete_template_warn">A kiválasztott sablonszűrő törlésére készül. Ez a művelet nem vonható vissza</string>
-    <string name="added_filter_template">Szűrősablon hozzáadva a következő névvel: \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Szűrősablon hozzáadva a következő névvel: \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Szűrő előnézete</string>
     <string name="qr_code">QR és vonalkód</string>
     <string name="qr_code_sub">Olvassa be a QR-kódot, és szerezze be a tartalmát, vagy illessze be a karakterláncot új kód létrehozásához</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseact Options</string>
     <string name="tesseract_options_sub">Alkalmazzon néhány bemeneti változót a tesseract motorhoz</string>
     <string name="custom_options">Egyéni beállítások</string>
-    <string name="custom_params_info">A beállításokat a következő minta szerint kell megadni: \\"--{opció_neve} {érték}\\"</string>
+    <string name="custom_params_info">A beállításokat a következő minta szerint kell megadni: \"--{opció_neve} {érték}\"</string>
     <string name="auto_crop">Automatikus kivágás</string>
     <string name="free_corners">Szabad sarkok</string>
     <string name="free_corners_sub">Vágja a képet sokszögenként, ezzel is korrigálja a perspektívát</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Cikcakk arány</string>
     <string name="create_shortcut">Parancsikon létrehozása</string>
     <string name="create_shortcut_title">Válassza ki a rögzíteni kívánt eszközt</string>
-    <string name="create_shortcut_subtitle">Az eszköz felkerül az indító kezdőképernyőjére parancsikonként, és használja a \\"Fájlválasztás kihagyása\\" beállítással kombinálva a kívánt viselkedés eléréséhez.</string>
+    <string name="create_shortcut_subtitle">Az eszköz felkerül az indító kezdőképernyőjére parancsikonként, és használja a \"Fájlválasztás kihagyása\" beállítással kombinálva a kívánt viselkedés eléréséhez.</string>
     <string name="dont_stack_frames">Ne rakja egymásra a kereteket</string>
     <string name="dont_stack_frames_sub">Lehetővé teszi a korábbi képkockák selejtezését, így azok nem fognak egymásra rakódni</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Nyílt forráskódú licencek</string>
     <string name="open_source_licenses_sub">Tekintse meg az ebben az alkalmazásban használt nyílt forráskódú könyvtárak licenceit</string>
     <string name="area">Terület</string>
-    <string name="area_sub">Újramintavételezés pixel terület reláció segítségével. Előnyben részesített módszer lehet a képtizedelésre, mivel moire-mentes eredményeket ad. De a kép nagyítása hasonló a \\"Legközelebbi\\" módszerhez.</string>
+    <string name="area_sub">Újramintavételezés pixel terület reláció segítségével. Előnyben részesített módszer lehet a képtizedelésre, mivel moire-mentes eredményeket ad. De a kép nagyítása hasonló a \"Legközelebbi\" módszerhez.</string>
     <string name="enable_tonemapping">Tonemapping engedélyezése</string>
     <string name="enter_percent">Írja be a %</string>
     <string name="unknown_host">Nem tud hozzáférni a webhelyhez, próbáljon meg VPN-t használni, vagy ellenőrizze, hogy az URL helyes-e</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Gyorsbeállítások oldal</string>
     <string name="fast_settings_side_sub">A képek szerkesztése közben adjon hozzá egy lebegő csíkot a kiválasztott oldalhoz, amelyre kattintva megnyílik a gyors beállítások</string>
     <string name="clear_selection">Kiválasztás törlése</string>
-    <string name="settings_group_visibility_hidden">A \\"%s\\" beállításcsoport alapértelmezés szerint össze lesz csukva</string>
-    <string name="settings_group_visibility_visible">A \\"%s\\" beállításcsoport alapértelmezés szerint ki lesz bontva</string>
+    <string name="settings_group_visibility_hidden">A \"%s\" beállításcsoport alapértelmezés szerint össze lesz csukva</string>
+    <string name="settings_group_visibility_visible">A \"%s\" beállításcsoport alapértelmezés szerint ki lesz bontva</string>
     <string name="base_64_tools">Base64 eszközök</string>
     <string name="base_64_tools_sub">Dekódolja a Base64 karakterláncot képpé, vagy kódolja a képet Base64 formátumba</string>
     <string name="base_64">Base64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Frissítés</string>
     <string name="wallpapers_export_sub">Szerezze be az aktuális otthoni, zárolási és beépített háttérképeket</string>
     <string name="allow_access_to_all_files_for_wp">Engedélyezze a hozzáférést az összes fájlhoz, ez szükséges a háttérképek letöltéséhez</string>
-    <string name="allow_read_media_images_for_wp">A külső tárhely engedélyének kezelése nem elegendő, engedélyeznie kell a képekhez való hozzáférést, és feltétlenül válassza az \\"Minden engedélyezése\\" lehetőséget.</string>
+    <string name="allow_read_media_images_for_wp">A külső tárhely engedélyének kezelése nem elegendő, engedélyeznie kell a képekhez való hozzáférést, és feltétlenül válassza az \"Minden engedélyezése\" lehetőséget.</string>
     <string name="add_preset_to_filename">Előbeállítás hozzáadása a fájlnévhez</string>
     <string name="add_preset_to_filename_sub">A kiválasztott előre beállított utótagot hozzáfűzi a képfájl nevéhez</string>
     <string name="add_image_scale_mode_to_filename">Képméretezési mód hozzáadása a fájlnévhez</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Impulzus rács pixelizálás</string>
     <string name="nucleus_pixelization">A mag pixelizációja</string>
     <string name="radial_weave_pixelization">Radial Weave pixelizáció</string>
-    <string name="cannot_open_uri">Nem lehet megnyitni a következőt: \\"%s\\"</string>
+    <string name="cannot_open_uri">Nem lehet megnyitni a következőt: \"%s\"</string>
     <string name="snowfall_mode">Havazás mód</string>
     <string name="enabled">Engedélyezve</string>
     <string name="border_frame">Szegély keret</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Távolítsa el a BG-t</string>
     <string name="horizontal_border_thickness">Vízszintes határvastagság</string>
     <string name="vertical_border_thickness">Függőleges határvastagság</string>
+    <plurals name="color_count">
+        <item quantity="one">%s színek</item>
+        <item quantity="other">%s színek</item>
+    </plurals>
 </resources>

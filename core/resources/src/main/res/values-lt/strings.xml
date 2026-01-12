@@ -530,15 +530,15 @@
     <string name="stitch_mode">Dygsnio režimas</string>
     <string name="rows_count">Eilučių skaičius</string>
     <string name="columns_count">Stulpelių skaičius</string>
-    <string name="no_such_directory">Nerastas \\"%1$s\\" katalogas, perjungėme jį į numatytąjį, išsaugokite failą dar kartą</string>
+    <string name="no_such_directory">Nerastas \"%1$s\" katalogas, perjungėme jį į numatytąjį, išsaugokite failą dar kartą</string>
     <string name="clipboard">Iškarpinė</string>
     <string name="auto_pin">Automatinis kaištis</string>
     <string name="auto_pin_sub">Automatiškai prideda išsaugotą vaizdą į mainų sritį, jei įjungta</string>
     <string name="vibration">Vibracija</string>
     <string name="vibration_strength">Vibracijos stiprumas</string>
-    <string name="overwrite_file_requirements">Norėdami perrašyti failus, turite naudoti \\"Explorer\\" vaizdo šaltinį, pabandykite perrinkti vaizdus, ​​mes pakeitėme vaizdo šaltinį į reikiamą</string>
+    <string name="overwrite_file_requirements">Norėdami perrašyti failus, turite naudoti \"Explorer\" vaizdo šaltinį, pabandykite perrinkti vaizdus, ​​mes pakeitėme vaizdo šaltinį į reikiamą</string>
     <string name="overwrite_files">Perrašyti failus</string>
-    <string name="overwrite_files_sub">Originalus failas bus pakeistas nauju, o ne išsaugoti pasirinktame aplanke, šios parinkties vaizdo šaltinis turi būti \\"Explorer\\" arba GetContent, perjungus tai bus nustatyta automatiškai</string>
+    <string name="overwrite_files_sub">Originalus failas bus pakeistas nauju, o ne išsaugoti pasirinktame aplanke, šios parinkties vaizdo šaltinis turi būti \"Explorer\" arba GetContent, perjungus tai bus nustatyta automatiškai</string>
     <string name="empty">Tuščia</string>
     <string name="suffix">Priesaga</string>
     <string name="scale_mode">Mastelio režimas</string>
@@ -610,7 +610,7 @@
     <string name="segmentation_mode_sparse_text">Retas tekstas</string>
     <string name="segmentation_mode_sparse_text_osd">Retai teksto orientacija ir scenarijaus aptikimas</string>
     <string name="segmentation_mode_raw_line">Neapdorota linija</string>
-    <string name="delete_language_sub">Ar norite ištrinti kalbos \\"%1$s\\" OCR mokymo duomenis visiems atpažinimo tipams, ar tik pasirinktam vienam (%2$s)?</string>
+    <string name="delete_language_sub">Ar norite ištrinti kalbos \"%1$s\" OCR mokymo duomenis visiems atpažinimo tipams, ar tik pasirinktam vienam (%2$s)?</string>
     <string name="current">Dabartinė</string>
     <string name="all">Visi</string>
     <string name="gradient_maker">Gradiento kūrėjas</string>
@@ -899,9 +899,9 @@
     <string name="resize_anchor">Inkaro dydžio keitimas</string>
     <string name="pixel_switch">Pikselis</string>
     <string name="fluent_switch">Sklandžiai</string>
-    <string name="fluent_switch_sub">Jungiklis, pagrįstas \\"Fluent\\" dizaino sistema</string>
+    <string name="fluent_switch_sub">Jungiklis, pagrįstas \"Fluent\" dizaino sistema</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Jungiklis, pagrįstas \\"Cupertino\\" dizaino sistema</string>
+    <string name="cupertino_switch_sub">Jungiklis, pagrįstas \"Cupertino\" dizaino sistema</string>
     <string name="images_to_svg">Vaizdai į SVG</string>
     <string name="images_to_svg_sub">Atsekti pateiktus vaizdus į SVG vaizdus</string>
     <string name="use_sampled_palette">Naudokite pavyzdinę paletę</string>
@@ -1137,7 +1137,7 @@
     <string name="save_as_qr_code_image">Išsaugoti kaip QR kodo vaizdą</string>
     <string name="delete_template">Ištrinti šabloną</string>
     <string name="delete_template_warn">Ketinate ištrinti pasirinktą šablono filtrą. Šios operacijos anuliuoti negalima</string>
-    <string name="added_filter_template">Pridėtas filtro šablonas pavadinimu \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Pridėtas filtro šablonas pavadinimu \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Filtro peržiūra</string>
     <string name="qr_code">QR ir brūkšninis kodas</string>
     <string name="qr_code_sub">Nuskaitykite QR kodą ir gaukite jo turinį arba įklijuokite eilutę, kad sukurtumėte naują</string>
@@ -1427,7 +1427,7 @@
     <string name="tesseract_options">Tesseact parinktys</string>
     <string name="tesseract_options_sub">Taikykite kai kuriuos tesseract variklio įvesties kintamuosius</string>
     <string name="custom_options">Pasirinktinės parinktys</string>
-    <string name="custom_params_info">Parinktys turi būti įvedamos pagal šį šabloną: \\"--{parinkties_pavadinimas} {value}\\"</string>
+    <string name="custom_params_info">Parinktys turi būti įvedamos pagal šį šabloną: \"--{parinkties_pavadinimas} {value}\"</string>
     <string name="auto_crop">Automatinis apkarpymas</string>
     <string name="free_corners">Nemokami kampai</string>
     <string name="free_corners_sub">Apkarpykite vaizdą pagal daugiakampį, tai taip pat pataiso perspektyvą</string>
@@ -1458,7 +1458,7 @@
     <string name="zigzag_sub">Nubrėžia banguotu zigzagu palei taką</string>
     <string name="zigzag_ratio">Zigzago santykis</string>
     <string name="create_shortcut">Sukurti nuorodą</string>
-    <string name="create_shortcut_subtitle">Įrankis bus pridėtas prie paleidimo priemonės pagrindinio ekrano kaip spartusis klavišas, naudokite jį kartu su nustatymu \\"Praleisti failų pasirinkimą\\", kad pasiektumėte reikiamą elgesį</string>
+    <string name="create_shortcut_subtitle">Įrankis bus pridėtas prie paleidimo priemonės pagrindinio ekrano kaip spartusis klavišas, naudokite jį kartu su nustatymu \"Praleisti failų pasirinkimą\", kad pasiektumėte reikiamą elgesį</string>
     <string name="dont_stack_frames">Nekraukite rėmelių</string>
     <string name="dont_stack_frames_sub">Leidžia išmesti ankstesnius rėmelius, todėl jie nebus sukrauti vienas ant kito</string>
     <string name="crossfade">Crossfade</string>
@@ -1501,7 +1501,7 @@
     <string name="open_source_licenses">Atvirojo kodo licencijos</string>
     <string name="open_source_licenses_sub">Peržiūrėkite šioje programoje naudojamų atvirojo kodo bibliotekų licencijas</string>
     <string name="area">Plotas</string>
-    <string name="area_sub">Atranka naudojant pikselių ploto santykį. Tai gali būti tinkamiausias vaizdų naikinimo metodas, nes jis duoda rezultatus be muaro. Bet kai vaizdas padidinamas, jis panašus į \\"Arčiausiai\\" metodą.</string>
+    <string name="area_sub">Atranka naudojant pikselių ploto santykį. Tai gali būti tinkamiausias vaizdų naikinimo metodas, nes jis duoda rezultatus be muaro. Bet kai vaizdas padidinamas, jis panašus į \"Arčiausiai\" metodą.</string>
     <string name="enable_tonemapping">Įgalinti Tonemapping</string>
     <string name="enter_percent">Įveskite %</string>
     <string name="unknown_host">Negalite pasiekti svetainės, pabandykite naudoti VPN arba patikrinkite, ar teisingas URL</string>
@@ -1516,8 +1516,8 @@
     <string name="fast_settings_side">Greitųjų nustatymų pusė</string>
     <string name="fast_settings_side_sub">Redaguodami vaizdus pasirinktoje pusėje pridėkite slankiąją juostelę, kurią spustelėjus atsidarys greiti nustatymai</string>
     <string name="clear_selection">Išvalyti pasirinkimą</string>
-    <string name="settings_group_visibility_hidden">Nustatymų grupė \\"%s\\" bus sutraukta pagal numatytuosius nustatymus</string>
-    <string name="settings_group_visibility_visible">Nustatymų grupė \\"%s\\" bus išplėsta pagal numatytuosius nustatymus</string>
+    <string name="settings_group_visibility_hidden">Nustatymų grupė \"%s\" bus sutraukta pagal numatytuosius nustatymus</string>
+    <string name="settings_group_visibility_visible">Nustatymų grupė \"%s\" bus išplėsta pagal numatytuosius nustatymus</string>
     <string name="base_64_tools">„Base64“ įrankiai</string>
     <string name="base_64_tools_sub">Iššifruokite „Base64“ eilutę į vaizdą arba užkoduokite vaizdą į „Base64“ formatą</string>
     <string name="base_64">Bazė64</string>
@@ -1739,7 +1739,7 @@
     <string name="refresh">Atnaujinti</string>
     <string name="wallpapers_export_sub">Gaukite dabartinius namų, užrakto ir įmontuotus fono paveikslėlius</string>
     <string name="allow_access_to_all_files_for_wp">Suteikite prieigą prie visų failų, to reikia norint gauti fono paveikslėlius</string>
-    <string name="allow_read_media_images_for_wp">Nepakanka tvarkyti išorinės saugyklos leidimo, turite leisti prieigą prie vaizdų, būtinai pasirinkite \\"Leisti viską\\"</string>
+    <string name="allow_read_media_images_for_wp">Nepakanka tvarkyti išorinės saugyklos leidimo, turite leisti prieigą prie vaizdų, būtinai pasirinkite \"Leisti viską\"</string>
     <string name="add_preset_to_filename">Pridėti išankstinį nustatymą prie failo pavadinimo</string>
     <string name="add_preset_to_filename_sub">Prie vaizdo failo pavadinimo pridedamas priesaga su pasirinktu išankstiniu nustatymu</string>
     <string name="add_image_scale_mode_to_filename">Pridėti vaizdo mastelio režimą prie failo pavadinimo</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Impulsinio tinklelio pikseliavimas</string>
     <string name="nucleus_pixelization">Branduolio pikseliavimas</string>
     <string name="radial_weave_pixelization">Radialinio pynimo pikseliavimas</string>
-    <string name="cannot_open_uri">Negalima atidaryti uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Negalima atidaryti uri \"%s\"</string>
     <string name="snowfall_mode">Sniego režimas</string>
     <string name="enabled">Įjungta</string>
     <string name="border_frame">Kraštinis rėmelis</string>
@@ -2002,4 +2002,10 @@
     <string name="type_removebg">Pašalinti BG</string>
     <string name="horizontal_border_thickness">Horizontalios kraštinės storis</string>
     <string name="vertical_border_thickness">Vertikalios kraštinės storis</string>
+    <plurals name="color_count">
+        <item quantity="many">%s spalvos</item>
+        <item quantity="one">%s spalva</item>
+        <item quantity="few">%s spalvos</item>
+        <item quantity="other">%s spalvos</item>
+    </plurals>
 </resources>

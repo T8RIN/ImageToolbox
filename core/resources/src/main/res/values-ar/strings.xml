@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">حفظ كصورة رمز الاستجابة السريعة</string>
     <string name="delete_template">حذف القالب</string>
     <string name="delete_template_warn">أنت على وشك حذف عامل تصفية القالب المحدد. لا يمكن التراجع عن هذه العملية</string>
-    <string name="added_filter_template">تمت إضافة قالب الفلتر بالاسم \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">تمت إضافة قالب الفلتر بالاسم \"%1$s\" (%2$d)</string>
     <string name="filter_preview">معاينة التصفية</string>
     <string name="qr_code">QR والباركود</string>
     <string name="qr_code_sub">امسح رمز الاستجابة السريعة ضوئيًا واحصل على محتواه أو الصق سلسلتك لإنشاء سلسلة جديدة</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">خيارات تسراكت</string>
     <string name="tesseract_options_sub">تطبيق بعض متغيرات الإدخال لمحرك tesseract</string>
     <string name="custom_options">خيارات مخصصة</string>
-    <string name="custom_params_info">يجب إدخال الخيارات باتباع هذا النمط: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">يجب إدخال الخيارات باتباع هذا النمط: \"--{option_name} {value}\"</string>
     <string name="auto_crop">الاقتصاص التلقائي</string>
     <string name="free_corners">زوايا حرة</string>
     <string name="free_corners_sub">قص الصورة حسب المضلع، وهذا أيضًا يصحح المنظور</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">نسبة متعرجة</string>
     <string name="create_shortcut">إنشاء اختصار</string>
     <string name="create_shortcut_title">اختر أداة لتثبيتها</string>
-    <string name="create_shortcut_subtitle">ستتم إضافة الأداة إلى الشاشة الرئيسية للمشغل الخاص بك كاختصار، استخدمها مع إعداد \\"تخطي انتقاء الملفات\\" لتحقيق السلوك المطلوب</string>
+    <string name="create_shortcut_subtitle">ستتم إضافة الأداة إلى الشاشة الرئيسية للمشغل الخاص بك كاختصار، استخدمها مع إعداد \"تخطي انتقاء الملفات\" لتحقيق السلوك المطلوب</string>
     <string name="dont_stack_frames">لا تكدس الإطارات</string>
     <string name="dont_stack_frames_sub">يتيح التخلص من الإطارات السابقة، بحيث لا تتكدس فوق بعضها البعض</string>
     <string name="crossfade">التلاشي المتقاطع</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">تراخيص مفتوحة المصدر</string>
     <string name="open_source_licenses_sub">عرض تراخيص المكتبات مفتوحة المصدر المستخدمة في هذا التطبيق</string>
     <string name="area">منطقة</string>
-    <string name="area_sub">إعادة التشكيل باستخدام علاقة منطقة البكسل. قد تكون هذه هي الطريقة المفضلة لتدمير الصورة، لأنها تعطي نتائج خالية من التموج في النسيج. ولكن عندما يتم تكبير الصورة، فهي تشبه طريقة \\"الأقرب\\".</string>
+    <string name="area_sub">إعادة التشكيل باستخدام علاقة منطقة البكسل. قد تكون هذه هي الطريقة المفضلة لتدمير الصورة، لأنها تعطي نتائج خالية من التموج في النسيج. ولكن عندما يتم تكبير الصورة، فهي تشبه طريقة \"الأقرب\".</string>
     <string name="enable_tonemapping">تمكين تعيين النغمات</string>
     <string name="enter_percent">يدخل ٪</string>
     <string name="unknown_host">لا يمكن الوصول إلى الموقع، حاول استخدام VPN أو تحقق مما إذا كان عنوان URL صحيحًا</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">جانب الإعدادات السريعة</string>
     <string name="fast_settings_side_sub">قم بإضافة شريط عائم على الجانب المحدد أثناء تحرير الصور، مما سيؤدي إلى فتح الإعدادات السريعة عند النقر عليها</string>
     <string name="clear_selection">مسح التحديد</string>
-    <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \\"%s\\" بشكل افتراضي</string>
-    <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \\"%s\\" بشكل افتراضي</string>
+    <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \"%s\" بشكل افتراضي</string>
+    <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \"%s\" بشكل افتراضي</string>
     <string name="base_64_tools">أدوات Base64</string>
     <string name="base_64_tools_sub">قم بفك تشفير سلسلة Base64 إلى صورة، أو قم بتشفير الصورة إلى تنسيق Base64</string>
     <string name="base_64">قاعدة64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">ينعش</string>
     <string name="wallpapers_export_sub">احصل على خلفيات الصفحة الرئيسية والقفل والخلفيات المدمجة الحالية</string>
     <string name="allow_access_to_all_files_for_wp">السماح بالوصول إلى جميع الملفات، وهذا ضروري لاسترداد الخلفيات</string>
-    <string name="allow_read_media_images_for_wp">إدارة إذن التخزين الخارجي ليست كافية، فأنت بحاجة إلى السماح بالوصول إلى صورك، وتأكد من تحديد \\"السماح للجميع\\"</string>
+    <string name="allow_read_media_images_for_wp">إدارة إذن التخزين الخارجي ليست كافية، فأنت بحاجة إلى السماح بالوصول إلى صورك، وتأكد من تحديد \"السماح للجميع\"</string>
     <string name="add_preset_to_filename">إضافة الإعداد المسبق إلى اسم الملف</string>
     <string name="add_preset_to_filename_sub">إلحاق لاحقة بالإعداد المسبق المحدد لاسم ملف الصورة</string>
     <string name="add_image_scale_mode_to_filename">إضافة وضع مقياس الصورة إلى اسم الملف</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">نبض شبكة البكسل</string>
     <string name="nucleus_pixelization">بكسل النواة</string>
     <string name="radial_weave_pixelization">شعاعي نسج بكسل</string>
-    <string name="cannot_open_uri">لا يمكن فتح عنوان uri \\"%s\\"</string>
+    <string name="cannot_open_uri">لا يمكن فتح عنوان uri \"%s\"</string>
     <string name="snowfall_mode">وضع تساقط الثلوج</string>
     <string name="enabled">ممكّن</string>
     <string name="border_frame">إطار الحدود</string>
@@ -2001,4 +2001,12 @@
     <string name="type_removebg">إزالة بي جي</string>
     <string name="horizontal_border_thickness">سمك الحدود الأفقية</string>
     <string name="vertical_border_thickness">سمك الحدود العمودية</string>
+    <plurals name="color_count">
+        <item quantity="zero" />
+        <item quantity="one">%s اللون</item>
+        <item quantity="two" />
+        <item quantity="few">%s الألوان</item>
+        <item quantity="many">%s الألوان</item>
+        <item quantity="other">%s الألوان</item>
+    </plurals>
 </resources>

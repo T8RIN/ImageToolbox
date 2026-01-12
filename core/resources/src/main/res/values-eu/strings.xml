@@ -884,9 +884,9 @@
     <string name="resize_anchor">Aingura tamaina aldatu</string>
     <string name="pixel_switch">Pixela</string>
     <string name="fluent_switch">Arina</string>
-    <string name="fluent_switch_sub">\\"Fluent\\" diseinu sisteman oinarritutako etengailua</string>
+    <string name="fluent_switch_sub">\"Fluent\" diseinu sisteman oinarritutako etengailua</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" diseinu sisteman oinarritutako etengailua</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" diseinu sisteman oinarritutako etengailua</string>
     <string name="images_to_svg">Irudiak SVGra</string>
     <string name="images_to_svg_sub">Jarraitu emandako irudiak SVG irudietara</string>
     <string name="use_sampled_palette">Erabili Sampled Paleta</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Gorde QR kodearen irudi gisa</string>
     <string name="delete_template">Ezabatu txantiloia</string>
     <string name="delete_template_warn">Hautatutako txantiloi-iragazkia ezabatzera zoaz. Eragiketa hau ezin da desegin</string>
-    <string name="added_filter_template">\\"%1$s\\" izena duen iragazki txantiloia gehitu da (%2$d)</string>
+    <string name="added_filter_template">\"%1$s\" izena duen iragazki txantiloia gehitu da (%2$d)</string>
     <string name="filter_preview">Iragaziaren aurrebista</string>
     <string name="qr_code">QR eta barra-kodea</string>
     <string name="qr_code_sub">Eskaneatu QR kodea eta lortu bere edukia edo itsatsi zure katea berria sortzeko</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tesseract Aukerak</string>
     <string name="tesseract_options_sub">Aplikatu sarrerako aldagai batzuk tesseract motorrako</string>
     <string name="custom_options">Aukera pertsonalizatuak</string>
-    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Mozketa automatikoa</string>
     <string name="free_corners">Doako Txokoak</string>
     <string name="free_corners_sub">Moztu irudia poligonoz, honek perspektiba ere zuzentzen du</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Sigi-saga-erlazioa</string>
     <string name="create_shortcut">Sortu lasterbidea</string>
     <string name="create_shortcut_title">Aukeratu ainguratzeko tresna</string>
-    <string name="create_shortcut_subtitle">Tresna abiarazlearen hasierako pantailan gehituko da lasterbide gisa, erabili \\"Saltatu fitxategiak hautatzea\\" ezarpenarekin konbinatuz, beharrezko portaera lortzeko.</string>
+    <string name="create_shortcut_subtitle">Tresna abiarazlearen hasierako pantailan gehituko da lasterbide gisa, erabili \"Saltatu fitxategiak hautatzea\" ezarpenarekin konbinatuz, beharrezko portaera lortzeko.</string>
     <string name="dont_stack_frames">Ez pilatu markoak</string>
     <string name="dont_stack_frames_sub">Aurreko fotogramak botatzeko aukera ematen du, beraz, ez dira elkarren gainean pilatuko</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Kode irekiko lizentziak</string>
     <string name="open_source_licenses_sub">Ikusi aplikazio honetan erabiltzen diren kode irekiko liburutegien lizentziak</string>
     <string name="area">Eremua</string>
-    <string name="area_sub">Birlaginketa pixelaren eremuaren erlazioa erabiliz. Irudiak dezimatzeko metodo hobetsia izan daiteke, moirerik gabeko emaitzak ematen baititu. Baina irudia handitzen denean, \\"Gertuena\\" metodoaren antzekoa da.</string>
+    <string name="area_sub">Birlaginketa pixelaren eremuaren erlazioa erabiliz. Irudiak dezimatzeko metodo hobetsia izan daiteke, moirerik gabeko emaitzak ematen baititu. Baina irudia handitzen denean, \"Gertuena\" metodoaren antzekoa da.</string>
     <string name="enable_tonemapping">Gaitu Tonemapping</string>
     <string name="enter_percent">Sartu %</string>
     <string name="unknown_host">Ezin da webgunera sartu, saiatu VPN erabiltzen edo egiaztatu url-a zuzena den</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Ezarpen azkarrak aldean</string>
     <string name="fast_settings_side_sub">Gehitu zerrenda mugikor bat hautatutako aldean irudiak editatzen dituzun bitartean, eta horrek ezarpen azkarrak irekiko ditu klik egiten duzunean</string>
     <string name="clear_selection">Garbitu hautaketa</string>
-    <string name="settings_group_visibility_hidden">\\"%s\\" ezarpen taldea lehenespenez tolestuta egongo da</string>
-    <string name="settings_group_visibility_visible">\\"%s\\" ezarpen taldea lehenespenez zabalduko da</string>
+    <string name="settings_group_visibility_hidden">\"%s\" ezarpen taldea lehenespenez tolestuta egongo da</string>
+    <string name="settings_group_visibility_visible">\"%s\" ezarpen taldea lehenespenez zabalduko da</string>
     <string name="base_64_tools">Base64 tresnak</string>
     <string name="base_64_tools_sub">Deskodetu Base64 katea irudira, edo kodetu irudia Base64 formatuan</string>
     <string name="base_64">Oinarria64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Freskatu</string>
     <string name="wallpapers_export_sub">Lortu uneko hasierako, blokeoa eta horma-irudi integratuak</string>
     <string name="allow_access_to_all_files_for_wp">Baimendu fitxategi guztietarako sarbidea, hau beharrezkoa da horma-paperak berreskuratzeko</string>
-    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu \\"Baimendu guztiak\\" hautatu duzula</string>
+    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu \"Baimendu guztiak\" hautatu duzula</string>
     <string name="add_preset_to_filename">Gehitu aurrezarpena fitxategi-izenari</string>
     <string name="add_preset_to_filename_sub">Hautatutako aurrezartutako atzizkia eransten dio irudi-fitxategiaren izenari</string>
     <string name="add_image_scale_mode_to_filename">Gehitu irudien eskala modua fitxategi-izenari</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pultsu-sarearen pixelizazioa</string>
     <string name="nucleus_pixelization">Nukleoaren pixelizazioa</string>
     <string name="radial_weave_pixelization">Ehun erradiala pixelizazioa</string>
-    <string name="cannot_open_uri">Ezin da ireki uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Ezin da ireki uri \"%s\"</string>
     <string name="snowfall_mode">Elurra modua</string>
     <string name="enabled">Gaituta</string>
     <string name="border_frame">Ertzaren markoa</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Kendu BG</string>
     <string name="horizontal_border_thickness">Ertzaren lodiera horizontala</string>
     <string name="vertical_border_thickness">Ertz Bertikala Lodiera</string>
+    <plurals name="color_count">
+        <item quantity="one">%s kolorea</item>
+        <item quantity="other">%s koloreak</item>
+    </plurals>
 </resources>

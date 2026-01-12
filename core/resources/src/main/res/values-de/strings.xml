@@ -2001,4 +2001,8 @@
     <string name="type_removebg">BG entfernen</string>
     <string name="horizontal_border_thickness">Horizontale Randstärke</string>
     <string name="vertical_border_thickness">Vertikale Randstärke</string>
+    <plurals name="color_count">
+        <item quantity="one">%s Farbe</item>
+        <item quantity="other">%s Farben</item>
+    </plurals>
 </resources>

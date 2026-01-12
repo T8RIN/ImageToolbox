@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Simpan sebagai gambar kode QR</string>
     <string name="delete_template">Hapus Templat</string>
     <string name="delete_template_warn">Anda akan menghapus filter template yang dipilih. Operasi ini tidak dapat dibatalkan</string>
-    <string name="added_filter_template">Menambahkan templat filter dengan nama \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Menambahkan templat filter dengan nama \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Pratinjau Filter</string>
     <string name="qr_code">QR &amp;amp; Kode Batang</string>
     <string name="qr_code_sub">Pindai kode QR dan dapatkan kontennya atau tempel string Anda untuk menghasilkan yang baru</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Opsi Tesseract</string>
     <string name="tesseract_options_sub">Terapkan beberapa variabel masukan untuk mesin tesseract</string>
     <string name="custom_options">Opsi Kustom</string>
-    <string name="custom_params_info">Opsi harus dimasukkan mengikuti pola ini: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Opsi harus dimasukkan mengikuti pola ini: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Pangkas Otomatis</string>
     <string name="free_corners">Sudut Bebas</string>
     <string name="free_corners_sub">Pangkas gambar berdasarkan poligon, ini juga mengoreksi perspektif</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Rasio zigzag</string>
     <string name="create_shortcut">Buat Pintasan</string>
     <string name="create_shortcut_title">Pilih alat untuk disematkan</string>
-    <string name="create_shortcut_subtitle">Alat akan ditambahkan ke layar beranda peluncur Anda sebagai pintasan, gunakan alat tersebut dengan menggabungkan pengaturan \\"Lewati pengambilan file\\" untuk mencapai perilaku yang diperlukan</string>
+    <string name="create_shortcut_subtitle">Alat akan ditambahkan ke layar beranda peluncur Anda sebagai pintasan, gunakan alat tersebut dengan menggabungkan pengaturan \"Lewati pengambilan file\" untuk mencapai perilaku yang diperlukan</string>
     <string name="dont_stack_frames">Jangan menumpuk bingkai</string>
     <string name="dont_stack_frames_sub">Memungkinkan pembuangan bingkai sebelumnya, sehingga bingkai tersebut tidak akan saling bertumpuk</string>
     <string name="crossfade">memudar silang</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Lisensi Sumber Terbuka</string>
     <string name="open_source_licenses_sub">Lihat lisensi perpustakaan sumber terbuka yang digunakan dalam aplikasi ini</string>
     <string name="area">Daerah</string>
-    <string name="area_sub">Pengambilan sampel ulang menggunakan relasi area piksel. Ini mungkin merupakan metode yang lebih disukai untuk penipisan gambar, karena memberikan hasil bebas moire. Namun saat gambar diperbesar, serupa dengan metode \\"Terdekat\\".</string>
+    <string name="area_sub">Pengambilan sampel ulang menggunakan relasi area piksel. Ini mungkin merupakan metode yang lebih disukai untuk penipisan gambar, karena memberikan hasil bebas moire. Namun saat gambar diperbesar, serupa dengan metode \"Terdekat\".</string>
     <string name="enable_tonemapping">Aktifkan Pemetaan Nada</string>
     <string name="enter_percent">Memasuki %</string>
     <string name="unknown_host">Tidak dapat mengakses situs, coba gunakan VPN atau periksa apakah urlnya benar</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Sisi Pengaturan Cepat</string>
     <string name="fast_settings_side_sub">Tambahkan strip mengambang di sisi yang dipilih saat mengedit gambar, yang akan membuka pengaturan cepat saat diklik</string>
     <string name="clear_selection">Hapus pilihan</string>
-    <string name="settings_group_visibility_hidden">Grup pengaturan \\"%s\\" akan diciutkan secara default</string>
-    <string name="settings_group_visibility_visible">Grup pengaturan \\"%s\\" akan diperluas secara default</string>
+    <string name="settings_group_visibility_hidden">Grup pengaturan \"%s\" akan diciutkan secara default</string>
+    <string name="settings_group_visibility_visible">Grup pengaturan \"%s\" akan diperluas secara default</string>
     <string name="base_64_tools">Alat Base64</string>
     <string name="base_64_tools_sub">Dekode string Base64 menjadi gambar, atau enkode gambar ke format Base64</string>
     <string name="base_64">Basis64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Menyegarkan</string>
     <string name="wallpapers_export_sub">Dapatkan wallpaper Beranda, Kunci, dan Bawaan terkini</string>
     <string name="allow_access_to_all_files_for_wp">Izinkan akses ke semua file, ini diperlukan untuk mengambil wallpaper</string>
-    <string name="allow_read_media_images_for_wp">Izin mengelola penyimpanan eksternal saja tidak cukup, Anda perlu mengizinkan akses ke gambar Anda, pastikan untuk memilih \\"Izinkan semua\\"</string>
+    <string name="allow_read_media_images_for_wp">Izin mengelola penyimpanan eksternal saja tidak cukup, Anda perlu mengizinkan akses ke gambar Anda, pastikan untuk memilih \"Izinkan semua\"</string>
     <string name="add_preset_to_filename">Tambahkan Preset Ke Nama File</string>
     <string name="add_preset_to_filename_sub">Menambahkan akhiran dengan preset yang dipilih ke nama file gambar</string>
     <string name="add_image_scale_mode_to_filename">Tambahkan Mode Skala Gambar Ke Nama File</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pikselisasi Jaringan Pulsa</string>
     <string name="nucleus_pixelization">Pikselisasi Inti</string>
     <string name="radial_weave_pixelization">Pikselisasi Tenunan Radial</string>
-    <string name="cannot_open_uri">Tidak dapat membuka uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Tidak dapat membuka uri \"%s\"</string>
     <string name="snowfall_mode">Mode Hujan Salju</string>
     <string name="enabled">Diaktifkan</string>
     <string name="border_frame">Bingkai Perbatasan</string>
@@ -2001,4 +2001,7 @@
     <string name="type_removebg">Hapus BG</string>
     <string name="horizontal_border_thickness">Ketebalan Perbatasan Horisontal</string>
     <string name="vertical_border_thickness">Ketebalan Batas Vertikal</string>
+    <plurals name="color_count">
+        <item quantity="other">%s warna</item>
+    </plurals>
 </resources>

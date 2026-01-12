@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Tùy chọn Tesseract</string>
     <string name="tesseract_options_sub">Áp dụng một số biến đầu vào cho công cụ tesseract</string>
     <string name="custom_options">Tùy chọn tùy chỉnh</string>
-    <string name="custom_params_info">Các tùy chọn phải được nhập theo mẫu sau: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Các tùy chọn phải được nhập theo mẫu sau: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Tự động cắt</string>
     <string name="free_corners">Góc miễn phí</string>
     <string name="free_corners_sub">Cắt hình ảnh theo đa giác, điều này cũng điều chỉnh phối cảnh</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Tỷ lệ ngoằn ngoèo</string>
     <string name="create_shortcut">Tạo lối tắt</string>
     <string name="create_shortcut_title">Chọn công cụ để ghim</string>
-    <string name="create_shortcut_subtitle">Công cụ sẽ được thêm vào màn hình chính của trình khởi chạy dưới dạng lối tắt, hãy sử dụng công cụ này kết hợp với cài đặt \\"Bỏ qua việc chọn tệp\\" để đạt được hành vi cần thiết</string>
+    <string name="create_shortcut_subtitle">Công cụ sẽ được thêm vào màn hình chính của trình khởi chạy dưới dạng lối tắt, hãy sử dụng công cụ này kết hợp với cài đặt \"Bỏ qua việc chọn tệp\" để đạt được hành vi cần thiết</string>
     <string name="dont_stack_frames">Đừng xếp chồng các khung</string>
     <string name="dont_stack_frames_sub">Cho phép loại bỏ các khung hình trước đó để chúng không xếp chồng lên nhau</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Giấy phép nguồn mở</string>
     <string name="open_source_licenses_sub">Xem giấy phép của các thư viện nguồn mở được sử dụng trong ứng dụng này</string>
     <string name="area">Khu vực</string>
-    <string name="area_sub">Lấy mẫu lại bằng cách sử dụng quan hệ vùng pixel. Đây có thể là một phương pháp ưa thích để giảm số thập phân hình ảnh vì nó mang lại kết quả không có hiện tượng moire. Nhưng khi phóng to hình ảnh, nó tương tự như phương pháp \\"Gần nhất\\".</string>
+    <string name="area_sub">Lấy mẫu lại bằng cách sử dụng quan hệ vùng pixel. Đây có thể là một phương pháp ưa thích để giảm số thập phân hình ảnh vì nó mang lại kết quả không có hiện tượng moire. Nhưng khi phóng to hình ảnh, nó tương tự như phương pháp \"Gần nhất\".</string>
     <string name="enable_tonemapping">Bật bản đồ giai điệu</string>
     <string name="enter_percent">Đi vào %</string>
     <string name="unknown_host">Không thể truy cập trang web, hãy thử sử dụng VPN hoặc kiểm tra xem url có chính xác không</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Bên cài đặt nhanh</string>
     <string name="fast_settings_side_sub">Thêm dải nổi ở phía đã chọn trong khi chỉnh sửa hình ảnh, thao tác này sẽ mở cài đặt nhanh khi nhấp vào</string>
     <string name="clear_selection">Xóa lựa chọn</string>
-    <string name="settings_group_visibility_hidden">Nhóm cài đặt \\"%s\\" sẽ được thu gọn theo mặc định</string>
-    <string name="settings_group_visibility_visible">Nhóm cài đặt \\"%s\\" sẽ được mở rộng theo mặc định</string>
+    <string name="settings_group_visibility_hidden">Nhóm cài đặt \"%s\" sẽ được thu gọn theo mặc định</string>
+    <string name="settings_group_visibility_visible">Nhóm cài đặt \"%s\" sẽ được mở rộng theo mặc định</string>
     <string name="base_64_tools">Công cụ Base64</string>
     <string name="base_64_tools_sub">Giải mã chuỗi Base64 thành hình ảnh hoặc mã hóa hình ảnh sang định dạng Base64</string>
     <string name="base_64">cơ sở64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Làm cho khỏe lại</string>
     <string name="wallpapers_export_sub">Lấy hình nền Home, Lock và Built-in hiện tại</string>
     <string name="allow_access_to_all_files_for_wp">Cho phép truy cập vào tất cả các tập tin, điều này là cần thiết để lấy hình nền</string>
-    <string name="allow_read_media_images_for_wp">Quyền quản lý bộ nhớ ngoài là chưa đủ, bạn cần cho phép truy cập vào hình ảnh của mình, đảm bảo chọn \\"Cho phép tất cả\\"</string>
+    <string name="allow_read_media_images_for_wp">Quyền quản lý bộ nhớ ngoài là chưa đủ, bạn cần cho phép truy cập vào hình ảnh của mình, đảm bảo chọn \"Cho phép tất cả\"</string>
     <string name="add_preset_to_filename">Thêm cài đặt sẵn vào tên tệp</string>
     <string name="add_preset_to_filename_sub">Nối hậu tố với giá trị đặt trước đã chọn vào tên tệp hình ảnh</string>
     <string name="add_image_scale_mode_to_filename">Thêm chế độ tỷ lệ hình ảnh vào tên tệp</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixel hóa lưới xung</string>
     <string name="nucleus_pixelization">Pixel hóa hạt nhân</string>
     <string name="radial_weave_pixelization">Pixel hóa xuyên tâm</string>
-    <string name="cannot_open_uri">Không thể mở uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Không thể mở uri \"%s\"</string>
     <string name="snowfall_mode">Chế độ tuyết rơi</string>
     <string name="enabled">Đã bật</string>
     <string name="border_frame">Khung viền</string>
@@ -2001,4 +2001,7 @@
     <string name="type_removebg">Xóa BG</string>
     <string name="horizontal_border_thickness">Độ dày viền ngang</string>
     <string name="vertical_border_thickness">Độ dày viền dọc</string>
+    <plurals name="color_count">
+        <item quantity="other">%s màu sắc</item>
+    </plurals>
 </resources>

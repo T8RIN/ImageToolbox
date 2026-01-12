@@ -884,9 +884,9 @@
     <string name="resize_anchor">ปรับขนาดจุดยึด</string>
     <string name="pixel_switch">พิกเซล</string>
     <string name="fluent_switch">คล่องแคล่ว</string>
-    <string name="fluent_switch_sub">สวิตช์ที่ใช้ระบบการออกแบบ \\"Fluent\\"</string>
+    <string name="fluent_switch_sub">สวิตช์ที่ใช้ระบบการออกแบบ \"Fluent\"</string>
     <string name="cupertino_switch">คูเปอร์ติโน</string>
-    <string name="cupertino_switch_sub">สวิตช์ที่ใช้ระบบการออกแบบ \\"คูเปอร์ติโน\\"</string>
+    <string name="cupertino_switch_sub">สวิตช์ที่ใช้ระบบการออกแบบ \"คูเปอร์ติโน\"</string>
     <string name="images_to_svg">รูปภาพเป็น SVG</string>
     <string name="images_to_svg_sub">ติดตามภาพที่กำหนดไปยังภาพ SVG</string>
     <string name="use_sampled_palette">ใช้จานสีตัวอย่าง</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">บันทึกเป็นภาพรหัส QR</string>
     <string name="delete_template">ลบเทมเพลต</string>
     <string name="delete_template_warn">คุณกำลังจะลบตัวกรองเทมเพลตที่เลือก การดำเนินการนี้ไม่สามารถยกเลิกได้</string>
-    <string name="added_filter_template">เพิ่มเทมเพลตตัวกรองชื่อ \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">เพิ่มเทมเพลตตัวกรองชื่อ \"%1$s\" (%2$d)</string>
     <string name="filter_preview">ดูตัวอย่างตัวกรอง</string>
     <string name="qr_code">คิวอาร์และบาร์โค้ด</string>
     <string name="qr_code_sub">สแกนโค้ด QR และรับเนื้อหาหรือวางสตริงของคุณเพื่อสร้างโค้ดใหม่</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">ตัวเลือกเทสเซอร์แรค</string>
     <string name="tesseract_options_sub">ใช้ตัวแปรอินพุตบางตัวสำหรับเอ็นจิ้น tesseract</string>
     <string name="custom_options">ตัวเลือกที่กำหนดเอง</string>
-    <string name="custom_params_info">ควรป้อนตัวเลือกตามรูปแบบนี้: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">ควรป้อนตัวเลือกตามรูปแบบนี้: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ครอบตัดอัตโนมัติ</string>
     <string name="free_corners">มุมฟรี</string>
     <string name="free_corners_sub">ครอบตัดรูปภาพตามรูปหลายเหลี่ยม ซึ่งจะช่วยแก้ไขเปอร์สเปคทีฟด้วย</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">อัตราส่วนซิกแซก</string>
     <string name="create_shortcut">สร้างทางลัด</string>
     <string name="create_shortcut_title">เลือกเครื่องมือที่จะปักหมุด</string>
-    <string name="create_shortcut_subtitle">เครื่องมือจะถูกเพิ่มลงในหน้าจอหลักของ Launcher ของคุณเป็นทางลัด โดยใช้ร่วมกับการตั้งค่า \\"ข้ามการเลือกไฟล์\\" เพื่อให้บรรลุการทำงานที่จำเป็น</string>
+    <string name="create_shortcut_subtitle">เครื่องมือจะถูกเพิ่มลงในหน้าจอหลักของ Launcher ของคุณเป็นทางลัด โดยใช้ร่วมกับการตั้งค่า \"ข้ามการเลือกไฟล์\" เพื่อให้บรรลุการทำงานที่จำเป็น</string>
     <string name="dont_stack_frames">อย่าซ้อนเฟรม</string>
     <string name="dont_stack_frames_sub">ช่วยให้สามารถกำจัดเฟรมก่อนหน้าได้ ดังนั้นเฟรมเหล่านั้นจะไม่ซ้อนกัน</string>
     <string name="crossfade">ครอสเฟด</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">ใบอนุญาตโอเพ่นซอร์ส</string>
     <string name="open_source_licenses_sub">ดูใบอนุญาตของไลบรารีโอเพ่นซอร์สที่ใช้ในแอปนี้</string>
     <string name="area">พื้นที่</string>
-    <string name="area_sub">การสุ่มตัวอย่างใหม่โดยใช้ความสัมพันธ์ของพื้นที่พิกเซล อาจเป็นวิธีที่นิยมใช้สำหรับการทำลายภาพ เนื่องจากให้ผลลัพธ์ที่ปราศจากรอยมัว แต่เมื่อซูมภาพ จะคล้ายกับวิธี \\"ใกล้ที่สุด\\"</string>
+    <string name="area_sub">การสุ่มตัวอย่างใหม่โดยใช้ความสัมพันธ์ของพื้นที่พิกเซล อาจเป็นวิธีที่นิยมใช้สำหรับการทำลายภาพ เนื่องจากให้ผลลัพธ์ที่ปราศจากรอยมัว แต่เมื่อซูมภาพ จะคล้ายกับวิธี \"ใกล้ที่สุด\"</string>
     <string name="enable_tonemapping">เปิดใช้งาน Tonemapping</string>
     <string name="enter_percent">เข้า %</string>
     <string name="unknown_host">ไม่สามารถเข้าถึงไซต์ได้ ลองใช้ VPN หรือตรวจสอบว่า URL ถูกต้องหรือไม่</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">ด้านการตั้งค่าด่วน</string>
     <string name="fast_settings_side_sub">เพิ่มแถบลอยที่ด้านที่เลือกขณะแก้ไขรูปภาพ ซึ่งจะเปิดการตั้งค่าที่รวดเร็วเมื่อคลิก</string>
     <string name="clear_selection">ล้างการเลือก</string>
-    <string name="settings_group_visibility_hidden">การตั้งค่ากลุ่ม \\"%s\\" จะถูกยุบโดยค่าเริ่มต้น</string>
-    <string name="settings_group_visibility_visible">การตั้งค่ากลุ่ม \\"%s\\" จะถูกขยายตามค่าเริ่มต้น</string>
+    <string name="settings_group_visibility_hidden">การตั้งค่ากลุ่ม \"%s\" จะถูกยุบโดยค่าเริ่มต้น</string>
+    <string name="settings_group_visibility_visible">การตั้งค่ากลุ่ม \"%s\" จะถูกขยายตามค่าเริ่มต้น</string>
     <string name="base_64_tools">เครื่องมือ Base64</string>
     <string name="base_64_tools_sub">ถอดรหัสสตริง Base64 เป็นรูปภาพ หรือเข้ารหัสรูปภาพเป็นรูปแบบ Base64</string>
     <string name="base_64">ฐาน64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">รีเฟรช</string>
     <string name="wallpapers_export_sub">รับวอลเปเปอร์ Home, Lock และ Built-in ปัจจุบัน</string>
     <string name="allow_access_to_all_files_for_wp">อนุญาตให้เข้าถึงไฟล์ทั้งหมด ซึ่งจำเป็นสำหรับการดึงวอลเปเปอร์</string>
-    <string name="allow_read_media_images_for_wp">สิทธิ์ในการจัดการที่จัดเก็บข้อมูลภายนอกไม่เพียงพอ คุณต้องอนุญาตการเข้าถึงรูปภาพของคุณ ตรวจสอบให้แน่ใจว่าได้เลือก \\"อนุญาตทั้งหมด\\"</string>
+    <string name="allow_read_media_images_for_wp">สิทธิ์ในการจัดการที่จัดเก็บข้อมูลภายนอกไม่เพียงพอ คุณต้องอนุญาตการเข้าถึงรูปภาพของคุณ ตรวจสอบให้แน่ใจว่าได้เลือก \"อนุญาตทั้งหมด\"</string>
     <string name="add_preset_to_filename">เพิ่มค่าที่ตั้งไว้ล่วงหน้าในชื่อไฟล์</string>
     <string name="add_preset_to_filename_sub">เพิ่มส่วนต่อท้ายด้วยค่าที่ตั้งไว้ล่วงหน้าที่เลือกไว้กับชื่อไฟล์ภาพ</string>
     <string name="add_image_scale_mode_to_filename">เพิ่มโหมดมาตราส่วนรูปภาพในชื่อไฟล์</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">พิกเซลกริดพัลส์</string>
     <string name="nucleus_pixelization">การทำให้เป็นพิกเซลของนิวเคลียส</string>
     <string name="radial_weave_pixelization">การสร้างพิกเซลแบบสานเรเดียล</string>
-    <string name="cannot_open_uri">ไม่สามารถเปิด uri \\"%s\\"</string>
+    <string name="cannot_open_uri">ไม่สามารถเปิด uri \"%s\"</string>
     <string name="snowfall_mode">โหมดหิมะตก</string>
     <string name="enabled">เปิดใช้งานแล้ว</string>
     <string name="border_frame">เส้นขอบเฟรม</string>
@@ -2001,4 +2001,7 @@
     <string name="type_removebg">ลบบีจี</string>
     <string name="horizontal_border_thickness">ความหนาของเส้นขอบแนวนอน</string>
     <string name="vertical_border_thickness">ความหนาของเส้นขอบแนวตั้ง</string>
+    <plurals name="color_count">
+        <item quantity="other">%s สี</item>
+    </plurals>
 </resources>

@@ -1177,7 +1177,7 @@
     <string name="template_filter">Filtre de modèle</string>
     <string name="as_qr_code">Comme image de code QR</string>
     <string name="delete_template_warn">Vous êtes sur le point de supprimer le filtre de modèle sélectionné. Cette opération est irréversible</string>
-    <string name="added_filter_template">Modèle de filtre ajouté avec le nom \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Modèle de filtre ajouté avec le nom \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Aperçu du filtre</string>
     <string name="qr_code">QR et code-barres</string>
     <string name="qr_code_sub">Scannez le code QR et obtenez son contenu ou collez votre chaîne pour en générer une nouvelle</string>
@@ -1436,7 +1436,7 @@
     <string name="tesseract_options">Options de tesseract</string>
     <string name="tesseract_options_sub">Appliquer quelques variables d\'entrée pour le moteur tesseract</string>
     <string name="custom_options">Options personnalisées</string>
-    <string name="custom_params_info">Les options doivent être saisies en suivant ce modèle : \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Les options doivent être saisies en suivant ce modèle : \"--{option_name} {value}\"</string>
     <string name="auto_crop">Recadrage automatique</string>
     <string name="free_corners">Coins gratuits</string>
     <string name="free_corners_sub">Recadrer l\'image par polygone, cela corrige également la perspective</string>
@@ -1495,7 +1495,7 @@
     <string name="open_source_licenses">Licences Open Source</string>
     <string name="open_source_licenses_sub">Afficher les licences des bibliothèques open source utilisées dans cette application</string>
     <string name="area">Zone</string>
-    <string name="area_sub">Rééchantillonnage en utilisant la relation entre les zones de pixels. Il s\'agit peut-être d\'une méthode privilégiée pour la décimation d\'images, car elle donne des résultats sans moiré. Mais lorsque l\'image est agrandie, cela ressemble à la méthode \\"Nearest\\".</string>
+    <string name="area_sub">Rééchantillonnage en utilisant la relation entre les zones de pixels. Il s\'agit peut-être d\'une méthode privilégiée pour la décimation d\'images, car elle donne des résultats sans moiré. Mais lorsque l\'image est agrandie, cela ressemble à la méthode \"Nearest\".</string>
     <string name="enable_tonemapping">Activer le mappage de tons</string>
     <string name="enter_percent">Entrer %</string>
     <string name="unknown_host">Impossible d\'accéder au site, essayez d\'utiliser un VPN ou vérifiez si l\'URL est correcte</string>
@@ -1510,8 +1510,8 @@
     <string name="fast_settings_side">Côté réglages rapides</string>
     <string name="fast_settings_side_sub">Ajoutez une bande flottante sur le côté sélectionné lors de l\'édition des images, qui ouvrira les paramètres rapides lorsque vous cliquerez dessus</string>
     <string name="clear_selection">Effacer la sélection</string>
-    <string name="settings_group_visibility_hidden">Le groupe de paramètres \\"%s\\" sera réduit par défaut</string>
-    <string name="settings_group_visibility_visible">Le groupe de paramètres \\"%s\\" sera étendu par défaut</string>
+    <string name="settings_group_visibility_hidden">Le groupe de paramètres \"%s\" sera réduit par défaut</string>
+    <string name="settings_group_visibility_visible">Le groupe de paramètres \"%s\" sera étendu par défaut</string>
     <string name="base_64_tools">Outils Base64</string>
     <string name="base_64_tools_sub">Décoder la chaîne Base64 en image ou encoder l\'image au format Base64</string>
     <string name="base_64">Base64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Rafraîchir</string>
     <string name="wallpapers_export_sub">Obtenez les fonds d\'écran d\'accueil, de verrouillage et intégrés actuels</string>
     <string name="allow_access_to_all_files_for_wp">Autoriser l\'accès à tous les fichiers, cela est nécessaire pour récupérer les fonds d\'écran</string>
-    <string name="allow_read_media_images_for_wp">Gérer l\'autorisation de stockage externe ne suffit pas, vous devez autoriser l\'accès à vos images, assurez-vous de sélectionner \\"Autoriser tout\\"</string>
+    <string name="allow_read_media_images_for_wp">Gérer l\'autorisation de stockage externe ne suffit pas, vous devez autoriser l\'accès à vos images, assurez-vous de sélectionner \"Autoriser tout\"</string>
     <string name="add_preset_to_filename">Ajouter un préréglage au nom de fichier</string>
     <string name="add_preset_to_filename_sub">Ajoute le suffixe avec le préréglage sélectionné au nom du fichier image</string>
     <string name="add_image_scale_mode_to_filename">Ajouter le mode d\'échelle d\'image au nom de fichier</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelisation de la grille d\'impulsions</string>
     <string name="nucleus_pixelization">Pixelisation du noyau</string>
     <string name="radial_weave_pixelization">Pixelisation à tissage radial</string>
-    <string name="cannot_open_uri">Impossible d\'ouvrir l\'uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Impossible d\'ouvrir l\'uri \"%s\"</string>
     <string name="snowfall_mode">Mode chute de neige</string>
     <string name="enabled">Activé</string>
     <string name="border_frame">Cadre de bordure</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Supprimer la glycémie</string>
     <string name="horizontal_border_thickness">Épaisseur de la bordure horizontale</string>
     <string name="vertical_border_thickness">Épaisseur de la bordure verticale</string>
+    <plurals name="color_count">
+        <item quantity="one">%s couleur</item>
+        <item quantity="other">%s couleurs</item>
+    </plurals>
 </resources>

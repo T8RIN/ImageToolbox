@@ -570,13 +570,13 @@
     <string name="stitch_mode">Stygnläge</string>
     <string name="rows_count">Räknar rader</string>
     <string name="columns_count">Antal kolumner</string>
-    <string name="no_such_directory">Ingen \\"%1$s\\"-katalog hittades, vi bytte den till standardmappen, spara filen igen</string>
+    <string name="no_such_directory">Ingen \"%1$s\"-katalog hittades, vi bytte den till standardmappen, spara filen igen</string>
     <string name="clipboard">Urklipp</string>
     <string name="auto_pin">Auto pin</string>
     <string name="auto_pin_sub">Lägger automatiskt till sparad bild till urklipp om aktiverat</string>
     <string name="vibration">Vibration</string>
     <string name="vibration_strength">Vibrationsstyrka</string>
-    <string name="overwrite_file_requirements">För att skriva över filer måste du använda \\"Utforskaren\\" bildkälla, försök återplocka bilder, vi har ändrat bildkällan till den som behövs</string>
+    <string name="overwrite_file_requirements">För att skriva över filer måste du använda \"Utforskaren\" bildkälla, försök återplocka bilder, vi har ändrat bildkällan till den som behövs</string>
     <string name="overwrite_files">Skriv över filer</string>
     <string name="overwrite_files_sub">Originalfilen kommer att ersättas med en ny istället för att sparas i vald mapp, det här alternativet måste vara \"Explorer\" eller GetContent som bildkälla, när du växlar detta kommer det att ställas in automatiskt</string>
     <string name="empty">Tömma</string>
@@ -650,7 +650,7 @@
     <string name="segmentation_mode_sparse_text">Sparsam text</string>
     <string name="segmentation_mode_sparse_text_osd">Gles textorientering &amp;amp; skriptdetektion</string>
     <string name="segmentation_mode_raw_line">Rå linje</string>
-    <string name="delete_language_sub">Vill du radera språket \\"%1$s\\" OCR-träningsdata för alla igenkänningstyper, eller bara för den valda (%2$s)?</string>
+    <string name="delete_language_sub">Vill du radera språket \"%1$s\" OCR-träningsdata för alla igenkänningstyper, eller bara för den valda (%2$s)?</string>
     <string name="current">Nuvarande</string>
     <string name="all">Alla</string>
     <string name="gradient_maker">Gradient Maker</string>
@@ -939,9 +939,9 @@
     <string name="resize_anchor">Ändra storlek på ankare</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">Flytande</string>
-    <string name="fluent_switch_sub">En switch baserad på designsystemet \\"Flytande\\".</string>
+    <string name="fluent_switch_sub">En switch baserad på designsystemet \"Flytande\".</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">En switch baserad på designsystemet \\"Cupertino\\".</string>
+    <string name="cupertino_switch_sub">En switch baserad på designsystemet \"Cupertino\".</string>
     <string name="images_to_svg">Bilder till SVG</string>
     <string name="images_to_svg_sub">Spåra givna bilder till SVG-bilder</string>
     <string name="use_sampled_palette">Använd Sampled Palette</string>
@@ -1177,7 +1177,7 @@
     <string name="save_as_qr_code_image">Spara som QR-kodbild</string>
     <string name="delete_template">Ta bort mall</string>
     <string name="delete_template_warn">Du håller på att ta bort valt mallfilter. Denna operation kan inte ångras</string>
-    <string name="added_filter_template">Lade till filtermall med namnet \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Lade till filtermall med namnet \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Förhandsgranska filter</string>
     <string name="qr_code">QR &amp;amp; streckkod</string>
     <string name="qr_code_sub">Skanna QR-koden och få dess innehåll eller klistra in din sträng för att skapa en ny</string>
@@ -1494,7 +1494,7 @@
     <string name="open_source_licenses">Licenser med öppen källkod</string>
     <string name="open_source_licenses_sub">Visa licenser för bibliotek med öppen källkod som används i den här appen</string>
     <string name="area">Område</string>
-    <string name="area_sub">Omsampling med hjälp av pixelarearelation. Det kan vara en föredragen metod för bilddecimering, eftersom det ger moaréfria resultat. Men när bilden är zoomad liknar den metoden \\"Närmast\\".</string>
+    <string name="area_sub">Omsampling med hjälp av pixelarearelation. Det kan vara en föredragen metod för bilddecimering, eftersom det ger moaréfria resultat. Men när bilden är zoomad liknar den metoden \"Närmast\".</string>
     <string name="enable_tonemapping">Aktivera tonmappning</string>
     <string name="enter_percent">Ange %</string>
     <string name="unknown_host">Kan inte komma åt sidan, försök använda VPN eller kontrollera om webbadressen är korrekt</string>
@@ -1509,8 +1509,8 @@
     <string name="fast_settings_side">Snabb inställningssida</string>
     <string name="fast_settings_side_sub">Lägg till en flytande remsa på den valda sidan medan du redigerar bilder, vilket öppnar snabba inställningar när du klickar på den</string>
     <string name="clear_selection">Rensa val</string>
-    <string name="settings_group_visibility_hidden">Inställningsgruppen \\"%s\\" kommer att komprimeras som standard</string>
-    <string name="settings_group_visibility_visible">Inställningsgruppen \\"%s\\" kommer att utökas som standard</string>
+    <string name="settings_group_visibility_hidden">Inställningsgruppen \"%s\" kommer att komprimeras som standard</string>
+    <string name="settings_group_visibility_visible">Inställningsgruppen \"%s\" kommer att utökas som standard</string>
     <string name="base_64_tools">Base64-verktyg</string>
     <string name="base_64_tools_sub">Avkoda Base64-sträng till bild, eller koda bild till Base64-format</string>
     <string name="base_64">Bas 64</string>
@@ -1739,7 +1739,7 @@
     <string name="refresh">Uppdatera</string>
     <string name="wallpapers_export_sub">Skaffa aktuella hem-, lås- och inbyggda bakgrundsbilder</string>
     <string name="allow_access_to_all_files_for_wp">Tillåt åtkomst till alla filer, detta behövs för att hämta bakgrundsbilder</string>
-    <string name="allow_read_media_images_for_wp">Det räcker inte med behörighet att hantera extern lagring, du måste tillåta åtkomst till dina bilder, se till att välja \\"Tillåt alla\\"</string>
+    <string name="allow_read_media_images_for_wp">Det räcker inte med behörighet att hantera extern lagring, du måste tillåta åtkomst till dina bilder, se till att välja \"Tillåt alla\"</string>
     <string name="add_preset_to_filename">Lägg till förinställning till filnamn</string>
     <string name="add_preset_to_filename_sub">Lägger till suffix med vald förinställning till bildfilnamn</string>
     <string name="add_image_scale_mode_to_filename">Lägg till bildskalningsläge till filnamn</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pulsrutnätspixelisering</string>
     <string name="nucleus_pixelization">Kärnpixelisering</string>
     <string name="radial_weave_pixelization">Radiell vävpixelisering</string>
-    <string name="cannot_open_uri">Kan inte öppna uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Kan inte öppna uri \"%s\"</string>
     <string name="snowfall_mode">Snöfallsläge</string>
     <string name="enabled">Aktiverad</string>
     <string name="border_frame">Kantram</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Ta bort BG</string>
     <string name="horizontal_border_thickness">Horisontell kanttjocklek</string>
     <string name="vertical_border_thickness">Vertikal kanttjocklek</string>
+    <plurals name="color_count">
+        <item quantity="one">%s färg</item>
+        <item quantity="other">%s färger</item>
+    </plurals>
 </resources>

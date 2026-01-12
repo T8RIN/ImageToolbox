@@ -2001,4 +2001,7 @@
     <string name="type_removebg">BGを削除する</string>
     <string name="horizontal_border_thickness">水平方向の境界線の太さ</string>
     <string name="vertical_border_thickness">垂直方向の境界線の太さ</string>
+    <plurals name="color_count">
+        <item quantity="other">%s色</item>
+    </plurals>
 </resources>

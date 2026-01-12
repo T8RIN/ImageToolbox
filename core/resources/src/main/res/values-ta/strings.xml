@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">பல்ஸ் கிரிட் பிக்சலைசேஷன்</string>
     <string name="nucleus_pixelization">நியூக்ளியஸ் பிக்சலைசேஷன்</string>
     <string name="radial_weave_pixelization">ரேடியல் வீவ் பிக்சலைசேஷன்</string>
-    <string name="cannot_open_uri">uri \\"%s\\" ஐ திறக்க முடியவில்லை</string>
+    <string name="cannot_open_uri">uri \"%s\" ஐ திறக்க முடியவில்லை</string>
     <string name="snowfall_mode">பனிப்பொழிவு முறை</string>
     <string name="enabled">இயக்கப்பட்டது</string>
     <string name="border_frame">பார்டர் ஃப்ரேம்</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">பிஜியை அகற்று</string>
     <string name="horizontal_border_thickness">கிடைமட்ட பார்டர் தடிமன்</string>
     <string name="vertical_border_thickness">செங்குத்து பார்டர் தடிமன்</string>
+    <plurals name="color_count">
+        <item quantity="one">%s நிறம்</item>
+        <item quantity="other">%s வண்ணங்கள்</item>
+    </plurals>
 </resources>

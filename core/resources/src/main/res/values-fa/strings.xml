@@ -1219,7 +1219,7 @@
     <string name="save_as_file">ذخیره به عنوان فایل</string>
     <string name="delete_template">حذف قالب</string>
     <string name="delete_template_warn">شما در حال حذف فیلتر قالب انتخابی هستید. این عملیات قابل برگشت نیست</string>
-    <string name="added_filter_template">الگوی فیلتر با نام \\"%1$s\\" (%2$d) اضافه شد</string>
+    <string name="added_filter_template">الگوی فیلتر با نام \"%1$s\" (%2$d) اضافه شد</string>
     <string name="filter_preview">پیش نمایش فیلتر</string>
     <string name="code_content">محتوای کد</string>
     <string name="grant_camera_permission_to_scan_document_scanner">اعطای مجوز دوربین در تنظیمات برای اسکن اسکنر اسناد</string>
@@ -1445,7 +1445,7 @@
     <string name="tesseract_options">گزینه های Tesseract</string>
     <string name="tesseract_options_sub">برخی از متغیرهای ورودی را برای موتور تسراکت اعمال کنید</string>
     <string name="custom_options">گزینه های سفارشی</string>
-    <string name="custom_params_info">گزینه‌ها باید با این الگو وارد شوند: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">گزینه‌ها باید با این الگو وارد شوند: \"--{option_name} {value}\"</string>
     <string name="auto_crop">برش خودکار</string>
     <string name="free_corners">گوشه های رایگان</string>
     <string name="free_corners_sub">برش تصویر با چند ضلعی، این نیز پرسپکتیو را تصحیح می کند</string>
@@ -1513,7 +1513,7 @@
     <string name="open_source_licenses">مجوزهای منبع باز</string>
     <string name="open_source_licenses_sub">مجوزهای کتابخانه های منبع باز مورد استفاده در این برنامه را مشاهده کنید</string>
     <string name="area">منطقه</string>
-    <string name="area_sub">نمونه برداری مجدد با استفاده از رابطه مساحت پیکسل. ممکن است روشی ارجح برای از بین بردن تصویر باشد، زیرا نتایج بدون مویر می دهد. اما وقتی تصویر بزرگ‌نمایی می‌شود، شبیه به روش \\"نزدیک‌ترین\\" است.</string>
+    <string name="area_sub">نمونه برداری مجدد با استفاده از رابطه مساحت پیکسل. ممکن است روشی ارجح برای از بین بردن تصویر باشد، زیرا نتایج بدون مویر می دهد. اما وقتی تصویر بزرگ‌نمایی می‌شود، شبیه به روش \"نزدیک‌ترین\" است.</string>
     <string name="enable_tonemapping">Tonemapping را فعال کنید</string>
     <string name="enter_percent">% را وارد کنید</string>
     <string name="unknown_host">نمی توانید به سایت دسترسی پیدا کنید، سعی کنید از VPN استفاده کنید یا بررسی کنید که آیا URL درست است</string>
@@ -1528,8 +1528,8 @@
     <string name="fast_settings_side">سمت تنظیمات سریع</string>
     <string name="fast_settings_side_sub">هنگام ویرایش تصاویر، یک نوار شناور در سمت انتخاب شده اضافه کنید، که با کلیک کردن، تنظیمات سریع باز می شود</string>
     <string name="clear_selection">پاک کردن انتخاب</string>
-    <string name="settings_group_visibility_hidden">گروه تنظیم \\"%s\\" به طور پیش‌فرض جمع می‌شود</string>
-    <string name="settings_group_visibility_visible">گروه تنظیم \\"%s\\" به طور پیش فرض گسترش می یابد</string>
+    <string name="settings_group_visibility_hidden">گروه تنظیم \"%s\" به طور پیش‌فرض جمع می‌شود</string>
+    <string name="settings_group_visibility_visible">گروه تنظیم \"%s\" به طور پیش فرض گسترش می یابد</string>
     <string name="base_64_tools">ابزارهای Base64</string>
     <string name="base_64_tools_sub">رشته Base64 را به تصویر رمزگشایی کنید یا تصویر را به فرمت Base64 رمزگذاری کنید</string>
     <string name="base_64">پایه 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">تازه کردن</string>
     <string name="wallpapers_export_sub">والپیپرهای خانه، قفل و داخلی فعلی را دریافت کنید</string>
     <string name="allow_access_to_all_files_for_wp">اجازه دسترسی به همه فایل‌ها را بدهید، این برای بازیابی تصاویر پس زمینه لازم است</string>
-    <string name="allow_read_media_images_for_wp">مجوز مدیریت حافظه خارجی کافی نیست، شما باید اجازه دسترسی به تصاویر خود را بدهید، مطمئن شوید که \\"Allow all\\" را انتخاب کنید</string>
+    <string name="allow_read_media_images_for_wp">مجوز مدیریت حافظه خارجی کافی نیست، شما باید اجازه دسترسی به تصاویر خود را بدهید، مطمئن شوید که \"Allow all\" را انتخاب کنید</string>
     <string name="add_preset_to_filename">از پیش تنظیم به نام فایل اضافه کنید</string>
     <string name="add_preset_to_filename_sub">پسوندی را با از پیش تعیین شده انتخاب شده به نام فایل تصویر اضافه می کند</string>
     <string name="add_image_scale_mode_to_filename">حالت مقیاس تصویر را به نام فایل اضافه کنید</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelization شبکه پالس</string>
     <string name="nucleus_pixelization">پیکسل سازی هسته</string>
     <string name="radial_weave_pixelization">پیکسل سازی بافت شعاعی</string>
-    <string name="cannot_open_uri">uri \\"%s\\" باز نمی شود</string>
+    <string name="cannot_open_uri">uri \"%s\" باز نمی شود</string>
     <string name="snowfall_mode">حالت بارش برف</string>
     <string name="enabled">فعال شد</string>
     <string name="border_frame">قاب حاشیه</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">BG را حذف کنید</string>
     <string name="horizontal_border_thickness">ضخامت مرز افقی</string>
     <string name="vertical_border_thickness">ضخامت حاشیه عمودی</string>
+    <plurals name="color_count">
+        <item quantity="one">%s رنگ</item>
+        <item quantity="other">%s رنگ</item>
+    </plurals>
 </resources>

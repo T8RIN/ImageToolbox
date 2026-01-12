@@ -884,9 +884,9 @@
     <string name="resize_anchor">لەڭگەرنىڭ چوڭ-كىچىكلىكى</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">راۋان</string>
-    <string name="fluent_switch_sub">\ \"راۋان \\" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="fluent_switch_sub">\ \"راۋان \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\ \"Cupertino \\" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
+    <string name="cupertino_switch_sub">\ \"Cupertino \" لايىھىلەش سىستېمىسىنى ئاساس قىلغان ئالماشتۇرغۇچ</string>
     <string name="images_to_svg">SVG غا رەسىملەر</string>
     <string name="images_to_svg_sub">SVG رەسىملىرىگە بېرىلگەن رەسىملەرنى ئىز قوغلاڭ</string>
     <string name="use_sampled_palette">Sampled Palette نى ئىشلىتىڭ</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR كود رەسىمى سۈپىتىدە ساقلاڭ</string>
     <string name="delete_template">قېلىپنى ئۆچۈرۈڭ</string>
     <string name="delete_template_warn">تاللانغان قېلىپ سۈزگۈچنى ئۆچۈرمەكچى بولۇۋاتىسىز. بۇ مەشغۇلاتنى ئەمەلدىن قالدۇرغىلى بولمايدۇ</string>
-    <string name="added_filter_template">ئىسمى \ \"__ PH_0 __ \\" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$d)</string>
+    <string name="added_filter_template">ئىسمى \ \"__ PH_0 __ \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$d)</string>
     <string name="filter_preview">سۈزگۈچ ئالدىن كۆرۈش</string>
     <string name="qr_code">QR &amp;amp; تاياقچە كودى</string>
     <string name="qr_code_sub">QR كودىنى سايىلەپ ئۇنىڭ مەزمۇنىغا ئېرىشىڭ ياكى تىزمىڭىزنى چاپلاپ يېڭى كود ھاسىل قىلىڭ</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">سىناق تاللانمىلىرى</string>
     <string name="tesseract_options_sub">سىناق ماتورىغا بىر قىسىم كىرگۈزگۈچى ئۆزگەرگۈچى مىقدارلارنى ئىشلىتىڭ</string>
     <string name="custom_options">ئىختىيارى تاللانما</string>
-    <string name="custom_params_info">بۇ ئەندىزە بويىچە تاللانمىلارنى كىرگۈزۈش كېرەك: \ \"- {option_name} {value} \\"</string>
+    <string name="custom_params_info">بۇ ئەندىزە بويىچە تاللانمىلارنى كىرگۈزۈش كېرەك: \ \"- {option_name} {value} \"</string>
     <string name="auto_crop">Auto Crop</string>
     <string name="free_corners">ھەقسىز بۇلۇڭ</string>
     <string name="free_corners_sub">كۆپ قىرلىق رەسىمنى كېسىش ، بۇمۇ كۆز قاراشنى توغرىلايدۇ</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Zigzag نىسبىتى</string>
     <string name="create_shortcut">تېزلەتمە قۇرۇش</string>
     <string name="create_shortcut_title">مىخلاش قورالىنى تاللاڭ</string>
-    <string name="create_shortcut_subtitle">قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى \ \"ھۆججەت تاللاشتىن ئاتلاش \\" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ.</string>
+    <string name="create_shortcut_subtitle">قورال قوزغاتقۇچنىڭ باش ئېكرانىغا تېزلەتمە سۈپىتىدە قوشۇلىدۇ ، ئۇنى \ \"ھۆججەت تاللاشتىن ئاتلاش \" تەڭشىكى بىلەن بىرلەشتۈرۈپ ، لازىملىق ھەرىكەتنى ئەمەلگە ئاشۇرۇڭ.</string>
     <string name="dont_stack_frames">رامكىنى دۆۋىلەپ قويماڭ</string>
     <string name="dont_stack_frames_sub">ئالدىنقى رامكىلارنى بىر تەرەپ قىلىشنى قوزغىتىدۇ ، شۇڭا ئۇلار بىر-بىرىگە چاپلاشمايدۇ</string>
     <string name="crossfade">Crossfade</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">ئوچۇق كود ئىجازەتنامىسى</string>
     <string name="open_source_licenses_sub">بۇ ئەپتە ئىشلىتىلگەن ئوچۇق كود كۈتۈپخانىلىرىنىڭ ئىجازەتنامىسىنى كۆرۈڭ</string>
     <string name="area">رايون</string>
-    <string name="area_sub">پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire \ \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ \ \"ئەڭ يېقىن \\" ئۇسۇلىغا ئوخشايدۇ.</string>
+    <string name="area_sub">پېكسىل رايون مۇناسىۋىتىنى ئىشلىتىپ قايتا قۇرۇش. ئۇ رەسىمنى يوقىتىشنىڭ ياقتۇرىدىغان ئۇسۇلى بولۇشى مۇمكىن ، چۈنكى ئۇ moire \ \'- ھەقسىز نەتىجىنى بېرىدۇ. ئەمما رەسىمنى چوڭايتقاندا ، ئۇ \ \"ئەڭ يېقىن \" ئۇسۇلىغا ئوخشايدۇ.</string>
     <string name="enable_tonemapping">Tonemapping نى قوزغىتىڭ</string>
     <string name="enter_percent">% نى كىرگۈزۈڭ</string>
     <string name="unknown_host">تور بېكەتنى زىيارەت قىلالمايدۇ ، VPN ئىشلىتىپ سىناپ بېقىڭ ياكى url نىڭ توغرا ياكى ئەمەسلىكىنى تەكشۈرۈڭ</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">تېز تەڭشەكلەر</string>
     <string name="fast_settings_side_sub">رەسىملەرنى تەھرىرلەۋاتقاندا تاللانغان تەرەپكە لەيلىمە بەلۋاغ قوشۇڭ ، چەككەندە تېز تەڭشەكلەر ئېچىلىدۇ</string>
     <string name="clear_selection">تاللاشنى تازىلاش</string>
-    <string name="settings_group_visibility_hidden">گۇرۇپپا تەڭشەش \ \"__ PH_0 __ \\" سۈكۈتتىكى ھالەتتە يىمىرىلىدۇ</string>
-    <string name="settings_group_visibility_visible">گۇرۇپپا تەڭشەش \ \"__ PH_0 __ \\" سۈكۈتتىكى ھالەتتە كېڭەيتىلىدۇ</string>
+    <string name="settings_group_visibility_hidden">گۇرۇپپا تەڭشەش \ \"__ PH_0 __ \" سۈكۈتتىكى ھالەتتە يىمىرىلىدۇ</string>
+    <string name="settings_group_visibility_visible">گۇرۇپپا تەڭشەش \ \"__ PH_0 __ \" سۈكۈتتىكى ھالەتتە كېڭەيتىلىدۇ</string>
     <string name="base_64_tools">Base64 قوراللىرى</string>
     <string name="base_64_tools_sub">Base64 تىزمىسىنى رەسىمگە يېشىش ياكى رەسىمنى Base64 فورماتىغا كودلاش</string>
     <string name="base_64">Base64</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Uri \ \"__ PH_0 __ \\" نى ئاچقىلى بولمايدۇ</string>
+    <string name="cannot_open_uri">Uri \ \"__ PH_0 __ \" نى ئاچقىلى بولمايدۇ</string>
     <string name="snowfall_mode">قار يېغىش ھالىتى</string>
     <string name="enabled">قوزغىتىلدى</string>
     <string name="border_frame">چېگرا رامكىسى</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">BG نى ئۆچۈرۈڭ</string>
     <string name="horizontal_border_thickness">توغرىسىغا چېگرا قېلىنلىقى</string>
     <string name="vertical_border_thickness">تىك چېگرا قېلىنلىقى</string>
+    <plurals name="color_count">
+        <item quantity="one">%s كىتاب</item>
+        <item quantity="other">%s رەڭلەر</item>
+    </plurals>
 </resources>

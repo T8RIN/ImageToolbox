@@ -884,9 +884,9 @@
     <string name="resize_anchor">Canvia la mida de l\'àncora</string>
     <string name="pixel_switch">Píxel</string>
     <string name="fluent_switch">Fluït</string>
-    <string name="fluent_switch_sub">Un interruptor basat en el sistema de disseny \\"Fluent\\".</string>
+    <string name="fluent_switch_sub">Un interruptor basat en el sistema de disseny \"Fluent\".</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Un interruptor basat en el sistema de disseny \\"Cupertino\\".</string>
+    <string name="cupertino_switch_sub">Un interruptor basat en el sistema de disseny \"Cupertino\".</string>
     <string name="images_to_svg">Imatges a SVG</string>
     <string name="images_to_svg_sub">Traça imatges donades a imatges SVG</string>
     <string name="use_sampled_palette">Utilitzeu la paleta mostrada</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Desa com a imatge de codi QR</string>
     <string name="delete_template">Suprimeix la plantilla</string>
     <string name="delete_template_warn">Esteu a punt d\'eliminar el filtre de plantilla seleccionat. Aquesta operació no es pot desfer</string>
-    <string name="added_filter_template">S\'ha afegit una plantilla de filtre amb el nom \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">S\'ha afegit una plantilla de filtre amb el nom \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Vista prèvia del filtre</string>
     <string name="qr_code">QR i codi de barres</string>
     <string name="qr_code_sub">Escaneja el codi QR i obtén el seu contingut o enganxa la cadena per generar-ne una de nova</string>
@@ -1417,7 +1417,7 @@
     <string name="tesseract_options">Opcions de Tesseract</string>
     <string name="tesseract_options_sub">Apliqueu algunes variables d\'entrada per al motor tesseract</string>
     <string name="custom_options">Opcions personalitzades</string>
-    <string name="custom_params_info">Les opcions s\'han d\'introduir seguint aquest patró: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Les opcions s\'han d\'introduir seguint aquest patró: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Retall automàtic</string>
     <string name="free_corners">Racons lliures</string>
     <string name="free_corners_sub">Retalla la imatge per polígon, això també corregeix la perspectiva</string>
@@ -1449,7 +1449,7 @@
     <string name="zigzag_ratio">Relació en zig-zag</string>
     <string name="create_shortcut">Crea una drecera</string>
     <string name="create_shortcut_title">Trieu l\'eina per fixar</string>
-    <string name="create_shortcut_subtitle">L\'eina s\'afegirà a la pantalla d\'inici del llançador com a drecera, utilitzeu-la combinant-la amb la configuració \\"Omet la selecció de fitxers\\" per aconseguir el comportament necessari</string>
+    <string name="create_shortcut_subtitle">L\'eina s\'afegirà a la pantalla d\'inici del llançador com a drecera, utilitzeu-la combinant-la amb la configuració \"Omet la selecció de fitxers\" per aconseguir el comportament necessari</string>
     <string name="dont_stack_frames">No apileu marcs</string>
     <string name="dont_stack_frames_sub">Permet eliminar els fotogrames anteriors, de manera que no s\'apilen els uns als altres</string>
     <string name="crossfade">Fundició creuada</string>
@@ -1493,7 +1493,7 @@
     <string name="open_source_licenses">Llicències de codi obert</string>
     <string name="open_source_licenses_sub">Consulta les llicències de les biblioteques de codi obert utilitzades en aquesta aplicació</string>
     <string name="area">Àrea</string>
-    <string name="area_sub">Re-mostreig utilitzant la relació d\'àrea de píxels. Pot ser un mètode preferit per a la destrucció d\'imatges, ja que dóna resultats lliures de moiré. Però quan s\'amplia la imatge, és similar al mètode \\"Més propera\\".</string>
+    <string name="area_sub">Re-mostreig utilitzant la relació d\'àrea de píxels. Pot ser un mètode preferit per a la destrucció d\'imatges, ja que dóna resultats lliures de moiré. Però quan s\'amplia la imatge, és similar al mètode \"Més propera\".</string>
     <string name="enable_tonemapping">Activa el mapa de tons</string>
     <string name="enter_percent">Introduïu %</string>
     <string name="unknown_host">No es pot accedir al lloc, proveu d\'utilitzar VPN o comproveu si l\'URL és correcte</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Configuració ràpida lateral</string>
     <string name="fast_settings_side_sub">Afegiu una franja flotant al costat seleccionat mentre editeu les imatges, que obrirà la configuració ràpida quan feu clic</string>
     <string name="clear_selection">Esborra la selecció</string>
-    <string name="settings_group_visibility_hidden">El grup de configuració \\"%s\\" es replegarà de manera predeterminada</string>
-    <string name="settings_group_visibility_visible">El grup de configuració \\"%s\\" s\'ampliarà de manera predeterminada</string>
+    <string name="settings_group_visibility_hidden">El grup de configuració \"%s\" es replegarà de manera predeterminada</string>
+    <string name="settings_group_visibility_visible">El grup de configuració \"%s\" s\'ampliarà de manera predeterminada</string>
     <string name="base_64_tools">Eines Base64</string>
     <string name="base_64_tools_sub">Descodifiqueu la cadena Base64 a la imatge o codifiqueu la imatge al format Base64</string>
     <string name="base_64">Base 64</string>
@@ -1738,7 +1738,7 @@
     <string name="refresh">Actualitza</string>
     <string name="wallpapers_export_sub">Obteniu fons de pantalla actuals de la llar, de bloqueig i integrats</string>
     <string name="allow_access_to_all_files_for_wp">Permet l\'accés a tots els fitxers, això és necessari per recuperar fons de pantalla</string>
-    <string name="allow_read_media_images_for_wp">El permís de gestió d\'emmagatzematge extern no és suficient, heu de permetre l\'accés a les vostres imatges, assegureu-vos de seleccionar \\"Permet-ho tot\\"</string>
+    <string name="allow_read_media_images_for_wp">El permís de gestió d\'emmagatzematge extern no és suficient, heu de permetre l\'accés a les vostres imatges, assegureu-vos de seleccionar \"Permet-ho tot\"</string>
     <string name="add_preset_to_filename">Afegeix un valor predefinit al nom del fitxer</string>
     <string name="add_preset_to_filename_sub">Afegeix el sufix amb el valor predefinit seleccionat al nom del fitxer d\'imatge</string>
     <string name="add_image_scale_mode_to_filename">Afegeix el mode d\'escala d\'imatge al nom del fitxer</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelització de quadrícula de pols</string>
     <string name="nucleus_pixelization">Pixelització del nucli</string>
     <string name="radial_weave_pixelization">Pixelització de teixit radial</string>
-    <string name="cannot_open_uri">No es pot obrir l\'uri \\"%s\\"</string>
+    <string name="cannot_open_uri">No es pot obrir l\'uri \"%s\"</string>
     <string name="snowfall_mode">Mode de nevada</string>
     <string name="enabled">Habilitat</string>
     <string name="border_frame">Marc de vora</string>
@@ -2001,4 +2001,8 @@
     <string name="type_removebg">Eliminar BG</string>
     <string name="horizontal_border_thickness">Gruix de la vora horitzontal</string>
     <string name="vertical_border_thickness">Gruix de la vora vertical</string>
+    <plurals name="color_count">
+        <item quantity="one">%s color</item>
+        <item quantity="other">%s colors</item>
+    </plurals>
 </resources>
