@@ -1908,9 +1908,9 @@
     <string name="model_h264">Texturization, h264 compression</string>
     <string name="model_vhs">Сжатие VHS</string>
     <string name="model_cinepak">Нестандартное сжатие (cinepak, msvideo1, roq)</string>
-    <string name="model_debink_v4">Сжатие мигания, лучше для геометрии</string>
-    <string name="model_debink_v5">Сжатие мигания, более сильное</string>
-    <string name="model_debink_v6">Сжатие мигания, мягкое, сохраняет детали</string>
+    <string name="model_debink_v4">Сжатие Bink, лучше для геометрии</string>
+    <string name="model_debink_v5">Сжатие Bink, более сильное</string>
+    <string name="model_debink_v6">Сжатие Bink, мягкое, сохраняет детали</string>
     <string name="model_antialias">Устранение эффекта лесенки, сглаживание</string>
     <string name="model_kdm_scans">Отсканированные изображения/рисунки, легкое сжатие, муар</string>
     <string name="model_bandage">Цветовая маркировка</string>
@@ -1997,4 +1997,12 @@
     <string name="model_realesrgan_x4plus">Масштабирование X4 для обычных изображений с улучшенными текстурами и реалистичными результатами</string>
     <string name="model_realesrgan_x4plus_anime">Оптимизированный для аниме-изображений масштабировщик X4; 6 блоков RRDB для более четких линий и деталей</string>
     <string name="model_realesrnet_x4plus">Масштабирование X4 с использованием функции потерь MSE обеспечивает более плавные результаты и уменьшает артефакты для обычных изображений</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler, оптимизированный для аниме-изображений; вариант 4B32F с более четкой детализацией и плавными линиями</string>
+    <string name="model_ultrasharp_v2_x4">Модель предназначена для съемки изображений общего назначения; акцент делается на резкость и четкость</string>
+    <string name="model_ultrasharp_v2_lite_x4">Быстрее и компактнее, сохраняет детализацию, используя при этом меньше памяти графического процессора</string>
+    <string name="model_rmbg_1_4">Легкая модель для быстрого удаления фона. Сбалансированная производительность и точность. Работает с портретами, объектами и сценами. Рекомендуется для большинства случаев использования</string>
+    <string name="model_rmbg_2_0">Улучшенная версия с более детальной обработкой. Лучше работает со сложными фонами и прозрачными объектами. Более высокая точность, но требует большей вычислительной мощности</string>
+    <string name="type_removebg">Удаление фона</string>
+    <string name="horizontal_border_thinkness">Толщина горизонтальной границы</string>
+    <string name="vertical_border_thinkness">Толщина вертикальной границы</string>
 </resources>
