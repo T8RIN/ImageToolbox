@@ -1865,7 +1865,7 @@
     <string name="pulse_grid_pixelization">脉冲网格像素化</string>
     <string name="nucleus_pixelization">核像素化</string>
     <string name="radial_weave_pixelization">径向编织像素化</string>
-    <string name="cannot_open_uri">无法打开 uri \\"%s\\"</string>
+    <string name="cannot_open_uri">无法打开 uri \"%s\"</string>
     <string name="snowfall_mode">降雪模式</string>
     <string name="enabled">启用</string>
     <string name="border_frame">边框</string>

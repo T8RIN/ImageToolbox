@@ -882,9 +882,9 @@
     <string name="resize_anchor">Baguhin ang laki ng Anchor</string>
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">Matatas</string>
-    <string name="fluent_switch_sub">Isang switch batay sa \\"Fluent\\" na sistema ng disenyo</string>
+    <string name="fluent_switch_sub">Isang switch batay sa \"Fluent\" na sistema ng disenyo</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">Isang switch batay sa sistema ng disenyo ng \\"Cupertino\\".</string>
+    <string name="cupertino_switch_sub">Isang switch batay sa sistema ng disenyo ng \"Cupertino\".</string>
     <string name="images_to_svg">Mga larawan sa SVG</string>
     <string name="images_to_svg_sub">I-trace ang mga ibinigay na larawan sa mga SVG na larawan</string>
     <string name="use_sampled_palette">Gumamit ng Sampled Palette</string>
@@ -1120,7 +1120,7 @@
     <string name="save_as_qr_code_image">I-save bilang imahe ng QR code</string>
     <string name="delete_template">Tanggalin ang Template</string>
     <string name="delete_template_warn">Ide-delete mo na ang napiling template filter. Hindi na maa-undo ang operasyong ito</string>
-    <string name="added_filter_template">Idinagdag ang template ng filter na may pangalang \\"%1$s\\" (%2$d)</string>
+    <string name="added_filter_template">Idinagdag ang template ng filter na may pangalang \"%1$s\" (%2$d)</string>
     <string name="filter_preview">I-filter ang Preview</string>
     <string name="qr_code">QR at Barcode</string>
     <string name="qr_code_sub">I-scan ang QR code at kunin ang nilalaman nito o i-paste ang iyong string upang makabuo ng bago</string>
@@ -1415,7 +1415,7 @@
     <string name="tesseract_options">Mga Pagpipilian sa Tesseract</string>
     <string name="tesseract_options_sub">Ilapat ang ilang input variable para sa tesseract engine</string>
     <string name="custom_options">Mga Pasadyang Opsyon</string>
-    <string name="custom_params_info">Dapat ipasok ang mga opsyon ayon sa pattern na ito: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">Dapat ipasok ang mga opsyon ayon sa pattern na ito: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Auto I-crop</string>
     <string name="free_corners">Libreng Corners</string>
     <string name="free_corners_sub">I-crop ang imahe sa pamamagitan ng polygon, itinutuwid din nito ang pananaw</string>
@@ -1447,7 +1447,7 @@
     <string name="zigzag_ratio">Zigzag ratio</string>
     <string name="create_shortcut">Lumikha ng Shortcut</string>
     <string name="create_shortcut_title">Pumili ng tool upang i-pin</string>
-    <string name="create_shortcut_subtitle">Idaragdag ang tool sa home screen ng iyong launcher bilang shortcut, gamitin ito kasama ng setting na \\"Laktawan ang pagpili ng file\\" upang makamit ang kinakailangang gawi</string>
+    <string name="create_shortcut_subtitle">Idaragdag ang tool sa home screen ng iyong launcher bilang shortcut, gamitin ito kasama ng setting na \"Laktawan ang pagpili ng file\" upang makamit ang kinakailangang gawi</string>
     <string name="dont_stack_frames">Huwag mag-stack ng mga frame</string>
     <string name="dont_stack_frames_sub">Ine-enable ang pagtatapon ng mga nakaraang frame, para hindi mag-stack ang mga ito sa isa\'t isa</string>
     <string name="crossfade">Crossfade</string>
@@ -1491,7 +1491,7 @@
     <string name="open_source_licenses">Mga Lisensya sa Open Source</string>
     <string name="open_source_licenses_sub">Tingnan ang mga lisensya ng mga open source na library na ginagamit sa app na ito</string>
     <string name="area">Lugar</string>
-    <string name="area_sub">Resampling gamit ang pixel area relation. Ito ay maaaring isang ginustong paraan para sa pag-decimation ng imahe, dahil nagbibigay ito ng moire\\'-free na mga resulta. Ngunit kapag ang imahe ay naka-zoom, ito ay katulad ng \\"Nearest\\" na paraan.</string>
+    <string name="area_sub">Resampling gamit ang pixel area relation. Ito ay maaaring isang ginustong paraan para sa pag-decimation ng imahe, dahil nagbibigay ito ng moire\'-free na mga resulta. Ngunit kapag ang imahe ay naka-zoom, ito ay katulad ng \"Nearest\" na paraan.</string>
     <string name="enable_tonemapping">Paganahin ang Tonemapping</string>
     <string name="enter_percent">Ipasok ang %</string>
     <string name="unknown_host">Hindi ma-access ang site, subukang gumamit ng VPN o tingnan kung tama ang url</string>
@@ -1506,8 +1506,8 @@
     <string name="fast_settings_side">Gilid ng Mabilis na Mga Setting</string>
     <string name="fast_settings_side_sub">Magdagdag ng lumulutang na strip sa napiling gilid habang nag-e-edit ng mga larawan, na magbubukas ng mabilis na mga setting kapag na-click</string>
     <string name="clear_selection">I-clear ang pagpili</string>
-    <string name="settings_group_visibility_hidden">Ang pagtatakda ng pangkat na \\"%s\\" ay iko-collapse bilang default</string>
-    <string name="settings_group_visibility_visible">Ang pagtatakda ng pangkat na \\"%s\\" ay palalawakin bilang default</string>
+    <string name="settings_group_visibility_hidden">Ang pagtatakda ng pangkat na \"%s\" ay iko-collapse bilang default</string>
+    <string name="settings_group_visibility_visible">Ang pagtatakda ng pangkat na \"%s\" ay palalawakin bilang default</string>
     <string name="base_64_tools">Mga Tool sa Base64</string>
     <string name="base_64_tools_sub">I-decode ang Base64 string sa imahe, o i-encode ang imahe sa Base64 na format</string>
     <string name="base_64">Base64</string>
@@ -1736,7 +1736,7 @@
     <string name="refresh">I-refresh</string>
     <string name="wallpapers_export_sub">Kumuha ng kasalukuyang Home, Lock at Built-in na wallpaper</string>
     <string name="allow_access_to_all_files_for_wp">Payagan ang pag-access sa lahat ng mga file, ito ay kinakailangan upang makuha ang mga wallpaper</string>
-    <string name="allow_read_media_images_for_wp">Hindi sapat ang pahintulot na pamahalaan ang panlabas na storage, kailangan mong payagan ang pag-access sa iyong mga larawan, tiyaking piliin ang \\"Pahintulutan ang lahat\\"</string>
+    <string name="allow_read_media_images_for_wp">Hindi sapat ang pahintulot na pamahalaan ang panlabas na storage, kailangan mong payagan ang pag-access sa iyong mga larawan, tiyaking piliin ang \"Pahintulutan ang lahat\"</string>
     <string name="add_preset_to_filename">Magdagdag ng Preset Sa Filename</string>
     <string name="add_preset_to_filename_sub">Nagdaragdag ng suffix na may napiling preset sa image filename</string>
     <string name="add_image_scale_mode_to_filename">Magdagdag ng Image Scale Mode Sa Filename</string>
@@ -1865,7 +1865,7 @@
     <string name="pulse_grid_pixelization">Pixelization ng Pulse Grid</string>
     <string name="nucleus_pixelization">Pixelization ng Nucleus</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Hindi mabuksan ang uri \\"%s\\"</string>
+    <string name="cannot_open_uri">Hindi mabuksan ang uri \"%s\"</string>
     <string name="snowfall_mode">Mode ng Snowfall</string>
     <string name="enabled">Pinagana</string>
     <string name="border_frame">Border Frame</string>

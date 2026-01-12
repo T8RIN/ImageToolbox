@@ -1736,7 +1736,7 @@
     <string name="refresh">Vernieuwen</string>
     <string name="wallpapers_export_sub">Verkrijg huidige Home-, Lock- en Built-in-achtergronden</string>
     <string name="allow_access_to_all_files_for_wp">Geef toegang tot alle bestanden, dit is nodig om achtergronden op te halen</string>
-    <string name="allow_read_media_images_for_wp">Toestemming voor externe opslag beheren is niet voldoende. U moet toegang tot uw afbeeldingen toestaan. Zorg ervoor dat u \\"Alles toestaan\\" selecteert</string>
+    <string name="allow_read_media_images_for_wp">Toestemming voor externe opslag beheren is niet voldoende. U moet toegang tot uw afbeeldingen toestaan. Zorg ervoor dat u \"Alles toestaan\" selecteert</string>
     <string name="add_preset_to_filename">Voorinstelling toevoegen aan bestandsnaam</string>
     <string name="add_preset_to_filename_sub">Voegt het achtervoegsel met de geselecteerde voorinstelling toe aan de bestandsnaam van de afbeelding</string>
     <string name="add_image_scale_mode_to_filename">Voeg afbeeldingsschaalmodus toe aan bestandsnaam</string>
@@ -1865,7 +1865,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid-pixelisatie</string>
     <string name="nucleus_pixelization">Nucleuspixelisatie</string>
     <string name="radial_weave_pixelization">Radiale weefpixelisatie</string>
-    <string name="cannot_open_uri">Kan uri \\"%s\\" niet openen</string>
+    <string name="cannot_open_uri">Kan uri \"%s\" niet openen</string>
     <string name="snowfall_mode">Sneeuwval-modus</string>
     <string name="enabled">Ingeschakeld</string>
     <string name="border_frame">Grenskader</string>

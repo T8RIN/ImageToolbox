@@ -853,7 +853,7 @@
     <string name="lossy_compression">Компресија са губитком</string>
     <string name="lossy_compression_sub">Користи компресију са губицима да смањи величину датотеке уместо без губитака</string>
     <string name="compression_type">Тип компресије</string>
-    <string name="speed_sub">Контролише брзину декодирања резултујуће слике, ово би требало да помогне да се добијена слика брже отвори, вредност %s значи најспорије декодирање, док __ПХ_1__ - најбрже, ово подешавање може повећати величину излазне слике</string>
+    <string name="speed_sub">Контролише брзину декодирања резултујуће слике, ово би требало да помогне да се добијена слика брже отвори, вредност %1$s значи најспорије декодирање, док %2$s - најбрже, ово подешавање може повећати величину излазне слике</string>
     <string name="sorting">Сортирање</string>
     <string name="sort_by_date">Датум</string>
     <string name="sort_by_date_reversed">Датум (обрнуто)</string>
@@ -1120,7 +1120,7 @@
     <string name="save_as_qr_code_image">Сачувај као слику КР кода</string>
     <string name="delete_template">Избриши шаблон</string>
     <string name="delete_template_warn">Спремате се да избришете изабрани филтер шаблона. Ова операција се не може опозвати</string>
-    <string name="added_filter_template">Додан шаблон филтера са именом \"%s\" (__ПХ_1__)</string>
+    <string name="added_filter_template">Додан шаблон филтера са именом \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Преглед филтера</string>
     <string name="qr_code">КР и бар код</string>
     <string name="qr_code_sub">Скенирајте КР код и преузмите његов садржај или налепите стринг да бисте генерисали нови</string>
@@ -1471,7 +1471,7 @@
     <string name="layout">Лаиоут</string>
     <string name="main_screen_title">Наслов главног екрана</string>
     <string name="constant_rate_factor">Фактор константне стопе (ЦРФ)</string>
-    <string name="crf_sub">Вредност %s значи спору компресију, што резултира релативно малом величином датотеке. __ПХ_1__ значи бржу компресију, што резултира великом датотеком.</string>
+    <string name="crf_sub">Вредност %1$s значи спору компресију, што резултира релативно малом величином датотеке. %2$s значи бржу компресију, што резултира великом датотеком.</string>
     <string name="lut_library">Лут Либрари</string>
     <string name="lut_library_sub">Преузмите колекцију ЛУТ-ова, коју можете применити након преузимања</string>
     <string name="lut_library_update_sub">Ажурирајте колекцију ЛУТ-ова (само нови ће бити стављени у ред чекања), коју можете применити након преузимања</string>

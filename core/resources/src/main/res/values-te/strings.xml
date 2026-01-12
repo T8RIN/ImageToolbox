@@ -882,9 +882,9 @@
     <string name="resize_anchor">యాంకర్ పరిమాణాన్ని మార్చండి</string>
     <string name="pixel_switch">పిక్సెల్</string>
     <string name="fluent_switch">నిష్ణాతులు</string>
-    <string name="fluent_switch_sub">\\"ఫ్లూయెంట్\\" డిజైన్ సిస్టమ్ ఆధారంగా ఒక స్విచ్</string>
+    <string name="fluent_switch_sub">\"ఫ్లూయెంట్\" డిజైన్ సిస్టమ్ ఆధారంగా ఒక స్విచ్</string>
     <string name="cupertino_switch">కుపెర్టినో</string>
-    <string name="cupertino_switch_sub">\\"Cupertino\\" డిజైన్ సిస్టమ్ ఆధారంగా ఒక స్విచ్</string>
+    <string name="cupertino_switch_sub">\"Cupertino\" డిజైన్ సిస్టమ్ ఆధారంగా ఒక స్విచ్</string>
     <string name="images_to_svg">SVGకి చిత్రాలు</string>
     <string name="images_to_svg_sub">ఇచ్చిన చిత్రాలను SVG చిత్రాలకు గుర్తించండి</string>
     <string name="use_sampled_palette">నమూనా పాలెట్ ఉపయోగించండి</string>
@@ -1120,7 +1120,7 @@
     <string name="save_as_qr_code_image">QR కోడ్ ఇమేజ్‌గా సేవ్ చేయండి</string>
     <string name="delete_template">టెంప్లేట్‌ను తొలగించండి</string>
     <string name="delete_template_warn">మీరు ఎంచుకున్న టెంప్లేట్ ఫిల్టర్‌ను తొలగించబోతున్నారు. ఈ ఆపరేషన్ రద్దు చేయబడదు</string>
-    <string name="added_filter_template">\\"%1$s\\" (%2$d) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
+    <string name="added_filter_template">\"%1$s\" (%2$d) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
     <string name="filter_preview">ఫిల్టర్ ప్రివ్యూ</string>
     <string name="qr_code">QR &amp;amp; బార్‌కోడ్</string>
     <string name="qr_code_sub">QR కోడ్‌ని స్కాన్ చేయండి మరియు దాని కంటెంట్‌ను పొందండి లేదా కొత్తదాన్ని రూపొందించడానికి మీ స్ట్రింగ్‌ను అతికించండి</string>
@@ -1415,7 +1415,7 @@
     <string name="tesseract_options">టెసెరాక్ట్ ఎంపికలు</string>
     <string name="tesseract_options_sub">టెస్రాక్ట్ ఇంజిన్ కోసం కొన్ని ఇన్‌పుట్ వేరియబుల్స్‌ని వర్తింపజేయండి</string>
     <string name="custom_options">అనుకూల ఎంపికలు</string>
-    <string name="custom_params_info">ఈ నమూనాను అనుసరించి ఎంపికలు నమోదు చేయాలి: \\"--{option_name} {value}\\"</string>
+    <string name="custom_params_info">ఈ నమూనాను అనుసరించి ఎంపికలు నమోదు చేయాలి: \"--{option_name} {value}\"</string>
     <string name="auto_crop">ఆటో క్రాప్</string>
     <string name="free_corners">ఉచిత మూలలు</string>
     <string name="free_corners_sub">బహుభుజి ద్వారా చిత్రాన్ని కత్తిరించండి, ఇది దృక్కోణాన్ని కూడా సరిచేస్తుంది</string>
@@ -1447,7 +1447,7 @@
     <string name="zigzag_ratio">జిగ్‌జాగ్ నిష్పత్తి</string>
     <string name="create_shortcut">సత్వరమార్గాన్ని సృష్టించండి</string>
     <string name="create_shortcut_title">పిన్ చేయడానికి సాధనాన్ని ఎంచుకోండి</string>
-    <string name="create_shortcut_subtitle">సాధనం మీ లాంచర్ హోమ్ స్క్రీన్‌కు సత్వరమార్గంగా జోడించబడుతుంది, అవసరమైన ప్రవర్తనను సాధించడానికి \\"ఫైల్ పికింగ్‌ను దాటవేయి\\" సెట్టింగ్‌తో కలపడం ద్వారా దీన్ని ఉపయోగించండి</string>
+    <string name="create_shortcut_subtitle">సాధనం మీ లాంచర్ హోమ్ స్క్రీన్‌కు సత్వరమార్గంగా జోడించబడుతుంది, అవసరమైన ప్రవర్తనను సాధించడానికి \"ఫైల్ పికింగ్‌ను దాటవేయి\" సెట్టింగ్‌తో కలపడం ద్వారా దీన్ని ఉపయోగించండి</string>
     <string name="dont_stack_frames">ఫ్రేమ్‌లను పేర్చవద్దు</string>
     <string name="dont_stack_frames_sub">మునుపటి ఫ్రేమ్‌లను పారవేయడాన్ని ప్రారంభిస్తుంది, కాబట్టి అవి ఒకదానికొకటి పేర్చబడవు</string>
     <string name="crossfade">క్రాస్‌ఫేడ్</string>
@@ -1491,7 +1491,7 @@
     <string name="open_source_licenses">ఓపెన్ సోర్స్ లైసెన్స్‌లు</string>
     <string name="open_source_licenses_sub">ఈ యాప్‌లో ఉపయోగించిన ఓపెన్ సోర్స్ లైబ్రరీల లైసెన్స్‌లను వీక్షించండి</string>
     <string name="area">ప్రాంతం</string>
-    <string name="area_sub">పిక్సెల్ ఏరియా రిలేషన్ ఉపయోగించి రీసాంప్లింగ్. ఇమేజ్ డెసిమేషన్ కోసం ఇది ప్రాధాన్య పద్ధతి కావచ్చు, ఎందుకంటే ఇది మోయిర్\\'-ఫ్రీ ఫలితాలను ఇస్తుంది. కానీ చిత్రాన్ని జూమ్ చేసినప్పుడు, అది \\"సమీప\\" పద్ధతిని పోలి ఉంటుంది.</string>
+    <string name="area_sub">పిక్సెల్ ఏరియా రిలేషన్ ఉపయోగించి రీసాంప్లింగ్. ఇమేజ్ డెసిమేషన్ కోసం ఇది ప్రాధాన్య పద్ధతి కావచ్చు, ఎందుకంటే ఇది మోయిర్\'-ఫ్రీ ఫలితాలను ఇస్తుంది. కానీ చిత్రాన్ని జూమ్ చేసినప్పుడు, అది \"సమీప\" పద్ధతిని పోలి ఉంటుంది.</string>
     <string name="enable_tonemapping">టోన్‌మ్యాపింగ్‌ని ప్రారంభించండి</string>
     <string name="enter_percent">% నమోదు చేయండి</string>
     <string name="unknown_host">సైట్‌ను యాక్సెస్ చేయడం సాధ్యపడదు, VPNని ఉపయోగించి ప్రయత్నించండి లేదా url సరైనదేనా అని తనిఖీ చేయండి</string>
@@ -1506,8 +1506,8 @@
     <string name="fast_settings_side">ఫాస్ట్ సెట్టింగుల వైపు</string>
     <string name="fast_settings_side_sub">ఇమేజ్‌లను ఎడిట్ చేస్తున్నప్పుడు ఎంచుకున్న వైపు ఫ్లోటింగ్ స్ట్రిప్‌ను జోడించండి, ఇది క్లిక్ చేసినప్పుడు ఫాస్ట్ సెట్టింగ్‌లను తెరుస్తుంది</string>
     <string name="clear_selection">ఎంపికను క్లియర్ చేయండి</string>
-    <string name="settings_group_visibility_hidden">\\"%s\\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా కుదించబడుతుంది</string>
-    <string name="settings_group_visibility_visible">\\"%s\\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా విస్తరించబడుతుంది</string>
+    <string name="settings_group_visibility_hidden">\"%s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా కుదించబడుతుంది</string>
+    <string name="settings_group_visibility_visible">\"%s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా విస్తరించబడుతుంది</string>
     <string name="base_64_tools">Base64 సాధనాలు</string>
     <string name="base_64_tools_sub">Base64 స్ట్రింగ్‌ని ఇమేజ్‌కి డీకోడ్ చేయండి లేదా ఇమేజ్‌ని Base64 ఫార్మాట్‌కి ఎన్‌కోడ్ చేయండి</string>
     <string name="base_64">బేస్64</string>
@@ -1736,7 +1736,7 @@
     <string name="refresh">రిఫ్రెష్ చేయండి</string>
     <string name="wallpapers_export_sub">ప్రస్తుత హోమ్, లాక్ మరియు అంతర్నిర్మిత వాల్‌పేపర్‌లను పొందండి</string>
     <string name="allow_access_to_all_files_for_wp">అన్ని ఫైల్‌లకు యాక్సెస్‌ను అనుమతించండి, వాల్‌పేపర్‌లను తిరిగి పొందడానికి ఇది అవసరం</string>
-    <string name="allow_read_media_images_for_wp">బాహ్య నిల్వ అనుమతిని నిర్వహించడం సరిపోదు, మీరు మీ చిత్రాలకు ప్రాప్యతను అనుమతించాలి, \\"అన్నీ అనుమతించు\\"ని ఎంచుకున్నారని నిర్ధారించుకోండి</string>
+    <string name="allow_read_media_images_for_wp">బాహ్య నిల్వ అనుమతిని నిర్వహించడం సరిపోదు, మీరు మీ చిత్రాలకు ప్రాప్యతను అనుమతించాలి, \"అన్నీ అనుమతించు\"ని ఎంచుకున్నారని నిర్ధారించుకోండి</string>
     <string name="add_preset_to_filename">ఫైల్ పేరుకు ప్రీసెట్ జోడించండి</string>
     <string name="add_preset_to_filename_sub">ఇమేజ్ ఫైల్ పేరుకు ఎంచుకున్న ప్రీసెట్‌తో ప్రత్యయం జోడిస్తుంది</string>
     <string name="add_image_scale_mode_to_filename">ఫైల్ పేరుకు ఇమేజ్ స్కేల్ మోడ్‌ను జోడించండి</string>
@@ -1865,7 +1865,7 @@
     <string name="pulse_grid_pixelization">పల్స్ గ్రిడ్ పిక్సలైజేషన్</string>
     <string name="nucleus_pixelization">న్యూక్లియస్ పిక్సలైజేషన్</string>
     <string name="radial_weave_pixelization">రేడియల్ వీవ్ పిక్సలైజేషన్</string>
-    <string name="cannot_open_uri">uri \\"%s\\"ని తెరవలేరు</string>
+    <string name="cannot_open_uri">uri \"%s\"ని తెరవలేరు</string>
     <string name="snowfall_mode">హిమపాతం మోడ్</string>
     <string name="enabled">ప్రారంభించబడింది</string>
     <string name="border_frame">సరిహద్దు ఫ్రేమ్</string>
