@@ -552,7 +552,7 @@
     <string name="recognize_text">OCR (metin tanıma)</string>
     <string name="recognize_text_sub">Verilen resimden metin tanıyın, 120+ dil desteklenir</string>
     <string name="picture_has_no_text">Resimde metin yok veya uygulama bulamadı</string>
-    <string name="accuracy">"Doğruluk: %1$d"</string>
+    <string name="accuracy">Doğruluk: %1$d</string>
     <string name="recognition_type">Tanıma Türü</string>
     <string name="fast">Hızlı</string>
     <string name="standard">Standart</string>
