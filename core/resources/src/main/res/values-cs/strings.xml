@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -2005,4 +2007,7 @@
         <item quantity="few">%s barev</item>
         <item quantity="other">%s barev</item>
     </plurals>
+    <string name="current_model_not_chunkable">Aktuální model nepodporuje chunking, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy</string>
+    <string name="chunking_disabled">Chunking zakázáno, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy, ale může poskytnout lepší výsledky při odvození</string>
+    <string name="chunking">Chunking</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s Farbe</item>
         <item quantity="other">%s Farben</item>
     </plurals>
+    <string name="current_model_not_chunkable">Das aktuelle Modell unterstützt kein Chunking. Das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu hohem Speicherverbrauch und Problemen mit Low-End-Geräten führen</string>
+    <string name="chunking_disabled">Chunking ist deaktiviert, das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu einem hohen Speicherverbrauch und Problemen mit Low-End-Geräten führen, kann jedoch zu besseren Ergebnissen bei der Inferenz führen</string>
+    <string name="chunking">Chunking</string>
 </resources>

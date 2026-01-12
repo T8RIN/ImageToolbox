@@ -2005,4 +2005,7 @@
         <item quantity="one">%s couleur</item>
         <item quantity="other">%s couleurs</item>
     </plurals>
+    <string name="current_model_not_chunkable">Le modèle actuel ne prend pas en charge le chunking, l\'image sera traitée dans ses dimensions d\'origine, cela peut entraîner une consommation de mémoire élevée et des problèmes avec les appareils bas de gamme.</string>
+    <string name="chunking_disabled">Blocage désactivé, l\'image sera traitée dans ses dimensions d\'origine, cela peut entraîner une consommation de mémoire élevée et des problèmes avec les appareils bas de gamme, mais peut donner de meilleurs résultats d\'inférence</string>
+    <string name="chunking">Morceau</string>
 </resources>

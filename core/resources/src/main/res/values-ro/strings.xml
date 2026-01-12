@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -2004,4 +2006,7 @@
         <item quantity="few">%s culori</item>
         <item quantity="other">%s culori</item>
     </plurals>
+    <string name="current_model_not_chunkable">Modelul actual nu acceptă fragmentarea, imaginea va fi procesată la dimensiunile originale, acest lucru poate cauza un consum mare de memorie și probleme cu dispozitivele low-end</string>
+    <string name="chunking_disabled">Îmbunătățirea în bucăți este dezactivată, imaginea va fi procesată la dimensiunile originale, acest lucru poate cauza un consum mare de memorie și probleme cu dispozitivele de ultimă generație, dar poate oferi rezultate mai bune la inferență</string>
+    <string name="chunking">Bucățire</string>
 </resources>

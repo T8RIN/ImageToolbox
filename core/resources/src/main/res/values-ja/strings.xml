@@ -2004,4 +2004,7 @@
     <plurals name="color_count">
         <item quantity="other">%s色</item>
     </plurals>
+    <string name="current_model_not_chunkable">現在のモデルはチャンキングをサポートしていません。画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性があります。</string>
+    <string name="chunking_disabled">チャンキングが無効になっていると、画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性がありますが、推論ではより良い結果が得られる可能性があります。</string>
+    <string name="chunking">チャンク化</string>
 </resources>

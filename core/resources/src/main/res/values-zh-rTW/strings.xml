@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2002,4 +2004,7 @@
     <plurals name="color_count">
         <item quantity="other">%s 颜色</item>
     </plurals>
+    <string name="current_model_not_chunkable">当前模型不支持分块，图像将以原始尺寸处理，这可能会导致高内存消耗和低端设备问题</string>
+    <string name="chunking_disabled">禁用分块，图像将以原始尺寸进行处理，这可能会导致高内存消耗和低端设备的问题，但可能会给出更好的推理结果</string>
+    <string name="chunking">分块</string>
 </resources>

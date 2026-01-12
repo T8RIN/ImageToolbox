@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s väri</item>
         <item quantity="other">%s väriä</item>
     </plurals>
+    <string name="current_model_not_chunkable">Nykyinen malli ei tue paloittelua, kuva käsitellään alkuperäisissä mitoissa, mikä voi aiheuttaa suurta muistinkulutusta ja ongelmia halvempien laitteiden kanssa</string>
+    <string name="chunking_disabled">Sirpalointi poistettu käytöstä, kuva käsitellään alkuperäisissä mitoissa. Tämä voi aiheuttaa suurta muistinkulutusta ja ongelmia halvempien laitteiden kanssa, mutta voi antaa parempia tuloksia pääteltäessä</string>
+    <string name="chunking">Murskaavaa</string>
 </resources>

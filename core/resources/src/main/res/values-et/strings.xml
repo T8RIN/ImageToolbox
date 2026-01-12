@@ -2005,4 +2005,7 @@
         <item quantity="one">%s värvi</item>
         <item quantity="other">%s värvid</item>
     </plurals>
+    <string name="current_model_not_chunkable">Praegune mudel ei toeta tükeldamist, pilti töödeldakse originaalmõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega</string>
+    <string name="chunking_disabled">Tükeldamine on keelatud, pilti töödeldakse esialgsetes mõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega, kuid võib anda paremaid järeldusi</string>
+    <string name="chunking">Tükeldamine</string>
 </resources>

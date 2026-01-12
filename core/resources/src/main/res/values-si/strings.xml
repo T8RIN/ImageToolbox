@@ -2006,4 +2006,7 @@
         <item quantity="one">%s වර්ණය</item>
         <item quantity="other">%s වර්ණ</item>
     </plurals>
+    <string name="current_model_not_chunkable">වත්මන් ආකෘතිය කුට්ටි කිරීමට සහය නොදක්වයි, රූපය මුල් මානයන්ගෙන් සකසනු ඇත, මෙය ඉහළ මතක පරිභෝජනයක් සහ අඩු-අන්ත උපාංග සමඟ ගැටලු ඇති කළ හැකිය</string>
+    <string name="chunking_disabled">කුට්ටි කිරීම අක්‍රියයි, රූපය මුල් මානයන්ගෙන් සකසනු ඇත, මෙය ඉහළ මතක පරිභෝජනයක් සහ අඩු-අන්ත උපාංග සමඟ ගැටලු ඇති කළ හැකි නමුත් අනුමාන මත වඩා හොඳ ප්‍රතිඵල ලබා දිය හැකිය</string>
+    <string name="chunking">කුට්ටි කිරීම</string>
 </resources>

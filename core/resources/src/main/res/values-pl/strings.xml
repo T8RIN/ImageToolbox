@@ -2007,4 +2007,7 @@
     <string name="type_removebg">Usuń BG</string>
     <string name="horizontal_border_thickness">Grubość obramowania poziomego</string>
     <string name="vertical_border_thickness">Grubość obramowania pionowego</string>
+    <string name="current_model_not_chunkable">Obecny model nie obsługuje fragmentowania, obraz zostanie przetworzony w oryginalnych wymiarach, może to powodować duże zużycie pamięci i problemy z urządzeniami z niższej półki</string>
+    <string name="chunking_disabled">Dzielenie na kawałki wyłączone, obraz zostanie przetworzony w oryginalnych wymiarach, może to powodować duże zużycie pamięci i problemy z urządzeniami z niższej półki, ale może dać lepsze wyniki na podstawie wnioskowania</string>
+    <string name="chunking">Kawałki</string>
 </resources>

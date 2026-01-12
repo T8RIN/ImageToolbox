@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s түстер</item>
         <item quantity="other">%s түстер</item>
     </plurals>
+    <string name="current_model_not_chunkable">Ағымдағы үлгі бөлшектеуге қолдау көрсетпейді, кескін бастапқы өлшемдерде өңделеді, бұл жадты көп тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін.</string>
+    <string name="chunking_disabled">Бөлшектеу өшірілген, кескін бастапқы өлшемдерде өңделеді, бұл жадты жоғары тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін, бірақ қорытынды жасауда жақсы нәтижелер беруі мүмкін.</string>
+    <string name="chunking">Бөлшектеу</string>
 </resources>

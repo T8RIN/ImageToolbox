@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s kulay</item>
         <item quantity="other">%s kulay</item>
     </plurals>
+    <string name="current_model_not_chunkable">Hindi sinusuportahan ng kasalukuyang modelo ang chunking, ipoproseso ang imahe sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device</string>
+    <string name="chunking_disabled">Hindi pinagana ang pag-chun, ipoproseso ang larawan sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device ngunit maaaring magbigay ng mas magandang resulta sa hinuha</string>
+    <string name="chunking">Chunking</string>
 </resources>

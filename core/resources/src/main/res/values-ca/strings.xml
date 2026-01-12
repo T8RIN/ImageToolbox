@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s color</item>
         <item quantity="other">%s colors</item>
     </plurals>
+    <string name="current_model_not_chunkable">El model actual no admet la fragmentació, la imatge es processarà a les dimensions originals, això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa</string>
+    <string name="chunking_disabled">La fragmentació està desactivada, la imatge es processarà a les dimensions originals; això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa, però pot donar millors resultats en la inferència.</string>
+    <string name="chunking">En trossos</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s farve</item>
         <item quantity="other">%s farver</item>
     </plurals>
+    <string name="current_model_not_chunkable">Den nuværende model understøtter ikke chunking, billedet vil blive behandlet i originale dimensioner, dette kan forårsage højt hukommelsesforbrug og problemer med low-end enheder</string>
+    <string name="chunking_disabled">Chunking deaktiveret, billede vil blive behandlet i originale dimensioner, dette kan forårsage højt hukommelsesforbrug og problemer med low-end enheder, men kan give bedre resultater ved slutninger</string>
+    <string name="chunking">Chunking</string>
 </resources>

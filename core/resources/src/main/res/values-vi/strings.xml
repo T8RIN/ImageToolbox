@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -2002,4 +2004,7 @@
     <plurals name="color_count">
         <item quantity="other">%s màu sắc</item>
     </plurals>
+    <string name="current_model_not_chunkable">Model hiện tại không hỗ trợ chunking, hình ảnh sẽ được xử lý ở kích thước gốc, điều này có thể gây ra mức tiêu thụ bộ nhớ cao và sự cố với các thiết bị cấp thấp</string>
+    <string name="chunking_disabled">Tính năng phân đoạn bị tắt, hình ảnh sẽ được xử lý ở kích thước ban đầu, điều này có thể gây ra mức tiêu thụ bộ nhớ cao và sự cố với các thiết bị cấp thấp nhưng có thể cho kết quả suy luận tốt hơn</string>
+    <string name="chunking">Cắt nhỏ</string>
 </resources>

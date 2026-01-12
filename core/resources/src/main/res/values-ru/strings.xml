@@ -1934,7 +1934,7 @@
     <string name="model_nmkd_h264_texturize">Улучшение текстуры H.264</string>
     <string name="model_vhs_sharpen">Улучшение и повышение резкости VHS-видео</string>
     <string name="merging">Слияние</string>
-    <string name="chunk_size">Размер чанка</string>
+    <string name="chunk_size">Размер фрагмента</string>
     <string name="overlap_size">Размер перекрытия</string>
     <string name="note_chunk_info">Изображения размером более %1$d пикселей будут разрезаны и обработаны по частям, а функция перекрытия смешивает их, чтобы предотвратить видимые швы</string>
     <string name="large_chunk_warning">Большие размеры могут вызывать нестабильность в работе устройств низкого ценового сегмента</string>
@@ -2007,4 +2007,7 @@
     <string name="type_removebg">Удаление фона</string>
     <string name="horizontal_border_thickness">Толщина горизонтальной границы</string>
     <string name="vertical_border_thickness">Толщина вертикальной границы</string>
+    <string name="current_model_not_chunkable">Текущая модель не поддерживает фрагментацию, изображение будет обработано в исходных размерах, это может привести к высокому потреблению памяти и проблемам с устройствами низкого уровня.</string>
+    <string name="chunking_disabled">Фрагментация отключена, изображение будет обрабатываться в исходных размерах. Это может привести к высокому потреблению памяти и проблемам с устройствами низкого уровня, но может дать лучшие результаты при выводе.</string>
+    <string name="chunking">Фрагментация</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -2005,4 +2007,7 @@
     <string name="type_removebg">Видаліть BG</string>
     <string name="horizontal_border_thickness">Товщина горизонтальної межі</string>
     <string name="vertical_border_thickness">Товщина вертикальної межі</string>
+    <string name="current_model_not_chunkable">Поточна модель не підтримує фрагментування, зображення буде оброблено в оригінальних розмірах, це може спричинити велике споживання пам’яті та проблеми з пристроями низького класу</string>
+    <string name="chunking_disabled">Розбиття на фрагменти вимкнено, зображення буде оброблено в оригінальних розмірах, це може спричинити велике споживання пам’яті та проблеми з пристроями низького класу, але може дати кращі результати під час висновку</string>
+    <string name="chunking">Чанкінг</string>
 </resources>

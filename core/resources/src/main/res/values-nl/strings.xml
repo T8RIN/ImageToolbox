@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s kleur</item>
         <item quantity="other">%s kleuren</item>
     </plurals>
+    <string name="current_model_not_chunkable">Het huidige model ondersteunt geen chunking, de afbeelding wordt verwerkt in de originele afmetingen, dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken</string>
+    <string name="chunking_disabled">Chunking uitgeschakeld, afbeelding wordt verwerkt in de oorspronkelijke afmetingen. Dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken, maar kan betere resultaten opleveren bij gevolgtrekking</string>
+    <string name="chunking">Chunken</string>
 </resources>

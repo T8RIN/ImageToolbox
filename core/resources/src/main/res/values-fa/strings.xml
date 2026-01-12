@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s رنگ</item>
         <item quantity="other">%s رنگ</item>
     </plurals>
+    <string name="current_model_not_chunkable">مدل فعلی از تکه‌شدن پشتیبانی نمی‌کند، تصویر در ابعاد اصلی پردازش می‌شود، این ممکن است باعث مصرف زیاد حافظه و مشکلات دستگاه‌های رده پایین شود.</string>
+    <string name="chunking_disabled">قطعه قطعه کردن غیرفعال است، تصویر در ابعاد اصلی پردازش می‌شود، این ممکن است باعث مصرف زیاد حافظه و مشکلات دستگاه‌های ارزان‌قیمت شود، اما ممکن است نتایج بهتری در استنتاج داشته باشد.</string>
+    <string name="chunking">تکه تکه شدن</string>
 </resources>

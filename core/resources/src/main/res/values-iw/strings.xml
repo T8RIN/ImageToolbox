@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2005,4 +2007,7 @@
         <item quantity="one">%s צבעים</item>
         <item quantity="two">%s צבעים</item>
     </plurals>
+    <string name="current_model_not_chunkable">הדגם הנוכחי אינו תומך ב-chunking, התמונה תעובד במידות מקוריות, הדבר עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים</string>
+    <string name="chunking_disabled">Chunking מושבת, התמונה תעובד במידות מקוריות, זה עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים אך עשוי לתת תוצאות טובות יותר בהסקת מסקנות</string>
+    <string name="chunking">צ\'אנקינג</string>
 </resources>

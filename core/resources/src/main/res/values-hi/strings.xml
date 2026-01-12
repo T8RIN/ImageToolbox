@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s रंग</item>
         <item quantity="other">%s रंग</item>
     </plurals>
+    <string name="current_model_not_chunkable">वर्तमान मॉडल चंकिंग का समर्थन नहीं करता है, छवि को मूल आयामों में संसाधित किया जाएगा, इससे उच्च मेमोरी खपत और लो-एंड डिवाइस के साथ समस्याएं हो सकती हैं</string>
+    <string name="chunking_disabled">चंकिंग अक्षम, छवि को मूल आयामों में संसाधित किया जाएगा, इससे उच्च मेमोरी खपत और कम-अंत डिवाइसों के साथ समस्याएं हो सकती हैं लेकिन अनुमान लगाने पर बेहतर परिणाम मिल सकते हैं</string>
+    <string name="chunking">ठस</string>
 </resources>

@@ -2005,4 +2005,7 @@
     <string name="model_rmbg_2_0">Üstün ayrıntı işleme özelliğine sahip geliştirilmiş sürüm. Karmaşık arka planlar ve şeffaf nesnelerle daha iyi sonuç verir. Daha yüksek hassasiyet sunar, ancak daha fazla işleme gücü gerektirir.</string>
     <string name="horizontal_border_thickness">Yatay Kenar Kalınlığı</string>
     <string name="vertical_border_thickness">Dikey Kenar Kalınlığı</string>
+    <string name="current_model_not_chunkable">Mevcut model parçalamayı desteklemiyor, görüntü orijinal boyutlarda işlenecek, bu durum yüksek bellek tüketimine ve düşük kaliteli cihazlarda sorunlara neden olabilir</string>
+    <string name="chunking_disabled">Parçalama devre dışı, görüntü orijinal boyutlarında işlenecek; bu, yüksek bellek tüketimine ve düşük kaliteli cihazlarda sorunlara neden olabilir ancak çıkarımda daha iyi sonuçlar verebilir</string>
+    <string name="chunking">Parçalama</string>
 </resources>

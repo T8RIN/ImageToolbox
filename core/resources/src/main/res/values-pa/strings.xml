@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2003,4 +2005,7 @@
         <item quantity="one">%s ਰੰਗ</item>
         <item quantity="other">%s ਰੰਗ</item>
     </plurals>
+    <string name="current_model_not_chunkable">ਮੌਜੂਦਾ ਮਾਡਲ ਚੰਕਿੰਗ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ, ਚਿੱਤਰ ਨੂੰ ਅਸਲ ਮਾਪਾਂ ਵਿੱਚ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਇਸ ਨਾਲ ਉੱਚ ਮੈਮੋਰੀ ਦੀ ਖਪਤ ਹੋ ਸਕਦੀ ਹੈ ਅਤੇ ਘੱਟ-ਅੰਤ ਵਾਲੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ</string>
+    <string name="chunking_disabled">ਚੰਕਿੰਗ ਅਯੋਗ ਹੈ, ਚਿੱਤਰ ਨੂੰ ਅਸਲ ਮਾਪਾਂ ਵਿੱਚ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਇਸ ਨਾਲ ਉੱਚ ਮੈਮੋਰੀ ਦੀ ਖਪਤ ਹੋ ਸਕਦੀ ਹੈ ਅਤੇ ਘੱਟ-ਅੰਤ ਵਾਲੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ ਪਰ ਅਨੁਮਾਨ \'ਤੇ ਵਧੀਆ ਨਤੀਜੇ ਦੇ ਸਕਦੇ ਹਨ</string>
+    <string name="chunking">ਚੁੰਨੀ</string>
 </resources>

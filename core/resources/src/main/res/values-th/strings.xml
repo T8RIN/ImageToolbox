@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -2002,4 +2004,7 @@
     <plurals name="color_count">
         <item quantity="other">%s สี</item>
     </plurals>
+    <string name="current_model_not_chunkable">รุ่นปัจจุบันไม่รองรับการรวมเป็นก้อน รูปภาพจะถูกประมวลผลในขนาดดั้งเดิม ซึ่งอาจทำให้เกิดการใช้หน่วยความจำสูงและมีปัญหากับอุปกรณ์ระดับล่าง</string>
+    <string name="chunking_disabled">ปิดใช้งานการแบ่งส่วน รูปภาพจะถูกประมวลผลในขนาดดั้งเดิม ซึ่งอาจทำให้ใช้หน่วยความจำสูงและมีปัญหากับอุปกรณ์ระดับล่าง แต่อาจให้ผลลัพธ์ที่ดีกว่าในการอนุมาน</string>
+    <string name="chunking">ก้อน</string>
 </resources>

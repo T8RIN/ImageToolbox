@@ -2004,4 +2004,7 @@
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快更小的GPU在使用更少GPU内存的同时保留细节。</string>
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2模型，适用于一般图像；强调锐度和清晰度。</string>
     <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler针对动漫图像进行了优化；4B32F变体，细节更清晰，线条流畅。</string>
+    <string name="current_model_not_chunkable">当前模型不支持分块，图像将以原始尺寸处理，这可能会导致高内存消耗和低端设备问题</string>
+    <string name="chunking_disabled">禁用分块，图像将以原始尺寸进行处理，这可能会导致高内存消耗和低端设备的问题，但可能会给出更好的推理结果</string>
+    <string name="chunking">分块</string>
 </resources>

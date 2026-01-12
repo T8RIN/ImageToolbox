@@ -2006,4 +2006,7 @@
         <item quantity="one">%s färg</item>
         <item quantity="other">%s färger</item>
     </plurals>
+    <string name="current_model_not_chunkable">Den nuvarande modellen stöder inte chunking, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter</string>
+    <string name="chunking_disabled">Chunking inaktiverad, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter men kan ge bättre resultat vid slutledning</string>
+    <string name="chunking">Chunking</string>
 </resources>
