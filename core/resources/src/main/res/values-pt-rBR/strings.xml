@@ -1967,4 +1967,9 @@
     <string name="model_jpeg_60_80">Refina imagens com compressão leve (60-80% de qualidade) para realçar detalhes e texturas sutis.</string>
     <string name="model_jpeg_80_100">Melhora ligeiramente imagens quase sem perdas (80-100% de qualidade), preservando a aparência natural e os detalhes.</string>
     <string name="model_deblr">Reduz ligeiramente o desfoque da imagem, melhorando a nitidez sem introduzir artefatos.</string>
+    <string name="processing_channel">Operações de longa duração</string>
+    <string name="processing_image">Processando imagem</string>
+    <string name="processing">Processando</string>
+    <string name="model_artifacts_jpg_0_20">Remove artefatos de compressão JPEG pesados em imagens de qualidade muito baixa (0-20%).</string>
+    <string name="model_artifacts_jpg_20_40">Reduz artefatos JPEG fortes em imagens altamente comprimidas (20-40%).</string>
 </resources>
