@@ -1568,4 +1568,6 @@
     <string name="tag_gps_map_datum"></string>
     <string name="achromatomaly_sub"></string>
     <string name="mask"></string>
+    <string name="model_scunet_color_gan_fp16"></string>
+    <string name="model_scunet_color_15_fp16"></string>
 </resources>
