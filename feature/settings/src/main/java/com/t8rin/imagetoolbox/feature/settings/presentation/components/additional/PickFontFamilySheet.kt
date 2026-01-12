@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,26 +161,28 @@ internal fun PickFontFamilySheet(
                         onRemoveFont = onRemoveFont
                     )
                 }
-                item {
-                    InfoContainer(
-                        text = stringResource(R.string.imported_fonts),
-                        icon = Icons.Outlined.Extension,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.6f),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.4f)
-                    )
-                }
-                items(
-                    items = customEntries,
-                    key = { it.name ?: "sys" }
-                ) { font ->
-                    FontItem(
-                        font = font,
-                        onFontSelected = onFontSelected,
-                        onRemoveFont = onRemoveFont
-                    )
+                if (customEntries.isNotEmpty()) {
+                    item {
+                        InfoContainer(
+                            text = stringResource(R.string.imported_fonts),
+                            icon = Icons.Outlined.Extension,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.6f),
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.4f)
+                        )
+                    }
+                    items(
+                        items = customEntries,
+                        key = { it.name ?: "sys" }
+                    ) { font ->
+                        FontItem(
+                            font = font,
+                            onFontSelected = onFontSelected,
+                            onRemoveFont = onRemoveFont
+                        )
+                    }
                 }
             }
         },
