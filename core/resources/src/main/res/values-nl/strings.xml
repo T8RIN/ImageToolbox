@@ -1996,4 +1996,7 @@
     <string name="models"></string>
     <string name="x_width"></string>
     <string name="model_kdm_scans"></string>
+    <string name="model_scunet_color_gan_fp16"></string>
+    <string name="model_scunet_color_15_fp16"></string>
+    <string name="type_removebg"></string>
 </resources>
