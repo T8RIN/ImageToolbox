@@ -1997,31 +1997,4 @@
     <string name="model_realesrgan_x4plus">Покращення масштабування X4 для загальних зображень з покращеними текстурами та реалістичними результатами.</string>
     <string name="model_realesrgan_x4plus_anime">X4-модуль масштабування, оптимізований для аніме-зображень; 6 блоків RRDB для чіткіших ліній та деталей.</string>
     <string name="model_realesrnet_x4plus">Масштабування X4 з втратою MSE забезпечує плавніші результати та зменшує артефакти для загальних зображень.</string>
-    <string name="model_realesrgan_x4plus_anime_4b32f"></string>
-    <string name="model_ultrasharp_v2_x4"></string>
-    <string name="model_ultrasharp_v2_lite_x4"></string>
-    <string name="model_rmbg_1_4"></string>
-    <string name="model_rmbg_2_0"></string>
-    <string name="type_removebg"></string>
-    <string name="horizontal_border_thickness"></string>
-    <string name="vertical_border_thickness"></string>
-    <string name="usdt" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="developer_email" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>
