@@ -147,9 +147,9 @@ class AiToolsComponent @AssistedInject internal constructor(
     }
 
     fun downloadModel(model: NeuralModel) {
-        downloadJobs[model.name]?.cancel()
+        if (downloadJobs.contains(model.name)) return
+
         downloadJobs[model.name] = componentScope.launch {
-            delay(500)
             aiToolsRepository
                 .downloadModel(model)
                 .onStart {

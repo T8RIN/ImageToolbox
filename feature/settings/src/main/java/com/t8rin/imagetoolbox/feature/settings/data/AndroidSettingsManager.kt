@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -173,6 +173,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
@@ -489,18 +490,14 @@ internal class AndroidSettingsManager @Inject constructor(
                 val out = writeable.outputStream()
 
                 ZipOutputStream(out).use { zipOut ->
-                    FileInputStream(logsFile).use { fis ->
-                        val zipEntry = ZipEntry(logsFile.name)
-                        zipOut.putNextEntry(zipEntry)
-                        fis.copyTo(zipOut)
-                        zipOut.closeEntry()
-                    }
-                    ByteArrayInputStream(settingsFile).use { bis ->
-                        val zipEntry = ZipEntry(createBackupFilename())
-                        zipOut.putNextEntry(zipEntry)
-                        bis.copyTo(zipOut)
-                        zipOut.closeEntry()
-                    }
+                    zipOut.putEntry(
+                        name = logsFile.name,
+                        inputStream = FileInputStream(logsFile)
+                    )
+                    zipOut.putEntry(
+                        name = createBackupFilename(),
+                        inputStream = ByteArrayInputStream(settingsFile)
+                    )
                 }
             },
             filename = "image_toolbox_logs_${timestamp()}.zip"
@@ -945,5 +942,16 @@ internal class AndroidSettingsManager @Inject constructor(
         transform: suspend (MutablePreferences) -> Unit
     ) {
         dataStore.edit(transform)
+    }
+
+    private fun ZipOutputStream.putEntry(
+        name: String,
+        inputStream: InputStream
+    ) {
+        inputStream.use {
+            putNextEntry(ZipEntry(name))
+            it.copyTo(this)
+            closeEntry()
+        }
     }
 }

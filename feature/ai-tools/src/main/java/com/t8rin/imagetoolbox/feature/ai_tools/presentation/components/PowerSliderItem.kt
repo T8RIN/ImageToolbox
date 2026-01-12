@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.collections.immutable.toPersistentMap
 import kotlin.math.roundToInt
 
@@ -72,6 +73,7 @@ internal fun PowerSliderItem(
         },
         icon = icon,
         isAnimated = false,
-        canInputValue = false
+        canInputValue = false,
+        shape = ShapeDefaults.large,
     )
 }

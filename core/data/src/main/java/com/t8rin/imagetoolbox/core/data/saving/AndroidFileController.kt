@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
@@ -60,11 +64,11 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
-import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -77,6 +81,7 @@ internal class AndroidFileController @Inject constructor(
     private val filenameCreator: FilenameCreator,
     private val jsonParser: JsonParser,
     private val appScope: AppScope,
+    private val dataStore: DataStore<Preferences>,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
 ) : DispatchersHolder by dispatchersHolder,
@@ -431,12 +436,10 @@ internal class AndroidFileController @Inject constructor(
         value: O,
     ): Boolean = withContext(ioDispatcher) {
         "saveObject".makeLog(key)
-        val json = jsonParser.toJson(value, value::class.java) ?: return@withContext false
-        val file = File(context.filesDir, "$key.json")
-
         runCatching {
-            file.outputStream().use {
-                it.write(json.toByteArray(Charsets.UTF_8))
+            dataStore.edit {
+                it[stringPreferencesKey("fast_$key")] =
+                    jsonParser.toJson(value, value::class.java)!!
             }
         }.onSuccess {
             "saveObject success".makeLog(key)
@@ -455,11 +458,10 @@ internal class AndroidFileController @Inject constructor(
     ): O? = withContext(ioDispatcher) {
         runCatching {
             "restoreObject".makeLog(key)
-            val file = File(context.filesDir, "$key.json").apply {
-                if (!exists()) createNewFile()
-            }
-
-            jsonParser.fromJson<O>(file.readText(Charsets.UTF_8), kClass.java)
+            jsonParser.fromJson<O>(
+                json = dataStore.data.first()[stringPreferencesKey("fast_$key")].orEmpty(),
+                type = kClass.java
+            )
         }.onFailure {
             it.makeLog("restoreObject $key")
         }.onSuccess {

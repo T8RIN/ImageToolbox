@@ -30,9 +30,10 @@ data class NeuralModel(
 ) {
     val supportsStrength = name.contains("fbcnn_", true)
     val isImported = downloadLink == "imported"
+    val isNonChunkable = name.contains("ddcolor") || type == Type.REMOVEBG
 
     enum class Type {
-        UPSCALE, REMOVEBG, DEJPEG, DENOISE, COLORIZE, ARTIFACTS, ENHANCE, ANIME, SCANS
+        UPSCALE, REMOVEBG, COLORIZE, DEJPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS
     }
 
     companion object {

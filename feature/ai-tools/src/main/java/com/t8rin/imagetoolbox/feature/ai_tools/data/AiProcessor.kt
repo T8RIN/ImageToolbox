@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ChunkInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.currentCoroutineContext
@@ -70,11 +71,9 @@ internal class AiProcessor @Inject constructor(
     suspend fun processImage(
         session: OrtSession,
         inputBitmap: Bitmap,
-        strength: Float,
-        listener: AiProgressListener,
-        chunkSize: Int,
-        overlap: Int,
-        model: NeuralModel
+        model: NeuralModel,
+        params: NeuralParams,
+        listener: AiProgressListener
     ): Bitmap? = withContext(defaultDispatcher) {
         service.track(
             onCancel = {
@@ -111,15 +110,16 @@ internal class AiProcessor @Inject constructor(
                         }
                     },
                     info = ModelInfo(
-                        strength = strength,
+                        strength = params.strength,
                         session = session,
                         chunkSize = if (model.name.startsWith("scunet_")) {
-                            minOf(chunkSize, 256)
+                            minOf(params.chunkSize, 256)
                         } else {
-                            chunkSize
+                            params.chunkSize
                         },
-                        overlap = overlap,
-                        model = model
+                        overlap = params.overlap,
+                        model = model,
+                        disableChunking = !params.enableChunking
                     )
                 )
             }
@@ -143,10 +143,14 @@ internal class AiProcessor @Inject constructor(
 
         val processingConfig = Bitmap.Config.ARGB_8888
         // Use the smaller of chunkSize or model's fixed dimensions
-        val effectiveMaxChunkSize = if (info.expectedWidth != null && info.expectedHeight != null) {
-            minOf(info.chunkSize, info.expectedWidth, info.expectedHeight)
+        val effectiveMaxChunkSize = if (info.isNonChunkable) {
+            Int.MAX_VALUE
         } else {
-            info.chunkSize
+            if (info.expectedWidth != null && info.expectedHeight != null) {
+                minOf(info.chunkSize, info.expectedWidth, info.expectedHeight)
+            } else {
+                info.chunkSize
+            }
         }
 
         val processed = if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {

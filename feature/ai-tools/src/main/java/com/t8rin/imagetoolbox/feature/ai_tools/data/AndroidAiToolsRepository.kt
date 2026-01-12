@@ -53,6 +53,7 @@ import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -122,9 +123,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         val modelFile = model.file
         val title = model.title
 
+        ensureActive()
         client.prepareGet(model.downloadLink).execute { response ->
             val total = response.contentLength() ?: -1L
 
+            ensureActive()
             val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
 
             val channel = response.bodyAsChannel()
@@ -133,8 +136,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
             FileOutputStream(tmp).use { fos ->
                 try {
                     while (!channel.isClosedForRead) {
+                        ensureActive()
                         val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
                         while (!packet.exhausted()) {
+                            ensureActive()
                             val bytes = packet.readByteArray()
                             downloaded += bytes.size
                             fos.write(bytes)
@@ -154,6 +159,9 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         title.contains("RMBG 2.0") -> GenericBackgroundRemover.startDownload()
                         else -> null
                     }?.collect()
+
+
+                    ensureActive()
 
                     selectModel(
                         model = model,
@@ -227,10 +235,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 processor.processImage(
                     session = ortSession,
                     inputBitmap = image,
-                    strength = params.strength,
+                    params = params,
                     listener = listener,
-                    chunkSize = params.chunkSize,
-                    overlap = params.overlap,
                     model = selectedModel.value!!
                 )
             }

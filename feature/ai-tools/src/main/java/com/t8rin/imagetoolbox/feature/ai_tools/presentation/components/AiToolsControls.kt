@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.GridOn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,11 +37,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import kotlin.math.roundToInt
 
@@ -51,6 +51,8 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     val selectedModel by component.selectedModel.collectAsStateWithLifecycle()
     val downloadedModels by component.downloadedModels.collectAsStateWithLifecycle()
     val notDownloadedModels by component.notDownloadedModels.collectAsStateWithLifecycle()
+    val isModelChunkable = selectedModel?.isNonChunkable != true
+    val isChunkable = isModelChunkable && component.params.enableChunking
 
     NeuralModelSelector(
         value = selectedModel,
@@ -64,7 +66,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     )
 
     AnimatedVisibility(
-        visible = selectedModel?.type != NeuralModel.Type.REMOVEBG,
+        visible = isChunkable,
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
@@ -82,7 +84,8 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                     },
                     title = stringResource(R.string.strength),
                     icon = Icons.Outlined.Exercise,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = 8.dp),
+                    shape = ShapeDefaults.large,
                 )
             }
 
@@ -97,7 +100,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
 
             PowerSliderItem(
                 label = stringResource(id = R.string.chunk_size),
-                icon = Icons.Rounded.GridOn,
+                icon = Icons.Outlined.Cube,
                 value = component.params.chunkSize,
                 powers = chunkPowers,
                 onValueChange = { component.updateParams { copy(chunkSize = it) } }
@@ -127,12 +130,19 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                 maxAllowed = component.params.chunkSize,
                 onValueChange = { component.updateParams { copy(overlap = it) } }
             )
-            Spacer(Modifier.height(8.dp))
-            InfoContainer(
-                text = stringResource(R.string.note_chunk_info, component.params.chunkSize),
-                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f),
-            )
         }
     }
+
+    InfoContainer(
+        text = if (isChunkable) {
+            stringResource(R.string.note_chunk_info, component.params.chunkSize)
+        } else if (!isModelChunkable) {
+            stringResource(R.string.current_model_not_chunkable)
+        } else {
+            stringResource(R.string.chunking_disabled)
+        },
+        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f),
+        modifier = Modifier.padding(top = 8.dp)
+    )
 }

@@ -2026,4 +2026,7 @@
     <string name="type_removebg">Remove BG</string>
     <string name="horizontal_border_thickness">Horizontal Border Thickness</string>
     <string name="vertical_border_thickness">Vertical Border Thickness</string>
+    <string name="current_model_not_chunkable">Current model does not support chunking, image will be processed in original dimensions, this may cause high memory consumption and issues with low-end devices</string>
+    <string name="chunking_disabled">Chunking disabled, image will be processed in original dimensions, this may cause high memory consumption and issues with low-end devices but may give better results on inference</string>
+    <string name="chunking">Chunking</string>
 </resources>

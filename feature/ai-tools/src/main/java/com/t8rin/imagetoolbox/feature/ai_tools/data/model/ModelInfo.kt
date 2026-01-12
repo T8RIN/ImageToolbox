@@ -26,9 +26,10 @@ import kotlin.math.abs
 
 internal class ModelInfo(
     val strength: Float,
-    session: OrtSession,
     val chunkSize: Int,
     val overlap: Int,
+    disableChunking: Boolean,
+    session: OrtSession,
     model: NeuralModel
 ) {
     val inputName: String
@@ -40,6 +41,7 @@ internal class ModelInfo(
     val expectedHeight: Int?
     val isScu = model.name.startsWith("scunet_")
     val isScuColor = model.name.startsWith("scunet_color")
+    val isNonChunkable = model.isNonChunkable || disableChunking
 
     val scaleFactor: Int = scaleMap.entries.find {
         model.name.contains(it.key)
