@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -1999,4 +2001,8 @@
     <string name="type_removebg">Kendu BG</string>
     <string name="horizontal_border_thickness">Ertzaren lodiera horizontala</string>
     <string name="vertical_border_thickness">Ertz Bertikala Lodiera</string>
+    <plurals name="color_count">
+        <item quantity="one">%s kolorea</item>
+        <item quantity="other">%s koloreak</item>
+    </plurals>
 </resources>
