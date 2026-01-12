@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.core.app.PendingIntentCompat
+import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -403,7 +404,7 @@ object ContextUtils {
     ) = withContext(Dispatchers.Main.immediate) {
         runCatching {
             val context = this@createScreenShortcut
-            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context) && screen.icon != null) {
+            if (context.canPinShortcuts() && screen.icon != null) {
                 val imageBitmap = screen.icon!!.toImageBitmap(
                     context = context,
                     width = 256,
@@ -437,11 +438,9 @@ object ContextUtils {
                     successCallback?.intentSender
                 )
             } else {
-                throw UnsupportedOperationException()
+                onFailure(UnsupportedOperationException())
             }
-        }.onFailure {
-            onFailure(it)
-        }
+        }.onFailure(onFailure)
     }
 
     fun Context.canPinShortcuts(): Boolean = runCatching {
@@ -450,18 +449,21 @@ object ContextUtils {
 
     @SuppressLint("MissingPermission")
     fun Context.isNetworkAvailable(): Boolean {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nw = connectivityManager.activeNetwork ?: return false
-        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
-        return when {
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
-            else -> false
-        }
+        return getSystemService<ConnectivityManager>()?.run {
+            val capabilities = getNetworkCapabilities(
+                activeNetwork ?: return false
+            ) ?: return false
+
+            possibleCapabilities.any(capabilities::hasTransport)
+        } ?: false
     }
+
+    private val possibleCapabilities = listOf(
+        NetworkCapabilities.TRANSPORT_WIFI,
+        NetworkCapabilities.TRANSPORT_CELLULAR,
+        NetworkCapabilities.TRANSPORT_ETHERNET,
+        NetworkCapabilities.TRANSPORT_BLUETOOTH
+    )
 
     fun Context.shareText(value: String) {
         val sendIntent = Intent().apply {
