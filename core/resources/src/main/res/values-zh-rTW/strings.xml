@@ -1892,7 +1892,7 @@
     <string name="model_fbcnn_color_fp16"></string>
     <string name="model_fbcnn_gray_fp16"></string>
     <string name="model_fbcnn_gray_double_fp16"></string>
-    <string name="model_scunet_color_gan_fp16">一般噪声、彩色图像</string>
+    <string name="model_scunet_color_gan_fp16"></string>
     <string name="model_scunet_color_psnr_fp16"></string>
     <string name="model_scunet_gray_15_fp16"></string>
     <string name="model_scunet_gray_25_fp16"></string>
@@ -1942,7 +1942,7 @@
     <string name="import_model"></string>
     <string name="import_model_sub"></string>
     <string name="imported_models"></string>
-    <string name="model_scunet_color_15_fp16">一般噪声、彩色图像</string>
+    <string name="model_scunet_color_15_fp16"></string>
     <string name="model_scunet_color_25_fp16"></string>
     <string name="model_scunet_color_50_fp16"></string>
     <string name="model_artifacts_dithering_alsa"></string>
@@ -1996,7 +1996,7 @@
     <string name="model_ultrasharp_v2_lite_x4"></string>
     <string name="model_rmbg_1_4"></string>
     <string name="model_rmbg_2_0"></string>
-    <string name="type_removebg">删除背景</string>
+    <string name="type_removebg"></string>
     <string name="horizontal_border_thickness"></string>
     <string name="vertical_border_thickness"></string>
     <plurals name="color_count">
