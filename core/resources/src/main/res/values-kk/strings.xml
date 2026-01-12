@@ -1588,7 +1588,7 @@
     <string name="grid_size"></string>
     <string name="resolution_x"></string>
     <string name="resolution_y"></string>
-    <string name="resolution">Ажыратымдылық</string>
+    <string name="resolution"></string>
     <string name="pixel_by_pixel"></string>
     <string name="highlight_color"></string>
     <string name="pixel_comparison_type"></string>
