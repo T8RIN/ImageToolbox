@@ -1447,7 +1447,7 @@
     <string name="zigzag_ratio">Cikcak poměr</string>
     <string name="create_shortcut">Vytvořit zástupce</string>
     <string name="create_shortcut_title">Vyberte nástroj, který chcete připnout</string>
-    <string name="create_shortcut_subtitle">Nástroj bude přidán na domovskou obrazovku vašeho spouštěče jako zkratka, použijte jej v kombinaci s nastavením \"Přeskočit výběr souboru\", abyste dosáhli potřebného chování</string>
+    <string name="create_shortcut_subtitle">Nástroj bude přidán na domovskou obrazovku vašeho spouštěče jako zkratka, použijte jej v kombinaci s nastavením \\\"Přeskočit výběr souboru\\\", abyste dosáhli potřebného chování</string>
     <string name="dont_stack_frames">Neskládejte rámečky</string>
     <string name="dont_stack_frames_sub">Umožňuje likvidaci předchozích snímků, takže se nebudou skládat na sebe</string>
     <string name="crossfade">Prolínání</string>
@@ -1491,7 +1491,7 @@
     <string name="open_source_licenses">Open Source licence</string>
     <string name="open_source_licenses_sub">Zobrazit licence knihoven s otevřeným zdrojovým kódem používaných v této aplikaci</string>
     <string name="area">Plocha</string>
-    <string name="area_sub">Převzorkování pomocí vztahu plochy pixelů. Může to být preferovaná metoda pro decimaci obrazu, protože poskytuje výsledky bez moaré. Ale když je obrázek přiblížený, je to podobné jako u metody \"Nejbližší\".</string>
+    <string name="area_sub">Převzorkování pomocí vztahu plochy pixelů. Může to být preferovaná metoda pro decimaci obrazu, protože poskytuje výsledky bez moaré. Ale když je obrázek přiblížený, je to podobné jako u metody \\\"Nejbližší\\\".</string>
     <string name="enable_tonemapping">Povolit mapování tónů</string>
     <string name="enter_percent">Zadejte %</string>
     <string name="unknown_host">Nelze získat přístup k webu, zkuste použít VPN nebo zkontrolujte, zda je adresa URL správná</string>
