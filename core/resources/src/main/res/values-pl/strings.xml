@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -1069,7 +1067,7 @@
     <string name="lanczos3_jinc_sub">Wariant filtru Lanczos 3, który wykorzystuje funkcję jinc, zapewniając wysokiej jakości interpolację z minimalnymi artefaktami.</string>
     <string name="auto_crop">Automatyczne kadrowanie</string>
     <string name="triangle">Trójkąt</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje powinny być wprowadzane zgodnie z tym wzorem: „--{nazwa_opcji} {wartość}\</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje powinny być wprowadzane zgodnie z tym wzorem: „--{nazwa_opcji} {wartość}\\</string>
     <string name="clustered_2x2_dithering">Dithering klastrowy 2x2</string>
     <string name="links_preview_sub">Umożliwia pobieranie podglądu linków w miejscach, w których można uzyskać tekst (QRCode, OCR itp.).</string>
     <string name="tag_exposure_index">Wskaźnik ekspozycji</string>
