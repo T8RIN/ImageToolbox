@@ -2018,4 +2018,7 @@
     <string name="invisible_mode"></string>
     <string name="ocr_write_to_file_sub"></string>
     <string name="invisible_mode_sub"></string>
+    <string name="model_scunet_color_gan_fp16"></string>
+    <string name="model_scunet_color_15_fp16"></string>
+    <string name="type_removebg"></string>
 </resources>
