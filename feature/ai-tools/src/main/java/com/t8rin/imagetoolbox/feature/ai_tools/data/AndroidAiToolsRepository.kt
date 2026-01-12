@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
 import com.t8rin.neural_tools.bgremover.RMBGBackgroundRemover
+import com.t8rin.neural_tools.bgremover.U2NetBackgroundRemover
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
@@ -211,18 +212,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
             model == null -> return@withContext listener.failedSession()
 
             model.type == NeuralModel.Type.REMOVEBG -> {
-                val title = model.title
-                when {
-                    title.contains("RMBG 1.4") -> withClosedSession(listener) {
-                        RMBGBackgroundRemover.removeBackground(image)?.healAlpha(image)
-                    }
-
-                    title.contains("RMBG 2.0") -> withClosedSession(listener) {
-                        GenericBackgroundRemover.removeBackground(image)?.healAlpha(image)
-                    }
-
-                    else -> listener.failedSession()
-                }
+                U2NetBackgroundRemover.removeBackground(
+                    image = image,
+                    modelPath = model.file.absolutePath,
+                    trainedSize = 1024
+                ).healAlpha(image)
             }
 
             else -> {

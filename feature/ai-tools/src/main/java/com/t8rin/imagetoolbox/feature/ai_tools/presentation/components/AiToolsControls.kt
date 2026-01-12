@@ -36,13 +36,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import kotlin.math.roundToInt
 
@@ -133,6 +136,8 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         }
     }
 
+    Spacer(Modifier.height(8.dp))
+
     InfoContainer(
         text = if (isChunkable) {
             stringResource(R.string.note_chunk_info, component.params.chunkSize)
@@ -142,7 +147,19 @@ internal fun AiToolsControls(component: AiToolsComponent) {
             stringResource(R.string.chunking_disabled)
         },
         containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f),
-        modifier = Modifier.padding(top = 8.dp)
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f)
+    )
+
+    Spacer(Modifier.height(8.dp))
+
+    ImageFormatSelector(
+        value = component.imageFormat,
+        entries = if (component.selectedModel.value?.type != NeuralModel.Type.REMOVEBG) {
+            ImageFormatGroup.entries
+        } else {
+            ImageFormatGroup.alphaContainedEntries
+        },
+        onValueChange = component::setImageFormat,
+        onAutoClick = { component.setImageFormat(null) }
     )
 }

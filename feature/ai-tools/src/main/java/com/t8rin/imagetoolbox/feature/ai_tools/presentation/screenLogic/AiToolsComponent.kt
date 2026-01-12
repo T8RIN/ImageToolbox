@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -120,6 +121,9 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private val errorsChannel: Channel<String> = Channel(Channel.BUFFERED)
     val errors: Flow<String> = errorsChannel.receiveAsFlow()
+
+    private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
+    val imageFormat by _imageFormat
 
     private val aiProgressListener = object : AiProgressListener {
         override fun onError(error: String) {
@@ -213,6 +217,9 @@ class AiToolsComponent @AssistedInject internal constructor(
         onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = componentScope.launch {
+            if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
+                setImageFormat(ImageFormat.Png.Lossless)
+            }
             delay(400)
             _saveProgress.update {
                 NeuralSaveProgress(
@@ -234,7 +241,9 @@ class AiToolsComponent @AssistedInject internal constructor(
                         listener = aiProgressListener,
                         params = params
                     )?.let {
-                        it to imageInfo
+                        it to imageInfo.copy(
+                            imageFormat = imageFormat ?: imageInfo.imageFormat
+                        )
                     }
                 }.onFailure {
                     results.add(
@@ -285,6 +294,9 @@ class AiToolsComponent @AssistedInject internal constructor(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = componentScope.launch {
+            if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
+                setImageFormat(ImageFormat.Png.Lossless)
+            }
             delay(400)
             _saveProgress.update {
                 NeuralSaveProgress(
@@ -305,7 +317,9 @@ class AiToolsComponent @AssistedInject internal constructor(
                         listener = aiProgressListener,
                         params = params
                     )?.let {
-                        it to imageInfo
+                        it to imageInfo.copy(
+                            imageFormat = imageFormat ?: imageInfo.imageFormat
+                        )
                     }
                 }.getOrNull()?.let { (image, imageInfo) ->
                     shareProvider.cacheImage(
@@ -342,6 +356,10 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     fun addUris(uris: List<Uri>) {
         _uris.update { it.orEmpty() + uris }
+    }
+
+    fun setImageFormat(imageFormat: ImageFormat?) {
+        _imageFormat.update { imageFormat }
     }
 
     @AssistedFactory
