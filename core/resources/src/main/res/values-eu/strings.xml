@@ -882,9 +882,9 @@
     <string name="resize_anchor">Aingura tamaina aldatu</string>
     <string name="pixel_switch">Pixela</string>
     <string name="fluent_switch">Arina</string>
-    <string name="fluent_switch_sub">\"Fluent\" diseinu sisteman oinarritutako etengailua</string>
+    <string name="fluent_switch_sub">\\\"Fluent\\\" diseinu sisteman oinarritutako etengailua</string>
     <string name="cupertino_switch">Cupertino</string>
-    <string name="cupertino_switch_sub">\"Cupertino\" diseinu sisteman oinarritutako etengailua</string>
+    <string name="cupertino_switch_sub">\\\"Cupertino\\\" diseinu sisteman oinarritutako etengailua</string>
     <string name="images_to_svg">Irudiak SVGra</string>
     <string name="images_to_svg_sub">Jarraitu emandako irudiak SVG irudietara</string>
     <string name="use_sampled_palette">Erabili Sampled Paleta</string>
@@ -1447,7 +1447,7 @@
     <string name="zigzag_ratio">Sigi-saga-erlazioa</string>
     <string name="create_shortcut">Sortu lasterbidea</string>
     <string name="create_shortcut_title">Aukeratu ainguratzeko tresna</string>
-    <string name="create_shortcut_subtitle">Tresna abiarazlearen hasierako pantailan gehituko da lasterbide gisa, erabili \"Saltatu fitxategiak hautatzea\" ezarpenarekin konbinatuz, beharrezko portaera lortzeko.</string>
+    <string name="create_shortcut_subtitle">Tresna abiarazlearen hasierako pantailan gehituko da lasterbide gisa, erabili \\\"Saltatu fitxategiak hautatzea\\\" ezarpenarekin konbinatuz, beharrezko portaera lortzeko.</string>
     <string name="dont_stack_frames">Ez pilatu markoak</string>
     <string name="dont_stack_frames_sub">Aurreko fotogramak botatzeko aukera ematen du, beraz, ez dira elkarren gainean pilatuko</string>
     <string name="crossfade">Crossfade</string>
@@ -1491,7 +1491,7 @@
     <string name="open_source_licenses">Kode irekiko lizentziak</string>
     <string name="open_source_licenses_sub">Ikusi aplikazio honetan erabiltzen diren kode irekiko liburutegien lizentziak</string>
     <string name="area">Eremua</string>
-    <string name="area_sub">Birlaginketa pixelaren eremuaren erlazioa erabiliz. Irudiak dezimatzeko metodo hobetsia izan daiteke, moirerik gabeko emaitzak ematen baititu. Baina irudia handitzen denean, \"Gertuena\" metodoaren antzekoa da.</string>
+    <string name="area_sub">Birlaginketa pixelaren eremuaren erlazioa erabiliz. Irudiak dezimatzeko metodo hobetsia izan daiteke, moirerik gabeko emaitzak ematen baititu. Baina irudia handitzen denean, \\\"Gertuena\\\" metodoaren antzekoa da.</string>
     <string name="enable_tonemapping">Gaitu Tonemapping</string>
     <string name="enter_percent">Sartu %</string>
     <string name="unknown_host">Ezin da webgunera sartu, saiatu VPN erabiltzen edo egiaztatu url-a zuzena den</string>
