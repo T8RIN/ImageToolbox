@@ -1928,9 +1928,9 @@
     <string name="model_h264">Texturization, h264 compression</string>
     <string name="model_vhs">VHS compression</string>
     <string name="model_cinepak">Non-standard compression (cinepak, msvideo1, roq)</string>
-    <string name="model_debink_v4">Blink compression, better on geometry</string>
-    <string name="model_debink_v5">Blink compression, stronger</string>
-    <string name="model_debink_v6">Blink compression, soft, retains detail</string>
+    <string name="model_debink_v4">Bink compression, better on geometry</string>
+    <string name="model_debink_v5">Bink compression, stronger</string>
+    <string name="model_debink_v6">Bink compression, soft, retains detail</string>
     <string name="model_antialias">Eliminating the stair-step effect, smoothing</string>
     <string name="model_kdm_scans">Scanned art/drawings, mild compression, moire</string>
     <string name="model_bandage">Color banding</string>
