@@ -27,6 +27,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.t8rin.imagetoolbox.core.data.image.utils.healAlpha
 import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
@@ -205,11 +206,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 val title = model.title
                 when {
                     title.contains("RMBG 1.4") -> withClosedSession(listener) {
-                        RMBGBackgroundRemover.removeBackground(image)
+                        RMBGBackgroundRemover.removeBackground(image)?.healAlpha(image)
                     }
 
                     title.contains("RMBG 2.0") -> withClosedSession(listener) {
-                        GenericBackgroundRemover.removeBackground(image)
+                        GenericBackgroundRemover.removeBackground(image)?.healAlpha(image)
                     }
 
                     else -> listener.failedSession()
@@ -238,7 +239,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     private suspend fun withClosedSession(
         listener: AiProgressListener,
-        function: () -> Bitmap?
+        function: suspend () -> Bitmap?
     ): Bitmap? {
         closeSession()
 

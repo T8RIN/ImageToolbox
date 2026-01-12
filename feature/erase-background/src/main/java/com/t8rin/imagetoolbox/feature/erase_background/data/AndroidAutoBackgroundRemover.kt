@@ -20,8 +20,7 @@ package com.t8rin.imagetoolbox.feature.erase_background.data
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.get
-import androidx.core.graphics.set
+import com.t8rin.imagetoolbox.core.data.image.utils.healAlpha
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
@@ -29,7 +28,6 @@ import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -113,28 +111,6 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
                 .onFailure {
                     onFailure(it.makeLog())
                 }
-        }
-    }
-
-    private suspend fun Bitmap.healAlpha(
-        original: Bitmap
-    ): Bitmap = coroutineScope {
-        val processed = this@healAlpha
-
-        copy(Bitmap.Config.ARGB_8888, true).also { result ->
-            for (y in 0 until original.height) {
-                for (x in 0 until original.width) {
-                    ensureActive()
-                    val origPixel = original[x, y]
-                    val procPixel = processed[x, y]
-
-                    val origAlpha = origPixel ushr 24
-                    if (origAlpha >= 255) continue
-                    val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
-
-                    result[x, y] = newPixel
-                }
-            }
         }
     }
 

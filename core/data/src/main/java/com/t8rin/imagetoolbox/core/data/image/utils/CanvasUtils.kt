@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,11 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import androidx.core.graphics.get
+import androidx.core.graphics.set
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 
 fun Canvas.drawBitmap(
     bitmap: Bitmap,
@@ -60,3 +64,25 @@ fun Canvas.drawBitmap(
     left: Float = 0f,
     top: Float = 0f
 ) = drawBitmap(bitmap, left, top, Paint(Paint.ANTI_ALIAS_FLAG))
+
+suspend fun Bitmap.healAlpha(
+    original: Bitmap
+): Bitmap = coroutineScope {
+    val processed = this@healAlpha
+
+    copy(Bitmap.Config.ARGB_8888, true).also { result ->
+        for (y in 0 until original.height) {
+            for (x in 0 until original.width) {
+                ensureActive()
+                val origPixel = original[x, y]
+                val procPixel = processed[x, y]
+
+                val origAlpha = origPixel ushr 24
+                if (origAlpha >= 255) continue
+                val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
+
+                result[x, y] = newPixel
+            }
+        }
+    }
+}
