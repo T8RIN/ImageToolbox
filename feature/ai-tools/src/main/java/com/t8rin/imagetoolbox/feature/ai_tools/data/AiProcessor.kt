@@ -112,11 +112,7 @@ internal class AiProcessor @Inject constructor(
                     info = ModelInfo(
                         strength = params.strength,
                         session = session,
-                        chunkSize = if (model.name.startsWith("scunet_")) {
-                            minOf(params.chunkSize, 256)
-                        } else {
-                            params.chunkSize
-                        },
+                        chunkSize = params.chunkSize,
                         overlap = params.overlap,
                         model = model,
                         disableChunking = !params.enableChunking
@@ -133,7 +129,7 @@ internal class AiProcessor @Inject constructor(
         info: ModelInfo,
     ): Bitmap = withContext(defaultDispatcher) {
         // to handle edge artifacts, dunno if it's needed for *all* models, but it helped with SCUNet
-        val inputBitmap = if (info.isScu) {
+        val inputBitmap = if (info.isScuNet) {
             addBlackBorder(inputBitmap)
         } else {
             inputBitmap
@@ -171,7 +167,7 @@ internal class AiProcessor @Inject constructor(
             )
         }
 
-        if (info.isScu) {
+        if (info.isScuNet) {
             removeBlackBorder(processed)
         } else {
             processed
@@ -328,7 +324,7 @@ internal class AiProcessor @Inject constructor(
         var w: Int
         var h: Int
 
-        if (info.isScuColor) {
+        if (info.isScuNetColor) {
             val minModelSize = 256
             w = if (info.expectedWidth != null && info.expectedWidth > 0) {
                 info.expectedWidth

@@ -26,8 +26,8 @@ import kotlin.math.abs
 
 internal class ModelInfo(
     val strength: Float,
-    val chunkSize: Int,
     val overlap: Int,
+    chunkSize: Int,
     disableChunking: Boolean,
     session: OrtSession,
     model: NeuralModel
@@ -39,9 +39,14 @@ internal class ModelInfo(
     val isFp16: Boolean
     val expectedWidth: Int?
     val expectedHeight: Int?
-    val isScu = model.name.startsWith("scunet_")
-    val isScuColor = model.name.startsWith("scunet_color")
+    val isScuNet = model.name.startsWith("scunet_")
+    val isScuNetColor = model.name.startsWith("scunet_color")
     val isNonChunkable = model.isNonChunkable || disableChunking
+    val chunkSize = if (isScuNet) {
+        minOf(chunkSize, 256)
+    } else {
+        chunkSize
+    }
 
     val scaleFactor: Int = scaleMap.entries.find {
         model.name.contains(it.key)
