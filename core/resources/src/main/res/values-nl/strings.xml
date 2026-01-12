@@ -1999,4 +1999,27 @@
     <string name="model_scunet_color_gan_fp16"></string>
     <string name="model_scunet_color_15_fp16"></string>
     <string name="type_removebg"></string>
+    <string name="sort_by_mime_type"></string>
+    <string name="sort_by_date_modified_reversed"></string>
+    <string name="sort_by_extension_reversed"></string>
+    <string name="ocr_write_to_metadata_sub"></string>
+    <string name="ocr_write_to_metadata"></string>
+    <string name="auto_remove_red_eyes"></string>
+    <string name="sort_by_date_added"></string>
+    <string name="send_logs"></string>
+    <string name="invisible_mode"></string>
+    <string name="ocr_write_to_file_sub"></string>
+    <string name="send_logs_sub"></string>
+    <string name="sort_by_date_added_reversed"></string>
+    <string name="sort_by_date_modified"></string>
+    <string name="ocr_write_to_file"></string>
+    <string name="invisible_mode_sub"></string>
+    <string name="sort_by_mime_type_reversed"></string>
+    <string name="right_to_left"></string>
+    <string name="crash_subtitle"></string>
+    <string name="bottom_to_top"></string>
+    <string name="top_to_bottom"></string>
+    <string name="sort_by_size_reversed"></string>
+    <string name="left_to_right"></string>
+    <string name="crash_title"></string>
 </resources>
