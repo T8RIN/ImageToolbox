@@ -1892,7 +1892,7 @@
     <string name="model_fbcnn_color_fp16"></string>
     <string name="model_fbcnn_gray_fp16"></string>
     <string name="model_fbcnn_gray_double_fp16"></string>
-    <string name="model_scunet_color_gan_fp16">సాధారణ శబ్దం, రంగు చిత్రాలు</string>
+    <string name="model_scunet_color_gan_fp16"></string>
     <string name="model_scunet_color_psnr_fp16"></string>
     <string name="model_scunet_gray_15_fp16"></string>
     <string name="model_scunet_gray_25_fp16"></string>
@@ -1942,7 +1942,7 @@
     <string name="import_model"></string>
     <string name="import_model_sub"></string>
     <string name="imported_models"></string>
-    <string name="model_scunet_color_15_fp16">సాధారణ శబ్దం, రంగు చిత్రాలు</string>
+    <string name="model_scunet_color_15_fp16"></string>
     <string name="model_scunet_color_25_fp16"></string>
     <string name="model_scunet_color_50_fp16"></string>
     <string name="model_artifacts_dithering_alsa"></string>
