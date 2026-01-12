@@ -216,7 +216,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         oneTimeSaveLocationUri: String?,
         onResult: (List<SaveResult>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
                 setImageFormat(ImageFormat.Png.Lossless)
             }
@@ -293,7 +293,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     fun cacheImages(
         onComplete: (List<Uri>) -> Unit
     ) {
-        savingJob = componentScope.launch {
+        savingJob = trackProgress {
             if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
                 setImageFormat(ImageFormat.Png.Lossless)
             }
