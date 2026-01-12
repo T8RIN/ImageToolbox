@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -1886,4 +1888,123 @@
     <string name="chroma">Chroma</string>
     <string name="pixel_melt">Topnienie pikseli</string>
     <string name="max_drop">Maksymalny spadek</string>
+    <string name="ai_tools">Narzędzia AI</string>
+    <string name="ai_tools_sub">Różne narzędzia do przetwarzania obrazów za pomocą modeli AI, takie jak usuwanie artefaktów lub odszumianie</string>
+    <string name="model_anime_undeint">Kompresja, postrzępione linie</string>
+    <string name="model_broadcast">Kreskówki, kompresja programów</string>
+    <string name="model_rgb_max_denoise_fp16">Ogólna kompresja, ogólny hałas</string>
+    <string name="model_wb_denoise">Bezbarwny dźwięk kreskówek</string>
+    <string name="model_span_anime_pretrain">Szybka, ogólna kompresja, ogólny hałas, animacja/komiksy/anime</string>
+    <string name="model_book_scan">Skanowanie książek</string>
+    <string name="model_overexposure">Korekcja ekspozycji</string>
+    <string name="model_fbcnn_color_fp16">Najlepiej przy ogólnej kompresji, kolorowe obrazy</string>
+    <string name="model_fbcnn_gray_fp16">Najlepiej przy ogólnej kompresji obrazów w skali szarości</string>
+    <string name="model_fbcnn_gray_double_fp16">Ogólna kompresja, obrazy w skali szarości, mocniejsze</string>
+    <string name="model_scunet_color_gan_fp16">Ogólny szum, kolorowe obrazy</string>
+    <string name="model_scunet_color_psnr_fp16">Ogólny szum, kolorowe obrazy, lepsze szczegóły</string>
+    <string name="model_scunet_gray_15_fp16">Ogólny szum, obrazy w skali szarości</string>
+    <string name="model_scunet_gray_25_fp16">Ogólny szum, obrazy w skali szarości, mocniejsze</string>
+    <string name="model_scunet_gray_50_fp16">Ogólny szum, obrazy w skali szarości, najsilniejszy</string>
+    <string name="model_jpeg_destroyer">Ogólna kompresja</string>
+    <string name="model_jaywreck">Ogólna kompresja</string>
+    <string name="model_h264">Teksturowanie, kompresja h264</string>
+    <string name="model_vhs">Kompresja VHS</string>
+    <string name="model_cinepak">Niestandardowa kompresja (cinepak, msvideo1, roq)</string>
+    <string name="model_debink_v4">Kompresja Bink, lepsza geometria</string>
+    <string name="model_debink_v5">Kompresja Bink, silniejsza</string>
+    <string name="model_debink_v6">Kompresja Bink, miękka, zachowuje szczegóły</string>
+    <string name="model_antialias">Likwidacja efektu schodkowego, wygładzenie</string>
+    <string name="model_kdm_scans">Zeskanowane dzieła sztuki/rysunki, łagodna kompresja, efekt mory</string>
+    <string name="model_bandage">Pasowanie kolorów</string>
+    <string name="model_halftone">Powolne, usuwanie półtonów</string>
+    <string name="model_colorizer">Ogólny moduł koloryzujący dla obrazów w skali szarości/czarno-białych, aby uzyskać lepsze wyniki, użyj DColor</string>
+    <string name="model_deedge">Usuwanie krawędzi</string>
+    <string name="model_desharpen">Usuwa nadmierne wyostrzenie</string>
+    <string name="model_dither">Powolny, drżący</string>
+    <string name="model_gainres">Wygładzanie, ogólne artefakty, CGI</string>
+    <string name="model_kdm003_scans">Przetwarzanie skanów KDM003</string>
+    <string name="model_nmkd_jaywreck3_lite">Lekki model poprawiający obraz</string>
+    <string name="model_bcgone_detailed_v2">Usuwanie artefaktów kompresji</string>
+    <string name="model_bcgone_smooth">Usuwanie artefaktów kompresji</string>
+    <string name="model_bandage_smooth">Usuwanie bandaży z gładkimi wynikami</string>
+    <string name="model_bendel_halftone">Przetwarzanie wzoru rastrowego</string>
+    <string name="model_dither_deleter_v3_smooth">Usuwanie wzorca drgań V3</string>
+    <string name="model_jpeg_destroyer_v2">Usuwanie artefaktów JPEG V2</string>
+    <string name="model_nmkd_h264_texturize">Ulepszenie tekstur H.264</string>
+    <string name="model_vhs_sharpen">Wyostrzanie i ulepszanie VHS</string>
+    <string name="merging">Łączenie</string>
+    <string name="chunk_size">Rozmiar kawałka</string>
+    <string name="overlap_size">Rozmiar nakładania się</string>
+    <string name="note_chunk_info">Obrazy o rozmiarze większym niż %1$d pikseli zostaną pokrojone i przetworzone w kawałkach. Nakładanie łączy je, aby zapobiec widocznym łączeniom.</string>
+    <string name="large_chunk_warning">Duże rozmiary mogą powodować niestabilność urządzeń z niższej półki</string>
+    <string name="select_one_to_start">Wybierz jeden, aby rozpocząć</string>
+    <string name="delete_model_sub">Czy chcesz usunąć model %s? Będziesz musiał pobrać go ponownie</string>
+    <string name="confirm">Potwierdzać</string>
+    <string name="models">Modele</string>
+    <string name="downloaded_models">Pobrane modele</string>
+    <string name="available_models">Dostępne modele</string>
+    <string name="preparing">Przygotowanie</string>
+    <string name="active_model">Aktywny model</string>
+    <string name="failed_to_open_session">Nie udało się otworzyć sesji</string>
+    <string name="only_onnx_models">Można importować tylko modele .onnx/.ort</string>
+    <string name="import_model">Importuj model</string>
+    <string name="import_model_sub">Zaimportuj niestandardowy model onnx do dalszego wykorzystania, akceptowane są tylko modele onnx/ort, obsługuje prawie wszystkie warianty podobne do esrgan</string>
+    <string name="imported_models">Importowane modele</string>
+    <string name="model_scunet_color_15_fp16">Ogólny hałas, kolorowe obrazy</string>
+    <string name="model_scunet_color_25_fp16">Ogólny szum, kolorowe obrazy, mocniejsze</string>
+    <string name="model_scunet_color_50_fp16">Ogólny szum, kolorowe obrazy, najsilniejszy</string>
+    <string name="model_artifacts_dithering_alsa">Redukuje artefakty związane z ditheringiem i pasma kolorów, poprawiając gładkie gradienty i płaskie obszary kolorów.</string>
+    <string name="model_nmkd_brighten_redux">Zwiększa jasność i kontrast obrazu dzięki zrównoważonym rozjaśnieniom, zachowując jednocześnie naturalne kolory.</string>
+    <string name="model_nmkd_brighten">Rozjaśnia ciemne obrazy, zachowując szczegóły i unikając prześwietlenia.</string>
+    <string name="model_nmkd_detoon">Usuwa nadmierne tonowanie kolorów i przywraca bardziej neutralną i naturalną równowagę kolorów.</string>
+    <string name="model_noise_toner_poisson_detailed">Stosuje tonowanie szumu w oparciu o Poissona, kładąc nacisk na zachowanie drobnych szczegółów i tekstur.</string>
+    <string name="model_noise_toner_poisson_soft">Stosuje miękkie tonowanie szumu Poissona, aby uzyskać gładsze i mniej agresywne efekty wizualne.</string>
+    <string name="model_noise_toner_uniform_detailed">Jednolite tonowanie szumów skupione na zachowaniu szczegółów i przejrzystości obrazu.</string>
+    <string name="model_noise_toner_uniform_soft">Delikatne, jednolite tonowanie szumów zapewnia subtelną teksturę i gładki wygląd.</string>
+    <string name="model_repainter">Naprawia uszkodzone lub nierówne obszary, odmalowując artefakty i poprawiając spójność obrazu.</string>
+    <string name="model_debandurh_fs_ultra_lite">Lekki model usuwający paski, który usuwa kolorowe pasy przy minimalnych kosztach wydajności.</string>
+    <string name="model_jpeg_0_20">Optymalizuje obrazy z artefaktami o bardzo wysokim stopniu kompresji (jakość 0–20%) w celu poprawy przejrzystości.</string>
+    <string name="model_jpeg_20_40">Poprawia obrazy o artefakty o wysokiej kompresji (jakość 20–40%), przywracając szczegóły i redukując szumy.</string>
+    <string name="model_jpeg_40_60">Poprawia obrazy przy umiarkowanej kompresji (jakość 40–60%), równoważąc ostrość i gładkość.</string>
+    <string name="model_jpeg_60_80">Poprawia obrazy za pomocą lekkiej kompresji (jakość 60–80%), aby uwydatnić subtelne szczegóły i tekstury.</string>
+    <string name="model_jpeg_80_100">Nieznacznie poprawia niemal bezstratne obrazy (jakość 80–100%), zachowując jednocześnie naturalny wygląd i szczegóły.</string>
+    <string name="model_spongecolor_lite">Prosta i szybka koloryzacja, kreskówki, nie idealna</string>
+    <string name="model_deblr">Nieznacznie zmniejsza rozmycie obrazu, poprawiając ostrość bez wprowadzania artefaktów.</string>
+    <string name="processing_channel">Długotrwałe operacje</string>
+    <string name="processing_image">Przetwarzanie obrazu</string>
+    <string name="processing">Przetwarzanie</string>
+    <string name="model_artifacts_jpg_0_20">Usuwa duże artefakty kompresji JPEG z obrazów o bardzo niskiej jakości (0-20%).</string>
+    <string name="model_artifacts_jpg_20_40">Redukuje silne artefakty JPEG w obrazach o dużej kompresji (20–40%).</string>
+    <string name="model_artifacts_jpg_40_60">Usuwa umiarkowane artefakty JPEG, zachowując szczegóły obrazu (40–60%).</string>
+    <string name="model_artifacts_jpg_60_80">Poprawia jasne artefakty JPEG w obrazach o dość wysokiej jakości (60–80%).</string>
+    <string name="model_artifacts_jpg_80_100">Subtelnie redukuje drobne artefakty JPEG w niemal bezstratnych obrazach (80-100%).</string>
+    <string name="model_redetail_v2">Uwydatnia drobne szczegóły i tekstury, poprawiając postrzeganą ostrość bez ciężkich artefaktów.</string>
+    <string name="processing_finished">Przetwarzanie zakończone</string>
+    <string name="processing_failed">Przetwarzanie nie powiodło się</string>
+    <string name="model_itf_skin_diffdetail_lite">Poprawia teksturę i szczegóły skóry, zachowując jednocześnie naturalny wygląd, zoptymalizowany pod kątem szybkości.</string>
+    <string name="model_sbdv_dejpeg">Usuwa artefakty kompresji JPEG i przywraca jakość obrazu skompresowanych zdjęć.</string>
+    <string name="model_iso_denoise_v1">Redukuje szumy ISO na zdjęciach robionych w warunkach słabego oświetlenia, zachowując szczegóły.</string>
+    <string name="model_dejumbo">Koryguje prześwietlone lub „duże” światła i przywraca lepszą równowagę tonalną.</string>
+    <string name="model_ddcolor_tiny">Lekki i szybki model koloryzacji, który dodaje naturalne kolory do obrazów w skali szarości.</string>
+    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_denoise">Odszumić</string>
+    <string name="type_colorize">Koloruj</string>
+    <string name="type_artifacts">Artefakty</string>
+    <string name="type_enhance">Zwiększyć</string>
+    <string name="type_anime">Anime</string>
+    <string name="type_scans">Skany</string>
+    <string name="type_upscale">Ekskluzywny</string>
+    <string name="model_realesrgan_x4v3">Upscaler X4 dla obrazów ogólnych; mały model, który zużywa mniej procesora graficznego i czasu, z umiarkowanym usuwaniem rozmycia i odszumiania.</string>
+    <string name="model_realesrgan_x2plus">Moduł skalujący X2 do ogólnych obrazów, zachowujący tekstury i naturalne szczegóły.</string>
+    <string name="model_realesrgan_x4plus">Moduł skalujący X4 do ogólnych obrazów z ulepszonymi teksturami i realistycznymi wynikami.</string>
+    <string name="model_realesrgan_x4plus_anime">Upscaler X4 zoptymalizowany pod kątem obrazów anime; 6 bloków RRDB dla ostrzejszych linii i szczegółów.</string>
+    <string name="model_realesrnet_x4plus">Moduł zwiększający skalę X4 ze stratą MSE, zapewnia gładsze wyniki i mniej artefaktów w przypadku ogólnych obrazów.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler zoptymalizowany pod kątem obrazów anime; Wariant 4B32F z ostrzejszymi detalami i gładkimi liniami.</string>
+    <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 do zdjęć ogólnych; podkreśla ostrość i klarowność.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; szybszy i mniejszy, zachowuje szczegóły przy mniejszym zużyciu pamięci GPU.</string>
+    <string name="model_rmbg_1_4">Lekki model do szybkiego usuwania tła. Zrównoważona wydajność i dokładność. Działa z portretami, obiektami i scenami. Zalecane w większości przypadków użycia.</string>
+    <string name="model_rmbg_2_0">Ulepszona wersja z doskonałą obsługą szczegółów. Lepiej ze złożonym tłem i przezroczystymi obiektami. Większa precyzja, ale wymaga większej mocy obliczeniowej.</string>
+    <string name="type_removebg">Usuń BG</string>
+    <string name="horizontal_border_thickness">Grubość obramowania poziomego</string>
+    <string name="vertical_border_thickness">Grubość obramowania pionowego</string>
 </resources>

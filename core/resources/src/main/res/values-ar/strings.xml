@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
+
 <resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
@@ -41,7 +42,7 @@
     <string name="flexible">مرن</string>
     <string name="pick_image_alt">إختر صورة</string>
     <string name="app_closing_sub">أأنت متأكد برغبتك بإغلاق التطبيق؟</string>
-    <string name="app_closing">جارى إغلاق التطبيق...</string>
+    <string name="app_closing">جارى إغلاق التطبيق…</string>
     <string name="stay">إستمر</string>
     <string name="close">أغلِق</string>
     <string name="reset_image">إعادة تعيين الصورة</string>
@@ -938,4 +939,1066 @@
     <string name="font_size">حجم الخط</string>
     <string name="watermark_size">حجم العلامة المائية</string>
     <string name="repeat_text">تكرار النص</string>
+    <string name="tag_strip_offsets">إزاحة الشريط</string>
+    <string name="tag_rows_per_strip">الصفوف لكل قطاع</string>
+    <string name="tag_strip_byte_counts">تجريد عدد البايتات</string>
+    <string name="tag_jpeg_interchange_format">تنسيق التبادل JPEG</string>
+    <string name="tag_jpeg_interchange_format_length">طول تنسيق التبادل JPEG</string>
+    <string name="tag_transfer_function">وظيفة النقل</string>
+    <string name="tag_primary_chromaticities">اللونيات الأولية</string>
+    <string name="tag_y_cb_cr_coefficients">معاملات Y Cb Cr</string>
+    <string name="tag_reference_black_white">مرجع أسود أبيض</string>
+    <string name="tag_color_space">مساحة اللون</string>
+    <string name="tag_pixel_x_dimension">البعد بكسل X</string>
+    <string name="tag_pixel_y_dimension">البعد بكسل Y</string>
+    <string name="tag_compressed_bits_per_pixel">البتات المضغوطة لكل بكسل</string>
+    <string name="tag_maker_note">ملاحظة صانع</string>
+    <string name="tag_datetime_digitized">التاريخ والوقت رقمي</string>
+    <string name="tag_offset_time">وقت الأوفست</string>
+    <string name="tag_offset_time_original">إزاحة الوقت الأصلي</string>
+    <string name="tag_offset_time_digitized">إزاحة الوقت الرقمي</string>
+    <string name="tag_subsec_time">الوقت الفرعي ثانية</string>
+    <string name="tag_subsec_time_original">الوقت الفرعي للثانية الأصلي</string>
+    <string name="tag_subsec_time_digitized">وقت فرعي رقمي</string>
+    <string name="tag_exposure_time">وقت التعرض</string>
+    <string name="tag_f_number">رقم ف</string>
+    <string name="tag_exposure_program">برنامج التعرض</string>
+    <string name="tag_spectral_sensitivity">الحساسية الطيفية</string>
+    <string name="tag_photographic_sensitivity">حساسية التصوير الفوتوغرافي</string>
+    <string name="tag_oecf">منظمة التعاون الاقتصادي</string>
+    <string name="tag_sensitivity_type">نوع الحساسية</string>
+    <string name="tag_standard_output_sensitivity">حساسية الإخراج القياسية</string>
+    <string name="tag_recommended_exposure_index">مؤشر التعرض الموصى به</string>
+    <string name="tag_iso_speed">سرعة الأيزو</string>
+    <string name="tag_iso_speed_latitude_yyy">خط عرض سرعة ISO yyy</string>
+    <string name="tag_iso_speed_latitude_zzz">سرعة ISO خط العرض zzz</string>
+    <string name="tag_shutter_speed_value">قيمة سرعة الغالق</string>
+    <string name="tag_aperture_value">قيمة الفتحة</string>
+    <string name="tag_brightness_value">قيمة السطوع</string>
+    <string name="tag_exposure_bias_value">قيمة انحياز التعرض</string>
+    <string name="tag_max_aperture_value">قيمة الفتحة القصوى</string>
+    <string name="tag_subject_distance">مسافة الموضوع</string>
+    <string name="tag_metering_mode">وضع القياس</string>
+    <string name="tag_flash">فلاش</string>
+    <string name="tag_subject_area">مجال الموضوع</string>
+    <string name="tag_focal_length">البعد البؤري</string>
+    <string name="tag_flash_energy">طاقة الفلاش</string>
+    <string name="tag_spatial_frequency_response">استجابة التردد المكاني</string>
+    <string name="tag_focal_plane_x_resolution">المستوى البؤري X القرار</string>
+    <string name="tag_focal_plane_y_resolution">المستوى البؤري Y القرار</string>
+    <string name="tag_focal_plane_resolution_unit">وحدة تحليل المستوى البؤري</string>
+    <string name="tag_subject_location">موقع الموضوع</string>
+    <string name="tag_exposure_index">مؤشر التعرض</string>
+    <string name="tag_sensing_method">طريقة الاستشعار</string>
+    <string name="tag_file_source">مصدر الملف</string>
+    <string name="tag_cfa_pattern">نمط CFA</string>
+    <string name="tag_custom_rendered">المقدمة المخصصة</string>
+    <string name="tag_exposure_mode">وضع التعريض</string>
+    <string name="tag_white_balance">توازن اللون الأبيض</string>
+    <string name="tag_digital_zoom_ratio">نسبة التكبير الرقمي</string>
+    <string name="tag_focal_length_in_35mm_film">البعد البؤري في فيلم 35 مم</string>
+    <string name="tag_scene_capture_type">نوع التقاط المشهد</string>
+    <string name="tag_gain_control">السيطرة على المكاسب</string>
+    <string name="tag_contrast">مقابلة</string>
+    <string name="tag_saturation">التشبع</string>
+    <string name="tag_sharpness">حدة</string>
+    <string name="tag_device_setting_description">وصف إعدادات الجهاز</string>
+    <string name="tag_subject_distance_range">نطاق مسافة الموضوع</string>
+    <string name="tag_image_unique_id">معرف الصورة الفريد</string>
+    <string name="tag_camera_owner_name">اسم مالك الكاميرا</string>
+    <string name="tag_body_serial_number">الرقم التسلسلي للجسم</string>
+    <string name="tag_lens_specification">مواصفات العدسة</string>
+    <string name="tag_lens_make">صنع العدسة</string>
+    <string name="tag_lens_model">نموذج العدسة</string>
+    <string name="tag_lens_serial_number">الرقم التسلسلي للعدسة</string>
+    <string name="tag_gps_version_id">معرف إصدار نظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_latitude_ref">مرجع خط العرض GPS</string>
+    <string name="tag_gps_latitude">خط العرض GPS</string>
+    <string name="tag_gps_longitude_ref">المرجع خط الطول لنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_longitude">خط الطول لنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_altitude_ref">مرجع ارتفاع نظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_altitude">ارتفاع نظام تحديد المواقع</string>
+    <string name="tag_gps_timestamp">الطابع الزمني لنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_satellites">الأقمار الصناعية لتحديد المواقع</string>
+    <string name="tag_gps_status">حالة نظام تحديد المواقع</string>
+    <string name="tag_gps_measure_mode">وضع قياس نظام تحديد المواقع</string>
+    <string name="tag_gps_dop">نظام تحديد المواقع دوب</string>
+    <string name="tag_gps_speed_ref">مرجع سرعة GPS</string>
+    <string name="tag_gps_speed">سرعة نظام تحديد المواقع</string>
+    <string name="tag_gps_track_ref">مرجع مسار نظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_track">مسار نظام تحديد المواقع</string>
+    <string name="tag_gps_img_direction_ref">المرجع اتجاه صورة GPS</string>
+    <string name="tag_gps_img_direction">اتجاه صورة GPS</string>
+    <string name="tag_gps_map_datum">مسند خريطة GPS</string>
+    <string name="tag_gps_dest_latitude_ref">المرجع لخط العرض الوجهة لنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_dest_latitude">GPS الوجهة العرض</string>
+    <string name="tag_gps_dest_longitude_ref">GPS الوجهة خط الطول المرجع</string>
+    <string name="tag_gps_dest_longitude">GPS خط الطول الوجهة</string>
+    <string name="tag_gps_dest_bearing_ref">المرجع المرجعي للوجهة بنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_dest_bearing">نظام تحديد المواقع العالمي (GPS) لتحديد الوجهة</string>
+    <string name="tag_gps_dest_distance_ref">مرجع مسافة الوجهة GPS</string>
+    <string name="tag_gps_dest_distance">مسافة الوجهة بنظام تحديد المواقع العالمي (GPS).</string>
+    <string name="tag_gps_processing_method">طريقة معالجة نظام تحديد المواقع</string>
+    <string name="tag_gps_area_information">معلومات منطقة GPS</string>
+    <string name="tag_gps_datestamp">ختم تاريخ نظام تحديد المواقع</string>
+    <string name="tag_gps_differential">نظام تحديد المواقع التفاضلي</string>
+    <string name="tag_gps_h_positioning_error">خطأ في تحديد موضع GPS H</string>
+    <string name="tag_interoperability_index">مؤشر التشغيل البيني</string>
+    <string name="tag_dng_version">نسخة دي إن جي</string>
+    <string name="tag_default_crop_size">حجم المحاصيل الافتراضي</string>
+    <string name="tag_orf_preview_image_start">بداية معاينة الصورة</string>
+    <string name="tag_orf_preview_image_length">معاينة طول الصورة</string>
+    <string name="tag_orf_aspect_frame">إطار الجانب</string>
+    <string name="tag_rw2_sensor_bottom_border">الحد السفلي لجهاز الاستشعار</string>
+    <string name="tag_rw2_sensor_left_border">استشعار الحدود اليسرى</string>
+    <string name="tag_rw2_sensor_right_border">استشعار الحدود اليمنى</string>
+    <string name="tag_rw2_sensor_top_border">الحد العلوي لجهاز الاستشعار</string>
+    <string name="tag_rw2_iso">ايزو</string>
+    <string name="repeat_text_sub">سيتم تكرار النص الحالي حتى نهاية المسار بدلاً من الرسم مرة واحدة</string>
+    <string name="dash_size">حجم داش</string>
+    <string name="draw_mode_image_sub">استخدم الصورة المحددة لرسمها على طول المسار المحدد</string>
+    <string name="draw_image_sub">سيتم استخدام هذه الصورة كمدخل متكرر للمسار المرسوم</string>
+    <string name="outlined_triangle_sub">رسم مثلث محدد من نقطة البداية إلى نقطة النهاية</string>
+    <string name="triangle_sub">رسم مثلث محدد من نقطة البداية إلى نقطة النهاية</string>
+    <string name="outlined_triangle">المثلث المبين</string>
+    <string name="triangle">مثلث</string>
+    <string name="polygon_sub">يرسم المضلع من نقطة البداية إلى نقطة النهاية</string>
+    <string name="polygon">مضلع</string>
+    <string name="outlined_polygon">المضلع المحدد</string>
+    <string name="outlined_polygon_sub">يرسم المضلع المحدد من نقطة البداية إلى نقطة النهاية</string>
+    <string name="vertices">القمم</string>
+    <string name="draw_regular_polygon">ارسم مضلعًا منتظمًا</string>
+    <string name="draw_regular_polygon_sub">ارسم المضلع الذي سيكون منتظمًا بدلًا من الشكل الحر</string>
+    <string name="star_sub">يرسم النجمة من نقطة البداية إلى نقطة النهاية</string>
+    <string name="star">نجم</string>
+    <string name="outlined_star">النجمة المبينة</string>
+    <string name="outlined_star_sub">رسم النجمة المحددة من نقطة البداية إلى نقطة النهاية</string>
+    <string name="inner_radius_ratio">نسبة نصف القطر الداخلي</string>
+    <string name="draw_regular_star">ارسم نجمة عادية</string>
+    <string name="draw_regular_star_sub">ارسم النجمة التي ستكون منتظمة بدلاً من الشكل الحر</string>
+    <string name="antialias">الحواف</string>
+    <string name="antialias_sub">تمكين الحواف لمنع الحواف الحادة</string>
+    <string name="open_edit_instead_of_preview">افتح تحرير بدلاً من المعاينة</string>
+    <string name="open_edit_instead_of_preview_sub">عند تحديد صورة لفتحها (معاينة) في ImageToolbox، سيتم فتح ورقة تحديد التحرير بدلاً من المعاينة</string>
+    <string name="document_scanner">ماسح ضوئي للمستندات</string>
+    <string name="document_scanner_sub">قم بمسح المستندات ضوئيًا وإنشاء ملف PDF أو فصل الصور عنها</string>
+    <string name="click_to_start_scanning">انقر لبدء المسح</string>
+    <string name="start_scanning">ابدأ المسح</string>
+    <string name="save_as_pdf">حفظ بصيغة PDF</string>
+    <string name="share_as_pdf">شارك بصيغة PDF</string>
+    <string name="options_below_is_for_images">الخيارات أدناه مخصصة لحفظ الصور، وليس PDF</string>
+    <string name="equalize_histogram_hsv">معادلة الرسم البياني HSV</string>
+    <string name="equalize_histogram">معادلة الرسم البياني</string>
+    <string name="enter_percentage">أدخل النسبة المئوية</string>
+    <string name="allow_enter_by_text_field">السماح بالدخول عن طريق حقل النص</string>
+    <string name="allow_enter_by_text_field_sub">تمكين حقل النص خلف تحديد الإعدادات المسبقة، لإدخالها بسرعة</string>
+    <string name="scale_color_space">مقياس مساحة اللون</string>
+    <string name="linear">خطي</string>
+    <string name="equalize_histogram_pixelation">معادلة بكسل الرسم البياني</string>
+    <string name="grid_size_x">حجم الشبكة X</string>
+    <string name="grid_size_y">حجم الشبكة Y</string>
+    <string name="equalize_histogram_adaptive">معادلة الرسم البياني التكيفي</string>
+    <string name="equalize_histogram_adaptive_luv">معادلة الرسم البياني التكيفي LUV</string>
+    <string name="equalize_histogram_adaptive_lab">معادلة الرسم البياني التكيفي LAB</string>
+    <string name="clahe">كلاهي</string>
+    <string name="clahe_lab">مختبر كلاهي</string>
+    <string name="clahe_luv">كلاهي لوف</string>
+    <string name="crop_to_content">الاقتصاص إلى المحتوى</string>
+    <string name="frame_color">لون الإطار</string>
+    <string name="color_to_ignore">اللون الذي يجب تجاهله</string>
+    <string name="template">نموذج</string>
+    <string name="no_template_filters">لم تتم إضافة مرشحات القالب</string>
+    <string name="create_new">إنشاء جديد</string>
+    <string name="scanned_qr_code_isnt_filter_template">رمز الاستجابة السريعة الممسوح ضوئيًا ليس قالب مرشح صالحًا</string>
+    <string name="scan_qr_code">مسح رمز الاستجابة السريعة</string>
+    <string name="opened_file_have_no_filter_template">الملف المحدد لا يحتوي على بيانات قالب التصفية</string>
+    <string name="create_template">إنشاء قالب</string>
+    <string name="template_name">اسم القالب</string>
+    <string name="select_template_preview">سيتم استخدام هذه الصورة لمعاينة قالب الفلتر هذا</string>
+    <string name="template_filter">مرشح القالب</string>
+    <string name="as_qr_code">كصورة رمز الاستجابة السريعة</string>
+    <string name="as_file">كملف</string>
+    <string name="save_as_file">حفظ كملف</string>
+    <string name="save_as_qr_code_image">حفظ كصورة رمز الاستجابة السريعة</string>
+    <string name="delete_template">حذف القالب</string>
+    <string name="delete_template_warn">أنت على وشك حذف عامل تصفية القالب المحدد. لا يمكن التراجع عن هذه العملية</string>
+    <string name="added_filter_template">تمت إضافة قالب الفلتر بالاسم \\"%1$s\\" (%2$d)</string>
+    <string name="filter_preview">معاينة التصفية</string>
+    <string name="qr_code">QR والباركود</string>
+    <string name="qr_code_sub">امسح رمز الاستجابة السريعة ضوئيًا واحصل على محتواه أو الصق سلسلتك لإنشاء سلسلة جديدة</string>
+    <string name="code_content">محتوى الكود</string>
+    <string name="scan_qr_code_to_replace_content">قم بمسح أي رمز شريطي لاستبدال المحتوى الموجود في الحقل، أو اكتب شيئًا لإنشاء رمز شريطي جديد بالنوع المحدد</string>
+    <string name="qr_description">وصف QR</string>
+    <string name="min">دقيقة</string>
+    <string name="grant_camera_permission_to_scan_qr_code">امنح إذن الكاميرا في الإعدادات لمسح رمز الاستجابة السريعة</string>
+    <string name="grant_camera_permission_to_scan_document_scanner">امنح إذن الكاميرا في الإعدادات لمسح Document Scanner</string>
+    <string name="cubic">مكعب</string>
+    <string name="bspline">ب-الخط</string>
+    <string name="hamming">هامينج</string>
+    <string name="hanning">هانينج</string>
+    <string name="blackman">بلاكمان</string>
+    <string name="welch">ولش</string>
+    <string name="quadric">رباعي</string>
+    <string name="gaussian">غاوسي</string>
+    <string name="sphinx">أبو الهول</string>
+    <string name="bartlett">بارتليت</string>
+    <string name="robidoux">روبيدوكس</string>
+    <string name="robidoux_sharp">روبيدو شارب</string>
+    <string name="spline16">الخط 16</string>
+    <string name="spline36">الخط 36</string>
+    <string name="spline64">الخط 64</string>
+    <string name="kaiser">كايزر</string>
+    <string name="bartlett_hann">بارتليت-هي</string>
+    <string name="box">صندوق</string>
+    <string name="bohman">بوهمان</string>
+    <string name="lanczos2">لانكزوس 2</string>
+    <string name="lanczos3">لانكزوس 3</string>
+    <string name="lanczos4">لانكزوس 4</string>
+    <string name="lanczos2_jinc">لانكزوس 2 جينك</string>
+    <string name="lanczos3_jinc">لانكزوس 3 جينك</string>
+    <string name="lanczos4_jinc">لانكزوس 4 جينك</string>
+    <string name="cubic_sub">يوفر الاستيفاء المكعب تحجيمًا أكثر سلاسة من خلال النظر في أقرب 16 بكسل، مما يعطي نتائج أفضل من الخطين</string>
+    <string name="bspline_sub">يستخدم الدوال متعددة الحدود المحددة لاستكمال وتقريب المنحنى أو السطح بسلاسة، وتمثيل الشكل المرن والمستمر</string>
+    <string name="hamming_sub">وظيفة نافذة تستخدم لتقليل التسرب الطيفي عن طريق تضييق حواف الإشارة، وهي مفيدة في معالجة الإشارة</string>
+    <string name="hanning_sub">أحد أشكال نافذة هان، يُستخدم عادةً لتقليل التسرب الطيفي في تطبيقات معالجة الإشارات</string>
+    <string name="blackman_sub">وظيفة نافذة توفر دقة تردد جيدة عن طريق تقليل التسرب الطيفي، وغالبًا ما تستخدم في معالجة الإشارات</string>
+    <string name="welch_sub">وظيفة نافذة مصممة لتوفير دقة تردد جيدة مع تقليل التسرب الطيفي، وغالبًا ما تستخدم في تطبيقات معالجة الإشارات</string>
+    <string name="quadric_sub">طريقة تستخدم الدالة التربيعية للاستيفاء، مما يوفر نتائج سلسة ومستمرة</string>
+    <string name="gaussian_sub">طريقة استيفاء تطبق دالة غاوسية، وهي مفيدة لتنعيم الصور وتقليل التشويش فيها</string>
+    <string name="sphinx_sub">طريقة متقدمة لإعادة التشكيل توفر استيفاءً عالي الجودة مع الحد الأدنى من القطع الأثرية</string>
+    <string name="bartlett_sub">وظيفة نافذة مثلثة تستخدم في معالجة الإشارات لتقليل التسرب الطيفي</string>
+    <string name="robidoux_sub">طريقة استيفاء عالية الجودة مُحسّنة لتغيير الحجم الطبيعي للصورة، وموازنة الحدة والنعومة</string>
+    <string name="robidoux_sharp_sub">نسخة أكثر وضوحًا من طريقة Robidoux، مُحسّنة لتغيير حجم الصورة بوضوح</string>
+    <string name="spline16_sub">طريقة استيفاء قائمة على الشريحة توفر نتائج سلسة باستخدام مرشح ذو 16 نقرة</string>
+    <string name="spline36_sub">طريقة استيفاء قائمة على الشريحة توفر نتائج سلسة باستخدام مرشح 36 نقرة</string>
+    <string name="spline64_sub">طريقة استيفاء قائمة على الشريحة توفر نتائج سلسة باستخدام مرشح 64 نقرة</string>
+    <string name="kaiser_sub">طريقة استيفاء تستخدم نافذة كايزر، مما يوفر تحكمًا جيدًا في المفاضلة بين عرض الفص الرئيسي ومستوى الفص الجانبي</string>
+    <string name="bartlett_hann_sub">وظيفة نافذة هجينة تجمع بين نوافذ بارتليت وهان، تستخدم لتقليل التسرب الطيفي في معالجة الإشارات</string>
+    <string name="box_sub">طريقة بسيطة لإعادة التشكيل تستخدم متوسط ​​قيم أقرب بكسل، مما يؤدي غالبًا إلى ظهور ممتلئ</string>
+    <string name="bohman_sub">وظيفة نافذة تستخدم لتقليل التسرب الطيفي، مما يوفر دقة تردد جيدة في تطبيقات معالجة الإشارات</string>
+    <string name="lanczos2_sub">طريقة إعادة أخذ العينات تستخدم مرشح Lanczos ثنائي الفص للحصول على استيفاء عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="lanczos3_sub">طريقة إعادة أخذ العينات تستخدم مرشح Lanczos ثلاثي الفصوص للحصول على استيفاء عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="lanczos4_sub">طريقة إعادة أخذ العينات تستخدم مرشح Lanczos رباعي الفصوص للحصول على استيفاء عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="lanczos2_jinc_sub">نوع مختلف من مرشح Lanczos 2 الذي يستخدم وظيفة jinc، مما يوفر استيفاءً عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="lanczos3_jinc_sub">نوع مختلف من مرشح Lanczos 3 الذي يستخدم وظيفة jinc، مما يوفر استيفاءً عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="lanczos4_jinc_sub">نوع مختلف من مرشح Lanczos 4 الذي يستخدم وظيفة jinc، مما يوفر استيفاءً عالي الجودة مع الحد الأدنى من الشوائب</string>
+    <string name="ewa_hanning">هانينغ إيوا</string>
+    <string name="ewa_hanning_sub">متغير المتوسط ​​الموزون البيضاوي (EWA) لمرشح Hanning من أجل الاستيفاء وإعادة التشكيل بسلاسة</string>
+    <string name="ewa_robidoux">روبيدو إيوا</string>
+    <string name="ewa_robidoux_sub">متغير المتوسط ​​المرجح (EWA) لمرشح Robidoux لإعادة أخذ العينات بجودة عالية</string>
+    <string name="ewa_blackman">بلاكمان إيف</string>
+    <string name="ewa_blackman_sub">متغير المتوسط ​​الموزون البيضاوي (EWA) لمرشح Blackman لتقليل آثار الرنين</string>
+    <string name="ewa_quadric">رباعية EWA</string>
+    <string name="ewa_quadric_sub">متغير المتوسط ​​المرجح (EWA) للمرشح الرباعي للحصول على استيفاء سلس</string>
+    <string name="ewa_robidoux_sharp">روبيدو شارب إيوا</string>
+    <string name="ewa_robidoux_sharp_sub">متغير المتوسط ​​المرجح (EWA) لمرشح Robidoux Sharp للحصول على نتائج أكثر وضوحًا</string>
+    <string name="ewa_lanczos3_jinc">لانكزوس 3 جينك إيوا</string>
+    <string name="ewa_lanczos3_jinc_sub">متغير المتوسط ​​المرجح (EWA) لمرشح Lanczos 3 Jinc لإعادة التشكيل عالي الجودة مع تقليل التعرجات</string>
+    <string name="ginseng">الجينسنغ</string>
+    <string name="ginseng_sub">مرشح إعادة التشكيل مصمم لمعالجة الصور عالية الجودة مع توازن جيد بين الحدة والنعومة</string>
+    <string name="ewa_ginseng">الجينسنغ إيوا</string>
+    <string name="ewa_ginseng_sub">متغير المتوسط ​​المرجح (EWA) لمرشح الجينسنغ لتحسين جودة الصورة</string>
+    <string name="ewa_lanczos_sharp">لانكزوس شارب إيوا</string>
+    <string name="ewa_lanczos_sharp_sub">متغير المتوسط ​​الموزون البيضاوي (EWA) لمرشح Lanczos Sharp لتحقيق نتائج حادة بأقل قدر من الشوائب</string>
+    <string name="ewa_lanczos_4_sharpest">لانكزوس 4 شاربست إيوا</string>
+    <string name="ewa_lanczos_4_sharpest_sub">متغير المتوسط ​​المرجح البيضاوي (EWA) لمرشح Lanczos 4 Sharpest لإعادة تشكيل الصور بشكل حاد للغاية</string>
+    <string name="ewa_lanczos_soft">لانكزوس سوفت إيوا</string>
+    <string name="ewa_lanczos_soft_sub">متغير المتوسط ​​المرجح البيضاوي (EWA) لمرشح Lanczos Soft لإعادة تشكيل الصور بشكل أكثر سلاسة</string>
+    <string name="haasn_soft">حسن سوفت</string>
+    <string name="haasn_soft_sub">مرشح إعادة تشكيل صممه Haasn لتحجيم الصورة بشكل سلس وخالي من الشوائب</string>
+    <string name="format_conversion">تحويل التنسيق</string>
+    <string name="format_conversion_sub">تحويل مجموعة من الصور من تنسيق إلى آخر</string>
+    <string name="dismiss_forever">استبعاد إلى الأبد</string>
+    <string name="image_stacking">تكديس الصور</string>
+    <string name="image_stacking_sub">قم بتكديس الصور فوق بعضها البعض باستخدام أوضاع المزج المختارة</string>
+    <string name="add_image">إضافة صورة</string>
+    <string name="bins_count">عدد الصناديق</string>
+    <string name="clahe_hsl">كلاهي HSL</string>
+    <string name="clahe_hsv">كلاش HSV</string>
+    <string name="equalize_histogram_adaptive_hsl">معادلة الرسم البياني التكيفي HSL</string>
+    <string name="equalize_histogram_adaptive_hsv">معادلة الرسم البياني التكيفي HSV</string>
+    <string name="edge_mode">وضع الحافة</string>
+    <string name="clip">مقطع</string>
+    <string name="wrap">طَوّق</string>
+    <string name="color_blind_scheme">عمى الألوان</string>
+    <string name="color_blind_scheme_sub">حدد الوضع لتكييف ألوان السمة لمتغير عمى الألوان المحدد</string>
+    <string name="protanomaly_sub">- صعوبة التمييز بين اللونين الأحمر والأخضر</string>
+    <string name="deuteranomaly_sub">- صعوبة التمييز بين اللونين الأخضر والأحمر</string>
+    <string name="tritanomaly_sub">- صعوبة التمييز بين اللونين الأزرق والأصفر</string>
+    <string name="protanopia_sub">- عدم القدرة على إدراك الألوان الحمراء</string>
+    <string name="deuteranopia_sub">- عدم القدرة على إدراك الألوان الخضراء</string>
+    <string name="tritanopia_sub">- عدم القدرة على إدراك الألوان الزرقاء</string>
+    <string name="achromatomaly_sub">انخفاض الحساسية لجميع الألوان</string>
+    <string name="achromatopsia_sub">عمى الألوان الكامل، حيث لا يرى سوى درجات اللون الرمادي</string>
+    <string name="not_use_color_blind_scheme">لا تستخدم نظام Color Blind</string>
+    <string name="not_use_color_blind_scheme_sub">ستكون الألوان تمامًا كما هي محددة في الموضوع</string>
+    <string name="sigmoidal">السيني</string>
+    <string name="lagrange_2">لاغرانج 2</string>
+    <string name="lagrange_2_sub">مرشح استيفاء لاغرانج من الرتبة 2، مناسب لقياس الصور عالي الجودة مع انتقالات سلسة</string>
+    <string name="lagrange_3">لاغرانج 3</string>
+    <string name="lagrange_3_sub">مرشح استيفاء لاغرانج من الدرجة 3، يوفر دقة أفضل ونتائج أكثر سلاسة لقياس الصورة</string>
+    <string name="lanczos_6">لانكزوس 6</string>
+    <string name="lanczos_6_sub">مرشح Lanczos لإعادة التشكيل بترتيب أعلى يبلغ 6، مما يوفر تحجيمًا أكثر وضوحًا ودقة للصورة</string>
+    <string name="lanczos_6_jinc">لانكزوس 6 جينك</string>
+    <string name="lanczos_6_jinc_sub">متغير من مرشح Lanczos 6 يستخدم وظيفة Jinc لتحسين جودة إعادة تشكيل الصورة</string>
+    <string name="linear_box_blur">طمس المربع الخطي</string>
+    <string name="linear_tent_blur">طمس الخيمة الخطية</string>
+    <string name="linear_gaussian_box_blur">طمس مربع غاوسي الخطي</string>
+    <string name="linear_stack_blur">طمس المكدس الخطي</string>
+    <string name="gaussian_box_blur">طمس مربع غاوسي</string>
+    <string name="linear_fast_gaussian_blur_next">تمويه غاوسي سريع خطي التالي</string>
+    <string name="linear_fast_gaussian_blur">طمس غاوسي خطي سريع</string>
+    <string name="linear_gaussian_blur">طمس غاوسي الخطي</string>
+    <string name="draw_filter_sub">اختر مرشحًا واحدًا لاستخدامه كطلاء</string>
+    <string name="replace_filter">استبدال الفلتر</string>
+    <string name="pick_filter_info">اختر الفلتر أدناه لاستخدامه كفرشاة في الرسم</string>
+    <string name="tiff_compression_scheme">نظام ضغط TIFF</string>
+    <string name="low_poly">بولي منخفض</string>
+    <string name="sand_painting">الرسم بالرمل</string>
+    <string name="image_splitting">تقسيم الصورة</string>
+    <string name="image_splitting_sub">تقسيم صورة واحدة حسب الصفوف أو الأعمدة</string>
+    <string name="fit_to_bounds">صالح للحدود</string>
+    <string name="fit_to_bounds_sub">قم بدمج وضع تغيير حجم الاقتصاص مع هذه المعلمة لتحقيق السلوك المطلوب (اقتصاص/ملاءمة نسبة العرض إلى الارتفاع)</string>
+    <string name="languages_imported">تم استيراد اللغات بنجاح</string>
+    <string name="backup_ocr_models">النسخ الاحتياطي لنماذج التعرف الضوئي على الحروف</string>
+    <string name="import_word">يستورد</string>
+    <string name="export">يصدّر</string>
+    <string name="position">موضع</string>
+    <string name="center">مركز</string>
+    <string name="top_left">أعلى اليسار</string>
+    <string name="top_right">أعلى اليمين</string>
+    <string name="bottom_left">أسفل اليسار</string>
+    <string name="bottom_right">أسفل اليمين</string>
+    <string name="top_center">أعلى المركز</string>
+    <string name="center_right">مركز اليمين</string>
+    <string name="bottom_center">مركز القاع</string>
+    <string name="center_left">وسط اليسار</string>
+    <string name="target_image">الصورة المستهدفة</string>
+    <string name="palette_transfer">نقل لوحة</string>
+    <string name="enhanced_oil">النفط المعزز</string>
+    <string name="simple_old_tv">تلفزيون قديم بسيط</string>
+    <string name="hdr">تقرير التنمية البشرية</string>
+    <string name="gotham">جوثام</string>
+    <string name="simple_sketch">رسم بسيط</string>
+    <string name="soft_glow">توهج ناعم</string>
+    <string name="color_poster">ملصق ملون</string>
+    <string name="tri_tone">ثلاثي النغمة</string>
+    <string name="third_color">اللون الثالث</string>
+    <string name="clahe_oklab">كلاهي أوكلاب</string>
+    <string name="clahe_oklch">كلارا أولش</string>
+    <string name="clahe_jzazbz">كلاهي جازبز</string>
+    <string name="polka_dot">المنقط</string>
+    <string name="clustered_2x2_dithering">تذبذب متجمع 2x2</string>
+    <string name="clustered_4x4_dithering">تذبذب سيارات الدفع الرباعي المتجمعة</string>
+    <string name="clustered_8x8_dithering">تذبذب متجمع 8 × 8</string>
+    <string name="yililoma_dithering">تذبذب ييليلوما</string>
+    <string name="no_favorite_options_selected">لم يتم تحديد خيارات مفضلة، قم بإضافتها في صفحة الأدوات</string>
+    <string name="add_favorites">أضف المفضلة</string>
+    <string name="harmony_complementary">تكميلية</string>
+    <string name="harmony_analogous">مماثل</string>
+    <string name="harmony_triadic">ثلاثي</string>
+    <string name="harmony_split_complementary">سبليت التكميلية</string>
+    <string name="harmony_tetradic">رباعي</string>
+    <string name="harmony_square">مربع</string>
+    <string name="harmony_analogous_complementary">مماثل + مكمل</string>
+    <string name="color_tools">أدوات اللون</string>
+    <string name="color_tools_sub">يمكنك المزج وإنشاء النغمات وإنشاء الظلال والمزيد</string>
+    <string name="color_harmonies">تناغمات الألوان</string>
+    <string name="color_shading">تظليل اللون</string>
+    <string name="variation">تفاوت</string>
+    <string name="tints">الصبغات</string>
+    <string name="tones">نغمات</string>
+    <string name="shades">ظلال</string>
+    <string name="color_mixing">خلط الألوان</string>
+    <string name="color_info">معلومات اللون</string>
+    <string name="selected_color">اللون المحدد</string>
+    <string name="color_to_mix">اللون للمزج</string>
+    <string name="cannot_use_monet_while_dynamic_colors_applied">لا يمكن استخدام monet أثناء تشغيل الألوان الديناميكية</string>
+    <string name="lut512x512">512 × 512 جدول ثنائي الأبعاد</string>
+    <string name="target_lut_image">صورة الهدف LUT</string>
+    <string name="amatorka">أحد الهواة</string>
+    <string name="miss_etikate">ملكة جمال الآداب</string>
+    <string name="soft_elegance">الأناقة الناعمة</string>
+    <string name="soft_elegance_variant">البديل الناعم للأناقة</string>
+    <string name="palette_transfer_variant">متغير نقل اللوحة</string>
+    <string name="cube_lut">3D لوط</string>
+    <string name="target_cube_lut_file">الهدف ملف LUT ثلاثي الأبعاد (.cube / .CUBE)</string>
+    <string name="lut">طرفية المستعملين المحليين</string>
+    <string name="bleach_bypass">تجاوز التبييض</string>
+    <string name="candlelight">ضوء الشموع</string>
+    <string name="drop_blues">إسقاط البلوز</string>
+    <string name="edgy_amber">منفعل العنبر</string>
+    <string name="fall_colors">ألوان الخريف</string>
+    <string name="film_stock_50">مخزون الفيلم 50</string>
+    <string name="foggy_night">ليلة ضبابية</string>
+    <string name="kodak">كوداك</string>
+    <string name="save_empty_lut">احصل على صورة LUT محايدة</string>
+    <string name="save_empty_lut_sub">أولاً، استخدم تطبيق تحرير الصور المفضل لديك لتطبيق مرشح على LUT المحايد والذي يمكنك الحصول عليه هنا. لكي يعمل هذا بشكل صحيح، يجب ألا يعتمد كل لون بكسل على وحدات بكسل أخرى (على سبيل المثال، لن يعمل التمويه). بمجرد أن تصبح جاهزًا، استخدم صورة LUT الجديدة كمدخل لمرشح LUT 512*512</string>
+    <string name="pop_art">فن البوب</string>
+    <string name="celluloid">شريط سينمائي</string>
+    <string name="coffee">قهوة</string>
+    <string name="golden_forest">الغابة الذهبية</string>
+    <string name="greenish">مخضر</string>
+    <string name="retro_yellow">الرجعية الأصفر</string>
+    <string name="links_preview">معاينة الروابط</string>
+    <string name="links_preview_sub">تمكين استرداد معاينة الرابط في الأماكن التي يمكنك فيها الحصول على النص (QRCode، OCR، إلخ)</string>
+    <string name="links">روابط</string>
+    <string name="ico_size_warning">لا يمكن حفظ ملفات ICO إلا بالحجم الأقصى وهو 256 × 256</string>
+    <string name="gif_type_to_webp">GIF إلى WEBP</string>
+    <string name="gif_type_to_webp_sub">تحويل صور GIF إلى صور متحركة WEBP</string>
+    <string name="webp_tools">أدوات ويب</string>
+    <string name="webp_tools_sub">تحويل الصور إلى صورة متحركة WEBP أو استخراج الإطارات من الرسوم المتحركة WEBP معينة</string>
+    <string name="webp_type_to_image">WEBP للصور</string>
+    <string name="webp_type_to_image_sub">تحويل ملف WEBP إلى مجموعة من الصور</string>
+    <string name="webp_type_to_webp_sub">تحويل مجموعة من الصور إلى ملف WEBP</string>
+    <string name="webp_type_to_webp">الصور إلى WEBP</string>
+    <string name="select_webp_image_to_start">اختر صورة WEBP للبدء</string>
+    <string name="manage_storage_extra_types">لا يوجد وصول كامل إلى الملفات</string>
+    <string name="manage_storage_extra_types_sub">السماح لجميع الملفات بالوصول لرؤية JXL وQOI والصور الأخرى التي لم يتم التعرف عليها كصور على Android. بدون إذن، يتعذر على Image Toolbox عرض تلك الصور</string>
+    <string name="default_draw_color">لون الرسم الافتراضي</string>
+    <string name="default_draw_path_mode">وضع رسم المسار الافتراضي</string>
+    <string name="add_timestamp">إضافة الطابع الزمني</string>
+    <string name="add_timestamp_sub">تمكين إضافة الطابع الزمني إلى اسم ملف الإخراج</string>
+    <string name="formatted_timestamp">الطابع الزمني المنسق</string>
+    <string name="formatted_timestamp_sub">قم بتمكين تنسيق الطابع الزمني في اسم ملف الإخراج بدلاً من الميلي الأساسي</string>
+    <string name="enable_timestamps_to_format_them">تمكين الطوابع الزمنية لتحديد تنسيقها</string>
+    <string name="one_time_save_location">حفظ الموقع مرة واحدة</string>
+    <string name="one_time_save_location_sub">عرض وتحرير مواقع الحفظ مرة واحدة والتي يمكنك استخدامها بالضغط لفترة طويلة على زر الحفظ في جميع الخيارات في الغالب</string>
+    <string name="recently_used">المستخدمة مؤخرا</string>
+    <string name="ci_channel">قناة سي.اي</string>
+    <string name="group">مجموعة</string>
+    <string name="image_toolbox_in_telegram">صندوق أدوات الصور في Telegram 🎉</string>
+    <string name="image_toolbox_in_telegram_sub">انضم إلى محادثتنا حيث يمكنك مناقشة أي شيء تريده وكذلك الاطلاع على قناة CI حيث أنشر الإصدارات التجريبية والإعلانات</string>
+    <string name="ci_channel_sub">احصل على إشعارات بشأن الإصدارات الجديدة من التطبيق، واقرأ الإعلانات</string>
+    <string name="fit_description">قم بملاءمة الصورة مع أبعاد معينة وقم بتطبيق التمويه أو اللون على الخلفية</string>
+    <string name="tools_arrangement">ترتيب الأدوات</string>
+    <string name="group_tools_by_type">أدوات المجموعة حسب النوع</string>
+    <string name="group_tools_by_type_sub">تجميع الأدوات على الشاشة الرئيسية حسب نوعها بدلاً من ترتيب القائمة المخصصة</string>
+    <string name="default_values">القيم الافتراضية</string>
+    <string name="system_bars_visibility">رؤية أشرطة النظام</string>
+    <string name="show_system_bars_by_swipe">إظهار أشرطة النظام عن طريق السحب</string>
+    <string name="show_system_bars_by_swipe_sub">لتمكين الضرب لإظهار أشرطة النظام إذا كانت مخفية</string>
+    <string name="auto">آلي</string>
+    <string name="hide_all">إخفاء الكل</string>
+    <string name="show_all">إظهار الكل</string>
+    <string name="hide_nav_bar">إخفاء شريط التنقل</string>
+    <string name="hide_status_bar">إخفاء شريط الحالة</string>
+    <string name="noise_generation">توليد الضوضاء</string>
+    <string name="noise_generation_sub">توليد أصوات مختلفة مثل بيرلين أو أنواع أخرى</string>
+    <string name="frequency">تكرار</string>
+    <string name="noise_type">نوع الضوضاء</string>
+    <string name="rotation_type">نوع التناوب</string>
+    <string name="fractal_type">نوع كسورية</string>
+    <string name="octaves">أوكتافات</string>
+    <string name="lacunarity">نقص</string>
+    <string name="gain">يكسب</string>
+    <string name="weighted_strength">القوة المرجحة</string>
+    <string name="ping_pong_strength">قوة بينج بونج</string>
+    <string name="distance_function">وظيفة المسافة</string>
+    <string name="return_type">نوع الإرجاع</string>
+    <string name="jitter">غضب</string>
+    <string name="domain_warp">تشوه المجال</string>
+    <string name="alignment">تنسيق</string>
+    <string name="custom_filename">اسم الملف المخصص</string>
+    <string name="custom_filename_sub">حدد الموقع واسم الملف الذي سيتم استخدامه لحفظ الصورة الحالية</string>
+    <string name="saved_to_custom">تم الحفظ في المجلد باسم مخصص</string>
+    <string name="collage_maker">صانع الكولاج</string>
+    <string name="collage_maker_sub">قم بإنشاء صور مجمعة من ما يصل إلى 10 صور</string>
+    <string name="collage_type">نوع الكولاج</string>
+    <string name="pick_up_to_ten_images">التقط ما يصل إلى 10 صور</string>
+    <string name="collages_info">امسك الصورة للتبديل والتحريك والتكبير لضبط الموضع</string>
+    <string name="disable_rotation">تعطيل التدوير</string>
+    <string name="disable_rotation_sub">يمنع تدوير الصور بإيماءات بإصبعين</string>
+    <string name="enable_snapping_to_borders">تمكين الانطباق على الحدود</string>
+    <string name="enable_snapping_to_borders_sub">بعد النقل أو التكبير/التصغير، سيتم التقاط الصور لملء حواف الإطار</string>
+    <string name="histogram">الرسم البياني</string>
+    <string name="histogram_sub">الرسم البياني للصورة RGB أو السطوع لمساعدتك في إجراء التعديلات</string>
+    <string name="image_for_histogram">سيتم استخدام هذه الصورة لإنشاء رسوم بيانية RGB والسطوع</string>
+    <string name="tesseract_options">خيارات تسراكت</string>
+    <string name="tesseract_options_sub">تطبيق بعض متغيرات الإدخال لمحرك tesseract</string>
+    <string name="custom_options">خيارات مخصصة</string>
+    <string name="custom_params_info">يجب إدخال الخيارات باتباع هذا النمط: \\"--{option_name} {value}\\"</string>
+    <string name="auto_crop">الاقتصاص التلقائي</string>
+    <string name="free_corners">زوايا حرة</string>
+    <string name="free_corners_sub">قص الصورة حسب المضلع، وهذا أيضًا يصحح المنظور</string>
+    <string name="coerce_points_to_image_bounds">نقاط الإكراه إلى حدود الصورة</string>
+    <string name="coerce_points_to_image_bounds_sub">لن تكون النقاط محدودة بحدود الصورة، وهذا مفيد لتصحيح المنظور بشكل أكثر دقة</string>
+    <string name="mask">قناع</string>
+    <string name="spot_heal_sub">ملء علم المحتوى تحت المسار المرسوم</string>
+    <string name="spot_heal">شفاء بقعة</string>
+    <string name="use_circle_kernel">استخدم نواة الدائرة</string>
+    <string name="opening">افتتاح</string>
+    <string name="closing">إغلاق</string>
+    <string name="morphological_gradient">التدرج المورفولوجي</string>
+    <string name="top_hat">القبعة العلوية</string>
+    <string name="black_hat">القبعة السوداء</string>
+    <string name="tone_curves">منحنيات النغمة</string>
+    <string name="reset_curves">إعادة ضبط المنحنيات</string>
+    <string name="reset_curves_sub">سيتم إرجاع المنحنيات إلى القيمة الافتراضية</string>
+    <string name="line_style">نمط الخط</string>
+    <string name="gap_size">حجم الفجوة</string>
+    <string name="dashed">متقطع</string>
+    <string name="dot_dashed">نقطة متقطعة</string>
+    <string name="stamped">مختوم</string>
+    <string name="zigzag">متعرج</string>
+    <string name="dashed_sub">يرسم خطًا متقطعًا على طول المسار المرسوم بحجم فجوة محدد</string>
+    <string name="dot_dashed_sub">رسم نقطة وخط متقطع على طول المسار المحدد</string>
+    <string name="defaultt_sub">مجرد خطوط مستقيمة افتراضية</string>
+    <string name="stamped_sub">يرسم الأشكال المحددة على طول المسار بمسافة محددة</string>
+    <string name="zigzag_sub">يرسم خطًا متعرجًا متموجًا على طول المسار</string>
+    <string name="zigzag_ratio">نسبة متعرجة</string>
+    <string name="create_shortcut">إنشاء اختصار</string>
+    <string name="create_shortcut_title">اختر أداة لتثبيتها</string>
+    <string name="create_shortcut_subtitle">ستتم إضافة الأداة إلى الشاشة الرئيسية للمشغل الخاص بك كاختصار، استخدمها مع إعداد \\"تخطي انتقاء الملفات\\" لتحقيق السلوك المطلوب</string>
+    <string name="dont_stack_frames">لا تكدس الإطارات</string>
+    <string name="dont_stack_frames_sub">يتيح التخلص من الإطارات السابقة، بحيث لا تتكدس فوق بعضها البعض</string>
+    <string name="crossfade">التلاشي المتقاطع</string>
+    <string name="crossfade_sub">سيتم تداخل الإطارات مع بعضها البعض</string>
+    <string name="crossfade_count">عدد الإطارات المتداخلة</string>
+    <string name="threshold_one">العتبة الأولى</string>
+    <string name="threshold_two">العتبة الثانية</string>
+    <string name="canny">حكيم</string>
+    <string name="mirror_101">مرآة 101</string>
+    <string name="enhanced_zoom_blur">تعزيز طمس التكبير</string>
+    <string name="laplacian_simple">لابلاس بسيط</string>
+    <string name="sobel_simple">سوبيل بسيط</string>
+    <string name="helper_grid">الشبكة المساعدة</string>
+    <string name="helper_grid_sub">يُظهر الشبكة الداعمة أعلى منطقة الرسم للمساعدة في المعالجة الدقيقة</string>
+    <string name="grid_color">لون الشبكة</string>
+    <string name="cell_width">عرض الخلية</string>
+    <string name="cell_height">ارتفاع الخلية</string>
+    <string name="compact_selectors">محددات مدمجة</string>
+    <string name="compact_selectors_sub">ستستخدم بعض عناصر التحكم في التحديد تخطيطًا مضغوطًا لشغل مساحة أقل</string>
+    <string name="grant_camera_permission_to_capture_image">منح إذن الكاميرا في الإعدادات لالتقاط الصورة</string>
+    <string name="layout">تَخطِيط</string>
+    <string name="main_screen_title">عنوان الشاشة الرئيسية</string>
+    <string name="constant_rate_factor">عامل المعدل الثابت (CRF)</string>
+    <string name="crf_sub">القيمة %1$d تعني ضغطًا بطيئًا، مما يؤدي إلى حجم ملف صغير نسبيًا. %2$d يعني ضغطًا أسرع، مما يؤدي إلى ملف كبير.</string>
+    <string name="lut_library">مكتبة لوط</string>
+    <string name="lut_library_sub">قم بتنزيل مجموعة LUTs، والتي يمكنك تطبيقها بعد التنزيل</string>
+    <string name="lut_library_update_sub">قم بتحديث مجموعة جداول البحث (سيتم وضع العناصر الجديدة فقط في قائمة الانتظار)، والتي يمكنك تطبيقها بعد التنزيل</string>
+    <string name="filter_preview_image_sub">تغيير معاينة الصورة الافتراضية للمرشحات</string>
+    <string name="filter_preview_image">معاينة الصورة</string>
+    <string name="hide">يخفي</string>
+    <string name="show">يعرض</string>
+    <string name="slider_type">نوع المنزلق</string>
+    <string name="fancy">باهِظ</string>
+    <string name="material_2">المادة 2</string>
+    <string name="fancy_sub">منزلق ذو مظهر فاخر. هذا هو الخيار الافتراضي</string>
+    <string name="material_2_sub">شريط تمرير المادة 2</string>
+    <string name="material_you_slider_sub">مادة أنت منزلق</string>
+    <string name="apply">يتقدم</string>
+    <string name="center_align_dialog_buttons">أزرار الحوار المركزية</string>
+    <string name="center_align_dialog_buttons_sub">سيتم وضع أزرار الحوار في المنتصف بدلاً من الجانب الأيسر إن أمكن</string>
+    <string name="open_source_licenses">تراخيص مفتوحة المصدر</string>
+    <string name="open_source_licenses_sub">عرض تراخيص المكتبات مفتوحة المصدر المستخدمة في هذا التطبيق</string>
+    <string name="area">منطقة</string>
+    <string name="area_sub">إعادة التشكيل باستخدام علاقة منطقة البكسل. قد تكون هذه هي الطريقة المفضلة لتدمير الصورة، لأنها تعطي نتائج خالية من التموج في النسيج. ولكن عندما يتم تكبير الصورة، فهي تشبه طريقة \\"الأقرب\\".</string>
+    <string name="enable_tonemapping">تمكين تعيين النغمات</string>
+    <string name="enter_percent">يدخل ٪</string>
+    <string name="unknown_host">لا يمكن الوصول إلى الموقع، حاول استخدام VPN أو تحقق مما إذا كان عنوان URL صحيحًا</string>
+    <string name="markup_layers">طبقات العلامات</string>
+    <string name="markup_layers_sub">وضع الطبقات مع القدرة على وضع الصور والنصوص والمزيد بحرية</string>
+    <string name="edit_layer">تحرير الطبقة</string>
+    <string name="layers_on_image">طبقات على الصورة</string>
+    <string name="layers_on_image_sub">استخدم صورة كخلفية وأضف طبقات مختلفة فوقها</string>
+    <string name="layers_on_background">طبقات على الخلفية</string>
+    <string name="layers_on_background_sub">نفس الخيار الأول ولكن مع اللون بدلاً من الصورة</string>
+    <string name="beta">بيتا</string>
+    <string name="fast_settings_side">جانب الإعدادات السريعة</string>
+    <string name="fast_settings_side_sub">قم بإضافة شريط عائم على الجانب المحدد أثناء تحرير الصور، مما سيؤدي إلى فتح الإعدادات السريعة عند النقر عليها</string>
+    <string name="clear_selection">مسح التحديد</string>
+    <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \\"%s\\" بشكل افتراضي</string>
+    <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \\"%s\\" بشكل افتراضي</string>
+    <string name="base_64_tools">أدوات Base64</string>
+    <string name="base_64_tools_sub">قم بفك تشفير سلسلة Base64 إلى صورة، أو قم بتشفير الصورة إلى تنسيق Base64</string>
+    <string name="base_64">قاعدة64</string>
+    <string name="not_a_valid_base_64">القيمة المقدمة ليست سلسلة Base64 صالحة</string>
+    <string name="copy_not_a_valid_base_64">لا يمكن نسخ سلسلة Base64 فارغة أو غير صالحة</string>
+    <string name="paste_base_64">لصق Base64</string>
+    <string name="copy_base_64">نسخ Base64</string>
+    <string name="base_64_tips">قم بتحميل الصورة لنسخ أو حفظ سلسلة Base64. إذا كان لديك السلسلة نفسها، يمكنك لصقها أعلاه للحصول على الصورة</string>
+    <string name="save_base_64">حفظ Base64</string>
+    <string name="share_base_64">حصة Base64</string>
+    <string name="options">خيارات</string>
+    <string name="actions">الإجراءات</string>
+    <string name="import_base_64">قاعدة الاستيراد64</string>
+    <string name="base_64_actions">إجراءات Base64</string>
+    <string name="add_outline">إضافة المخطط التفصيلي</string>
+    <string name="add_outline_sub">أضف مخططًا تفصيليًا حول النص باللون والعرض المحددين</string>
+    <string name="outline_color">لون المخطط التفصيلي</string>
+    <string name="outline_size">حجم المخطط التفصيلي</string>
+    <string name="rotation">تناوب</string>
+    <string name="checksum_as_filename">المجموع الاختباري كاسم الملف</string>
+    <string name="checksum_as_filename_sub">سيكون للصور الناتجة اسم يتوافق مع المجموع الاختباري لبياناتها</string>
+    <string name="free_software_partner">البرمجيات الحرة (شريك)</string>
+    <string name="free_software_partner_sub">المزيد من البرامج المفيدة في القناة الشريكة لتطبيقات Android</string>
+    <string name="algorithms">خوارزمية</string>
+    <string name="checksum_tools">أدوات المجموع الاختباري</string>
+    <string name="checksum_tools_sub">قارن المجاميع الاختبارية أو احسب التجزئة أو أنشئ سلاسل سداسية عشرية من الملفات باستخدام خوارزميات تجزئة مختلفة</string>
+    <string name="calculate">احسب</string>
+    <string name="text_hash">تجزئة النص</string>
+    <string name="checksum">المجموع الاختباري</string>
+    <string name="pick_file_to_checksum">اختر الملف لحساب المجموع الاختباري الخاص به بناءً على الخوارزمية المحددة</string>
+    <string name="enter_text_to_checksum">أدخل النص لحساب المجموع الاختباري الخاص به بناءً على الخوارزمية المحددة</string>
+    <string name="source_checksum">المجموع الاختباري للمصدر</string>
+    <string name="checksum_to_compare">المجموع الاختباري للمقارنة</string>
+    <string name="match">مباراة!</string>
+    <string name="difference">اختلاف</string>
+    <string name="match_sub">المجاميع الاختبارية متساوية، ويمكن أن تكون آمنة</string>
+    <string name="difference_sub">المجاميع الاختبارية ليست متساوية، يمكن أن يكون الملف غير آمن!</string>
+    <string name="mesh_gradients">التدرجات شبكة</string>
+    <string name="collection_mesh_gradients_sub">انظر إلى مجموعة Mesh Gradients عبر الإنترنت</string>
+    <string name="wrong_font">يمكن استيراد خطوط TTF وOTF فقط</string>
+    <string name="import_font">استيراد الخط (TTF/OTF)</string>
+    <string name="export_fonts">تصدير الخطوط</string>
+    <string name="imported_fonts">الخطوط المستوردة</string>
+    <string name="error_while_saving">حدث خطأ أثناء حفظ المحاولة، حاول تغيير مجلد الإخراج</string>
+    <string name="filename_is_not_set">لم يتم تعيين اسم الملف</string>
+    <string name="none">لا أحد</string>
+    <string name="custom_pages">الصفحات المخصصة</string>
+    <string name="pages_selection">اختيار الصفحات</string>
+    <string name="tool_exit_confirmation">تأكيد خروج الأداة</string>
+    <string name="tool_exit_confirmation_sub">إذا كانت لديك تغييرات غير محفوظة أثناء استخدام أدوات معينة وحاولت إغلاقها، فسيتم عرض مربع حوار التأكيد</string>
+    <string name="edit_exif_screen">تحرير EXIF</string>
+    <string name="edit_exif_screen_sub">تغيير البيانات الوصفية لصورة واحدة دون إعادة الضغط</string>
+    <string name="edit_exif_tag">انقر لتحرير العلامات المتاحة</string>
+    <string name="change_sticker">تغيير الملصق</string>
+    <string name="fit_width">عرض مناسب</string>
+    <string name="fit_height">الارتفاع المناسب</string>
+    <string name="batch_compare">دفعة مقارنة</string>
+    <string name="pick_files_to_checksum">اختر الملف/الملفات لحساب المجموع الاختباري الخاص بها بناءً على الخوارزمية المحددة</string>
+    <string name="pick_files">اختر الملفات</string>
+    <string name="pick_directory">اختر الدليل</string>
+    <string name="head_length_scale">مقياس طول الرأس</string>
+    <string name="stamp">ختم</string>
+    <string name="timestamp">الطابع الزمني</string>
+    <string name="format_pattern">نمط التنسيق</string>
+    <string name="padding">حشوة</string>
+    <string name="image_cutting">قطع الصور</string>
+    <string name="image_cutting_sub">قص جزء من الصورة ودمج الأجزاء اليسرى (يمكن أن تكون معكوسة) بخطوط رأسية أو أفقية</string>
+    <string name="vertical_pivot_line">الخط المحوري العمودي</string>
+    <string name="horizontal_pivot_line">الخط المحوري الأفقي</string>
+    <string name="inverse_selection">الاختيار العكسي</string>
+    <string name="inverse_vertical_selection_sub">سيتم ترك الجزء المقطوع عموديًا، بدلاً من دمج الأجزاء حول منطقة القطع</string>
+    <string name="inverse_horizontal_selection_sub">سيتم ترك الجزء المقطوع أفقيًا، بدلاً من دمج الأجزاء حول منطقة القطع</string>
+    <string name="collection_mesh_gradients">مجموعة من التدرجات شبكة</string>
+    <string name="mesh_gradients_sub">أنشئ تدرجًا شبكيًا بكمية مخصصة من العقد والدقة</string>
+    <string name="gradient_maker_type_image_mesh">شبكة تراكب التدرج</string>
+    <string name="gradient_maker_type_image_mesh_sub">إنشاء تدرج شبكي أعلى الصور المعطاة</string>
+    <string name="points_customization">تخصيص النقاط</string>
+    <string name="grid_size">حجم الشبكة</string>
+    <string name="resolution_x">القرار العاشر</string>
+    <string name="resolution_y">القرار ص</string>
+    <string name="resolution">دقة</string>
+    <string name="pixel_by_pixel">بكسل بواسطة بكسل</string>
+    <string name="highlight_color">تسليط الضوء على اللون</string>
+    <string name="pixel_comparison_type">نوع مقارنة البكسل</string>
+    <string name="scan_barcode">مسح الباركود</string>
+    <string name="height_ratio">نسبة الارتفاع</string>
+    <string name="barcode_type">نوع الباركود</string>
+    <string name="enforce_bw">فرض B/W</string>
+    <string name="enforce_bw_sub">ستكون صورة الرمز الشريطي باللونين الأبيض والأسود بالكامل ولن يتم تلوينها حسب سمة التطبيق</string>
+    <string name="barcodes_sub">قم بمسح أي رمز شريطي (QR، EAN، AZTEC، …) واحصل على محتواه أو الصق النص الخاص بك لإنشاء رمز جديد</string>
+    <string name="no_barcode_found">لم يتم العثور على الباركود</string>
+    <string name="generated_barcode_will_be_here">سيكون الرمز الشريطي الذي تم إنشاؤه هنا</string>
+    <string name="audio_cover_extractor">أغلفة الصوت</string>
+    <string name="audio_cover_extractor_sub">استخراج صور غلاف الألبوم من الملفات الصوتية، ويدعم معظم التنسيقات الشائعة</string>
+    <string name="pick_audio_to_start">اختر الصوت للبدء</string>
+    <string name="pick_audio">اختر الصوت</string>
+    <string name="no_covers_found">لم يتم العثور على أي أغطية</string>
+    <string name="send_logs">إرسال السجلات</string>
+    <string name="send_logs_sub">انقر لمشاركة ملف سجلات التطبيق، حيث يمكن أن يساعدني هذا في اكتشاف المشكلة وإصلاحها</string>
+    <string name="crash_title">عفوًا… حدث خطأ ما</string>
+    <string name="crash_subtitle">يمكنك الاتصال بي باستخدام الخيارات أدناه وسأحاول إيجاد حل.\n(لا تنس إرفاق السجلات)</string>
+    <string name="ocr_write_to_file">الكتابة إلى الملف</string>
+    <string name="ocr_write_to_file_sub">استخرج النص من مجموعة الصور وقم بتخزينه في ملف نصي واحد</string>
+    <string name="ocr_write_to_metadata">الكتابة إلى بيانات التعريف</string>
+    <string name="ocr_write_to_metadata_sub">قم باستخراج النص من كل صورة ووضعه في معلومات EXIF ​​الخاصة بالصور النسبية</string>
+    <string name="invisible_mode">الوضع غير المرئي</string>
+    <string name="invisible_mode_sub">استخدم إخفاء المعلومات لإنشاء علامات مائية غير مرئية بالعين داخل وحدات البايت من صورك</string>
+    <string name="use_lsb">استخدم إل إس بي</string>
+    <string name="use_lsb_sub">سيتم استخدام طريقة إخفاء المعلومات LSB (بت أقل أهمية)، وإلا FD (مجال التردد)</string>
+    <string name="auto_remove_red_eyes">إزالة العيون الحمراء تلقائيًا</string>
+    <string name="password">كلمة المرور</string>
+    <string name="unlock">فتح</string>
+    <string name="pdf_is_protected">PDF محمي</string>
+    <string name="operation_almost_complete">اكتملت العملية تقريبًا. سيتطلب الإلغاء الآن إعادة تشغيله</string>
+    <string name="sort_by_date_modified">تاريخ التعديل</string>
+    <string name="sort_by_date_modified_reversed">تاريخ التعديل (معكوس)</string>
+    <string name="sort_by_size">مقاس</string>
+    <string name="sort_by_size_reversed">الحجم (معكوس)</string>
+    <string name="sort_by_mime_type">نوع MIME</string>
+    <string name="sort_by_mime_type_reversed">نوع MIME (معكوس)</string>
+    <string name="sort_by_extension">امتداد</string>
+    <string name="sort_by_extension_reversed">تمديد (عكس)</string>
+    <string name="sort_by_date_added">تاريخ الإضافة</string>
+    <string name="sort_by_date_added_reversed">تاريخ الإضافة (معكوس)</string>
+    <string name="left_to_right">من اليسار إلى اليمين</string>
+    <string name="right_to_left">من اليمين إلى اليسار</string>
+    <string name="top_to_bottom">من الأعلى إلى الأسفل</string>
+    <string name="bottom_to_top">من الأسفل إلى الأعلى</string>
+    <string name="liquid_glass">الزجاج السائل</string>
+    <string name="liquid_glass_sub">مفتاح يعتمد على نظام التشغيل IOS 26 الذي تم الإعلان عنه مؤخرًا ونظام تصميم الزجاج السائل الخاص به</string>
+    <string name="pick_image_or_base64">اختر صورة أو الصق/قم باستيراد بيانات Base64 أدناه</string>
+    <string name="type_image_link">اكتب رابط الصورة للبدء</string>
+    <string name="paste_link">لصق الرابط</string>
+    <string name="kaleidoscope">المشكال</string>
+    <string name="secondary_angle">زاوية ثانوية</string>
+    <string name="sides">الجانبين</string>
+    <string name="channel_mix">مزيج القناة</string>
+    <string name="blue_green">أزرق أخضر</string>
+    <string name="red_blue">أحمر أزرق</string>
+    <string name="green_red">أحمر أخضر</string>
+    <string name="into_red">إلى اللون الأحمر</string>
+    <string name="into_green">إلى اللون الأخضر</string>
+    <string name="into_blue">إلى اللون الأزرق</string>
+    <string name="cyan">سماوي</string>
+    <string name="magenta">أرجواني</string>
+    <string name="yellow">أصفر</string>
+    <string name="color_halftone">اللون النصفي</string>
+    <string name="contour">كفاف</string>
+    <string name="levels">المستويات</string>
+    <string name="offset">إزاحة</string>
+    <string name="voronoi_crystallize">تبلور فورونوي</string>
+    <string name="shape">شكل</string>
+    <string name="stretch">تمتد</string>
+    <string name="randomness">العشوائية</string>
+    <string name="despeckle">إزالة البقع</string>
+    <string name="diffuse">منتشر</string>
+    <string name="dog">كلب</string>
+    <string name="second_radius">نصف القطر الثاني</string>
+    <string name="equalize">معادلة</string>
+    <string name="glow">يشع</string>
+    <string name="whirl_and_pinch">دوامة وقرصة</string>
+    <string name="pointillize">بوينتيليزي</string>
+    <string name="border_color">لون الحدود</string>
+    <string name="polar_coordinates">الإحداثيات القطبية</string>
+    <string name="rect_to_polar">المستقيم إلى القطبية</string>
+    <string name="polar_to_rect">القطبية لتصحيح</string>
+    <string name="invert_in_circle">عكس في الدائرة</string>
+    <string name="reduce_noise">تقليل الضوضاء</string>
+    <string name="simple_solarize">سولاريز بسيط</string>
+    <string name="weave">نسج</string>
+    <string name="x_gap">X الفجوة</string>
+    <string name="y_gap">Y الفجوة</string>
+    <string name="x_width">عرض X</string>
+    <string name="y_wdth">عرض ص</string>
+    <string name="twirl">برم</string>
+    <string name="rubber_stmp">ختم مطاطي</string>
+    <string name="smear">تشويه</string>
+    <string name="density">كثافة</string>
+    <string name="mix">مزج</string>
+    <string name="sphere_lensh_distortion">تشويه عدسة المجال</string>
+    <string name="refraction_index">مؤشر الانكسار</string>
+    <string name="arc">قوس</string>
+    <string name="spread_angle">زاوية الانتشار</string>
+    <string name="sparkle">التألق</string>
+    <string name="rays">أشعة</string>
+    <string name="ascii">أسكي</string>
+    <string name="gradient">التدرج</string>
+    <string name="moire">ماري</string>
+    <string name="autumn">خريف</string>
+    <string name="bone">عظم</string>
+    <string name="jet">جيت</string>
+    <string name="winter">شتاء</string>
+    <string name="ocean">محيط</string>
+    <string name="summer">صيف</string>
+    <string name="spring">ربيع</string>
+    <string name="cool_variant">البديل بارد</string>
+    <string name="hsv">HSV</string>
+    <string name="pink">لون القرنفل</string>
+    <string name="hot">حار</string>
+    <string name="parula">كلمة</string>
+    <string name="magma">الصهارة</string>
+    <string name="inferno">جحيم</string>
+    <string name="plasma">بلازما</string>
+    <string name="viridis">فيريديس</string>
+    <string name="cividis">المواطنين</string>
+    <string name="twilight">الشفق</string>
+    <string name="twilight_shifted">تحول الشفق</string>
+    <string name="auto_perspective">منظور تلقائي</string>
+    <string name="deskew">منحرف</string>
+    <string name="allow_crop">السماح بالاقتصاص</string>
+    <string name="crop_or_perspective">المحاصيل أو المنظور</string>
+    <string name="absolute">مطلق</string>
+    <string name="turbo">توربيني</string>
+    <string name="deep_green">أخضر عميق</string>
+    <string name="lens_correction">تصحيح العدسة</string>
+    <string name="target_lens_profile">ملف تعريف العدسة المستهدفة بتنسيق JSON</string>
+    <string name="download_ready_lens_profiles">قم بتنزيل ملفات تعريف العدسة الجاهزة</string>
+    <string name="part_percents">النسب المئوية للجزء</string>
+    <string name="export_as_json">تصدير كـ JSON</string>
+    <string name="export_as_json_sub">انسخ السلسلة باستخدام بيانات لوحة الألوان كتمثيل json</string>
+    <string name="seam_carving">نحت التماس</string>
+    <string name="home_screen">الشاشة الرئيسية</string>
+    <string name="lock_screen">قفل الشاشة</string>
+    <string name="built_in">مدمج</string>
+    <string name="wallpapers_export">تصدير الخلفيات</string>
+    <string name="refresh">ينعش</string>
+    <string name="wallpapers_export_sub">احصل على خلفيات الصفحة الرئيسية والقفل والخلفيات المدمجة الحالية</string>
+    <string name="allow_access_to_all_files_for_wp">السماح بالوصول إلى جميع الملفات، وهذا ضروري لاسترداد الخلفيات</string>
+    <string name="allow_read_media_images_for_wp">إدارة إذن التخزين الخارجي ليست كافية، فأنت بحاجة إلى السماح بالوصول إلى صورك، وتأكد من تحديد \\"السماح للجميع\\"</string>
+    <string name="add_preset_to_filename">إضافة الإعداد المسبق إلى اسم الملف</string>
+    <string name="add_preset_to_filename_sub">إلحاق لاحقة بالإعداد المسبق المحدد لاسم ملف الصورة</string>
+    <string name="add_image_scale_mode_to_filename">إضافة وضع مقياس الصورة إلى اسم الملف</string>
+    <string name="add_image_scale_mode_to_filename_sub">إلحاق لاحقة مع وضع مقياس الصورة المحدد لاسم ملف الصورة</string>
+    <string name="ascii_art">فن أسكي</string>
+    <string name="ascii_art_sub">تحويل الصورة إلى نص ascii الذي سيبدو مثل الصورة</string>
+    <string name="params">بارامس</string>
+    <string name="invert_colors_ascii_sub">يتم تطبيق مرشح سلبي على الصورة للحصول على نتيجة أفضل في بعض الحالات</string>
+    <string name="processing_screenshot">معالجة لقطة الشاشة</string>
+    <string name="screenshot_not_captured_try_again">لم يتم التقاط لقطة الشاشة، حاول مرة أخرى</string>
+    <string name="skipped_saving">تم تخطي الحفظ</string>
+    <string name="skipped_saving_multiple">تم تخطي %1$d الملفات</string>
+    <string name="allow_skip_if_larger">السماح بالتخطي إذا كان أكبر</string>
+    <string name="allow_skip_if_larger_sub">سيتم السماح لبعض الأدوات بتخطي حفظ الصور إذا كان حجم الملف الناتج أكبر من الحجم الأصلي</string>
+    <string name="qr_type_calendar_event">حدث التقويم</string>
+    <string name="qr_type_contact_info">اتصال</string>
+    <string name="qr_type_email">بريد إلكتروني</string>
+    <string name="qr_type_geo_point">موقع</string>
+    <string name="qr_type_phone">هاتف</string>
+    <string name="qr_type_plain">نص</string>
+    <string name="qr_type_sms">رسالة قصيرة</string>
+    <string name="qr_type_url">عنوان URL</string>
+    <string name="qr_type_wifi">Wi-Fi</string>
+    <string name="open_network">شبكة مفتوحة</string>
+    <string name="not_specified">لا يوجد</string>
+    <string name="ssid">SSID</string>
+    <string name="phone">هاتف</string>
+    <string name="message">رسالة</string>
+    <string name="address">عنوان</string>
+    <string name="subject">موضوع</string>
+    <string name="body">جسم</string>
+    <string name="name">اسم</string>
+    <string name="organization">منظمة</string>
+    <string name="title">عنوان</string>
+    <string name="phones">الهواتف</string>
+    <string name="emails">رسائل البريد الإلكتروني</string>
+    <string name="urls">عناوين URL</string>
+    <string name="addresses">العناوين</string>
+    <string name="summary">ملخص</string>
+    <string name="description">وصف</string>
+    <string name="location">موقع</string>
+    <string name="organizer">منظم</string>
+    <string name="start_date">تاريخ البدء</string>
+    <string name="end_date">تاريخ الانتهاء</string>
+    <string name="status">حالة</string>
+    <string name="latitude">خط العرض</string>
+    <string name="longitude">خط الطول</string>
+    <string name="create_barcode">إنشاء الباركود</string>
+    <string name="edit_barcode">تحرير الباركود</string>
+    <string name="wifi_configuration">تكوين واي فاي</string>
+    <string name="security">حماية</string>
+    <string name="pick_contact">اختر جهة الاتصال</string>
+    <string name="grant_contact_permission">منح جهات الاتصال الإذن في الإعدادات للملء التلقائي باستخدام جهة الاتصال المحددة</string>
+    <string name="contact_info">معلومات الاتصال</string>
+    <string name="first_name">الاسم الأول</string>
+    <string name="middle_name">الاسم الأوسط</string>
+    <string name="last_name">اسم العائلة</string>
+    <string name="pronunciation">نطق</string>
+    <string name="add_phone">إضافة هاتف</string>
+    <string name="add_email">أضف البريد الإلكتروني</string>
+    <string name="add_address">أضف عنوانًا</string>
+    <string name="website">موقع إلكتروني</string>
+    <string name="add_website">أضف موقعًا إلكترونيًا</string>
+    <string name="formatted_name">اسم منسق</string>
+    <string name="qr_code_top_image">سيتم استخدام هذه الصورة لوضعها فوق الباركود</string>
+    <string name="code_customization">تخصيص الكود</string>
+    <string name="qr_logo_image">سيتم استخدام هذه الصورة كشعار في وسط رمز الاستجابة السريعة</string>
+    <string name="logo">الشعار</string>
+    <string name="logo_padding">حشوة الشعار</string>
+    <string name="logo_size">حجم الشعار</string>
+    <string name="logo_corners">زوايا الشعار</string>
+    <string name="fourth_eye">العين الرابعة</string>
+    <string name="fourth_eye_description">يضيف تماثل العين إلى رمز الاستجابة السريعة عن طريق إضافة العين الرابعة في الزاوية السفلية</string>
+    <string name="pixel_shape">شكل بكسل</string>
+    <string name="frame_shape">شكل الإطار</string>
+    <string name="ball_shape">شكل الكرة</string>
+    <string name="error_correction_level">مستوى تصحيح الخطأ</string>
+    <string name="dark_color">اللون الداكن</string>
+    <string name="light_color">لون فاتح</string>
+    <string name="hyper_os">فرط نظام التشغيل</string>
+    <string name="hyper_os_sub">Xiaomi HyperOS مثل الأسلوب</string>
+    <string name="mask_pattern">نمط القناع</string>
+    <string name="code_may_be_not_scannable">قد لا يكون هذا الرمز قابلاً للمسح الضوئي، قم بتغيير معلمات المظهر لجعله قابلاً للقراءة على جميع الأجهزة</string>
+    <string name="not_scannable">غير قابلة للمسح الضوئي</string>
+    <string name="launcher_mode_sub">ستبدو الأدوات مثل مشغل تطبيقات الشاشة الرئيسية لتكون أكثر إحكاما</string>
+    <string name="launcher_mode">وضع المشغل</string>
+    <string name="flood_fill_sub">يملأ المنطقة بالفرشاة والأسلوب المحددين</string>
+    <string name="flood_fill">ملء الفيضان</string>
+    <string name="spray">رذاذ</string>
+    <string name="spray_sub">يرسم مسارًا على شكل جرافيتي</string>
+    <string name="square_particles">الجسيمات المربعة</string>
+    <string name="square_particles_sub">ستكون جزيئات الرش مربعة الشكل بدلاً من الدوائر</string>
+    <string name="palette_tools">أدوات اللوحة</string>
+    <string name="palette_tools_sub">قم بإنشاء لوحة أساسية/مادة من الصورة، أو قم باستيراد/تصدير عبر تنسيقات لوحة مختلفة</string>
+    <string name="edit_palette">تحرير اللوحة</string>
+    <string name="edit_palette_sub">لوحة التصدير/الاستيراد عبر تنسيقات مختلفة</string>
+    <string name="color_name">اسم اللون</string>
+    <string name="palette_name">اسم اللوحة</string>
+    <string name="palette_format">تنسيق اللوحة</string>
+    <string name="export_palette_sub">تصدير اللوحة التي تم إنشاؤها إلى تنسيقات مختلفة</string>
+    <string name="add_color_palette_sub">يضيف لونًا جديدًا إلى اللوحة الحالية</string>
+    <string name="palette_name_not_supported">تنسيق %s لا يدعم توفير اسم اللوحة</string>
+    <string name="wallpapers_export_not_avaialbe">نظرًا لسياسات متجر Play، لا يمكن تضمين هذه الميزة في الإصدار الحالي. للوصول إلى هذه الوظيفة، يرجى تنزيل ImageToolbox من مصدر بديل. يمكنك العثور على الإصدارات المتاحة على GitHub أدناه.</string>
+    <string name="open_github_page">افتح صفحة جيثب</string>
+    <string name="overwrite_files_sub_short">سيتم استبدال الملف الأصلي بملف جديد بدلاً من حفظه في المجلد المحدد</string>
+    <string name="hidden_watermark_text_detected">تم اكتشاف نص العلامة المائية المخفية</string>
+    <string name="hidden_watermark_image_detected">تم الكشف عن صورة العلامة المائية المخفية</string>
+    <string name="this_image_was_hidden">تم إخفاء هذه الصورة</string>
+    <string name="generative_inpaint">الرسم التوليدي</string>
+    <string name="generative_inpaint_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. لاستخدام هذه الميزة، سيقوم التطبيق بتنزيل النموذج المطلوب (حوالي 200 ميجابايت) من GitHub</string>
+    <string name="generative_inpaint_ready_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. قد تكون هذه عملية طويلة الأمد</string>
+    <string name="error_level_analysis">تحليل مستوى الخطأ</string>
+    <string name="luminance_gradient">التدرج النصوع</string>
+    <string name="average_distance">متوسط ​​المسافة</string>
+    <string name="copy_move_detection">كشف نقل النسخ</string>
+    <string name="retain">يحتفظ</string>
+    <string name="coefficent">معامل</string>
+    <string name="clipboard_data_is_too_large">بيانات الحافظة كبيرة جدًا</string>
+    <string name="data_is_too_large_to_copy">البيانات كبيرة جدًا بحيث لا يمكن نسخها</string>
+    <string name="simple_weave_pixelization">نسج بسيط Pixelization</string>
+    <string name="staggered_pixelization">بكسل متداخلة</string>
+    <string name="cross_pixelization">عبر البكسل</string>
+    <string name="micro_macro_pixelization">بكسل مايكرو ماكرو</string>
+    <string name="orbital_pixelization">البكسل المداري</string>
+    <string name="vortex_pixelization">دوامة البكسل</string>
+    <string name="pulse_grid_pixelization">نبض شبكة البكسل</string>
+    <string name="nucleus_pixelization">بكسل النواة</string>
+    <string name="radial_weave_pixelization">شعاعي نسج بكسل</string>
+    <string name="cannot_open_uri">لا يمكن فتح عنوان uri \\"%s\\"</string>
+    <string name="snowfall_mode">وضع تساقط الثلوج</string>
+    <string name="enabled">ممكّن</string>
+    <string name="border_frame">إطار الحدود</string>
+    <string name="glitch_variant">البديل خلل</string>
+    <string name="channel_shift">تحول القناة</string>
+    <string name="max_offset">ماكس إزاحة</string>
+    <string name="vhs">VHS</string>
+    <string name="block_glitch">كتلة خلل</string>
+    <string name="block_size">حجم الكتلة</string>
+    <string name="crt_curvature">انحناء CRT</string>
+    <string name="curvature">انحناء</string>
+    <string name="chroma">صفاء</string>
+    <string name="pixel_melt">بكسل تذوب</string>
+    <string name="max_drop">ماكس قطرة</string>
+    <string name="ai_tools">أدوات الذكاء الاصطناعي</string>
+    <string name="ai_tools_sub">أدوات مختلفة لمعالجة الصور من خلال نماذج الذكاء الاصطناعي مثل إزالة القطع الأثرية أو تقليل الضوضاء</string>
+    <string name="model_anime_undeint">ضغط، خطوط خشنة</string>
+    <string name="model_broadcast">الرسوم المتحركة، وضغط البث</string>
+    <string name="model_rgb_max_denoise_fp16">ضغط عام، ضوضاء عامة</string>
+    <string name="model_wb_denoise">ضجيج الرسوم المتحركة عديم اللون</string>
+    <string name="model_span_anime_pretrain">سريع، ضغط عام، ضوضاء عامة، رسوم متحركة/كاريكاتير/أنيمي</string>
+    <string name="model_book_scan">مسح الكتاب</string>
+    <string name="model_overexposure">تصحيح التعرض</string>
+    <string name="model_fbcnn_color_fp16">الأفضل في الضغط العام والصور الملونة</string>
+    <string name="model_fbcnn_gray_fp16">الأفضل في الضغط العام للصور ذات التدرج الرمادي</string>
+    <string name="model_fbcnn_gray_double_fp16">الضغط العام، الصور ذات التدرج الرمادي، أقوى</string>
+    <string name="model_scunet_color_gan_fp16">الضوضاء العامة والصور الملونة</string>
+    <string name="model_scunet_color_psnr_fp16">الضوضاء العامة والصور الملونة وتفاصيل أفضل</string>
+    <string name="model_scunet_gray_15_fp16">الضوضاء العامة والصور ذات التدرج الرمادي</string>
+    <string name="model_scunet_gray_25_fp16">الضوضاء العامة، الصور ذات التدرج الرمادي، أقوى</string>
+    <string name="model_scunet_gray_50_fp16">الضوضاء العامة، الصور ذات التدرج الرمادي، الأقوى</string>
+    <string name="model_jpeg_destroyer">ضغط عام</string>
+    <string name="model_jaywreck">ضغط عام</string>
+    <string name="model_h264">التركيب، ضغط h264</string>
+    <string name="model_vhs">ضغط VHS</string>
+    <string name="model_cinepak">الضغط غير القياسي (cinepak، msvideo1، roq)</string>
+    <string name="model_debink_v4">ضغط بينك، أفضل في الهندسة</string>
+    <string name="model_debink_v5">ضغط بينك، أقوى</string>
+    <string name="model_debink_v6">ضغط بينك، ناعم، يحتفظ بالتفاصيل</string>
+    <string name="model_antialias">القضاء على تأثير خطوة الدرج، والتنعيم</string>
+    <string name="model_kdm_scans">الأعمال الفنية/الرسومات الممسوحة ضوئيًا، والضغط الخفيف، والتموج في النسيج</string>
+    <string name="model_bandage">النطاقات اللونية</string>
+    <string name="model_halftone">بطيئة، وإزالة الألوان النصفية</string>
+    <string name="model_colorizer">أداة تلوين عامة للصور ذات التدرج الرمادي/الأبيض والأسود، للحصول على نتائج أفضل استخدم DDColor</string>
+    <string name="model_deedge">إزالة الحافة</string>
+    <string name="model_desharpen">يزيل الحدة الزائدة</string>
+    <string name="model_dither">بطيء، متردد</string>
+    <string name="model_gainres">تنعيم، التحف العامة، CGI</string>
+    <string name="model_kdm003_scans">معالجة المسح الضوئي KDM003</string>
+    <string name="model_nmkd_jaywreck3_lite">نموذج تحسين الصورة خفيف الوزن</string>
+    <string name="model_bcgone_detailed_v2">إزالة قطعة أثرية الضغط</string>
+    <string name="model_bcgone_smooth">إزالة قطعة أثرية الضغط</string>
+    <string name="model_bandage_smooth">إزالة الضمادات مع نتائج سلسة</string>
+    <string name="model_bendel_halftone">معالجة نمط الألوان النصفية</string>
+    <string name="model_dither_deleter_v3_smooth">إزالة نمط التردد V3</string>
+    <string name="model_jpeg_destroyer_v2">إزالة آثار JPEG V2</string>
+    <string name="model_nmkd_h264_texturize">تحسين نسيج H.264</string>
+    <string name="model_vhs_sharpen">شحذ وتعزيز VHS</string>
+    <string name="merging">دمج</string>
+    <string name="chunk_size">حجم القطعة</string>
+    <string name="overlap_size">حجم التداخل</string>
+    <string name="note_chunk_info">سيتم تقطيع الصور التي يزيد حجمها عن %1$d بكسل إلى شرائح ومعالجتها إلى أجزاء، ويتم مزجها بشكل متداخل لمنع ظهور طبقات مرئية.</string>
+    <string name="large_chunk_warning">يمكن أن تؤدي الأحجام الكبيرة إلى عدم الاستقرار مع الأجهزة المنخفضة الجودة</string>
+    <string name="select_one_to_start">اختر واحدة للبدء</string>
+    <string name="delete_model_sub">هل تريد حذف نموذج %s؟ سوف تحتاج إلى تنزيله مرة أخرى</string>
+    <string name="confirm">يتأكد</string>
+    <string name="models">نماذج</string>
+    <string name="downloaded_models">النماذج التي تم تنزيلها</string>
+    <string name="available_models">النماذج المتاحة</string>
+    <string name="preparing">تحضير</string>
+    <string name="active_model">نموذج نشط</string>
+    <string name="failed_to_open_session">فشل فتح الجلسة</string>
+    <string name="only_onnx_models">يمكن استيراد نماذج .onnx/.ort فقط</string>
+    <string name="import_model">نموذج الاستيراد</string>
+    <string name="import_model_sub">استيراد نموذج onnx مخصص لمزيد من الاستخدام، يتم قبول نماذج onnx/ort فقط، ويدعم جميع المتغيرات المشابهة لـ esrgan تقريبًا</string>
+    <string name="imported_models">موديلات مستوردة</string>
+    <string name="model_scunet_color_15_fp16">الضوضاء العامة والصور الملونة</string>
+    <string name="model_scunet_color_25_fp16">الضوضاء العامة، الصور الملونة، أقوى</string>
+    <string name="model_scunet_color_50_fp16">الضوضاء العامة، الصور الملونة، الأقوى</string>
+    <string name="model_artifacts_dithering_alsa">يقلل من ثبات الألوان ونطاقات الألوان، مما يحسن التدرجات الناعمة ومناطق الألوان المسطحة.</string>
+    <string name="model_nmkd_brighten_redux">يعزز سطوع الصورة وتباينها من خلال الإبرازات المتوازنة مع الحفاظ على الألوان الطبيعية.</string>
+    <string name="model_nmkd_brighten">يقوم بتفتيح الصور الداكنة مع الحفاظ على التفاصيل وتجنب التعرض المفرط.</string>
+    <string name="model_nmkd_detoon">يزيل تنغيم اللون الزائد ويستعيد توازن اللون الأكثر حيادية وطبيعية.</string>
+    <string name="model_noise_toner_poisson_detailed">يطبق تنغيم الضوضاء المعتمد على Poisson مع التركيز على الحفاظ على التفاصيل الدقيقة والأنسجة.</string>
+    <string name="model_noise_toner_poisson_soft">يطبق تنغيم ضوضاء Poisson الناعم للحصول على نتائج بصرية أكثر سلاسة وأقل عدوانية.</string>
+    <string name="model_noise_toner_uniform_detailed">يركز تنغيم الضوضاء الموحد على الحفاظ على التفاصيل ووضوح الصورة.</string>
+    <string name="model_noise_toner_uniform_soft">نغمة ضوضاء موحدة لطيفة للحصول على ملمس رقيق ومظهر ناعم.</string>
+    <string name="model_repainter">إصلاح المناطق التالفة أو غير المستوية عن طريق إعادة طلاء القطع الأثرية وتحسين تناسق الصورة.</string>
+    <string name="model_debandurh_fs_ultra_lite">نموذج debanding خفيف الوزن يزيل نطاقات الألوان بأقل تكلفة للأداء.</string>
+    <string name="model_jpeg_0_20">يعمل على تحسين الصور باستخدام عناصر ضغط عالية جدًا (جودة 0-20%) لتحسين الوضوح.</string>
+    <string name="model_jpeg_20_40">تحسين الصور بتأثيرات ضغط عالية (جودة 20-40%)، واستعادة التفاصيل وتقليل التشويش.</string>
+    <string name="model_jpeg_40_60">يعمل على تحسين الصور بالضغط المعتدل (جودة 40-60%)، وموازنة الحدة والنعومة.</string>
+    <string name="model_jpeg_60_80">ينقي الصور بضغط خفيف (جودة 60-80%) لتحسين التفاصيل والأنسجة الدقيقة.</string>
+    <string name="model_jpeg_80_100">يعمل على تحسين الصور التي لا يمكن فقدانها تقريبًا (جودة 80-100%) مع الحفاظ على المظهر والتفاصيل الطبيعية.</string>
+    <string name="model_spongecolor_lite">تلوين بسيط وسريع، رسوم متحركة، ليست مثالية</string>
+    <string name="model_deblr">يقلل من ضبابية الصورة قليلاً، ويحسن الحدة دون إدخال أي تشويش.</string>
+    <string name="processing_channel">عمليات تشغيل طويلة</string>
+    <string name="processing_image">معالجة الصورة</string>
+    <string name="processing">يعالج</string>
+    <string name="model_artifacts_jpg_0_20">يزيل آثار ضغط JPEG الثقيلة في الصور ذات الجودة المنخفضة جدًا (0-20%).</string>
+    <string name="model_artifacts_jpg_20_40">يقلل من آثار JPEG القوية في الصور المضغوطة للغاية (20-40%).</string>
+    <string name="model_artifacts_jpg_40_60">ينظف عناصر JPEG المعتدلة مع الحفاظ على تفاصيل الصورة (40-60%).</string>
+    <string name="model_artifacts_jpg_60_80">ينقي عناصر JPEG الخفيفة في صور ذات جودة عالية إلى حد ما (60-80%).</string>
+    <string name="model_artifacts_jpg_80_100">يقلل بمهارة من آثار JPEG البسيطة في الصور التي لا تفقد البيانات تقريبًا (80-100%).</string>
+    <string name="model_redetail_v2">يعزز التفاصيل الدقيقة والأنسجة، مما يحسن الحدة الملموسة دون المؤثرات الثقيلة.</string>
+    <string name="processing_finished">انتهت المعالجة</string>
+    <string name="processing_failed">فشلت المعالجة</string>
+    <string name="model_itf_skin_diffdetail_lite">يعزز نسيج البشرة وتفاصيلها مع الحفاظ على المظهر الطبيعي، الأمثل للسرعة.</string>
+    <string name="model_sbdv_dejpeg">يزيل آثار ضغط JPEG ويستعيد جودة الصورة للصور المضغوطة.</string>
+    <string name="model_iso_denoise_v1">يقلل من ضوضاء ISO في الصور الملتقطة في ظروف الإضاءة المنخفضة، مع الحفاظ على التفاصيل.</string>
+    <string name="model_dejumbo">يصحح التعريض الزائد أو التظليلات \"الضخمة\" ويستعيد توازنًا لونيًا أفضل.</string>
+    <string name="model_ddcolor_tiny">نموذج تلوين خفيف الوزن وسريع يضيف ألوانًا طبيعية إلى الصور ذات التدرج الرمادي.</string>
+    <string name="type_dejpeg">ديجبيج</string>
+    <string name="type_denoise">دينواز</string>
+    <string name="type_colorize">تلوين</string>
+    <string name="type_artifacts">التحف</string>
+    <string name="type_enhance">يحسن</string>
+    <string name="type_anime">أنيمي</string>
+    <string name="type_scans">المسح</string>
+    <string name="type_upscale">الراقي</string>
+    <string name="model_realesrgan_x4v3">جهاز ترقية X4 للصور العامة؛ نموذج صغير يستخدم وحدة معالجة الرسومات (GPU) ووقتًا أقل، مع تقليل التشويش وتقليل الضوضاء بشكل معتدل.</string>
+    <string name="model_realesrgan_x2plus">جهاز ترقية X2 للصور العامة والحفاظ على الأنسجة والتفاصيل الطبيعية.</string>
+    <string name="model_realesrgan_x4plus">أداة ترقية X4 للصور العامة مع مواد محسنة ونتائج واقعية.</string>
+    <string name="model_realesrgan_x4plus_anime">مُحسّن X4 لصور الأنيمي؛ 6 كتل RRDB لخطوط وتفاصيل أكثر وضوحًا.</string>
+    <string name="model_realesrnet_x4plus">يؤدي جهاز ترقية X4 مع فقدان MSE إلى الحصول على نتائج أكثر سلاسة وتقليل الشوائب للصور العامة.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler مُحسّن لصور الأنيمي؛ متغير 4B32F بتفاصيل أكثر وضوحًا وخطوط ناعمة.</string>
+    <string name="model_ultrasharp_v2_x4">طراز X4 UltraSharp V2 للصور العامة؛ يؤكد الحدة والوضوح.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 ألتراشارب V2 لايت؛ أسرع وأصغر، ويحافظ على التفاصيل مع استخدام ذاكرة GPU أقل.</string>
+    <string name="model_rmbg_1_4">نموذج خفيف الوزن لإزالة الخلفية بسرعة. الأداء المتوازن والدقة. يعمل مع الصور والأشياء والمشاهد. يوصى به لمعظم حالات الاستخدام.</string>
+    <string name="model_rmbg_2_0">نسخة محسنة مع معالجة فائقة للتفاصيل. أفضل مع الخلفيات المعقدة والكائنات الشفافة. دقة أعلى ولكنها تتطلب المزيد من قوة المعالجة.</string>
+    <string name="type_removebg">إزالة بي جي</string>
+    <string name="horizontal_border_thickness">سمك الحدود الأفقية</string>
+    <string name="vertical_border_thickness">سمك الحدود العمودية</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -1626,7 +1628,7 @@
     <string name="top_to_bottom">Oben nach unten</string>
     <string name="invisible_mode">Unsichtbarer Modus</string>
     <string name="sort_by_date_modified">Datum geändert</string>
-    <string name="crash_title">Ups... da ist etwas schief gelaufen</string>
+    <string name="crash_title">Ups… da ist etwas schief gelaufen</string>
     <string name="bottom_to_top">Unten nach oben</string>
     <string name="send_logs_sub">Klicken, um die Protokolldatei der App zu teilen. Dies kann mir helfen, das Problem zu erkennen und zu beheben.</string>
     <string name="invisible_mode_sub">Verwende Steganografie, um unsichtbare Wasserzeichen in Bytes deiner Bilder zu erstellen</string>
@@ -1838,4 +1840,165 @@
     <string name="model_nmkd_h264_texturize">H.264-Texturverbesserung</string>
     <string name="model_vhs_sharpen">VHS-Schärfung und -Verbesserung</string>
     <string name="merging">Zusammenführung</string>
+    <string name="flood_fill">Hochwasserfüllung</string>
+    <string name="spray">Spray</string>
+    <string name="spray_sub">Zeichnet einen Pfad im Graffiti-Stil</string>
+    <string name="square_particles">Quadratische Teilchen</string>
+    <string name="square_particles_sub">Die Sprühpartikel haben eine quadratische statt kreisförmige Form</string>
+    <string name="palette_tools">Palettenwerkzeuge</string>
+    <string name="palette_tools_sub">Generieren Sie Basismaterial/Palettenmaterial aus einem Bild oder importieren/exportieren Sie es über verschiedene Palettenformate hinweg</string>
+    <string name="edit_palette">Palette bearbeiten</string>
+    <string name="edit_palette_sub">Export-/Importpalette für verschiedene Formate</string>
+    <string name="color_name">Farbname</string>
+    <string name="palette_name">Palettenname</string>
+    <string name="palette_format">Palettenformat</string>
+    <string name="export_palette_sub">Exportieren Sie die generierte Palette in verschiedene Formate</string>
+    <string name="add_color_palette_sub">Fügt der aktuellen Palette eine neue Farbe hinzu</string>
+    <string name="palette_name_not_supported">Das Format %s unterstützt die Angabe des Palettennamens nicht</string>
+    <string name="wallpapers_export_not_avaialbe">Aufgrund der Play Store-Richtlinien kann diese Funktion nicht in den aktuellen Build aufgenommen werden. Um auf diese Funktionalität zuzugreifen, laden Sie ImageToolbox bitte von einer alternativen Quelle herunter. Die verfügbaren Builds finden Sie unten auf GitHub.</string>
+    <string name="open_github_page">Öffnen Sie die Github-Seite</string>
+    <string name="overwrite_files_sub_short">Die Originaldatei wird durch eine neue ersetzt, anstatt sie im ausgewählten Ordner zu speichern</string>
+    <string name="hidden_watermark_text_detected">Versteckter Wasserzeichentext erkannt</string>
+    <string name="hidden_watermark_image_detected">Verstecktes Wasserzeichenbild erkannt</string>
+    <string name="this_image_was_hidden">Dieses Bild wurde ausgeblendet</string>
+    <string name="generative_inpaint">Generatives Inpainting</string>
+    <string name="generative_inpaint_sub">Ermöglicht das Entfernen von Objekten in einem Bild mithilfe eines KI-Modells, ohne auf OpenCV angewiesen zu sein. Um diese Funktion zu nutzen, lädt die App das erforderliche Modell (~200 MB) von GitHub herunter</string>
+    <string name="generative_inpaint_ready_sub">Ermöglicht das Entfernen von Objekten in einem Bild mithilfe eines KI-Modells, ohne auf OpenCV angewiesen zu sein. Dies könnte ein langwieriger Vorgang sein</string>
+    <string name="error_level_analysis">Fehlerebenenanalyse</string>
+    <string name="luminance_gradient">Luminanzgradient</string>
+    <string name="average_distance">Durchschnittliche Entfernung</string>
+    <string name="copy_move_detection">Kopierbewegungserkennung</string>
+    <string name="retain">Zurückbehalten</string>
+    <string name="coefficent">Koeffizient</string>
+    <string name="clipboard_data_is_too_large">Die Daten in der Zwischenablage sind zu groß</string>
+    <string name="data_is_too_large_to_copy">Die Daten sind zu groß zum Kopieren</string>
+    <string name="simple_weave_pixelization">Einfache Webpixelisierung</string>
+    <string name="staggered_pixelization">Gestaffelte Pixelisierung</string>
+    <string name="cross_pixelization">Kreuzpixelisierung</string>
+    <string name="micro_macro_pixelization">Mikro-Makro-Pixelisierung</string>
+    <string name="orbital_pixelization">Orbitale Pixelisierung</string>
+    <string name="vortex_pixelization">Vortex-Pixelisierung</string>
+    <string name="pulse_grid_pixelization">Pulsgitterpixelisierung</string>
+    <string name="nucleus_pixelization">Kernpixelisierung</string>
+    <string name="radial_weave_pixelization">Radiale Webpixelisierung</string>
+    <string name="cannot_open_uri">URI „%s“ kann nicht geöffnet werden</string>
+    <string name="glitch_variant">Glitch-Variante</string>
+    <string name="channel_shift">Kanalverschiebung</string>
+    <string name="max_offset">Maximaler Versatz</string>
+    <string name="vhs">VHS</string>
+    <string name="block_glitch">Glitch blockieren</string>
+    <string name="block_size">Blockgröße</string>
+    <string name="crt_curvature">CRT-Krümmung</string>
+    <string name="curvature">Krümmung</string>
+    <string name="chroma">Chroma</string>
+    <string name="pixel_melt">Pixelschmelze</string>
+    <string name="max_drop">Max Drop</string>
+    <string name="ai_tools">KI-Tools</string>
+    <string name="ai_tools_sub">Verschiedene Tools zur Verarbeitung von Bildern durch KI-Modelle wie Artefaktentfernung oder Rauschunterdrückung</string>
+    <string name="model_anime_undeint">Komprimierung, gezackte Linien</string>
+    <string name="model_broadcast">Cartoons, Broadcast-Komprimierung</string>
+    <string name="model_rgb_max_denoise_fp16">Allgemeine Komprimierung, allgemeines Rauschen</string>
+    <string name="model_wb_denoise">Farbloses Cartoon-Geräusch</string>
+    <string name="model_span_anime_pretrain">Schnell, allgemeine Komprimierung, allgemeines Rauschen, Animation/Comics/Anime</string>
+    <string name="model_book_scan">Scannen von Büchern</string>
+    <string name="model_overexposure">Belichtungskorrektur</string>
+    <string name="model_fbcnn_color_fp16">Am besten bei allgemeiner Komprimierung und Farbbildern</string>
+    <string name="model_fbcnn_gray_fp16">Am besten bei allgemeiner Komprimierung und Graustufenbildern</string>
+    <string name="model_fbcnn_gray_double_fp16">Allgemeine Komprimierung, Graustufenbilder, stärker</string>
+    <string name="model_scunet_color_gan_fp16">Allgemeines Rauschen, Farbbilder</string>
+    <string name="model_scunet_color_psnr_fp16">Allgemeines Rauschen, Farbbilder, bessere Details</string>
+    <string name="model_scunet_gray_15_fp16">Allgemeines Rauschen, Graustufenbilder</string>
+    <string name="model_scunet_gray_25_fp16">Allgemeines Rauschen, Graustufenbilder, stärker</string>
+    <string name="model_scunet_gray_50_fp16">Allgemeines Rauschen, Graustufenbilder, am stärksten</string>
+    <string name="model_jpeg_destroyer">Allgemeine Komprimierung</string>
+    <string name="model_jaywreck">Allgemeine Komprimierung</string>
+    <string name="model_h264">Texturierung, h264-Komprimierung</string>
+    <string name="model_vhs">VHS-Komprimierung</string>
+    <string name="model_cinepak">Nicht standardmäßige Komprimierung (cinepak, msvideo1, roq)</string>
+    <string name="model_debink_v4">Bink-Komprimierung, bessere Geometrie</string>
+    <string name="model_debink_v5">Bink-Kompression, stärker</string>
+    <string name="model_debink_v6">Bink-Kompression, weich, behält Details bei</string>
+    <string name="model_kdm_scans">Gescannte Kunstwerke/Zeichnungen, leichte Komprimierung, Moiré</string>
+    <string name="model_halftone">Langsam, Halbtöne entfernen</string>
+    <string name="model_colorizer">Allgemeiner Kolorierer für Graustufen-/Schwarzweißbilder. Für bessere Ergebnisse verwenden Sie DDColor</string>
+    <string name="model_desharpen">Entfernt Überschärfung</string>
+    <string name="model_dither">Langsam, zögerlich</string>
+    <string name="model_kdm003_scans">KDM003 scannt die Verarbeitung</string>
+    <string name="model_nmkd_jaywreck3_lite">Leichtes Bildverbesserungsmodell</string>
+    <string name="model_bandage_smooth">Verbandentfernung mit reibungslosem Ergebnis</string>
+    <string name="model_bendel_halftone">Verarbeitung von Halbtonmustern</string>
+    <string name="model_dither_deleter_v3_smooth">Entfernung von Dither-Mustern V3</string>
+    <string name="chunk_size">Stückgröße</string>
+    <string name="note_chunk_info">Bilder über %1$d px werden in Stücke geschnitten und verarbeitet. Durch Überlappung werden diese zusammengefügt, um sichtbare Nähte zu vermeiden.</string>
+    <string name="large_chunk_warning">Große Größen können bei Low-End-Geräten zu Instabilität führen</string>
+    <string name="select_one_to_start">Wählen Sie eine aus, um zu beginnen</string>
+    <string name="delete_model_sub">Möchten Sie das Modell %s löschen? Sie müssen es erneut herunterladen</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="models">Modelle</string>
+    <string name="downloaded_models">Heruntergeladene Modelle</string>
+    <string name="available_models">Verfügbare Modelle</string>
+    <string name="preparing">Vorbereiten</string>
+    <string name="active_model">Aktives Modell</string>
+    <string name="failed_to_open_session">Sitzung konnte nicht geöffnet werden</string>
+    <string name="only_onnx_models">Es können nur .onnx/.ort-Modelle importiert werden</string>
+    <string name="import_model">Modell importieren</string>
+    <string name="import_model_sub">Importieren Sie ein benutzerdefiniertes ONNX-Modell zur weiteren Verwendung. Es werden nur ONNX-/Ort-Modelle akzeptiert. Unterstützt fast alle Esrgan-ähnlichen Varianten</string>
+    <string name="imported_models">Importierte Modelle</string>
+    <string name="model_scunet_color_15_fp16">Allgemeines Rauschen, farbige Bilder</string>
+    <string name="model_scunet_color_25_fp16">Allgemeines Rauschen, farbige Bilder, stärker</string>
+    <string name="model_scunet_color_50_fp16">Allgemeines Rauschen, farbige Bilder, am stärksten</string>
+    <string name="model_artifacts_dithering_alsa">Reduziert Dithering-Artefakte und Farbstreifen und verbessert so sanfte Farbverläufe und flache Farbbereiche.</string>
+    <string name="model_nmkd_brighten_redux">Verbessert die Bildhelligkeit und den Kontrast mit ausgewogenen Glanzlichtern und behält gleichzeitig natürliche Farben bei.</string>
+    <string name="model_nmkd_brighten">Hellt dunkle Bilder auf, behält dabei aber Details bei und vermeidet Überbelichtung.</string>
+    <string name="model_nmkd_detoon">Entfernt übermäßige Farbtöne und stellt eine neutralere und natürlichere Farbbalance wieder her.</string>
+    <string name="model_noise_toner_poisson_detailed">Wendet eine Poisson-basierte Rauschtönung an, wobei der Schwerpunkt auf der Erhaltung feiner Details und Texturen liegt.</string>
+    <string name="model_noise_toner_poisson_soft">Wendet eine sanfte Poisson-Rauschen-Tönung an, um weichere und weniger aggressive visuelle Ergebnisse zu erzielen.</string>
+    <string name="model_noise_toner_uniform_detailed">Die gleichmäßige Rauschtönung konzentrierte sich auf die Erhaltung von Details und Bildklarheit.</string>
+    <string name="model_noise_toner_uniform_soft">Sanfte, gleichmäßige Rauschtönung für eine subtile Textur und ein glattes Erscheinungsbild.</string>
+    <string name="model_repainter">Repariert beschädigte oder unebene Bereiche durch Neulackierung von Artefakten und verbessert die Bildkonsistenz.</string>
+    <string name="model_debandurh_fs_ultra_lite">Leichtes Debanding-Modell, das Farbstreifen mit minimalen Leistungseinbußen entfernt.</string>
+    <string name="model_jpeg_0_20">Optimiert Bilder mit sehr hohen Komprimierungsartefakten (0–20 % Qualität) für verbesserte Klarheit.</string>
+    <string name="model_jpeg_20_40">Verbessert Bilder mit hohen Komprimierungsartefakten (20–40 % Qualität), stellt Details wieder her und reduziert Rauschen.</string>
+    <string name="model_jpeg_40_60">Verbessert Bilder mit mäßiger Komprimierung (40-60 % Qualität) und gleicht Schärfe und Glätte aus.</string>
+    <string name="model_jpeg_60_80">Verfeinert Bilder mit leichter Komprimierung (60–80 % Qualität), um subtile Details und Texturen hervorzuheben.</string>
+    <string name="model_jpeg_80_100">Verbessert nahezu verlustfreie Bilder leicht (80–100 % Qualität) und behält gleichzeitig das natürliche Aussehen und die Details bei.</string>
+    <string name="model_spongecolor_lite">Einfache und schnelle Kolorierung, Cartoons, nicht ideal</string>
+    <string name="model_deblr">Reduziert die Bildunschärfe leicht und verbessert die Schärfe, ohne dass Artefakte entstehen.</string>
+    <string name="processing_channel">Lang andauernde Vorgänge</string>
+    <string name="processing_image">Bild wird verarbeitet</string>
+    <string name="processing">Verarbeitung</string>
+    <string name="model_artifacts_jpg_0_20">Entfernt starke JPEG-Komprimierungsartefakte in Bildern mit sehr geringer Qualität (0–20 %).</string>
+    <string name="model_artifacts_jpg_20_40">Reduziert starke JPEG-Artefakte in stark komprimierten Bildern (20–40 %).</string>
+    <string name="model_artifacts_jpg_40_60">Bereinigt mäßige JPEG-Artefakte unter Beibehaltung der Bilddetails (40–60 %).</string>
+    <string name="model_artifacts_jpg_60_80">Verfeinert leichte JPEG-Artefakte in Bildern mit relativ hoher Qualität (60–80 %).</string>
+    <string name="model_artifacts_jpg_80_100">Reduziert geringfügige JPEG-Artefakte in nahezu verlustfreien Bildern (80–100 %).</string>
+    <string name="model_redetail_v2">Verstärkt feine Details und Texturen und verbessert die wahrgenommene Schärfe ohne starke Artefakte.</string>
+    <string name="processing_finished">Verarbeitung abgeschlossen</string>
+    <string name="processing_failed">Die Verarbeitung ist fehlgeschlagen</string>
+    <string name="model_itf_skin_diffdetail_lite">Verbessert Hauttexturen und -details und behält gleichzeitig ein natürliches Aussehen bei, optimiert für Geschwindigkeit.</string>
+    <string name="model_sbdv_dejpeg">Entfernt JPEG-Komprimierungsartefakte und stellt die Bildqualität für komprimierte Fotos wieder her.</string>
+    <string name="model_iso_denoise_v1">Reduziert das ISO-Rauschen bei Fotos, die bei schlechten Lichtverhältnissen aufgenommen wurden, und bewahrt so Details.</string>
+    <string name="model_dejumbo">Korrigiert überbelichtete oder „riesige“ Glanzlichter und stellt eine bessere Tonbalance wieder her.</string>
+    <string name="model_ddcolor_tiny">Leichtes und schnelles Kolorierungsmodell, das Graustufenbildern natürliche Farben hinzufügt.</string>
+    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_denoise">Denoise</string>
+    <string name="type_colorize">Kolorieren</string>
+    <string name="type_artifacts">Artefakte</string>
+    <string name="type_enhance">Erweitern</string>
+    <string name="type_anime">Anime</string>
+    <string name="type_scans">Scannt</string>
+    <string name="type_upscale">Gehoben</string>
+    <string name="model_realesrgan_x4v3">X4-Upscaler für allgemeine Bilder; Winziges Modell, das weniger GPU und Zeit verbraucht, mit mäßiger Entunschärfe und Rauschunterdrückung.</string>
+    <string name="model_realesrgan_x2plus">X2-Upscaler für allgemeine Bilder unter Beibehaltung von Texturen und natürlichen Details.</string>
+    <string name="model_realesrgan_x4plus">X4-Upscaler für allgemeine Bilder mit verbesserten Texturen und realistischen Ergebnissen.</string>
+    <string name="model_realesrgan_x4plus_anime">X4-Upscaler, optimiert für Anime-Bilder; 6 RRDB-Blöcke für schärfere Linien und Details.</string>
+    <string name="model_realesrnet_x4plus">X4-Upscaler mit MSE-Verlust sorgt für glattere Ergebnisse und weniger Artefakte für allgemeine Bilder.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler optimiert für Anime-Bilder; 4B32F-Variante mit schärferen Details und glatten Linien.</string>
+    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2-Modell für allgemeine Bilder; betont Schärfe und Klarheit.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; schneller und kleiner, behält Details bei und verbraucht weniger GPU-Speicher.</string>
+    <string name="model_rmbg_1_4">Leichtes Modell zur schnellen Hintergrundentfernung. Ausgewogene Leistung und Genauigkeit. Arbeitet mit Porträts, Objekten und Szenen. Empfohlen für die meisten Anwendungsfälle.</string>
+    <string name="model_rmbg_2_0">Verbesserte Version mit überlegener Detailverarbeitung. Besser bei komplexen Hintergründen und transparenten Objekten. Höhere Präzision, erfordert aber mehr Rechenleistung.</string>
+    <string name="type_removebg">BG entfernen</string>
+    <string name="horizontal_border_thickness">Horizontale Randstärke</string>
+    <string name="vertical_border_thickness">Vertikale Randstärke</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -1956,4 +1958,51 @@
     <string name="model_nmkd_detoon">Aşırı renk tonlamasını giderir ve daha nötr ve doğal bir renk dengesi sağlar.</string>
     <string name="model_noise_toner_poisson_detailed">İnce ayrıntıları ve dokuları korumaya önem vererek Poisson tabanlı gürültü tonlaması uygular.</string>
     <string name="model_noise_toner_poisson_soft">Daha yumuşak ve daha az agresif görsel sonuçlar için yumuşak Poisson gürültü tonlaması uygular.</string>
+    <string name="model_noise_toner_uniform_detailed">Tek tip gürültü tonlaması, ayrıntıların korunmasına ve görüntü netliğine odaklanmıştır.</string>
+    <string name="model_noise_toner_uniform_soft">İnce doku ve pürüzsüz görünüm için yumuşak, düzgün gürültü tonlaması.</string>
+    <string name="model_repainter">Artefaktları yeniden boyayarak ve görüntü tutarlılığını iyileştirerek hasarlı veya düzgün olmayan alanları onarır.</string>
+    <string name="model_debandurh_fs_ultra_lite">Minimum performans maliyetiyle renkli bantlamayı ortadan kaldıran hafif bant açma modeli.</string>
+    <string name="model_jpeg_0_20">Daha iyi netlik için çok yüksek sıkıştırma kusurlarına (%0-20 kalite) sahip görüntüleri optimize eder.</string>
+    <string name="model_jpeg_20_40">Görüntüleri yüksek sıkıştırma kusurlarıyla (%20-40 kalite) geliştirir, ayrıntıları geri yükler ve gürültüyü azaltır.</string>
+    <string name="model_jpeg_40_60">Orta düzeyde sıkıştırma (%40-60 kalite) ile görüntüleri iyileştirir, keskinliği ve pürüzsüzlüğü dengeler.</string>
+    <string name="model_jpeg_60_80">İnce ayrıntıları ve dokuları geliştirmek için görüntüleri hafif sıkıştırmayla (%60-80 kalite) iyileştirir.</string>
+    <string name="model_jpeg_80_100">Doğal görünümü ve ayrıntıları korurken neredeyse kayıpsız görüntüleri (%80-100 kalite) biraz geliştirir.</string>
+    <string name="model_deblr">Görüntü bulanıklığını bir miktar azaltarak, yapaylık yaratmadan keskinliği artırır.</string>
+    <string name="processing_channel">Uzun süren işlemler</string>
+    <string name="processing_image">Resim işleniyor</string>
+    <string name="processing">İşleme</string>
+    <string name="model_artifacts_jpg_0_20">Çok düşük kaliteli görüntülerdeki (%0-20) ağır JPEG sıkıştırma bozulmalarını ortadan kaldırır.</string>
+    <string name="model_artifacts_jpg_20_40">Yüksek oranda sıkıştırılmış görüntülerde (%20-40) güçlü JPEG bozulmalarını azaltır.</string>
+    <string name="model_artifacts_jpg_40_60">Görüntü ayrıntılarını (%40-60) korurken orta düzeydeki JPEG bozulmalarını temizler.</string>
+    <string name="model_artifacts_jpg_60_80">Oldukça yüksek kaliteli görüntülerde (%60-80) hafif JPEG bozulmalarını iyileştirir.</string>
+    <string name="model_artifacts_jpg_80_100">Neredeyse kayıpsız görüntülerdeki küçük JPEG bozulmalarını ustalıkla azaltır (%80-100).</string>
+    <string name="model_redetail_v2">İnce ayrıntıları ve dokuları geliştirerek, ağır artefaktlar olmadan algılanan keskinliği artırır.</string>
+    <string name="processing_finished">İşleme tamamlandı</string>
+    <string name="processing_failed">İşleme başarısız oldu</string>
+    <string name="model_itf_skin_diffdetail_lite">Hız için optimize edilmiş doğal görünümü korurken cilt dokularını ve ayrıntılarını geliştirir.</string>
+    <string name="model_sbdv_dejpeg">JPEG sıkıştırma bozukluklarını ortadan kaldırır ve sıkıştırılmış fotoğraflar için görüntü kalitesini geri yükler.</string>
+    <string name="model_iso_denoise_v1">Düşük ışık koşullarında çekilen fotoğraflardaki ISO gürültüsünü azaltarak ayrıntıları korur.</string>
+    <string name="model_dejumbo">Aşırı pozlanmış veya \"jumbo\" vurguları düzeltir ve daha iyi ton dengesi sağlar.</string>
+    <string name="model_ddcolor_tiny">Gri tonlamalı görüntülere doğal renkler katan hafif ve hızlı renklendirme modeli.</string>
+    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_denoise">gürültüyü giderme</string>
+    <string name="type_colorize">Renklendir</string>
+    <string name="type_artifacts">eserler</string>
+    <string name="type_enhance">Genişletmek</string>
+    <string name="type_anime">anime</string>
+    <string name="type_scans">taramalar</string>
+    <string name="type_upscale">Lüks</string>
+    <string name="model_realesrgan_x4v3">Genel görüntüler için X4 ölçekleyici; Daha az GPU ve zaman kullanan, orta düzeyde bulanıklık giderme ve gürültü giderme özelliğine sahip küçük model.</string>
+    <string name="model_realesrgan_x2plus">Genel görüntüler için X2 görüntü yükseltici, dokuları ve doğal ayrıntıları korur.</string>
+    <string name="model_realesrgan_x4plus">Gelişmiş dokulara ve gerçekçi sonuçlara sahip genel görüntüler için X4 görüntü yükseltici.</string>
+    <string name="model_realesrgan_x4plus_anime">Anime görüntüleri için optimize edilmiş X4 görüntü yükseltici; Daha keskin çizgiler ve ayrıntılar için 6 RRDB bloğu.</string>
+    <string name="model_realesrnet_x4plus">MSE kaybına sahip X4 görüntü yükseltici, genel görüntüler için daha düzgün sonuçlar üretir ve yapaylıkları azaltır.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">Anime görüntüleri için optimize edilmiş X4 Upscaler; Daha keskin ayrıntılara ve pürüzsüz hatlara sahip 4B32F modeli.</string>
+    <string name="model_ultrasharp_v2_x4">Genel görüntüler için X4 UltraSharp V2 modeli; keskinliği ve netliği vurgular.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; Daha hızlı ve daha küçük, daha az GPU belleği kullanırken ayrıntıları korur.</string>
+    <string name="model_rmbg_1_4">Hızlı arka plan kaldırma için hafif model. Dengeli performans ve doğruluk. Portreler, nesneler ve sahnelerle çalışır. Çoğu kullanım durumu için önerilir.</string>
+    <string name="model_rmbg_2_0">Üstün detay işleme özelliğine sahip geliştirilmiş versiyon. Karmaşık arka planlar ve şeffaf nesnelerle daha iyi. Daha yüksek hassasiyet ancak daha fazla işlem gücü gerektirir.</string>
+    <string name="type_removebg">BG\'yi kaldır</string>
+    <string name="horizontal_border_thickness">Yatay Kenar Kalınlığı</string>
+    <string name="vertical_border_thickness">Dikey Kenar Kalınlığı</string>
 </resources>

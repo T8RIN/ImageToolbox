@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -1997,4 +1999,12 @@
     <string name="model_realesrgan_x4plus">Покращення масштабування X4 для загальних зображень з покращеними текстурами та реалістичними результатами.</string>
     <string name="model_realesrgan_x4plus_anime">X4-модуль масштабування, оптимізований для аніме-зображень; 6 блоків RRDB для чіткіших ліній та деталей.</string>
     <string name="model_realesrnet_x4plus">Масштабування X4 з втратою MSE забезпечує плавніші результати та зменшує артефакти для загальних зображень.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler, оптимізований для зображень аніме; Варіант 4B32F із більш чіткими деталями та плавними лініями.</string>
+    <string name="model_ultrasharp_v2_x4">Модель X4 UltraSharp V2 для загальних зображень; підкреслює різкість і чіткість.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; швидший і менший, зберігає деталі, використовуючи менше пам’яті GPU.</string>
+    <string name="model_rmbg_1_4">Легка модель для швидкого видалення фону. Збалансована продуктивність і точність. Працює з портретами, об’єктами та сценами. Рекомендовано для більшості випадків використання.</string>
+    <string name="model_rmbg_2_0">Покращена версія з чудовою обробкою деталей. Краще зі складним фоном і прозорими об’єктами. Вища точність, але вимагає більшої потужності обробки.</string>
+    <string name="type_removebg">Видаліть BG</string>
+    <string name="horizontal_border_thickness">Товщина горизонтальної межі</string>
+    <string name="vertical_border_thickness">Товщина вертикальної межі</string>
 </resources>

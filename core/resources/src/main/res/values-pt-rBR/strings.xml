@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -1844,7 +1846,6 @@
     <string name="open_github_page">Abrir página do Github</string>
     <plurals name="color_count">
         <item quantity="one">%s cor</item>
-        <item quantity="many">%s cores</item>
         <item quantity="other">%s cores</item>
     </plurals>
     <string name="overwrite_files_sub_short">O arquivo original será substituído por um novo, em vez de ser salvo na pasta selecionada</string>
@@ -1972,4 +1973,36 @@
     <string name="processing">Processando</string>
     <string name="model_artifacts_jpg_0_20">Remove artefatos de compressão JPEG pesados em imagens de qualidade muito baixa (0-20%).</string>
     <string name="model_artifacts_jpg_20_40">Reduz artefatos JPEG fortes em imagens altamente comprimidas (20-40%).</string>
+    <string name="model_artifacts_jpg_40_60">Limpa artefatos JPEG moderados enquanto preserva os detalhes da imagem (40-60%).</string>
+    <string name="model_artifacts_jpg_60_80">Refina artefatos JPEG leves em imagens de qualidade bastante alta (60-80%).</string>
+    <string name="model_artifacts_jpg_80_100">Reduz sutilmente pequenos artefatos JPEG em imagens quase sem perdas (80-100%).</string>
+    <string name="model_redetail_v2">Aprimora detalhes e texturas finas, melhorando a nitidez percebida sem artefatos pesados.</string>
+    <string name="processing_finished">Processamento concluído</string>
+    <string name="processing_failed">Falha no processamento</string>
+    <string name="model_itf_skin_diffdetail_lite">Melhora as texturas e detalhes da pele, mantendo uma aparência natural, otimizada para velocidade.</string>
+    <string name="model_sbdv_dejpeg">Remove artefatos de compactação JPEG e restaura a qualidade da imagem para fotos compactadas.</string>
+    <string name="model_iso_denoise_v1">Reduz o ruído ISO em fotos tiradas em condições de pouca luz, preservando os detalhes.</string>
+    <string name="model_dejumbo">Corrige realces superexpostos ou “jumbo” e restaura um melhor equilíbrio tonal.</string>
+    <string name="model_ddcolor_tiny">Modelo de colorização leve e rápido que adiciona cores naturais às imagens em tons de cinza.</string>
+    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_denoise">Denoise</string>
+    <string name="type_colorize">Colorir</string>
+    <string name="type_artifacts">Artefatos</string>
+    <string name="type_enhance">Melhorar</string>
+    <string name="type_anime">Anime</string>
+    <string name="type_scans">Verificações</string>
+    <string name="type_upscale">Sofisticado</string>
+    <string name="model_realesrgan_x4v3">Upscaler X4 para imagens gerais; modelo minúsculo que usa menos GPU e tempo, com desfoque e redução de ruído moderados.</string>
+    <string name="model_realesrgan_x2plus">Upscaler X2 para imagens gerais, preservando texturas e detalhes naturais.</string>
+    <string name="model_realesrgan_x4plus">Upscaler X4 para imagens gerais com texturas aprimoradas e resultados realistas.</string>
+    <string name="model_realesrgan_x4plus_anime">Upscaler X4 otimizado para imagens de anime; 6 blocos RRDB para linhas e detalhes mais nítidos.</string>
+    <string name="model_realesrnet_x4plus">O upscaler X4 com perda de MSE produz resultados mais suaves e artefatos reduzidos para imagens gerais.</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler otimizado para imagens de anime; Variante 4B32F com detalhes mais nítidos e linhas suaves.</string>
+    <string name="model_ultrasharp_v2_x4">Modelo X4 UltraSharp V2 para imagens gerais; enfatiza nitidez e clareza.</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; mais rápido e menor, preserva os detalhes enquanto usa menos memória da GPU.</string>
+    <string name="model_rmbg_1_4">Modelo leve para remoção rápida de fundo. Desempenho e precisão equilibrados. Trabalha com retratos, objetos e cenas. Recomendado para a maioria dos casos de uso.</string>
+    <string name="model_rmbg_2_0">Versão aprimorada com manuseio de detalhes superior. Melhor com fundos complexos e objetos transparentes. Maior precisão, mas requer mais poder de processamento.</string>
+    <string name="type_removebg">Remover glicemia</string>
+    <string name="horizontal_border_thickness">Espessura da borda horizontal</string>
+    <string name="vertical_border_thickness">Espessura da borda vertical</string>
 </resources>
