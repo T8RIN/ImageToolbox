@@ -1122,7 +1122,7 @@
     <string name="delete_template_warn">Du er ved at slette det valgte skabelonfilter. Denne handling kan ikke fortrydes</string>
     <string name="added_filter_template">Tilføjet filterskabelon med navnet \"%1$s\" (%2$d)</string>
     <string name="filter_preview">Forhåndsvisning af filter</string>
-    <string name="qr_code">QR &amp;amp; stregkode</string>
+    <string name="qr_code">QR &amp; stregkode</string>
     <string name="qr_code_sub">Scan QR-koden og få dens indhold, eller indsæt din streng for at generere en ny</string>
     <string name="code_content">Kodeindhold</string>
     <string name="scan_qr_code_to_replace_content">Scan en hvilken som helst stregkode for at erstatte indhold i feltet, eller skriv noget for at generere ny stregkode med den valgte type</string>
