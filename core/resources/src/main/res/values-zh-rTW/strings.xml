@@ -2014,4 +2014,8 @@
     <string name="models"></string>
     <string name="x_width"></string>
     <string name="model_kdm_scans"></string>
+    <string name="ocr_write_to_metadata_sub"></string>
+    <string name="invisible_mode"></string>
+    <string name="ocr_write_to_file_sub"></string>
+    <string name="invisible_mode_sub"></string>
 </resources>
