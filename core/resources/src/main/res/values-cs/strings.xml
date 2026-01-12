@@ -440,7 +440,7 @@
     <string name="recognize_text">OCR (rozpoznat text)</string>
     <string name="recognize_text_sub">Rozpoznejte text z daného obrázku, podporováno více než 120 jazyků</string>
     <string name="picture_has_no_text">Obrázek neobsahuje žádný text nebo jej aplikace nenašla</string>
-    <string name="accuracy">Přesnost: %1$d</string>
+    <string name="accuracy">Přesnost: %1$s</string>
     <string name="recognition_type">Typ rozpoznávání</string>
     <string name="fast">Rychle</string>
     <string name="available_languages">Dostupné jazyky</string>
@@ -696,7 +696,7 @@
     <string name="check_for_updates">Kontrola aktualizací</string>
     <string name="wait">Počkejte</string>
     <string name="effort">Snaha</string>
-    <string name="effort_sub">Hodnota %1$d znamená rychlou kompresi, která má za následek relativně velkou velikost souboru. %2$d znamená pomalejší kompresi, výsledkem je menší soubor.</string>
+    <string name="effort_sub">Hodnota %1$s znamená rychlou kompresi, která má za následek relativně velkou velikost souboru. %2$s znamená pomalejší kompresi, výsledkem je menší soubor.</string>
     <string name="saving_almost_complete">Ukládání téměř dokončeno. Zrušení nyní bude vyžadovat opětovné uložení.</string>
     <string name="presets_sub_bytes">Předvolba zde určuje % výstupního souboru, tj. pokud zvolíte předvolbu 50 na 5mb obrázku, získáte po uložení obrázek 2,5mb</string>
     <string name="presets_sub" formatted="false">Pokud jste vybrali předvolbu 125, obrázek se uloží jako velikost 125 % původního obrázku se 100% kvalitou. Pokud zvolíte předvolbu 50, obrázek se uloží s 50% velikostí a 50% kvalitou.</string>
@@ -740,7 +740,7 @@
     <string name="side_by_side">Bok po boku</string>
     <string name="toggle_tap">Přepnout klepnutím</string>
     <string name="transparency">Průhlednost</string>
-    <string name="saved_to_original">Přepsaný soubor s názvem %s v původním umístění</string>
+    <string name="saved_to_original">Přepsaný soubor s názvem %1$s v původním umístění</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Povolí lupu v horní části prstu v režimech kreslení pro lepší přístupnost</string>
     <string name="force_exif_widget_initial_value">Vynutit počáteční hodnotu</string>
@@ -892,7 +892,7 @@
     <string name="harmonization_color">Harmonizační barva</string>
     <string name="harmonization_level">Úroveň harmonizace</string>
     <string name="convert">Konvertovat</string>
-    <string name="speed_sub">Určuje výslednou rychlost dekódování obrázku, tato funkce může napomoci k rychlejšímu otevření obrázku, hodnota %1$d znamená pomalejší dekódování, kdežto %2$d rychlejší, zároveň může zvětšit velikost výstupního obrázku.</string>
+    <string name="speed_sub">Určuje výslednou rychlost dekódování obrázku, tato funkce může napomoci k rychlejšímu otevření obrázku, hodnota %1$s znamená pomalejší dekódování, kdežto %2$s rychlejší, zároveň může zvětšit velikost výstupního obrázku.</string>
     <string name="reset_properties">Obnovit výchozí hodnoty nastavení</string>
     <string name="reset_properties_sub">Všechna nastavení budou obnovena na výchozí hodnoty, uvědomte si, že tato akce nemůže být vrácena zpět</string>
     <string name="fit_to_bounds">Přizpůsobit hranicím</string>
@@ -1205,7 +1205,7 @@
     <string name="template_filter">Filtr šablony</string>
     <string name="as_qr_code">Jako obrázek s QR kódem</string>
     <string name="delete_template_warn">Chystáte se smazat vybraný filtr šablony. Tuto operaci nelze vrátit zpět</string>
-    <string name="added_filter_template">Byla přidána šablona filtru s názvem  \"%1$s \" (%2$d)</string>
+    <string name="added_filter_template">Byla přidána šablona filtru s názvem  \"%1$s \" (%2$s)</string>
     <string name="scan_qr_code_to_replace_content">Naskenujte libovolný čárový kód, abyste nahradili obsah v poli, nebo něco napište a vygenerujte nový čárový kód s vybraným typem</string>
     <string name="qr_description">Popis QR</string>
     <string name="min">Min</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Rozložení</string>
     <string name="main_screen_title">Titulek hlavní obrazovky</string>
     <string name="constant_rate_factor">Konstantní rychlostní faktor (CRF)</string>
-    <string name="crf_sub">Hodnota %1$d znamená pomalou kompresi, což má za následek relativně malou velikost souboru. %2$d znamená rychlejší kompresi, výsledkem je velký soubor.</string>
+    <string name="crf_sub">Hodnota %1$s znamená pomalou kompresi, což má za následek relativně malou velikost souboru. %2$s znamená rychlejší kompresi, výsledkem je velký soubor.</string>
     <string name="lut_library">Knihovna Lut</string>
     <string name="lut_library_sub">Stáhněte si kolekci LUT, kterou můžete použít po stažení</string>
     <string name="lut_library_update_sub">Aktualizujte kolekci LUT (pouze nové budou zařazeny do fronty), kterou můžete použít po stažení</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Strana rychlého nastavení</string>
     <string name="fast_settings_side_sub">Při úpravě obrázků přidejte na vybranou stranu plovoucí pruh, který po kliknutí otevře rychlé nastavení</string>
     <string name="clear_selection">Jasný výběr</string>
-    <string name="settings_group_visibility_hidden">Skupina nastavení  \"%s \" bude ve výchozím nastavení sbalená</string>
-    <string name="settings_group_visibility_visible">Skupina nastavení  \"%s \" bude ve výchozím nastavení rozbalena</string>
+    <string name="settings_group_visibility_hidden">Skupina nastavení  \"%1$s \" bude ve výchozím nastavení sbalená</string>
+    <string name="settings_group_visibility_visible">Skupina nastavení  \"%1$s \" bude ve výchozím nastavení rozbalena</string>
     <string name="base_64_tools">Nástroje Base64</string>
     <string name="base_64_tools_sub">Dekódujte řetězec Base64 na obrázek nebo zakódujte obrázek do formátu Base64</string>
     <string name="base_64">Základní 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Zpracování snímku obrazovky</string>
     <string name="screenshot_not_captured_try_again">Snímek obrazovky nebyl zachycen, zkuste to znovu</string>
     <string name="skipped_saving">Ukládání bylo přeskočeno</string>
-    <string name="skipped_saving_multiple">%1$d souborů přeskočeno</string>
+    <string name="skipped_saving_multiple">%1$s souborů přeskočeno</string>
     <string name="allow_skip_if_larger">Povolit přeskočení, pokud je větší</string>
     <string name="allow_skip_if_larger_sub">Některé nástroje budou moci přeskočit ukládání obrázků, pokud by výsledná velikost souboru byla větší než původní</string>
     <string name="qr_type_calendar_event">Kalendář událostí</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Formát palety</string>
     <string name="export_palette_sub">Export vygenerované palety do různých formátů</string>
     <string name="add_color_palette_sub">Přidá novou barvu do aktuální palety</string>
-    <string name="palette_name_not_supported">Formát %s nepodporuje zadání názvu palety</string>
+    <string name="palette_name_not_supported">Formát %1$s nepodporuje zadání názvu palety</string>
     <string name="wallpapers_export_not_avaialbe">Kvůli zásadám Obchodu Play nelze tuto funkci zahrnout do aktuálního sestavení. Chcete-li získat přístup k této funkci, stáhněte si ImageToolbox z alternativního zdroje. Dostupné sestavení na GitHubu najdete níže.</string>
     <string name="open_github_page">Otevřete stránku Github</string>
     <string name="overwrite_files_sub_short">Původní soubor bude nahrazen novým souborem namísto uložení do vybrané složky</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelizace pulzní mřížky</string>
     <string name="nucleus_pixelization">Pixelizace jádra</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Nelze otevřít uri  \"%s \"</string>
+    <string name="cannot_open_uri">Nelze otevřít uri  \"%1$s \"</string>
     <string name="snowfall_mode">Režim sněžení</string>
     <string name="enabled">Povoleno</string>
     <string name="border_frame">Hraniční rám</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Sloučení</string>
     <string name="chunk_size">Velikost kousku</string>
     <string name="overlap_size">Velikost překrytí</string>
-    <string name="note_chunk_info">Obrázky větší než %1$d pixelů budou nakrájeny a zpracovány na kousky, které se překrývají, aby se zabránilo viditelným švům.</string>
+    <string name="note_chunk_info">Obrázky větší než %1$s pixelů budou nakrájeny a zpracovány na kousky, které se překrývají, aby se zabránilo viditelným švům.</string>
     <string name="large_chunk_warning">Velké velikosti mohou způsobit nestabilitu u zařízení nižší třídy</string>
     <string name="select_one_to_start">Začněte výběrem jednoho</string>
-    <string name="delete_model_sub">Chcete smazat %s model? Budete si jej muset stáhnout znovu</string>
+    <string name="delete_model_sub">Chcete smazat %1$s model? Budete si jej muset stáhnout znovu</string>
     <string name="confirm">Potvrdit</string>
     <string name="models">Modelky</string>
     <string name="downloaded_models">Stažené modely</string>
@@ -2002,10 +2002,10 @@
     <string name="horizontal_border_thickness">Tloušťka horizontálního okraje</string>
     <string name="vertical_border_thickness">Tloušťka vertikálního okraje</string>
     <plurals name="color_count">
-        <item quantity="many">%s barev</item>
-        <item quantity="one">%s barva</item>
-        <item quantity="few">%s barev</item>
-        <item quantity="other">%s barev</item>
+        <item quantity="many">%1$s barev</item>
+        <item quantity="one">%1$s barva</item>
+        <item quantity="few">%1$s barev</item>
+        <item quantity="other">%1$s barev</item>
     </plurals>
     <string name="current_model_not_chunkable">Aktuální model nepodporuje chunking, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy</string>
     <string name="chunking_disabled">Chunking zakázáno, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy, ale může poskytnout lepší výsledky při odvození</string>

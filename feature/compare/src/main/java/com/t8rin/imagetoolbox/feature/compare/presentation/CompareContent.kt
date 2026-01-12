@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -41,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -73,14 +71,11 @@ fun CompareContent(
 ) {
     val settingsState = LocalSettingsState.current
 
-    val context = LocalContext.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
-
-
 
     LaunchedEffect(component.bitmapData) {
         component.bitmapData?.ifNotEmpty { before, after ->
@@ -96,18 +91,12 @@ fun CompareContent(
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size != 2) {
-            essentials.showToast(
-                message = context.getString(R.string.pick_two_images),
-                icon = Icons.Rounded.ErrorOutline
-            )
+            essentials.showFailureToast(R.string.pick_two_images)
         } else {
             component.updateUris(
                 uris = uris[0] to uris[1],
                 onFailure = {
-                    essentials.showToast(
-                        context.getString(R.string.something_went_wrong),
-                        Icons.Rounded.ErrorOutline
-                    )
+                    essentials.showFailureToast(R.string.something_went_wrong)
                 }
             )
         }

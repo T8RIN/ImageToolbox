@@ -369,7 +369,7 @@
     <string name="analytics_sub">Salli anonyymisen sovelluksen käyttötilastojen keräämiseen</string>
     <string name="image_exif_warning">Tällä hetkellä, %1$s formaatti salli vain EXIF metatietojen luvun Androidilla. Tuloskuvassa ei tule olemaan yhtään tallennettua metatietoa, kun tallennettu.</string>
     <string name="effort">Ponnistus</string>
-    <string name="effort_sub">%1$d :n arvo tarkoittaa nopeaa tiivistystä, johtaen erittäin suureen tiedosto kokoon. %2$d tarkoittaa hitaampaa tiivistystä, johtaen pienempään tiedostoon.</string>
+    <string name="effort_sub">%1$s :n arvo tarkoittaa nopeaa tiivistystä, johtaen erittäin suureen tiedosto kokoon. %2$s tarkoittaa hitaampaa tiivistystä, johtaen pienempään tiedostoon.</string>
     <string name="wait">Odota</string>
     <string name="saving_almost_complete">Tallennus melkein valmis. Peruuttaminen nyt vaatii uudelleen tallennusta.</string>
     <string name="updates">Päivitykset</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (tunnista teksti)</string>
     <string name="recognize_text_sub">Tunnista teksti annetusta kuvasta, tuettu yli 120 kieltä</string>
     <string name="picture_has_no_text">Kuvassa ei ole tekstiä tai sovellus ei löytänyt sitä</string>
-    <string name="accuracy">\"Tarkkuus: %1$d\"</string>
+    <string name="accuracy">\"Tarkkuus: %1$s\"</string>
     <string name="recognition_type">Tunnistustyyppi</string>
     <string name="fast">Nopeasti</string>
     <string name="standard">Vakio</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">Segmentointitila</string>
     <string name="use_pixel_switch">Käytä Pixel Switchiä</string>
     <string name="use_pixel_switch_sub">Käyttää Google Pixelin kaltaista kytkintä</string>
-    <string name="saved_to_original">Ylikirjoitettu tiedosto nimellä %s alkuperäisessä kohteessa</string>
+    <string name="saved_to_original">Ylikirjoitettu tiedosto nimellä %1$s alkuperäisessä kohteessa</string>
     <string name="magnifier">Suurennuslasi</string>
     <string name="magnifier_sub">Ottaa käyttöön suurennuslasin sormen yläosassa piirustustiloissa parantaakseen käytettävyyttä</string>
     <string name="force_exif_widget_initial_value">Pakota alkuarvo</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Häviöinen pakkaus</string>
     <string name="lossy_compression_sub">Käyttää häviöllistä pakkausta pienentääkseen tiedostokokoa häviöttömän sijaan</string>
     <string name="compression_type">Pakkaustyyppi</string>
-    <string name="speed_sub">Säätää tuloksena olevan kuvan dekoodausnopeutta, tämän pitäisi auttaa avaamaan tuloksena olevaa kuvaa nopeammin, arvo %1$d tarkoittaa hitainta dekoodausta, kun taas %2$d - nopein, tämä asetus voi suurentaa ulostulokuvan kokoa</string>
+    <string name="speed_sub">Säätää tuloksena olevan kuvan dekoodausnopeutta, tämän pitäisi auttaa avaamaan tuloksena olevaa kuvaa nopeammin, arvo %1$s tarkoittaa hitainta dekoodausta, kun taas %2$s - nopein, tämä asetus voi suurentaa ulostulokuvan kokoa</string>
     <string name="sorting">Lajittelu</string>
     <string name="sort_by_date">Päivämäärä</string>
     <string name="sort_by_date_reversed">Päivämäärä (käännetty)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Tallenna QR-koodikuvana</string>
     <string name="delete_template">Poista malli</string>
     <string name="delete_template_warn">Olet poistamassa valitun mallisuodattimen. Tätä toimintoa ei voi kumota</string>
-    <string name="added_filter_template">Lisätty suodatinmalli, jonka nimi on \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Lisätty suodatinmalli, jonka nimi on \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Suodattimen esikatselu</string>
     <string name="qr_code">QR &amp;amp; Viivakoodi</string>
     <string name="qr_code_sub">Skannaa QR-koodi ja hae sen sisältö tai liitä merkkijonosi luodaksesi uuden koodin</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Päänäytön otsikko</string>
     <string name="constant_rate_factor">Vakionopeustekijä (CRF)</string>
-    <string name="crf_sub">Arvo %1$d tarkoittaa hidasta pakkausta, joka johtaa suhteellisen pieneen tiedostokokoon. %2$d tarkoittaa nopeampaa pakkausta, joka johtaa suureen tiedostoon.</string>
+    <string name="crf_sub">Arvo %1$s tarkoittaa hidasta pakkausta, joka johtaa suhteellisen pieneen tiedostokokoon. %2$s tarkoittaa nopeampaa pakkausta, joka johtaa suureen tiedostoon.</string>
     <string name="lut_library">Lut kirjasto</string>
     <string name="lut_library_sub">Lataa LUT-kokoelma, jota voit käyttää lataamisen jälkeen</string>
     <string name="lut_library_update_sub">Päivitä LUT-kokoelma (vain uudet ovat jonossa), joita voit käyttää lataamisen jälkeen</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Pika-asetukset-puoli</string>
     <string name="fast_settings_side_sub">Lisää kelluva nauha valitulle puolelle kuvien muokkauksen aikana, joka avaa nopeat asetukset, kun sitä napsautetaan</string>
     <string name="clear_selection">Tyhjennä valinta</string>
-    <string name="settings_group_visibility_hidden">Asetusryhmä \"%s\" tiivistetään oletuksena</string>
-    <string name="settings_group_visibility_visible">Asetusryhmä \"%s\" laajennetaan oletuksena</string>
+    <string name="settings_group_visibility_hidden">Asetusryhmä \"%1$s\" tiivistetään oletuksena</string>
+    <string name="settings_group_visibility_visible">Asetusryhmä \"%1$s\" laajennetaan oletuksena</string>
     <string name="base_64_tools">Base64 työkalut</string>
     <string name="base_64_tools_sub">Pura Base64-merkkijono kuvaksi tai koodaa kuva Base64-muotoon</string>
     <string name="base_64">Perus64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Käsitellään kuvakaappausta</string>
     <string name="screenshot_not_captured_try_again">Kuvakaappausta ei otettu, yritä uudelleen</string>
     <string name="skipped_saving">Tallennus ohitettu</string>
-    <string name="skipped_saving_multiple">%1$d tiedostoa ohitettiin</string>
+    <string name="skipped_saving_multiple">%1$s tiedostoa ohitettiin</string>
     <string name="allow_skip_if_larger">Salli Ohita, jos suurempi</string>
     <string name="allow_skip_if_larger_sub">Jotkut työkalut voivat ohittaa kuvien tallentamisen, jos tuloksena oleva tiedostokoko on suurempi kuin alkuperäinen</string>
     <string name="qr_type_calendar_event">Kalenteri Tapahtuma</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Paletin muoto</string>
     <string name="export_palette_sub">Vie luotu paletti eri muotoihin</string>
     <string name="add_color_palette_sub">Lisää uutta väriä nykyiseen palettiin</string>
-    <string name="palette_name_not_supported">%s-muoto ei tue paletin nimen antamista</string>
+    <string name="palette_name_not_supported">%1$s-muoto ei tue paletin nimen antamista</string>
     <string name="wallpapers_export_not_avaialbe">Play Kaupan käytäntöjen vuoksi tätä ominaisuutta ei voi sisällyttää nykyiseen koontiversioon. Voit käyttää tätä toimintoa lataamalla ImageToolboxin vaihtoehtoisesta lähteestä. Löydät saatavilla olevat versiot GitHubista alta.</string>
     <string name="open_github_page">Avaa Github-sivu</string>
     <string name="overwrite_files_sub_short">Alkuperäinen tiedosto korvataan uudella sen sijaan, että se tallennettaisiin valittuun kansioon</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pulssiruudukon pikselointi</string>
     <string name="nucleus_pixelization">Ytimen pikselisaatio</string>
     <string name="radial_weave_pixelization">Radial Weave -pikselointi</string>
-    <string name="cannot_open_uri">Ei voi avata uria \"%s\"</string>
+    <string name="cannot_open_uri">Ei voi avata uria \"%1$s\"</string>
     <string name="snowfall_mode">Lumisadetila</string>
     <string name="enabled">Käytössä</string>
     <string name="border_frame">Reunuskehys</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Yhdistäminen</string>
     <string name="chunk_size">Palan koko</string>
     <string name="overlap_size">Päällekkäisyyden koko</string>
-    <string name="note_chunk_info">Kuvat, joiden koko on yli %1$d px, leikataan ja käsitellään paloina, ja ne sekoitetaan päällekkäin, jotta vältetään näkyviä saumoja.</string>
+    <string name="note_chunk_info">Kuvat, joiden koko on yli %1$s px, leikataan ja käsitellään paloina, ja ne sekoitetaan päällekkäin, jotta vältetään näkyviä saumoja.</string>
     <string name="large_chunk_warning">Suuret koot voivat aiheuttaa epävakautta halvempien laitteiden kanssa</string>
     <string name="select_one_to_start">Aloita valitsemalla yksi</string>
-    <string name="delete_model_sub">Haluatko poistaa mallin %s? Sinun on ladattava se uudelleen</string>
+    <string name="delete_model_sub">Haluatko poistaa mallin %1$s? Sinun on ladattava se uudelleen</string>
     <string name="confirm">Vahvistaa</string>
     <string name="models">Mallit</string>
     <string name="downloaded_models">Ladatut mallit</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Vaakasuora reunan paksuus</string>
     <string name="vertical_border_thickness">Pystysuuntaisen reunan paksuus</string>
     <plurals name="color_count">
-        <item quantity="one">%s väri</item>
-        <item quantity="other">%s väriä</item>
+        <item quantity="one">%1$s väri</item>
+        <item quantity="other">%1$s väriä</item>
     </plurals>
     <string name="current_model_not_chunkable">Nykyinen malli ei tue paloittelua, kuva käsitellään alkuperäisissä mitoissa, mikä voi aiheuttaa suurta muistinkulutusta ja ongelmia halvempien laitteiden kanssa</string>
     <string name="chunking_disabled">Sirpalointi poistettu käytöstä, kuva käsitellään alkuperäisissä mitoissa. Tämä voi aiheuttaa suurta muistinkulutusta ja ongelmia halvempien laitteiden kanssa, mutta voi antaa parempia tuloksia pääteltäessä</string>

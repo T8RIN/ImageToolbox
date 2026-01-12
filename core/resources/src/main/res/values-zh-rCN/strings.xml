@@ -366,7 +366,7 @@
     <string name="max_colors_count">最大颜色数</string>
     <string name="wait">等待</string>
     <string name="image_exif_warning">目前，%1$s格式在Android上只允许读取EXIF元数据。在保存时，输出图片将完全没有元数据。</string>
-    <string name="effort_sub">值为%1$d意味着快速压缩，导致文件大小相对较大。 %2$d表示压缩速度较慢，文件较小。</string>
+    <string name="effort_sub">值为%1$s意味着快速压缩，导致文件大小相对较大。 %2$s表示压缩速度较慢，文件较小。</string>
     <string name="analytics_sub">允许收集匿名应用使用统计数据</string>
     <string name="allow_betas">允许接收测试版</string>
     <string name="crashlytics_sub">这允许此应用程序自动收集崩溃报告</string>
@@ -550,7 +550,7 @@
     <string name="only_clip">仅剪切</string>
     <string name="only_clip_sub">不会将图片保存到本地存储，只会尝试将图片放入剪贴板中</string>
     <string name="recognize_text">OCR（文本识别）</string>
-    <string name="accuracy">精确度： %1$d</string>
+    <string name="accuracy">精确度： %1$s</string>
     <string name="recognition_type">识别类型</string>
     <string name="fast">快速</string>
     <string name="best">最优</string>
@@ -567,7 +567,7 @@
     <string name="available_languages">可用语言</string>
     <string name="use_pixel_switch_sub">使用类似谷歌Pixel的开关</string>
     <string name="use_pixel_switch">使用 Pixel 开关</string>
-    <string name="saved_to_original">在原始目标位置覆盖了名称为%s的文件</string>
+    <string name="saved_to_original">在原始目标位置覆盖了名称为%1$s的文件</string>
     <string name="magnifier_sub">在绘图模式下，在手指顶部启用放大镜，以提高易用性</string>
     <string name="force_exif_widget_initial_value_sub">强制初始检查EXIF部件</string>
     <string name="slide">滑动</string>
@@ -855,7 +855,7 @@
     <string name="generate_previews_sub">启用预览生成，这可能有助于避免在某些设备上出现崩溃，同时也会禁用单个编辑选项中的某些编辑功能</string>
     <string name="lanczos_bessel_sub">通过对像素值应用贝塞尔（jinc）函数来保持高质量插值的重采样方法</string>
     <string name="compression_type">压缩方式</string>
-    <string name="speed_sub">控制生成图片的解码速度，这将有助于更快地打开生成图片，%1$d表示最慢的解码速度，而%2$d表示最快的解码速度，此设置可能会增加输出图片的大小</string>
+    <string name="speed_sub">控制生成图片的解码速度，这将有助于更快地打开生成图片，%1$s表示最慢的解码速度，而%2$s表示最快的解码速度，此设置可能会增加输出图片的大小</string>
     <string name="sorting">筛选</string>
     <string name="sort_by_date">日期</string>
     <string name="sort_by_date_reversed">日期（反向）</string>
@@ -1128,7 +1128,7 @@
     <string name="template">模板</string>
     <string name="scanned_qr_code_isnt_filter_template">扫描的二维码不是有效的滤镜模板</string>
     <string name="scan_qr_code">扫描二维码</string>
-    <string name="added_filter_template">已添加滤镜模板，名称为\"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">已添加滤镜模板，名称为\"%1$s\" (%2$s)</string>
     <string name="min">最小</string>
     <string name="grant_camera_permission_to_scan_qr_code">在设置中授予相机扫描二维码的权限</string>
     <string name="grant_camera_permission_to_scan_document_scanner">在设置中授予相机文档扫描器的权限</string>
@@ -1469,7 +1469,7 @@
     <string name="layout">布局</string>
     <string name="main_screen_title">主屏幕标题</string>
     <string name="constant_rate_factor">恒定比率系数 (CRF)</string>
-    <string name="crf_sub">%1$d表示压缩速度较慢，因此文件相对较小。%2$d表示压缩速度较快，因此文件较大。</string>
+    <string name="crf_sub">%1$s表示压缩速度较慢，因此文件相对较小。%2$s表示压缩速度较快，因此文件较大。</string>
     <string name="filter_preview_image">预览图片</string>
     <string name="lut_library">Lut 库</string>
     <string name="lut_library_sub">下载 LUT 集合，你可以在下载后应用它们</string>
@@ -1504,8 +1504,8 @@
     <string name="fast_settings_side">快速设置边栏</string>
     <string name="fast_settings_side_sub">编辑图片时，在选定的侧边添加一个浮动条，点击该浮动条会打开快速设置</string>
     <string name="clear_selection">清除选择项</string>
-    <string name="settings_group_visibility_hidden">设置组 \"%s\" 将默认折叠</string>
-    <string name="settings_group_visibility_visible">设置组 \"%s\" 将默认展开</string>
+    <string name="settings_group_visibility_hidden">设置组 \"%1$s\" 将默认折叠</string>
+    <string name="settings_group_visibility_visible">设置组 \"%1$s\" 将默认展开</string>
     <string name="base_64_tools">Base64工具</string>
     <string name="base_64_tools_sub">将Base64字符串解码为图片，或将图片编码为Base64格式</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">处理截图</string>
     <string name="screenshot_not_captured_try_again">截图未捕获，请再试一次</string>
     <string name="skipped_saving">跳过保存</string>
-    <string name="skipped_saving_multiple">%1$d 个文件已跳过</string>
+    <string name="skipped_saving_multiple">%1$s 个文件已跳过</string>
     <string name="allow_skip_if_larger">若文件过大，允许跳过</string>
     <string name="allow_skip_if_larger_sub">某些工具在生成的文件大小超过原文件时，将被允许跳过图像保存步骤</string>
     <string name="qr_type_plain">文本</string>
@@ -1840,11 +1840,11 @@
     <string name="palette_format">调色板格式</string>
     <string name="export_palette_sub">将生成的调色板导出为多种格式</string>
     <string name="add_color_palette_sub">向当前调色板添加新颜色</string>
-    <string name="palette_name_not_supported">%s 格式不支持提供调色板名称</string>
+    <string name="palette_name_not_supported">%1$s 格式不支持提供调色板名称</string>
     <string name="wallpapers_export_not_avaialbe">由于应用商店政策限制，当前版本无法包含此功能。如需使用该功能，请从其他渠道下载ImageToolbox。你可在下方的GitHub上获取可用版本。</string>
     <string name="open_github_page">打开GitHub页面</string>
     <plurals name="color_count">
-        <item quantity="other">%s 颜色</item>
+        <item quantity="other">%1$s 颜色</item>
     </plurals>
     <string name="overwrite_files_sub_short">原始文件将被新文件替换，而不是保存到所选文件夹中</string>
     <string name="hidden_watermark_text_detected">检测到隐藏水印文本</string>
@@ -1870,7 +1870,7 @@
     <string name="pulse_grid_pixelization">脉冲网格像素化</string>
     <string name="nucleus_pixelization">核心像素化</string>
     <string name="radial_weave_pixelization">径向编织像素化</string>
-    <string name="cannot_open_uri">无法打开URI“%s”</string>
+    <string name="cannot_open_uri">无法打开URI“%1$s”</string>
     <string name="snowfall_mode">降雪模式</string>
     <string name="enabled">已启用</string>
     <string name="border_frame">边框框架</string>
@@ -1933,10 +1933,10 @@
     <string name="model_vhs_sharpen">VHS画质锐化与增强</string>
     <string name="chunk_size">块大小</string>
     <string name="overlap_size">重叠大小</string>
-    <string name="note_chunk_info">超过 %1$d 像素的图像将被切片并分块处理，重叠区域会进行融合以避免出现明显接缝。</string>
+    <string name="note_chunk_info">超过 %1$s 像素的图像将被切片并分块处理，重叠区域会进行融合以避免出现明显接缝。</string>
     <string name="large_chunk_warning">大尺寸图像会导致低端设备运行不稳定</string>
     <string name="select_one_to_start">选择一个以开始</string>
-    <string name="delete_model_sub">你是否要删除 %s 模型？删除后你需要重新下载该模型</string>
+    <string name="delete_model_sub">你是否要删除 %1$s 模型？删除后你需要重新下载该模型</string>
     <string name="confirm">确认</string>
     <string name="models">模型</string>
     <string name="downloaded_models">下载模型</string>

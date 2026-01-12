@@ -369,7 +369,7 @@
     <string name="image_exif_warning">Derzeit erlaubt das %1$s-Format auf Android nur das Lesen von Exif-Daten und nicht das Ändern/Speichern, d.h. das ausgegebene Bild wird keine Metadaten haben</string>
     <string name="updates">Aktualisierungen</string>
     <string name="wait">Warten</string>
-    <string name="effort_sub">Ein Wert von %1$d bedeutet, dass die Komprimierung schnell erfolgt, was zu einer relativ großen Datei führt. %2$d bedeutet, dass die Komprimierung mehr Zeit in Anspruch nimmt, was zu einer kleineren Datei führt</string>
+    <string name="effort_sub">Ein Wert von %1$s bedeutet, dass die Komprimierung schnell erfolgt, was zu einer relativ großen Datei führt. %2$s bedeutet, dass die Komprimierung mehr Zeit in Anspruch nimmt, was zu einer kleineren Datei führt</string>
     <string name="allow_betas">Betas zulassen</string>
     <string name="saving_almost_complete">Speichervorgang ist fast abgeschlossen. Wenn du abbrichst, musst du es nochmal speichern.</string>
     <string name="effort">Aufwand</string>
@@ -540,7 +540,7 @@
     <string name="spline_sub">Verwendet stückweise definierte Polynomfunktionen zur sanften Interpolation und Annäherung an eine Kurve oder Fläche und bietet so eine flexible und kontinuierliche Formdarstellung</string>
     <string name="recognize_text_sub">Erkenne Text aus einem bestimmten Bild. Über 120 Sprachen werden unterstützt</string>
     <string name="picture_has_no_text">Das Bild enthält keinen Text oder die App hat ihn nicht gefunden</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="transparency">Transparenz</string>
     <string name="rate">Rate</string>
     <string name="rate_app_sub">Diese App ist völlig kostenlos. Wenn du möchtest, dass sie größer wird, dann gibt dem Projekt bitte einen Stern auf Github 😄</string>
@@ -773,7 +773,7 @@
     <string name="slide">Gleiten</string>
     <string name="side_by_side">Seite an Seite</string>
     <string name="toggle_tap">Tippen umschalten</string>
-    <string name="saved_to_original">Überschriebene Datei mit dem Namen %s am ursprünglichen Ziel</string>
+    <string name="saved_to_original">Überschriebene Datei mit dem Namen %1$s am ursprünglichen Ziel</string>
     <string name="magnifier">Lupe</string>
     <string name="magnifier_sub">Aktiviert die Lupe im Zeichenmodus für bessere Zugänglichkeit oben am Finger</string>
     <string name="force_exif_widget_initial_value">Anfangswert erzwingen</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression_sub">Verwendet verlustbehaftete Kompression (anstelle von verlustfreier) um die Dateigröße zu verringern</string>
     <string name="lanczos_bessel_sub">Resampling-Methode, die durch Anwendung einer Bessel Funktion auf die Pixel-Werte eine hochqualitative Interpolation gewährleistet</string>
     <string name="compression_type">Komprimierungstyp</string>
-    <string name="speed_sub">Einstellungen für die Geschwindigkeit der Bild-Dekodierung, dies sollte helfen, das entsprechende Bild schneller zu öffnen, ein Wert von %1$d entspricht dem langsamsten Dekodieren, ein Wert von %2$d dem schnellsten, diese Einstellung kann die Größe der Bilddatei erhöhen</string>
+    <string name="speed_sub">Einstellungen für die Geschwindigkeit der Bild-Dekodierung, dies sollte helfen, das entsprechende Bild schneller zu öffnen, ein Wert von %1$s entspricht dem langsamsten Dekodieren, ein Wert von %2$s dem schnellsten, diese Einstellung kann die Größe der Bilddatei erhöhen</string>
     <string name="pick_multiple_media">Wähle mehrere Medien</string>
     <string name="pick_single_media">Wähle einzelnes Medium</string>
     <string name="pick">Wählen</string>
@@ -1318,7 +1318,7 @@
     <string name="export">Exportieren</string>
     <string name="position">Position</string>
     <string name="center">Mitte</string>
-    <string name="added_filter_template">Filtervorlage mit Namen \"%1$s\" (%2$d) hinzugefügt</string>
+    <string name="added_filter_template">Filtervorlage mit Namen \"%1$s\" (%2$s) hinzugefügt</string>
     <string name="lut">LUT</string>
     <string name="bleach_bypass">Bleich Bypass</string>
     <string name="candlelight">Kerzenlicht</string>
@@ -1460,7 +1460,7 @@
     <string name="main_screen_title">Titel des Hauptbildschirms</string>
     <string name="grant_camera_permission_to_capture_image">Gewähre der Kamera in den Einstellungen die Berechtigung, ein Bild aufzunehmen</string>
     <string name="constant_rate_factor">Konstanter Ratenfaktor (KRF)</string>
-    <string name="crf_sub">Ein Wert von %1$d bedeutet eine langsame Komprimierung, was zu einer relativ kleinen Dateigröße führt. %2$d bedeutet eine schnellere Komprimierung, was zu einer großen Datei führt.</string>
+    <string name="crf_sub">Ein Wert von %1$s bedeutet eine langsame Komprimierung, was zu einer relativ kleinen Dateigröße führt. %2$s bedeutet eine schnellere Komprimierung, was zu einer großen Datei führt.</string>
     <string name="lut_library">Lut Bücherei</string>
     <string name="lut_library_sub">Download einer Sammlung von LUTs, die du nach dem Herunterladen anwenden kannst</string>
     <string name="use_circle_kernel">Circle Kernel verwenden</string>
@@ -1516,8 +1516,8 @@
     <string name="options">Optionen</string>
     <string name="actions">Aktionen</string>
     <string name="import_base_64">Base64 importieren</string>
-    <string name="settings_group_visibility_hidden">Einstellungsgruppe \"%s\" wird standardmäßig eingeklappt</string>
-    <string name="settings_group_visibility_visible">Einstellungsgruppe \"%s\" wird standardmäßig erweitert</string>
+    <string name="settings_group_visibility_hidden">Einstellungsgruppe \"%1$s\" wird standardmäßig eingeklappt</string>
+    <string name="settings_group_visibility_visible">Einstellungsgruppe \"%1$s\" wird standardmäßig erweitert</string>
     <string name="base_64_tips">Bild laden, um Base64-Zeichenfolge zu kopieren oder zu speichern. Wenn du die Zeichenfolge selbst hast, kannst du sie oben einfügen, um das Bild zu erhalten</string>
     <string name="base_64_actions">Base64 Aktionen</string>
     <string name="add_outline_sub">Hinzufügen eines Umrisses um den Text mit bestimmter Farbe und Breite</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Verarbeite Screenshot</string>
     <string name="screenshot_not_captured_try_again">Screenshot wurde nicht erfasst, erneut versuchen</string>
     <string name="skipped_saving">Speichern übersprungen</string>
-    <string name="skipped_saving_multiple">%1$d Dateien übersprungen</string>
+    <string name="skipped_saving_multiple">%1$s Dateien übersprungen</string>
     <string name="allow_skip_if_larger">Überspringen zulassen, wenn größer</string>
     <string name="allow_skip_if_larger_sub">Einige Tools erlauben es, das Speichern von Bildern zu überspringen, wenn die resultierende Dateigröße größer als das Original wäre.</string>
     <string name="qr_type_calendar_event">Kalenderevent</string>
@@ -1854,7 +1854,7 @@
     <string name="palette_format">Palettenformat</string>
     <string name="export_palette_sub">Exportieren Sie die generierte Palette in verschiedene Formate</string>
     <string name="add_color_palette_sub">Fügt der aktuellen Palette eine neue Farbe hinzu</string>
-    <string name="palette_name_not_supported">Das Format %s unterstützt die Angabe des Palettennamens nicht</string>
+    <string name="palette_name_not_supported">Das Format %1$s unterstützt die Angabe des Palettennamens nicht</string>
     <string name="wallpapers_export_not_avaialbe">Aufgrund der Play Store-Richtlinien kann diese Funktion nicht in den aktuellen Build aufgenommen werden. Um auf diese Funktionalität zuzugreifen, laden Sie ImageToolbox bitte von einer alternativen Quelle herunter. Die verfügbaren Builds finden Sie unten auf GitHub.</string>
     <string name="open_github_page">Öffnen Sie die Github-Seite</string>
     <string name="overwrite_files_sub_short">Die Originaldatei wird durch eine neue ersetzt, anstatt sie im ausgewählten Ordner zu speichern</string>
@@ -1881,7 +1881,7 @@
     <string name="pulse_grid_pixelization">Pulsgitterpixelisierung</string>
     <string name="nucleus_pixelization">Kernpixelisierung</string>
     <string name="radial_weave_pixelization">Radiale Webpixelisierung</string>
-    <string name="cannot_open_uri">URI „%s“ kann nicht geöffnet werden</string>
+    <string name="cannot_open_uri">URI „%1$s“ kann nicht geöffnet werden</string>
     <string name="glitch_variant">Glitch-Variante</string>
     <string name="channel_shift">Kanalverschiebung</string>
     <string name="max_offset">Maximaler Versatz</string>
@@ -1929,10 +1929,10 @@
     <string name="model_bendel_halftone">Verarbeitung von Halbtonmustern</string>
     <string name="model_dither_deleter_v3_smooth">Entfernung von Dither-Mustern V3</string>
     <string name="chunk_size">Stückgröße</string>
-    <string name="note_chunk_info">Bilder über %1$d px werden in Stücke geschnitten und verarbeitet. Durch Überlappung werden diese zusammengefügt, um sichtbare Nähte zu vermeiden.</string>
+    <string name="note_chunk_info">Bilder über %1$s px werden in Stücke geschnitten und verarbeitet. Durch Überlappung werden diese zusammengefügt, um sichtbare Nähte zu vermeiden.</string>
     <string name="large_chunk_warning">Große Größen können bei Low-End-Geräten zu Instabilität führen</string>
     <string name="select_one_to_start">Wählen Sie eine aus, um zu beginnen</string>
-    <string name="delete_model_sub">Möchten Sie das Modell %s löschen? Sie müssen es erneut herunterladen</string>
+    <string name="delete_model_sub">Möchten Sie das Modell %1$s löschen? Sie müssen es erneut herunterladen</string>
     <string name="confirm">Bestätigen</string>
     <string name="models">Modelle</string>
     <string name="downloaded_models">Heruntergeladene Modelle</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Horizontale Randstärke</string>
     <string name="vertical_border_thickness">Vertikale Randstärke</string>
     <plurals name="color_count">
-        <item quantity="one">%s Farbe</item>
-        <item quantity="other">%s Farben</item>
+        <item quantity="one">%1$s Farbe</item>
+        <item quantity="other">%1$s Farben</item>
     </plurals>
     <string name="current_model_not_chunkable">Das aktuelle Modell unterstützt kein Chunking. Das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu hohem Speicherverbrauch und Problemen mit Low-End-Geräten führen</string>
     <string name="chunking_disabled">Chunking ist deaktiviert, das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu einem hohen Speicherverbrauch und Problemen mit Low-End-Geräten führen, kann jedoch zu besseren Ergebnissen bei der Inferenz führen</string>

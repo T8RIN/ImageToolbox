@@ -409,7 +409,7 @@
     <string name="analytics_sub">Sta het verzamelen van anonieme app-gebruiksstatistieken toe</string>
     <string name="image_exif_warning">Momenteel staat het %1$s-formaat alleen het lezen van EXIF-metagegevens op Android toe. De uitvoerafbeelding heeft helemaal geen metagegevens wanneer deze wordt opgeslagen.</string>
     <string name="effort">Poging</string>
-    <string name="effort_sub">Een waarde van %1$d betekent een snelle compressie, wat resulteert in een relatief grote bestandsgrootte. %2$d betekent een langzamere compressie, wat resulteert in een kleiner bestand.</string>
+    <string name="effort_sub">Een waarde van %1$s betekent een snelle compressie, wat resulteert in een relatief grote bestandsgrootte. %2$s betekent een langzamere compressie, wat resulteert in een kleiner bestand.</string>
     <string name="wait">Wachten</string>
     <string name="saving_almost_complete">Opslaan bijna voltooid. Als u nu annuleert, moet u opnieuw opslaan.</string>
     <string name="updates">Updates</string>
@@ -574,7 +574,7 @@
     <string name="recognize_text">OCR (tekst herkennen)</string>
     <string name="recognize_text_sub">Herken tekst van een bepaalde afbeelding, meer dan 120 talen ondersteund</string>
     <string name="picture_has_no_text">De afbeelding bevat geen tekst, of de app heeft deze niet gevonden</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Herkenningstype</string>
     <string name="fast">Snel</string>
     <string name="standard">Standaard</string>
@@ -588,7 +588,7 @@
     <string name="segmentation_mode">Segmentatiemodus</string>
     <string name="use_pixel_switch">Gebruik Pixelswitch</string>
     <string name="use_pixel_switch_sub">Pixel-achtige schakelaar wordt gebruikt in plaats van een schakelaar gebaseerd op Google\'s Material You</string>
-    <string name="saved_to_original">Overschreven bestand met naam %s op oorspronkelijke bestemming</string>
+    <string name="saved_to_original">Overschreven bestand met naam %1$s op oorspronkelijke bestemming</string>
     <string name="magnifier">Vergrootglas</string>
     <string name="magnifier_sub">Schakelt vergrootglas aan de bovenkant van de vinger in tekenmodi in voor betere toegankelijkheid</string>
     <string name="force_exif_widget_initial_value">Beginwaarde forceren</string>
@@ -882,7 +882,7 @@
     <string name="generate_previews_sub">Maakt het maken van voorbeelden mogelijk, wat crashes op sommige apparaten kan helpen voorkomen, maar dit schakelt ook enkele framebewerkingsfuncties uit</string>
     <string name="lossy_compression">Verliesgevende compressie</string>
     <string name="lossy_compression_sub">Gebruikt verliesgevende compressie om de bestandsgrootte te verkleinen</string>
-    <string name="speed_sub">Bedient de resulterende beelddecoderingssnelheid, dit zou moeten helpen om het resulterende beeld sneller te openen, waarde %1$d staat voor de langzaamste decodering, %2$d is de snelste, deze instelling heeft invloed op de grootte van het uitvoerbeeld</string>
+    <string name="speed_sub">Bedient de resulterende beelddecoderingssnelheid, dit zou moeten helpen om het resulterende beeld sneller te openen, waarde %1$s staat voor de langzaamste decodering, %2$s is de snelste, deze instelling heeft invloed op de grootte van het uitvoerbeeld</string>
     <string name="sorting">Sortering</string>
     <string name="fullscreen_settings_sub">Indien ingeschakeld, worden de instellingen altijd op volledig scherm weergegeven in plaats van een schuifbaar ladeblad</string>
     <string name="fullscreen_settings">Volledig scherm-instellingen</string>
@@ -1113,7 +1113,7 @@
     <string name="save_as_qr_code_image">Opslaan als QR-code afbeelding</string>
     <string name="delete_template">Sjabloon verwijderen</string>
     <string name="delete_template_warn">Je staat op het punt het geselecteerde sjabloonfilter te verwijderen. Deze operatie kan niet ongedaan worden gemaakt.</string>
-    <string name="added_filter_template">Filtersjabloon toegevoegd met naam \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Filtersjabloon toegevoegd met naam \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Filtervoorbeeld</string>
     <string name="qr_code">QR-code</string>
     <string name="qr_code_sub">Scan QR-code voor de inhoud of plak de tekenreeks om een nieuwe te genereren</string>
@@ -1469,7 +1469,7 @@
     <string name="main_screen_title">Titel van het hoofdscherm</string>
     <string name="compact_selectors">Compacte keuzeschakelaars</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
-    <string name="crf_sub">Een waarde %1$d betekent een langzame compressie, resulterend in een relatief kleine bestandsgrootte. %2$d betekent een snellere compressie, resulterend in een groot bestand.</string>
+    <string name="crf_sub">Een waarde %1$s betekent een langzame compressie, resulterend in een relatief kleine bestandsgrootte. %2$s betekent een snellere compressie, resulterend in een groot bestand.</string>
     <string name="lut_library">Lut-bilbiotheek</string>
     <string name="lut_library_sub">Download een verzameling LUT\'s die je vervolgens kunt toepassen</string>
     <string name="lut_library_update_sub">Collectie LUT\'s bijwerken (alleen nieuwe worden in de wachtrij geplaatst), die je vervolgens kunt toepassen</string>
@@ -1504,7 +1504,7 @@
     <string name="fast_settings_side">Snelle instellingen-strook</string>
     <string name="fast_settings_side_sub">Voeg een zwevende strook toe aan de gekozen kant tijdens het bewerken van afbeeldingen, die snelle instellingen opent als erop wordt geklikt</string>
     <string name="clear_selection">Selectie wissen</string>
-    <string name="settings_group_visibility_visible">In te stellen groep \"%s\" wordt standaard uitgevouwen</string>
+    <string name="settings_group_visibility_visible">In te stellen groep \"%1$s\" wordt standaard uitgevouwen</string>
     <string name="base_64">Base64</string>
     <string name="not_a_valid_base_64">De opgegeven waarde is geen geldige Base64-tekenreeks</string>
     <string name="paste_base_64">Base64 plakken</string>
@@ -1515,7 +1515,7 @@
     <string name="import_base_64">Base64 importeren</string>
     <string name="share_base_64">Base64 delen</string>
     <string name="base_64_tools_sub">Base64-tekenreeks decoderen naar afbeelding of afbeelding coderen naar Base64-indeling</string>
-    <string name="settings_group_visibility_hidden">In te stellen groep \"%s\" wordt standaard samengevouwen</string>
+    <string name="settings_group_visibility_hidden">In te stellen groep \"%1$s\" wordt standaard samengevouwen</string>
     <string name="base_64_tools">Base64 Hulpmiddelen</string>
     <string name="save_base_64">Base64 opslaan</string>
     <string name="copy_not_a_valid_base_64">Kan geen lege of ongeldige Base64-tekenreeks kopiëren</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Schermafbeelding verwerken</string>
     <string name="screenshot_not_captured_try_again">Screenshot niet vastgelegd. Probeer het opnieuw</string>
     <string name="skipped_saving">Opslaan overgeslagen</string>
-    <string name="skipped_saving_multiple">%1$d bestanden overgeslagen</string>
+    <string name="skipped_saving_multiple">%1$s bestanden overgeslagen</string>
     <string name="allow_skip_if_larger">Overslaan toestaan ​​indien groter</string>
     <string name="allow_skip_if_larger_sub">Sommige tools mogen het opslaan van afbeeldingen overslaan als de resulterende bestandsgrootte groter zou zijn dan het origineel</string>
     <string name="qr_type_calendar_event">Kalender evenement</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Paletformaat</string>
     <string name="export_palette_sub">Exporteer het gegenereerde palet naar verschillende formaten</string>
     <string name="add_color_palette_sub">Voegt een nieuwe kleur toe aan het huidige palet</string>
-    <string name="palette_name_not_supported">De indeling %s biedt geen ondersteuning voor het opgeven van een paletnaam</string>
+    <string name="palette_name_not_supported">De indeling %1$s biedt geen ondersteuning voor het opgeven van een paletnaam</string>
     <string name="wallpapers_export_not_avaialbe">Vanwege het Play Store-beleid kan deze functie niet worden opgenomen in de huidige build. Om toegang te krijgen tot deze functionaliteit, downloadt u ImageToolbox van een alternatieve bron. Hieronder vindt u de beschikbare builds op GitHub.</string>
     <string name="open_github_page">Open Github-pagina</string>
     <string name="overwrite_files_sub_short">Het originele bestand wordt vervangen door een nieuw bestand in plaats van het op te slaan in de geselecteerde map</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid-pixelisatie</string>
     <string name="nucleus_pixelization">Nucleuspixelisatie</string>
     <string name="radial_weave_pixelization">Radiale weefpixelisatie</string>
-    <string name="cannot_open_uri">Kan uri \"%s\" niet openen</string>
+    <string name="cannot_open_uri">Kan uri \"%1$s\" niet openen</string>
     <string name="snowfall_mode">Sneeuwval-modus</string>
     <string name="enabled">Ingeschakeld</string>
     <string name="border_frame">Grenskader</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Samenvoegen</string>
     <string name="chunk_size">Brokgrootte</string>
     <string name="overlap_size">Overlapgrootte</string>
-    <string name="note_chunk_info">Afbeeldingen groter dan %1$d px worden in stukken gesneden en verwerkt. Overlap vermengt deze om zichtbare naden te voorkomen.</string>
+    <string name="note_chunk_info">Afbeeldingen groter dan %1$s px worden in stukken gesneden en verwerkt. Overlap vermengt deze om zichtbare naden te voorkomen.</string>
     <string name="large_chunk_warning">Grote maten kunnen instabiliteit veroorzaken bij goedkope apparaten</string>
     <string name="select_one_to_start">Selecteer er een om te starten</string>
-    <string name="delete_model_sub">Wilt u het %s model verwijderen? U moet het opnieuw downloaden</string>
+    <string name="delete_model_sub">Wilt u het %1$s model verwijderen? U moet het opnieuw downloaden</string>
     <string name="confirm">Bevestigen</string>
     <string name="models">Modellen</string>
     <string name="downloaded_models">Gedownloade modellen</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Horizontale randdikte</string>
     <string name="vertical_border_thickness">Verticale randdikte</string>
     <plurals name="color_count">
-        <item quantity="one">%s kleur</item>
-        <item quantity="other">%s kleuren</item>
+        <item quantity="one">%1$s kleur</item>
+        <item quantity="other">%1$s kleuren</item>
     </plurals>
     <string name="current_model_not_chunkable">Het huidige model ondersteunt geen chunking, de afbeelding wordt verwerkt in de originele afmetingen, dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken</string>
     <string name="chunking_disabled">Chunking uitgeschakeld, afbeelding wordt verwerkt in de oorspronkelijke afmetingen. Dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken, maar kan betere resultaten opleveren bij gevolgtrekking</string>

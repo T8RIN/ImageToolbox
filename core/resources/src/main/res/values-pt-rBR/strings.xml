@@ -369,7 +369,7 @@
     <string name="analytics_sub">Permitir a coleta de estatísticas anônimas de uso de aplicativos</string>
     <string name="image_exif_warning">Atualmente, o formato %1$s só permite a leitura de metadados EXIF no Android. A imagem de saída não terá metadados quando salva.</string>
     <string name="effort">Esforço</string>
-    <string name="effort_sub">Um valor %1$d significa uma compactação rápida, resultando em um tamanho de arquivo relativamente grande. %2$d significa uma compactação mais lenta, resultando em um arquivo menor.</string>
+    <string name="effort_sub">Um valor %1$s significa uma compactação rápida, resultando em um tamanho de arquivo relativamente grande. %2$s significa uma compactação mais lenta, resultando em um arquivo menor.</string>
     <string name="wait">Espere</string>
     <string name="saving_almost_complete">Salvando quase completo. Cancelar agora exigirá salvar novamente.</string>
     <string name="updates">Atualizações</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (reconhecer texto)</string>
     <string name="recognize_text_sub">Reconhecer texto de determinada imagem, mais de 120 idiomas suportados</string>
     <string name="picture_has_no_text">A imagem não tem texto ou o app não a encontrou</string>
-    <string name="accuracy">Precisão: %1$d</string>
+    <string name="accuracy">Precisão: %1$s</string>
     <string name="recognition_type">Tipo de reconhecimento</string>
     <string name="fast">Rápido</string>
     <string name="standard">Padrão</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">Modo de segmentação</string>
     <string name="use_pixel_switch">Use a troca de pixels</string>
     <string name="use_pixel_switch_sub">Usa um interruptor semelhante ao do Google Pixel</string>
-    <string name="saved_to_original">Arquivo sobrescrito com nome %s no destino original</string>
+    <string name="saved_to_original">Arquivo sobrescrito com nome %1$s no destino original</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Ativa a lupa na parte superior do dedo nos modos de desenho para melhor acessibilidade</string>
     <string name="force_exif_widget_initial_value">Forçar valor inicial</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression_sub">Usa compactação \"com perdas\" para reduzir o tamanho do arquivo em vez de \"sem perdas\"</string>
     <string name="generate_previews_sub">Ativa a geração de visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
     <string name="compression_type">Tipo de compressão</string>
-    <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$d significa a decodificação mais lenta, enquanto %2$d - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
+    <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$s significa a decodificação mais lenta, enquanto %2$s - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
     <string name="sort_by_date">Data</string>
     <string name="sort_by_date_reversed">Data (Inversa)</string>
     <string name="sort_by_name">Nome</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Salvar como imagem de código QR</string>
     <string name="delete_template">Excluir modelo</string>
     <string name="delete_template_warn">Você está prestes a excluir o filtro de modelo selecionado. Essa operação não pode ser desfeita</string>
-    <string name="added_filter_template">Modelo de filtro adicionado com o nome \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Modelo de filtro adicionado com o nome \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Pré-visualização do filtro</string>
     <string name="qr_code">QR &amp; Barcode</string>
     <string name="qr_code_sub">Digitalize um código QR e obtenha seu conteúdo ou cole seu texto para gerar um código</string>
@@ -1455,7 +1455,7 @@
     <string name="crossfade">Transição Gradual</string>
     <string name="gap_size">Tamanho do Espaço</string>
     <string name="helper_grid">Grade de Guia</string>
-    <string name="crf_sub">Um valor de %1$d significa uma compactação lenta, resultando em um arquivo de tamanho relativamente pequeno. %2$d significa uma compactação mais rápida, resultando em um arquivo grande.</string>
+    <string name="crf_sub">Um valor de %1$s significa uma compactação lenta, resultando em um arquivo de tamanho relativamente pequeno. %2$s significa uma compactação mais rápida, resultando em um arquivo grande.</string>
     <string name="constant_rate_factor">Fator de Taxa Constante (CRF)</string>
     <string name="defaultt_sub">Apenas linhas retas padrão</string>
     <string name="enable_timestamps_to_format_them">Habilite os carimbos de data/hora para selecionar seu formato</string>
@@ -1510,7 +1510,7 @@
     <string name="filename_is_not_set">O nome do arquivo não está definido</string>
     <string name="material_you_slider_sub">Um controle deslizante Material You</string>
     <string name="fast_settings_side_sub">Adicione uma listra flutuante na lateral selecionada durante a edição de imagens, que abrirá configurações rápidas quando clicada</string>
-    <string name="settings_group_visibility_visible">O grupo de configurações \"%s\" será expandido por padrão</string>
+    <string name="settings_group_visibility_visible">O grupo de configurações \"%1$s\" será expandido por padrão</string>
     <string name="error_while_saving">Erro ao tentar salvar, experimente alterar a pasta de saída</string>
     <string name="apply">Aplicar</string>
     <string name="filter_preview_image_sub">Alterar a imagem de visualização padrão para filtros</string>
@@ -1536,7 +1536,7 @@
     <string name="unknown_host">Não é possível acessar o site, tente usar VPN ou verifique se a URL está correta</string>
     <string name="layers_on_background_sub">O mesmo que a primeira opção, mas com cor em vez de imagem</string>
     <string name="fast_settings_side">Acesso às Configurações na Lateral</string>
-    <string name="settings_group_visibility_hidden">O grupo de configurações \"%s\" será recolhido por padrão</string>
+    <string name="settings_group_visibility_hidden">O grupo de configurações \"%1$s\" será recolhido por padrão</string>
     <string name="base_64_tools">Ferramentas Base64</string>
     <string name="base_64_tools_sub">Decodificar string Base64 para imagem ou codificar imagem para o formato Base64</string>
     <string name="base_64">Base64</string>
@@ -1748,7 +1748,7 @@
     <string name="processing_screenshot">Processando captura de tela</string>
     <string name="screenshot_not_captured_try_again">Captura de tela não realizada, tente novamente</string>
     <string name="skipped_saving">Salvamento ignorado</string>
-    <string name="skipped_saving_multiple">%1$d arquivos ignorados</string>
+    <string name="skipped_saving_multiple">%1$s arquivos ignorados</string>
     <string name="allow_skip_if_larger">Permitir Ignorar se Maior</string>
     <string name="allow_skip_if_larger_sub">Algumas ferramentas poderão ignorar o salvamento de imagens se o tamanho do arquivo resultante for maior do que o original</string>
     <string name="qr_type_calendar_event">Evento de Calendário</string>
@@ -1841,12 +1841,12 @@
     <string name="palette_format">Formato da Paleta</string>
     <string name="export_palette_sub">Exportar a paleta gerada para diferentes formatos</string>
     <string name="add_color_palette_sub">Adiciona uma nova cor à paleta atual</string>
-    <string name="palette_name_not_supported">O formato %s não suporta o fornecimento de um nome da paleta</string>
+    <string name="palette_name_not_supported">O formato %1$s não suporta o fornecimento de um nome da paleta</string>
     <string name="wallpapers_export_not_avaialbe">Devido às políticas da Play Store, esse recurso não pode ser incluído na versão atual. Para acessar essa funcionalidade, baixe o ImageToolbox de uma fonte alternativa. Você pode encontrar as versões disponíveis no GitHub abaixo.</string>
     <string name="open_github_page">Abrir página do Github</string>
     <plurals name="color_count">
-        <item quantity="one">%s cor</item>
-        <item quantity="other">%s cores</item>
+        <item quantity="one">%1$s cor</item>
+        <item quantity="other">%1$s cores</item>
     </plurals>
     <string name="overwrite_files_sub_short">O arquivo original será substituído por um novo, em vez de ser salvo na pasta selecionada</string>
     <string name="hidden_watermark_text_detected">Texto de marca d\'água oculto detectado</string>
@@ -1872,7 +1872,7 @@
     <string name="pulse_grid_pixelization">Pixelização em Grade de Pulsos</string>
     <string name="nucleus_pixelization">Pixelização do Núcleo</string>
     <string name="radial_weave_pixelization">Pixelização de Tecelagem Radial</string>
-    <string name="cannot_open_uri">Não é possível abrir o uri \"%s\"</string>
+    <string name="cannot_open_uri">Não é possível abrir o uri \"%1$s\"</string>
     <string name="snowfall_mode">Modo Neve</string>
     <string name="enabled">Ativado</string>
     <string name="border_frame">Moldura de Borda</string>
@@ -1934,10 +1934,10 @@
     <string name="merging">Fusão</string>
     <string name="chunk_size">Tamanho do Pedaço</string>
     <string name="overlap_size">Tamanho da Sobreposição</string>
-    <string name="note_chunk_info">Imagens com mais de %1$d px serão divididas e processadas em partes, que serão sobrepostas para evitar junções visíveis.</string>
+    <string name="note_chunk_info">Imagens com mais de %1$s px serão divididas e processadas em partes, que serão sobrepostas para evitar junções visíveis.</string>
     <string name="large_chunk_warning">Tamanhos grandes podem causar instabilidade em dispositivos de baixo custo</string>
     <string name="select_one_to_start">Selecione uma para começar</string>
-    <string name="delete_model_sub">Deseja excluir o modelo %s? Você precisará baixá-lo novamente</string>
+    <string name="delete_model_sub">Deseja excluir o modelo %1$s? Você precisará baixá-lo novamente</string>
     <string name="confirm">Confirmar</string>
     <string name="models">Modelos</string>
     <string name="downloaded_models">Modelos Baixados</string>

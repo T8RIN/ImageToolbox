@@ -320,7 +320,7 @@
     <string name="image_exif_warning">वर्तमान में, %1$s प्रारूप केवल Android पर EXIF मेटाडेटा पढ़ने की अनुमति देता है। सहेजे जाने पर आउटपुट छवि में बिल्कुल भी मेटाडेटा नहीं होगा।</string>
     <string name="food_and_drink">खाद्य और पेय</string>
     <string name="contact_me">मुझसे बात करें</string>
-    <string name="effort_sub">%1$d के मान का अर्थ है तेज़ संपीड़न, जिसके परिणामस्वरूप फाइल का आकार अपेक्षाकृत बड़ा हो जाता है। %2$d का अर्थ है धीमा संपीड़न, जिसके परिणामस्वरूप छोटी फाइल बनती है।</string>
+    <string name="effort_sub">%1$s के मान का अर्थ है तेज़ संपीड़न, जिसके परिणामस्वरूप फाइल का आकार अपेक्षाकृत बड़ा हो जाता है। %2$s का अर्थ है धीमा संपीड़न, जिसके परिणामस्वरूप छोटी फाइल बनती है।</string>
     <string name="backup_sub">फाइल में अपनी ऐप सेटिंग का बैकअप लें</string>
     <string name="corrupted_file_or_not_a_backup">दूषित फाइल या बैकअप नहीं</string>
     <string name="presets_sub" formatted="false">यदि आपने प्रीसेट 125 चुना है, तो छवि मूल छवि के 125% आकार में सहेजी जाएगी। यदि आप प्रीसेट 50 चुनते हैं, तो छवि 50% आकार के साथ सहेजी जाएगी</string>
@@ -564,7 +564,7 @@
     <string name="mitchell_sub">स्केल की गई छवि में तीखेपन और एंटी-अलियासिंग के बीच संतुलन प्राप्त करने के लिए समायोज्य मापदंडों के साथ एक कनवल्शन फिल्टर का उपयोग करने वाली पुन: नमूनाकरण विधि</string>
     <string name="spline_sub">एक वक्र या सतह, लचीले और निरंतर आकार प्रतिनिधित्व को सुचारू रूप से प्रक्षेपित और अनुमानित करने के लिए टुकड़े-टुकड़े परिभाषित बहुपद कार्यों का उपयोग करता है</string>
     <string name="color_anomaly">रंग विसंगति</string>
-    <string name="saved_to_original">मूल गंतव्य पर %s नाम से अधिलेखित फाइल</string>
+    <string name="saved_to_original">मूल गंतव्य पर %1$s नाम से अधिलेखित फाइल</string>
     <string name="use_pixel_switch">पिक्सल स्विच का प्रयोग करें</string>
     <string name="use_pixel_switch_sub">गूगल के Material You आधारित स्विच की जगह पिक्सल जैसे स्विच का इस्तेमाल किया जाएगा</string>
     <string name="allow_multiple_languages">कई भाषाओं की अनुमति दें</string>
@@ -681,7 +681,7 @@
     <string name="recognize_text">OCR (पाठ पहचानें)</string>
     <string name="recognize_text_sub">दी गई छवि से पाठ को पहचानें, 120 + भाषाओं का समर्थन किया</string>
     <string name="picture_has_no_text">चित्र में कोई पाठ नहीं है, या ऐप को यह नहीं मिला</string>
-    <string name="accuracy">सटीकता: %1$d</string>
+    <string name="accuracy">सटीकता: %1$s</string>
     <string name="recognition_type">मान्यता प्रकार</string>
     <string name="fast">तेज</string>
     <string name="standard">मानक</string>
@@ -855,7 +855,7 @@
     <string name="lanczos_bessel_sub">पुन: नमूनाकरण विधि जो पिक्सल मानों पर बेसेल (jinc) फ़ंक्शन लागू करके उच्च गुणवत्ता वाले इंटरपोलेशन को बनाए रखती है</string>
     <string name="apng_type_to_jxl_sub">APNG छवियों को JXL एनिमेटेड चित्रों में बदलें</string>
     <string name="compression_type">संपीड़न प्रकार</string>
-    <string name="speed_sub">परिणामी छवि डिकोडिंग गति को नियंत्रित करता है, इससे परिणामी छवि को तेजी से खोलने में मदद मिलेगी, %1$d का मतलब सबसे धीमी डिकोडिंग, जबकि %2$d - सबसे तेज़, यह सेटिंग आउटपुट छवि आकार को बढ़ा सकती है</string>
+    <string name="speed_sub">परिणामी छवि डिकोडिंग गति को नियंत्रित करता है, इससे परिणामी छवि को तेजी से खोलने में मदद मिलेगी, %1$s का मतलब सबसे धीमी डिकोडिंग, जबकि %2$s - सबसे तेज़, यह सेटिंग आउटपुट छवि आकार को बढ़ा सकती है</string>
     <string name="sort_by_name">नाम से छांटें</string>
     <string name="sort_by_name_reversed">नाम से छांटें (उलटा)</string>
     <string name="sorting">छंटाई</string>
@@ -1118,7 +1118,7 @@
     <string name="save_as_file">फाइल के रूप में सहेजें</string>
     <string name="save_as_qr_code_image">QR कोड छवि के रूप में सहेजें</string>
     <string name="delete_template">टेम्प्लेट मिटाएं</string>
-    <string name="added_filter_template">\"%1$s\" नाम के साथ फिल्टर खाका जोड़ा गया (%2$d)</string>
+    <string name="added_filter_template">\"%1$s\" नाम के साथ फिल्टर खाका जोड़ा गया (%2$s)</string>
     <string name="filter_preview">फिल्टर पूर्वावलोकन</string>
     <string name="qr_code">QR कोड</string>
     <string name="qr_code_sub">QR कोड को स्कैन करें और उसकी सामग्री प्राप्त करें या नया कोड बनाने के लिए अपनी स्ट्रिंग पेस्ट करें</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">लेआउट</string>
     <string name="main_screen_title">मुख्य स्क्रीन शीर्षक</string>
     <string name="constant_rate_factor">स्थिर दर कारक (सीआरएफ)</string>
-    <string name="crf_sub">%1$d का मान धीमी गति से संपीड़न का मतलब है, जिसके परिणामस्वरूप फ़ाइल का आकार अपेक्षाकृत छोटा होता है। %2$d का अर्थ है तेज़ संपीड़न, जिसके परिणामस्वरूप एक बड़ी फ़ाइल बनती है।</string>
+    <string name="crf_sub">%1$s का मान धीमी गति से संपीड़न का मतलब है, जिसके परिणामस्वरूप फ़ाइल का आकार अपेक्षाकृत छोटा होता है। %2$s का अर्थ है तेज़ संपीड़न, जिसके परिणामस्वरूप एक बड़ी फ़ाइल बनती है।</string>
     <string name="lut_library">लुट लाइब्रेरी</string>
     <string name="lut_library_sub">LUTs का संग्रह डाउनलोड करें, जिसे डाउनलोड करने के बाद आप आवेदन कर सकते हैं</string>
     <string name="lut_library_update_sub">LUTs का अद्यतन संग्रह (केवल नए कतारबद्ध होंगे), जिसे आप डाउनलोड करने के बाद लागू कर सकते हैं</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">फास्ट सेटिंग्स साइड</string>
     <string name="fast_settings_side_sub">छवियों को संपादित करते समय चयनित पक्ष में एक फ्लोटिंग स्ट्रिप जोड़ें, जिस पर क्लिक करने पर तेज़ सेटिंग्स खुल जाएंगी</string>
     <string name="clear_selection">स्पष्ट चयन</string>
-    <string name="settings_group_visibility_hidden">सेटिंग समूह \"%s\" डिफ़ॉल्ट रूप से संक्षिप्त हो जाएगा</string>
-    <string name="settings_group_visibility_visible">सेटिंग समूह \"%s\" को डिफ़ॉल्ट रूप से विस्तारित किया जाएगा</string>
+    <string name="settings_group_visibility_hidden">सेटिंग समूह \"%1$s\" डिफ़ॉल्ट रूप से संक्षिप्त हो जाएगा</string>
+    <string name="settings_group_visibility_visible">सेटिंग समूह \"%1$s\" को डिफ़ॉल्ट रूप से विस्तारित किया जाएगा</string>
     <string name="base_64_tools">बेस64 उपकरण</string>
     <string name="base_64_tools_sub">बेस64 स्ट्रिंग को छवि में डीकोड करें, या छवि को बेस64 प्रारूप में एनकोड करें</string>
     <string name="base_64">बेस 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">स्क्रीनशॉट संसाधित हो रहा है</string>
     <string name="screenshot_not_captured_try_again">स्क्रीनशॉट कैप्चर नहीं हुआ, पुनः प्रयास करें</string>
     <string name="skipped_saving">सहेजना छोड़ दिया गया</string>
-    <string name="skipped_saving_multiple">%1$d फ़ाइलें छोड़ दी गईं</string>
+    <string name="skipped_saving_multiple">%1$s फ़ाइलें छोड़ दी गईं</string>
     <string name="allow_skip_if_larger">यदि बड़ा हो तो छोड़ें की अनुमति दें</string>
     <string name="allow_skip_if_larger_sub">यदि परिणामी फ़ाइल का आकार मूल से बड़ा होगा तो कुछ टूल को छवियों को सहेजना छोड़ने की अनुमति दी जाएगी</string>
     <string name="qr_type_calendar_event">कैलेंडर इवेंट</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">पैलेट प्रारूप</string>
     <string name="export_palette_sub">उत्पन्न पैलेट को विभिन्न प्रारूपों में निर्यात करें</string>
     <string name="add_color_palette_sub">मौजूदा पैलेट में नया रंग जोड़ता है</string>
-    <string name="palette_name_not_supported">%s प्रारूप पैलेट नाम प्रदान करने का समर्थन नहीं करता</string>
+    <string name="palette_name_not_supported">%1$s प्रारूप पैलेट नाम प्रदान करने का समर्थन नहीं करता</string>
     <string name="wallpapers_export_not_avaialbe">Play Store नीतियों के कारण, इस सुविधा को वर्तमान बिल्ड में शामिल नहीं किया जा सकता है। इस कार्यक्षमता तक पहुँचने के लिए, कृपया वैकल्पिक स्रोत से ImageToolbox डाउनलोड करें। आप नीचे GitHub पर उपलब्ध बिल्ड पा सकते हैं।</string>
     <string name="open_github_page">जीथब पेज खोलें</string>
     <string name="overwrite_files_sub_short">मूल फ़ाइल को चयनित फ़ोल्डर में सहेजने के बजाय नई फ़ाइल से बदल दिया जाएगा</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">पल्स ग्रिड पिक्सेलाइजेशन</string>
     <string name="nucleus_pixelization">न्यूक्लियस पिक्सेलाइजेशन</string>
     <string name="radial_weave_pixelization">रेडियल बुनाई पिक्सेलाइजेशन</string>
-    <string name="cannot_open_uri">uri \"%s\" नहीं खुल सकता</string>
+    <string name="cannot_open_uri">uri \"%1$s\" नहीं खुल सकता</string>
     <string name="snowfall_mode">बर्फबारी मोड</string>
     <string name="enabled">सक्रिय</string>
     <string name="border_frame">सीमा फ़्रेम</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">विलय</string>
     <string name="chunk_size">खंड आकार</string>
     <string name="overlap_size">ओवरलैप आकार</string>
-    <string name="note_chunk_info">%1$d px से अधिक की छवियों को टुकड़ों में काटा और संसाधित किया जाएगा, दृश्यमान सीमों को रोकने के लिए ओवरलैप इन्हें मिश्रित करता है।</string>
+    <string name="note_chunk_info">%1$s px से अधिक की छवियों को टुकड़ों में काटा और संसाधित किया जाएगा, दृश्यमान सीमों को रोकने के लिए ओवरलैप इन्हें मिश्रित करता है।</string>
     <string name="large_chunk_warning">बड़े आकार निम्न-स्तरीय उपकरणों के साथ अस्थिरता पैदा कर सकते हैं</string>
     <string name="select_one_to_start">आरंभ करने के लिए एक का चयन करें</string>
-    <string name="delete_model_sub">क्या आप %s मॉडल को हटाना चाहते हैं? आपको इसे दोबारा डाउनलोड करना होगा</string>
+    <string name="delete_model_sub">क्या आप %1$s मॉडल को हटाना चाहते हैं? आपको इसे दोबारा डाउनलोड करना होगा</string>
     <string name="confirm">पुष्टि करना</string>
     <string name="models">मॉडल</string>
     <string name="downloaded_models">डाउनलोड किए गए मॉडल</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">क्षैतिज सीमा मोटाई</string>
     <string name="vertical_border_thickness">ऊर्ध्वाधर सीमा मोटाई</string>
     <plurals name="color_count">
-        <item quantity="one">%s रंग</item>
-        <item quantity="other">%s रंग</item>
+        <item quantity="one">%1$s रंग</item>
+        <item quantity="other">%1$s रंग</item>
     </plurals>
     <string name="current_model_not_chunkable">वर्तमान मॉडल चंकिंग का समर्थन नहीं करता है, छवि को मूल आयामों में संसाधित किया जाएगा, इससे उच्च मेमोरी खपत और लो-एंड डिवाइस के साथ समस्याएं हो सकती हैं</string>
     <string name="chunking_disabled">चंकिंग अक्षम, छवि को मूल आयामों में संसाधित किया जाएगा, इससे उच्च मेमोरी खपत और कम-अंत डिवाइसों के साथ समस्याएं हो सकती हैं लेकिन अनुमान लगाने पर बेहतर परिणाम मिल सकते हैं</string>

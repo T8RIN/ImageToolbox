@@ -691,7 +691,7 @@
     <string name="random_emojis_error">Немагчыма выкарыстоўваць выпадковы выбар эмодзі, калі эмодзі адключаны</string>
     <string name="emoji_selection_error">Немагчыма выбраць эмодзі, калі ўключаны выпадковы выбар</string>
     <string name="effort">Высілак</string>
-    <string name="effort_sub">Значэнне %1$d азначае хуткае сцісканне, што прыводзіць да адносна вялікага памеру файла. %2$d азначае больш павольнае сцісканне, што прыводзіць да меншага файла.</string>
+    <string name="effort_sub">Значэнне %1$s азначае хуткае сцісканне, што прыводзіць да адносна вялікага памеру файла. %2$s азначае больш павольнае сцісканне, што прыводзіць да меншага файла.</string>
     <string name="wait">Пачакай</string>
     <string name="primary">Першасны</string>
     <string name="tertiary">троесны</string>
@@ -727,7 +727,7 @@
     <string name="pdf_tools_sub">Працуйце з PDF-файламі: папярэдні прагляд, пераўтварэнне ў групу малюнкаў або стварэнне аднаго з дадзеных малюнкаў</string>
     <string name="old_tv">Стары тэлевізар</string>
     <string name="shuffle_blur">Выпадковае размыццё</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Тып распазнавання</string>
     <string name="fast">Хуткі</string>
     <string name="standard">Стандартны</string>
@@ -743,7 +743,7 @@
     <string name="side_by_side">Побач</string>
     <string name="toggle_tap">Пераключыць кран</string>
     <string name="transparency">Празрыстасць</string>
-    <string name="saved_to_original">Перазапісаны файл з назвай %s у першапачатковым месцы прызначэння</string>
+    <string name="saved_to_original">Перазапісаны файл з назвай %1$s у першапачатковым месцы прызначэння</string>
     <string name="magnifier">Лупа</string>
     <string name="magnifier_sub">Ўключае лупу ў верхняй частцы пальца ў рэжымах малявання для лепшай даступнасці</string>
     <string name="force_exif_widget_initial_value">Прымусовае пачатковае значэнне</string>
@@ -862,7 +862,7 @@
     <string name="generate_previews_sub">Ўключае генерацыю папярэдняга прагляду, гэта можа дапамагчы пазбегнуць збояў на некаторых прыладах, гэта таксама адключае некаторыя функцыі рэдагавання ў рамках адной опцыі рэдагавання</string>
     <string name="lossy_compression">Сцісканне з стратамі</string>
     <string name="compression_type">Тып сціску</string>
-    <string name="speed_sub">Кантралюе хуткасць дэкадавання выніковага відарыса, гэта павінна дапамагчы адкрыць выніковы відарыс хутчэй, значэнне %1$d азначае самае павольнае дэкадаванне, ў той час як %2$d - самае хуткае, гэты параметр можа павялічыць памер выходнага відарыса</string>
+    <string name="speed_sub">Кантралюе хуткасць дэкадавання выніковага відарыса, гэта павінна дапамагчы адкрыць выніковы відарыс хутчэй, значэнне %1$s азначае самае павольнае дэкадаванне, ў той час як %2$s - самае хуткае, гэты параметр можа павялічыць памер выходнага відарыса</string>
     <string name="sorting">Сартаванне</string>
     <string name="sort_by_date">Сартаваць па даце</string>
     <string name="sort_by_date_reversed">Сартаваць па даце (зваротна)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Захаваць як відарыс QR-кода</string>
     <string name="delete_template">Выдаліць шаблон</string>
     <string name="delete_template_warn">Вы збіраецеся выдаліць выбраны фільтр шаблона. Гэтую аперацыю нельга адмяніць</string>
-    <string name="added_filter_template">Дададзены шаблон фільтра з назвай \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Дададзены шаблон фільтра з назвай \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Папярэдні прагляд фільтра</string>
     <string name="qr_code">QR і штрых-код</string>
     <string name="qr_code_sub">Адсканіруйце QR-код і атрымайце яго змесціва або ўстаўце свой радок, каб стварыць новы</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Макет</string>
     <string name="main_screen_title">Назва галоўнага экрана</string>
     <string name="constant_rate_factor">Каэфіцыент пастаяннай хуткасці (CRF)</string>
-    <string name="crf_sub">Значэнне %1$d азначае павольнае сцісканне, што прыводзіць да адносна невялікага памеру файла. %2$d азначае больш хуткае сцісканне, што прыводзіць да вялікага файла.</string>
+    <string name="crf_sub">Значэнне %1$s азначае павольнае сцісканне, што прыводзіць да адносна невялікага памеру файла. %2$s азначае больш хуткае сцісканне, што прыводзіць да вялікага файла.</string>
     <string name="lut_library">Луцкая бібліятэка</string>
     <string name="lut_library_sub">Спампуйце калекцыю LUT, якую вы можаце прымяніць пасля загрузкі</string>
     <string name="lut_library_update_sub">Абнавіць калекцыю LUT (толькі новыя будуць пастаўлены ў чаргу), якую можна прымяніць пасля спампоўкі</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Бок хуткіх налад</string>
     <string name="fast_settings_side_sub">Дадайце плаваючую паласу на абраным баку падчас рэдагавання малюнкаў, якая адкрые хуткія налады пры націску</string>
     <string name="clear_selection">Ачысціць выбар</string>
-    <string name="settings_group_visibility_hidden">Група налад \"%s\" будзе згорнута па змаўчанні</string>
-    <string name="settings_group_visibility_visible">Група налад \"%s\" будзе пашырана па змаўчанні</string>
+    <string name="settings_group_visibility_hidden">Група налад \"%1$s\" будзе згорнута па змаўчанні</string>
+    <string name="settings_group_visibility_visible">Група налад \"%1$s\" будзе пашырана па змаўчанні</string>
     <string name="base_64_tools">Інструменты Base64</string>
     <string name="base_64_tools_sub">Дэкадзіраваць радок Base64 у відарыс або закадзіраваць відарыс у фармат Base64</string>
     <string name="base_64">База64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Апрацоўка скрыншота</string>
     <string name="screenshot_not_captured_try_again">Здымак экрана не зроблены, паўтарыце спробу</string>
     <string name="skipped_saving">Захаванне прапушчана</string>
-    <string name="skipped_saving_multiple">%1$d файлаў прапушчана</string>
+    <string name="skipped_saving_multiple">%1$s файлаў прапушчана</string>
     <string name="allow_skip_if_larger">Дазволіць прапусціць, калі больш</string>
     <string name="allow_skip_if_larger_sub">Некаторым інструментам будзе дазволена прапускаць захаванне малюнкаў, калі выніковы памер файла будзе большы за арыгінальны</string>
     <string name="qr_type_calendar_event">Каляндар падзей</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Фармат палітры</string>
     <string name="export_palette_sub">Экспарт згенераванай палітры ў розныя фарматы</string>
     <string name="add_color_palette_sub">Дадае новы колер да бягучай палітры</string>
-    <string name="palette_name_not_supported">Фармат %s не падтрымлівае назву палітры</string>
+    <string name="palette_name_not_supported">Фармат %1$s не падтрымлівае назву палітры</string>
     <string name="wallpapers_export_not_avaialbe">З-за палітыкі Крамы Play гэтая функцыя не можа быць уключана ў бягучую зборку. Каб атрымаць доступ да гэтай функцыі, загрузіце ImageToolbox з альтэрнатыўнай крыніцы. Вы можаце знайсці даступныя зборкі на GitHub ніжэй.</string>
     <string name="open_github_page">Адкрыць старонку Github</string>
     <string name="overwrite_files_sub_short">Арыгінальны файл будзе заменены новым замест захавання ў выбранай папцы</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Піксэлізацыя імпульснай сеткі</string>
     <string name="nucleus_pixelization">Пікселізацыю ядра</string>
     <string name="radial_weave_pixelization">Радыяльнае перапляценне пікселізацыі</string>
-    <string name="cannot_open_uri">Немагчыма адкрыць uri \"%s\"</string>
+    <string name="cannot_open_uri">Немагчыма адкрыць uri \"%1$s\"</string>
     <string name="snowfall_mode">Рэжым снегападу</string>
     <string name="enabled">Уключаны</string>
     <string name="border_frame">Бардзюрная рамка</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Зліццё</string>
     <string name="chunk_size">Памер кавалка</string>
     <string name="overlap_size">Памер перакрыцця</string>
-    <string name="note_chunk_info">Выявы памерам больш за %1$d пікселяў будуць нарэзаны і апрацаваны на кавалкі. Перакрываючы іх змешвае, каб прадухіліць бачныя швы.</string>
+    <string name="note_chunk_info">Выявы памерам больш за %1$s пікселяў будуць нарэзаны і апрацаваны на кавалкі. Перакрываючы іх змешвае, каб прадухіліць бачныя швы.</string>
     <string name="large_chunk_warning">Вялікія памеры могуць выклікаць нестабільнасць прылад нізкага ўзроўню</string>
     <string name="select_one_to_start">Выберыце адзін, каб пачаць</string>
-    <string name="delete_model_sub">Вы хочаце выдаліць мадэль %s? Вам трэба будзе спампаваць яго зноў</string>
+    <string name="delete_model_sub">Вы хочаце выдаліць мадэль %1$s? Вам трэба будзе спампаваць яго зноў</string>
     <string name="confirm">Пацвердзіць</string>
     <string name="models">Мадэлі</string>
     <string name="downloaded_models">Спампаваныя мадэлі</string>
@@ -2002,10 +2002,10 @@
     <string name="horizontal_border_thickness">Таўшчыня гарызантальнай мяжы</string>
     <string name="vertical_border_thickness">Таўшчыня вертыкальнай мяжы</string>
     <plurals name="color_count">
-        <item quantity="one">%s колер</item>
-        <item quantity="few">%s колераў</item>
-        <item quantity="many">%s колераў</item>
-        <item quantity="other">%s колераў</item>
+        <item quantity="one">%1$s колер</item>
+        <item quantity="few">%1$s колераў</item>
+        <item quantity="many">%1$s колераў</item>
+        <item quantity="other">%1$s колераў</item>
     </plurals>
     <string name="current_model_not_chunkable">Бягучая мадэль не падтрымлівае разбіццё на кавалкі, выява будзе апрацоўвацца ў зыходных памерах, гэта можа выклікаць вялікае спажыванне памяці і праблемы з прыладамі нізкага ўзроўню</string>
     <string name="chunking_disabled">Раздзяленне на кавалкі адключана, відарыс будзе апрацоўвацца ў зыходных памерах, гэта можа выклікаць вялікае спажыванне памяці і праблемы з прыладамі нізкага класа, але можа даць лепшыя вынікі высновы</string>

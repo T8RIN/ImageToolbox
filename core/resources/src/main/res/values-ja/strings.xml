@@ -686,7 +686,7 @@
     <string name="analytics">分析</string>
     <string name="analytics_sub">匿名のアプリ使用統計情報の収集を許可する</string>
     <string name="effort">エフォート</string>
-    <string name="effort_sub">%1$dの値は高速圧縮を意味し、比較的大きなファイルサイズになります。%2$dはより遅い圧縮を意味し、より小さなファイルになります。</string>
+    <string name="effort_sub">%1$sの値は高速圧縮を意味し、比較的大きなファイルサイズになります。%2$sはより遅い圧縮を意味し、より小さなファイルになります。</string>
     <string name="wait">お待ちください</string>
     <string name="mask_color">マスクの色</string>
     <string name="scale_mode">スケールモード</string>
@@ -758,7 +758,7 @@
     <string name="recognize_text">OCR（テキスト認識）</string>
     <string name="recognize_text_sub">指定された画像からテキストを認識、120以上の言語がサポートされています</string>
     <string name="picture_has_no_text">画像にはテキストがないか、アプリが見つけられませんでした</string>
-    <string name="accuracy">精度：%1$d</string>
+    <string name="accuracy">精度：%1$s</string>
     <string name="recognition_type">認識タイプ</string>
     <string name="fast">高速</string>
     <string name="standard">標準</string>
@@ -774,7 +774,7 @@
     <string name="vertical_grid">垂直グリッド</string>
     <string name="use_pixel_switch">ピクセルスイッチを使用</string>
     <string name="use_pixel_switch_sub">Pixelのようなスイッチを使用</string>
-    <string name="saved_to_original">元の場所に%s名で上書きされました</string>
+    <string name="saved_to_original">元の場所に%1$s名で上書きされました</string>
     <string name="magnifier">拡大鏡</string>
     <string name="magnifier_sub">アクセシビリティ向上のため、描画モードで指先の上に拡大鏡を有効にします</string>
     <string name="favorite">お気に入り</string>
@@ -851,7 +851,7 @@
     <string name="generate_previews_sub">プレビュー生成を有効にします。これは一部のデバイスでのクラッシュを回避するのに役立ちますが、単一編集オプション内の一部の編集機能も無効になります</string>
     <string name="lossy_compression">非可逆圧縮</string>
     <string name="lossy_compression_sub">可逆圧縮の代わりに非可逆圧縮を使用してファイルサイズを削減</string>
-    <string name="speed_sub">結果画像のデコード速度を制御します。これにより結果画像の開く速度を速くできます。%1$dの値は最も遅いデコードを意味し、%2$dは最速です。この設定はファイルサイズを増加させる可能性があります</string>
+    <string name="speed_sub">結果画像のデコード速度を制御します。これにより結果画像の開く速度を速くできます。%1$sの値は最も遅いデコードを意味し、%2$sは最速です。この設定はファイルサイズを増加させる可能性があります</string>
     <string name="sorting">並び替え</string>
     <string name="sort_by_date">日付</string>
     <string name="sort_by_date_reversed">日付（逆順）</string>
@@ -1088,7 +1088,7 @@
     <string name="lagrange_3_sub">3次のラグランジュ補間フィルターで、画像スケーリングにより高い精度とより滑らかな結果を提供します</string>
     <string name="repeat_text">テキストを繰り返す</string>
     <string name="mask">マスク</string>
-    <string name="crf_sub">%1$dの値は遅い圧縮を意味し、比較的小さなファイルサイズになります。%2$dはより速い圧縮を意味し、大きなファイルになります。</string>
+    <string name="crf_sub">%1$sの値は遅い圧縮を意味し、比較的小さなファイルサイズになります。%2$sはより速い圧縮を意味し、大きなファイルになります。</string>
     <string name="free_corners_sub">多角形で画像を切り抜き、パースペクティブも修正します</string>
     <string name="top_right">右上</string>
     <string name="qr_code">QRコード</string>
@@ -1112,7 +1112,7 @@
     <string name="hanning">ハニング</string>
     <string name="checksum_as_filename">チェックサムをファイル名として使用</string>
     <string name="hide_nav_bar">ナビゲーションバーを非表示</string>
-    <string name="settings_group_visibility_hidden">設定グループ「%s」はデフォルトで折りたたまれます</string>
+    <string name="settings_group_visibility_hidden">設定グループ「%1$s」はデフォルトで折りたたまれます</string>
     <string name="edit_exif_screen">EXIF編集</string>
     <string name="edit_exif_screen_sub">単一画像のメタデータを再圧縮なしで変更</string>
     <string name="change_sticker">ステッカーを変更</string>
@@ -1208,7 +1208,7 @@
     <string name="select_template_preview">この画像はこのフィルターテンプレートのプレビューとして使用されます</string>
     <string name="template_filter">テンプレートフィルター</string>
     <string name="as_qr_code">QRコード画像として</string>
-    <string name="added_filter_template">名前「%1$s」（%2$d）のフィルターテンプレートを追加しました</string>
+    <string name="added_filter_template">名前「%1$s」（%2$s）のフィルターテンプレートを追加しました</string>
     <string name="filter_preview">フィルタープレビュー</string>
     <string name="code_content">コード内容</string>
     <string name="qr_code_sub">QRコードをスキャンして内容を取得するか、文字列を貼り付けて新しいQRコードを生成します</string>
@@ -1543,7 +1543,7 @@
     <string name="layers_on_background">背景上のレイヤー</string>
     <string name="fast_settings_side">クイック設定側面</string>
     <string name="clear_selection">選択をクリア</string>
-    <string name="settings_group_visibility_visible">設定グループ「%s」はデフォルトで展開されます</string>
+    <string name="settings_group_visibility_visible">設定グループ「%1$s」はデフォルトで展開されます</string>
     <string name="base_64_tools">Base64ツール</string>
     <string name="checksum_tools">チェックサムツール</string>
     <string name="wrong_font">インポートできるのはTTFフォントのみです</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">スクリーンショットを処理中です</string>
     <string name="screenshot_not_captured_try_again">スクリーンショットの取得に失敗しました。もう一度お試しください</string>
     <string name="skipped_saving">保存をスキップしました</string>
-    <string name="skipped_saving_multiple">%1$dファイルをスキップしました</string>
+    <string name="skipped_saving_multiple">%1$sファイルをスキップしました</string>
     <string name="allow_skip_if_larger">ファイルサイズが大きい場合は保存をスキップ</string>
     <string name="allow_skip_if_larger_sub">元のファイルより大きくなる場合は自動的に保存をスキップします</string>
     <string name="qr_type_calendar_event">カレンダーイベント</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">パレットフォーマット</string>
     <string name="export_palette_sub">生成されたパレットをさまざまな形式でエクスポートする</string>
     <string name="add_color_palette_sub">現在のパレットに新しい色を追加します</string>
-    <string name="palette_name_not_supported">%s 形式はパレット名の指定をサポートしていません</string>
+    <string name="palette_name_not_supported">%1$s 形式はパレット名の指定をサポートしていません</string>
     <string name="wallpapers_export_not_avaialbe">Play ストアのポリシーにより、この機能は現在のビルドに含めることができません。この機能にアクセスするには、別のソースから ImageToolbox をダウンロードしてください。利用可能なビルドは以下の GitHub で見つけることができます。</string>
     <string name="open_github_page">Githubページを開く</string>
     <string name="overwrite_files_sub_short">選択したフォルダーに保存されるのではなく、元のファイルが新しいファイルに置き換えられます</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">パルスグリッドピクセル化</string>
     <string name="nucleus_pixelization">核のピクセル化</string>
     <string name="radial_weave_pixelization">放射状織りピクセル化</string>
-    <string name="cannot_open_uri">URI「%s」を開けません</string>
+    <string name="cannot_open_uri">URI「%1$s」を開けません</string>
     <string name="snowfall_mode">降雪モード</string>
     <string name="enabled">有効</string>
     <string name="border_frame">ボーダーフレーム</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">結合</string>
     <string name="chunk_size">チャンクサイズ</string>
     <string name="overlap_size">オーバーラップサイズ</string>
-    <string name="note_chunk_info">%1$d ピクセルを超える画像はスライスされてチャンクに処理され、継ぎ目が見えないようにこれらをオーバーラップ ブレンドします。</string>
+    <string name="note_chunk_info">%1$s ピクセルを超える画像はスライスされてチャンクに処理され、継ぎ目が見えないようにこれらをオーバーラップ ブレンドします。</string>
     <string name="large_chunk_warning">サイズが大きいと、ローエンド デバイスで不安定になる可能性があります</string>
     <string name="select_one_to_start">開始するには 1 つを選択してください</string>
-    <string name="delete_model_sub">%s モデルを削除しますか?再度ダウンロードする必要があります</string>
+    <string name="delete_model_sub">%1$s モデルを削除しますか?再度ダウンロードする必要があります</string>
     <string name="confirm">確認する</string>
     <string name="models">モデル</string>
     <string name="downloaded_models">ダウンロードしたモデル</string>
@@ -2002,7 +2002,7 @@
     <string name="horizontal_border_thickness">水平方向の境界線の太さ</string>
     <string name="vertical_border_thickness">垂直方向の境界線の太さ</string>
     <plurals name="color_count">
-        <item quantity="other">%s色</item>
+        <item quantity="other">%1$s色</item>
     </plurals>
     <string name="current_model_not_chunkable">現在のモデルはチャンキングをサポートしていません。画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性があります。</string>
     <string name="chunking_disabled">チャンキングが無効になっていると、画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性がありますが、推論ではより良い結果が得られる可能性があります。</string>

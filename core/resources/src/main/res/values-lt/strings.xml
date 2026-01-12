@@ -392,7 +392,7 @@
     <string name="analytics_sub">Leisti rinkti anoniminę programos naudojimo statistiką</string>
     <string name="image_exif_warning">Šiuo metu %1$s formatas leidžia skaityti tik EXIF ​​metaduomenis „Android“. Išsaugotas vaizdas iš viso neturės metaduomenų.</string>
     <string name="effort">Pastangos</string>
-    <string name="effort_sub">%1$d reikšmė reiškia greitą suspaudimą, dėl kurio failas yra gana didelis. %2$d reiškia lėtesnį glaudinimą, todėl failas bus mažesnis.</string>
+    <string name="effort_sub">%1$s reikšmė reiškia greitą suspaudimą, dėl kurio failas yra gana didelis. %2$s reiškia lėtesnį glaudinimą, todėl failas bus mažesnis.</string>
     <string name="wait">Palauk</string>
     <string name="saving_almost_complete">Išsaugojimas beveik baigtas. Atšaukus dabar, reikės dar kartą išsaugoti.</string>
     <string name="draw_arrows">Nubrėžkite rodykles</string>
@@ -569,7 +569,7 @@
     <string name="recognize_text">OCR (teksto atpažinimas)</string>
     <string name="recognize_text_sub">Atpažinti tekstą iš pateikto vaizdo, palaikoma daugiau nei 120 kalbų</string>
     <string name="picture_has_no_text">Nuotraukoje nėra teksto arba programa jo nerado</string>
-    <string name="accuracy">\"Tikslumas: %1$d\"</string>
+    <string name="accuracy">\"Tikslumas: %1$s\"</string>
     <string name="recognition_type">Atpažinimo tipas</string>
     <string name="fast">Greitai</string>
     <string name="standard">Standartinis</string>
@@ -583,7 +583,7 @@
     <string name="segmentation_mode">Segmentavimo režimas</string>
     <string name="use_pixel_switch">Naudokite Pixel Switch</string>
     <string name="use_pixel_switch_sub">Naudojamas į Google Pixel panašus jungiklis</string>
-    <string name="saved_to_original">Perrašytas failas pavadinimu %s pradinėje paskirties vietoje</string>
+    <string name="saved_to_original">Perrašytas failas pavadinimu %1$s pradinėje paskirties vietoje</string>
     <string name="magnifier">Didintuvas</string>
     <string name="magnifier_sub">Piešimo režimais įgalina didintuvą piršto viršuje, kad būtų lengviau pasiekti</string>
     <string name="force_exif_widget_initial_value">Priversti pradinę vertę</string>
@@ -870,7 +870,7 @@
     <string name="lossy_compression">Prarastos kompresijos</string>
     <string name="lossy_compression_sub">Naudoja nuostolingą glaudinimą, kad sumažintų failo dydį, o ne be nuostolių</string>
     <string name="compression_type">Suspaudimo tipas</string>
-    <string name="speed_sub">Valdo vaizdo dekodavimo greitį, tai turėtų padėti greičiau atidaryti gautą vaizdą, %1$d reikšmė reiškia lėčiausią dekodavimą, o %2$d - greičiausią, šis nustatymas gali padidinti išvesties vaizdo dydį</string>
+    <string name="speed_sub">Valdo vaizdo dekodavimo greitį, tai turėtų padėti greičiau atidaryti gautą vaizdą, %1$s reikšmė reiškia lėčiausią dekodavimą, o %2$s - greičiausią, šis nustatymas gali padidinti išvesties vaizdo dydį</string>
     <string name="sorting">Rūšiavimas</string>
     <string name="sort_by_date">Data</string>
     <string name="sort_by_date_reversed">Data (atvirkščiai)</string>
@@ -1137,7 +1137,7 @@
     <string name="save_as_qr_code_image">Išsaugoti kaip QR kodo vaizdą</string>
     <string name="delete_template">Ištrinti šabloną</string>
     <string name="delete_template_warn">Ketinate ištrinti pasirinktą šablono filtrą. Šios operacijos anuliuoti negalima</string>
-    <string name="added_filter_template">Pridėtas filtro šablonas pavadinimu \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Pridėtas filtro šablonas pavadinimu \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Filtro peržiūra</string>
     <string name="qr_code">QR ir brūkšninis kodas</string>
     <string name="qr_code_sub">Nuskaitykite QR kodą ir gaukite jo turinį arba įklijuokite eilutę, kad sukurtumėte naują</string>
@@ -1482,7 +1482,7 @@
     <string name="layout">Išdėstymas</string>
     <string name="main_screen_title">Pagrindinio ekrano pavadinimas</string>
     <string name="constant_rate_factor">Pastovios normos koeficientas (CRF)</string>
-    <string name="crf_sub">%1$d reikšmė reiškia lėtą glaudinimą, dėl kurio failo dydis yra palyginti mažas. %2$d reiškia greitesnį suspaudimą, todėl failas yra didelis.</string>
+    <string name="crf_sub">%1$s reikšmė reiškia lėtą glaudinimą, dėl kurio failo dydis yra palyginti mažas. %2$s reiškia greitesnį suspaudimą, todėl failas yra didelis.</string>
     <string name="lut_library">Lut biblioteka</string>
     <string name="lut_library_sub">Atsisiųskite LUT kolekciją, kurią galėsite pritaikyti atsisiuntę</string>
     <string name="filter_preview_image_sub">Pakeiskite numatytąją filtrų vaizdo peržiūrą</string>
@@ -1516,8 +1516,8 @@
     <string name="fast_settings_side">Greitųjų nustatymų pusė</string>
     <string name="fast_settings_side_sub">Redaguodami vaizdus pasirinktoje pusėje pridėkite slankiąją juostelę, kurią spustelėjus atsidarys greiti nustatymai</string>
     <string name="clear_selection">Išvalyti pasirinkimą</string>
-    <string name="settings_group_visibility_hidden">Nustatymų grupė \"%s\" bus sutraukta pagal numatytuosius nustatymus</string>
-    <string name="settings_group_visibility_visible">Nustatymų grupė \"%s\" bus išplėsta pagal numatytuosius nustatymus</string>
+    <string name="settings_group_visibility_hidden">Nustatymų grupė \"%1$s\" bus sutraukta pagal numatytuosius nustatymus</string>
+    <string name="settings_group_visibility_visible">Nustatymų grupė \"%1$s\" bus išplėsta pagal numatytuosius nustatymus</string>
     <string name="base_64_tools">„Base64“ įrankiai</string>
     <string name="base_64_tools_sub">Iššifruokite „Base64“ eilutę į vaizdą arba užkoduokite vaizdą į „Base64“ formatą</string>
     <string name="base_64">Bazė64</string>
@@ -1751,7 +1751,7 @@
     <string name="processing_screenshot">Apdorojama ekrano kopija</string>
     <string name="screenshot_not_captured_try_again">Ekrano kopija neužfiksuota, bandykite dar kartą</string>
     <string name="skipped_saving">Išsaugojimas praleistas</string>
-    <string name="skipped_saving_multiple">%1$d failai praleisti</string>
+    <string name="skipped_saving_multiple">%1$s failai praleisti</string>
     <string name="allow_skip_if_larger">Leisti praleisti, jei didesnis</string>
     <string name="allow_skip_if_larger_sub">Kai kuriems įrankiams bus leidžiama praleisti vaizdų įrašymą, jei gautas failo dydis būtų didesnis nei originalas</string>
     <string name="qr_type_calendar_event">Kalendoriaus įvykis</string>
@@ -1841,7 +1841,7 @@
     <string name="palette_format">Paletės formatas</string>
     <string name="export_palette_sub">Eksportuokite sugeneruotą paletę į skirtingus formatus</string>
     <string name="add_color_palette_sub">Prideda naują spalvą į dabartinę paletę</string>
-    <string name="palette_name_not_supported">%s formatas nepalaiko paletės pavadinimo</string>
+    <string name="palette_name_not_supported">%1$s formatas nepalaiko paletės pavadinimo</string>
     <string name="wallpapers_export_not_avaialbe">Dėl „Play“ parduotuvės politikos šios funkcijos negalima įtraukti į dabartinę versiją. Norėdami pasiekti šią funkciją, atsisiųskite ImageToolbox iš alternatyvaus šaltinio. Galimas versijas „GitHub“ rasite toliau.</string>
     <string name="open_github_page">Atidarykite „Github“ puslapį</string>
     <string name="overwrite_files_sub_short">Originalus failas bus pakeistas nauju, o ne išsaugoti pasirinktame aplanke</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Impulsinio tinklelio pikseliavimas</string>
     <string name="nucleus_pixelization">Branduolio pikseliavimas</string>
     <string name="radial_weave_pixelization">Radialinio pynimo pikseliavimas</string>
-    <string name="cannot_open_uri">Negalima atidaryti uri \"%s\"</string>
+    <string name="cannot_open_uri">Negalima atidaryti uri \"%1$s\"</string>
     <string name="snowfall_mode">Sniego režimas</string>
     <string name="enabled">Įjungta</string>
     <string name="border_frame">Kraštinis rėmelis</string>
@@ -1930,10 +1930,10 @@
     <string name="merging">Sujungimas</string>
     <string name="chunk_size">Dalies dydis</string>
     <string name="overlap_size">Persidengimo dydis</string>
-    <string name="note_chunk_info">Didesni nei %1$d px vaizdai bus supjaustomi ir apdorojami gabalais, juos perdengiant, kad nebūtų matomų siūlių.</string>
+    <string name="note_chunk_info">Didesni nei %1$s px vaizdai bus supjaustomi ir apdorojami gabalais, juos perdengiant, kad nebūtų matomų siūlių.</string>
     <string name="large_chunk_warning">Dideli dydžiai gali sukelti nestabilumą naudojant žemos klasės įrenginius</string>
     <string name="select_one_to_start">Pasirinkite vieną, kad pradėtumėte</string>
-    <string name="delete_model_sub">Ar norite ištrinti %s modelį? Turėsite jį atsisiųsti dar kartą</string>
+    <string name="delete_model_sub">Ar norite ištrinti %1$s modelį? Turėsite jį atsisiųsti dar kartą</string>
     <string name="confirm">Patvirtinti</string>
     <string name="models">Modeliai</string>
     <string name="downloaded_models">Parsisiųsti modeliai</string>
@@ -2003,10 +2003,10 @@
     <string name="horizontal_border_thickness">Horizontalios kraštinės storis</string>
     <string name="vertical_border_thickness">Vertikalios kraštinės storis</string>
     <plurals name="color_count">
-        <item quantity="many">%s spalvos</item>
-        <item quantity="one">%s spalva</item>
-        <item quantity="few">%s spalvos</item>
-        <item quantity="other">%s spalvos</item>
+        <item quantity="many">%1$s spalvos</item>
+        <item quantity="one">%1$s spalva</item>
+        <item quantity="few">%1$s spalvos</item>
+        <item quantity="other">%1$s spalvos</item>
     </plurals>
     <string name="current_model_not_chunkable">Dabartinis modelis nepalaiko smulkinimo, vaizdas bus apdorojamas originaliais matmenimis, todėl gali sunaudoti daug atminties ir kilti problemų su žemos klasės įrenginiais</string>
     <string name="chunking_disabled">Dalijimas išjungtas, vaizdas bus apdorojamas originalių matmenų, todėl gali sunaudoti daug atminties ir gali kilti problemų su žemos klasės įrenginiais, bet gali duoti geresnių išvadų rezultatų</string>

@@ -396,7 +396,7 @@
     <string name="analytics">Analitika</string>
     <string name="analytics_sub">Baimendu aplikazioen erabilera-estatistika anonimoak biltzea</string>
     <string name="image_exif_warning">Une honetan, %1$s formatuak EXIF metadatuak irakurtzeko aukera ematen du Android-en. Irteerako irudiak ez du metadaturik izango gordetzean.</string>
-    <string name="effort_sub">%1$d balioak konpresio azkarra esan nahi du, eta horren ondorioz fitxategiaren tamaina handi samarra da. %2$d-k konpresio motelagoa dela esan nahi du, eta horren ondorioz fitxategi txikiagoa izango da.</string>
+    <string name="effort_sub">%1$s balioak konpresio azkarra esan nahi du, eta horren ondorioz fitxategiaren tamaina handi samarra da. %2$s-k konpresio motelagoa dela esan nahi du, eta horren ondorioz fitxategi txikiagoa izango da.</string>
     <string name="wait">Itxaron</string>
     <string name="saving_almost_complete">Gorde ia amaituta. Orain bertan behera uzteko, berriro gorde beharko da.</string>
     <string name="updates">Eguneraketak</string>
@@ -487,7 +487,7 @@
     <string name="hann_sub">Leiho-funtzioa sarritan erabiltzen da seinaleen prozesamenduan, ihes espektrala minimizatzeko eta maiztasun-analisiaren zehaztasuna hobetzeko seinale baten ertzak txikituz.</string>
     <string name="available_languages">Eskuragarri dauden hizkuntzak</string>
     <string name="segmentation_mode">Segmentazio modua</string>
-    <string name="saved_to_original">Gainidatzitako fitxategia %s izena duen jatorrizko helmugan</string>
+    <string name="saved_to_original">Gainidatzitako fitxategia %1$s izena duen jatorrizko helmugan</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Irisgarritasun hobea lortzeko, hatzaren goiko aldean lupa gaitzen du marrazketa moduetan</string>
     <string name="force_exif_widget_initial_value">Indartu hasierako balioa</string>
@@ -740,7 +740,7 @@
     <string name="recognize_text">OCR (testua ezagutu)</string>
     <string name="recognize_text_sub">Emandako irudiaren testua ezagutu, 120 hizkuntza baino gehiago onartzen dira</string>
     <string name="picture_has_no_text">Irudiak ez du testurik edo aplikazioak ez du aurkitu</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Aitorpen Mota</string>
     <string name="fast">Azkar</string>
     <string name="standard">Estandarra</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Konpresio galdua</string>
     <string name="lossy_compression_sub">Konpresio galera erabiltzen du fitxategiaren tamaina murrizteko, galerarik gabekoa izan beharrean</string>
     <string name="compression_type">Konpresio Mota</string>
-    <string name="speed_sub">Ondorioz irudiak deskodetzeko abiadura kontrolatzen du. Honek ondoriozko irudia azkarrago irekitzen lagundu beharko luke, %1$d balioak deskodetze motelena esan nahi du, eta %2$d - azkarrena, ezarpen honek irteerako irudiaren tamaina handitu dezake.</string>
+    <string name="speed_sub">Ondorioz irudiak deskodetzeko abiadura kontrolatzen du. Honek ondoriozko irudia azkarrago irekitzen lagundu beharko luke, %1$s balioak deskodetze motelena esan nahi du, eta %2$s - azkarrena, ezarpen honek irteerako irudiaren tamaina handitu dezake.</string>
     <string name="sorting">Sailkatzea</string>
     <string name="sort_by_date">Data</string>
     <string name="sort_by_date_reversed">Data (alderantziztuta)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Gorde QR kodearen irudi gisa</string>
     <string name="delete_template">Ezabatu txantiloia</string>
     <string name="delete_template_warn">Hautatutako txantiloi-iragazkia ezabatzera zoaz. Eragiketa hau ezin da desegin</string>
-    <string name="added_filter_template"> \"%1$s \" izena duen iragazki txantiloia gehitu da (%2$d)</string>
+    <string name="added_filter_template"> \"%1$s \" izena duen iragazki txantiloia gehitu da (%2$s)</string>
     <string name="filter_preview">Iragaziaren aurrebista</string>
     <string name="qr_code">QR eta barra-kodea</string>
     <string name="qr_code_sub">Eskaneatu QR kodea eta lortu bere edukia edo itsatsi zure katea berria sortzeko</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Diseinua</string>
     <string name="main_screen_title">Pantaila nagusiaren izenburua</string>
     <string name="constant_rate_factor">Tasa Konstanteko Faktorea (CRF)</string>
-    <string name="crf_sub">%1$d balio batek konpresio motela esan nahi du, eta horren ondorioz fitxategiaren tamaina txiki samarra da. %2$d-k konpresio azkarragoa esan nahi du, fitxategi handi bat sortuz.</string>
+    <string name="crf_sub">%1$s balio batek konpresio motela esan nahi du, eta horren ondorioz fitxategiaren tamaina txiki samarra da. %2$s-k konpresio azkarragoa esan nahi du, fitxategi handi bat sortuz.</string>
     <string name="lut_library">Lut Liburutegia</string>
     <string name="lut_library_sub">Deskargatu LUT bilduma, deskargatu ondoren aplika dezakezuna</string>
     <string name="lut_library_update_sub">Eguneratu LUT bilduma (berriak bakarrik jarriko dira ilaran), deskargatu ondoren aplika dezakezuna</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Ezarpen azkarrak aldean</string>
     <string name="fast_settings_side_sub">Gehitu zerrenda mugikor bat hautatutako aldean irudiak editatzen dituzun bitartean, eta horrek ezarpen azkarrak irekiko ditu klik egiten duzunean</string>
     <string name="clear_selection">Garbitu hautaketa</string>
-    <string name="settings_group_visibility_hidden"> \"%s \" ezarpen taldea lehenespenez tolestuta egongo da</string>
-    <string name="settings_group_visibility_visible"> \"%s \" ezarpen taldea lehenespenez zabalduko da</string>
+    <string name="settings_group_visibility_hidden"> \"%1$s \" ezarpen taldea lehenespenez tolestuta egongo da</string>
+    <string name="settings_group_visibility_visible"> \"%1$s \" ezarpen taldea lehenespenez zabalduko da</string>
     <string name="base_64_tools">Base64 tresnak</string>
     <string name="base_64_tools_sub">Deskodetu Base64 katea irudira, edo kodetu irudia Base64 formatuan</string>
     <string name="base_64">Oinarria64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Pantaila-argazkia prozesatzen</string>
     <string name="screenshot_not_captured_try_again">Ez da pantaila-argazkia atera, saiatu berriro</string>
     <string name="skipped_saving">Saltatu da gordetzea</string>
-    <string name="skipped_saving_multiple">%1$d fitxategi saltatu dira</string>
+    <string name="skipped_saving_multiple">%1$s fitxategi saltatu dira</string>
     <string name="allow_skip_if_larger">Baimendu Saltatu handiagoa bada</string>
     <string name="allow_skip_if_larger_sub">Tresna batzuek irudiak gordetzeari uzteko baimena izango dute, ondoriozko fitxategiaren tamaina jatorrizkoa baino handiagoa bada</string>
     <string name="qr_type_calendar_event">Egutegiko Gertaera</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Paleta formatua</string>
     <string name="export_palette_sub">Esportatu sortutako paleta formatu desberdinetara</string>
     <string name="add_color_palette_sub">Kolore berria gehitzen dio uneko paletari</string>
-    <string name="palette_name_not_supported">%s formatuak ez du onartzen paleta izena ematea</string>
+    <string name="palette_name_not_supported">%1$s formatuak ez du onartzen paleta izena ematea</string>
     <string name="wallpapers_export_not_avaialbe">Play Store-ren gidalerroak direla eta, eginbide hau ezin da uneko bertsioan sartu. Funtzionalitate honetara sartzeko, deskargatu ImageToolbox iturri alternatibo batetik. GitHub-en dauden eraikuntzak aurki ditzakezu behean.</string>
     <string name="open_github_page">Ireki Github orria</string>
     <string name="overwrite_files_sub_short">Jatorrizko fitxategia beste batekin ordezkatuko da hautatutako karpetan gorde beharrean</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pultsu-sarearen pixelizazioa</string>
     <string name="nucleus_pixelization">Nukleoaren pixelizazioa</string>
     <string name="radial_weave_pixelization">Ehun erradiala pixelizazioa</string>
-    <string name="cannot_open_uri">Ezin da ireki uri  \"%s \"</string>
+    <string name="cannot_open_uri">Ezin da ireki uri  \"%1$s \"</string>
     <string name="snowfall_mode">Elurra modua</string>
     <string name="enabled">Gaituta</string>
     <string name="border_frame">Ertzaren markoa</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Batzea</string>
     <string name="chunk_size">Zatiaren tamaina</string>
     <string name="overlap_size">Gainjartze Tamaina</string>
-    <string name="note_chunk_info">%1$d px-tik gorako irudiak zatika zatikatu eta prozesatu egingo dira, gainjarriz nahasten dira josturak ikus daitezkeen saihesteko.</string>
+    <string name="note_chunk_info">%1$s px-tik gorako irudiak zatika zatikatu eta prozesatu egingo dira, gainjarriz nahasten dira josturak ikus daitezkeen saihesteko.</string>
     <string name="large_chunk_warning">Tamaina handiek ezegonkortasuna sor dezakete gama baxuko gailuekin</string>
     <string name="select_one_to_start">Hautatu bat hasteko</string>
-    <string name="delete_model_sub">%s eredua ezabatu nahi duzu? Berriro deskargatu beharko duzu</string>
+    <string name="delete_model_sub">%1$s eredua ezabatu nahi duzu? Berriro deskargatu beharko duzu</string>
     <string name="confirm">Berretsi</string>
     <string name="models">Ereduak</string>
     <string name="downloaded_models">Deskargatutako ereduak</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Ertzaren lodiera horizontala</string>
     <string name="vertical_border_thickness">Ertz Bertikala Lodiera</string>
     <plurals name="color_count">
-        <item quantity="one">%s kolorea</item>
-        <item quantity="other">%s koloreak</item>
+        <item quantity="one">%1$s kolorea</item>
+        <item quantity="other">%1$s koloreak</item>
     </plurals>
     <string name="current_model_not_chunkable">Oraingo ereduak ez du zatiketa onartzen, irudia jatorrizko dimentsioetan prozesatu egingo da; horrek memoria-kontsumo handia eta maila baxuko gailuekin arazoak sor ditzake.</string>
     <string name="chunking_disabled">Zatiketa desgaituta dago, irudia jatorrizko dimentsioetan prozesatuko da; horrek memoria-kontsumo handia eta arazoak sor ditzake gama baxuko gailuekin, baina emaitza hobeak eman ditzake ondorioetan.</string>

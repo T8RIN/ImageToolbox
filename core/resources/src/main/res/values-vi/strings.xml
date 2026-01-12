@@ -369,7 +369,7 @@
     <string name="analytics_sub">Cho phép thu thập số liệu thống kê sử dụng ứng dụng ẩn danh</string>
     <string name="image_exif_warning">Hiện tại, định dạng %1$s chỉ cho phép đọc siêu dữ liệu EXIF trên Android. Hình ảnh đầu ra sẽ không có siêu dữ liệu nào khi được lưu.</string>
     <string name="effort">Lực nén</string>
-    <string name="effort_sub">Giá trị %1$d có nghĩa là nén nhanh, dẫn đến kích thước tệp tương đối lớn. %2$d có nghĩa là nén chậm hơn, dẫn đến tệp nhỏ hơn.</string>
+    <string name="effort_sub">Giá trị %1$s có nghĩa là nén nhanh, dẫn đến kích thước tệp tương đối lớn. %2$s có nghĩa là nén chậm hơn, dẫn đến tệp nhỏ hơn.</string>
     <string name="wait">Đợi</string>
     <string name="saving_almost_complete">Việc lưu gần như hoàn tất. Việc hủy bây giờ sẽ yêu cầu lưu lại.</string>
     <string name="updates">Cập nhật</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (Nhận dạng văn bản)</string>
     <string name="recognize_text_sub">Nhận dạng văn bản từ hình ảnh nhất định, hỗ trợ hơn 120 ngôn ngữ</string>
     <string name="picture_has_no_text">Ảnh không có văn bản hoặc ứng dụng không tìm thấy nó</string>
-    <string name="accuracy">Độ chính xác: %1$d</string>
+    <string name="accuracy">Độ chính xác: %1$s</string>
     <string name="recognition_type">Loại nhận dạng</string>
     <string name="fast">Nhanh</string>
     <string name="standard">Tiêu chuẩn</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">Chế độ phân đoạn</string>
     <string name="use_pixel_switch">Sử dụng Pixel Switch</string>
     <string name="use_pixel_switch_sub">Công tắc giống pixel sẽ được sử dụng thay cho tài liệu của Google mà bạn dựa trên</string>
-    <string name="saved_to_original">Tệp bị ghi đè có tên %s tại đích ban đầu</string>
+    <string name="saved_to_original">Tệp bị ghi đè có tên %1$s tại đích ban đầu</string>
     <string name="magnifier">Kính lúp</string>
     <string name="magnifier_sub">Bật kính lúp ở đầu ngón tay trong chế độ vẽ để có khả năng truy cập tốt hơn</string>
     <string name="force_exif_widget_initial_value">Buộc giá trị ban đầu</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Nén mất mát</string>
     <string name="lossy_compression_sub">Sử dụng tính năng nén có mất dữ liệu để giảm kích thước tệp thay vì không mất dữ liệu</string>
     <string name="compression_type">Kiểu nén</string>
-    <string name="speed_sub">Kiểm soát tốc độ giải mã hình ảnh thu được, điều này sẽ giúp mở hình ảnh thu được nhanh hơn, giá trị %1$d có nghĩa là giải mã chậm nhất, trong khi %2$d - nhanh nhất, cài đặt này có thể tăng kích thước hình ảnh đầu ra</string>
+    <string name="speed_sub">Kiểm soát tốc độ giải mã hình ảnh thu được, điều này sẽ giúp mở hình ảnh thu được nhanh hơn, giá trị %1$s có nghĩa là giải mã chậm nhất, trong khi %2$s - nhanh nhất, cài đặt này có thể tăng kích thước hình ảnh đầu ra</string>
     <string name="sorting">Sắp xếp</string>
     <string name="sort_by_date">Sắp xếp theo ngày</string>
     <string name="sort_by_date_reversed">Sắp xếp theo ngày (Đảo ngược)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Lưu dưới dạng hình ảnh mã QR</string>
     <string name="delete_template">Xóa mẫu</string>
     <string name="delete_template_warn">Bạn sắp xóa bộ lọc mẫu đã chọn. Thao tác này không thể hoàn tác được</string>
-    <string name="added_filter_template">Đã thêm mẫu bộ lọc có tên \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Đã thêm mẫu bộ lọc có tên \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Xem trước bộ lọc</string>
     <string name="qr_code">Mã QR</string>
     <string name="qr_code_sub">Quét mã QR và lấy nội dung hoặc dán chuỗi của bạn để tạo mã mới</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Cách trình bày</string>
     <string name="main_screen_title">Tiêu đề màn hình chính</string>
     <string name="constant_rate_factor">Hệ số tỷ lệ không đổi (CRF)</string>
-    <string name="crf_sub">Giá trị %1$d có nghĩa là nén chậm, dẫn đến kích thước tệp tương đối nhỏ. %2$d có nghĩa là nén nhanh hơn, tạo ra tệp lớn.</string>
+    <string name="crf_sub">Giá trị %1$s có nghĩa là nén chậm, dẫn đến kích thước tệp tương đối nhỏ. %2$s có nghĩa là nén nhanh hơn, tạo ra tệp lớn.</string>
     <string name="lut_library">Thư viện Lut</string>
     <string name="lut_library_sub">Tải xuống bộ sưu tập LUT mà bạn có thể áp dụng sau khi tải xuống</string>
     <string name="lut_library_update_sub">Cập nhật bộ sưu tập LUT (chỉ những cái mới sẽ được xếp hàng đợi) mà bạn có thể áp dụng sau khi tải xuống</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Bên cài đặt nhanh</string>
     <string name="fast_settings_side_sub">Thêm dải nổi ở phía đã chọn trong khi chỉnh sửa hình ảnh, thao tác này sẽ mở cài đặt nhanh khi nhấp vào</string>
     <string name="clear_selection">Xóa lựa chọn</string>
-    <string name="settings_group_visibility_hidden">Nhóm cài đặt \"%s\" sẽ được thu gọn theo mặc định</string>
-    <string name="settings_group_visibility_visible">Nhóm cài đặt \"%s\" sẽ được mở rộng theo mặc định</string>
+    <string name="settings_group_visibility_hidden">Nhóm cài đặt \"%1$s\" sẽ được thu gọn theo mặc định</string>
+    <string name="settings_group_visibility_visible">Nhóm cài đặt \"%1$s\" sẽ được mở rộng theo mặc định</string>
     <string name="base_64_tools">Công cụ Base64</string>
     <string name="base_64_tools_sub">Giải mã chuỗi Base64 thành hình ảnh hoặc mã hóa hình ảnh sang định dạng Base64</string>
     <string name="base_64">cơ sở64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Đang xử lý ảnh chụp màn hình</string>
     <string name="screenshot_not_captured_try_again">Chưa chụp được ảnh màn hình, hãy thử lại</string>
     <string name="skipped_saving">Đã bỏ qua quá trình lưu</string>
-    <string name="skipped_saving_multiple">%1$d tệp bị bỏ qua</string>
+    <string name="skipped_saving_multiple">%1$s tệp bị bỏ qua</string>
     <string name="allow_skip_if_larger">Cho phép bỏ qua nếu lớn hơn</string>
     <string name="allow_skip_if_larger_sub">Một số công cụ sẽ được phép bỏ qua việc lưu hình ảnh nếu kích thước tệp kết quả lớn hơn bản gốc</string>
     <string name="qr_type_calendar_event">Sự kiện lịch</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Định dạng bảng màu</string>
     <string name="export_palette_sub">Xuất bảng màu được tạo sang các định dạng khác nhau</string>
     <string name="add_color_palette_sub">Thêm màu mới vào bảng màu hiện tại</string>
-    <string name="palette_name_not_supported">Định dạng %s không hỗ trợ cung cấp tên bảng màu</string>
+    <string name="palette_name_not_supported">Định dạng %1$s không hỗ trợ cung cấp tên bảng màu</string>
     <string name="wallpapers_export_not_avaialbe">Do chính sách của Cửa hàng Play, tính năng này không thể được đưa vào bản dựng hiện tại. Để truy cập chức năng này, vui lòng tải xuống ImageToolbox từ một nguồn thay thế. Bạn có thể tìm thấy các bản dựng có sẵn trên GitHub bên dưới.</string>
     <string name="open_github_page">Mở trang Github</string>
     <string name="overwrite_files_sub_short">Tệp gốc sẽ được thay thế bằng tệp mới thay vì lưu vào thư mục đã chọn</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixel hóa lưới xung</string>
     <string name="nucleus_pixelization">Pixel hóa hạt nhân</string>
     <string name="radial_weave_pixelization">Pixel hóa xuyên tâm</string>
-    <string name="cannot_open_uri">Không thể mở uri \"%s\"</string>
+    <string name="cannot_open_uri">Không thể mở uri \"%1$s\"</string>
     <string name="snowfall_mode">Chế độ tuyết rơi</string>
     <string name="enabled">Đã bật</string>
     <string name="border_frame">Khung viền</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Sáp nhập</string>
     <string name="chunk_size">Kích thước đoạn</string>
     <string name="overlap_size">Kích thước chồng chéo</string>
-    <string name="note_chunk_info">Hình ảnh trên %1$d px sẽ được cắt và xử lý thành nhiều phần, chồng chéo các phần này để tránh nhìn thấy các đường nối.</string>
+    <string name="note_chunk_info">Hình ảnh trên %1$s px sẽ được cắt và xử lý thành nhiều phần, chồng chéo các phần này để tránh nhìn thấy các đường nối.</string>
     <string name="large_chunk_warning">Kích thước lớn có thể gây mất ổn định với thiết bị cấp thấp</string>
     <string name="select_one_to_start">Chọn một để bắt đầu</string>
-    <string name="delete_model_sub">Bạn có muốn xóa mô hình %s không? Bạn sẽ cần phải tải xuống lại</string>
+    <string name="delete_model_sub">Bạn có muốn xóa mô hình %1$s không? Bạn sẽ cần phải tải xuống lại</string>
     <string name="confirm">Xác nhận</string>
     <string name="models">Người mẫu</string>
     <string name="downloaded_models">Mô hình đã tải xuống</string>
@@ -2002,7 +2002,7 @@
     <string name="horizontal_border_thickness">Độ dày viền ngang</string>
     <string name="vertical_border_thickness">Độ dày viền dọc</string>
     <plurals name="color_count">
-        <item quantity="other">%s màu sắc</item>
+        <item quantity="other">%1$s màu sắc</item>
     </plurals>
     <string name="current_model_not_chunkable">Model hiện tại không hỗ trợ chunking, hình ảnh sẽ được xử lý ở kích thước gốc, điều này có thể gây ra mức tiêu thụ bộ nhớ cao và sự cố với các thiết bị cấp thấp</string>
     <string name="chunking_disabled">Tính năng phân đoạn bị tắt, hình ảnh sẽ được xử lý ở kích thước ban đầu, điều này có thể gây ra mức tiêu thụ bộ nhớ cao và sự cố với các thiết bị cấp thấp nhưng có thể cho kết quả suy luận tốt hơn</string>

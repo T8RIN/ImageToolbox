@@ -369,7 +369,7 @@
     <string name="analytics_sub">Anonim uygulama kullanım istatistiklerinin toplanmasına izin ver</string>
     <string name="image_exif_warning">Şu anda, %1$s formatı yalnızca Android\'de EXIF meta verilerinin okunmasına izin vermektedir. Çıktı resmi kaydedildiğinde hiçbir meta veriye sahip olmayacaktır.</string>
     <string name="effort">Efor</string>
-    <string name="effort_sub">%1$d değeri hızlı bir sıkıştırma anlamına gelir ve nispeten büyük bir dosya boyutuyla sonuçlanır. %2$d daha yavaş bir sıkıştırma anlamına gelir ve daha küçük bir dosyayla sonuçlanır.</string>
+    <string name="effort_sub">%1$s değeri hızlı bir sıkıştırma anlamına gelir ve nispeten büyük bir dosya boyutuyla sonuçlanır. %2$s daha yavaş bir sıkıştırma anlamına gelir ve daha küçük bir dosyayla sonuçlanır.</string>
     <string name="wait">Bekle</string>
     <string name="saving_almost_complete">Kaydetme neredeyse tamamlandı. Şimdi iptal etmek yeniden kaydetmeyi gerektirecektir.</string>
     <string name="updates">Güncellemeler</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (metin tanıma)</string>
     <string name="recognize_text_sub">Verilen resimden metin tanıyın, 120+ dil desteklenir</string>
     <string name="picture_has_no_text">Resimde metin yok veya uygulama bulamadı</string>
-    <string name="accuracy">Doğruluk: %1$d</string>
+    <string name="accuracy">Doğruluk: %1$s</string>
     <string name="recognition_type">Tanıma Türü</string>
     <string name="fast">Hızlı</string>
     <string name="standard">Standart</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">Segmentasyon Modu</string>
     <string name="use_pixel_switch">Piksel Anahtarı Kullan</string>
     <string name="use_pixel_switch_sub">Google Pixel benzeri bir anahtar kullanır</string>
-    <string name="saved_to_original">Orijinal hedefe %s adıyla dosyanın üzerine yazıldı</string>
+    <string name="saved_to_original">Orijinal hedefe %1$s adıyla dosyanın üzerine yazıldı</string>
     <string name="magnifier">Büyüteç</string>
     <string name="magnifier_sub">Daha iyi erişilebilirlik için çizim modlarında parmağın üstünde büyüteci etkinleştirir</string>
     <string name="force_exif_widget_initial_value">Başlangıç değerini zorla</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Kayıplı Sıkıştırma</string>
     <string name="lossy_compression_sub">Kayıpsız yerine dosya boyutunu azaltmak için kayıplı sıkıştırma kullanır</string>
     <string name="compression_type">Sıkıştırma Türü</string>
-    <string name="speed_sub">Sonuçta ortaya çıkan resmin kod çözme hızını kontrol eder, bu, sonuç resminin daha hızlı açılmasına yardımcı olmalıdır, %1$d değeri en yavaş kod çözme anlamına gelirken, %2$d en hızlı anlamına gelir, bu ayar çıktı resminin boyutunu artırabilir</string>
+    <string name="speed_sub">Sonuçta ortaya çıkan resmin kod çözme hızını kontrol eder, bu, sonuç resminin daha hızlı açılmasına yardımcı olmalıdır, %1$s değeri en yavaş kod çözme anlamına gelirken, %2$s en hızlı anlamına gelir, bu ayar çıktı resminin boyutunu artırabilir</string>
     <string name="sorting">Sıralama</string>
     <string name="sort_by_date">Tarih</string>
     <string name="sort_by_date_reversed">Tarih (Ters)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR kodu resmi olarak kaydet</string>
     <string name="delete_template">Şablonu Sil</string>
     <string name="delete_template_warn">Seçilen şablon filtresini silmek üzeresiniz. Bu işlem geri alınamaz</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) adıyla filtre şablonu eklendi</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) adıyla filtre şablonu eklendi</string>
     <string name="filter_preview">Filtre Önizlemesi</string>
     <string name="qr_code">QR ve Barkod</string>
     <string name="qr_code_sub">QR kodunu tarayın ve içeriğini alın veya yeni bir tane oluşturmak için dizenizi yapıştırın</string>
@@ -1469,7 +1469,7 @@
     <string name="layout">Düzen</string>
     <string name="main_screen_title">Ana Ekran Başlığı</string>
     <string name="constant_rate_factor">Sabit Oran Faktörü (CRF)</string>
-    <string name="crf_sub">%1$d değeri yavaş bir sıkıştırma anlamına gelir ve nispeten küçük bir dosya boyutuyla sonuçlanır. %2$d daha hızlı bir sıkıştırma anlamına gelir ve büyük bir dosyayla sonuçlanır.</string>
+    <string name="crf_sub">%1$s değeri yavaş bir sıkıştırma anlamına gelir ve nispeten küçük bir dosya boyutuyla sonuçlanır. %2$s daha hızlı bir sıkıştırma anlamına gelir ve büyük bir dosyayla sonuçlanır.</string>
     <string name="lut_library">Lut Kütüphanesi</string>
     <string name="lut_library_sub">İndirdikten sonra uygulayabileceğiniz LUT koleksiyonunu indirin</string>
     <string name="lut_library_update_sub">İndirdikten sonra uygulayabileceğiniz LUT koleksiyonunu güncelleyin (sadece yeniler sıraya alınacaktır)</string>
@@ -1504,8 +1504,8 @@
     <string name="fast_settings_side">Hızlı Ayarlar Tarafı</string>
     <string name="fast_settings_side_sub">Resimleri düzenlerken seçilen tarafa, tıklandığında hızlı ayarları açacak bir kayan şerit ekleyin</string>
     <string name="clear_selection">Seçimi temizle</string>
-    <string name="settings_group_visibility_hidden">\"%s\" ayar grubu varsayılan olarak daraltılmış olacaktır</string>
-    <string name="settings_group_visibility_visible">\"%s\" ayar grubu varsayılan olarak genişletilmiş olacaktır</string>
+    <string name="settings_group_visibility_hidden">\"%1$s\" ayar grubu varsayılan olarak daraltılmış olacaktır</string>
+    <string name="settings_group_visibility_visible">\"%1$s\" ayar grubu varsayılan olarak genişletilmiş olacaktır</string>
     <string name="base_64_tools">Base64 Araçları</string>
     <string name="base_64_tools_sub">Base64 dizesini resme çözün veya resmi Base64 formatına kodlayın</string>
     <string name="base_64">Base64</string>
@@ -1640,8 +1640,8 @@
     <string name="type_image_link">Başlamak için resim bağlantısı yazın</string>
     <string name="paste_link">Bağlantıyı yapıştır</string>
     <plurals name="color_count">
-        <item quantity="one">%s renk</item>
-        <item quantity="other">%s renk</item>
+        <item quantity="one">%1$s renk</item>
+        <item quantity="other">%1$s renk</item>
     </plurals>
     <string name="disable_rotation">Dönmeyi kapat</string>
     <string name="disable_rotation_sub">İki parmak hareketiyle görüntülerin dönmesini engeller</string>
@@ -1754,7 +1754,7 @@
     <string name="processing_screenshot">Ekran görüntüsü işleniyor</string>
     <string name="screenshot_not_captured_try_again">Ekran görüntüsü yakalanamadı, tekrar deneyin</string>
     <string name="skipped_saving">Kaydedilme atlandı</string>
-    <string name="skipped_saving_multiple">%1$d dosya atlandı</string>
+    <string name="skipped_saving_multiple">%1$s dosya atlandı</string>
     <string name="allow_skip_if_larger">Eğer Büyükse Atlamaya İzin Ver</string>
     <string name="allow_skip_if_larger_sub">Bazı araçlar, sonuçta ortaya çıkan dosya boyutu orijinalinden daha büyük olacaksa görüntüleri kaydetmeyi atlayabilir.</string>
     <string name="qr_type_calendar_event">Takvim Etkinliği</string>
@@ -1844,7 +1844,7 @@
     <string name="palette_format">Palet Formatı</string>
     <string name="export_palette_sub">Oluşturulan paleti farklı formatlara aktarın</string>
     <string name="add_color_palette_sub">Mevcut palete yeni renk ekler</string>
-    <string name="palette_name_not_supported">%s formatı palet adı sağlamayı desteklemiyor</string>
+    <string name="palette_name_not_supported">%1$s formatı palet adı sağlamayı desteklemiyor</string>
     <string name="wallpapers_export_not_avaialbe">Play Store politikaları nedeniyle, bu özellik mevcut sürümde bulunmamaktadır. Bu özelliğe erişmek için lütfen ImageToolbox\'ı alternatif bir kaynaktan indirin. Mevcut sürümleri aşağıdaki GitHub adresinde bulabilirsiniz.</string>
     <string name="open_github_page">GitHub sayfasını aç</string>
     <string name="overwrite_files_sub_short">Orijinal dosya, seçilen klasöre kaydedilmek yerine yenisiyle değiştirilecektir.</string>
@@ -1871,7 +1871,7 @@
     <string name="pulse_grid_pixelization">Atım Izgara Pikselleştirmesi</string>
     <string name="nucleus_pixelization">Çekirdek Pikselleştirme</string>
     <string name="radial_weave_pixelization">Radyal Dokuma Pikselleştirme</string>
-    <string name="cannot_open_uri">\"%s\" URI açılamıyor</string>
+    <string name="cannot_open_uri">\"%1$s\" URI açılamıyor</string>
     <string name="snowfall_mode">Kar Yağışı Modu</string>
     <string name="enabled">Aktif</string>
     <string name="border_frame">Sınır Çerçevesi</string>
@@ -1934,10 +1934,10 @@
     <string name="merging">Birleştirme</string>
     <string name="chunk_size">Parça Boyutu</string>
     <string name="overlap_size">Örtüşme Boyutu</string>
-    <string name="note_chunk_info">%1$d px\'den büyük görüntüler dilimlenecek ve parçalar halinde işlenecek, üst üste binmeler görünür ek yerlerini önlemek için bunları karıştıracaktır.</string>
+    <string name="note_chunk_info">%1$s px\'den büyük görüntüler dilimlenecek ve parçalar halinde işlenecek, üst üste binmeler görünür ek yerlerini önlemek için bunları karıştıracaktır.</string>
     <string name="large_chunk_warning">Büyük boyutlar, düşük kaliteli cihazlarda kararsızlığa neden olabilir.</string>
     <string name="select_one_to_start">Birini seçerek başla</string>
-    <string name="delete_model_sub">%s modelini silmek istiyor musunuz? Tekrar indirmeniz gerekecektir.</string>
+    <string name="delete_model_sub">%1$s modelini silmek istiyor musunuz? Tekrar indirmeniz gerekecektir.</string>
     <string name="confirm">Kabul</string>
     <string name="models">Modeller</string>
     <string name="downloaded_models">İndirilen Modeller</string>

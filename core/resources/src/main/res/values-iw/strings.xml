@@ -400,7 +400,7 @@
     <string name="crashlytics_sub">זה מאפשר לאפליקציה לאסוף דוחות קריסה באופן אוטומטי</string>
     <string name="analytics_sub">אפשר איסוף סטטיסטיקות שימוש אנונימיות באפליקציה</string>
     <string name="image_exif_warning">נכון לעכשיו, פורמט %1$s מאפשר קריאת מטא נתונים של EXIF רק ב-Android. לתמונת פלט לא יהיו מטא נתונים כלל, כאשר היא נשמרת.</string>
-    <string name="effort_sub">ערך של %1$d פירושו דחיסה מהירה, וכתוצאה מכך גודל קובץ גדול יחסית. %2$d פירושו דחיסה איטית יותר, וכתוצאה מכך קובץ קטן יותר.</string>
+    <string name="effort_sub">ערך של %1$s פירושו דחיסה מהירה, וכתוצאה מכך גודל קובץ גדול יחסית. %2$s פירושו דחיסה איטית יותר, וכתוצאה מכך קובץ קטן יותר.</string>
     <string name="allow_betas">אפשר בטא</string>
     <string name="allow_betas_sub">בדיקת העדכונים תכלול גרסאות של אפליקציות בטא אם מופעלת</string>
     <string name="draw_arrows">צייר חצים</string>
@@ -708,7 +708,7 @@
     <string name="recognize_text">OCR (זיהוי טקסט)</string>
     <string name="recognize_text_sub">זיהוי טקסט מתמונה נתונה, 120+ שפות נתמכות</string>
     <string name="picture_has_no_text">לתמונה אין טקסט, או שהאפליקציה לא מצאה אותה</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">סוג זיהוי</string>
     <string name="fast">מָהִיר</string>
     <string name="standard">תֶקֶן</string>
@@ -732,7 +732,7 @@
     <string name="side_by_side">זֶה בְּצַד זֶה</string>
     <string name="toggle_tap">החלף הקש</string>
     <string name="transparency">שְׁקִיפוּת</string>
-    <string name="saved_to_original">קובץ שהוחלף עם השם %s ביעד המקורי</string>
+    <string name="saved_to_original">קובץ שהוחלף עם השם %1$s ביעד המקורי</string>
     <string name="magnifier">זכוכית מגדלת</string>
     <string name="magnifier_sub">מאפשר זכוכית מגדלת בחלק העליון של האצבע במצבי ציור עבור נגישות טובה יותר</string>
     <string name="force_exif_widget_initial_value">לכפות ערך התחלתי</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">דחיסה אבודה</string>
     <string name="lossy_compression_sub">משתמש בדחיסה מאבדת כדי להקטין את גודל הקובץ במקום ללא אובדן</string>
     <string name="compression_type">סוג דחיסה</string>
-    <string name="speed_sub">שולט במהירות פענוח התמונה המתקבלת, זה אמור לעזור לפתוח את התמונה המתקבלת מהר יותר, הערך של %1$d פירושו הפענוח האיטי ביותר, ואילו %2$d - המהיר ביותר, הגדרה זו עשויה להגדיל את גודל תמונת הפלט</string>
+    <string name="speed_sub">שולט במהירות פענוח התמונה המתקבלת, זה אמור לעזור לפתוח את התמונה המתקבלת מהר יותר, הערך של %1$s פירושו הפענוח האיטי ביותר, ואילו %2$s - המהיר ביותר, הגדרה זו עשויה להגדיל את גודל תמונת הפלט</string>
     <string name="sorting">מִיוּן</string>
     <string name="sort_by_date">תַאֲרִיך</string>
     <string name="sort_by_date_reversed">תאריך (הפוך)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">שמור כתמונת קוד QR</string>
     <string name="delete_template">מחק תבנית</string>
     <string name="delete_template_warn">אתה עומד למחוק את מסנן התבניות שנבחר. לא ניתן לבטל פעולה זו</string>
-    <string name="added_filter_template">נוספה תבנית סינון בשם \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">נוספה תבנית סינון בשם \"%1$s\" (%2$s)</string>
     <string name="filter_preview">תצוגה מקדימה של מסנן</string>
     <string name="qr_code">QR &amp;amp; ברקוד</string>
     <string name="qr_code_sub">סרוק קוד QR וקבל את התוכן שלו או הדבק את המחרוזת שלך כדי ליצור מחרוזת חדשה</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">מַעֲרָך</string>
     <string name="main_screen_title">כותרת המסך הראשית</string>
     <string name="constant_rate_factor">פקטור קצב קבוע (CRF)</string>
-    <string name="crf_sub">ערך של %1$d פירושו דחיסה איטית, וכתוצאה מכך גודל קובץ קטן יחסית. %2$d פירושו דחיסה מהירה יותר, וכתוצאה מכך קובץ גדול.</string>
+    <string name="crf_sub">ערך של %1$s פירושו דחיסה איטית, וכתוצאה מכך גודל קובץ קטן יחסית. %2$s פירושו דחיסה מהירה יותר, וכתוצאה מכך קובץ גדול.</string>
     <string name="lut_library">ספריית לוט</string>
     <string name="lut_library_sub">הורד אוסף של LUTs, שתוכל ליישם לאחר ההורדה</string>
     <string name="lut_library_update_sub">עדכון אוסף של LUTs (רק חדשים יעמדו בתור), שתוכל להחיל לאחר ההורדה</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">צד הגדרות מהיר</string>
     <string name="fast_settings_side_sub">הוסף רצועה צפה בצד הנבחר בעת עריכת תמונות, אשר תפתח הגדרות מהירות בלחיצה</string>
     <string name="clear_selection">נקה בחירה</string>
-    <string name="settings_group_visibility_hidden">קבוצת ההגדרה \"%s\" תכווץ כברירת מחדל</string>
-    <string name="settings_group_visibility_visible">קבוצת ההגדרה \"%s\" תורחב כברירת מחדל</string>
+    <string name="settings_group_visibility_hidden">קבוצת ההגדרה \"%1$s\" תכווץ כברירת מחדל</string>
+    <string name="settings_group_visibility_visible">קבוצת ההגדרה \"%1$s\" תורחב כברירת מחדל</string>
     <string name="base_64_tools">כלים של Base64</string>
     <string name="base_64_tools_sub">פענח מחרוזת Base64 לתמונה, או קידד תמונה לפורמט Base64</string>
     <string name="base_64">בסיס 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">מעבד צילום מסך</string>
     <string name="screenshot_not_captured_try_again">צילום מסך לא צולם, נסה שוב</string>
     <string name="skipped_saving">השמירה דילגה</string>
-    <string name="skipped_saving_multiple">%1$d קבצים דילגו</string>
+    <string name="skipped_saving_multiple">%1$s קבצים דילגו</string>
     <string name="allow_skip_if_larger">אפשר לדלג אם גדול יותר</string>
     <string name="allow_skip_if_larger_sub">חלק מהכלים יורשו לדלג על שמירת תמונות אם גודל הקובץ המתקבל יהיה גדול מהמקור</string>
     <string name="qr_type_calendar_event">אירוע לוח שנה</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">פורמט פלטה</string>
     <string name="export_palette_sub">ייצוא פלטה שנוצרה לפורמטים שונים</string>
     <string name="add_color_palette_sub">מוסיף צבע חדש ללוח הנוכחי</string>
-    <string name="palette_name_not_supported">פורמט %s אינו תומך במתן שם לוח</string>
+    <string name="palette_name_not_supported">פורמט %1$s אינו תומך במתן שם לוח</string>
     <string name="wallpapers_export_not_avaialbe">עקב מדיניות חנות Play, לא ניתן לכלול תכונה זו במבנה הנוכחי. כדי לגשת לפונקציונליות זו, אנא הורד את ImageToolbox ממקור חלופי. אתה יכול למצוא את ה-builds הזמינים ב-GitHub למטה.</string>
     <string name="open_github_page">פתח את דף Github</string>
     <string name="overwrite_files_sub_short">הקובץ המקורי יוחלף בקובץ חדש במקום לשמור בתיקייה שנבחרה</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelization של רשת הדופק</string>
     <string name="nucleus_pixelization">פיקסליזציה של גרעין</string>
     <string name="radial_weave_pixelization">Pixelization של אריגה רדיאלית</string>
-    <string name="cannot_open_uri">לא ניתן לפתוח את uri \"%s\"</string>
+    <string name="cannot_open_uri">לא ניתן לפתוח את uri \"%1$s\"</string>
     <string name="snowfall_mode">מצב שלג</string>
     <string name="enabled">מופעל</string>
     <string name="border_frame">מסגרת גבול</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">מיזוג</string>
     <string name="chunk_size">גודל נתח</string>
     <string name="overlap_size">גודל חפיפה</string>
-    <string name="note_chunk_info">תמונות מעל %1$d פיקסלים יפורסו ויעובדו בחתיכות, חופפות מיזוג אלה כדי למנוע תפרים גלויים.</string>
+    <string name="note_chunk_info">תמונות מעל %1$s פיקסלים יפורסו ויעובדו בחתיכות, חופפות מיזוג אלה כדי למנוע תפרים גלויים.</string>
     <string name="large_chunk_warning">גדלים גדולים עלולים לגרום לחוסר יציבות במכשירים מתקדמים</string>
     <string name="select_one_to_start">בחר אחד כדי להתחיל</string>
-    <string name="delete_model_sub">האם ברצונך למחוק מודל %s? תצטרך להוריד אותו שוב</string>
+    <string name="delete_model_sub">האם ברצונך למחוק מודל %1$s? תצטרך להוריד אותו שוב</string>
     <string name="confirm">לְאַשֵׁר</string>
     <string name="models">דגמים</string>
     <string name="downloaded_models">מודלים שהורדו</string>
@@ -2002,10 +2002,10 @@
     <string name="horizontal_border_thickness">עובי גבול אופקי</string>
     <string name="vertical_border_thickness">עובי גבול אנכי</string>
     <plurals name="color_count">
-        <item quantity="other">%s צבעים</item>
-        <item quantity="many">%s צבעים</item>
-        <item quantity="one">%s צבעים</item>
-        <item quantity="two">%s צבעים</item>
+        <item quantity="other">%1$s צבעים</item>
+        <item quantity="many">%1$s צבעים</item>
+        <item quantity="one">%1$s צבעים</item>
+        <item quantity="two">%1$s צבעים</item>
     </plurals>
     <string name="current_model_not_chunkable">הדגם הנוכחי אינו תומך ב-chunking, התמונה תעובד במידות מקוריות, הדבר עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים</string>
     <string name="chunking_disabled">Chunking מושבת, התמונה תעובד במידות מקוריות, זה עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים אך עשוי לתת תוצאות טובות יותר בהסקת מסקנות</string>

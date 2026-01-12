@@ -636,7 +636,7 @@
     <string name="pipette">Pipette</string>
     <string name="effort">Pagsisikap</string>
     <string name="wait">Teka</string>
-    <string name="effort_sub">Ang halaga ng %1$d ay nangangahulugang isang mabilis na pag-compress, na nagreresulta sa medyo malaking laki ng file. Ang %2$d ay nangangahulugang isang mas mabagal na compression, na nagreresulta sa isang mas maliit na file.</string>
+    <string name="effort_sub">Ang halaga ng %1$s ay nangangahulugang isang mabilis na pag-compress, na nagreresulta sa medyo malaking laki ng file. Ang %2$s ay nangangahulugang isang mas mabagal na compression, na nagreresulta sa isang mas maliit na file.</string>
     <string name="saving_almost_complete">Halos kumpleto ang pag-save. Ang pagkansela ngayon ay mangangailangan ng pag-save muli.</string>
     <string name="mask_color">Kulay ng Maskara</string>
     <string name="mask_preview">Preview ng Mask</string>
@@ -724,7 +724,7 @@
     <string name="recognize_text">OCR (Kilalanin ang Teksto)</string>
     <string name="recognize_text_sub">Kilalanin ang teksto mula sa ibinigay na larawan, suportado ng 120+ wika</string>
     <string name="picture_has_no_text">Walang text ang larawan, o hindi ito nakita ng app</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Uri ng Pagkilala</string>
     <string name="fast">Mabilis</string>
     <string name="standard">Pamantayan</string>
@@ -748,7 +748,7 @@
     <string name="side_by_side">Magkatabi</string>
     <string name="toggle_tap">I-toggle ang Tapikin</string>
     <string name="transparency">Aninaw</string>
-    <string name="saved_to_original">Na-overwrite na file na may pangalang %s sa orihinal na destinasyon</string>
+    <string name="saved_to_original">Na-overwrite na file na may pangalang %1$s sa orihinal na destinasyon</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Pinapagana ang magnifier sa tuktok ng daliri sa mga mode ng pagguhit para sa mas mahusay na accessibility</string>
     <string name="force_exif_widget_initial_value">Pilitin ang paunang halaga</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">Gumagamit ng lossy compression upang bawasan ang laki ng file sa halip na lossless</string>
     <string name="compression_type">Uri ng Compression</string>
-    <string name="speed_sub">Kinokontrol ang nagreresultang bilis ng pag-decode ng imahe, makakatulong ito sa pagbukas ng nagreresultang larawan nang mas mabilis, ang halaga ng %1$d ay nangangahulugang pinakamabagal na pag-decode, samantalang %2$d - pinakamabilis, maaaring pataasin ng setting na ito ang laki ng output ng imahe.</string>
+    <string name="speed_sub">Kinokontrol ang nagreresultang bilis ng pag-decode ng imahe, makakatulong ito sa pagbukas ng nagreresultang larawan nang mas mabilis, ang halaga ng %1$s ay nangangahulugang pinakamabagal na pag-decode, samantalang %2$s - pinakamabilis, maaaring pataasin ng setting na ito ang laki ng output ng imahe.</string>
     <string name="sorting">Pag-uuri</string>
     <string name="sort_by_date">Petsa</string>
     <string name="sort_by_date_reversed">Petsa (Baliktad)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">I-save bilang imahe ng QR code</string>
     <string name="delete_template">Tanggalin ang Template</string>
     <string name="delete_template_warn">Ide-delete mo na ang napiling template filter. Hindi na maa-undo ang operasyong ito</string>
-    <string name="added_filter_template">Idinagdag ang template ng filter na may pangalang \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Idinagdag ang template ng filter na may pangalang \"%1$s\" (%2$s)</string>
     <string name="filter_preview">I-filter ang Preview</string>
     <string name="qr_code">QR at Barcode</string>
     <string name="qr_code_sub">I-scan ang QR code at kunin ang nilalaman nito o i-paste ang iyong string upang makabuo ng bago</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Pangunahing Pamagat ng Screen</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
-    <string name="crf_sub">Ang halaga ng %1$d ay nangangahulugang isang mabagal na pag-compress, na nagreresulta sa isang medyo maliit na laki ng file. Ang ibig sabihin ng %2$d ay isang mas mabilis na compression, na nagreresulta sa isang malaking file.</string>
+    <string name="crf_sub">Ang halaga ng %1$s ay nangangahulugang isang mabagal na pag-compress, na nagreresulta sa isang medyo maliit na laki ng file. Ang ibig sabihin ng %2$s ay isang mas mabilis na compression, na nagreresulta sa isang malaking file.</string>
     <string name="lut_library">Lut Library</string>
     <string name="lut_library_sub">I-download ang koleksyon ng mga LUT, na maaari mong ilapat pagkatapos mag-download</string>
     <string name="lut_library_update_sub">I-update ang koleksyon ng mga LUT (mga bago lang ang ipi-queue), na maaari mong ilapat pagkatapos mag-download</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Gilid ng Mabilis na Mga Setting</string>
     <string name="fast_settings_side_sub">Magdagdag ng lumulutang na strip sa napiling gilid habang nag-e-edit ng mga larawan, na magbubukas ng mabilis na mga setting kapag na-click</string>
     <string name="clear_selection">I-clear ang pagpili</string>
-    <string name="settings_group_visibility_hidden">Ang pagtatakda ng pangkat na \"%s\" ay iko-collapse bilang default</string>
-    <string name="settings_group_visibility_visible">Ang pagtatakda ng pangkat na \"%s\" ay palalawakin bilang default</string>
+    <string name="settings_group_visibility_hidden">Ang pagtatakda ng pangkat na \"%1$s\" ay iko-collapse bilang default</string>
+    <string name="settings_group_visibility_visible">Ang pagtatakda ng pangkat na \"%1$s\" ay palalawakin bilang default</string>
     <string name="base_64_tools">Mga Tool sa Base64</string>
     <string name="base_64_tools_sub">I-decode ang Base64 string sa imahe, o i-encode ang imahe sa Base64 na format</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Pinoproseso ang screenshot</string>
     <string name="screenshot_not_captured_try_again">Hindi nakuha ang screenshot, subukang muli</string>
     <string name="skipped_saving">Nilaktawan ang pag-save</string>
-    <string name="skipped_saving_multiple">Nilaktawan ang %1$d file</string>
+    <string name="skipped_saving_multiple">Nilaktawan ang %1$s file</string>
     <string name="allow_skip_if_larger">Payagan ang Laktawan Kung Mas Malaki</string>
     <string name="allow_skip_if_larger_sub">Ang ilang mga tool ay papayagan na laktawan ang pag-save ng mga imahe kung ang resultang laki ng file ay mas malaki kaysa sa orihinal</string>
     <string name="qr_type_calendar_event">Kaganapan sa Kalendaryo</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Format ng Palette</string>
     <string name="export_palette_sub">I-export ang nabuong palette sa iba\'t ibang mga format</string>
     <string name="add_color_palette_sub">Nagdaragdag ng bagong kulay sa kasalukuyang palette</string>
-    <string name="palette_name_not_supported">Hindi sinusuportahan ng %s na format ang pagbibigay ng pangalan ng palette</string>
+    <string name="palette_name_not_supported">Hindi sinusuportahan ng %1$s na format ang pagbibigay ng pangalan ng palette</string>
     <string name="wallpapers_export_not_avaialbe">Dahil sa mga patakaran ng Play Store, hindi maaaring isama ang feature na ito sa kasalukuyang build. Upang ma-access ang functionality na ito, mangyaring i-download ang ImageToolbox mula sa isang alternatibong pinagmulan. Mahahanap mo ang mga available na build sa GitHub sa ibaba.</string>
     <string name="open_github_page">Buksan ang pahina ng Github</string>
     <string name="overwrite_files_sub_short">Ang orihinal na file ay papalitan ng bago sa halip na i-save sa napiling folder</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelization ng Pulse Grid</string>
     <string name="nucleus_pixelization">Pixelization ng Nucleus</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Hindi mabuksan ang uri \"%s\"</string>
+    <string name="cannot_open_uri">Hindi mabuksan ang uri \"%1$s\"</string>
     <string name="snowfall_mode">Mode ng Snowfall</string>
     <string name="enabled">Pinagana</string>
     <string name="border_frame">Border Frame</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Pinagsasama</string>
     <string name="chunk_size">Laki ng Tipak</string>
     <string name="overlap_size">Laki ng Overlap</string>
-    <string name="note_chunk_info">Ang mga larawang higit sa %1$d px ay hihiwain at ipoproseso sa mga tipak, magkakapatong-patong ang mga ito upang maiwasan ang mga nakikitang tahi.</string>
+    <string name="note_chunk_info">Ang mga larawang higit sa %1$s px ay hihiwain at ipoproseso sa mga tipak, magkakapatong-patong ang mga ito upang maiwasan ang mga nakikitang tahi.</string>
     <string name="large_chunk_warning">Ang malalaking sukat ay maaaring magdulot ng kawalang-tatag sa mga low-end na device</string>
     <string name="select_one_to_start">Pumili ng isa para magsimula</string>
-    <string name="delete_model_sub">Gusto mo bang tanggalin ang %s na modelo? Kakailanganin mong i-download itong muli</string>
+    <string name="delete_model_sub">Gusto mo bang tanggalin ang %1$s na modelo? Kakailanganin mong i-download itong muli</string>
     <string name="confirm">Kumpirmahin</string>
     <string name="models">Mga modelo</string>
     <string name="downloaded_models">Mga Na-download na Modelo</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Pahalang na Kapal ng Border</string>
     <string name="vertical_border_thickness">Vertical Border Thickness</string>
     <plurals name="color_count">
-        <item quantity="one">%s kulay</item>
-        <item quantity="other">%s kulay</item>
+        <item quantity="one">%1$s kulay</item>
+        <item quantity="other">%1$s kulay</item>
     </plurals>
     <string name="current_model_not_chunkable">Hindi sinusuportahan ng kasalukuyang modelo ang chunking, ipoproseso ang imahe sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device</string>
     <string name="chunking_disabled">Hindi pinagana ang pag-chun, ipoproseso ang larawan sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device ngunit maaaring magbigay ng mas magandang resulta sa hinuha</string>

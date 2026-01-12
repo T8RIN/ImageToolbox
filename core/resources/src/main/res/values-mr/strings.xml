@@ -377,7 +377,7 @@
     <string name="analytics_sub">अनामित ॲप वापर आकडेवारी गोळा करण्यास अनुमती द्या</string>
     <string name="image_exif_warning">सध्या, %1$s फॉरमॅट केवळ Android वर EXIF ​​मेटाडेटा वाचण्याची अनुमती देते. सेव्ह केल्यावर आउटपुट इमेजमध्ये मेटाडेटा अजिबात नसेल.</string>
     <string name="effort">प्रयत्न</string>
-    <string name="effort_sub">%1$d चे मूल्य म्हणजे जलद कॉम्प्रेशन, परिणामी फाइल आकारमानाने मोठा होतो. %2$d म्हणजे धीमे कॉम्प्रेशन, परिणामी एक लहान फाईल.</string>
+    <string name="effort_sub">%1$s चे मूल्य म्हणजे जलद कॉम्प्रेशन, परिणामी फाइल आकारमानाने मोठा होतो. %2$s म्हणजे धीमे कॉम्प्रेशन, परिणामी एक लहान फाईल.</string>
     <string name="wait">थांबा</string>
     <string name="saving_almost_complete">जतन करणे जवळजवळ पूर्ण झाले. आता रद्द करण्यासाठी पुन्हा बचत करणे आवश्यक आहे.</string>
     <string name="updates">अपडेट्स</string>
@@ -560,7 +560,7 @@
     <string name="recognize_text">OCR (मजकूर ओळखा)</string>
     <string name="recognize_text_sub">दिलेल्या प्रतिमेतून मजकूर ओळखा, 120+ भाषा समर्थित</string>
     <string name="picture_has_no_text">चित्रात मजकूर नाही किंवा ॲपला तो सापडला नाही</string>
-    <string name="accuracy">\"अचूकता: %1$d\"</string>
+    <string name="accuracy">\"अचूकता: %1$s\"</string>
     <string name="recognition_type">ओळख प्रकार</string>
     <string name="fast">जलद</string>
     <string name="standard">मानक</string>
@@ -574,7 +574,7 @@
     <string name="segmentation_mode">सेगमेंटेशन मोड</string>
     <string name="use_pixel_switch">पिक्सेल स्विच वापरा</string>
     <string name="use_pixel_switch_sub">Google Pixel सारखे स्विच वापरते</string>
-    <string name="saved_to_original">मूळ गंतव्यस्थानावर %s नावासह अधिलिखित फाइल</string>
+    <string name="saved_to_original">मूळ गंतव्यस्थानावर %1$s नावासह अधिलिखित फाइल</string>
     <string name="magnifier">भिंग</string>
     <string name="magnifier_sub">उत्तम प्रवेशयोग्यतेसाठी रेखाचित्र मोडमध्ये बोटाच्या शीर्षस्थानी भिंग सक्षम करते</string>
     <string name="force_exif_widget_initial_value">प्रारंभिक मूल्य सक्ती करा</string>
@@ -859,7 +859,7 @@
     <string name="lossy_compression">हानीकारक कॉम्प्रेशन</string>
     <string name="lossy_compression_sub">लॉसलेस ऐवजी फाईलचा आकार कमी करण्यासाठी हानीकारक कॉम्प्रेशन वापरते</string>
     <string name="compression_type">कॉम्प्रेशन प्रकार</string>
-    <string name="speed_sub">परिणामी प्रतिमा डीकोडिंग गती नियंत्रित करते, यामुळे परिणामी प्रतिमा जलद उघडण्यास मदत होईल, %1$d चे मूल्य म्हणजे सर्वात धीमे डीकोडिंग, तर %2$d - सर्वात वेगवान, ही सेटिंग आउटपुट प्रतिमा आकार वाढवू शकते</string>
+    <string name="speed_sub">परिणामी प्रतिमा डीकोडिंग गती नियंत्रित करते, यामुळे परिणामी प्रतिमा जलद उघडण्यास मदत होईल, %1$s चे मूल्य म्हणजे सर्वात धीमे डीकोडिंग, तर %2$s - सर्वात वेगवान, ही सेटिंग आउटपुट प्रतिमा आकार वाढवू शकते</string>
     <string name="sorting">वर्गीकरण</string>
     <string name="sort_by_date">तारीख</string>
     <string name="sort_by_date_reversed">तारीख (उलट)</string>
@@ -1126,7 +1126,7 @@
     <string name="save_as_qr_code_image">QR कोड प्रतिमा म्हणून जतन करा</string>
     <string name="delete_template">टेम्पलेट हटवा</string>
     <string name="delete_template_warn">तुम्ही निवडलेले टेम्पलेट फिल्टर हटवणार आहात. हे ऑपरेशन पूर्ववत केले जाऊ शकत नाही</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) नावासह फिल्टर टेम्पलेट जोडले</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) नावासह फिल्टर टेम्पलेट जोडले</string>
     <string name="filter_preview">फिल्टर पूर्वावलोकन</string>
     <string name="qr_code">QR आणि बारकोड</string>
     <string name="qr_code_sub">QR कोड स्कॅन करा आणि त्याची सामग्री मिळवा किंवा नवीन तयार करण्यासाठी तुमची स्ट्रिंग पेस्ट करा</string>
@@ -1476,7 +1476,7 @@
     <string name="layout">मांडणी</string>
     <string name="main_screen_title">मुख्य स्क्रीन शीर्षक</string>
     <string name="constant_rate_factor">स्थिर दर घटक (CRF)</string>
-    <string name="crf_sub">%1$d चे मूल्य म्हणजे मंद कॉम्प्रेशन, परिणामी तुलनेने लहान फाइल आकार. %2$d म्हणजे जलद कॉम्प्रेशन, परिणामी फाइल मोठी होते.</string>
+    <string name="crf_sub">%1$s चे मूल्य म्हणजे मंद कॉम्प्रेशन, परिणामी तुलनेने लहान फाइल आकार. %2$s म्हणजे जलद कॉम्प्रेशन, परिणामी फाइल मोठी होते.</string>
     <string name="lut_library">लुट लायब्ररी</string>
     <string name="lut_library_sub">LUTs चा संग्रह डाउनलोड करा, जो तुम्ही डाउनलोड केल्यानंतर अर्ज करू शकता</string>
     <string name="lut_library_update_sub">LUT चे संकलन अद्यतनित करा (फक्त नवीन रांगेत असतील), जे तुम्ही डाउनलोड केल्यानंतर अर्ज करू शकता</string>
@@ -1511,8 +1511,8 @@
     <string name="fast_settings_side">जलद सेटिंग्ज बाजूला</string>
     <string name="fast_settings_side_sub">प्रतिमा संपादित करताना निवडलेल्या बाजूला फ्लोटिंग स्ट्रिप जोडा, जे क्लिक केल्यावर जलद सेटिंग्ज उघडेल</string>
     <string name="clear_selection">निवड साफ करा</string>
-    <string name="settings_group_visibility_hidden">सेट करणे गट \"%s\" डीफॉल्टनुसार संकुचित केले जाईल</string>
-    <string name="settings_group_visibility_visible">सेटिंग गट \"%s\" डीफॉल्टनुसार विस्तारित केला जाईल</string>
+    <string name="settings_group_visibility_hidden">सेट करणे गट \"%1$s\" डीफॉल्टनुसार संकुचित केले जाईल</string>
+    <string name="settings_group_visibility_visible">सेटिंग गट \"%1$s\" डीफॉल्टनुसार विस्तारित केला जाईल</string>
     <string name="base_64_tools">बेस64 साधने</string>
     <string name="base_64_tools_sub">Base64 स्ट्रिंगला इमेज डीकोड करा किंवा Base64 फॉरमॅटमध्ये इमेज एन्कोड करा</string>
     <string name="base_64">बेस64</string>
@@ -1752,7 +1752,7 @@
     <string name="processing_screenshot">स्क्रीनशॉटवर प्रक्रिया करत आहे</string>
     <string name="screenshot_not_captured_try_again">स्क्रीनशॉट कॅप्चर केला नाही, पुन्हा प्रयत्न करा</string>
     <string name="skipped_saving">जतन करणे वगळले</string>
-    <string name="skipped_saving_multiple">%1$d फायली वगळल्या</string>
+    <string name="skipped_saving_multiple">%1$s फायली वगळल्या</string>
     <string name="allow_skip_if_larger">मोठे असल्यास वगळा</string>
     <string name="allow_skip_if_larger_sub">परिणामी फाइलचा आकार मूळपेक्षा मोठा असल्यास प्रतिमा जतन करणे वगळण्यासाठी काही साधनांना परवानगी दिली जाईल.</string>
     <string name="qr_type_calendar_event">कॅलेंडर इव्हेंट</string>
@@ -1841,7 +1841,7 @@
     <string name="palette_format">पॅलेट स्वरूप</string>
     <string name="export_palette_sub">व्युत्पन्न केलेले पॅलेट वेगवेगळ्या फॉरमॅटमध्ये एक्सपोर्ट करा</string>
     <string name="add_color_palette_sub">वर्तमान पॅलेटमध्ये नवीन रंग जोडतो</string>
-    <string name="palette_name_not_supported">%s स्वरूप पॅलेट नाव प्रदान करण्यास समर्थन देत नाही</string>
+    <string name="palette_name_not_supported">%1$s स्वरूप पॅलेट नाव प्रदान करण्यास समर्थन देत नाही</string>
     <string name="wallpapers_export_not_avaialbe">Play Store धोरणांमुळे, हे वैशिष्ट्य सध्याच्या बिल्डमध्ये समाविष्ट केले जाऊ शकत नाही. या कार्यक्षमतेमध्ये प्रवेश करण्यासाठी, कृपया वैकल्पिक स्रोतावरून इमेजटूलबॉक्स डाउनलोड करा. आपण खाली GitHub वर उपलब्ध बिल्ड शोधू शकता.</string>
     <string name="open_github_page">Github पृष्ठ उघडा</string>
     <string name="overwrite_files_sub_short">निवडलेल्या फोल्डरमध्ये सेव्ह करण्याऐवजी मूळ फाइल नवीन फाइलने बदलली जाईल</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">पल्स ग्रिड पिक्सेलायझेशन</string>
     <string name="nucleus_pixelization">न्यूक्लियस पिक्सेलायझेशन</string>
     <string name="radial_weave_pixelization">रेडियल विणणे पिक्सेलायझेशन</string>
-    <string name="cannot_open_uri">uri \"%s\" उघडू शकत नाही</string>
+    <string name="cannot_open_uri">uri \"%1$s\" उघडू शकत नाही</string>
     <string name="snowfall_mode">हिमवर्षाव मोड</string>
     <string name="enabled">सक्षम केले</string>
     <string name="border_frame">सीमा फ्रेम</string>
@@ -1930,10 +1930,10 @@
     <string name="merging">विलीन होत आहे</string>
     <string name="chunk_size">भाग आकार</string>
     <string name="overlap_size">ओव्हरलॅप आकार</string>
-    <string name="note_chunk_info">%1$d px पेक्षा जास्त प्रतिमा कापल्या जातील आणि भागांमध्ये प्रक्रिया केल्या जातील, दृश्यमान शिवण टाळण्यासाठी त्यांना ओव्हरलॅप मिश्रित करते.</string>
+    <string name="note_chunk_info">%1$s px पेक्षा जास्त प्रतिमा कापल्या जातील आणि भागांमध्ये प्रक्रिया केल्या जातील, दृश्यमान शिवण टाळण्यासाठी त्यांना ओव्हरलॅप मिश्रित करते.</string>
     <string name="large_chunk_warning">मोठ्या आकारामुळे लो-एंड डिव्हाइसेससह अस्थिरता येऊ शकते</string>
     <string name="select_one_to_start">सुरू करण्यासाठी एक निवडा</string>
-    <string name="delete_model_sub">तुम्ही %s मॉडेल हटवू इच्छिता? तुम्हाला ते पुन्हा डाउनलोड करावे लागेल</string>
+    <string name="delete_model_sub">तुम्ही %1$s मॉडेल हटवू इच्छिता? तुम्हाला ते पुन्हा डाउनलोड करावे लागेल</string>
     <string name="confirm">पुष्टी करा</string>
     <string name="models">मॉडेल्स</string>
     <string name="downloaded_models">डाउनलोड केलेले मॉडेल</string>
@@ -2003,8 +2003,8 @@
     <string name="horizontal_border_thickness">क्षैतिज सीमा जाडी</string>
     <string name="vertical_border_thickness">अनुलंब सीमा जाडी</string>
     <plurals name="color_count">
-        <item quantity="one">%s रंग</item>
-        <item quantity="other">%s रंग</item>
+        <item quantity="one">%1$s रंग</item>
+        <item quantity="other">%1$s रंग</item>
     </plurals>
     <string name="current_model_not_chunkable">वर्तमान मॉडेल चंकिंगला समर्थन देत नाही, प्रतिमेवर मूळ परिमाणांमध्ये प्रक्रिया केली जाईल, यामुळे उच्च मेमरी वापर आणि लो-एंड उपकरणांसह समस्या उद्भवू शकतात</string>
     <string name="chunking_disabled">चंकिंग अक्षम केले आहे, प्रतिमेवर मूळ परिमाणांमध्ये प्रक्रिया केली जाईल, यामुळे उच्च मेमरी वापर आणि कमी-अंत उपकरणांसह समस्या उद्भवू शकतात परंतु अनुमानांवर चांगले परिणाम देऊ शकतात</string>

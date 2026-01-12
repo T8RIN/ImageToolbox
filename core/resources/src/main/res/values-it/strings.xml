@@ -371,7 +371,7 @@
     <string name="images_order">Ordine immagini</string>
     <string name="brush_softness">Morbidezza pennello</string>
     <string name="blur_edges">Arrotonda angoli</string>
-    <string name="effort_sub">In valore di %1$d indica una compressione veloce, che produrrà un file di dimensioni relativamente grandi. %2$d indica una compressione più lenta, che produrrà file di dimensioni più piccole.</string>
+    <string name="effort_sub">In valore di %1$s indica una compressione veloce, che produrrà un file di dimensioni relativamente grandi. %2$s indica una compressione più lenta, che produrrà file di dimensioni più piccole.</string>
     <string name="image_stitching">Cuci Immagini</string>
     <string name="allow_betas">Consenti beta</string>
     <string name="draw_arrows">Disegna Frecce</string>
@@ -492,7 +492,7 @@
     <string name="only_clip_sub">Il salvataggio nella memoria non verrà eseguito e l\'immagine verrà tentata solo di essere inserita negli appunti</string>
     <string name="restore_background_sub">Il pennello ripristinerà lo sfondo invece di cancellarlo</string>
     <string name="use_pixel_switch_sub">Verrà utilizzato un interruttore simile a pixel al posto del materiale di Google basato su quello</string>
-    <string name="saved_to_original">File sovrascritto con nome %s nella destinazione originale</string>
+    <string name="saved_to_original">File sovrascritto con nome %1$s nella destinazione originale</string>
     <string name="magnifier">Lente d\'ingrandimento</string>
     <string name="magnifier_sub">Abilita la lente d\'ingrandimento sulla parte superiore del dito nelle modalità di disegno per una migliore accessibilità</string>
     <string name="force_exif_widget_initial_value">Forza il valore iniziale</string>
@@ -747,7 +747,7 @@
     <string name="recognize_text">OCR (riconoscimento del testo)</string>
     <string name="recognize_text_sub">Riconosci il testo da una determinata immagine, sono supportate oltre 120 lingue</string>
     <string name="picture_has_no_text">L\'immagine non contiene testo oppure l\'app non l\'ha trovata</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Tipo di riconoscimento</string>
     <string name="fast">Veloce</string>
     <string name="standard">Standard</string>
@@ -877,7 +877,7 @@
     <string name="show_settings_in_landscape_sub">Se disattivata, le impostazioni in modalità panorama saranno aperte tramite il pulsante nella barra superiore invece di averle sempre visibili.</string>
     <string name="switch_type">Cambia Tipo</string>
     <string name="compose">Componi</string>
-    <string name="speed_sub">Controlla la velocità di decodifica del risultato per renderne l\'apertura più rapida. Un valore di %1$d indica la decodifica più lenta, mentre %2$d la più veloce. Quest\'impostazione può aumentare le dimensioni dell\'immagine finale.</string>
+    <string name="speed_sub">Controlla la velocità di decodifica del risultato per renderne l\'apertura più rapida. Un valore di %1$s indica la decodifica più lenta, mentre %2$s la più veloce. Quest\'impostazione può aumentare le dimensioni dell\'immagine finale.</string>
     <string name="lossy_compression_sub">Usa una compressione con perdita di dati per ridurre le dimensioni del file invece di una senza perdita.</string>
     <string name="material_you_switch_sub">Usa Material Your basato sulla vista, è molto meglio degli altri e ha belle animazioni</string>
     <string name="compose_switch_sub">Utilizza il Material You Jetpack Compose che cambi, non è così bello come quello basato sulla vista</string>
@@ -1046,7 +1046,7 @@
     <string name="save_as_qr_code_image">Salva come Immagine QR</string>
     <string name="delete_template">Cancella Modello</string>
     <string name="delete_template_warn">Stai per eliminare il modello di filtro selezionato. Questa operazione non può essere annullata</string>
-    <string name="added_filter_template">Aggiunto modello di filtro con nome \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Aggiunto modello di filtro con nome \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Anteprima Filtro</string>
     <string name="qr_code">Codice a barre &amp; QR</string>
     <string name="qr_code_sub">Scansiona il codice QR e ottieni il suo contenuto o incolla la tua stringa per generarne uno nuovo</string>
@@ -1483,7 +1483,7 @@
     <string name="layout">Disposizione</string>
     <string name="main_screen_title">Titolo della schermata principale</string>
     <string name="constant_rate_factor">Fattore di tasso costante (CRF)</string>
-    <string name="crf_sub">Un valore di %1$d indica una compressione lenta, che risulta in una dimensione del file relativamente piccola. %2$d significa una compressione più veloce, che risulta in un file di grandi dimensioni.</string>
+    <string name="crf_sub">Un valore di %1$s indica una compressione lenta, che risulta in una dimensione del file relativamente piccola. %2$s significa una compressione più veloce, che risulta in un file di grandi dimensioni.</string>
     <string name="lut_library">Biblioteca Lut</string>
     <string name="lut_library_sub">Scarica la raccolta di LUT, che puoi applicare dopo il download</string>
     <string name="lut_library_update_sub">Aggiorna la raccolta di LUT (solo quelle nuove verranno messe in coda), che puoi applicare dopo il download</string>
@@ -1518,8 +1518,8 @@
     <string name="fast_settings_side">Lato Impostazioni veloci</string>
     <string name="fast_settings_side_sub">Aggiungi una striscia mobile sul lato selezionato durante la modifica delle immagini, che aprirà le impostazioni rapide quando si fa clic</string>
     <string name="clear_selection">Cancella selezione</string>
-    <string name="settings_group_visibility_hidden">Il gruppo di impostazioni \"%s\" verrà compresso per impostazione predefinita</string>
-    <string name="settings_group_visibility_visible">Il gruppo di impostazioni \"%s\" verrà espanso per impostazione predefinita</string>
+    <string name="settings_group_visibility_hidden">Il gruppo di impostazioni \"%1$s\" verrà compresso per impostazione predefinita</string>
+    <string name="settings_group_visibility_visible">Il gruppo di impostazioni \"%1$s\" verrà espanso per impostazione predefinita</string>
     <string name="base_64_tools">Strumenti Base64</string>
     <string name="base_64_tools_sub">Decodifica la stringa Base64 in immagine o codifica l\'immagine in formato Base64</string>
     <string name="base_64">Base64</string>
@@ -1751,7 +1751,7 @@
     <string name="processing_screenshot">Schermata di elaborazione</string>
     <string name="screenshot_not_captured_try_again">Screenshot non catturato, riprova</string>
     <string name="skipped_saving">Salvataggio saltato</string>
-    <string name="skipped_saving_multiple">%1$d file ignorati</string>
+    <string name="skipped_saving_multiple">%1$s file ignorati</string>
     <string name="allow_skip_if_larger">Consenti Salta se più grande</string>
     <string name="allow_skip_if_larger_sub">Ad alcuni strumenti sarà consentito saltare il salvataggio delle immagini se la dimensione del file risultante è maggiore dell\'originale</string>
     <string name="qr_type_calendar_event">Evento del calendario</string>
@@ -1841,7 +1841,7 @@
     <string name="palette_format">Formato tavolozza</string>
     <string name="export_palette_sub">Esporta la tavolozza generata in diversi formati</string>
     <string name="add_color_palette_sub">Aggiunge un nuovo colore alla tavolozza corrente</string>
-    <string name="palette_name_not_supported">Il formato %s non supporta l\'indicazione del nome della tavolozza</string>
+    <string name="palette_name_not_supported">Il formato %1$s non supporta l\'indicazione del nome della tavolozza</string>
     <string name="wallpapers_export_not_avaialbe">A causa delle politiche del Play Store, questa funzionalità non può essere inclusa nella build attuale. Per accedere a questa funzionalità, scarica ImageToolbox da una fonte alternativa. Di seguito puoi trovare le build disponibili su GitHub.</string>
     <string name="open_github_page">Apri la pagina Github</string>
     <string name="overwrite_files_sub_short">Il file originale verrà sostituito con uno nuovo invece di essere salvato nella cartella selezionata</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Pixelizzazione della griglia di impulsi</string>
     <string name="nucleus_pixelization">Pixelizzazione del nucleo</string>
     <string name="radial_weave_pixelization">Pixelizzazione della trama radiale</string>
-    <string name="cannot_open_uri">Impossibile aprire l\'URI \"%s\"</string>
+    <string name="cannot_open_uri">Impossibile aprire l\'URI \"%1$s\"</string>
     <string name="snowfall_mode">Modalità nevicata</string>
     <string name="enabled">Abilitato</string>
     <string name="border_frame">Cornice di confine</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Fusione</string>
     <string name="chunk_size">Dimensione del pezzo</string>
     <string name="overlap_size">Dimensioni sovrapposte</string>
-    <string name="note_chunk_info">Le immagini superiori a %1$d px verranno tagliate ed elaborate in blocchi, la sovrapposizione le fonde per evitare cuciture visibili.</string>
+    <string name="note_chunk_info">Le immagini superiori a %1$s px verranno tagliate ed elaborate in blocchi, la sovrapposizione le fonde per evitare cuciture visibili.</string>
     <string name="large_chunk_warning">Le grandi dimensioni possono causare instabilità con i dispositivi di fascia bassa</string>
     <string name="select_one_to_start">Selezionane uno per iniziare</string>
-    <string name="delete_model_sub">Vuoi eliminare il modello %s? Dovrai scaricarlo di nuovo</string>
+    <string name="delete_model_sub">Vuoi eliminare il modello %1$s? Dovrai scaricarlo di nuovo</string>
     <string name="confirm">Confermare</string>
     <string name="models">Modelli</string>
     <string name="downloaded_models">Modelli scaricati</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Spessore del bordo orizzontale</string>
     <string name="vertical_border_thickness">Spessore del bordo verticale</string>
     <plurals name="color_count">
-        <item quantity="one">%s colore</item>
-        <item quantity="other">%s colori</item>
+        <item quantity="one">%1$s colore</item>
+        <item quantity="other">%1$s colori</item>
     </plurals>
     <string name="current_model_not_chunkable">Il modello attuale non supporta il suddivisione in blocchi, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa</string>
     <string name="chunking_disabled">Chunking disabilitato, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa ma potrebbe fornire risultati migliori nell\'inferenza</string>

@@ -422,7 +422,7 @@
     <string name="recognize_text">OCR (உரையை அங்கீகரிக்கவும்)</string>
     <string name="recognize_text_sub">கொடுக்கப்பட்ட படத்திலிருந்து உரையை அங்கீகரிக்கவும், 120+ மொழிகள் ஆதரிக்கப்படுகின்றன</string>
     <string name="picture_has_no_text">படத்தில் உரை இல்லை அல்லது ஆப்ஸ் அதைக் கண்டுபிடிக்கவில்லை</string>
-    <string name="accuracy">துல்லியம்: %1$d</string>
+    <string name="accuracy">துல்லியம்: %1$s</string>
     <string name="recognition_type">அங்கீகார வகை</string>
     <string name="fast">வேகமாக</string>
     <string name="standard">தரநிலை</string>
@@ -436,7 +436,7 @@
     <string name="segmentation_mode">பிரிவு முறை</string>
     <string name="use_pixel_switch">பிக்சல் சுவிட்சைப் பயன்படுத்தவும்</string>
     <string name="use_pixel_switch_sub">கூகிள் படப்புள்ளி போன்ற சுவிட்சைப் பயன்படுத்துகிறது</string>
-    <string name="saved_to_original">அசல் இலக்கில் %s என்ற பெயரில் மேலெழுதப்பட்ட கோப்பு</string>
+    <string name="saved_to_original">அசல் இலக்கில் %1$s என்ற பெயரில் மேலெழுதப்பட்ட கோப்பு</string>
     <string name="magnifier">உருப்பெருக்கி</string>
     <string name="magnifier_sub">சிறந்த அணுகலுக்காக வரைதல் முறைகளில் விரலின் மேற்பகுதியில் உருப்பெருக்கியை இயக்குகிறது</string>
     <string name="force_exif_widget_initial_value">ஆரம்ப மதிப்பை கட்டாயப்படுத்தவும்</string>
@@ -656,7 +656,7 @@
     <string name="emoji_as_color_scheme">வண்ணத் திட்டமாக ஈமோஜி</string>
     <string name="emoji_as_color_scheme_sub">கைமுறையாக வரையறுக்கப்பட்டதற்குப் பதிலாக ஈமோஜி முதன்மை வண்ணத்தை பயன்பாட்டு வண்ணத் திட்டமாகப் பயன்படுத்துகிறது</string>
     <string name="image_exif_warning">தற்போது, ஆண்ட்ராய்டில் EXIF மெட்டாடேட்டாவைப் படிக்க மட்டுமே %1$s வடிவம் அனுமதிக்கிறது. அவுட்புட் படத்தில் சேமிக்கப்படும் போது மெட்டாடேட்டா இருக்காது.</string>
-    <string name="effort_sub">%1$d இன் மதிப்பு என்பது வேகமான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒப்பீட்டளவில் பெரிய கோப்பு அளவு இருக்கும். %2$d என்பது மெதுவான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக சிறிய கோப்பு கிடைக்கும்.</string>
+    <string name="effort_sub">%1$s இன் மதிப்பு என்பது வேகமான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒப்பீட்டளவில் பெரிய கோப்பு அளவு இருக்கும். %2$s என்பது மெதுவான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக சிறிய கோப்பு கிடைக்கும்.</string>
     <string name="wait">காத்திரு</string>
     <string name="saving_almost_complete">சேமிப்பு கிட்டத்தட்ட முடிந்தது. இப்போது ரத்துசெய்ய மீண்டும் சேமிக்க வேண்டும்.</string>
     <string name="updates">புதுப்பிப்புகள்</string>
@@ -1130,7 +1130,7 @@
     <string name="grant_camera_permission_to_capture_image">படத்தைப் பிடிக்க அமைப்புகளில் கேமரா இசைவு வழங்கவும்</string>
     <string name="layout">மனையமைவு</string>
     <string name="constant_rate_factor">நிலையான வீத காரணி (சிஆர்எஃப்)</string>
-    <string name="crf_sub">%1$d இன் மதிப்பு மெதுவான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒப்பீட்டளவில் சிறிய கோப்பு அளவு ஏற்படுகிறது. %2$d என்பது வேகமான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒரு பெரிய கோப்பு.</string>
+    <string name="crf_sub">%1$s இன் மதிப்பு மெதுவான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒப்பீட்டளவில் சிறிய கோப்பு அளவு ஏற்படுகிறது. %2$s என்பது வேகமான சுருக்கத்தைக் குறிக்கிறது, இதன் விளைவாக ஒரு பெரிய கோப்பு.</string>
     <string name="lut_library">LUT நூலகம்</string>
     <string name="main_screen_title">முதன்மையான திரை தலைப்பு</string>
     <string name="lut_library_sub">பதிவிறக்கிய பிறகு நீங்கள் விண்ணப்பிக்கக்கூடிய LUTS இன் சேகரிப்பைப் பதிவிறக்குக</string>
@@ -1307,7 +1307,7 @@
     <string name="scanned_qr_code_isnt_filter_template">வருடு செய்யப்பட்ட QR குறியீடு சரியான வடிகட்டி வார்ப்புரு அல்ல</string>
     <string name="scan_qr_code">QR குறியீட்டை வருடு செய்யுங்கள்</string>
     <string name="template_filter">வார்ப்புரு வடிகட்டி</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) என்ற பெயருடன் வடிகட்டி வார்ப்புரு சேர்க்கப்பட்டது</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) என்ற பெயருடன் வடிகட்டி வார்ப்புரு சேர்க்கப்பட்டது</string>
     <string name="filter_preview">வடிகட்டி முன்னோட்டம்</string>
     <string name="qr_code">QR &amp; பார்கோடு</string>
     <string name="qr_code_sub">QR குறியீட்டை வருடு செய்து அதன் உள்ளடக்கத்தைப் பெறுங்கள் அல்லது புதிய ஒன்றை உருவாக்க உங்கள் சரத்தை ஒட்டவும்</string>
@@ -1383,7 +1383,7 @@
     <string name="tag_exposure_program">வெளிப்பாடு திட்டம்</string>
     <string name="tag_spectral_sensitivity">நிறமாலை உணர்திறன்</string>
     <string name="tag_photographic_sensitivity">புகைப்பட உணர்திறன்</string>
-    <string name="speed_sub">இதன் விளைவாக பட டிகோடிங் வேகத்தை கட்டுப்படுத்துகிறது, இது விளைந்த படத்தை வேகமாக திறக்க உதவும், %1$d இன் மதிப்பு மெதுவான டிகோடிங் என்று பொருள், அதேசமயம் %2$d - வேகமாக, இந்த அமைப்பு வெளியீட்டு பட அளவை அதிகரிக்கக்கூடும்</string>
+    <string name="speed_sub">இதன் விளைவாக பட டிகோடிங் வேகத்தை கட்டுப்படுத்துகிறது, இது விளைந்த படத்தை வேகமாக திறக்க உதவும், %1$s இன் மதிப்பு மெதுவான டிகோடிங் என்று பொருள், அதேசமயம் %2$s - வேகமாக, இந்த அமைப்பு வெளியீட்டு பட அளவை அதிகரிக்கக்கூடும்</string>
     <string name="sorting">வரிசைப்படுத்துதல்</string>
     <string name="sort_by_date">திகதி</string>
     <string name="sort_by_date_reversed">தேதி (தலைகீழ்)</string>
@@ -1518,8 +1518,8 @@
     <string name="fast_settings_side">வேகமான அமைப்புகள் பக்கம்</string>
     <string name="fast_settings_side_sub">படங்களைத் திருத்தும் போது தேர்ந்தெடுக்கப்பட்ட பக்கத்தில் ஒரு மிதக்கும் துண்டு சேர்க்கவும், இது சொடுக்கு செய்யும் போது வேகமான அமைப்புகளைத் திறக்கும்</string>
     <string name="clear_selection">தெளிவான தேர்வு</string>
-    <string name="settings_group_visibility_hidden">குழு \"%s\" அமைப்பது இயல்பாகவே சரிந்துவிடும்</string>
-    <string name="settings_group_visibility_visible">குழு \"%s\" அமைப்பது இயல்பாக விரிவாக்கப்படும்</string>
+    <string name="settings_group_visibility_hidden">குழு \"%1$s\" அமைப்பது இயல்பாகவே சரிந்துவிடும்</string>
+    <string name="settings_group_visibility_visible">குழு \"%1$s\" அமைப்பது இயல்பாக விரிவாக்கப்படும்</string>
     <string name="base_64_tools">அடிப்படை 64 கருவிகள்</string>
     <string name="base_64_tools_sub">BASE64 சரத்தை படத்திற்கு டிகோட் செய்யுங்கள், அல்லது படத்தை BASE64 வடிவத்திற்கு குறியாக்கவும்</string>
     <string name="base_64">அடிப்படை 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">திரைக்காட்சி செயலாக்க</string>
     <string name="screenshot_not_captured_try_again">திரைக்காட்சி பிடிக்கப்படவில்லை, மீண்டும் முயற்சிக்கவும்</string>
     <string name="skipped_saving">சேமிப்பு தவிர்க்கப்பட்டது</string>
-    <string name="skipped_saving_multiple">%1$d கோப்புகள் தவிர்க்கப்பட்டன</string>
+    <string name="skipped_saving_multiple">%1$s கோப்புகள் தவிர்க்கப்பட்டன</string>
     <string name="allow_skip_if_larger">பெரியதாக இருந்தால் தவிர்க்க அனுமதிக்கவும்</string>
     <string name="allow_skip_if_larger_sub">இதன் விளைவாக கோப்பு அளவு அசலை விட பெரியதாக இருந்தால் சில கருவிகள் படங்களை சேமிப்பதைத் தவிர்க்க அனுமதிக்கப்படும்</string>
     <string name="qr_type_calendar_event">காலண்டர் நிகழ்வு</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">தட்டு வடிவம்</string>
     <string name="export_palette_sub">உருவாக்கப்பட்ட தட்டுகளை வெவ்வேறு வடிவங்களுக்கு ஏற்றுமதி செய்யவும்</string>
     <string name="add_color_palette_sub">தற்போதைய தட்டுக்கு புதிய வண்ணத்தைச் சேர்க்கிறது</string>
-    <string name="palette_name_not_supported">%s வடிவம் தட்டுப் பெயரை வழங்குவதை ஆதரிக்காது</string>
+    <string name="palette_name_not_supported">%1$s வடிவம் தட்டுப் பெயரை வழங்குவதை ஆதரிக்காது</string>
     <string name="wallpapers_export_not_avaialbe">Play Store கொள்கைகள் காரணமாக, இந்த அம்சத்தை தற்போதைய கட்டமைப்பில் சேர்க்க முடியாது. இந்தச் செயல்பாட்டை அணுக, மாற்று மூலத்திலிருந்து ImageToolboxஐப் பதிவிறக்கவும். கீழே உள்ள GitHub இல் கிடைக்கும் உருவாக்கங்களைக் காணலாம்.</string>
     <string name="open_github_page">கிதுப் பக்கத்தைத் திறக்கவும்</string>
     <string name="overwrite_files_sub_short">தேர்ந்தெடுக்கப்பட்ட கோப்புறையில் சேமிப்பதற்குப் பதிலாக அசல் கோப்பு புதியதாக மாற்றப்படும்</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">பல்ஸ் கிரிட் பிக்சலைசேஷன்</string>
     <string name="nucleus_pixelization">நியூக்ளியஸ் பிக்சலைசேஷன்</string>
     <string name="radial_weave_pixelization">ரேடியல் வீவ் பிக்சலைசேஷன்</string>
-    <string name="cannot_open_uri">uri \"%s\" ஐ திறக்க முடியவில்லை</string>
+    <string name="cannot_open_uri">uri \"%1$s\" ஐ திறக்க முடியவில்லை</string>
     <string name="snowfall_mode">பனிப்பொழிவு முறை</string>
     <string name="enabled">இயக்கப்பட்டது</string>
     <string name="border_frame">பார்டர் ஃப்ரேம்</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">இணைத்தல்</string>
     <string name="chunk_size">துண்டு அளவு</string>
     <string name="overlap_size">ஒன்றுடன் ஒன்று அளவு</string>
-    <string name="note_chunk_info">%1$d pxக்கு மேலான படங்கள் வெட்டப்பட்டு, துண்டுகளாகச் செயலாக்கப்படும், காணக்கூடிய சீம்களைத் தடுக்க இவற்றை ஒன்றுடன் ஒன்று இணைக்கும்.</string>
+    <string name="note_chunk_info">%1$s pxக்கு மேலான படங்கள் வெட்டப்பட்டு, துண்டுகளாகச் செயலாக்கப்படும், காணக்கூடிய சீம்களைத் தடுக்க இவற்றை ஒன்றுடன் ஒன்று இணைக்கும்.</string>
     <string name="large_chunk_warning">பெரிய அளவுகள் குறைந்த-இறுதி சாதனங்களுடன் உறுதியற்ற தன்மையை ஏற்படுத்தும்</string>
     <string name="select_one_to_start">தொடங்குவதற்கு ஒன்றைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="delete_model_sub">%s மாதிரியை நீக்க விரும்புகிறீர்களா? நீங்கள் அதை மீண்டும் பதிவிறக்கம் செய்ய வேண்டும்</string>
+    <string name="delete_model_sub">%1$s மாதிரியை நீக்க விரும்புகிறீர்களா? நீங்கள் அதை மீண்டும் பதிவிறக்கம் செய்ய வேண்டும்</string>
     <string name="confirm">உறுதிப்படுத்தவும்</string>
     <string name="models">மாதிரிகள்</string>
     <string name="downloaded_models">பதிவிறக்கம் செய்யப்பட்ட மாதிரிகள்</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">கிடைமட்ட பார்டர் தடிமன்</string>
     <string name="vertical_border_thickness">செங்குத்து பார்டர் தடிமன்</string>
     <plurals name="color_count">
-        <item quantity="one">%s நிறம்</item>
-        <item quantity="other">%s வண்ணங்கள்</item>
+        <item quantity="one">%1$s நிறம்</item>
+        <item quantity="other">%1$s வண்ணங்கள்</item>
     </plurals>
     <string name="current_model_not_chunkable">தற்போதைய மாடல் துண்டிப்பதை ஆதரிக்காது, படம் அசல் பரிமாணங்களில் செயலாக்கப்படும், இது அதிக நினைவக நுகர்வு மற்றும் குறைந்த-இறுதி சாதனங்களில் சிக்கல்களை ஏற்படுத்தலாம்</string>
     <string name="chunking_disabled">துண்டிப்பு முடக்கப்பட்டது, படம் அசல் பரிமாணங்களில் செயலாக்கப்படும், இது அதிக நினைவக நுகர்வு மற்றும் குறைந்த-இறுதி சாதனங்களில் சிக்கல்களை ஏற்படுத்தலாம் ஆனால் அனுமானத்தில் சிறந்த முடிவுகளை அளிக்கலாம்</string>

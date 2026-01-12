@@ -422,7 +422,7 @@
     <string name="corrupted_file_or_not_a_backup">Uszkodzony plik lub brak kopii zapasowej</string>
     <string name="image_exif_warning">Obecnie format %1$s pozwala jedynie na odczyt metadanych EXIF na Androidzie. Obraz wyjściowy nie będzie zawierał metadanych po zapisaniu.</string>
     <string name="font">Czcionka</string>
-    <string name="effort_sub">Wartość %1$d oznacza szybką kompresję, co skutkuje stosunkowo dużym rozmiarem pliku. Wartość %2$d oznacza wolniejszą kompresję, co skutkuje mniejszym plikiem.</string>
+    <string name="effort_sub">Wartość %1$s oznacza szybką kompresję, co skutkuje stosunkowo dużym rozmiarem pliku. Wartość %2$s oznacza wolniejszą kompresję, co skutkuje mniejszym plikiem.</string>
     <string name="keep_exif_sub">Oryginalne metadane obrazu zostaną zachowane</string>
     <string name="trim_image_sub">Przezroczyste przestrzenie wokół obrazu zostaną przycięte</string>
     <string name="crashlytics_sub">Dzięki temu aplikacja może automatycznie zbierać raporty o awariach</string>
@@ -546,7 +546,7 @@
     <string name="recognize_text">OCR (rozpoznawanie tekstu)</string>
     <string name="recognize_text_sub">Rozpoznawanie tekstu z danego obrazu, obsługa ponad 120 języków</string>
     <string name="picture_has_no_text">Obraz nie zawiera tekstu lub aplikacja go nie znalazła</string>
-    <string name="accuracy">Dokładność: %1$d</string>
+    <string name="accuracy">Dokładność: %1$s</string>
     <string name="recognition_type">Typ rozpoznawania</string>
     <string name="fast">Szybki</string>
     <string name="standard">Standardowy</string>
@@ -665,7 +665,7 @@
     <string name="side_by_side">Obok siebie</string>
     <string name="toggle_tap">Przełączanie po stuknięciu</string>
     <string name="transparency">Przezroczystość</string>
-    <string name="saved_to_original">Nadpisano plik o nazwie %s w oryginalnym miejscu docelowym</string>
+    <string name="saved_to_original">Nadpisano plik o nazwie %1$s w oryginalnym miejscu docelowym</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Włącza lupę w trybach rysowania dla lepszej dostępności.</string>
     <string name="force_exif_widget_initial_value">Wymuś wartość początkową</string>
@@ -865,7 +865,7 @@
     <string name="lossy_compression_sub">Używa kompresji stratnej w celu zmniejszenia rozmiaru pliku zamiast bezstratnej</string>
     <string name="lanczos_bessel_sub">Metoda ponownego próbkowania, która utrzymuje wysoką jakość interpolacji poprzez zastosowanie funkcji Bessela (jinc) do wartości pikseli</string>
     <string name="compression_type">Typ kompresji</string>
-    <string name="speed_sub">Kontroluje prędkość dekodowania obrazu wynikowego, powinno to pomóc w szybszym otwieraniu obrazu wynikowego, wartość %1$d oznacza najwolniejsze dekodowanie, podczas gdy %2$d - najszybsze, to ustawienie może zwiększyć rozmiar obrazu wyjściowego</string>
+    <string name="speed_sub">Kontroluje prędkość dekodowania obrazu wynikowego, powinno to pomóc w szybszym otwieraniu obrazu wynikowego, wartość %1$s oznacza najwolniejsze dekodowanie, podczas gdy %2$s - najszybsze, to ustawienie może zwiększyć rozmiar obrazu wyjściowego</string>
     <string name="sorting">Sortowanie</string>
     <string name="sort_by_date">Data</string>
     <string name="sort_by_date_reversed">Data (odwrotnie)</string>
@@ -1120,7 +1120,7 @@
     <string name="quadric_sub">Metoda wykorzystująca funkcję kwadratową do interpolacji, zapewniająca płynne i ciągłe wyniki</string>
     <string name="select_template_preview">Ten obraz będzie używany do podglądu tego szablonu filtra</string>
     <string name="harmony_triadic">Triadyczny</string>
-    <string name="added_filter_template">Dodano szablon filtra o nazwie „%1$s” (%2$d)</string>
+    <string name="added_filter_template">Dodano szablon filtra o nazwie „%1$s” (%2$s)</string>
     <string name="code_content">Treść kodu</string>
     <string name="quadric">Kwadryczny</string>
     <string name="gaussian">Gaussowski</string>
@@ -1469,8 +1469,8 @@
     <string name="fast_settings_side">Strona szybkich ustawień</string>
     <string name="fast_settings_side_sub">Dodaj pływający pasek po wybranej stronie podczas edycji obrazów, który po kliknięciu otworzy szybkie ustawienia</string>
     <string name="clear_selection">Wyczyść zaznaczenie</string>
-    <string name="settings_group_visibility_hidden">Grupa ustawień „%s” będzie domyślnie zwinięta</string>
-    <string name="settings_group_visibility_visible">Grupa ustawień „%s” będzie domyślnie rozwinięta</string>
+    <string name="settings_group_visibility_hidden">Grupa ustawień „%1$s” będzie domyślnie zwinięta</string>
+    <string name="settings_group_visibility_visible">Grupa ustawień „%1$s” będzie domyślnie rozwinięta</string>
     <string name="base_64_tools">Narzędzia Base64</string>
     <string name="base_64_tools_sub">Dekodowanie ciągu Base64 na obraz lub kodowanie obrazu do formatu Base64</string>
     <string name="base_64">Base64</string>
@@ -1542,7 +1542,7 @@
     <string name="add_outline_sub">Dodanie obrysu wokół tekstu o określonym kolorze i szerokości</string>
     <string name="unknown_host">Nie można uzyskać dostępu do witryny, spróbuj użyć VPN lub sprawdź, czy adres URL jest poprawny</string>
     <string name="material_2_sub">Suwak oparty na Material 2</string>
-    <string name="crf_sub">Wartość %1$d oznacza wolną kompresję, co skutkuje stosunkowo małym rozmiarem pliku. %2$d oznacza szybszą kompresję, skutkującą dużym plikiem.</string>
+    <string name="crf_sub">Wartość %1$s oznacza wolną kompresję, co skutkuje stosunkowo małym rozmiarem pliku. %2$s oznacza szybszą kompresję, skutkującą dużym plikiem.</string>
     <string name="center_align_dialog_buttons_sub">Przyciski okien dialogowych będą umieszczane na środku zamiast po lewej stronie, jeśli to możliwe</string>
     <string name="area_sub">Ponowne próbkowanie przy użyciu relacji obszaru pikseli. Może to być preferowana metoda odszumiania obrazu, ponieważ daje wyniki wolne od efektu mory. Ale gdy obraz jest powiększony, jest podobny do metody „Najbliższy”.</string>
     <string name="wrong_font">Można importować tylko czcionki TTF i OTF</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Przetwarzanie zrzutu ekranu</string>
     <string name="screenshot_not_captured_try_again">Nie wykonano zrzutu ekranu, spróbuj ponownie</string>
     <string name="skipped_saving">Pomijanie zapisu</string>
-    <string name="skipped_saving_multiple">%1$d plików pominięto</string>
+    <string name="skipped_saving_multiple">%1$s plików pominięto</string>
     <string name="allow_skip_if_larger">Pozwól na pomijanie jeśli większe</string>
     <string name="allow_skip_if_larger_sub">Niektóre narzędzia będą mogły pominąć zapisywanie obrazów, jeśli wynikowy rozmiar pliku będzie większy niż oryginalny</string>
     <string name="qr_type_calendar_event">Wydarzenie w kalendarzu</string>
@@ -1840,14 +1840,14 @@
     <string name="palette_format">Format palety</string>
     <string name="export_palette_sub">Eksportuj wygenerowaną paletę do różnych formatów</string>
     <string name="add_color_palette_sub">Dodaje nowy kolor do bieżącej palety</string>
-    <string name="palette_name_not_supported">Format %s nie obsługuje podawania nazwy palety</string>
+    <string name="palette_name_not_supported">Format %1$s nie obsługuje podawania nazwy palety</string>
     <string name="wallpapers_export_not_avaialbe">Ze względu na zasady sklepu Play Store ta funkcja nie może być zawarta w obecnej wersji. Aby uzyskać dostęp do tej funkcji, pobierz ImageToolbox z alternatywnego źródła. Dostępne wersje można znaleźć na GitHub poniżej.</string>
     <string name="open_github_page">Otwórz stronę Github</string>
     <plurals name="color_count">
-        <item quantity="one">%s kolor</item>
-        <item quantity="few">%s kolory</item>
-        <item quantity="many">%s kolorów</item>
-        <item quantity="other">%s kolorów</item>
+        <item quantity="one">%1$s kolor</item>
+        <item quantity="few">%1$s kolory</item>
+        <item quantity="many">%1$s kolorów</item>
+        <item quantity="other">%1$s kolorów</item>
     </plurals>
     <string name="overwrite_files_sub_short">Oryginalny plik zostanie zastąpiony nowym zamiast zapisywania w wybranym folderze</string>
     <string name="hidden_watermark_text_detected">Wykryto ukryty tekst znaku wodnego</string>
@@ -1873,7 +1873,7 @@
     <string name="pulse_grid_pixelization">Pikselizacja siatki impulsowej</string>
     <string name="nucleus_pixelization">Pikselizacja jądra</string>
     <string name="radial_weave_pixelization">Pikselizacja splotu promieniowego</string>
-    <string name="cannot_open_uri">Nie można otworzyć adresu URI „%s”</string>
+    <string name="cannot_open_uri">Nie można otworzyć adresu URI „%1$s”</string>
     <string name="snowfall_mode">Tryb opadów śniegu</string>
     <string name="enabled">Włączono</string>
     <string name="border_frame">Ramka graniczna</string>
@@ -1935,10 +1935,10 @@
     <string name="merging">Łączenie</string>
     <string name="chunk_size">Rozmiar kawałka</string>
     <string name="overlap_size">Rozmiar nakładania się</string>
-    <string name="note_chunk_info">Obrazy o rozmiarze większym niż %1$d pikseli zostaną pokrojone i przetworzone w kawałkach. Nakładanie łączy je, aby zapobiec widocznym łączeniom.</string>
+    <string name="note_chunk_info">Obrazy o rozmiarze większym niż %1$s pikseli zostaną pokrojone i przetworzone w kawałkach. Nakładanie łączy je, aby zapobiec widocznym łączeniom.</string>
     <string name="large_chunk_warning">Duże rozmiary mogą powodować niestabilność urządzeń z niższej półki</string>
     <string name="select_one_to_start">Wybierz jeden, aby rozpocząć</string>
-    <string name="delete_model_sub">Czy chcesz usunąć model %s? Będziesz musiał pobrać go ponownie</string>
+    <string name="delete_model_sub">Czy chcesz usunąć model %1$s? Będziesz musiał pobrać go ponownie</string>
     <string name="confirm">Potwierdzać</string>
     <string name="models">Modele</string>
     <string name="downloaded_models">Pobrane modele</string>

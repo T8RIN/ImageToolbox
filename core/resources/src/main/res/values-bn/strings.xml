@@ -369,7 +369,7 @@
     <string name="analytics_sub">বেনামী অ্যাপ ব্যবহারের পরিসংখ্যান সংগ্রহ করার অনুমতি দিন</string>
     <string name="image_exif_warning">বর্তমানে, %1$s ফরম্যাট শুধুমাত্র Android এ EXIF ​​মেটাডেটা পড়ার অনুমতি দেয়। আউটপুট ইমেজে মেটাডেটা থাকবে না, যখন সেভ করা হবে।</string>
     <string name="effort">প্রচেষ্টা</string>
-    <string name="effort_sub">%1$d এর মান মানে একটি দ্রুত কম্প্রেশন, যার ফলে ফাইলের আকার তুলনামূলকভাবে বড় হয়। %2$d মানে একটি ধীর সংকোচন, যার ফলে একটি ছোট ফাইল হয়।</string>
+    <string name="effort_sub">%1$s এর মান মানে একটি দ্রুত কম্প্রেশন, যার ফলে ফাইলের আকার তুলনামূলকভাবে বড় হয়। %2$s মানে একটি ধীর সংকোচন, যার ফলে একটি ছোট ফাইল হয়।</string>
     <string name="wait">অপেক্ষা করুন</string>
     <string name="saving_almost_complete">সংরক্ষণ প্রায় সম্পূর্ণ। এখন বাতিল করার জন্য আবার সংরক্ষণের প্রয়োজন হবে।</string>
     <string name="updates">আপডেট</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">ওসিআর (পাঠ্য সনাক্ত করুন)</string>
     <string name="recognize_text_sub">প্রদত্ত চিত্র থেকে পাঠ্য সনাক্ত করুন, 120+ ভাষা সমর্থিত</string>
     <string name="picture_has_no_text">ছবির কোন টেক্সট নেই, বা অ্যাপ এটি খুঁজে পায়নি</string>
-    <string name="accuracy">\"নির্ভুলতা: %1$d\"</string>
+    <string name="accuracy">\"নির্ভুলতা: %1$s\"</string>
     <string name="recognition_type">স্বীকৃতির ধরন</string>
     <string name="fast">দ্রুত</string>
     <string name="standard">স্ট্যান্ডার্ড</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">সেগমেন্টেশন মোড</string>
     <string name="use_pixel_switch">পিক্সেল সুইচ ব্যবহার করুন</string>
     <string name="use_pixel_switch_sub">একটি Google Pixel-এর মতো সুইচ ব্যবহার করে</string>
-    <string name="saved_to_original">মূল গন্তব্যে %s নামের সাথে ওভাররাইট করা ফাইল</string>
+    <string name="saved_to_original">মূল গন্তব্যে %1$s নামের সাথে ওভাররাইট করা ফাইল</string>
     <string name="magnifier">ম্যাগনিফায়ার</string>
     <string name="magnifier_sub">আরও ভাল অ্যাক্সেসযোগ্যতার জন্য অঙ্কন মোডে আঙুলের শীর্ষে ম্যাগনিফায়ার সক্ষম করে৷</string>
     <string name="force_exif_widget_initial_value">প্রাথমিক মান জোর করুন</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">ক্ষতিকারক কম্প্রেশন</string>
     <string name="lossy_compression_sub">লসলেস এর পরিবর্তে ফাইলের আকার কমাতে ক্ষতিকর কম্প্রেশন ব্যবহার করে</string>
     <string name="compression_type">কম্প্রেশন টাইপ</string>
-    <string name="speed_sub">ফলস্বরূপ ইমেজ ডিকোডিং গতি নিয়ন্ত্রণ করে, এটি ফলস্বরূপ চিত্রটি দ্রুত খুলতে সাহায্য করবে, %1$d এর মান হল সবচেয়ে ধীরগতির ডিকোডিং, যেখানে %2$d - দ্রুততম, এই সেটিংটি আউটপুট চিত্রের আকার বাড়াতে পারে</string>
+    <string name="speed_sub">ফলস্বরূপ ইমেজ ডিকোডিং গতি নিয়ন্ত্রণ করে, এটি ফলস্বরূপ চিত্রটি দ্রুত খুলতে সাহায্য করবে, %1$s এর মান হল সবচেয়ে ধীরগতির ডিকোডিং, যেখানে %2$s - দ্রুততম, এই সেটিংটি আউটপুট চিত্রের আকার বাড়াতে পারে</string>
     <string name="sorting">বাছাই</string>
     <string name="sort_by_date">তারিখ</string>
     <string name="sort_by_date_reversed">তারিখ (বিপরীত)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR কোড ইমেজ হিসাবে সংরক্ষণ করুন</string>
     <string name="delete_template">টেমপ্লেট মুছুন</string>
     <string name="delete_template_warn">আপনি নির্বাচিত টেমপ্লেট ফিল্টার মুছে ফেলতে চলেছেন৷ এই অপারেশন পূর্বাবস্থায় ফেরানো যাবে না</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) নামের সাথে ফিল্টার টেমপ্লেট যোগ করা হয়েছে</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) নামের সাথে ফিল্টার টেমপ্লেট যোগ করা হয়েছে</string>
     <string name="filter_preview">ফিল্টার প্রিভিউ</string>
     <string name="qr_code">QR এবং বারকোড</string>
     <string name="qr_code_sub">QR কোড স্ক্যান করুন এবং এর বিষয়বস্তু পান বা নতুন একটি তৈরি করতে আপনার স্ট্রিং পেস্ট করুন</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">লেআউট</string>
     <string name="main_screen_title">প্রধান পর্দা শিরোনাম</string>
     <string name="constant_rate_factor">ধ্রুবক হার ফ্যাক্টর (CRF)</string>
-    <string name="crf_sub">%1$d এর মান মানে একটি ধীর সংকোচন, যার ফলে ফাইলের আকার অপেক্ষাকৃত ছোট হয়। %2$d মানে একটি দ্রুত কম্প্রেশন, যার ফলে একটি বড় ফাইল।</string>
+    <string name="crf_sub">%1$s এর মান মানে একটি ধীর সংকোচন, যার ফলে ফাইলের আকার অপেক্ষাকৃত ছোট হয়। %2$s মানে একটি দ্রুত কম্প্রেশন, যার ফলে একটি বড় ফাইল।</string>
     <string name="lut_library">লুট লাইব্রেরি</string>
     <string name="lut_library_sub">LUTs এর সংগ্রহ ডাউনলোড করুন, যা আপনি ডাউনলোড করার পরে আবেদন করতে পারেন</string>
     <string name="lut_library_update_sub">LUT-এর সংগ্রহ আপডেট করুন (শুধুমাত্র নতুনগুলি সারিবদ্ধ হবে), যা আপনি ডাউনলোড করার পরে আবেদন করতে পারেন</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">দ্রুত সেটিংস সাইড</string>
     <string name="fast_settings_side_sub">ছবি সম্পাদনা করার সময় নির্বাচিত পাশে একটি ভাসমান স্ট্রিপ যোগ করুন, যা ক্লিক করলে দ্রুত সেটিংস খুলবে</string>
     <string name="clear_selection">নির্বাচন পরিষ্কার করুন</string>
-    <string name="settings_group_visibility_hidden">সেট করা গোষ্ঠী \"%s\" ডিফল্টরূপে ভেঙে যাবে</string>
-    <string name="settings_group_visibility_visible">সেট করা গ্রুপ \"%s\" ডিফল্টরূপে প্রসারিত হবে</string>
+    <string name="settings_group_visibility_hidden">সেট করা গোষ্ঠী \"%1$s\" ডিফল্টরূপে ভেঙে যাবে</string>
+    <string name="settings_group_visibility_visible">সেট করা গ্রুপ \"%1$s\" ডিফল্টরূপে প্রসারিত হবে</string>
     <string name="base_64_tools">বেস64 টুলস</string>
     <string name="base_64_tools_sub">Base64 স্ট্রিংকে ইমেজ ডিকোড করুন, বা Base64 ফরম্যাটে ইমেজ এনকোড করুন</string>
     <string name="base_64">বেস64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">স্ক্রিনশট প্রক্রিয়া করা হচ্ছে</string>
     <string name="screenshot_not_captured_try_again">স্ক্রিনশট ক্যাপচার করা হয়নি, আবার চেষ্টা করুন</string>
     <string name="skipped_saving">সেভ করা এড়িয়ে গেছে</string>
-    <string name="skipped_saving_multiple">%1$d ফাইল এড়িয়ে গেছে</string>
+    <string name="skipped_saving_multiple">%1$s ফাইল এড়িয়ে গেছে</string>
     <string name="allow_skip_if_larger">বড় হলে এড়িয়ে যাওয়ার অনুমতি দিন</string>
     <string name="allow_skip_if_larger_sub">ফলস্বরূপ ফাইলের আকার আসলটির চেয়ে বড় হলে কিছু সরঞ্জামকে ছবি সংরক্ষণ করা এড়ানোর অনুমতি দেওয়া হবে</string>
     <string name="qr_type_calendar_event">ক্যালেন্ডার ইভেন্ট</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">প্যালেট বিন্যাস</string>
     <string name="export_palette_sub">বিভিন্ন ফরম্যাটে জেনারেট করা প্যালেট রপ্তানি করুন</string>
     <string name="add_color_palette_sub">বর্তমান প্যালেটে নতুন রঙ যোগ করে</string>
-    <string name="palette_name_not_supported">%s বিন্যাস প্যালেট নাম প্রদান সমর্থন করে না</string>
+    <string name="palette_name_not_supported">%1$s বিন্যাস প্যালেট নাম প্রদান সমর্থন করে না</string>
     <string name="wallpapers_export_not_avaialbe">প্লে স্টোর নীতির কারণে, এই বৈশিষ্ট্যটি বর্তমান বিল্ডে অন্তর্ভুক্ত করা যাবে না। এই কার্যকারিতা অ্যাক্সেস করতে, একটি বিকল্প উৎস থেকে ImageToolbox ডাউনলোড করুন। আপনি নীচে গিটহাবে উপলব্ধ বিল্ডগুলি খুঁজে পেতে পারেন।</string>
     <string name="open_github_page">Github পৃষ্ঠা খুলুন</string>
     <string name="overwrite_files_sub_short">আসল ফাইলটি নির্বাচিত ফোল্ডারে সংরক্ষণ করার পরিবর্তে নতুন একটি দিয়ে প্রতিস্থাপিত হবে</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">পালস গ্রিড পিক্সেলাইজেশন</string>
     <string name="nucleus_pixelization">নিউক্লিয়াস পিক্সেলাইজেশন</string>
     <string name="radial_weave_pixelization">রেডিয়াল ওয়েভ পিক্সেলাইজেশন</string>
-    <string name="cannot_open_uri">uri \"%s\" খুলতে পারে না</string>
+    <string name="cannot_open_uri">uri \"%1$s\" খুলতে পারে না</string>
     <string name="snowfall_mode">তুষারপাত মোড</string>
     <string name="enabled">সক্রিয়</string>
     <string name="border_frame">বর্ডার ফ্রেম</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">মার্জিং</string>
     <string name="chunk_size">খণ্ডের আকার</string>
     <string name="overlap_size">ওভারল্যাপ সাইজ</string>
-    <string name="note_chunk_info">%1$d px-এর বেশি চিত্রগুলিকে টুকরো টুকরো করে কেটে প্রক্রিয়াজাত করা হবে, দৃশ্যমান সীমগুলি প্রতিরোধ করতে ওভারল্যাপ এগুলিকে মিশ্রিত করে৷</string>
+    <string name="note_chunk_info">%1$s px-এর বেশি চিত্রগুলিকে টুকরো টুকরো করে কেটে প্রক্রিয়াজাত করা হবে, দৃশ্যমান সীমগুলি প্রতিরোধ করতে ওভারল্যাপ এগুলিকে মিশ্রিত করে৷</string>
     <string name="large_chunk_warning">লো-এন্ড ডিভাইসের সাথে বড় আকার অস্থিরতা সৃষ্টি করতে পারে</string>
     <string name="select_one_to_start">শুরু করতে একটি নির্বাচন করুন</string>
-    <string name="delete_model_sub">আপনি কি %s মডেল মুছতে চান? আপনাকে আবার এটি ডাউনলোড করতে হবে</string>
+    <string name="delete_model_sub">আপনি কি %1$s মডেল মুছতে চান? আপনাকে আবার এটি ডাউনলোড করতে হবে</string>
     <string name="confirm">নিশ্চিত করুন</string>
     <string name="models">মডেল</string>
     <string name="downloaded_models">ডাউনলোড করা মডেল</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">অনুভূমিক সীমানা পুরুত্ব</string>
     <string name="vertical_border_thickness">উল্লম্ব সীমানা বেধ</string>
     <plurals name="color_count">
-        <item quantity="one">%s রঙ</item>
-        <item quantity="other">%s রং</item>
+        <item quantity="one">%1$s রঙ</item>
+        <item quantity="other">%1$s রং</item>
     </plurals>
     <string name="current_model_not_chunkable">বর্তমান মডেল চঙ্কিং সমর্থন করে না, ছবিটি মূল মাত্রায় প্রসেস করা হবে, এর ফলে উচ্চ মেমরি খরচ হতে পারে এবং লো-এন্ড ডিভাইসে সমস্যা হতে পারে</string>
     <string name="chunking_disabled">চঙ্কিং অক্ষম, ছবি মূল মাত্রায় প্রক্রিয়া করা হবে, এর ফলে উচ্চ মেমরি খরচ হতে পারে এবং লো-এন্ড ডিভাইসে সমস্যা হতে পারে তবে অনুমানে আরও ভাল ফলাফল দিতে পারে</string>

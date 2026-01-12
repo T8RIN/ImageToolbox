@@ -368,7 +368,7 @@
     <string name="erase_mode">Режим стирання</string>
     <string name="updates">Оновлення</string>
     <string name="wait">Зачекайте</string>
-    <string name="effort_sub">Значення %1$d означає швидке стиснення, що призводить до відносно великого розміру файлу. %2$d означає витрачати більше часу на стиснення, в результаті чого менший файл</string>
+    <string name="effort_sub">Значення %1$s означає швидке стиснення, що призводить до відносно великого розміру файлу. %2$s означає витрачати більше часу на стиснення, в результаті чого менший файл</string>
     <string name="allow_betas">Дозволити бета-версії</string>
     <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !?</string>
     <string name="saving_almost_complete">Збереження майже завершено, якщо ви скасуєте, що тепер вам потрібно буде почати збереження знову</string>
@@ -730,7 +730,7 @@
     <string name="emoji_selection_error">Ви не можете вибрати емодзі, коли ввімкнено випадкові емодзі</string>
     <string name="old_tv">Старий телевізор</string>
     <string name="shuffle_blur">Розмиття у випадковому порядку</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Тип розпізнавання</string>
     <string name="fast">швидко</string>
     <string name="standard">Стандартний</string>
@@ -754,7 +754,7 @@
     <string name="side_by_side">Пліч-о-пліч</string>
     <string name="toggle_tap">Перемикач</string>
     <string name="transparency">Прозорість</string>
-    <string name="saved_to_original">Перезаписаний файл із назвою %s у початковому місці призначення</string>
+    <string name="saved_to_original">Перезаписаний файл із назвою %1$s у початковому місці призначення</string>
     <string name="magnifier">лупа</string>
     <string name="magnifier_sub">Вмикає лупу у верхній частині пальця в режимах малювання для кращої доступності</string>
     <string name="force_exif_widget_initial_value">Примусове початкове значення</string>
@@ -880,7 +880,7 @@
     <string name="lossy_compression">Стиснення з втратами</string>
     <string name="lossy_compression_sub">Використовує стиснення з втратами для зменшення розміру файлу замість стиснення без втрат</string>
     <string name="compression_type">Тип стиснення</string>
-    <string name="speed_sub">Контролює швидкість декодування результуючого зображення, це має допомогти швидше відкрити результуюче зображення, значення %1$d означає найповільніше декодування, тоді як %2$d – найшвидше, цей параметр може збільшити розмір вихідного зображення</string>
+    <string name="speed_sub">Контролює швидкість декодування результуючого зображення, це має допомогти швидше відкрити результуюче зображення, значення %1$s означає найповільніше декодування, тоді як %2$s – найшвидше, цей параметр може збільшити розмір вихідного зображення</string>
     <string name="embedded_picker">Вбудований засіб вибору</string>
     <string name="embedded_picker_sub">Вибір зображень у Image Toolbox</string>
     <string name="pick_multiple_media">Виберіть кілька медіа</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Зберегти як зображення з QR-кодом</string>
     <string name="delete_template">Видалити шаблон</string>
     <string name="delete_template_warn">Ви збираєтеся видалити вибраний фільтр шаблону. Цю операцію не можна скасувати.</string>
-    <string name="added_filter_template">Додано шаблон фільтра з назвою \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Додано шаблон фільтра з назвою \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Попередній перегляд фільтра</string>
     <string name="qr_code">QR-код та штрих-код</string>
     <string name="qr_code_sub">Відскануйте QR-код та отримайте його вміст або вставте свій рядок, щоб створити новий</string>
@@ -1469,7 +1469,7 @@
     <string name="layout">Макет</string>
     <string name="main_screen_title">Заголовок головного екрана</string>
     <string name="constant_rate_factor">Коефіцієнт постійної ставки (CRF)</string>
-    <string name="crf_sub">Значення %1$d означає повільне стиснення, що призводить до відносно невеликого розміру файлу. %2$d означає швидше стиснення, що призводить до великого файлу.</string>
+    <string name="crf_sub">Значення %1$s означає повільне стиснення, що призводить до відносно невеликого розміру файлу. %2$s означає швидше стиснення, що призводить до великого файлу.</string>
     <string name="lut_library">Бібліотека Лут</string>
     <string name="lut_library_sub">Завантажте колекцію LUT, яку можна буде застосувати після завантаження</string>
     <string name="lut_library_update_sub">Оновлення колекції LUT (до черги будуть поставлені лише нові), яку можна застосувати після завантаження</string>
@@ -1504,8 +1504,8 @@
     <string name="fast_settings_side">Швидкі налаштування збоку</string>
     <string name="fast_settings_side_sub">Додати плаваючу смугу з вибраного боку під час редагування зображень, яка відкриватиме швидкі налаштування після натискання</string>
     <string name="clear_selection">Очистити вибір</string>
-    <string name="settings_group_visibility_hidden">Групу налаштувань \"%s\" буде згорнуто за замовчуванням</string>
-    <string name="settings_group_visibility_visible">Групу налаштувань \"%s\" буде розгорнуто за замовчуванням</string>
+    <string name="settings_group_visibility_hidden">Групу налаштувань \"%1$s\" буде згорнуто за замовчуванням</string>
+    <string name="settings_group_visibility_visible">Групу налаштувань \"%1$s\" буде розгорнуто за замовчуванням</string>
     <string name="base_64_tools">Інструменти Base64</string>
     <string name="base_64_tools_sub">Декодувати рядок Base64 у зображення або кодувати зображення у формат Base64</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Обробка знімка екрана</string>
     <string name="screenshot_not_captured_try_again">Знімок екрана не зроблено, спробуйте ще раз</string>
     <string name="skipped_saving">Збереження пропущено</string>
-    <string name="skipped_saving_multiple">Пропущено %1$d файлів</string>
+    <string name="skipped_saving_multiple">Пропущено %1$s файлів</string>
     <string name="allow_skip_if_larger">Дозволити пропуск, якщо більший</string>
     <string name="allow_skip_if_larger_sub">Деяким інструментам буде дозволено пропускати збереження зображень, якщо розмір отриманого файлу буде більшим за оригінал.</string>
     <string name="qr_type_calendar_event">Подія календаря</string>
@@ -1840,14 +1840,14 @@
     <string name="palette_format">Формат палітри</string>
     <string name="export_palette_sub">Експорт згенерованої палітри в різні формати</string>
     <string name="add_color_palette_sub">Додає новий колір до поточної палітри</string>
-    <string name="palette_name_not_supported">Формат %s не підтримує надання назви палітри</string>
+    <string name="palette_name_not_supported">Формат %1$s не підтримує надання назви палітри</string>
     <string name="wallpapers_export_not_avaialbe">Через політику Play Store цю функцію неможливо включити до поточної збірки. Щоб отримати доступ до цієї функції, завантажте ImageToolbox з альтернативного джерела. Ви можете знайти доступні збірки на GitHub нижче.</string>
     <string name="open_github_page">Відкрити сторінку Github</string>
     <plurals name="color_count">
-        <item quantity="one">%s колір</item>
-        <item quantity="few">%s кольори</item>
-        <item quantity="many">%s кольорів</item>
-        <item quantity="other">%s кольорів</item>
+        <item quantity="one">%1$s колір</item>
+        <item quantity="few">%1$s кольори</item>
+        <item quantity="many">%1$s кольорів</item>
+        <item quantity="other">%1$s кольорів</item>
     </plurals>
     <string name="overwrite_files_sub_short">Оригінальний файл буде замінено новим, а не збережено у вибраній папці</string>
     <string name="hidden_watermark_text_detected">Виявлено прихований текст водяного знака</string>
@@ -1873,7 +1873,7 @@
     <string name="pulse_grid_pixelization">Пікселізація імпульсної сітки</string>
     <string name="nucleus_pixelization">Пікселізація ядра</string>
     <string name="radial_weave_pixelization">Пікселізація радіального переплетення</string>
-    <string name="cannot_open_uri">Не вдається відкрити uri \"%s\"</string>
+    <string name="cannot_open_uri">Не вдається відкрити uri \"%1$s\"</string>
     <string name="snowfall_mode">Режим снігопаду</string>
     <string name="enabled">Увімкнено</string>
     <string name="border_frame">Рамка кордону</string>
@@ -1936,10 +1936,10 @@
     <string name="model_vhs_sharpen">Підвищення різкості та покращення якості запису VHS</string>
     <string name="chunk_size">Розмір шматка</string>
     <string name="overlap_size">Розмір перекриття</string>
-    <string name="note_chunk_info">Зображення розміром понад %1$d пікселів будуть нарізані та оброблені фрагментами, а перекриття об\'єднує їх, щоб уникнути видимих швів.</string>
+    <string name="note_chunk_info">Зображення розміром понад %1$s пікселів будуть нарізані та оброблені фрагментами, а перекриття об\'єднує їх, щоб уникнути видимих швів.</string>
     <string name="large_chunk_warning">Великі розміри можуть спричинити нестабільність у роботі з низькоякісними пристроями</string>
     <string name="select_one_to_start">Виберіть один, щоб почати</string>
-    <string name="delete_model_sub">Ви хочете видалити модель %s? Вам потрібно буде завантажити її знову.</string>
+    <string name="delete_model_sub">Ви хочете видалити модель %1$s? Вам потрібно буде завантажити її знову.</string>
     <string name="confirm">Підтвердити</string>
     <string name="models">Моделі</string>
     <string name="downloaded_models">Завантажені моделі</string>

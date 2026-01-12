@@ -684,7 +684,7 @@
     <string name="overlay_mode">Modus Hamparan</string>
     <string name="pixel_size">Ukuran Piksel</string>
     <string name="lock_draw_orientation">Kunci orientasi gambar</string>
-    <string name="effort_sub">Nilai %1$d berarti kompresi yang cepat sehingga menghasilkan ukuran file yang relatif besar. %2$d berarti kompresi lebih lambat, sehingga menghasilkan file lebih kecil.</string>
+    <string name="effort_sub">Nilai %1$s berarti kompresi yang cepat sehingga menghasilkan ukuran file yang relatif besar. %2$s berarti kompresi lebih lambat, sehingga menghasilkan file lebih kecil.</string>
     <string name="lock_draw_orientation_sub">Jika diaktifkan dalam mode menggambar, layar tidak akan berputar</string>
     <string name="bokeh">Bokeh</string>
     <string name="gif_tools">Alat GIF</string>
@@ -718,7 +718,7 @@
     <string name="recognize_text">OCR (Kenali Teks)</string>
     <string name="recognize_text_sub">Kenali teks dari gambar yang diberikan, didukung 120+ bahasa</string>
     <string name="picture_has_no_text">Gambar tidak memiliki teks, atau aplikasi tidak menemukannya</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Jenis Pengakuan</string>
     <string name="fast">Cepat</string>
     <string name="standard">Standar</string>
@@ -741,7 +741,7 @@
     <string name="side_by_side">Bersebelahan</string>
     <string name="toggle_tap">Alihkan Ketuk</string>
     <string name="transparency">Transparansi</string>
-    <string name="saved_to_original">File yang ditimpa dengan nama %s di tujuan aslinya</string>
+    <string name="saved_to_original">File yang ditimpa dengan nama %1$s di tujuan aslinya</string>
     <string name="magnifier">Kaca pembesar</string>
     <string name="magnifier_sub">Mengaktifkan kaca pembesar di bagian atas jari dalam mode menggambar untuk aksesibilitas yang lebih baik</string>
     <string name="force_exif_widget_initial_value">Paksa nilai awal</string>
@@ -878,7 +878,7 @@
     <string name="lossy_compression">Kompresi Rugi</string>
     <string name="lossy_compression_sub">Menggunakan kompresi lossy untuk mengurangi ukuran berkas daripada lossless</string>
     <string name="compression_type">Jenis Kompresi</string>
-    <string name="speed_sub">Mengontrol kecepatan decoding gambar yang dihasilkan, ini akan membantu membuka gambar yang dihasilkan lebih cepat, nilai %1$d berarti decoding paling lambat, sedangkan %2$d - tercepat, pengaturan ini dapat meningkatkan ukuran gambar keluaran</string>
+    <string name="speed_sub">Mengontrol kecepatan decoding gambar yang dihasilkan, ini akan membantu membuka gambar yang dihasilkan lebih cepat, nilai %1$s berarti decoding paling lambat, sedangkan %2$s - tercepat, pengaturan ini dapat meningkatkan ukuran gambar keluaran</string>
     <string name="sorting">Mengurutkan</string>
     <string name="sort_by_date">Urutkan Berdasarkan Tanggal</string>
     <string name="sort_by_name">Urutkan Berdasarkan Nama</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Simpan sebagai gambar kode QR</string>
     <string name="delete_template">Hapus Templat</string>
     <string name="delete_template_warn">Anda akan menghapus filter template yang dipilih. Operasi ini tidak dapat dibatalkan</string>
-    <string name="added_filter_template">Menambahkan templat filter dengan nama \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Menambahkan templat filter dengan nama \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Pratinjau Filter</string>
     <string name="qr_code">QR &amp;amp; Kode Batang</string>
     <string name="qr_code_sub">Pindai kode QR dan dapatkan kontennya atau tempel string Anda untuk menghasilkan yang baru</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Tata Letak</string>
     <string name="main_screen_title">Judul Layar Utama</string>
     <string name="constant_rate_factor">Faktor Tingkat Konstan (CRF)</string>
-    <string name="crf_sub">Nilai %1$d berarti kompresi yang lambat sehingga menghasilkan ukuran file yang relatif kecil. %2$d berarti kompresi lebih cepat sehingga menghasilkan file besar.</string>
+    <string name="crf_sub">Nilai %1$s berarti kompresi yang lambat sehingga menghasilkan ukuran file yang relatif kecil. %2$s berarti kompresi lebih cepat sehingga menghasilkan file besar.</string>
     <string name="lut_library">Perpustakaan Luth</string>
     <string name="lut_library_sub">Download kumpulan LUT yang dapat Anda terapkan setelah mendownload</string>
     <string name="lut_library_update_sub">Perbarui koleksi LUT (hanya yang baru yang akan dimasukkan dalam antrean), yang dapat Anda terapkan setelah mengunduh</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Sisi Pengaturan Cepat</string>
     <string name="fast_settings_side_sub">Tambahkan strip mengambang di sisi yang dipilih saat mengedit gambar, yang akan membuka pengaturan cepat saat diklik</string>
     <string name="clear_selection">Hapus pilihan</string>
-    <string name="settings_group_visibility_hidden">Grup pengaturan \"%s\" akan diciutkan secara default</string>
-    <string name="settings_group_visibility_visible">Grup pengaturan \"%s\" akan diperluas secara default</string>
+    <string name="settings_group_visibility_hidden">Grup pengaturan \"%1$s\" akan diciutkan secara default</string>
+    <string name="settings_group_visibility_visible">Grup pengaturan \"%1$s\" akan diperluas secara default</string>
     <string name="base_64_tools">Alat Base64</string>
     <string name="base_64_tools_sub">Dekode string Base64 menjadi gambar, atau enkode gambar ke format Base64</string>
     <string name="base_64">Basis64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Memproses tangkapan layar</string>
     <string name="screenshot_not_captured_try_again">Tangkapan layar tidak diambil, coba lagi</string>
     <string name="skipped_saving">Menyimpan dilewati</string>
-    <string name="skipped_saving_multiple">%1$d file dilewati</string>
+    <string name="skipped_saving_multiple">%1$s file dilewati</string>
     <string name="allow_skip_if_larger">Izinkan Lewati Jika Lebih Besar</string>
     <string name="allow_skip_if_larger_sub">Beberapa alat akan diizinkan untuk melewatkan penyimpanan gambar jika ukuran file yang dihasilkan lebih besar dari aslinya</string>
     <string name="qr_type_calendar_event">Acara Kalender</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Format Palet</string>
     <string name="export_palette_sub">Ekspor palet yang dihasilkan ke format berbeda</string>
     <string name="add_color_palette_sub">Menambahkan warna baru ke palet saat ini</string>
-    <string name="palette_name_not_supported">Format %s tidak mendukung pemberian nama palet</string>
+    <string name="palette_name_not_supported">Format %1$s tidak mendukung pemberian nama palet</string>
     <string name="wallpapers_export_not_avaialbe">Karena kebijakan Play Store, fitur ini tidak dapat disertakan dalam versi saat ini. Untuk mengakses fungsi ini, silakan unduh ImageToolbox dari sumber alternatif. Anda dapat menemukan build yang tersedia di GitHub di bawah.</string>
     <string name="open_github_page">Buka halaman Github</string>
     <string name="overwrite_files_sub_short">File asli akan diganti dengan yang baru alih-alih disimpan di folder yang dipilih</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pikselisasi Jaringan Pulsa</string>
     <string name="nucleus_pixelization">Pikselisasi Inti</string>
     <string name="radial_weave_pixelization">Pikselisasi Tenunan Radial</string>
-    <string name="cannot_open_uri">Tidak dapat membuka uri \"%s\"</string>
+    <string name="cannot_open_uri">Tidak dapat membuka uri \"%1$s\"</string>
     <string name="snowfall_mode">Mode Hujan Salju</string>
     <string name="enabled">Diaktifkan</string>
     <string name="border_frame">Bingkai Perbatasan</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Penggabungan</string>
     <string name="chunk_size">Ukuran Potongan</string>
     <string name="overlap_size">Ukuran Tumpang Tindih</string>
-    <string name="note_chunk_info">Gambar di atas %1$d px akan diiris dan diproses dalam beberapa bagian, campuran ini tumpang tindih untuk mencegah jahitan terlihat.</string>
+    <string name="note_chunk_info">Gambar di atas %1$s px akan diiris dan diproses dalam beberapa bagian, campuran ini tumpang tindih untuk mencegah jahitan terlihat.</string>
     <string name="large_chunk_warning">Ukuran yang besar dapat menyebabkan ketidakstabilan pada perangkat kelas bawah</string>
     <string name="select_one_to_start">Pilih satu untuk memulai</string>
-    <string name="delete_model_sub">Apakah Anda ingin menghapus model %s? Anda perlu mengunduhnya lagi</string>
+    <string name="delete_model_sub">Apakah Anda ingin menghapus model %1$s? Anda perlu mengunduhnya lagi</string>
     <string name="confirm">Mengonfirmasi</string>
     <string name="models">Model</string>
     <string name="downloaded_models">Model yang Diunduh</string>
@@ -2002,7 +2002,7 @@
     <string name="horizontal_border_thickness">Ketebalan Perbatasan Horisontal</string>
     <string name="vertical_border_thickness">Ketebalan Batas Vertikal</string>
     <plurals name="color_count">
-        <item quantity="other">%s warna</item>
+        <item quantity="other">%1$s warna</item>
     </plurals>
     <string name="current_model_not_chunkable">Model saat ini tidak mendukung chunking, gambar akan diproses dalam dimensi aslinya, hal ini dapat menyebabkan konsumsi memori yang tinggi dan masalah pada perangkat kelas bawah</string>
     <string name="chunking_disabled">Chunking dinonaktifkan, gambar akan diproses dalam dimensi aslinya, hal ini dapat menyebabkan konsumsi memori yang tinggi dan masalah pada perangkat kelas bawah tetapi dapat memberikan hasil inferensi yang lebih baik</string>

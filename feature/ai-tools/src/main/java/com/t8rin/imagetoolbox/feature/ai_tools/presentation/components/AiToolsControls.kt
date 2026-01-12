@@ -26,7 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -116,7 +116,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                         text = stringResource(R.string.large_chunk_warning),
                         containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.4f),
                         contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(0.7f),
-                        icon = Icons.Rounded.ErrorOutline,
+                        icon = Icons.Rounded.WarningAmber,
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }

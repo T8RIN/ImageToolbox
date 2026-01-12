@@ -369,7 +369,7 @@
     <string name="image_exif_warning">В настоящее время формат %1$s на Android позволяет только читать метаданные EXIF. При сохранении выходное изображение вообще не будет иметь метаданных</string>
     <string name="updates">Обновления</string>
     <string name="wait">Подождите</string>
-    <string name="effort_sub">Значение %1$d означает быстрое сжатие, приводящее к относительно большому размеру файла. %2$d означает более медленное сжатие, в результате чего файл становится меньше</string>
+    <string name="effort_sub">Значение %1$s означает быстрое сжатие, приводящее к относительно большому размеру файла. %2$s означает более медленное сжатие, в результате чего файл становится меньше</string>
     <string name="allow_betas">Разрешить обновления до бета-версий</string>
     <string name="saving_almost_complete">Сохранение почти завершено. Отмена сейчас потребует повторного сохранения</string>
     <string name="effort">Усилие</string>
@@ -550,7 +550,7 @@
     <string name="only_clip_sub">Сохранение в хранилище не будет выполнено, и изображение при возможности будет помещено в буфер обмена</string>
     <string name="only_clip">Только закрепление</string>
     <string name="recognize_text">Распознавание текста</string>
-    <string name="accuracy">Точность: %1$d</string>
+    <string name="accuracy">Точность: %1$s</string>
     <string name="fast">Быстро</string>
     <string name="no_data">Нет данных</string>
     <string name="download">Загрузить</string>
@@ -567,7 +567,7 @@
     <string name="segmentation_mode">Режим сегментации</string>
     <string name="use_pixel_switch">Использовать переключатель Pixel</string>
     <string name="use_pixel_switch_sub">Будет использоваться переключатель, как на телефонах Pixel, вместо стандартного из Material You</string>
-    <string name="saved_to_original">Перезаписан файл с именем %s в оригинальной папке</string>
+    <string name="saved_to_original">Перезаписан файл с именем %1$s в оригинальной папке</string>
     <string name="magnifier_sub">Включает лупу над пальцем во время рисования для лучшего понимания происходящего</string>
     <string name="force_exif_widget_initial_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>
     <string name="allow_multiple_languages">Разрешить несколько языков</string>
@@ -855,7 +855,7 @@
     <string name="skip_file_picking_sub">Средство выбора файла будет показано немедленно, если это возможно, на выбранном экране</string>
     <string name="generate_previews_sub">Включает создание предварительного просмотра, это может помочь избежать сбоев на некоторых устройствах, это также отключает некоторые функции редактирования в рамках одной опции редактирования</string>
     <string name="compression_type">Тип Сжатия</string>
-    <string name="speed_sub">Управляет скоростью декодирования результирующего изображения. Это должно помочь быстрее открыть полученное изображение. Значение %1$d означает самое медленное декодирование, тогда как %2$d — самое быстрое, этот параметр может увеличить размер выходного изображения</string>
+    <string name="speed_sub">Управляет скоростью декодирования результирующего изображения. Это должно помочь быстрее открыть полученное изображение. Значение %1$s означает самое медленное декодирование, тогда как %2$s — самое быстрое, этот параметр может увеличить размер выходного изображения</string>
     <string name="sort_by_date">Сортировать по дате</string>
     <string name="sort_by_name">Сортировать по имени</string>
     <string name="sorting">Сортировка</string>
@@ -1120,7 +1120,7 @@
     <string name="save_as_qr_code_image">Сохранить как изображение QR-кода</string>
     <string name="delete_template">Удалить шаблон</string>
     <string name="delete_template_warn">Вы собираетесь удалить выбранный фильтр шаблона. Эта операция не может быть отменена</string>
-    <string name="added_filter_template">Добавлен фильтр шаблона с именем \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Добавлен фильтр шаблона с именем \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Предварительный просмотр фильтра</string>
     <string name="qr_code">QR и баркоды</string>
     <string name="qr_code_sub">Сканируйте QR-код, чтобы получить его содержимое, или вставьте свою строку для генерации нового кода</string>
@@ -1473,7 +1473,7 @@
     <string name="material_2">Material 2</string>
     <string name="material_2_sub">Слайдер на основе Material 2, не современный, простой и понятный</string>
     <string name="material_you_slider_sub">Современный слайдер Material You, футуристический, свежий, доступный</string>
-    <string name="crf_sub">Значение %1$d означает медленное сжатие, приводящее к относительно небольшому размеру файла. %2$d означает более быстрое сжатие, приводящее к большому размеру файла</string>
+    <string name="crf_sub">Значение %1$s означает медленное сжатие, приводящее к относительно небольшому размеру файла. %2$s означает более быстрое сжатие, приводящее к большому размеру файла</string>
     <string name="lut_library">Библиотека LUT</string>
     <string name="lut_library_sub">Загрузите коллекцию LUT, которую вы сможете применить после загрузки</string>
     <string name="filter_preview_image_sub">Изменить предварительный просмотр изображения по умолчанию для фильтров</string>
@@ -1501,8 +1501,8 @@
     <string name="fast_settings_side">Сторона быстрых настроек</string>
     <string name="fast_settings_side_sub">Добавить плавающую полосу на выбранной стороне при редактировании изображений, которая откроет быстрые настройки при нажатии</string>
     <string name="clear_selection">Очистить выделение</string>
-    <string name="settings_group_visibility_hidden">Группа настроек \"%s\" будет свернута по умолчанию</string>
-    <string name="settings_group_visibility_visible">Группа настроек \"%s\" будет развернута по умолчанию</string>
+    <string name="settings_group_visibility_hidden">Группа настроек \"%1$s\" будет свернута по умолчанию</string>
+    <string name="settings_group_visibility_visible">Группа настроек \"%1$s\" будет развернута по умолчанию</string>
     <string name="base_64_tools">Инструменты Base64</string>
     <string name="base_64_tools_sub">Декодировать Строка Base64 в изображение или кодирование изображения в формат Base64</string>
     <string name="base_64">Base64</string>
@@ -1772,7 +1772,7 @@
     <string name="pick_contact">Выбрать контакт</string>
     <string name="allow_skip_if_larger_sub">Некоторые инструменты будут позволять не сохранять изображения, если размер получившегося файла будет больше исходного</string>
     <string name="allow_skip_if_larger">Разрешить пропускать если больше</string>
-    <string name="skipped_saving_multiple">%1$d файлов пропущено</string>
+    <string name="skipped_saving_multiple">%1$s файлов пропущено</string>
     <string name="screenshot_not_captured_try_again">Снимок экрана не сделан, попробуйте еще раз</string>
     <string name="processing_screenshot">Обработка снимка экрана</string>
     <string name="invert_colors_ascii_sub">Применяет негативный фильтр к изображению для получения лучшего результата в некоторых случаях</string>
@@ -1840,14 +1840,14 @@
     <string name="palette_format">Формат палитры</string>
     <string name="export_palette_sub">Экспорт сгенерированной палитры в различные форматы</string>
     <string name="add_color_palette_sub">Добавляет новый цвет в существующую палитру</string>
-    <string name="palette_name_not_supported">Формат %s не поддерживает указание имени палитры</string>
+    <string name="palette_name_not_supported">Формат %1$s не поддерживает указание имени палитры</string>
     <string name="wallpapers_export_not_avaialbe">В соответствии с политикой Play Store, эта функция не может быть включена в текущую сборку. Для доступа к этой функциональности, пожалуйста, загрузите ImageToolbox из альтернативного источника. Доступные сборки можно найти на GitHub ниже</string>
     <string name="open_github_page">Открыть на Github</string>
     <plurals name="color_count">
-        <item quantity="one">%s цвет</item>
-        <item quantity="few">%s цвета</item>
-        <item quantity="many">%s цветов</item>
-        <item quantity="other">%s цветов</item>
+        <item quantity="one">%1$s цвет</item>
+        <item quantity="few">%1$s цвета</item>
+        <item quantity="many">%1$s цветов</item>
+        <item quantity="other">%1$s цветов</item>
     </plurals>
     <string name="overwrite_files_sub_short">Исходный файл будет заменен новым, а не сохранен в выбранной папке</string>
     <string name="hidden_watermark_text_detected">Обнаружен скрытый текст водяного знака</string>
@@ -1873,7 +1873,7 @@
     <string name="pulse_grid_pixelization">Пикселизация пульсирующей сетки</string>
     <string name="nucleus_pixelization">Ядровая пикселизация</string>
     <string name="radial_weave_pixelization">Пикселизация радиального плетения</string>
-    <string name="cannot_open_uri">Невозможно открыть ссылку \"%s\"</string>
+    <string name="cannot_open_uri">Невозможно открыть ссылку \"%1$s\"</string>
     <string name="snowfall_mode">Режим снегопада</string>
     <string name="enabled">Включено</string>
     <string name="border_frame">Рамка</string>
@@ -1936,10 +1936,10 @@
     <string name="merging">Слияние</string>
     <string name="chunk_size">Размер фрагмента</string>
     <string name="overlap_size">Размер перекрытия</string>
-    <string name="note_chunk_info">Изображения размером более %1$d пикселей будут разрезаны и обработаны по частям, а функция перекрытия смешивает их, чтобы предотвратить видимые швы</string>
+    <string name="note_chunk_info">Изображения размером более %1$s пикселей будут разрезаны и обработаны по частям, а функция перекрытия смешивает их, чтобы предотвратить видимые швы</string>
     <string name="large_chunk_warning">Большие размеры могут вызывать нестабильность в работе устройств низкого ценового сегмента</string>
     <string name="select_one_to_start">Выберите один из вариантов для начала</string>
-    <string name="delete_model_sub">Вы хотите удалить модель %s? Вам потребуется загрузить её заново</string>
+    <string name="delete_model_sub">Вы хотите удалить модель %1$s? Вам потребуется загрузить её заново</string>
     <string name="confirm">Подтвердить</string>
     <string name="models">Модели</string>
     <string name="downloaded_models">Загруженные модели</string>

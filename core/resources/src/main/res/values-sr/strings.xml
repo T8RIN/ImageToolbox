@@ -397,7 +397,7 @@
     <string name="analytics_sub">Дозволи прикупљање анонимне статистике коришћења апликације</string>
     <string name="image_exif_warning">Тренутно формат %1$s дозвољава само читање ЕКСИФ метаподатака на андроид-у. Излазна слика уопште неће имати метаподатке када се сачува.</string>
     <string name="effort">Напор</string>
-    <string name="effort_sub">Вредност %1$d значи брзу компресију, што резултира релативно великом величином датотеке. %2$d значи спорију компресију, што резултира мањом датотеком.</string>
+    <string name="effort_sub">Вредност %1$s значи брзу компресију, што резултира релативно великом величином датотеке. %2$s значи спорију компресију, што резултира мањом датотеком.</string>
     <string name="saving_almost_complete">Чување је скоро завршено. Ако сада откажете, поново ћете морати да сачувате.</string>
     <string name="allow_betas">Дозволи бета верзије</string>
     <string name="draw_arrows_sub">Ако је омогућено, путања за цртање ће бити представљена као показивачка стрелица</string>
@@ -736,7 +736,7 @@
     <string name="recognize_text">ОЦР (препознавање текста)</string>
     <string name="recognize_text_sub">Препознајте текст са дате слике, подржано је 120+ језика</string>
     <string name="picture_has_no_text">Слика нема текст или је апликација није нашла</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Рецогнитион Типе</string>
     <string name="fast">Фаст</string>
     <string name="standard">Стандард</string>
@@ -760,7 +760,7 @@
     <string name="side_by_side">Раме уз раме</string>
     <string name="toggle_tap">Тоггле Тап</string>
     <string name="transparency">Транспарентност</string>
-    <string name="saved_to_original">Замењена датотека са именом %s на оригиналном одредишту</string>
+    <string name="saved_to_original">Замењена датотека са именом %1$s на оригиналном одредишту</string>
     <string name="magnifier">Лупа</string>
     <string name="force_exif_widget_initial_value">Присилна почетна вредност</string>
     <string name="favorite">Фаворите</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Фаст Сеттингс Сиде</string>
     <string name="fast_settings_side_sub">Додајте плутајућу траку на изабрану страну док уређујете слике, која ће отворити брза подешавања када се кликне</string>
     <string name="clear_selection">Обриши избор</string>
-    <string name="settings_group_visibility_hidden">Група подешавања \"%s\" ће подразумевано бити скупљена</string>
-    <string name="settings_group_visibility_visible">Група подешавања \"%s\" ће подразумевано бити проширена</string>
+    <string name="settings_group_visibility_hidden">Група подешавања \"%1$s\" ће подразумевано бити скупљена</string>
+    <string name="settings_group_visibility_visible">Група подешавања \"%1$s\" ће подразумевано бити проширена</string>
     <string name="base_64_tools">Басе64 Тоолс</string>
     <string name="base_64_tools_sub">Декодирајте Басе64 стринг у слику или кодирајте слику у Басе64 формат</string>
     <string name="base_64">Басе64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Обрада снимка екрана</string>
     <string name="screenshot_not_captured_try_again">Снимак екрана није снимљен, покушајте поново</string>
     <string name="skipped_saving">Чување је прескочено</string>
-    <string name="skipped_saving_multiple">%s датотека је прескочено</string>
+    <string name="skipped_saving_multiple">%1$s датотека је прескочено</string>
     <string name="allow_skip_if_larger">Дозволи прескакање ако је веће</string>
     <string name="allow_skip_if_larger_sub">Неким алатима ће бити дозвољено да прескоче чување слика ако би резултујућа величина датотеке била већа од оригиналне</string>
     <string name="qr_type_calendar_event">Календарски догађај</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Палетте Формат</string>
     <string name="export_palette_sub">Извезите генерисану палету у различите формате</string>
     <string name="add_color_palette_sub">Додаје нову боју тренутној палети</string>
-    <string name="palette_name_not_supported">%s формат не подржава давање назива палете</string>
+    <string name="palette_name_not_supported">%1$s формат не подржава давање назива палете</string>
     <string name="wallpapers_export_not_avaialbe">Због смерница Плаи продавнице, ова функција не може бити укључена у актуелну верзију. Да бисте приступили овој функцији, преузмите ИмагеТоолбок са алтернативног извора. Доступне верзије на ГитХуб-у можете пронаћи испод.</string>
     <string name="open_github_page">Отворите Гитхуб страницу</string>
     <string name="overwrite_files_sub_short">Оригинална датотека ће бити замењена новом уместо чувања у изабраном фолдеру</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Пикселизација пулсне мреже</string>
     <string name="nucleus_pixelization">Нуцлеус Пикелизатион</string>
     <string name="radial_weave_pixelization">Пикселизација радијалног ткања</string>
-    <string name="cannot_open_uri">Није могуће отворити ури \"%s\"</string>
+    <string name="cannot_open_uri">Није могуће отворити ури \"%1$s\"</string>
     <string name="snowfall_mode">Снежни режим</string>
     <string name="enabled">Омогућено</string>
     <string name="border_frame">Бордер Фраме</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Спајање</string>
     <string name="chunk_size">Величина комада</string>
     <string name="overlap_size">Величина преклапања</string>
-    <string name="note_chunk_info">Слике веће од %s пк ће бити исечене и обрађене у деловима, преклапање их спаја да би се спречиле видљиве шавове.</string>
+    <string name="note_chunk_info">Слике веће од %1$s пк ће бити исечене и обрађене у деловима, преклапање их спаја да би се спречиле видљиве шавове.</string>
     <string name="large_chunk_warning">Велике величине могу узроковати нестабилност код уређаја ниске класе</string>
     <string name="select_one_to_start">Изаберите једну за почетак</string>
-    <string name="delete_model_sub">Да ли желите да избришете %s модел? Мораћете поново да га преузмете</string>
+    <string name="delete_model_sub">Да ли желите да избришете %1$s модел? Мораћете поново да га преузмете</string>
     <string name="confirm">Потврди</string>
     <string name="models">Модели</string>
     <string name="downloaded_models">Преузети модели</string>
@@ -2002,9 +2002,9 @@
     <string name="horizontal_border_thickness">Хоризонтална дебљина ивице</string>
     <string name="vertical_border_thickness">Вертикална дебљина ивице</string>
     <plurals name="color_count">
-        <item quantity="one">%s боја</item>
-        <item quantity="few">%s боја</item>
-        <item quantity="other">%s боја</item>
+        <item quantity="one">%1$s боја</item>
+        <item quantity="few">%1$s боја</item>
+        <item quantity="other">%1$s боја</item>
     </plurals>
     <string name="current_model_not_chunkable">Тренутни модел не подржава ломљење, слика ће бити обрађена у оригиналним димензијама, што може узроковати велику потрошњу меморије и проблеме са уређајима ниске класе</string>
     <string name="chunking_disabled">Резање на комаде је онемогућено, слика ће бити обрађена у оригиналним димензијама, ово може узроковати велику потрошњу меморије и проблеме са нижим уређајима, али може дати боље резултате при закључивању</string>

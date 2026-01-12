@@ -369,7 +369,7 @@
     <string name="analytics_sub">Lubage koguda anonüümset rakenduste kasutusstatistikat</string>
     <string name="image_exif_warning">Praegu võimaldab %1$s-vorming Androidis lugeda ainult EXIF-i metaandmeid. Väljundpildil pole salvestamisel metaandmeid.</string>
     <string name="effort">Pingutus</string>
-    <string name="effort_sub">Väärtus %1$d tähendab kiiret tihendamist, mille tulemuseks on suhteliselt suur failimaht. %2$d tähendab aeglasemat tihendamist, mille tulemuseks on väiksem fail.</string>
+    <string name="effort_sub">Väärtus %1$s tähendab kiiret tihendamist, mille tulemuseks on suhteliselt suur failimaht. %2$s tähendab aeglasemat tihendamist, mille tulemuseks on väiksem fail.</string>
     <string name="wait">Oota</string>
     <string name="saving_almost_complete">Salvestamine on peaaegu lõppenud. Praeguse tühistamise korral tuleb uuesti salvestada.</string>
     <string name="updates">Värskendused</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (teksti tuvastamine)</string>
     <string name="recognize_text_sub">Tuvastage antud pildilt tekst, toetatud on üle 120 keele</string>
     <string name="picture_has_no_text">Pildil pole teksti või rakendus ei leidnud seda</string>
-    <string name="accuracy">\"Täpsus: %1$d\"</string>
+    <string name="accuracy">\"Täpsus: %1$s\"</string>
     <string name="recognition_type">Tunnustamise tüüp</string>
     <string name="fast">Kiire</string>
     <string name="standard">Standardne</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">Segmenteerimisrežiim</string>
     <string name="use_pixel_switch">Kasutage Pixel Switchi</string>
     <string name="use_pixel_switch_sub">Kasutab Google Pixeli sarnast lülitit</string>
-    <string name="saved_to_original">Algses sihtkohas on üle kirjutatud fail nimega %s</string>
+    <string name="saved_to_original">Algses sihtkohas on üle kirjutatud fail nimega %1$s</string>
     <string name="magnifier">Luup</string>
     <string name="magnifier_sub">Lubab parema ligipääsetavuse tagamiseks joonistusrežiimides sõrme ülaosas oleva suurendi</string>
     <string name="force_exif_widget_initial_value">Jõu algväärtus</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Kadunud kompressioon</string>
     <string name="lossy_compression_sub">Kasutab kadudeta pakkimist, et vähendada faili suurust, mitte kadudeta</string>
     <string name="compression_type">Kompressiooni tüüp</string>
-    <string name="speed_sub">Reguleerib saadud kujutise dekodeerimise kiirust, see peaks aitama tulemuseks oleva pildi kiiremini avada, väärtus %1$d tähendab kõige aeglasemat dekodeerimist, samas kui %2$d - kiireim, see säte võib suurendada väljundpildi suurust</string>
+    <string name="speed_sub">Reguleerib saadud kujutise dekodeerimise kiirust, see peaks aitama tulemuseks oleva pildi kiiremini avada, väärtus %1$s tähendab kõige aeglasemat dekodeerimist, samas kui %2$s - kiireim, see säte võib suurendada väljundpildi suurust</string>
     <string name="sorting">Sorteerimine</string>
     <string name="sort_by_date">Kuupäev</string>
     <string name="sort_by_date_reversed">Kuupäev (ümberpööratud)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Salvesta QR-koodi kujutisena</string>
     <string name="delete_template">Kustuta mall</string>
     <string name="delete_template_warn">Olete kustutamas valitud mallifiltrit. Seda toimingut ei saa tagasi võtta</string>
-    <string name="added_filter_template">Lisatud filtrimall nimega \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Lisatud filtrimall nimega \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Filtri eelvaade</string>
     <string name="qr_code">QR ja vöötkood</string>
     <string name="qr_code_sub">Skannige QR-kood ja hankige selle sisu või kleepige oma string uue koodi loomiseks</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Paigutus</string>
     <string name="main_screen_title">Põhiekraani pealkiri</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
-    <string name="crf_sub">Väärtus %1$d tähendab aeglast tihendamist, mille tulemuseks on suhteliselt väike failimaht. %2$d tähendab kiiremat tihendamist, mille tulemuseks on suur fail.</string>
+    <string name="crf_sub">Väärtus %1$s tähendab aeglast tihendamist, mille tulemuseks on suhteliselt väike failimaht. %2$s tähendab kiiremat tihendamist, mille tulemuseks on suur fail.</string>
     <string name="lut_library">Lut raamatukogu</string>
     <string name="lut_library_sub">Laadige alla LUT-de kogu, mida saate pärast allalaadimist rakendada</string>
     <string name="lut_library_update_sub">Värskendage LUT-de kogu (järjekorda pannakse ainult uued), mida saate pärast allalaadimist rakendada</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Kiirseadete külg</string>
     <string name="fast_settings_side_sub">Lisage piltide redigeerimise ajal valitud küljele ujuv riba, millel klõpsamisel avanevad kiired sätted</string>
     <string name="clear_selection">Tühjenda valik</string>
-    <string name="settings_group_visibility_hidden">Seadete rühm \"%s\" ahendatakse vaikimisi</string>
-    <string name="settings_group_visibility_visible">Seadete gruppi \"%s\" laiendatakse vaikimisi</string>
+    <string name="settings_group_visibility_hidden">Seadete rühm \"%1$s\" ahendatakse vaikimisi</string>
+    <string name="settings_group_visibility_visible">Seadete gruppi \"%1$s\" laiendatakse vaikimisi</string>
     <string name="base_64_tools">Base64 tööriistad</string>
     <string name="base_64_tools_sub">Dekodeerige Base64 string pildiks või kodeerige pilt Base64 vormingusse</string>
     <string name="base_64">Alus64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Ekraanipildi töötlemine</string>
     <string name="screenshot_not_captured_try_again">Ekraanipilti ei tehtud, proovige uuesti</string>
     <string name="skipped_saving">Salvestamine jäeti vahele</string>
-    <string name="skipped_saving_multiple">%1$d faili jäeti vahele</string>
+    <string name="skipped_saving_multiple">%1$s faili jäeti vahele</string>
     <string name="allow_skip_if_larger">Luba vahelejätmine, kui suurem</string>
     <string name="allow_skip_if_larger_sub">Mõnel tööriistal on lubatud piltide salvestamine vahele jätta, kui tulemuseks olev faili suurus on originaalist suurem</string>
     <string name="qr_type_calendar_event">Kalendri sündmus</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Paleti formaat</string>
     <string name="export_palette_sub">Ekspordi loodud palett erinevatesse vormingutesse</string>
     <string name="add_color_palette_sub">Lisab praegusele paletile uue värvi</string>
-    <string name="palette_name_not_supported">%s vorming ei toeta paleti nime esitamist</string>
+    <string name="palette_name_not_supported">%1$s vorming ei toeta paleti nime esitamist</string>
     <string name="wallpapers_export_not_avaialbe">Play poe eeskirjade tõttu ei saa seda funktsiooni praegusesse järgmisse kaasata. Sellele funktsioonile juurdepääsemiseks laadige ImageToolbox alla alternatiivsest allikast. GitHubi saadaolevad versioonid leiate allpool.</string>
     <string name="open_github_page">Avage Githubi leht</string>
     <string name="overwrite_files_sub_short">Algne fail asendatakse valitud kausta salvestamise asemel uuega</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Impulssvõrgu pikseliseerimine</string>
     <string name="nucleus_pixelization">Tuuma pikseliseerimine</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Ei saa avada uri \"%s\"</string>
+    <string name="cannot_open_uri">Ei saa avada uri \"%1$s\"</string>
     <string name="snowfall_mode">Lumesaju režiim</string>
     <string name="enabled">Lubatud</string>
     <string name="border_frame">Piiriraam</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Ühinemine</string>
     <string name="chunk_size">Tüki suurus</string>
     <string name="overlap_size">Ülekatte suurus</string>
-    <string name="note_chunk_info">Üle %1$d piksli suurused pildid lõigatakse viiludeks ja töödeldakse tükkidena. Need kattuvad, et vältida nähtavaid õmblusi.</string>
+    <string name="note_chunk_info">Üle %1$s piksli suurused pildid lõigatakse viiludeks ja töödeldakse tükkidena. Need kattuvad, et vältida nähtavaid õmblusi.</string>
     <string name="large_chunk_warning">Suured suurused võivad odavate seadmete puhul põhjustada ebastabiilsust</string>
     <string name="select_one_to_start">Alustamiseks valige üks</string>
-    <string name="delete_model_sub">Kas soovite %s mudeli kustutada? Peate selle uuesti alla laadima</string>
+    <string name="delete_model_sub">Kas soovite %1$s mudeli kustutada? Peate selle uuesti alla laadima</string>
     <string name="confirm">Kinnita</string>
     <string name="models">Mudelid</string>
     <string name="downloaded_models">Allalaaditud mudelid</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Horisontaalne piiri paksus</string>
     <string name="vertical_border_thickness">Vertikaalse piiri paksus</string>
     <plurals name="color_count">
-        <item quantity="one">%s värvi</item>
-        <item quantity="other">%s värvid</item>
+        <item quantity="one">%1$s värvi</item>
+        <item quantity="other">%1$s värvid</item>
     </plurals>
     <string name="current_model_not_chunkable">Praegune mudel ei toeta tükeldamist, pilti töödeldakse originaalmõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega</string>
     <string name="chunking_disabled">Tükeldamine on keelatud, pilti töödeldakse esialgsetes mõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega, kuid võib anda paremaid järeldusi</string>

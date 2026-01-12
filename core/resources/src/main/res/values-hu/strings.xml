@@ -426,7 +426,7 @@
     <string name="overwrite_file_requirements">A fájlok felülírásához \"Explorer\" képforrást kell használnia, próbálja meg újra kiválasztani a képeket, a képforrást megváltoztattuk a szükségesre</string>
     <string name="overwrite_files">Fájlok felülírása</string>
     <string name="only_clip_sub">A tárhelyre mentés nem történik meg, a képet csak a vágólapra próbálja meg elhelyezni</string>
-    <string name="saved_to_original">Fájl felülírva a következővel: %s az eredeti célhelyen</string>
+    <string name="saved_to_original">Fájl felülírva a következővel: %1$s az eredeti célhelyen</string>
     <string name="magnifier_sub">Engedélyezi a nagyítót az ujj tetején rajzi módokban a jobb hozzáférhetőség érdekében</string>
     <string name="force_exif_widget_initial_value">Kezdeti érték kényszerítése</string>
     <string name="rate">Mérték</string>
@@ -558,7 +558,7 @@
     <string name="analytics">Analitika</string>
     <string name="analytics_sub">Anonim alkalmazáshasználati statisztikák gyűjtésének engedélyezése</string>
     <string name="effort">Erőfeszítés</string>
-    <string name="effort_sub">A %1$d érték gyors tömörítést jelent, ami viszonylag nagy fájlméretet eredményez. Az %2$d lassabb tömörítést jelent, ami kisebb fájlt eredményez.</string>
+    <string name="effort_sub">A %1$s érték gyors tömörítést jelent, ami viszonylag nagy fájlméretet eredményez. Az %2$s lassabb tömörítést jelent, ami kisebb fájlt eredményez.</string>
     <string name="wait">Várjon</string>
     <string name="allow_betas">Béták engedélyezése</string>
     <string name="allow_betas_sub">A frissítések ellenőrzése az alkalmazás bétaverzióit is magában foglalja, ha engedélyezve van</string>
@@ -763,7 +763,7 @@
     <string name="recognize_text">OCR (szövegfelismerés)</string>
     <string name="recognize_text_sub">Szöveg felismerése az adott képről, több mint 120 nyelv támogatott</string>
     <string name="picture_has_no_text">A képen nincs szöveg, vagy az alkalmazás nem találta meg</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Felismerés típusa</string>
     <string name="fast">Gyors</string>
     <string name="standard">Alapértelmezett</string>
@@ -902,7 +902,7 @@
     <string name="images_to_svg_sub">Megadott képek átrajzolása SVG képekké</string>
     <string name="show_settings_in_landscape_sub">Ha ez ki van kapcsolva, akkor fekvő módban a beállítások a felső alkalmazássáv gombjából nyílnak meg, mint mindig, ahelyett, hogy folyamatosan láthatóak lennének</string>
     <string name="fast_gaussian_blur_4d">Gyors 4D Gauss-elmosás</string>
-    <string name="speed_sub">Az eredményül kapott kép dekódolási sebességét szabályozza, ami segíthet a kész kép gyorsabb megnyitásában. A %1$d érték a leglassabb dekódolást jelenti, míg a %2$d a leggyorsabbat. Ez a beállítás megnövelheti a kimeneti kép méretét</string>
+    <string name="speed_sub">Az eredményül kapott kép dekódolási sebességét szabályozza, ami segíthet a kész kép gyorsabb megnyitásában. A %1$s érték a leglassabb dekódolást jelenti, míg a %2$s a leggyorsabbat. Ez a beállítás megnövelheti a kimeneti kép méretét</string>
     <string name="compose_switch_sub">Egy Jetpack Compose Material You kapcsoló</string>
     <string name="engine_mode">Motor Mód</string>
     <string name="legacy">Örökölt</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Mentés QR-kód képként</string>
     <string name="delete_template">Sablon törlése</string>
     <string name="delete_template_warn">A kiválasztott sablonszűrő törlésére készül. Ez a művelet nem vonható vissza</string>
-    <string name="added_filter_template">Szűrősablon hozzáadva a következő névvel: \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Szűrősablon hozzáadva a következő névvel: \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Szűrő előnézete</string>
     <string name="qr_code">QR és vonalkód</string>
     <string name="qr_code_sub">Olvassa be a QR-kódot, és szerezze be a tartalmát, vagy illessze be a karakterláncot új kód létrehozásához</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Elrendezés</string>
     <string name="main_screen_title">Főképernyő címe</string>
     <string name="constant_rate_factor">Állandó rátafaktor (CRF)</string>
-    <string name="crf_sub">A %1$d érték lassú tömörítést jelent, ami viszonylag kis fájlméretet eredményez. A %2$d gyorsabb tömörítést jelent, ami nagy fájlt eredményez.</string>
+    <string name="crf_sub">A %1$s érték lassú tömörítést jelent, ami viszonylag kis fájlméretet eredményez. A %2$s gyorsabb tömörítést jelent, ami nagy fájlt eredményez.</string>
     <string name="lut_library">Lut Könyvtár</string>
     <string name="lut_library_sub">Töltse le a LUT-gyűjteményt, amelyet a letöltés után alkalmazhat</string>
     <string name="lut_library_update_sub">Frissítse a LUT-ok gyűjteményét (csak az újak kerülnek sorba), amelyeket a letöltés után alkalmazhat</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Gyorsbeállítások oldal</string>
     <string name="fast_settings_side_sub">A képek szerkesztése közben adjon hozzá egy lebegő csíkot a kiválasztott oldalhoz, amelyre kattintva megnyílik a gyors beállítások</string>
     <string name="clear_selection">Kiválasztás törlése</string>
-    <string name="settings_group_visibility_hidden">A \"%s\" beállításcsoport alapértelmezés szerint össze lesz csukva</string>
-    <string name="settings_group_visibility_visible">A \"%s\" beállításcsoport alapértelmezés szerint ki lesz bontva</string>
+    <string name="settings_group_visibility_hidden">A \"%1$s\" beállításcsoport alapértelmezés szerint össze lesz csukva</string>
+    <string name="settings_group_visibility_visible">A \"%1$s\" beállításcsoport alapértelmezés szerint ki lesz bontva</string>
     <string name="base_64_tools">Base64 eszközök</string>
     <string name="base_64_tools_sub">Dekódolja a Base64 karakterláncot képpé, vagy kódolja a képet Base64 formátumba</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Képernyőkép feldolgozása</string>
     <string name="screenshot_not_captured_try_again">A képernyőkép nem készült, próbálkozzon újra</string>
     <string name="skipped_saving">A mentés kimaradt</string>
-    <string name="skipped_saving_multiple">%1$d fájl kimaradt</string>
+    <string name="skipped_saving_multiple">%1$s fájl kimaradt</string>
     <string name="allow_skip_if_larger">Engedélyezze az átugrást, ha nagyobb</string>
     <string name="allow_skip_if_larger_sub">Egyes eszközök kihagyhatják a képek mentését, ha az eredményül kapott fájlméret nagyobb, mint az eredeti</string>
     <string name="qr_type_calendar_event">Eseménynaptár</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Paletta formátum</string>
     <string name="export_palette_sub">A létrehozott paletta exportálása különböző formátumokba</string>
     <string name="add_color_palette_sub">Új színt ad az aktuális palettához</string>
-    <string name="palette_name_not_supported">A %s formátum nem támogatja a palettanév megadását</string>
+    <string name="palette_name_not_supported">A %1$s formátum nem támogatja a palettanév megadását</string>
     <string name="wallpapers_export_not_avaialbe">A Play Áruház irányelvei miatt ez a funkció nem illeszthető bele a jelenlegi buildbe. A funkció eléréséhez töltse le az ImageToolbox alkalmazást egy másik forrásból. A GitHubon elérhető buildeket alább találja.</string>
     <string name="open_github_page">Nyissa meg a Github oldalt</string>
     <string name="overwrite_files_sub_short">Az eredeti fájl a kiválasztott mappába való mentés helyett újra cserélődik</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Impulzus rács pixelizálás</string>
     <string name="nucleus_pixelization">A mag pixelizációja</string>
     <string name="radial_weave_pixelization">Radial Weave pixelizáció</string>
-    <string name="cannot_open_uri">Nem lehet megnyitni a következőt: \"%s\"</string>
+    <string name="cannot_open_uri">Nem lehet megnyitni a következőt: \"%1$s\"</string>
     <string name="snowfall_mode">Havazás mód</string>
     <string name="enabled">Engedélyezve</string>
     <string name="border_frame">Szegély keret</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Összevonás</string>
     <string name="chunk_size">Darab mérete</string>
     <string name="overlap_size">Átfedési méret</string>
-    <string name="note_chunk_info">A %1$d px-nél nagyobb képeket a rendszer szeletelve és darabokban dolgozza fel, átfedésben keveri ezeket a látható varratok elkerülése érdekében.</string>
+    <string name="note_chunk_info">A %1$s px-nél nagyobb képeket a rendszer szeletelve és darabokban dolgozza fel, átfedésben keveri ezeket a látható varratok elkerülése érdekében.</string>
     <string name="large_chunk_warning">A nagy méretek instabilitást okozhatnak az alacsony kategóriás eszközöknél</string>
     <string name="select_one_to_start">Válasszon egyet az indításhoz</string>
-    <string name="delete_model_sub">Törli a %s modellt? Újra le kell töltenie</string>
+    <string name="delete_model_sub">Törli a %1$s modellt? Újra le kell töltenie</string>
     <string name="confirm">Erősítse meg</string>
     <string name="models">Modellek</string>
     <string name="downloaded_models">Letöltött modellek</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Vízszintes határvastagság</string>
     <string name="vertical_border_thickness">Függőleges határvastagság</string>
     <plurals name="color_count">
-        <item quantity="one">%s színek</item>
-        <item quantity="other">%s színek</item>
+        <item quantity="one">%1$s színek</item>
+        <item quantity="other">%1$s színek</item>
     </plurals>
     <string name="current_model_not_chunkable">A jelenlegi modell nem támogatja a darabolást, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel</string>
     <string name="chunking_disabled">A darabolás le van tiltva, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel, de jobb eredményeket ad a következtetéseknél</string>

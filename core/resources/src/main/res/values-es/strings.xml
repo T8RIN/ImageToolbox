@@ -321,7 +321,7 @@
     <string name="food_and_drink">Comida y Bebida</string>
     <string name="brush_softness">Suavidad de la brocha</string>
     <string name="contact_me">Contáctame</string>
-    <string name="effort_sub">Un valor de %1$d significa comprimir rápidamente, resultando en un peso de archivo relativamente grande. %2$d significa tomar más tiempo comprimiendo, resultando en un peso de archivo más pequeño.</string>
+    <string name="effort_sub">Un valor de %1$s significa comprimir rápidamente, resultando en un peso de archivo relativamente grande. %2$s significa tomar más tiempo comprimiendo, resultando en un peso de archivo más pequeño.</string>
     <string name="backup_sub">Respalda tus configuraciones en la app a un archivo</string>
     <string name="corrupted_file_or_not_a_backup">Archivo corrompido o no es un respaldo</string>
     <string name="presets_sub" formatted="false">Si has seleccionado el preajuste 125, la imagen se guardará al 125% del tamaño de la imagen original. Si eliges el preajuste 50, entonces la imagen se guardará al 50% del tamaño original</string>
@@ -481,10 +481,10 @@
     <string name="spline_sub">Usa funciones polinomiales definidas por partes para interpolar y aproximar suavemente una curva o superficie, proporcionando una representación de forma flexible y continua</string>
     <string name="recognize_text_sub">Reconoce texto de una imagen determinada, admite más de 120 idiomas</string>
     <string name="picture_has_no_text">La imagen no tiene texto o la aplicación no la encontró</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Tipo de reconocimiento</string>
     <string name="segmentation_mode">Modo de segmentación</string>
-    <string name="saved_to_original">Archivo sobrescrito con nombre %s en el destino original</string>
+    <string name="saved_to_original">Archivo sobrescrito con nombre %1$s en el destino original</string>
     <string name="magnifier_sub">Habilita la lupa en la parte superior del dedo en los modos de dibujo para una mejor accesibilidad</string>
     <string name="force_exif_widget_initial_value">Forzar valor inicial</string>
     <string name="force_exif_widget_initial_value_sub">Obliga a que el widget exif se compruebe inicialmente</string>
@@ -1035,7 +1035,7 @@
     <string name="color_to_ignore">Color a ignorar</string>
     <string name="open_edit_instead_of_preview">Abrir Edición en lugar de Vista previa</string>
     <string name="delete_template_warn">Estás a punto de eliminar la plantilla de filtro seleccionada. Esta operación no se puede deshacer</string>
-    <string name="added_filter_template">Añadir plantilla de filtro con nombre \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Añadir plantilla de filtro con nombre \"%1$s\" (%2$s)</string>
     <string name="scan_qr_code_to_replace_content">Escanear código QR para reemplazar el contenido del campo, o escribe algo para generar un nuevo código QR</string>
     <string name="tag_compression">Compresión</string>
     <string name="tag_resolution_unit">Unidad de resolución</string>
@@ -1222,7 +1222,7 @@
     <string name="tag_model">Modelo</string>
     <string name="behavior">Comportamiento</string>
     <string name="deuteranopia_sub">Incapacidad para percibir tonos verdes</string>
-    <string name="speed_sub">Controla la velocidad de decodificación de la imagen resultante, esto debería ayudar a abrir la imagen resultante más rápido, un valor de %1$d significa en la decodificación mas lenta, mientras %2$d es la más rápida, esta configuración puede aumentar el tamaño de la imagen de salida.</string>
+    <string name="speed_sub">Controla la velocidad de decodificación de la imagen resultante, esto debería ayudar a abrir la imagen resultante más rápido, un valor de %1$s significa en la decodificación mas lenta, mientras %2$s es la más rápida, esta configuración puede aumentar el tamaño de la imagen de salida.</string>
     <string name="save_empty_lut_sub">Primero, usa tu aplicación de edición de imágenes favorita para aplicar un filtro al LUT neutral el cual puedes obtener aquí. Para que esto funcione cada color de pixel no debe depender de otros pixeles (por ejemplo, el desenfoque no funcionará). Una vez listo, usa tu nueva imagen LUT como entrada para tu filtro LUT 512*512.</string>
     <string name="path_scale">Escala de ruta</string>
     <string name="linear_gaussian_blur">Desenfoque Gaussiano linear</string>
@@ -1372,7 +1372,7 @@
     <string name="grant_camera_permission_to_capture_image">Conceda permiso a la cámara en ajustes para capturar la imagen</string>
     <string name="main_screen_title">Título de la Pantalla Principal</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
-    <string name="crf_sub">Un valor de %1$d significa una compresión lenta, resultando en un tamaño de archivo relativamente pequeño. %2$d significa una compresión más rápida, resultando en un archivo grande/más pesado.</string>
+    <string name="crf_sub">Un valor de %1$s significa una compresión lenta, resultando en un tamaño de archivo relativamente pequeño. %2$s significa una compresión más rápida, resultando en un archivo grande/más pesado.</string>
     <string name="lut_library">Biblioteca LUT</string>
     <string name="lut_library_sub">Descarga una colección de LUTs, que puedes aplicar tras la descarga</string>
     <string name="lut_library_update_sub">Actualizar colección de LUTs (sólo los nuevos serán puestos en la cola), los cuales puedes aplicar tras la descarga</string>
@@ -1587,8 +1587,8 @@
     <string name="spot_heal">Punto de curación</string>
     <string name="use_circle_kernel">Usar núcleo circular</string>
     <string name="top_hat">Sombrero de copa</string>
-    <string name="settings_group_visibility_hidden">El grupo de configuración \"%s\" se contraerá de forma predeterminada</string>
-    <string name="settings_group_visibility_visible">El grupo de configuración \"%s\" se expandirá de forma predeterminada</string>
+    <string name="settings_group_visibility_hidden">El grupo de configuración \"%1$s\" se contraerá de forma predeterminada</string>
+    <string name="settings_group_visibility_visible">El grupo de configuración \"%1$s\" se expandirá de forma predeterminada</string>
     <string name="base_64_tools">Herramientas Base64</string>
     <string name="base_64_tools_sub">Decodificar cadena Base64 en imagen o codificar imagen en formato Base64</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Procesando captura de pantalla</string>
     <string name="screenshot_not_captured_try_again">Captura de pantalla no capturada, inténtalo de nuevo</string>
     <string name="skipped_saving">Guardado omitido</string>
-    <string name="skipped_saving_multiple">%1$d archivos omitidos</string>
+    <string name="skipped_saving_multiple">%1$s archivos omitidos</string>
     <string name="allow_skip_if_larger">Permitir omitir si es más grande</string>
     <string name="allow_skip_if_larger_sub">Algunas herramientas podrán omitir el guardado de imágenes si el tamaño del archivo resultante fuera mayor que el original.</string>
     <string name="qr_type_calendar_event">Evento del calendario</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Formato de paleta</string>
     <string name="export_palette_sub">Exportar paleta generada a diferentes formatos.</string>
     <string name="add_color_palette_sub">Agrega un nuevo color a la paleta actual</string>
-    <string name="palette_name_not_supported">El formato %s no admite proporcionar el nombre de la paleta</string>
+    <string name="palette_name_not_supported">El formato %1$s no admite proporcionar el nombre de la paleta</string>
     <string name="wallpapers_export_not_avaialbe">Debido a las políticas de Play Store, esta función no se puede incluir en la versión actual. Para acceder a esta funcionalidad, descargue ImageToolbox desde una fuente alternativa. Puede encontrar las compilaciones disponibles en GitHub a continuación.</string>
     <string name="open_github_page">Abrir página de Github</string>
     <string name="overwrite_files_sub_short">El archivo original será reemplazado por uno nuevo en lugar de guardarse en la carpeta seleccionada.</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelización de cuadrícula de pulso</string>
     <string name="nucleus_pixelization">Pixelización del núcleo</string>
     <string name="radial_weave_pixelization">Pixelización de tejido radial</string>
-    <string name="cannot_open_uri">No se puede abrir la uri \"%s\"</string>
+    <string name="cannot_open_uri">No se puede abrir la uri \"%1$s\"</string>
     <string name="snowfall_mode">Modo nevadas</string>
     <string name="enabled">Activado</string>
     <string name="border_frame">Marco de borde</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Fusionando</string>
     <string name="chunk_size">Tamaño del fragmento</string>
     <string name="overlap_size">Tamaño de superposición</string>
-    <string name="note_chunk_info">Las imágenes de más de %1$d px se cortarán y procesarán en trozos; la superposición las mezcla para evitar uniones visibles.</string>
+    <string name="note_chunk_info">Las imágenes de más de %1$s px se cortarán y procesarán en trozos; la superposición las mezcla para evitar uniones visibles.</string>
     <string name="large_chunk_warning">Los tamaños grandes pueden causar inestabilidad con dispositivos de gama baja</string>
     <string name="select_one_to_start">Seleccione uno para comenzar</string>
-    <string name="delete_model_sub">¿Quieres eliminar el modelo %s? Tendrás que descargarlo nuevamente.</string>
+    <string name="delete_model_sub">¿Quieres eliminar el modelo %1$s? Tendrás que descargarlo nuevamente.</string>
     <string name="confirm">Confirmar</string>
     <string name="models">Modelos</string>
     <string name="downloaded_models">Modelos descargados</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Grosor del borde horizontal</string>
     <string name="vertical_border_thickness">Grosor del borde vertical</string>
     <plurals name="color_count">
-        <item quantity="one">%s color</item>
-        <item quantity="other">%s colores</item>
+        <item quantity="one">%1$s color</item>
+        <item quantity="other">%1$s colores</item>
     </plurals>
     <string name="current_model_not_chunkable">El modelo actual no admite fragmentación, la imagen se procesará en las dimensiones originales, lo que puede causar un alto consumo de memoria y problemas con dispositivos de gama baja.</string>
     <string name="chunking_disabled">La fragmentación está deshabilitada, la imagen se procesará en las dimensiones originales, esto puede causar un alto consumo de memoria y problemas con dispositivos de gama baja, pero puede dar mejores resultados en la inferencia.</string>

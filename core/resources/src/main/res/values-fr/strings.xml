@@ -368,7 +368,7 @@
     <string name="analytics_sub">Autoriser la collecte de données statistiques anonymes sur l\'utilisation de l\'application</string>
     <string name="image_exif_warning">Actuellement, le format %1$s permet uniquement de lire les métadonnées EXIF sur Android. L\'image de sortie n\'aura aucune métadonnée, lorsque sauvegardée.</string>
     <string name="wait">Patientez</string>
-    <string name="effort_sub">Une valeur de %1$d signifie une compression rapide, ce qui entraîne une taille de fichier relativement importante. %2$d signifie une compression plus lente, ce qui donne un fichier plus petit.</string>
+    <string name="effort_sub">Une valeur de %1$s signifie une compression rapide, ce qui entraîne une taille de fichier relativement importante. %2$s signifie une compression plus lente, ce qui donne un fichier plus petit.</string>
     <string name="saving_almost_complete">La sauvegarde est presque terminée. Annuler maintenant nécessitera de sauvegarder à nouveau.</string>
     <string name="effort">Travail</string>
     <string name="updates">Mises à jour</string>
@@ -771,7 +771,7 @@
     <string name="recognize_text">OCR (reconnaître le texte)</string>
     <string name="recognize_text_sub">Reconnaître le texte d\'une image donnée, plus de 120 langues prises en charge</string>
     <string name="picture_has_no_text">L\'image ne contient pas de texte ou l\'application ne l\'a pas trouvé</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Type de reconnaissance</string>
     <string name="fast">Rapide</string>
     <string name="standard">Standard</string>
@@ -787,7 +787,7 @@
     <string name="use_pixel_switch">Utiliser le commutateur Pixel</string>
     <string name="slide">Glisser</string>
     <string name="side_by_side">Cote à cote</string>
-    <string name="saved_to_original">Fichier écrasé portant le nom %s à la destination d\'origine</string>
+    <string name="saved_to_original">Fichier écrasé portant le nom %1$s à la destination d\'origine</string>
     <string name="favorite">Préféré</string>
     <string name="no_favorite_filters">Aucun filtre favori ajouté pour l\'instant</string>
     <string name="b_spline">Cannelure B</string>
@@ -902,7 +902,7 @@
     <string name="tag_image_description">Description de l\'Image</string>
     <string name="tag_artist">Artiste</string>
     <string name="tag_copyright">Droit d\'auteur</string>
-    <string name="speed_sub">Contrôle la vitesse de décodage de l’image résultante, cela devrait aider à ouvrir l’image résultante plus rapidement, la valeur de %1$d signifie le décodage le plus lent, tandis que %2$d - le plus rapide, ce paramètre peut augmenter la taille de l’image de sortie</string>
+    <string name="speed_sub">Contrôle la vitesse de décodage de l’image résultante, cela devrait aider à ouvrir l’image résultante plus rapidement, la valeur de %1$s signifie le décodage le plus lent, tandis que %2$s - le plus rapide, ce paramètre peut augmenter la taille de l’image de sortie</string>
     <string name="use_sampled_palette_sub">La palette de quantification sera échantillonnée si cette option est activée.</string>
     <string name="convert_sub">Conversion de lots d\'images au format donné</string>
     <string name="tag_subsec_time_original">Temps Sub Sec original</string>
@@ -1177,7 +1177,7 @@
     <string name="template_filter">Filtre de modèle</string>
     <string name="as_qr_code">Comme image de code QR</string>
     <string name="delete_template_warn">Vous êtes sur le point de supprimer le filtre de modèle sélectionné. Cette opération est irréversible</string>
-    <string name="added_filter_template">Modèle de filtre ajouté avec le nom \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Modèle de filtre ajouté avec le nom \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Aperçu du filtre</string>
     <string name="qr_code">QR et code-barres</string>
     <string name="qr_code_sub">Scannez le code QR et obtenez son contenu ou collez votre chaîne pour en générer une nouvelle</string>
@@ -1478,7 +1478,7 @@
     <string name="canny">Prudent</string>
     <string name="mirror_101">Miroir 101</string>
     <string name="constant_rate_factor">Facteur de taux constant (CRF)</string>
-    <string name="crf_sub">Une valeur de %1$d signifie une compression lente, ce qui entraîne une taille de fichier relativement petite. %2$d signifie une compression plus rapide, ce qui donne un fichier volumineux.</string>
+    <string name="crf_sub">Une valeur de %1$s signifie une compression lente, ce qui entraîne une taille de fichier relativement petite. %2$s signifie une compression plus rapide, ce qui donne un fichier volumineux.</string>
     <string name="filter_preview_image_sub">Modifier l\'aperçu de l\'image par défaut pour les filtres</string>
     <string name="filter_preview_image">Image d\'aperçu</string>
     <string name="hide">Cacher</string>
@@ -1510,8 +1510,8 @@
     <string name="fast_settings_side">Côté réglages rapides</string>
     <string name="fast_settings_side_sub">Ajoutez une bande flottante sur le côté sélectionné lors de l\'édition des images, qui ouvrira les paramètres rapides lorsque vous cliquerez dessus</string>
     <string name="clear_selection">Effacer la sélection</string>
-    <string name="settings_group_visibility_hidden">Le groupe de paramètres \"%s\" sera réduit par défaut</string>
-    <string name="settings_group_visibility_visible">Le groupe de paramètres \"%s\" sera étendu par défaut</string>
+    <string name="settings_group_visibility_hidden">Le groupe de paramètres \"%1$s\" sera réduit par défaut</string>
+    <string name="settings_group_visibility_visible">Le groupe de paramètres \"%1$s\" sera étendu par défaut</string>
     <string name="base_64_tools">Outils Base64</string>
     <string name="base_64_tools_sub">Décoder la chaîne Base64 en image ou encoder l\'image au format Base64</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Capture d\'écran du traitement</string>
     <string name="screenshot_not_captured_try_again">Capture d\'écran non capturée, réessayez</string>
     <string name="skipped_saving">Enregistrement ignoré</string>
-    <string name="skipped_saving_multiple">%1$d fichiers ignorés</string>
+    <string name="skipped_saving_multiple">%1$s fichiers ignorés</string>
     <string name="allow_skip_if_larger">Autoriser le saut si la taille est plus grande</string>
     <string name="allow_skip_if_larger_sub">Certains outils seront autorisés à ignorer l\'enregistrement des images si la taille du fichier résultant est plus grande que l\'original.</string>
     <string name="qr_type_calendar_event">Événement du calendrier</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Format des palettes</string>
     <string name="export_palette_sub">Exporter la palette générée vers différents formats</string>
     <string name="add_color_palette_sub">Ajoute une nouvelle couleur à la palette actuelle</string>
-    <string name="palette_name_not_supported">Le format %s ne prend pas en charge la fourniture du nom de la palette</string>
+    <string name="palette_name_not_supported">Le format %1$s ne prend pas en charge la fourniture du nom de la palette</string>
     <string name="wallpapers_export_not_avaialbe">En raison des politiques du Play Store, cette fonctionnalité ne peut pas être incluse dans la version actuelle. Pour accéder à cette fonctionnalité, veuillez télécharger ImageToolbox à partir d\'une source alternative. Vous pouvez trouver les versions disponibles sur GitHub ci-dessous.</string>
     <string name="open_github_page">Ouvrir la page Github</string>
     <string name="overwrite_files_sub_short">Le fichier original sera remplacé par un nouveau au lieu d\'être enregistré dans le dossier sélectionné</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelisation de la grille d\'impulsions</string>
     <string name="nucleus_pixelization">Pixelisation du noyau</string>
     <string name="radial_weave_pixelization">Pixelisation à tissage radial</string>
-    <string name="cannot_open_uri">Impossible d\'ouvrir l\'uri \"%s\"</string>
+    <string name="cannot_open_uri">Impossible d\'ouvrir l\'uri \"%1$s\"</string>
     <string name="snowfall_mode">Mode chute de neige</string>
     <string name="enabled">Activé</string>
     <string name="border_frame">Cadre de bordure</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Fusion</string>
     <string name="chunk_size">Taille du morceau</string>
     <string name="overlap_size">Taille de chevauchement</string>
-    <string name="note_chunk_info">Les images de plus de %1$d px seront découpées et traitées en morceaux, superposés pour éviter les coutures visibles.</string>
+    <string name="note_chunk_info">Les images de plus de %1$s px seront découpées et traitées en morceaux, superposés pour éviter les coutures visibles.</string>
     <string name="large_chunk_warning">Les grandes tailles peuvent provoquer une instabilité avec les appareils bas de gamme</string>
     <string name="select_one_to_start">Sélectionnez-en un pour commencer</string>
-    <string name="delete_model_sub">Voulez-vous supprimer le modèle %s ? Vous devrez le télécharger à nouveau</string>
+    <string name="delete_model_sub">Voulez-vous supprimer le modèle %1$s ? Vous devrez le télécharger à nouveau</string>
     <string name="confirm">Confirmer</string>
     <string name="models">Modèles</string>
     <string name="downloaded_models">Modèles téléchargés</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Épaisseur de la bordure horizontale</string>
     <string name="vertical_border_thickness">Épaisseur de la bordure verticale</string>
     <plurals name="color_count">
-        <item quantity="one">%s couleur</item>
-        <item quantity="other">%s couleurs</item>
+        <item quantity="one">%1$s couleur</item>
+        <item quantity="other">%1$s couleurs</item>
     </plurals>
     <string name="current_model_not_chunkable">Le modèle actuel ne prend pas en charge le chunking, l\'image sera traitée dans ses dimensions d\'origine, cela peut entraîner une consommation de mémoire élevée et des problèmes avec les appareils bas de gamme.</string>
     <string name="chunking_disabled">Blocage désactivé, l\'image sera traitée dans ses dimensions d\'origine, cela peut entraîner une consommation de mémoire élevée et des problèmes avec les appareils bas de gamme, mais peut donner de meilleurs résultats d\'inférence</string>

@@ -370,7 +370,7 @@
     <string name="analytics_sub">නිර්නාමික යෙදුම් භාවිත සංඛ්‍යාලේඛන එකතු කිරීමට ඉඩ දෙන්න</string>
     <string name="image_exif_warning">දැනට, %1$s ආකෘතියෙන් ඉඩ දෙන්නේ android මත EXIF ​​පාරදත්ත කියවීමට පමණි. ප්‍රතිදාන රූපය සුරකින විට පාරදත්ත කිසිසේත්ම නොතිබෙනු ඇත.</string>
     <string name="effort">උත්සාහය</string>
-    <string name="effort_sub">%1$d අගයක් යනු වේගවත් සම්පීඩනයක්, ප්‍රතිඵලයක් ලෙස සාපේක්ෂ විශාල ගොනු ප්‍රමාණයකි. %2$d යනු මන්දගාමී සම්පීඩනය, කුඩා ගොනුවක් ඇති කරයි.</string>
+    <string name="effort_sub">%1$s අගයක් යනු වේගවත් සම්පීඩනයක්, ප්‍රතිඵලයක් ලෙස සාපේක්ෂ විශාල ගොනු ප්‍රමාණයකි. %2$s යනු මන්දගාමී සම්පීඩනය, කුඩා ගොනුවක් ඇති කරයි.</string>
     <string name="wait">ඉන්න</string>
     <string name="saving_almost_complete">සුරැකීම බොහෝ දුරට සම්පූර්ණයි. දැන් අවලංගු කිරීමට නැවත සුරැකීමට අවශ්‍ය වනු ඇත.</string>
     <string name="updates">යාවත්කාලීන</string>
@@ -555,7 +555,7 @@
     <string name="recognize_text">OCR (පෙළ හඳුනා ගන්න)</string>
     <string name="recognize_text_sub">ලබා දී ඇති රූපයෙන් පෙළ හඳුනා ගන්න, භාෂා 120+ සහය දක්වයි</string>
     <string name="picture_has_no_text">පින්තූරයේ පෙළක් නැත, නැතහොත් යෙදුම එය සොයා ගත්තේ නැත</string>
-    <string name="accuracy">\"නිරවද්‍යතාව: %1$d\"</string>
+    <string name="accuracy">\"නිරවද්‍යතාව: %1$s\"</string>
     <string name="recognition_type">හඳුනාගැනීමේ වර්ගය</string>
     <string name="fast">වේගවත්</string>
     <string name="standard">සම්මතය</string>
@@ -569,7 +569,7 @@
     <string name="segmentation_mode">ඛණ්ඩන මාදිලිය</string>
     <string name="use_pixel_switch">Pixel Switch භාවිතා කරන්න</string>
     <string name="use_pixel_switch_sub">Google Pixel වැනි ස්විචයක් භාවිතා කරයි</string>
-    <string name="saved_to_original">මුල් ගමනාන්තයේ %s නම සහිත උඩින් ලියන ලද ගොනුව</string>
+    <string name="saved_to_original">මුල් ගමනාන්තයේ %1$s නම සහිත උඩින් ලියන ලද ගොනුව</string>
     <string name="magnifier">විශාලනය</string>
     <string name="magnifier_sub">වඩා හොඳ ප්‍රවේශ්‍යතාවක් සඳහා ඇඳීම් ක්‍රමවල ඇඟිල්ලේ ඉහළින් ඇති විශාලනය සබල කරයි</string>
     <string name="force_exif_widget_initial_value">ආරම්භක අගය බල කරන්න</string>
@@ -856,7 +856,7 @@
     <string name="lossy_compression">ලොසි සම්පීඩනය</string>
     <string name="lossy_compression_sub">ලොස්ලස් වෙනුවට ගොනු ප්‍රමාණය අඩු කිරීමට පාඩු සහිත සම්පීඩනය භාවිතා කරයි</string>
     <string name="compression_type">සම්පීඩන වර්ගය</string>
-    <string name="speed_sub">ප්‍රතිඵලයක් ලෙස ලැබෙන රූප විකේතන වේගය පාලනය කරයි, මෙය ප්‍රතිඵලයක් ලෙස ලැබෙන රූපය ඉක්මනින් විවෘත කිරීමට උදවු විය යුතුය, %1$d හි අගය යනු මන්දගාමී විකේතනය වේ, නමුත් %2$d - වේගවත්ම, මෙම සැකසීම ප්‍රතිදාන රූප ප්‍රමාණය වැඩි කළ හැක</string>
+    <string name="speed_sub">ප්‍රතිඵලයක් ලෙස ලැබෙන රූප විකේතන වේගය පාලනය කරයි, මෙය ප්‍රතිඵලයක් ලෙස ලැබෙන රූපය ඉක්මනින් විවෘත කිරීමට උදවු විය යුතුය, %1$s හි අගය යනු මන්දගාමී විකේතනය වේ, නමුත් %2$s - වේගවත්ම, මෙම සැකසීම ප්‍රතිදාන රූප ප්‍රමාණය වැඩි කළ හැක</string>
     <string name="sorting">වර්ග කිරීම</string>
     <string name="sort_by_date">දිනය</string>
     <string name="sort_by_date_reversed">දිනය (ප්‍රතිලෝම)</string>
@@ -1123,7 +1123,7 @@
     <string name="save_as_qr_code_image">QR කේත රූපයක් ලෙස සුරකින්න</string>
     <string name="delete_template">අච්චුව මකන්න</string>
     <string name="delete_template_warn">ඔබ තෝරාගත් අච්චු පෙරහන මැකීමට සූදානම් වේ. මෙම මෙහෙයුම පසුගමනය කළ නොහැක</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) නම සහිත පෙරහන් අච්චුව එක් කරන ලදී</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) නම සහිත පෙරහන් අච්චුව එක් කරන ලදී</string>
     <string name="filter_preview">පෙරහන් පෙරදසුන</string>
     <string name="qr_code">QR සහ තීරු කේතය</string>
     <string name="qr_code_sub">QR කේතය පරිලෝකනය කර එහි අන්තර්ගතය ලබා ගන්න හෝ අලුත් එකක් ජනනය කිරීමට ඔබේ තන්තුව අලවන්න</string>
@@ -1474,7 +1474,7 @@
     <string name="layout">පිරිසැලසුම</string>
     <string name="main_screen_title">ප්රධාන තිර මාතෘකාව</string>
     <string name="constant_rate_factor">නියත අනුපාත සාධකය (CRF)</string>
-    <string name="crf_sub">%1$d අගයක් යනු මන්දගාමී සම්පීඩනයකි, ප්‍රතිඵලයක් ලෙස සාපේක්ෂව කුඩා ගොනු ප්‍රමාණයකි. %2$d යනු විශාල ගොනුවක් ඇති කරන වේගවත් සම්පීඩනයකි.</string>
+    <string name="crf_sub">%1$s අගයක් යනු මන්දගාමී සම්පීඩනයකි, ප්‍රතිඵලයක් ලෙස සාපේක්ෂව කුඩා ගොනු ප්‍රමාණයකි. %2$s යනු විශාල ගොනුවක් ඇති කරන වේගවත් සම්පීඩනයකි.</string>
     <string name="lut_library">ලූට් පුස්තකාලය</string>
     <string name="lut_library_sub">ඔබට බාගත කිරීමෙන් පසු අයදුම් කළ හැකි LUT එකතුව බාගන්න</string>
     <string name="lut_library_update_sub">ඔබට බාගත කිරීමෙන් පසු අයදුම් කළ හැකි LUT එකතුව යාවත්කාලීන කරන්න (නව ඒවා පමණක් පෝලිම් වේ).</string>
@@ -1509,8 +1509,8 @@
     <string name="fast_settings_side">වේගවත් සැකසුම් පැත්ත</string>
     <string name="fast_settings_side_sub">පින්තූර සංස්කරණය කරන අතරතුර තෝරාගත් පැත්තේ පාවෙන තීරුවක් එක් කරන්න, එය ක්ලික් කළ විට වේගවත් සැකසුම් විවෘත වේ</string>
     <string name="clear_selection">පැහැදිලි තේරීම</string>
-    <string name="settings_group_visibility_hidden">\"%s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් හකුළනු ඇත</string>
-    <string name="settings_group_visibility_visible">\"%s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් පුළුල් වනු ඇත</string>
+    <string name="settings_group_visibility_hidden">\"%1$s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් හකුළනු ඇත</string>
+    <string name="settings_group_visibility_visible">\"%1$s\" කණ්ඩායම සැකසීම පෙරනිමියෙන් පුළුල් වනු ඇත</string>
     <string name="base_64_tools">Base64 මෙවලම්</string>
     <string name="base_64_tools_sub">Base64 තන්තුව රූපයට විකේතනය කරන්න, නැතහොත් රූපය Base64 ආකෘතියට සංකේතනය කරන්න</string>
     <string name="base_64">පදනම64</string>
@@ -1751,7 +1751,7 @@
     <string name="processing_screenshot">තිර රුවක් සකසමින්</string>
     <string name="screenshot_not_captured_try_again">තිර රුවක් ග්‍රහණය කර නැත, නැවත උත්සාහ කරන්න</string>
     <string name="skipped_saving">සුරැකීම මඟ හැරිණි</string>
-    <string name="skipped_saving_multiple">%1$d ගොනු මඟ හරින ලදී</string>
+    <string name="skipped_saving_multiple">%1$s ගොනු මඟ හරින ලදී</string>
     <string name="allow_skip_if_larger">විශාල නම් මඟ හැරීමට ඉඩ දෙන්න</string>
     <string name="allow_skip_if_larger_sub">ප්‍රතිඵලයක් ලෙස ලැබෙන ගොනු ප්‍රමාණය මුල් ප්‍රමාණයට වඩා විශාල නම් සමහර මෙවලම්වලට පින්තූර සුරැකීම මඟ හැරීමට ඉඩ දෙනු ලැබේ</string>
     <string name="qr_type_calendar_event">දින දර්ශන සිදුවීම</string>
@@ -1841,7 +1841,7 @@
     <string name="palette_format">පැලට් ආකෘතිය</string>
     <string name="export_palette_sub">ජනනය කරන ලද තලය විවිධ ආකෘති වෙත අපනයනය කරන්න</string>
     <string name="add_color_palette_sub">වත්මන් තලයට නව වර්ණයක් එක් කරයි</string>
-    <string name="palette_name_not_supported">%s ආකෘතිය පැලට් නම සැපයීමට සහාය නොදක්වයි</string>
+    <string name="palette_name_not_supported">%1$s ආකෘතිය පැලට් නම සැපයීමට සහාය නොදක්වයි</string>
     <string name="wallpapers_export_not_avaialbe">Play Store ප්‍රතිපත්ති හේතුවෙන්, මෙම විශේෂාංගය වත්මන් ගොඩනැගීමට ඇතුළත් කළ නොහැක. මෙම ක්‍රියාකාරීත්වයට ප්‍රවේශ වීමට, කරුණාකර විකල්ප මූලාශ්‍රයකින් ImageToolbox බාගන්න. ඔබට පහතින් GitHub හි පවතින ගොඩනැගීම් සොයා ගත හැක.</string>
     <string name="open_github_page">Github පිටුව විවෘත කරන්න</string>
     <string name="overwrite_files_sub_short">තෝරාගත් ෆෝල්ඩරයේ සුරැකීම වෙනුවට මුල් ගොනුව අලුත් එකක් සමඟ ප්‍රතිස්ථාපනය වේ</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">න්යෂ්ටිය පික්සලීකරණය</string>
     <string name="radial_weave_pixelization">රේඩියල් වීව් පික්සලීකරණය</string>
-    <string name="cannot_open_uri">uri \"%s\" විවෘත කළ නොහැක</string>
+    <string name="cannot_open_uri">uri \"%1$s\" විවෘත කළ නොහැක</string>
     <string name="snowfall_mode">හිම පතන මාදිලිය</string>
     <string name="enabled">සබල කර ඇත</string>
     <string name="border_frame">මායිම් රාමුව</string>
@@ -1930,10 +1930,10 @@
     <string name="merging">ඒකාබද්ධ කිරීම</string>
     <string name="chunk_size">කුට්ටි ප්රමාණය</string>
     <string name="overlap_size">අතිච්ඡාදනය වන ප්‍රමාණය</string>
-    <string name="note_chunk_info">%1$d px ට වැඩි පින්තූර කැබලිවලට කපා සකසනු ලැබේ, දෘශ්‍ය මැහුම් වැළැක්වීම සඳහා මේවා අතිච්ඡාදනය කරයි.</string>
+    <string name="note_chunk_info">%1$s px ට වැඩි පින්තූර කැබලිවලට කපා සකසනු ලැබේ, දෘශ්‍ය මැහුම් වැළැක්වීම සඳහා මේවා අතිච්ඡාදනය කරයි.</string>
     <string name="large_chunk_warning">විශාල ප්රමාණවලින් අඩු-අන්ත උපාංග සමඟ අස්ථාවරත්වය ඇති විය හැක</string>
     <string name="select_one_to_start">ආරම්භ කිරීමට එකක් තෝරන්න</string>
-    <string name="delete_model_sub">ඔබට %s මාදිලිය මැකීමට අවශ්‍යද? ඔබ එය නැවත බාගත කිරීමට අවශ්ය වනු ඇත</string>
+    <string name="delete_model_sub">ඔබට %1$s මාදිලිය මැකීමට අවශ්‍යද? ඔබ එය නැවත බාගත කිරීමට අවශ්ය වනු ඇත</string>
     <string name="confirm">තහවුරු කරන්න</string>
     <string name="models">ආකෘති</string>
     <string name="downloaded_models">බාගත කළ මාදිලි</string>
@@ -2003,8 +2003,8 @@
     <string name="horizontal_border_thickness">තිරස් මායිම් ඝණකම</string>
     <string name="vertical_border_thickness">සිරස් මායිම් ඝණකම</string>
     <plurals name="color_count">
-        <item quantity="one">%s වර්ණය</item>
-        <item quantity="other">%s වර්ණ</item>
+        <item quantity="one">%1$s වර්ණය</item>
+        <item quantity="other">%1$s වර්ණ</item>
     </plurals>
     <string name="current_model_not_chunkable">වත්මන් ආකෘතිය කුට්ටි කිරීමට සහය නොදක්වයි, රූපය මුල් මානයන්ගෙන් සකසනු ඇත, මෙය ඉහළ මතක පරිභෝජනයක් සහ අඩු-අන්ත උපාංග සමඟ ගැටලු ඇති කළ හැකිය</string>
     <string name="chunking_disabled">කුට්ටි කිරීම අක්‍රියයි, රූපය මුල් මානයන්ගෙන් සකසනු ඇත, මෙය ඉහළ මතක පරිභෝජනයක් සහ අඩු-අන්ත උපාංග සමඟ ගැටලු ඇති කළ හැකි නමුත් අනුමාන මත වඩා හොඳ ප්‍රතිඵල ලබා දිය හැකිය</string>

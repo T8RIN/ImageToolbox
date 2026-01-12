@@ -328,7 +328,7 @@
     <string name="spline">Spline</string>
     <string name="basic">Bàsic</string>
     <string name="nearest_sub">Una de les maneres més senzilles d\'augmentar la mida, substituint cada píxel per un nombre de píxels del mateix color</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="downloaded_languages">Idiomes descarregats</string>
     <string name="segmentation_mode_single_block_vert_text">Text vertical d\'un sol bloc</string>
     <string name="segmentation_mode_single_char">Caràcter únic</string>
@@ -432,7 +432,7 @@
     <string name="max_colors_count">Recompte màxim de colors</string>
     <string name="crashlytics_sub">Això permet que l\'aplicació reculli informes d\'error manualment</string>
     <string name="image_exif_warning">Actualment, el format %1$s només permet llegir metadades EXIF a Android. La imatge de sortida no tindrà metadades en absolut quan es desi.</string>
-    <string name="effort_sub">Un valor de %1$d significa una compressió ràpida, que resulta en una mida de fitxer relativament gran. %2$d significa una compressió més lenta, donant lloc a un fitxer més petit.</string>
+    <string name="effort_sub">Un valor de %1$s significa una compressió ràpida, que resulta en una mida de fitxer relativament gran. %2$s significa una compressió més lenta, donant lloc a un fitxer més petit.</string>
     <string name="allow_betas">Permet betas</string>
     <string name="allow_betas_sub">La comprovació d\'actualitzacions inclourà les versions beta de l\'aplicació si està activada</string>
     <string name="brush_softness">suavitat del pinzell</string>
@@ -598,7 +598,7 @@
     <string name="segmentation_mode">Mode de segmentació</string>
     <string name="use_pixel_switch">Utilitza Pixel Switch</string>
     <string name="use_pixel_switch_sub">S\'utilitzarà un commutador semblant a un píxel en lloc del material de Google que has basat</string>
-    <string name="saved_to_original">Fitxer sobreescrit amb el nom %s a la destinació original</string>
+    <string name="saved_to_original">Fitxer sobreescrit amb el nom %1$s a la destinació original</string>
     <string name="magnifier">Lupa</string>
     <string name="magnifier_sub">Activa la lupa a la part superior del dit en els modes de dibuix per a una millor accessibilitat</string>
     <string name="force_exif_widget_initial_value">Força el valor inicial</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Compressió amb pèrdues</string>
     <string name="lossy_compression_sub">Utilitza la compressió amb pèrdues per reduir la mida del fitxer en lloc de la compressió sense pèrdues</string>
     <string name="compression_type">Tipus de compressió</string>
-    <string name="speed_sub">Controla la velocitat de descodificació de la imatge resultant, això hauria d\'ajudar a obrir la imatge resultant més ràpidament, el valor de %1$d significa la descodificació més lenta, mentre que %2$d - la més ràpida, aquesta configuració pot augmentar la mida de la imatge de sortida.</string>
+    <string name="speed_sub">Controla la velocitat de descodificació de la imatge resultant, això hauria d\'ajudar a obrir la imatge resultant més ràpidament, el valor de %1$s significa la descodificació més lenta, mentre que %2$s - la més ràpida, aquesta configuració pot augmentar la mida de la imatge de sortida.</string>
     <string name="sorting">Classificació</string>
     <string name="sort_by_date">Data</string>
     <string name="sort_by_date_reversed">Data (invertida)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Desa com a imatge de codi QR</string>
     <string name="delete_template">Suprimeix la plantilla</string>
     <string name="delete_template_warn">Esteu a punt d\'eliminar el filtre de plantilla seleccionat. Aquesta operació no es pot desfer</string>
-    <string name="added_filter_template">S\'ha afegit una plantilla de filtre amb el nom \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">S\'ha afegit una plantilla de filtre amb el nom \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Vista prèvia del filtre</string>
     <string name="qr_code">QR i codi de barres</string>
     <string name="qr_code_sub">Escaneja el codi QR i obtén el seu contingut o enganxa la cadena per generar-ne una de nova</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Disseny</string>
     <string name="main_screen_title">Títol de la pantalla principal</string>
     <string name="constant_rate_factor">Factor de taxa constant (CRF)</string>
-    <string name="crf_sub">Un valor de %1$d significa una compressió lenta, que resulta en una mida de fitxer relativament petita. %2$d significa una compressió més ràpida, donant lloc a un fitxer gran.</string>
+    <string name="crf_sub">Un valor de %1$s significa una compressió lenta, que resulta en una mida de fitxer relativament petita. %2$s significa una compressió més ràpida, donant lloc a un fitxer gran.</string>
     <string name="lut_library">Biblioteca Lut</string>
     <string name="lut_library_sub">Baixeu la col·lecció de LUT, que podeu aplicar després de descarregar</string>
     <string name="lut_library_update_sub">Actualitzeu la col·lecció de LUT (només es posaran a la cua les noves), que podeu aplicar després de descarregar</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Configuració ràpida lateral</string>
     <string name="fast_settings_side_sub">Afegiu una franja flotant al costat seleccionat mentre editeu les imatges, que obrirà la configuració ràpida quan feu clic</string>
     <string name="clear_selection">Esborra la selecció</string>
-    <string name="settings_group_visibility_hidden">El grup de configuració \"%s\" es replegarà de manera predeterminada</string>
-    <string name="settings_group_visibility_visible">El grup de configuració \"%s\" s\'ampliarà de manera predeterminada</string>
+    <string name="settings_group_visibility_hidden">El grup de configuració \"%1$s\" es replegarà de manera predeterminada</string>
+    <string name="settings_group_visibility_visible">El grup de configuració \"%1$s\" s\'ampliarà de manera predeterminada</string>
     <string name="base_64_tools">Eines Base64</string>
     <string name="base_64_tools_sub">Descodifiqueu la cadena Base64 a la imatge o codifiqueu la imatge al format Base64</string>
     <string name="base_64">Base 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">S\'està processant la captura de pantalla</string>
     <string name="screenshot_not_captured_try_again">La captura de pantalla no s\'ha capturat, torna-ho a provar</string>
     <string name="skipped_saving">S\'ha omès l\'estalvi</string>
-    <string name="skipped_saving_multiple">S\'han omès %1$d fitxers</string>
+    <string name="skipped_saving_multiple">S\'han omès %1$s fitxers</string>
     <string name="allow_skip_if_larger">Permet ometre si és més gran</string>
     <string name="allow_skip_if_larger_sub">Algunes eines podran saltar-se desar imatges si la mida del fitxer resultant és més gran que l\'original</string>
     <string name="qr_type_calendar_event">Esdeveniment del calendari</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Format de paleta</string>
     <string name="export_palette_sub">Exporta la paleta generada a diferents formats</string>
     <string name="add_color_palette_sub">Afegeix un color nou a la paleta actual</string>
-    <string name="palette_name_not_supported">El format %s no admet proporcionar el nom de la paleta</string>
+    <string name="palette_name_not_supported">El format %1$s no admet proporcionar el nom de la paleta</string>
     <string name="wallpapers_export_not_avaialbe">A causa de les polítiques de Play Store, aquesta funció no es pot incloure a la versió actual. Per accedir a aquesta funcionalitat, descarregueu ImageToolbox des d\'una font alternativa. Podeu trobar les versions disponibles a GitHub a continuació.</string>
     <string name="open_github_page">Obriu la pàgina de Github</string>
     <string name="overwrite_files_sub_short">El fitxer original es substituirà per un de nou en lloc de desar-lo a la carpeta seleccionada</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelització de quadrícula de pols</string>
     <string name="nucleus_pixelization">Pixelització del nucli</string>
     <string name="radial_weave_pixelization">Pixelització de teixit radial</string>
-    <string name="cannot_open_uri">No es pot obrir l\'uri \"%s\"</string>
+    <string name="cannot_open_uri">No es pot obrir l\'uri \"%1$s\"</string>
     <string name="snowfall_mode">Mode de nevada</string>
     <string name="enabled">Habilitat</string>
     <string name="border_frame">Marc de vora</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Fusió</string>
     <string name="chunk_size">Mida del tros</string>
     <string name="overlap_size">Mida de superposició</string>
-    <string name="note_chunk_info">Les imatges de més de %1$d px es tallaran i es processaran en trossos, la superposició les combina per evitar costures visibles.</string>
+    <string name="note_chunk_info">Les imatges de més de %1$s px es tallaran i es processaran en trossos, la superposició les combina per evitar costures visibles.</string>
     <string name="large_chunk_warning">Les mides grans poden causar inestabilitat amb dispositius de gamma baixa</string>
     <string name="select_one_to_start">Seleccioneu-ne un per començar</string>
-    <string name="delete_model_sub">Voleu suprimir el model %s? Haureu de descarregar-lo de nou</string>
+    <string name="delete_model_sub">Voleu suprimir el model %1$s? Haureu de descarregar-lo de nou</string>
     <string name="confirm">Confirmeu</string>
     <string name="models">Models</string>
     <string name="downloaded_models">Models descarregats</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Gruix de la vora horitzontal</string>
     <string name="vertical_border_thickness">Gruix de la vora vertical</string>
     <plurals name="color_count">
-        <item quantity="one">%s color</item>
-        <item quantity="other">%s colors</item>
+        <item quantity="one">%1$s color</item>
+        <item quantity="other">%1$s colors</item>
     </plurals>
     <string name="current_model_not_chunkable">El model actual no admet la fragmentació, la imatge es processarà a les dimensions originals, això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa</string>
     <string name="chunking_disabled">La fragmentació està desactivada, la imatge es processarà a les dimensions originals; això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa, però pot donar millors resultats en la inferència.</string>

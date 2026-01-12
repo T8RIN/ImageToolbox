@@ -369,7 +369,7 @@
     <string name="analytics_sub">ਅਗਿਆਤ ਐਪ ਵਰਤੋਂ ਦੇ ਅੰਕੜੇ ਇਕੱਠੇ ਕਰਨ ਦਿਓ</string>
     <string name="image_exif_warning">ਵਰਤਮਾਨ ਵਿੱਚ, %1$s ਫਾਰਮੈਟ ਸਿਰਫ ਐਂਡਰਾਇਡ \'ਤੇ EXIF ਮੈਟਾਡੇਟਾ ਨੂੰ ਪੜ੍ਹਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਜਾਣ \'ਤੇ ਆਉਟਪੁੱਟ ਚਿੱਤਰ ਵਿੱਚ ਮੇਟਾਡੇਟਾ ਬਿਲਕੁਲ ਨਹੀਂ ਹੋਵੇਗਾ।</string>
     <string name="effort">ਜਤਨ</string>
-    <string name="effort_sub">%1$d ਦੇ ਮੁੱਲ ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਤੇਜ਼ ਕੰਪਰੈਸ਼ਨ, ਜਿਸਦੇ ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਮੁਕਾਬਲਤਨ ਵੱਡਾ ਫਾਈਲ ਆਕਾਰ ਹੁੰਦਾ ਹੈ। %2$d ਦਾ ਮਤਲਬ ਹੈ ਇੱਕ ਹੌਲੀ ਕੰਪਰੈਸ਼ਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਛੋਟੀ ਫਾਈਲ।</string>
+    <string name="effort_sub">%1$s ਦੇ ਮੁੱਲ ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਤੇਜ਼ ਕੰਪਰੈਸ਼ਨ, ਜਿਸਦੇ ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਮੁਕਾਬਲਤਨ ਵੱਡਾ ਫਾਈਲ ਆਕਾਰ ਹੁੰਦਾ ਹੈ। %2$s ਦਾ ਮਤਲਬ ਹੈ ਇੱਕ ਹੌਲੀ ਕੰਪਰੈਸ਼ਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਛੋਟੀ ਫਾਈਲ।</string>
     <string name="wait">ਉਡੀਕ ਕਰੋ</string>
     <string name="saving_almost_complete">ਸੰਭਾਲਣਾ ਲਗਭਗ ਪੂਰਾ ਹੋਇਆ। ਹੁਣੇ ਰੱਦ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਬੱਚਤ ਕਰਨ ਦੀ ਲੋੜ ਹੋਵੇਗੀ।</string>
     <string name="updates">ਅੱਪਡੇਟ</string>
@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (ਟੈਕਸਟ ਪਛਾਣੋ)</string>
     <string name="recognize_text_sub">ਦਿੱਤੇ ਚਿੱਤਰ ਤੋਂ ਟੈਕਸਟ ਨੂੰ ਪਛਾਣੋ, 120+ ਭਾਸ਼ਾਵਾਂ ਸਮਰਥਿਤ ਹਨ</string>
     <string name="picture_has_no_text">ਤਸਵੀਰ ਵਿੱਚ ਕੋਈ ਟੈਕਸਟ ਨਹੀਂ ਹੈ, ਜਾਂ ਐਪ ਨੇ ਇਸਨੂੰ ਨਹੀਂ ਲੱਭਿਆ</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">ਪਛਾਣ ਦੀ ਕਿਸਮ</string>
     <string name="fast">ਤੇਜ਼</string>
     <string name="standard">ਮਿਆਰੀ</string>
@@ -568,7 +568,7 @@
     <string name="segmentation_mode">ਵਿਭਾਜਨ ਮੋਡ</string>
     <string name="use_pixel_switch">Pixel ਸਵਿੱਚ ਵਰਤੋ</string>
     <string name="use_pixel_switch_sub">ਤੁਹਾਡੇ ਦੁਆਰਾ ਆਧਾਰਿਤ ਗੂਗਲ ਦੀ ਸਮੱਗਰੀ ਦੀ ਬਜਾਏ ਪਿਕਸਲ ਵਰਗਾ ਸਵਿੱਚ ਵਰਤਿਆ ਜਾਵੇਗਾ</string>
-    <string name="saved_to_original">ਮੂਲ ਮੰਜ਼ਿਲ \'ਤੇ ਨਾਮ %s ਨਾਲ ਓਵਰਰਾਈਟ ਕੀਤੀ ਫਾਈਲ</string>
+    <string name="saved_to_original">ਮੂਲ ਮੰਜ਼ਿਲ \'ਤੇ ਨਾਮ %1$s ਨਾਲ ਓਵਰਰਾਈਟ ਕੀਤੀ ਫਾਈਲ</string>
     <string name="magnifier">ਵੱਡਦਰਸ਼ੀ</string>
     <string name="magnifier_sub">ਬਿਹਤਰ ਪਹੁੰਚਯੋਗਤਾ ਲਈ ਡਰਾਇੰਗ ਮੋਡਾਂ ਵਿੱਚ ਉਂਗਲੀ ਦੇ ਸਿਖਰ \'ਤੇ ਵੱਡਦਰਸ਼ੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਂਦਾ ਹੈ</string>
     <string name="force_exif_widget_initial_value">ਸ਼ੁਰੂਆਤੀ ਮੁੱਲ ਨੂੰ ਜ਼ੋਰ ਦਿਓ</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">ਨੁਕਸਾਨਦਾਇਕ ਸੰਕੁਚਨ</string>
     <string name="lossy_compression_sub">ਲੌਸਲੇਸ ਦੀ ਬਜਾਏ ਫਾਈਲ ਦਾ ਆਕਾਰ ਘਟਾਉਣ ਲਈ ਨੁਕਸਾਨਦੇਹ ਕੰਪਰੈਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ</string>
     <string name="compression_type">ਕੰਪਰੈਸ਼ਨ ਦੀ ਕਿਸਮ</string>
-    <string name="speed_sub">ਨਤੀਜੇ ਵਜੋਂ ਚਿੱਤਰ ਡੀਕੋਡਿੰਗ ਦੀ ਗਤੀ ਨੂੰ ਨਿਯੰਤਰਿਤ ਕਰਦਾ ਹੈ, ਇਸ ਨਾਲ ਨਤੀਜੇ ਵਾਲੇ ਚਿੱਤਰ ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਖੋਲ੍ਹਣ ਵਿੱਚ ਮਦਦ ਮਿਲੇਗੀ, %1$d ਦੇ ਮੁੱਲ ਦਾ ਮਤਲਬ ਹੈ ਸਭ ਤੋਂ ਹੌਲੀ ਡੀਕੋਡਿੰਗ, ਜਦੋਂ ਕਿ %2$d - ਸਭ ਤੋਂ ਤੇਜ਼, ਇਹ ਸੈਟਿੰਗ ਆਉਟਪੁੱਟ ਚਿੱਤਰ ਆਕਾਰ ਨੂੰ ਵਧਾ ਸਕਦੀ ਹੈ</string>
+    <string name="speed_sub">ਨਤੀਜੇ ਵਜੋਂ ਚਿੱਤਰ ਡੀਕੋਡਿੰਗ ਦੀ ਗਤੀ ਨੂੰ ਨਿਯੰਤਰਿਤ ਕਰਦਾ ਹੈ, ਇਸ ਨਾਲ ਨਤੀਜੇ ਵਾਲੇ ਚਿੱਤਰ ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਖੋਲ੍ਹਣ ਵਿੱਚ ਮਦਦ ਮਿਲੇਗੀ, %1$s ਦੇ ਮੁੱਲ ਦਾ ਮਤਲਬ ਹੈ ਸਭ ਤੋਂ ਹੌਲੀ ਡੀਕੋਡਿੰਗ, ਜਦੋਂ ਕਿ %2$s - ਸਭ ਤੋਂ ਤੇਜ਼, ਇਹ ਸੈਟਿੰਗ ਆਉਟਪੁੱਟ ਚਿੱਤਰ ਆਕਾਰ ਨੂੰ ਵਧਾ ਸਕਦੀ ਹੈ</string>
     <string name="sorting">ਛਾਂਟੀ</string>
     <string name="sort_by_date">ਮਿਤੀ</string>
     <string name="sort_by_date_reversed">ਮਿਤੀ (ਉਲਟ)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR ਕੋਡ ਚਿੱਤਰ ਵਜੋਂ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="delete_template">ਟੈਮਪਲੇਟ ਮਿਟਾਓ</string>
     <string name="delete_template_warn">ਤੁਸੀਂ ਚੁਣੇ ਹੋਏ ਟੈਮਪਲੇਟ ਫਿਲਟਰ ਨੂੰ ਮਿਟਾਉਣ ਲੱਗੇ ਹੋ। ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) ਨਾਮ ਨਾਲ ਫਿਲਟਰ ਟੈਮਪਲੇਟ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) ਨਾਮ ਨਾਲ ਫਿਲਟਰ ਟੈਮਪਲੇਟ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ</string>
     <string name="filter_preview">ਫਿਲਟਰ ਪ੍ਰੀਵਿਊ</string>
     <string name="qr_code">QR ਅਤੇ ਬਾਰਕੋਡ</string>
     <string name="qr_code_sub">QR ਕੋਡ ਨੂੰ ਸਕੈਨ ਕਰੋ ਅਤੇ ਇਸਦੀ ਸਮੱਗਰੀ ਪ੍ਰਾਪਤ ਕਰੋ ਜਾਂ ਨਵਾਂ ਬਣਾਉਣ ਲਈ ਆਪਣੀ ਸਟ੍ਰਿੰਗ ਪੇਸਟ ਕਰੋ</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">ਖਾਕਾ</string>
     <string name="main_screen_title">ਮੁੱਖ ਸਕ੍ਰੀਨ ਸਿਰਲੇਖ</string>
     <string name="constant_rate_factor">ਸਥਿਰ ਦਰ ਕਾਰਕ (CRF)</string>
-    <string name="crf_sub">%1$d ਦੇ ਮੁੱਲ ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਹੌਲੀ ਸੰਕੁਚਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਮੁਕਾਬਲਤਨ ਛੋਟਾ ਫਾਈਲ ਆਕਾਰ। %2$d ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਤੇਜ਼ ਕੰਪਰੈਸ਼ਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਵੱਡੀ ਫਾਈਲ।</string>
+    <string name="crf_sub">%1$s ਦੇ ਮੁੱਲ ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਹੌਲੀ ਸੰਕੁਚਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਮੁਕਾਬਲਤਨ ਛੋਟਾ ਫਾਈਲ ਆਕਾਰ। %2$s ਦਾ ਅਰਥ ਹੈ ਇੱਕ ਤੇਜ਼ ਕੰਪਰੈਸ਼ਨ, ਨਤੀਜੇ ਵਜੋਂ ਇੱਕ ਵੱਡੀ ਫਾਈਲ।</string>
     <string name="lut_library">ਲੂਟ ਲਾਇਬ੍ਰੇਰੀ</string>
     <string name="lut_library_sub">LUTs ਦਾ ਸੰਗ੍ਰਹਿ ਡਾਊਨਲੋਡ ਕਰੋ, ਜਿਸ ਨੂੰ ਤੁਸੀਂ ਡਾਊਨਲੋਡ ਕਰਨ ਤੋਂ ਬਾਅਦ ਅਰਜ਼ੀ ਦੇ ਸਕਦੇ ਹੋ</string>
     <string name="lut_library_update_sub">LUTs ਦਾ ਸੰਗ੍ਰਹਿ ਅੱਪਡੇਟ ਕਰੋ (ਸਿਰਫ਼ ਨਵੇਂ ਕਤਾਰਬੱਧ ਹੋਣਗੇ), ਜਿਸ ਨੂੰ ਤੁਸੀਂ ਡਾਊਨਲੋਡ ਕਰਨ ਤੋਂ ਬਾਅਦ ਅਰਜ਼ੀ ਦੇ ਸਕਦੇ ਹੋ</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">ਤੇਜ਼ ਸੈਟਿੰਗ ਸਾਈਡ</string>
     <string name="fast_settings_side_sub">ਚਿੱਤਰਾਂ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰਦੇ ਸਮੇਂ ਚੁਣੇ ਹੋਏ ਪਾਸੇ \'ਤੇ ਫਲੋਟਿੰਗ ਸਟ੍ਰਿਪ ਸ਼ਾਮਲ ਕਰੋ, ਜੋ ਕਿ ਕਲਿੱਕ ਕਰਨ \'ਤੇ ਤੇਜ਼ ਸੈਟਿੰਗਾਂ ਨੂੰ ਖੋਲ੍ਹ ਦੇਵੇਗੀ</string>
     <string name="clear_selection">ਚੋਣ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="settings_group_visibility_hidden">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਸਮੇਟਿਆ ਜਾਵੇਗਾ</string>
-    <string name="settings_group_visibility_visible">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਵਿਸਤਾਰ ਕੀਤਾ ਜਾਵੇਗਾ</string>
+    <string name="settings_group_visibility_hidden">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%1$s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਸਮੇਟਿਆ ਜਾਵੇਗਾ</string>
+    <string name="settings_group_visibility_visible">ਸੈੱਟਿੰਗ ਗਰੁੱਪ \"%1$s\" ਨੂੰ ਮੂਲ ਰੂਪ ਵਿੱਚ ਵਿਸਤਾਰ ਕੀਤਾ ਜਾਵੇਗਾ</string>
     <string name="base_64_tools">ਬੇਸ 64 ਟੂਲ</string>
     <string name="base_64_tools_sub">ਬੇਸ 64 ਸਟ੍ਰਿੰਗ ਨੂੰ ਚਿੱਤਰ ਵਿੱਚ ਡੀਕੋਡ ਕਰੋ, ਜਾਂ ਚਿੱਤਰ ਨੂੰ ਬੇਸ64 ਫਾਰਮੈਟ ਵਿੱਚ ਏਨਕੋਡ ਕਰੋ</string>
     <string name="base_64">ਬੇਸ 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">ਸਕ੍ਰੀਨਸ਼ੌਟ ਦੀ ਪ੍ਰਕਿਰਿਆ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
     <string name="screenshot_not_captured_try_again">ਸਕ੍ਰੀਨਸ਼ੌਟ ਕੈਪਚਰ ਨਹੀਂ ਕੀਤਾ ਗਿਆ, ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="skipped_saving">ਸੁਰੱਖਿਅਤ ਕਰਨਾ ਛੱਡਿਆ ਗਿਆ</string>
-    <string name="skipped_saving_multiple">%1$d ਫਾਈਲਾਂ ਛੱਡੀਆਂ ਗਈਆਂ</string>
+    <string name="skipped_saving_multiple">%1$s ਫਾਈਲਾਂ ਛੱਡੀਆਂ ਗਈਆਂ</string>
     <string name="allow_skip_if_larger">ਜੇਕਰ ਵੱਡਾ ਹੋਵੇ ਤਾਂ ਛੱਡਣ ਦਿਓ</string>
     <string name="allow_skip_if_larger_sub">ਕੁਝ ਟੂਲਸ ਨੂੰ ਚਿੱਤਰਾਂ ਨੂੰ ਸੇਵ ਕਰਨਾ ਛੱਡਣ ਦੀ ਇਜਾਜ਼ਤ ਦਿੱਤੀ ਜਾਵੇਗੀ ਜੇਕਰ ਨਤੀਜੇ ਵਜੋਂ ਫਾਈਲ ਦਾ ਆਕਾਰ ਅਸਲ ਤੋਂ ਵੱਡਾ ਹੋਵੇਗਾ</string>
     <string name="qr_type_calendar_event">ਕੈਲੰਡਰ ਇਵੈਂਟ</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">ਪੈਲੇਟ ਫਾਰਮੈਟ</string>
     <string name="export_palette_sub">ਤਿਆਰ ਕੀਤੇ ਪੈਲੇਟ ਨੂੰ ਵੱਖ-ਵੱਖ ਫਾਰਮੈਟਾਂ ਵਿੱਚ ਨਿਰਯਾਤ ਕਰੋ</string>
     <string name="add_color_palette_sub">ਮੌਜੂਦਾ ਪੈਲੇਟ ਵਿੱਚ ਨਵਾਂ ਰੰਗ ਜੋੜਦਾ ਹੈ</string>
-    <string name="palette_name_not_supported">%s ਫਾਰਮੈਟ ਪੈਲੇਟ ਨਾਮ ਪ੍ਰਦਾਨ ਕਰਨ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ</string>
+    <string name="palette_name_not_supported">%1$s ਫਾਰਮੈਟ ਪੈਲੇਟ ਨਾਮ ਪ੍ਰਦਾਨ ਕਰਨ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ</string>
     <string name="wallpapers_export_not_avaialbe">ਪਲੇ ਸਟੋਰ ਨੀਤੀਆਂ ਦੇ ਕਾਰਨ, ਇਸ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਮੌਜੂਦਾ ਬਿਲਡ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ। ਇਸ ਕਾਰਜਕੁਸ਼ਲਤਾ ਨੂੰ ਐਕਸੈਸ ਕਰਨ ਲਈ, ਕਿਰਪਾ ਕਰਕੇ ਕਿਸੇ ਵਿਕਲਪਿਕ ਸਰੋਤ ਤੋਂ ਚਿੱਤਰ ਟੂਲਬਾਕਸ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰੋ। ਤੁਸੀਂ ਹੇਠਾਂ GitHub \'ਤੇ ਉਪਲਬਧ ਬਿਲਡਾਂ ਨੂੰ ਲੱਭ ਸਕਦੇ ਹੋ।</string>
     <string name="open_github_page">Github ਪੰਨਾ ਖੋਲ੍ਹੋ</string>
     <string name="overwrite_files_sub_short">ਮੂਲ ਫਾਈਲ ਨੂੰ ਚੁਣੇ ਹੋਏ ਫੋਲਡਰ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੀ ਬਜਾਏ ਨਵੀਂ ਫਾਈਲ ਨਾਲ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">ਪਲਸ ਗਰਿੱਡ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
     <string name="nucleus_pixelization">ਨਿਊਕਲੀਅਸ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
     <string name="radial_weave_pixelization">ਰੇਡੀਅਲ ਵੇਵ ਪਿਕਸਲਾਈਜ਼ੇਸ਼ਨ</string>
-    <string name="cannot_open_uri">uri \"%s\" ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
+    <string name="cannot_open_uri">uri \"%1$s\" ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
     <string name="snowfall_mode">ਬਰਫ਼ਬਾਰੀ ਮੋਡ</string>
     <string name="enabled">ਸਮਰਥਿਤ</string>
     <string name="border_frame">ਬਾਰਡਰ ਫਰੇਮ</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">ਮਿਲਾਉਣਾ</string>
     <string name="chunk_size">ਚੰਕ ਦਾ ਆਕਾਰ</string>
     <string name="overlap_size">ਓਵਰਲੈਪ ਆਕਾਰ</string>
-    <string name="note_chunk_info">%1$d px ਤੋਂ ਵੱਧ ਚਿੱਤਰਾਂ ਨੂੰ ਟੁਕੜਿਆਂ ਵਿੱਚ ਕੱਟਿਆ ਜਾਵੇਗਾ ਅਤੇ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਦਿਖਣਯੋਗ ਸੀਮਾਂ ਨੂੰ ਰੋਕਣ ਲਈ ਇਹਨਾਂ ਨੂੰ ਓਵਰਲੈਪ ਮਿਲਾਉਂਦਾ ਹੈ।</string>
+    <string name="note_chunk_info">%1$s px ਤੋਂ ਵੱਧ ਚਿੱਤਰਾਂ ਨੂੰ ਟੁਕੜਿਆਂ ਵਿੱਚ ਕੱਟਿਆ ਜਾਵੇਗਾ ਅਤੇ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਦਿਖਣਯੋਗ ਸੀਮਾਂ ਨੂੰ ਰੋਕਣ ਲਈ ਇਹਨਾਂ ਨੂੰ ਓਵਰਲੈਪ ਮਿਲਾਉਂਦਾ ਹੈ।</string>
     <string name="large_chunk_warning">ਵੱਡੇ ਆਕਾਰ ਘੱਟ-ਅੰਤ ਵਾਲੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਅਸਥਿਰਤਾ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੇ ਹਨ</string>
     <string name="select_one_to_start">ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਇੱਕ ਚੁਣੋ</string>
-    <string name="delete_model_sub">ਕੀ ਤੁਸੀਂ %s ਮਾਡਲ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਤੁਹਾਨੂੰ ਇਸਨੂੰ ਦੁਬਾਰਾ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਹੋਵੇਗੀ</string>
+    <string name="delete_model_sub">ਕੀ ਤੁਸੀਂ %1$s ਮਾਡਲ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਤੁਹਾਨੂੰ ਇਸਨੂੰ ਦੁਬਾਰਾ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਹੋਵੇਗੀ</string>
     <string name="confirm">ਪੁਸ਼ਟੀ ਕਰੋ</string>
     <string name="models">ਮਾਡਲ</string>
     <string name="downloaded_models">ਡਾਊਨਲੋਡ ਕੀਤੇ ਮਾਡਲ</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">ਹਰੀਜ਼ੱਟਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
     <string name="vertical_border_thickness">ਵਰਟੀਕਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
     <plurals name="color_count">
-        <item quantity="one">%s ਰੰਗ</item>
-        <item quantity="other">%s ਰੰਗ</item>
+        <item quantity="one">%1$s ਰੰਗ</item>
+        <item quantity="other">%1$s ਰੰਗ</item>
     </plurals>
     <string name="current_model_not_chunkable">ਮੌਜੂਦਾ ਮਾਡਲ ਚੰਕਿੰਗ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ, ਚਿੱਤਰ ਨੂੰ ਅਸਲ ਮਾਪਾਂ ਵਿੱਚ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਇਸ ਨਾਲ ਉੱਚ ਮੈਮੋਰੀ ਦੀ ਖਪਤ ਹੋ ਸਕਦੀ ਹੈ ਅਤੇ ਘੱਟ-ਅੰਤ ਵਾਲੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ</string>
     <string name="chunking_disabled">ਚੰਕਿੰਗ ਅਯੋਗ ਹੈ, ਚਿੱਤਰ ਨੂੰ ਅਸਲ ਮਾਪਾਂ ਵਿੱਚ ਸੰਸਾਧਿਤ ਕੀਤਾ ਜਾਵੇਗਾ, ਇਸ ਨਾਲ ਉੱਚ ਮੈਮੋਰੀ ਦੀ ਖਪਤ ਹੋ ਸਕਦੀ ਹੈ ਅਤੇ ਘੱਟ-ਅੰਤ ਵਾਲੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ ਪਰ ਅਨੁਮਾਨ \'ਤੇ ਵਧੀਆ ਨਤੀਜੇ ਦੇ ਸਕਦੇ ਹਨ</string>

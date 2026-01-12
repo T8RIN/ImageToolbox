@@ -352,7 +352,7 @@
     <string name="analytics_sub">نامسىز ئەپ ئىشلىتىش ستاتىستىكىسىنى توپلاشقا يول قويۇڭ</string>
     <string name="image_exif_warning">ھازىر %1$s فورماتى پەقەت ئاندىرويىدتا EXIF مېتا سانلىق مەلۇماتلىرىنى ئوقۇشقا يول قويىدۇ. چىقىرىلغان رەسىم ساقلانغان ۋاقىتتا مېتا سانلىق مەلۇماتقا ئېرىشەلمەيدۇ.</string>
     <string name="effort">تىرىشچانلىق</string>
-    <string name="effort_sub">القيمة %1$d تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$d يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
+    <string name="effort_sub">القيمة %1$s تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$s يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
     <string name="wait">ساقلاپ تۇرۇڭ</string>
     <string name="saving_almost_complete">تېجەش ئاساسەن تاماملاندى. ھازىر ئەمەلدىن قالدۇرۇش قايتا تېجەشنى تەلەپ قىلىدۇ.</string>
     <string name="updates">يېڭىلانمىلار</string>
@@ -537,7 +537,7 @@
     <string name="recognize_text">OCR (تېكىستنى تونۇش)</string>
     <string name="recognize_text_sub">بېرىلگەن رەسىمدىن تېكىستنى ئېتىراپ قىلىڭ ، 120+ تىل قوللايدۇ</string>
     <string name="picture_has_no_text">رەسىمنىڭ تېكىستى يوق ، ياكى ئەپ تاپالمىدى</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">تونۇش تىپى</string>
     <string name="fast">تېز</string>
     <string name="standard">ئۆلچەملىك</string>
@@ -551,7 +551,7 @@
     <string name="segmentation_mode">بۆلەك ھالىتى</string>
     <string name="use_pixel_switch">Pixel Switch نى ئىشلىتىڭ</string>
     <string name="use_pixel_switch_sub">Pixel غا ئوخشاش ئالماشتۇرغۇچ google نىڭ ماتېرىيالىنىڭ ئورنىغا ئىشلىتىلىدۇ</string>
-    <string name="saved_to_original">ئەسلى مەنزىلدە {8 name ئىسمى يېزىلغان ھۆججەتتمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
+    <string name="saved_to_original">ئەسلى مەنزىلدە {8 name ئىسمى يېزىلغان ھۆججەتتمت الكتابة فوق الملف بالاسم %1$s في الوجهة الأصلية</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">تېخىمۇ ياخشى زىيارەت قىلىش ئۈچۈن رەسىم سىزىش شەكلىدە بارماقنىڭ ئۈستىدىكى چوڭايتىشنى قوزغىتىدۇ</string>
     <string name="force_exif_widget_initial_value_sub">كىچىك قوراللار دەسلەپتە تەكشۈرۈلىدۇ</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">زىيان تارتماي ، ھۆججەتنىڭ چوڭ-كىچىكلىكىنى ئازايتىش ئۈچۈن زىيانلىق پىرىسلاشنى ئىشلىتىدۇ</string>
     <string name="compression_type">پىرىسلاش تىپى</string>
-    <string name="speed_sub">ھاسىل بولغان رەسىم يېشىش سۈرئىتىنى كونترول قىلىدۇ ، بۇ ھاسىل بولغان رەسىمنىڭ تېزرەك ئېچىلىشىغا ياردەم بېرىشى كېرەك ، %1$d نىڭ قىممىتى يېشىش سۈرئىتىنىڭ ئەڭ ئاستا ئىكەنلىكىنى بىلدۈرىدۇ ، ھالبۇكى %2$d - ئەڭ تېز ، بۇ تەڭشەك چىقىرىش رەسىمنىڭ چوڭ-كىچىكلىكىنى ئاشۇرۇشى مۇمكىن.</string>
+    <string name="speed_sub">ھاسىل بولغان رەسىم يېشىش سۈرئىتىنى كونترول قىلىدۇ ، بۇ ھاسىل بولغان رەسىمنىڭ تېزرەك ئېچىلىشىغا ياردەم بېرىشى كېرەك ، %1$s نىڭ قىممىتى يېشىش سۈرئىتىنىڭ ئەڭ ئاستا ئىكەنلىكىنى بىلدۈرىدۇ ، ھالبۇكى %2$s - ئەڭ تېز ، بۇ تەڭشەك چىقىرىش رەسىمنىڭ چوڭ-كىچىكلىكىنى ئاشۇرۇشى مۇمكىن.</string>
     <string name="sorting">تەرتىپلەش</string>
     <string name="sort_by_date">چېسلا</string>
     <string name="sort_by_date_reversed">چېسلا (قايتۇرۇلغان)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR كود رەسىمى سۈپىتىدە ساقلاڭ</string>
     <string name="delete_template">قېلىپنى ئۆچۈرۈڭ</string>
     <string name="delete_template_warn">تاللانغان قېلىپ سۈزگۈچنى ئۆچۈرمەكچى بولۇۋاتىسىز. بۇ مەشغۇلاتنى ئەمەلدىن قالدۇرغىلى بولمايدۇ</string>
-    <string name="added_filter_template">ئىسمى \ \"%1$s \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$d)</string>
+    <string name="added_filter_template">ئىسمى \ \"%1$s \" بىلەن سۈزگۈچ قېلىپى قوشۇلدى (%2$s)</string>
     <string name="filter_preview">سۈزگۈچ ئالدىن كۆرۈش</string>
     <string name="qr_code">QR &amp;amp; تاياقچە كودى</string>
     <string name="qr_code_sub">QR كودىنى سايىلەپ ئۇنىڭ مەزمۇنىغا ئېرىشىڭ ياكى تىزمىڭىزنى چاپلاپ يېڭى كود ھاسىل قىلىڭ</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">ئاساسلىق ئېكران ئىسمى</string>
     <string name="constant_rate_factor">تۇراقلىق باھا ئامىلى (CRF)</string>
-    <string name="crf_sub">%1$d نىڭ قىممىتى ئاستا پىرىسلاشنى كۆرسىتىدۇ ، نەتىجىدە ھۆججەت چوڭلۇقى بىر قەدەر كىچىك بولىدۇ. %2$d تېخىمۇ تېز پىرىسلاشنى كۆرسىتىدۇ ، نەتىجىدە چوڭ ھۆججەت چىقىدۇ.</string>
+    <string name="crf_sub">%1$s نىڭ قىممىتى ئاستا پىرىسلاشنى كۆرسىتىدۇ ، نەتىجىدە ھۆججەت چوڭلۇقى بىر قەدەر كىچىك بولىدۇ. %2$s تېخىمۇ تېز پىرىسلاشنى كۆرسىتىدۇ ، نەتىجىدە چوڭ ھۆججەت چىقىدۇ.</string>
     <string name="lut_library">لۇت كۇتۇپخانىسى</string>
     <string name="lut_library_sub">چۈشۈرگەندىن كېيىن قوللانسىڭىز بولىدىغان LUTs توپلىمىنى چۈشۈرۈڭ</string>
     <string name="lut_library_update_sub">LUTs توپلىمىنى يېڭىلاڭ (پەقەت يېڭىلىرى ئۆچرەتتە تۇرىدۇ) ، چۈشۈرگەندىن كېيىن ئىلتىماس قىلسىڭىز بولىدۇ</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">ئېكران رەسىمىنى بىر تەرەپ قىلىش</string>
     <string name="screenshot_not_captured_try_again">ئېكران رەسىمى تۇتۇلمىدى ، قايتا سىناڭ</string>
     <string name="skipped_saving">تېجەپ قالدى</string>
-    <string name="skipped_saving_multiple">%1$d ھۆججەتلىرى ئاتلاپ كەتتى</string>
+    <string name="skipped_saving_multiple">%1$s ھۆججەتلىرى ئاتلاپ كەتتى</string>
     <string name="allow_skip_if_larger">ئەگەر چوڭ بولسا ئاتلاشقا يول قويۇڭ</string>
     <string name="allow_skip_if_larger_sub">بەزى قوراللارنىڭ ساقلانغان ھۆججەتنىڭ سىغىمى ئەسلىدىكىدىن چوڭ بولسا ، تېجەشلىك رەسىملەرنى ئاتلاپ ئۆتۈپ كېتىشىگە رۇخسەت قىلىنىدۇ</string>
     <string name="qr_type_calendar_event">كالېندار پائالىيىتى</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Palette Format</string>
     <string name="export_palette_sub">ھاسىل قىلىنغان پالتىنى ئوخشىمىغان فورماتلارغا چىقىرىش</string>
     <string name="add_color_palette_sub">ھازىرقى پالتىغا يېڭى رەڭ قوشىدۇ</string>
-    <string name="palette_name_not_supported">%s فورماتى palette نامىنى تەمىنلەشنى قوللىمايدۇ</string>
+    <string name="palette_name_not_supported">%1$s فورماتى palette نامىنى تەمىنلەشنى قوللىمايدۇ</string>
     <string name="wallpapers_export_not_avaialbe">Play Store سىياسىتى سەۋەبىدىن ، بۇ ئىقتىدارنى ھازىرقى قۇرۇلۇشقا كىرگۈزگىلى بولمايدۇ. بۇ ئىقتىدارنى زىيارەت قىلىش ئۈچۈن ImageToolbox نى باشقا مەنبەدىن چۈشۈرۈڭ. تۆۋەندىكى GitHub دا بار بولغان قۇرۇلۇشلارنى تاپالايسىز.</string>
     <string name="open_github_page">Github بېتىنى ئېچىڭ</string>
     <string name="overwrite_files_sub_short">ئەسلى ھۆججەت تاللانغان ھۆججەت قىسقۇچتا ساقلاشنىڭ ئورنىغا يېڭى ھۆججەتكە ئالماشتۇرۇلىدۇ</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">بىرلەشتۈرۈش</string>
     <string name="chunk_size">Chunk Size</string>
     <string name="overlap_size">چوڭ-كىچىكلىكى</string>
-    <string name="note_chunk_info">%1$d px ئۈستىدىكى رەسىملەر ئۇششاق-چۈششەك ۋە ئۇششاق-چۈششەك پىششىقلاپ ئىشلىنىدۇ ، بۇلارنى بىر-بىرىگە ئارىلاشتۇرۇپ ، كۆرۈنەرلىك يوچۇقلارنىڭ ئالدىنى ئالىدۇ.</string>
+    <string name="note_chunk_info">%1$s px ئۈستىدىكى رەسىملەر ئۇششاق-چۈششەك ۋە ئۇششاق-چۈششەك پىششىقلاپ ئىشلىنىدۇ ، بۇلارنى بىر-بىرىگە ئارىلاشتۇرۇپ ، كۆرۈنەرلىك يوچۇقلارنىڭ ئالدىنى ئالىدۇ.</string>
     <string name="large_chunk_warning">چوڭ رازمېر تۆۋەن ئۈسكۈنىلەر بىلەن مۇقىمسىزلىقنى كەلتۈرۈپ چىقىرىدۇ</string>
     <string name="select_one_to_start">باشلاش ئۈچۈن بىرنى تاللاڭ</string>
-    <string name="delete_model_sub">%s مودېلىنى ئۆچۈرمەكچىمۇ؟ ئۇنى قايتا چۈشۈرۈشىڭىز كېرەك</string>
+    <string name="delete_model_sub">%1$s مودېلىنى ئۆچۈرمەكچىمۇ؟ ئۇنى قايتا چۈشۈرۈشىڭىز كېرەك</string>
     <string name="confirm">جەزملەشتۈرۈڭ</string>
     <string name="models">مودېللار</string>
     <string name="downloaded_models">چۈشۈرۈلگەن مودېللار</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">توغرىسىغا چېگرا قېلىنلىقى</string>
     <string name="vertical_border_thickness">تىك چېگرا قېلىنلىقى</string>
     <plurals name="color_count">
-        <item quantity="one">%s رەڭلەر</item>
-        <item quantity="other">%s رەڭلەر</item>
+        <item quantity="one">%1$s رەڭلەر</item>
+        <item quantity="other">%1$s رەڭلەر</item>
     </plurals>
     <string name="current_model_not_chunkable">ھازىرقى مودېل چۇۋۇشنى قوللىمايدۇ ، رەسىم ئەسلى ئۆلچەمدە بىر تەرەپ قىلىنىدۇ ، بۇ بەلكىم ئىچكى ساقلىغۇچ سەرپىياتى ۋە تۆۋەن سەپلىمىلىك ئۈسكۈنىلەردە مەسىلە پەيدا قىلىشى مۇمكىن</string>
     <string name="chunking_disabled">چۇۋۇش چەكلەنگەن ، رەسىم ئەسلى ئۆلچەمدە بىر تەرەپ قىلىنىدۇ ، بۇ بەلكىم ئىچكى ساقلىغۇچنىڭ يۇقىرى سەرپىياتىنى ۋە تۆۋەن سەپلىمىلىك ئۈسكۈنىلەردە مەسىلە پەيدا قىلىشى مۇمكىن ، ئەمما يەكۈن چىقىرىشتا تېخىمۇ ياخشى ئۈنۈم بېرىشى مۇمكىن</string>

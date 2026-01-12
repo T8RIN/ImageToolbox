@@ -38,8 +38,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.RoundedCorner
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.QrCode2
+import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -115,7 +115,7 @@ internal fun ScanQrCodeControls(component: ScanQrCodeComponent) {
             modifier = Modifier.padding(8.dp),
             containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.4f),
             contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(0.7f),
-            icon = Icons.Rounded.ErrorOutline
+            icon = Icons.Rounded.WarningAmber
         )
     }
 

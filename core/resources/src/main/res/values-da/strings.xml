@@ -325,7 +325,7 @@
     <string name="randomize_filename">Tilfældig filnavn</string>
     <string name="restore_background">Gendan baggrund</string>
     <string name="restore_sub">Gendan appindstillinger fra tidligere genereret fil</string>
-    <string name="effort_sub">En værdi på %1$d betyder en hurtig komprimering, hvilket resulterer i en relativt stor filstørrelse. %2$d betyder en langsommere komprimering, hvilket resulterer i en mindre fil.</string>
+    <string name="effort_sub">En værdi på %1$s betyder en hurtig komprimering, hvilket resulterer i en relativt stor filstørrelse. %2$s betyder en langsommere komprimering, hvilket resulterer i en mindre fil.</string>
     <string name="segmentation_mode_single_column">Enkelt kolonne</string>
     <string name="glitch">Fejl</string>
     <string name="amount">Beløb</string>
@@ -718,7 +718,7 @@
     <string name="recognize_text">OCR (genkend tekst)</string>
     <string name="recognize_text_sub">Genkend tekst fra et givet billede, 120+ sprog understøttet</string>
     <string name="picture_has_no_text">Billedet har ingen tekst, eller appen fandt det ikke</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Genkendelsestype</string>
     <string name="fast">Hurtig</string>
     <string name="standard">Standard</string>
@@ -738,7 +738,7 @@
     <string name="side_by_side">Side om side</string>
     <string name="toggle_tap">Skift Tryk</string>
     <string name="transparency">Gennemsigtighed</string>
-    <string name="saved_to_original">Overskrevet fil med navn %s på den oprindelige destination</string>
+    <string name="saved_to_original">Overskrevet fil med navn %1$s på den oprindelige destination</string>
     <string name="magnifier">Forstørrelsesglas</string>
     <string name="magnifier_sub">Aktiverer forstørrelsesglas øverst på fingeren i tegnetilstande for bedre tilgængelighed</string>
     <string name="force_exif_widget_initial_value">Tving startværdi</string>
@@ -857,7 +857,7 @@
     <string name="lossy_compression">Lossy kompression</string>
     <string name="lossy_compression_sub">Bruger komprimering med tab til at reducere filstørrelsen i stedet for tabsfri</string>
     <string name="compression_type">Kompressionstype</string>
-    <string name="speed_sub">Styrer den resulterende billedafkodningshastighed, dette skulle hjælpe med at åbne det resulterende billede hurtigere, værdien %1$d betyder langsomste afkodning, hvorimod %2$d - hurtigst, denne indstilling kan øge outputbilledets størrelse</string>
+    <string name="speed_sub">Styrer den resulterende billedafkodningshastighed, dette skulle hjælpe med at åbne det resulterende billede hurtigere, værdien %1$s betyder langsomste afkodning, hvorimod %2$s - hurtigst, denne indstilling kan øge outputbilledets størrelse</string>
     <string name="sorting">Sortering</string>
     <string name="sort_by_date">Dato</string>
     <string name="sort_by_date_reversed">Dato (omvendt)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">Gem som QR-kodebillede</string>
     <string name="delete_template">Slet skabelon</string>
     <string name="delete_template_warn">Du er ved at slette det valgte skabelonfilter. Denne handling kan ikke fortrydes</string>
-    <string name="added_filter_template">Tilføjet filterskabelon med navnet \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Tilføjet filterskabelon med navnet \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Forhåndsvisning af filter</string>
     <string name="qr_code">QR &amp; stregkode</string>
     <string name="qr_code_sub">Scan QR-koden og få dens indhold, eller indsæt din streng for at generere en ny</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Hovedskærmens titel</string>
     <string name="constant_rate_factor">Konstant Rate Factor (CRF)</string>
-    <string name="crf_sub">En værdi på %1$d betyder en langsom komprimering, hvilket resulterer i en relativt lille filstørrelse. %2$d betyder en hurtigere komprimering, hvilket resulterer i en stor fil.</string>
+    <string name="crf_sub">En værdi på %1$s betyder en langsom komprimering, hvilket resulterer i en relativt lille filstørrelse. %2$s betyder en hurtigere komprimering, hvilket resulterer i en stor fil.</string>
     <string name="lut_library">Lut Bibliotek</string>
     <string name="lut_library_sub">Download samling af LUT\'er, som du kan anvende efter download</string>
     <string name="lut_library_update_sub">Opdater samling af LUT\'er (kun nye vil stå i kø), som du kan anvende efter download</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Hurtige indstillinger side</string>
     <string name="fast_settings_side_sub">Tilføj en flydende strimmel på den valgte side, mens du redigerer billeder, som åbner hurtige indstillinger, når der klikkes på</string>
     <string name="clear_selection">Ryd markering</string>
-    <string name="settings_group_visibility_hidden">Indstillingsgruppen \"%s\" vil blive skjult som standard</string>
-    <string name="settings_group_visibility_visible">Indstillingsgruppen \"%s\" udvides som standard</string>
+    <string name="settings_group_visibility_hidden">Indstillingsgruppen \"%1$s\" vil blive skjult som standard</string>
+    <string name="settings_group_visibility_visible">Indstillingsgruppen \"%1$s\" udvides som standard</string>
     <string name="base_64_tools">Base64 værktøjer</string>
     <string name="base_64_tools_sub">Afkod Base64-streng til billede, eller indkod billede til Base64-format</string>
     <string name="base_64">Base 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Behandler skærmbillede</string>
     <string name="screenshot_not_captured_try_again">Skærmbilledet blev ikke taget, prøv igen</string>
     <string name="skipped_saving">Lagring sprunget over</string>
-    <string name="skipped_saving_multiple">%1$d filer sprunget over</string>
+    <string name="skipped_saving_multiple">%1$s filer sprunget over</string>
     <string name="allow_skip_if_larger">Tillad Spring over hvis større</string>
     <string name="allow_skip_if_larger_sub">Nogle værktøjer får lov til at springe over at gemme billeder, hvis den resulterende filstørrelse ville være større end originalen</string>
     <string name="qr_type_calendar_event">Kalenderbegivenhed</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Palette format</string>
     <string name="export_palette_sub">Eksporter genereret palet til forskellige formater</string>
     <string name="add_color_palette_sub">Tilføjer ny farve til den nuværende palet</string>
-    <string name="palette_name_not_supported">Formatet %s understøtter ikke at angive paletnavn</string>
+    <string name="palette_name_not_supported">Formatet %1$s understøtter ikke at angive paletnavn</string>
     <string name="wallpapers_export_not_avaialbe">På grund af Play Butiks politikker kan denne funktion ikke inkluderes i den aktuelle build. For at få adgang til denne funktionalitet skal du downloade ImageToolbox fra en alternativ kilde. Du kan finde de tilgængelige builds på GitHub nedenfor.</string>
     <string name="open_github_page">Åbn Github-siden</string>
     <string name="overwrite_files_sub_short">Den originale fil vil blive erstattet med en ny i stedet for at gemme den i den valgte mappe</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Puls Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial vævningspixelisering</string>
-    <string name="cannot_open_uri">Kan ikke åbne uri \"%s\"</string>
+    <string name="cannot_open_uri">Kan ikke åbne uri \"%1$s\"</string>
     <string name="snowfall_mode">Snefaldstilstand</string>
     <string name="enabled">Aktiveret</string>
     <string name="border_frame">Kantramme</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Sammenlægning</string>
     <string name="chunk_size">Chunk størrelse</string>
     <string name="overlap_size">Overlap størrelse</string>
-    <string name="note_chunk_info">Billeder over %1$d px vil blive skåret i skiver og behandlet i bidder, overlappende blander disse for at forhindre synlige sømme.</string>
+    <string name="note_chunk_info">Billeder over %1$s px vil blive skåret i skiver og behandlet i bidder, overlappende blander disse for at forhindre synlige sømme.</string>
     <string name="large_chunk_warning">Store størrelser kan forårsage ustabilitet med low-end enheder</string>
     <string name="select_one_to_start">Vælg en for at starte</string>
-    <string name="delete_model_sub">Vil du slette %s model? Du skal downloade den igen</string>
+    <string name="delete_model_sub">Vil du slette %1$s model? Du skal downloade den igen</string>
     <string name="confirm">Bekræfte</string>
     <string name="models">Modeller</string>
     <string name="downloaded_models">Downloadede modeller</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Vandret kanttykkelse</string>
     <string name="vertical_border_thickness">Lodret kanttykkelse</string>
     <plurals name="color_count">
-        <item quantity="one">%s farve</item>
-        <item quantity="other">%s farver</item>
+        <item quantity="one">%1$s farve</item>
+        <item quantity="other">%1$s farver</item>
     </plurals>
     <string name="current_model_not_chunkable">Den nuværende model understøtter ikke chunking, billedet vil blive behandlet i originale dimensioner, dette kan forårsage højt hukommelsesforbrug og problemer med low-end enheder</string>
     <string name="chunking_disabled">Chunking deaktiveret, billede vil blive behandlet i originale dimensioner, dette kan forårsage højt hukommelsesforbrug og problemer med low-end enheder, men kan give bedre resultater ved slutninger</string>

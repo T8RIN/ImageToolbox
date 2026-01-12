@@ -456,7 +456,7 @@
     <string name="only_clip_sub">لن يتم إجراء الحفظ في وحدة التخزين، وستتم محاولة وضع الصورة في الحافظة فقط</string>
     <string name="no_data">لايوجد بيانات</string>
     <string name="use_pixel_switch_sub">سيتم استخدام مفتاح يشبه البكسل بدلاً من مادة Google التي تعتمد عليها</string>
-    <string name="saved_to_original">تمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
+    <string name="saved_to_original">تمت الكتابة فوق الملف بالاسم %1$s في الوجهة الأصلية</string>
     <string name="magnifier_sub">لتمكين المكبر الموجود أعلى الإصبع في أوضاع الرسم لتسهيل الوصول إليه</string>
     <string name="force_exif_widget_initial_value">قوة القيمة الأولية</string>
     <string name="force_exif_widget_initial_value_sub">يفرض فحص عنصر واجهة المستخدم exif في البداية</string>
@@ -716,7 +716,7 @@
     <string name="overlay_mode">وضع التراكب</string>
     <string name="pixel_size">حجم بكسل</string>
     <string name="lock_draw_orientation">قفل اتجاه الرسم</string>
-    <string name="effort_sub">القيمة %1$d تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$d يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
+    <string name="effort_sub">القيمة %1$s تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$s يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
     <string name="bokeh">خوخه</string>
     <string name="use_lasso">استخدم لاسو</string>
     <string name="use_lasso_sub">يستخدم Lasso كما هو الحال في وضع الرسم لإجراء المسح</string>
@@ -752,7 +752,7 @@
     <string name="recognize_text">التعرف الضوئي على الحروف (التعرف على النص)</string>
     <string name="recognize_text_sub">التعرف على النص من صورة معينة، دعم أكثر من 120 لغة</string>
     <string name="picture_has_no_text">الصورة لا تحتوي على نص، أو أن التطبيق لم يعثر عليها</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">نوع الاعتراف</string>
     <string name="fast">سريع</string>
     <string name="standard">معيار</string>
@@ -855,7 +855,7 @@
     <string name="compression_type">نوع الضغط</string>
     <string name="skip_file_picking_sub">سيتم عرض منتقي الملفات على الفور إذا كان ذلك ممكنًا على الشاشة المختارة</string>
     <string name="generate_previews_sub">تمكين إنشاء المعاينة، وقد يساعد هذا في تجنب الأعطال على بعض الأجهزة، كما يؤدي هذا أيضًا إلى تعطيل بعض وظائف التحرير ضمن خيار تحرير واحد</string>
-    <string name="speed_sub">يتحكم في سرعة فك تشفير الصورة الناتجة، وهذا من شأنه أن يساعد في فتح الصورة الناتجة بشكل أسرع، قيمة %1$d تعني أبطأ عملية فك تشفير، بينما %2$d - الأسرع، قد يؤدي هذا الإعداد إلى زيادة حجم الصورة الناتجة</string>
+    <string name="speed_sub">يتحكم في سرعة فك تشفير الصورة الناتجة، وهذا من شأنه أن يساعد في فتح الصورة الناتجة بشكل أسرع، قيمة %1$s تعني أبطأ عملية فك تشفير، بينما %2$s - الأسرع، قد يؤدي هذا الإعداد إلى زيادة حجم الصورة الناتجة</string>
     <string name="sorting">الفرز</string>
     <string name="sort_by_date">رتب حسب التاريخ</string>
     <string name="sort_by_date_reversed">رتب حسب التاريخ(معكوس)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">حفظ كصورة رمز الاستجابة السريعة</string>
     <string name="delete_template">حذف القالب</string>
     <string name="delete_template_warn">أنت على وشك حذف عامل تصفية القالب المحدد. لا يمكن التراجع عن هذه العملية</string>
-    <string name="added_filter_template">تمت إضافة قالب الفلتر بالاسم \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">تمت إضافة قالب الفلتر بالاسم \"%1$s\" (%2$s)</string>
     <string name="filter_preview">معاينة التصفية</string>
     <string name="qr_code">QR والباركود</string>
     <string name="qr_code_sub">امسح رمز الاستجابة السريعة ضوئيًا واحصل على محتواه أو الصق سلسلتك لإنشاء سلسلة جديدة</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">تَخطِيط</string>
     <string name="main_screen_title">عنوان الشاشة الرئيسية</string>
     <string name="constant_rate_factor">عامل المعدل الثابت (CRF)</string>
-    <string name="crf_sub">القيمة %1$d تعني ضغطًا بطيئًا، مما يؤدي إلى حجم ملف صغير نسبيًا. %2$d يعني ضغطًا أسرع، مما يؤدي إلى ملف كبير.</string>
+    <string name="crf_sub">القيمة %1$s تعني ضغطًا بطيئًا، مما يؤدي إلى حجم ملف صغير نسبيًا. %2$s يعني ضغطًا أسرع، مما يؤدي إلى ملف كبير.</string>
     <string name="lut_library">مكتبة لوط</string>
     <string name="lut_library_sub">قم بتنزيل مجموعة LUTs، والتي يمكنك تطبيقها بعد التنزيل</string>
     <string name="lut_library_update_sub">قم بتحديث مجموعة جداول البحث (سيتم وضع العناصر الجديدة فقط في قائمة الانتظار)، والتي يمكنك تطبيقها بعد التنزيل</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">جانب الإعدادات السريعة</string>
     <string name="fast_settings_side_sub">قم بإضافة شريط عائم على الجانب المحدد أثناء تحرير الصور، مما سيؤدي إلى فتح الإعدادات السريعة عند النقر عليها</string>
     <string name="clear_selection">مسح التحديد</string>
-    <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \"%s\" بشكل افتراضي</string>
-    <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \"%s\" بشكل افتراضي</string>
+    <string name="settings_group_visibility_hidden">سيتم طي مجموعة الإعدادات \"%1$s\" بشكل افتراضي</string>
+    <string name="settings_group_visibility_visible">سيتم توسيع مجموعة الإعدادات \"%1$s\" بشكل افتراضي</string>
     <string name="base_64_tools">أدوات Base64</string>
     <string name="base_64_tools_sub">قم بفك تشفير سلسلة Base64 إلى صورة، أو قم بتشفير الصورة إلى تنسيق Base64</string>
     <string name="base_64">قاعدة64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">معالجة لقطة الشاشة</string>
     <string name="screenshot_not_captured_try_again">لم يتم التقاط لقطة الشاشة، حاول مرة أخرى</string>
     <string name="skipped_saving">تم تخطي الحفظ</string>
-    <string name="skipped_saving_multiple">تم تخطي %1$d الملفات</string>
+    <string name="skipped_saving_multiple">تم تخطي %1$s الملفات</string>
     <string name="allow_skip_if_larger">السماح بالتخطي إذا كان أكبر</string>
     <string name="allow_skip_if_larger_sub">سيتم السماح لبعض الأدوات بتخطي حفظ الصور إذا كان حجم الملف الناتج أكبر من الحجم الأصلي</string>
     <string name="qr_type_calendar_event">حدث التقويم</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">تنسيق اللوحة</string>
     <string name="export_palette_sub">تصدير اللوحة التي تم إنشاؤها إلى تنسيقات مختلفة</string>
     <string name="add_color_palette_sub">يضيف لونًا جديدًا إلى اللوحة الحالية</string>
-    <string name="palette_name_not_supported">تنسيق %s لا يدعم توفير اسم اللوحة</string>
+    <string name="palette_name_not_supported">تنسيق %1$s لا يدعم توفير اسم اللوحة</string>
     <string name="wallpapers_export_not_avaialbe">نظرًا لسياسات متجر Play، لا يمكن تضمين هذه الميزة في الإصدار الحالي. للوصول إلى هذه الوظيفة، يرجى تنزيل ImageToolbox من مصدر بديل. يمكنك العثور على الإصدارات المتاحة على GitHub أدناه.</string>
     <string name="open_github_page">افتح صفحة جيثب</string>
     <string name="overwrite_files_sub_short">سيتم استبدال الملف الأصلي بملف جديد بدلاً من حفظه في المجلد المحدد</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">نبض شبكة البكسل</string>
     <string name="nucleus_pixelization">بكسل النواة</string>
     <string name="radial_weave_pixelization">شعاعي نسج بكسل</string>
-    <string name="cannot_open_uri">لا يمكن فتح عنوان uri \"%s\"</string>
+    <string name="cannot_open_uri">لا يمكن فتح عنوان uri \"%1$s\"</string>
     <string name="snowfall_mode">وضع تساقط الثلوج</string>
     <string name="enabled">ممكّن</string>
     <string name="border_frame">إطار الحدود</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">دمج</string>
     <string name="chunk_size">حجم القطعة</string>
     <string name="overlap_size">حجم التداخل</string>
-    <string name="note_chunk_info">سيتم تقطيع الصور التي يزيد حجمها عن %1$d بكسل إلى شرائح ومعالجتها إلى أجزاء، ويتم مزجها بشكل متداخل لمنع ظهور طبقات مرئية.</string>
+    <string name="note_chunk_info">سيتم تقطيع الصور التي يزيد حجمها عن %1$s بكسل إلى شرائح ومعالجتها إلى أجزاء، ويتم مزجها بشكل متداخل لمنع ظهور طبقات مرئية.</string>
     <string name="large_chunk_warning">يمكن أن تؤدي الأحجام الكبيرة إلى عدم الاستقرار مع الأجهزة المنخفضة الجودة</string>
     <string name="select_one_to_start">اختر واحدة للبدء</string>
-    <string name="delete_model_sub">هل تريد حذف نموذج %s؟ سوف تحتاج إلى تنزيله مرة أخرى</string>
+    <string name="delete_model_sub">هل تريد حذف نموذج %1$s؟ سوف تحتاج إلى تنزيله مرة أخرى</string>
     <string name="confirm">يتأكد</string>
     <string name="models">نماذج</string>
     <string name="downloaded_models">النماذج التي تم تنزيلها</string>
@@ -2003,11 +2003,11 @@
     <string name="vertical_border_thickness">سمك الحدود العمودية</string>
     <plurals name="color_count">
         <item quantity="zero" />
-        <item quantity="one">%s اللون</item>
+        <item quantity="one">%1$s اللون</item>
         <item quantity="two" />
-        <item quantity="few">%s الألوان</item>
-        <item quantity="many">%s الألوان</item>
-        <item quantity="other">%s الألوان</item>
+        <item quantity="few">%1$s الألوان</item>
+        <item quantity="many">%1$s الألوان</item>
+        <item quantity="other">%1$s الألوان</item>
     </plurals>
     <string name="current_model_not_chunkable">النموذج الحالي لا يدعم التقطيع، ستتم معالجة الصورة بالأبعاد الأصلية، وقد يتسبب ذلك في استهلاك كبير للذاكرة ومشكلات مع الأجهزة المنخفضة الجودة</string>
     <string name="chunking_disabled">تم تعطيل التقطيع، ستتم معالجة الصورة بالأبعاد الأصلية، وقد يتسبب ذلك في استهلاك كبير للذاكرة ومشكلات مع الأجهزة المنخفضة الجودة ولكنه قد يعطي نتائج أفضل عند الاستدلال</string>

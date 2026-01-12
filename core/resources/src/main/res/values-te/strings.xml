@@ -361,7 +361,7 @@
     <string name="image_exif_warning">ప్రస్తుతం, %1$s ఫార్మాట్ Androidలో EXIF మెటాడేటాను చదవడానికి మాత్రమే అనుమతిస్తుంది. అవుట్‌పుట్ ఇమేజ్ సేవ్ చేయబడినప్పుడు మెటాడేటాను కలిగి ఉండదు.</string>
     <string name="effort">ప్రయత్నం</string>
     <string name="wait">వేచి ఉండండి</string>
-    <string name="effort_sub">%1$d విలువ అంటే వేగవంతమైన కుదింపు, దీని ఫలితంగా సాపేక్షంగా పెద్ద ఫైల్ పరిమాణం ఉంటుంది. %2$d అంటే నెమ్మదిగా కుదింపు, ఫలితంగా చిన్న ఫైల్ ఏర్పడుతుంది.</string>
+    <string name="effort_sub">%1$s విలువ అంటే వేగవంతమైన కుదింపు, దీని ఫలితంగా సాపేక్షంగా పెద్ద ఫైల్ పరిమాణం ఉంటుంది. %2$s అంటే నెమ్మదిగా కుదింపు, ఫలితంగా చిన్న ఫైల్ ఏర్పడుతుంది.</string>
     <string name="saving_almost_complete">సేవ్ చేయడం దాదాపు పూర్తయింది. ఇప్పుడు రద్దు చేస్తే మళ్లీ ఆదా చేయాల్సి ఉంటుంది.</string>
     <string name="allow_betas_sub">అప్‌డేట్ చెకింగ్ ప్రారంభించబడితే బీటా యాప్ వెర్షన్‌లను కలిగి ఉంటుంది</string>
     <string name="brush_softness">బ్రష్ మృదుత్వం</string>
@@ -439,7 +439,7 @@
     <string name="lanczos_sub">పిక్సెల్ విలువలకు వెయిటెడ్ సింక్ ఫంక్షన్‌ని వర్తింపజేయడం ద్వారా అధిక-నాణ్యత ఇంటర్‌పోలేషన్‌ను నిర్వహించే రీసాంప్లింగ్ పద్ధతి</string>
     <string name="mitchell_sub">స్కేల్ చేయబడిన ఇమేజ్‌లో షార్ప్‌నెస్ మరియు యాంటీ-అలియాసింగ్ మధ్య సమతుల్యతను సాధించడానికి సర్దుబాటు చేయగల పారామితులతో కన్వల్యూషన్ ఫిల్టర్‌ని ఉపయోగించే రీసాంప్లింగ్ పద్ధతి</string>
     <string name="spline_sub">వక్రరేఖ లేదా ఉపరితలం, అనువైన మరియు నిరంతర ఆకార ప్రాతినిధ్యాన్ని సజావుగా ఇంటర్‌పోలేట్ చేయడానికి మరియు అంచనా వేయడానికి పీస్‌వైస్-డిఫైన్డ్ పాలినోమియల్ ఫంక్షన్‌లను ఉపయోగిస్తుంది</string>
-    <string name="saved_to_original">అసలు గమ్యస్థానంలో %s పేరుతో ఓవర్‌రైట్ చేయబడిన ఫైల్</string>
+    <string name="saved_to_original">అసలు గమ్యస్థానంలో %1$s పేరుతో ఓవర్‌రైట్ చేయబడిన ఫైల్</string>
     <string name="magnifier">మాగ్నిఫైయర్</string>
     <string name="magnifier_sub">మెరుగైన ప్రాప్యత కోసం డ్రాయింగ్ మోడ్‌లలో వేలు ఎగువన మాగ్నిఫైయర్‌ని ప్రారంభిస్తుంది</string>
     <string name="force_exif_widget_initial_value">ప్రారంభ విలువను బలవంతం చేయండి</string>
@@ -735,7 +735,7 @@
     <string name="recognize_text">OCR (వచనాన్ని గుర్తించండి)</string>
     <string name="recognize_text_sub">అందించిన చిత్రం నుండి వచనాన్ని గుర్తించండి, 120+ భాషలకు మద్దతు ఉంది</string>
     <string name="picture_has_no_text">చిత్రంలో వచనం లేదు లేదా యాప్ దానిని కనుగొనలేదు</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">గుర్తింపు రకం</string>
     <string name="fast">వేగంగా</string>
     <string name="standard">ప్రామాణికం</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">లాస్సీ కంప్రెషన్</string>
     <string name="lossy_compression_sub">లాస్‌లెస్‌కి బదులుగా ఫైల్ పరిమాణాన్ని తగ్గించడానికి లాస్సీ కంప్రెషన్‌ని ఉపయోగిస్తుంది</string>
     <string name="compression_type">కుదింపు రకం</string>
-    <string name="speed_sub">ఫలితంగా ఇమేజ్ డీకోడింగ్ వేగాన్ని నియంత్రిస్తుంది, ఇది ఫలిత చిత్రాన్ని వేగంగా తెరవడంలో సహాయపడుతుంది, %1$d విలువ అంటే నెమ్మదిగా డీకోడింగ్ అవుతుంది, అయితే %2$d - వేగంగా, ఈ సెట్టింగ్ అవుట్‌పుట్ చిత్ర పరిమాణాన్ని పెంచుతుంది</string>
+    <string name="speed_sub">ఫలితంగా ఇమేజ్ డీకోడింగ్ వేగాన్ని నియంత్రిస్తుంది, ఇది ఫలిత చిత్రాన్ని వేగంగా తెరవడంలో సహాయపడుతుంది, %1$s విలువ అంటే నెమ్మదిగా డీకోడింగ్ అవుతుంది, అయితే %2$s - వేగంగా, ఈ సెట్టింగ్ అవుట్‌పుట్ చిత్ర పరిమాణాన్ని పెంచుతుంది</string>
     <string name="sorting">క్రమబద్ధీకరణ</string>
     <string name="sort_by_date">తేదీ</string>
     <string name="sort_by_date_reversed">తేదీ (రివర్స్డ్)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR కోడ్ ఇమేజ్‌గా సేవ్ చేయండి</string>
     <string name="delete_template">టెంప్లేట్‌ను తొలగించండి</string>
     <string name="delete_template_warn">మీరు ఎంచుకున్న టెంప్లేట్ ఫిల్టర్‌ను తొలగించబోతున్నారు. ఈ ఆపరేషన్ రద్దు చేయబడదు</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
     <string name="filter_preview">ఫిల్టర్ ప్రివ్యూ</string>
     <string name="qr_code">QR &amp;amp; బార్‌కోడ్</string>
     <string name="qr_code_sub">QR కోడ్‌ని స్కాన్ చేయండి మరియు దాని కంటెంట్‌ను పొందండి లేదా కొత్తదాన్ని రూపొందించడానికి మీ స్ట్రింగ్‌ను అతికించండి</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">లేఅవుట్</string>
     <string name="main_screen_title">ప్రధాన స్క్రీన్ శీర్షిక</string>
     <string name="constant_rate_factor">స్థిరమైన రేటు కారకం (CRF)</string>
-    <string name="crf_sub">%1$d విలువ అంటే స్లో కంప్రెషన్, ఫలితంగా ఫైల్ పరిమాణం చాలా తక్కువగా ఉంటుంది. %2$d అంటే వేగవంతమైన కుదింపు, ఫలితంగా పెద్ద ఫైల్ ఏర్పడుతుంది.</string>
+    <string name="crf_sub">%1$s విలువ అంటే స్లో కంప్రెషన్, ఫలితంగా ఫైల్ పరిమాణం చాలా తక్కువగా ఉంటుంది. %2$s అంటే వేగవంతమైన కుదింపు, ఫలితంగా పెద్ద ఫైల్ ఏర్పడుతుంది.</string>
     <string name="lut_library">లట్ లైబ్రరీ</string>
     <string name="lut_library_sub">LUTల సేకరణను డౌన్‌లోడ్ చేయండి, మీరు డౌన్‌లోడ్ చేసిన తర్వాత దరఖాస్తు చేసుకోవచ్చు</string>
     <string name="lut_library_update_sub">LUTల సేకరణను నవీకరించండి (కొత్తవి మాత్రమే క్యూలో ఉంచబడతాయి), వీటిని డౌన్‌లోడ్ చేసిన తర్వాత మీరు దరఖాస్తు చేసుకోవచ్చు</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">ఫాస్ట్ సెట్టింగుల వైపు</string>
     <string name="fast_settings_side_sub">ఇమేజ్‌లను ఎడిట్ చేస్తున్నప్పుడు ఎంచుకున్న వైపు ఫ్లోటింగ్ స్ట్రిప్‌ను జోడించండి, ఇది క్లిక్ చేసినప్పుడు ఫాస్ట్ సెట్టింగ్‌లను తెరుస్తుంది</string>
     <string name="clear_selection">ఎంపికను క్లియర్ చేయండి</string>
-    <string name="settings_group_visibility_hidden">\"%s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా కుదించబడుతుంది</string>
-    <string name="settings_group_visibility_visible">\"%s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా విస్తరించబడుతుంది</string>
+    <string name="settings_group_visibility_hidden">\"%1$s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా కుదించబడుతుంది</string>
+    <string name="settings_group_visibility_visible">\"%1$s\" సమూహాన్ని సెట్ చేయడం డిఫాల్ట్‌గా విస్తరించబడుతుంది</string>
     <string name="base_64_tools">Base64 సాధనాలు</string>
     <string name="base_64_tools_sub">Base64 స్ట్రింగ్‌ని ఇమేజ్‌కి డీకోడ్ చేయండి లేదా ఇమేజ్‌ని Base64 ఫార్మాట్‌కి ఎన్‌కోడ్ చేయండి</string>
     <string name="base_64">బేస్64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">స్క్రీన్‌షాట్‌ను ప్రాసెస్ చేస్తోంది</string>
     <string name="screenshot_not_captured_try_again">స్క్రీన్‌షాట్ క్యాప్చర్ చేయబడలేదు, మళ్లీ ప్రయత్నించండి</string>
     <string name="skipped_saving">సేవ్ చేయడం దాటవేయబడింది</string>
-    <string name="skipped_saving_multiple">%1$d ఫైల్‌లు దాటవేయబడ్డాయి</string>
+    <string name="skipped_saving_multiple">%1$s ఫైల్‌లు దాటవేయబడ్డాయి</string>
     <string name="allow_skip_if_larger">పెద్దది అయితే దాటవేయడాన్ని అనుమతించండి</string>
     <string name="allow_skip_if_larger_sub">ఫలితంగా ఫైల్ పరిమాణం అసలైన దానికంటే పెద్దదిగా ఉంటే, కొన్ని సాధనాలు చిత్రాలను సేవ్ చేయడాన్ని దాటవేయడానికి అనుమతించబడతాయి</string>
     <string name="qr_type_calendar_event">క్యాలెండర్ ఈవెంట్</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">పాలెట్ ఫార్మాట్</string>
     <string name="export_palette_sub">విభిన్న ఫార్మాట్‌లకు ఉత్పత్తి చేయబడిన పాలెట్‌ను ఎగుమతి చేయండి</string>
     <string name="add_color_palette_sub">ప్రస్తుత పాలెట్‌కు కొత్త రంగును జోడిస్తుంది</string>
-    <string name="palette_name_not_supported">%s ఫార్మాట్ పాలెట్ పేరును అందించడానికి మద్దతు ఇవ్వదు</string>
+    <string name="palette_name_not_supported">%1$s ఫార్మాట్ పాలెట్ పేరును అందించడానికి మద్దతు ఇవ్వదు</string>
     <string name="wallpapers_export_not_avaialbe">Play Store విధానాల కారణంగా, ఈ ఫీచర్ ప్రస్తుత బిల్డ్‌లో చేర్చబడదు. ఈ కార్యాచరణను యాక్సెస్ చేయడానికి, దయచేసి ప్రత్యామ్నాయ మూలం నుండి ImageToolboxని డౌన్‌లోడ్ చేయండి. మీరు దిగువన GitHubలో అందుబాటులో ఉన్న బిల్డ్‌లను కనుగొనవచ్చు.</string>
     <string name="open_github_page">Github పేజీని తెరవండి</string>
     <string name="overwrite_files_sub_short">ఎంచుకున్న ఫోల్డర్‌లో సేవ్ చేయడానికి బదులుగా అసలు ఫైల్ కొత్త దానితో భర్తీ చేయబడుతుంది</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">పల్స్ గ్రిడ్ పిక్సలైజేషన్</string>
     <string name="nucleus_pixelization">న్యూక్లియస్ పిక్సలైజేషన్</string>
     <string name="radial_weave_pixelization">రేడియల్ వీవ్ పిక్సలైజేషన్</string>
-    <string name="cannot_open_uri">uri \"%s\"ని తెరవలేరు</string>
+    <string name="cannot_open_uri">uri \"%1$s\"ని తెరవలేరు</string>
     <string name="snowfall_mode">హిమపాతం మోడ్</string>
     <string name="enabled">ప్రారంభించబడింది</string>
     <string name="border_frame">సరిహద్దు ఫ్రేమ్</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">విలీనం</string>
     <string name="chunk_size">భాగం పరిమాణం</string>
     <string name="overlap_size">అతివ్యాప్తి పరిమాణం</string>
-    <string name="note_chunk_info">%1$d px కంటే ఎక్కువ ఉన్న చిత్రాలు ముక్కలుగా చేసి, భాగాలుగా ప్రాసెస్ చేయబడతాయి, కనిపించే సీమ్‌లను నిరోధించడానికి వీటిని అతివ్యాప్తి చేస్తాయి.</string>
+    <string name="note_chunk_info">%1$s px కంటే ఎక్కువ ఉన్న చిత్రాలు ముక్కలుగా చేసి, భాగాలుగా ప్రాసెస్ చేయబడతాయి, కనిపించే సీమ్‌లను నిరోధించడానికి వీటిని అతివ్యాప్తి చేస్తాయి.</string>
     <string name="large_chunk_warning">పెద్ద పరిమాణాలు తక్కువ-ముగింపు పరికరాలతో అస్థిరతను కలిగిస్తాయి</string>
     <string name="select_one_to_start">ప్రారంభించడానికి ఒకదాన్ని ఎంచుకోండి</string>
-    <string name="delete_model_sub">మీరు %s మోడల్‌ను తొలగించాలనుకుంటున్నారా? మీరు దీన్ని మళ్లీ డౌన్‌లోడ్ చేసుకోవాలి</string>
+    <string name="delete_model_sub">మీరు %1$s మోడల్‌ను తొలగించాలనుకుంటున్నారా? మీరు దీన్ని మళ్లీ డౌన్‌లోడ్ చేసుకోవాలి</string>
     <string name="confirm">నిర్ధారించండి</string>
     <string name="models">మోడల్స్</string>
     <string name="downloaded_models">డౌన్‌లోడ్ చేసిన మోడల్స్</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">క్షితిజసమాంతర అంచు మందం</string>
     <string name="vertical_border_thickness">నిలువు అంచు మందం</string>
     <plurals name="color_count">
-        <item quantity="one">%s రంగు</item>
-        <item quantity="other">%s రంగులు</item>
+        <item quantity="one">%1$s రంగు</item>
+        <item quantity="other">%1$s రంగులు</item>
     </plurals>
     <string name="current_model_not_chunkable">ప్రస్తుత మోడల్ చంకింగ్‌కు మద్దతు ఇవ్వదు, చిత్రం అసలు కొలతలలో ప్రాసెస్ చేయబడుతుంది, ఇది అధిక మెమరీ వినియోగం మరియు తక్కువ-ముగింపు పరికరాలతో సమస్యలను కలిగిస్తుంది</string>
     <string name="chunking_disabled">చంకింగ్ డిజేబుల్ చేయబడింది, ఇమేజ్ అసలు కొలతల్లో ప్రాసెస్ చేయబడుతుంది, ఇది అధిక మెమరీ వినియోగం మరియు తక్కువ-ముగింపు పరికరాలతో సమస్యలకు కారణం కావచ్చు కానీ అనుమితిపై మెరుగైన ఫలితాలను ఇవ్వవచ్చు</string>

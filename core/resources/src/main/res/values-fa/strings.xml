@@ -384,7 +384,7 @@
     <string name="analytics_sub">جمع آوری آمار استفاده از برنامه ناشناس را مجاز کنید</string>
     <string name="image_exif_warning">در حال حاضر، قالب %1$s فقط اجازه خواندن فراداده EXIF را در اندروید می دهد. تصویر خروجی در صورت ذخیره به هیچ وجه متادیتا نخواهد داشت.</string>
     <string name="effort">تلاش</string>
-    <string name="effort_sub">مقدار %1$d به معنای فشرده سازی سریع است که در نتیجه اندازه فایل نسبتاً بزرگی ایجاد می شود. %2$d به معنای فشرده سازی کندتر است که در نتیجه فایل کوچکتری ایجاد می شود.</string>
+    <string name="effort_sub">مقدار %1$s به معنای فشرده سازی سریع است که در نتیجه اندازه فایل نسبتاً بزرگی ایجاد می شود. %2$s به معنای فشرده سازی کندتر است که در نتیجه فایل کوچکتری ایجاد می شود.</string>
     <string name="wait">صبر کنید</string>
     <string name="saving_almost_complete">ذخیره تقریباً کامل شده است. لغو اکنون نیازمند ذخیره دوباره است.</string>
     <string name="updates">به‌روزرسانی‌ها</string>
@@ -567,7 +567,7 @@
     <string name="restore_background_sub">براش به جای پاک کردن پس زمینه را بازیابی می کند</string>
     <string name="recognize_text_sub">تشخیص متن از تصویر داده شده، بیش از 120 زبان پشتیبانی می شود</string>
     <string name="picture_has_no_text">تصویر متنی ندارد یا برنامه آن را پیدا نکرده است</string>
-    <string name="accuracy">دقت: %1$d</string>
+    <string name="accuracy">دقت: %1$s</string>
     <string name="recognition_type">نوع تشخیص</string>
     <string name="fast">سریع</string>
     <string name="standard">استاندارد</string>
@@ -580,7 +580,7 @@
     <string name="segmentation_mode">حالت تقسیم‌بندی</string>
     <string name="use_pixel_switch">استفاده از کلید شبیه پیکسل گوگل</string>
     <string name="use_pixel_switch_sub">از یک سوئیچ شبیه به گوگل پیکسل استفاده می‌کند</string>
-    <string name="saved_to_original">فایل بازنویسی شده با نام %s در مقصد اصلی</string>
+    <string name="saved_to_original">فایل بازنویسی شده با نام %1$s در مقصد اصلی</string>
     <string name="magnifier">ذره‌بین</string>
     <string name="magnifier_sub">برای دسترسی بهتر، ذره بین را در بالای انگشت در حالت های طراحی فعال می کند</string>
     <string name="force_exif_widget_initial_value">اجباری مقدار اولیه</string>
@@ -849,7 +849,7 @@
     <string name="generate_previews_sub">تولید پیش‌نمایش را فعال می‌کند، ممکن است به جلوگیری از خرابی در برخی دستگاه‌ها کمک کند، همچنین برخی از قابلیت‌های ویرایش را در گزینه ویرایش واحد غیرفعال می‌کند.</string>
     <string name="lossy_compression">فشرده‌سازی با افت</string>
     <string name="lossy_compression_sub">از فشرده سازی با اتلاف برای کاهش حجم فایل به جای فشرده سازی بدون اتلاف استفاده می کند</string>
-    <string name="speed_sub">نوع فشرده‌سازی سرعت رمزگشایی تصویر حاصل را کنترل می‌کند، این باید به باز کردن سریع‌تر تصویر حاصل کمک کند، مقدار %1$d به معنای کندترین رمزگشایی است، در حالی که %2$d - سریع‌ترین، این تنظیم ممکن است اندازه تصویر خروجی را افزایش دهد.</string>
+    <string name="speed_sub">نوع فشرده‌سازی سرعت رمزگشایی تصویر حاصل را کنترل می‌کند، این باید به باز کردن سریع‌تر تصویر حاصل کمک کند، مقدار %1$s به معنای کندترین رمزگشایی است، در حالی که %2$s - سریع‌ترین، این تنظیم ممکن است اندازه تصویر خروجی را افزایش دهد.</string>
     <string name="compression_type">نوع فشرده‌سازی</string>
     <string name="header_today">امروز</string>
     <string name="header_yesterday">دیروز</string>
@@ -1219,7 +1219,7 @@
     <string name="save_as_file">ذخیره به عنوان فایل</string>
     <string name="delete_template">حذف قالب</string>
     <string name="delete_template_warn">شما در حال حذف فیلتر قالب انتخابی هستید. این عملیات قابل برگشت نیست</string>
-    <string name="added_filter_template">الگوی فیلتر با نام \"%1$s\" (%2$d) اضافه شد</string>
+    <string name="added_filter_template">الگوی فیلتر با نام \"%1$s\" (%2$s) اضافه شد</string>
     <string name="filter_preview">پیش نمایش فیلتر</string>
     <string name="code_content">محتوای کد</string>
     <string name="grant_camera_permission_to_scan_document_scanner">اعطای مجوز دوربین در تنظیمات برای اسکن اسکنر اسناد</string>
@@ -1496,7 +1496,7 @@
     <string name="grant_camera_permission_to_capture_image">اجازه دوربین را در تنظیمات برای گرفتن تصویر بدهید</string>
     <string name="layout">طرح بندی</string>
     <string name="constant_rate_factor">ضریب نرخ ثابت (CRF)</string>
-    <string name="crf_sub">مقدار %1$d به معنای فشرده سازی آهسته است که در نتیجه حجم فایل نسبتاً کم است. %2$d به معنای فشرده‌سازی سریع‌تر است که منجر به ایجاد یک فایل بزرگ می‌شود.</string>
+    <string name="crf_sub">مقدار %1$s به معنای فشرده سازی آهسته است که در نتیجه حجم فایل نسبتاً کم است. %2$s به معنای فشرده‌سازی سریع‌تر است که منجر به ایجاد یک فایل بزرگ می‌شود.</string>
     <string name="lut_library">کتابخانه لوت</string>
     <string name="lut_library_update_sub">مجموعه LUT ها را به روز کنید (فقط موارد جدید در صف قرار می گیرند) که می توانید پس از دانلود آن را اعمال کنید</string>
     <string name="hide">پنهان کردن</string>
@@ -1528,8 +1528,8 @@
     <string name="fast_settings_side">سمت تنظیمات سریع</string>
     <string name="fast_settings_side_sub">هنگام ویرایش تصاویر، یک نوار شناور در سمت انتخاب شده اضافه کنید، که با کلیک کردن، تنظیمات سریع باز می شود</string>
     <string name="clear_selection">پاک کردن انتخاب</string>
-    <string name="settings_group_visibility_hidden">گروه تنظیم \"%s\" به طور پیش‌فرض جمع می‌شود</string>
-    <string name="settings_group_visibility_visible">گروه تنظیم \"%s\" به طور پیش فرض گسترش می یابد</string>
+    <string name="settings_group_visibility_hidden">گروه تنظیم \"%1$s\" به طور پیش‌فرض جمع می‌شود</string>
+    <string name="settings_group_visibility_visible">گروه تنظیم \"%1$s\" به طور پیش فرض گسترش می یابد</string>
     <string name="base_64_tools">ابزارهای Base64</string>
     <string name="base_64_tools_sub">رشته Base64 را به تصویر رمزگشایی کنید یا تصویر را به فرمت Base64 رمزگذاری کنید</string>
     <string name="base_64">پایه 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">در حال پردازش اسکرین شات</string>
     <string name="screenshot_not_captured_try_again">اسکرین شات گرفته نشد، دوباره امتحان کنید</string>
     <string name="skipped_saving">ذخیره رد شد</string>
-    <string name="skipped_saving_multiple">%1$d فایل رد شد</string>
+    <string name="skipped_saving_multiple">%1$s فایل رد شد</string>
     <string name="allow_skip_if_larger">Allow Skip If Larter</string>
     <string name="allow_skip_if_larger_sub">اگر اندازه فایل حاصل بزرگتر از نسخه اصلی باشد، به برخی از ابزارها اجازه داده می شود از ذخیره تصاویر صرفنظر کنند.</string>
     <string name="qr_type_calendar_event">رویداد تقویم</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">قالب پالت</string>
     <string name="export_palette_sub">پالت تولید شده را به فرمت های مختلف صادر کنید</string>
     <string name="add_color_palette_sub">رنگ جدیدی را به پالت فعلی اضافه می کند</string>
-    <string name="palette_name_not_supported">قالب %s از ارائه نام پالت پشتیبانی نمی کند</string>
+    <string name="palette_name_not_supported">قالب %1$s از ارائه نام پالت پشتیبانی نمی کند</string>
     <string name="wallpapers_export_not_avaialbe">به دلیل خط‌مشی‌های فروشگاه Play، این ویژگی نمی‌تواند در ساخت فعلی گنجانده شود. برای دسترسی به این قابلیت، لطفا ImageToolbox را از یک منبع جایگزین دانلود کنید. می توانید بیلدهای موجود در GitHub را در زیر بیابید.</string>
     <string name="open_github_page">صفحه Github را باز کنید</string>
     <string name="overwrite_files_sub_short">فایل اصلی به جای ذخیره در پوشه انتخابی با فایل جدید جایگزین می شود</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Pixelization شبکه پالس</string>
     <string name="nucleus_pixelization">پیکسل سازی هسته</string>
     <string name="radial_weave_pixelization">پیکسل سازی بافت شعاعی</string>
-    <string name="cannot_open_uri">uri \"%s\" باز نمی شود</string>
+    <string name="cannot_open_uri">uri \"%1$s\" باز نمی شود</string>
     <string name="snowfall_mode">حالت بارش برف</string>
     <string name="enabled">فعال شد</string>
     <string name="border_frame">قاب حاشیه</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">ادغام</string>
     <string name="chunk_size">اندازه تکه</string>
     <string name="overlap_size">اندازه همپوشانی</string>
-    <string name="note_chunk_info">تصاویر بیش از %1$d پیکسل برش داده می‌شوند و به صورت تکه‌ای پردازش می‌شوند، همپوشانی اینها را با هم ترکیب می‌کند تا از درزهای قابل مشاهده جلوگیری کند.</string>
+    <string name="note_chunk_info">تصاویر بیش از %1$s پیکسل برش داده می‌شوند و به صورت تکه‌ای پردازش می‌شوند، همپوشانی اینها را با هم ترکیب می‌کند تا از درزهای قابل مشاهده جلوگیری کند.</string>
     <string name="large_chunk_warning">اندازه های بزرگ می تواند باعث ناپایداری دستگاه های ارزان قیمت شود</string>
     <string name="select_one_to_start">برای شروع یکی را انتخاب کنید</string>
-    <string name="delete_model_sub">آیا می خواهید مدل %s را حذف کنید؟ باید دوباره آن را دانلود کنید</string>
+    <string name="delete_model_sub">آیا می خواهید مدل %1$s را حذف کنید؟ باید دوباره آن را دانلود کنید</string>
     <string name="confirm">تایید کنید</string>
     <string name="models">مدل ها</string>
     <string name="downloaded_models">مدل های دانلود شده</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">ضخامت مرز افقی</string>
     <string name="vertical_border_thickness">ضخامت حاشیه عمودی</string>
     <plurals name="color_count">
-        <item quantity="one">%s رنگ</item>
-        <item quantity="other">%s رنگ</item>
+        <item quantity="one">%1$s رنگ</item>
+        <item quantity="other">%1$s رنگ</item>
     </plurals>
     <string name="current_model_not_chunkable">مدل فعلی از تکه‌شدن پشتیبانی نمی‌کند، تصویر در ابعاد اصلی پردازش می‌شود، این ممکن است باعث مصرف زیاد حافظه و مشکلات دستگاه‌های رده پایین شود.</string>
     <string name="chunking_disabled">قطعه قطعه کردن غیرفعال است، تصویر در ابعاد اصلی پردازش می‌شود، این ممکن است باعث مصرف زیاد حافظه و مشکلات دستگاه‌های ارزان‌قیمت شود، اما ممکن است نتایج بهتری در استنتاج داشته باشد.</string>

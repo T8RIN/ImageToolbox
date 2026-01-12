@@ -459,7 +459,7 @@
     <string name="spline_sub">조각별로 정의된 다항식 함수를 사용하여 커브 또는 표면을 부드럽게 보간하고 근사치를 구하여 유연하고 연속적인 모양 표현을 제공합니다..</string>
     <string name="only_clip_sub">저장소에 저장되지 않으며, 클립보드에만 이미지를 넣으려고 합니다.</string>
     <string name="use_pixel_switch_sub">구글 픽셀과 같은 스위치를 사용합니다.</string>
-    <string name="saved_to_original">원래 대상에 이름이 %s인 파일을 덮어썼습니다.</string>
+    <string name="saved_to_original">원래 대상에 이름이 %1$s인 파일을 덮어썼습니다.</string>
     <string name="magnifier">돋보기</string>
     <string name="force_exif_widget_initial_value">강제 초기값</string>
     <string name="magnifier_sub">더 나은 접근성을 위해 그리기 모드에서 손가락 상단에 돋보기를 활성화합니다.</string>
@@ -665,7 +665,7 @@
     <string name="max_colors_count">최대 색상 수</string>
     <string name="crashlytics_sub">이를 통해 앱이 충돌 보고서를 자동으로 수집할 수 있습니다.</string>
     <string name="effort">노력</string>
-    <string name="effort_sub">%1$d 값은 빠른 압축을 의미하므로 파일 크기가 상대적으로 커집니다. %2$d는 압축 속도가 느려져 파일 크기가 작아짐을 의미합니다.</string>
+    <string name="effort_sub">%1$s 값은 빠른 압축을 의미하므로 파일 크기가 상대적으로 커집니다. %2$s는 압축 속도가 느려져 파일 크기가 작아짐을 의미합니다.</string>
     <string name="wait">기다리다</string>
     <string name="saving_almost_complete">저장이 거의 완료되었습니다. 지금 취소하면 다시 저장해야 합니다.</string>
     <string name="mask_color">마스크 색상</string>
@@ -750,7 +750,7 @@
     <string name="recognize_text">OCR(텍스트 인식)</string>
     <string name="recognize_text_sub">주어진 이미지에서 텍스트를 인식합니다. 120개 이상의 언어가 지원됩니다.</string>
     <string name="picture_has_no_text">사진에 텍스트가 없거나 앱에서 텍스트를 찾지 못했습니다.</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">인식 유형</string>
     <string name="fast">빠른</string>
     <string name="standard">기준</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">손실 압축</string>
     <string name="lossy_compression_sub">무손실 압축을 사용하여 무손실 대신 파일 크기를 줄입니다.</string>
     <string name="compression_type">압축 타입</string>
-    <string name="speed_sub">결과 이미지 디코딩 속도를 제어하여 결과 이미지를 더 빠르게 열 수 있으며, %1$d 값은 가장 느린 디코딩을 의미하고 %2$d는 가장 빠른 디코딩을 의미하며, 이 설정은 출력 이미지 크기를 증가시킬 수 있습니다.</string>
+    <string name="speed_sub">결과 이미지 디코딩 속도를 제어하여 결과 이미지를 더 빠르게 열 수 있으며, %1$s 값은 가장 느린 디코딩을 의미하고 %2$s는 가장 빠른 디코딩을 의미하며, 이 설정은 출력 이미지 크기를 증가시킬 수 있습니다.</string>
     <string name="sorting">분류</string>
     <string name="sort_by_date">날짜</string>
     <string name="sort_by_date_reversed">날짜 (역순)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR 코드 이미지로 저장</string>
     <string name="delete_template">템플릿 삭제</string>
     <string name="delete_template_warn">선택한 템플릿 필터를 삭제하려고 합니다. 이 작업은 취소할 수 없습니다.</string>
-    <string name="added_filter_template">이름이 \"%1$s\"(%2$d)인 필터 템플릿이 추가되었습니다.</string>
+    <string name="added_filter_template">이름이 \"%1$s\"(%2$s)인 필터 템플릿이 추가되었습니다.</string>
     <string name="filter_preview">필터 미리보기</string>
     <string name="qr_code">QR 및 바코드</string>
     <string name="qr_code_sub">QR 코드를 스캔하여 내용을 가져오거나 문자열을 붙여넣어 새 내용을 생성하세요.</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">공들여 나열한 것</string>
     <string name="main_screen_title">메인 화면 제목</string>
     <string name="constant_rate_factor">고정율 인자(CRF)</string>
-    <string name="crf_sub">%1$d 값은 압축 속도가 느려 파일 크기가 상대적으로 작아짐을 의미합니다. %2$d은 압축 속도가 빨라져 파일 크기가 커진다는 의미입니다.</string>
+    <string name="crf_sub">%1$s 값은 압축 속도가 느려 파일 크기가 상대적으로 작아짐을 의미합니다. %2$s은 압축 속도가 빨라져 파일 크기가 커진다는 의미입니다.</string>
     <string name="lut_library">루트 도서관</string>
     <string name="lut_library_sub">다운로드 후 적용할 수 있는 LUT 컬렉션 다운로드</string>
     <string name="lut_library_update_sub">다운로드 후 적용할 수 있는 LUT 컬렉션 업데이트(새 LUT만 대기열에 추가됨)</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">빠른 설정 측면</string>
     <string name="fast_settings_side_sub">이미지를 편집하는 동안 선택한 면에 플로팅 스트립을 추가하면 클릭 시 빠른 설정이 열립니다.</string>
     <string name="clear_selection">선택 취소</string>
-    <string name="settings_group_visibility_hidden">\"%s\" 설정 그룹은 기본적으로 축소됩니다.</string>
-    <string name="settings_group_visibility_visible">기본적으로 \"%s\" 설정 그룹이 확장됩니다.</string>
+    <string name="settings_group_visibility_hidden">\"%1$s\" 설정 그룹은 기본적으로 축소됩니다.</string>
+    <string name="settings_group_visibility_visible">기본적으로 \"%1$s\" 설정 그룹이 확장됩니다.</string>
     <string name="base_64_tools">Base64 도구</string>
     <string name="base_64_tools_sub">Base64 문자열을 이미지로 디코딩하거나 이미지를 Base64 형식으로 인코딩합니다.</string>
     <string name="base_64">Base64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">스크린샷 처리 중</string>
     <string name="screenshot_not_captured_try_again">스크린샷이 캡처되지 않았습니다. 다시 시도해 주세요.</string>
     <string name="skipped_saving">저장을 건너뛰었습니다.</string>
-    <string name="skipped_saving_multiple">%1$d 파일을 건너뛰었습니다.</string>
+    <string name="skipped_saving_multiple">%1$s 파일을 건너뛰었습니다.</string>
     <string name="allow_skip_if_larger">더 큰 경우 건너뛰기 허용</string>
     <string name="allow_skip_if_larger_sub">결과 파일 크기가 원본보다 클 경우 일부 도구에서는 이미지 저장을 건너뛸 수 있습니다.</string>
     <string name="qr_type_calendar_event">캘린더 이벤트</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">팔레트 형식</string>
     <string name="export_palette_sub">생성된 팔레트를 다른 형식으로 내보내기</string>
     <string name="add_color_palette_sub">현재 팔레트에 새로운 색상을 추가합니다.</string>
-    <string name="palette_name_not_supported">%s 형식은 팔레트 이름 제공을 지원하지 않습니다.</string>
+    <string name="palette_name_not_supported">%1$s 형식은 팔레트 이름 제공을 지원하지 않습니다.</string>
     <string name="wallpapers_export_not_avaialbe">Play 스토어 정책으로 인해 이 기능은 현재 빌드에 포함될 수 없습니다. 이 기능에 액세스하려면 대체 소스에서 ImageToolbox를 다운로드하십시오. 아래 GitHub에서 사용 가능한 빌드를 찾을 수 있습니다.</string>
     <string name="open_github_page">Github 페이지 열기</string>
     <string name="overwrite_files_sub_short">선택한 폴더에 저장하는 대신 원본 파일이 새 파일로 대체됩니다.</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">펄스 그리드 픽셀화</string>
     <string name="nucleus_pixelization">핵 픽셀화</string>
     <string name="radial_weave_pixelization">방사형 직조 픽셀화</string>
-    <string name="cannot_open_uri">URI \"%s\"을(를) 열 수 없습니다.</string>
+    <string name="cannot_open_uri">URI \"%1$s\"을(를) 열 수 없습니다.</string>
     <string name="snowfall_mode">강설 모드</string>
     <string name="enabled">활성화됨</string>
     <string name="border_frame">테두리 프레임</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">병합</string>
     <string name="chunk_size">청크 크기</string>
     <string name="overlap_size">중복 크기</string>
-    <string name="note_chunk_info">%1$d픽셀을 초과하는 이미지는 분할되어 청크로 처리되며, 이음새가 보이지 않도록 겹쳐서 혼합됩니다.</string>
+    <string name="note_chunk_info">%1$s픽셀을 초과하는 이미지는 분할되어 청크로 처리되며, 이음새가 보이지 않도록 겹쳐서 혼합됩니다.</string>
     <string name="large_chunk_warning">크기가 크면 저가형 장치가 불안정해질 수 있습니다.</string>
     <string name="select_one_to_start">시작하려면 하나를 선택하세요.</string>
-    <string name="delete_model_sub">%s 모델을 삭제하시겠습니까? 다시 다운로드해야 합니다.</string>
+    <string name="delete_model_sub">%1$s 모델을 삭제하시겠습니까? 다시 다운로드해야 합니다.</string>
     <string name="confirm">확인하다</string>
     <string name="models">모델</string>
     <string name="downloaded_models">다운로드한 모델</string>
@@ -2002,7 +2002,7 @@
     <string name="horizontal_border_thickness">가로 테두리 두께</string>
     <string name="vertical_border_thickness">세로 테두리 두께</string>
     <plurals name="color_count">
-        <item quantity="other">%s 색상</item>
+        <item quantity="other">%1$s 색상</item>
     </plurals>
     <string name="current_model_not_chunkable">현재 모델은 청킹을 지원하지 않습니다. 이미지는 원래 크기로 처리되므로 메모리 소모가 많아 저사양 장치에서 문제가 발생할 수 있습니다.</string>
     <string name="chunking_disabled">청킹이 비활성화되었습니다. 이미지는 원래 크기로 처리됩니다. 이로 인해 메모리 소비가 많아지고 저사양 장치에 문제가 발생할 수 있지만 추론에서는 더 나은 결과를 얻을 수 있습니다.</string>

@@ -382,7 +382,7 @@
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
     <string name="image_exif_warning">Currently, %1$s format only allows reading EXIF metadata on android. Output image won\'t have metadata at all, when saved.</string>
     <string name="effort">Effort</string>
-    <string name="effort_sub">A value of %1$d means a fast compression, resulting in a relatively large file size. %2$d means a slower compression, resulting in a smaller file.</string>
+    <string name="effort_sub">A value of %1$s means a fast compression, resulting in a relatively large file size. %2$s means a slower compression, resulting in a smaller file.</string>
     <string name="wait">Wait</string>
     <string name="saving_almost_complete">Saving almost complete. Cancelling now will require saving again.</string>
     <string name="updates">Updates</string>
@@ -571,7 +571,7 @@
     <string name="recognize_text">OCR (recognize text)</string>
     <string name="recognize_text_sub">Recognize text from given image, 120+ languages supported</string>
     <string name="picture_has_no_text">Picture has no text, or app didn\'t find it</string>
-    <string name="accuracy">"Accuracy: %1$d"</string>
+    <string name="accuracy">"Accuracy: %1$s"</string>
     <string name="recognition_type">Recognition Type</string>
     <string name="fast">Fast</string>
     <string name="standard">Standard</string>
@@ -585,7 +585,7 @@
     <string name="segmentation_mode">Segmentation Mode</string>
     <string name="use_pixel_switch">Use Pixel Switch</string>
     <string name="use_pixel_switch_sub">Uses a Google Pixel-like switch</string>
-    <string name="saved_to_original">Overwritten file with name %s at original destination</string>
+    <string name="saved_to_original">Overwritten file with name %1$s at original destination</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
     <string name="force_exif_widget_initial_value">Force initial value</string>
@@ -874,7 +874,7 @@
     <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
     <string name="compression_type">Compression Type</string>
-    <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$d means slowest decoding, whereas %2$d - fastest, this setting may increase output image size</string>
+    <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$s means slowest decoding, whereas %2$s - fastest, this setting may increase output image size</string>
     <string name="sorting">Sorting</string>
     <string name="sort_by_date">Date</string>
     <string name="sort_by_date_reversed">Date (Reversed)</string>
@@ -1141,7 +1141,7 @@
     <string name="save_as_qr_code_image">Save as QR code image</string>
     <string name="delete_template">Delete Template</string>
     <string name="delete_template_warn">You are about to delete selected template filter. This operation cannot be undone</string>
-    <string name="added_filter_template">Added filter template with name \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Added filter template with name \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Filter Preview</string>
     <string name="qr_code">QR &amp; Barcode</string>
     <string name="qr_code_sub">Scan QR code and get its content or paste your string to generate new one</string>
@@ -1492,7 +1492,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Main Screen Title</string>
     <string name="constant_rate_factor">Constant Rate Factor (CRF)</string>
-    <string name="crf_sub">A value of %1$d means a slow compression, resulting in a relatively small file size. %2$d means a faster compression, resulting in a large file.</string>
+    <string name="crf_sub">A value of %1$s means a slow compression, resulting in a relatively small file size. %2$s means a faster compression, resulting in a large file.</string>
     <string name="lut_library">Lut Library</string>
     <string name="lut_library_sub">Download collection of LUTs, which you can apply after downloading</string>
     <string name="lut_library_update_sub">Update collection of LUTs (only new ones will be queued), which you can apply after downloading</string>
@@ -1527,8 +1527,8 @@
     <string name="fast_settings_side">Fast Settings Side</string>
     <string name="fast_settings_side_sub">Add a floating strip at the selected side while editing images, which will open fast settings when clicked</string>
     <string name="clear_selection">Clear selection</string>
-    <string name="settings_group_visibility_hidden">Setting group \"%s\" will be collapsed by default</string>
-    <string name="settings_group_visibility_visible">Setting group \"%s\" will be expanded by default</string>
+    <string name="settings_group_visibility_hidden">Setting group \"%1$s\" will be collapsed by default</string>
+    <string name="settings_group_visibility_visible">Setting group \"%1$s\" will be expanded by default</string>
     <string name="base_64_tools">Base64 Tools</string>
     <string name="base_64_tools_sub">Decode Base64 string to image, or encode image to Base64 format</string>
     <string name="base_64">Base64</string>
@@ -1769,7 +1769,7 @@
     <string name="processing_screenshot">Processing screenshot</string>
     <string name="screenshot_not_captured_try_again">Screenshot not captured, try again</string>
     <string name="skipped_saving">Saving skipped</string>
-    <string name="skipped_saving_multiple">%1$d files skipped</string>
+    <string name="skipped_saving_multiple">%1$s files skipped</string>
     <string name="allow_skip_if_larger">Allow Skip If Larger</string>
     <string name="allow_skip_if_larger_sub">Some tools are will be allowed to skip saving images if the resulting file size would be larger than the original</string>
     <string name="qr_type_calendar_event">Calendar Event</string>
@@ -1859,14 +1859,14 @@
     <string name="palette_format">Palette Format</string>
     <string name="export_palette_sub">Export generated palette to different formats</string>
     <string name="add_color_palette_sub">Adds new color to current palette</string>
-    <string name="palette_name_not_supported">%s format doesn\'t support providing palette name</string>
+    <string name="palette_name_not_supported">%1$s format doesn\'t support providing palette name</string>
     <string name="wallpapers_export_not_avaialbe">Due to Play Store policies, this feature cannot be included in the current build. To access this functionality, please download ImageToolbox from an alternative source. You can find the available builds on GitHub below.</string>
     <string name="open_github_page">Open Github page</string>
     <plurals name="color_count">
-        <item quantity="one">%s color</item>
-        <item quantity="few">%s colors</item>
-        <item quantity="many">%s colors</item>
-        <item quantity="other">%s colors</item>
+        <item quantity="one">%1$s color</item>
+        <item quantity="few">%1$s colors</item>
+        <item quantity="many">%1$s colors</item>
+        <item quantity="other">%1$s colors</item>
     </plurals>
     <string name="overwrite_files_sub_short">Original file will be replaced with new one instead of saving in selected folder</string>
     <string name="hidden_watermark_text_detected">Detected hidden watermark text</string>
@@ -1892,7 +1892,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Cannot open uri \"%s\"</string>
+    <string name="cannot_open_uri">Cannot open uri \"%1$s\"</string>
     <string name="snowfall_mode">Snowfall Mode</string>
     <string name="enabled">Enabled</string>
     <string name="border_frame">Border Frame</string>
@@ -1954,10 +1954,10 @@
     <string name="merging">Merging</string>
     <string name="chunk_size">Chunk Size</string>
     <string name="overlap_size">Overlap Size</string>
-    <string name="note_chunk_info">Images over %1$d px will be sliced and processed in chunks, overlap blends these to prevent visible seams.</string>
+    <string name="note_chunk_info">Images over %1$s px will be sliced and processed in chunks, overlap blends these to prevent visible seams.</string>
     <string name="large_chunk_warning">Large sizes can cause instability with low-end devices</string>
     <string name="select_one_to_start">Select one to start</string>
-    <string name="delete_model_sub">Do you want to delete %s model? You will need to download it again</string>
+    <string name="delete_model_sub">Do you want to delete %1$s model? You will need to download it again</string>
     <string name="confirm">Confirm</string>
     <string name="models">Models</string>
     <string name="downloaded_models">Downloaded Models</string>

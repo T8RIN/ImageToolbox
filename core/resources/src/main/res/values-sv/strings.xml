@@ -425,7 +425,7 @@
     <string name="analytics_sub">Tillåt insamling av anonym appanvändningsstatistik</string>
     <string name="image_exif_warning">För närvarande tillåter formatet %1$s endast läsning av EXIF-metadata på Android. Utdatabild kommer inte att ha metadata alls när den sparas.</string>
     <string name="effort">Ansträngning</string>
-    <string name="effort_sub">Ett värde på %1$d betyder en snabb komprimering, vilket resulterar i en relativt stor filstorlek. %2$d betyder en långsammare komprimering, vilket resulterar i en mindre fil.</string>
+    <string name="effort_sub">Ett värde på %1$s betyder en snabb komprimering, vilket resulterar i en relativt stor filstorlek. %2$s betyder en långsammare komprimering, vilket resulterar i en mindre fil.</string>
     <string name="wait">Vänta</string>
     <string name="saving_almost_complete">Sparningen är nästan klar. Om du avbryter nu måste du spara igen.</string>
     <string name="updates">Uppdateringar</string>
@@ -610,7 +610,7 @@
     <string name="recognize_text">OCR (känn igen text)</string>
     <string name="recognize_text_sub">Känn igen text från en given bild, 120+ språk stöds</string>
     <string name="picture_has_no_text">Bilden har ingen text, eller så hittade appen den inte</string>
-    <string name="accuracy">\"Noggrannhet: %1$d\"</string>
+    <string name="accuracy">\"Noggrannhet: %1$s\"</string>
     <string name="recognition_type">Typ av igenkänning</string>
     <string name="fast">Snabb</string>
     <string name="standard">Standard</string>
@@ -624,7 +624,7 @@
     <string name="segmentation_mode">Segmenteringsläge</string>
     <string name="use_pixel_switch">Använd Pixel Switch</string>
     <string name="use_pixel_switch_sub">Använder en Google Pixel-liknande switch</string>
-    <string name="saved_to_original">Överskriven fil med namnet %s vid den ursprungliga destinationen</string>
+    <string name="saved_to_original">Överskriven fil med namnet %1$s vid den ursprungliga destinationen</string>
     <string name="magnifier">Förstoringsglas</string>
     <string name="magnifier_sub">Aktiverar förstoringsglas överst på fingret i ritlägen för bättre tillgänglighet</string>
     <string name="force_exif_widget_initial_value">Forcera initialt värde</string>
@@ -911,7 +911,7 @@
     <string name="lossy_compression">Förlustig kompression</string>
     <string name="lossy_compression_sub">Använder förlustfri komprimering för att minska filstorleken istället för förlustfri</string>
     <string name="compression_type">Kompressionstyp</string>
-    <string name="speed_sub">Styr den resulterande bildavkodningshastigheten, detta bör hjälpa till att öppna den resulterande bilden snabbare, värdet %1$d betyder långsammaste avkodning, medan %2$d - snabbast, den här inställningen kan öka utdatabildens storlek</string>
+    <string name="speed_sub">Styr den resulterande bildavkodningshastigheten, detta bör hjälpa till att öppna den resulterande bilden snabbare, värdet %1$s betyder långsammaste avkodning, medan %2$s - snabbast, den här inställningen kan öka utdatabildens storlek</string>
     <string name="sorting">Sortering</string>
     <string name="sort_by_date">Datum</string>
     <string name="sort_by_date_reversed">Datum (omvänt)</string>
@@ -1178,7 +1178,7 @@
     <string name="save_as_qr_code_image">Spara som QR-kodbild</string>
     <string name="delete_template">Ta bort mall</string>
     <string name="delete_template_warn">Du håller på att ta bort valt mallfilter. Denna operation kan inte ångras</string>
-    <string name="added_filter_template">Lade till filtermall med namnet \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">Lade till filtermall med namnet \"%1$s\" (%2$s)</string>
     <string name="filter_preview">Förhandsgranska filter</string>
     <string name="qr_code">QR &amp;amp; streckkod</string>
     <string name="qr_code_sub">Skanna QR-koden och få dess innehåll eller klistra in din sträng för att skapa en ny</string>
@@ -1475,7 +1475,7 @@
     <string name="layout">Layout</string>
     <string name="main_screen_title">Huvudskärmens titel</string>
     <string name="constant_rate_factor">Konstant hastighetsfaktor (CRF)</string>
-    <string name="crf_sub">Ett värde på %1$d betyder en långsam komprimering, vilket resulterar i en relativt liten filstorlek. %2$d betyder en snabbare komprimering, vilket resulterar i en stor fil.</string>
+    <string name="crf_sub">Ett värde på %1$s betyder en långsam komprimering, vilket resulterar i en relativt liten filstorlek. %2$s betyder en snabbare komprimering, vilket resulterar i en stor fil.</string>
     <string name="lut_library">Lut bibliotek</string>
     <string name="lut_library_sub">Ladda ner samling av LUT, som du kan använda efter nedladdning</string>
     <string name="lut_library_update_sub">Uppdatera samling av LUT:er (endast nya kommer att stå i kö), som du kan använda efter nedladdning</string>
@@ -1510,8 +1510,8 @@
     <string name="fast_settings_side">Snabb inställningssida</string>
     <string name="fast_settings_side_sub">Lägg till en flytande remsa på den valda sidan medan du redigerar bilder, vilket öppnar snabba inställningar när du klickar på den</string>
     <string name="clear_selection">Rensa val</string>
-    <string name="settings_group_visibility_hidden">Inställningsgruppen \"%s\" kommer att komprimeras som standard</string>
-    <string name="settings_group_visibility_visible">Inställningsgruppen \"%s\" kommer att utökas som standard</string>
+    <string name="settings_group_visibility_hidden">Inställningsgruppen \"%1$s\" kommer att komprimeras som standard</string>
+    <string name="settings_group_visibility_visible">Inställningsgruppen \"%1$s\" kommer att utökas som standard</string>
     <string name="base_64_tools">Base64-verktyg</string>
     <string name="base_64_tools_sub">Avkoda Base64-sträng till bild, eller koda bild till Base64-format</string>
     <string name="base_64">Bas 64</string>
@@ -1751,7 +1751,7 @@
     <string name="invert_colors_ascii_sub">Tillämpar negativt filter på bilden för bättre resultat i vissa fall</string>
     <string name="processing_screenshot">Bearbetar skärmdump</string>
     <string name="skipped_saving">Sparandet hoppades över</string>
-    <string name="skipped_saving_multiple">%1$d filer hoppade över</string>
+    <string name="skipped_saving_multiple">%1$s filer hoppade över</string>
     <string name="allow_skip_if_larger">Tillåt Hoppa över om det är större</string>
     <string name="allow_skip_if_larger_sub">Vissa verktyg kommer att tillåtas att hoppa över att spara bilder om den resulterande filstorleken skulle vara större än originalet</string>
     <string name="qr_type_calendar_event">Kalenderhändelse</string>
@@ -1841,7 +1841,7 @@
     <string name="palette_format">Palettformat</string>
     <string name="export_palette_sub">Exportera genererad palett till olika format</string>
     <string name="add_color_palette_sub">Lägger till ny färg till nuvarande palett</string>
-    <string name="palette_name_not_supported">Formatet %s stöder inte att ange palettnamn</string>
+    <string name="palette_name_not_supported">Formatet %1$s stöder inte att ange palettnamn</string>
     <string name="wallpapers_export_not_avaialbe">På grund av Play Butiks policyer kan den här funktionen inte inkluderas i den aktuella versionen. För att komma åt denna funktion, ladda ner ImageToolbox från en alternativ källa. Du kan hitta de tillgängliga versionerna på GitHub nedan.</string>
     <string name="open_github_page">Öppna Github-sidan</string>
     <string name="overwrite_files_sub_short">Originalfilen kommer att ersättas med en ny istället för att sparas i den valda mappen</string>
@@ -1868,7 +1868,7 @@
     <string name="pulse_grid_pixelization">Pulsrutnätspixelisering</string>
     <string name="nucleus_pixelization">Kärnpixelisering</string>
     <string name="radial_weave_pixelization">Radiell vävpixelisering</string>
-    <string name="cannot_open_uri">Kan inte öppna uri \"%s\"</string>
+    <string name="cannot_open_uri">Kan inte öppna uri \"%1$s\"</string>
     <string name="snowfall_mode">Snöfallsläge</string>
     <string name="enabled">Aktiverad</string>
     <string name="border_frame">Kantram</string>
@@ -1930,10 +1930,10 @@
     <string name="merging">Sammanslagning</string>
     <string name="chunk_size">Klumpstorlek</string>
     <string name="overlap_size">Överlappningsstorlek</string>
-    <string name="note_chunk_info">Bilder över %1$d px kommer att skivas och bearbetas i bitar, överlappande blandar dessa för att förhindra synliga sömmar.</string>
+    <string name="note_chunk_info">Bilder över %1$s px kommer att skivas och bearbetas i bitar, överlappande blandar dessa för att förhindra synliga sömmar.</string>
     <string name="large_chunk_warning">Stora storlekar kan orsaka instabilitet med low-end enheter</string>
     <string name="select_one_to_start">Välj en för att starta</string>
-    <string name="delete_model_sub">Vill du ta bort modellen %s? Du måste ladda ner den igen</string>
+    <string name="delete_model_sub">Vill du ta bort modellen %1$s? Du måste ladda ner den igen</string>
     <string name="confirm">Bekräfta</string>
     <string name="models">Modeller</string>
     <string name="downloaded_models">Nedladdade modeller</string>
@@ -2003,8 +2003,8 @@
     <string name="horizontal_border_thickness">Horisontell kanttjocklek</string>
     <string name="vertical_border_thickness">Vertikal kanttjocklek</string>
     <plurals name="color_count">
-        <item quantity="one">%s färg</item>
-        <item quantity="other">%s färger</item>
+        <item quantity="one">%1$s färg</item>
+        <item quantity="other">%1$s färger</item>
     </plurals>
     <string name="current_model_not_chunkable">Den nuvarande modellen stöder inte chunking, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter</string>
     <string name="chunking_disabled">Chunking inaktiverad, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter men kan ge bättre resultat vid slutledning</string>

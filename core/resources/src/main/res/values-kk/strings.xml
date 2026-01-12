@@ -299,7 +299,7 @@
     <string name="randomize_filename_sub">Қосылған жағдайда шығыс файл атауы толығымен кездейсоқ болады</string>
     <string name="saved_to">%2$s атымен %1$s қалтасына сақталды</string>
     <string name="reset_settings_sub">Бұл параметрлерді әдепкі мәндерге қайтарады. Жоғарыда аталған сақтық көшірме файлынсыз мұны қайтару мүмкін емес екенін ескеріңіз.</string>
-    <string name="effort_sub">%1$d мәні салыстырмалы түрде үлкен файл өлшеміне әкелетін жылдам қысуды білдіреді. %2$d кішірек файлға әкелетін баяу қысуды білдіреді.</string>
+    <string name="effort_sub">%1$s мәні салыстырмалы түрде үлкен файл өлшеміне әкелетін жылдам қысуды білдіреді. %2$s кішірек файлға әкелетін баяу қысуды білдіреді.</string>
     <string name="saving_almost_complete">Сақтау аяқталды. Қазір бас тарту үшін қайта сақтау қажет болады.</string>
     <string name="allow_betas_sub">Қосылған болса, жаңартуды тексеру қолданбаның бета нұсқаларын қамтиды</string>
     <string name="draw_arrows">Көрсеткілерді салыңыз</string>
@@ -599,7 +599,7 @@
     <string name="recognize_text">OCR (мәтінді тану)</string>
     <string name="recognize_text_sub">Берілген кескіндегі мәтінді тану, 120+ тілге қолдау көрсетіледі</string>
     <string name="picture_has_no_text">Суретте мәтін жоқ немесе қолданба оны таппады</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">Тану түрі</string>
     <string name="fast">Жылдам</string>
     <string name="standard">Стандартты</string>
@@ -623,7 +623,7 @@
     <string name="side_by_side">Қатар</string>
     <string name="toggle_tap">Түртуді ауыстырып қосу</string>
     <string name="transparency">Мөлдірлік</string>
-    <string name="saved_to_original">Бастапқы тағайындалған жерде %s атымен қайта жазылған файл</string>
+    <string name="saved_to_original">Бастапқы тағайындалған жерде %1$s атымен қайта жазылған файл</string>
     <string name="magnifier">Үлкейткіш</string>
     <string name="magnifier_sub">Жақсырақ қол жетімділік үшін сурет салу режимдерінде саусақтың жоғарғы жағындағы ұлғайтқышты қосады</string>
     <string name="force_exif_widget_initial_value">Бастапқы мәнді мәжбүрлеу</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">Жоғалған қысу</string>
     <string name="lossy_compression_sub">Файл өлшемін жоғалтпайтын орнына азайту үшін жоғалтатын қысуды пайдаланады</string>
     <string name="compression_type">Қысу түрі</string>
-    <string name="speed_sub">Нәтижедегі кескінді декодтау жылдамдығын басқарады, бұл алынған кескінді тезірек ашуға көмектеседі, %1$d мәні ең баяу декодтауды білдіреді, ал %2$d - ең жылдам, бұл параметр шығыс кескін өлшемін арттыруы мүмкін</string>
+    <string name="speed_sub">Нәтижедегі кескінді декодтау жылдамдығын басқарады, бұл алынған кескінді тезірек ашуға көмектеседі, %1$s мәні ең баяу декодтауды білдіреді, ал %2$s - ең жылдам, бұл параметр шығыс кескін өлшемін арттыруы мүмкін</string>
     <string name="sorting">Сұрыптау</string>
     <string name="sort_by_date">Күн</string>
     <string name="sort_by_date_reversed">Күні (кері)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">QR код суреті ретінде сақтаңыз</string>
     <string name="delete_template">Үлгіні жою</string>
     <string name="delete_template_warn">Таңдалған үлгі сүзгісін жойғалы жатырсыз. Бұл әрекетті қайтару мүмкін емес</string>
-    <string name="added_filter_template">\"%1$s\" (%2$d) атты сүзгі үлгісі қосылды</string>
+    <string name="added_filter_template">\"%1$s\" (%2$s) атты сүзгі үлгісі қосылды</string>
     <string name="filter_preview">Сүзгі алдын ала қарау</string>
     <string name="qr_code">QR және штрих-код</string>
     <string name="qr_code_sub">QR кодын сканерлеңіз және оның мазмұнын алыңыз немесе жаңасын жасау үшін жолды қойыңыз</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">Орналасу</string>
     <string name="main_screen_title">Негізгі экран тақырыбы</string>
     <string name="constant_rate_factor">Тұрақты мөлшерлеме коэффициенті (CRF)</string>
-    <string name="crf_sub">%1$d мәні салыстырмалы түрде шағын файл өлшеміне әкелетін баяу қысуды білдіреді. %2$d жылдамырақ қысуды білдіреді, нәтижесінде үлкен файл пайда болады.</string>
+    <string name="crf_sub">%1$s мәні салыстырмалы түрде шағын файл өлшеміне әкелетін баяу қысуды білдіреді. %2$s жылдамырақ қысуды білдіреді, нәтижесінде үлкен файл пайда болады.</string>
     <string name="lut_library">Лут кітапханасы</string>
     <string name="lut_library_sub">Жүктеп алғаннан кейін қолдануға болатын LUT жинағын жүктеп алыңыз</string>
     <string name="lut_library_update_sub">Жүктеп алғаннан кейін қолдануға болатын LUT жиынтығын жаңарту (тек жаңалары кезекке қойылады).</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">Жылдам параметрлер жағы</string>
     <string name="fast_settings_side_sub">Суреттерді өңдеу кезінде таңдалған жағына қалқымалы жолақты қосыңыз, ол басқан кезде жылдам параметрлерді ашады</string>
     <string name="clear_selection">Таңдауды тазалау</string>
-    <string name="settings_group_visibility_hidden">\"%s\" параметр тобы әдепкі бойынша жиырылады</string>
-    <string name="settings_group_visibility_visible">\"%s\" параметр тобы әдепкі бойынша кеңейтіледі</string>
+    <string name="settings_group_visibility_hidden">\"%1$s\" параметр тобы әдепкі бойынша жиырылады</string>
+    <string name="settings_group_visibility_visible">\"%1$s\" параметр тобы әдепкі бойынша кеңейтіледі</string>
     <string name="base_64_tools">Base64 құралдары</string>
     <string name="base_64_tools_sub">Base64 жолын кескінге декодтаңыз немесе кескінді Base64 пішіміне кодтаңыз</string>
     <string name="base_64">База 64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">Скриншот өңделуде</string>
     <string name="screenshot_not_captured_try_again">Скриншот түсірілмеді, әрекетті қайталаңыз</string>
     <string name="skipped_saving">Сақтау өткізіп жіберілді</string>
-    <string name="skipped_saving_multiple">%1$d файлдар өткізіп жіберілді</string>
+    <string name="skipped_saving_multiple">%1$s файлдар өткізіп жіберілді</string>
     <string name="allow_skip_if_larger">Үлкенірек болса, өткізіп жіберуге рұқсат етіңіз</string>
     <string name="allow_skip_if_larger_sub">Нәтижедегі файл өлшемі түпнұсқадан үлкенірек болса, кейбір құралдарға кескіндерді сақтауды өткізіп жіберуге рұқсат етіледі</string>
     <string name="qr_type_calendar_event">Күнтізбе оқиғасы</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">Палитра пішімі</string>
     <string name="export_palette_sub">Жасалған палитраны әртүрлі пішімдерге экспорттау</string>
     <string name="add_color_palette_sub">Ағымдағы палитраға жаңа түс қосады</string>
-    <string name="palette_name_not_supported">%s пішімі палитра атауын беруді қолдамайды</string>
+    <string name="palette_name_not_supported">%1$s пішімі палитра атауын беруді қолдамайды</string>
     <string name="wallpapers_export_not_avaialbe">Play Store саясаттарына байланысты бұл мүмкіндікті ағымдағы құрастыруға қосу мүмкін емес. Бұл функцияға қол жеткізу үшін ImageToolbox қолданбасын балама көзден жүктеп алыңыз. Төменде GitHub сайтында қолжетімді құрылымдарды таба аласыз.</string>
     <string name="open_github_page">Github бетін ашыңыз</string>
     <string name="overwrite_files_sub_short">Түпнұсқа файл таңдалған қалтада сақтаудың орнына жаңасымен ауыстырылады</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">Импульстік тордың пикселизациясы</string>
     <string name="nucleus_pixelization">Ядроның пикселизациясы</string>
     <string name="radial_weave_pixelization">Радиалды тоқыма пикселизациясы</string>
-    <string name="cannot_open_uri">\"%s\" uri ашылмады</string>
+    <string name="cannot_open_uri">\"%1$s\" uri ашылмады</string>
     <string name="snowfall_mode">Қар жауу режимі</string>
     <string name="enabled">Қосылған</string>
     <string name="border_frame">Жиек жақтауы</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">Біріктіру</string>
     <string name="chunk_size">Бөлшек өлшемі</string>
     <string name="overlap_size">Қабаттасу өлшемі</string>
-    <string name="note_chunk_info">%1$d пиксельден асатын кескіндер кесектерге кесіледі және өңделеді, көрінетін тігістердің алдын алу үшін қабаттасу араласады.</string>
+    <string name="note_chunk_info">%1$s пиксельден асатын кескіндер кесектерге кесіледі және өңделеді, көрінетін тігістердің алдын алу үшін қабаттасу араласады.</string>
     <string name="large_chunk_warning">Үлкен өлшемдер төмен деңгейлі құрылғылармен тұрақсыздықты тудыруы мүмкін</string>
     <string name="select_one_to_start">Бастау үшін біреуін таңдаңыз</string>
-    <string name="delete_model_sub">%s үлгісін жойғыңыз келе ме? Сіз оны қайтадан жүктеп алуыңыз керек</string>
+    <string name="delete_model_sub">%1$s үлгісін жойғыңыз келе ме? Сіз оны қайтадан жүктеп алуыңыз керек</string>
     <string name="confirm">Растау</string>
     <string name="models">Модельдер</string>
     <string name="downloaded_models">Жүктелген үлгілер</string>
@@ -2002,8 +2002,8 @@
     <string name="horizontal_border_thickness">Көлденең шекараның қалыңдығы</string>
     <string name="vertical_border_thickness">Тік жиек қалыңдығы</string>
     <plurals name="color_count">
-        <item quantity="one">%s түстер</item>
-        <item quantity="other">%s түстер</item>
+        <item quantity="one">%1$s түстер</item>
+        <item quantity="other">%1$s түстер</item>
     </plurals>
     <string name="current_model_not_chunkable">Ағымдағы үлгі бөлшектеуге қолдау көрсетпейді, кескін бастапқы өлшемдерде өңделеді, бұл жадты көп тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін.</string>
     <string name="chunking_disabled">Бөлшектеу өшірілген, кескін бастапқы өлшемдерде өңделеді, бұл жадты жоғары тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін, бірақ қорытынды жасауда жақсы нәтижелер беруі мүмкін.</string>

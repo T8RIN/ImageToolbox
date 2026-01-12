@@ -385,7 +385,7 @@
     <string name="crashlytics_sub">ซึ่งช่วยให้แอปรวบรวมรายงานข้อขัดข้องด้วยตนเอง</string>
     <string name="analytics">การวิเคราะห์</string>
     <string name="image_exif_warning">ปัจจุบัน รูปแบบ %1$s อนุญาตให้อ่านเฉพาะข้อมูลเมตา EXIF บน Android เท่านั้น รูปภาพที่ส่งออกจะไม่มีข้อมูลเมตาเลยเมื่อบันทึก</string>
-    <string name="effort_sub">ค่า %1$d หมายถึงการบีบอัดที่รวดเร็ว ส่งผลให้ขนาดไฟล์ค่อนข้างใหญ่ %2$d หมายถึงการบีบอัดที่ช้าลง ส่งผลให้ไฟล์มีขนาดเล็กลง</string>
+    <string name="effort_sub">ค่า %1$s หมายถึงการบีบอัดที่รวดเร็ว ส่งผลให้ขนาดไฟล์ค่อนข้างใหญ่ %2$s หมายถึงการบีบอัดที่ช้าลง ส่งผลให้ไฟล์มีขนาดเล็กลง</string>
     <string name="wait">รอ</string>
     <string name="saving_almost_complete">ออมทรัพย์ใกล้จะสมบูรณ์แล้ว การยกเลิกตอนนี้จะต้องบันทึกอีกครั้ง</string>
     <string name="allow_betas">อนุญาตเบต้า</string>
@@ -438,7 +438,7 @@
     <string name="basic_sub">โหมดปรับขนาด Android ที่ง่ายที่สุดที่ใช้ในแอพเกือบทั้งหมด</string>
     <string name="hann_sub">ฟังก์ชัน Windowing มักใช้ในการประมวลผลสัญญาณเพื่อลดการรั่วไหลของสเปกตรัมและปรับปรุงความแม่นยำของการวิเคราะห์ความถี่โดยการลดขอบของสัญญาณ</string>
     <string name="hermite_sub">เทคนิคการประมาณค่าทางคณิตศาสตร์ที่ใช้ค่าและอนุพันธ์ที่จุดสิ้นสุดของส่วนของเส้นโค้งเพื่อสร้างเส้นโค้งที่ราบรื่นและต่อเนื่อง</string>
-    <string name="saved_to_original">ไฟล์ที่ถูกเขียนทับด้วยชื่อ %s ที่ปลายทางเดิม</string>
+    <string name="saved_to_original">ไฟล์ที่ถูกเขียนทับด้วยชื่อ %1$s ที่ปลายทางเดิม</string>
     <string name="magnifier">แว่นขยาย</string>
     <string name="magnifier_sub">เปิดใช้งานแว่นขยายที่ด้านบนของนิ้วในโหมดการวาดภาพเพื่อให้เข้าถึงได้ดีขึ้น</string>
     <string name="force_exif_widget_initial_value">บังคับค่าเริ่มต้น</string>
@@ -723,7 +723,7 @@
     <string name="recognize_text">OCR (จดจำข้อความ)</string>
     <string name="recognize_text_sub">จดจำข้อความจากรูปภาพที่กำหนด รองรับมากกว่า 120 ภาษา</string>
     <string name="picture_has_no_text">รูปภาพไม่มีข้อความ หรือแอปไม่พบ</string>
-    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="accuracy">Accuracy: %1$s</string>
     <string name="recognition_type">ประเภทการรับรู้</string>
     <string name="fast">เร็ว</string>
     <string name="standard">มาตรฐาน</string>
@@ -855,7 +855,7 @@
     <string name="lossy_compression">การบีบอัดแบบสูญเสีย</string>
     <string name="lossy_compression_sub">ใช้การบีบอัดแบบ lossy เพื่อลดขนาดไฟล์แทนที่จะเป็นแบบ lossless</string>
     <string name="compression_type">ประเภทการบีบอัด</string>
-    <string name="speed_sub">ควบคุมความเร็วในการถอดรหัสรูปภาพผลลัพธ์ ซึ่งจะช่วยให้เปิดรูปภาพผลลัพธ์ได้เร็วขึ้น ค่า %1$d หมายถึงการถอดรหัสช้าที่สุด ในขณะที่ %2$d - เร็วที่สุด การตั้งค่านี้อาจเพิ่มขนาดรูปภาพเอาต์พุต</string>
+    <string name="speed_sub">ควบคุมความเร็วในการถอดรหัสรูปภาพผลลัพธ์ ซึ่งจะช่วยให้เปิดรูปภาพผลลัพธ์ได้เร็วขึ้น ค่า %1$s หมายถึงการถอดรหัสช้าที่สุด ในขณะที่ %2$s - เร็วที่สุด การตั้งค่านี้อาจเพิ่มขนาดรูปภาพเอาต์พุต</string>
     <string name="sorting">การเรียงลำดับ</string>
     <string name="sort_by_date">วันที่</string>
     <string name="sort_by_date_reversed">วันที่ (กลับด้าน)</string>
@@ -1122,7 +1122,7 @@
     <string name="save_as_qr_code_image">บันทึกเป็นภาพรหัส QR</string>
     <string name="delete_template">ลบเทมเพลต</string>
     <string name="delete_template_warn">คุณกำลังจะลบตัวกรองเทมเพลตที่เลือก การดำเนินการนี้ไม่สามารถยกเลิกได้</string>
-    <string name="added_filter_template">เพิ่มเทมเพลตตัวกรองชื่อ \"%1$s\" (%2$d)</string>
+    <string name="added_filter_template">เพิ่มเทมเพลตตัวกรองชื่อ \"%1$s\" (%2$s)</string>
     <string name="filter_preview">ดูตัวอย่างตัวกรอง</string>
     <string name="qr_code">คิวอาร์และบาร์โค้ด</string>
     <string name="qr_code_sub">สแกนโค้ด QR และรับเนื้อหาหรือวางสตริงของคุณเพื่อสร้างโค้ดใหม่</string>
@@ -1473,7 +1473,7 @@
     <string name="layout">เค้าโครง</string>
     <string name="main_screen_title">ชื่อหน้าจอหลัก</string>
     <string name="constant_rate_factor">ปัจจัยอัตราคงที่ (CRF)</string>
-    <string name="crf_sub">ค่า %1$d หมายถึงการบีบอัดที่ช้า ส่งผลให้ขนาดไฟล์ค่อนข้างเล็ก %2$d หมายถึงการบีบอัดที่เร็วขึ้น ส่งผลให้ไฟล์มีขนาดใหญ่</string>
+    <string name="crf_sub">ค่า %1$s หมายถึงการบีบอัดที่ช้า ส่งผลให้ขนาดไฟล์ค่อนข้างเล็ก %2$s หมายถึงการบีบอัดที่เร็วขึ้น ส่งผลให้ไฟล์มีขนาดใหญ่</string>
     <string name="lut_library">ห้องสมุดลุต</string>
     <string name="lut_library_sub">ดาวน์โหลดชุด LUT ซึ่งคุณสามารถสมัครได้หลังจากดาวน์โหลด</string>
     <string name="lut_library_update_sub">อัปเดตคอลเลกชันของ LUT (เฉพาะรายการใหม่เท่านั้นที่จะถูกจัดคิว) ซึ่งคุณสามารถใช้ได้หลังจากดาวน์โหลด</string>
@@ -1508,8 +1508,8 @@
     <string name="fast_settings_side">ด้านการตั้งค่าด่วน</string>
     <string name="fast_settings_side_sub">เพิ่มแถบลอยที่ด้านที่เลือกขณะแก้ไขรูปภาพ ซึ่งจะเปิดการตั้งค่าที่รวดเร็วเมื่อคลิก</string>
     <string name="clear_selection">ล้างการเลือก</string>
-    <string name="settings_group_visibility_hidden">การตั้งค่ากลุ่ม \"%s\" จะถูกยุบโดยค่าเริ่มต้น</string>
-    <string name="settings_group_visibility_visible">การตั้งค่ากลุ่ม \"%s\" จะถูกขยายตามค่าเริ่มต้น</string>
+    <string name="settings_group_visibility_hidden">การตั้งค่ากลุ่ม \"%1$s\" จะถูกยุบโดยค่าเริ่มต้น</string>
+    <string name="settings_group_visibility_visible">การตั้งค่ากลุ่ม \"%1$s\" จะถูกขยายตามค่าเริ่มต้น</string>
     <string name="base_64_tools">เครื่องมือ Base64</string>
     <string name="base_64_tools_sub">ถอดรหัสสตริง Base64 เป็นรูปภาพ หรือเข้ารหัสรูปภาพเป็นรูปแบบ Base64</string>
     <string name="base_64">ฐาน64</string>
@@ -1750,7 +1750,7 @@
     <string name="processing_screenshot">กำลังประมวลผลภาพหน้าจอ</string>
     <string name="screenshot_not_captured_try_again">ไม่ได้จับภาพหน้าจอ โปรดลองอีกครั้ง</string>
     <string name="skipped_saving">ข้ามการบันทึกแล้ว</string>
-    <string name="skipped_saving_multiple">%1$d ไฟล์ถูกข้าม</string>
+    <string name="skipped_saving_multiple">%1$s ไฟล์ถูกข้าม</string>
     <string name="allow_skip_if_larger">อนุญาตให้ข้ามหากใหญ่กว่านี้</string>
     <string name="allow_skip_if_larger_sub">เครื่องมือบางอย่างจะได้รับอนุญาตให้ข้ามการบันทึกรูปภาพได้ หากขนาดไฟล์ที่ได้จะใหญ่กว่าต้นฉบับ</string>
     <string name="qr_type_calendar_event">กิจกรรมในปฏิทิน</string>
@@ -1840,7 +1840,7 @@
     <string name="palette_format">รูปแบบจานสี</string>
     <string name="export_palette_sub">ส่งออกจานสีที่สร้างขึ้นเป็นรูปแบบต่างๆ</string>
     <string name="add_color_palette_sub">เพิ่มสีใหม่ให้กับจานสีปัจจุบัน</string>
-    <string name="palette_name_not_supported">รูปแบบ %s ไม่รองรับการระบุชื่อจานสี</string>
+    <string name="palette_name_not_supported">รูปแบบ %1$s ไม่รองรับการระบุชื่อจานสี</string>
     <string name="wallpapers_export_not_avaialbe">เนื่องจากนโยบายของ Play Store ฟีเจอร์นี้จึงไม่สามารถรวมไว้ในรุ่นปัจจุบันได้ หากต้องการเข้าถึงฟังก์ชันนี้ โปรดดาวน์โหลด ImageToolbox จากแหล่งอื่น คุณสามารถค้นหารุ่นที่มีอยู่บน GitHub ด้านล่าง</string>
     <string name="open_github_page">เปิดหน้า Github</string>
     <string name="overwrite_files_sub_short">ไฟล์ต้นฉบับจะถูกแทนที่ด้วยไฟล์ใหม่แทนที่จะบันทึกในโฟลเดอร์ที่เลือก</string>
@@ -1867,7 +1867,7 @@
     <string name="pulse_grid_pixelization">พิกเซลกริดพัลส์</string>
     <string name="nucleus_pixelization">การทำให้เป็นพิกเซลของนิวเคลียส</string>
     <string name="radial_weave_pixelization">การสร้างพิกเซลแบบสานเรเดียล</string>
-    <string name="cannot_open_uri">ไม่สามารถเปิด uri \"%s\"</string>
+    <string name="cannot_open_uri">ไม่สามารถเปิด uri \"%1$s\"</string>
     <string name="snowfall_mode">โหมดหิมะตก</string>
     <string name="enabled">เปิดใช้งานแล้ว</string>
     <string name="border_frame">เส้นขอบเฟรม</string>
@@ -1929,10 +1929,10 @@
     <string name="merging">การผสาน</string>
     <string name="chunk_size">ขนาดก้อน</string>
     <string name="overlap_size">ขนาดที่ทับซ้อนกัน</string>
-    <string name="note_chunk_info">รูปภาพที่มีขนาดเกิน %1$d พิกเซลจะถูกแบ่งและประมวลผลเป็นชิ้นๆ โดยจะซ้อนทับกันเพื่อป้องกันไม่ให้เกิดรอยต่อที่มองเห็นได้</string>
+    <string name="note_chunk_info">รูปภาพที่มีขนาดเกิน %1$s พิกเซลจะถูกแบ่งและประมวลผลเป็นชิ้นๆ โดยจะซ้อนทับกันเพื่อป้องกันไม่ให้เกิดรอยต่อที่มองเห็นได้</string>
     <string name="large_chunk_warning">ขนาดใหญ่อาจทำให้เกิดความไม่เสถียรกับอุปกรณ์ระดับล่าง</string>
     <string name="select_one_to_start">เลือกหนึ่งรายการเพื่อเริ่มต้น</string>
-    <string name="delete_model_sub">คุณต้องการลบโมเดล %s หรือไม่ คุณจะต้องดาวน์โหลดอีกครั้ง</string>
+    <string name="delete_model_sub">คุณต้องการลบโมเดล %1$s หรือไม่ คุณจะต้องดาวน์โหลดอีกครั้ง</string>
     <string name="confirm">ยืนยัน</string>
     <string name="models">โมเดล</string>
     <string name="downloaded_models">โมเดลที่ดาวน์โหลด</string>
@@ -2002,7 +2002,7 @@
     <string name="horizontal_border_thickness">ความหนาของเส้นขอบแนวนอน</string>
     <string name="vertical_border_thickness">ความหนาของเส้นขอบแนวตั้ง</string>
     <plurals name="color_count">
-        <item quantity="other">%s สี</item>
+        <item quantity="other">%1$s สี</item>
     </plurals>
     <string name="current_model_not_chunkable">รุ่นปัจจุบันไม่รองรับการรวมเป็นก้อน รูปภาพจะถูกประมวลผลในขนาดดั้งเดิม ซึ่งอาจทำให้เกิดการใช้หน่วยความจำสูงและมีปัญหากับอุปกรณ์ระดับล่าง</string>
     <string name="chunking_disabled">ปิดใช้งานการแบ่งส่วน รูปภาพจะถูกประมวลผลในขนาดดั้งเดิม ซึ่งอาจทำให้ใช้หน่วยความจำสูงและมีปัญหากับอุปกรณ์ระดับล่าง แต่อาจให้ผลลัพธ์ที่ดีกว่าในการอนุมาน</string>
