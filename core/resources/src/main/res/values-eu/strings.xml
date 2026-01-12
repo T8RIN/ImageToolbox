@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -907,7 +905,7 @@
     <string name="engine_mode">Motor modua</string>
     <string name="legacy">Ondarea</string>
     <string name="lstm_network">LSTM sarea</string>
-    <string name="legacy_and_lstm">Legacy &amp;amp; LSTM</string>
+    <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">Bihurtu</string>
     <string name="convert_sub">Bihurtu irudi sortak emandako formatura</string>
     <string name="add_new_folder">Gehitu Karpeta Berria</string>
@@ -1122,7 +1120,7 @@
     <string name="save_as_qr_code_image">Gorde QR kodearen irudi gisa</string>
     <string name="delete_template">Ezabatu txantiloia</string>
     <string name="delete_template_warn">Hautatutako txantiloi-iragazkia ezabatzera zoaz. Eragiketa hau ezin da desegin</string>
-    <string name="added_filter_template">\"%1$s\" izena duen iragazki txantiloia gehitu da (%2$d)</string>
+    <string name="added_filter_template">\\\"%1$s\\\" izena duen iragazki txantiloia gehitu da (%2$d)</string>
     <string name="filter_preview">Iragaziaren aurrebista</string>
     <string name="qr_code">QR eta barra-kodea</string>
     <string name="qr_code_sub">Eskaneatu QR kodea eta lortu bere edukia edo itsatsi zure katea berria sortzeko</string>
@@ -1417,7 +1415,7 @@
     <string name="tesseract_options">Tesseract Aukerak</string>
     <string name="tesseract_options_sub">Aplikatu sarrerako aldagai batzuk tesseract motorrako</string>
     <string name="custom_options">Aukera pertsonalizatuak</string>
-    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira: \"--{option_name} {value}\"</string>
+    <string name="custom_params_info">Aukerak eredu hau jarraituz sartu behar dira: \\\"--{option_name} {value}\\\"</string>
     <string name="auto_crop">Mozketa automatikoa</string>
     <string name="free_corners">Doako Txokoak</string>
     <string name="free_corners_sub">Moztu irudia poligonoz, honek perspektiba ere zuzentzen du</string>
@@ -1508,8 +1506,8 @@
     <string name="fast_settings_side">Ezarpen azkarrak aldean</string>
     <string name="fast_settings_side_sub">Gehitu zerrenda mugikor bat hautatutako aldean irudiak editatzen dituzun bitartean, eta horrek ezarpen azkarrak irekiko ditu klik egiten duzunean</string>
     <string name="clear_selection">Garbitu hautaketa</string>
-    <string name="settings_group_visibility_hidden">\"%s\" ezarpen taldea lehenespenez tolestuta egongo da</string>
-    <string name="settings_group_visibility_visible">\"%s\" ezarpen taldea lehenespenez zabalduko da</string>
+    <string name="settings_group_visibility_hidden">\\\"%s\\\" ezarpen taldea lehenespenez tolestuta egongo da</string>
+    <string name="settings_group_visibility_visible">\\\"%s\\\" ezarpen taldea lehenespenez zabalduko da</string>
     <string name="base_64_tools">Base64 tresnak</string>
     <string name="base_64_tools_sub">Deskodetu Base64 katea irudira, edo kodetu irudia Base64 formatuan</string>
     <string name="base_64">Oinarria64</string>
@@ -1738,7 +1736,7 @@
     <string name="refresh">Freskatu</string>
     <string name="wallpapers_export_sub">Lortu uneko hasierako, blokeoa eta horma-irudi integratuak</string>
     <string name="allow_access_to_all_files_for_wp">Baimendu fitxategi guztietarako sarbidea, hau beharrezkoa da horma-paperak berreskuratzeko</string>
-    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu \"Baimendu guztiak\" hautatu duzula</string>
+    <string name="allow_read_media_images_for_wp">Kudeatu kanpoko biltegiratze-baimena ez da nahikoa, zure irudietarako sarbidea baimendu behar duzu, ziurtatu \\\"Baimendu guztiak\\\" hautatu duzula</string>
     <string name="add_preset_to_filename">Gehitu aurrezarpena fitxategi-izenari</string>
     <string name="add_preset_to_filename_sub">Hautatutako aurrezartutako atzizkia eransten dio irudi-fitxategiaren izenari</string>
     <string name="add_image_scale_mode_to_filename">Gehitu irudien eskala modua fitxategi-izenari</string>
@@ -1867,7 +1865,7 @@
     <string name="pulse_grid_pixelization">Pultsu-sarearen pixelizazioa</string>
     <string name="nucleus_pixelization">Nukleoaren pixelizazioa</string>
     <string name="radial_weave_pixelization">Ehun erradiala pixelizazioa</string>
-    <string name="cannot_open_uri">Ezin da ireki uri \"%s\"</string>
+    <string name="cannot_open_uri">Ezin da ireki uri \\\"%s\\\"</string>
     <string name="snowfall_mode">Elurra modua</string>
     <string name="enabled">Gaituta</string>
     <string name="border_frame">Ertzaren markoa</string>
@@ -2002,7 +2000,26 @@
     <string name="horizontal_border_thickness">Ertzaren lodiera horizontala</string>
     <string name="vertical_border_thickness">Ertz Bertikala Lodiera</string>
     <plurals name="color_count">
-        <item quantity="one">%s kolorea</item>
-        <item quantity="other">%s koloreak</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
+    <string name="usdt" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="developer_email" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
