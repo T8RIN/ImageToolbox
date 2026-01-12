@@ -2023,4 +2023,5 @@
     <string name="ton" translatable="false"></string>
     <string name="file_provider" translatable="false"></string>
     <string name="exif" translatable="false"></string>
+    <string name="type_removebg"></string>
 </resources>
