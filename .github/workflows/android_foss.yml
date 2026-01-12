@@ -1,4 +1,4 @@
-name: Android CI
+name: Android CI FOSS
 
 on:
   workflow_dispatch:
@@ -55,28 +55,3 @@ jobs:
 
       - name: Delete FOSS APKs
         run: rm -rf app/build/outputs/apk/foss
-
-      - name: Build Market APKs
-        run: bash ./gradlew assembleMarketRelease
-
-      - name: Sign Market APKs
-        run: |
-          ANDROID_SDK_PATH=$ANDROID_HOME/build-tools/35.0.0/apksigner
-          for apk in app/build/outputs/apk/market/release/*.apk; do
-            $ANDROID_SDK_PATH sign \
-              --ks $RUNNER_TEMP/keystores/keystore.jks \
-              --ks-key-alias ${{ secrets.ALIAS }} \
-              --ks-pass pass:${{ secrets.KEY_STORE_PASS }} \
-              --key-pass pass:${{ secrets.KEY_STORE_PASS }} \
-              --out "$apk" \
-              "$apk"
-          done
-
-      - name: Upload Market APKs
-        uses: actions/upload-artifact@v4
-        with:
-          name: Signed Market APKs
-          path: app/build/outputs/apk/market/release/*.apk
-
-      - name: Delete Market APKs
-        run: rm -rf app/build/outputs/apk/market

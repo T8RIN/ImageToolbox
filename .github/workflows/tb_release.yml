@@ -1,9 +1,11 @@
 name: Create Release
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
+#on:
+#  push:
+#    tags:
+#      - '*'
 
 jobs:
   build_and_release:
