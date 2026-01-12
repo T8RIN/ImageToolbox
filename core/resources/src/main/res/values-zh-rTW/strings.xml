@@ -1630,10 +1630,10 @@
     <string name="disable_rotation_sub"></string>
     <string name="enable_snapping_to_borders"></string>
     <string name="enable_snapping_to_borders_sub"></string>
-    <string name="ocr_write_to_file_sub">从一批图像中提取文本并将其存储在一个文本文件中</string>
-    <string name="ocr_write_to_metadata_sub">从每张图像中提取文本并将其放入相关照片的 EXIF 信息中</string>
-    <string name="invisible_mode">隐形模式</string>
-    <string name="invisible_mode_sub">使用隐写术在图像字节内创建肉眼看不见的水印</string>
+    <string name="ocr_write_to_file_sub"></string>
+    <string name="ocr_write_to_metadata_sub"></string>
+    <string name="invisible_mode"></string>
+    <string name="invisible_mode_sub"></string>
     <string name="use_lsb_sub"></string>
     <string name="operation_almost_complete"></string>
     <string name="liquid_glass"></string>
