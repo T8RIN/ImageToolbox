@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -1907,9 +1905,9 @@
     <string name="model_h264">纹理化、H.264压缩</string>
     <string name="model_vhs">VHS压缩</string>
     <string name="model_cinepak">非标准压缩（Cinepak、MSVideo1、RoQ）</string>
-    <string name="model_debink_v4">闪烁压缩，几何图形效果更佳</string>
-    <string name="model_debink_v5">闪烁压缩，增强型</string>
-    <string name="model_debink_v6">闪烁压缩，柔和款，保留细节</string>
+    <string name="model_debink_v4">宾克压缩，几何形状更好</string>
+    <string name="model_debink_v5">宾克压缩，增强型</string>
+    <string name="model_debink_v6">宾克压缩，柔和，保留细节</string>
     <string name="model_antialias">消除阶梯效应，实现平滑处理</string>
     <string name="model_kdm_scans">扫描艺术品/画作，轻度压缩，摩尔纹</string>
     <string name="model_bandage">色带失真</string>
@@ -1996,12 +1994,12 @@
     <string name="model_realesrgan_x4plus">通用图像的X4放大器，增强纹理和逼真效果。</string>
     <string name="model_realesrgan_x4plus_anime">为动漫图像优化的X4上采样器；6个RRDB块，使线条更清晰，细节更丰富。</string>
     <string name="model_realesrnet_x4plus">带有MSE损失的X4上采样器，为普通图像生成更平滑的结果并减少伪影。</string>
-    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler 针对动漫图像进行了优化； 4B32F 型号具有更锐利的细节和流畅的线条。</string>
-    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 模型，适用于一般图像；强调锐度和清晰度。</string>
-    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快、更小，在使用更少 GPU 内存的同时保留细节。</string>
-    <string name="model_rmbg_1_4">用于快速背景去除的轻量级模型。平衡的性能和准确性。适用于肖像、物体和场景。推荐用于大多数用例。</string>
-    <string name="model_rmbg_2_0">具有卓越细节处理的增强版本。对于复杂的背景和透明的物体效果更好。精度更高，但需要更多的处理能力。</string>
-    <string name="type_removebg">删除背景</string>
-    <string name="horizontal_border_thickness">水平边框厚度</string>
-    <string name="vertical_border_thickness">垂直边框厚度</string>
+    <string name="type_removebg">移除背景</string>
+    <string name="horizontal_border_thickness">水平边界厚度</string>
+    <string name="vertical_border_thickness">垂直边界厚度</string>
+    <string name="model_rmbg_2_0">增强版，具有卓越的细节处理能力。更适合复杂的背景和透明对象。精度更高，但需要更多的处理能力。</string>
+    <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡性能和准确性。适用于肖像、物体和场景。建议用于大多数用例。</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快更小的GPU在使用更少GPU内存的同时保留细节。</string>
+    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2模型，适用于一般图像；强调锐度和清晰度。</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler针对动漫图像进行了优化；4B32F变体，细节更清晰，线条流畅。</string>
 </resources>

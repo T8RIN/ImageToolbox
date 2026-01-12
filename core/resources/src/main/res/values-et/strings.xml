@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -287,8 +286,7 @@
     <string name="features_sub">Paroolipõhine failide krüptimine. Jätkatud faile saab salvestada valitud kataloogi või jagada. Dekrüpteeritud faile saab avada ka otse.</string>
     <string name="implementation_sub">AES-256, GCM-režiim, polsterduseta, vaikimisi 12-baidised juhuslikud IV-d. Saate valida vajaliku algoritmi. Võtmeid kasutatakse 256-bitiste SHA-3 räsidena</string>
     <string name="file_size">Faili suurus</string>
-    <string name="file_size_sub">Maksimaalset failisuurust piiravad Android OS ja saadaolev mälu, mis sõltub seadmest.
-\nPange tähele: mälu ei ole salvestusruum.</string>
+    <string name="file_size_sub">Maksimaalset failisuurust piiravad Android OS ja saadaolev mälu, mis sõltub seadmest. \nPange tähele: mälu ei ole salvestusruum.</string>
     <string name="compatibility_sub">Pange tähele, et ühilduvus muude failide krüpteerimistarkvara või -teenustega ei ole garanteeritud. Veidi erinev võtmetöötlus või šifri konfiguratsioon võib põhjustada ühildumatust.</string>
     <string name="invalid_password_or_not_encrypted">Vale parool või valitud fail pole krüptitud</string>
     <string name="image_size_warning">Etteantud laiuse ja kõrgusega kujutise salvestamine võib põhjustada mälutõrke. Tehke seda omal riisikol.</string>
