@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -829,7 +827,7 @@
     <string name="jxl_type_to_jpeg_sub">JXL నుండి JPEGకి లాస్‌లెస్ ట్రాన్స్‌కోడింగ్‌ను అమలు చేయండి</string>
     <string name="jpeg_type_to_jxl_sub">JPEG నుండి JXL వరకు లాస్‌లెస్ ట్రాన్స్‌కోడింగ్‌ను అమలు చేయండి</string>
     <string name="jpeg_type_to_jxl">JPEG నుండి JXL</string>
-    <string name="select_jxl_image_to_start">ప్రారంభించడానికి JXL చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="select_jxl_image_to_start"></string>
     <string name="fast_gaussian_blur_2d">ఫాస్ట్ గాస్సియన్ బ్లర్ 2D</string>
     <string name="fast_gaussian_blur_3d">ఫాస్ట్ గాస్సియన్ బ్లర్ 3D</string>
     <string name="fast_gaussian_blur_4d">ఫాస్ట్ గాస్సియన్ బ్లర్ 4D</string>
@@ -838,7 +836,7 @@
     <string name="harmonization_color">హార్మోనైజేషన్ రంగు</string>
     <string name="harmonization_level">హార్మోనైజేషన్ స్థాయి</string>
     <string name="lanczos_bessel">లాంజోస్ బెస్సెల్</string>
-    <string name="lanczos_bessel_sub">పిక్సెల్ విలువలకు బెస్సెల్ (జింక్) ఫంక్షన్‌ని వర్తింపజేయడం ద్వారా అధిక-నాణ్యత ఇంటర్‌పోలేషన్‌ను నిర్వహించే రీసాంప్లింగ్ పద్ధతి</string>
+    <string name="lanczos_bessel_sub"></string>
     <string name="gif_type_to_jxl">GIF నుండి JXL</string>
     <string name="gif_type_to_jxl_sub">GIF చిత్రాలను JXL యానిమేటెడ్ చిత్రాలుగా మార్చండి</string>
     <string name="apng_type_to_jxl">APNG నుండి JXL</string>
@@ -941,7 +939,7 @@
     <string name="tag_exif_version">ఎక్సిఫ్ వెర్షన్</string>
     <string name="tag_flashpix_version">Flashpix వెర్షన్</string>
     <string name="tag_color_space">కలర్ స్పేస్</string>
-    <string name="tag_gamma">గామా</string>
+    <string name="tag_gamma"></string>
     <string name="tag_pixel_x_dimension">పిక్సెల్ X డైమెన్షన్</string>
     <string name="tag_pixel_y_dimension">పిక్సెల్ Y డైమెన్షన్</string>
     <string name="tag_compressed_bits_per_pixel">పిక్సెల్‌కు కంప్రెస్డ్ బిట్స్</string>
@@ -990,13 +988,13 @@
     <string name="tag_cfa_pattern">CFA నమూనా</string>
     <string name="tag_custom_rendered">కస్టమ్ రెండర్ చేయబడింది</string>
     <string name="tag_exposure_mode">ఎక్స్పోజర్ మోడ్</string>
-    <string name="tag_white_balance">వైట్ బ్యాలెన్స్</string>
+    <string name="tag_white_balance"></string>
     <string name="tag_digital_zoom_ratio">డిజిటల్ జూమ్ నిష్పత్తి</string>
     <string name="tag_focal_length_in_35mm_film">ఫోకల్ లెంగ్త్ 35mm ఫిల్మ్</string>
     <string name="tag_scene_capture_type">సీన్ క్యాప్చర్ రకం</string>
     <string name="tag_gain_control">నియంత్రణ పొందండి</string>
-    <string name="tag_contrast">కాంట్రాస్ట్</string>
-    <string name="tag_saturation">సంతృప్తత</string>
+    <string name="tag_contrast"></string>
+    <string name="tag_saturation"></string>
     <string name="tag_sharpness">పదును</string>
     <string name="tag_device_setting_description">పరికర సెట్టింగ్ వివరణ</string>
     <string name="tag_subject_distance_range">విషయ దూర పరిధి</string>
@@ -1058,21 +1056,21 @@
     <string name="dash_size">డాష్ పరిమాణం</string>
     <string name="draw_mode_image_sub">ఇచ్చిన మార్గంలో గీయడానికి ఎంచుకున్న చిత్రాన్ని ఉపయోగించండి</string>
     <string name="draw_image_sub">ఈ చిత్రం గీసిన మార్గం యొక్క పునరావృత ఎంట్రీగా ఉపయోగించబడుతుంది</string>
-    <string name="outlined_triangle_sub">ప్రారంభ బిందువు నుండి ముగింపు బిందువు వరకు వివరించిన త్రిభుజాన్ని గీస్తుంది</string>
-    <string name="triangle_sub">ప్రారంభ బిందువు నుండి ముగింపు బిందువు వరకు వివరించిన త్రిభుజాన్ని గీస్తుంది</string>
+    <string name="outlined_triangle_sub"></string>
+    <string name="triangle_sub"></string>
     <string name="outlined_triangle">వివరించిన త్రిభుజం</string>
     <string name="triangle">త్రిభుజం</string>
-    <string name="polygon_sub">ప్రారంభ స్థానం నుండి ముగింపు బిందువు వరకు బహుభుజిని గీస్తుంది</string>
+    <string name="polygon_sub"></string>
     <string name="polygon">బహుభుజి</string>
     <string name="outlined_polygon">వివరించిన బహుభుజి</string>
-    <string name="outlined_polygon_sub">ప్రారంభ స్థానం నుండి ముగింపు బిందువు వరకు వివరించిన బహుభుజిని గీస్తుంది</string>
+    <string name="outlined_polygon_sub"></string>
     <string name="vertices">శీర్షాలు</string>
     <string name="draw_regular_polygon">రెగ్యులర్ బహుభుజి గీయండి</string>
     <string name="draw_regular_polygon_sub">ఉచిత రూపానికి బదులుగా రెగ్యులర్‌గా ఉండే బహుభుజిని గీయండి</string>
-    <string name="star_sub">స్టార్ట్ పాయింట్ నుండి ఎండ్ పాయింట్ వరకు నక్షత్రాన్ని గీస్తుంది</string>
+    <string name="star_sub"></string>
     <string name="star">నక్షత్రం</string>
     <string name="outlined_star">వివరించిన నక్షత్రం</string>
-    <string name="outlined_star_sub">ప్రారంభ స్థానం నుండి ముగింపు బిందువు వరకు వివరించిన నక్షత్రాన్ని గీస్తుంది</string>
+    <string name="outlined_star_sub"></string>
     <string name="inner_radius_ratio">అంతర్గత వ్యాసార్థ నిష్పత్తి</string>
     <string name="draw_regular_star">రెగ్యులర్ స్టార్ గీయండి</string>
     <string name="draw_regular_star_sub">ఉచిత ఫారమ్‌కు బదులుగా రెగ్యులర్‌గా ఉండే నక్షత్రాన్ని గీయండి</string>
@@ -1093,7 +1091,7 @@
     <string name="allow_enter_by_text_field">టెక్స్ట్ ఫీల్డ్ ద్వారా నమోదు చేయడానికి అనుమతించండి</string>
     <string name="allow_enter_by_text_field_sub">ప్రీసెట్‌ల ఎంపిక వెనుక ఉన్న టెక్స్ట్ ఫీల్డ్‌ను ఎనేబుల్ చేస్తుంది, వాటిని ఫ్లైలో నమోదు చేయండి</string>
     <string name="scale_color_space">స్కేల్ కలర్ స్పేస్</string>
-    <string name="linear">లీనియర్</string>
+    <string name="linear"></string>
     <string name="equalize_histogram_pixelation">హిస్టోగ్రాం పిక్సెలేషన్‌ను సమం చేయండి</string>
     <string name="grid_size_x">గ్రిడ్ పరిమాణం X</string>
     <string name="grid_size_y">గ్రిడ్ పరిమాణం Y</string>
@@ -1121,7 +1119,7 @@
     <string name="save_as_file">ఫైల్‌గా సేవ్ చేయండి</string>
     <string name="save_as_qr_code_image">QR కోడ్ ఇమేజ్‌గా సేవ్ చేయండి</string>
     <string name="delete_template">టెంప్లేట్‌ను తొలగించండి</string>
-    <string name="delete_template_warn">మీరు ఎంచుకున్న టెంప్లేట్ ఫిల్టర్‌ను తొలగించబోతున్నారు. ఈ ఆపరేషన్ రద్దు చేయబడదు</string>
+    <string name="delete_template_warn"></string>
     <string name="added_filter_template">\"%1$s\" (%2$d) పేరుతో ఫిల్టర్ టెంప్లేట్ జోడించబడింది</string>
     <string name="filter_preview">ఫిల్టర్ ప్రివ్యూ</string>
     <string name="qr_code">QR &amp;amp; బార్‌కోడ్</string>
@@ -1133,7 +1131,7 @@
     <string name="grant_camera_permission_to_scan_qr_code">QR కోడ్‌ని స్కాన్ చేయడానికి సెట్టింగ్‌లలో కెమెరా అనుమతిని మంజూరు చేయండి</string>
     <string name="grant_camera_permission_to_scan_document_scanner">డాక్యుమెంట్ స్కానర్‌ని స్కాన్ చేయడానికి సెట్టింగ్‌లలో కెమెరా అనుమతిని మంజూరు చేయండి</string>
     <string name="cubic">క్యూబిక్</string>
-    <string name="bspline">బి-స్ప్లైన్</string>
+    <string name="bspline"></string>
     <string name="hamming">హామింగ్</string>
     <string name="hanning">హన్నింగ్</string>
     <string name="blackman">నల్ల మనిషి</string>
@@ -1144,21 +1142,21 @@
     <string name="bartlett">బార్ట్లెట్</string>
     <string name="robidoux">రాబిడౌక్స్</string>
     <string name="robidoux_sharp">రాబిడౌక్స్ షార్ప్</string>
-    <string name="spline16">స్ప్లైన్ 16</string>
-    <string name="spline36">స్ప్లైన్ 36</string>
-    <string name="spline64">స్ప్లైన్ 64</string>
+    <string name="spline16"></string>
+    <string name="spline36"></string>
+    <string name="spline64"></string>
     <string name="kaiser">కైజర్</string>
     <string name="bartlett_hann">బార్ట్లెట్-అతను</string>
     <string name="box">పెట్టె</string>
     <string name="bohman">బోహ్మన్</string>
-    <string name="lanczos2">లాంజోస్ 2</string>
-    <string name="lanczos3">లాంజోస్ 3</string>
-    <string name="lanczos4">లాంజోస్ 4</string>
+    <string name="lanczos2"></string>
+    <string name="lanczos3"></string>
+    <string name="lanczos4"></string>
     <string name="lanczos2_jinc">లాంజోస్ 2 జింక్</string>
     <string name="lanczos3_jinc">లాంజోస్ 3 జింక్</string>
     <string name="lanczos4_jinc">లాంజోస్ 4 జింక్</string>
     <string name="cubic_sub">క్యూబిక్ ఇంటర్‌పోలేషన్ దగ్గరి 16 పిక్సెల్‌లను పరిగణనలోకి తీసుకోవడం ద్వారా సున్నితమైన స్కేలింగ్‌ను అందిస్తుంది, ఇది బిలినియర్ కంటే మెరుగైన ఫలితాలను ఇస్తుంది</string>
-    <string name="bspline_sub">వక్రరేఖ లేదా ఉపరితలం, అనువైన మరియు నిరంతర ఆకార ప్రాతినిధ్యాన్ని సజావుగా ఇంటర్‌పోలేట్ చేయడానికి మరియు అంచనా వేయడానికి పీస్‌వైస్-డిఫైన్డ్ బహుపది ఫంక్షన్‌లను ఉపయోగిస్తుంది</string>
+    <string name="bspline_sub"></string>
     <string name="hamming_sub">సిగ్నల్ ప్రాసెసింగ్‌లో ఉపయోగపడే సిగ్నల్ అంచులను తగ్గించడం ద్వారా స్పెక్ట్రల్ లీకేజీని తగ్గించడానికి ఉపయోగించే విండో ఫంక్షన్</string>
     <string name="hanning_sub">సిగ్నల్ ప్రాసెసింగ్ అప్లికేషన్‌లలో స్పెక్ట్రల్ లీకేజీని తగ్గించడానికి సాధారణంగా ఉపయోగించే హాన్ విండో యొక్క వేరియంట్</string>
     <string name="blackman_sub">సిగ్నల్ ప్రాసెసింగ్‌లో తరచుగా ఉపయోగించే స్పెక్ట్రల్ లీకేజీని తగ్గించడం ద్వారా మంచి ఫ్రీక్వెన్సీ రిజల్యూషన్‌ను అందించే విండో ఫంక్షన్</string>
@@ -1237,7 +1235,7 @@
     <string name="lagrange_2_sub">ఆర్డర్ 2 యొక్క లాగ్రాంజ్ ఇంటర్‌పోలేషన్ ఫిల్టర్, సున్నితమైన పరివర్తనతో అధిక-నాణ్యత ఇమేజ్ స్కేలింగ్‌కు అనుకూలం</string>
     <string name="lagrange_3">లాగ్రాంజ్ 3</string>
     <string name="lagrange_3_sub">ఆర్డర్ 3 యొక్క లాగ్రాంజ్ ఇంటర్‌పోలేషన్ ఫిల్టర్, ఇమేజ్ స్కేలింగ్ కోసం మెరుగైన ఖచ్చితత్వం మరియు సున్నితమైన ఫలితాలను అందిస్తుంది</string>
-    <string name="lanczos_6">లాంజోస్ 6</string>
+    <string name="lanczos_6"></string>
     <string name="lanczos_6_sub">6 అధిక ఆర్డర్‌తో లాంజోస్ రీసాంప్లింగ్ ఫిల్టర్, పదునైన మరియు మరింత ఖచ్చితమైన ఇమేజ్ స్కేలింగ్‌ను అందిస్తుంది</string>
     <string name="lanczos_6_jinc">లాంజోస్ 6 జింక్</string>
     <string name="lanczos_6_jinc_sub">మెరుగైన ఇమేజ్ రీసాంప్లింగ్ నాణ్యత కోసం జింక్ ఫంక్షన్‌ని ఉపయోగించి Lanczos 6 ఫిల్టర్ యొక్క వేరియంట్</string>
@@ -1245,7 +1243,7 @@
     <string name="linear_tent_blur">లీనియర్ టెంట్ బ్లర్</string>
     <string name="linear_gaussian_box_blur">లీనియర్ గాస్సియన్ బాక్స్ బ్లర్</string>
     <string name="linear_stack_blur">లీనియర్ స్టాక్ బ్లర్</string>
-    <string name="gaussian_box_blur">గాస్సియన్ బాక్స్ బ్లర్</string>
+    <string name="gaussian_box_blur"></string>
     <string name="linear_fast_gaussian_blur_next">లీనియర్ ఫాస్ట్ గాస్సియన్ బ్లర్ తదుపరి</string>
     <string name="linear_fast_gaussian_blur">లీనియర్ ఫాస్ట్ గాస్సియన్ బ్లర్</string>
     <string name="linear_gaussian_blur">లీనియర్ గాస్సియన్ బ్లర్</string>
@@ -1264,7 +1262,7 @@
     <string name="import_word">దిగుమతి</string>
     <string name="export">ఎగుమతి చేయండి</string>
     <string name="position">స్థానం</string>
-    <string name="center">కేంద్రం</string>
+    <string name="center"></string>
     <string name="top_left">ఎగువ ఎడమ</string>
     <string name="top_right">ఎగువ కుడి</string>
     <string name="bottom_left">దిగువ ఎడమ</string>
@@ -1347,12 +1345,12 @@
     <string name="gif_type_to_webp">GIF నుండి WEBP</string>
     <string name="gif_type_to_webp_sub">GIF చిత్రాలను WEBP యానిమేటెడ్ చిత్రాలుగా మార్చండి</string>
     <string name="webp_tools">WEBP సాధనాలు</string>
-    <string name="webp_tools_sub">చిత్రాలను WEBP యానిమేటెడ్ చిత్రానికి మార్చండి లేదా ఇచ్చిన WEBP యానిమేషన్ నుండి ఫ్రేమ్‌లను సంగ్రహించండి</string>
+    <string name="webp_tools_sub"></string>
     <string name="webp_type_to_image">చిత్రాలకు WEBP</string>
-    <string name="webp_type_to_image_sub">WEBP ఫైల్‌ను చిత్రాల బ్యాచ్‌గా మార్చండి</string>
-    <string name="webp_type_to_webp_sub">చిత్రాల బ్యాచ్‌ని WEBP ఫైల్‌గా మార్చండి</string>
+    <string name="webp_type_to_image_sub"></string>
+    <string name="webp_type_to_webp_sub"></string>
     <string name="webp_type_to_webp">WEBPకి చిత్రాలు</string>
-    <string name="select_webp_image_to_start">ప్రారంభించడానికి WEBP చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="select_webp_image_to_start"></string>
     <string name="manage_storage_extra_types">ఫైల్‌లకు పూర్తి యాక్సెస్ లేదు</string>
     <string name="manage_storage_extra_types_sub">Androidలో చిత్రాలుగా గుర్తించబడని JXL, QOI మరియు ఇతర చిత్రాలను చూడటానికి అన్ని ఫైల్‌లను యాక్సెస్ చేయడానికి అనుమతించండి. అనుమతి లేకుండా ఇమేజ్ టూల్‌బాక్స్ ఆ చిత్రాలను చూపించదు</string>
     <string name="default_draw_color">డిఫాల్ట్ డ్రా రంగు</string>
@@ -1373,19 +1371,19 @@
     <string name="fit_description">ఇచ్చిన కొలతలకు చిత్రాన్ని అమర్చండి మరియు నేపథ్యానికి బ్లర్ లేదా రంగును వర్తింపజేయండి</string>
     <string name="tools_arrangement">సాధనాల అమరిక</string>
     <string name="group_tools_by_type">రకం ద్వారా సమూహ సాధనాలు</string>
-    <string name="group_tools_by_type_sub">కస్టమ్ జాబితా అమరికకు బదులుగా వాటి రకాన్ని బట్టి ప్రధాన స్క్రీన్‌పై సమూహ సాధనాలు</string>
-    <string name="default_values">డిఫాల్ట్ విలువలు</string>
+    <string name="group_tools_by_type_sub"></string>
+    <string name="default_values"></string>
     <string name="system_bars_visibility">సిస్టమ్ బార్‌ల దృశ్యమానత</string>
     <string name="show_system_bars_by_swipe">స్వైప్ ద్వారా సిస్టమ్ బార్‌లను చూపించు</string>
     <string name="show_system_bars_by_swipe_sub">సిస్టమ్ బార్‌లు దాచబడి ఉంటే వాటిని చూపడానికి స్వైపింగ్‌ని ప్రారంభిస్తుంది</string>
-    <string name="auto">ఆటో</string>
+    <string name="auto"></string>
     <string name="hide_all">అన్నీ దాచు</string>
     <string name="show_all">అన్నీ చూపించు</string>
     <string name="hide_nav_bar">నవ్ బార్‌ను దాచండి</string>
     <string name="hide_status_bar">స్థితి పట్టీని దాచండి</string>
     <string name="noise_generation">నాయిస్ జనరేషన్</string>
     <string name="noise_generation_sub">పెర్లిన్ లేదా ఇతర రకాల వంటి విభిన్న శబ్దాలను రూపొందించండి</string>
-    <string name="frequency">ఫ్రీక్వెన్సీ</string>
+    <string name="frequency"></string>
     <string name="noise_type">శబ్దం రకం</string>
     <string name="rotation_type">భ్రమణ రకం</string>
     <string name="fractal_type">ఫ్రాక్టల్ రకం</string>
@@ -1398,7 +1396,7 @@
     <string name="return_type">రిటర్న్ రకం</string>
     <string name="jitter">జిట్టర్</string>
     <string name="domain_warp">డొమైన్ వార్ప్</string>
-    <string name="alignment">అమరిక</string>
+    <string name="alignment"></string>
     <string name="custom_filename">అనుకూల ఫైల్ పేరు</string>
     <string name="custom_filename_sub">ప్రస్తుత చిత్రాన్ని సేవ్ చేయడానికి ఉపయోగించే స్థానం మరియు ఫైల్ పేరును ఎంచుకోండి</string>
     <string name="saved_to_custom">అనుకూల పేరుతో ఫోల్డర్‌లో సేవ్ చేయబడింది</string>
@@ -1455,8 +1453,8 @@
     <string name="crossfade">క్రాస్‌ఫేడ్</string>
     <string name="crossfade_sub">ఫ్రేమ్‌లు ఒకదానికొకటి క్రాస్‌ఫేడ్ చేయబడతాయి</string>
     <string name="crossfade_count">క్రాస్‌ఫేడ్ ఫ్రేమ్‌లు లెక్కించబడతాయి</string>
-    <string name="threshold_one">థ్రెషోల్డ్ ఒకటి</string>
-    <string name="threshold_two">థ్రెషోల్డ్ రెండు</string>
+    <string name="threshold_one"></string>
+    <string name="threshold_two"></string>
     <string name="canny">కానీ</string>
     <string name="mirror_101">అద్దం 101</string>
     <string name="enhanced_zoom_blur">మెరుగైన జూమ్ బ్లర్</string>
@@ -1473,7 +1471,7 @@
     <string name="layout">లేఅవుట్</string>
     <string name="main_screen_title">ప్రధాన స్క్రీన్ శీర్షిక</string>
     <string name="constant_rate_factor">స్థిరమైన రేటు కారకం (CRF)</string>
-    <string name="crf_sub">%1$d విలువ అంటే స్లో కంప్రెషన్, ఫలితంగా ఫైల్ పరిమాణం చాలా తక్కువగా ఉంటుంది. %2$d అంటే వేగవంతమైన కుదింపు, ఫలితంగా పెద్ద ఫైల్ ఏర్పడుతుంది.</string>
+    <string name="crf_sub"></string>
     <string name="lut_library">లట్ లైబ్రరీ</string>
     <string name="lut_library_sub">LUTల సేకరణను డౌన్‌లోడ్ చేయండి, మీరు డౌన్‌లోడ్ చేసిన తర్వాత దరఖాస్తు చేసుకోవచ్చు</string>
     <string name="lut_library_update_sub">LUTల సేకరణను నవీకరించండి (కొత్తవి మాత్రమే క్యూలో ఉంచబడతాయి), వీటిని డౌన్‌లోడ్ చేసిన తర్వాత మీరు దరఖాస్తు చేసుకోవచ్చు</string>
@@ -1560,7 +1558,7 @@
     <string name="pages_selection">పేజీల ఎంపిక</string>
     <string name="tool_exit_confirmation">సాధనం నిష్క్రమణ నిర్ధారణ</string>
     <string name="tool_exit_confirmation_sub">మీరు నిర్దిష్ట సాధనాలను ఉపయోగిస్తున్నప్పుడు సేవ్ చేయని మార్పులను కలిగి ఉంటే మరియు దాన్ని మూసివేయడానికి ప్రయత్నిస్తే, కన్ఫర్మ్ డైలాగ్ చూపబడుతుంది</string>
-    <string name="edit_exif_screen">EXIFని సవరించండి</string>
+    <string name="edit_exif_screen"></string>
     <string name="edit_exif_screen_sub">రీకంప్రెషన్ లేకుండా ఒకే చిత్రం యొక్క మెటాడేటాను మార్చండి</string>
     <string name="edit_exif_tag">అందుబాటులో ఉన్న ట్యాగ్‌లను సవరించడానికి నొక్కండి</string>
     <string name="change_sticker">స్టిక్కర్‌ని మార్చండి</string>
@@ -1568,7 +1566,7 @@
     <string name="fit_height">ఫిట్ ఎత్తు</string>
     <string name="batch_compare">బ్యాచ్ సరిపోల్చండి</string>
     <string name="pick_files_to_checksum">ఎంచుకున్న అల్గోరిథం ఆధారంగా దాని చెక్‌సమ్‌ను లెక్కించడానికి ఫైల్/ఫైళ్లను ఎంచుకోండి</string>
-    <string name="pick_files">ఫైళ్లను ఎంచుకోండి</string>
+    <string name="pick_files"></string>
     <string name="pick_directory">డైరెక్టరీని ఎంచుకోండి</string>
     <string name="head_length_scale">తల పొడవు స్కేల్</string>
     <string name="stamp">స్టాంప్</string>
@@ -1584,8 +1582,8 @@
     <string name="inverse_horizontal_selection_sub">కత్తిరించిన ప్రాంతం చుట్టూ భాగాలను విలీనం చేయడానికి బదులుగా క్షితిజసమాంతర కట్ భాగం వదిలివేయబడుతుంది</string>
     <string name="collection_mesh_gradients">మెష్ గ్రేడియంట్స్ యొక్క సేకరణ</string>
     <string name="mesh_gradients_sub">కస్టమ్ మొత్తం నాట్లు మరియు రిజల్యూషన్‌తో మెష్ గ్రేడియంట్‌ని సృష్టించండి</string>
-    <string name="gradient_maker_type_image_mesh">మెష్ గ్రేడియంట్ ఓవర్‌లే</string>
-    <string name="gradient_maker_type_image_mesh_sub">ఇచ్చిన చిత్రాల పైభాగంలో మెష్ గ్రేడియంట్‌ని కంపోజ్ చేయండి</string>
+    <string name="gradient_maker_type_image_mesh"></string>
+    <string name="gradient_maker_type_image_mesh_sub"></string>
     <string name="points_customization">పాయింట్ల అనుకూలీకరణ</string>
     <string name="grid_size">గ్రిడ్ పరిమాణం</string>
     <string name="resolution_x">రిజల్యూషన్ X</string>
@@ -1609,7 +1607,7 @@
     <string name="no_covers_found">కవర్లు ఏవీ కనుగొనబడలేదు</string>
     <string name="send_logs">లాగ్లను పంపండి</string>
     <string name="send_logs_sub">యాప్ లాగ్‌ల ఫైల్‌ను షేర్ చేయడానికి క్లిక్ చేయండి, ఇది సమస్యను గుర్తించడంలో మరియు సమస్యలను పరిష్కరించడంలో నాకు సహాయపడుతుంది</string>
-    <string name="crash_title">అయ్యో… ఏదో తప్పు జరిగింది</string>
+    <string name="crash_title"></string>
     <string name="crash_subtitle">దిగువ ఎంపికలను ఉపయోగించి మీరు నన్ను సంప్రదించవచ్చు మరియు నేను పరిష్కారాన్ని కనుగొనడానికి ప్రయత్నిస్తాను.\n(లాగ్‌లను జోడించడం మర్చిపోవద్దు)</string>
     <string name="ocr_write_to_file">ఫైల్‌కి వ్రాయండి</string>
     <string name="ocr_write_to_file_sub">చిత్రాల బ్యాచ్ నుండి వచనాన్ని సంగ్రహించి, దానిని ఒక టెక్స్ట్ ఫైల్‌లో నిల్వ చేయండి</string>
@@ -1626,11 +1624,11 @@
     <string name="operation_almost_complete">ఆపరేషన్ దాదాపు పూర్తయింది. ఇప్పుడు రద్దు చేయడం వలన దానిని పునఃప్రారంభించవలసి ఉంటుంది</string>
     <string name="sort_by_date_modified">తేదీ సవరించబడింది</string>
     <string name="sort_by_date_modified_reversed">తేదీ సవరించబడింది (రివర్స్ చేయబడింది)</string>
-    <string name="sort_by_size">పరిమాణం</string>
+    <string name="sort_by_size"></string>
     <string name="sort_by_size_reversed">పరిమాణం (రివర్స్డ్)</string>
     <string name="sort_by_mime_type">MIME రకం</string>
     <string name="sort_by_mime_type_reversed">MIME రకం (రివర్స్డ్)</string>
-    <string name="sort_by_extension">పొడిగింపు</string>
+    <string name="sort_by_extension"></string>
     <string name="sort_by_extension_reversed">పొడిగింపు (రివర్స్డ్)</string>
     <string name="sort_by_date_added">తేదీ జోడించబడింది</string>
     <string name="sort_by_date_added_reversed">తేదీ జోడించబడింది (రివర్స్ చేయబడింది)</string>
@@ -1659,7 +1657,7 @@
     <string name="color_halftone">రంగు హాఫ్టోన్</string>
     <string name="contour">ఆకృతి</string>
     <string name="levels">స్థాయిలు</string>
-    <string name="offset">ఆఫ్‌సెట్</string>
+    <string name="offset"></string>
     <string name="voronoi_crystallize">వోరోనోయ్ స్ఫటికీకరణ</string>
     <string name="shape">ఆకారం</string>
     <string name="stretch">సాగదీయండి</string>
@@ -1690,7 +1688,7 @@
     <string name="density">సాంద్రత</string>
     <string name="mix">కలపండి</string>
     <string name="sphere_lensh_distortion">స్పియర్ లెన్స్ వక్రీకరణ</string>
-    <string name="refraction_index">వక్రీభవన సూచిక</string>
+    <string name="refraction_index"></string>
     <string name="arc">ఆర్క్</string>
     <string name="spread_angle">స్ప్రెడ్ కోణం</string>
     <string name="sparkle">మెరుపు</string>
@@ -1754,11 +1752,11 @@
     <string name="allow_skip_if_larger">పెద్దది అయితే దాటవేయడాన్ని అనుమతించండి</string>
     <string name="allow_skip_if_larger_sub">ఫలితంగా ఫైల్ పరిమాణం అసలైన దానికంటే పెద్దదిగా ఉంటే, కొన్ని సాధనాలు చిత్రాలను సేవ్ చేయడాన్ని దాటవేయడానికి అనుమతించబడతాయి</string>
     <string name="qr_type_calendar_event">క్యాలెండర్ ఈవెంట్</string>
-    <string name="qr_type_contact_info">సంప్రదించండి</string>
-    <string name="qr_type_email">ఇమెయిల్</string>
+    <string name="qr_type_contact_info"></string>
+    <string name="qr_type_email"></string>
     <string name="qr_type_geo_point">స్థానం</string>
     <string name="qr_type_phone">ఫోన్</string>
-    <string name="qr_type_plain">వచనం</string>
+    <string name="qr_type_plain"></string>
     <string name="qr_type_sms">SMS</string>
     <string name="qr_type_url">URL</string>
     <string name="qr_type_wifi">Wi-Fi</string>
@@ -1804,7 +1802,7 @@
     <string name="add_website">వెబ్‌సైట్‌ని జోడించండి</string>
     <string name="formatted_name">ఫార్మాట్ చేయబడిన పేరు</string>
     <string name="qr_code_top_image">బార్‌కోడ్ పైన ఉంచడానికి ఈ చిత్రం ఉపయోగించబడుతుంది</string>
-    <string name="code_customization">కోడ్ అనుకూలీకరణ</string>
+    <string name="code_customization"></string>
     <string name="qr_logo_image">ఈ చిత్రం QR కోడ్ మధ్యలో లోగోగా ఉపయోగించబడుతుంది</string>
     <string name="logo">లోగో</string>
     <string name="logo_padding">లోగో పాడింగ్</string>
@@ -1816,7 +1814,7 @@
     <string name="frame_shape">ఫ్రేమ్ ఆకారం</string>
     <string name="ball_shape">బంతి ఆకారం</string>
     <string name="error_correction_level">లోపం దిద్దుబాటు స్థాయి</string>
-    <string name="dark_color">ముదురు రంగు</string>
+    <string name="dark_color"></string>
     <string name="light_color">లేత రంగు</string>
     <string name="hyper_os">హైపర్ OS</string>
     <string name="hyper_os_sub">Xiaomi HyperOS వంటి శైలి</string>
@@ -1872,7 +1870,7 @@
     <string name="enabled">ప్రారంభించబడింది</string>
     <string name="border_frame">సరిహద్దు ఫ్రేమ్</string>
     <string name="glitch_variant">గ్లిచ్ వేరియంట్</string>
-    <string name="channel_shift">ఛానెల్ షిఫ్ట్</string>
+    <string name="channel_shift"></string>
     <string name="max_offset">గరిష్ట ఆఫ్‌సెట్</string>
     <string name="vhs">VHS</string>
     <string name="block_glitch">బ్లాక్ గ్లిచ్</string>
@@ -1998,7 +1996,7 @@
     <string name="model_ultrasharp_v2_lite_x4">X4 అల్ట్రాషార్ప్ V2 లైట్; వేగంగా మరియు చిన్నదిగా, తక్కువ GPU మెమరీని ఉపయోగిస్తున్నప్పుడు వివరాలను భద్రపరుస్తుంది.</string>
     <string name="model_rmbg_1_4">శీఘ్ర నేపథ్య తొలగింపు కోసం తేలికపాటి మోడల్. సమతుల్య పనితీరు మరియు ఖచ్చితత్వం. పోర్ట్రెయిట్‌లు, వస్తువులు మరియు దృశ్యాలతో పని చేస్తుంది. చాలా సందర్భాలలో ఉపయోగం కోసం సిఫార్సు చేయబడింది.</string>
     <string name="model_rmbg_2_0">ఉన్నతమైన వివరాల నిర్వహణతో మెరుగైన సంస్కరణ. సంక్లిష్ట నేపథ్యాలు మరియు పారదర్శక వస్తువులతో ఉత్తమం. అధిక ఖచ్చితత్వం కానీ మరింత ప్రాసెసింగ్ శక్తి అవసరం.</string>
-    <string name="type_removebg">BGని తీసివేయండి</string>
+    <string name="type_removebg"></string>
     <string name="horizontal_border_thickness">క్షితిజసమాంతర అంచు మందం</string>
     <string name="vertical_border_thickness">నిలువు అంచు మందం</string>
     <plurals name="color_count">
