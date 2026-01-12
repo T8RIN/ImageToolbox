@@ -1999,7 +1999,7 @@
     <string name="model_ultrasharp_v2_lite_x4"></string>
     <string name="model_rmbg_1_4"></string>
     <string name="model_rmbg_2_0"></string>
-    <string name="type_removebg">删除背景</string>
+    <string name="type_removebg"></string>
     <string name="horizontal_border_thickness"></string>
     <string name="vertical_border_thickness"></string>
     <string name="usdt" translatable="false"></string>
