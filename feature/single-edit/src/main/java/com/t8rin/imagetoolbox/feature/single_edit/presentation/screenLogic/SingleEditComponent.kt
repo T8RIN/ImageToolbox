@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
@@ -105,6 +106,10 @@ class SingleEditComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUri?.let(::setUri)
+        }
+
+        doOnDestroy {
+            autoBackgroundRemover.cleanup()
         }
     }
 

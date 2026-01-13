@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemo
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
 import com.t8rin.logger.makeLog
+import com.t8rin.neural_tools.bgremover.BgRemover
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -112,6 +113,10 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
                     onFailure(it.makeLog())
                 }
         }
+    }
+
+    override fun cleanup() {
+        BgRemover.closeAll()
     }
 
 }

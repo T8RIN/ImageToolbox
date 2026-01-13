@@ -45,9 +45,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgre
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
+import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
-import com.t8rin.neural_tools.bgremover.RMBGBackgroundRemover
-import com.t8rin.neural_tools.bgremover.U2NetBackgroundRemover
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
@@ -59,7 +58,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
@@ -122,7 +120,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
         model: NeuralModel
     ): Flow<NeuralDownloadProgress> = callbackFlow {
         val modelFile = model.file
-        val title = model.title
 
         ensureActive()
         client.prepareGet(model.downloadLink).execute { response ->
@@ -154,13 +151,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     }
 
                     tmp.renameTo(modelFile)
-
-                    when {
-                        title.contains("RMBG 1.4") -> RMBGBackgroundRemover.startDownload()
-                        title.contains("RMBG 2.0") -> GenericBackgroundRemover.startDownload()
-                        else -> null
-                    }?.collect()
-
 
                     ensureActive()
 
@@ -213,11 +203,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.type == NeuralModel.Type.REMOVEBG -> {
                 withClosedSession(listener) {
-                    U2NetBackgroundRemover.removeBackground(
-                        image = image,
-                        modelPath = model.file.absolutePath,
-                        trainedSize = 1024
-                    ).healAlpha(image)
+                    model.asBgRemover().removeBackground(image = image).healAlpha(image)
                 }
             }
 
@@ -265,6 +251,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     override fun cleanup() {
+        BgRemover.closeAll()
         closeSession()
         System.gc()
     }
@@ -348,6 +335,16 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     private val NeuralModel.file: File get() = File(modelsDir, name)
+
+    private fun NeuralModel.asBgRemover(): GenericBackgroundRemover = BgRemover.getRemover(
+        when {
+            name.startsWith("u2netp") -> BgRemover.Type.U2NetP
+            name.startsWith("u2net") -> BgRemover.Type.U2Net
+            name.startsWith("RMBG_2.0") -> BgRemover.Type.RMBG2_0
+            name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
+            else -> throw Throwable("no bg remover for model = $this")
+        }
+    )
 
 }
 

@@ -2029,4 +2029,6 @@
     <string name="current_model_not_chunkable">Current model does not support chunking, image will be processed in original dimensions, this may cause high memory consumption and issues with low-end devices</string>
     <string name="chunking_disabled">Chunking disabled, image will be processed in original dimensions, this may cause high memory consumption and issues with low-end devices but may give better results on inference</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">High-accuracy image segmentation model for background removing</string>
+    <string name="model_u2netp">Lightweight version of U2Net for faster background removing with smaller memory usage.</string>
 </resources>

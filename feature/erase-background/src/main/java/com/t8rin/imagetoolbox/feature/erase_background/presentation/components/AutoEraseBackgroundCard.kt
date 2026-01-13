@@ -38,6 +38,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
@@ -62,6 +63,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import com.t8rin.neural_tools.DownloadProgress
+import com.t8rin.neural_tools.bgremover.BgRemover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -82,19 +85,21 @@ fun AutoEraseBackgroundCard(
     var downloadJob by remember {
         mutableStateOf<Job?>(null)
     }
-    val downloadProgresses = remember(RMBGLoader.isDownloaded, RMBGNewestLoader.isDownloaded) {
-        mutableStateMapOf<ModelType, RemoteResourcesDownloadProgress>()
-    }
 
-    LaunchedEffect(RMBGLoader.isDownloaded) {
-        if (!RMBGLoader.isDownloaded && selectedModel == ModelType.RMBG) {
-            selectedModel = ModelType.U2Net
+    val downloadedModelsRaw by BgRemover.downloadedModels.collectAsStateWithLifecycle()
+    val downloadedModels by remember(downloadedModelsRaw) {
+        derivedStateOf {
+            downloadedModelsRaw.map { it.toDomain() }
         }
     }
 
-    LaunchedEffect(RMBGNewestLoader.isDownloaded) {
-        if (!RMBGNewestLoader.isDownloaded && selectedModel == ModelType.RMBG2_0) {
-            selectedModel = ModelType.U2Net
+    val downloadProgresses = remember(downloadedModels) {
+        mutableStateMapOf<ModelType, DownloadProgress>()
+    }
+
+    LaunchedEffect(downloadedModels) {
+        if (!downloadedModels.contains(selectedModel)) {
+            selectedModel = ModelType.U2NetP
         }
     }
 
@@ -118,17 +123,13 @@ fun AutoEraseBackgroundCard(
                     if (downloadJob == null) {
                         selectedModel = type
 
-                        val download = when (type) {
-                            ModelType.RMBG if !RMBGLoader.isDownloaded -> RMBGLoader.download()
-                            ModelType.RMBG2_0 if !RMBGNewestLoader.isDownloaded -> RMBGNewestLoader.download()
-                            else -> return@EnhancedButtonGroup
-                        }
+                        if (type in downloadedModels) return@EnhancedButtonGroup
 
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            download
+                            BgRemover.downloadModel(type.toLib())
                                 .onStart {
-                                    downloadProgresses[type] = RemoteResourcesDownloadProgress(
+                                    downloadProgresses[type] = DownloadProgress(
                                         currentPercent = 0f,
                                         currentTotalSize = 0
                                     )
@@ -138,7 +139,7 @@ fun AutoEraseBackgroundCard(
                                     downloadJob = null
                                 }
                                 .catch {
-                                    selectedModel = ModelType.U2Net
+                                    selectedModel = ModelType.U2NetP
                                     downloadProgresses.remove(type)
                                     downloadJob = null
                                 }
@@ -149,45 +150,34 @@ fun AutoEraseBackgroundCard(
                     }
                 },
                 itemContent = { type ->
-                    when (type) {
-                        ModelType.RMBG,
-                        ModelType.RMBG2_0 -> {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = type.title
-                                )
-
-                                AnimatedVisibility(
-                                    when (type) {
-                                        ModelType.RMBG -> !RMBGLoader.isDownloaded
-                                        ModelType.RMBG2_0 -> !RMBGNewestLoader.isDownloaded
-                                        else -> false
-                                    }
-                                ) {
-                                    downloadProgresses[type]?.let { progress ->
-                                        EnhancedCircularProgressIndicator(
-                                            progress = { progress.currentPercent },
-                                            modifier = Modifier
-                                                .padding(start = 8.dp)
-                                                .size(24.dp),
-                                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                            strokeWidth = 3.dp
-                                        )
-                                    } ?: Icon(
-                                        imageVector = Icons.Rounded.DownloadForOffline,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(start = 8.dp)
-                                    )
-                                }
-                            }
-                        }
-
-                        else -> {
+                    if (type == ModelType.MlKit) {
+                        Text(
+                            text = type.title
+                        )
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text(
                                 text = type.title
                             )
+
+                            AnimatedVisibility(type !in downloadedModels) {
+                                downloadProgresses[type]?.let { progress ->
+                                    EnhancedCircularProgressIndicator(
+                                        progress = { progress.currentPercent },
+                                        modifier = Modifier
+                                            .padding(start = 8.dp)
+                                            .size(24.dp),
+                                        trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                        strokeWidth = 3.dp
+                                    )
+                                } ?: Icon(
+                                    imageVector = Icons.Rounded.DownloadForOffline,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
                         }
                     }
                 },
@@ -242,4 +232,20 @@ fun AutoEraseBackgroundCard(
 private val flavoredEntries: List<ModelType> = ModelType.entries.let {
     if (Flavor.isFoss()) it.toggle(ModelType.MlKit)
     else it
+}
+
+private fun ModelType.toLib(): BgRemover.Type = when (this) {
+    ModelType.MlKit,
+    ModelType.U2NetP -> BgRemover.Type.U2NetP
+
+    ModelType.U2Net -> BgRemover.Type.U2Net
+    ModelType.RMBG -> BgRemover.Type.RMBG1_4
+    ModelType.RMBG2_0 -> BgRemover.Type.RMBG2_0
+}
+
+private fun BgRemover.Type.toDomain(): ModelType = when (this) {
+    BgRemover.Type.U2NetP -> ModelType.U2NetP
+    BgRemover.Type.U2Net -> ModelType.U2Net
+    BgRemover.Type.RMBG1_4 -> ModelType.RMBG
+    BgRemover.Type.RMBG2_0 -> ModelType.RMBG2_0
 }

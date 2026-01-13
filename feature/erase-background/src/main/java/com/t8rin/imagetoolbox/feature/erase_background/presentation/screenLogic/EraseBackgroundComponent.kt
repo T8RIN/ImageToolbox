@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -75,6 +76,10 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
                     onFailure = {}
                 )
             }
+        }
+
+        doOnDestroy {
+            autoBackgroundRemover.cleanup()
         }
     }
 
