@@ -36,11 +36,10 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
-import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
@@ -52,7 +51,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 
 class EraseBackgroundComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -118,16 +116,11 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _helperGridParams: MutableState<HelperGridParams> =
-        mutableStateOf(HelperGridParams())
+    private val _helperGridParams = fileController.savable(
+        scope = componentScope,
+        initial = HelperGridParams()
+    )
     val helperGridParams: HelperGridParams by _helperGridParams
-
-    init {
-        componentScope.launch {
-            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
-            _helperGridParams.update { params }
-        }
-    }
 
     private fun updateBitmap(bitmap: Bitmap?) {
         componentScope.launch {
@@ -379,15 +372,8 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat = imageFormat
 
-    private var smartSavingJob: Job? by smartJob()
-
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
-
-        smartSavingJob = componentScope.launch {
-            delay(200)
-            fileController.saveObject(params)
-        }
     }
 
     @AssistedFactory

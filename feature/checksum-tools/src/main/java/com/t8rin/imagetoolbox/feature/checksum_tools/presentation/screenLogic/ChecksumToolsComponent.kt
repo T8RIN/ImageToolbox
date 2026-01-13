@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.checksum_tools.domain.ChecksumManager
 import com.t8rin.imagetoolbox.feature.checksum_tools.domain.ChecksumSource
@@ -51,8 +51,10 @@ class ChecksumToolsComponent @AssistedInject constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _hashingType: MutableState<HashingType> =
-        mutableStateOf(HashingType.entries.first())
+    private val _hashingType = fileController.savable(
+        scope = componentScope,
+        initial = HashingType.entries.first()
+    )
     val hashingType: HashingType by _hashingType
 
     private val _calculateFromUriPage: MutableState<ChecksumPage.CalculateFromUri> =
@@ -75,7 +77,6 @@ class ChecksumToolsComponent @AssistedInject constructor(
     init {
         debounce {
             initialUri?.let(::setUri)
-            fileController.restoreObject<HashingType>()?.let(::updateChecksumType)
         }
     }
 
@@ -157,9 +158,6 @@ class ChecksumToolsComponent @AssistedInject constructor(
         calculateFromTextPage.text.let(::setText)
         compareWithUriPage.uri?.let(::setDataForComparison)
         setDataForBatchComparison(forceReload = true)
-        componentScope.launch {
-            fileController.saveObject(type)
-        }
     }
 
     private var treeJob: Job? by smartJob {

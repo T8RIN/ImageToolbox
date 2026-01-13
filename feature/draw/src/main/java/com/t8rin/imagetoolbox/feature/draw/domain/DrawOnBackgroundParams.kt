@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,5 +20,15 @@ package com.t8rin.imagetoolbox.feature.draw.domain
 data class DrawOnBackgroundParams(
     val width: Int,
     val height: Int,
-    val color: Int,
-)
+    val color: Int?,
+) {
+    companion object {
+        val Default by lazy {
+            DrawOnBackgroundParams(
+                width = -1,
+                height = -1,
+                color = null
+            )
+        }
+    }
+}

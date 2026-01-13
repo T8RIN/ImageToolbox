@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,21 +133,21 @@ internal fun DrawContentNoDataControls(
         screenWidth,
         drawOnBackgroundParams
     ) {
-        mutableIntStateOf(drawOnBackgroundParams?.width ?: screenWidth)
+        mutableIntStateOf(drawOnBackgroundParams.width.takeIf { it > -1 } ?: screenWidth)
     }
     var height by remember(
         showBackgroundDrawingSetup,
         screenHeight,
         drawOnBackgroundParams
     ) {
-        mutableIntStateOf(drawOnBackgroundParams?.height ?: screenHeight)
+        mutableIntStateOf(drawOnBackgroundParams.height.takeIf { it > -1 } ?: screenHeight)
     }
     var sheetBackgroundColor by rememberSaveable(
         showBackgroundDrawingSetup,
         drawOnBackgroundParams,
         stateSaver = ColorSaver
     ) {
-        mutableStateOf(drawOnBackgroundParams?.color?.toColor() ?: Color.White)
+        mutableStateOf(drawOnBackgroundParams.color?.toColor() ?: Color.White)
     }
     EnhancedModalBottomSheet(
         title = {

@@ -54,10 +54,9 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
@@ -67,6 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
@@ -207,8 +207,10 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _drawLineStyle: MutableState<DrawLineStyle> = mutableStateOf(DrawLineStyle.None)
     val drawLineStyle: DrawLineStyle by _drawLineStyle
 
-    private val _helperGridParams: MutableState<HelperGridParams> =
-        mutableStateOf(HelperGridParams())
+    private val _helperGridParams = fileController.savable(
+        scope = componentScope,
+        initial = HelperGridParams()
+    )
     val helperGridParams: HelperGridParams by _helperGridParams
 
     init {
@@ -218,10 +220,6 @@ class SingleEditComponent @AssistedInject internal constructor(
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
-        }
-        componentScope.launch {
-            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
-            _helperGridParams.update { params }
         }
     }
 
@@ -768,15 +766,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         _drawLineStyle.update { style }
     }
 
-    private var smartSavingJob: Job? by smartJob()
-
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
-
-        smartSavingJob = componentScope.launch {
-            delay(200)
-            fileController.saveObject(params)
-        }
     }
 
 

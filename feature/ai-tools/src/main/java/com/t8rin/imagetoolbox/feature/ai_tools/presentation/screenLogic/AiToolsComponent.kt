@@ -38,8 +38,10 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
@@ -79,11 +81,6 @@ class AiToolsComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUris?.let(::updateUris)
-
-            _params.value = fileController.restoreObject(
-                key = "NeuralParams",
-                kClass = NeuralParams::class
-            ) ?: params
         }
     }
 
@@ -116,7 +113,10 @@ class AiToolsComponent @AssistedInject internal constructor(
         mutableStateMapOf()
     val downloadProgresses: Map<String, RemoteResourcesDownloadProgress> = _downloadProgresses
 
-    private val _params: MutableState<NeuralParams> = mutableStateOf(NeuralParams.Default)
+    private val _params = fileController.savable(
+        scope = componentScope,
+        initial = NeuralParams.Default
+    )
     val params by _params
 
     private val errorsChannel: Channel<String> = Channel(Channel.BUFFERED)
@@ -198,12 +198,6 @@ class AiToolsComponent @AssistedInject internal constructor(
         action: NeuralParams.() -> NeuralParams
     ) {
         _params.update { action(it) }
-        componentScope.launch {
-            fileController.saveObject(
-                key = "NeuralParams",
-                value = params
-            )
-        }
         registerChanges()
     }
 

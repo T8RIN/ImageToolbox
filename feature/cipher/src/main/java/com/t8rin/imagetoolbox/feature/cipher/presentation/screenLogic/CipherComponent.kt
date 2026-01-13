@@ -27,11 +27,11 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.CipherType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.cipher.domain.CryptographyManager
 import dagger.assisted.Assisted
@@ -49,7 +49,10 @@ class CipherComponent @AssistedInject internal constructor(
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _cipherType: MutableState<CipherType> = mutableStateOf(CipherType.entries.first())
+    private val _cipherType = fileController.savable(
+        scope = componentScope,
+        initial = CipherType.entries.first()
+    )
     val cipherType: CipherType by _cipherType
 
     private val _showTip: MutableState<Boolean> = mutableStateOf(false)
@@ -67,7 +70,6 @@ class CipherComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUri?.let(::setUri)
-            fileController.restoreObject<CipherType>()?.let(::updateCipherType)
         }
     }
 
@@ -134,9 +136,6 @@ class CipherComponent @AssistedInject internal constructor(
 
     fun updateCipherType(type: CipherType) {
         _cipherType.update { type }
-        componentScope.launch {
-            fileController.saveObject(type)
-        }
         resetCalculatedData()
     }
 

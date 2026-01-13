@@ -36,16 +36,15 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
-import com.t8rin.imagetoolbox.feature.image_stitch.domain.SavableCombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.toParams
@@ -83,8 +82,11 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     private val _imageInfo = mutableStateOf(ImageInfo(imageFormat = ImageFormat.Png.Lossless))
     val imageInfo by _imageInfo
 
-    private val _combiningParams: MutableState<CombiningParams> = mutableStateOf(CombiningParams())
-    val combiningParams by _combiningParams
+    private val _combiningParams = fileController.savable(
+        scope = componentScope,
+        initial = CombiningParams().toSavable()
+    )
+    val combiningParams: CombiningParams get() = _combiningParams.get().toParams()
 
     private val _imageScale: MutableState<Float> = mutableFloatStateOf(0.5f)
     val imageScale by _imageScale
@@ -98,12 +100,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialUris?.let(::updateUris)
-        }
-
-        componentScope.launch {
-            fileController.restoreObject<SavableCombiningParams>()
-                ?.toParams()
-                ?.let(::updateCombiningParams)
         }
     }
 
@@ -346,10 +342,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     private fun updateCombiningParams(params: CombiningParams) {
-        _combiningParams.update { params }
-        componentScope.launch {
-            fileController.saveObject(params.toSavable())
-        }
+        _combiningParams.update { params.toSavable() }
     }
 
     fun getFormatForFilenameSelection(): ImageFormat = imageInfo.imageFormat

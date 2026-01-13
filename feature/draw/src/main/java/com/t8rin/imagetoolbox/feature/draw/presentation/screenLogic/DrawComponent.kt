@@ -40,9 +40,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
-import com.t8rin.imagetoolbox.core.domain.saving.restoreObject
-import com.t8rin.imagetoolbox.core.domain.saving.saveObject
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
@@ -50,6 +49,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
@@ -63,7 +63,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class DrawComponent @AssistedInject internal constructor(
@@ -110,9 +109,11 @@ class DrawComponent @AssistedInject internal constructor(
             )
         )
 
-    private val _drawOnBackgroundParams: MutableState<DrawOnBackgroundParams?> =
-        mutableStateOf(null)
-    val drawOnBackgroundParams: DrawOnBackgroundParams? by _drawOnBackgroundParams
+    private val _drawOnBackgroundParams = fileController.savable(
+        scope = componentScope,
+        initial = DrawOnBackgroundParams.Default
+    )
+    val drawOnBackgroundParams: DrawOnBackgroundParams by _drawOnBackgroundParams
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -159,22 +160,16 @@ class DrawComponent @AssistedInject internal constructor(
     private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
     val saveExif: Boolean by _saveExif
 
-    private val _helperGridParams: MutableState<HelperGridParams> =
-        mutableStateOf(HelperGridParams())
+    private val _helperGridParams = fileController.savable(
+        scope = componentScope,
+        initial = HelperGridParams()
+    )
     val helperGridParams: HelperGridParams by _helperGridParams
 
     init {
         componentScope.launch {
             val settingsState = settingsProvider.getSettingsState()
             _drawPathMode.update { DrawPathMode.fromOrdinal(settingsState.defaultDrawPathMode) }
-        }
-        componentScope.launch {
-            val params = fileController.restoreObject<DrawOnBackgroundParams>()
-            _drawOnBackgroundParams.update { params }
-        }
-        componentScope.launch {
-            val params = fileController.restoreObject<HelperGridParams>() ?: HelperGridParams()
-            _helperGridParams.update { params }
         }
     }
 
@@ -336,7 +331,6 @@ class DrawComponent @AssistedInject internal constructor(
             )
 
             _drawOnBackgroundParams.update { newValue }
-            fileController.saveObject(newValue)
         }
     }
 
@@ -451,15 +445,8 @@ class DrawComponent @AssistedInject internal constructor(
         _drawLineStyle.update { style }
     }
 
-    private var smartSavingJob: Job? by smartJob()
-
     fun updateHelperGridParams(params: HelperGridParams) {
         _helperGridParams.update { params }
-
-        smartSavingJob = componentScope.launch {
-            delay(200)
-            fileController.saveObject(params)
-        }
     }
 
     @AssistedFactory
