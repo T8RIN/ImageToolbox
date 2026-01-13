@@ -212,11 +212,13 @@ internal class AndroidAiToolsRepository @Inject constructor(
             model == null -> return@withContext listener.failedSession()
 
             model.type == NeuralModel.Type.REMOVEBG -> {
-                U2NetBackgroundRemover.removeBackground(
-                    image = image,
-                    modelPath = model.file.absolutePath,
-                    trainedSize = 1024
-                ).healAlpha(image)
+                withClosedSession(listener) {
+                    U2NetBackgroundRemover.removeBackground(
+                        image = image,
+                        modelPath = model.file.absolutePath,
+                        trainedSize = 1024
+                    ).healAlpha(image)
+                }
             }
 
             else -> {
@@ -262,6 +264,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         if (selectedModel.value?.name == model.name) selectModel(null)
     }
 
+    override fun cleanup() {
+        closeSession()
+        System.gc()
+    }
+
     override suspend fun selectModel(
         model: NeuralModel?,
         forced: Boolean
@@ -273,9 +280,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
             it[SELECTED_MODEL] = model?.name.orEmpty()
         }
 
-        closeSession()
-
-        System.gc()
+        cleanup()
 
         return@withContext true
     }

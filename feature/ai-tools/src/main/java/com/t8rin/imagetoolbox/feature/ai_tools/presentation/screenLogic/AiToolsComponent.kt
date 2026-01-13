@@ -275,6 +275,8 @@ class AiToolsComponent @AssistedInject internal constructor(
             }
             onResult(results.onSuccess(::registerSave))
             _saveProgress.update { null }
+
+            aiToolsRepository.cleanup()
         }
     }
 
@@ -332,6 +334,8 @@ class AiToolsComponent @AssistedInject internal constructor(
             }
             onComplete(list)
             _saveProgress.update { null }
+
+            aiToolsRepository.cleanup()
         }
     }
 

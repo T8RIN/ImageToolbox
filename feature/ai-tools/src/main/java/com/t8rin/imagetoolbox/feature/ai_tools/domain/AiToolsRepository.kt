@@ -50,4 +50,6 @@ interface AiToolsRepository<Image> {
 
     suspend fun deleteModel(model: NeuralModel)
 
+    fun cleanup()
+
 }
