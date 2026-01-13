@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -1508,8 +1506,8 @@
     <string name="fast_settings_side">تېز تەڭشەكلەر</string>
     <string name="fast_settings_side_sub">رەسىملەرنى تەھرىرلەۋاتقاندا تاللانغان تەرەپكە لەيلىمە بەلۋاغ قوشۇڭ ، چەككەندە تېز تەڭشەكلەر ئېچىلىدۇ</string>
     <string name="clear_selection">تاللاشنى تازىلاش</string>
-    <string name="settings_group_visibility_hidden">گۇرۇپپا تەڭشەش \ \"%1$s \" سۈكۈتتىكى ھالەتتە يىمىرىلىدۇ</string>
-    <string name="settings_group_visibility_visible">گۇرۇپپا تەڭشەش \ \"%1$s \" سۈكۈتتىكى ھالەتتە كېڭەيتىلىدۇ</string>
+    <string name="settings_group_visibility_hidden">"گۇرۇپپا تەڭشەش  \"%1$s \" سۈكۈتتىكى ھالەتتە يىمىرىلىدۇ"</string>
+    <string name="settings_group_visibility_visible">"گۇرۇپپا تەڭشەش  \"%1$s \" سۈكۈتتىكى ھالەتتە كېڭەيتىلىدۇ"</string>
     <string name="base_64_tools">Base64 قوراللىرى</string>
     <string name="base_64_tools_sub">Base64 تىزمىسىنى رەسىمگە يېشىش ياكى رەسىمنى Base64 فورماتىغا كودلاش</string>
     <string name="base_64">Base64</string>
@@ -1867,7 +1865,7 @@
     <string name="pulse_grid_pixelization">Pulse Grid Pixelization</string>
     <string name="nucleus_pixelization">Nucleus Pixelization</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Uri \ \"%1$s \" نى ئاچقىلى بولمايدۇ</string>
+    <string name="cannot_open_uri">"Uri  \"%1$s \" نى ئاچقىلى بولمايدۇ"</string>
     <string name="snowfall_mode">قار يېغىش ھالىتى</string>
     <string name="enabled">قوزغىتىلدى</string>
     <string name="border_frame">چېگرا رامكىسى</string>
