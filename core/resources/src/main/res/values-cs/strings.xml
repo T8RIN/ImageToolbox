@@ -2010,4 +2010,6 @@
     <string name="current_model_not_chunkable">Aktuální model nepodporuje chunking, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy</string>
     <string name="chunking_disabled">Chunking zakázáno, obraz bude zpracován v původních rozměrech, což může způsobit vysokou spotřebu paměti a problémy se zařízeními nižší třídy, ale může poskytnout lepší výsledky při odvození</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">Vysoce přesný model segmentace obrazu pro odstranění pozadí</string>
+    <string name="model_u2netp">Odlehčená verze U2Net pro rychlejší odstraňování pozadí s menší spotřebou paměti.</string>
 </resources>

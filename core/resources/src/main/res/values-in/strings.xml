@@ -2007,4 +2007,6 @@
     <string name="current_model_not_chunkable">Model saat ini tidak mendukung chunking, gambar akan diproses dalam dimensi aslinya, hal ini dapat menyebabkan konsumsi memori yang tinggi dan masalah pada perangkat kelas bawah</string>
     <string name="chunking_disabled">Chunking dinonaktifkan, gambar akan diproses dalam dimensi aslinya, hal ini dapat menyebabkan konsumsi memori yang tinggi dan masalah pada perangkat kelas bawah tetapi dapat memberikan hasil inferensi yang lebih baik</string>
     <string name="chunking">Potongan</string>
+    <string name="model_u2net">Model segmentasi gambar dengan akurasi tinggi untuk penghapusan latar belakang</string>
+    <string name="model_u2netp">Versi ringan U2Net untuk menghapus latar belakang lebih cepat dengan penggunaan memori lebih kecil.</string>
 </resources>

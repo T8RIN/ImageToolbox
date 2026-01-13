@@ -32,7 +32,7 @@ internal class AndroidAutoBackgroundRemoverBackendFactory @Inject constructor() 
         modelType: ModelType
     ): AutoBackgroundRemoverBackend<Bitmap> = when (modelType) {
         ModelType.MlKit -> MlKitBackgroundRemoverBackend
-        else -> GenericBackgroundRemoverBackend(ModelType.MlKit)
+        else -> GenericBackgroundRemoverBackend(modelType)
     }
 
 }

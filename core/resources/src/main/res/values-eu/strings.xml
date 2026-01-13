@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">Oraingo ereduak ez du zatiketa onartzen, irudia jatorrizko dimentsioetan prozesatu egingo da; horrek memoria-kontsumo handia eta maila baxuko gailuekin arazoak sor ditzake.</string>
     <string name="chunking_disabled">Zatiketa desgaituta dago, irudia jatorrizko dimentsioetan prozesatuko da; horrek memoria-kontsumo handia eta arazoak sor ditzake gama baxuko gailuekin, baina emaitza hobeak eman ditzake ondorioetan.</string>
     <string name="chunking">Zatiketa</string>
+    <string name="model_u2net">Zehaztasun handiko irudiak segmentatzeko eredua atzeko planoa kentzeko</string>
+    <string name="model_u2netp">U2Net-en bertsio arina atzeko planoa bizkorrago kentzeko memoria-erabilera txikiagoarekin.</string>
 </resources>

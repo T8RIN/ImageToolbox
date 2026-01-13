@@ -2007,4 +2007,6 @@
     <string name="current_model_not_chunkable">当前模型不支持分块，图像将以原始尺寸处理，这可能会导致高内存消耗和低端设备问题</string>
     <string name="chunking_disabled">禁用分块，图像将以原始尺寸进行处理，这可能会导致高内存消耗和低端设备的问题，但可能会给出更好的推理结果</string>
     <string name="chunking">分块</string>
+    <string name="model_u2net">高精度背景去除图像分割模型</string>
+    <string name="model_u2netp">U2Net 的轻量级版本，可以以更小的内存使用更快地去除背景。</string>
 </resources>

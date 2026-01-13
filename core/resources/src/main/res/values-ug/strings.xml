@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -2006,4 +2008,6 @@
     <string name="current_model_not_chunkable">ھازىرقى مودېل چۇۋۇشنى قوللىمايدۇ ، رەسىم ئەسلى ئۆلچەمدە بىر تەرەپ قىلىنىدۇ ، بۇ بەلكىم ئىچكى ساقلىغۇچ سەرپىياتى ۋە تۆۋەن سەپلىمىلىك ئۈسكۈنىلەردە مەسىلە پەيدا قىلىشى مۇمكىن</string>
     <string name="chunking_disabled">چۇۋۇش چەكلەنگەن ، رەسىم ئەسلى ئۆلچەمدە بىر تەرەپ قىلىنىدۇ ، بۇ بەلكىم ئىچكى ساقلىغۇچنىڭ يۇقىرى سەرپىياتىنى ۋە تۆۋەن سەپلىمىلىك ئۈسكۈنىلەردە مەسىلە پەيدا قىلىشى مۇمكىن ، ئەمما يەكۈن چىقىرىشتا تېخىمۇ ياخشى ئۈنۈم بېرىشى مۇمكىن</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">تەگلىكنى ئۆچۈرۈش ئۈچۈن يۇقىرى ئېنىقلىقتىكى رەسىم بۆلەك مودېلى</string>
+    <string name="model_u2netp">كىچىكرەك ئىچكى ساقلىغۇچ ئىشلىتىش ئارقىلىق تېخىمۇ تېز تەگلىك ئۆچۈرۈش ئۈچۈن U2Net نىڭ يېنىك نۇسخىسى.</string>
 </resources>

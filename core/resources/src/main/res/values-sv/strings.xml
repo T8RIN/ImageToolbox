@@ -2009,4 +2009,6 @@
     <string name="current_model_not_chunkable">Den nuvarande modellen stöder inte chunking, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter</string>
     <string name="chunking_disabled">Chunking inaktiverad, bilden kommer att bearbetas i originaldimensioner, detta kan orsaka hög minnesförbrukning och problem med low-end enheter men kan ge bättre resultat vid slutledning</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">Högnoggrann bildsegmenteringsmodell för borttagning av bakgrund</string>
+    <string name="model_u2netp">Lätt version av U2Net för snabbare borttagning av bakgrund med mindre minnesanvändning.</string>
 </resources>

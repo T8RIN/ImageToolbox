@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">Hindi sinusuportahan ng kasalukuyang modelo ang chunking, ipoproseso ang imahe sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device</string>
     <string name="chunking_disabled">Hindi pinagana ang pag-chun, ipoproseso ang larawan sa mga orihinal na dimensyon, maaari itong magdulot ng mataas na pagkonsumo ng memorya at mga isyu sa mga low-end na device ngunit maaaring magbigay ng mas magandang resulta sa hinuha</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">Modelo ng pagse-segment ng larawan na may mataas na katumpakan para sa pag-alis ng background</string>
+    <string name="model_u2netp">Magaan na bersyon ng U2Net para sa mas mabilis na pag-alis ng background na may mas maliit na paggamit ng memory.</string>
 </resources>

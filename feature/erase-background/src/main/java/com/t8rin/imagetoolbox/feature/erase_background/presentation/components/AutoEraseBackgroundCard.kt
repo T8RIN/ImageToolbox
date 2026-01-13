@@ -68,6 +68,7 @@ import com.t8rin.neural_tools.bgremover.BgRemover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -95,6 +96,13 @@ fun AutoEraseBackgroundCard(
 
     val downloadProgresses = remember(downloadedModels) {
         mutableStateMapOf<ModelType, DownloadProgress>()
+    }
+
+    LaunchedEffect(Unit) {
+        flavoredEntries.forEach {
+            BgRemover.getRemover(it.toLib()).checkModel()
+            delay(100)
+        }
     }
 
     LaunchedEffect(downloadedModels) {

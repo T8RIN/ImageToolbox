@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">El model actual no admet la fragmentació, la imatge es processarà a les dimensions originals, això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa</string>
     <string name="chunking_disabled">La fragmentació està desactivada, la imatge es processarà a les dimensions originals; això pot provocar un gran consum de memòria i problemes amb els dispositius de gamma baixa, però pot donar millors resultats en la inferència.</string>
     <string name="chunking">En trossos</string>
+    <string name="model_u2net">Model de segmentació d\'imatges d\'alta precisió per eliminar fons</string>
+    <string name="model_u2netp">Versió lleugera d\'U2Net per a una eliminació més ràpida de fons amb un ús de memòria més petit.</string>
 </resources>

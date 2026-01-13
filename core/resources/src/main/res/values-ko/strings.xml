@@ -2007,4 +2007,6 @@
     <string name="current_model_not_chunkable">현재 모델은 청킹을 지원하지 않습니다. 이미지는 원래 크기로 처리되므로 메모리 소모가 많아 저사양 장치에서 문제가 발생할 수 있습니다.</string>
     <string name="chunking_disabled">청킹이 비활성화되었습니다. 이미지는 원래 크기로 처리됩니다. 이로 인해 메모리 소비가 많아지고 저사양 장치에 문제가 발생할 수 있지만 추론에서는 더 나은 결과를 얻을 수 있습니다.</string>
     <string name="chunking">청킹</string>
+    <string name="model_u2net">배경 제거를 위한 고정밀 이미지 분할 모델</string>
+    <string name="model_u2netp">더 적은 메모리 사용량으로 더 빠른 배경 제거를 위한 U2Net의 경량 버전입니다.</string>
 </resources>

@@ -2007,4 +2007,6 @@
     <string name="current_model_not_chunkable">現在のモデルはチャンキングをサポートしていません。画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性があります。</string>
     <string name="chunking_disabled">チャンキングが無効になっていると、画像は元のサイズで処理されます。これにより、メモリ消費量が多くなり、ローエンド デバイスで問題が発生する可能性がありますが、推論ではより良い結果が得られる可能性があります。</string>
     <string name="chunking">チャンク化</string>
+    <string name="model_u2net">背景除去のための高精度画像セグメンテーションモデル</string>
+    <string name="model_u2netp">少ないメモリ使用量で高速にバックグラウンドを削除できる U2Net の軽量バージョン。</string>
 </resources>

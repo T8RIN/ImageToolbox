@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">Il modello attuale non supporta il suddivisione in blocchi, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa</string>
     <string name="chunking_disabled">Chunking disabilitato, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa ma potrebbe fornire risultati migliori nell\'inferenza</string>
     <string name="chunking">Spezzatura</string>
+    <string name="model_u2net">Modello di segmentazione delle immagini ad alta precisione per la rimozione dello sfondo</string>
+    <string name="model_u2netp">Versione leggera di U2Net per una rimozione dello sfondo più rapida con un utilizzo ridotto della memoria.</string>
 </resources>

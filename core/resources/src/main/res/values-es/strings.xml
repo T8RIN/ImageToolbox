@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">El modelo actual no admite fragmentación, la imagen se procesará en las dimensiones originales, lo que puede causar un alto consumo de memoria y problemas con dispositivos de gama baja.</string>
     <string name="chunking_disabled">La fragmentación está deshabilitada, la imagen se procesará en las dimensiones originales, esto puede causar un alto consumo de memoria y problemas con dispositivos de gama baja, pero puede dar mejores resultados en la inferencia.</string>
     <string name="chunking">fragmentación</string>
+    <string name="model_u2net">Modelo de segmentación de imágenes de alta precisión para eliminar el fondo</string>
+    <string name="model_u2netp">Versión liviana de U2Net para una eliminación de fondo más rápida con un menor uso de memoria.</string>
 </resources>

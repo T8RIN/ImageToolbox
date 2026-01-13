@@ -2008,4 +2008,6 @@
     <string name="current_model_not_chunkable">A jelenlegi modell nem támogatja a darabolást, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel</string>
     <string name="chunking_disabled">A darabolás le van tiltva, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel, de jobb eredményeket ad a következtetéseknél</string>
     <string name="chunking">Dobogó</string>
+    <string name="model_u2net">Nagy pontosságú képszegmentációs modell a háttér eltávolításához</string>
+    <string name="model_u2netp">Az U2Net könnyű változata a háttér gyorsabb eltávolításához kisebb memóriahasználat mellett.</string>
 </resources>
