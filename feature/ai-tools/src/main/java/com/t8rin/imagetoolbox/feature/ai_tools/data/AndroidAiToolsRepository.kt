@@ -203,7 +203,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.type == NeuralModel.Type.REMOVEBG -> {
                 withClosedSession(listener) {
-                    model.asBgRemover().removeBackground(image = image).healAlpha(image)
+                    model.asBgRemover().removeBackground(image = image)!!.healAlpha(image)
                 }
             }
 
