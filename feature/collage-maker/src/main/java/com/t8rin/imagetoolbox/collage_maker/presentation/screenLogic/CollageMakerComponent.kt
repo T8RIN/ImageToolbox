@@ -21,12 +21,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.collages.CollageType
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageParams
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -38,8 +38,10 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -63,17 +65,11 @@ class CollageMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    private val _spacing = mutableFloatStateOf(10f)
-    val spacing: Float by _spacing
-
-    private val _cornerRadius = mutableFloatStateOf(0f)
-    val cornerRadius: Float by _cornerRadius
-
     private val _aspectRatio: MutableState<DomainAspectRatio> =
         mutableStateOf(DomainAspectRatio.Numeric(1f, 1f))
     val aspectRatio by _aspectRatio
 
-    private val _backgroundColor = mutableStateOf(Color.Black)
+    private val _backgroundColor = mutableStateOf(Color.White)
     val backgroundColor: Color by _backgroundColor
 
     private val _collageCreationTrigger = mutableStateOf(false)
@@ -85,17 +81,14 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _collageBitmap = mutableStateOf<Bitmap?>(null)
     private val collageBitmap by _collageBitmap
 
-    private val _outputScaleRatio = mutableFloatStateOf(2f)
-    val outputScaleRatio by _outputScaleRatio
+    private val _params = fileController.savable(
+        scope = componentScope,
+        initial = CollageParams()
+    )
+    val params by _params
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
-
-    private val _disableRotation = mutableStateOf(true)
-    val disableRotation: Boolean by _disableRotation
-
-    private val _enableSnapToBorders = mutableStateOf(true)
-    val enableSnapToBorders: Boolean by _enableSnapToBorders
 
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat: ImageFormat by _imageFormat
@@ -168,17 +161,17 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun setOutputScaleRatio(ratio: Float) {
-        _outputScaleRatio.update { ratio }
+        _params.update { it.copy(outputScaleRatio = ratio) }
         registerChanges()
     }
 
     fun setDisableRotation(value: Boolean) {
-        _disableRotation.update { value }
+        _params.update { it.copy(disableRotation = value) }
         registerChanges()
     }
 
     fun setEnableSnapToBorders(value: Boolean) {
-        _enableSnapToBorders.update { value }
+        _params.update { it.copy(enableSnapToBorders = value) }
         registerChanges()
     }
 
@@ -291,12 +284,12 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun setSpacing(value: Float) {
-        _spacing.update { value }
+        _params.update { it.copy(spacing = value) }
         registerChanges()
     }
 
     fun setCornerRadius(value: Float) {
-        _cornerRadius.update { value }
+        _params.update { it.copy(cornerRadius = value) }
         registerChanges()
     }
 

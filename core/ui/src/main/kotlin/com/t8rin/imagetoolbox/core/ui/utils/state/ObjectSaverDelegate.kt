@@ -27,17 +27,20 @@ import kotlinx.coroutines.launch
 
 fun <O : Any> ObjectSaver.savable(
     scope: CoroutineScope,
-    initial: O
+    initial: O,
+    key: String = initial::class.simpleName.toString()
 ): ReadWriteDelegate<O> = ObjectSaverDelegate(
     saver = this,
     scope = scope,
-    initial = initial
+    initial = initial,
+    key = key
 )
 
 private class ObjectSaverDelegate<O : Any>(
     private val saver: ObjectSaver,
     private val scope: CoroutineScope,
-    private val initial: O
+    initial: O,
+    private val key: String
 ) : ReadWriteDelegate<O> {
 
     private var value: O by mutableStateOf(initial)
@@ -45,7 +48,7 @@ private class ObjectSaverDelegate<O : Any>(
     init {
         scope.launch {
             value = saver.restoreObject(
-                key = initial::class.simpleName.toString(),
+                key = key,
                 kClass = initial::class
             ) ?: initial
         }
@@ -55,7 +58,7 @@ private class ObjectSaverDelegate<O : Any>(
         this.value = value
         scope.launch {
             saver.saveObject(
-                key = initial::class.simpleName.toString(),
+                key = key,
                 value = value
             )
         }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -349,12 +349,12 @@ fun CollageMakerContent(
                                         isLoading = false
                                     },
                                     backgroundColor = component.backgroundColor,
-                                    spacing = component.spacing,
-                                    cornerRadius = component.cornerRadius,
+                                    spacing = component.params.spacing,
+                                    cornerRadius = component.params.cornerRadius,
                                     aspectRatio = component.aspectRatio.value,
-                                    outputScaleRatio = component.outputScaleRatio,
-                                    disableRotation = component.disableRotation,
-                                    enableSnapToBorders = component.enableSnapToBorders,
+                                    outputScaleRatio = component.params.outputScaleRatio,
+                                    disableRotation = component.params.disableRotation,
+                                    enableSnapToBorders = component.params.enableSnapToBorders,
                                     onImageTap = { index ->
                                         if (index >= 0) {
                                             tapIndex = index
@@ -517,7 +517,7 @@ fun CollageMakerContent(
                 )
                 EnhancedSliderItem(
                     modifier = Modifier.fillMaxWidth(),
-                    value = component.spacing,
+                    value = component.params.spacing,
                     title = stringResource(R.string.spacing),
                     valueRange = 0f..50f,
                     internalStateTransformation = {
@@ -536,7 +536,7 @@ fun CollageMakerContent(
                 )
                 EnhancedSliderItem(
                     modifier = Modifier.fillMaxWidth(),
-                    value = component.cornerRadius,
+                    value = component.params.cornerRadius,
                     title = stringResource(R.string.corners),
                     valueRange = 0f..50f,
                     internalStateTransformation = {
@@ -555,7 +555,7 @@ fun CollageMakerContent(
                 )
                 EnhancedSliderItem(
                     modifier = Modifier.fillMaxWidth(),
-                    value = component.outputScaleRatio,
+                    value = component.params.outputScaleRatio,
                     title = stringResource(R.string.output_image_scale),
                     valueRange = 0.5f..4f,
                     internalStateTransformation = {
@@ -575,14 +575,14 @@ fun CollageMakerContent(
                 PreferenceRowSwitch(
                     title = stringResource(id = R.string.disable_rotation),
                     subtitle = stringResource(id = R.string.disable_rotation_sub),
-                    checked = component.disableRotation,
+                    checked = component.params.disableRotation,
                     startIcon = Icons.Outlined.SwipeVertical,
                     onClick = component::setDisableRotation
                 )
                 PreferenceRowSwitch(
                     title = stringResource(id = R.string.enable_snapping_to_borders),
                     subtitle = stringResource(id = R.string.enable_snapping_to_borders_sub),
-                    checked = component.enableSnapToBorders,
+                    checked = component.params.enableSnapToBorders,
                     startIcon = Icons.Outlined.PinEnd,
                     onClick = component::setEnableSnapToBorders
                 )
