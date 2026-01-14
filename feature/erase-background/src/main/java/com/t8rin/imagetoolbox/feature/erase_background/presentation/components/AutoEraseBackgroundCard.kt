@@ -149,6 +149,8 @@ fun AutoEraseBackgroundCard(
                                 .onCompletion {
                                     downloadProgresses.remove(type)
                                     downloadJob = null
+                                    delay(100)
+                                    BgRemover.getRemover(type.toLib()).checkModel()
                                 }
                                 .catch {
                                     selectedModel = ModelType.U2NetP
