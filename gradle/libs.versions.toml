@@ -23,7 +23,7 @@ jxlCoderCoil = "2.5.2"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha11"
+material3 = "1.5.0-alpha12"
 composeVersion = "1.11.0-alpha02"
 materialIconsExtended = "1.7.8"
 androidx-datastorePreferencesAndroid = "1.2.0"
