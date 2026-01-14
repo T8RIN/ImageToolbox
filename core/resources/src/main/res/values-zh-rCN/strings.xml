@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -1505,7 +1503,7 @@
     <string name="fast_settings_side_sub">编辑图片时，在选定的侧边添加一个浮动条，点击该浮动条会打开快速设置</string>
     <string name="clear_selection">清除选择项</string>
     <string name="settings_group_visibility_hidden">设置组 \"%1$s\" 将默认折叠</string>
-    <string name="settings_group_visibility_visible">设置组 \"%1$s\" 将默认展开</string>
+    <string name="settings_group_visibility_visible">设置组“%1$s”将默认展开</string>
     <string name="base_64_tools">Base64工具</string>
     <string name="base_64_tools_sub">将Base64字符串解码为图片，或将图片编码为Base64格式</string>
     <string name="base_64">Base64</string>
@@ -1807,7 +1805,7 @@
     <string name="light_color">浅色</string>
     <string name="hyper_os">Hyper OS</string>
     <string name="hyper_os_sub">小米澎湃OS风格</string>
-    <string name="mask_pattern">面具图案</string>
+    <string name="mask_pattern">掩码图案</string>
     <string name="qr_code_top_image">此图像将用于放置在条形码上方</string>
     <string name="code_customization">代码定制</string>
     <string name="qr_logo_image">此图像将用作二维码中心的logo</string>
@@ -1872,7 +1870,7 @@
     <string name="radial_weave_pixelization">径向编织像素化</string>
     <string name="cannot_open_uri">无法打开URI“%1$s”</string>
     <string name="snowfall_mode">降雪模式</string>
-    <string name="enabled">已启用</string>
+    <string name="enabled">启用</string>
     <string name="border_frame">边框框架</string>
     <string name="glitch_variant">故障变体</string>
     <string name="channel_shift">通道偏移</string>
@@ -1939,7 +1937,7 @@
     <string name="delete_model_sub">你是否要删除 %1$s 模型？删除后你需要重新下载该模型</string>
     <string name="confirm">确认</string>
     <string name="models">模型</string>
-    <string name="downloaded_models">下载模型</string>
+    <string name="downloaded_models">已下载的模型</string>
     <string name="available_models">可用模型</string>
     <string name="preparing">准备中</string>
     <string name="active_model">启用模型</string>
