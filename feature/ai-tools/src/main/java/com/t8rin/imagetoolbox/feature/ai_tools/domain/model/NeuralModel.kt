@@ -577,6 +577,20 @@ data class NeuralModel(
                     title = "U2NetP",
                     description = R.string.model_u2netp,
                     type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/ddcolor_modelscope.onnx?download=true",
+                    name = "ddcolor_modelscope.onnx",
+                    title = "DDColor",
+                    description = R.string.model_ddcolor,
+                    type = Type.COLORIZE
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/ddcolor_artistic.onnx?download=true",
+                    name = "ddcolor_artistic.onnx",
+                    title = "DDColor Artistic",
+                    description = R.string.model_ddcolor_artistic,
+                    type = Type.COLORIZE
                 )
             ).sortedBy { it.type?.ordinal }
         }

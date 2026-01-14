@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -281,10 +281,16 @@ object ImageUtils {
     }
 
     @Composable
-    fun rememberHumanFileSize(byteCount: Long): String {
-        return remember(byteCount) {
+    fun rememberHumanFileSize(
+        byteCount: Long,
+        precision: Int = 1
+    ): String {
+        return remember(byteCount, precision) {
             derivedStateOf {
-                humanFileSize(byteCount)
+                humanFileSize(
+                    bytes = byteCount,
+                    precision = precision
+                )
             }
         }.value
     }

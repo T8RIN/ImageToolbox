@@ -97,6 +97,7 @@ internal fun NeuralModelsColumn(
     onDeleteModel: (NeuralModel) -> Unit,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    occupiedStorageSize: Long
 ) {
     val essentials = rememberLocalEssentials()
     val scope = rememberCoroutineScope()
@@ -251,7 +252,19 @@ internal fun NeuralModelsColumn(
             item {
                 TitleItem(
                     icon = Icons.Rounded.DownloadDone,
-                    text = stringResource(id = R.string.downloaded_models)
+                    text = stringResource(id = R.string.downloaded_models),
+                    endContent = {
+                        Badge(
+                            containerColor = MaterialTheme.colorScheme.tertiary
+                        ) {
+                            Text(
+                                rememberHumanFileSize(
+                                    byteCount = occupiedStorageSize,
+                                    precision = 2
+                                )
+                            )
+                        }
+                    }
                 )
             }
         }

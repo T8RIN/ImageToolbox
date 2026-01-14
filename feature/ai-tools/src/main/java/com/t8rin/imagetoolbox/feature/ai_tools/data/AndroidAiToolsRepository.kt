@@ -55,6 +55,8 @@ import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
@@ -63,7 +65,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.io.readByteArray
@@ -91,18 +95,24 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     private val modelsDir: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
-    override val downloadedModels: StateFlow<List<NeuralModel>> = modelsDir
-        .observeHasChanges()
-        .debounce(100)
-        .map {
-            fetchDownloadedModels().sortedWith(
+    private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
+
+    override val occupiedStorageSize: MutableStateFlow<Long> = MutableStateFlow(0)
+
+    override val downloadedModels: StateFlow<List<NeuralModel>> =
+        merge(
+            modelsDir.observeHasChanges().debounce(100),
+            updateFlow
+        ).map {
+            fetchDownloadedModels { files ->
+                occupiedStorageSize.update { files.sumOf { it.length() } }
+            }.sortedWith(
                 compareBy(
                     { NeuralModel.entries.indexOfFirst { e -> e.name == it.name } },
                     { it.title },
                 )
             )
-        }
-        .stateIn(
+        }.stateIn(
             scope = appScope,
             started = SharingStarted.Eagerly,
             initialValue = emptyList()
@@ -160,6 +170,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         }
 
                         tmp.renameTo(modelFile)
+
+                        updateFlow.emit(Unit)
 
                         ensureActive()
 
@@ -335,8 +347,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
         session = null
     }
 
-    private suspend fun fetchDownloadedModels() = withContext(ioDispatcher) {
-        modelsDir.listFiles().orEmpty().mapNotNull {
+    private suspend fun fetchDownloadedModels(
+        onGetFiles: (List<File>) -> Unit
+    ) = withContext(ioDispatcher) {
+        modelsDir.listFiles().orEmpty().toList().also(onGetFiles).mapNotNull {
             val name = it.name
 
             if (name.isNullOrEmpty()) return@mapNotNull null

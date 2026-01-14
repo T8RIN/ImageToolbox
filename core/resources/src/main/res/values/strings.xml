@@ -2031,4 +2031,6 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">High-accuracy image segmentation model for background removing</string>
     <string name="model_u2netp">Lightweight version of U2Net for faster background removing with smaller memory usage.</string>
+    <string name="model_ddcolor">Full DDColor model delivers high-quality colorization for general images with minimal artifacts. Best choice of all colorization models.</string>
+    <string name="model_ddcolor_artistic">DDColor Trained and private artistic datasets; produces diverse and artistic colorization results with fewer unrealistic color artifacts.</string>
 </resources>

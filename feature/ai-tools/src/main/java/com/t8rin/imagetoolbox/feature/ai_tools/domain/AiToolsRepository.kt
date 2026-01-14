@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface AiToolsRepository<Image> {
+    val occupiedStorageSize: StateFlow<Long>
+
     val downloadedModels: StateFlow<List<NeuralModel>>
 
     val selectedModel: StateFlow<NeuralModel?>
