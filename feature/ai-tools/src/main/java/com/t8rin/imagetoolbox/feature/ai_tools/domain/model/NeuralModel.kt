@@ -591,6 +591,13 @@ data class NeuralModel(
                     title = "DDColor Artistic",
                     description = R.string.model_ddcolor_artistic,
                     type = Type.COLORIZE
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/birefnet_swin_tiny.ort?download=true",
+                    name = "birefnet_swin_tiny.ort",
+                    title = "BiRefNet",
+                    description = R.string.model_birefnet,
+                    type = Type.REMOVEBG
                 )
             ).sortedBy { it.type?.ordinal }
         }

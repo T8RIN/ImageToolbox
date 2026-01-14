@@ -2009,4 +2009,7 @@
     <string name="chunking">分块</string>
     <string name="model_u2net">高精度背景去除图像分割模型</string>
     <string name="model_u2netp">U2Net 的轻量级版本，可以以更小的内存使用更快地去除背景。</string>
+    <string name="model_ddcolor">完整的 DDColor 模型可为一般图像提供高质量的彩色化，且伪影最少。所有着色模型的最佳选择。</string>
+    <string name="model_ddcolor_artistic">DDColor 训练有素的私人艺术数据集；产生多样化和艺术化的色彩结果，减少不切实际的色彩伪影。</string>
+    <string name="model_birefnet">基于 Swin Transformer 的轻量级 BiRefNet 模型，可实现准确的背景去除。</string>
 </resources>

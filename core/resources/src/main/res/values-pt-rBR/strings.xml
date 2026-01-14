@@ -14,6 +14,7 @@
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
@@ -2009,4 +2010,7 @@
     <string name="chunking">Pedaço</string>
     <string name="model_u2net">Modelo de segmentação de imagens de alta precisão para remoção de fundo</string>
     <string name="model_u2netp">Versão leve do U2Net para remoção mais rápida de fundo com menor uso de memória.</string>
+    <string name="model_ddcolor">O modelo Full DDColor oferece colorização de alta qualidade para imagens gerais com o mínimo de artefatos. A melhor escolha de todos os modelos de colorização.</string>
+    <string name="model_ddcolor_artistic">DDColor Conjuntos de dados artísticos treinados e privados; produz resultados de colorização diversos e artísticos com menos artefatos de cores irrealistas.</string>
+    <string name="model_birefnet">Modelo BiRefNet leve baseado no Swin Transformer para remoção precisa do fundo.</string>
 </resources>

@@ -2010,4 +2010,7 @@
     <string name="chunking">Zatiketa</string>
     <string name="model_u2net">Zehaztasun handiko irudiak segmentatzeko eredua atzeko planoa kentzeko</string>
     <string name="model_u2netp">U2Net-en bertsio arina atzeko planoa bizkorrago kentzeko memoria-erabilera txikiagoarekin.</string>
+    <string name="model_ddcolor">DDColor eredu osoak kalitate handiko koloreztatzea eskaintzen du artefaktu minimoekin irudi orokorretarako. Kolorizazio eredu guztien aukerarik onena.</string>
+    <string name="model_ddcolor_artistic">DDColor Prestatutako eta datu artistiko pribatuak; Kolore-emaitzak anitz eta artistikoak sortzen ditu, kolore-artefaktu irrealista gutxiagorekin.</string>
+    <string name="model_birefnet">Swin Transformer-en oinarritutako BiRefNet eredu arina atzeko planoa zehatz kentzeko.</string>
 </resources>

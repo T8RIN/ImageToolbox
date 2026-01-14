@@ -2010,4 +2010,7 @@
     <string name="chunking">Бөлшектеу</string>
     <string name="model_u2net">Фонды жоюға арналған жоғары дәлдіктегі кескінді сегменттеу үлгісі</string>
     <string name="model_u2netp">Жадты азырақ пайдалану арқылы фонды жылдам жоюға арналған U2Net жеңіл нұсқасы.</string>
+    <string name="model_ddcolor">Толық DDColor үлгісі ең аз артефактілермен жалпы кескіндер үшін жоғары сапалы түс беруді қамтамасыз етеді. Барлық бояу үлгілерінің ең жақсы таңдауы.</string>
+    <string name="model_ddcolor_artistic">DDColor Оқытылған және жеке көркем деректер жиыны; азырақ шынайы емес түсті артефактілермен әртүрлі және көркем бояу нәтижелерін береді.</string>
+    <string name="model_birefnet">Фонды дәл жою үшін Swin Transformer негізіндегі жеңіл BiRefNet моделі.</string>
 </resources>

@@ -2009,4 +2009,7 @@
     <string name="chunking">Potongan</string>
     <string name="model_u2net">Model segmentasi gambar dengan akurasi tinggi untuk penghapusan latar belakang</string>
     <string name="model_u2netp">Versi ringan U2Net untuk menghapus latar belakang lebih cepat dengan penggunaan memori lebih kecil.</string>
+    <string name="model_ddcolor">Model DDColor penuh menghadirkan pewarnaan berkualitas tinggi untuk gambar umum dengan artefak minimal. Pilihan terbaik dari semua model pewarnaan.</string>
+    <string name="model_ddcolor_artistic">Kumpulan data artistik pribadi dan terlatih DDColor; menghasilkan hasil pewarnaan yang beragam dan artistik dengan lebih sedikit artefak warna yang tidak realistis.</string>
+    <string name="model_birefnet">Model BiRefNet ringan berdasarkan Swin Transformer untuk menghilangkan latar belakang secara akurat.</string>
 </resources>

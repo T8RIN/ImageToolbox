@@ -2010,4 +2010,7 @@
     <string name="chunking">Dobogó</string>
     <string name="model_u2net">Nagy pontosságú képszegmentációs modell a háttér eltávolításához</string>
     <string name="model_u2netp">Az U2Net könnyű változata a háttér gyorsabb eltávolításához kisebb memóriahasználat mellett.</string>
+    <string name="model_ddcolor">A Full DDColor modell kiváló minőségű színezést biztosít az általános képekhez minimális műtermékekkel. A legjobb választás az összes színezési modell közül.</string>
+    <string name="model_ddcolor_artistic">DDColor Képzett és privát művészi adatkészletek; változatos és művészi színezési eredményeket hoz létre kevesebb irreális színművel.</string>
+    <string name="model_birefnet">Swin Transformer alapú könnyű BiRefNet modell a pontos háttér eltávolításhoz.</string>
 </resources>

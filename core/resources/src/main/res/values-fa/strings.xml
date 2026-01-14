@@ -2010,4 +2010,7 @@
     <string name="chunking">تکه تکه شدن</string>
     <string name="model_u2net">مدل تقسیم‌بندی تصویر با دقت بالا برای حذف پس‌زمینه</string>
     <string name="model_u2netp">نسخه سبک U2Net برای حذف سریع پس زمینه با استفاده از حافظه کمتر.</string>
+    <string name="model_ddcolor">مدل Full DDColor رنگ‌بندی با کیفیت بالا را برای تصاویر عمومی با حداقل مصنوعات ارائه می‌کند. بهترین انتخاب از همه مدل های رنگ بندی.</string>
+    <string name="model_ddcolor_artistic">مجموعه داده های هنری آموزش دیده و خصوصی DDColor. نتایج رنگ آمیزی متنوع و هنری را با مصنوعات رنگی غیر واقعی کمتر ایجاد می کند.</string>
+    <string name="model_birefnet">مدل سبک BiRefNet بر اساس ترانسفورماتور Swin برای حذف دقیق پس زمینه.</string>
 </resources>

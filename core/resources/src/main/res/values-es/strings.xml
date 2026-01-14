@@ -2010,4 +2010,7 @@
     <string name="chunking">fragmentación</string>
     <string name="model_u2net">Modelo de segmentación de imágenes de alta precisión para eliminar el fondo</string>
     <string name="model_u2netp">Versión liviana de U2Net para una eliminación de fondo más rápida con un menor uso de memoria.</string>
+    <string name="model_ddcolor">El modelo DDColor completo ofrece coloración de alta calidad para imágenes generales con artefactos mínimos. La mejor elección de todos los modelos de coloración.</string>
+    <string name="model_ddcolor_artistic">DDColor Conjuntos de datos artísticos privados y capacitados; produce resultados de coloración diversos y artísticos con menos artefactos de color poco realistas.</string>
+    <string name="model_birefnet">Modelo ligero BiRefNet basado en Swin Transformer para una eliminación precisa del fondo.</string>
 </resources>

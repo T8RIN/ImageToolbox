@@ -2010,4 +2010,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">Modelo ng pagse-segment ng larawan na may mataas na katumpakan para sa pag-alis ng background</string>
     <string name="model_u2netp">Magaan na bersyon ng U2Net para sa mas mabilis na pag-alis ng background na may mas maliit na paggamit ng memory.</string>
+    <string name="model_ddcolor">Ang buong modelo ng DDColor ay naghahatid ng mataas na kalidad na colorization para sa mga pangkalahatang larawan na may kaunting artifact. Pinakamahusay na pagpipilian ng lahat ng mga modelo ng colorization.</string>
+    <string name="model_ddcolor_artistic">DDColor Sinanay at pribadong artistikong dataset; gumagawa ng magkakaibang at masining na mga resulta ng colorization na may mas kaunting hindi makatotohanang mga artifact ng kulay.</string>
+    <string name="model_birefnet">Magaang modelo ng BiRefNet batay sa Swin Transformer para sa tumpak na pag-alis ng background.</string>
 </resources>

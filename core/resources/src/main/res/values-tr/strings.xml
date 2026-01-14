@@ -2010,4 +2010,7 @@
     <string name="chunking">Parçalama</string>
     <string name="model_u2net">Arka planı kaldırmak için yüksek doğruluklu görüntü segmentasyon modeli</string>
     <string name="model_u2netp">Daha az bellek kullanımıyla daha hızlı arka plan kaldırma için U2Net\'in hafif versiyonu.</string>
+    <string name="model_ddcolor">Tam DDColor modeli, minimum düzeyde bozulmayla genel görüntüler için yüksek kaliteli renklendirme sunar. Tüm renklendirme modelleri arasında en iyi seçim.</string>
+    <string name="model_ddcolor_artistic">DDColor Eğitimli ve özel sanatsal veri kümeleri; daha az gerçekçi olmayan renk yapısı ile çeşitli ve sanatsal renklendirme sonuçları üretir.</string>
+    <string name="model_birefnet">Doğru arka plan kaldırma için Swin Transformer\'ı temel alan hafif BiRefNet modeli.</string>
 </resources>

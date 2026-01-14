@@ -2009,4 +2009,7 @@
     <string name="chunking">청킹</string>
     <string name="model_u2net">배경 제거를 위한 고정밀 이미지 분할 모델</string>
     <string name="model_u2netp">더 적은 메모리 사용량으로 더 빠른 배경 제거를 위한 U2Net의 경량 버전입니다.</string>
+    <string name="model_ddcolor">전체 DDColor 모델은 아티팩트를 최소화하면서 일반 이미지에 대한 고품질 색상화를 제공합니다. 모든 색상화 모델 중 최고의 선택입니다.</string>
+    <string name="model_ddcolor_artistic">DDColor 훈련된 개인 예술 데이터 세트 비현실적인 색상 아티팩트를 줄여 다양하고 예술적인 색상화 결과를 만들어냅니다.</string>
+    <string name="model_birefnet">정확한 배경 제거를 위해 Swin Transformer를 기반으로 한 경량 BiRefNet 모델입니다.</string>
 </resources>

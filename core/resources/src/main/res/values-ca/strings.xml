@@ -2010,4 +2010,7 @@
     <string name="chunking">En trossos</string>
     <string name="model_u2net">Model de segmentació d\'imatges d\'alta precisió per eliminar fons</string>
     <string name="model_u2netp">Versió lleugera d\'U2Net per a una eliminació més ràpida de fons amb un ús de memòria més petit.</string>
+    <string name="model_ddcolor">El model DDColor complet ofereix una coloració d\'alta qualitat per a imatges generals amb un mínim d\'artefactes. La millor opció de tots els models de coloració.</string>
+    <string name="model_ddcolor_artistic">DDColor Conjunts de dades artístics entrenats i privats; produeix resultats de coloració diversos i artístics amb menys artefactes de color poc realistes.</string>
+    <string name="model_birefnet">Model lleuger BiRefNet basat en Swin Transformer per eliminar amb precisió el fons.</string>
 </resources>

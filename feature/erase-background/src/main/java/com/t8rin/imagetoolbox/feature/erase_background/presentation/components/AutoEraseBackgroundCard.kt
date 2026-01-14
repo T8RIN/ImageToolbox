@@ -90,7 +90,7 @@ fun AutoEraseBackgroundCard(
     val downloadedModelsRaw by BgRemover.downloadedModels.collectAsStateWithLifecycle()
     val downloadedModels by remember(downloadedModelsRaw) {
         derivedStateOf {
-            downloadedModelsRaw.map { it.toDomain() }
+            downloadedModelsRaw.mapNotNull { it.toDomain() }
         }
     }
 
@@ -129,6 +129,10 @@ fun AutoEraseBackgroundCard(
                 title = null,
                 onValueChange = { type ->
                     if (downloadJob == null) {
+                        if (selectedModel != type) {
+                            BgRemover.getRemover(selectedModel.toLib()).close()
+                        }
+
                         selectedModel = type
 
                         if (type in downloadedModels) return@EnhancedButtonGroup
@@ -249,11 +253,14 @@ private fun ModelType.toLib(): BgRemover.Type = when (this) {
     ModelType.U2Net -> BgRemover.Type.U2Net
     ModelType.RMBG -> BgRemover.Type.RMBG1_4
     ModelType.RMBG2_0 -> BgRemover.Type.RMBG2_0
+    ModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
 }
 
-private fun BgRemover.Type.toDomain(): ModelType = when (this) {
+private fun BgRemover.Type.toDomain(): ModelType? = when (this) {
     BgRemover.Type.U2NetP -> ModelType.U2NetP
     BgRemover.Type.U2Net -> ModelType.U2Net
     BgRemover.Type.RMBG1_4 -> ModelType.RMBG
     BgRemover.Type.RMBG2_0 -> ModelType.RMBG2_0
+    BgRemover.Type.BiRefNetTiny -> ModelType.BiRefNetTiny
+    BgRemover.Type.BiRefNet -> null
 }

@@ -2010,4 +2010,7 @@
     <string name="chunking">চঙ্কিং</string>
     <string name="model_u2net">পটভূমি অপসারণের জন্য উচ্চ-নির্ভুলতা চিত্র বিভাজন মডেল</string>
     <string name="model_u2netp">ছোট মেমরি ব্যবহারের সাথে দ্রুত পটভূমি অপসারণের জন্য U2Net-এর হালকা সংস্করণ।</string>
+    <string name="model_ddcolor">সম্পূর্ণ DDCcolor মডেল ন্যূনতম শিল্পকর্ম সহ সাধারণ চিত্রগুলির জন্য উচ্চ-মানের রঙিনকরণ সরবরাহ করে। সমস্ত রঙিন মডেলের সেরা পছন্দ।</string>
+    <string name="model_ddcolor_artistic">DDColor প্রশিক্ষিত এবং ব্যক্তিগত শৈল্পিক ডেটাসেট; কম অবাস্তব রঙের শিল্পকর্মের সাথে বৈচিত্র্যময় এবং শৈল্পিক রঙিন ফলাফল তৈরি করে।</string>
+    <string name="model_birefnet">সঠিক পটভূমি অপসারণের জন্য সুইন ট্রান্সফরমারের উপর ভিত্তি করে হালকা ওজনের BiRefNet মডেল।</string>
 </resources>

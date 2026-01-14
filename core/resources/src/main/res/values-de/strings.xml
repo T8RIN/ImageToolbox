@@ -2010,4 +2010,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">Hochpräzises Bildsegmentierungsmodell zur Hintergrundentfernung</string>
     <string name="model_u2netp">Leichte Version von U2Net für schnellere Hintergrundentfernung bei geringerer Speichernutzung.</string>
+    <string name="model_ddcolor">Das vollständige DDColor-Modell liefert eine hochwertige Kolorierung für allgemeine Bilder mit minimalen Artefakten. Beste Wahl aller Kolorierungsmodelle.</string>
+    <string name="model_ddcolor_artistic">DDColor geschulte und private künstlerische Datensätze; Erzeugt vielfältige und künstlerische Kolorierungsergebnisse mit weniger unrealistischen Farbartefakten.</string>
+    <string name="model_birefnet">Leichtes BiRefNet-Modell basierend auf Swin Transformer für präzise Hintergrundentfernung.</string>
 </resources>

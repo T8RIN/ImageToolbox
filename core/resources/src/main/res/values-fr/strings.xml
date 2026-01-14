@@ -2010,4 +2010,7 @@
     <string name="chunking">Morceau</string>
     <string name="model_u2net">Modèle de segmentation d\'image de haute précision pour la suppression de l\'arrière-plan</string>
     <string name="model_u2netp">Version allégée de U2Net pour une suppression plus rapide de l\'arrière-plan avec une utilisation moindre de la mémoire.</string>
+    <string name="model_ddcolor">Le modèle complet DDColor offre une colorisation de haute qualité pour les images générales avec un minimum d\'artefacts. Meilleur choix de tous les modèles de colorisation.</string>
+    <string name="model_ddcolor_artistic">DDColor Ensembles de données artistiques formés et privés ; produit des résultats de colorisation diversifiés et artistiques avec moins d’artefacts de couleur irréalistes.</string>
+    <string name="model_birefnet">Modèle BiRefNet léger basé sur Swin Transformer pour une suppression précise de l\'arrière-plan.</string>
 </resources>

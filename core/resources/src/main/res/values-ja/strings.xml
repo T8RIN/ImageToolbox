@@ -2009,4 +2009,7 @@
     <string name="chunking">チャンク化</string>
     <string name="model_u2net">背景除去のための高精度画像セグメンテーションモデル</string>
     <string name="model_u2netp">少ないメモリ使用量で高速にバックグラウンドを削除できる U2Net の軽量バージョン。</string>
+    <string name="model_ddcolor">完全な DDColor モデルは、アーティファクトを最小限に抑えながら、一般的な画像に対して高品質のカラー化を実現します。すべてのカラー化モデルの中で最良の選択。</string>
+    <string name="model_ddcolor_artistic">DDColor トレーニング済みのプライベート芸術データセット。非現実的な色のアーティファクトが少なく、多様で芸術的な色付け結果が得られます。</string>
+    <string name="model_birefnet">正確な背景除去のための Swin Transformer に基づく軽量 BiRefNet モデル。</string>
 </resources>

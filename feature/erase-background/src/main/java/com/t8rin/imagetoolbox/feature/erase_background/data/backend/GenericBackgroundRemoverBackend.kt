@@ -38,6 +38,7 @@ internal class GenericBackgroundRemoverBackend(
                 ModelType.U2Net -> BgRemover.Type.U2Net
                 ModelType.RMBG -> BgRemover.Type.RMBG1_4
                 ModelType.RMBG2_0 -> BgRemover.Type.RMBG2_0
+                ModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
             }
         )!!
     }

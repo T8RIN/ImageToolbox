@@ -2011,4 +2011,7 @@
     <string name="chunking">කුට්ටි කිරීම</string>
     <string name="model_u2net">පසුබිම ඉවත් කිරීම සඳහා ඉහළ නිරවද්‍ය රූප ඛණ්ඩන ආකෘතිය</string>
     <string name="model_u2netp">කුඩා මතක භාවිතය සමඟ වේගවත් පසුබිම ඉවත් කිරීම සඳහා U2Net හි සැහැල්ලු අනුවාදය.</string>
+    <string name="model_ddcolor">සම්පූර්ණ DDColor ආකෘතිය අවම කෞතුක වස්තු සහිත සාමාන්‍ය රූප සඳහා උසස් තත්ත්වයේ වර්ණ ගැන්වීම ලබා දෙයි. සියලුම වර්ණ ගැන්වීමේ මාදිලියේ හොඳම තේරීම.</string>
+    <string name="model_ddcolor_artistic">DDColor පුහුණු සහ පුද්ගලික කලාත්මක දත්ත කට්ටල; අඩු යථාර්ථවාදී නොවන වර්ණ කෞතුක වස්තු සමඟ විවිධ සහ කලාත්මක වර්ණ ගැන්වීමේ ප්‍රතිඵල නිපදවයි.</string>
+    <string name="model_birefnet">නිවැරදි පසුබිම ඉවත් කිරීම සඳහා Swin Transformer මත පදනම් වූ සැහැල්ලු BiRefNet ආකෘතිය.</string>
 </resources>

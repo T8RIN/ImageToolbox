@@ -2012,4 +2012,7 @@
     <string name="chunking">Чанкінг</string>
     <string name="model_u2net">Високоточна модель сегментації зображення для видалення фону</string>
     <string name="model_u2netp">Полегшена версія U2Net для швидшого видалення фону з меншим використанням пам’яті.</string>
+    <string name="model_ddcolor">Модель Full DDColor забезпечує високоякісне розфарбовування загальних зображень із мінімальними артефактами. Найкращий вибір серед усіх моделей забарвлення.</string>
+    <string name="model_ddcolor_artistic">DDColor Навчені та приватні художні набори даних; дає різноманітні та художні результати забарвлення з меншою кількістю нереалістичних кольорових артефактів.</string>
+    <string name="model_birefnet">Легка модель BiRefNet на основі Swin Transformer для точного видалення фону.</string>
 </resources>

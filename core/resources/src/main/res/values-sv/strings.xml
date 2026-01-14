@@ -2011,4 +2011,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">Högnoggrann bildsegmenteringsmodell för borttagning av bakgrund</string>
     <string name="model_u2netp">Lätt version av U2Net för snabbare borttagning av bakgrund med mindre minnesanvändning.</string>
+    <string name="model_ddcolor">Full DDColor-modell ger högkvalitativ färgsättning för allmänna bilder med minimala artefakter. Bästa valet av alla färgsättningsmodeller.</string>
+    <string name="model_ddcolor_artistic">DDColor Utbildade och privata konstnärliga datamängder; ger olika och konstnärliga färgningsresultat med färre orealistiska färgartefakter.</string>
+    <string name="model_birefnet">Lätt BiRefNet-modell baserad på Swin Transformer för exakt bakgrundsborttagning.</string>
 </resources>

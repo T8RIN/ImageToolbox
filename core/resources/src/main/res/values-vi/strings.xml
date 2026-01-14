@@ -2009,4 +2009,7 @@
     <string name="chunking">Cắt nhỏ</string>
     <string name="model_u2net">Mô hình phân đoạn hình ảnh có độ chính xác cao để loại bỏ nền</string>
     <string name="model_u2netp">Phiên bản nhẹ của U2Net giúp xóa nền nhanh hơn với mức sử dụng bộ nhớ nhỏ hơn.</string>
+    <string name="model_ddcolor">Mô hình DDColor đầy đủ mang lại màu sắc chất lượng cao cho hình ảnh thông thường với ít hiện tượng giả mạo nhất. Sự lựa chọn tốt nhất trong tất cả các mô hình tô màu.</string>
+    <string name="model_ddcolor_artistic">DDColor Bộ dữ liệu nghệ thuật riêng tư và được đào tạo; tạo ra kết quả tô màu đa dạng và nghệ thuật với ít hiện vật màu phi thực tế hơn.</string>
+    <string name="model_birefnet">Mô hình BiRefNet nhẹ dựa trên Swin Transformer để loại bỏ nền chính xác.</string>
 </resources>

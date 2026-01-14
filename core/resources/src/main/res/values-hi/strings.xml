@@ -2010,4 +2010,7 @@
     <string name="chunking">ठस</string>
     <string name="model_u2net">पृष्ठभूमि हटाने के लिए उच्च सटीकता छवि विभाजन मॉडल</string>
     <string name="model_u2netp">कम मेमोरी उपयोग के साथ तेजी से पृष्ठभूमि हटाने के लिए U2Net का हल्का संस्करण।</string>
+    <string name="model_ddcolor">पूर्ण DDColor मॉडल न्यूनतम कलाकृतियों के साथ सामान्य छवियों के लिए उच्च गुणवत्ता वाला रंगीकरण प्रदान करता है। सभी रंगीकरण मॉडलों का सर्वोत्तम विकल्प।</string>
+    <string name="model_ddcolor_artistic">DDColor प्रशिक्षित और निजी कलात्मक डेटासेट; कम अवास्तविक रंग कलाकृतियों के साथ विविध और कलात्मक रंगीकरण परिणाम उत्पन्न करता है।</string>
+    <string name="model_birefnet">सटीक पृष्ठभूमि हटाने के लिए स्विन ट्रांसफार्मर पर आधारित हल्के BiRefNet मॉडल।</string>
 </resources>

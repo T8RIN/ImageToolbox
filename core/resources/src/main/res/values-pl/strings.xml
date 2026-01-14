@@ -2012,4 +2012,7 @@
     <string name="chunking">Kawałki</string>
     <string name="model_u2net">Model segmentacji obrazu o wysokiej dokładności do usuwania tła</string>
     <string name="model_u2netp">Lekka wersja U2Net do szybszego usuwania tła przy mniejszym zużyciu pamięci.</string>
+    <string name="model_ddcolor">Model Full DColor zapewnia wysokiej jakości kolorowanie ogólnych obrazów przy minimalnej liczbie artefaktów. Najlepszy wybór ze wszystkich modeli koloryzacji.</string>
+    <string name="model_ddcolor_artistic">DDColor Trained i prywatne zbiory danych artystycznych; zapewnia różnorodne i artystyczne rezultaty koloryzacji z mniejszą liczbą nierealistycznych artefaktów kolorystycznych.</string>
+    <string name="model_birefnet">Lekki model BiRefNet oparty na transformatorze Swin do dokładnego usuwania tła.</string>
 </resources>

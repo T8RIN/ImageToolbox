@@ -2010,4 +2010,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">Høj nøjagtig billedsegmenteringsmodel til fjernelse af baggrund</string>
     <string name="model_u2netp">Letvægtsversion af U2Net til hurtigere fjernelse af baggrund med mindre hukommelsesforbrug.</string>
+    <string name="model_ddcolor">Fuld DDColor-model leverer farvelægning af høj kvalitet til generelle billeder med minimale artefakter. Bedste valg af alle farvelægningsmodeller.</string>
+    <string name="model_ddcolor_artistic">DDColor Trænede og private kunstneriske datasæt; producerer forskellige og kunstneriske farvelægningsresultater med færre urealistiske farveartefakter.</string>
+    <string name="model_birefnet">Letvægts BiRefNet-model baseret på Swin Transformer til nøjagtig baggrundsfjernelse.</string>
 </resources>

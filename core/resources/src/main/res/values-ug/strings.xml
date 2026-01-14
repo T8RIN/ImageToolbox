@@ -2010,4 +2010,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">تەگلىكنى ئۆچۈرۈش ئۈچۈن يۇقىرى ئېنىقلىقتىكى رەسىم بۆلەك مودېلى</string>
     <string name="model_u2netp">كىچىكرەك ئىچكى ساقلىغۇچ ئىشلىتىش ئارقىلىق تېخىمۇ تېز تەگلىك ئۆچۈرۈش ئۈچۈن U2Net نىڭ يېنىك نۇسخىسى.</string>
+    <string name="model_ddcolor">تولۇق DDColor مودېلى ئەڭ تۆۋەن ئاسارە-ئەتىقىلەر بىلەن ئادەتتىكى رەسىملەرگە يۇقىرى سۈپەتلىك رەڭ بېرىدۇ. بارلىق رەڭلەش مودېللىرىنىڭ ئەڭ ياخشى تاللىشى.</string>
+    <string name="model_ddcolor_artistic">DDColor تەربىيەلەنگەن ۋە شەخسىي سەنئەت سانلىق مەلۇماتلىرى ئاز بولمىغان رېئال سەنئەت بۇيۇملىرى بىلەن كۆپ خىل ۋە بەدىئىي رەڭلەش نەتىجىسىنى ھاسىل قىلىدۇ.</string>
+    <string name="model_birefnet">ئارقا كۆرۈنۈشنى ئېلىۋېتىش ئۈچۈن Swin Transformer نى ئاساس قىلغان يېنىك تىپتىكى BiRefNet مودېلى.</string>
 </resources>

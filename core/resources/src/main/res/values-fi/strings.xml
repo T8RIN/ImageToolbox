@@ -2010,4 +2010,7 @@
     <string name="chunking">Murskaavaa</string>
     <string name="model_u2net">Erittäin tarkka kuvan segmentointimalli taustan poistamiseen</string>
     <string name="model_u2netp">U2Netin kevyt versio nopeampaan taustan poistamiseen pienemmällä muistinkäytöllä.</string>
+    <string name="model_ddcolor">Full DDColor -malli tarjoaa korkealaatuisen värityksen yleisille kuville minimaalisilla artefakteilla. Paras valinta kaikista väritysmalleista.</string>
+    <string name="model_ddcolor_artistic">DDColor Koulutetut ja yksityiset taiteelliset tietojoukot; tuottaa monipuolisia ja taiteellisia väritystuloksia harvemmilla epärealistisilla väriartefakteilla.</string>
+    <string name="model_birefnet">Kevyt BiRefNet-malli, joka perustuu Swin Transformeriin tarkan taustan poistamiseen.</string>
 </resources>

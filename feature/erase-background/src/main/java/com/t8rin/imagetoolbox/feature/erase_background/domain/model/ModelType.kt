@@ -24,5 +24,6 @@ enum class ModelType(
     U2NetP("U2NetP"),
     U2Net("U2Net"),
     RMBG("RMBG"),
-    RMBG2_0("RMBG 2.0")
+    RMBG2_0("RMBG 2.0"),
+    BiRefNetTiny("BiRefNet")
 }

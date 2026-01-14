@@ -2012,4 +2012,7 @@
     <string name="chunking">Chunking</string>
     <string name="model_u2net">Vysoko presný model segmentácie obrazu na odstránenie pozadia</string>
     <string name="model_u2netp">Odľahčená verzia U2Net pre rýchlejšie odstraňovanie pozadia s menšou spotrebou pamäte.</string>
+    <string name="model_ddcolor">Úplný model DDColor poskytuje vysokokvalitné zafarbenie pre bežné obrázky s minimálnymi artefaktmi. Najlepšia voľba zo všetkých farebných modelov.</string>
+    <string name="model_ddcolor_artistic">DDColor vyškolené a súkromné ​​​​umelecké súbory údajov; vytvára rôznorodé a umelecké výsledky sfarbenia s menším počtom nerealistických farebných artefaktov.</string>
+    <string name="model_birefnet">Ľahký model BiRefNet založený na Swin Transformer pre presné odstránenie pozadia.</string>
 </resources>
