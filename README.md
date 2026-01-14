@@ -165,15 +165,15 @@ or click one of the badges below.
 
 # ⚔️ FOSS vs MARKET
 
-|    **Feature**     |        **FOSS**         |     **Market**     |
-|:------------------:|:-----------------------:|:------------------:|
-|     QR Scanner     |          Zxing          |       MlKit        |
-|   Auto erase BG    | U2Net, RMBG (1.4 / 2.0) |       MlKit        |
-|  Document Scanner  |         OpenCV          |       MlKit        |
-|     Analytics      |           :x:           | :white_check_mark: |
-|    Crashlytics     |           :x:           | :white_check_mark: |
-| Other Google deps  |           :x:           | :white_check_mark: |
-| All Other Features |   :white_check_mark:    | :white_check_mark: |
+|       **Feature**       |             **FOSS**              |     **Market**     |
+|:-----------------------:|:---------------------------------:|:------------------:|
+|       QR Scanner        |               Zxing               |       MlKit        |
+| Auto Background Remover | U2Net, RMBG (1.4 / 2.0), BiRefNet |       MlKit        |
+|    Document Scanner     |              OpenCV               |       MlKit        |
+|        Analytics        |                :x:                | :white_check_mark: |
+|       Crashlytics       |                :x:                | :white_check_mark: |
+|    Other Google deps    |                :x:                | :white_check_mark: |
+|   All Other Features    |        :white_check_mark:         | :white_check_mark: |
 
 # ✨ Features
 
@@ -516,7 +516,7 @@ or click one of the badges below.
 - Image Splitting
 - Background Removal
     - By drawing
-    - Automatically (U2Net, RMBG-1.4, MlKit)
+    - Automatically (MlKit, U2NetP, U2Net, RMBG-1.4, RMBG-2.0, BiRefNet)
 - Watermarking
     - Repeating Text
     - Image
