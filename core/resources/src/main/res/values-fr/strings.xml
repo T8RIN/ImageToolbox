@@ -2012,4 +2012,6 @@
     <string name="model_ddcolor">Le modèle complet DDColor offre une colorisation de haute qualité pour les images générales avec un minimum d\'artefacts. Meilleur choix de tous les modèles de colorisation.</string>
     <string name="model_ddcolor_artistic">DDColor Ensembles de données artistiques formés et privés ; produit des résultats de colorisation diversifiés et artistiques avec moins d’artefacts de couleur irréalistes.</string>
     <string name="model_birefnet">Modèle BiRefNet léger basé sur Swin Transformer pour une suppression précise de l\'arrière-plan.</string>
+    <string name="model_inspyrenet">Suppression d’arrière-plan de haute qualité avec des bords nets et une excellente préservation des détails, en particulier sur les objets complexes et les arrière-plans délicats.</string>
+    <string name="model_isnet">Modèle de suppression d\'arrière-plan qui produit des masques précis avec des bords lisses, adaptés aux objets généraux et à une préservation modérée des détails.</string>
 </resources>

@@ -2013,4 +2013,6 @@
     <string name="model_ddcolor">Full DDColor-modell ger högkvalitativ färgsättning för allmänna bilder med minimala artefakter. Bästa valet av alla färgsättningsmodeller.</string>
     <string name="model_ddcolor_artistic">DDColor Utbildade och privata konstnärliga datamängder; ger olika och konstnärliga färgningsresultat med färre orealistiska färgartefakter.</string>
     <string name="model_birefnet">Lätt BiRefNet-modell baserad på Swin Transformer för exakt bakgrundsborttagning.</string>
+    <string name="model_inspyrenet">Högkvalitativ bakgrundsborttagning med skarpa kanter och utmärkt bevarande av detaljer, särskilt på komplexa föremål och knepiga bakgrunder.</string>
+    <string name="model_isnet">Bakgrundsborttagningsmodell som ger exakta masker med släta kanter, lämplig för allmänna föremål och måttlig detaljbevarande.</string>
 </resources>

@@ -2014,4 +2014,6 @@
     <string name="model_ddcolor">Model Full DColor zapewnia wysokiej jakości kolorowanie ogólnych obrazów przy minimalnej liczbie artefaktów. Najlepszy wybór ze wszystkich modeli koloryzacji.</string>
     <string name="model_ddcolor_artistic">DDColor Trained i prywatne zbiory danych artystycznych; zapewnia różnorodne i artystyczne rezultaty koloryzacji z mniejszą liczbą nierealistycznych artefaktów kolorystycznych.</string>
     <string name="model_birefnet">Lekki model BiRefNet oparty na transformatorze Swin do dokładnego usuwania tła.</string>
+    <string name="model_inspyrenet">Wysokiej jakości usuwanie tła z ostrymi krawędziami i doskonałym zachowaniem szczegółów, szczególnie w przypadku skomplikowanych obiektów i trudnych środowisk.</string>
+    <string name="model_isnet">Model usuwania tła, który tworzy dokładne maski o gładkich krawędziach, odpowiednie dla obiektów ogólnych i umiarkowanego zachowania szczegółów.</string>
 </resources>

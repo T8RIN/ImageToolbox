@@ -2011,4 +2011,6 @@
     <string name="model_ddcolor">Model DDColor penuh menghadirkan pewarnaan berkualitas tinggi untuk gambar umum dengan artefak minimal. Pilihan terbaik dari semua model pewarnaan.</string>
     <string name="model_ddcolor_artistic">Kumpulan data artistik pribadi dan terlatih DDColor; menghasilkan hasil pewarnaan yang beragam dan artistik dengan lebih sedikit artefak warna yang tidak realistis.</string>
     <string name="model_birefnet">Model BiRefNet ringan berdasarkan Swin Transformer untuk menghilangkan latar belakang secara akurat.</string>
+    <string name="model_inspyrenet">Penghapusan latar belakang berkualitas tinggi dengan tepi tajam dan pelestarian detail yang sangat baik, terutama pada objek kompleks dan latar belakang rumit.</string>
+    <string name="model_isnet">Model penghapusan latar belakang yang menghasilkan topeng akurat dengan tepi halus, cocok untuk objek umum dan pelestarian detail moderat.</string>
 </resources>

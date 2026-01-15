@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -2011,4 +2013,6 @@
     <string name="model_ddcolor">El modelo DDColor completo ofrece coloración de alta calidad para imágenes generales con artefactos mínimos. La mejor elección de todos los modelos de coloración.</string>
     <string name="model_ddcolor_artistic">DDColor Conjuntos de datos artísticos privados y capacitados; produce resultados de coloración diversos y artísticos con menos artefactos de color poco realistas.</string>
     <string name="model_birefnet">Modelo ligero BiRefNet basado en Swin Transformer para una eliminación precisa del fondo.</string>
+    <string name="model_inspyrenet">Eliminación de fondos de alta calidad con bordes nítidos y excelente conservación de detalles, especialmente en objetos complejos y fondos complicados.</string>
+    <string name="model_isnet">Modelo de eliminación de fondo que produce máscaras precisas con bordes suaves, adecuado para objetos generales y preservación moderada de detalles.</string>
 </resources>

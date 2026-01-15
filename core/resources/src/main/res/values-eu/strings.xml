@@ -2012,4 +2012,6 @@
     <string name="model_ddcolor">DDColor eredu osoak kalitate handiko koloreztatzea eskaintzen du artefaktu minimoekin irudi orokorretarako. Kolorizazio eredu guztien aukerarik onena.</string>
     <string name="model_ddcolor_artistic">DDColor Prestatutako eta datu artistiko pribatuak; Kolore-emaitzak anitz eta artistikoak sortzen ditu, kolore-artefaktu irrealista gutxiagorekin.</string>
     <string name="model_birefnet">Swin Transformer-en oinarritutako BiRefNet eredu arina atzeko planoa zehatz kentzeko.</string>
+    <string name="model_inspyrenet">Kalitate handiko atzeko planoa kentzea ertz zorrotzekin eta xehetasunen kontserbazio bikainarekin, batez ere objektu konplexuetan eta atzeko plano delikatuenetan.</string>
+    <string name="model_isnet">Atzeko planoa kentzeko eredua, ertz leunekin maskara zehatzak sortzen dituena, objektu orokorretarako egokia eta xehetasun moderatua zaintzeko.</string>
 </resources>

@@ -2011,4 +2011,6 @@
     <string name="model_ddcolor">Mô hình DDColor đầy đủ mang lại màu sắc chất lượng cao cho hình ảnh thông thường với ít hiện tượng giả mạo nhất. Sự lựa chọn tốt nhất trong tất cả các mô hình tô màu.</string>
     <string name="model_ddcolor_artistic">DDColor Bộ dữ liệu nghệ thuật riêng tư và được đào tạo; tạo ra kết quả tô màu đa dạng và nghệ thuật với ít hiện vật màu phi thực tế hơn.</string>
     <string name="model_birefnet">Mô hình BiRefNet nhẹ dựa trên Swin Transformer để loại bỏ nền chính xác.</string>
+    <string name="model_inspyrenet">Loại bỏ nền chất lượng cao với các cạnh sắc nét và bảo toàn chi tiết tuyệt vời, đặc biệt là trên các đối tượng phức tạp và nền phức tạp.</string>
+    <string name="model_isnet">Mô hình xóa nền tạo ra mặt nạ chính xác với các cạnh mịn, phù hợp với các đối tượng thông thường và bảo toàn chi tiết vừa phải.</string>
 </resources>

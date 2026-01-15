@@ -2012,4 +2012,6 @@
     <string name="model_ddcolor">Full DDColor mudel pakub kvaliteetset värvimist üldiste piltide jaoks minimaalsete artefaktidega. Kõigi värvimismudelite parim valik.</string>
     <string name="model_ddcolor_artistic">DDColor Koolitatud ja privaatsed kunstiandmed; annab mitmekesiseid ja kunstipäraseid värvimistulemusi vähemate ebarealistlike värviartefaktidega.</string>
     <string name="model_birefnet">Kerge BiRefNet mudel, mis põhineb Swin Transformeril tausta täpseks eemaldamiseks.</string>
+    <string name="model_inspyrenet">Kvaliteetne teravate servade ja suurepärase detaili säilivusega taustaeemaldus, eriti keerukate objektide ja keerulise taustaga.</string>
+    <string name="model_isnet">Tausta eemaldamise mudel, mis toodab täpseid siledate servadega maske, mis sobivad üldistele objektidele ja mõõduka detaili säilitamiseks.</string>
 </resources>

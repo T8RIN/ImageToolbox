@@ -2012,4 +2012,6 @@
     <string name="model_ddcolor">O modelo Full DDColor oferece colorização de alta qualidade para imagens gerais com o mínimo de artefatos. A melhor escolha de todos os modelos de colorização.</string>
     <string name="model_ddcolor_artistic">DDColor Conjuntos de dados artísticos treinados e privados; produz resultados de colorização diversos e artísticos com menos artefatos de cores irrealistas.</string>
     <string name="model_birefnet">Modelo BiRefNet leve baseado no Swin Transformer para remoção precisa do fundo.</string>
+    <string name="model_inspyrenet">Remoção de fundo de alta qualidade com bordas nítidas e excelente preservação de detalhes, especialmente em objetos complexos e fundos complicados.</string>
+    <string name="model_isnet">Modelo de remoção de fundo que produz máscaras precisas com bordas suaves, adequadas para objetos gerais e preservação moderada de detalhes.</string>
 </resources>

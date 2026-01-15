@@ -2014,4 +2014,6 @@
     <string name="model_ddcolor">Plný model DDColor poskytuje vysoce kvalitní vybarvení pro obecné obrázky s minimálními artefakty. Nejlepší výběr ze všech barevných modelů.</string>
     <string name="model_ddcolor_artistic">DDDColor Vyškolené a soukromé umělecké datové sady; vytváří rozmanité a umělecké výsledky zbarvení s menším počtem nerealistických barevných artefaktů.</string>
     <string name="model_birefnet">Lehký model BiRefNet založený na Swin Transformer pro přesné odstranění pozadí.</string>
+    <string name="model_inspyrenet">Vysoce kvalitní odstranění pozadí s ostrými hranami a vynikajícím zachováním detailů, zejména na složitých objektech a složitých pozadích.</string>
+    <string name="model_isnet">Model odstranění pozadí, který vytváří přesné masky s hladkými okraji, vhodný pro běžné objekty a zachování mírného detailu.</string>
 </resources>

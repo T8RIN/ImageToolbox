@@ -2011,4 +2011,6 @@
     <string name="model_ddcolor">完整的 DDColor 模型可为一般图像提供高质量的彩色化，且伪影最少。所有着色模型的最佳选择。</string>
     <string name="model_ddcolor_artistic">DDColor 训练有素的私人艺术数据集；产生多样化和艺术化的色彩结果，减少不切实际的色彩伪影。</string>
     <string name="model_birefnet">基于 Swin Transformer 的轻量级 BiRefNet 模型，可实现准确的背景去除。</string>
+    <string name="model_inspyrenet">高质量的背景去除，具有锐利的边缘和出色的细节保留，尤其是在复杂的物体和棘手的背景上。</string>
+    <string name="model_isnet">背景去除模型可产生具有平滑边缘的精确掩模，适用于一般物体和适度的细节保留。</string>
 </resources>

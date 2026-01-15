@@ -2013,4 +2013,6 @@
     <string name="model_ddcolor">Modelul complet DDColor oferă o colorare de înaltă calitate pentru imagini generale cu artefacte minime. Cea mai bună alegere dintre toate modelele de colorare.</string>
     <string name="model_ddcolor_artistic">DDColor Seturi de date artistice antrenate și private; produce rezultate de colorare diverse și artistice cu mai puține artefacte de culoare nerealiste.</string>
     <string name="model_birefnet">Model ușor BiRefNet bazat pe Swin Transformer pentru eliminarea precisă a fundalului.</string>
+    <string name="model_inspyrenet">Eliminare de fundal de înaltă calitate, cu margini ascuțite și păstrare excelentă a detaliilor, în special pe obiecte complexe și fundaluri complicate.</string>
+    <string name="model_isnet">Model de îndepărtare a fundalului care produce măști precise, cu margini netede, potrivite pentru obiecte generale și pentru conservarea moderată a detaliilor.</string>
 </resources>

@@ -2011,4 +2011,6 @@
     <string name="model_ddcolor">完全な DDColor モデルは、アーティファクトを最小限に抑えながら、一般的な画像に対して高品質のカラー化を実現します。すべてのカラー化モデルの中で最良の選択。</string>
     <string name="model_ddcolor_artistic">DDColor トレーニング済みのプライベート芸術データセット。非現実的な色のアーティファクトが少なく、多様で芸術的な色付け結果が得られます。</string>
     <string name="model_birefnet">正確な背景除去のための Swin Transformer に基づく軽量 BiRefNet モデル。</string>
+    <string name="model_inspyrenet">特に複雑なオブジェクトや扱いにくい背景において、シャープなエッジと優れたディテール保持による高品質の背景除去。</string>
+    <string name="model_isnet">滑らかなエッジを持つ正確なマスクを生成する背景除去モデル。一般的なオブジェクトと適度なディテールの保持に適しています。</string>
 </resources>

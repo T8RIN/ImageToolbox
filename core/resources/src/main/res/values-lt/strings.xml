@@ -2015,4 +2015,6 @@
     <string name="model_ddcolor">Visas DDColor modelis užtikrina aukštos kokybės bendrų vaizdų spalvinimą su minimaliais artefaktais. Geriausias pasirinkimas iš visų spalvinimo modelių.</string>
     <string name="model_ddcolor_artistic">DDColor Išmokyti ir privatūs meniniai duomenų rinkiniai; sukuria įvairius ir meniškus spalvinimo rezultatus su mažiau nerealių spalvų artefaktų.</string>
     <string name="model_birefnet">Lengvas BiRefNet modelis, pagrįstas Swin Transformer, kad būtų galima tiksliai pašalinti foną.</string>
+    <string name="model_inspyrenet">Aukštos kokybės fono pašalinimas su aštriais kraštais ir puikiu detalių išsaugojimu, ypač sudėtinguose objektuose ir sudėtingame fone.</string>
+    <string name="model_isnet">Fono pašalinimo modelis, gaminantis tikslias kaukes su lygiais kraštais, tinkamas bendriems objektams ir saikingam detalių išsaugojimui.</string>
 </resources>

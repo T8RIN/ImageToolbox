@@ -2012,4 +2012,6 @@
     <string name="model_ddcolor">A Full DDColor modell kiváló minőségű színezést biztosít az általános képekhez minimális műtermékekkel. A legjobb választás az összes színezési modell közül.</string>
     <string name="model_ddcolor_artistic">DDColor Képzett és privát művészi adatkészletek; változatos és művészi színezési eredményeket hoz létre kevesebb irreális színművel.</string>
     <string name="model_birefnet">Swin Transformer alapú könnyű BiRefNet modell a pontos háttér eltávolításhoz.</string>
+    <string name="model_inspyrenet">Kiváló minőségű háttéreltávolítás éles szélekkel és kiváló részletmegőrzéssel, különösen összetett tárgyakon és bonyolult háttereken.</string>
+    <string name="model_isnet">Háttéreltávolító modell, amely pontos, sima élű maszkokat készít, általános tárgyakhoz és mérsékelt részletmegőrzéshez alkalmas.</string>
 </resources>
