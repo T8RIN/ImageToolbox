@@ -2005,7 +2005,7 @@
     <string name="model_iso_denoise_v1">Reduces ISO noise in photos taken in low-light conditions, preserving details.</string>
     <string name="model_dejumbo">Corrects overexposed or “jumbo” highlights and restores better tonal balance.</string>
     <string name="model_ddcolor_tiny">Lightweight and fast colorization model that adds natural colors to grayscale images.</string>
-    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Denoise</string>
     <string name="type_colorize">Colorize</string>
     <string name="type_artifacts">Artifacts</string>

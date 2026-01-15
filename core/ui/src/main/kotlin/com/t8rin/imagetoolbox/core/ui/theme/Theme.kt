@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
 import android.os.Build
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -29,11 +30,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
@@ -106,9 +111,41 @@ fun ImageToolboxThemeSurface(
 }
 
 @Composable
-private fun modifiedColorScheme(): ColorScheme = MaterialTheme.colorScheme.copy(
-    errorContainer = MaterialTheme.colorScheme.errorContainer.blend(
-        color = MaterialTheme.colorScheme.primary,
-        fraction = 0.15f
+fun ImageToolboxThemeForPreview(
+    isDarkTheme: Boolean,
+    keyColor: Color? = defaultColorTuple.primary,
+    content: @Composable () -> Unit
+) {
+    DynamicTheme(
+        state = rememberDynamicThemeState(
+            initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)
+        ),
+        dynamicColor = keyColor == null,
+        isDarkTheme = isDarkTheme,
+        defaultColorTuple = ColorTuple(keyColor ?: Color.Transparent),
+        colorAnimationSpec = snap(),
+        content = {
+            MaterialTheme(
+                motionScheme = CustomMotionScheme,
+                colorScheme = modifiedColorScheme(),
+                content = content
+            )
+        }
     )
-)
+}
+
+@Composable
+private fun modifiedColorScheme(): ColorScheme {
+    val scheme = MaterialTheme.colorScheme
+
+    return remember(scheme) {
+        derivedStateOf {
+            scheme.copy(
+                errorContainer = scheme.errorContainer.blend(
+                    color = scheme.primary,
+                    fraction = 0.15f
+                )
+            )
+        }
+    }.value
+}

@@ -350,12 +350,10 @@ internal fun NeuralModelsColumn(
                         },
                         bottomContent = model.type?.let { type ->
                             {
-                                Badge(
-                                    modifier = Modifier.padding(top = 8.dp),
-                                    containerColor = MaterialTheme.colorScheme.secondary
-                                ) {
-                                    Text(stringResource(type.title()))
-                                }
+                                NeuralModelTypeBadge(
+                                    type = type,
+                                    modifier = Modifier.padding(top = 8.dp)
+                                )
                             }
                         }
                     )
@@ -430,12 +428,10 @@ internal fun NeuralModelsColumn(
                 placeBottomContentInside = true,
                 bottomContent = model.type?.let { type ->
                     {
-                        Badge(
-                            modifier = Modifier.padding(top = 8.dp),
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        ) {
-                            Text(stringResource(type.title()))
-                        }
+                        NeuralModelTypeBadge(
+                            type = type,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
                     }
                 }
             )

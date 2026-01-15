@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,9 @@ package com.t8rin.imagetoolbox
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 internal fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
@@ -38,15 +36,11 @@ internal fun Project.configureCompose(
             implementation(libs.window.sizeclass)
             implementation(libs.androidx.material)
             implementation(libs.icons.extended)
+            implementation(libs.compose.preview)
         }
     }
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {
-//        featureFlags = setOf(
-//            ComposeFeatureFlag.OptimizeNonSkippingGroups,
-//            ComposeFeatureFlag.PausableComposition
-//        )
-
         stabilityConfigurationFiles.addAll(
             rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
         )
