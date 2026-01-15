@@ -54,6 +54,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     val selectedModel by component.selectedModel.collectAsStateWithLifecycle()
     val downloadedModels by component.downloadedModels.collectAsStateWithLifecycle()
     val notDownloadedModels by component.notDownloadedModels.collectAsStateWithLifecycle()
+    val occupiedStorageSize by component.occupiedStorageSize.collectAsStateWithLifecycle()
     val isModelChunkable = selectedModel?.isNonChunkable != true
     val isChunkable = isModelChunkable && component.params.enableChunking
 
@@ -65,7 +66,8 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         onImportModel = component::importModel,
         downloadedModels = downloadedModels,
         notDownloadedModels = notDownloadedModels,
-        downloadProgresses = component.downloadProgresses
+        downloadProgresses = component.downloadProgresses,
+        occupiedStorageSize = occupiedStorageSize
     )
 
     AnimatedVisibility(

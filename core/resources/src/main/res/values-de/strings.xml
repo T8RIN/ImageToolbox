@@ -2008,4 +2008,9 @@
     <string name="current_model_not_chunkable">Das aktuelle Modell unterstützt kein Chunking. Das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu hohem Speicherverbrauch und Problemen mit Low-End-Geräten führen</string>
     <string name="chunking_disabled">Chunking ist deaktiviert, das Bild wird in den Originalabmessungen verarbeitet. Dies kann zu einem hohen Speicherverbrauch und Problemen mit Low-End-Geräten führen, kann jedoch zu besseren Ergebnissen bei der Inferenz führen</string>
     <string name="chunking">Chunking</string>
+    <string name="model_u2net">Hochpräzises Bildsegmentierungsmodell zur Hintergrundentfernung</string>
+    <string name="model_u2netp">Leichte Version von U2Net für schnellere Hintergrundentfernung bei geringerer Speichernutzung.</string>
+    <string name="model_ddcolor">Das vollständige DDColor-Modell liefert eine hochwertige Kolorierung für allgemeine Bilder mit minimalen Artefakten. Beste Wahl aller Kolorierungsmodelle.</string>
+    <string name="model_ddcolor_artistic">DDColor geschulte und private künstlerische Datensätze; Erzeugt vielfältige und künstlerische Kolorierungsergebnisse mit weniger unrealistischen Farbartefakten.</string>
+    <string name="model_birefnet">Leichtes BiRefNet-Modell basierend auf Swin Transformer für präzise Hintergrundentfernung.</string>
 </resources>

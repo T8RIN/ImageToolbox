@@ -51,6 +51,7 @@ internal fun NeuralModelSelector(
     notDownloadedModels: List<NeuralModel>,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    occupiedStorageSize: Long
 ) {
     var showDetails by rememberSaveable {
         mutableStateOf(false)
@@ -100,7 +101,8 @@ internal fun NeuralModelSelector(
                 onDownloadModel = onDownloadModel,
                 onDeleteModel = onDeleteModel,
                 onImportModel = onImportModel,
-                downloadProgresses = downloadProgresses
+                downloadProgresses = downloadProgresses,
+                occupiedStorageSize = occupiedStorageSize
             )
         }
     )

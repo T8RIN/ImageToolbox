@@ -45,9 +45,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgre
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
+import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
-import com.t8rin.neural_tools.bgremover.RMBGBackgroundRemover
-import com.t8rin.neural_tools.bgremover.U2NetBackgroundRemover
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.request.prepareGet
@@ -56,6 +55,8 @@ import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
@@ -64,7 +65,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.io.readByteArray
@@ -86,20 +89,30 @@ internal class AndroidAiToolsRepository @Inject constructor(
     DispatchersHolder by dispatchersHolder,
     ResourceManager by resourceManager {
 
+    init {
+        appScope.launch { extractU2NetP() }
+    }
+
     private val modelsDir: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
 
-    override val downloadedModels: StateFlow<List<NeuralModel>> = modelsDir
-        .observeHasChanges()
-        .debounce(100)
-        .map {
-            fetchDownloadedModels().sortedWith(
+    private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
+
+    override val occupiedStorageSize: MutableStateFlow<Long> = MutableStateFlow(0)
+
+    override val downloadedModels: StateFlow<List<NeuralModel>> =
+        merge(
+            modelsDir.observeHasChanges().debounce(100),
+            updateFlow
+        ).map {
+            fetchDownloadedModels { files ->
+                occupiedStorageSize.update { files.sumOf { it.length() } }
+            }.sortedWith(
                 compareBy(
                     { NeuralModel.entries.indexOfFirst { e -> e.name == it.name } },
                     { it.title },
                 )
             )
-        }
-        .stateIn(
+        }.stateIn(
             scope = appScope,
             started = SharingStarted.Eagerly,
             initialValue = emptyList()
@@ -122,56 +135,56 @@ internal class AndroidAiToolsRepository @Inject constructor(
         model: NeuralModel
     ): Flow<NeuralDownloadProgress> = callbackFlow {
         val modelFile = model.file
-        val title = model.title
 
         ensureActive()
-        client.prepareGet(model.downloadLink).execute { response ->
-            val total = response.contentLength() ?: -1L
 
-            ensureActive()
-            val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
+        if (model.name.contains("u2netp")) {
+            extractU2NetP()
+        } else {
+            client.prepareGet(model.downloadLink).execute { response ->
+                val total = response.contentLength() ?: -1L
 
-            val channel = response.bodyAsChannel()
-            var downloaded = 0L
+                ensureActive()
+                val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
 
-            FileOutputStream(tmp).use { fos ->
-                try {
-                    while (!channel.isClosedForRead) {
-                        ensureActive()
-                        val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                        while (!packet.exhausted()) {
+                val channel = response.bodyAsChannel()
+                var downloaded = 0L
+
+                FileOutputStream(tmp).use { fos ->
+                    try {
+                        while (!channel.isClosedForRead) {
                             ensureActive()
-                            val bytes = packet.readByteArray()
-                            downloaded += bytes.size
-                            fos.write(bytes)
-                            trySend(
-                                NeuralDownloadProgress(
-                                    currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                    currentTotalSize = total
+                            val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+                            while (!packet.exhausted()) {
+                                ensureActive()
+                                val bytes = packet.readByteArray()
+                                downloaded += bytes.size
+                                fos.write(bytes)
+                                trySend(
+                                    NeuralDownloadProgress(
+                                        currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
+                                        currentTotalSize = total
+                                    )
                                 )
-                            )
+                            }
                         }
+
+                        tmp.renameTo(modelFile)
+
+                        updateFlow.emit(Unit)
+
+                        ensureActive()
+
+                        selectModel(
+                            model = model,
+                            forced = true
+                        )
+                        model.asBgRemover()?.checkModel()
+                        close()
+                    } catch (e: Throwable) {
+                        tmp.delete()
+                        close(e)
                     }
-
-                    tmp.renameTo(modelFile)
-
-                    when {
-                        title.contains("RMBG 1.4") -> RMBGBackgroundRemover.startDownload()
-                        title.contains("RMBG 2.0") -> GenericBackgroundRemover.startDownload()
-                        else -> null
-                    }?.collect()
-
-
-                    ensureActive()
-
-                    selectModel(
-                        model = model,
-                        forced = true
-                    )
-                    close()
-                } catch (e: Throwable) {
-                    tmp.delete()
-                    close(e)
                 }
             }
         }
@@ -213,11 +226,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.type == NeuralModel.Type.REMOVEBG -> {
                 withClosedSession(listener) {
-                    U2NetBackgroundRemover.removeBackground(
-                        image = image,
-                        modelPath = model.file.absolutePath,
-                        trainedSize = 1024
-                    ).healAlpha(image)
+                    model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
                 }
             }
 
@@ -265,6 +274,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     override fun cleanup() {
+        BgRemover.closeAll()
         closeSession()
         System.gc()
     }
@@ -337,8 +347,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
         session = null
     }
 
-    private suspend fun fetchDownloadedModels() = withContext(ioDispatcher) {
-        modelsDir.listFiles().orEmpty().mapNotNull {
+    private suspend fun fetchDownloadedModels(
+        onGetFiles: (List<File>) -> Unit
+    ) = withContext(ioDispatcher) {
+        modelsDir.listFiles().orEmpty().toList().also(onGetFiles).mapNotNull {
             val name = it.name
 
             if (name.isNullOrEmpty()) return@mapNotNull null
@@ -348,6 +360,24 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     private val NeuralModel.file: File get() = File(modelsDir, name)
+
+    private fun NeuralModel.asBgRemover(): GenericBackgroundRemover? {
+        return BgRemover.getRemover(
+            when {
+                name.startsWith("u2netp") -> BgRemover.Type.U2NetP
+                name.startsWith("u2net") -> BgRemover.Type.U2Net
+                name.startsWith("RMBG_2.0") -> BgRemover.Type.RMBG2_0
+                name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
+                name.startsWith("birefnet_swin_tiny") -> BgRemover.Type.BiRefNetTiny
+                else -> return null
+            }
+        )
+    }
+
+    private suspend fun extractU2NetP() {
+        //Extraction from assets
+        BgRemover.downloadModel(BgRemover.Type.U2NetP).collect()
+    }
 
 }
 

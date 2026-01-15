@@ -2008,4 +2008,9 @@
     <string name="current_model_not_chunkable">Praegune mudel ei toeta tükeldamist, pilti töödeldakse originaalmõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega</string>
     <string name="chunking_disabled">Tükeldamine on keelatud, pilti töödeldakse esialgsetes mõõtmetes, see võib põhjustada suurt mälutarbimist ja probleeme madala kvaliteediga seadmetega, kuid võib anda paremaid järeldusi</string>
     <string name="chunking">Tükeldamine</string>
+    <string name="model_u2net">Suure täpsusega piltide segmenteerimise mudel tausta eemaldamiseks</string>
+    <string name="model_u2netp">U2Neti kerge versioon tausta kiiremaks eemaldamiseks väiksema mälukasutusega.</string>
+    <string name="model_ddcolor">Full DDColor mudel pakub kvaliteetset värvimist üldiste piltide jaoks minimaalsete artefaktidega. Kõigi värvimismudelite parim valik.</string>
+    <string name="model_ddcolor_artistic">DDColor Koolitatud ja privaatsed kunstiandmed; annab mitmekesiseid ja kunstipäraseid värvimistulemusi vähemate ebarealistlike värviartefaktidega.</string>
+    <string name="model_birefnet">Kerge BiRefNet mudel, mis põhineb Swin Transformeril tausta täpseks eemaldamiseks.</string>
 </resources>

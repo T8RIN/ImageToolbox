@@ -2008,4 +2008,9 @@
     <string name="current_model_not_chunkable">Il modello attuale non supporta il suddivisione in blocchi, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa</string>
     <string name="chunking_disabled">Chunking disabilitato, l\'immagine verrà elaborata nelle dimensioni originali, ciò potrebbe causare un elevato consumo di memoria e problemi con i dispositivi di fascia bassa ma potrebbe fornire risultati migliori nell\'inferenza</string>
     <string name="chunking">Spezzatura</string>
+    <string name="model_u2net">Modello di segmentazione delle immagini ad alta precisione per la rimozione dello sfondo</string>
+    <string name="model_u2netp">Versione leggera di U2Net per una rimozione dello sfondo più rapida con un utilizzo ridotto della memoria.</string>
+    <string name="model_ddcolor">Il modello DDColor completo offre una colorazione di alta qualità per immagini generiche con artefatti minimi. La scelta migliore tra tutti i modelli di colorazione.</string>
+    <string name="model_ddcolor_artistic">DDColor Set di dati artistici formati e privati; produce risultati di colorazione diversi e artistici con meno artefatti cromatici non realistici.</string>
+    <string name="model_birefnet">Modello BiRefNet leggero basato su Swin Transformer per una rimozione accurata dello sfondo.</string>
 </resources>

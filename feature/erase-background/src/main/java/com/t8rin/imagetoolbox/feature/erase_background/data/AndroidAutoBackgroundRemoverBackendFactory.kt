@@ -18,10 +18,8 @@
 package com.t8rin.imagetoolbox.feature.erase_background.data
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.feature.erase_background.data.backend.GenericBackgroundRemoverBackend
 import com.t8rin.imagetoolbox.feature.erase_background.data.backend.MlKitBackgroundRemoverBackend
-import com.t8rin.imagetoolbox.feature.erase_background.data.backend.RMBGBackgroundRemoverBackend
-import com.t8rin.imagetoolbox.feature.erase_background.data.backend.RMBGNewestBackgroundRemoverBackend
-import com.t8rin.imagetoolbox.feature.erase_background.data.backend.U2NetBackgroundRemoverBackend
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
@@ -34,9 +32,7 @@ internal class AndroidAutoBackgroundRemoverBackendFactory @Inject constructor() 
         modelType: ModelType
     ): AutoBackgroundRemoverBackend<Bitmap> = when (modelType) {
         ModelType.MlKit -> MlKitBackgroundRemoverBackend
-        ModelType.U2Net -> U2NetBackgroundRemoverBackend
-        ModelType.RMBG -> RMBGBackgroundRemoverBackend
-        ModelType.RMBG2_0 -> RMBGNewestBackgroundRemoverBackend
+        else -> GenericBackgroundRemoverBackend(modelType)
     }
 
 }

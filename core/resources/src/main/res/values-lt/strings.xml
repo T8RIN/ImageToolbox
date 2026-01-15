@@ -2011,4 +2011,9 @@
     <string name="current_model_not_chunkable">Dabartinis modelis nepalaiko smulkinimo, vaizdas bus apdorojamas originaliais matmenimis, todėl gali sunaudoti daug atminties ir kilti problemų su žemos klasės įrenginiais</string>
     <string name="chunking_disabled">Dalijimas išjungtas, vaizdas bus apdorojamas originalių matmenų, todėl gali sunaudoti daug atminties ir gali kilti problemų su žemos klasės įrenginiais, bet gali duoti geresnių išvadų rezultatų</string>
     <string name="chunking">Susmulkinti</string>
+    <string name="model_u2net">Didelio tikslumo vaizdo segmentavimo modelis, skirtas fono pašalinimui</string>
+    <string name="model_u2netp">Lengva U2Net versija, skirta greičiau pašalinti foną naudojant mažiau atminties.</string>
+    <string name="model_ddcolor">Visas DDColor modelis užtikrina aukštos kokybės bendrų vaizdų spalvinimą su minimaliais artefaktais. Geriausias pasirinkimas iš visų spalvinimo modelių.</string>
+    <string name="model_ddcolor_artistic">DDColor Išmokyti ir privatūs meniniai duomenų rinkiniai; sukuria įvairius ir meniškus spalvinimo rezultatus su mažiau nerealių spalvų artefaktų.</string>
+    <string name="model_birefnet">Lengvas BiRefNet modelis, pagrįstas Swin Transformer, kad būtų galima tiksliai pašalinti foną.</string>
 </resources>

@@ -2008,4 +2008,9 @@
     <string name="current_model_not_chunkable">Het huidige model ondersteunt geen chunking, de afbeelding wordt verwerkt in de originele afmetingen, dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken</string>
     <string name="chunking_disabled">Chunking uitgeschakeld, afbeelding wordt verwerkt in de oorspronkelijke afmetingen. Dit kan een hoog geheugengebruik en problemen met goedkope apparaten veroorzaken, maar kan betere resultaten opleveren bij gevolgtrekking</string>
     <string name="chunking">Chunken</string>
+    <string name="model_u2net">Zeer nauwkeurig beeldsegmentatiemodel voor het verwijderen van achtergronden</string>
+    <string name="model_u2netp">Lichtgewicht versie van U2Net voor snellere achtergrondverwijdering met kleiner geheugengebruik.</string>
+    <string name="model_ddcolor">Het volledige DDColor-model levert hoogwaardige inkleuring voor algemene afbeeldingen met minimale artefacten. Beste keuze van alle inkleuringsmodellen.</string>
+    <string name="model_ddcolor_artistic">DDColor Getrainde en particuliere artistieke datasets; produceert diverse en artistieke kleurresultaten met minder onrealistische kleurartefacten.</string>
+    <string name="model_birefnet">Lichtgewicht BiRefNet-model gebaseerd op Swin Transformer voor nauwkeurige achtergrondverwijdering.</string>
 </resources>

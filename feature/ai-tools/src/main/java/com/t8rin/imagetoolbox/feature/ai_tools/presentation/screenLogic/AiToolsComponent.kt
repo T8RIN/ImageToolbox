@@ -96,6 +96,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private var downloadJobs: MutableMap<String, Job> = mutableMapOf()
 
+    val occupiedStorageSize: StateFlow<Long> = aiToolsRepository.occupiedStorageSize
 
     val downloadedModels: StateFlow<List<NeuralModel>> = aiToolsRepository.downloadedModels
 

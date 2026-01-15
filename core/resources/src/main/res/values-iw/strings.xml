@@ -2010,4 +2010,9 @@
     <string name="current_model_not_chunkable">הדגם הנוכחי אינו תומך ב-chunking, התמונה תעובד במידות מקוריות, הדבר עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים</string>
     <string name="chunking_disabled">Chunking מושבת, התמונה תעובד במידות מקוריות, זה עלול לגרום לצריכת זיכרון גבוהה ולבעיות במכשירים מתקדמים אך עשוי לתת תוצאות טובות יותר בהסקת מסקנות</string>
     <string name="chunking">צ\'אנקינג</string>
+    <string name="model_u2net">מודל פילוח תמונה ברמת דיוק גבוהה להסרת רקע</string>
+    <string name="model_u2netp">גרסה קלת משקל של U2Net להסרת רקע מהירה יותר עם שימוש קטן יותר בזיכרון.</string>
+    <string name="model_ddcolor">דגם DDColor מלא מספק צביעה באיכות גבוהה לתמונות כלליות עם חפצים מינימליים. הבחירה הטובה ביותר מכל דגמי הצביעה.</string>
+    <string name="model_ddcolor_artistic">מערכי נתונים אומנותיים פרטיים מאומנים ב-DDColor; מייצר תוצאות צביעה מגוונות ואמנותיות עם פחות חפצי צבע לא מציאותיים.</string>
+    <string name="model_birefnet">דגם BiRefNet קל משקל המבוסס על Swin Transformer להסרת רקע מדויקת.</string>
 </resources>

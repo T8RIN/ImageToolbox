@@ -558,10 +558,45 @@ data class NeuralModel(
                     type = Type.REMOVEBG
                 ),
                 NeuralModel(
-                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/generic_bg_remover_fp32.onnx",
-                    name = "generic_bg_remover_fp32.onnx",
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/RMBG_2.0.onnx",
+                    name = "RMBG_2.0.onnx",
                     title = "RMBG 2.0",
                     description = R.string.model_rmbg_2_0,
+                    type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/u2net.onnx",
+                    name = "u2net.onnx",
+                    title = "U2Net",
+                    description = R.string.model_u2net,
+                    type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/bgremove/u2netp.onnx",
+                    name = "u2netp.onnx",
+                    title = "U2NetP",
+                    description = R.string.model_u2netp,
+                    type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/ddcolor_modelscope.onnx?download=true",
+                    name = "ddcolor_modelscope.onnx",
+                    title = "DDColor",
+                    description = R.string.model_ddcolor,
+                    type = Type.COLORIZE
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/ddcolor_artistic.onnx?download=true",
+                    name = "ddcolor_artistic.onnx",
+                    title = "DDColor Artistic",
+                    description = R.string.model_ddcolor_artistic,
+                    type = Type.COLORIZE
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/birefnet_swin_tiny.ort?download=true",
+                    name = "birefnet_swin_tiny.ort",
+                    title = "BiRefNet",
+                    description = R.string.model_birefnet,
                     type = Type.REMOVEBG
                 )
             ).sortedBy { it.type?.ordinal }

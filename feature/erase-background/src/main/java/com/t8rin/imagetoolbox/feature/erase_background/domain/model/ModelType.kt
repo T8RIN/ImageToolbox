@@ -20,5 +20,10 @@ package com.t8rin.imagetoolbox.feature.erase_background.domain.model
 enum class ModelType(
     val title: String
 ) {
-    MlKit("MlKit"), U2Net("U2Net"), RMBG("RMBG"), RMBG2_0("RMBG 2.0")
+    MlKit("MlKit"),
+    U2NetP("U2NetP"),
+    U2Net("U2Net"),
+    RMBG("RMBG"),
+    RMBG2_0("RMBG 2.0"),
+    BiRefNetTiny("BiRefNet")
 }
