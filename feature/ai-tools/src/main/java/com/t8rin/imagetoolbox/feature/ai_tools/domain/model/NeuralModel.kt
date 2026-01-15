@@ -558,10 +558,10 @@ data class NeuralModel(
                     type = Type.REMOVEBG
                 ),
                 NeuralModel(
-                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/RMBG_2.0.onnx",
-                    name = "RMBG_2.0.onnx",
-                    title = "RMBG 2.0",
-                    description = R.string.model_rmbg_2_0,
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/bgremove/inspyrenet.onnx",
+                    name = "inspyrenet.onnx",
+                    title = "InSPyReNet",
+                    description = R.string.model_inspyrenet,
                     type = Type.REMOVEBG
                 ),
                 NeuralModel(
@@ -597,6 +597,13 @@ data class NeuralModel(
                     name = "birefnet_swin_tiny.ort",
                     title = "BiRefNet",
                     description = R.string.model_birefnet,
+                    type = Type.REMOVEBG
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/isnet-general-use.onnx?download=true",
+                    name = "isnet-general-use.onnx",
+                    title = "ISNet",
+                    description = R.string.model_isnet,
                     type = Type.REMOVEBG
                 )
             ).sortedBy { it.type?.ordinal }

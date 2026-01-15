@@ -1995,7 +1995,6 @@
     <string name="model_ultrasharp_v2_x4">modelo X4 UltraSharp V2 para imágenes generales; enfatiza la nitidez y la claridad.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; Más rápido y más pequeño, conserva los detalles mientras utiliza menos memoria GPU.</string>
     <string name="model_rmbg_1_4">Modelo liviano para una rápida eliminación del fondo. Rendimiento y precisión equilibrados. Trabaja con retratos, objetos y escenas. Recomendado para la mayoría de los casos de uso.</string>
-    <string name="model_rmbg_2_0">Versión mejorada con manejo de detalles superior. Mejor con fondos complejos y objetos transparentes. Mayor precisión pero requiere más potencia de procesamiento.</string>
     <string name="type_removebg">Eliminar glucemia</string>
     <string name="horizontal_border_thickness">Grosor del borde horizontal</string>
     <string name="vertical_border_thickness">Grosor del borde vertical</string>

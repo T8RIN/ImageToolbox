@@ -1998,7 +1998,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 modelis bendriems vaizdams; pabrėžia ryškumą ir aiškumą.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; greitesnis ir mažesnis, išsaugo detales ir naudoja mažiau GPU atminties.</string>
     <string name="model_rmbg_1_4">Lengvas modelis greitam fono pašalinimui. Subalansuotas našumas ir tikslumas. Dirba su portretais, objektais ir scenomis. Rekomenduojama daugeliui naudojimo atvejų.</string>
-    <string name="model_rmbg_2_0">Patobulinta versija su puikiu detalių valdymu. Geriau su sudėtingu fonu ir skaidriais objektais. Didesnis tikslumas, bet reikalauja daugiau apdorojimo galios.</string>
     <string name="type_removebg">Pašalinti BG</string>
     <string name="horizontal_border_thickness">Horizontalios kraštinės storis</string>
     <string name="vertical_border_thickness">Vertikalios kraštinės storis</string>

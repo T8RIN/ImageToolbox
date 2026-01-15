@@ -1997,7 +1997,6 @@
     <string name="type_removebg">移除背景</string>
     <string name="horizontal_border_thickness">水平边界厚度</string>
     <string name="vertical_border_thickness">垂直边界厚度</string>
-    <string name="model_rmbg_2_0">增强版，具有卓越的细节处理能力。更适合复杂的背景和透明对象。精度更高，但需要更多的处理能力。</string>
     <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡性能和准确性。适用于肖像、物体和场景。建议用于大多数用例。</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快更小的GPU在使用更少GPU内存的同时保留细节。</string>
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2模型，适用于一般图像；强调锐度和清晰度。</string>

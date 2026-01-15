@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 na modelo para sa mga pangkalahatang larawan; binibigyang-diin ang talas at kalinawan.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; mas mabilis at mas maliit, pinapanatili ang detalye habang gumagamit ng mas kaunting memorya ng GPU.</string>
     <string name="model_rmbg_1_4">Magaang modelo para sa mabilis na pag-alis ng background. Balanseng pagganap at katumpakan. Gumagana sa mga portrait, bagay, at eksena. Inirerekomenda para sa karamihan ng mga kaso ng paggamit.</string>
-    <string name="model_rmbg_2_0">Pinahusay na bersyon na may higit na mahusay na paghawak ng detalye. Mas mahusay na may mga kumplikadong background at transparent na mga bagay. Mas mataas na katumpakan ngunit nangangailangan ng higit na kapangyarihan sa pagpoproseso.</string>
     <string name="type_removebg">Alisin ang BG</string>
     <string name="horizontal_border_thickness">Pahalang na Kapal ng Border</string>
     <string name="vertical_border_thickness">Vertical Border Thickness</string>

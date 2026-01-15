@@ -1998,7 +1998,6 @@
     <string name="model_ultrasharp_v2_x4">සාමාන්ය රූප සඳහා X4 UltraSharp V2 ආකෘතිය; තියුණු බව සහ පැහැදිලි බව අවධාරණය කරයි.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; වේගවත් හා කුඩා, අඩු GPU මතකයක් භාවිතා කරන අතරතුර විස්තර ආරක්ෂා කරයි.</string>
     <string name="model_rmbg_1_4">ඉක්මන් පසුබිම ඉවත් කිරීම සඳහා සැහැල්ලු ආකෘතිය. සමබර කාර්ය සාධනය සහ නිරවද්යතාව. ආලේඛ්‍ය චිත්‍ර, වස්තු සහ දර්ශන සමඟ ක්‍රියා කරයි. බොහෝ භාවිත අවස්ථා සඳහා නිර්දේශ කෙරේ.</string>
-    <string name="model_rmbg_2_0">උසස් විස්තර හැසිරවීම සහිත වැඩිදියුණු කළ අනුවාදය. සංකීර්ණ පසුබිම් සහ විනිවිද පෙනෙන වස්තූන් සමඟ වඩා හොඳය. ඉහළ නිරවද්‍යතාවයක් නමුත් වැඩි සැකසුම් බලයක් අවශ්‍ය වේ.</string>
     <string name="type_removebg">BG ඉවත් කරන්න</string>
     <string name="horizontal_border_thickness">තිරස් මායිම් ඝණකම</string>
     <string name="vertical_border_thickness">සිරස් මායිම් ඝණකම</string>

@@ -2003,7 +2003,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 do zdjęć ogólnych; podkreśla ostrość i klarowność.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; szybszy i mniejszy, zachowuje szczegóły przy mniejszym zużyciu pamięci GPU.</string>
     <string name="model_rmbg_1_4">Lekki model do szybkiego usuwania tła. Zrównoważona wydajność i dokładność. Działa z portretami, obiektami i scenami. Zalecane w większości przypadków użycia.</string>
-    <string name="model_rmbg_2_0">Ulepszona wersja z doskonałą obsługą szczegółów. Lepiej ze złożonym tłem i przezroczystymi obiektami. Większa precyzja, ale wymaga większej mocy obliczeniowej.</string>
     <string name="type_removebg">Usuń BG</string>
     <string name="horizontal_border_thickness">Grubość obramowania poziomego</string>
     <string name="vertical_border_thickness">Grubość obramowania pionowego</string>

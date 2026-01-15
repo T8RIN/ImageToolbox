@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 pro obecné obrázky; zdůrazňuje ostrost a jasnost.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; rychlejší a menší, zachovává detaily při použití menší paměti GPU.</string>
     <string name="model_rmbg_1_4">Lehký model pro rychlé odstranění pozadí. Vyvážený výkon a přesnost. Pracuje s portréty, objekty a scénami. Doporučeno pro většinu případů použití.</string>
-    <string name="model_rmbg_2_0">Vylepšená verze s vynikajícím zpracováním detailů. Lepší se složitým pozadím a průhlednými objekty. Vyšší přesnost, ale vyžaduje větší výpočetní výkon.</string>
     <string name="type_removebg">Odebrat BG</string>
     <string name="horizontal_border_thickness">Tloušťka horizontálního okraje</string>
     <string name="vertical_border_thickness">Tloušťka vertikálního okraje</string>

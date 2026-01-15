@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 -malli yleiskuviin; korostaa terävyyttä ja selkeyttä.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; nopeampi ja pienempi, säilyttää yksityiskohdat ja käyttää vähemmän GPU-muistia.</string>
     <string name="model_rmbg_1_4">Kevyt malli nopeaan taustan poistoon. Tasapainoinen suorituskyky ja tarkkuus. Toimii muotokuvien, esineiden ja kohtausten kanssa. Suositellaan useimpiin käyttötapauksiin.</string>
-    <string name="model_rmbg_2_0">Parannettu versio erinomaisella yksityiskohtien käsittelyllä. Parempi monimutkaisilla taustoilla ja läpinäkyvillä esineillä. Suurempi tarkkuus, mutta vaatii enemmän prosessointitehoa.</string>
     <string name="type_removebg">Poista BG</string>
     <string name="horizontal_border_thickness">Vaakasuora reunan paksuus</string>
     <string name="vertical_border_thickness">Pystysuuntaisen reunan paksuus</string>

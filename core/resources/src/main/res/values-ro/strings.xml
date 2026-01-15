@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 pentru imagini generale; accentuează claritatea și claritatea.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; mai rapid și mai mic, păstrează detaliile folosind mai puțină memorie GPU.</string>
     <string name="model_rmbg_1_4">Model ușor pentru îndepărtarea rapidă a fundalului. Performanță și precizie echilibrate. Funcționează cu portrete, obiecte și scene. Recomandat pentru majoritatea cazurilor de utilizare.</string>
-    <string name="model_rmbg_2_0">Versiune îmbunătățită cu manipulare superioară a detaliilor. Mai bine cu fundaluri complexe și obiecte transparente. Precizie mai mare, dar necesită mai multă putere de procesare.</string>
     <string name="type_removebg">Eliminați BG</string>
     <string name="horizontal_border_thickness">Grosimea marginii orizontale</string>
     <string name="vertical_border_thickness">Grosimea chenarului vertical</string>

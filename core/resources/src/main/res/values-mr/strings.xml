@@ -1998,7 +1998,6 @@
     <string name="model_ultrasharp_v2_x4">सामान्य प्रतिमांसाठी X4 UltraSharp V2 मॉडेल; तीक्ष्णता आणि स्पष्टतेवर जोर देते.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 अल्ट्राशार्प V2 लाइट; वेगवान आणि लहान, कमी GPU मेमरी वापरताना तपशील जतन करते.</string>
     <string name="model_rmbg_1_4">द्रुत पार्श्वभूमी काढण्यासाठी हलके मॉडेल. संतुलित कामगिरी आणि अचूकता. पोर्ट्रेट, वस्तू आणि दृश्यांसह कार्य करते. बहुतेक वापराच्या प्रकरणांसाठी शिफारस केलेले.</string>
-    <string name="model_rmbg_2_0">उत्कृष्ट तपशील हाताळणीसह वर्धित आवृत्ती. जटिल पार्श्वभूमी आणि पारदर्शक वस्तूंसह चांगले. उच्च सुस्पष्टता परंतु अधिक प्रक्रिया शक्ती आवश्यक आहे.</string>
     <string name="type_removebg">बीजी काढा</string>
     <string name="horizontal_border_thickness">क्षैतिज सीमा जाडी</string>
     <string name="vertical_border_thickness">अनुलंब सीमा जाडी</string>

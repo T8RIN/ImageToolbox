@@ -366,9 +366,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
             when {
                 name.startsWith("u2netp") -> BgRemover.Type.U2NetP
                 name.startsWith("u2net") -> BgRemover.Type.U2Net
-                name.startsWith("RMBG_2.0") -> BgRemover.Type.RMBG2_0
+                name.startsWith("inspyrenet") -> BgRemover.Type.InSPyReNet
                 name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
                 name.startsWith("birefnet_swin_tiny") -> BgRemover.Type.BiRefNetTiny
+                name.startsWith("isnet") -> BgRemover.Type.ISNet
                 else -> return null
             }
         )

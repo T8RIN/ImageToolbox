@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">সাধারণ ছবির জন্য X4 UltraSharp V2 মডেল; তীক্ষ্ণতা এবং স্বচ্ছতার উপর জোর দেয়।</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; দ্রুত এবং ছোট, কম GPU মেমরি ব্যবহার করার সময় বিস্তারিত সংরক্ষণ করে।</string>
     <string name="model_rmbg_1_4">দ্রুত পটভূমি অপসারণের জন্য লাইটওয়েট মডেল। সুষম কর্মক্ষমতা এবং নির্ভুলতা। প্রতিকৃতি, বস্তু এবং দৃশ্য নিয়ে কাজ করে। বেশিরভাগ ব্যবহারের ক্ষেত্রে প্রস্তাবিত।</string>
-    <string name="model_rmbg_2_0">উচ্চতর বিস্তারিত হ্যান্ডলিং সহ উন্নত সংস্করণ। জটিল ব্যাকগ্রাউন্ড এবং স্বচ্ছ বস্তুর সাথে আরও ভাল। উচ্চ নির্ভুলতা কিন্তু আরো প্রক্রিয়াকরণ শক্তি প্রয়োজন.</string>
     <string name="type_removebg">বিজি সরান</string>
     <string name="horizontal_border_thickness">অনুভূমিক সীমানা পুরুত্ব</string>
     <string name="vertical_border_thickness">উল্লম্ব সীমানা বেধ</string>

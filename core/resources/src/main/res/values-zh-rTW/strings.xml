@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 模型，适用于一般图像；强调锐度和清晰度。</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快、更小，在使用更少 GPU 内存的同时保留细节。</string>
     <string name="model_rmbg_1_4">用于快速背景去除的轻量级模型。平衡的性能和准确性。适用于肖像、物体和场景。推荐用于大多数用例。</string>
-    <string name="model_rmbg_2_0">具有卓越细节处理的增强版本。对于复杂的背景和透明的物体效果更好。精度更高，但需要更多的处理能力。</string>
     <string name="type_removebg">删除背景</string>
     <string name="horizontal_border_thickness">水平边框厚度</string>
     <string name="vertical_border_thickness">垂直边框厚度</string>

@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2-Modell für allgemeine Bilder; betont Schärfe und Klarheit.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; schneller und kleiner, behält Details bei und verbraucht weniger GPU-Speicher.</string>
     <string name="model_rmbg_1_4">Leichtes Modell zur schnellen Hintergrundentfernung. Ausgewogene Leistung und Genauigkeit. Arbeitet mit Porträts, Objekten und Szenen. Empfohlen für die meisten Anwendungsfälle.</string>
-    <string name="model_rmbg_2_0">Verbesserte Version mit überlegener Detailverarbeitung. Besser bei komplexen Hintergründen und transparenten Objekten. Höhere Präzision, erfordert aber mehr Rechenleistung.</string>
     <string name="type_removebg">BG entfernen</string>
     <string name="horizontal_border_thickness">Horizontale Randstärke</string>
     <string name="vertical_border_thickness">Vertikale Randstärke</string>

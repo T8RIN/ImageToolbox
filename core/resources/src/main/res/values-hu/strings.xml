@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 modell általános képekhez; kiemeli az élességet és a tisztaságot.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; gyorsabb és kisebb, megőrzi a részleteket, miközben kevesebb GPU-memóriát használ.</string>
     <string name="model_rmbg_1_4">Könnyű modell a háttér gyors eltávolításához. Kiegyensúlyozott teljesítmény és pontosság. Portrékkal, tárgyakkal és jelenetekkel működik. A legtöbb használati esetre ajánlott.</string>
-    <string name="model_rmbg_2_0">Továbbfejlesztett változat kiváló részletkezeléssel. Jobb összetett háttérrel és átlátszó objektumokkal. Nagyobb pontosság, de nagyobb feldolgozási teljesítményt igényel.</string>
     <string name="type_removebg">Távolítsa el a BG-t</string>
     <string name="horizontal_border_thickness">Vízszintes határvastagság</string>
     <string name="vertical_border_thickness">Függőleges határvastagság</string>

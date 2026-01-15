@@ -47,7 +47,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
-import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -301,7 +301,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     private var autoEraseCount: Int = 0
 
     fun autoEraseBackground(
-        modelType: ModelType,
+        modelType: BgModelType,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
     ) {

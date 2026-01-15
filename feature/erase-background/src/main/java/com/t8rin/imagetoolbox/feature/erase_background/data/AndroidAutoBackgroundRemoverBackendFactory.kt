@@ -22,16 +22,16 @@ import com.t8rin.imagetoolbox.feature.erase_background.data.backend.GenericBackg
 import com.t8rin.imagetoolbox.feature.erase_background.data.backend.MlKitBackgroundRemoverBackend
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackendFactory
-import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import javax.inject.Inject
 
 internal class AndroidAutoBackgroundRemoverBackendFactory @Inject constructor() :
     AutoBackgroundRemoverBackendFactory<Bitmap> {
 
     override fun create(
-        modelType: ModelType
+        modelType: BgModelType
     ): AutoBackgroundRemoverBackend<Bitmap> = when (modelType) {
-        ModelType.MlKit -> MlKitBackgroundRemoverBackend
+        BgModelType.MlKit -> MlKitBackgroundRemoverBackend
         else -> GenericBackgroundRemoverBackend(modelType)
     }
 

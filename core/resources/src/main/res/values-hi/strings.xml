@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">सामान्य छवियों के लिए X4 UltraSharp V2 मॉडल; तीक्ष्णता और स्पष्टता पर जोर देता है।</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 अल्ट्राशार्प V2 लाइट; तेज़ और छोटा, कम GPU मेमोरी का उपयोग करते हुए विवरण को सुरक्षित रखता है।</string>
     <string name="model_rmbg_1_4">त्वरित पृष्ठभूमि हटाने के लिए हल्का मॉडल। संतुलित प्रदर्शन और सटीकता। पोर्ट्रेट, वस्तुओं और दृश्यों के साथ काम करता है। अधिकांश उपयोग के मामलों के लिए अनुशंसित.</string>
-    <string name="model_rmbg_2_0">बेहतर विवरण प्रबंधन के साथ उन्नत संस्करण। जटिल पृष्ठभूमि और पारदर्शी वस्तुओं के साथ बेहतर। उच्च परिशुद्धता लेकिन अधिक प्रसंस्करण शक्ति की आवश्यकता होती है।</string>
     <string name="type_removebg">बीजी हटाएँ</string>
     <string name="horizontal_border_thickness">क्षैतिज सीमा मोटाई</string>
     <string name="vertical_border_thickness">ऊर्ध्वाधर सीमा मोटाई</string>

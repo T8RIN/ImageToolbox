@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">일반 이미지용 X4 UltraSharp V2 모델; 선명함과 선명함을 강조합니다.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 라이트; 더 빠르고 더 작아지며, GPU 메모리를 덜 사용하면서 디테일을 보존합니다.</string>
     <string name="model_rmbg_1_4">빠른 배경 제거를 위한 경량 모델입니다. 균형 잡힌 성능과 정확성. 인물 사진, 사물, 장면과 함께 작동합니다. 대부분의 사용 사례에 권장됩니다.</string>
-    <string name="model_rmbg_2_0">뛰어난 디테일 처리 기능을 갖춘 향상된 버전입니다. 복잡한 배경과 투명한 물체에 더 좋습니다. 정밀도는 높지만 더 많은 처리 능력이 필요합니다.</string>
     <string name="type_removebg">BG 제거</string>
     <string name="horizontal_border_thickness">가로 테두리 두께</string>
     <string name="vertical_border_thickness">세로 테두리 두께</string>

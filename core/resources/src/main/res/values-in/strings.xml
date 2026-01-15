@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 untuk gambar umum; menekankan ketajaman dan kejelasan.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; lebih cepat dan lebih kecil, menjaga detail sambil menggunakan lebih sedikit memori GPU.</string>
     <string name="model_rmbg_1_4">Model ringan untuk penghapusan latar belakang dengan cepat. Performa dan akurasi seimbang. Bekerja dengan potret, objek, dan pemandangan. Direkomendasikan untuk sebagian besar kasus penggunaan.</string>
-    <string name="model_rmbg_2_0">Versi yang disempurnakan dengan penanganan detail yang unggul. Lebih baik dengan latar belakang yang kompleks dan objek transparan. Presisi lebih tinggi tetapi membutuhkan lebih banyak kekuatan pemrosesan.</string>
     <string name="type_removebg">Hapus BG</string>
     <string name="horizontal_border_thickness">Ketebalan Perbatasan Horisontal</string>
     <string name="vertical_border_thickness">Ketebalan Batas Vertikal</string>

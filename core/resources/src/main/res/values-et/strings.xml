@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 mudel üldiste piltide jaoks; rõhutab teravust ja selgust.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; kiirem ja väiksem, säilitab üksikasjad, kasutades vähem GPU mälu.</string>
     <string name="model_rmbg_1_4">Kerge mudel tausta kiireks eemaldamiseks. Tasakaalustatud jõudlus ja täpsus. Töötab portreede, objektide ja stseenidega. Soovitatav enamiku kasutusjuhtude jaoks.</string>
-    <string name="model_rmbg_2_0">Täiustatud versioon suurepärase detailikäsitsusega. Parem keeruka tausta ja läbipaistvate objektidega. Suurem täpsus, kuid nõuab rohkem töötlemisvõimsust.</string>
     <string name="type_removebg">Eemaldage BG</string>
     <string name="horizontal_border_thickness">Horisontaalne piiri paksus</string>
     <string name="vertical_border_thickness">Vertikaalse piiri paksus</string>

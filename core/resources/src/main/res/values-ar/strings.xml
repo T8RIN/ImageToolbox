@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">طراز X4 UltraSharp V2 للصور العامة؛ يؤكد الحدة والوضوح.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 ألتراشارب V2 لايت؛ أسرع وأصغر، ويحافظ على التفاصيل مع استخدام ذاكرة GPU أقل.</string>
     <string name="model_rmbg_1_4">نموذج خفيف الوزن لإزالة الخلفية بسرعة. الأداء المتوازن والدقة. يعمل مع الصور والأشياء والمشاهد. يوصى به لمعظم حالات الاستخدام.</string>
-    <string name="model_rmbg_2_0">نسخة محسنة مع معالجة فائقة للتفاصيل. أفضل مع الخلفيات المعقدة والكائنات الشفافة. دقة أعلى ولكنها تتطلب المزيد من قوة المعالجة.</string>
     <string name="type_removebg">إزالة بي جي</string>
     <string name="horizontal_border_thickness">سمك الحدود الأفقية</string>
     <string name="vertical_border_thickness">سمك الحدود العمودية</string>

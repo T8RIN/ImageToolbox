@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">мадэль X4 UltraSharp V2 для агульных малюнкаў; падкрэслівае выразнасць і выразнасць.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; больш хуткі і меншы, захоўвае дэталі, выкарыстоўваючы менш памяці GPU.</string>
     <string name="model_rmbg_1_4">Лёгкая мадэль для хуткага выдалення фону. Збалансаваная прадукцыйнасць і дакладнасць. Працуе з партрэтамі, аб\'ектамі і сцэнамі. Рэкамендуецца для большасці выпадкаў выкарыстання.</string>
-    <string name="model_rmbg_2_0">Палепшаная версія з цудоўнай апрацоўкай дэталяў. Лепш са складаным фонам і празрыстымі аб\'ектамі. Больш высокая дакладнасць, але патрабуе большай вылічальнай магутнасці.</string>
     <string name="type_removebg">Выдаліць BG</string>
     <string name="horizontal_border_thickness">Таўшчыня гарызантальнай мяжы</string>
     <string name="vertical_border_thickness">Таўшчыня вертыкальнай мяжы</string>

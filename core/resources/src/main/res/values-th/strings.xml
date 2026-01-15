@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">รุ่น X4 UltraSharp V2 สำหรับภาพทั่วไป เน้นความคมชัดและความคมชัด</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 อัลตร้าชาร์ป V2 Lite; เร็วขึ้นและเล็กลง รักษารายละเอียดในขณะที่ใช้หน่วยความจำ GPU น้อยลง</string>
     <string name="model_rmbg_1_4">รุ่นน้ำหนักเบาเพื่อการลบพื้นหลังอย่างรวดเร็ว ประสิทธิภาพและความแม่นยำที่สมดุล ใช้งานได้กับภาพบุคคล วัตถุ และฉาก แนะนำสำหรับกรณีการใช้งานส่วนใหญ่</string>
-    <string name="model_rmbg_2_0">เวอร์ชันปรับปรุงพร้อมการจัดการรายละเอียดที่เหนือกว่า ดีกว่าด้วยพื้นหลังที่ซับซ้อนและวัตถุโปร่งใส ความแม่นยำสูงกว่าแต่ต้องใช้พลังการประมวลผลมากกว่า</string>
     <string name="type_removebg">ลบบีจี</string>
     <string name="horizontal_border_thickness">ความหนาของเส้นขอบแนวนอน</string>
     <string name="vertical_border_thickness">ความหนาของเส้นขอบแนวตั้ง</string>

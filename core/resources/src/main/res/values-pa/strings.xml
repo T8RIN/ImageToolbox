@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">ਆਮ ਚਿੱਤਰਾਂ ਲਈ X4 UltraSharp V2 ਮਾਡਲ; ਤਿੱਖਾਪਨ ਅਤੇ ਸਪਸ਼ਟਤਾ \'ਤੇ ਜ਼ੋਰ ਦਿੰਦਾ ਹੈ।</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; ਤੇਜ਼ ਅਤੇ ਛੋਟਾ, ਘੱਟ GPU ਮੈਮੋਰੀ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਵੇਰਵੇ ਨੂੰ ਸੁਰੱਖਿਅਤ ਰੱਖਦਾ ਹੈ।</string>
     <string name="model_rmbg_1_4">ਤੇਜ਼ ਪਿਛੋਕੜ ਨੂੰ ਹਟਾਉਣ ਲਈ ਹਲਕਾ ਮਾਡਲ। ਸੰਤੁਲਿਤ ਪ੍ਰਦਰਸ਼ਨ ਅਤੇ ਸ਼ੁੱਧਤਾ. ਪੋਰਟਰੇਟ, ਵਸਤੂਆਂ ਅਤੇ ਦ੍ਰਿਸ਼ਾਂ ਨਾਲ ਕੰਮ ਕਰਦਾ ਹੈ। ਜ਼ਿਆਦਾਤਰ ਵਰਤੋਂ ਦੇ ਮਾਮਲਿਆਂ ਲਈ ਸਿਫਾਰਸ਼ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।</string>
-    <string name="model_rmbg_2_0">ਉੱਤਮ ਵੇਰਵਿਆਂ ਨੂੰ ਸੰਭਾਲਣ ਦੇ ਨਾਲ ਵਿਸਤ੍ਰਿਤ ਸੰਸਕਰਣ। ਗੁੰਝਲਦਾਰ ਪਿਛੋਕੜ ਅਤੇ ਪਾਰਦਰਸ਼ੀ ਵਸਤੂਆਂ ਨਾਲ ਬਿਹਤਰ। ਉੱਚ ਸ਼ੁੱਧਤਾ ਪਰ ਵਧੇਰੇ ਪ੍ਰੋਸੈਸਿੰਗ ਸ਼ਕਤੀ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ।</string>
     <string name="type_removebg">BG ਨੂੰ ਹਟਾਓ</string>
     <string name="horizontal_border_thickness">ਹਰੀਜ਼ੱਟਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
     <string name="vertical_border_thickness">ਵਰਟੀਕਲ ਬਾਰਡਰ ਮੋਟਾਈ</string>
