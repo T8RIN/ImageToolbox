@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -140,7 +138,7 @@
     <string name="filename">Nombre de archivo</string>
     <string name="share">Compartir</string>
     <string name="external_storage">Almacenamiento externo</string>
-    <string name="monet_colors">"Colores  Monet"</string>
+    <string name="monet_colors">Colores Monet</string>
     <string name="explicit_description">Redimensiona las imágenes a la altura y anchura dadas. La relación de aspecto puede cambiar.</string>
     <string name="brightness">Brillo</string>
     <string name="contrast">Contraste</string>
@@ -302,7 +300,7 @@
     <string name="found_s">Encontrado %1$s</string>
     <string name="draw_on_background_sub">Elija el color de fondo y dibuje encima</string>
     <string name="features_sub">Cifrado de archivos basado en contraseña. Los archivos procedidos pueden almacenarse en el directorio seleccionado o compartirse. Los archivos descifrados también se pueden abrir directamente.</string>
-    <string name="implementation_sub">"AES-256, modo GCM, sin relleno, IV aleatorios de 12 bytes por defecto. Puedes seleccionar el algoritmo necesario. Las claves se utilizan como hashes SHA-3  de 256 bits."</string>
+    <string name="implementation_sub">"AES-256, modo GCM, sin relleno, vector de Inicialización (IV) aleatorio de 12 bytes por defecto. Se puede seleccionar el algoritmo necesario. Las claves se utilizan como hashes SHA-3  de 256 bits."</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">No se puede cambiar el arreglo mientras la agrupación de opciones está habilitada</string>
     <string name="skip">Saltar</string>
     <string name="paint_alpha">Pintura alfa</string>
@@ -1677,7 +1675,7 @@
     <string name="send_logs_sub">Haga clic para compartir el archivo de registros de la aplicación. Esto puede ayudarme a detectar el problema y solucionarlo.</string>
     <string name="ocr_write_to_file_sub">Extraiga texto de un lote de imágenes y guárdelo en un archivo de texto</string>
     <string name="ocr_write_to_metadata">Escribir en metadatos</string>
-    <string name="ocr_write_to_metadata_sub">Extraiga texto de cada imagen y colóquelo en información EXIF ​​de fotos relativas</string>
+    <string name="ocr_write_to_metadata_sub">Extraer texto de cada imagen y añadirlo a sus datos EXIF</string>
     <string name="invisible_mode">Modo invisible</string>
     <string name="invisible_mode_sub">Utilice la esteganografía para crear marcas de agua invisibles a los ojos dentro de bytes de sus imágenes</string>
     <string name="use_lsb">Usar LSB</string>
@@ -2003,6 +2001,7 @@
     <string name="vertical_border_thickness">Grosor del borde vertical</string>
     <plurals name="color_count">
         <item quantity="one">%1$s color</item>
+        <item quantity="many">%1$s colores</item>
         <item quantity="other">%1$s colores</item>
     </plurals>
     <string name="current_model_not_chunkable">El modelo actual no admite fragmentación, la imagen se procesará en las dimensiones originales, lo que puede causar un alto consumo de memoria y problemas con dispositivos de gama baja.</string>
