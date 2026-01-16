@@ -65,15 +65,15 @@ data class NeuralModel(
                     type = Type.DEJPEG
                 ),
                 NeuralModel(
-                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color_real_gan_fp16.onnx",
-                    name = "scunet_color_real_gan_fp16.onnx",
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color-GAN.onnx",
+                    name = "scunet_color-GAN.onnx",
                     title = "SCUNet Color GAN",
                     description = R.string.model_scunet_color_gan_fp16,
                     type = Type.DENOISE
                 ),
                 NeuralModel(
-                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color_real_psnr_fp16.onnx",
-                    name = "scunet_color_real_psnr_fp16.onnx",
+                    downloadLink = "https://github.com/T8RIN/ImageToolboxRemoteResources/raw/refs/heads/main/onnx/enhance/scunet/scunet_color-PSNR.onnx",
+                    name = "scunet_color-PSNR.onnx",
                     title = "SCUNet Color PSNR",
                     description = R.string.model_scunet_color_psnr_fp16,
                     type = Type.DENOISE
