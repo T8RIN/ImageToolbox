@@ -27,7 +27,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.HighQuality
 import androidx.compose.material.icons.rounded.Scanner
 import androidx.compose.material3.Icon
@@ -48,6 +50,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Manga
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Rabbit
+import com.t8rin.imagetoolbox.core.resources.icons.Snail
+import com.t8rin.imagetoolbox.core.resources.icons.Tortoise
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -75,6 +80,14 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.SCANS -> Icons.Rounded.Scanner
     NeuralModel.Type.UPSCALE -> Icons.Rounded.HighQuality
     NeuralModel.Type.REMOVEBG -> Icons.Rounded.Eraser
+}
+
+fun NeuralModel.Speed.icon(): ImageVector = when (this) {
+    NeuralModel.Speed.VERY_FAST -> Icons.Rounded.Bolt
+    NeuralModel.Speed.FAST -> Icons.Rounded.Rabbit
+    NeuralModel.Speed.NORMAL -> Icons.AutoMirrored.Rounded.DirectionsWalk
+    NeuralModel.Speed.SLOW -> Icons.Rounded.Tortoise
+    NeuralModel.Speed.VERY_SLOW -> Icons.Rounded.Snail
 }
 
 @Composable
@@ -125,11 +138,64 @@ fun NeuralModelTypeBadge(
     }
 }
 
+@Composable
+fun NeuralModelSpeedBadge(
+    speed: NeuralModel.Speed,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .size(22.dp)
+            .container(
+                color = MaterialTheme.colorScheme.run {
+                    tertiaryContainer.blend(
+                        color = primaryContainer,
+                        fraction = 0.5f
+                    )
+                },
+                shape = CircleShape,
+                resultPadding = 0.dp
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        val contentColor = MaterialTheme.colorScheme.run {
+            onTertiaryContainer.blend(
+                color = onPrimaryContainer,
+                fraction = 0.65f
+            )
+        }
+        Icon(
+            imageVector = speed.icon(),
+            contentDescription = null,
+            tint = contentColor,
+            modifier = Modifier.size(16.dp)
+        )
+    }
+}
+
 @Preview
 @Composable
-private fun Preview() = ImageToolboxThemeForPreview(
+private fun PreviewSpeed() = ImageToolboxThemeForPreview(
     isDarkTheme = true,
-    keyColor = Color.Blue
+    keyColor = Color.Green
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(8.dp)
+    ) {
+        NeuralModel.Speed.entries.forEach {
+            NeuralModelSpeedBadge(it)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewType() = ImageToolboxThemeForPreview(
+    isDarkTheme = true,
+    keyColor = Color.Green
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -139,6 +205,33 @@ private fun Preview() = ImageToolboxThemeForPreview(
     ) {
         NeuralModel.Type.entries.forEach {
             NeuralModelTypeBadge(it)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewMixed() = ImageToolboxThemeForPreview(
+    isDarkTheme = true,
+    keyColor = Color.Green
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(8.dp)
+    ) {
+        NeuralModel.Type.entries.forEach {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                NeuralModelTypeBadge(it)
+
+                NeuralModelSpeedBadge(
+                    speed = NeuralModel.Speed.entries.getOrNull(it.ordinal)
+                        ?: NeuralModel.Speed.entries.random()
+                )
+            }
         }
     }
 }

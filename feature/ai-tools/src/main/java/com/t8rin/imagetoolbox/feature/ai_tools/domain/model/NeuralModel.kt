@@ -36,6 +36,10 @@ data class NeuralModel(
         UPSCALE, REMOVEBG, COLORIZE, DEJPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS
     }
 
+    enum class Speed {
+        VERY_FAST, FAST, NORMAL, SLOW, VERY_SLOW
+    }
+
     companion object {
         val entries: List<NeuralModel> by lazy {
             listOf(
