@@ -22,12 +22,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.HighQuality
 import androidx.compose.material.icons.rounded.Scanner
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,12 +45,12 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
-import com.t8rin.imagetoolbox.core.resources.icons.HighRes
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Manga
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 
 fun NeuralModel.Type.title(): Int = when (this) {
@@ -71,7 +73,7 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.ENHANCE -> Icons.Rounded.AutoFixHigh
     NeuralModel.Type.ANIME -> Icons.Rounded.Manga
     NeuralModel.Type.SCANS -> Icons.Rounded.Scanner
-    NeuralModel.Type.UPSCALE -> Icons.Rounded.HighRes
+    NeuralModel.Type.UPSCALE -> Icons.Rounded.HighQuality
     NeuralModel.Type.REMOVEBG -> Icons.Rounded.Eraser
 }
 
@@ -81,41 +83,45 @@ fun NeuralModelTypeBadge(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .height(22.dp)
+            .container(
+                color = MaterialTheme.colorScheme.run {
+                    tertiaryContainer.blend(
+                        color = secondaryContainer,
+                        fraction = 0.3f
+                    )
+                },
+                shape = CircleShape,
+                resultPadding = 0.dp
+            )
+            .padding(start = 4.dp, end = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
+        val contentColor = MaterialTheme.colorScheme.run {
+            onTertiaryContainer.blend(
+                color = onSecondaryContainer,
+                fraction = 0.65f
+            )
+        }
+
         Box(
-            modifier = Modifier
-                .size(16.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.run {
-                        tertiary.blend(
-                            color = secondary,
-                            fraction = 0.65f
-                        )
-                    },
-                    shape = CircleShape
-                ),
+            modifier = Modifier.size(20.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = type.icon(),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.run {
-                    onTertiary.blend(
-                        color = onSecondary,
-                        fraction = 0.65f
-                    )
-                },
-                modifier = Modifier.size(12.dp)
+                tint = contentColor,
+                modifier = Modifier.size(16.dp)
             )
         }
-        Badge(
-            containerColor = MaterialTheme.colorScheme.secondary
-        ) {
-            Text(stringResource(type.title()))
-        }
+        Text(
+            text = stringResource(type.title()),
+            color = contentColor,
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }
 
@@ -123,10 +129,13 @@ fun NeuralModelTypeBadge(
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(
     isDarkTheme = true,
-    keyColor = Color.Green
+    keyColor = Color.Blue
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(8.dp)
     ) {
         NeuralModel.Type.entries.forEach {
             NeuralModelTypeBadge(it)
