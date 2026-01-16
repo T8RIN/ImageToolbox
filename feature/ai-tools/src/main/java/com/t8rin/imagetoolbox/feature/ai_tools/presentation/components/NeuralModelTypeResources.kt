@@ -25,9 +25,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoFixHigh
-import androidx.compose.material.icons.outlined.Colorize
-import androidx.compose.material.icons.outlined.Scanner
+import androidx.compose.material.icons.rounded.AutoFixHigh
+import androidx.compose.material.icons.rounded.Scanner
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
+import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.HighRes
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Manga
@@ -66,12 +66,12 @@ fun NeuralModel.Type.title(): Int = when (this) {
 fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.DEJPEG -> Icons.Outlined.Jpg
     NeuralModel.Type.DENOISE -> Icons.Outlined.NoiseAlt
-    NeuralModel.Type.COLORIZE -> Icons.Outlined.Colorize
+    NeuralModel.Type.COLORIZE -> Icons.Outlined.Eyedropper
     NeuralModel.Type.ARTIFACTS -> Icons.Rounded.BrokenImageAlt
-    NeuralModel.Type.ENHANCE -> Icons.Outlined.AutoFixHigh
-    NeuralModel.Type.ANIME -> Icons.Outlined.Manga
-    NeuralModel.Type.SCANS -> Icons.Outlined.Scanner
-    NeuralModel.Type.UPSCALE -> Icons.Outlined.HighRes
+    NeuralModel.Type.ENHANCE -> Icons.Rounded.AutoFixHigh
+    NeuralModel.Type.ANIME -> Icons.Rounded.Manga
+    NeuralModel.Type.SCANS -> Icons.Rounded.Scanner
+    NeuralModel.Type.UPSCALE -> Icons.Rounded.HighRes
     NeuralModel.Type.REMOVEBG -> Icons.Rounded.Eraser
 }
 
