@@ -105,6 +105,14 @@ fun NeuralModel.Speed.icon(): ImageVector = when (this) {
     is NeuralModel.Speed.VerySlow -> Icons.Rounded.Snail
 }
 
+fun NeuralModel.Speed.title(): Int = when (this) {
+    is NeuralModel.Speed.VeryFast -> R.string.very_fast
+    is NeuralModel.Speed.Fast -> R.string.fast
+    is NeuralModel.Speed.Normal -> R.string.normal
+    is NeuralModel.Speed.Slow -> R.string.slow
+    is NeuralModel.Speed.VerySlow -> R.string.very_slow
+}
+
 @Composable
 fun NeuralModelTypeBadge(
     type: NeuralModel.Type,
@@ -186,14 +194,14 @@ fun NeuralModelSpeedBadge(
     height: Dp = 22.dp,
     endPadding: Dp = 6.dp,
     onClick: (() -> Unit)? = null,
-    isWeighted: Boolean = false
+    showTitle: Boolean = false
 ) {
-    val hasValue = speed.speedValue > 0f
+    val hasValue = showTitle || speed.speedValue > 0f
 
     Row(
         modifier = modifier
             .then(
-                if (hasValue || isWeighted) {
+                if (hasValue) {
                     Modifier.height(height)
                 } else {
                     Modifier.size(height)
@@ -252,12 +260,16 @@ fun NeuralModelSpeedBadge(
                             speed.speedValue > 5f -> 2
                             else -> 3
                         }
-                    )
+                    ).toString().trimTrailingZero()
                 }
             }
 
             Text(
-                text = speedValue.toString().trimTrailingZero(),
+                text = if (showTitle) {
+                    stringResource(speed.title())
+                } else {
+                    speedValue
+                },
                 color = contentColor,
                 style = MaterialTheme.typography.labelSmall
             )

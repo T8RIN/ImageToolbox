@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -2039,4 +2038,8 @@
     <string name="model_successfully_imported">Model successfully imported</string>
     <string name="type">Type</string>
     <string name="keyword">Keyword</string>
+    <string name="very_fast">Very Fast</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Slow</string>
+    <string name="very_slow">Very Slow</string>
 </resources>
