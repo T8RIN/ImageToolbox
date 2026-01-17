@@ -36,12 +36,9 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
@@ -62,11 +59,7 @@ fun Modifier.container(
 ) = this.composed {
     val localContainerShape = LocalContainerShape.current
     val resultShape = localContainerShape ?: shape
-    val settingsState = if (LocalInspectionMode.current) {
-        SettingsState.Default.toUiState()
-    } else {
-        LocalSettingsState.current
-    }
+    val settingsState = LocalSettingsState.current
 
     val targetBorderWidth = borderWidth.takeOrElse {
         settingsState.borderWidth

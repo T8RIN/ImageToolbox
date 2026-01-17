@@ -116,7 +116,7 @@ fun NeuralModel.Speed.title(): Int = when (this) {
 @Composable
 fun NeuralModelTypeBadge(
     type: NeuralModel.Type,
-    isInverted: Boolean,
+    isInverted: Boolean?,
     modifier: Modifier = Modifier,
     height: Dp = 22.dp,
     endPadding: Dp = 6.dp,
@@ -127,13 +127,18 @@ fun NeuralModelTypeBadge(
             .height(height)
             .container(
                 color = takeColorFromScheme {
-                    if (isInverted) {
-                        tertiary.blend(
+                    when (isInverted) {
+                        true -> tertiary.blend(
                             color = secondary,
                             fraction = 0.3f
                         )
-                    } else {
-                        tertiaryContainer.blend(
+
+                        false -> tertiaryContainer.blend(
+                            color = secondaryContainer,
+                            fraction = 0.3f
+                        )
+
+                        null -> surfaceVariant.blend(
                             color = secondaryContainer,
                             fraction = 0.3f
                         )
@@ -154,13 +159,18 @@ fun NeuralModelTypeBadge(
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         val contentColor = takeColorFromScheme {
-            if (isInverted) {
-                onTertiary.blend(
+            when (isInverted) {
+                true -> onTertiary.blend(
                     color = onSecondary,
                     fraction = 0.65f
                 )
-            } else {
-                onTertiaryContainer.blend(
+
+                false -> onTertiaryContainer.blend(
+                    color = onSecondaryContainer,
+                    fraction = 0.65f
+                )
+
+                null -> onSurfaceVariant.blend(
                     color = onSecondaryContainer,
                     fraction = 0.65f
                 )
@@ -189,7 +199,7 @@ fun NeuralModelTypeBadge(
 @Composable
 fun NeuralModelSpeedBadge(
     speed: NeuralModel.Speed,
-    isInverted: Boolean,
+    isInverted: Boolean?,
     modifier: Modifier = Modifier,
     height: Dp = 22.dp,
     endPadding: Dp = 6.dp,
@@ -209,10 +219,13 @@ fun NeuralModelSpeedBadge(
             )
             .container(
                 color = takeColorFromScheme {
-                    if (isInverted) {
-                        primary
-                    } else {
-                        primaryContainer
+                    when (isInverted) {
+                        true -> primary
+                        false -> primaryContainer
+                        null -> surfaceVariant.blend(
+                            color = primaryContainer,
+                            fraction = 0.2f
+                        )
                     }
                 },
                 shape = CircleShape,
@@ -234,10 +247,13 @@ fun NeuralModelSpeedBadge(
         horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
     ) {
         val contentColor = takeColorFromScheme {
-            if (isInverted) {
-                onPrimary
-            } else {
-                onPrimaryContainer
+            when (isInverted) {
+                true -> onPrimary
+                false -> onPrimaryContainer
+                null -> onSurfaceVariant.blend(
+                    color = onPrimaryContainer,
+                    fraction = 0.3f
+                )
             }
         }
         Box(

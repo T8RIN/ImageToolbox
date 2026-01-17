@@ -80,6 +80,8 @@ fun PreferenceItem(
     startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultStartTransition,
     endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultEndTransition,
     onDisabledClick: (() -> Unit)? = null,
+    placeBottomContentInside: Boolean = false,
+    bottomContent: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
@@ -130,7 +132,9 @@ fun PreferenceItem(
         modifier = modifier,
         titleFontStyle = titleFontStyle,
         onDisabledClick = onDisabledClick,
-        drawStartIconContainer = drawStartIconContainer
+        drawStartIconContainer = drawStartIconContainer,
+        placeBottomContentInside = placeBottomContentInside,
+        bottomContent = bottomContent
     )
 }
 

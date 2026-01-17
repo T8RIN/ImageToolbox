@@ -18,7 +18,10 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -27,12 +30,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -61,7 +68,34 @@ internal fun NeuralModelSelector(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = ShapeDefaults.extraLarge,
         startIcon = Icons.Outlined.Neurology,
-        endIcon = Icons.Rounded.MiniEdit
+        endIcon = Icons.Rounded.MiniEdit,
+        placeBottomContentInside = true,
+        bottomContent = value?.type?.let { type ->
+            {
+                FlowRow(
+                    modifier = Modifier.padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    NeuralModelTypeBadge(
+                        type = type,
+                        isInverted = null
+                    )
+
+                    value.speed?.let { speed ->
+                        NeuralModelSpeedBadge(
+                            speed = speed,
+                            isInverted = null
+                        )
+                    }
+
+                    NeuralModelSizeBadge(
+                        model = value,
+                        isInverted = false
+                    )
+                }
+            }
+        }
     )
 
     NeuralModelSelectionSheet(
@@ -76,5 +110,24 @@ internal fun NeuralModelSelector(
         onImportModel = onImportModel,
         downloadProgresses = downloadProgresses,
         occupiedStorageSize = occupiedStorageSize
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = ImageToolboxThemeForPreview(
+    isDarkTheme = true,
+    keyColor = Color.Blue
+) {
+    NeuralModelSelector(
+        value = NeuralModel.entries.first(),
+        onSelectModel = {},
+        onDownloadModel = {},
+        onDeleteModel = {},
+        downloadedModels = emptyList(),
+        notDownloadedModels = emptyList(),
+        onImportModel = { _, _ -> },
+        downloadProgresses = emptyMap(),
+        occupiedStorageSize = 0
     )
 }

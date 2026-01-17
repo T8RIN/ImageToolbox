@@ -30,6 +30,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,7 +39,9 @@ import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
+import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
@@ -125,11 +128,15 @@ fun ImageToolboxThemeForPreview(
         defaultColorTuple = ColorTuple(keyColor ?: Color.Transparent),
         colorAnimationSpec = snap(),
         content = {
-            MaterialTheme(
-                motionScheme = CustomMotionScheme,
-                colorScheme = modifiedColorScheme(),
-                content = content
-            )
+            CompositionLocalProvider(
+                LocalSettingsState provides SettingsState.Default.toUiState()
+            ) {
+                MaterialTheme(
+                    motionScheme = CustomMotionScheme,
+                    colorScheme = modifiedColorScheme(),
+                    content = content
+                )
+            }
         }
     )
 }
