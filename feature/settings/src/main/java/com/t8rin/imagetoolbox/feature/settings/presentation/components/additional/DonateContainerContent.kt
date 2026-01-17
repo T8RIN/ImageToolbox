@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components.additional
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,9 +31,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,8 +53,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Boosty
 import com.t8rin.imagetoolbox.core.resources.icons.Ton
 import com.t8rin.imagetoolbox.core.resources.icons.USDT
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.BOOSTYColor
 import com.t8rin.imagetoolbox.core.ui.theme.BitcoinColor
+import com.t8rin.imagetoolbox.core.ui.theme.BoostyColor
 import com.t8rin.imagetoolbox.core.ui.theme.TONColor
 import com.t8rin.imagetoolbox.core.ui.theme.TONSpaceColor
 import com.t8rin.imagetoolbox.core.ui.theme.USDTColor
@@ -67,17 +70,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 fun DonateContainerContent(
     modifier: Modifier = Modifier
 ) {
-    val essentials = rememberLocalEssentials()
-    val linkHandler = LocalUriHandler.current
-
-    val darkMode = !LocalSettingsState.current.isNightMode
-
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Box(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 12.dp
+                )
                 .container(color = MaterialTheme.colorScheme.tertiaryContainer),
             contentAlignment = Alignment.Center
         ) {
@@ -91,124 +95,134 @@ fun DonateContainerContent(
                 color = LocalContentColor.current.copy(alpha = 0.5f)
             )
         }
-        CompositionLocalProvider(
-            LocalIconShapeContainerColor provides BOOSTYColor.blend(
-                color = Color.White,
-                fraction = 0.1f
-            )
-        ) {
-            PreferenceItem(
-                containerColor = BOOSTYColor,
-                overrideIconShapeContentColor = true,
-                contentColor = BOOSTYColor.inverse(
-                    fraction = { 1f },
-                    darkMode = true
-                ),
-                shape = ShapeDefaults.top,
-                onClick = {
-                    linkHandler.openUri(BoostyLink)
-                },
-                endIcon = Icons.Rounded.Link,
-                startIcon = Icons.Rounded.Boosty,
-                title = stringResource(R.string.boosty),
-                subtitle = BoostyLink
-            )
+        val options = DonationOption.entries
+
+        options.forEachIndexed { index, option ->
+            CompositionLocalProvider(
+                LocalIconShapeContainerColor provides option.containerColor().blend(
+                    color = Color.White,
+                    fraction = 0.1f
+                )
+            ) {
+                PreferenceItem(
+                    containerColor = option.containerColor(),
+                    overrideIconShapeContentColor = true,
+                    contentColor = option.contentColor(),
+                    shape = ShapeDefaults.byIndex(
+                        index = index,
+                        size = options.size
+                    ),
+                    onClick = option.onClick,
+                    endIcon = option.endIcon,
+                    startIcon = option.startIcon,
+                    title = option.title(),
+                    subtitle = option.subtitle
+                )
+            }
         }
-        CompositionLocalProvider(
-            LocalIconShapeContainerColor provides TONSpaceColor.blend(
-                color = Color.White,
-                fraction = 0.1f
-            )
-        ) {
-            PreferenceItem(
-                containerColor = TONSpaceColor,
-                overrideIconShapeContentColor = true,
-                contentColor = TONSpaceColor.inverse(
-                    fraction = { 1f },
-                    darkMode = true
-                ),
-                shape = ShapeDefaults.center,
-                onClick = {
-                    essentials.copyToClipboard(TONSpaceWallet)
-                },
-                endIcon = Icons.Rounded.ContentCopy,
-                startIcon = Icons.Rounded.Ton,
-                title = stringResource(R.string.ton_space),
-                subtitle = TONSpaceWallet
-            )
-        }
-        Spacer(Modifier.height(4.dp))
-        CompositionLocalProvider(
-            LocalIconShapeContainerColor provides TONColor.blend(
-                color = Color.White,
-                fraction = 0.2f
-            )
-        ) {
-            PreferenceItem(
-                containerColor = TONColor,
-                overrideIconShapeContentColor = true,
-                contentColor = TONColor.inverse(
-                    fraction = { 1f },
-                    darkMode = darkMode
-                ),
-                shape = ShapeDefaults.center,
-                onClick = {
-                    essentials.copyToClipboard(TONWallet)
-                },
-                endIcon = Icons.Rounded.ContentCopy,
-                startIcon = Icons.Rounded.Ton,
-                title = stringResource(R.string.ton),
-                subtitle = TONWallet
-            )
-        }
-        Spacer(Modifier.height(4.dp))
-        CompositionLocalProvider(
-            LocalIconShapeContainerColor provides BitcoinColor.blend(
-                color = Color.White,
-                fraction = 0.2f
-            )
-        ) {
-            PreferenceItem(
-                containerColor = BitcoinColor,
-                overrideIconShapeContentColor = true,
-                contentColor = BitcoinColor.inverse(
-                    fraction = { 1f },
-                    darkMode = darkMode
-                ),
-                shape = ShapeDefaults.center,
-                onClick = {
-                    essentials.copyToClipboard(BitcoinWallet)
-                },
-                endIcon = Icons.Rounded.ContentCopy,
-                title = stringResource(R.string.bitcoin),
-                startIcon = Icons.Filled.Bitcoin,
-                subtitle = BitcoinWallet
-            )
-        }
-        Spacer(Modifier.height(4.dp))
-        CompositionLocalProvider(
-            LocalIconShapeContainerColor provides USDTColor.blend(
-                color = Color.White,
-                fraction = 0.2f
-            )
-        ) {
-            PreferenceItem(
-                containerColor = USDTColor,
-                overrideIconShapeContentColor = true,
-                contentColor = USDTColor.inverse(
-                    fraction = { 1f },
-                    darkMode = darkMode
-                ),
-                shape = ShapeDefaults.bottom,
-                onClick = {
-                    essentials.copyToClipboard(BitcoinWallet)
-                },
-                endIcon = Icons.Rounded.ContentCopy,
-                title = stringResource(R.string.usdt),
-                startIcon = Icons.Filled.USDT,
-                subtitle = USDTWallet
-            )
-        }
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(12.dp))
+    }
+}
+
+private data class DonationOption(
+    val containerColor: @Composable () -> Color,
+    val contentColor: @Composable () -> Color,
+    val onClick: () -> Unit,
+    val endIcon: ImageVector,
+    val startIcon: ImageVector,
+    val title: @Composable () -> String,
+    val subtitle: String
+) {
+    companion object Companion {
+        val entries: List<DonationOption>
+            @Composable
+            get() {
+                val essentials = rememberLocalEssentials()
+                val linkHandler = LocalUriHandler.current
+                val darkMode = !LocalSettingsState.current.isNightMode
+
+                return remember(essentials, linkHandler, darkMode) {
+                    listOf(
+                        DonationOption(
+                            containerColor = { BoostyColor },
+                            contentColor = {
+                                BoostyColor.inverse(
+                                    fraction = { 1f },
+                                    darkMode = true
+                                )
+                            },
+                            onClick = { linkHandler.openUri(BoostyLink) },
+                            endIcon = Icons.Rounded.Link,
+                            startIcon = Icons.Rounded.Boosty,
+                            title = { stringResource(R.string.boosty) },
+                            subtitle = BoostyLink
+                        ),
+                        DonationOption(
+                            containerColor = { BitcoinColor },
+                            contentColor = {
+                                BitcoinColor.inverse(
+                                    fraction = { 1f },
+                                    darkMode = darkMode
+                                )
+                            },
+                            onClick = {
+                                essentials.copyToClipboard(BitcoinWallet)
+                            },
+                            endIcon = Icons.Rounded.ContentCopy,
+                            title = { stringResource(R.string.bitcoin) },
+                            startIcon = Icons.Filled.Bitcoin,
+                            subtitle = BitcoinWallet
+                        ),
+                        DonationOption(
+                            containerColor = { USDTColor },
+                            contentColor = {
+                                USDTColor.inverse(
+                                    fraction = { 1f },
+                                    darkMode = darkMode
+                                )
+                            },
+                            onClick = {
+                                essentials.copyToClipboard(BitcoinWallet)
+                            },
+                            endIcon = Icons.Rounded.ContentCopy,
+                            title = { stringResource(R.string.usdt) },
+                            startIcon = Icons.Filled.USDT,
+                            subtitle = USDTWallet
+                        ),
+                        DonationOption(
+                            containerColor = { TONColor },
+                            contentColor = {
+                                TONColor.inverse(
+                                    fraction = { 1f },
+                                    darkMode = darkMode
+                                )
+                            },
+                            onClick = {
+                                essentials.copyToClipboard(TONWallet)
+                            },
+                            endIcon = Icons.Rounded.ContentCopy,
+                            startIcon = Icons.Rounded.Ton,
+                            title = { stringResource(R.string.ton) },
+                            subtitle = TONWallet
+                        ),
+                        DonationOption(
+                            containerColor = { TONSpaceColor },
+                            contentColor = {
+                                TONSpaceColor.inverse(
+                                    fraction = { 1f },
+                                    darkMode = true
+                                )
+                            },
+                            onClick = {
+                                essentials.copyToClipboard(TONSpaceWallet)
+                            },
+                            endIcon = Icons.Rounded.ContentCopy,
+                            startIcon = Icons.Rounded.Ton,
+                            title = { stringResource(R.string.ton_space) },
+                            subtitle = TONSpaceWallet
+                        )
+                    )
+                }
+            }
     }
 }
