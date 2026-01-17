@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Magaang modelo ng BiRefNet batay sa Swin Transformer para sa tumpak na pag-alis ng background.</string>
     <string name="model_inspyrenet">De-kalidad na pag-alis ng background na may matatalim na gilid at mahusay na pangangalaga sa detalye, lalo na sa mga kumplikadong bagay at nakakalito na background.</string>
     <string name="model_isnet">Modelo sa pag-alis ng background na gumagawa ng mga tumpak na maskara na may makinis na mga gilid, na angkop para sa mga pangkalahatang bagay at katamtamang pangangalaga sa detalye.</string>
+    <string name="model_already_downloaded">Na-download na ang modelo</string>
+    <string name="model_successfully_imported">Matagumpay na na-import ang modelo</string>
+    <string name="type">Uri</string>
+    <string name="keyword">Keyword</string>
+    <string name="very_fast">Napakabilis</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Mabagal</string>
+    <string name="very_slow">Napakabagal</string>
 </resources>

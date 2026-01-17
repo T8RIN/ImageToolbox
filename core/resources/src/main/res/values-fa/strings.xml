@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">مدل سبک BiRefNet بر اساس ترانسفورماتور Swin برای حذف دقیق پس زمینه.</string>
     <string name="model_inspyrenet">حذف پس‌زمینه با کیفیت بالا با لبه‌های تیز و حفظ جزئیات عالی، به‌ویژه در اشیاء پیچیده و پس‌زمینه‌های پیچیده.</string>
     <string name="model_isnet">مدل حذف پس‌زمینه که ماسک‌هایی دقیق با لبه‌های صاف، مناسب برای اشیاء عمومی و حفظ جزئیات متوسط ​​تولید می‌کند.</string>
+    <string name="model_already_downloaded">مدل قبلا دانلود شده است</string>
+    <string name="model_successfully_imported">مدل با موفقیت وارد شد</string>
+    <string name="type">تایپ کنید</string>
+    <string name="keyword">کلمه کلیدی</string>
+    <string name="very_fast">خیلی سریع</string>
+    <string name="normal">عادی</string>
+    <string name="slow">کند</string>
+    <string name="very_slow">خیلی آهسته</string>
 </resources>

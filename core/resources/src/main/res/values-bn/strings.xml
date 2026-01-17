@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">সঠিক পটভূমি অপসারণের জন্য সুইন ট্রান্সফরমারের উপর ভিত্তি করে হালকা ওজনের BiRefNet মডেল।</string>
     <string name="model_inspyrenet">ধারালো প্রান্ত এবং চমৎকার বিশদ সংরক্ষণের সাথে উচ্চ-মানের পটভূমি অপসারণ, বিশেষ করে জটিল বস্তু এবং জটিল পটভূমিতে।</string>
     <string name="model_isnet">পটভূমি অপসারণ মডেল যা মসৃণ প্রান্ত সহ সঠিক মুখোশ তৈরি করে, সাধারণ বস্তুর জন্য উপযুক্ত এবং মাঝারি বিস্তারিত সংরক্ষণ।</string>
+    <string name="model_already_downloaded">মডেল ইতিমধ্যে ডাউনলোড করা হয়েছে</string>
+    <string name="model_successfully_imported">মডেল সফলভাবে আমদানি করা হয়েছে৷</string>
+    <string name="type">টাইপ</string>
+    <string name="keyword">কীওয়ার্ড</string>
+    <string name="very_fast">খুব দ্রুত</string>
+    <string name="normal">স্বাভাবিক</string>
+    <string name="slow">ধীর</string>
+    <string name="very_slow">খুব ধীর</string>
 </resources>

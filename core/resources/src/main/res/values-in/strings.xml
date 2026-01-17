@@ -2013,4 +2013,12 @@
     <string name="model_birefnet">Model BiRefNet ringan berdasarkan Swin Transformer untuk menghilangkan latar belakang secara akurat.</string>
     <string name="model_inspyrenet">Penghapusan latar belakang berkualitas tinggi dengan tepi tajam dan pelestarian detail yang sangat baik, terutama pada objek kompleks dan latar belakang rumit.</string>
     <string name="model_isnet">Model penghapusan latar belakang yang menghasilkan topeng akurat dengan tepi halus, cocok untuk objek umum dan pelestarian detail moderat.</string>
+    <string name="model_already_downloaded">Model sudah diunduh</string>
+    <string name="model_successfully_imported">Model berhasil diimpor</string>
+    <string name="type">Jenis</string>
+    <string name="keyword">Kata kunci</string>
+    <string name="very_fast">Sangat cepat</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Lambat</string>
+    <string name="very_slow">Sangat Lambat</string>
 </resources>

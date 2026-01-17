@@ -2013,4 +2013,12 @@
     <string name="model_birefnet">正確な背景除去のための Swin Transformer に基づく軽量 BiRefNet モデル。</string>
     <string name="model_inspyrenet">特に複雑なオブジェクトや扱いにくい背景において、シャープなエッジと優れたディテール保持による高品質の背景除去。</string>
     <string name="model_isnet">滑らかなエッジを持つ正確なマスクを生成する背景除去モデル。一般的なオブジェクトと適度なディテールの保持に適しています。</string>
+    <string name="model_already_downloaded">モデルはすでにダウンロードされています</string>
+    <string name="model_successfully_imported">モデルは正常にインポートされました</string>
+    <string name="type">タイプ</string>
+    <string name="keyword">キーワード</string>
+    <string name="very_fast">非常に速い</string>
+    <string name="normal">普通</string>
+    <string name="slow">遅い</string>
+    <string name="very_slow">非常に遅い</string>
 </resources>

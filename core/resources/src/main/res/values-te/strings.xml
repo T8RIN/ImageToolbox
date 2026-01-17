@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">ఖచ్చితమైన బ్యాక్‌గ్రౌండ్ రిమూవల్ కోసం స్విన్ ట్రాన్స్‌ఫార్మర్ ఆధారంగా తేలికైన BiRefNet మోడల్.</string>
     <string name="model_inspyrenet">పదునైన అంచులు మరియు అద్భుతమైన వివరాల సంరక్షణతో అధిక-నాణ్యత నేపథ్య తొలగింపు, ముఖ్యంగా సంక్లిష్ట వస్తువులు మరియు గమ్మత్తైన నేపథ్యాలపై.</string>
     <string name="model_isnet">సాధారణ వస్తువులు మరియు మితమైన వివరాల సంరక్షణకు అనువైన మృదువైన అంచులతో ఖచ్చితమైన మాస్క్‌లను ఉత్పత్తి చేసే బ్యాక్‌గ్రౌండ్ రిమూవల్ మోడల్.</string>
+    <string name="model_already_downloaded">మోడల్ ఇప్పటికే డౌన్‌లోడ్ చేయబడింది</string>
+    <string name="model_successfully_imported">మోడల్ విజయవంతంగా దిగుమతి చేయబడింది</string>
+    <string name="type">టైప్ చేయండి</string>
+    <string name="keyword">కీవర్డ్</string>
+    <string name="very_fast">చాలా ఫాస్ట్</string>
+    <string name="normal">సాధారణ</string>
+    <string name="slow">నెమ్మదిగా</string>
+    <string name="very_slow">చాలా స్లో</string>
 </resources>

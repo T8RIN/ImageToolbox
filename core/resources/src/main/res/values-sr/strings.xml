@@ -2015,4 +2015,12 @@
     <string name="model_birefnet">Лагани БиРефНет модел заснован на Свин Трансформеру за прецизно уклањање позадине.</string>
     <string name="model_inspyrenet">Висококвалитетно уклањање позадине са оштрим ивицама и одличним очувањем детаља, посебно на сложеним објектима и лукавим позадинама.</string>
     <string name="model_isnet">Модел уклањања позадине који производи прецизне маске са глатким ивицама, погодне за опште објекте и умерено очување детаља.</string>
+    <string name="model_already_downloaded">Модел је већ преузет</string>
+    <string name="model_successfully_imported">Модел је успешно увезен</string>
+    <string name="type">Тип</string>
+    <string name="keyword">Кључна реч</string>
+    <string name="very_fast">Врло брзо</string>
+    <string name="normal">Нормално</string>
+    <string name="slow">Споро</string>
+    <string name="very_slow">Веома Споро</string>
 </resources>

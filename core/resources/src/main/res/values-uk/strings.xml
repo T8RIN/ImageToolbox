@@ -2016,4 +2016,12 @@
     <string name="model_birefnet">Легка модель BiRefNet на основі Swin Transformer для точного видалення фону.</string>
     <string name="model_inspyrenet">Високоякісне видалення фону з чіткими краями та чудовим збереженням деталей, особливо на складних об’єктах і складному фоні.</string>
     <string name="model_isnet">Модель видалення фону, яка створює точні маски з гладкими краями, придатні для звичайних об’єктів і помірне збереження деталей.</string>
+    <string name="model_already_downloaded">Модель вже завантажено</string>
+    <string name="model_successfully_imported">Модель успішно імпортовано</string>
+    <string name="type">Тип</string>
+    <string name="keyword">Ключове слово</string>
+    <string name="very_fast">Дуже швидко</string>
+    <string name="normal">нормальний</string>
+    <string name="slow">Повільно</string>
+    <string name="very_slow">Дуже повільно</string>
 </resources>

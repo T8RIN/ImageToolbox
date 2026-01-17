@@ -2013,4 +2013,12 @@
     <string name="model_birefnet">Mô hình BiRefNet nhẹ dựa trên Swin Transformer để loại bỏ nền chính xác.</string>
     <string name="model_inspyrenet">Loại bỏ nền chất lượng cao với các cạnh sắc nét và bảo toàn chi tiết tuyệt vời, đặc biệt là trên các đối tượng phức tạp và nền phức tạp.</string>
     <string name="model_isnet">Mô hình xóa nền tạo ra mặt nạ chính xác với các cạnh mịn, phù hợp với các đối tượng thông thường và bảo toàn chi tiết vừa phải.</string>
+    <string name="model_already_downloaded">Mô hình đã được tải xuống</string>
+    <string name="model_successfully_imported">Đã nhập mô hình thành công</string>
+    <string name="type">Kiểu</string>
+    <string name="keyword">Từ khóa</string>
+    <string name="very_fast">Rất nhanh</string>
+    <string name="normal">Bình thường</string>
+    <string name="slow">Chậm</string>
+    <string name="very_slow">Rất chậm</string>
 </resources>

@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">துல்லியமான பின்னணியை அகற்றுவதற்காக ஸ்வின் டிரான்ஸ்ஃபார்மரை அடிப்படையாகக் கொண்ட இலகுரக BiRefNet மாதிரி.</string>
     <string name="model_inspyrenet">குறிப்பாக சிக்கலான பொருள்கள் மற்றும் தந்திரமான பின்னணியில் கூர்மையான விளிம்புகள் மற்றும் சிறந்த விவரங்களைப் பாதுகாப்பதன் மூலம் உயர்தர பின்னணி நீக்கம்.</string>
     <string name="model_isnet">மென்மையான விளிம்புகள் கொண்ட துல்லியமான முகமூடிகளை உருவாக்கும் பின்னணி அகற்றும் மாதிரி, பொதுவான பொருள்கள் மற்றும் மிதமான விவரங்களைப் பாதுகாப்பதற்கு ஏற்றது.</string>
+    <string name="model_already_downloaded">மாடல் ஏற்கனவே பதிவிறக்கம் செய்யப்பட்டுள்ளது</string>
+    <string name="model_successfully_imported">மாடல் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டது</string>
+    <string name="type">வகை</string>
+    <string name="keyword">முக்கிய வார்த்தை</string>
+    <string name="very_fast">மிக வேகமாக</string>
+    <string name="normal">இயல்பானது</string>
+    <string name="slow">மெதுவாக</string>
+    <string name="very_slow">மிக மெதுவாக</string>
 </resources>

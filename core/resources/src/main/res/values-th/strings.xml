@@ -2013,4 +2013,12 @@
     <string name="model_birefnet">รุ่น BiRefNet น้ำหนักเบาที่ใช้ Swin Transformer เพื่อการลบพื้นหลังที่แม่นยำ</string>
     <string name="model_inspyrenet">การลบพื้นหลังคุณภาพสูงพร้อมขอบคมและการรักษารายละเอียดที่ยอดเยี่ยม โดยเฉพาะกับวัตถุที่ซับซ้อนและพื้นหลังที่ยุ่งยาก</string>
     <string name="model_isnet">โมเดลการลบพื้นหลังที่สร้างมาสก์ที่แม่นยำพร้อมขอบเรียบ เหมาะสำหรับวัตถุทั่วไปและการรักษารายละเอียดปานกลาง</string>
+    <string name="model_already_downloaded">ดาวน์โหลดโมเดลแล้ว</string>
+    <string name="model_successfully_imported">นำเข้าโมเดลเรียบร้อยแล้ว</string>
+    <string name="type">พิมพ์</string>
+    <string name="keyword">คำสำคัญ</string>
+    <string name="very_fast">เร็วมาก</string>
+    <string name="normal">ปกติ</string>
+    <string name="slow">ช้า</string>
+    <string name="very_slow">ช้ามาก</string>
 </resources>

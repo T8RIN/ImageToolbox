@@ -2015,4 +2015,12 @@
     <string name="model_birefnet">නිවැරදි පසුබිම ඉවත් කිරීම සඳහා Swin Transformer මත පදනම් වූ සැහැල්ලු BiRefNet ආකෘතිය.</string>
     <string name="model_inspyrenet">තියුණු දාර සහිත උසස් තත්ත්වයේ පසුබිම ඉවත් කිරීම සහ විශිෂ්ට විස්තර සංරක්ෂණය, විශේෂයෙන් සංකීර්ණ වස්තූන් සහ උපක්‍රමශීලී පසුබිම් මත.</string>
     <string name="model_isnet">සාමාන්‍ය වස්තූන් සහ මධ්‍යස්ථ විස්තර සංරක්ෂණය සඳහා සුදුසු සුමට දාර සහිත නිවැරදි වෙස් මුහුණු නිපදවන පසුබිම් ඉවත් කිරීමේ ආකෘතිය.</string>
+    <string name="model_already_downloaded">ආකෘතිය දැනටමත් බාගත කර ඇත</string>
+    <string name="model_successfully_imported">ආකෘතිය සාර්ථකව ආනයනය කරන ලදී</string>
+    <string name="type">ටයිප් කරන්න</string>
+    <string name="keyword">මූල පදය</string>
+    <string name="very_fast">ඉතා වේගවත්</string>
+    <string name="normal">සාමාන්යයි</string>
+    <string name="slow">මන්දගාමී</string>
+    <string name="very_slow">ඉතා මන්දගාමී</string>
 </resources>

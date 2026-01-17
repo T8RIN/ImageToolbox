@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Swin Transformer alapú könnyű BiRefNet modell a pontos háttér eltávolításhoz.</string>
     <string name="model_inspyrenet">Kiváló minőségű háttéreltávolítás éles szélekkel és kiváló részletmegőrzéssel, különösen összetett tárgyakon és bonyolult háttereken.</string>
     <string name="model_isnet">Háttéreltávolító modell, amely pontos, sima élű maszkokat készít, általános tárgyakhoz és mérsékelt részletmegőrzéshez alkalmas.</string>
+    <string name="model_already_downloaded">A modell már letöltve</string>
+    <string name="model_successfully_imported">A modell sikeresen importálva</string>
+    <string name="type">Írja be</string>
+    <string name="keyword">Kulcsszó</string>
+    <string name="very_fast">Nagyon gyors</string>
+    <string name="normal">Normál</string>
+    <string name="slow">Lassú</string>
+    <string name="very_slow">Nagyon lassú</string>
 </resources>

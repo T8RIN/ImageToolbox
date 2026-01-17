@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Model lleuger BiRefNet basat en Swin Transformer per eliminar amb precisió el fons.</string>
     <string name="model_inspyrenet">Eliminació de fons d\'alta qualitat amb vores nítides i excel·lent preservació dels detalls, especialment en objectes complexos i fons complicats.</string>
     <string name="model_isnet">Model d\'eliminació de fons que produeix màscares precises amb vores llises, aptes per a objectes generals i conservació moderada dels detalls.</string>
+    <string name="model_already_downloaded">Model ja descarregat</string>
+    <string name="model_successfully_imported">El model s\'ha importat correctament</string>
+    <string name="type">Tipus</string>
+    <string name="keyword">Paraula clau</string>
+    <string name="very_fast">Molt ràpid</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Lenta</string>
+    <string name="very_slow">Molt Lent</string>
 </resources>

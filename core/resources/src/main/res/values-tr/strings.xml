@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Doğru arka plan kaldırma için Swin Transformer\'ı temel alan hafif BiRefNet modeli.</string>
     <string name="model_inspyrenet">Özellikle karmaşık nesnelerde ve zorlu arka planlarda keskin kenarlar ve mükemmel ayrıntı korumasıyla yüksek kaliteli arka plan kaldırma.</string>
     <string name="model_isnet">Genel nesneler için uygun ve orta düzeyde ayrıntı korumasına sahip, pürüzsüz kenarlı doğru maskeler üreten arka plan kaldırma modeli.</string>
+    <string name="model_already_downloaded">Model zaten indirildi</string>
+    <string name="model_successfully_imported">Model başarıyla içe aktarıldı</string>
+    <string name="type">Tip</string>
+    <string name="keyword">Anahtar kelime</string>
+    <string name="very_fast">Çok hızlı</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Yavaş</string>
+    <string name="very_slow">Çok Yavaş</string>
 </resources>

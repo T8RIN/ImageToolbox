@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Lichtgewicht BiRefNet-model gebaseerd op Swin Transformer voor nauwkeurige achtergrondverwijdering.</string>
     <string name="model_inspyrenet">Hoogwaardige achtergrondverwijdering met scherpe randen en uitstekend detailbehoud, vooral bij complexe objecten en lastige achtergronden.</string>
     <string name="model_isnet">Model voor achtergrondverwijdering dat nauwkeurige maskers met gladde randen produceert, geschikt voor algemene objecten en matig detailbehoud.</string>
+    <string name="model_already_downloaded">Model al gedownload</string>
+    <string name="model_successfully_imported">Model succesvol geïmporteerd</string>
+    <string name="type">Type</string>
+    <string name="keyword">Trefwoord</string>
+    <string name="very_fast">Zeer snel</string>
+    <string name="normal">Normaal</string>
+    <string name="slow">Langzaam</string>
+    <string name="very_slow">Zeer langzaam</string>
 </resources>

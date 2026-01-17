@@ -2015,4 +2015,12 @@
     <string name="model_birefnet">Model ușor BiRefNet bazat pe Swin Transformer pentru eliminarea precisă a fundalului.</string>
     <string name="model_inspyrenet">Eliminare de fundal de înaltă calitate, cu margini ascuțite și păstrare excelentă a detaliilor, în special pe obiecte complexe și fundaluri complicate.</string>
     <string name="model_isnet">Model de îndepărtare a fundalului care produce măști precise, cu margini netede, potrivite pentru obiecte generale și pentru conservarea moderată a detaliilor.</string>
+    <string name="model_already_downloaded">Model deja descărcat</string>
+    <string name="model_successfully_imported">Modelul a fost importat cu succes</string>
+    <string name="type">Tip</string>
+    <string name="keyword">Cuvânt cheie</string>
+    <string name="very_fast">Foarte rapid</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Lent</string>
+    <string name="very_slow">Foarte lent</string>
 </resources>

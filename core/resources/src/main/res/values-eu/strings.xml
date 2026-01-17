@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Swin Transformer-en oinarritutako BiRefNet eredu arina atzeko planoa zehatz kentzeko.</string>
     <string name="model_inspyrenet">Kalitate handiko atzeko planoa kentzea ertz zorrotzekin eta xehetasunen kontserbazio bikainarekin, batez ere objektu konplexuetan eta atzeko plano delikatuenetan.</string>
     <string name="model_isnet">Atzeko planoa kentzeko eredua, ertz leunekin maskara zehatzak sortzen dituena, objektu orokorretarako egokia eta xehetasun moderatua zaintzeko.</string>
+    <string name="model_already_downloaded">Dagoeneko deskargatu da eredua</string>
+    <string name="model_successfully_imported">Eredua behar bezala inportatu da</string>
+    <string name="type">Mota</string>
+    <string name="keyword">Gakoa</string>
+    <string name="very_fast">Oso azkarra</string>
+    <string name="normal">Normala</string>
+    <string name="slow">Astiro</string>
+    <string name="very_slow">Oso motela</string>
 </resources>

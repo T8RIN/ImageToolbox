@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">ਬੈਕਗਰਾਊਂਡ ਨੂੰ ਸਹੀ ਤਰ੍ਹਾਂ ਹਟਾਉਣ ਲਈ ਸਵਿਨ ਟਰਾਂਸਫਾਰਮਰ \'ਤੇ ਆਧਾਰਿਤ ਲਾਈਟਵੇਟ BiRefNet ਮਾਡਲ।</string>
     <string name="model_inspyrenet">ਤਿੱਖੇ ਕਿਨਾਰਿਆਂ ਅਤੇ ਸ਼ਾਨਦਾਰ ਵੇਰਵੇ ਦੀ ਸੰਭਾਲ ਦੇ ਨਾਲ ਉੱਚ-ਗੁਣਵੱਤਾ ਵਾਲੇ ਪਿਛੋਕੜ ਨੂੰ ਹਟਾਉਣਾ, ਖਾਸ ਤੌਰ \'ਤੇ ਗੁੰਝਲਦਾਰ ਵਸਤੂਆਂ ਅਤੇ ਗੁੰਝਲਦਾਰ ਪਿਛੋਕੜਾਂ \'ਤੇ।</string>
     <string name="model_isnet">ਬੈਕਗ੍ਰਾਉਂਡ ਹਟਾਉਣ ਵਾਲਾ ਮਾਡਲ ਜੋ ਨਿਰਵਿਘਨ ਕਿਨਾਰਿਆਂ ਦੇ ਨਾਲ ਸਹੀ ਮਾਸਕ ਪੈਦਾ ਕਰਦਾ ਹੈ, ਆਮ ਵਸਤੂਆਂ ਲਈ ਢੁਕਵਾਂ ਅਤੇ ਮੱਧਮ ਵੇਰਵੇ ਦੀ ਸੰਭਾਲ ਕਰਦਾ ਹੈ।</string>
+    <string name="model_already_downloaded">ਮਾਡਲ ਪਹਿਲਾਂ ਹੀ ਡਾਊਨਲੋਡ ਕੀਤਾ ਗਿਆ ਹੈ</string>
+    <string name="model_successfully_imported">ਮਾਡਲ ਸਫਲਤਾਪੂਰਵਕ ਆਯਾਤ ਕੀਤਾ ਗਿਆ</string>
+    <string name="type">ਟਾਈਪ ਕਰੋ</string>
+    <string name="keyword">ਕੀਵਰਡ</string>
+    <string name="very_fast">ਬਹੁਤ ਤੇਜ਼</string>
+    <string name="normal">ਸਧਾਰਣ</string>
+    <string name="slow">ਹੌਲੀ</string>
+    <string name="very_slow">ਬਹੁਤ ਹੌਲੀ</string>
 </resources>

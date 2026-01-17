@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Leichtes BiRefNet-Modell basierend auf Swin Transformer für präzise Hintergrundentfernung.</string>
     <string name="model_inspyrenet">Hochwertige Hintergrundentfernung mit scharfen Kanten und hervorragender Detailerhaltung, insbesondere bei komplexen Objekten und schwierigen Hintergründen.</string>
     <string name="model_isnet">Hintergrundentfernungsmodell, das genaue Masken mit glatten Kanten erzeugt, geeignet für allgemeine Objekte und mäßige Detailerhaltung.</string>
+    <string name="model_already_downloaded">Modell bereits heruntergeladen</string>
+    <string name="model_successfully_imported">Modell erfolgreich importiert</string>
+    <string name="type">Typ</string>
+    <string name="keyword">Stichwort</string>
+    <string name="very_fast">Sehr schnell</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Langsam</string>
+    <string name="very_slow">Sehr langsam</string>
 </resources>

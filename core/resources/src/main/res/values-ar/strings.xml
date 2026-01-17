@@ -2018,4 +2018,12 @@
     <string name="model_birefnet">نموذج BiRefNet خفيف الوزن يعتمد على Swin Transformer لإزالة الخلفية بدقة.</string>
     <string name="model_inspyrenet">إزالة خلفية عالية الجودة بحواف حادة والحفاظ على التفاصيل بشكل ممتاز، خاصة على الكائنات المعقدة والخلفيات الصعبة.</string>
     <string name="model_isnet">نموذج إزالة الخلفية الذي ينتج أقنعة دقيقة ذات حواف ناعمة، مناسبة للأشياء العامة والحفاظ على التفاصيل بشكل معتدل.</string>
+    <string name="model_already_downloaded">تم تنزيل النموذج بالفعل</string>
+    <string name="model_successfully_imported">تم استيراد النموذج بنجاح</string>
+    <string name="type">يكتب</string>
+    <string name="keyword">الكلمة الرئيسية</string>
+    <string name="very_fast">سريع جدًا</string>
+    <string name="normal">طبيعي</string>
+    <string name="slow">بطيء</string>
+    <string name="very_slow">بطيء جدًا</string>
 </resources>

@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">सटीक पृष्ठभूमि हटाने के लिए स्विन ट्रांसफार्मर पर आधारित हल्के BiRefNet मॉडल।</string>
     <string name="model_inspyrenet">तेज किनारों और उत्कृष्ट विवरण संरक्षण के साथ उच्च गुणवत्ता वाली पृष्ठभूमि हटाना, विशेष रूप से जटिल वस्तुओं और पेचीदा पृष्ठभूमि पर।</string>
     <string name="model_isnet">पृष्ठभूमि हटाने वाला मॉडल जो चिकने किनारों के साथ सटीक मास्क तैयार करता है, जो सामान्य वस्तुओं और मध्यम विवरण संरक्षण के लिए उपयुक्त है।</string>
+    <string name="model_already_downloaded">मॉडल पहले ही डाउनलोड हो चुका है</string>
+    <string name="model_successfully_imported">मॉडल सफलतापूर्वक आयात किया गया</string>
+    <string name="type">प्रकार</string>
+    <string name="keyword">कीवर्ड</string>
+    <string name="very_fast">बहुत तेज</string>
+    <string name="normal">सामान्य</string>
+    <string name="slow">धीमा</string>
+    <string name="very_slow">बहुत धीमी गति से</string>
 </resources>

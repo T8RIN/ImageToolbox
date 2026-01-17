@@ -2015,4 +2015,12 @@
     <string name="model_birefnet">अचूक पार्श्वभूमी काढण्यासाठी स्विन ट्रान्सफॉर्मरवर आधारित लाइटवेट BiRefNet मॉडेल.</string>
     <string name="model_inspyrenet">तीक्ष्ण कडा आणि उत्कृष्ट तपशील संरक्षणासह उच्च-गुणवत्तेची पार्श्वभूमी काढणे, विशेषत: जटिल वस्तू आणि अवघड पार्श्वभूमीवर.</string>
     <string name="model_isnet">पार्श्वभूमी काढण्याचे मॉडेल जे गुळगुळीत कडा असलेले अचूक मुखवटे तयार करते, सामान्य वस्तूंसाठी योग्य आणि मध्यम तपशील संरक्षण.</string>
+    <string name="model_already_downloaded">मॉडेल आधीच डाउनलोड केले आहे</string>
+    <string name="model_successfully_imported">मॉडेल यशस्वीरित्या आयात केले</string>
+    <string name="type">प्रकार</string>
+    <string name="keyword">कीवर्ड</string>
+    <string name="very_fast">खूप जलद</string>
+    <string name="normal">सामान्य</string>
+    <string name="slow">मंद</string>
+    <string name="very_slow">खूप हळू</string>
 </resources>

@@ -2017,4 +2017,12 @@
     <string name="model_birefnet">Lengvas BiRefNet modelis, pagrįstas Swin Transformer, kad būtų galima tiksliai pašalinti foną.</string>
     <string name="model_inspyrenet">Aukštos kokybės fono pašalinimas su aštriais kraštais ir puikiu detalių išsaugojimu, ypač sudėtinguose objektuose ir sudėtingame fone.</string>
     <string name="model_isnet">Fono pašalinimo modelis, gaminantis tikslias kaukes su lygiais kraštais, tinkamas bendriems objektams ir saikingam detalių išsaugojimui.</string>
+    <string name="model_already_downloaded">Modelis jau atsisiųstas</string>
+    <string name="model_successfully_imported">Modelis sėkmingai importuotas</string>
+    <string name="type">Tipas</string>
+    <string name="keyword">raktinis žodis</string>
+    <string name="very_fast">Labai greitai</string>
+    <string name="normal">Normalus</string>
+    <string name="slow">Lėtas</string>
+    <string name="very_slow">Labai lėtas</string>
 </resources>

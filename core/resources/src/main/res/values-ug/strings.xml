@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">ئارقا كۆرۈنۈشنى ئېلىۋېتىش ئۈچۈن Swin Transformer نى ئاساس قىلغان يېنىك تىپتىكى BiRefNet مودېلى.</string>
     <string name="model_inspyrenet">ئۆتكۈر گىرۋەك ۋە ئېسىل تەپسىلاتلارنى ساقلاش بىلەن ئەلا سۈپەتلىك تەگلىك ئېلىۋېتىش ، بولۇپمۇ مۇرەككەپ جىسىملار ۋە مۇرەككەپ ئارقا كۆرۈنۈشلەردە.</string>
     <string name="model_isnet">تەگلىك ئېلىۋېتىش ئەندىزىسى ، گىرۋەكلىرى سىلىق ماسكا ھاسىل قىلىپ ، ئادەتتىكى جىسىملارغا ۋە مۇۋاپىق تەپسىلاتلارنى ساقلاشقا ماس كېلىدۇ.</string>
+    <string name="model_already_downloaded">مودېل ئاللىبۇرۇن چۈشۈرۈلدى</string>
+    <string name="model_successfully_imported">مودېل مۇۋەپپەقىيەتلىك ئىمپورت قىلىندى</string>
+    <string name="type">تىپ</string>
+    <string name="keyword">ئاچقۇچلۇق سۆز</string>
+    <string name="very_fast">Very Fast</string>
+    <string name="normal">نورمال</string>
+    <string name="slow">ئاستا</string>
+    <string name="very_slow">Very Slow</string>
 </resources>

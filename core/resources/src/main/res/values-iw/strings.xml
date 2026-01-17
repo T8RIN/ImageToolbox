@@ -2016,4 +2016,12 @@
     <string name="model_birefnet">דגם BiRefNet קל משקל המבוסס על Swin Transformer להסרת רקע מדויקת.</string>
     <string name="model_inspyrenet">הסרת רקע איכותית עם קצוות חדים ושימור פרטים מעולה, במיוחד על אובייקטים מורכבים ורקעים מסובכים.</string>
     <string name="model_isnet">דגם הסרת רקע המייצר מסכות מדויקות עם קצוות חלקים, מתאים לחפצים כלליים ולשימור מתון לפרטים.</string>
+    <string name="model_already_downloaded">הדגם כבר הורד</string>
+    <string name="model_successfully_imported">הדגם יובא בהצלחה</string>
+    <string name="type">סוּג</string>
+    <string name="keyword">מילת מפתח</string>
+    <string name="very_fast">מהיר מאוד</string>
+    <string name="normal">נוֹרמָלִי</string>
+    <string name="slow">לְהַאֵט</string>
+    <string name="very_slow">מאוד איטי</string>
 </resources>

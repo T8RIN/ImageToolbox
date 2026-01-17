@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Modèle BiRefNet léger basé sur Swin Transformer pour une suppression précise de l\'arrière-plan.</string>
     <string name="model_inspyrenet">Suppression d’arrière-plan de haute qualité avec des bords nets et une excellente préservation des détails, en particulier sur les objets complexes et les arrière-plans délicats.</string>
     <string name="model_isnet">Modèle de suppression d\'arrière-plan qui produit des masques précis avec des bords lisses, adaptés aux objets généraux et à une préservation modérée des détails.</string>
+    <string name="model_already_downloaded">Modèle déjà téléchargé</string>
+    <string name="model_successfully_imported">Modèle importé avec succès</string>
+    <string name="type">Taper</string>
+    <string name="keyword">Mot clé</string>
+    <string name="very_fast">Très rapide</string>
+    <string name="normal">Normale</string>
+    <string name="slow">Lent</string>
+    <string name="very_slow">Très lent</string>
 </resources>

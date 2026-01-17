@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Фонды дәл жою үшін Swin Transformer негізіндегі жеңіл BiRefNet моделі.</string>
     <string name="model_inspyrenet">Өткір жиектері бар жоғары сапалы фонды жою және егжей-тегжейлерді тамаша сақтау, әсіресе күрделі нысандар мен күрделі фондар.</string>
     <string name="model_isnet">Жалпы нысандарға және орташа бөлшектерді сақтауға жарамды, тегіс жиектері бар дәл маскаларды шығаратын фонды жою үлгісі.</string>
+    <string name="model_already_downloaded">Үлгі жүктеп алынған</string>
+    <string name="model_successfully_imported">Модель сәтті импортталды</string>
+    <string name="type">Түр</string>
+    <string name="keyword">Негізгі сөз</string>
+    <string name="very_fast">Өте жылдам</string>
+    <string name="normal">Қалыпты</string>
+    <string name="slow">Баяу</string>
+    <string name="very_slow">Өте баяу</string>
 </resources>

@@ -2016,4 +2016,12 @@
     <string name="model_birefnet">Ľahký model BiRefNet založený na Swin Transformer pre presné odstránenie pozadia.</string>
     <string name="model_inspyrenet">Vysokokvalitné odstránenie pozadia s ostrými hranami a vynikajúcim zachovaním detailov, najmä na zložitých objektoch a zložitých pozadiach.</string>
     <string name="model_isnet">Model odstraňovania pozadia, ktorý vytvára presné masky s hladkými okrajmi, vhodné pre bežné objekty a miernym zachovaním detailov.</string>
+    <string name="model_already_downloaded">Model je už stiahnutý</string>
+    <string name="model_successfully_imported">Model bol úspešne importovaný</string>
+    <string name="type">Typ</string>
+    <string name="keyword">Kľúčové slovo</string>
+    <string name="very_fast">Veľmi rýchly</string>
+    <string name="normal">Normálne</string>
+    <string name="slow">Pomaly</string>
+    <string name="very_slow">Veľmi pomalé</string>
 </resources>

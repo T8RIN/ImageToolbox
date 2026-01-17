@@ -2014,4 +2014,12 @@
     <string name="model_birefnet">Modelo BiRefNet leve baseado no Swin Transformer para remoção precisa do fundo.</string>
     <string name="model_inspyrenet">Remoção de fundo de alta qualidade com bordas nítidas e excelente preservação de detalhes, especialmente em objetos complexos e fundos complicados.</string>
     <string name="model_isnet">Modelo de remoção de fundo que produz máscaras precisas com bordas suaves, adequadas para objetos gerais e preservação moderada de detalhes.</string>
+    <string name="model_already_downloaded">Modelo já baixado</string>
+    <string name="model_successfully_imported">Modelo importado com sucesso</string>
+    <string name="type">Tipo</string>
+    <string name="keyword">Palavra-chave</string>
+    <string name="very_fast">Muito rápido</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Lento</string>
+    <string name="very_slow">Muito lento</string>
 </resources>
