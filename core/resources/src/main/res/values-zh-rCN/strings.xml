@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -1983,7 +1981,7 @@
     <string name="model_iso_denoise_v1">降低在低光条件下拍摄的照片中的ISO噪点，同时保留细节。</string>
     <string name="model_dejumbo">修正曝光过度或“巨大”的高光，并恢复更好的色调平衡。</string>
     <string name="model_ddcolor_tiny">轻量级且快速的彩色化模型，为灰度图像添加自然色彩。</string>
-    <string name="type_dejpeg">去除JPEG压缩伪影</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">降噪</string>
     <string name="type_colorize">着色</string>
     <string name="type_artifacts">伪影</string>

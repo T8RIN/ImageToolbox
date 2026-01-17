@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -1947,7 +1945,7 @@
     <string name="preparing">Подготовка</string>
     <string name="active_model">Активная модель</string>
     <string name="failed_to_open_session">Не удалось открыть сессию</string>
-    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Шумоподавление</string>
     <string name="type_colorize">Раскаршивание</string>
     <string name="type_artifacts">Артефакты</string>
