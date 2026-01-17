@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
@@ -65,6 +66,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Tortoise
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -107,11 +109,14 @@ fun NeuralModel.Speed.icon(): ImageVector = when (this) {
 fun NeuralModelTypeBadge(
     type: NeuralModel.Type,
     isInverted: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: Dp = 22.dp,
+    endPadding: Dp = 6.dp,
+    onClick: (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
-            .height(22.dp)
+            .height(height)
             .container(
                 color = takeColorFromScheme {
                     if (isInverted) {
@@ -129,7 +134,14 @@ fun NeuralModelTypeBadge(
                 shape = CircleShape,
                 resultPadding = 0.dp
             )
-            .padding(start = 4.dp, end = 6.dp),
+            .then(
+                if (onClick != null) {
+                    Modifier.hapticsClickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
+            )
+            .padding(start = 2.dp, end = endPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
@@ -148,7 +160,7 @@ fun NeuralModelTypeBadge(
         }
 
         Box(
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(height - 2.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -170,18 +182,21 @@ fun NeuralModelTypeBadge(
 fun NeuralModelSpeedBadge(
     speed: NeuralModel.Speed,
     isInverted: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: Dp = 22.dp,
+    endPadding: Dp = 6.dp,
+    onClick: (() -> Unit)? = null,
+    isWeighted: Boolean = false
 ) {
-    val hasValue =
-        speed.speedValue > 0f // speed.speedValue > 0f IDK If it's needed or not, icons are enough
+    val hasValue = speed.speedValue > 0f
 
     Row(
         modifier = modifier
             .then(
-                if (hasValue) {
-                    Modifier.height(22.dp)
+                if (hasValue || isWeighted) {
+                    Modifier.height(height)
                 } else {
-                    Modifier.size(22.dp)
+                    Modifier.size(height)
                 }
             )
             .container(
@@ -196,8 +211,15 @@ fun NeuralModelSpeedBadge(
                 resultPadding = 0.dp
             )
             .then(
+                if (onClick != null) {
+                    Modifier.hapticsClickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
+            )
+            .then(
                 if (hasValue) {
-                    Modifier.padding(start = 4.dp, end = 6.dp)
+                    Modifier.padding(start = 2.dp, end = endPadding)
                 } else Modifier
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -210,12 +232,17 @@ fun NeuralModelSpeedBadge(
                 onPrimaryContainer
             }
         }
-        Icon(
-            imageVector = speed.icon(),
-            contentDescription = null,
-            tint = contentColor,
-            modifier = Modifier.size(16.dp)
-        )
+        Box(
+            modifier = Modifier.size(height - 2.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = speed.icon(),
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(16.dp)
+            )
+        }
         if (hasValue) {
             val speedValue by remember(speed.speedValue) {
                 derivedStateOf {
@@ -313,7 +340,12 @@ private fun PreviewSpeed() = ImageToolboxThemeForPreview(
             .padding(8.dp)
     ) {
         NeuralModel.Speed.entries.forEach {
-            NeuralModelSpeedBadge(it, Random.nextBoolean())
+            NeuralModelSpeedBadge(
+                speed = it.clone(12.21f),
+                isInverted = Random.nextBoolean(),
+                height = 32.dp,
+                endPadding = 10.dp
+            )
         }
     }
 }
@@ -331,7 +363,12 @@ private fun PreviewType() = ImageToolboxThemeForPreview(
             .padding(8.dp)
     ) {
         NeuralModel.Type.entries.forEach {
-            NeuralModelTypeBadge(it, Random.nextBoolean())
+            NeuralModelTypeBadge(
+                type = it,
+                isInverted = Random.nextBoolean(),
+                height = 32.dp,
+                endPadding = 10.dp
+            )
         }
     }
 }

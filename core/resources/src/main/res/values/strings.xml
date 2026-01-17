@@ -2037,4 +2037,6 @@
     <string name="model_isnet">Background removal model that produces accurate masks with smooth edges, suitable for general objects and moderate detail preservation.</string>
     <string name="model_already_downloaded">Model already downloaded</string>
     <string name="model_successfully_imported">Model successfully imported</string>
+    <string name="type">Type</string>
+    <string name="keyword">Keyword</string>
 </resources>
