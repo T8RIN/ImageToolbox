@@ -185,7 +185,9 @@ class AiToolsComponent @AssistedInject internal constructor(
         onResult: (SaveResult) -> Unit
     ) {
         componentScope.launch {
+            _isImageLoading.update { true }
             onResult(aiToolsRepository.importModel(uri.toString()))
+            _isImageLoading.update { false }
         }
     }
 

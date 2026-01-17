@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
@@ -244,6 +245,11 @@ fun AiToolsContent(
 
     NeuralSaveProgressDialog(
         component = component
+    )
+
+    LoadingDialog(
+        visible = component.isImageLoading,
+        canCancel = false
     )
 
     ExitWithoutSavingDialog(

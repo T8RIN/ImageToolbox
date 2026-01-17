@@ -30,6 +30,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
+import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
 import com.t8rin.imagetoolbox.core.data.utils.copyMetadata
@@ -411,12 +412,10 @@ internal class AndroidFileController @Inject constructor(
         to: Writeable
     ): SaveResult = withContext(ioDispatcher) {
         runSuspendCatching {
-            context.contentResolver.openInputStream(fromUri.toUri())?.buffered()?.use { input ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                while (input.read(buffer) != -1) {
-                    to.writeBytes(buffer)
-                }
-            } ?: throw IllegalAccessException("File inaccessible")
+            UriReadable(
+                uri = fromUri.toUri(),
+                context = context
+            ).copyTo(to)
         }.onSuccess {
             return@withContext SaveResult.Success(
                 message = null,

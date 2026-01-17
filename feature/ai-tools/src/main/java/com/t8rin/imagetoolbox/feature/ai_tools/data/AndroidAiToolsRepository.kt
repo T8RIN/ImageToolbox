@@ -396,7 +396,9 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private suspend fun fetchDownloadedModels(
         onGetFiles: (List<File>) -> Unit
     ) = withContext(ioDispatcher) {
-        modelsDir.listFiles().orEmpty().toList().also(onGetFiles).mapNotNull {
+        modelsDir.listFiles().orEmpty().toList().filter {
+            !it.name.orEmpty().endsWith(".tmp")
+        }.also(onGetFiles).mapNotNull {
             val name = it.name
 
             if (name.isNullOrEmpty()) return@mapNotNull null
