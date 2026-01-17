@@ -99,6 +99,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
         appScope.launch { extractU2NetP() }
     }
 
+    private var isProcessingImage = false
+
     private val modelsDir: File
         get() = File(
             context.filesDir,
@@ -271,25 +273,29 @@ internal class AndroidAiToolsRepository @Inject constructor(
             model == null -> return@withContext listener.failedSession()
 
             model.type == NeuralModel.Type.REMOVE_BG -> {
-                withClosedSession(listener) {
-                    model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
+                processImage {
+                    withClosedSession(listener) {
+                        model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
+                    }
                 }
             }
 
             else -> {
-                val ortSession = session.makeLog("Held session")
-                    ?: createSession(selectedModel.value).makeLog("New session")
-                    ?: return@withContext null.also {
-                        listener.onError(getString(R.string.failed_to_open_session))
-                    }
+                processImage {
+                    val ortSession = session.makeLog("Held session")
+                        ?: createSession(selectedModel.value).makeLog("New session")
+                        ?: return@withContext null.also {
+                            listener.onError(getString(R.string.failed_to_open_session))
+                        }
 
-                processor.processImage(
-                    session = ortSession,
-                    inputBitmap = image,
-                    params = params,
-                    listener = listener,
-                    model = selectedModel.value!!
-                )
+                    processor.processImage(
+                        session = ortSession,
+                        inputBitmap = image,
+                        params = params,
+                        listener = listener,
+                        model = selectedModel.value!!
+                    )
+                }
             }
         }
     }
@@ -329,6 +335,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         model: NeuralModel?,
         forced: Boolean
     ): Boolean = withContext(ioDispatcher) {
+        if (isProcessingImage) return@withContext false
         if (!forced && model != null && downloadedModels.value.none { it.name == model.name }) return@withContext false
         if (model != null && model.name == selectedModel.value?.name) return@withContext false
 
@@ -429,6 +436,13 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private suspend fun extractU2NetP() {
         //Extraction from assets
         BgRemover.downloadModel(BgRemover.Type.U2NetP).collect()
+    }
+
+    private inline fun <T> processImage(action: () -> T): T = try {
+        isProcessingImage = true
+        action()
+    } finally {
+        isProcessingImage = false
     }
 
 }
