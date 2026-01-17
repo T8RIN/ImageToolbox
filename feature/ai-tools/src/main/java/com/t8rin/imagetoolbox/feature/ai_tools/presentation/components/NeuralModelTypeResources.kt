@@ -17,11 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,6 +50,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -67,7 +71,9 @@ import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import java.io.File
@@ -120,8 +126,14 @@ fun NeuralModelTypeBadge(
     modifier: Modifier = Modifier,
     height: Dp = 22.dp,
     endPadding: Dp = 6.dp,
-    onClick: (() -> Unit)? = null
+    startPadding: Dp = 2.dp,
+    onClick: (() -> Unit)? = null,
+    style: TextStyle = MaterialTheme.typography.labelSmall
 ) {
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
     Row(
         modifier = modifier
             .height(height)
@@ -144,17 +156,25 @@ fun NeuralModelTypeBadge(
                         )
                     }
                 },
-                shape = CircleShape,
+                shape = shapeByInteraction(
+                    shape = CircleShape,
+                    pressedShape = ShapeDefaults.pressed,
+                    interactionSource = interactionSource
+                ),
                 resultPadding = 0.dp
             )
             .then(
                 if (onClick != null) {
-                    Modifier.hapticsClickable(onClick = onClick)
+                    Modifier.hapticsClickable(
+                        indication = LocalIndication.current,
+                        onClick = onClick,
+                        interactionSource = interactionSource
+                    )
                 } else {
                     Modifier
                 }
             )
-            .padding(start = 2.dp, end = endPadding),
+            .padding(start = startPadding, end = endPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
@@ -178,20 +198,22 @@ fun NeuralModelTypeBadge(
         }
 
         Box(
-            modifier = Modifier.size(height - 2.dp),
+            modifier = Modifier.size((height - 2.dp).coerceAtMost(24.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = type.icon(),
                 contentDescription = null,
                 tint = contentColor,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(2.dp)
             )
         }
         Text(
             text = stringResource(type.title()),
             color = contentColor,
-            style = MaterialTheme.typography.labelSmall
+            style = style
         )
     }
 }
@@ -203,10 +225,16 @@ fun NeuralModelSpeedBadge(
     modifier: Modifier = Modifier,
     height: Dp = 22.dp,
     endPadding: Dp = 6.dp,
+    startPadding: Dp = 2.dp,
     onClick: (() -> Unit)? = null,
-    showTitle: Boolean = false
+    showTitle: Boolean = false,
+    style: TextStyle = MaterialTheme.typography.labelSmall
 ) {
     val hasValue = showTitle || speed.speedValue > 0f
+
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
 
     Row(
         modifier = modifier
@@ -228,19 +256,27 @@ fun NeuralModelSpeedBadge(
                         )
                     }
                 },
-                shape = CircleShape,
+                shape = shapeByInteraction(
+                    shape = CircleShape,
+                    pressedShape = ShapeDefaults.pressed,
+                    interactionSource = interactionSource
+                ),
                 resultPadding = 0.dp
             )
             .then(
                 if (onClick != null) {
-                    Modifier.hapticsClickable(onClick = onClick)
+                    Modifier.hapticsClickable(
+                        indication = LocalIndication.current,
+                        onClick = onClick,
+                        interactionSource = interactionSource
+                    )
                 } else {
                     Modifier
                 }
             )
             .then(
                 if (hasValue) {
-                    Modifier.padding(start = 2.dp, end = endPadding)
+                    Modifier.padding(start = startPadding, end = endPadding)
                 } else Modifier
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -257,14 +293,16 @@ fun NeuralModelSpeedBadge(
             }
         }
         Box(
-            modifier = Modifier.size(height - 2.dp),
+            modifier = Modifier.size((height - 2.dp).coerceAtMost(24.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = speed.icon(),
                 contentDescription = null,
                 tint = contentColor,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(2.dp)
             )
         }
         if (hasValue) {
@@ -287,7 +325,7 @@ fun NeuralModelSpeedBadge(
                     speedValue
                 },
                 color = contentColor,
-                style = MaterialTheme.typography.labelSmall
+                style = style
             )
         }
     }
@@ -371,8 +409,10 @@ private fun PreviewSpeed() = ImageToolboxThemeForPreview(
             NeuralModelSpeedBadge(
                 speed = it.clone(12.21f),
                 isInverted = Random.nextBoolean(),
-                height = 32.dp,
-                endPadding = 10.dp
+                height = 36.dp,
+                endPadding = 12.dp,
+                startPadding = 6.dp,
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
@@ -394,8 +434,10 @@ private fun PreviewType() = ImageToolboxThemeForPreview(
             NeuralModelTypeBadge(
                 type = it,
                 isInverted = Random.nextBoolean(),
-                height = 32.dp,
-                endPadding = 10.dp
+                height = 36.dp,
+                endPadding = 12.dp,
+                startPadding = 6.dp,
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }

@@ -120,8 +120,10 @@ internal fun NeuralModelFilterSheet(
                             onClick = {
                                 onTypeFiltersChange(typeFilters.toggle(type))
                             },
-                            height = 32.dp,
-                            endPadding = 10.dp
+                            height = 36.dp,
+                            endPadding = 12.dp,
+                            startPadding = 6.dp,
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                 }
@@ -160,8 +162,10 @@ internal fun NeuralModelFilterSheet(
                             onClick = {
                                 onSpeedFiltersChange(speedFilters.toggleByClass(speed))
                             },
-                            height = 32.dp,
-                            endPadding = 10.dp,
+                            height = 36.dp,
+                            endPadding = 12.dp,
+                            startPadding = 6.dp,
+                            style = MaterialTheme.typography.labelMedium,
                             showTitle = true
                         )
                     }
