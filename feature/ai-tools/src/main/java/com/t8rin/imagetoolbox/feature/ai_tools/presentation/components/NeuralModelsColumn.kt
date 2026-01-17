@@ -24,6 +24,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -221,7 +222,7 @@ internal fun NeuralModelsColumn(
                 },
                 directions = setOf(RevealDirection.EndToStart),
                 swipeableContent = {
-                    PreferenceItem(
+                    PreferenceItemOverload(
                         shape = shape,
                         containerColor = animateColorAsState(
                             if (selected) {
@@ -242,7 +243,24 @@ internal fun NeuralModelsColumn(
                         title = model.title,
                         subtitle = model.description?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                        endIcon = {
+                            Icon(
+                                imageVector = if (selected) {
+                                    Icons.Rounded.RadioButtonChecked
+                                } else {
+                                    Icons.Rounded.RadioButtonUnchecked
+                                },
+                                contentDescription = null
+                            )
+                        },
+                        placeBottomContentInside = true,
+                        bottomContent = {
+                            NeuralModelSizeBadge(
+                                model = model,
+                                isInverted = selected,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        }
                     )
                 },
                 interactionSource = interactionSource
@@ -350,10 +368,28 @@ internal fun NeuralModelsColumn(
                         },
                         bottomContent = model.type?.let { type ->
                             {
-                                NeuralModelTypeBadge(
-                                    type = type,
-                                    modifier = Modifier.padding(top = 8.dp)
-                                )
+                                FlowRow(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    NeuralModelTypeBadge(
+                                        type = type,
+                                        isInverted = selected
+                                    )
+
+                                    model.speed?.let { speed ->
+                                        NeuralModelSpeedBadge(
+                                            speed = speed,
+                                            isInverted = selected
+                                        )
+                                    }
+
+                                    NeuralModelSizeBadge(
+                                        model = model,
+                                        isInverted = selected
+                                    )
+                                }
                             }
                         }
                     )
@@ -428,10 +464,22 @@ internal fun NeuralModelsColumn(
                 placeBottomContentInside = true,
                 bottomContent = model.type?.let { type ->
                     {
-                        NeuralModelTypeBadge(
-                            type = type,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
+                        Row(
+                            modifier = Modifier.padding(top = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            NeuralModelTypeBadge(
+                                type = type,
+                                isInverted = false
+                            )
+
+                            model.speed?.let { speed ->
+                                NeuralModelSpeedBadge(
+                                    speed = speed,
+                                    isInverted = false
+                                )
+                            }
+                        }
                     }
                 }
             )

@@ -22,6 +22,7 @@ import ai.onnxruntime.OnnxJavaType
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.logger.makeLog
 import kotlin.math.abs
 
 internal class ModelInfo(
@@ -53,6 +54,8 @@ internal class ModelInfo(
     }?.value ?: 1
 
     init {
+        "Initialized with chunkSize: $chunkSize, overlap: $overlap"
+            .makeLog("ModelInfo")
         var foundInputName: String? = null
         var foundInputChannels = 3
         var foundOutputChannels = 3
@@ -78,18 +81,23 @@ internal class ModelInfo(
             val tensorInfo = nodeInfo.info as? TensorInfo ?: continue
             val shape = tensorInfo.shape
             if ((tensorInfo.type == OnnxJavaType.FLOAT || tensorInfo.type == OnnxJavaType.FLOAT16) && shape.size == 4) {
-                foundOutputChannels = if (abs(shape[1]) == 1L) 1 else 3
+                foundOutputChannels = if (isScuNet) {
+                    if (shape[1] == 1L) 1 else 3
+                } else {
+                    if (abs(shape[1]) == 1L) 1 else 3
+                }
                 break
             }
         }
-
-        inputName =
-            foundInputName ?: throw RuntimeException("Could not find valid input tensor")
+        inputName = foundInputName ?: throw RuntimeException("Could not find valid input tensor")
         inputChannels = foundInputChannels
         outputChannels = foundOutputChannels
         isFp16 = foundIsFp16
         expectedWidth = foundExpectedWidth
         expectedHeight = foundExpectedHeight
+
+        "Model input type: ${if (isFp16) "FP16" else "FP32"}, input channels: $inputChannels, output channels: $outputChannels, expected dimensions: ${expectedWidth ?: "dynamic"}x${expectedHeight ?: "dynamic"}"
+            .makeLog("ModelInfo")
     }
 }
 

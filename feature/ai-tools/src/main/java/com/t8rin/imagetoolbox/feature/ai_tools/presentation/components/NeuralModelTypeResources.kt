@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
+import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.HighQuality
@@ -36,13 +37,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
@@ -55,11 +63,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Snail
 import com.t8rin.imagetoolbox.core.resources.icons.Tortoise
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import java.io.File
+import kotlin.random.Random
 
 fun NeuralModel.Type.title(): Int = when (this) {
-    NeuralModel.Type.DEJPEG -> R.string.type_dejpeg
+    NeuralModel.Type.DE_JPEG -> R.string.type_dejpeg
     NeuralModel.Type.DENOISE -> R.string.type_denoise
     NeuralModel.Type.COLORIZE -> R.string.type_colorize
     NeuralModel.Type.ARTIFACTS -> R.string.type_artifacts
@@ -67,11 +79,11 @@ fun NeuralModel.Type.title(): Int = when (this) {
     NeuralModel.Type.ANIME -> R.string.type_anime
     NeuralModel.Type.SCANS -> R.string.type_scans
     NeuralModel.Type.UPSCALE -> R.string.type_upscale
-    NeuralModel.Type.REMOVEBG -> R.string.type_removebg
+    NeuralModel.Type.REMOVE_BG -> R.string.type_removebg
 }
 
 fun NeuralModel.Type.icon(): ImageVector = when (this) {
-    NeuralModel.Type.DEJPEG -> Icons.Outlined.Jpg
+    NeuralModel.Type.DE_JPEG -> Icons.Outlined.Jpg
     NeuralModel.Type.DENOISE -> Icons.Outlined.NoiseAlt
     NeuralModel.Type.COLORIZE -> Icons.Outlined.Eyedropper
     NeuralModel.Type.ARTIFACTS -> Icons.Rounded.BrokenImageAlt
@@ -79,31 +91,39 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.ANIME -> Icons.Rounded.Manga
     NeuralModel.Type.SCANS -> Icons.Rounded.Scanner
     NeuralModel.Type.UPSCALE -> Icons.Rounded.HighQuality
-    NeuralModel.Type.REMOVEBG -> Icons.Rounded.Eraser
+    NeuralModel.Type.REMOVE_BG -> Icons.Rounded.Eraser
 }
 
 fun NeuralModel.Speed.icon(): ImageVector = when (this) {
-    NeuralModel.Speed.VERY_FAST -> Icons.Rounded.Bolt
-    NeuralModel.Speed.FAST -> Icons.Rounded.Rabbit
-    NeuralModel.Speed.NORMAL -> Icons.AutoMirrored.Rounded.DirectionsWalk
-    NeuralModel.Speed.SLOW -> Icons.Rounded.Tortoise
-    NeuralModel.Speed.VERY_SLOW -> Icons.Rounded.Snail
+    is NeuralModel.Speed.VeryFast -> Icons.Rounded.Bolt
+    is NeuralModel.Speed.Fast -> Icons.Rounded.Rabbit
+    is NeuralModel.Speed.Normal -> Icons.AutoMirrored.Rounded.DirectionsWalk
+    is NeuralModel.Speed.Slow -> Icons.Rounded.Tortoise
+    is NeuralModel.Speed.VerySlow -> Icons.Rounded.Snail
 }
 
 @Composable
 fun NeuralModelTypeBadge(
     type: NeuralModel.Type,
+    isInverted: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .height(22.dp)
             .container(
-                color = MaterialTheme.colorScheme.run {
-                    tertiaryContainer.blend(
-                        color = secondaryContainer,
-                        fraction = 0.3f
-                    )
+                color = takeColorFromScheme {
+                    if (isInverted) {
+                        tertiary.blend(
+                            color = secondary,
+                            fraction = 0.3f
+                        )
+                    } else {
+                        tertiaryContainer.blend(
+                            color = secondaryContainer,
+                            fraction = 0.3f
+                        )
+                    }
                 },
                 shape = CircleShape,
                 resultPadding = 0.dp
@@ -112,11 +132,18 @@ fun NeuralModelTypeBadge(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        val contentColor = MaterialTheme.colorScheme.run {
-            onTertiaryContainer.blend(
-                color = onSecondaryContainer,
-                fraction = 0.65f
-            )
+        val contentColor = takeColorFromScheme {
+            if (isInverted) {
+                onTertiary.blend(
+                    color = onSecondary,
+                    fraction = 0.65f
+                )
+            } else {
+                onTertiaryContainer.blend(
+                    color = onSecondaryContainer,
+                    fraction = 0.65f
+                )
+            }
         }
 
         Box(
@@ -141,34 +168,123 @@ fun NeuralModelTypeBadge(
 @Composable
 fun NeuralModelSpeedBadge(
     speed: NeuralModel.Speed,
+    isInverted: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    val hasValue =
+        speed.speedValue > 0f // speed.speedValue > 0f IDK If it's needed or not, icons are enough
+
+    Row(
         modifier = modifier
-            .size(22.dp)
+            .then(
+                if (hasValue) {
+                    Modifier.height(22.dp)
+                } else {
+                    Modifier.size(22.dp)
+                }
+            )
             .container(
-                color = MaterialTheme.colorScheme.run {
-                    tertiaryContainer.blend(
-                        color = primaryContainer,
-                        fraction = 0.5f
-                    )
+                color = takeColorFromScheme {
+                    if (isInverted) {
+                        primary
+                    } else {
+                        primaryContainer
+                    }
                 },
                 shape = CircleShape,
                 resultPadding = 0.dp
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        val contentColor = MaterialTheme.colorScheme.run {
-            onTertiaryContainer.blend(
-                color = onPrimaryContainer,
-                fraction = 0.65f
             )
+            .then(
+                if (hasValue) {
+                    Modifier.padding(start = 4.dp, end = 6.dp)
+                } else Modifier
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
+    ) {
+        val contentColor = takeColorFromScheme {
+            if (isInverted) {
+                onPrimary
+            } else {
+                onPrimaryContainer
+            }
         }
         Icon(
             imageVector = speed.icon(),
             contentDescription = null,
             tint = contentColor,
             modifier = Modifier.size(16.dp)
+        )
+        if (hasValue) {
+            val speedValue by remember(speed.speedValue) {
+                derivedStateOf {
+                    speed.speedValue.roundTo(
+                        when {
+                            speed.speedValue > 10f -> 1
+                            speed.speedValue > 5f -> 2
+                            else -> 3
+                        }
+                    )
+                }
+            }
+
+            Text(
+                text = speedValue.toString().trimTrailingZero(),
+                color = contentColor,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}
+
+@Composable
+fun NeuralModelSizeBadge(
+    model: NeuralModel,
+    isInverted: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .height(22.dp)
+            .container(
+                color = takeColorFromScheme {
+                    if (isInverted) surface
+                    else surfaceVariant
+                },
+                shape = CircleShape,
+                resultPadding = 0.dp
+            )
+            .padding(start = 4.dp, end = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        val contentColor = takeColorFromScheme {
+            if (isInverted) onSurface
+            else onSurfaceVariant
+        }
+
+        Box(
+            modifier = Modifier.size(20.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.InsertDriveFile,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+        val context = LocalContext.current
+        Text(
+            text = remember(model.name) {
+                derivedStateOf {
+                    val dir = File(context.filesDir, NeuralConstants.DIR)
+
+                    humanFileSize(File(dir, model.name).length())
+                }
+            }.value,
+            color = contentColor,
+            style = MaterialTheme.typography.labelSmall
         )
     }
 }
@@ -186,7 +302,7 @@ private fun PreviewSpeed() = ImageToolboxThemeForPreview(
             .padding(8.dp)
     ) {
         NeuralModel.Speed.entries.forEach {
-            NeuralModelSpeedBadge(it)
+            NeuralModelSpeedBadge(it, Random.nextBoolean())
         }
     }
 }
@@ -204,7 +320,7 @@ private fun PreviewType() = ImageToolboxThemeForPreview(
             .padding(8.dp)
     ) {
         NeuralModel.Type.entries.forEach {
-            NeuralModelTypeBadge(it)
+            NeuralModelTypeBadge(it, Random.nextBoolean())
         }
     }
 }
@@ -218,18 +334,25 @@ private fun PreviewMixed() = ImageToolboxThemeForPreview(
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(8.dp)
     ) {
         NeuralModel.Type.entries.forEach {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                NeuralModelTypeBadge(it)
+                val inv = Random.nextBoolean()
+                NeuralModelTypeBadge(it, inv)
 
                 NeuralModelSpeedBadge(
-                    speed = NeuralModel.Speed.entries.getOrNull(it.ordinal)
-                        ?: NeuralModel.Speed.entries.random()
+                    speed = (NeuralModel.Speed.entries.getOrNull(it.ordinal)
+                        ?: NeuralModel.Speed.entries.random())
+                        .clone(Random.nextFloat() * 20), inv
+                )
+
+                NeuralModelSizeBadge(
+                    model = NeuralModel.entries.first(),
+                    isInverted = inv
                 )
             }
         }

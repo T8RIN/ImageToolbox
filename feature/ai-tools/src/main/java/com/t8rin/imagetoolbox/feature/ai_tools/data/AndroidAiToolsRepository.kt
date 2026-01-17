@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
@@ -93,7 +94,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         appScope.launch { extractU2NetP() }
     }
 
-    private val modelsDir: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
+    private val modelsDir: File
+        get() = File(
+            context.filesDir,
+            NeuralConstants.DIR
+        ).apply(File::mkdirs)
 
     private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 
@@ -224,7 +229,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         when {
             model == null -> return@withContext listener.failedSession()
 
-            model.type == NeuralModel.Type.REMOVEBG -> {
+            model.type == NeuralModel.Type.REMOVE_BG -> {
                 withClosedSession(listener) {
                     model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
                 }
