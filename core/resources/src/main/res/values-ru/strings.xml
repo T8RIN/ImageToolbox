@@ -1945,7 +1945,7 @@
     <string name="preparing">Подготовка</string>
     <string name="active_model">Активная модель</string>
     <string name="failed_to_open_session">Не удалось открыть сессию</string>
-    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Шумоподавление</string>
     <string name="type_colorize">Раскаршивание</string>
     <string name="type_artifacts">Артефакты</string>
