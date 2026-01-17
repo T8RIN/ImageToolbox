@@ -56,9 +56,9 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -178,7 +178,7 @@ fun AutoEraseBackgroundCard(
 
                             AnimatedVisibility(type !in downloadedModels) {
                                 downloadProgresses[type]?.let { progress ->
-                                    EnhancedCircularProgressIndicator(
+                                    EnhancedAutoCircularProgressIndicator(
                                         progress = { progress.currentPercent },
                                         modifier = Modifier
                                             .padding(start = 8.dp)

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,6 +118,41 @@ fun EnhancedCircularProgressIndicator(
                 waveSpeed = type.waveSpeed
             )
         }
+    }
+}
+
+@Composable
+fun EnhancedAutoCircularProgressIndicator(
+    progress: () -> Float,
+    modifier: Modifier = Modifier,
+    color: Color = ProgressIndicatorDefaults.circularColor,
+    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth,
+    trackColor: Color = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
+    strokeCap: StrokeCap = StrokeCap.Round,
+    gapSize: Dp = ProgressIndicatorDefaults.CircularIndicatorTrackGapSize,
+    type: EnhancedCircularProgressIndicatorType = EnhancedCircularProgressIndicatorType.Wavy()
+) {
+    if (progress() > 0f) {
+        EnhancedCircularProgressIndicator(
+            progress = progress,
+            modifier = modifier,
+            color = color,
+            strokeWidth = strokeWidth,
+            trackColor = trackColor,
+            strokeCap = strokeCap,
+            gapSize = gapSize,
+            type = type
+        )
+    } else {
+        EnhancedCircularProgressIndicator(
+            modifier = modifier,
+            color = color,
+            strokeWidth = strokeWidth,
+            trackColor = trackColor,
+            strokeCap = strokeCap,
+            gapSize = gapSize,
+            type = type
+        )
     }
 }
 

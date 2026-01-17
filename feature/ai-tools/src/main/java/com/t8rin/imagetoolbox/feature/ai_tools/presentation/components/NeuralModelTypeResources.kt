@@ -265,12 +265,15 @@ fun NeuralModelSizeBadge(
         }
 
         val context = LocalContext.current
-        val size by remember(model.name) {
+        val modelFile by remember(context, model.name) {
             derivedStateOf {
-                val dir = File(context.filesDir, NeuralConstants.DIR)
-
-                File(dir, model.name).length().takeIf { it > 0 }?.let(::humanFileSize)
-                    ?: "~ ${humanFileSize(model.downloadSize)}"
+                File(File(context.filesDir, NeuralConstants.DIR), model.name)
+            }
+        }
+        val size by remember(model.downloadSize, modelFile) {
+            derivedStateOf {
+                modelFile.length().takeIf { it > 0 }?.let(::humanFileSize)
+                    ?: humanFileSize(model.downloadSize)
             }
         }
 
@@ -279,10 +282,10 @@ fun NeuralModelSizeBadge(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = if ("~" in size) {
-                    Icons.Rounded.Cloud
-                } else {
+                imageVector = if (modelFile.exists()) {
                     Icons.AutoMirrored.Rounded.InsertDriveFile
+                } else {
+                    Icons.Rounded.Cloud
                 },
                 contentDescription = null,
                 tint = contentColor,

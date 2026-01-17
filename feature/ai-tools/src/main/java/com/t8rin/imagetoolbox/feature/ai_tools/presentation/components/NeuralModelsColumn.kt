@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -39,6 +40,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
@@ -71,8 +74,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -108,7 +111,25 @@ internal fun NeuralModelsColumn(
     val filePicker = rememberFilePicker { uri: Uri ->
         val name = uri.getFilename(essentials.context).orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
-            onImportModel(uri, essentials::parseFileSaveResult)
+            onImportModel(uri) {
+                when (it) {
+                    SaveResult.Skipped -> {
+                        essentials.showToast(
+                            message = essentials.context.getString(R.string.model_already_downloaded),
+                            icon = Icons.Outlined.Info
+                        )
+                    }
+
+                    is SaveResult.Success -> {
+                        essentials.showToast(
+                            message = essentials.context.getString(R.string.model_successfully_imported),
+                            icon = Icons.Outlined.CheckCircle
+                        )
+                    }
+
+                    else -> essentials.parseFileSaveResult(it)
+                }
+            }
         } else {
             essentials.showFailureToast(
                 essentials.context.getString(R.string.only_onnx_models)
@@ -134,7 +155,7 @@ internal fun NeuralModelsColumn(
         scrollToSelected()
     }
 
-    LaunchedEffect(downloadedModels) {
+    LaunchedEffect(downloadedModels, selectedModel?.name) {
         delay(250)
         scrollToSelected()
     }
@@ -446,7 +467,7 @@ internal fun NeuralModelsColumn(
                                     style = MaterialTheme.typography.bodySmall
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                EnhancedCircularProgressIndicator(
+                                EnhancedAutoCircularProgressIndicator(
                                     progress = { progress.currentPercent },
                                     modifier = Modifier.size(24.dp),
                                     trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
@@ -464,9 +485,10 @@ internal fun NeuralModelsColumn(
                 placeBottomContentInside = true,
                 bottomContent = model.type?.let { type ->
                     {
-                        Row(
+                        FlowRow(
                             modifier = Modifier.padding(top = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
                         ) {
                             NeuralModelTypeBadge(
                                 type = type,
@@ -480,10 +502,14 @@ internal fun NeuralModelsColumn(
                                 )
                             }
 
-                            NeuralModelSizeBadge(
-                                model = model,
-                                isInverted = false
-                            )
+                            AnimatedVisibility(
+                                visible = downloadProgresses[model.name] == null
+                            ) {
+                                NeuralModelSizeBadge(
+                                    model = model,
+                                    isInverted = false
+                                )
+                            }
                         }
                     }
                 }
