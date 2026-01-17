@@ -232,7 +232,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
             }
 
         val alreadyDownloaded = downloadedModels.value.find {
-            it.name.equals(modelName, true) || it.checksum == modelChecksum
+            it.checksum == modelChecksum
         }
 
         if (alreadyDownloaded != null) {
