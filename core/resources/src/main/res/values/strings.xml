@@ -466,6 +466,7 @@
     <string name="mask_color">Mask Color</string>
     <string name="ton_space" translatable="false">TON Space</string>
     <string name="ton" translatable="false">TON</string>
+    <string name="boosty" translatable="false">Boosty</string>
     <string name="mask_preview">Mask preview</string>
     <string name="mask_preview_sub">Drawn filter mask will be rendered to show you the approximate result</string>
     <string name="inverse_fill_type">Inverse Fill Type</string>

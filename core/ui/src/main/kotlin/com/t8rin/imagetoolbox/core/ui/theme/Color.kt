@@ -178,3 +178,6 @@ inline val TONSpaceColor: Color
 
 inline val TONColor: Color
     @Composable get() = Color(0xFF0098EA).harmonizeWithPrimary(0.2f)
+
+inline val BOOSTYColor: Color
+    @Composable get() = Color(0xFFF15F2C).harmonizeWithPrimary(0.2f)
