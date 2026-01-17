@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">일반 이미지용 X4 UltraSharp V2 모델; 선명함과 선명함을 강조합니다.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 라이트; 더 빠르고 더 작아지며, GPU 메모리를 덜 사용하면서 디테일을 보존합니다.</string>
     <string name="model_rmbg_1_4">빠른 배경 제거를 위한 경량 모델입니다. 균형 잡힌 성능과 정확성. 인물 사진, 사물, 장면과 함께 작동합니다. 대부분의 사용 사례에 권장됩니다.</string>
-    <string name="model_rmbg_2_0">뛰어난 디테일 처리 기능을 갖춘 향상된 버전입니다. 복잡한 배경과 투명한 물체에 더 좋습니다. 정밀도는 높지만 더 많은 처리 능력이 필요합니다.</string>
     <string name="type_removebg">BG 제거</string>
     <string name="horizontal_border_thickness">가로 테두리 두께</string>
     <string name="vertical_border_thickness">세로 테두리 두께</string>
@@ -2012,4 +2011,6 @@
     <string name="model_ddcolor">전체 DDColor 모델은 아티팩트를 최소화하면서 일반 이미지에 대한 고품질 색상화를 제공합니다. 모든 색상화 모델 중 최고의 선택입니다.</string>
     <string name="model_ddcolor_artistic">DDColor 훈련된 개인 예술 데이터 세트 비현실적인 색상 아티팩트를 줄여 다양하고 예술적인 색상화 결과를 만들어냅니다.</string>
     <string name="model_birefnet">정확한 배경 제거를 위해 Swin Transformer를 기반으로 한 경량 BiRefNet 모델입니다.</string>
+    <string name="model_inspyrenet">특히 복잡한 물체와 까다로운 배경에서 날카로운 모서리와 뛰어난 세부 묘사 보존 기능을 갖춘 고품질 배경 제거 기능을 제공합니다.</string>
+    <string name="model_isnet">가장자리가 부드러운 정확한 마스크를 생성하는 배경 제거 모델로 일반 객체에 적합하며 적당한 디테일 보존이 가능합니다.</string>
 </resources>

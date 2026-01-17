@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ fun ImageScaleSelector(
     }
     val showWarning by remember(scaledSize) {
         derivedStateOf {
-            scaledSize!!.width * scaledSize!!.height * 4L >= 10_000 * 10_000 * 3L
+            scaledSize!!.width * scaledSize!!.height * 4L >= 7_000 * 7_000 * 3L
         }
     }
     EnhancedSliderItem(
@@ -149,7 +149,10 @@ fun ImageScaleSelector(
                             )
                         }
                     }
-                    OOMWarning(visible = showWarning)
+                    OOMWarning(
+                        visible = showWarning,
+                        modifier = Modifier.padding(4.dp)
+                    )
                 }
             } else {
                 Text(

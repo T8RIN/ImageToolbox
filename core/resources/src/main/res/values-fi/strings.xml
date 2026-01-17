@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 -malli yleiskuviin; korostaa terävyyttä ja selkeyttä.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; nopeampi ja pienempi, säilyttää yksityiskohdat ja käyttää vähemmän GPU-muistia.</string>
     <string name="model_rmbg_1_4">Kevyt malli nopeaan taustan poistoon. Tasapainoinen suorituskyky ja tarkkuus. Toimii muotokuvien, esineiden ja kohtausten kanssa. Suositellaan useimpiin käyttötapauksiin.</string>
-    <string name="model_rmbg_2_0">Parannettu versio erinomaisella yksityiskohtien käsittelyllä. Parempi monimutkaisilla taustoilla ja läpinäkyvillä esineillä. Suurempi tarkkuus, mutta vaatii enemmän prosessointitehoa.</string>
     <string name="type_removebg">Poista BG</string>
     <string name="horizontal_border_thickness">Vaakasuora reunan paksuus</string>
     <string name="vertical_border_thickness">Pystysuuntaisen reunan paksuus</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">Full DDColor -malli tarjoaa korkealaatuisen värityksen yleisille kuville minimaalisilla artefakteilla. Paras valinta kaikista väritysmalleista.</string>
     <string name="model_ddcolor_artistic">DDColor Koulutetut ja yksityiset taiteelliset tietojoukot; tuottaa monipuolisia ja taiteellisia väritystuloksia harvemmilla epärealistisilla väriartefakteilla.</string>
     <string name="model_birefnet">Kevyt BiRefNet-malli, joka perustuu Swin Transformeriin tarkan taustan poistamiseen.</string>
+    <string name="model_inspyrenet">Laadukas taustan poisto terävillä reunoilla ja erinomaisella yksityiskohdilla, erityisesti monimutkaisissa kohteissa ja hankalassa taustassa.</string>
+    <string name="model_isnet">Taustanpoistomalli, joka tuottaa tarkat maskit sileillä reunoilla, sopii yleisiin esineisiin ja kohtuulliseen yksityiskohtien säilytykseen.</string>
 </resources>

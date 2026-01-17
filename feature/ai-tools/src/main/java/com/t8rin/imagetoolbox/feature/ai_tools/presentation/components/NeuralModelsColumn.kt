@@ -19,18 +19,23 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -38,12 +43,16 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,8 +67,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -70,8 +82,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -107,7 +119,25 @@ internal fun NeuralModelsColumn(
     val filePicker = rememberFilePicker { uri: Uri ->
         val name = uri.getFilename(essentials.context).orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
-            onImportModel(uri, essentials::parseFileSaveResult)
+            onImportModel(uri) {
+                when (it) {
+                    SaveResult.Skipped -> {
+                        essentials.showToast(
+                            message = essentials.context.getString(R.string.model_already_downloaded),
+                            icon = Icons.Outlined.Info
+                        )
+                    }
+
+                    is SaveResult.Success -> {
+                        essentials.showToast(
+                            message = essentials.context.getString(R.string.model_successfully_imported),
+                            icon = Icons.Outlined.CheckCircle
+                        )
+                    }
+
+                    else -> essentials.parseFileSaveResult(it)
+                }
+            }
         } else {
             essentials.showFailureToast(
                 essentials.context.getString(R.string.only_onnx_models)
@@ -133,7 +163,7 @@ internal fun NeuralModelsColumn(
         scrollToSelected()
     }
 
-    LaunchedEffect(downloadedModels) {
+    LaunchedEffect(downloadedModels, selectedModel?.name) {
         delay(250)
         scrollToSelected()
     }
@@ -221,7 +251,7 @@ internal fun NeuralModelsColumn(
                 },
                 directions = setOf(RevealDirection.EndToStart),
                 swipeableContent = {
-                    PreferenceItem(
+                    PreferenceItemOverload(
                         shape = shape,
                         containerColor = animateColorAsState(
                             if (selected) {
@@ -242,7 +272,24 @@ internal fun NeuralModelsColumn(
                         title = model.title,
                         subtitle = model.description?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                        endIcon = {
+                            Icon(
+                                imageVector = if (selected) {
+                                    Icons.Rounded.RadioButtonChecked
+                                } else {
+                                    Icons.Rounded.RadioButtonUnchecked
+                                },
+                                contentDescription = null
+                            )
+                        },
+                        placeBottomContentInside = true,
+                        bottomContent = {
+                            NeuralModelSizeBadge(
+                                model = model,
+                                isInverted = selected,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        }
                     )
                 },
                 interactionSource = interactionSource
@@ -314,7 +361,41 @@ internal fun NeuralModelsColumn(
                         )
                     }
                 },
-                directions = setOf(RevealDirection.EndToStart),
+                revealedContentStart = {
+                    val uriHandler = LocalUriHandler.current
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                    0.5f
+                                ),
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                uriHandler.openUri(model.pointerLink)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "link",
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(start = 8.dp)
+                                .align(Alignment.CenterStart),
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+                },
+                directions = setOf(
+                    RevealDirection.StartToEnd,
+                    RevealDirection.EndToStart
+                ),
                 swipeableContent = {
                     PreferenceItemOverload(
                         shape = shape,
@@ -350,11 +431,27 @@ internal fun NeuralModelsColumn(
                         },
                         bottomContent = model.type?.let { type ->
                             {
-                                Badge(
+                                FlowRow(
                                     modifier = Modifier.padding(top = 8.dp),
-                                    containerColor = MaterialTheme.colorScheme.secondary
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
                                 ) {
-                                    Text(stringResource(type.title()))
+                                    NeuralModelTypeBadge(
+                                        type = type,
+                                        isInverted = selected
+                                    )
+
+                                    model.speed?.let { speed ->
+                                        NeuralModelSpeedBadge(
+                                            speed = speed,
+                                            isInverted = selected
+                                        )
+                                    }
+
+                                    NeuralModelSizeBadge(
+                                        model = model,
+                                        isInverted = selected
+                                    )
                                 }
                             }
                         }
@@ -375,70 +472,181 @@ internal fun NeuralModelsColumn(
             items = notDownloadedModels,
             key = { _, m -> m.name + "not" }
         ) { index, model ->
-            PreferenceItemOverload(
-                title = model.title,
-                subtitle = model.description?.let { stringResource(it) },
-                onClick = {
-                    onDownloadModel(model)
-                },
-                containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
-                shape = ShapeDefaults.byIndex(
-                    index = index,
-                    size = notDownloadedModels.size
-                ),
-                modifier = Modifier
-                    .animateItem()
-                    .fillMaxWidth(),
-                endIcon = {
-                    AnimatedContent(
-                        targetState = downloadProgresses[model.name],
-                        contentKey = { key -> key?.currentTotalSize?.let { it > 0 } }
-                    ) { progress ->
-                        if (progress != null) {
-                            Row(
-                                modifier = Modifier.container(
-                                    shape = CircleShape,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    resultPadding = 8.dp
-                                ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = if (progress.currentTotalSize > 0) {
-                                        rememberHumanFileSize(progress.currentTotalSize)
-                                    } else {
-                                        stringResource(R.string.preparing)
-                                    },
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                EnhancedCircularProgressIndicator(
-                                    progress = { progress.currentPercent },
-                                    modifier = Modifier.size(24.dp),
-                                    trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                    strokeWidth = 3.dp
-                                )
-                            }
-                        } else {
-                            Icon(
-                                imageVector = Icons.Rounded.DownloadForOffline,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                },
-                placeBottomContentInside = true,
-                bottomContent = model.type?.let { type ->
-                    {
-                        Badge(
-                            modifier = Modifier.padding(top = 8.dp),
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        ) {
-                            Text(stringResource(type.title()))
-                        }
-                    }
-                }
+            val state = rememberRevealState()
+            val interactionSource = remember {
+                MutableInteractionSource()
+            }
+            val isDragged by interactionSource.collectIsDraggedAsState()
+            val shape = ShapeDefaults.byIndex(
+                index = index,
+                size = notDownloadedModels.size,
+                forceDefault = isDragged
             )
+            SwipeToReveal(
+                state = state,
+                modifier = Modifier.animateItem(),
+                revealedContentStart = {
+                    val uriHandler = LocalUriHandler.current
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                    0.5f
+                                ),
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                uriHandler.openUri(model.pointerLink)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "link",
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(start = 8.dp)
+                                .align(Alignment.CenterStart),
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+                },
+                directions = setOf(RevealDirection.StartToEnd),
+                swipeableContent = {
+                    PreferenceItemOverload(
+                        shape = shape,
+                        title = model.title,
+                        subtitle = model.description?.let { stringResource(it) },
+                        onClick = {
+                            onDownloadModel(model)
+                        },
+                        onLongClick = {
+                            scope.launch {
+                                state.animateTo(RevealValue.FullyRevealedEnd)
+                            }
+                        },
+                        containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
+                        modifier = Modifier
+                            .animateItem()
+                            .fillMaxWidth(),
+                        endIcon = {
+                            AnimatedContent(
+                                targetState = downloadProgresses[model.name],
+                                contentKey = { key -> key?.currentTotalSize?.let { it > 0 } }
+                            ) { progress ->
+                                if (progress != null) {
+                                    Row(
+                                        modifier = Modifier.container(
+                                            shape = CircleShape,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            resultPadding = 8.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = if (progress.currentTotalSize > 0) {
+                                                rememberHumanFileSize(progress.currentTotalSize)
+                                            } else {
+                                                stringResource(R.string.preparing)
+                                            },
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        EnhancedAutoCircularProgressIndicator(
+                                            progress = { progress.currentPercent },
+                                            modifier = Modifier.size(24.dp),
+                                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                            strokeWidth = 3.dp
+                                        )
+                                    }
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Rounded.DownloadForOffline,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        },
+                        placeBottomContentInside = true,
+                        bottomContent = model.type?.let { type ->
+                            {
+                                FlowRow(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    NeuralModelTypeBadge(
+                                        type = type,
+                                        isInverted = false
+                                    )
+
+                                    model.speed?.let { speed ->
+                                        NeuralModelSpeedBadge(
+                                            speed = speed,
+                                            isInverted = false
+                                        )
+                                    }
+
+                                    AnimatedVisibility(
+                                        visible = downloadProgresses[model.name] == null
+                                    ) {
+                                        NeuralModelSizeBadge(
+                                            model = model,
+                                            isInverted = false
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    )
+                },
+                interactionSource = interactionSource
+            )
+        }
+
+        if (downloadedModels.isEmpty() && notDownloadedModels.isEmpty()) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = 8.dp
+                        )
+                        .container(
+                            shape = ShapeDefaults.large,
+                            resultPadding = 0.dp,
+                            color = EnhancedBottomSheetDefaults.contentContainerColor
+                        )
+                        .height(256.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.nothing_found_by_search),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 24.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.SearchOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                }
+            }
         }
     }
 }

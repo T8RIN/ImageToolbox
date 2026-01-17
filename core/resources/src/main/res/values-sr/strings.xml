@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -1995,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Кс4 УлтраСхарп В2 модел за опште слике; наглашава оштрину и јасноћу.</string>
     <string name="model_ultrasharp_v2_lite_x4">Кс4 УлтраСхарп В2 Лите; бржи и мањи, чува детаље док користи мање ГПУ меморије.</string>
     <string name="model_rmbg_1_4">Лагани модел за брзо уклањање позадине. Уравнотежене перформансе и тачност. Ради са портретима, објектима и сценама. Препоручује се за већину случајева употребе.</string>
-    <string name="model_rmbg_2_0">Побољшана верзија са супериорним руковањем детаљима. Боље са сложеним позадинама и провидним објектима. Већа прецизност, али захтева више процесорске снаге.</string>
     <string name="type_removebg">Уклони БГ</string>
     <string name="horizontal_border_thickness">Хоризонтална дебљина ивице</string>
     <string name="vertical_border_thickness">Вертикална дебљина ивице</string>
@@ -2012,4 +2013,6 @@
     <string name="model_ddcolor">Пун модел ДДЦолор пружа висококвалитетну колоризацију за опште слике са минималним артефактима. Најбољи избор од свих модела колоризације.</string>
     <string name="model_ddcolor_artistic">ДДЦолор Обучени и приватни уметнички скупови података; производи разноврсне и уметничке резултате колоризације са мање нереалних артефаката у боји.</string>
     <string name="model_birefnet">Лагани БиРефНет модел заснован на Свин Трансформеру за прецизно уклањање позадине.</string>
+    <string name="model_inspyrenet">Висококвалитетно уклањање позадине са оштрим ивицама и одличним очувањем детаља, посебно на сложеним објектима и лукавим позадинама.</string>
+    <string name="model_isnet">Модел уклањања позадине који производи прецизне маске са глатким ивицама, погодне за опште објекте и умерено очување детаља.</string>
 </resources>

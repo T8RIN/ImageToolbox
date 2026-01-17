@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2-Modell für allgemeine Bilder; betont Schärfe und Klarheit.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; schneller und kleiner, behält Details bei und verbraucht weniger GPU-Speicher.</string>
     <string name="model_rmbg_1_4">Leichtes Modell zur schnellen Hintergrundentfernung. Ausgewogene Leistung und Genauigkeit. Arbeitet mit Porträts, Objekten und Szenen. Empfohlen für die meisten Anwendungsfälle.</string>
-    <string name="model_rmbg_2_0">Verbesserte Version mit überlegener Detailverarbeitung. Besser bei komplexen Hintergründen und transparenten Objekten. Höhere Präzision, erfordert aber mehr Rechenleistung.</string>
     <string name="type_removebg">BG entfernen</string>
     <string name="horizontal_border_thickness">Horizontale Randstärke</string>
     <string name="vertical_border_thickness">Vertikale Randstärke</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">Das vollständige DDColor-Modell liefert eine hochwertige Kolorierung für allgemeine Bilder mit minimalen Artefakten. Beste Wahl aller Kolorierungsmodelle.</string>
     <string name="model_ddcolor_artistic">DDColor geschulte und private künstlerische Datensätze; Erzeugt vielfältige und künstlerische Kolorierungsergebnisse mit weniger unrealistischen Farbartefakten.</string>
     <string name="model_birefnet">Leichtes BiRefNet-Modell basierend auf Swin Transformer für präzise Hintergrundentfernung.</string>
+    <string name="model_inspyrenet">Hochwertige Hintergrundentfernung mit scharfen Kanten und hervorragender Detailerhaltung, insbesondere bei komplexen Objekten und schwierigen Hintergründen.</string>
+    <string name="model_isnet">Hintergrundentfernungsmodell, das genaue Masken mit glatten Kanten erzeugt, geeignet für allgemeine Objekte und mäßige Detailerhaltung.</string>
 </resources>

@@ -1998,7 +1998,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2-modell för allmänna bilder; betonar skärpa och tydlighet.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; snabbare och mindre, bevarar detaljer samtidigt som du använder mindre GPU-minne.</string>
     <string name="model_rmbg_1_4">Lätt modell för snabb borttagning av bakgrund. Balanserad prestanda och noggrannhet. Fungerar med porträtt, objekt och scener. Rekommenderas för de flesta användningsfall.</string>
-    <string name="model_rmbg_2_0">Förbättrad version med överlägsen detaljhantering. Bättre med komplexa bakgrunder och genomskinliga föremål. Högre precision men kräver mer processorkraft.</string>
     <string name="type_removebg">Ta bort BG</string>
     <string name="horizontal_border_thickness">Horisontell kanttjocklek</string>
     <string name="vertical_border_thickness">Vertikal kanttjocklek</string>
@@ -2014,4 +2013,6 @@
     <string name="model_ddcolor">Full DDColor-modell ger högkvalitativ färgsättning för allmänna bilder med minimala artefakter. Bästa valet av alla färgsättningsmodeller.</string>
     <string name="model_ddcolor_artistic">DDColor Utbildade och privata konstnärliga datamängder; ger olika och konstnärliga färgningsresultat med färre orealistiska färgartefakter.</string>
     <string name="model_birefnet">Lätt BiRefNet-modell baserad på Swin Transformer för exakt bakgrundsborttagning.</string>
+    <string name="model_inspyrenet">Högkvalitativ bakgrundsborttagning med skarpa kanter och utmärkt bevarande av detaljer, särskilt på komplexa föremål och knepiga bakgrunder.</string>
+    <string name="model_isnet">Bakgrundsborttagningsmodell som ger exakta masker med släta kanter, lämplig för allmänna föremål och måttlig detaljbevarande.</string>
 </resources>

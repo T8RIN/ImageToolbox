@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2-model voor algemene afbeeldingen; benadrukt scherpte en helderheid.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; sneller en kleiner, behoudt details terwijl minder GPU-geheugen wordt gebruikt.</string>
     <string name="model_rmbg_1_4">Lichtgewicht model voor snelle achtergrondverwijdering. Evenwichtige prestaties en nauwkeurigheid. Werkt met portretten, objecten en scènes. Aanbevolen voor de meeste gebruikssituaties.</string>
-    <string name="model_rmbg_2_0">Verbeterde versie met superieure detailverwerking. Beter met complexe achtergronden en transparante objecten. Hogere precisie maar vereist meer verwerkingskracht.</string>
     <string name="type_removebg">BG verwijderen</string>
     <string name="horizontal_border_thickness">Horizontale randdikte</string>
     <string name="vertical_border_thickness">Verticale randdikte</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">Het volledige DDColor-model levert hoogwaardige inkleuring voor algemene afbeeldingen met minimale artefacten. Beste keuze van alle inkleuringsmodellen.</string>
     <string name="model_ddcolor_artistic">DDColor Getrainde en particuliere artistieke datasets; produceert diverse en artistieke kleurresultaten met minder onrealistische kleurartefacten.</string>
     <string name="model_birefnet">Lichtgewicht BiRefNet-model gebaseerd op Swin Transformer voor nauwkeurige achtergrondverwijdering.</string>
+    <string name="model_inspyrenet">Hoogwaardige achtergrondverwijdering met scherpe randen en uitstekend detailbehoud, vooral bij complexe objecten en lastige achtergronden.</string>
+    <string name="model_isnet">Model voor achtergrondverwijdering dat nauwkeurige maskers met gladde randen produceert, geschikt voor algemene objecten en matig detailbehoud.</string>
 </resources>

@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">דגם X4 UltraSharp V2 לתמונות כלליות; מדגיש חדות ובהירות.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; מהיר יותר וקטן יותר, שומר על פרטים תוך שימוש בפחות זיכרון GPU.</string>
     <string name="model_rmbg_1_4">דגם קל משקל להסרת רקע מהירה. ביצועים ודיוק מאוזנים. עובד עם פורטרטים, אובייקטים וסצנות. מומלץ לרוב מקרי השימוש.</string>
-    <string name="model_rmbg_2_0">גרסה משופרת עם טיפול מעולה בפרטים. עדיף עם רקעים מורכבים ואובייקטים שקופים. דיוק גבוה יותר אך דורש כוח עיבוד רב יותר.</string>
     <string name="type_removebg">הסר את BG</string>
     <string name="horizontal_border_thickness">עובי גבול אופקי</string>
     <string name="vertical_border_thickness">עובי גבול אנכי</string>
@@ -2015,4 +2014,6 @@
     <string name="model_ddcolor">דגם DDColor מלא מספק צביעה באיכות גבוהה לתמונות כלליות עם חפצים מינימליים. הבחירה הטובה ביותר מכל דגמי הצביעה.</string>
     <string name="model_ddcolor_artistic">מערכי נתונים אומנותיים פרטיים מאומנים ב-DDColor; מייצר תוצאות צביעה מגוונות ואמנותיות עם פחות חפצי צבע לא מציאותיים.</string>
     <string name="model_birefnet">דגם BiRefNet קל משקל המבוסס על Swin Transformer להסרת רקע מדויקת.</string>
+    <string name="model_inspyrenet">הסרת רקע איכותית עם קצוות חדים ושימור פרטים מעולה, במיוחד על אובייקטים מורכבים ורקעים מסובכים.</string>
+    <string name="model_isnet">דגם הסרת רקע המייצר מסכות מדויקות עם קצוות חלקים, מתאים לחפצים כלליים ולשימור מתון לפרטים.</string>
 </resources>

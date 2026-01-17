@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 modell általános képekhez; kiemeli az élességet és a tisztaságot.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; gyorsabb és kisebb, megőrzi a részleteket, miközben kevesebb GPU-memóriát használ.</string>
     <string name="model_rmbg_1_4">Könnyű modell a háttér gyors eltávolításához. Kiegyensúlyozott teljesítmény és pontosság. Portrékkal, tárgyakkal és jelenetekkel működik. A legtöbb használati esetre ajánlott.</string>
-    <string name="model_rmbg_2_0">Továbbfejlesztett változat kiváló részletkezeléssel. Jobb összetett háttérrel és átlátszó objektumokkal. Nagyobb pontosság, de nagyobb feldolgozási teljesítményt igényel.</string>
     <string name="type_removebg">Távolítsa el a BG-t</string>
     <string name="horizontal_border_thickness">Vízszintes határvastagság</string>
     <string name="vertical_border_thickness">Függőleges határvastagság</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">A Full DDColor modell kiváló minőségű színezést biztosít az általános képekhez minimális műtermékekkel. A legjobb választás az összes színezési modell közül.</string>
     <string name="model_ddcolor_artistic">DDColor Képzett és privát művészi adatkészletek; változatos és művészi színezési eredményeket hoz létre kevesebb irreális színművel.</string>
     <string name="model_birefnet">Swin Transformer alapú könnyű BiRefNet modell a pontos háttér eltávolításhoz.</string>
+    <string name="model_inspyrenet">Kiváló minőségű háttéreltávolítás éles szélekkel és kiváló részletmegőrzéssel, különösen összetett tárgyakon és bonyolult háttereken.</string>
+    <string name="model_isnet">Háttéreltávolító modell, amely pontos, sima élű maszkokat készít, általános tárgyakhoz és mérsékelt részletmegőrzéshez alkalmas.</string>
 </resources>

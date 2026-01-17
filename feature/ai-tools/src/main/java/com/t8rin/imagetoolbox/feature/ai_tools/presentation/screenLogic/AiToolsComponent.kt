@@ -212,7 +212,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = trackProgress {
-            if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
+            if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
                 setImageFormat(ImageFormat.Png.Lossless)
             }
             delay(400)
@@ -291,7 +291,7 @@ class AiToolsComponent @AssistedInject internal constructor(
         onComplete: (List<Uri>) -> Unit
     ) {
         savingJob = trackProgress {
-            if (selectedModel.value?.type == NeuralModel.Type.REMOVEBG && imageFormat == null) {
+            if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
                 setImageFormat(ImageFormat.Png.Lossless)
             }
             delay(400)

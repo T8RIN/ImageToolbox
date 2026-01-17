@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 pentru imagini generale; accentuează claritatea și claritatea.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; mai rapid și mai mic, păstrează detaliile folosind mai puțină memorie GPU.</string>
     <string name="model_rmbg_1_4">Model ușor pentru îndepărtarea rapidă a fundalului. Performanță și precizie echilibrate. Funcționează cu portrete, obiecte și scene. Recomandat pentru majoritatea cazurilor de utilizare.</string>
-    <string name="model_rmbg_2_0">Versiune îmbunătățită cu manipulare superioară a detaliilor. Mai bine cu fundaluri complexe și obiecte transparente. Precizie mai mare, dar necesită mai multă putere de procesare.</string>
     <string name="type_removebg">Eliminați BG</string>
     <string name="horizontal_border_thickness">Grosimea marginii orizontale</string>
     <string name="vertical_border_thickness">Grosimea chenarului vertical</string>
@@ -2014,4 +2013,6 @@
     <string name="model_ddcolor">Modelul complet DDColor oferă o colorare de înaltă calitate pentru imagini generale cu artefacte minime. Cea mai bună alegere dintre toate modelele de colorare.</string>
     <string name="model_ddcolor_artistic">DDColor Seturi de date artistice antrenate și private; produce rezultate de colorare diverse și artistice cu mai puține artefacte de culoare nerealiste.</string>
     <string name="model_birefnet">Model ușor BiRefNet bazat pe Swin Transformer pentru eliminarea precisă a fundalului.</string>
+    <string name="model_inspyrenet">Eliminare de fundal de înaltă calitate, cu margini ascuțite și păstrare excelentă a detaliilor, în special pe obiecte complexe și fundaluri complicate.</string>
+    <string name="model_isnet">Model de îndepărtare a fundalului care produce măști precise, cu margini netede, potrivite pentru obiecte generale și pentru conservarea moderată a detaliilor.</string>
 </resources>

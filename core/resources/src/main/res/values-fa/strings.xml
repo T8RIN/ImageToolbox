@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp مدل V2 برای تصاویر عمومی; بر وضوح و وضوح تأکید می کند.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; سریعتر و کوچکتر، جزئیات را حفظ می کند و در عین حال از حافظه GPU کمتری استفاده می کند.</string>
     <string name="model_rmbg_1_4">مدل سبک وزن برای حذف سریع پس زمینه. عملکرد و دقت متعادل. با پرتره ها، اشیا و صحنه ها کار می کند. برای بیشتر موارد استفاده توصیه می شود.</string>
-    <string name="model_rmbg_2_0">نسخه پیشرفته با مدیریت جزئیات برتر. با پس زمینه های پیچیده و اشیاء شفاف بهتر است. دقت بالاتر اما به قدرت پردازش بیشتری نیاز دارد.</string>
     <string name="type_removebg">BG را حذف کنید</string>
     <string name="horizontal_border_thickness">ضخامت مرز افقی</string>
     <string name="vertical_border_thickness">ضخامت حاشیه عمودی</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">مدل Full DDColor رنگ‌بندی با کیفیت بالا را برای تصاویر عمومی با حداقل مصنوعات ارائه می‌کند. بهترین انتخاب از همه مدل های رنگ بندی.</string>
     <string name="model_ddcolor_artistic">مجموعه داده های هنری آموزش دیده و خصوصی DDColor. نتایج رنگ آمیزی متنوع و هنری را با مصنوعات رنگی غیر واقعی کمتر ایجاد می کند.</string>
     <string name="model_birefnet">مدل سبک BiRefNet بر اساس ترانسفورماتور Swin برای حذف دقیق پس زمینه.</string>
+    <string name="model_inspyrenet">حذف پس‌زمینه با کیفیت بالا با لبه‌های تیز و حفظ جزئیات عالی، به‌ویژه در اشیاء پیچیده و پس‌زمینه‌های پیچیده.</string>
+    <string name="model_isnet">مدل حذف پس‌زمینه که ماسک‌هایی دقیق با لبه‌های صاف، مناسب برای اشیاء عمومی و حفظ جزئیات متوسط ​​تولید می‌کند.</string>
 </resources>

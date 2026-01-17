@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
@@ -88,10 +87,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     )
     val combiningParams: CombiningParams get() = _combiningParams.get().toParams()
 
-    private val _imageScale: MutableState<Float> = mutableFloatStateOf(0.5f)
-    val imageScale by _imageScale
-
-    private val _imageByteSize: MutableState<Int?> = mutableStateOf(null)
+    private val _imageByteSize: MutableState<Long?> = mutableStateOf(null)
     val imageByteSize by _imageByteSize
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
@@ -161,7 +157,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale,
                 onProgress = {
                     _done.value = it
                     updateProgress(
@@ -202,7 +197,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale,
                 onProgress = {
                     _done.value = it
                     updateProgress(
@@ -240,7 +234,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
     }
 
     fun updateImageScale(newScale: Float) {
-        _imageScale.value = newScale
+        _combiningParams.update { it.copy(outputScale = newScale) }
         registerChanges()
     }
 
@@ -309,7 +303,6 @@ class ImageStitchingComponent @AssistedInject internal constructor(
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
-                imageScale = imageScale,
                 onProgress = {
                     _done.value = it
                     updateProgress(

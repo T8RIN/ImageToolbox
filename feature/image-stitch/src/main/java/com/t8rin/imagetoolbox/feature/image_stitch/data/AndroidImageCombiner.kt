@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.max
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 internal class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
@@ -70,7 +72,6 @@ internal class AndroidImageCombiner @Inject constructor(
     override suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-        imageScale: Float,
         onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
         suspend fun getImageData(
@@ -81,7 +82,8 @@ internal class AndroidImageCombiner @Inject constructor(
                 imageUris = imagesUris,
                 isHorizontal = isHorizontal,
                 scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing
+                imageSpacing = combiningParams.spacing,
+                imageScale = combiningParams.outputScale
             )
 
             val bitmaps = images.map { image ->
@@ -174,11 +176,11 @@ internal class AndroidImageCombiner @Inject constructor(
             }
 
             return bitmap.createScaledBitmap(
-                width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt()
+                width = size.width,
+                height = size.height
             ) to ImageInfo(
-                width = (size.width * imageScale).toInt(),
-                height = (size.height * imageScale).toInt(),
+                width = size.width,
+                height = size.height,
                 imageFormat = ImageFormat.Png.Lossless
             )
         }
@@ -204,7 +206,6 @@ internal class AndroidImageCombiner @Inject constructor(
                         else -> StitchMode.Horizontal
                     }
                 ),
-                imageScale = imageScale,
                 onProgress = onProgress
             )
         } else {
@@ -226,7 +227,8 @@ internal class AndroidImageCombiner @Inject constructor(
                 imageUris = imageUris,
                 isHorizontal = combiningParams.stitchMode.isHorizontal(),
                 scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing
+                imageSpacing = combiningParams.spacing,
+                imageScale = combiningParams.outputScale
             ).first
         } else {
             val isHorizontalGrid = combiningParams.stitchMode.isHorizontal()
@@ -239,7 +241,8 @@ internal class AndroidImageCombiner @Inject constructor(
                     imageUris = images,
                     isHorizontal = !isHorizontalGrid,
                     scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                    imageSpacing = combiningParams.spacing
+                    imageSpacing = combiningParams.spacing,
+                    imageScale = combiningParams.outputScale
                 ).first.let { newSize ->
                     size = if (isHorizontalGrid) {
                         size.copy(
@@ -266,6 +269,7 @@ internal class AndroidImageCombiner @Inject constructor(
         isHorizontal: Boolean,
         scaleSmallImagesToLarge: Boolean,
         imageSpacing: Int,
+        imageScale: Float
     ): Pair<IntegerSize, List<Bitmap>> = withContext(defaultDispatcher) {
         var w = 0
         var h = 0
@@ -275,7 +279,12 @@ internal class AndroidImageCombiner @Inject constructor(
             imageGetter.getImage(
                 data = uri,
                 originalSize = true
-            )?.apply {
+            )?.let {
+                it.createScaledBitmap(
+                    width = (it.width * imageScale).roundToInt(),
+                    height = (it.height * imageScale).roundToInt()
+                )
+            }?.apply {
                 maxWidth = max(maxWidth, width)
                 maxHeight = max(maxHeight, height)
             }
@@ -358,19 +367,27 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         imageFormat: ImageFormat,
         quality: Quality,
-        onGetByteCount: (Int) -> Unit
+        onGetByteCount: (Long) -> Unit
     ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
-        )
+        ).let {
+            it.copy(
+                width = (it.width / combiningParams.outputScale).roundToInt(),
+                height = (it.height / combiningParams.outputScale).roundToInt()
+            )
+        }
 
         if (!settingsState.generatePreviews) return@withContext null withSize imageSize
 
+        val scale = 0.2f
+
         combineImages(
             imageUris = imageUris,
-            combiningParams = combiningParams,
-            imageScale = 1f,
+            combiningParams = combiningParams.copy(
+                outputScale = scale
+            ),
             onProgress = {}
         ).let { (image, imageInfo) ->
             return@let imagePreviewCreator.createPreview(
@@ -380,7 +397,10 @@ internal class AndroidImageCombiner @Inject constructor(
                     quality = quality
                 ),
                 transformations = emptyList(),
-                onGetByteCount = onGetByteCount
+                onGetByteCount = {
+                    val original = it / (scale * scale)
+                    onGetByteCount(original.roundToLong())
+                }
             ) withSize imageSize
         }
     }

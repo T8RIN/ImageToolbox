@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ data class SavableCombiningParams(
     val scaleSmallImagesToLarge: Boolean,
     val backgroundColor: Int,
     val fadingEdgesMode: Int?,
-    val alignment: StitchAlignment
+    val alignment: StitchAlignment,
+    val outputScale: Float
 )
 
 fun CombiningParams.toSavable() = SavableCombiningParams(
@@ -32,7 +33,8 @@ fun CombiningParams.toSavable() = SavableCombiningParams(
     scaleSmallImagesToLarge = scaleSmallImagesToLarge,
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
-    alignment = alignment
+    alignment = alignment,
+    outputScale = outputScale
 )
 
 fun SavableCombiningParams.toParams() = CombiningParams(
@@ -41,5 +43,6 @@ fun SavableCombiningParams.toParams() = CombiningParams(
     scaleSmallImagesToLarge = scaleSmallImagesToLarge,
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
-    alignment = alignment
+    alignment = alignment,
+    outputScale = outputScale
 )

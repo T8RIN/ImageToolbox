@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -1995,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">modelo X4 UltraSharp V2 para imágenes generales; enfatiza la nitidez y la claridad.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; Más rápido y más pequeño, conserva los detalles mientras utiliza menos memoria GPU.</string>
     <string name="model_rmbg_1_4">Modelo liviano para una rápida eliminación del fondo. Rendimiento y precisión equilibrados. Trabaja con retratos, objetos y escenas. Recomendado para la mayoría de los casos de uso.</string>
-    <string name="model_rmbg_2_0">Versión mejorada con manejo de detalles superior. Mejor con fondos complejos y objetos transparentes. Mayor precisión pero requiere más potencia de procesamiento.</string>
     <string name="type_removebg">Eliminar glucemia</string>
     <string name="horizontal_border_thickness">Grosor del borde horizontal</string>
     <string name="vertical_border_thickness">Grosor del borde vertical</string>
@@ -2012,4 +2013,6 @@
     <string name="model_ddcolor">El modelo DDColor completo ofrece coloración de alta calidad para imágenes generales con artefactos mínimos. La mejor elección de todos los modelos de coloración.</string>
     <string name="model_ddcolor_artistic">DDColor Conjuntos de datos artísticos privados y capacitados; produce resultados de coloración diversos y artísticos con menos artefactos de color poco realistas.</string>
     <string name="model_birefnet">Modelo ligero BiRefNet basado en Swin Transformer para una eliminación precisa del fondo.</string>
+    <string name="model_inspyrenet">Eliminación de fondos de alta calidad con bordes nítidos y excelente conservación de detalles, especialmente en objetos complejos y fondos complicados.</string>
+    <string name="model_isnet">Modelo de eliminación de fondo que produce máscaras precisas con bordes suaves, adecuado para objetos generales y preservación moderada de detalles.</string>
 </resources>

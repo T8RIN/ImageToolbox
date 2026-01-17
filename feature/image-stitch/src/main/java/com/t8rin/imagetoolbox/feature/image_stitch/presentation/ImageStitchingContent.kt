@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.Spaci
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.StitchAlignmentSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.StitchModeSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
+import kotlin.math.pow
 import kotlin.math.roundToLong
 
 @Composable
@@ -130,7 +131,8 @@ fun ImageStitchingContent(
                 input = component.uris,
                 isLoading = component.isImageLoading,
                 size = component
-                    .imageByteSize?.times(component.imageScale)?.roundToLong(),
+                    .imageByteSize?.times(component.combiningParams.outputScale.pow(2))
+                    ?.roundToLong(),
                 updateOnSizeChange = false
             )
         },
@@ -195,7 +197,7 @@ fun ImageStitchingContent(
                 )
                 ImageScaleSelector(
                     modifier = Modifier.padding(top = 8.dp),
-                    value = component.imageScale,
+                    value = component.combiningParams.outputScale,
                     onValueChange = component::updateImageScale,
                     approximateImageSize = component.imageSize
                 )

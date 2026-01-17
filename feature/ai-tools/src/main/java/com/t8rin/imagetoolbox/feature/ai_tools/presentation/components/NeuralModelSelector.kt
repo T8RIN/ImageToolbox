@@ -21,7 +21,6 @@ import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,11 +33,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 
 @Composable
@@ -53,7 +49,7 @@ internal fun NeuralModelSelector(
     downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
     occupiedStorageSize: Long
 ) {
-    var showDetails by rememberSaveable {
+    var showSelectionSheet by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -61,49 +57,24 @@ internal fun NeuralModelSelector(
         modifier = Modifier.fillMaxWidth(),
         title = stringResource(id = R.string.active_model),
         subtitle = value?.title ?: stringResource(R.string.select_one_to_start),
-        onClick = {
-            showDetails = true
-        },
+        onClick = { showSelectionSheet = true },
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = ShapeDefaults.extraLarge,
         startIcon = Icons.Outlined.Neurology,
         endIcon = Icons.Rounded.MiniEdit
     )
 
-    EnhancedModalBottomSheet(
-        visible = showDetails,
-        onDismiss = {
-            showDetails = it
-        },
-        enableBottomContentWeight = true,
-        confirmButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = {
-                    showDetails = false
-                }
-            ) {
-                Text(stringResource(R.string.close))
-            }
-        },
-        title = {
-            TitleItem(
-                text = stringResource(id = R.string.models),
-                icon = Icons.Outlined.Neurology
-            )
-        },
-        sheetContent = {
-            NeuralModelsColumn(
-                selectedModel = value,
-                downloadedModels = downloadedModels,
-                notDownloadedModels = notDownloadedModels,
-                onSelectModel = onSelectModel,
-                onDownloadModel = onDownloadModel,
-                onDeleteModel = onDeleteModel,
-                onImportModel = onImportModel,
-                downloadProgresses = downloadProgresses,
-                occupiedStorageSize = occupiedStorageSize
-            )
-        }
+    NeuralModelSelectionSheet(
+        visible = showSelectionSheet,
+        onDismiss = { showSelectionSheet = it },
+        selectedModel = value,
+        onSelectModel = onSelectModel,
+        onDownloadModel = onDownloadModel,
+        onDeleteModel = onDeleteModel,
+        downloadedModels = downloadedModels,
+        notDownloadedModels = notDownloadedModels,
+        onImportModel = onImportModel,
+        downloadProgresses = downloadProgresses,
+        occupiedStorageSize = occupiedStorageSize
     )
 }

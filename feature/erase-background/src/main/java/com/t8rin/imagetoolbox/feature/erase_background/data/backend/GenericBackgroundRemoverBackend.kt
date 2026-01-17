@@ -19,11 +19,11 @@ package com.t8rin.imagetoolbox.feature.erase_background.data.backend
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemoverBackend
-import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import com.t8rin.neural_tools.bgremover.BgRemover
 
 internal class GenericBackgroundRemoverBackend(
-    private val modelType: ModelType
+    private val modelType: BgModelType
 ) : AutoBackgroundRemoverBackend<Bitmap> {
 
     override suspend fun performBackgroundRemove(
@@ -32,13 +32,14 @@ internal class GenericBackgroundRemoverBackend(
         BgRemover.removeBackground(
             image = image,
             type = when (modelType) {
-                ModelType.MlKit,
-                ModelType.U2NetP -> BgRemover.Type.U2NetP
+                BgModelType.MlKit,
+                BgModelType.U2NetP -> BgRemover.Type.U2NetP
 
-                ModelType.U2Net -> BgRemover.Type.U2Net
-                ModelType.RMBG -> BgRemover.Type.RMBG1_4
-                ModelType.RMBG2_0 -> BgRemover.Type.RMBG2_0
-                ModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
+                BgModelType.U2Net -> BgRemover.Type.U2Net
+                BgModelType.RMBG -> BgRemover.Type.RMBG1_4
+                BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
+                BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
+                BgModelType.ISNet -> BgRemover.Type.ISNet
             }
         )!!
     }

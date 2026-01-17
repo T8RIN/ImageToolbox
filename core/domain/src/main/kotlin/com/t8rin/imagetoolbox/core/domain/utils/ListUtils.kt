@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,14 @@ object ListUtils {
 
     fun <T> Iterable<T>.toggle(item: T): List<T> = run {
         if (item in this) this - item
+        else this + item
+    }
+
+    fun <T : Any> Iterable<T>.toggleByClass(item: T): List<T> {
+        val clazz = item::class
+        val hasClass = any { clazz.isInstance(it) }
+
+        return if (hasClass) filterNot { clazz.isInstance(it) }
         else this + item
     }
 

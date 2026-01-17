@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 eredua irudi orokorretarako; zorroztasuna eta argitasuna azpimarratzen ditu.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; azkarrago eta txikiagoa, xehetasunak gordetzen ditu GPU memoria gutxiago erabiliz.</string>
     <string name="model_rmbg_1_4">Eredu arina atzeko planoa azkar kentzeko. Errendimendu orekatua eta zehaztasuna. Erretratu, objektu eta eszenekin lan egiten du. Erabilera gehienetarako gomendatua.</string>
-    <string name="model_rmbg_2_0">Bertsio hobetua xehetasunen kudeaketa bikainarekin. Hobe hondo konplexuekin eta objektu gardenekin. Zehaztasun handiagoa baina prozesatzeko ahalmen handiagoa behar du.</string>
     <string name="type_removebg">Kendu BG</string>
     <string name="horizontal_border_thickness">Ertzaren lodiera horizontala</string>
     <string name="vertical_border_thickness">Ertz Bertikala Lodiera</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">DDColor eredu osoak kalitate handiko koloreztatzea eskaintzen du artefaktu minimoekin irudi orokorretarako. Kolorizazio eredu guztien aukerarik onena.</string>
     <string name="model_ddcolor_artistic">DDColor Prestatutako eta datu artistiko pribatuak; Kolore-emaitzak anitz eta artistikoak sortzen ditu, kolore-artefaktu irrealista gutxiagorekin.</string>
     <string name="model_birefnet">Swin Transformer-en oinarritutako BiRefNet eredu arina atzeko planoa zehatz kentzeko.</string>
+    <string name="model_inspyrenet">Kalitate handiko atzeko planoa kentzea ertz zorrotzekin eta xehetasunen kontserbazio bikainarekin, batez ere objektu konplexuetan eta atzeko plano delikatuenetan.</string>
+    <string name="model_isnet">Atzeko planoa kentzeko eredua, ertz leunekin maskara zehatzak sortzen dituena, objektu orokorretarako egokia eta xehetasun moderatua zaintzeko.</string>
 </resources>

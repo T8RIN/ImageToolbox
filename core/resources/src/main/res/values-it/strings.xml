@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">modello X4 UltraSharp V2 per immagini generali; enfatizza la nitidezza e la chiarezza.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; più veloce e più piccolo, preserva i dettagli utilizzando meno memoria GPU.</string>
     <string name="model_rmbg_1_4">Modello leggero per una rapida rimozione dello sfondo. Prestazioni e precisione bilanciate. Funziona con ritratti, oggetti e scene. Consigliato per la maggior parte dei casi d\'uso.</string>
-    <string name="model_rmbg_2_0">Versione migliorata con gestione dei dettagli superiore. Meglio con sfondi complessi e oggetti trasparenti. Maggiore precisione ma richiede maggiore potenza di elaborazione.</string>
     <string name="type_removebg">Rimuovi BG</string>
     <string name="horizontal_border_thickness">Spessore del bordo orizzontale</string>
     <string name="vertical_border_thickness">Spessore del bordo verticale</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">Il modello DDColor completo offre una colorazione di alta qualità per immagini generiche con artefatti minimi. La scelta migliore tra tutti i modelli di colorazione.</string>
     <string name="model_ddcolor_artistic">DDColor Set di dati artistici formati e privati; produce risultati di colorazione diversi e artistici con meno artefatti cromatici non realistici.</string>
     <string name="model_birefnet">Modello BiRefNet leggero basato su Swin Transformer per una rimozione accurata dello sfondo.</string>
+    <string name="model_inspyrenet">Rimozione dello sfondo di alta qualità con bordi netti ed eccellente conservazione dei dettagli, soprattutto su oggetti complessi e sfondi difficili.</string>
+    <string name="model_isnet">Modello di rimozione dello sfondo che produce maschere accurate con bordi smussati, adatte per oggetti generici e conservazione moderata dei dettagli.</string>
 </resources>

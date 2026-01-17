@@ -56,13 +56,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.feature.erase_background.domain.model.ModelType
+import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.bgremover.BgRemover
 import kotlinx.coroutines.CoroutineScope
@@ -77,7 +77,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AutoEraseBackgroundCard(
     modifier: Modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-    onClick: (ModelType) -> Unit,
+    onClick: (BgModelType) -> Unit,
     onReset: () -> Unit
 ) {
     var selectedModel by rememberSaveable {
@@ -95,7 +95,7 @@ fun AutoEraseBackgroundCard(
     }
 
     val downloadProgresses = remember(downloadedModels) {
-        mutableStateMapOf<ModelType, DownloadProgress>()
+        mutableStateMapOf<BgModelType, DownloadProgress>()
     }
 
     LaunchedEffect(Unit) {
@@ -107,7 +107,7 @@ fun AutoEraseBackgroundCard(
 
     LaunchedEffect(downloadedModels) {
         if (!downloadedModels.contains(selectedModel)) {
-            selectedModel = ModelType.U2NetP
+            selectedModel = BgModelType.U2NetP
         }
     }
 
@@ -153,7 +153,7 @@ fun AutoEraseBackgroundCard(
                                     BgRemover.getRemover(type.toLib()).checkModel()
                                 }
                                 .catch {
-                                    selectedModel = ModelType.U2NetP
+                                    selectedModel = BgModelType.U2NetP
                                     downloadProgresses.remove(type)
                                     downloadJob = null
                                 }
@@ -164,7 +164,7 @@ fun AutoEraseBackgroundCard(
                     }
                 },
                 itemContent = { type ->
-                    if (type == ModelType.MlKit) {
+                    if (type == BgModelType.MlKit) {
                         Text(
                             text = type.title
                         )
@@ -178,7 +178,7 @@ fun AutoEraseBackgroundCard(
 
                             AnimatedVisibility(type !in downloadedModels) {
                                 downloadProgresses[type]?.let { progress ->
-                                    EnhancedCircularProgressIndicator(
+                                    EnhancedAutoCircularProgressIndicator(
                                         progress = { progress.currentPercent },
                                         modifier = Modifier
                                             .padding(start = 8.dp)
@@ -243,26 +243,28 @@ fun AutoEraseBackgroundCard(
     }
 }
 
-private val flavoredEntries: List<ModelType> = ModelType.entries.let {
-    if (Flavor.isFoss()) it.toggle(ModelType.MlKit)
+private val flavoredEntries: List<BgModelType> = BgModelType.entries.let {
+    if (Flavor.isFoss()) it.toggle(BgModelType.MlKit)
     else it
 }
 
-private fun ModelType.toLib(): BgRemover.Type = when (this) {
-    ModelType.MlKit,
-    ModelType.U2NetP -> BgRemover.Type.U2NetP
+private fun BgModelType.toLib(): BgRemover.Type = when (this) {
+    BgModelType.MlKit,
+    BgModelType.U2NetP -> BgRemover.Type.U2NetP
 
-    ModelType.U2Net -> BgRemover.Type.U2Net
-    ModelType.RMBG -> BgRemover.Type.RMBG1_4
-    ModelType.RMBG2_0 -> BgRemover.Type.RMBG2_0
-    ModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
+    BgModelType.U2Net -> BgRemover.Type.U2Net
+    BgModelType.RMBG -> BgRemover.Type.RMBG1_4
+    BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
+    BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
+    BgModelType.ISNet -> BgRemover.Type.ISNet
 }
 
-private fun BgRemover.Type.toDomain(): ModelType? = when (this) {
-    BgRemover.Type.U2NetP -> ModelType.U2NetP
-    BgRemover.Type.U2Net -> ModelType.U2Net
-    BgRemover.Type.RMBG1_4 -> ModelType.RMBG
-    BgRemover.Type.RMBG2_0 -> ModelType.RMBG2_0
-    BgRemover.Type.BiRefNetTiny -> ModelType.BiRefNetTiny
+private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
+    BgRemover.Type.U2NetP -> BgModelType.U2NetP
+    BgRemover.Type.U2Net -> BgModelType.U2Net
+    BgRemover.Type.RMBG1_4 -> BgModelType.RMBG
+    BgRemover.Type.InSPyReNet -> BgModelType.InSPyReNet
+    BgRemover.Type.BiRefNetTiny -> BgModelType.BiRefNetTiny
     BgRemover.Type.BiRefNet -> null
+    BgRemover.Type.ISNet -> BgModelType.ISNet
 }

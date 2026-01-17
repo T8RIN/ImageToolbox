@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -1995,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">ئادەتتىكى رەسىملەر ئۈچۈن X4 UltraSharp V2 مودېلى ئۆتكۈرلۈك ۋە ئېنىقلىقنى تەكىتلەيدۇ.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; تېخىمۇ تېز ۋە كىچىكرەك ، GPU ئىچكى ساقلىغۇچنى ئاز ئىشلەتكەندە تەپسىلاتلارنى ساقلايدۇ.</string>
     <string name="model_rmbg_1_4">تەگلىكنى تېز ئۆچۈرۈۋېتىشنىڭ يېنىك مودېلى. تەڭپۇڭلۇق ئىقتىدار ۋە توغرىلىق. سۈرەت ، ئوبيېكت ۋە كۆرۈنۈشلەر بىلەن ئىشلەيدۇ. كۆپ ئىشلىتىلىدىغان ئەھۋاللارغا تەۋسىيە قىلىنىدۇ.</string>
-    <string name="model_rmbg_2_0">تېخىمۇ يۇقىرى ئىنچىكە بىر تەرەپ قىلىش بىلەن كۈچەيتىلگەن نۇسخىسى. مۇرەككەپ ئارقا كۆرۈنۈش ۋە سۈزۈك جىسىملار بىلەن ياخشى. تېخىمۇ ئېنىق ، ئەمما تېخىمۇ كۆپ بىر تەرەپ قىلىش كۈچى تەلەپ قىلىدۇ.</string>
     <string name="type_removebg">BG نى ئۆچۈرۈڭ</string>
     <string name="horizontal_border_thickness">توغرىسىغا چېگرا قېلىنلىقى</string>
     <string name="vertical_border_thickness">تىك چېگرا قېلىنلىقى</string>
@@ -2011,4 +2012,6 @@
     <string name="model_ddcolor">تولۇق DDColor مودېلى ئەڭ تۆۋەن ئاسارە-ئەتىقىلەر بىلەن ئادەتتىكى رەسىملەرگە يۇقىرى سۈپەتلىك رەڭ بېرىدۇ. بارلىق رەڭلەش مودېللىرىنىڭ ئەڭ ياخشى تاللىشى.</string>
     <string name="model_ddcolor_artistic">DDColor تەربىيەلەنگەن ۋە شەخسىي سەنئەت سانلىق مەلۇماتلىرى ئاز بولمىغان رېئال سەنئەت بۇيۇملىرى بىلەن كۆپ خىل ۋە بەدىئىي رەڭلەش نەتىجىسىنى ھاسىل قىلىدۇ.</string>
     <string name="model_birefnet">ئارقا كۆرۈنۈشنى ئېلىۋېتىش ئۈچۈن Swin Transformer نى ئاساس قىلغان يېنىك تىپتىكى BiRefNet مودېلى.</string>
+    <string name="model_inspyrenet">ئۆتكۈر گىرۋەك ۋە ئېسىل تەپسىلاتلارنى ساقلاش بىلەن ئەلا سۈپەتلىك تەگلىك ئېلىۋېتىش ، بولۇپمۇ مۇرەككەپ جىسىملار ۋە مۇرەككەپ ئارقا كۆرۈنۈشلەردە.</string>
+    <string name="model_isnet">تەگلىك ئېلىۋېتىش ئەندىزىسى ، گىرۋەكلىرى سىلىق ماسكا ھاسىل قىلىپ ، ئادەتتىكى جىسىملارغا ۋە مۇۋاپىق تەپسىلاتلارنى ساقلاشقا ماس كېلىدۇ.</string>
 </resources>

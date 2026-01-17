@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 pre všeobecné obrázky; zdôrazňuje ostrosť a jasnosť.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; rýchlejšie a menšie, zachováva detaily pri použití menšieho množstva pamäte GPU.</string>
     <string name="model_rmbg_1_4">Ľahký model pre rýchle odstránenie pozadia. Vyvážený výkon a presnosť. Pracuje s portrétmi, objektmi a scénami. Odporúča sa pre väčšinu prípadov použitia.</string>
-    <string name="model_rmbg_2_0">Vylepšená verzia s vynikajúcim spracovaním detailov. Lepšie so zložitým pozadím a priehľadnými objektmi. Vyššia presnosť, ale vyžaduje viac výpočtového výkonu.</string>
     <string name="type_removebg">Odstráňte BG</string>
     <string name="horizontal_border_thickness">Hrúbka horizontálneho okraja</string>
     <string name="vertical_border_thickness">Hrúbka vertikálneho okraja</string>
@@ -2015,4 +2014,6 @@
     <string name="model_ddcolor">Úplný model DDColor poskytuje vysokokvalitné zafarbenie pre bežné obrázky s minimálnymi artefaktmi. Najlepšia voľba zo všetkých farebných modelov.</string>
     <string name="model_ddcolor_artistic">DDColor vyškolené a súkromné ​​​​umelecké súbory údajov; vytvára rôznorodé a umelecké výsledky sfarbenia s menším počtom nerealistických farebných artefaktov.</string>
     <string name="model_birefnet">Ľahký model BiRefNet založený na Swin Transformer pre presné odstránenie pozadia.</string>
+    <string name="model_inspyrenet">Vysokokvalitné odstránenie pozadia s ostrými hranami a vynikajúcim zachovaním detailov, najmä na zložitých objektoch a zložitých pozadiach.</string>
+    <string name="model_isnet">Model odstraňovania pozadia, ktorý vytvára presné masky s hladkými okrajmi, vhodné pre bežné objekty a miernym zachovaním detailov.</string>
 </resources>

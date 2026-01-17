@@ -15,10 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.erase_background.domain
+package com.t8rin.imagetoolbox.feature.ai_tools.domain.model
 
-import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
-
-internal interface AutoBackgroundRemoverBackendFactory<I> {
-    fun create(modelType: BgModelType): AutoBackgroundRemoverBackend<I>
+internal object NeuralConstants {
+    const val DIR = "ai_models"
 }

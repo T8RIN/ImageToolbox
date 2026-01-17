@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,9 @@ package com.t8rin.imagetoolbox.feature.image_stitch.domain
 data class CombiningParams(
     val stitchMode: StitchMode = StitchMode.Horizontal,
     val spacing: Int = 0,
-    val scaleSmallImagesToLarge: Boolean = true,
+    val scaleSmallImagesToLarge: Boolean = false,
     val backgroundColor: Int = 0x00000000,
     val fadingEdgesMode: Int? = 0,
-    val alignment: StitchAlignment = StitchAlignment.Start
+    val alignment: StitchAlignment = StitchAlignment.Start,
+    val outputScale: Float = 0.5f
 )

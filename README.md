@@ -165,15 +165,15 @@ or click one of the badges below.
 
 # ⚔️ FOSS vs MARKET
 
-|       **Feature**       |             **FOSS**              |     **Market**     |
-|:-----------------------:|:---------------------------------:|:------------------:|
-|       QR Scanner        |               Zxing               |       MlKit        |
-| Auto Background Remover | U2Net, RMBG (1.4 / 2.0), BiRefNet |       MlKit        |
-|    Document Scanner     |              OpenCV               |       MlKit        |
-|        Analytics        |                :x:                | :white_check_mark: |
-|       Crashlytics       |                :x:                | :white_check_mark: |
-|    Other Google deps    |                :x:                | :white_check_mark: |
-|   All Other Features    |        :white_check_mark:         | :white_check_mark: |
+|       **Feature**       |      **FOSS**      |     **Market**     |
+|:-----------------------:|:------------------:|:------------------:|
+|       QR Scanner        |       Zxing        |       MlKit        |
+| Auto Background Remover |        ONNX        |       MlKit        |
+|    Document Scanner     |       OpenCV       |       MlKit        |
+|        Analytics        |        :x:         | :white_check_mark: |
+|       Crashlytics       |        :x:         | :white_check_mark: |
+|    Other Google deps    |        :x:         | :white_check_mark: |
+|   All Other Features    | :white_check_mark: | :white_check_mark: |
 
 # ✨ Features
 
@@ -516,7 +516,7 @@ or click one of the badges below.
 - Image Splitting
 - Background Removal
     - By drawing
-    - Automatically (MlKit, U2NetP, U2Net, RMBG-1.4, RMBG-2.0, BiRefNet)
+  - Automatically (MlKit, U2NetP, U2Net, RMBG, InSPyReNet, BiRefNet, ISNet)
 - Watermarking
     - Repeating Text
     - Image
@@ -665,7 +665,7 @@ or click one of the badges below.
     - Images to PDF
     - PDF previewing
 - Document Scanning
-- AI tools (80 ready to use models available)
+- AI tools (81 ready to use models available)
     - Upscale
     - Remove BG
     - DeJPEG

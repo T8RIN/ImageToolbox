@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 cho hình ảnh thông thường; nhấn mạnh độ sắc nét và rõ ràng.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; nhanh hơn và nhỏ hơn, bảo toàn chi tiết trong khi sử dụng ít bộ nhớ GPU hơn.</string>
     <string name="model_rmbg_1_4">Mô hình nhẹ để loại bỏ nền nhanh chóng. Hiệu suất cân bằng và độ chính xác. Hoạt động với chân dung, đồ vật và cảnh. Được đề xuất cho hầu hết các trường hợp sử dụng.</string>
-    <string name="model_rmbg_2_0">Phiên bản nâng cao với khả năng xử lý chi tiết vượt trội. Tốt hơn với nền phức tạp và các đối tượng trong suốt. Độ chính xác cao hơn nhưng đòi hỏi sức mạnh xử lý cao hơn.</string>
     <string name="type_removebg">Xóa BG</string>
     <string name="horizontal_border_thickness">Độ dày viền ngang</string>
     <string name="vertical_border_thickness">Độ dày viền dọc</string>
@@ -2012,4 +2011,6 @@
     <string name="model_ddcolor">Mô hình DDColor đầy đủ mang lại màu sắc chất lượng cao cho hình ảnh thông thường với ít hiện tượng giả mạo nhất. Sự lựa chọn tốt nhất trong tất cả các mô hình tô màu.</string>
     <string name="model_ddcolor_artistic">DDColor Bộ dữ liệu nghệ thuật riêng tư và được đào tạo; tạo ra kết quả tô màu đa dạng và nghệ thuật với ít hiện vật màu phi thực tế hơn.</string>
     <string name="model_birefnet">Mô hình BiRefNet nhẹ dựa trên Swin Transformer để loại bỏ nền chính xác.</string>
+    <string name="model_inspyrenet">Loại bỏ nền chất lượng cao với các cạnh sắc nét và bảo toàn chi tiết tuyệt vời, đặc biệt là trên các đối tượng phức tạp và nền phức tạp.</string>
+    <string name="model_isnet">Mô hình xóa nền tạo ra mặt nạ chính xác với các cạnh mịn, phù hợp với các đối tượng thông thường và bảo toàn chi tiết vừa phải.</string>
 </resources>

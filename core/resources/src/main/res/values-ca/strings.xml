@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">Model X4 UltraSharp V2 per a imatges generals; emfatitza la nitidesa i la claredat.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; més ràpid i petit, conserva els detalls mentre utilitza menys memòria GPU.</string>
     <string name="model_rmbg_1_4">Model lleuger per eliminar ràpidament el fons. Rendiment i precisió equilibrats. Treballa amb retrats, objectes i escenes. Recomanat per a la majoria dels casos d\'ús.</string>
-    <string name="model_rmbg_2_0">Versió millorada amb un maneig de detalls superior. Millor amb fons complexos i objectes transparents. Més precisió però requereix més potència de processament.</string>
     <string name="type_removebg">Eliminar BG</string>
     <string name="horizontal_border_thickness">Gruix de la vora horitzontal</string>
     <string name="vertical_border_thickness">Gruix de la vora vertical</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">El model DDColor complet ofereix una coloració d\'alta qualitat per a imatges generals amb un mínim d\'artefactes. La millor opció de tots els models de coloració.</string>
     <string name="model_ddcolor_artistic">DDColor Conjunts de dades artístics entrenats i privats; produeix resultats de coloració diversos i artístics amb menys artefactes de color poc realistes.</string>
     <string name="model_birefnet">Model lleuger BiRefNet basat en Swin Transformer per eliminar amb precisió el fons.</string>
+    <string name="model_inspyrenet">Eliminació de fons d\'alta qualitat amb vores nítides i excel·lent preservació dels detalls, especialment en objectes complexos i fons complicats.</string>
+    <string name="model_isnet">Model d\'eliminació de fons que produeix màscares precises amb vores llises, aptes per a objectes generals i conservació moderada dels detalls.</string>
 </resources>

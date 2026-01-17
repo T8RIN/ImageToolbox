@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -2005,7 +2004,7 @@
     <string name="model_iso_denoise_v1">Reduces ISO noise in photos taken in low-light conditions, preserving details.</string>
     <string name="model_dejumbo">Corrects overexposed or “jumbo” highlights and restores better tonal balance.</string>
     <string name="model_ddcolor_tiny">Lightweight and fast colorization model that adds natural colors to grayscale images.</string>
-    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Denoise</string>
     <string name="type_colorize">Colorize</string>
     <string name="type_artifacts">Artifacts</string>
@@ -2022,7 +2021,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 model for general images; emphasizes sharpness and clarity.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; faster and smaller, preserves detail while using less GPU memory.</string>
     <string name="model_rmbg_1_4">Lightweight model for quick background removal. Balanced performance and accuracy. Works with portraits, objects, and scenes. Recommended for most use cases.</string>
-    <string name="model_rmbg_2_0">Enhanced version with superior detail handling. Better with complex backgrounds and transparent objects. Higher precision but requires more processing power.</string>
     <string name="type_removebg">Remove BG</string>
     <string name="horizontal_border_thickness">Horizontal Border Thickness</string>
     <string name="vertical_border_thickness">Vertical Border Thickness</string>
@@ -2034,4 +2032,14 @@
     <string name="model_ddcolor">Full DDColor model delivers high-quality colorization for general images with minimal artifacts. Best choice of all colorization models.</string>
     <string name="model_ddcolor_artistic">DDColor Trained and private artistic datasets; produces diverse and artistic colorization results with fewer unrealistic color artifacts.</string>
     <string name="model_birefnet">Lightweight BiRefNet model based on Swin Transformer for accurate background removing.</string>
+    <string name="model_inspyrenet">High-quality background removal with sharp edges and excellent detail preservation, especially on complex objects and tricky backgrounds.</string>
+    <string name="model_isnet">Background removal model that produces accurate masks with smooth edges, suitable for general objects and moderate detail preservation.</string>
+    <string name="model_already_downloaded">Model already downloaded</string>
+    <string name="model_successfully_imported">Model successfully imported</string>
+    <string name="type">Type</string>
+    <string name="keyword">Keyword</string>
+    <string name="very_fast">Very Fast</string>
+    <string name="normal">Normal</string>
+    <string name="slow">Slow</string>
+    <string name="very_slow">Very Slow</string>
 </resources>

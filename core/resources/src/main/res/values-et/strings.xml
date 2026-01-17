@@ -1997,7 +1997,6 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 mudel üldiste piltide jaoks; rõhutab teravust ja selgust.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; kiirem ja väiksem, säilitab üksikasjad, kasutades vähem GPU mälu.</string>
     <string name="model_rmbg_1_4">Kerge mudel tausta kiireks eemaldamiseks. Tasakaalustatud jõudlus ja täpsus. Töötab portreede, objektide ja stseenidega. Soovitatav enamiku kasutusjuhtude jaoks.</string>
-    <string name="model_rmbg_2_0">Täiustatud versioon suurepärase detailikäsitsusega. Parem keeruka tausta ja läbipaistvate objektidega. Suurem täpsus, kuid nõuab rohkem töötlemisvõimsust.</string>
     <string name="type_removebg">Eemaldage BG</string>
     <string name="horizontal_border_thickness">Horisontaalne piiri paksus</string>
     <string name="vertical_border_thickness">Vertikaalse piiri paksus</string>
@@ -2013,4 +2012,6 @@
     <string name="model_ddcolor">Full DDColor mudel pakub kvaliteetset värvimist üldiste piltide jaoks minimaalsete artefaktidega. Kõigi värvimismudelite parim valik.</string>
     <string name="model_ddcolor_artistic">DDColor Koolitatud ja privaatsed kunstiandmed; annab mitmekesiseid ja kunstipäraseid värvimistulemusi vähemate ebarealistlike värviartefaktidega.</string>
     <string name="model_birefnet">Kerge BiRefNet mudel, mis põhineb Swin Transformeril tausta täpseks eemaldamiseks.</string>
+    <string name="model_inspyrenet">Kvaliteetne teravate servade ja suurepärase detaili säilivusega taustaeemaldus, eriti keerukate objektide ja keerulise taustaga.</string>
+    <string name="model_isnet">Tausta eemaldamise mudel, mis toodab täpseid siledate servadega maske, mis sobivad üldistele objektidele ja mõõduka detaili säilitamiseks.</string>
 </resources>

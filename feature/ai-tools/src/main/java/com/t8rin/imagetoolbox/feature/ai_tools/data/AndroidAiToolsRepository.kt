@@ -28,10 +28,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.t8rin.imagetoolbox.core.data.image.utils.healAlpha
+import com.t8rin.imagetoolbox.core.data.saving.io.FileReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
+import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
+import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
@@ -41,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
@@ -53,6 +58,7 @@ import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -93,7 +99,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         appScope.launch { extractU2NetP() }
     }
 
-    private val modelsDir: File get() = File(context.filesDir, "ai_models").apply(File::mkdirs)
+    private val modelsDir: File
+        get() = File(
+            context.filesDir,
+            NeuralConstants.DIR
+        ).apply(File::mkdirs)
 
     private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 
@@ -140,7 +150,16 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
         if (model.name.contains("u2netp")) {
             extractU2NetP()
+            selectModelForced(model)
+            close()
         } else {
+            trySend(
+                NeuralDownloadProgress(
+                    currentPercent = 0f,
+                    currentTotalSize = model.downloadSize
+                )
+            )
+
             client.prepareGet(model.downloadLink).execute { response ->
                 val total = response.contentLength() ?: -1L
 
@@ -171,15 +190,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
                         tmp.renameTo(modelFile)
 
-                        updateFlow.emit(Unit)
-
-                        ensureActive()
-
-                        selectModel(
-                            model = model,
-                            forced = true
-                        )
-                        model.asBgRemover()?.checkModel()
+                        selectModelForced(model)
                         close()
                     } catch (e: Throwable) {
                         tmp.delete()
@@ -190,14 +201,42 @@ internal class AndroidAiToolsRepository @Inject constructor(
         }
     }.flowOn(ioDispatcher)
 
+    private suspend fun CoroutineScope.selectModelForced(model: NeuralModel) {
+        updateFlow.emit(Unit)
+
+        ensureActive()
+
+        selectModel(
+            model = model,
+            forced = true
+        )
+        model.asBgRemover()?.checkModel()
+    }
+
     override suspend fun importModel(
         uri: String
     ): SaveResult = withContext(ioDispatcher) {
-        val modelName = context.getFilename(uri.toUri()).orEmpty().ifEmpty {
-            "imported_model_${System.currentTimeMillis()}.onnx"
+        val modelToImport = UriReadable(
+            uri = uri.toUri(),
+            context = context
+        )
+        val modelChecksum = HashingType.SHA_256.computeFromReadable(modelToImport)
+
+        val possibleModel = NeuralModel.entries.find {
+            it.checksum == modelChecksum
         }
 
-        if (downloadedModels.value.any { it.name.equals(modelName, true) }) {
+        val modelName = possibleModel?.name
+            ?: context.getFilename(uri.toUri()).orEmpty().ifEmpty {
+                "imported_model_($modelChecksum).onnx"
+            }
+
+        val alreadyDownloaded = downloadedModels.value.find {
+            it.name.equals(modelName, true) || it.checksum == modelChecksum
+        }
+
+        if (alreadyDownloaded != null) {
+            selectModelForced(alreadyDownloaded)
             return@withContext SaveResult.Skipped
         }
 
@@ -209,7 +248,14 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     modelName
                 ).apply(File::createNewFile)
             )
-        )
+        ).also {
+            selectModelForced(
+                NeuralModel.Imported(
+                    name = modelName,
+                    checksum = modelChecksum
+                )
+            )
+        }
     }
 
     override suspend fun processImage(
@@ -224,7 +270,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         when {
             model == null -> return@withContext listener.failedSession()
 
-            model.type == NeuralModel.Type.REMOVEBG -> {
+            model.type == NeuralModel.Type.REMOVE_BG -> {
                 withClosedSession(listener) {
                     model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
                 }
@@ -355,7 +401,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             if (name.isNullOrEmpty()) return@mapNotNull null
 
-            NeuralModel.find(name) ?: NeuralModel.Imported(name)
+            NeuralModel.find(name) ?: NeuralModel.Imported(
+                name = name,
+                checksum = HashingType.SHA_256.computeFromReadable(FileReadable(it))
+            )
         }
     }
 
@@ -366,9 +415,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
             when {
                 name.startsWith("u2netp") -> BgRemover.Type.U2NetP
                 name.startsWith("u2net") -> BgRemover.Type.U2Net
-                name.startsWith("RMBG_2.0") -> BgRemover.Type.RMBG2_0
+                name.startsWith("inspyrenet") -> BgRemover.Type.InSPyReNet
                 name.startsWith("RMBG_1.4") -> BgRemover.Type.RMBG1_4
                 name.startsWith("birefnet_swin_tiny") -> BgRemover.Type.BiRefNetTiny
+                name.startsWith("isnet") -> BgRemover.Type.ISNet
                 else -> return null
             }
         )

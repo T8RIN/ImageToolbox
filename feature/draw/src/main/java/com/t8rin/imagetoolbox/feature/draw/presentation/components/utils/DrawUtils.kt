@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -464,7 +464,7 @@ internal fun NativeCanvas.drawRepeatedImageOnPath(
     invalidations: Int
 ) {
     val context = LocalContext.current
-    var pathImage by remember(strokeWidth, canvasSize) {
+    var pathImage by remember(strokeWidth, canvasSize, drawMode.imageData) {
         mutableStateOf<Bitmap?>(null)
     }
     LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize, invalidations) {
