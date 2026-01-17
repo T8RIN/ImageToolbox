@@ -479,6 +479,11 @@ internal fun NeuralModelsColumn(
                                     isInverted = false
                                 )
                             }
+
+                            NeuralModelSizeBadge(
+                                model = model,
+                                isInverted = false
+                            )
                         }
                     }
                 }

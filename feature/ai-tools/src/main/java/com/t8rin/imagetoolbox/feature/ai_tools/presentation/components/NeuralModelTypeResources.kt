@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Bolt
+import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.HighQuality
 import androidx.compose.material.icons.rounded.Scanner
 import androidx.compose.material3.Icon
@@ -263,26 +264,33 @@ fun NeuralModelSizeBadge(
             else onSurfaceVariant
         }
 
+        val context = LocalContext.current
+        val size by remember(model.name) {
+            derivedStateOf {
+                val dir = File(context.filesDir, NeuralConstants.DIR)
+
+                File(dir, model.name).length().takeIf { it > 0 }?.let(::humanFileSize)
+                    ?: "~ ${humanFileSize(model.downloadSize)}"
+            }
+        }
+
         Box(
             modifier = Modifier.size(20.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.InsertDriveFile,
+                imageVector = if ("~" in size) {
+                    Icons.Rounded.Cloud
+                } else {
+                    Icons.AutoMirrored.Rounded.InsertDriveFile
+                },
                 contentDescription = null,
                 tint = contentColor,
                 modifier = Modifier.size(16.dp)
             )
         }
-        val context = LocalContext.current
         Text(
-            text = remember(model.name) {
-                derivedStateOf {
-                    val dir = File(context.filesDir, NeuralConstants.DIR)
-
-                    humanFileSize(File(dir, model.name).length())
-                }
-            }.value,
+            text = size,
             color = contentColor,
             style = MaterialTheme.typography.labelSmall
         )

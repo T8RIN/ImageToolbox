@@ -27,7 +27,8 @@ data class NeuralModel(
     val title: String,
     val description: Int?,
     val type: Type?,
-    val speed: Speed?
+    val speed: Speed?,
+    val downloadSize: Long
 ) {
     val supportsStrength = name.contains("fbcnn_", true)
     val isImported = downloadLink == "imported"
@@ -76,6 +77,7 @@ data class NeuralModel(
                     title = "FBCNN Color",
                     description = R.string.model_fbcnn_color_fp16,
                     type = Type.DE_JPEG,
+                    downloadSize = 143910675,
                     speed = Speed.Fast(2.003f)
                 ),
                 NeuralModel(
@@ -84,6 +86,7 @@ data class NeuralModel(
                     title = "FBCNN Grayscale",
                     description = R.string.model_fbcnn_gray_fp16,
                     type = Type.DE_JPEG,
+                    downloadSize = 143903294,
                     speed = Speed.VeryFast(1.992f)
                 ),
                 NeuralModel(
@@ -92,6 +95,7 @@ data class NeuralModel(
                     title = "FBCNN Grayscale Strong",
                     description = R.string.model_fbcnn_gray_double_fp16,
                     type = Type.DE_JPEG,
+                    downloadSize = 143903294,
                     speed = Speed.VeryFast(1.934f)
                 ),
                 NeuralModel(
@@ -100,6 +104,7 @@ data class NeuralModel(
                     title = "SCUNet Color GAN",
                     description = R.string.model_scunet_color_gan_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 91264256,
                     speed = Speed.Fast(2.715f)
                 ),
                 NeuralModel(
@@ -108,6 +113,7 @@ data class NeuralModel(
                     title = "SCUNet Color PSNR",
                     description = R.string.model_scunet_color_psnr_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 91264256,
                     speed = Speed.Fast(2.633f)
                 ),
                 NeuralModel(
@@ -116,6 +122,7 @@ data class NeuralModel(
                     title = "SCUNet Grayscale 15",
                     description = R.string.model_scunet_gray_15_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 37741895,
                     speed = Speed.Fast(3.048f)
                 ),
                 NeuralModel(
@@ -124,6 +131,7 @@ data class NeuralModel(
                     title = "SCUNet Grayscale 25",
                     description = R.string.model_scunet_gray_25_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 37741895,
                     speed = Speed.Fast(3.033f)
                 ),
                 NeuralModel(
@@ -132,6 +140,7 @@ data class NeuralModel(
                     title = "SCUNet Grayscale 50",
                     description = R.string.model_scunet_gray_50_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 37741895,
                     speed = Speed.Fast(3.058f)
                 ),
                 NeuralModel(
@@ -140,6 +149,7 @@ data class NeuralModel(
                     title = "SCUNet Color 15",
                     description = R.string.model_scunet_color_15_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 42555584,
                     speed = Speed.Fast(7.095f)
                 ),
                 NeuralModel(
@@ -148,6 +158,7 @@ data class NeuralModel(
                     title = "SCUNet Color 25",
                     description = R.string.model_scunet_color_25_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 42555584,
                     speed = Speed.Fast(6.994f)
                 ),
                 NeuralModel(
@@ -156,6 +167,7 @@ data class NeuralModel(
                     title = "SCUNet Color 50",
                     description = R.string.model_scunet_color_50_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 42555584,
                     speed = Speed.Normal(7.229f)
                 ),
                 NeuralModel(
@@ -164,6 +176,7 @@ data class NeuralModel(
                     title = "Anime Undeint",
                     description = R.string.model_anime_undeint,
                     type = Type.ANIME,
+                    downloadSize = 2391605,
                     speed = Speed.VeryFast(0.497f)
                 ),
                 NeuralModel(
@@ -172,6 +185,7 @@ data class NeuralModel(
                     title = "Broadcast To Studio",
                     description = R.string.model_broadcast,
                     type = Type.ARTIFACTS,
+                    downloadSize = 1200682,
                     speed = Speed.VeryFast(0.625f)
                 ),
                 NeuralModel(
@@ -180,6 +194,7 @@ data class NeuralModel(
                     title = "RGB Max Denoise",
                     description = R.string.model_rgb_max_denoise_fp16,
                     type = Type.DENOISE,
+                    downloadSize = 310212,
                     speed = Speed.VeryFast(0.172f)
                 ),
                 NeuralModel(
@@ -188,6 +203,7 @@ data class NeuralModel(
                     title = "WB Denoise",
                     description = R.string.model_wb_denoise,
                     type = Type.DENOISE,
+                    downloadSize = 310212,
                     speed = Speed.VeryFast(0.177f)
                 ),
                 NeuralModel(
@@ -196,6 +212,7 @@ data class NeuralModel(
                     title = "SPAN Anime Pretrain",
                     description = R.string.model_span_anime_pretrain,
                     type = Type.ANIME,
+                    downloadSize = 825768,
                     speed = Speed.VeryFast(0.399f)
                 ),
                 NeuralModel(
@@ -204,6 +221,7 @@ data class NeuralModel(
                     title = "Book Scan",
                     description = R.string.model_book_scan,
                     type = Type.SCANS,
+                    downloadSize = 1200682,
                     speed = Speed.VeryFast(0.452f)
                 ),
                 NeuralModel(
@@ -212,6 +230,7 @@ data class NeuralModel(
                     title = "Overexposure Correction",
                     description = R.string.model_overexposure,
                     type = Type.ENHANCE,
+                    downloadSize = 2391605,
                     speed = Speed.VeryFast(0.492f)
                 ),
                 NeuralModel(
@@ -220,6 +239,7 @@ data class NeuralModel(
                     title = "Anti-Aliasing",
                     description = R.string.model_antialias,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(14.806f)
                 ),
                 NeuralModel(
@@ -228,6 +248,7 @@ data class NeuralModel(
                     title = "Colorizer",
                     description = R.string.model_colorizer,
                     type = Type.COLORIZE,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(15.125f)
                 ),
                 NeuralModel(
@@ -236,6 +257,7 @@ data class NeuralModel(
                     title = "DeSharpen",
                     description = R.string.model_desharpen,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.VerySlow(15.593f)
                 ),
                 NeuralModel(
@@ -244,6 +266,7 @@ data class NeuralModel(
                     title = "DeEdge",
                     description = R.string.model_deedge,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(14.099f)
                 ),
                 NeuralModel(
@@ -252,6 +275,7 @@ data class NeuralModel(
                     title = "GainRes",
                     description = R.string.model_gainres,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(14.415f)
                 ),
                 NeuralModel(
@@ -260,6 +284,7 @@ data class NeuralModel(
                     title = "DeBink v4",
                     description = R.string.model_debink_v4,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(12.947f)
                 ),
                 NeuralModel(
@@ -268,6 +293,7 @@ data class NeuralModel(
                     title = "DeBink v5",
                     description = R.string.model_debink_v5,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(13.597f)
                 ),
                 NeuralModel(
@@ -276,6 +302,7 @@ data class NeuralModel(
                     title = "DeBink v6",
                     description = R.string.model_debink_v6,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(13.789f)
                 ),
                 NeuralModel(
@@ -284,6 +311,7 @@ data class NeuralModel(
                     title = "KDM003 Scans",
                     description = R.string.model_kdm003_scans,
                     type = Type.SCANS,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(14.948f)
                 ),
                 NeuralModel(
@@ -292,6 +320,7 @@ data class NeuralModel(
                     title = "NMKD Jaywreck3 Lite",
                     description = R.string.model_nmkd_jaywreck3_lite,
                     type = Type.ENHANCE,
+                    downloadSize = 10114140,
                     speed = Speed.Fast(4.896f)
                 ),
                 NeuralModel(
@@ -300,6 +329,7 @@ data class NeuralModel(
                     title = "SpongeColor Lite",
                     description = R.string.model_spongecolor_lite,
                     type = Type.COLORIZE,
+                    downloadSize = 10112988,
                     speed = Speed.Fast(4.731f)
                 ),
                 NeuralModel(
@@ -308,6 +338,7 @@ data class NeuralModel(
                     title = "Cinepak",
                     description = R.string.model_cinepak,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
                     speed = Speed.VerySlow(15.515f)
                 ),
                 NeuralModel(
@@ -316,6 +347,7 @@ data class NeuralModel(
                     title = "BCGone Detailed V2",
                     description = R.string.model_bcgone_detailed_v2,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Normal(14.694f)
                 ),
                 NeuralModel(
@@ -324,6 +356,7 @@ data class NeuralModel(
                     title = "BCGone Smooth",
                     description = R.string.model_bcgone_smooth,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.VerySlow(15.44f)
                 ),
                 NeuralModel(
@@ -332,6 +365,7 @@ data class NeuralModel(
                     title = "Bandage Smooth",
                     description = R.string.model_bandage_smooth,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(15.176f)
                 ),
                 NeuralModel(
@@ -340,6 +374,7 @@ data class NeuralModel(
                     title = "Bendel Halftone",
                     description = R.string.model_bendel_halftone,
                     type = Type.ARTIFACTS,
+                    downloadSize = 8660947,
                     speed = Speed.Fast(4.019f)
                 ),
                 NeuralModel(
@@ -348,6 +383,7 @@ data class NeuralModel(
                     title = "Dither Deleter V3 Smooth",
                     description = R.string.model_dither_deleter_v3_smooth,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.VerySlow(15.618f)
                 ),
                 NeuralModel(
@@ -356,6 +392,7 @@ data class NeuralModel(
                     title = "JPEG Destroyer V2",
                     description = R.string.model_jpeg_destroyer_v2,
                     type = Type.DE_JPEG,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(14.9f)
                 ),
                 NeuralModel(
@@ -364,6 +401,7 @@ data class NeuralModel(
                     title = "NMKD H264 Texturize",
                     description = R.string.model_nmkd_h264_texturize,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(14.886f)
                 ),
                 NeuralModel(
@@ -372,6 +410,7 @@ data class NeuralModel(
                     title = "VHS Sharpen",
                     description = R.string.model_vhs_sharpen,
                     type = Type.ENHANCE,
+                    downloadSize = 33456842,
                     speed = Speed.Slow(15.192f)
                 ),
                 NeuralModel(
@@ -380,6 +419,7 @@ data class NeuralModel(
                     title = "Artifacts Dithering ALSA",
                     description = R.string.model_artifacts_dithering_alsa,
                     type = Type.ARTIFACTS,
+                    downloadSize = 33421271,
                     speed = Speed.VerySlow(15.392f)
                 ),
                 NeuralModel(
@@ -388,6 +428,7 @@ data class NeuralModel(
                     title = "NMKD Brighten Redux",
                     description = R.string.model_nmkd_brighten_redux,
                     type = Type.ENHANCE,
+                    downloadSize = 33421271,
                     speed = Speed.Slow(14.863f)
                 ),
                 NeuralModel(
@@ -396,6 +437,7 @@ data class NeuralModel(
                     title = "NMKD Brighten",
                     description = R.string.model_nmkd_brighten,
                     type = Type.ENHANCE,
+                    downloadSize = 33421271,
                     speed = Speed.Slow(14.803f)
                 ),
                 NeuralModel(
@@ -404,6 +446,7 @@ data class NeuralModel(
                     title = "NMKD Detoon",
                     description = R.string.model_nmkd_detoon,
                     type = Type.ENHANCE,
+                    downloadSize = 33421271,
                     speed = Speed.Slow(14.817f)
                 ),
                 NeuralModel(
@@ -412,6 +455,7 @@ data class NeuralModel(
                     title = "Noise Toner Poisson Detailed",
                     description = R.string.model_noise_toner_poisson_detailed,
                     type = Type.DENOISE,
+                    downloadSize = 33421271,
                     speed = Speed.Normal(14.463f)
                 ),
                 NeuralModel(
@@ -420,6 +464,7 @@ data class NeuralModel(
                     title = "Noise Toner Poisson Soft",
                     description = R.string.model_noise_toner_poisson_soft,
                     type = Type.DENOISE,
+                    downloadSize = 33421271,
                     speed = Speed.Normal(14.606f)
                 ),
                 NeuralModel(
@@ -428,6 +473,7 @@ data class NeuralModel(
                     title = "Noise Toner Uniform Detailed",
                     description = R.string.model_noise_toner_uniform_detailed,
                     type = Type.DENOISE,
+                    downloadSize = 33421271,
                     speed = Speed.Normal(14.802f)
                 ),
                 NeuralModel(
@@ -436,6 +482,7 @@ data class NeuralModel(
                     title = "Noise Toner Uniform Soft",
                     description = R.string.model_noise_toner_uniform_soft,
                     type = Type.DENOISE,
+                    downloadSize = 33421271,
                     speed = Speed.Slow(15.001f)
                 ),
                 NeuralModel(
@@ -444,6 +491,7 @@ data class NeuralModel(
                     title = "Repainter",
                     description = R.string.model_repainter,
                     type = Type.ENHANCE,
+                    downloadSize = 33421271,
                     speed = Speed.Normal(14.775f)
                 ),
                 NeuralModel(
@@ -452,6 +500,7 @@ data class NeuralModel(
                     title = "Debandurh FS Ultra Lite",
                     description = R.string.model_debandurh_fs_ultra_lite,
                     type = Type.ENHANCE,
+                    downloadSize = 1371141,
                     speed = Speed.VeryFast(0.741f)
                 ),
                 NeuralModel(
@@ -460,6 +509,7 @@ data class NeuralModel(
                     title = "JPEG 0-20",
                     description = R.string.model_jpeg_0_20,
                     type = Type.DE_JPEG,
+                    downloadSize = 35277480,
                     speed = Speed.VerySlow(15.994f)
                 ),
                 NeuralModel(
@@ -468,6 +518,7 @@ data class NeuralModel(
                     title = "JPEG 20-40",
                     description = R.string.model_jpeg_20_40,
                     type = Type.DE_JPEG,
+                    downloadSize = 35277488,
                     speed = Speed.VerySlow(15.754f)
                 ),
                 NeuralModel(
@@ -476,6 +527,7 @@ data class NeuralModel(
                     title = "JPEG 40-60",
                     description = R.string.model_jpeg_40_60,
                     type = Type.DE_JPEG,
+                    downloadSize = 35277480,
                     speed = Speed.VerySlow(15.959f)
                 ),
                 NeuralModel(
@@ -484,6 +536,7 @@ data class NeuralModel(
                     title = "JPEG 60-80",
                     description = R.string.model_jpeg_60_80,
                     type = Type.DE_JPEG,
+                    downloadSize = 35277488,
                     speed = Speed.Normal(14.307f)
                 ),
                 NeuralModel(
@@ -492,6 +545,7 @@ data class NeuralModel(
                     title = "JPEG 80-100",
                     description = R.string.model_jpeg_80_100,
                     type = Type.DE_JPEG,
+                    downloadSize = 35277488,
                     speed = Speed.Slow(15.018f)
                 ),
                 NeuralModel(
@@ -500,6 +554,7 @@ data class NeuralModel(
                     title = "DeBLR",
                     description = R.string.model_deblr,
                     type = Type.ENHANCE,
+                    downloadSize = 35277480,
                     speed = Speed.VerySlow(16.079f)
                 ),
                 NeuralModel(
@@ -508,6 +563,7 @@ data class NeuralModel(
                     title = "JPEG Artifacts 0-20",
                     description = R.string.model_artifacts_jpg_0_20,
                     type = Type.DE_JPEG,
+                    downloadSize = 34729312,
                     speed = Speed.Slow(15.041f)
                 ),
                 NeuralModel(
@@ -516,6 +572,7 @@ data class NeuralModel(
                     title = "JPEG Artifacts 20-40",
                     description = R.string.model_artifacts_jpg_20_40,
                     type = Type.DE_JPEG,
+                    downloadSize = 34729312,
                     speed = Speed.Normal(14.733f)
                 ),
                 NeuralModel(
@@ -524,6 +581,7 @@ data class NeuralModel(
                     title = "JPEG Artifacts 40-60",
                     description = R.string.model_artifacts_jpg_40_60,
                     type = Type.DE_JPEG,
+                    downloadSize = 34729312,
                     speed = Speed.Slow(14.973f)
                 ),
                 NeuralModel(
@@ -532,6 +590,7 @@ data class NeuralModel(
                     title = "JPEG Artifacts 60-80",
                     description = R.string.model_artifacts_jpg_60_80,
                     type = Type.DE_JPEG,
+                    downloadSize = 34729312,
                     speed = Speed.Normal(14.572f)
                 ),
                 NeuralModel(
@@ -540,6 +599,7 @@ data class NeuralModel(
                     title = "JPEG Artifacts 80-100",
                     description = R.string.model_artifacts_jpg_80_100,
                     type = Type.DE_JPEG,
+                    downloadSize = 34729312,
                     speed = Speed.VerySlow(15.404f)
                 ),
                 NeuralModel(
@@ -548,6 +608,7 @@ data class NeuralModel(
                     title = "ReDetail v2",
                     description = R.string.model_redetail_v2,
                     type = Type.ENHANCE,
+                    downloadSize = 34724216,
                     speed = Speed.Slow(15.265f)
                 ),
                 NeuralModel(
@@ -556,6 +617,7 @@ data class NeuralModel(
                     title = "ITF Skin DiffDetail Lite",
                     description = R.string.model_itf_skin_diffdetail_lite,
                     type = Type.ENHANCE,
+                    downloadSize = 11070576,
                     speed = Speed.Fast(5.138f)
                 ),
                 NeuralModel(
@@ -564,6 +626,7 @@ data class NeuralModel(
                     title = "SBDV DeJPEG",
                     description = R.string.model_sbdv_dejpeg,
                     type = Type.DE_JPEG,
+                    downloadSize = 11070576,
                     speed = Speed.Fast(5.158f)
                 ),
                 NeuralModel(
@@ -572,6 +635,7 @@ data class NeuralModel(
                     title = "ISO Denoise v1",
                     description = R.string.model_iso_denoise_v1,
                     type = Type.DENOISE,
+                    downloadSize = 35277480,
                     speed = Speed.VerySlow(15.463f)
                 ),
                 NeuralModel(
@@ -580,6 +644,7 @@ data class NeuralModel(
                     title = "DeJumbo",
                     description = R.string.model_dejumbo,
                     type = Type.ARTIFACTS,
+                    downloadSize = 35277488,
                     speed = Speed.VerySlow(15.717f)
                 ),
                 NeuralModel(
@@ -588,6 +653,7 @@ data class NeuralModel(
                     title = "DDColor Tiny",
                     description = R.string.model_ddcolor_tiny,
                     type = Type.COLORIZE,
+                    downloadSize = 220853232,
                     speed = Speed.VeryFast(0.159f)
                 ),
                 NeuralModel(
@@ -596,6 +662,7 @@ data class NeuralModel(
                     title = "RealESRGAN x4v3",
                     description = R.string.model_realesrgan_x4v3,
                     type = Type.UPSCALE,
+                    downloadSize = 2621440,
                     speed = Speed.VeryFast(1.215f)
                 ),
                 NeuralModel(
@@ -604,6 +671,7 @@ data class NeuralModel(
                     title = "RealESRGAN x2 Plus",
                     description = R.string.model_realesrgan_x2plus,
                     type = Type.UPSCALE,
+                    downloadSize = 35456784,
                     speed = Speed.Fast(4.437f)
                 ),
                 NeuralModel(
@@ -612,6 +680,7 @@ data class NeuralModel(
                     title = "RealESRGAN x4 Plus",
                     description = R.string.model_realesrgan_x4plus,
                     type = Type.UPSCALE,
+                    downloadSize = 35437480,
                     speed = Speed.VerySlow(18.018f)
                 ),
                 NeuralModel(
@@ -620,6 +689,7 @@ data class NeuralModel(
                     title = "RealESRGAN x4 Plus Anime 6B",
                     description = R.string.model_realesrgan_x4plus_anime,
                     type = Type.UPSCALE,
+                    downloadSize = 9488256,
                     speed = Speed.Fast(5.793f)
                 ),
                 NeuralModel(
@@ -628,6 +698,7 @@ data class NeuralModel(
                     title = "RealESRNet x4 Plus",
                     description = R.string.model_realesrnet_x4plus,
                     type = Type.UPSCALE,
+                    downloadSize = 35437480,
                     speed = Speed.VerySlow(17.11f)
                 ),
                 NeuralModel(
@@ -636,6 +707,7 @@ data class NeuralModel(
                     title = "RealESRGAN x4 Plus Anime 4B",
                     description = R.string.model_realesrgan_x4plus_anime_4b32f,
                     type = Type.UPSCALE,
+                    downloadSize = 5241720,
                     speed = Speed.VeryFast(1.534f)
                 ),
                 NeuralModel(
@@ -644,6 +716,7 @@ data class NeuralModel(
                     title = "UltraSharp x4 V2",
                     description = R.string.model_ultrasharp_v2_x4,
                     type = Type.UPSCALE,
+                    downloadSize = 80518784,
                     speed = Speed.VerySlow(36.695f)
                 ),
                 NeuralModel(
@@ -652,6 +725,7 @@ data class NeuralModel(
                     title = "UltraSharp x4 V2 Lite",
                     description = R.string.model_ultrasharp_v2_lite_x4,
                     type = Type.UPSCALE,
+                    downloadSize = 16055408,
                     speed = Speed.Normal(7.718f)
                 ),
                 NeuralModel(
@@ -660,6 +734,7 @@ data class NeuralModel(
                     title = "RMBG 1.4",
                     description = R.string.model_rmbg_1_4,
                     type = Type.REMOVE_BG,
+                    downloadSize = 88704616,
                     speed = Speed.Normal(0.603f)
                 ),
                 NeuralModel(
@@ -668,6 +743,7 @@ data class NeuralModel(
                     title = "InSPyReNet",
                     description = R.string.model_inspyrenet,
                     type = Type.REMOVE_BG,
+                    downloadSize = 395316574,
                     speed = Speed.Slow(3.029f)
                 ),
                 NeuralModel(
@@ -676,6 +752,7 @@ data class NeuralModel(
                     title = "U2Net",
                     description = R.string.model_u2net,
                     type = Type.REMOVE_BG,
+                    downloadSize = 175997641,
                     speed = Speed.Fast(0.19f)
                 ),
                 NeuralModel(
@@ -684,6 +761,7 @@ data class NeuralModel(
                     title = "U2NetP",
                     description = R.string.model_u2netp,
                     type = Type.REMOVE_BG,
+                    downloadSize = 4574861,
                     speed = Speed.VeryFast(0.074f)
                 ),
                 NeuralModel(
@@ -692,6 +770,7 @@ data class NeuralModel(
                     title = "DDColor",
                     description = R.string.model_ddcolor,
                     type = Type.COLORIZE,
+                    downloadSize = 911801965,
                     speed = Speed.VeryFast(0.362f)
                 ),
                 NeuralModel(
@@ -700,6 +779,7 @@ data class NeuralModel(
                     title = "DDColor Artistic",
                     description = R.string.model_ddcolor_artistic,
                     type = Type.COLORIZE,
+                    downloadSize = 911801965,
                     speed = Speed.VeryFast(0.334f)
                 ),
                 NeuralModel(
@@ -708,6 +788,7 @@ data class NeuralModel(
                     title = "BiRefNet",
                     description = R.string.model_birefnet,
                     type = Type.REMOVE_BG,
+                    downloadSize = 247356800,
                     speed = Speed.VerySlow(4.117f)
                 ),
                 NeuralModel(
@@ -716,6 +797,7 @@ data class NeuralModel(
                     title = "ISNet",
                     description = R.string.model_isnet,
                     type = Type.REMOVE_BG,
+                    downloadSize = 178647984,
                     speed = Speed.Normal(0.573f)
                 )
             ).sortedBy { it.type?.ordinal }
@@ -731,7 +813,8 @@ data class NeuralModel(
             title = name.replace("_", " ").replace("-", " ").substringBefore('.'),
             description = null,
             type = null,
-            speed = null
+            speed = null,
+            downloadSize = 0
         )
     }
 
