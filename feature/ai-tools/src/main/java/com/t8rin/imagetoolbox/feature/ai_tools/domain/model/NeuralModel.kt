@@ -35,6 +35,11 @@ data class NeuralModel(
     val isImported = downloadLink == "imported"
     val isNonChunkable = name.contains("ddcolor") || type == Type.REMOVE_BG
 
+    val pointerLink: String = downloadLink
+        .replace("/raw/", "/blob/")
+        .replace("/resolve/", "/blob/")
+        .substringBefore("?download=true")
+
     enum class Type {
         UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS
     }

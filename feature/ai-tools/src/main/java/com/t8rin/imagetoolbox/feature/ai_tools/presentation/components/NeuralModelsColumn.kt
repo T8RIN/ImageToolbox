@@ -42,6 +42,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
@@ -62,6 +63,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
@@ -353,7 +355,41 @@ internal fun NeuralModelsColumn(
                         )
                     }
                 },
-                directions = setOf(RevealDirection.EndToStart),
+                revealedContentStart = {
+                    val uriHandler = LocalUriHandler.current
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                    0.5f
+                                ),
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                uriHandler.openUri(model.pointerLink)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "link",
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(start = 8.dp)
+                                .align(Alignment.CenterStart),
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+                },
+                directions = setOf(
+                    RevealDirection.StartToEnd,
+                    RevealDirection.EndToStart
+                ),
                 swipeableContent = {
                     PreferenceItemOverload(
                         shape = shape,
@@ -430,89 +466,140 @@ internal fun NeuralModelsColumn(
             items = notDownloadedModels,
             key = { _, m -> m.name + "not" }
         ) { index, model ->
-            PreferenceItemOverload(
-                title = model.title,
-                subtitle = model.description?.let { stringResource(it) },
-                onClick = {
-                    onDownloadModel(model)
-                },
-                containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
-                shape = ShapeDefaults.byIndex(
-                    index = index,
-                    size = notDownloadedModels.size
-                ),
-                modifier = Modifier
-                    .animateItem()
-                    .fillMaxWidth(),
-                endIcon = {
-                    AnimatedContent(
-                        targetState = downloadProgresses[model.name],
-                        contentKey = { key -> key?.currentTotalSize?.let { it > 0 } }
-                    ) { progress ->
-                        if (progress != null) {
-                            Row(
-                                modifier = Modifier.container(
-                                    shape = CircleShape,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    resultPadding = 8.dp
+            val state = rememberRevealState()
+            val interactionSource = remember {
+                MutableInteractionSource()
+            }
+            val isDragged by interactionSource.collectIsDraggedAsState()
+            val shape = ShapeDefaults.byIndex(
+                index = index,
+                size = notDownloadedModels.size,
+                forceDefault = isDragged
+            )
+            SwipeToReveal(
+                state = state,
+                modifier = Modifier.animateItem(),
+                revealedContentStart = {
+                    val uriHandler = LocalUriHandler.current
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(
+                                    0.5f
                                 ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = if (progress.currentTotalSize > 0) {
-                                        rememberHumanFileSize(progress.currentTotalSize)
-                                    } else {
-                                        stringResource(R.string.preparing)
-                                    },
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                EnhancedAutoCircularProgressIndicator(
-                                    progress = { progress.currentPercent },
-                                    modifier = Modifier.size(24.dp),
-                                    trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                    strokeWidth = 3.dp
-                                )
-                            }
-                        } else {
-                            Icon(
-                                imageVector = Icons.Rounded.DownloadForOffline,
-                                contentDescription = null
+                                shape = shape,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
                             )
-                        }
+                            .hapticsClickable {
+                                scope.launch {
+                                    state.animateTo(RevealValue.Default)
+                                }
+                                uriHandler.openUri(model.pointerLink)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "link",
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(start = 8.dp)
+                                .align(Alignment.CenterStart),
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
                     }
                 },
-                placeBottomContentInside = true,
-                bottomContent = model.type?.let { type ->
-                    {
-                        FlowRow(
-                            modifier = Modifier.padding(top = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                        ) {
-                            NeuralModelTypeBadge(
-                                type = type,
-                                isInverted = false
-                            )
-
-                            model.speed?.let { speed ->
-                                NeuralModelSpeedBadge(
-                                    speed = speed,
-                                    isInverted = false
-                                )
+                directions = setOf(RevealDirection.StartToEnd),
+                swipeableContent = {
+                    PreferenceItemOverload(
+                        shape = shape,
+                        title = model.title,
+                        subtitle = model.description?.let { stringResource(it) },
+                        onClick = {
+                            onDownloadModel(model)
+                        },
+                        onLongClick = {
+                            scope.launch {
+                                state.animateTo(RevealValue.FullyRevealedEnd)
                             }
+                        },
+                        containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
+                        modifier = Modifier
+                            .animateItem()
+                            .fillMaxWidth(),
+                        endIcon = {
+                            AnimatedContent(
+                                targetState = downloadProgresses[model.name],
+                                contentKey = { key -> key?.currentTotalSize?.let { it > 0 } }
+                            ) { progress ->
+                                if (progress != null) {
+                                    Row(
+                                        modifier = Modifier.container(
+                                            shape = CircleShape,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            resultPadding = 8.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = if (progress.currentTotalSize > 0) {
+                                                rememberHumanFileSize(progress.currentTotalSize)
+                                            } else {
+                                                stringResource(R.string.preparing)
+                                            },
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        EnhancedAutoCircularProgressIndicator(
+                                            progress = { progress.currentPercent },
+                                            modifier = Modifier.size(24.dp),
+                                            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                            strokeWidth = 3.dp
+                                        )
+                                    }
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Rounded.DownloadForOffline,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        },
+                        placeBottomContentInside = true,
+                        bottomContent = model.type?.let { type ->
+                            {
+                                FlowRow(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    NeuralModelTypeBadge(
+                                        type = type,
+                                        isInverted = false
+                                    )
 
-                            AnimatedVisibility(
-                                visible = downloadProgresses[model.name] == null
-                            ) {
-                                NeuralModelSizeBadge(
-                                    model = model,
-                                    isInverted = false
-                                )
+                                    model.speed?.let { speed ->
+                                        NeuralModelSpeedBadge(
+                                            speed = speed,
+                                            isInverted = false
+                                        )
+                                    }
+
+                                    AnimatedVisibility(
+                                        visible = downloadProgresses[model.name] == null
+                                    ) {
+                                        NeuralModelSizeBadge(
+                                            model = model,
+                                            isInverted = false
+                                        )
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+                    )
+                },
+                interactionSource = interactionSource
             )
         }
     }
