@@ -159,12 +159,25 @@ internal fun NeuralModelsColumn(
         }
     }
 
+    var isSelectRequested by remember {
+        mutableStateOf(false)
+    }
+
     OneTimeEffect {
         scrollToSelected()
     }
 
-    LaunchedEffect(downloadedModels, selectedModel?.name) {
+    LaunchedEffect(downloadedModels) {
         delay(250)
+        scrollToSelected()
+    }
+
+    LaunchedEffect(selectedModel?.name) {
+        delay(250)
+        if (isSelectRequested) {
+            isSelectRequested = false
+            return@LaunchedEffect
+        }
         scrollToSelected()
     }
 
@@ -267,6 +280,7 @@ internal fun NeuralModelsColumn(
                             }
                         },
                         onClick = {
+                            isSelectRequested = true
                             onSelectModel(model)
                         },
                         title = model.title,
@@ -413,6 +427,7 @@ internal fun NeuralModelsColumn(
                             }
                         },
                         onClick = {
+                            isSelectRequested = true
                             onSelectModel(model)
                         },
                         title = model.title,
