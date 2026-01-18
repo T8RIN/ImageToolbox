@@ -2019,7 +2019,7 @@
     <string name="type">Тип</string>
     <string name="keyword">Ключевое слово</string>
     <string name="very_fast">Очень быстро</string>
-    <string name="normal">Нормальный</string>
-    <string name="slow">Медленный</string>
+    <string name="normal">Нормально</string>
+    <string name="slow">Медленно</string>
     <string name="very_slow">Очень медленно</string>
 </resources>
