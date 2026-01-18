@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -286,6 +285,11 @@ fun AspectRatioSelector(
                     label = {
                         Text(stringResource(R.string.width, " "))
                     },
+                    supportingText = abs(tempWidth.toFloatOrNull() ?: 0f).takeIf { it < 1f }?.let {
+                        {
+                            Text(stringResource(R.string.minimum_value_is, 1))
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(
@@ -319,6 +323,11 @@ fun AspectRatioSelector(
                     shape = ShapeDefaults.smallEnd,
                     label = {
                         Text(stringResource(R.string.height, " "))
+                    },
+                    supportingText = abs(tempHeight.toFloatOrNull() ?: 0f).takeIf { it < 1f }?.let {
+                        {
+                            Text(stringResource(R.string.minimum_value_is, 1))
+                        }
                     },
                     modifier = Modifier
                         .weight(1f)
@@ -374,15 +383,4 @@ fun DomainAspectRatio.toCropAspectRatio(
             aspectRatio = AspectRatio(value)
         )
     }
-}
-
-val DomainAspectRatio.Companion.Saver by lazy {
-    Saver<DomainAspectRatio?, String>(
-        save = {
-            it?.asString()
-        },
-        restore = {
-            DomainAspectRatio.fromString(it)
-        }
-    )
 }

@@ -2044,4 +2044,5 @@
     <string name="slow">Slow</string>
     <string name="very_slow">Very Slow</string>
     <string name="compute_percents">Compute Percents</string>
+    <string name="minimum_value_is">Min value is %1$s</string>
 </resources>
