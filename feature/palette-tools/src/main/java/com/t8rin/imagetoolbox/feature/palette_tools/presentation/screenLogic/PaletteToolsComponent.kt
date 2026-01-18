@@ -47,6 +47,7 @@ import com.t8rin.palette.use
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.withContext
 
 class PaletteToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -106,15 +107,18 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
             if (bitmap == null || paletteType == PaletteType.Edit) {
                 _bitmap.update { null }
-                val data = fileController.readBytes(uri.toString())
-                val entries = PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
+                withContext(ioDispatcher) {
+                    val data = fileController.readBytes(uri.toString())
+                    val entries =
+                        PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
 
-                for (format in entries) {
-                    format.getCoder().use { decode(data) }.onSuccess { palette ->
-                        palette.toNamed()?.let { named ->
-                            _palette.update { named }
-                            updatePaletteFormat(format)
-                            break
+                    for (format in entries) {
+                        format.getCoder().use { decode(data) }.onSuccess { palette ->
+                            palette.toNamed()?.let { named ->
+                                _palette.update { named }
+                                updatePaletteFormat(format)
+                                break
+                            }
                         }
                     }
                 }
@@ -151,9 +155,11 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
         savingJob = trackProgress {
             _isSaving.value = true
-            val data = format.getCoder().use {
-                encode(palette.toPalette())
-            }.getOrNull()
+            val data = withContext(ioDispatcher) {
+                format.getCoder().use {
+                    encode(palette.toPalette())
+                }.getOrNull()
+            }
 
             if (data == null) {
                 _isSaving.update { false }

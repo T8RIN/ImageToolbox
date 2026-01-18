@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,12 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 
 import android.content.Context
 import android.net.Uri
+import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.logger.makeLog
 import io.ktor.utils.io.charsets.Charset
+import java.io.ByteArrayOutputStream
 
 
 class UriReadable(
@@ -28,6 +32,20 @@ class UriReadable(
     private val context: Context
 ) : Readable by StreamReadable(
     inputStream = context.contentResolver.openInputStream(uri) ?: ByteArray(0).inputStream()
+)
+
+class UriWriteable(
+    private val uri: Uri,
+    private val context: Context
+) : Writeable by StreamWriteable(
+    outputStream = context.openWriteableStream(
+        uri = uri,
+        onFailure = {
+            uri.makeLog("UriWriteable write")
+            it.makeLog("UriWriteable write")
+            throw it
+        }
+    ) ?: ByteArrayOutputStream(0)
 )
 
 class ByteArrayReadable(

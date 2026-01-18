@@ -29,8 +29,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
-import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
+import com.t8rin.imagetoolbox.core.data.saving.io.UriWriteable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
 import com.t8rin.imagetoolbox.core.data.utils.copyMetadata
@@ -41,7 +41,6 @@ import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
 import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectory
 import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
-import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
 import com.t8rin.imagetoolbox.core.data.utils.toUiPath
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -368,16 +367,12 @@ internal class AndroidFileController @Inject constructor(
         block: suspend (Writeable) -> Unit,
     ): SaveResult = withContext(ioDispatcher) {
         runSuspendCatching {
-            context.openWriteableStream(
-                uri = uri.toUri(),
-                onFailure = {
-                    uri.makeLog("File Controller write")
-                    it.makeLog("File Controller write")
-                    throw it
-                }
-            )?.let { stream ->
-                StreamWriteable(stream).use { block(it) }
-            }
+            block(
+                UriWriteable(
+                    uri = uri.toUri(),
+                    context = context
+                )
+            )
         }.onSuccess {
             return@withContext SaveResult.Success(
                 message = null,
@@ -398,12 +393,10 @@ internal class AndroidFileController @Inject constructor(
     ): SaveResult = writeBytes(
         uri = toUri,
         block = { output ->
-            context.contentResolver.openInputStream(fromUri.toUri())?.buffered()?.use { input ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                while (input.read(buffer) != -1) {
-                    output.writeBytes(buffer)
-                }
-            } ?: throw IllegalAccessException("File inaccessible")
+            UriReadable(
+                uri = fromUri.toUri(),
+                context = context
+            ).copyTo(output)
         }
     )
 
