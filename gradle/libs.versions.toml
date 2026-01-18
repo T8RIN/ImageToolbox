@@ -3,8 +3,8 @@ androidMinSdk = "23"
 androidTargetSdk = "36"
 androidCompileSdk = "36"
 
-versionName = "3.6.0-alpha02"
-versionCode = "199"
+versionName = "3.6.0-beta01"
+versionCode = "200"
 
 jvmTarget = "17"
 
