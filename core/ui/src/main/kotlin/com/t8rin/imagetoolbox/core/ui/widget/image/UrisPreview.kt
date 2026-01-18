@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
@@ -43,11 +45,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +61,8 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -90,8 +96,13 @@ fun UrisPreview(
     },
     showTransparencyChecker: Boolean = true,
     showScrimForNonSuccess: Boolean = true,
-    filenameSource: (index: Int) -> Uri = { uris[it] }
+    filenameSource: (index: Int) -> Uri = { uris[it] },
+    onNavigate: ((Screen) -> Unit)? = null
 ) {
+    var previewUri by rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+
     BoxWithConstraints {
         val size = uris.size + 1f
 
@@ -137,7 +148,11 @@ fun UrisPreview(
                                         Modifier.hapticsClickable {
                                             onClickUri(uri)
                                         }
-                                    } else Modifier
+                                    } else {
+                                        Modifier.hapticsClickable {
+                                            previewUri = uri
+                                        }
+                                    }
                                 )
                                 .width(width)
                                 .aspectRatio(1f),
@@ -233,5 +248,18 @@ fun UrisPreview(
                 }
             }
         }
+    }
+
+    if (onClickUri == null && onNavigate != null) {
+        val context = LocalContext.current
+        ImagePager(
+            visible = previewUri != null,
+            selectedUri = previewUri,
+            uris = uris,
+            onNavigate = onNavigate,
+            onUriSelected = { previewUri = it },
+            onShare = { context.shareUris(listOf(it)) },
+            onDismiss = { previewUri = null }
+        )
     }
 }

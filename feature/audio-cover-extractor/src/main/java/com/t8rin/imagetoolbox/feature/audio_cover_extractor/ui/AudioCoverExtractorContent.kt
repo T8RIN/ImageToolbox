@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -221,7 +221,8 @@ fun AudioCoverExtractorContent(
                 showTransparencyChecker = false,
                 filenameSource = { index ->
                     covers[index].audioUri
-                }
+                },
+                onNavigate = component.onNavigate
             )
         },
         showImagePreviewAsStickyHeader = false,
@@ -246,9 +247,9 @@ fun AudioCoverExtractorContent(
             )
         },
         buttons = {
-            val save: (oneTimeSaveLocationUri: String?) -> Unit = {
+            val save: (oneTimeSaveLocationUri: String?) -> Unit = { uri ->
                 component.save(
-                    oneTimeSaveLocationUri = it,
+                    oneTimeSaveLocationUri = uri,
                     onResult = essentials::parseSaveResults
                 )
             }
@@ -258,7 +259,7 @@ fun AudioCoverExtractorContent(
 
             val canSave by remember(covers) {
                 derivedStateOf {
-                    covers.none { it.isLoading }
+                    covers.none { cover -> cover.isLoading }
                 }
             }
 

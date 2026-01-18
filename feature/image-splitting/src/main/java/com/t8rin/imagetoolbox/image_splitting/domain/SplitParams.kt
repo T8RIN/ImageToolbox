@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,46 @@ data class SplitParams(
     val imageFormat: ImageFormat,
     val quality: Quality,
 ) {
+    fun withAspectRatio(
+        targetAspectRatio: Float,
+        maxRows: Int = rowsCount,
+        maxColumns: Int = columnsCount
+    ): SplitParams {
+        require(targetAspectRatio > 0f) { "aspectRatio must be > 0" }
+
+        var bestRows = 1
+        var bestCols = 1
+
+        for (rows in 1..maxRows) {
+            val tileHeight = 1f / rows
+            val tileWidth = tileHeight * targetAspectRatio
+            val cols = (1f / tileWidth).toInt()
+            if (cols in 1..maxColumns) {
+                bestRows = rows
+                bestCols = cols
+            }
+        }
+
+        val rowsCount = bestRows
+        val columnsCount = bestCols
+
+        val rowPercentages = List(rowsCount) { 1f / rowsCount }.let { rows ->
+            rows.dropLast(1) + (1f - rows.dropLast(1).sum())
+        }
+
+        val columnPercentages = List(columnsCount) { 1f / columnsCount }.let { cols ->
+            cols.dropLast(1) + (1f - cols.dropLast(1).sum())
+        }
+
+
+        return this.copy(
+            rowsCount = rowsCount,
+            columnsCount = columnsCount,
+            rowPercentages = rowPercentages,
+            columnPercentages = columnPercentages
+        )
+    }
+
     companion object {
         val Default by lazy {
             SplitParams(

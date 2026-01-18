@@ -2043,4 +2043,5 @@
     <string name="normal">Normal</string>
     <string name="slow">Slow</string>
     <string name="very_slow">Very Slow</string>
+    <string name="compute_percents">Compute Percents</string>
 </resources>
