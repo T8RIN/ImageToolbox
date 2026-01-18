@@ -107,7 +107,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
             if (bitmap == null || paletteType == PaletteType.Edit) {
                 _bitmap.update { null }
-                withContext(ioDispatcher) {
+                withContext(defaultDispatcher) {
                     val data = fileController.readBytes(uri.toString())
                     val entries =
                         PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
@@ -155,7 +155,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
 
         savingJob = trackProgress {
             _isSaving.value = true
-            val data = withContext(ioDispatcher) {
+            val data = withContext(defaultDispatcher) {
                 format.getCoder().use {
                     encode(palette.toPalette())
                 }.getOrNull()
