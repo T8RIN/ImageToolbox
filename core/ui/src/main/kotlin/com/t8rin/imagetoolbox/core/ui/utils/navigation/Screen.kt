@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -818,7 +818,7 @@ sealed class Screen(
     data class AiTools(
         val uris: List<Uri>? = null
     ) : Screen(
-        id = 41,
+        id = 42,
         title = R.string.ai_tools,
         subtitle = R.string.ai_tools_sub
     )
