@@ -258,15 +258,14 @@ class DrawComponent @AssistedInject internal constructor(
                     DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
                 }
             }
-            imageGetter.getImageAsync(
+            imageGetter.getImageData(
                 uri = uri.toString(),
-                originalSize = false,
-                onGetImage = { data ->
-                    updateBitmap(data.image)
-                    _imageFormat.update { data.imageInfo.imageFormat }
-                },
+                size = 1500,
                 onFailure = onFailure
-            )
+            )?.let { data ->
+                updateBitmap(data.image)
+                _imageFormat.update { data.imageInfo.imageFormat }
+            }
         }
     }
 

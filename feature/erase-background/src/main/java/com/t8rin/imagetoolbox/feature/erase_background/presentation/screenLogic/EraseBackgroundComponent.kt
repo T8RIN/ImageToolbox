@@ -150,7 +150,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
 
             imageGetter.getImageAsync(
                 uri = uri.toString(),
-                originalSize = false,
+                originalSize = true,
                 onGetImage = { data ->
                     updateBitmap(data.image)
                     _imageFormat.update {

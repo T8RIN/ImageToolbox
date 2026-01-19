@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import coil3.ImageLoader
 import coil3.gif.repeatCount
 import coil3.request.ImageRequest
 import coil3.request.transformations
+import coil3.size.Precision
 import coil3.size.Size
 import coil3.toBitmap
 import com.awxkee.jxlcoder.coil.enableJxlAnimation
@@ -113,15 +114,50 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImage(
         data: Any,
         size: Int?
-    ): Bitmap? = getImage(
+    ): Bitmap? = getImageImpl(
         data = data,
         size = size?.let {
             IntegerSize(
                 width = it,
                 height = it
             )
-        }
+        },
+        precision = Precision.INEXACT
     )
+
+    override suspend fun getImageData(
+        uri: String,
+        size: Int?,
+        onFailure: (Throwable) -> Unit
+    ): ImageData<Bitmap>? = withContext(defaultDispatcher) {
+        getImageImpl(
+            data = uri,
+            size = size?.let {
+                IntegerSize(
+                    width = it,
+                    height = it
+                )
+            },
+            precision = Precision.INEXACT,
+            onFailure = onFailure
+        )?.let { bitmap ->
+            val newUri = uri.toUri().tryRequireOriginal(context)
+            context.openFileDescriptor(newUri).use {
+                ImageData(
+                    image = bitmap,
+                    imageInfo = ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = settingsState.defaultImageFormat
+                            ?: ImageFormat[getExtension(uri)],
+                        originalUri = uri,
+                        resizeType = settingsState.defaultResizeType
+                    ),
+                    metadata = it?.fileDescriptor?.toMetadata()
+                )
+            }
+        }
+    }
 
     override suspend fun getImageWithTransformations(
         uri: String,
@@ -193,6 +229,7 @@ internal class AndroidImageGetter @Inject constructor(
     private suspend fun getImageImpl(
         data: Any,
         size: IntegerSize?,
+        precision: Precision = Precision.EXACT,
         transformations: List<Transformation<Bitmap>> = emptyList(),
         onFailure: (Throwable) -> Unit = {},
         addSizeToRequest: Boolean = true
@@ -201,6 +238,7 @@ internal class AndroidImageGetter @Inject constructor(
             .Builder(context)
             .data(data)
             .repeatCount(0)
+            .precision(precision)
             .enableAvifAnimation(false)
             .enableJxlAnimation(false)
             .transformations(
