@@ -38,11 +38,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.geometry.takeOrElse
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
@@ -55,12 +60,16 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.feature.draw.data.WarpEngine
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpStroke
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -176,13 +185,6 @@ fun BitmapDrawer(
                 }
             }
 
-            onDraw?.let {
-                LaunchedEffect(invalidations) {
-                    val outImage = outputImage.overlay(drawPathBitmap).asAndroidBitmap()
-                    onDraw(outImage)
-                }
-            }
-
             val canvas: Canvas by remember(drawBitmap, imageHeight, imageWidth) {
                 derivedStateOf {
                     Canvas(drawBitmap)
@@ -233,6 +235,13 @@ fun BitmapDrawer(
                 drawPathMode
             ) { mutableStateOf(Path()) }
 
+            var warpRuntimeStrokes by remember(drawMode) {
+                mutableStateOf(emptyList<WarpStroke>())
+            }
+            var warpClearTrigger by remember {
+                mutableIntStateOf(0)
+            }
+
             with(canvas) {
                 with(nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
@@ -247,13 +256,17 @@ fun BitmapDrawer(
                             backgroundColor = backgroundColor,
                             drawImageBitmap = drawImageBitmap,
                             drawBitmap = drawBitmap,
-                            onClearDrawPath = { drawPath = Path() },
+                            onClearDrawPath = {
+                                drawPath = Path()
+                                warpClearTrigger++
+                                warpRuntimeStrokes = emptyList()
+                            },
                             onRequestFiltering = onRequestFiltering,
                             canvasSize = canvasSize
                         )
                     }
 
-                    if (drawMode !is DrawMode.PathEffect || isEraserOn) {
+                    if ((drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Warp) || isEraserOn) {
                         val androidPath by remember(drawPath) {
                             derivedStateOf {
                                 drawPath.asAndroidPath()
@@ -305,6 +318,9 @@ fun BitmapDrawer(
 
                 motionEvent.value.handle(
                     onDown = {
+                        warpClearTrigger++
+                        warpRuntimeStrokes = emptyList()
+
                         if (currentDrawPosition.isSpecified) {
                             onDrawStart?.invoke()
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
@@ -318,6 +334,18 @@ fun BitmapDrawer(
                         motionEvent.value = MotionEvent.Idle
                     },
                     onMove = {
+                        if (drawMode is DrawMode.Warp && !isEraserOn) {
+                            if (
+                                previousDrawPosition.isSpecified &&
+                                currentDrawPosition.isSpecified
+                            ) {
+                                warpRuntimeStrokes += WarpStroke(
+                                    from = previousDrawPosition.x to previousDrawPosition.y,
+                                    to = currentDrawPosition.x to currentDrawPosition.y
+                                )
+                            }
+                        }
+
                         drawHelper.drawPath(
                             currentDrawPath = drawPath,
                             onDrawFreeArrow = {
@@ -368,65 +396,83 @@ fun BitmapDrawer(
                     },
                     onUp = {
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
-                            drawHelper.drawPath(
-                                currentDrawPath = null,
-                                onDrawFreeArrow = {
-                                    drawPath = pathWithoutTransformations
-                                    PathMeasure().apply {
-                                        setPath(drawPath, false)
-                                    }.let {
-                                        it.getPosition(it.length)
-                                    }.let { lastPoint ->
-                                        if (!lastPoint.isSpecified) {
-                                            drawPath.moveTo(
+                            if (drawMode is DrawMode.Warp && warpRuntimeStrokes.isNotEmpty() && !isEraserOn) {
+                                onAddPath(
+                                    UiPathPaint(
+                                        path = drawPath,
+                                        strokeWidth = strokeWidth,
+                                        brushSoftness = brushSoftness,
+                                        drawColor = drawColor,
+                                        isErasing = false,
+                                        drawMode = drawMode.copy(
+                                            strokes = warpRuntimeStrokes.toList()
+                                        ),
+                                        canvasSize = canvasSize,
+                                        drawPathMode = drawPathMode,
+                                        drawLineStyle = drawLineStyle
+                                    )
+                                )
+                            } else {
+                                drawHelper.drawPath(
+                                    currentDrawPath = null,
+                                    onDrawFreeArrow = {
+                                        drawPath = pathWithoutTransformations
+                                        PathMeasure().apply {
+                                            setPath(drawPath, false)
+                                        }.let {
+                                            it.getPosition(it.length)
+                                        }.let { lastPoint ->
+                                            if (!lastPoint.isSpecified) {
+                                                drawPath.moveTo(
+                                                    currentDrawPosition.x,
+                                                    currentDrawPosition.y
+                                                )
+                                            }
+                                            drawPath.lineTo(
                                                 currentDrawPosition.x,
                                                 currentDrawPosition.y
                                             )
                                         }
-                                        drawPath.lineTo(
-                                            currentDrawPosition.x,
-                                            currentDrawPosition.y
-                                        )
-                                    }
 
-                                    drawArrowsIfNeeded(drawPath)
-                                },
-                                onBaseDraw = {
-                                    PathMeasure().apply {
-                                        setPath(drawPath, false)
-                                    }.let {
-                                        it.getPosition(it.length)
-                                    }.takeOrElse { currentDrawPosition }.let { lastPoint ->
-                                        drawPath.moveTo(lastPoint.x, lastPoint.y)
-                                        drawPath.lineTo(
-                                            currentDrawPosition.x,
-                                            currentDrawPosition.y
-                                        )
+                                        drawArrowsIfNeeded(drawPath)
+                                    },
+                                    onBaseDraw = {
+                                        PathMeasure().apply {
+                                            setPath(drawPath, false)
+                                        }.let {
+                                            it.getPosition(it.length)
+                                        }.takeOrElse { currentDrawPosition }.let { lastPoint ->
+                                            drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                            drawPath.lineTo(
+                                                currentDrawPosition.x,
+                                                currentDrawPosition.y
+                                            )
+                                        }
+                                    },
+                                    onFloodFill = { tolerance ->
+                                        outputImage
+                                            .floodFill(
+                                                offset = currentDrawPosition,
+                                                tolerance = tolerance
+                                            )
+                                            ?.let { drawPath = it }
                                     }
-                                },
-                                onFloodFill = { tolerance ->
-                                    outputImage
-                                        .floodFill(
-                                            offset = currentDrawPosition,
-                                            tolerance = tolerance
-                                        )
-                                        ?.let { drawPath = it }
-                                }
-                            )
-
-                            onAddPath(
-                                UiPathPaint(
-                                    path = drawPath,
-                                    strokeWidth = strokeWidth,
-                                    brushSoftness = brushSoftness,
-                                    drawColor = drawColor,
-                                    isErasing = isEraserOn,
-                                    drawMode = drawMode,
-                                    canvasSize = canvasSize,
-                                    drawPathMode = drawPathMode,
-                                    drawLineStyle = drawLineStyle
                                 )
-                            )
+
+                                onAddPath(
+                                    UiPathPaint(
+                                        path = drawPath,
+                                        strokeWidth = strokeWidth,
+                                        brushSoftness = brushSoftness,
+                                        drawColor = drawColor,
+                                        isErasing = isEraserOn,
+                                        drawMode = drawMode,
+                                        canvasSize = canvasSize,
+                                        drawPathMode = drawPathMode,
+                                        drawLineStyle = drawLineStyle
+                                    )
+                                )
+                            }
                         }
 
                         currentDrawPosition = Offset.Unspecified
@@ -434,7 +480,7 @@ fun BitmapDrawer(
                         motionEvent.value = MotionEvent.Idle
 
                         scope.launch {
-                            if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal) && !isEraserOn) Unit
+                            if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal || drawMode is DrawMode.Warp) && !isEraserOn) Unit
                             else drawPath = Path()
 
                             pathWithoutTransformations = Path()
@@ -461,11 +507,70 @@ fun BitmapDrawer(
                 )
             }
 
-            val previewBitmap by remember(invalidations) {
-                derivedStateOf {
-                    outputImage.overlay(drawPathBitmap)
+            val warpEngine by remember(warpClearTrigger, drawMode) {
+                mutableStateOf(
+                    WarpEngine(
+                        src = outputImage.asAndroidBitmap()
+                    )
+                )
+            }
+
+            LaunchedEffect(warpEngine, warpRuntimeStrokes) {
+                if (drawMode is DrawMode.Warp && warpRuntimeStrokes.isNotEmpty() && previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
+                    warpEngine.applyStroke(
+                        fromX = previousDrawPosition.x,
+                        fromY = previousDrawPosition.y,
+                        toX = currentDrawPosition.x,
+                        toY = currentDrawPosition.y,
+                        brush = WarpBrush(
+                            radius = strokeWidth.toPx(canvasSize),
+                            strength = drawMode.strength,
+                            hardness = drawMode.hardness
+                        ),
+                        mode = drawMode.warpMode
+                    )
+                    invalidations++
                 }
             }
+
+            val warpedImage by remember(invalidations, warpEngine) {
+                derivedStateOf {
+                    if (warpRuntimeStrokes.isNotEmpty()) {
+                        outputImage.overlay(
+                            warpEngine.render().asImageBitmap().clipBitmap(
+                                path = drawPath,
+                                paint = Paint().apply {
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = strokeWidth.toPx(canvasSize)
+                                    strokeCap = StrokeCap.Round
+                                    strokeJoin = StrokeJoin.Round
+                                    color = Color.White
+                                    blendMode = BlendMode.Clear
+                                }
+                            )
+                        )
+                    } else {
+                        outputImage.overlay(drawPathBitmap)
+                    }
+                }
+            }
+
+            val previewBitmap by remember(invalidations) {
+                derivedStateOf {
+                    if (drawMode is DrawMode.Warp) {
+                        warpedImage
+                    } else {
+                        outputImage.overlay(drawPathBitmap)
+                    }
+                }
+            }
+
+            onDraw?.let {
+                LaunchedEffect(invalidations) {
+                    onDraw(previewBitmap.asAndroidBitmap())
+                }
+            }
+
             BitmapDrawerPreview(
                 preview = previewBitmap,
                 globalTouchPointersCount = globalTouchPointersCount,

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -58,7 +59,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import com.t8rin.imagetoolbox.feature.draw.data.WarpEngine
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -69,6 +72,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transfo
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
+@SuppressLint("ComposableNaming")
 @Composable
 internal fun Canvas.UiPathPaintCanvasAction(
     uiPathPaint: UiPathPaint,
@@ -244,6 +248,75 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 )
             }
         )
+    } else if (drawMode is DrawMode.Warp && !isEraserOn) {
+        val paint = remember(uiPathPaint, canvasSize) {
+            val stroke = strokeWidth.toPx(canvasSize)
+
+            Paint().apply {
+                style = PaintingStyle.Stroke
+                this.strokeWidth = stroke
+                strokeCap = StrokeCap.Round
+                strokeJoin = StrokeJoin.Round
+                color = Color.White
+                blendMode = BlendMode.Clear
+            }
+        }
+        var warpedBitmap by remember(uiPathPaint, canvasSize) {
+            mutableStateOf<ImageBitmap?>(null)
+        }
+
+        LaunchedEffect(warpedBitmap, invalidations) {
+            if (warpedBitmap == null || invalidations <= pathsCount) {
+
+                val source = drawImageBitmap
+                    .overlay(drawBitmap)
+                    .asAndroidBitmap()
+
+                val engine = WarpEngine(source)
+
+                drawMode.strokes.forEach { warp ->
+                    val stroke = warp.scaleToFitCanvas(
+                        currentSize = canvasSize,
+                        oldSize = size
+                    )
+                    engine.applyStroke(
+                        fromX = stroke.from.first,
+                        fromY = stroke.from.second,
+                        toX = stroke.to.first,
+                        toY = stroke.to.second,
+                        brush = WarpBrush(
+                            radius = strokeWidth.toPx(canvasSize),
+                            strength = drawMode.strength,
+                            hardness = drawMode.hardness
+                        ),
+                        mode = drawMode.warpMode
+                    )
+                }
+
+                warpedBitmap = engine
+                    .render()
+                    .asImageBitmap()
+                    .clipBitmap(
+                        path = path.asComposePath(),
+                        paint = paint
+                    ).also {
+                        it.prepareToDraw()
+                        onInvalidate()
+                    }
+            }
+        }
+
+        warpedBitmap?.let {
+            LaunchedEffect(warpedBitmap) {
+                onClearDrawPath()
+            }
+            val imagePaint = remember { Paint() }
+            drawImage(
+                image = warpedBitmap!!,
+                topLeftOffset = Offset.Zero,
+                paint = imagePaint
+            )
+        }
     } else {
         val pathPaint by rememberPaint(
             strokeWidth = strokeWidth,

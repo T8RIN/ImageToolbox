@@ -1,0 +1,178 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.draw.data
+
+import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.feature.draw.domain.DisplacementMap
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpMode
+
+internal class WarpEngine(
+    src: Bitmap
+) {
+    private val w = src.width
+    private val h = src.height
+
+    private val pixels = IntArray(w * h)
+    private var map = DisplacementMap(w, h)
+
+    init {
+        src.getPixels(pixels, 0, w, 0, 0, w, h)
+    }
+
+    fun applyStroke(
+        fromX: Float,
+        fromY: Float,
+        toX: Float,
+        toY: Float,
+        brush: WarpBrush,
+        mode: WarpMode
+    ) {
+        val dxStroke = toX - fromX
+        val dyStroke = toY - fromY
+
+        val r = brush.radius
+        val r2 = r * r
+
+        val minX = (toX - r).toInt().coerceIn(0, w - 1)
+        val maxX = (toX + r).toInt().coerceIn(0, w - 1)
+        val minY = (toY - r).toInt().coerceIn(0, h - 1)
+        val maxY = (toY + r).toInt().coerceIn(0, h - 1)
+
+        for (y in minY..maxY) {
+            for (x in minX..maxX) {
+                val dx = x - toX
+                val dy = y - toY
+                val dist2 = dx * dx + dy * dy
+                if (dist2 > r2) continue
+
+                val dist = kotlin.math.sqrt(dist2)
+                val t = 1f - dist / r
+
+                val falloff = smoothstep(
+                    brush.hardness,
+                    1f,
+                    t
+                ) * brush.strength
+
+                val idx = map.index(x, y)
+
+                when (mode) {
+                    WarpMode.MOVE -> {
+                        map.dx[idx] += dxStroke * falloff
+                        map.dy[idx] += dyStroke * falloff
+                    }
+
+                    WarpMode.GROW -> {
+                        map.dx[idx] += dx * falloff * 0.3f
+                        map.dy[idx] += dy * falloff * 0.3f
+                    }
+
+                    WarpMode.SHRINK -> {
+                        map.dx[idx] -= dx * falloff * 0.3f
+                        map.dy[idx] -= dy * falloff * 0.3f
+                    }
+
+                    WarpMode.PINCH -> {
+                        val k = falloff * 0.4f
+                        map.dx[idx] -= dx * k
+                        map.dy[idx] -= dy * k
+                    }
+
+                    WarpMode.EXPAND -> {
+                        val k = falloff * 0.4f
+                        map.dx[idx] += dx * k
+                        map.dy[idx] += dy * k
+                    }
+
+                    WarpMode.SWIRL_CW,
+                    WarpMode.SWIRL_CCW -> {
+                        val angle = falloff * 0.8f *
+                                if (mode == WarpMode.SWIRL_CW) 1f else -1f
+                        val sin = kotlin.math.sin(angle)
+                        val cos = kotlin.math.cos(angle)
+
+                        val rx = dx * cos - dy * sin
+                        val ry = dx * sin + dy * cos
+
+                        map.dx[idx] += (rx - dx)
+                        map.dy[idx] += (ry - dy)
+                    }
+                }
+            }
+        }
+    }
+
+    fun render(): Bitmap {
+        val out = IntArray(w * h)
+
+        for (y in 0 until h) {
+            for (x in 0 until w) {
+                val i = y * w + x
+                val sx = x + map.dx[i]
+                val sy = y + map.dy[i]
+                out[i] = sampleBilinear(sx, sy)
+            }
+        }
+
+        return Bitmap.createBitmap(out, w, h, Bitmap.Config.ARGB_8888)
+    }
+
+    private fun sampleBilinear(fx: Float, fy: Float): Int {
+        val x0 = fx.toInt().coerceIn(0, w - 1)
+        val y0 = fy.toInt().coerceIn(0, h - 1)
+        val x1 = (x0 + 1).coerceIn(0, w - 1)
+        val y1 = (y0 + 1).coerceIn(0, h - 1)
+
+        val dx = fx - x0
+        val dy = fy - y0
+
+        val c00 = pixels[y0 * w + x0]
+        val c10 = pixels[y0 * w + x1]
+        val c01 = pixels[y1 * w + x0]
+        val c11 = pixels[y1 * w + x1]
+
+        return lerpColor(
+            lerpColor(c00, c10, dx),
+            lerpColor(c01, c11, dx),
+            dy
+        )
+    }
+
+    private fun smoothstep(edge0: Float, edge1: Float, x: Float): Float {
+        val t = ((x - edge0) / (edge1 - edge0)).coerceIn(0f, 1f)
+        return t * t * (3 - 2 * t)
+    }
+
+    private fun lerpColor(a: Int, b: Int, t: Float): Int {
+        val ar = a shr 16 and 0xff
+        val ag = a shr 8 and 0xff
+        val ab = a and 0xff
+
+        val br = b shr 16 and 0xff
+        val bg = b shr 8 and 0xff
+        val bb = b and 0xff
+
+        val r = (ar + (br - ar) * t).toInt()
+        val g = (ag + (bg - ag) * t).toInt()
+        val bl = (ab + (bb - ab) * t).toInt()
+
+        return (0xff shl 24) or (r shl 16) or (g shl 8) or bl
+    }
+
+}

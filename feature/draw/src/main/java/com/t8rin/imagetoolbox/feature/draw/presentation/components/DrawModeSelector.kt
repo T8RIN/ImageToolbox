@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Highlighter
+import com.t8rin.imagetoolbox.core.resources.icons.MeshGradient
 import com.t8rin.imagetoolbox.core.resources.icons.NeonBrush
 import com.t8rin.imagetoolbox.core.resources.icons.Pen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
@@ -224,6 +225,7 @@ private fun DrawMode.getSubtitle(): Int = when (this) {
     is DrawMode.Image -> R.string.draw_mode_image_sub
     is DrawMode.PathEffect.Custom -> R.string.draw_filter_sub
     is DrawMode.SpotHeal -> R.string.spot_heal_sub
+    is DrawMode.Warp -> R.string.warp_sub
 }
 
 private fun DrawMode.getTitle(): Int = when (this) {
@@ -236,6 +238,7 @@ private fun DrawMode.getTitle(): Int = when (this) {
     is DrawMode.Image -> R.string.image
     is DrawMode.PathEffect.Custom -> R.string.filter
     is DrawMode.SpotHeal -> R.string.spot_heal
+    is DrawMode.Warp -> R.string.warp
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
@@ -248,4 +251,5 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.Image -> Icons.Outlined.Image
     is DrawMode.PathEffect.Custom -> Icons.Outlined.AutoFixHigh
     is DrawMode.SpotHeal -> Icons.Outlined.Healing
+    is DrawMode.Warp -> Icons.Outlined.MeshGradient
 }
