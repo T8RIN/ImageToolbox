@@ -529,6 +529,7 @@ or click one of the badges below.
     - Spray
     - Neon
     - Highlighter
+    - Warp (Move, Grow, Shrink, Swirl)
     - Privacy Blur
     - Pixelation Paint
     - Text
