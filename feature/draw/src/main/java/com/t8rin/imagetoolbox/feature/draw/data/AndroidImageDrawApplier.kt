@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +59,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedBitmapOnPath
@@ -69,6 +68,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
+import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -80,7 +80,6 @@ internal class AndroidImageDrawApplier @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    private val settingsProvider: SettingsProvider,
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 
     override suspend fun applyDrawToImage(
@@ -214,6 +213,47 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 ).asAndroidBitmap()
                             )
                         }
+                    } else if (drawMode is DrawMode.Warp && !isErasing) {
+                        val paint = Paint().apply {
+                            style = PaintingStyle.Stroke
+                            strokeWidth = stroke
+                            strokeCap = StrokeCap.Round
+                            strokeJoin = StrokeJoin.Round
+                            color = Color.White
+                            blendMode = BlendMode.Clear
+                        }
+
+                        val engine = WarpEngine(image.overlay(bitmap))
+
+                        drawMode.strokes.forEach { warpStroke ->
+                            val warp = warpStroke.scaleToFitCanvas(
+                                currentSize = canvasSize,
+                                oldSize = size
+                            )
+                            engine.applyStroke(
+                                fromX = warp.from.first,
+                                fromY = warp.from.second,
+                                toX = warp.to.first,
+                                toY = warp.to.second,
+                                brush = WarpBrush(
+                                    radius = stroke,
+                                    strength = drawMode.strength,
+                                    hardness = drawMode.hardness
+                                ),
+                                mode = drawMode.warpMode
+                            )
+                        }
+
+                        drawBitmap(
+                            engine
+                                .render()
+                                .asImageBitmap()
+                                .clipBitmap(
+                                    path = path,
+                                    paint = paint
+                                )
+                                .asAndroidBitmap()
+                        )
                     } else {
                         val paint = Paint().apply {
                             if (isErasing) {
@@ -491,7 +531,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
     ): ImageBitmap {
         val newPath = NativePath(path.asAndroidPath())
 
-        return asAndroidBitmap().applyCanvas {
+        return asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
             drawPath(
                 newPath.apply {
                     fillType = NativePath.FillType.INVERSE_WINDING

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,16 +57,24 @@ sealed class DrawMode(open val ordinal: Int) {
         val mode: SpotHealMode = SpotHealMode.OpenCV
     ) : DrawMode(8)
 
+    data class Warp(
+        val warpMode: WarpMode = WarpMode.MOVE,
+        val strength: Float = 0.25f,
+        val hardness: Float = 0.5f,
+        val strokes: List<WarpStroke> = emptyList()
+    ) : DrawMode(9)
+
     companion object {
         val entries by lazy {
             listOf(
                 Pen,
                 PathEffect.PrivacyBlur(),
                 SpotHeal(),
-                Text(),
-                Image(),
+                Warp(),
                 Neon,
                 Highlighter,
+                Text(),
+                Image(),
                 PathEffect.Pixelation(),
                 PathEffect.Custom()
             )
