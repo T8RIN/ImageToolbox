@@ -45,7 +45,7 @@
     <string name="color_red">Czerwony</string>
     <string name="color_green">Zielony</string>
     <string name="color_blue">Niebieski</string>
-    <string name="clipboard_paste_invalid_color_code">Wklej prawidłowy kod aRGB.</string>
+    <string name="clipboard_paste_invalid_color_code">Wklej prawidłowy kod aRGB</string>
     <string name="clipboard_paste_invalid_empty">Nic do wklejenia</string>
     <string name="color_scheme">Schemat kolorów</string>
     <string name="explicit">Wyraźny</string>
@@ -248,7 +248,7 @@
     <string name="luminance_threshold">Próg luminancji</string>
     <string name="file_explorer_picker">Przeglądarka plików</string>
     <string name="gallery_picker_sub">Prosty selektor obrazów w galerii. Działa tylko wtedy, gdy masz aplikację, która umożliwia wybieranie multimediów</string>
-    <string name="load_image_from_net">Ładowanie obrazu w sieci</string>
+    <string name="load_image_from_net">Ładowanie obrazu sieciowego</string>
     <string name="edit">Edycja</string>
     <string name="order">Kolejność</string>
     <string name="order_sub">Określa kolejność narzędzi na ekranie głównym</string>

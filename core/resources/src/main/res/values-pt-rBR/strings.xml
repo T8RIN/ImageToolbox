@@ -936,7 +936,7 @@
     <string name="tag_artist">Artista</string>
     <string name="tag_copyright">Copyright</string>
     <string name="tag_exif_version">Versão Exif</string>
-    <string name="tag_color_space">Espaço colorido</string>
+    <string name="tag_color_space">Espaço de Cores</string>
     <string name="tag_gamma">Gama</string>
     <string name="tag_pixel_x_dimension">Dimensão Pixel (horizontal)</string>
     <string name="tag_compressed_bits_per_pixel">Bits compactados por pixel</string>
@@ -1092,7 +1092,7 @@
     <string name="allow_enter_by_text_field_sub">Ativa o campo de texto atrás da seleção de predefinições, para inseri-las instantaneamente</string>
     <string name="linear">Linear</string>
     <string name="equalize_histogram_pixelation">Equalizar pixelização do histograma</string>
-    <string name="scale_color_space">Escalar espaço de cores</string>
+    <string name="scale_color_space">Escalar Espaço de Cores</string>
     <string name="grid_size_x">Tamanho da grade (horizontal)</string>
     <string name="grid_size_y">Tamanho da grade (vertical)</string>
     <string name="equalize_histogram_adaptive_lab">Equalizar Histograma Adaptive LAB</string>
@@ -1983,7 +1983,7 @@
     <string name="model_iso_denoise_v1">Reduz o ruído ISO em fotos tiradas em condições de pouca luz, preservando os detalhes.</string>
     <string name="model_dejumbo">Corrige realces superexpostos ou “jumbo” e restaura um melhor equilíbrio tonal.</string>
     <string name="model_ddcolor_tiny">Modelo de colorização leve e rápido que adiciona cores naturais às imagens em tons de cinza.</string>
-    <string name="type_dejpeg">DEJPEG</string>
+    <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Denoise</string>
     <string name="type_colorize">Colorir</string>
     <string name="type_artifacts">Artefatos</string>
