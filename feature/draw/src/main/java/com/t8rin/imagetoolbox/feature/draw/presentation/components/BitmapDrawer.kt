@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -79,6 +80,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pointerDrawObserver
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPathHelper
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -526,22 +528,26 @@ fun BitmapDrawer(
                 )
             }
 
-            LaunchedEffect(warpEngine, warpRuntimeStrokes) {
-                if (drawMode is DrawMode.Warp && warpRuntimeStrokes.isNotEmpty() && previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
-                    warpEngine.applyStroke(
-                        fromX = previousDrawPosition.x,
-                        fromY = previousDrawPosition.y,
-                        toX = currentDrawPosition.x,
-                        toY = currentDrawPosition.y,
-                        brush = WarpBrush(
-                            radius = strokeWidth.toPx(canvasSize),
-                            strength = drawMode.strength,
-                            hardness = drawMode.hardness
-                        ),
-                        mode = drawMode.warpMode
-                    )
-                    invalidations++
-                }
+            LaunchedEffect(warpEngine) {
+                snapshotFlow { warpRuntimeStrokes.lastOrNull() }
+                    .filterNotNull()
+                    .collect {
+                        if (drawMode is DrawMode.Warp) {
+                            warpEngine.applyStroke(
+                                fromX = it.from.first,
+                                fromY = it.from.second,
+                                toX = it.to.first,
+                                toY = it.to.second,
+                                brush = WarpBrush(
+                                    radius = strokeWidth.toPx(canvasSize),
+                                    strength = drawMode.strength,
+                                    hardness = drawMode.hardness
+                                ),
+                                mode = drawMode.warpMode
+                            )
+                            invalidations++
+                        }
+                    }
             }
 
             val warpedImage by remember(invalidations, warpEngine) {
