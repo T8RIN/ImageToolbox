@@ -2022,4 +2022,9 @@
     <string name="normal">Нормально</string>
     <string name="slow">Медленно</string>
     <string name="very_slow">Очень медленно</string>
+    <string name="warp_mode_move">Движение</string>
+    <string name="warp_mode_grow">Рост</string>
+    <string name="warp_mode_shrink">Сжатие</string>
+    <string name="warp_mode_swirl_cw">Вихрь (→)</string>
+    <string name="warp_mode_swirl_ccw">Вихрь (←)</string>
 </resources>

@@ -260,7 +260,7 @@ class DrawComponent @AssistedInject internal constructor(
             }
             imageGetter.getImageAsync(
                 uri = uri.toString(),
-                originalSize = true,
+                originalSize = false,
                 onGetImage = { data ->
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
@@ -433,6 +433,11 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun updateDrawMode(drawMode: DrawMode) {
         _drawMode.update { drawMode }
+
+        if (drawMode is DrawMode.Warp) {
+            _drawPathMode.update { DrawPathMode.Free }
+            _drawLineStyle.update { DrawLineStyle.None }
+        }
     }
 
     fun updateDrawPathMode(drawPathMode: DrawPathMode) {

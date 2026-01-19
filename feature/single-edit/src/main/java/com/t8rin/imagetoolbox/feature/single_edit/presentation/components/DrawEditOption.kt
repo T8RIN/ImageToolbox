@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -233,9 +233,10 @@ fun DrawEditOption(
 
                     if (!useScaffold) secondaryControls()
                     AnimatedVisibility(
-                        visible = drawMode !is DrawMode.SpotHeal,
+                        visible = drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         OpenColorPickerCard(
                             onOpen = {
@@ -244,9 +245,10 @@ fun DrawEditOption(
                         )
                     }
                     AnimatedVisibility(
-                        visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal,
+                        visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         DrawColorSelector(
                             value = drawColor,
@@ -257,7 +259,8 @@ fun DrawEditOption(
                     AnimatedVisibility(
                         visible = drawPathMode.canChangeStrokeWidth,
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         LineWidthSelector(
                             modifier = Modifier.padding(horizontal = 16.dp),
@@ -272,9 +275,10 @@ fun DrawEditOption(
                         )
                     }
                     AnimatedVisibility(
-                        visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                        visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         BrushSoftnessSelector(
                             modifier = Modifier.padding(horizontal = 16.dp),
@@ -283,9 +287,10 @@ fun DrawEditOption(
                         )
                     }
                     AnimatedVisibility(
-                        visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+                        visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         AlphaSelector(
                             value = alpha,
@@ -299,7 +304,13 @@ fun DrawEditOption(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         value = drawMode,
                         strokeWidth = strokeWidth,
-                        onValueChange = onUpdateDrawMode,
+                        onValueChange = {
+                            if (it is DrawMode.Warp) {
+                                onUpdateDrawPathMode(DrawPathMode.Free)
+                                onUpdateDrawLineStyle(DrawLineStyle.None)
+                            }
+                            onUpdateDrawMode(it)
+                        },
                         values = remember(drawLineStyle) {
                             derivedStateOf {
                                 if (drawLineStyle == DrawLineStyle.None) {
@@ -314,51 +325,65 @@ fun DrawEditOption(
                             }
                         }.value
                     )
-                    DrawPathModeSelector(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        value = drawPathMode,
-                        onValueChange = onUpdateDrawPathMode,
-                        values = remember(drawMode, drawLineStyle) {
-                            derivedStateOf {
-                                val outlinedModes = listOf(
-                                    DrawPathMode.OutlinedRect(),
-                                    DrawPathMode.OutlinedOval,
-                                    DrawPathMode.OutlinedTriangle,
-                                    DrawPathMode.OutlinedPolygon(),
-                                    DrawPathMode.OutlinedStar()
-                                )
-                                if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                                    when (drawLineStyle) {
-                                        DrawLineStyle.None -> DrawPathMode.entries
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.Warp,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        DrawPathModeSelector(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            value = drawPathMode,
+                            onValueChange = onUpdateDrawPathMode,
+                            values = remember(drawMode, drawLineStyle) {
+                                derivedStateOf {
+                                    val outlinedModes = listOf(
+                                        DrawPathMode.OutlinedRect(),
+                                        DrawPathMode.OutlinedOval,
+                                        DrawPathMode.OutlinedTriangle,
+                                        DrawPathMode.OutlinedPolygon(),
+                                        DrawPathMode.OutlinedStar()
+                                    )
+                                    if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                                        when (drawLineStyle) {
+                                            DrawLineStyle.None -> DrawPathMode.entries
 
-                                        !is DrawLineStyle.Stamped<*> -> listOf(
-                                            DrawPathMode.Free,
-                                            DrawPathMode.Line,
-                                            DrawPathMode.LinePointingArrow(),
-                                            DrawPathMode.PointingArrow(),
-                                            DrawPathMode.DoublePointingArrow(),
-                                            DrawPathMode.DoubleLinePointingArrow(),
-                                        ) + outlinedModes
+                                            !is DrawLineStyle.Stamped<*> -> listOf(
+                                                DrawPathMode.Free,
+                                                DrawPathMode.Line,
+                                                DrawPathMode.LinePointingArrow(),
+                                                DrawPathMode.PointingArrow(),
+                                                DrawPathMode.DoublePointingArrow(),
+                                                DrawPathMode.DoubleLinePointingArrow(),
+                                            ) + outlinedModes
 
-                                        else -> listOf(
+                                            else -> listOf(
+                                                DrawPathMode.Free,
+                                                DrawPathMode.Line
+                                            ) + outlinedModes
+                                        }
+                                    } else {
+                                        listOf(
                                             DrawPathMode.Free,
                                             DrawPathMode.Line
                                         ) + outlinedModes
                                     }
-                                } else {
-                                    listOf(
-                                        DrawPathMode.Free,
-                                        DrawPathMode.Line
-                                    ) + outlinedModes
                                 }
-                            }
-                        }.value
-                    )
-                    DrawLineStyleSelector(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        value = drawLineStyle,
-                        onValueChange = onUpdateDrawLineStyle
-                    )
+                            }.value
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = drawMode !is DrawMode.Warp,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        DrawLineStyleSelector(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            value = drawLineStyle,
+                            onValueChange = onUpdateDrawLineStyle
+                        )
+                    }
                     HelperGridParamsSelector(
                         value = helperGridParams,
                         onValueChange = onUpdateHelperGridParams,

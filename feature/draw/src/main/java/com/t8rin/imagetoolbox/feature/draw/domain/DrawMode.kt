@@ -60,7 +60,7 @@ sealed class DrawMode(open val ordinal: Int) {
     data class Warp(
         val warpMode: WarpMode = WarpMode.MOVE,
         val strength: Float = 0.25f,
-        val hardness: Float = 0.7f,
+        val hardness: Float = 0.5f,
         val strokes: List<WarpStroke> = emptyList()
     ) : DrawMode(9)
 

@@ -2045,6 +2045,13 @@
     <string name="very_slow">Very Slow</string>
     <string name="compute_percents">Compute Percents</string>
     <string name="minimum_value_is">Min value is %1$s</string>
-    <string name="warp_sub">Warp image in any direction by drawing</string>
+    <string name="warp_sub">Distort image by drawing with fingers</string>
     <string name="warp">Warp</string>
+    <string name="hardness">Hardness</string>
+    <string name="warp_mode">Warp Mode</string>
+    <string name="warp_mode_move">Move</string>
+    <string name="warp_mode_grow">Grow</string>
+    <string name="warp_mode_shrink">Shrink</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Swirl CCW</string>
 </resources>

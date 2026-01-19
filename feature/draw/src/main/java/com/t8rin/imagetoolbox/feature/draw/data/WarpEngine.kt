@@ -127,7 +127,15 @@ internal class WarpEngine(
                 val dist = sqrt(dist2)
                 val t = 1f - dist / r
 
-                val falloff = smoothstep(edge0 = brush.hardness, x = t) * brush.strength
+                val amp = when (mode) {
+                    WarpMode.MOVE -> 1f
+                    WarpMode.GROW -> 0.015f
+                    WarpMode.SHRINK -> 0.015f
+                    WarpMode.SWIRL_CW -> 0.2f
+                    WarpMode.SWIRL_CCW -> 0.2f
+                }
+
+                val falloff = smoothstep(edge0 = brush.hardness, x = t) * (brush.strength * amp)
 
                 val idx = map.index(x, y)
 
@@ -136,46 +144,28 @@ internal class WarpEngine(
                         map.dx[idx] += (fromX - toX) * falloff
                         map.dy[idx] += (fromY - toY) * falloff
                     }
-                    // остальные режимы остаются без изменений...
+
                     WarpMode.GROW -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
-                            map.dx[idx] += (dx / len) * falloff * brush.strength * r
-                            map.dy[idx] += (dy / len) * falloff * brush.strength * r
+                            map.dx[idx] -= (dx / len) * falloff * r
+                            map.dy[idx] -= (dy / len) * falloff * r
                         }
                     }
 
                     WarpMode.SHRINK -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
-                            map.dx[idx] -= (dx / len) * falloff * brush.strength * r
-                            map.dy[idx] -= (dy / len) * falloff * brush.strength * r
-                        }
-                    }
-
-                    WarpMode.PINCH -> {
-                        val len = sqrt(dx * dx + dy * dy)
-                        if (len > 0f) {
-                            val k = falloff * 0.4f
-                            map.dx[idx] -= (dx / len) * k * r
-                            map.dy[idx] -= (dy / len) * k * r
-                        }
-                    }
-
-                    WarpMode.EXPAND -> {
-                        val len = sqrt(dx * dx + dy * dy)
-                        if (len > 0f) {
-                            val k = falloff * 0.4f
-                            map.dx[idx] += (dx / len) * k * r
-                            map.dy[idx] += (dy / len) * k * r
+                            map.dx[idx] += (dx / len) * falloff * r
+                            map.dy[idx] += (dy / len) * falloff * r
                         }
                     }
 
                     WarpMode.SWIRL_CW,
                     WarpMode.SWIRL_CCW -> {
                         val angleMax = 0.8f
-                        val t = 1f - (sqrt(dx * dx + dy * dy) / r)
-                        val angle = t * t * angleMax * if (mode == WarpMode.SWIRL_CW) 1f else -1f
+                        val angle = t * angleMax * falloff *
+                                if (mode == WarpMode.SWIRL_CW) 1f else -1f
                         val sin = sin(angle)
                         val cos = cos(angle)
 

@@ -57,6 +57,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
+import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
@@ -244,6 +245,10 @@ fun BitmapDrawer(
                 mutableIntStateOf(0)
             }
 
+            LaunchedEffect(paths.size) {
+                if (paths.isEmpty()) warpClearTrigger++
+            }
+
             with(canvas) {
                 with(nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
@@ -315,7 +320,8 @@ fun BitmapDrawer(
                     strokeWidth = strokeWidth,
                     canvasSize = canvasSize,
                     drawPathMode = drawPathMode,
-                    isEraserOn = isEraserOn
+                    isEraserOn = isEraserOn,
+                    drawMode = drawMode
                 )
 
                 motionEvent.value.handle(
@@ -414,15 +420,15 @@ fun BitmapDrawer(
                                     UiPathPaint(
                                         path = drawPath,
                                         strokeWidth = strokeWidth,
-                                        brushSoftness = brushSoftness,
-                                        drawColor = drawColor,
+                                        brushSoftness = 0.pt,
+                                        drawColor = Color.Transparent,
                                         isErasing = false,
                                         drawMode = drawMode.copy(
                                             strokes = warpRuntimeStrokes.toList()
                                         ),
                                         canvasSize = canvasSize,
-                                        drawPathMode = drawPathMode,
-                                        drawLineStyle = drawLineStyle
+                                        drawPathMode = DrawPathMode.Free,
+                                        drawLineStyle = DrawLineStyle.None
                                     )
                                 )
                             } else {

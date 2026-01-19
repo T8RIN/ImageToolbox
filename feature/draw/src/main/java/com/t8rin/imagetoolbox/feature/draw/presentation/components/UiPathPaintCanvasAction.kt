@@ -69,7 +69,9 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transformationsForMode
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 @SuppressLint("ComposableNaming")
@@ -102,24 +104,26 @@ internal fun Canvas.UiPathPaintCanvasAction(
             mutableStateOf<ImageBitmap?>(null)
         }
         LaunchedEffect(shaderSource, invalidations) {
-            if (shaderSource == null || invalidations <= pathsCount) {
-                shaderSource = onRequestFiltering(
-                    drawImageBitmap.overlay(drawBitmap)
-                        .asAndroidBitmap(),
-                    transformationsForMode(
-                        drawMode = drawMode,
-                        canvasSize = canvasSize
-                    )
-                )?.asImageBitmap()?.clipBitmap(
-                    path = path.asComposePath(),
-                    paint = pathEffectPaint(
-                        strokeWidth = strokeWidth,
-                        drawPathMode = drawPathMode,
-                        canvasSize = canvasSize
-                    ).asComposePaint()
-                )?.also {
-                    it.prepareToDraw()
-                    onInvalidate()
+            withContext(Dispatchers.Default) {
+                if (shaderSource == null || invalidations <= pathsCount) {
+                    shaderSource = onRequestFiltering(
+                        drawImageBitmap.overlay(drawBitmap)
+                            .asAndroidBitmap(),
+                        transformationsForMode(
+                            drawMode = drawMode,
+                            canvasSize = canvasSize
+                        )
+                    )?.asImageBitmap()?.clipBitmap(
+                        path = path.asComposePath(),
+                        paint = pathEffectPaint(
+                            strokeWidth = strokeWidth,
+                            drawPathMode = drawPathMode,
+                            canvasSize = canvasSize
+                        ).asComposePaint()
+                    )?.also {
+                        it.prepareToDraw()
+                        onInvalidate()
+                    }
                 }
             }
         }
@@ -166,37 +170,39 @@ internal fun Canvas.UiPathPaintCanvasAction(
             mutableStateOf<ImageBitmap?>(null)
         }
         LaunchedEffect(shaderSource, invalidations) {
-            if (shaderSource == null || invalidations <= pathsCount) {
-                isLoading = true
-                shaderSource = onRequestFiltering(
-                    drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
-                    listOf(
-                        createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(
-                            Pair(
-                                createBitmap(
-                                    width = canvasSize.width,
-                                    height = canvasSize.height
-                                ).applyCanvas {
-                                    drawColor(Color.Black.toArgb())
-                                    drawPath(
-                                        path,
-                                        paint.asFrameworkPaint()
-                                    )
-                                }.toImageModel(),
-                                drawMode.mode
+            withContext(Dispatchers.Default) {
+                if (shaderSource == null || invalidations <= pathsCount) {
+                    isLoading = true
+                    shaderSource = onRequestFiltering(
+                        drawImageBitmap.overlay(drawBitmap).asAndroidBitmap(),
+                        listOf(
+                            createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(
+                                Pair(
+                                    createBitmap(
+                                        width = canvasSize.width,
+                                        height = canvasSize.height
+                                    ).applyCanvas {
+                                        drawColor(Color.Black.toArgb())
+                                        drawPath(
+                                            path,
+                                            paint.asFrameworkPaint()
+                                        )
+                                    }.toImageModel(),
+                                    drawMode.mode
+                                )
                             )
                         )
-                    )
-                )?.asImageBitmap()?.clipBitmap(
-                    path = path.asComposePath(),
-                    paint = paint.apply {
-                        blendMode = BlendMode.Clear
+                    )?.asImageBitmap()?.clipBitmap(
+                        path = path.asComposePath(),
+                        paint = paint.apply {
+                            blendMode = BlendMode.Clear
+                        }
+                    )?.also {
+                        it.prepareToDraw()
+                        onInvalidate()
                     }
-                )?.also {
-                    it.prepareToDraw()
-                    onInvalidate()
+                    isLoading = false
                 }
-                isLoading = false
             }
         }
         if (shaderSource != null) {
@@ -266,43 +272,45 @@ internal fun Canvas.UiPathPaintCanvasAction(
         }
 
         LaunchedEffect(warpedBitmap, invalidations) {
-            if (warpedBitmap == null || invalidations <= pathsCount) {
+            withContext(Dispatchers.Default) {
+                if (warpedBitmap == null || invalidations <= pathsCount) {
 
-                val source = drawImageBitmap
-                    .overlay(drawBitmap)
-                    .asAndroidBitmap()
+                    val source = drawImageBitmap
+                        .overlay(drawBitmap)
+                        .asAndroidBitmap()
 
-                val engine = WarpEngine(source)
+                    val engine = WarpEngine(source)
 
-                drawMode.strokes.forEach { warp ->
-                    val stroke = warp.scaleToFitCanvas(
-                        currentSize = canvasSize,
-                        oldSize = size
-                    )
-                    engine.applyStroke(
-                        fromX = stroke.from.first,
-                        fromY = stroke.from.second,
-                        toX = stroke.to.first,
-                        toY = stroke.to.second,
-                        brush = WarpBrush(
-                            radius = strokeWidth.toPx(canvasSize),
-                            strength = drawMode.strength,
-                            hardness = drawMode.hardness
-                        ),
-                        mode = drawMode.warpMode
-                    )
-                }
-
-                warpedBitmap = engine
-                    .render()
-                    .asImageBitmap()
-                    .clipBitmap(
-                        path = path.asComposePath(),
-                        paint = paint
-                    ).also {
-                        it.prepareToDraw()
-                        onInvalidate()
+                    drawMode.strokes.forEach { warp ->
+                        val stroke = warp.scaleToFitCanvas(
+                            currentSize = canvasSize,
+                            oldSize = size
+                        )
+                        engine.applyStroke(
+                            fromX = stroke.from.first,
+                            fromY = stroke.from.second,
+                            toX = stroke.to.first,
+                            toY = stroke.to.second,
+                            brush = WarpBrush(
+                                radius = strokeWidth.toPx(canvasSize),
+                                strength = drawMode.strength,
+                                hardness = drawMode.hardness
+                            ),
+                            mode = drawMode.warpMode
+                        )
                     }
+
+                    warpedBitmap = engine
+                        .render()
+                        .asImageBitmap()
+                        .clipBitmap(
+                            path = path.asComposePath(),
+                            paint = paint
+                        ).also {
+                            it.prepareToDraw()
+                            onInvalidate()
+                        }
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
@@ -62,6 +64,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
@@ -114,7 +117,6 @@ fun BitmapEraser(
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(modifier) {
-
             var invalidations by remember {
                 mutableIntStateOf(0)
             }
@@ -296,7 +298,8 @@ fun BitmapEraser(
                     strokeWidth = strokeWidth,
                     canvasSize = canvasSize,
                     drawPathMode = drawPathMode,
-                    isEraserOn = false
+                    isEraserOn = false,
+                    drawMode = DrawMode.Pen
                 )
 
                 motionEvent.value.handle(

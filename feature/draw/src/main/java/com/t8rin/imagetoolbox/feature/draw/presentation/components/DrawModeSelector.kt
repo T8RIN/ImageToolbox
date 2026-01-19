@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.Pixel
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PrivacyBlurParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.SpotHealParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.TextParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.WarpParamsSelector
 
 @Composable
 fun DrawModeSelector(
@@ -124,6 +125,11 @@ fun DrawModeSelector(
             onIndexChange = {
                 onValueChange(values[it])
             }
+        )
+
+        WarpParamsSelector(
+            value = value,
+            onValueChange = onValueChange
         )
 
         SpotHealParamsSelector(

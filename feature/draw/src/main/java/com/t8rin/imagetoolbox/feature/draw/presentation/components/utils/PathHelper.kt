@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.asComposePath
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rotate
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import kotlin.math.abs
 import kotlin.math.cos
@@ -51,6 +52,7 @@ data class PathHelper(
     val canvasSize: IntegerSize,
     val drawPathMode: DrawPathMode,
     val isEraserOn: Boolean,
+    val drawMode: DrawMode
 ) {
     private val strokeWidthSized = strokeWidth.toPx(canvasSize)
 
@@ -400,7 +402,7 @@ data class PathHelper(
         onBaseDraw: () -> Unit = {},
         onFloodFill: (tolerance: Float) -> Unit = {}
     ) {
-        if (!isEraserOn) {
+        if (!isEraserOn && drawMode !is DrawMode.Warp) {
             when (drawPathMode) {
                 is DrawPathMode.PointingArrow,
                 is DrawPathMode.DoublePointingArrow -> onDrawFreeArrow(drawArrowsScope)
@@ -509,6 +511,7 @@ fun rememberPathHelper(
     canvasSize: IntegerSize,
     drawPathMode: DrawPathMode,
     isEraserOn: Boolean,
+    drawMode: DrawMode
 ): State<PathHelper> = remember(
     drawDownPosition,
     currentDrawPosition,
@@ -516,7 +519,8 @@ fun rememberPathHelper(
     strokeWidth,
     canvasSize,
     drawPathMode,
-    isEraserOn
+    isEraserOn,
+    drawMode
 ) {
     derivedStateOf {
         PathHelper(
@@ -526,7 +530,8 @@ fun rememberPathHelper(
             strokeWidth = strokeWidth,
             canvasSize = canvasSize,
             drawPathMode = drawPathMode,
-            isEraserOn = isEraserOn
+            isEraserOn = isEraserOn,
+            drawMode = drawMode
         )
     }
 }

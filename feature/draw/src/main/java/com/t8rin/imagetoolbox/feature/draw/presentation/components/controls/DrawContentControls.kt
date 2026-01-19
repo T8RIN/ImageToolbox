@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,9 +106,10 @@ internal fun DrawContentControls(
             }
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.SpotHeal,
+            visible = drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
             enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             OpenColorPickerCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -119,9 +120,10 @@ internal fun DrawContentControls(
             )
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal,
+            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
             enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             DrawColorSelector(
                 modifier = Modifier.fillMaxWidth(),
@@ -132,7 +134,8 @@ internal fun DrawContentControls(
         AnimatedVisibility(
             visible = drawPathMode.canChangeStrokeWidth,
             enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             LineWidthSelector(
                 modifier = Modifier.fillMaxWidth(),
@@ -147,9 +150,10 @@ internal fun DrawContentControls(
             )
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+            visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
             enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             BrushSoftnessSelector(
                 modifier = Modifier.fillMaxWidth(),
@@ -170,9 +174,10 @@ internal fun DrawContentControls(
             )
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal,
+            visible = drawMode !is DrawMode.Neon && drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp,
             enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             AlphaSelector(
                 value = alpha,
@@ -201,51 +206,65 @@ internal fun DrawContentControls(
             addFiltersSheetComponent = component.addFiltersSheetComponent,
             filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
         )
-        DrawPathModeSelector(
-            modifier = Modifier.fillMaxWidth(),
-            value = drawPathMode,
-            onValueChange = component::updateDrawPathMode,
-            values = remember(drawMode, drawLineStyle) {
-                derivedStateOf {
-                    val outlinedModes = listOf(
-                        DrawPathMode.OutlinedRect(),
-                        DrawPathMode.OutlinedOval,
-                        DrawPathMode.OutlinedTriangle,
-                        DrawPathMode.OutlinedPolygon(),
-                        DrawPathMode.OutlinedStar()
-                    )
-                    if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                        when (drawLineStyle) {
-                            DrawLineStyle.None -> DrawPathMode.entries
+        AnimatedVisibility(
+            visible = drawMode !is DrawMode.Warp,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DrawPathModeSelector(
+                modifier = Modifier.fillMaxWidth(),
+                value = drawPathMode,
+                onValueChange = component::updateDrawPathMode,
+                values = remember(drawMode, drawLineStyle) {
+                    derivedStateOf {
+                        val outlinedModes = listOf(
+                            DrawPathMode.OutlinedRect(),
+                            DrawPathMode.OutlinedOval,
+                            DrawPathMode.OutlinedTriangle,
+                            DrawPathMode.OutlinedPolygon(),
+                            DrawPathMode.OutlinedStar()
+                        )
+                        if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                            when (drawLineStyle) {
+                                DrawLineStyle.None -> DrawPathMode.entries
 
-                            !is DrawLineStyle.Stamped<*> -> listOf(
-                                DrawPathMode.Free,
-                                DrawPathMode.Line,
-                                DrawPathMode.LinePointingArrow(),
-                                DrawPathMode.PointingArrow(),
-                                DrawPathMode.DoublePointingArrow(),
-                                DrawPathMode.DoubleLinePointingArrow(),
-                            ) + outlinedModes
+                                !is DrawLineStyle.Stamped<*> -> listOf(
+                                    DrawPathMode.Free,
+                                    DrawPathMode.Line,
+                                    DrawPathMode.LinePointingArrow(),
+                                    DrawPathMode.PointingArrow(),
+                                    DrawPathMode.DoublePointingArrow(),
+                                    DrawPathMode.DoubleLinePointingArrow(),
+                                ) + outlinedModes
 
-                            else -> listOf(
+                                else -> listOf(
+                                    DrawPathMode.Free,
+                                    DrawPathMode.Line
+                                ) + outlinedModes
+                            }
+                        } else {
+                            listOf(
                                 DrawPathMode.Free,
                                 DrawPathMode.Line
                             ) + outlinedModes
                         }
-                    } else {
-                        listOf(
-                            DrawPathMode.Free,
-                            DrawPathMode.Line
-                        ) + outlinedModes
                     }
-                }
-            }.value
-        )
-        DrawLineStyleSelector(
-            modifier = Modifier.fillMaxWidth(),
-            value = drawLineStyle,
-            onValueChange = component::updateDrawLineStyle
-        )
+                }.value
+            )
+        }
+        AnimatedVisibility(
+            visible = drawMode !is DrawMode.Warp,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DrawLineStyleSelector(
+                modifier = Modifier.fillMaxWidth(),
+                value = drawLineStyle,
+                onValueChange = component::updateDrawLineStyle
+            )
+        }
         HelperGridParamsSelector(
             value = component.helperGridParams,
             onValueChange = component::updateHelperGridParams,
