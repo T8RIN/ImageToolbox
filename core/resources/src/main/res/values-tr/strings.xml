@@ -2020,4 +2020,6 @@
     <string name="normal">Normal</string>
     <string name="slow">Yavaş</string>
     <string name="very_slow">Çok Yavaş</string>
+    <string name="compute_percents">Yüzdeleri Hesapla</string>
+    <string name="minimum_value_is">Minimum değer %1$s\'dir</string>
 </resources>
