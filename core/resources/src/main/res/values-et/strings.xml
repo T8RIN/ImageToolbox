@@ -573,7 +573,7 @@
     <string name="force_exif_widget_initial_value_sub">Sunnib exif vidina esmalt kontrollima</string>
     <string name="allow_multiple_languages">Luba mitu keelt</string>
     <string name="slide">Libistage</string>
-    <string name="side_by_side">Kõrvuti Kõrvuti</string>
+    <string name="side_by_side">Kõrvuti</string>
     <string name="toggle_tap">Lülita puudutage</string>
     <string name="transparency">Läbipaistvus</string>
     <string name="rate_app">Hinda rakendust</string>
@@ -1995,7 +1995,7 @@
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 mudel üldiste piltide jaoks; rõhutab teravust ja selgust.</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite; kiirem ja väiksem, säilitab üksikasjad, kasutades vähem GPU mälu.</string>
     <string name="model_rmbg_1_4">Kerge mudel tausta kiireks eemaldamiseks. Tasakaalustatud jõudlus ja täpsus. Töötab portreede, objektide ja stseenidega. Soovitatav enamiku kasutusjuhtude jaoks.</string>
-    <string name="type_removebg">Eemaldage BG</string>
+    <string name="type_removebg">Eemalda BG</string>
     <string name="horizontal_border_thickness">Horisontaalne piiri paksus</string>
     <string name="vertical_border_thickness">Vertikaalse piiri paksus</string>
     <plurals name="color_count">
@@ -2020,4 +2020,6 @@
     <string name="normal">Tavaline</string>
     <string name="slow">Aeglane</string>
     <string name="very_slow">Väga aeglane</string>
+    <string name="compute_percents">Arvuta protsentuaalsed osakaalud</string>
+    <string name="minimum_value_is">Minimaalne väärtus on %1$s</string>
 </resources>
