@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.feature.draw.domain.DisplacementMap
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpMode
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -34,11 +35,73 @@ internal class WarpEngine(
     private val pixels = IntArray(w * h)
     private var map = DisplacementMap(w, h)
 
+    // Добавляем переменные для отслеживания предыдущей точки
+    private var lastX: Float? = null
+    private var lastY: Float? = null
+
     init {
         src.getPixels(pixels, 0, w, 0, 0, w, h)
     }
 
     fun applyStroke(
+        fromX: Float,
+        fromY: Float,
+        toX: Float,
+        toY: Float,
+        brush: WarpBrush,
+        mode: WarpMode
+    ) {
+        if (lastX == null || lastY == null) {
+            lastX = fromX
+            lastY = fromY
+        }
+
+        interpolateAndApplyStroke(
+            fromX = lastX!!,
+            fromY = lastY!!,
+            toX = toX,
+            toY = toY,
+            brush = brush,
+            mode = mode
+        )
+
+        lastX = toX
+        lastY = toY
+    }
+
+    private fun interpolateAndApplyStroke(
+        fromX: Float,
+        fromY: Float,
+        toX: Float,
+        toY: Float,
+        brush: WarpBrush,
+        mode: WarpMode
+    ) {
+        val dx = toX - fromX
+        val dy = toY - fromY
+        val distance = sqrt(dx * dx + dy * dy)
+
+        val step = brush.radius / 2f
+
+        if (distance <= step) {
+            applyStrokeToPoint(fromX, fromY, toX, toY, brush, mode)
+        } else {
+            val steps = ceil(distance / step).toInt()
+            val stepX = dx / steps
+            val stepY = dy / steps
+
+            for (i in 0 until steps) {
+                val currentFromX = fromX + stepX * (i - 1).coerceAtLeast(0)
+                val currentFromY = fromY + stepY * (i - 1).coerceAtLeast(0)
+                val currentToX = fromX + stepX * i
+                val currentToY = fromY + stepY * i
+
+                applyStrokeToPoint(currentFromX, currentFromY, currentToX, currentToY, brush, mode)
+            }
+        }
+    }
+
+    private fun applyStrokeToPoint(
         fromX: Float,
         fromY: Float,
         toX: Float,
@@ -77,7 +140,7 @@ internal class WarpEngine(
                         map.dx[idx] += (fromX - toX) * falloff
                         map.dy[idx] += (fromY - toY) * falloff
                     }
-
+                    // остальные режимы остаются без изменений...
                     WarpMode.GROW -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -85,7 +148,6 @@ internal class WarpEngine(
                             map.dy[idx] += (dy / len) * falloff * brush.strength * r
                         }
                     }
-
                     WarpMode.SHRINK -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -93,7 +155,6 @@ internal class WarpEngine(
                             map.dy[idx] -= (dy / len) * falloff * brush.strength * r
                         }
                     }
-
                     WarpMode.PINCH -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -102,7 +163,6 @@ internal class WarpEngine(
                             map.dy[idx] -= (dy / len) * k * r
                         }
                     }
-
                     WarpMode.EXPAND -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -111,7 +171,6 @@ internal class WarpEngine(
                             map.dy[idx] += (dy / len) * k * r
                         }
                     }
-
                     WarpMode.SWIRL_CW,
                     WarpMode.SWIRL_CCW -> {
                         val angleMax = 0.8f
@@ -187,5 +246,4 @@ internal class WarpEngine(
 
         return (0xff shl 24) or (r shl 16) or (g shl 8) or bl
     }
-
 }
