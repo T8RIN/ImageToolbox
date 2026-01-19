@@ -2024,4 +2024,6 @@
     <string name="normal">طبيعي</string>
     <string name="slow">بطيء</string>
     <string name="very_slow">بطيء جدًا</string>
+    <string name="compute_percents">احسب النسب المئوية</string>
+    <string name="minimum_value_is">القيمة الأدنى هي %1$s</string>
 </resources>
