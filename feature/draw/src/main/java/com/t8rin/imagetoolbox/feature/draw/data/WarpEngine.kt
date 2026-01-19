@@ -127,11 +127,7 @@ internal class WarpEngine(
                 val dist = sqrt(dist2)
                 val t = 1f - dist / r
 
-                val falloff = smoothstep(
-                    brush.hardness,
-                    1f,
-                    t
-                ) * brush.strength
+                val falloff = smoothstep(edge0 = brush.hardness, x = t) * brush.strength
 
                 val idx = map.index(x, y)
 
@@ -148,6 +144,7 @@ internal class WarpEngine(
                             map.dy[idx] += (dy / len) * falloff * brush.strength * r
                         }
                     }
+
                     WarpMode.SHRINK -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -155,6 +152,7 @@ internal class WarpEngine(
                             map.dy[idx] -= (dy / len) * falloff * brush.strength * r
                         }
                     }
+
                     WarpMode.PINCH -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -163,6 +161,7 @@ internal class WarpEngine(
                             map.dy[idx] -= (dy / len) * k * r
                         }
                     }
+
                     WarpMode.EXPAND -> {
                         val len = sqrt(dx * dx + dy * dy)
                         if (len > 0f) {
@@ -171,6 +170,7 @@ internal class WarpEngine(
                             map.dy[idx] += (dy / len) * k * r
                         }
                     }
+
                     WarpMode.SWIRL_CW,
                     WarpMode.SWIRL_CCW -> {
                         val angleMax = 0.8f
@@ -226,7 +226,11 @@ internal class WarpEngine(
         )
     }
 
-    private fun smoothstep(edge0: Float, edge1: Float, x: Float): Float {
+    private fun smoothstep(
+        edge0: Float,
+        edge1: Float = 1f,
+        x: Float
+    ): Float {
         val t = ((x - edge0) / (edge1 - edge0)).coerceIn(0f, 1f)
         return t * t * (3 - 2 * t)
     }
