@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,28 +43,25 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.core.content.getSystemService
+import com.t8rin.logger.makeLog
 
-private fun View.vibrate() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+private fun View.vibrate() =
     reallyPerformHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-} else {
-    reallyPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-}
 
 private fun View.vibrateStrong() = reallyPerformHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
 private fun View.reallyPerformHapticFeedback(feedbackConstant: Int) {
-    if (context.isTouchExplorationEnabled()) return
+    runCatching {
+        if (context.isTouchExplorationEnabled()) return
 
-    isHapticFeedbackEnabled = true
+        isHapticFeedbackEnabled = true
 
-    performHapticFeedback(feedbackConstant, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+        performHapticFeedback(feedbackConstant, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+    }.onFailure { it.makeLog("reallyPerformHapticFeedback feedbackConstant = $feedbackConstant") }
 }
 
-private fun Context.isTouchExplorationEnabled(): Boolean {
-    val accessibilityManager = getSystemService<AccessibilityManager>()
-
-    return accessibilityManager?.isTouchExplorationEnabled == true
-}
+private fun Context.isTouchExplorationEnabled(): Boolean =
+    getSystemService<AccessibilityManager>()?.isTouchExplorationEnabled == true
 
 @SuppressLint("InlinedApi")
 internal data class EnhancedHapticFeedback(

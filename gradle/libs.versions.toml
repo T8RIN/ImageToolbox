@@ -11,7 +11,7 @@ jvmTarget = "17"
 imageToolboxLibs = "5.3.4"
 trickle = "1.3.0"
 evaluator = "1.0.0"
-quickie = "1.15.7"
+quickie = "1.16.0"
 fadingEdges = "1.0.4"
 logger = "1.0.2"
 
