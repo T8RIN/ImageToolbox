@@ -397,6 +397,17 @@ fun BitmapDrawer(
                     onUp = {
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
                             if (drawMode is DrawMode.Warp && warpRuntimeStrokes.isNotEmpty() && !isEraserOn) {
+                                PathMeasure().apply {
+                                    setPath(drawPath, false)
+                                }.let {
+                                    it.getPosition(it.length)
+                                }.takeOrElse { currentDrawPosition }.let { lastPoint ->
+                                    warpRuntimeStrokes += WarpStroke(
+                                        from = lastPoint.x to lastPoint.y,
+                                        to = currentDrawPosition.x to currentDrawPosition.y
+                                    )
+                                }
+
                                 onAddPath(
                                     UiPathPaint(
                                         path = drawPath,

@@ -21,6 +21,9 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.feature.draw.domain.DisplacementMap
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpMode
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 internal class WarpEngine(
     src: Bitmap
@@ -43,9 +46,6 @@ internal class WarpEngine(
         brush: WarpBrush,
         mode: WarpMode
     ) {
-        val dxStroke = toX - fromX
-        val dyStroke = toY - fromY
-
         val r = brush.radius
         val r2 = r * r
 
@@ -61,7 +61,7 @@ internal class WarpEngine(
                 val dist2 = dx * dx + dy * dy
                 if (dist2 > r2) continue
 
-                val dist = kotlin.math.sqrt(dist2)
+                val dist = sqrt(dist2)
                 val t = 1f - dist / r
 
                 val falloff = smoothstep(
@@ -74,38 +74,51 @@ internal class WarpEngine(
 
                 when (mode) {
                     WarpMode.MOVE -> {
-                        map.dx[idx] += dxStroke * falloff
-                        map.dy[idx] += dyStroke * falloff
+                        map.dx[idx] += (fromX - toX) * falloff
+                        map.dy[idx] += (fromY - toY) * falloff
                     }
 
                     WarpMode.GROW -> {
-                        map.dx[idx] += dx * falloff * 0.3f
-                        map.dy[idx] += dy * falloff * 0.3f
+                        val len = sqrt(dx * dx + dy * dy)
+                        if (len > 0f) {
+                            map.dx[idx] += (dx / len) * falloff * brush.strength * r
+                            map.dy[idx] += (dy / len) * falloff * brush.strength * r
+                        }
                     }
 
                     WarpMode.SHRINK -> {
-                        map.dx[idx] -= dx * falloff * 0.3f
-                        map.dy[idx] -= dy * falloff * 0.3f
+                        val len = sqrt(dx * dx + dy * dy)
+                        if (len > 0f) {
+                            map.dx[idx] -= (dx / len) * falloff * brush.strength * r
+                            map.dy[idx] -= (dy / len) * falloff * brush.strength * r
+                        }
                     }
 
                     WarpMode.PINCH -> {
-                        val k = falloff * 0.4f
-                        map.dx[idx] -= dx * k
-                        map.dy[idx] -= dy * k
+                        val len = sqrt(dx * dx + dy * dy)
+                        if (len > 0f) {
+                            val k = falloff * 0.4f
+                            map.dx[idx] -= (dx / len) * k * r
+                            map.dy[idx] -= (dy / len) * k * r
+                        }
                     }
 
                     WarpMode.EXPAND -> {
-                        val k = falloff * 0.4f
-                        map.dx[idx] += dx * k
-                        map.dy[idx] += dy * k
+                        val len = sqrt(dx * dx + dy * dy)
+                        if (len > 0f) {
+                            val k = falloff * 0.4f
+                            map.dx[idx] += (dx / len) * k * r
+                            map.dy[idx] += (dy / len) * k * r
+                        }
                     }
 
                     WarpMode.SWIRL_CW,
                     WarpMode.SWIRL_CCW -> {
-                        val angle = falloff * 0.8f *
-                                if (mode == WarpMode.SWIRL_CW) 1f else -1f
-                        val sin = kotlin.math.sin(angle)
-                        val cos = kotlin.math.cos(angle)
+                        val angleMax = 0.8f
+                        val t = 1f - (sqrt(dx * dx + dy * dy) / r)
+                        val angle = t * t * angleMax * if (mode == WarpMode.SWIRL_CW) 1f else -1f
+                        val sin = sin(angle)
+                        val cos = cos(angle)
 
                         val rx = dx * cos - dy * sin
                         val ry = dx * sin + dy * cos
