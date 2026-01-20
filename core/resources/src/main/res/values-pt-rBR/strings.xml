@@ -2021,4 +2021,15 @@
     <string name="normal">Normal</string>
     <string name="slow">Lento</string>
     <string name="very_slow">Muito lento</string>
+    <string name="compute_percents">Calcular Porcentagens</string>
+    <string name="minimum_value_is">O valor mínimo é %1$s</string>
+    <string name="warp_sub">Distorcer a imagem desenhando com os dedos</string>
+    <string name="warp">Deformação</string>
+    <string name="hardness">Dureza</string>
+    <string name="warp_mode">Modo de Deformação</string>
+    <string name="warp_mode_move">Mover</string>
+    <string name="warp_mode_grow">Crescer</string>
+    <string name="warp_mode_shrink">Encolher</string>
+    <string name="warp_mode_swirl_cw">Torcer SH</string>
+    <string name="warp_mode_swirl_ccw">Torcer SAH</string>
 </resources>
