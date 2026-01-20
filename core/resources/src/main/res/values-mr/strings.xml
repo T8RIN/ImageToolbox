@@ -2021,4 +2021,6 @@
     <string name="normal">सामान्य</string>
     <string name="slow">मंद</string>
     <string name="very_slow">खूप हळू</string>
+    <string name="compute_percents">टक्केवारीची गणना करा</string>
+    <string name="minimum_value_is">किमान मूल्य %1$s आहे</string>
 </resources>
