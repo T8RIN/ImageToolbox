@@ -2022,4 +2022,15 @@
     <string name="normal">нормальний</string>
     <string name="slow">Повільно</string>
     <string name="very_slow">Дуже повільно</string>
+    <string name="compute_percents">Обчисліть відсотки</string>
+    <string name="minimum_value_is">Мінімальне значення – %1$s</string>
+    <string name="warp_sub">Спотворюйте зображення, малюючи пальцями</string>
+    <string name="warp">Деформація</string>
+    <string name="hardness">Твердість</string>
+    <string name="warp_mode">Режим деформації</string>
+    <string name="warp_mode_move">Перемістити</string>
+    <string name="warp_mode_grow">Рости</string>
+    <string name="warp_mode_shrink">Зменшити</string>
+    <string name="warp_mode_swirl_cw">Вир CW</string>
+    <string name="warp_mode_swirl_ccw">Вир CCW</string>
 </resources>
