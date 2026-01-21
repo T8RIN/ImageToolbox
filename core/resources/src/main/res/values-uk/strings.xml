@@ -2033,4 +2033,5 @@
     <string name="warp_mode_shrink">Зменшити</string>
     <string name="warp_mode_swirl_cw">Вир CW</string>
     <string name="warp_mode_swirl_ccw">Вир CCW</string>
+    <string name="fade_strength">Сила згасання</string>
 </resources>
