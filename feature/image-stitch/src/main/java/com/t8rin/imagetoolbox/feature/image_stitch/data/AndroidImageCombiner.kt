@@ -77,7 +77,6 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
-        //надо в параметры добавть длину фейда и чтобы можно было края не только в начале указать но и в конце, так же сделать auto stitch, но чет хуево оно
         suspend fun getImageData(
             imagesUris: List<String>,
             isHorizontal: Boolean
