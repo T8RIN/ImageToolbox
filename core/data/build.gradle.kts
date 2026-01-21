@@ -48,6 +48,7 @@ dependencies {
     api(libs.ktor.logging)
     implementation(libs.coilGif)
     implementation(libs.coilSvg)
+    implementation(libs.trickle)
 
     implementation(libs.androidx.compose.ui.graphics)
 

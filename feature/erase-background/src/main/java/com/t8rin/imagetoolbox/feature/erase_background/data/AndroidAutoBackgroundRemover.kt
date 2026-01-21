@@ -27,7 +27,7 @@ import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemo
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
 import com.t8rin.logger.makeLog
 import com.t8rin.neural_tools.bgremover.BgRemover
-import kotlinx.coroutines.async
+import com.t8rin.trickle.TrickleUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,59 +43,14 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
     ): Bitmap = coroutineScope {
         val transparent = emptyColor ?: Color.Transparent.toArgb()
 
-        async {
-            var firstX = 0
-            var firstY = 0
-            var lastX = image.width
-            var lastY = image.height
-            val pixels = IntArray(image.width * image.height)
-            image.getPixels(pixels, 0, image.width, 0, 0, image.width, image.height)
-
-            loop@ for (x in 0 until image.width) {
-                for (y in 0 until image.height) {
-                    if (pixels[x + y * image.width] != transparent) {
-                        firstX = x
-                        break@loop
-                    }
-                }
-            }
-            loop@ for (y in 0 until image.height) {
-                for (x in firstX until image.width) {
-                    if (pixels[x + y * image.width] != transparent) {
-                        firstY = y
-                        break@loop
-                    }
-                }
-            }
-            loop@ for (x in image.width - 1 downTo firstX) {
-                for (y in image.height - 1 downTo firstY) {
-                    if (pixels[x + y * image.width] != transparent) {
-                        lastX = x
-                        break@loop
-                    }
-                }
-            }
-            loop@ for (y in image.height - 1 downTo firstY) {
-                for (x in image.width - 1 downTo firstX) {
-                    if (pixels[x + y * image.width] != transparent) {
-                        lastY = y
-                        break@loop
-                    }
-                }
-            }
-
-            return@async runCatching {
-                Bitmap.createBitmap(
-                    image,
-                    firstX,
-                    firstY,
-                    lastX - firstX + 1,
-                    lastY - firstY + 1
-                )
-            }.onFailure {
-                "trimEmptyParts".makeLog("Failed to crop image (firstX = $firstX, firstY = $firstX, lastX = $lastX, lastY = $lastY): ${it.message}")
-            }.getOrNull() ?: image
-        }.await()
+        runCatching {
+            TrickleUtils.trimEmptyParts(
+                bitmap = image,
+                transparent = transparent
+            )
+        }.onFailure {
+            "trimEmptyParts".makeLog("Failed to crop image ${it.message}")
+        }.getOrNull() ?: image
     }
 
     override fun removeBackgroundFromImage(
@@ -115,8 +70,6 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
         }
     }
 
-    override fun cleanup() {
-        BgRemover.closeAll()
-    }
+    override fun cleanup() = BgRemover.closeAll()
 
 }
