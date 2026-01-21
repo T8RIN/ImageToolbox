@@ -19,32 +19,32 @@ package com.t8rin.imagetoolbox.feature.image_stitch.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.extendedcolors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import kotlin.math.roundToInt
 
 @Composable
-fun SpacingSelector(
+fun FadeStrengthSelector(
     modifier: Modifier = Modifier,
-    value: Int,
-    onValueChange: (Int) -> Unit
+    value: Float,
+    onValueChange: (Float) -> Unit
 ) {
     EnhancedSliderItem(
         modifier = modifier,
         value = value,
-        title = stringResource(R.string.spacing),
-        valueRange = -512f..256f,
+        title = stringResource(R.string.fade_strength),
+        valueRange = 0f..1f,
         internalStateTransformation = {
-            it.roundToInt()
+            it.roundToTwoDigits()
         },
         onValueChange = {
-            onValueChange(it.roundToInt())
+            onValueChange(it.roundToTwoDigits())
         },
         sliderModifier = Modifier
             .padding(
@@ -53,7 +53,7 @@ fun SpacingSelector(
                 end = 12.dp,
                 bottom = 10.dp
             ),
-        icon = Icons.Rounded.FormatLineSpacing,
+        icon = Icons.Outlined.Exercise,
         shape = ShapeDefaults.extraLarge
     )
 }

@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -66,6 +68,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchFadeSide
+import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.FadeStrengthSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.ImageFadingEdgesSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.ImageScaleSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.SpacingSelector
@@ -212,21 +216,39 @@ fun ImageStitchingContent(
                 AnimatedVisibility(
                     visible = component.combiningParams.spacing < 0,
                     enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
+                    exit = fadeOut() + shrinkVertically(),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     ImageFadingEdgesSelector(
                         value = component.combiningParams.fadingEdgesMode,
                         onValueChange = component::setFadingEdgesMode
                     )
                 }
+                AnimatedVisibility(
+                    component.combiningParams.spacing < 0 && component.combiningParams.fadingEdgesMode != StitchFadeSide.None,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically(),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    FadeStrengthSelector(
+                        value = component.combiningParams.fadeStrength,
+                        onValueChange = component::setFadeStrength
+                    )
+                }
                 ScaleSmallImagesToLargeToggle(
                     checked = component.combiningParams.scaleSmallImagesToLarge,
                     onCheckedChange = component::toggleScaleSmallImagesToLarge
                 )
+                BlendingModeSelector(
+                    value = component.combiningParams.blendingMode,
+                    onValueChange = component::setBlendingMode,
+                    color = Color.Unspecified
+                )
                 AnimatedVisibility(
                     visible = !component.combiningParams.scaleSmallImagesToLarge,
                     enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
+                    exit = fadeOut() + shrinkVertically(),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     StitchAlignmentSelector(
                         value = component.combiningParams.alignment,

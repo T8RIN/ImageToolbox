@@ -28,6 +28,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -45,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchFadeSide
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.toParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.toSavable
@@ -248,10 +250,15 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         calculatePreview()
     }
 
-    fun setFadingEdgesMode(mode: Int?) {
+    fun setFadingEdgesMode(mode: StitchFadeSide) {
         updateCombiningParams(
             combiningParams.copy(fadingEdgesMode = mode)
         )
+        calculatePreview()
+    }
+
+    fun setFadeStrength(value: Float) {
+        updateCombiningParams(combiningParams.copy(fadeStrength = value))
         calculatePreview()
     }
 
@@ -331,6 +338,11 @@ class ImageStitchingComponent @AssistedInject internal constructor(
 
     fun setStitchAlignment(stitchAlignment: StitchAlignment) {
         updateCombiningParams(combiningParams.copy(alignment = stitchAlignment))
+        calculatePreview()
+    }
+
+    fun setBlendingMode(blendingMode: BlendingMode) {
+        updateCombiningParams(combiningParams.copy(blendingMode = blendingMode))
         calculatePreview()
     }
 

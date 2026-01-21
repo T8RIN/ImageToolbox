@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,10 @@ package com.t8rin.imagetoolbox.feature.image_stacking.data
 
 import android.graphics.Bitmap
 import android.graphics.Paint
-import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
-import com.t8rin.imagetoolbox.core.data.image.utils.toPorterDuffMode
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -72,7 +71,7 @@ internal class AndroidImageStacker @Inject constructor(
             height = resultSize.height,
             config = getSuitableConfig()
         ).applyCanvas {
-            val paint = Paint()
+            Paint()
 
             stackImages.forEachIndexed { index, stackImage ->
                 val bitmap = imageGetter.getImage(
@@ -98,14 +97,14 @@ internal class AndroidImageStacker @Inject constructor(
                         )
                     } ?: bitmap
                 }
-                paint.alpha = (stackImage.alpha * 255).toInt()
-                paint.xfermode = PorterDuffXfermode(stackImage.blendingMode.toPorterDuffMode())
 
                 bitmap?.let {
                     drawBitmap(
                         bitmap = it,
                         position = stackImage.position,
-                        paint = paint
+                        paint = stackImage.blendingMode.toPaint().apply {
+                            alpha = (stackImage.alpha * 255).toInt()
+                        }
                     )
                 }
 

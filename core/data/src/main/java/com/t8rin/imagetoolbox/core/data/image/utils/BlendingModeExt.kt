@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.data.image.utils
 
+import android.graphics.Paint
+import android.graphics.PorterDuffXfermode
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
@@ -86,4 +88,12 @@ fun BlendingMode.toAndroidBlendMode(): AndroidBlendMode = when (this) {
     BlendingMode.Luminosity -> AndroidBlendMode.LUMINOSITY
     // Always return SRC_OVER as the default if there is no valid alternative
     else -> AndroidBlendMode.SRC_OVER
+}
+
+fun BlendingMode.toPaint(): Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        blendMode = toAndroidBlendMode()
+    } else {
+        xfermode = PorterDuffXfermode(toPorterDuffMode())
+    }
 }

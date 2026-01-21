@@ -2054,4 +2054,5 @@
     <string name="warp_mode_shrink">Shrink</string>
     <string name="warp_mode_swirl_cw">Swirl CW</string>
     <string name="warp_mode_swirl_ccw">Swirl CCW</string>
+    <string name="fade_strength">Fade Strength</string>
 </resources>

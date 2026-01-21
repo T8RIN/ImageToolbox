@@ -17,14 +17,19 @@
 
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
+
 data class SavableCombiningParams(
     val stitchMode: Int,
     val spacing: Int,
     val scaleSmallImagesToLarge: Boolean,
     val backgroundColor: Int,
-    val fadingEdgesMode: Int?,
+    val fadingEdgesMode: StitchFadeSide,
     val alignment: StitchAlignment,
-    val outputScale: Float
+    val outputScale: Float,
+    val blendingMode: Int,
+    val fadeStrength: Float
 )
 
 fun CombiningParams.toSavable() = SavableCombiningParams(
@@ -34,7 +39,9 @@ fun CombiningParams.toSavable() = SavableCombiningParams(
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
     alignment = alignment,
-    outputScale = outputScale
+    outputScale = outputScale,
+    blendingMode = blendingMode.value,
+    fadeStrength = fadeStrength
 )
 
 fun SavableCombiningParams.toParams() = CombiningParams(
@@ -44,5 +51,7 @@ fun SavableCombiningParams.toParams() = CombiningParams(
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
     alignment = alignment,
-    outputScale = outputScale
+    outputScale = outputScale,
+    blendingMode = BlendingMode.entries.find { it.value == blendingMode } ?: BlendingMode.SrcOver,
+    fadeStrength = fadeStrength
 )

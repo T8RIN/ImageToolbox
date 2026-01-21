@@ -18,12 +18,14 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.data
 
 import android.graphics.Bitmap
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -47,6 +49,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchFadeSide
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -74,6 +77,7 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
+        //надо в параметры добавть длину фейда и чтобы можно было края не только в начале указать но и в конце, так же сделать auto stitch, но чет хуево оно
         suspend fun getImageData(
             imagesUris: List<String>,
             isHorizontal: Boolean
@@ -106,44 +110,95 @@ internal class AndroidImageCombiner @Inject constructor(
                 drawColor(combiningParams.backgroundColor)
 
                 var pos = 0
+
+                val fullSpace = combiningParams.spacing.absoluteValue
+                val halfSpace = fullSpace / 2
+                val strength = combiningParams.fadeStrength
+
                 for (i in imagesUris.indices) {
                     var bmp = bitmaps[i]
 
-                    combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
+                    combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
                         ?.let {
-                            val space = combiningParams.spacing.absoluteValue
-                            val bottomFilter = createFilter<SideFadeParams, Filter.SideFade>(
-                                SideFadeParams.Absolute(
-                                    side = if (isHorizontal) {
-                                        FadeSide.End
-                                    } else FadeSide.Bottom,
-                                    size = space
-                                )
-                            )
-                            val topFilter = createFilter<SideFadeParams, Filter.SideFade>(
-                                SideFadeParams.Absolute(
-                                    side = if (isHorizontal) {
-                                        FadeSide.Start
-                                    } else FadeSide.Top,
-                                    size = space
-                                )
-                            )
-                            val filters = if (combiningParams.fadingEdgesMode == 0) {
-                                when (i) {
-                                    0 -> listOf()
-                                    else -> listOf(topFilter)
+                            val filters = when (combiningParams.fadingEdgesMode) {
+                                StitchFadeSide.Start -> {
+                                    when (i) {
+                                        0 -> emptyList()
+                                        else -> listOf(
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
+                                                    size = fullSpace,
+                                                    strength = strength
+                                                )
+                                            )
+                                        )
+                                    }
                                 }
-                            } else {
-                                when (i) {
-                                    0 -> listOf(bottomFilter)
-                                    imagesUris.lastIndex -> listOf(topFilter)
-                                    else -> listOf(topFilter, bottomFilter)
+
+                                StitchFadeSide.End -> {
+                                    when (i) {
+                                        imagesUris.lastIndex -> emptyList()
+                                        else -> listOf(
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
+                                                    size = fullSpace,
+                                                    strength = strength
+                                                )
+                                            )
+                                        )
+                                    }
                                 }
-                            }.map {
-                                filterProvider.filterToTransformation(it)
+
+                                StitchFadeSide.Both -> {
+                                    when (i) {
+                                        0 -> listOf(
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
+                                                    size = halfSpace,
+                                                    strength = strength
+                                                )
+                                            )
+                                        )
+
+                                        imagesUris.lastIndex -> listOf(
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
+                                                    size = halfSpace,
+                                                    strength = strength
+                                                )
+                                            )
+                                        )
+
+                                        else -> listOf(
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
+                                                    size = halfSpace,
+                                                    strength = strength
+                                                )
+                                            ),
+                                            createFilter<SideFadeParams, Filter.SideFade>(
+                                                SideFadeParams.Absolute(
+                                                    side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
+                                                    size = halfSpace,
+                                                    strength = strength
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+
+                                else -> emptyList()
                             }
 
-                            imageTransformer.transform(bmp, filters)?.let { bmp = it }
+                            imageTransformer.transform(
+                                image = bmp,
+                                transformations = filters.map(filterProvider::filterToTransformation)
+                            )?.let { bmp = it }
                         }
 
                     if (isHorizontal) {
@@ -154,7 +209,8 @@ internal class AndroidImageCombiner @Inject constructor(
                                 StitchAlignment.Start -> 0f
                                 StitchAlignment.Center -> (height - bmp.height) / 2f
                                 StitchAlignment.End -> (height - bmp.height).toFloat()
-                            }
+                            },
+                            paint = if (pos > 0) combiningParams.blendingMode.toPaint() else Paint()
                         )
                     } else {
                         drawBitmap(
@@ -164,7 +220,8 @@ internal class AndroidImageCombiner @Inject constructor(
                                 StitchAlignment.Center -> (width - bmp.width) / 2f
                                 StitchAlignment.End -> (width - bmp.width).toFloat()
                             },
-                            top = pos.toFloat()
+                            top = pos.toFloat(),
+                            paint = if (pos > 0) combiningParams.blendingMode.toPaint() else Paint()
                         )
                     }
                     pos += if (isHorizontal) {
