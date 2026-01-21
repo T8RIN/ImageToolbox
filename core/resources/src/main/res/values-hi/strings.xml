@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">सामान्य</string>
     <string name="slow">धीमा</string>
     <string name="very_slow">बहुत धीमी गति से</string>
+    <string name="compute_percents">प्रतिशत की गणना करें</string>
+    <string name="minimum_value_is">न्यूनतम मान %1$s है</string>
+    <string name="warp_sub">उंगलियों से चित्र बनाकर विकृत करें</string>
+    <string name="warp">ताना</string>
+    <string name="hardness">कठोरता</string>
+    <string name="warp_mode">ताना मोड</string>
+    <string name="warp_mode_move">कदम</string>
+    <string name="warp_mode_grow">बढ़ना</string>
+    <string name="warp_mode_shrink">सिकुड़ना</string>
+    <string name="warp_mode_swirl_cw">भंवर सीडब्ल्यू</string>
+    <string name="warp_mode_swirl_ccw">भंवर CCW</string>
+    <string name="fade_strength">फीकी ताकत</string>
+    <string name="top_drop">शीर्ष ड्रॉप</string>
+    <string name="bottom_drop">नीचे की बूंद</string>
+    <string name="start_drop">ड्रॉप प्रारंभ करें</string>
+    <string name="end_drop">अंत ड्रॉप</string>
 </resources>

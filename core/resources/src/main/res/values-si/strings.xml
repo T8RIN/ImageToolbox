@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -2021,4 +2023,20 @@
     <string name="normal">සාමාන්යයි</string>
     <string name="slow">මන්දගාමී</string>
     <string name="very_slow">ඉතා මන්දගාමී</string>
+    <string name="compute_percents">ප්රතිශතය ගණනය කරන්න</string>
+    <string name="minimum_value_is">අවම අගය %1$s වේ</string>
+    <string name="warp_sub">ඇඟිලි වලින් ඇඳීමෙන් රූපය විකෘති කරන්න</string>
+    <string name="warp">Warp</string>
+    <string name="hardness">දැඩි බව</string>
+    <string name="warp_mode">Warp මාදිලිය</string>
+    <string name="warp_mode_move">චලනය කරන්න</string>
+    <string name="warp_mode_grow">වැඩෙන්න</string>
+    <string name="warp_mode_shrink">හැකිලෙන්න</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Swirl CCW</string>
+    <string name="fade_strength">දුර්වල ශක්තිය</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">පහළ වැටීම</string>
+    <string name="start_drop">වැටීම ආරම්භ කරන්න</string>
+    <string name="end_drop">End Drop</string>
 </resources>

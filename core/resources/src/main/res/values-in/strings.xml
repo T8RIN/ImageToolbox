@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">Normal</string>
     <string name="slow">Lambat</string>
     <string name="very_slow">Sangat Lambat</string>
+    <string name="compute_percents">Hitung Persen</string>
+    <string name="minimum_value_is">Nilai minimumnya adalah %1$s</string>
+    <string name="warp_sub">Distorsi gambar dengan menggambar dengan jari</string>
+    <string name="warp">Melengkung</string>
+    <string name="hardness">Kekerasan</string>
+    <string name="warp_mode">Mode Warp</string>
+    <string name="warp_mode_move">Bergerak</string>
+    <string name="warp_mode_grow">Tumbuh</string>
+    <string name="warp_mode_shrink">Menyusut</string>
+    <string name="warp_mode_swirl_cw">Putar CW</string>
+    <string name="warp_mode_swirl_ccw">Putar CCW</string>
+    <string name="fade_strength">Kekuatan Pudar</string>
+    <string name="top_drop">Penurunan Teratas</string>
+    <string name="bottom_drop">Penurunan Bawah</string>
+    <string name="start_drop">Mulai Jatuhkan</string>
+    <string name="end_drop">Akhir Penurunan</string>
 </resources>

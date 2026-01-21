@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">ਸਧਾਰਣ</string>
     <string name="slow">ਹੌਲੀ</string>
     <string name="very_slow">ਬਹੁਤ ਹੌਲੀ</string>
+    <string name="compute_percents">ਗਣਨਾ ਪ੍ਰਤੀਸ਼ਤ</string>
+    <string name="minimum_value_is">ਨਿਊਨਤਮ ਮੁੱਲ %1$s ਹੈ</string>
+    <string name="warp_sub">ਉਂਗਲਾਂ ਨਾਲ ਚਿੱਤਰ ਬਣਾ ਕੇ ਚਿੱਤਰ ਨੂੰ ਵਿਗਾੜੋ</string>
+    <string name="warp">ਵਾਰਪ</string>
+    <string name="hardness">ਕਠੋਰਤਾ</string>
+    <string name="warp_mode">ਵਾਰਪ ਮੋਡ</string>
+    <string name="warp_mode_move">ਮੂਵ ਕਰੋ</string>
+    <string name="warp_mode_grow">ਵਧੋ</string>
+    <string name="warp_mode_shrink">ਸੁੰਗੜੋ</string>
+    <string name="warp_mode_swirl_cw">ਘੁੰਮਣਾ CW</string>
+    <string name="warp_mode_swirl_ccw">ਘੁੰਮਣਾ CCW</string>
+    <string name="fade_strength">ਫੇਡ ਤਾਕਤ</string>
+    <string name="top_drop">ਸਿਖਰ ਡ੍ਰੌਪ</string>
+    <string name="bottom_drop">ਹੇਠਲਾ ਬੂੰਦ</string>
+    <string name="start_drop">ਡ੍ਰੌਪ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="end_drop">ਡ੍ਰੌਪ ਖਤਮ ਕਰੋ</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2022,4 +2024,20 @@
     <string name="normal">נוֹרמָלִי</string>
     <string name="slow">לְהַאֵט</string>
     <string name="very_slow">מאוד איטי</string>
+    <string name="compute_percents">חישוב אחוזים</string>
+    <string name="minimum_value_is">הערך המינימלי הוא %1$s</string>
+    <string name="warp_sub">עיוות תמונה על ידי ציור עם אצבעות</string>
+    <string name="warp">לְעַקֵם</string>
+    <string name="hardness">קַשִׁיוּת</string>
+    <string name="warp_mode">מצב עיוות</string>
+    <string name="warp_mode_move">מַהֲלָך</string>
+    <string name="warp_mode_grow">לִגדוֹל</string>
+    <string name="warp_mode_shrink">לְצַמֵק</string>
+    <string name="warp_mode_swirl_cw">מערבולת CW</string>
+    <string name="warp_mode_swirl_ccw">סיבוב CCW</string>
+    <string name="fade_strength">חוזק דעיכה</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">ירידה למטה</string>
+    <string name="start_drop">התחל ירידה</string>
+    <string name="end_drop">סוף ירידה</string>
 </resources>

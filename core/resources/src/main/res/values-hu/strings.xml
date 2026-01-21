@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">Normál</string>
     <string name="slow">Lassú</string>
     <string name="very_slow">Nagyon lassú</string>
+    <string name="compute_percents">Számítsd ki a százalékokat</string>
+    <string name="minimum_value_is">A minimális érték %1$s</string>
+    <string name="warp_sub">Kép torzítása ujjakkal való rajzolással</string>
+    <string name="warp">Warp</string>
+    <string name="hardness">Keménység</string>
+    <string name="warp_mode">Warp mód</string>
+    <string name="warp_mode_move">Mozog</string>
+    <string name="warp_mode_grow">Nő</string>
+    <string name="warp_mode_shrink">Összezsugorodik</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Örvény CCW</string>
+    <string name="fade_strength">Fade Strength</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Alsó csepp</string>
+    <string name="start_drop">Start Drop</string>
+    <string name="end_drop">Vége csepp</string>
 </resources>

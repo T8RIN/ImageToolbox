@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -2021,4 +2023,20 @@
     <string name="normal">Normal</string>
     <string name="slow">Lento</string>
     <string name="very_slow">muy lento</string>
+    <string name="compute_percents">Calcular porcentajes</string>
+    <string name="minimum_value_is">El valor mínimo es %1$s</string>
+    <string name="warp_sub">Distorsionar la imagen dibujando con los dedos.</string>
+    <string name="warp">Urdimbre</string>
+    <string name="hardness">Dureza</string>
+    <string name="warp_mode">Modo de deformación</string>
+    <string name="warp_mode_move">Mover</string>
+    <string name="warp_mode_grow">Crecer</string>
+    <string name="warp_mode_shrink">Encoger</string>
+    <string name="warp_mode_swirl_cw">Remolino CW</string>
+    <string name="warp_mode_swirl_ccw">Remolino CCW</string>
+    <string name="fade_strength">Fuerza de desvanecimiento</string>
+    <string name="top_drop">Caída superior</string>
+    <string name="bottom_drop">Caída inferior</string>
+    <string name="start_drop">Iniciar caída</string>
+    <string name="end_drop">Caída final</string>
 </resources>

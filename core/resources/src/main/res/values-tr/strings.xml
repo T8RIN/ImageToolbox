@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -2022,4 +2024,18 @@
     <string name="very_slow">Çok Yavaş</string>
     <string name="compute_percents">Yüzdeleri Hesapla</string>
     <string name="minimum_value_is">Minimum değer %1$s\'dir</string>
+    <string name="warp_sub">Parmaklarınızla çizim yaparak görüntüyü deforme edin</string>
+    <string name="warp">Çözgü</string>
+    <string name="hardness">Sertlik</string>
+    <string name="warp_mode">Çözgü Modu</string>
+    <string name="warp_mode_move">Taşınmak</string>
+    <string name="warp_mode_grow">Büyümek</string>
+    <string name="warp_mode_shrink">Çekmek</string>
+    <string name="warp_mode_swirl_cw">CW girdap</string>
+    <string name="warp_mode_swirl_ccw">Girdap CCW</string>
+    <string name="fade_strength">Solmaya Dayanım</string>
+    <string name="top_drop">En İyi Düşüş</string>
+    <string name="bottom_drop">Alttan Düşme</string>
+    <string name="start_drop">Bırakmayı Başlat</string>
+    <string name="end_drop">Bırakmayı Sonlandır</string>
 </resources>

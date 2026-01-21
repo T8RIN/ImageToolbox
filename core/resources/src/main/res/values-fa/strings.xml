@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">عادی</string>
     <string name="slow">کند</string>
     <string name="very_slow">خیلی آهسته</string>
+    <string name="compute_percents">محاسبه درصد</string>
+    <string name="minimum_value_is">حداقل مقدار %1$s است</string>
+    <string name="warp_sub">با کشیدن انگشت، تصویر را تحریف کنید</string>
+    <string name="warp">پیچ و تاب</string>
+    <string name="hardness">سختی</string>
+    <string name="warp_mode">حالت Warp</string>
+    <string name="warp_mode_move">حرکت کنید</string>
+    <string name="warp_mode_grow">رشد کنید</string>
+    <string name="warp_mode_shrink">کوچک شدن</string>
+    <string name="warp_mode_swirl_cw">چرخش CW</string>
+    <string name="warp_mode_swirl_ccw">چرخش CCW</string>
+    <string name="fade_strength">محو کردن قدرت</string>
+    <string name="top_drop">رها کردن بالا</string>
+    <string name="bottom_drop">افت پایین</string>
+    <string name="start_drop">شروع رها کردن</string>
+    <string name="end_drop">پایان رها کردن</string>
 </resources>

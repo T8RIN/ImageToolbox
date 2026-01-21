@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -2027,4 +2029,15 @@
     <string name="warp_mode_shrink">Сжатие</string>
     <string name="warp_mode_swirl_cw">Вихрь (→)</string>
     <string name="warp_mode_swirl_ccw">Вихрь (←)</string>
+    <string name="compute_percents">Вычисление процентов</string>
+    <string name="minimum_value_is">Минимальное значение: %1$s.</string>
+    <string name="warp_sub">Искажайте изображение, рисуя пальцами</string>
+    <string name="warp">Деформация</string>
+    <string name="hardness">Твердость</string>
+    <string name="warp_mode">Режим деформации</string>
+    <string name="fade_strength">Сила исчезновения</string>
+    <string name="top_drop">Топ дропа</string>
+    <string name="bottom_drop">Нижняя капля</string>
+    <string name="start_drop">Начать падение</string>
+    <string name="end_drop">Конец падения</string>
 </resources>

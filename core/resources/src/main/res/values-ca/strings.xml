@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">Normal</string>
     <string name="slow">Lenta</string>
     <string name="very_slow">Molt Lent</string>
+    <string name="compute_percents">Calcular percentatges</string>
+    <string name="minimum_value_is">El valor mínim és %1$s</string>
+    <string name="warp_sub">Distorsiona la imatge dibuixant amb els dits</string>
+    <string name="warp">Deformació</string>
+    <string name="hardness">Duresa</string>
+    <string name="warp_mode">Mode Warp</string>
+    <string name="warp_mode_move">Mou-te</string>
+    <string name="warp_mode_grow">Créixer</string>
+    <string name="warp_mode_shrink">Encongir-se</string>
+    <string name="warp_mode_swirl_cw">Remolí CW</string>
+    <string name="warp_mode_swirl_ccw">Remolí cap a la dreta</string>
+    <string name="fade_strength">Força d\'esvaïment</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Gota inferior</string>
+    <string name="start_drop">Inicia Drop</string>
+    <string name="end_drop">Finalitza la caiguda</string>
 </resources>

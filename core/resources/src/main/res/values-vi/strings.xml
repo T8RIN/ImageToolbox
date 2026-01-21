@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">Bình thường</string>
     <string name="slow">Chậm</string>
     <string name="very_slow">Rất chậm</string>
+    <string name="compute_percents">Tính phần trăm</string>
+    <string name="minimum_value_is">Giá trị tối thiểu là %1$s</string>
+    <string name="warp_sub">Làm biến dạng hình ảnh bằng cách vẽ bằng ngón tay</string>
+    <string name="warp">Làm cong vênh</string>
+    <string name="hardness">độ cứng</string>
+    <string name="warp_mode">Chế độ dọc</string>
+    <string name="warp_mode_move">Di chuyển</string>
+    <string name="warp_mode_grow">Phát triển</string>
+    <string name="warp_mode_shrink">Thu nhỏ</string>
+    <string name="warp_mode_swirl_cw">Xoáy CW</string>
+    <string name="warp_mode_swirl_ccw">xoáy CCW</string>
+    <string name="fade_strength">Sức mạnh phai nhạt</string>
+    <string name="top_drop">Thả hàng đầu</string>
+    <string name="bottom_drop">Thả dưới cùng</string>
+    <string name="start_drop">Bắt đầu thả</string>
+    <string name="end_drop">Thả cuối</string>
 </resources>

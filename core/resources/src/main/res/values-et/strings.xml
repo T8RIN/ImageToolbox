@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -2022,4 +2024,18 @@
     <string name="very_slow">Väga aeglane</string>
     <string name="compute_percents">Arvuta protsentuaalsed osakaalud</string>
     <string name="minimum_value_is">Minimaalne väärtus on %1$s</string>
+    <string name="warp_sub">Pildi moonutamine sõrmedega joonistades</string>
+    <string name="warp">lõime</string>
+    <string name="hardness">Kõvadus</string>
+    <string name="warp_mode">Warp režiim</string>
+    <string name="warp_mode_move">Liiguta</string>
+    <string name="warp_mode_grow">Kasvama</string>
+    <string name="warp_mode_shrink">Kahanema</string>
+    <string name="warp_mode_swirl_cw">Keerake CW</string>
+    <string name="warp_mode_swirl_ccw">Pöörake CCW</string>
+    <string name="fade_strength">tuhmumistugevus</string>
+    <string name="top_drop">Ülemine tilk</string>
+    <string name="bottom_drop">Alumine tilk</string>
+    <string name="start_drop">Käivitage Drop</string>
+    <string name="end_drop">Lõpeta kukkumine</string>
 </resources>

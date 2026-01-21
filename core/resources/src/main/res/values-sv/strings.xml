@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2021,4 +2023,20 @@
     <string name="normal">Normal</string>
     <string name="slow">Långsam</string>
     <string name="very_slow">Mycket långsam</string>
+    <string name="compute_percents">Beräkna procent</string>
+    <string name="minimum_value_is">Minsta värde är %1$s</string>
+    <string name="warp_sub">Förvräng bilden genom att rita med fingrar</string>
+    <string name="warp">Varp</string>
+    <string name="hardness">Hårdhet</string>
+    <string name="warp_mode">Warp-läge</string>
+    <string name="warp_mode_move">Flytta</string>
+    <string name="warp_mode_grow">Växa</string>
+    <string name="warp_mode_shrink">Krympa</string>
+    <string name="warp_mode_swirl_cw">Virvla CW</string>
+    <string name="warp_mode_swirl_ccw">Snurra moturs</string>
+    <string name="fade_strength">Tona styrka</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Nedre droppe</string>
+    <string name="start_drop">Starta Drop</string>
+    <string name="end_drop">Avsluta Drop</string>
 </resources>

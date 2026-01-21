@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">정상</string>
     <string name="slow">느린</string>
     <string name="very_slow">매우 느림</string>
+    <string name="compute_percents">백분율 계산</string>
+    <string name="minimum_value_is">최소값은 %1$s입니다.</string>
+    <string name="warp_sub">손가락으로 그려 이미지 왜곡</string>
+    <string name="warp">경사</string>
+    <string name="hardness">경도</string>
+    <string name="warp_mode">워프 모드</string>
+    <string name="warp_mode_move">이동하다</string>
+    <string name="warp_mode_grow">자라다</string>
+    <string name="warp_mode_shrink">수축</string>
+    <string name="warp_mode_swirl_cw">소용돌이 CW</string>
+    <string name="warp_mode_swirl_ccw">소용돌이 CCW</string>
+    <string name="fade_strength">페이드 강도</string>
+    <string name="top_drop">탑 드롭</string>
+    <string name="bottom_drop">하단 드롭</string>
+    <string name="start_drop">드롭 시작</string>
+    <string name="end_drop">엔드 드롭</string>
 </resources>

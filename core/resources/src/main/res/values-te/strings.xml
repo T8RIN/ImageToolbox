@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">సాధారణ</string>
     <string name="slow">నెమ్మదిగా</string>
     <string name="very_slow">చాలా స్లో</string>
+    <string name="compute_percents">శాతాలను లెక్కించండి</string>
+    <string name="minimum_value_is">కనిష్ట విలువ %1$s</string>
+    <string name="warp_sub">వేళ్లతో గీయడం ద్వారా చిత్రాన్ని వక్రీకరించండి</string>
+    <string name="warp">వార్ప్</string>
+    <string name="hardness">కాఠిన్యం</string>
+    <string name="warp_mode">వార్ప్ మోడ్</string>
+    <string name="warp_mode_move">తరలించు</string>
+    <string name="warp_mode_grow">పెరుగుతాయి</string>
+    <string name="warp_mode_shrink">కుదించు</string>
+    <string name="warp_mode_swirl_cw">స్విర్ల్ CW</string>
+    <string name="warp_mode_swirl_ccw">స్విర్ల్ CCW</string>
+    <string name="fade_strength">ఫేడ్ స్ట్రెంత్</string>
+    <string name="top_drop">టాప్ డ్రాప్</string>
+    <string name="bottom_drop">బాటమ్ డ్రాప్</string>
+    <string name="start_drop">డ్రాప్ ప్రారంభించండి</string>
+    <string name="end_drop">ఎండ్ డ్రాప్</string>
 </resources>

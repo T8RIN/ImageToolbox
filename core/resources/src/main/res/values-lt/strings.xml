@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
@@ -2023,4 +2025,20 @@
     <string name="normal">Normalus</string>
     <string name="slow">Lėtas</string>
     <string name="very_slow">Labai lėtas</string>
+    <string name="compute_percents">Apskaičiuokite procentus</string>
+    <string name="minimum_value_is">Minimali vertė yra %1$s</string>
+    <string name="warp_sub">Iškraipykite vaizdą piešdami pirštais</string>
+    <string name="warp">Metmenys</string>
+    <string name="hardness">Kietumas</string>
+    <string name="warp_mode">Metimo režimas</string>
+    <string name="warp_mode_move">Judėti</string>
+    <string name="warp_mode_grow">Augti</string>
+    <string name="warp_mode_shrink">Susitraukti</string>
+    <string name="warp_mode_swirl_cw">Sūkurys CW</string>
+    <string name="warp_mode_swirl_ccw">Sūkurys CCW</string>
+    <string name="fade_strength">Išblukimo stiprumas</string>
+    <string name="top_drop">Viršutinis lašas</string>
+    <string name="bottom_drop">Apatinis lašas</string>
+    <string name="start_drop">Pradėti Drop</string>
+    <string name="end_drop">Pabaigos kritimas</string>
 </resources>

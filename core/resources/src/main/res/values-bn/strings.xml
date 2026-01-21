@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">স্বাভাবিক</string>
     <string name="slow">ধীর</string>
     <string name="very_slow">খুব ধীর</string>
+    <string name="compute_percents">শতাংশ গণনা করুন</string>
+    <string name="minimum_value_is">সর্বনিম্ন মান হল %1$s</string>
+    <string name="warp_sub">আঙ্গুল দিয়ে আঁকা ছবি বিকৃত</string>
+    <string name="warp">ওয়ার্প</string>
+    <string name="hardness">কঠোরতা</string>
+    <string name="warp_mode">ওয়ার্প মোড</string>
+    <string name="warp_mode_move">সরান</string>
+    <string name="warp_mode_grow">বৃদ্ধি</string>
+    <string name="warp_mode_shrink">সঙ্কুচিত</string>
+    <string name="warp_mode_swirl_cw">ঘূর্ণি CW</string>
+    <string name="warp_mode_swirl_ccw">ঘূর্ণায়মান CCW</string>
+    <string name="fade_strength">বিবর্ণ শক্তি</string>
+    <string name="top_drop">শীর্ষ ড্রপ</string>
+    <string name="bottom_drop">বটম ড্রপ</string>
+    <string name="start_drop">স্টার্ট ড্রপ</string>
+    <string name="end_drop">শেষ ড্রপ</string>
 </resources>

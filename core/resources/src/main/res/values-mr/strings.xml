@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -2023,4 +2025,18 @@
     <string name="very_slow">खूप हळू</string>
     <string name="compute_percents">टक्केवारीची गणना करा</string>
     <string name="minimum_value_is">किमान मूल्य %1$s आहे</string>
+    <string name="warp_sub">बोटांनी रेखाटून प्रतिमा विकृत करा</string>
+    <string name="warp">ताना</string>
+    <string name="hardness">कडकपणा</string>
+    <string name="warp_mode">वार्प मोड</string>
+    <string name="warp_mode_move">हलवा</string>
+    <string name="warp_mode_grow">वाढतात</string>
+    <string name="warp_mode_shrink">संकुचित करा</string>
+    <string name="warp_mode_swirl_cw">फिरणे CW</string>
+    <string name="warp_mode_swirl_ccw">फिरणे CCW</string>
+    <string name="fade_strength">फिकट ताकद</string>
+    <string name="top_drop">शीर्ष ड्रॉप</string>
+    <string name="bottom_drop">तळ ड्रॉप</string>
+    <string name="start_drop">ड्रॉप सुरू करा</string>
+    <string name="end_drop">समाप्ती ड्रॉप</string>
 </resources>

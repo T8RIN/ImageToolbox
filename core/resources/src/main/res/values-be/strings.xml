@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -2022,4 +2024,20 @@
     <string name="normal">Нармальны</string>
     <string name="slow">павольна</string>
     <string name="very_slow">Вельмі павольна</string>
+    <string name="compute_percents">Вылічыць працэнты</string>
+    <string name="minimum_value_is">Мінімальнае значэнне %1$s</string>
+    <string name="warp_sub">Скажайце малюнак, малюючы пальцамі</string>
+    <string name="warp">Дэфармацыя</string>
+    <string name="hardness">Цвёрдасць</string>
+    <string name="warp_mode">Рэжым дэфармацыі</string>
+    <string name="warp_mode_move">Рухайцеся</string>
+    <string name="warp_mode_grow">Расці</string>
+    <string name="warp_mode_shrink">Скарачацца</string>
+    <string name="warp_mode_swirl_cw">Круціцца CW</string>
+    <string name="warp_mode_swirl_ccw">Круціце супраць супрацьлеглай рукі</string>
+    <string name="fade_strength">Fade Strength</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Ніжняя кропля</string>
+    <string name="start_drop">Пачаць Drop</string>
+    <string name="end_drop">End Drop</string>
 </resources>

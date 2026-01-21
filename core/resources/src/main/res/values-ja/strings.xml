@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">普通</string>
     <string name="slow">遅い</string>
     <string name="very_slow">非常に遅い</string>
+    <string name="compute_percents">パーセントを計算する</string>
+    <string name="minimum_value_is">最小値は %1$s です</string>
+    <string name="warp_sub">指で描いて画像を歪ませる</string>
+    <string name="warp">ワープ</string>
+    <string name="hardness">硬度</string>
+    <string name="warp_mode">ワープモード</string>
+    <string name="warp_mode_move">動く</string>
+    <string name="warp_mode_grow">育つ</string>
+    <string name="warp_mode_shrink">縮む</string>
+    <string name="warp_mode_swirl_cw">CWに旋回</string>
+    <string name="warp_mode_swirl_ccw">反時計回りに旋回</string>
+    <string name="fade_strength">フェード強度</string>
+    <string name="top_drop">トップドロップ</string>
+    <string name="bottom_drop">ボトムドロップ</string>
+    <string name="start_drop">スタートドロップ</string>
+    <string name="end_drop">エンドドロップ</string>
 </resources>

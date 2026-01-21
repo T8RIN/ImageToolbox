@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -2022,4 +2024,20 @@
     <string name="normal">нормальний</string>
     <string name="slow">Повільно</string>
     <string name="very_slow">Дуже повільно</string>
+    <string name="compute_percents">Обчислити відсотки</string>
+    <string name="minimum_value_is">Мінімальне значення становить %1$s</string>
+    <string name="warp_sub">Спотворюйте зображення, малюючи пальцями</string>
+    <string name="warp">Деформація</string>
+    <string name="hardness">Твердість</string>
+    <string name="warp_mode">Режим деформації</string>
+    <string name="warp_mode_move">рухатися</string>
+    <string name="warp_mode_grow">Рости</string>
+    <string name="warp_mode_shrink">скорочення</string>
+    <string name="warp_mode_swirl_cw">Крути CW</string>
+    <string name="warp_mode_swirl_ccw">Вихровий рух проти CCW</string>
+    <string name="fade_strength">Fade Strength</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Нижня падіння</string>
+    <string name="start_drop">Почати Drop</string>
+    <string name="end_drop">End Drop</string>
 </resources>

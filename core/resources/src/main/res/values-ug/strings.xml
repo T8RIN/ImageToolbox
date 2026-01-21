@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">نورمال</string>
     <string name="slow">ئاستا</string>
     <string name="very_slow">Very Slow</string>
+    <string name="compute_percents">ھېسابلاش نىسبىتى</string>
+    <string name="minimum_value_is">ئەڭ تۆۋەن قىممىتى %1$s</string>
+    <string name="warp_sub">بارماق بىلەن رەسىم سىزىش ئارقىلىق رەسىمنى بۇرمىلاش</string>
+    <string name="warp">Warp</string>
+    <string name="hardness">قاتتىقلىق</string>
+    <string name="warp_mode">Warp Mode</string>
+    <string name="warp_mode_move">يۆتكەڭ</string>
+    <string name="warp_mode_grow">ئۆسۈڭ</string>
+    <string name="warp_mode_shrink">كىچىكلىتىش</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Swirl CCW</string>
+    <string name="fade_strength">Fade Strength</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">ئاستى تامچە</string>
+    <string name="start_drop">باشلاش</string>
+    <string name="end_drop">ئاخىرلىشىش</string>
 </resources>

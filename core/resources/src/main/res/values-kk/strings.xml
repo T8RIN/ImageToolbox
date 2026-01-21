@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">Қалыпты</string>
     <string name="slow">Баяу</string>
     <string name="very_slow">Өте баяу</string>
+    <string name="compute_percents">Проценттерді есептеу</string>
+    <string name="minimum_value_is">Минималды мән – %1$s</string>
+    <string name="warp_sub">Саусақтармен сурет салу арқылы кескінді бұрмалау</string>
+    <string name="warp">Соғыс</string>
+    <string name="hardness">Қаттылық</string>
+    <string name="warp_mode">Бұрмалау режимі</string>
+    <string name="warp_mode_move">Жылжыту</string>
+    <string name="warp_mode_grow">Өсу</string>
+    <string name="warp_mode_shrink">Кішірейту</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Айналмалы CCW</string>
+    <string name="fade_strength">Өшіру күші</string>
+    <string name="top_drop">Жоғарғы тамшы</string>
+    <string name="bottom_drop">Төменгі тамшы</string>
+    <string name="start_drop">Drop бастау</string>
+    <string name="end_drop">Аяқтау</string>
 </resources>

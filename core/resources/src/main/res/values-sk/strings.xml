@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -2022,4 +2024,20 @@
     <string name="normal">Normálne</string>
     <string name="slow">Pomaly</string>
     <string name="very_slow">Veľmi pomalé</string>
+    <string name="compute_percents">Vypočítajte percentá</string>
+    <string name="minimum_value_is">Minimálna hodnota je %1$s</string>
+    <string name="warp_sub">Skreslenie obrazu kresbou prstami</string>
+    <string name="warp">Warp</string>
+    <string name="hardness">Tvrdosť</string>
+    <string name="warp_mode">Režim Warp</string>
+    <string name="warp_mode_move">Pohybujte sa</string>
+    <string name="warp_mode_grow">Rast</string>
+    <string name="warp_mode_shrink">Zmenšiť</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Krúžte CCW</string>
+    <string name="fade_strength">Sila slabnutia</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Spodná kvapka</string>
+    <string name="start_drop">Spustite aplikáciu Drop</string>
+    <string name="end_drop">End Drop</string>
 </resources>

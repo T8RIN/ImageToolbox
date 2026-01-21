@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -2021,4 +2023,20 @@
     <string name="normal">Нормално</string>
     <string name="slow">Споро</string>
     <string name="very_slow">Веома Споро</string>
+    <string name="compute_percents">Израчунај проценте</string>
+    <string name="minimum_value_is">Минимална вредност је __ПХ_0__</string>
+    <string name="warp_sub">Искривите слику цртањем прстима</string>
+    <string name="warp">Варп</string>
+    <string name="hardness">Тврдоћа</string>
+    <string name="warp_mode">Варп Моде</string>
+    <string name="warp_mode_move">Помери се</string>
+    <string name="warp_mode_grow">Расте</string>
+    <string name="warp_mode_shrink">Смањи се</string>
+    <string name="warp_mode_swirl_cw">Свирл ЦВ</string>
+    <string name="warp_mode_swirl_ccw">Свирл ЦЦВ</string>
+    <string name="fade_strength">Фаде Стренгтх</string>
+    <string name="top_drop">Топ Дроп</string>
+    <string name="bottom_drop">Боттом Дроп</string>
+    <string name="start_drop">Старт Дроп</string>
+    <string name="end_drop">Енд Дроп</string>
 </resources>

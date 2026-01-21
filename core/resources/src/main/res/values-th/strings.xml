@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">ปกติ</string>
     <string name="slow">ช้า</string>
     <string name="very_slow">ช้ามาก</string>
+    <string name="compute_percents">เปอร์เซ็นต์การคำนวณ</string>
+    <string name="minimum_value_is">ค่าต่ำสุดคือ %1$s</string>
+    <string name="warp_sub">บิดเบือนภาพด้วยการวาดภาพด้วยมือ</string>
+    <string name="warp">วาร์ป</string>
+    <string name="hardness">ความแข็ง</string>
+    <string name="warp_mode">โหมดวาร์ป</string>
+    <string name="warp_mode_move">เคลื่อนไหว</string>
+    <string name="warp_mode_grow">เติบโต</string>
+    <string name="warp_mode_shrink">หด</string>
+    <string name="warp_mode_swirl_cw">หมุน CW</string>
+    <string name="warp_mode_swirl_ccw">ทวนเข็มนาฬิกาหมุนวน</string>
+    <string name="fade_strength">จางลงความแข็งแรง</string>
+    <string name="top_drop">ดรอปยอดนิยม</string>
+    <string name="bottom_drop">ดรอปล่าง</string>
+    <string name="start_drop">เริ่มดรอป</string>
+    <string name="end_drop">สิ้นสุดดรอป</string>
 </resources>

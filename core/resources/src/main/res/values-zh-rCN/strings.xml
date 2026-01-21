@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2019,4 +2021,20 @@
     <string name="normal">普通的</string>
     <string name="slow">慢的</string>
     <string name="very_slow">非常慢</string>
+    <string name="compute_percents">计算百分比</string>
+    <string name="minimum_value_is">最小值为 %1$s</string>
+    <string name="warp_sub">用手指绘图扭曲图像</string>
+    <string name="warp">经</string>
+    <string name="hardness">硬度</string>
+    <string name="warp_mode">扭曲模式</string>
+    <string name="warp_mode_move">移动</string>
+    <string name="warp_mode_grow">生长</string>
+    <string name="warp_mode_shrink">收缩</string>
+    <string name="warp_mode_swirl_cw">旋流连续波</string>
+    <string name="warp_mode_swirl_ccw">逆时针旋流</string>
+    <string name="fade_strength">褪色强度</string>
+    <string name="top_drop">顶部落差</string>
+    <string name="bottom_drop">底部下降</string>
+    <string name="start_drop">开始掉落</string>
+    <string name="end_drop">结束掉落</string>
 </resources>

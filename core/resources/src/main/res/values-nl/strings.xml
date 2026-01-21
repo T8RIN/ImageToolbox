@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">Normaal</string>
     <string name="slow">Langzaam</string>
     <string name="very_slow">Zeer langzaam</string>
+    <string name="compute_percents">Bereken procenten</string>
+    <string name="minimum_value_is">Minimale waarde is %1$s</string>
+    <string name="warp_sub">Vervorm het beeld door met de vingers te tekenen</string>
+    <string name="warp">Verdraaien</string>
+    <string name="hardness">Hardheid</string>
+    <string name="warp_mode">Warp-modus</string>
+    <string name="warp_mode_move">Beweging</string>
+    <string name="warp_mode_grow">Groeien</string>
+    <string name="warp_mode_shrink">Krimpen</string>
+    <string name="warp_mode_swirl_cw">Werveling CW</string>
+    <string name="warp_mode_swirl_ccw">Draai CCW</string>
+    <string name="fade_strength">Vervagen sterkte</string>
+    <string name="top_drop">Topdaling</string>
+    <string name="bottom_drop">Onderste daling</string>
+    <string name="start_drop">Begin druppel</string>
+    <string name="end_drop">Einde daling</string>
 </resources>

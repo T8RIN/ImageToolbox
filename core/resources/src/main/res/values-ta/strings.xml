@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2020,4 +2022,20 @@
     <string name="normal">இயல்பானது</string>
     <string name="slow">மெதுவாக</string>
     <string name="very_slow">மிக மெதுவாக</string>
+    <string name="compute_percents">சதவீதங்களைக் கணக்கிடுங்கள்</string>
+    <string name="minimum_value_is">குறைந்தபட்ச மதிப்பு %1$s</string>
+    <string name="warp_sub">விரல்களால் வரைவதன் மூலம் படத்தை சிதைக்கவும்</string>
+    <string name="warp">வார்ப்</string>
+    <string name="hardness">கடினத்தன்மை</string>
+    <string name="warp_mode">வார்ப் பயன்முறை</string>
+    <string name="warp_mode_move">நகர்த்தவும்</string>
+    <string name="warp_mode_grow">வளருங்கள்</string>
+    <string name="warp_mode_shrink">சுருக்கு</string>
+    <string name="warp_mode_swirl_cw">சுழி CW</string>
+    <string name="warp_mode_swirl_ccw">சுழல் CCW</string>
+    <string name="fade_strength">மங்கலான வலிமை</string>
+    <string name="top_drop">டாப் டிராப்</string>
+    <string name="bottom_drop">பாட்டம் டிராப்</string>
+    <string name="start_drop">துளியைத் தொடங்கு</string>
+    <string name="end_drop">என்ட் டிராப்</string>
 </resources>

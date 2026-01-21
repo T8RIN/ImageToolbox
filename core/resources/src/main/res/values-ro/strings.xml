@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -2021,4 +2023,20 @@
     <string name="normal">Normal</string>
     <string name="slow">Lent</string>
     <string name="very_slow">Foarte lent</string>
+    <string name="compute_percents">Calculați procente</string>
+    <string name="minimum_value_is">Valoarea minimă este %1$s</string>
+    <string name="warp_sub">Distorsionați imaginea desenând cu degetele</string>
+    <string name="warp">Urzeală</string>
+    <string name="hardness">Duritate</string>
+    <string name="warp_mode">Modul Warp</string>
+    <string name="warp_mode_move">Mişcare</string>
+    <string name="warp_mode_grow">Creste</string>
+    <string name="warp_mode_shrink">Se micsoreaza</string>
+    <string name="warp_mode_swirl_cw">Swirl CW</string>
+    <string name="warp_mode_swirl_ccw">Rotiți în sens invers</string>
+    <string name="fade_strength">Fade Strength</string>
+    <string name="top_drop">Top Drop</string>
+    <string name="bottom_drop">Scădere de jos</string>
+    <string name="start_drop">Începeți Drop</string>
+    <string name="end_drop">Sfârșește Drop</string>
 </resources>
