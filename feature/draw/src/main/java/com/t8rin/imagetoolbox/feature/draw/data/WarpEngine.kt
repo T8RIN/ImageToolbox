@@ -129,8 +129,8 @@ internal class WarpEngine(
 
                 val amp = when (mode) {
                     WarpMode.MOVE -> 1f
-                    WarpMode.GROW -> 0.015f
-                    WarpMode.SHRINK -> 0.015f
+                    WarpMode.GROW -> 0.05f
+                    WarpMode.SHRINK -> 0.05f
                     WarpMode.SWIRL_CW -> 0.2f
                     WarpMode.SWIRL_CCW -> 0.2f
                 }
