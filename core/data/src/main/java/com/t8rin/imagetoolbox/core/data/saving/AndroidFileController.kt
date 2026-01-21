@@ -427,7 +427,7 @@ internal class AndroidFileController @Inject constructor(
         key: String,
         value: O,
     ): Boolean = withContext(ioDispatcher) {
-        "saveObject".makeLog(key)
+        "saveObject value = $value".makeLog(key)
         runCatching {
             dataStore.edit {
                 it[stringPreferencesKey("fast_$key")] =
@@ -457,7 +457,7 @@ internal class AndroidFileController @Inject constructor(
         }.onFailure {
             it.makeLog("restoreObject $key")
         }.onSuccess {
-            "restoreObject success".makeLog(key)
+            "restoreObject success value = $it".makeLog(key)
         }.getOrNull()
     }
 

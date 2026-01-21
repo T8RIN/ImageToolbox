@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,7 +123,7 @@ fun EnhancedButtonGroup(
 }
 
 @Composable
-fun <T> EnhancedButtonGroup(
+fun <T : Any> EnhancedButtonGroup(
     modifier: Modifier = defaultModifier,
     enabled: Boolean = true,
     entries: List<T>,
@@ -134,19 +134,28 @@ fun <T> EnhancedButtonGroup(
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
     isScrollable: Boolean = true,
-    contentPadding: PaddingValues = DefaultContentPadding
+    contentPadding: PaddingValues = DefaultContentPadding,
+    useClassFinding: Boolean = false
 ) {
     EnhancedButtonGroup(
         modifier = modifier,
         enabled = enabled,
         itemCount = entries.size,
-        selectedIndex = entries.indexOf(value),
+        selectedIndex = if (useClassFinding) {
+            entries.indexOfFirst { it::class.isInstance(value) }
+        } else {
+            entries.indexOf(value)
+        },
         itemContent = {
             itemContent(entries[it])
         },
         onIndexChange = {
             onValueChange(
-                entries[it]
+                if (useClassFinding && value::class.isInstance(entries[it])) {
+                    value
+                } else {
+                    entries[it]
+                }
             )
         },
         title = {

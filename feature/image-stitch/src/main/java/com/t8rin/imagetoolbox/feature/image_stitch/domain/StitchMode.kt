@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,27 @@
 
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
+
 sealed class StitchMode(val ordinal: Int) {
+    fun drops(): List<Int> = safeCast<Auto>()?.drops ?: emptyList()
+
+    data class Auto(
+        val topDrop: Int = 0,
+        val bottomDrop: Int = 0,
+        val startDrop: Int = 0,
+        val endDrop: Int = 0
+    ) : StitchMode(-1) {
+        val drops = listOf(topDrop, bottomDrop, startDrop, endDrop)
+
+        constructor(drops: List<Int>) : this(
+            topDrop = drops.getOrNull(0) ?: 0,
+            bottomDrop = drops.getOrNull(1) ?: 0,
+            startDrop = drops.getOrNull(2) ?: 0,
+            endDrop = drops.getOrNull(3) ?: 0
+        )
+    }
+
     data object Horizontal : StitchMode(0)
 
     data object Vertical : StitchMode(1)
@@ -39,11 +59,22 @@ sealed class StitchMode(val ordinal: Int) {
 
     companion object {
         fun fromOrdinal(ordinal: Int) = when (ordinal) {
+            -1 -> Auto()
             0 -> Horizontal
             1 -> Vertical
             2 -> Grid.Horizontal()
             3 -> Grid.Vertical()
             else -> Horizontal
+        }
+
+        val entries by lazy {
+            listOf(
+                Horizontal,
+                Vertical,
+                Grid.Horizontal(),
+                Grid.Vertical(),
+                Auto()
+            )
         }
     }
 }

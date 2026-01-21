@@ -25,7 +25,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -69,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchFadeSide
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.FadeStrengthSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.ImageFadingEdgesSelector
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.components.ImageScaleSelector
@@ -209,15 +209,20 @@ fun ImageStitchingContent(
                     value = component.combiningParams.stitchMode,
                     onValueChange = component::setStitchMode
                 )
-                SpacingSelector(
-                    value = component.combiningParams.spacing,
-                    onValueChange = component::updateImageSpacing
-                )
                 AnimatedVisibility(
-                    visible = component.combiningParams.spacing < 0,
+                    visible = component.combiningParams.stitchMode !is StitchMode.Auto,
                     enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically(),
-                    modifier = Modifier.fillMaxWidth()
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    SpacingSelector(
+                        value = component.combiningParams.spacing,
+                        onValueChange = component::updateImageSpacing
+                    )
+                }
+                AnimatedVisibility(
+                    visible = component.combiningParams.spacing < 0 && component.combiningParams.stitchMode !is StitchMode.Auto,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
                     ImageFadingEdgesSelector(
                         value = component.combiningParams.fadingEdgesMode,
@@ -225,30 +230,40 @@ fun ImageStitchingContent(
                     )
                 }
                 AnimatedVisibility(
-                    component.combiningParams.spacing < 0 && component.combiningParams.fadingEdgesMode != StitchFadeSide.None,
+                    visible = component.combiningParams.spacing < 0 && component.combiningParams.fadingEdgesMode != StitchFadeSide.None && component.combiningParams.stitchMode !is StitchMode.Auto,
                     enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically(),
-                    modifier = Modifier.fillMaxWidth()
+                    exit = fadeOut() + shrinkVertically()
                 ) {
                     FadeStrengthSelector(
                         value = component.combiningParams.fadeStrength,
                         onValueChange = component::setFadeStrength
                     )
                 }
-                ScaleSmallImagesToLargeToggle(
-                    checked = component.combiningParams.scaleSmallImagesToLarge,
-                    onCheckedChange = component::toggleScaleSmallImagesToLarge
-                )
-                BlendingModeSelector(
-                    value = component.combiningParams.blendingMode,
-                    onValueChange = component::setBlendingMode,
-                    color = Color.Unspecified
-                )
                 AnimatedVisibility(
-                    visible = !component.combiningParams.scaleSmallImagesToLarge,
+                    visible = component.combiningParams.stitchMode !is StitchMode.Auto,
                     enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically(),
-                    modifier = Modifier.fillMaxWidth()
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    ScaleSmallImagesToLargeToggle(
+                        checked = component.combiningParams.scaleSmallImagesToLarge,
+                        onCheckedChange = component::toggleScaleSmallImagesToLarge
+                    )
+                }
+                AnimatedVisibility(
+                    visible = component.combiningParams.spacing < 0 && component.combiningParams.stitchMode !is StitchMode.Auto,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    BlendingModeSelector(
+                        value = component.combiningParams.blendingMode,
+                        onValueChange = component::setBlendingMode,
+                        color = Color.Unspecified
+                    )
+                }
+                AnimatedVisibility(
+                    visible = !component.combiningParams.scaleSmallImagesToLarge && component.combiningParams.stitchMode !is StitchMode.Auto,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
                     StitchAlignmentSelector(
                         value = component.combiningParams.alignment,

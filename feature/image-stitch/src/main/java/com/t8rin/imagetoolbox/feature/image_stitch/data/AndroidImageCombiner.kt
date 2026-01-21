@@ -65,6 +65,7 @@ internal class AndroidImageCombiner @Inject constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    private val cvStitchHelper: CvStitchHelper,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCombiner<Bitmap> {
@@ -77,6 +78,13 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         onProgress: (Int) -> Unit
     ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
+        if (combiningParams.stitchMode is StitchMode.Auto) {
+            return@withContext cvStitchHelper.cvCombine(
+                imageUris = imageUris,
+                combiningParams = combiningParams
+            )
+        }
+
         suspend fun getImageData(
             imagesUris: List<String>,
             isHorizontal: Boolean

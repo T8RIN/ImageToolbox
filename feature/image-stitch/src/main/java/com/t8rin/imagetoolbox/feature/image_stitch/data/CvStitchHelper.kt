@@ -19,12 +19,12 @@ package com.t8rin.imagetoolbox.feature.image_stitch.data
 
 import android.graphics.Bitmap
 import androidx.core.graphics.createBitmap
-import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
@@ -48,7 +48,7 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-internal class CvStitchTool @Inject constructor(
+internal class CvStitchHelper @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
 ) : OpenCV() {
@@ -63,7 +63,7 @@ internal class CvStitchTool @Inject constructor(
         mat0: Mat,
         mat1: Mat,
         homo: Boolean = true,
-        diff: Boolean = false
+        diff: Boolean = true
     ): Mat? {
         return if (homo) {
             stitchHomography(mat0, mat1, diff)
@@ -198,40 +198,48 @@ internal class CvStitchTool @Inject constructor(
     suspend fun cvCombine(
         imageUris: List<String>,
         combiningParams: CombiningParams,
-    ) = cvStitch(
-        uris = imageUris,
-        imageScale = combiningParams.outputScale
-    )?.let {
-        Trickle.drawColorBehind(
-            input = it,
+    ): Pair<Bitmap, ImageInfo> {
+        val result = cvStitch(
+            uris = imageUris,
+            imageScale = combiningParams.outputScale,
+            stitchMode = combiningParams.stitchMode as StitchMode.Auto
+        ) ?: imageUris.first().toBitmap(
+            imageScale = combiningParams.outputScale,
+            stitchMode = combiningParams.stitchMode
+        ) ?: createBitmap(1, 1)
+
+        return Trickle.drawColorBehind(
+            input = result,
             color = combiningParams.backgroundColor
         ) to ImageInfo(
-            width = it.width,
-            height = it.height,
+            width = result.width,
+            height = result.height,
             imageFormat = ImageFormat.Png.Lossless
         )
-    } ?: (createBitmap(
-        width = 1,
-        height = 1,
-        config = getSuitableConfig()
-    ) to ImageInfo(
-        width = 1,
-        height = 1,
-        imageFormat = ImageFormat.Png.Lossless
-    ))
+    }
 
     private suspend fun cvStitch(
         uris: List<String>,
-        imageScale: Float
+        imageScale: Float,
+        stitchMode: StitchMode.Auto
     ): Bitmap? {
         if (uris.size < 2) return null
 
-        var current = uris.first().toBitmap(imageScale)?.toMat() ?: return null
+        var current = uris.first().toBitmap(
+            imageScale = imageScale,
+            stitchMode = stitchMode
+        )?.toMat() ?: return null
 
         for (i in 1 until uris.size) {
-            val next = uris[i].toBitmap(imageScale)?.toMat() ?: continue
+            val next = uris[i].toBitmap(
+                imageScale = imageScale,
+                stitchMode = stitchMode
+            )?.toMat() ?: continue
 
-            val stitched = stitchBitmaps(current, next)
+            val stitched = stitchBitmaps(
+                mat0 = current,
+                mat1 = next
+            )
             current.release()
             next.release()
 
@@ -243,15 +251,30 @@ internal class CvStitchTool @Inject constructor(
     }
 
     private suspend fun String.toBitmap(
-        imageScale: Float
+        imageScale: Float,
+        stitchMode: StitchMode.Auto
     ): Bitmap? = imageGetter.getImage(
         data = this,
         originalSize = true
     )?.let {
-        it.createScaledBitmap(
+        val scaled = it.createScaledBitmap(
             width = (it.width * imageScale).roundToInt(),
             height = (it.height * imageScale).roundToInt()
         )
+        val newWidth = scaled.width - stitchMode.startDrop - stitchMode.endDrop
+        val newHeight = scaled.height - stitchMode.topDrop - stitchMode.bottomDrop
+
+        if (newWidth < 1 || newHeight < 1) {
+            scaled
+        } else {
+            Bitmap.createBitmap(
+                scaled,
+                stitchMode.startDrop,
+                stitchMode.topDrop,
+                newWidth.coerceAtLeast(1),
+                newHeight.coerceAtLeast(1)
+            )
+        }
     }
 
     private suspend fun Bitmap.createScaledBitmap(
