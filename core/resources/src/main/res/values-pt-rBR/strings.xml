@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -2023,17 +2021,17 @@
     <string name="normal">Normal</string>
     <string name="slow">Lento</string>
     <string name="very_slow">Muito lento</string>
-    <string name="compute_percents">Calcular porcentagens</string>
+    <string name="compute_percents">Calcular Porcentagens</string>
     <string name="minimum_value_is">O valor mínimo é %1$s</string>
-    <string name="warp_sub">Distorcer imagem desenhando com os dedos</string>
-    <string name="warp">Urdidura</string>
+    <string name="warp_sub">Distorcer a imagem desenhando com os dedos</string>
+    <string name="warp">Deformação</string>
     <string name="hardness">Dureza</string>
-    <string name="warp_mode">Modo Warp</string>
+    <string name="warp_mode">Modo de Deformação</string>
     <string name="warp_mode_move">Mover</string>
     <string name="warp_mode_grow">Crescer</string>
     <string name="warp_mode_shrink">Encolher</string>
-    <string name="warp_mode_swirl_cw">Redemoinho CW</string>
-    <string name="warp_mode_swirl_ccw">Redemoinho anti-horário</string>
+    <string name="warp_mode_swirl_cw">Torcer SH</string>
+    <string name="warp_mode_swirl_ccw">Torcer SAH</string>
     <string name="fade_strength">Força de desbotamento</string>
     <string name="top_drop">Queda superior</string>
     <string name="bottom_drop">Queda inferior</string>

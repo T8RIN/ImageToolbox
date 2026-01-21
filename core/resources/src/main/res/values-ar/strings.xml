@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2028,16 +2026,16 @@
     <string name="very_slow">بطيء جدًا</string>
     <string name="compute_percents">احسب النسب المئوية</string>
     <string name="minimum_value_is">القيمة الأدنى هي %1$s</string>
-    <string name="warp_sub">تشويه الصورة عن طريق الرسم بالأصابع</string>
-    <string name="warp">الاعوجاج</string>
-    <string name="hardness">صلابة</string>
-    <string name="warp_mode">وضع الاعوجاج</string>
-    <string name="warp_mode_move">يتحرك</string>
-    <string name="warp_mode_grow">ينمو</string>
-    <string name="warp_mode_shrink">يتقلص</string>
-    <string name="warp_mode_swirl_cw">دوامة الأسلحة الكيميائية</string>
-    <string name="warp_mode_swirl_ccw">دوامة CCW</string>
-    <string name="fade_strength">تتلاشى القوة</string>
+    <string name="warp_sub">شوّه الصورة بالرسم بالأصابع</string>
+    <string name="warp">طي</string>
+    <string name="hardness">الصلابة</string>
+    <string name="warp_mode">وضع الطي</string>
+    <string name="warp_mode_move">حرّك</string>
+    <string name="warp_mode_grow">وسِّع</string>
+    <string name="warp_mode_shrink">قلِّص</string>
+    <string name="warp_mode_swirl_cw">تدور في اتجاه عقارب الساعة</string>
+    <string name="warp_mode_swirl_ccw">تدور عكس عقارب الساعة</string>
+    <string name="fade_strength">قوة التلاشي</string>
     <string name="top_drop">أعلى قطرة</string>
     <string name="bottom_drop">إسقاط القاع</string>
     <string name="start_drop">ابدأ بالاسقاط</string>
