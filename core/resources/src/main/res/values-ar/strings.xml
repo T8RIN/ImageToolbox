@@ -2035,4 +2035,5 @@
     <string name="warp_mode_shrink">قلِّص</string>
     <string name="warp_mode_swirl_cw">تدور في اتجاه عقارب الساعة</string>
     <string name="warp_mode_swirl_ccw">تدور عكس عقارب الساعة</string>
+    <string name="fade_strength">قوة التلاشي</string>
 </resources>
