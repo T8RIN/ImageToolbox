@@ -59,9 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
-import com.t8rin.imagetoolbox.feature.draw.data.WarpEngine
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
-import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -69,6 +67,9 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transformationsForMode
+import com.t8rin.trickle.WarpBrush
+import com.t8rin.trickle.WarpEngine
+import com.t8rin.trickle.WarpMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -274,42 +275,45 @@ internal fun Canvas.UiPathPaintCanvasAction(
         LaunchedEffect(warpedBitmap, invalidations) {
             withContext(Dispatchers.Default) {
                 if (warpedBitmap == null || invalidations <= pathsCount) {
-
                     val source = drawImageBitmap
                         .overlay(drawBitmap)
                         .asAndroidBitmap()
 
                     val engine = WarpEngine(source)
 
-                    drawMode.strokes.forEach { warp ->
-                        val stroke = warp.scaleToFitCanvas(
-                            currentSize = canvasSize,
-                            oldSize = size
-                        )
-                        engine.applyStroke(
-                            fromX = stroke.from.first,
-                            fromY = stroke.from.second,
-                            toX = stroke.to.first,
-                            toY = stroke.to.second,
-                            brush = WarpBrush(
-                                radius = strokeWidth.toPx(canvasSize),
-                                strength = drawMode.strength,
-                                hardness = drawMode.hardness
-                            ),
-                            mode = drawMode.warpMode
-                        )
-                    }
-
-                    warpedBitmap = engine
-                        .render()
-                        .asImageBitmap()
-                        .clipBitmap(
-                            path = path.asComposePath(),
-                            paint = paint
-                        ).also {
-                            it.prepareToDraw()
-                            onInvalidate()
+                    try {
+                        drawMode.strokes.forEach { warp ->
+                            val stroke = warp.scaleToFitCanvas(
+                                currentSize = canvasSize,
+                                oldSize = size
+                            )
+                            engine.applyStroke(
+                                fromX = stroke.from.first,
+                                fromY = stroke.from.second,
+                                toX = stroke.to.first,
+                                toY = stroke.to.second,
+                                brush = WarpBrush(
+                                    radius = strokeWidth.toPx(canvasSize),
+                                    strength = drawMode.strength,
+                                    hardness = drawMode.hardness
+                                ),
+                                mode = WarpMode.valueOf(drawMode.warpMode.name)
+                            )
                         }
+
+                        warpedBitmap = engine
+                            .render()
+                            .asImageBitmap()
+                            .clipBitmap(
+                                path = path.asComposePath(),
+                                paint = paint
+                            ).also {
+                                it.prepareToDraw()
+                                onInvalidate()
+                            }
+                    } finally {
+                        engine.release()
+                    }
                 }
             }
         }

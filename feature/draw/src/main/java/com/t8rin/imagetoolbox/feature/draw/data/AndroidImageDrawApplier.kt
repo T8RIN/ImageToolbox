@@ -68,7 +68,9 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
-import com.t8rin.imagetoolbox.feature.draw.domain.WarpBrush
+import com.t8rin.trickle.WarpBrush
+import com.t8rin.trickle.WarpEngine
+import com.t8rin.trickle.WarpMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -225,35 +227,39 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                         val engine = WarpEngine(image.overlay(bitmap))
 
-                        drawMode.strokes.forEach { warpStroke ->
-                            val warp = warpStroke.scaleToFitCanvas(
-                                currentSize = canvasSize,
-                                oldSize = size
-                            )
-                            engine.applyStroke(
-                                fromX = warp.from.first,
-                                fromY = warp.from.second,
-                                toX = warp.to.first,
-                                toY = warp.to.second,
-                                brush = WarpBrush(
-                                    radius = stroke,
-                                    strength = drawMode.strength,
-                                    hardness = drawMode.hardness
-                                ),
-                                mode = drawMode.warpMode
-                            )
-                        }
-
-                        drawBitmap(
-                            engine
-                                .render()
-                                .asImageBitmap()
-                                .clipBitmap(
-                                    path = path,
-                                    paint = paint
+                        try {
+                            drawMode.strokes.forEach { warpStroke ->
+                                val warp = warpStroke.scaleToFitCanvas(
+                                    currentSize = canvasSize,
+                                    oldSize = size
                                 )
-                                .asAndroidBitmap()
-                        )
+                                engine.applyStroke(
+                                    fromX = warp.from.first,
+                                    fromY = warp.from.second,
+                                    toX = warp.to.first,
+                                    toY = warp.to.second,
+                                    brush = WarpBrush(
+                                        radius = stroke,
+                                        strength = drawMode.strength,
+                                        hardness = drawMode.hardness
+                                    ),
+                                    mode = WarpMode.valueOf(drawMode.warpMode.name)
+                                )
+                            }
+
+                            drawBitmap(
+                                engine
+                                    .render()
+                                    .asImageBitmap()
+                                    .clipBitmap(
+                                        path = path,
+                                        paint = paint
+                                    )
+                                    .asAndroidBitmap()
+                            )
+                        } finally {
+                            engine.release()
+                        }
                     } else {
                         val paint = Paint().apply {
                             if (isErasing) {
