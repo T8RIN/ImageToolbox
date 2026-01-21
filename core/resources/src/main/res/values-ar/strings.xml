@@ -2026,4 +2026,13 @@
     <string name="very_slow">بطيء جدًا</string>
     <string name="compute_percents">احسب النسب المئوية</string>
     <string name="minimum_value_is">القيمة الأدنى هي %1$s</string>
+    <string name="warp_sub">شوّه الصورة بالرسم بالأصابع</string>
+    <string name="warp">طي</string>
+    <string name="hardness">الصلابة</string>
+    <string name="warp_mode">وضع الطي</string>
+    <string name="warp_mode_move">حرّك</string>
+    <string name="warp_mode_grow">وسِّع</string>
+    <string name="warp_mode_shrink">قلِّص</string>
+    <string name="warp_mode_swirl_cw">تدور في اتجاه عقارب الساعة</string>
+    <string name="warp_mode_swirl_ccw">تدور عكس عقارب الساعة</string>
 </resources>
