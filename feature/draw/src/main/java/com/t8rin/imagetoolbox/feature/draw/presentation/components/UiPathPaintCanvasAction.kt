@@ -288,10 +288,10 @@ internal fun Canvas.UiPathPaintCanvasAction(
                                 oldSize = size
                             )
                             engine.applyStroke(
-                                fromX = stroke.from.first,
-                                fromY = stroke.from.second,
-                                toX = stroke.to.first,
-                                toY = stroke.to.second,
+                                fromX = stroke.fromX,
+                                fromY = stroke.fromY,
+                                toX = stroke.toX,
+                                toY = stroke.toY,
                                 brush = WarpBrush(
                                     radius = strokeWidth.toPx(canvasSize),
                                     strength = drawMode.strength,

@@ -28,8 +28,10 @@ enum class WarpMode {
 }
 
 data class WarpStroke(
-    val from: Pair<Float, Float>,
-    val to: Pair<Float, Float>
+    val fromX: Float,
+    val fromY: Float,
+    val toX: Float,
+    val toY: Float
 ) {
     fun scaleToFitCanvas(
         currentSize: IntegerSize,
@@ -38,8 +40,10 @@ data class WarpStroke(
         val sx = currentSize.width.toFloat() / oldSize.width
         val sy = currentSize.height.toFloat() / oldSize.height
         return copy(
-            from = (from.first * sx) to (from.second * sy),
-            to = (to.first * sx) to (to.second * sy)
+            fromX = fromX * sx,
+            fromY = fromY * sy,
+            toX = toX * sx,
+            toY = toY * sy
         )
     }
 }

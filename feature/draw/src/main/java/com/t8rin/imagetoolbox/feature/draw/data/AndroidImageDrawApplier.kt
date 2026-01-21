@@ -234,10 +234,10 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     oldSize = size
                                 )
                                 engine.applyStroke(
-                                    fromX = warp.from.first,
-                                    fromY = warp.from.second,
-                                    toX = warp.to.first,
-                                    toY = warp.to.second,
+                                    fromX = warp.fromX,
+                                    fromY = warp.fromY,
+                                    toX = warp.toX,
+                                    toY = warp.toY,
                                     brush = WarpBrush(
                                         radius = stroke,
                                         strength = drawMode.strength,

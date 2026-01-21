@@ -349,8 +349,10 @@ fun BitmapDrawer(
                                 currentDrawPosition.isSpecified
                             ) {
                                 warpRuntimeStrokes += WarpStroke(
-                                    from = previousDrawPosition.x to previousDrawPosition.y,
-                                    to = currentDrawPosition.x to currentDrawPosition.y
+                                    fromX = previousDrawPosition.x,
+                                    fromY = previousDrawPosition.y,
+                                    toX = currentDrawPosition.x,
+                                    toY = currentDrawPosition.y
                                 )
                             }
                         }
@@ -412,8 +414,10 @@ fun BitmapDrawer(
                                     it.getPosition(it.length)
                                 }.takeOrElse { currentDrawPosition }.let { lastPoint ->
                                     warpRuntimeStrokes += WarpStroke(
-                                        from = lastPoint.x to lastPoint.y,
-                                        to = currentDrawPosition.x to currentDrawPosition.y
+                                        fromX = lastPoint.x,
+                                        fromY = lastPoint.y,
+                                        toX = currentDrawPosition.x,
+                                        toY = currentDrawPosition.y
                                     )
                                 }
 
@@ -548,10 +552,10 @@ fun BitmapDrawer(
                     .collect {
                         if (drawMode is DrawMode.Warp) {
                             warpEngine.applyStroke(
-                                fromX = it.from.first,
-                                fromY = it.from.second,
-                                toX = it.to.first,
-                                toY = it.to.second,
+                                fromX = it.fromX,
+                                fromY = it.fromY,
+                                toX = it.toX,
+                                toY = it.toY,
                                 brush = WarpBrush(
                                     radius = strokeWidth.toPx(canvasSize),
                                     strength = drawMode.strength,
