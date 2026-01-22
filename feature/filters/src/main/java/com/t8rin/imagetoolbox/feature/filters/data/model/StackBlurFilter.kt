@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
-import com.t8rin.trickle.TrickleUtils
+import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
 @FilterInject
@@ -36,7 +36,7 @@ internal class StackBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = TrickleUtils.stackBlur(
+    ): Bitmap = Trickle.stackBlur(
         bitmap = input,
         scale = value.first,
         radius = value.second.roundToInt()
