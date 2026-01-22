@@ -97,9 +97,8 @@ class DrawComponent @AssistedInject internal constructor(
 
     val addFiltersSheetComponent: AddFiltersSheetComponent = addFiltersSheetComponentFactory(
         componentContext = componentContext.childContext(
-            key = "addFilters",
-
-            )
+            key = "addFilters"
+        )
     )
 
     val filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent =
@@ -260,7 +259,7 @@ class DrawComponent @AssistedInject internal constructor(
             }
             imageGetter.getImageData(
                 uri = uri.toString(),
-                size = 1500,
+                size = 2500,
                 onFailure = onFailure
             )?.let { data ->
                 updateBitmap(data.image)
