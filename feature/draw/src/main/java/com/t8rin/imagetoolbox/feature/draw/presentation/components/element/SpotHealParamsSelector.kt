@@ -37,11 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -65,11 +67,12 @@ internal fun SpotHealParamsSelector(
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()
     ) {
+        val keepAliveService = LocalKeepAliveService.current
         val essentials = rememberLocalEssentials()
         val settingsState = LocalSettingsState.current
         val scope = retain { CoroutineScope(Dispatchers.IO) }
         val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
-        var downloadJob by remember {
+        var downloadJob by retain {
             mutableStateOf<Job?>(null)
         }
         var downloadProgress by remember(LamaLoader.isDownloaded) {
@@ -109,27 +112,35 @@ internal fun SpotHealParamsSelector(
                     if (useLama && !LamaLoader.isDownloaded) {
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            LamaLoader.download()
-                                .onStart {
-                                    downloadProgress = RemoteResourcesDownloadProgress(
-                                        currentPercent = 0f,
-                                        currentTotalSize = 0
+                            keepAliveService.trackSafe(
+                                initial = {
+                                    updateOrStart(
+                                        title = essentials.context.getString(R.string.downloading)
                                     )
                                 }
-                                .onCompletion {
-                                    downloadProgress = null
-                                    downloadJob = null
-                                }
-                                .catch {
-                                    simpleSettingsInteractor.setSpotHealMode(0)
-                                    essentials.showFailureToast(it)
-                                    useLama = false
-                                    downloadProgress = null
-                                    downloadJob = null
-                                }
-                                .collect {
-                                    downloadProgress = it
-                                }
+                            ) {
+                                LamaLoader.download()
+                                    .onStart {
+                                        downloadProgress = RemoteResourcesDownloadProgress(
+                                            currentPercent = 0f,
+                                            currentTotalSize = 0
+                                        )
+                                    }
+                                    .onCompletion {
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .catch {
+                                        simpleSettingsInteractor.setSpotHealMode(0)
+                                        essentials.showFailureToast(it)
+                                        useLama = false
+                                        downloadProgress = null
+                                        downloadJob = null
+                                    }
+                                    .collect {
+                                        downloadProgress = it
+                                    }
+                            }
                         }
                     }
                 }

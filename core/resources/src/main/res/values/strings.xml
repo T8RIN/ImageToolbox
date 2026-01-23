@@ -2059,4 +2059,5 @@
     <string name="bottom_drop">Bottom Drop</string>
     <string name="start_drop">Start Drop</string>
     <string name="end_drop">End Drop</string>
+    <string name="downloading">Downloading</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,9 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.DownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
@@ -61,9 +64,13 @@ internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     @ApplicationContext private val context: Context,
     private val shareProvider: ShareProvider,
+    private val keepAliveService: KeepAliveService,
+    resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder,
     appScope: AppScope,
-) : DispatchersHolder by dispatchersHolder, ImageTextReader {
+) : ImageTextReader,
+    DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager {
 
     init {
         appScope.launch {
@@ -267,70 +274,78 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         lang: String,
         onProgress: (Float, Long) -> Unit
-    ): Boolean = withContext(defaultDispatcher) {
-        var location: String
-        var downloadURL = when (type) {
-            RecognitionType.Best -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
-            RecognitionType.Standard -> format(
-                TessConstants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD,
-                lang
+    ): Boolean = keepAliveService.track(
+        initial = {
+            updateOrStart(
+                title = getString(R.string.downloading)
             )
-
-            RecognitionType.Fast -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang)
         }
-        var url: URL
-        var base: URL
-        var next: URL
-        var conn: HttpURLConnection
-        return@withContext runCatching {
-            while (true) {
-                url = URL(downloadURL)
-                conn = url.openConnection() as HttpURLConnection
-                conn.instanceFollowRedirects = false
+    ) {
+        withContext(defaultDispatcher) {
+            var location: String
+            var downloadURL = when (type) {
+                RecognitionType.Best -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
+                RecognitionType.Standard -> format(
+                    TessConstants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD,
+                    lang
+                )
 
-                when (conn.responseCode) {
-                    HttpURLConnection.HTTP_MOVED_PERM,
-                    HttpURLConnection.HTTP_MOVED_TEMP -> {
-                        location = conn.getHeaderField("Location")
-                        base = URL(downloadURL)
-                        next = URL(base, location)
-                        downloadURL = next.toExternalForm()
-                        continue
+                RecognitionType.Fast -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang)
+            }
+            var url: URL
+            var base: URL
+            var next: URL
+            var conn: HttpURLConnection
+            return@withContext runCatching {
+                while (true) {
+                    url = URL(downloadURL)
+                    conn = url.openConnection() as HttpURLConnection
+                    conn.instanceFollowRedirects = false
+
+                    when (conn.responseCode) {
+                        HttpURLConnection.HTTP_MOVED_PERM,
+                        HttpURLConnection.HTTP_MOVED_TEMP -> {
+                            location = conn.getHeaderField("Location")
+                            base = URL(downloadURL)
+                            next = URL(base, location)
+                            downloadURL = next.toExternalForm()
+                            continue
+                        }
                     }
+                    break
                 }
-                break
-            }
-            conn.connect()
+                conn.connect()
 
-            val totalContentSize = conn.contentLength.toLong()
-            onProgress(0f, totalContentSize)
+                val totalContentSize = conn.contentLength.toLong()
+                onProgress(0f, totalContentSize)
 
-            val input: InputStream = BufferedInputStream(url.openStream())
-            val output: OutputStream = FileOutputStream(
-                File(
-                    "${getPathFromMode(type)}/tessdata",
-                    format(TessConstants.LANGUAGE_CODE, lang)
-                ).apply {
-                    createNewFile()
+                val input: InputStream = BufferedInputStream(url.openStream())
+                val output: OutputStream = FileOutputStream(
+                    File(
+                        "${getPathFromMode(type)}/tessdata",
+                        format(TessConstants.LANGUAGE_CODE, lang)
+                    ).apply {
+                        createNewFile()
+                    }
+                )
+                val data = ByteArray(1024 * 8)
+                var count: Int
+                var downloaded = 0
+                while (input.read(data).also { count = it } != -1) {
+                    output.write(data, 0, count)
+                    downloaded += count
+                    val percentage = downloaded * 100f / totalContentSize
+                    onProgress(percentage, totalContentSize)
                 }
-            )
-            val data = ByteArray(1024 * 8)
-            var count: Int
-            var downloaded = 0
-            while (input.read(data).also { count = it } != -1) {
-                output.write(data, 0, count)
-                downloaded += count
-                val percentage = downloaded * 100f / totalContentSize
-                onProgress(percentage, totalContentSize)
-            }
 
-            output.flush()
-            output.close()
-            input.close()
-        }.onFailure {
-            it.makeLog("ImageTextReader")
-        }.isSuccess
-    }
+                output.flush()
+                output.close()
+                input.close()
+            }.onFailure {
+                it.makeLog("ImageTextReader")
+            }.isSuccess
+        }
+    } == true
 
     private fun getPathFromMode(
         type: RecognitionType

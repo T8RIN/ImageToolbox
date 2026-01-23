@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,12 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResource
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.withProgress
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
@@ -45,8 +49,12 @@ import javax.inject.Inject
 internal class AndroidRemoteResourcesStore @Inject constructor(
     @ApplicationContext private val context: Context,
     private val client: HttpClient,
+    private val keepAliveService: KeepAliveService,
+    resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
-) : RemoteResourcesStore, DispatchersHolder by dispatchersHolder {
+) : RemoteResourcesStore,
+    DispatchersHolder by dispatchersHolder,
+    ResourceManager by resourceManager {
 
     override suspend fun getResources(
         name: String,
@@ -86,57 +94,66 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
             val downloadedUris = mutableListOf<RemoteResource>()
 
-            client.prepareGet(url).execute { response ->
-                val total = response.contentLength() ?: -1L
+            keepAliveService.track(
+                initial = {
+                    updateOrStart(
+                        title = getString(R.string.downloading)
+                    )
+                }
+            ) {
+                client.prepareGet(url).execute { response ->
+                    val total = response.contentLength() ?: -1L
 
-                val source = response.bodyAsChannel().toInputStream().withProgress(
-                    total = total,
-                    onProgress = { percent ->
-                        onProgress(
-                            RemoteResourcesDownloadProgress(
-                                currentPercent = percent,
-                                currentTotalSize = total
-                            )
-                        )
-                    }
-                )
-
-                ZipInputStream(source).use { zipIn ->
-                    var entry: ZipEntry?
-                    while (zipIn.nextEntry.also { entry = it } != null) {
-                        entry?.let { zipEntry ->
-                            val filename = zipEntry.name
-
-                            if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
-
-                            val outFile = File(
-                                savingDir,
-                                filename.decodeEscaped()
-                            ).apply {
-                                delete()
-                                parentFile?.mkdirs()
-                                createNewFile()
-                            }
-
-                            if (downloadOnlyNewData) {
-                                val file = savingDir.listFiles()?.find {
-                                    it.name == filename && it.length() > 0L
-                                }
-
-                                if (file != null) return@let
-                            }
-
-                            FileOutputStream(outFile).use { fos ->
-                                zipIn.copyTo(fos)
-                            }
-                            zipIn.closeEntry()
-
-                            downloadedUris.add(
-                                RemoteResource(
-                                    uri = outFile.toUri().toString(),
-                                    name = filename.decodeEscaped()
+                    val source = response.bodyAsChannel().toInputStream().withProgress(
+                        total = total,
+                        onProgress = { percent ->
+                            //TODO: Чето не работает нормально
+                            onProgress(
+                                RemoteResourcesDownloadProgress(
+                                    currentPercent = percent,
+                                    currentTotalSize = total
                                 )
                             )
+                        }
+                    )
+
+                    ZipInputStream(source).use { zipIn ->
+                        var entry: ZipEntry?
+                        while (zipIn.nextEntry.also { entry = it } != null) {
+                            entry?.let { zipEntry ->
+                                val filename = zipEntry.name
+
+                                if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
+
+                                val outFile = File(
+                                    savingDir,
+                                    filename.decodeEscaped()
+                                ).apply {
+                                    delete()
+                                    parentFile?.mkdirs()
+                                    createNewFile()
+                                }
+
+                                if (downloadOnlyNewData) {
+                                    val file = savingDir.listFiles()?.find {
+                                        it.name == filename && it.length() > 0L
+                                    }
+
+                                    if (file != null) return@let
+                                }
+
+                                FileOutputStream(outFile).use { fos ->
+                                    zipIn.copyTo(fos)
+                                }
+                                zipIn.closeEntry()
+
+                                downloadedUris.add(
+                                    RemoteResource(
+                                        uri = outFile.toUri().toString(),
+                                        name = filename.decodeEscaped()
+                                    )
+                                )
+                            }
                         }
                     }
                 }

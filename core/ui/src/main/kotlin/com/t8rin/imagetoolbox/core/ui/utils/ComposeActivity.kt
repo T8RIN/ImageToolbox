@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMetadataProvider
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -53,6 +54,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -78,6 +80,9 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var fileController: FileController
+
+    @Inject
+    lateinit var keepAliveService: KeepAliveService
 
     private lateinit var settingsManager: SettingsManager
 
@@ -152,6 +157,7 @@ abstract class ComposeActivity : AppCompatActivity() {
             CompositionLocalProvider(
                 LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
                 LocalMetadataProvider provides fileController.toMetadataProvider(),
+                LocalKeepAliveService provides keepAliveService,
                 content = ::Content
             )
         }

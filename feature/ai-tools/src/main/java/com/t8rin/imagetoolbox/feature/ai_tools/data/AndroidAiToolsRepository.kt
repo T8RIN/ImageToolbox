@@ -155,48 +155,56 @@ internal class AndroidAiToolsRepository @Inject constructor(
             selectModelForced(model)
             close()
         } else {
-            trySend(
-                NeuralDownloadProgress(
-                    currentPercent = 0f,
-                    currentTotalSize = model.downloadSize
+            keepAliveService.track(
+                initial = {
+                    updateOrStart(
+                        title = getString(R.string.downloading)
+                    )
+                }
+            ) {
+                trySend(
+                    NeuralDownloadProgress(
+                        currentPercent = 0f,
+                        currentTotalSize = model.downloadSize
+                    )
                 )
-            )
 
-            client.prepareGet(model.downloadLink).execute { response ->
-                val total = response.contentLength() ?: -1L
+                client.prepareGet(model.downloadLink).execute { response ->
+                    val total = response.contentLength() ?: -1L
 
-                ensureActive()
-                val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
+                    ensureActive()
+                    val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
 
-                val channel = response.bodyAsChannel()
-                var downloaded = 0L
+                    val channel = response.bodyAsChannel()
+                    var downloaded = 0L
 
-                FileOutputStream(tmp).use { fos ->
-                    try {
-                        while (!channel.isClosedForRead) {
-                            ensureActive()
-                            val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                            while (!packet.exhausted()) {
+                    FileOutputStream(tmp).use { fos ->
+                        try {
+                            while (!channel.isClosedForRead) {
                                 ensureActive()
-                                val bytes = packet.readByteArray()
-                                downloaded += bytes.size
-                                fos.write(bytes)
-                                trySend(
-                                    NeuralDownloadProgress(
-                                        currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                        currentTotalSize = total
+                                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+                                while (!packet.exhausted()) {
+                                    ensureActive()
+                                    val bytes = packet.readByteArray()
+                                    downloaded += bytes.size
+                                    fos.write(bytes)
+                                    trySend(
+                                        NeuralDownloadProgress(
+                                            currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
+                                            currentTotalSize = total
+                                        )
                                     )
-                                )
+                                }
                             }
+
+                            tmp.renameTo(modelFile)
+
+                            selectModelForced(model)
+                            close()
+                        } catch (e: Throwable) {
+                            tmp.delete()
+                            close(e)
                         }
-
-                        tmp.renameTo(modelFile)
-
-                        selectModelForced(model)
-                        close()
-                    } catch (e: Throwable) {
-                        tmp.delete()
-                        close(e)
                     }
                 }
             }
