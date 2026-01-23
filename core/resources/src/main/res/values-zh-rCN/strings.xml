@@ -2022,7 +2022,7 @@
     <string name="compute_percents">计算百分比</string>
     <string name="minimum_value_is">最小值为 %1$s</string>
     <string name="warp_sub">用手指绘图扭曲图像</string>
-    <string name="warp">经</string>
+    <string name="warp">扭曲</string>
     <string name="hardness">硬度</string>
     <string name="warp_mode">扭曲模式</string>
     <string name="warp_mode_move">移动</string>
