@@ -2040,4 +2040,5 @@
     <string name="bottom_drop">إسقاط القاع</string>
     <string name="start_drop">ابدأ بالاسقاط</string>
     <string name="end_drop">نهاية السقوط</string>
+    <string name="downloading">يُنزّل</string>
 </resources>
