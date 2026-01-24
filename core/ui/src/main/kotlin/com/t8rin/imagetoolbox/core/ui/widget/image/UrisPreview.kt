@@ -22,6 +22,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,7 +33,9 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.automirrored.rounded.NoteAdd
@@ -49,8 +52,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,6 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -262,4 +268,27 @@ fun UrisPreview(
             onDismiss = { previewUri = null }
         )
     }
+}
+
+fun Modifier.urisPreview(
+    scrollState: ScrollState? = null
+): Modifier = this.composed {
+    val isPortrait by isPortraitOrientationAsState()
+
+    if (!isPortrait) {
+        Modifier
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(
+                    constraints = constraints.copy(
+                        maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                    )
+                )
+                layout(placeable.width, placeable.height) {
+                    placeable.place(0, 0)
+                }
+            }
+            .verticalScroll(scrollState ?: rememberScrollState())
+    } else {
+        Modifier
+    }.padding(vertical = 24.dp)
 }

@@ -20,8 +20,6 @@ package com.t8rin.imagetoolbox.feature.ai_tools.presentation
 import android.net.Uri
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +32,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -167,28 +165,12 @@ fun AiToolsContent(
         showImagePreviewAsStickyHeader = false,
         imagePreview = {
             UrisPreview(
-                modifier = Modifier
-                    .then(
-                        if (!isPortrait) {
-                            Modifier
-                                .layout { measurable, constraints ->
-                                    val placeable = measurable.measure(
-                                        constraints = constraints.copy(
-                                            maxHeight = constraints.maxHeight + 48.dp.roundToPx()
-                                        )
-                                    )
-                                    layout(placeable.width, placeable.height) {
-                                        placeable.place(0, 0)
-                                    }
-                                }
-                                .verticalScroll(rememberScrollState())
-                        } else Modifier
-                    )
-                    .padding(vertical = 24.dp),
+                modifier = Modifier.urisPreview(),
                 uris = component.uris.orEmpty(),
                 isPortrait = true,
                 onRemoveUri = component::removeUri,
-                onAddUris = addImagesImagePicker::pickImage
+                onAddUris = addImagesImagePicker::pickImage,
+                onNavigate = component.onNavigate
             )
         },
         controls = {

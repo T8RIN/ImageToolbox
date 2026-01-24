@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.Icon
@@ -39,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -58,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -277,24 +275,7 @@ fun RecognizeTextContent(
                 }
             } else {
                 UrisPreview(
-                    modifier = Modifier
-                        .then(
-                            if (!isPortrait) {
-                                Modifier
-                                    .layout { measurable, constraints ->
-                                        val placeable = measurable.measure(
-                                            constraints = constraints.copy(
-                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
-                                            )
-                                        )
-                                        layout(placeable.width, placeable.height) {
-                                            placeable.place(0, 0)
-                                        }
-                                    }
-                                    .verticalScroll(rememberScrollState())
-                            } else Modifier
-                        )
-                        .padding(vertical = 24.dp),
+                    modifier = Modifier.urisPreview(),
                     uris = component.uris,
                     isPortrait = true,
                     onRemoveUri = component::removeUri,

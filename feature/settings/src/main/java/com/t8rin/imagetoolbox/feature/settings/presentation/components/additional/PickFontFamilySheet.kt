@@ -39,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
@@ -85,19 +85,7 @@ internal fun PickFontFamilySheet(
                 stickyHeader {
                     Column(
                         modifier = Modifier
-                            .layout { measurable, constraints ->
-                                val result = measurable.measure(
-                                    constraints.copy(
-                                        maxWidth = constraints.maxWidth + 32.dp.roundToPx()
-                                    )
-                                )
-                                layout(
-                                    result.measuredWidth,
-                                    result.measuredHeight
-                                ) {
-                                    result.place(0, 0)
-                                }
-                            }
+                            .negativePadding(horizontal = 16.dp)
                             .background(EnhancedBottomSheetDefaults.containerColor)
                             .padding(horizontal = 16.dp)
                     ) {

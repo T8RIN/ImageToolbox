@@ -95,6 +95,10 @@ fun RecognizeLanguageSelector(
         mutableStateOf("")
     }
 
+    var allowMultipleLanguagesSelection by rememberSaveable {
+        mutableStateOf(value.isNotEmpty())
+    }
+
     EnhancedModalBottomSheet(
         visible = showDetailedLanguageSheet,
         onDismiss = {
@@ -201,7 +205,11 @@ fun RecognizeLanguageSelector(
                 isSearching = isSearching,
                 searchKeyword = searchKeyword,
                 availableLanguages = availableLanguages,
-                onDeleteLanguage = onDeleteLanguage
+                onDeleteLanguage = onDeleteLanguage,
+                allowMultipleLanguagesSelection = allowMultipleLanguagesSelection,
+                onToggleAllowMultipleLanguagesSelection = {
+                    allowMultipleLanguagesSelection = !allowMultipleLanguagesSelection
+                }
             )
         }
     )

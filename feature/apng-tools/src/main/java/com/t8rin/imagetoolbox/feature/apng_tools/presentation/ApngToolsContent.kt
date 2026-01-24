@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
@@ -60,7 +58,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -95,6 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagesPreviewWithSelection
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -312,24 +310,7 @@ fun ApngToolsContent(
 
                             is Screen.ApngTools.Type.ApngToJxl -> {
                                 UrisPreview(
-                                    modifier = Modifier
-                                        .then(
-                                            if (!isPortrait) {
-                                                Modifier
-                                                    .layout { measurable, constraints ->
-                                                        val placeable = measurable.measure(
-                                                            constraints = constraints.copy(
-                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
-                                                            )
-                                                        )
-                                                        layout(placeable.width, placeable.height) {
-                                                            placeable.place(0, 0)
-                                                        }
-                                                    }
-                                                    .verticalScroll(rememberScrollState())
-                                            } else Modifier
-                                        )
-                                        .padding(vertical = 24.dp),
+                                    modifier = Modifier.urisPreview(),
                                     uris = type.apngUris ?: emptyList(),
                                     isPortrait = true,
                                     onRemoveUri = {
@@ -403,7 +384,7 @@ fun ApngToolsContent(
             if (component.type == null) 12.dp
             else 20.dp
         ).value,
-        buttons = {
+        buttons = { actions ->
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -436,7 +417,7 @@ fun ApngToolsContent(
                     } else showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (isPortrait) it()
+                    if (isPortrait) actions()
                 },
                 showNullDataButtonAsContainer = true,
                 onSecondaryButtonLongClick = if (component.type is Screen.ApngTools.Type.ImageToApng || component.type == null) {

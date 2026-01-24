@@ -49,7 +49,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DownloadFile
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
 import com.t8rin.imagetoolbox.core.ui.widget.other.GradientEdge
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -121,19 +121,7 @@ internal fun OCRLanguagesColumn(
         stickyHeader {
             Column(
                 modifier = Modifier
-                    .layout { measurable, constraints ->
-                        val result = measurable.measure(
-                            constraints.copy(
-                                maxWidth = constraints.maxWidth + 32.dp.roundToPx()
-                            )
-                        )
-                        layout(
-                            result.measuredWidth,
-                            result.measuredHeight
-                        ) {
-                            result.place(0, 0)
-                        }
-                    }
+                    .negativePadding(horizontal = 16.dp)
                     .background(EnhancedBottomSheetDefaults.containerColor)
                     .padding(horizontal = 16.dp)
             ) {

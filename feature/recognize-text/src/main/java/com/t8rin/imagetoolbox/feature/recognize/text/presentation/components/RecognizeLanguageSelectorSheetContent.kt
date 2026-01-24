@@ -38,7 +38,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,12 +61,10 @@ internal fun RecognizeLanguageSelectorSheetContent(
     isSearching: Boolean,
     searchKeyword: String,
     availableLanguages: List<OCRLanguage>,
-    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit
+    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit,
+    allowMultipleLanguagesSelection: Boolean,
+    onToggleAllowMultipleLanguagesSelection: () -> Unit
 ) {
-    var allowMultipleLanguagesSelection by rememberSaveable {
-        mutableStateOf(value.isNotEmpty())
-    }
-
     val downloadedLanguages by remember(availableLanguages) {
         derivedStateOf {
             availableLanguages.filter {
@@ -188,9 +185,7 @@ internal fun RecognizeLanguageSelectorSheetContent(
                         downloadedLanguages = downloadedLanguages,
                         notDownloadedLanguages = notDownloadedLanguages,
                         onDeleteLanguage = onDeleteLanguage,
-                        onToggleAllowMultipleLanguagesSelection = {
-                            allowMultipleLanguagesSelection = !allowMultipleLanguagesSelection
-                        }
+                        onToggleAllowMultipleLanguagesSelection = onToggleAllowMultipleLanguagesSelection
                     )
                 }
             }
