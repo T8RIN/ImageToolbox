@@ -66,7 +66,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSaw
-import com.t8rin.imagetoolbox.core.resources.icons.ImageToText
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
@@ -77,6 +76,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
+import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandShine
@@ -222,7 +222,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is LoadNetImage -> Icons.Outlined.ImageDownload
     is PdfTools -> Icons.Outlined.PictureAsPdf
     is PickColorFromImage -> Icons.Outlined.Eyedropper
-    is RecognizeText -> Icons.Outlined.ImageToText
+    is RecognizeText -> Icons.Outlined.TextSearch
     is ResizeAndConvert -> Icons.Outlined.MultipleImageEdit
     is WeightResize -> Icons.Outlined.ImageWeight
     is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
@@ -275,7 +275,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is LoadNetImage -> Icons.TwoTone.ImageDownload
     is PdfTools -> Icons.TwoTone.PictureAsPdf
     is PickColorFromImage -> Icons.TwoTone.Eyedropper
-    is RecognizeText -> Icons.Outlined.ImageToText
+    is RecognizeText -> Icons.Outlined.TextSearch
     is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
     is WeightResize -> Icons.TwoTone.ImageWeight
     is Watermarking -> Icons.AutoMirrored.TwoTone.BrandingWatermark
