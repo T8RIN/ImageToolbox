@@ -51,11 +51,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -71,8 +76,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun AutoEraseBackgroundCard(
@@ -82,9 +89,6 @@ fun AutoEraseBackgroundCard(
 ) {
     var selectedModel by rememberSaveable {
         mutableStateOf(flavoredEntries.first())
-    }
-    var downloadJob by remember {
-        mutableStateOf<Job?>(null)
     }
 
     val downloadedModelsRaw by BgRemover.downloadedModels.collectAsStateWithLifecycle()
@@ -112,6 +116,12 @@ fun AutoEraseBackgroundCard(
     }
 
     val scope = retain { CoroutineScope(Dispatchers.IO) }
+    var downloadJob by retain {
+        mutableStateOf<Job?>(null)
+    }
+
+    val keepAliveService = LocalKeepAliveService.current
+    val essentials = rememberLocalEssentials()
 
     Column(
         Modifier
@@ -139,27 +149,43 @@ fun AutoEraseBackgroundCard(
 
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            BgRemover.downloadModel(type.toLib())
-                                .onStart {
-                                    downloadProgresses[type] = DownloadProgress(
-                                        currentPercent = 0f,
-                                        currentTotalSize = 0
+                            keepAliveService.trackSafe(
+                                initial = {
+                                    updateOrStart(
+                                        title = essentials.context.getString(R.string.downloading)
                                     )
                                 }
-                                .onCompletion {
-                                    downloadProgresses.remove(type)
-                                    downloadJob = null
-                                    delay(100)
-                                    BgRemover.getRemover(type.toLib()).checkModel()
-                                }
-                                .catch {
-                                    selectedModel = BgModelType.U2NetP
-                                    downloadProgresses.remove(type)
-                                    downloadJob = null
-                                }
-                                .collect {
-                                    downloadProgresses[type] = it
-                                }
+                            ) {
+                                BgRemover.downloadModel(type.toLib())
+                                    .onStart {
+                                        downloadProgresses[type] = DownloadProgress(
+                                            currentPercent = 0f,
+                                            currentTotalSize = 0
+                                        )
+                                    }
+                                    .onCompletion {
+                                        downloadProgresses.remove(type)
+                                        downloadJob = null
+                                        delay(100)
+                                        BgRemover.getRemover(type.toLib()).checkModel()
+                                    }
+                                    .catch {
+                                        selectedModel = BgModelType.U2NetP
+                                        downloadProgresses.remove(type)
+                                        downloadJob = null
+                                    }
+                                    .onEach {
+                                        downloadProgresses[type] = it
+                                    }
+                                    .throttleLatest(50)
+                                    .collect {
+                                        updateProgress(
+                                            title = essentials.context.getString(R.string.downloading),
+                                            done = (it.currentPercent * 100).roundToInt(),
+                                            total = 100
+                                        )
+                                    }
+                            }
                         }
                     }
                 },

@@ -38,6 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.LamaLoader
 import com.t8rin.imagetoolbox.core.resources.R
@@ -54,8 +56,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 internal fun SpotHealParamsSelector(
@@ -137,8 +141,16 @@ internal fun SpotHealParamsSelector(
                                         downloadProgress = null
                                         downloadJob = null
                                     }
-                                    .collect {
+                                    .onEach {
                                         downloadProgress = it
+                                    }
+                                    .throttleLatest(50)
+                                    .collect {
+                                        updateProgress(
+                                            title = essentials.context.getString(R.string.downloading),
+                                            done = (it.currentPercent * 100).roundToInt(),
+                                            total = 100
+                                        )
                                     }
                             }
                         }
