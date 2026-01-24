@@ -28,7 +28,9 @@ import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.domain.utils.withProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
@@ -38,12 +40,15 @@ import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 internal class AndroidRemoteResourcesStore @Inject constructor(
@@ -101,61 +106,71 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                     )
                 }
             ) {
-                client.prepareGet(url).execute { response ->
-                    val total = response.contentLength() ?: -1L
+                channelFlow {
+                    client.prepareGet(url).execute { response ->
+                        val total = response.contentLength() ?: -1L
 
-                    val source = response.bodyAsChannel().toInputStream().withProgress(
-                        total = total,
-                        onProgress = { percent ->
-                            //TODO: Чето не работает нормально
-                            onProgress(
-                                RemoteResourcesDownloadProgress(
-                                    currentPercent = percent,
-                                    currentTotalSize = total
+                        ensureActive()
+                        val source = response.bodyAsChannel().toInputStream().withProgress(
+                            total = total,
+                            onProgress = { percent ->
+                                trySend(
+                                    RemoteResourcesDownloadProgress(
+                                        currentPercent = percent,
+                                        currentTotalSize = total
+                                    ).also(onProgress)
                                 )
-                            )
-                        }
-                    )
+                            }
+                        )
 
-                    ZipInputStream(source).use { zipIn ->
-                        var entry: ZipEntry?
-                        while (zipIn.nextEntry.also { entry = it } != null) {
-                            entry?.let { zipEntry ->
-                                val filename = zipEntry.name
+                        ZipInputStream(source).use { zipIn ->
+                            var entry: ZipEntry?
+                            while (zipIn.nextEntry.also { entry = it } != null) {
+                                entry?.let { zipEntry ->
+                                    val filename = zipEntry.name
 
-                                if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
+                                    if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
 
-                                val outFile = File(
-                                    savingDir,
-                                    filename.decodeEscaped()
-                                ).apply {
-                                    delete()
-                                    parentFile?.mkdirs()
-                                    createNewFile()
-                                }
-
-                                if (downloadOnlyNewData) {
-                                    val file = savingDir.listFiles()?.find {
-                                        it.name == filename && it.length() > 0L
+                                    val outFile = File(
+                                        savingDir,
+                                        filename.decodeEscaped()
+                                    ).apply {
+                                        delete()
+                                        parentFile?.mkdirs()
+                                        createNewFile()
                                     }
 
-                                    if (file != null) return@let
-                                }
+                                    if (downloadOnlyNewData) {
+                                        val file = savingDir.listFiles()?.find {
+                                            it.name == filename && it.length() > 0L
+                                        }
 
-                                FileOutputStream(outFile).use { fos ->
-                                    zipIn.copyTo(fos)
-                                }
-                                zipIn.closeEntry()
+                                        if (file != null) return@let
+                                    }
 
-                                downloadedUris.add(
-                                    RemoteResource(
-                                        uri = outFile.toUri().toString(),
-                                        name = filename.decodeEscaped()
+                                    FileOutputStream(outFile).use { fos ->
+                                        zipIn.copyTo(fos)
+                                    }
+                                    zipIn.closeEntry()
+
+                                    downloadedUris.add(
+                                        RemoteResource(
+                                            uri = outFile.toUri().toString(),
+                                            name = filename.decodeEscaped()
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
                     }
+
+                    close()
+                }.throttleLatest(50).collect {
+                    updateProgress(
+                        title = getString(R.string.downloading),
+                        done = (it.currentPercent * 100).roundToInt(),
+                        total = 100
+                    )
                 }
             }
 

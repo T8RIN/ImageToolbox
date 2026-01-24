@@ -41,6 +41,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
@@ -59,6 +61,7 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.contentLength
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -72,6 +75,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -80,6 +84,7 @@ import kotlinx.io.readByteArray
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AndroidAiToolsRepository @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -169,6 +174,19 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     )
                 )
 
+                val progressChannel = Channel<NeuralDownloadProgress>(Channel.BUFFERED)
+
+                launch {
+                    progressChannel.receiveAsFlow()
+                        .throttleLatest(50).collect {
+                            updateProgress(
+                                title = getString(R.string.downloading),
+                                done = (it.currentPercent * 100).roundToInt(),
+                                total = 100
+                            )
+                        }
+                }
+
                 client.prepareGet(model.downloadLink).execute { response ->
                     val total = response.contentLength() ?: -1L
 
@@ -192,7 +210,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                                         NeuralDownloadProgress(
                                             currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
                                             currentTotalSize = total
-                                        )
+                                        ).also(progressChannel::trySend)
                                     )
                                 }
                             }

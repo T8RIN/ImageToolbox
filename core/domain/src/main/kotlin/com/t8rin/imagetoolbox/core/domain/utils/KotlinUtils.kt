@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,11 @@
 package com.t8rin.imagetoolbox.core.domain.utils
 
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.transform
 import kotlin.reflect.KClass
 
 
@@ -76,3 +80,10 @@ inline fun tryAll(
 inline fun <T> Result<T>.onResult(
     action: (isSuccess: Boolean) -> Unit
 ): Result<T> = apply { action(isSuccess) }
+
+fun <T> Flow<T>.throttleLatest(delayMillis: Long): Flow<T> = this
+    .conflate()
+    .transform {
+        emit(it)
+        delay(delayMillis)
+    }

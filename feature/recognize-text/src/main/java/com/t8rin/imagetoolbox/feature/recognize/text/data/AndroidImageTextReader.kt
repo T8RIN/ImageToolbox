@@ -28,6 +28,8 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.DownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
@@ -39,30 +41,35 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.SegmentationMode
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessConstants
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.ktor.client.HttpClient
+import io.ktor.client.request.prepareGet
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.contentLength
+import io.ktor.utils.io.readRemaining
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.BufferedInputStream
+import kotlinx.io.readByteArray
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 import java.lang.String.format
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     @ApplicationContext private val context: Context,
+    private val client: HttpClient,
     private val shareProvider: ShareProvider,
     private val keepAliveService: KeepAliveService,
     resourceManager: ResourceManager,
@@ -101,14 +108,16 @@ internal class AndroidImageTextReader @Inject constructor(
             return@withContext TextRecognitionResult.NoData(needToDownload)
         }
 
-        val path = getPathFromMode(type)
-
         return@withContext runCatching {
             val api = TessBaseAPI {
                 if (isActive) onProgress(it.percent)
                 else return@TessBaseAPI
             }.apply {
-                val success = init(path, languageCode, ocrEngineMode.ordinal)
+                val success = init(
+                    getPathFromMode(type),
+                    languageCode,
+                    ocrEngineMode.ordinal
+                )
                 if (!success) {
                     return@withContext TextRecognitionResult.NoData(
                         getNeedToDownloadLanguages(
@@ -117,9 +126,9 @@ internal class AndroidImageTextReader @Inject constructor(
                         )
                     ).also {
                         it.data.forEach { data ->
-                            File(
-                                "${getPathFromMode(type)}/tessdata",
-                                format(TessConstants.LANGUAGE_CODE, data.languageCode)
+                            getModelFile(
+                                type = type,
+                                languageCode = data.languageCode
                             ).delete()
                         }
                     }
@@ -156,9 +165,9 @@ internal class AndroidImageTextReader @Inject constructor(
                 it.getOrNull()!!
             } else {
                 languageCode.split("+").forEach { code ->
-                    File(
-                        path,
-                        format(TessConstants.LANGUAGE_CODE, code)
+                    getModelFile(
+                        type = type,
+                        languageCode = code
                     ).delete()
                 }
 
@@ -190,9 +199,9 @@ internal class AndroidImageTextReader @Inject constructor(
     override fun isLanguageDataExists(
         type: RecognitionType,
         languageCode: String
-    ): Boolean = File(
-        "${getPathFromMode(type)}/tessdata",
-        format(TessConstants.LANGUAGE_CODE, languageCode)
+    ): Boolean = getModelFile(
+        type = type,
+        languageCode = languageCode
     ).exists()
 
     override suspend fun getLanguages(
@@ -235,9 +244,9 @@ internal class AndroidImageTextReader @Inject constructor(
         types: List<RecognitionType>
     ) = withContext(ioDispatcher) {
         types.forEach { type ->
-            File(
-                "${getPathFromMode(type)}/tessdata",
-                format(TessConstants.LANGUAGE_CODE, language.code)
+            getModelFile(
+                type = type,
+                languageCode = language.code
             ).delete()
         }
     }
@@ -246,110 +255,112 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         languageCode: String,
         onProgress: (Float, Long) -> Unit
-    ): Boolean {
+    ) {
         val needToDownloadLanguages = getNeedToDownloadLanguages(type, languageCode)
 
-        return if (needToDownloadLanguages.isNotEmpty()) {
+        if (needToDownloadLanguages.isNotEmpty()) {
             downloadTrainingDataImpl(
                 type = type,
                 needToDownloadLanguages = needToDownloadLanguages,
                 onProgress = onProgress
             )
-        } else false
+        }
     }
 
     private suspend fun downloadTrainingDataImpl(
         type: RecognitionType,
         needToDownloadLanguages: List<DownloadData>,
         onProgress: (Float, Long) -> Unit
-    ): Boolean = needToDownloadLanguages.map {
+    ) = needToDownloadLanguages.map {
         downloadTrainingDataForCode(
             type = type,
             lang = it.languageCode,
             onProgress = onProgress
         )
-    }.all { it }
+    }
 
     private suspend fun downloadTrainingDataForCode(
         type: RecognitionType,
         lang: String,
         onProgress: (Float, Long) -> Unit
-    ): Boolean = keepAliveService.track(
-        initial = {
-            updateOrStart(
-                title = getString(R.string.downloading)
-            )
-        }
-    ) {
-        withContext(defaultDispatcher) {
-            var location: String
-            var downloadURL = when (type) {
-                RecognitionType.Best -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
-                RecognitionType.Standard -> format(
-                    TessConstants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD,
-                    lang
+    ) = withContext(defaultDispatcher) {
+        keepAliveService.track(
+            initial = {
+                updateOrStart(
+                    title = getString(R.string.downloading)
                 )
-
-                RecognitionType.Fast -> format(TessConstants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang)
             }
-            var url: URL
-            var base: URL
-            var next: URL
-            var conn: HttpURLConnection
-            return@withContext runCatching {
-                while (true) {
-                    url = URL(downloadURL)
-                    conn = url.openConnection() as HttpURLConnection
-                    conn.instanceFollowRedirects = false
+        ) {
+            val url = when (type) {
+                RecognitionType.Best -> TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST
+                RecognitionType.Standard -> TessConstants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD
+                RecognitionType.Fast -> TessConstants.TESSERACT_DATA_DOWNLOAD_URL_FAST
+            }.format(lang)
 
-                    when (conn.responseCode) {
-                        HttpURLConnection.HTTP_MOVED_PERM,
-                        HttpURLConnection.HTTP_MOVED_TEMP -> {
-                            location = conn.getHeaderField("Location")
-                            base = URL(downloadURL)
-                            next = URL(base, location)
-                            downloadURL = next.toExternalForm()
-                            continue
+            channelFlow {
+                client.prepareGet(url).execute { response ->
+                    val total = response.contentLength() ?: -1L
+
+                    trySend(0f to total)
+
+                    ensureActive()
+
+                    val modelFile = getModelFile(
+                        type = type,
+                        languageCode = lang
+                    ).apply(File::createNewFile)
+
+                    val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
+
+                    val channel = response.bodyAsChannel()
+                    var downloaded = 0L
+
+                    FileOutputStream(tmp).use { fos ->
+                        try {
+                            while (!channel.isClosedForRead) {
+                                ensureActive()
+                                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+                                while (!packet.exhausted()) {
+                                    ensureActive()
+                                    val bytes = packet.readByteArray()
+                                    downloaded += bytes.size
+                                    fos.write(bytes)
+                                    trySend((if (total > 0) downloaded.toFloat() / total else 0f) to total)
+                                }
+                            }
+
+                            tmp.renameTo(modelFile)
+
+                            close()
+                        } catch (e: Throwable) {
+                            tmp.delete()
+                            close(e)
                         }
                     }
-                    break
                 }
-                conn.connect()
-
-                val totalContentSize = conn.contentLength.toLong()
-                onProgress(0f, totalContentSize)
-
-                val input: InputStream = BufferedInputStream(url.openStream())
-                val output: OutputStream = FileOutputStream(
-                    File(
-                        "${getPathFromMode(type)}/tessdata",
-                        format(TessConstants.LANGUAGE_CODE, lang)
-                    ).apply {
-                        createNewFile()
-                    }
-                )
-                val data = ByteArray(1024 * 8)
-                var count: Int
-                var downloaded = 0
-                while (input.read(data).also { count = it } != -1) {
-                    output.write(data, 0, count)
-                    downloaded += count
-                    val percentage = downloaded * 100f / totalContentSize
-                    onProgress(percentage, totalContentSize)
+            }.onEach { onProgress(it.first, it.second) }
+                .throttleLatest(50)
+                .collect {
+                    updateProgress(
+                        title = getString(R.string.downloading),
+                        done = (it.first * 100).roundToInt(),
+                        total = 100
+                    )
                 }
-
-                output.flush()
-                output.close()
-                input.close()
-            }.onFailure {
-                it.makeLog("ImageTextReader")
-            }.isSuccess
         }
-    } == true
+    }
 
     private fun getPathFromMode(
         type: RecognitionType
     ): String = File(context.filesDir, type.displayName).absolutePath
+
+    private fun getModelFile(
+        type: RecognitionType,
+        languageCode: String
+    ) = File(
+        "${getPathFromMode(type)}/tessdata",
+        format(TessConstants.LANGUAGE_CODE, languageCode)
+    )
 
     private fun getDisplayName(
         lang: String?,
