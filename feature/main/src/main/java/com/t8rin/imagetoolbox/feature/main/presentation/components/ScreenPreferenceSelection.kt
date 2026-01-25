@@ -54,7 +54,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.outlined.ContentPasteOff
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentPaste
@@ -80,6 +79,7 @@ import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkOff
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberClipboardData
@@ -157,19 +157,22 @@ internal fun RowScope.ScreenPreferenceSelection(
                 ) {
                     derivedStateOf {
                         val vertical = if (isScreenSelectionLauncherMode) 12.dp else 0.dp
+                        val firstBottomPart = if (isGrid) {
+                            navBarsPadding
+                        } else {
+                            0.dp
+                        }
+
+                        val secondBottomPart = if (showClipButton && showSearchButton) {
+                            76.dp + 48.dp
+                        } else if (showClipButton || showSearchButton) {
+                            76.dp
+                        } else {
+                            0.dp
+                        }
 
                         PaddingValues(
-                            bottom = 12.dp + if (isGrid) {
-                                navBarsPadding
-                            } else {
-                                0.dp
-                            } + if (showClipButton && showSearchButton) {
-                                76.dp + 48.dp
-                            } else if (showClipButton || showSearchButton) {
-                                76.dp
-                            } else {
-                                0.dp
-                            } + vertical,
+                            bottom = 12.dp + firstBottomPart + secondBottomPart + vertical,
                             top = 12.dp + vertical,
                             end = 12.dp + if (isSheetSlideable) {
                                 cutout.calculateEndPadding(layoutDirection)
@@ -391,7 +394,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                         onClick = { onChangeShowScreenSearch(canSearchScreens) }
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
+                            imageVector = Icons.Outlined.LayersSearchOutline,
                             contentDescription = stringResource(R.string.search_here)
                         )
                     }
