@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.confetti
 
-import android.content.Context
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.utils.appContext
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -62,8 +62,7 @@ private val confettiCache = mutableMapOf<Color, MutableMap<Particles.Type, List<
 
 @Stable
 class Particles(
-    private val harmonizer: Color,
-    private val context: Context
+    private val harmonizer: Color
 ) {
     fun build(
         type: Type
@@ -74,7 +73,7 @@ class Particles(
         Type.Rain -> rain(harmonizer)
         Type.Side -> side(harmonizer)
         Type.Corners -> festiveCorners(harmonizer)
-        Type.Toolbox -> toolbox(harmonizer, context)
+        Type.Toolbox -> toolbox(harmonizer)
     }.also {
         if (confettiCache[harmonizer]?.put(type, it) == null) {
             confettiCache[harmonizer] = mutableMapOf(type to it)
@@ -262,11 +261,10 @@ class Particles(
         ).flatten()
 
         fun toolbox(
-            primary: Color,
-            context: Context
+            primary: Color
         ): List<Party> = Shape.DrawableShape(
             AppCompatResources.getDrawable(
-                context,
+                appContext,
                 R.drawable.ic_launcher_monochrome_24
             )!!.let {
                 DrawableImage(

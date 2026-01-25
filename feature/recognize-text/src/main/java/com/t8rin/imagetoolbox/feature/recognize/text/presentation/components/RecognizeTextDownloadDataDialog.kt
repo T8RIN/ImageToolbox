@@ -76,7 +76,7 @@ internal fun RecognizeTextDownloadDataDialog(component: RecognizeTextComponent) 
             onNoConnection = {
                 component.clearDownloadDialogData()
                 essentials.showToast(
-                    message = essentials.context.getString(R.string.no_connection),
+                    message = essentials.getString(R.string.no_connection),
                     icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
                     duration = ToastDuration.Long
                 )

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun PaletteStyleSelectionItem(
@@ -42,12 +42,11 @@ fun PaletteStyleSelectionItem(
 ) {
     val settingsState = LocalSettingsState.current
     val selected = settingsState.themeStyle == style
-    val context = LocalContext.current
 
     PreferenceItem(
         onClick = onClick,
-        title = style.getTitle(context),
-        subtitle = style.getSubtitle(context),
+        title = style.getTitle(appContext),
+        subtitle = style.getSubtitle(appContext),
         containerColor = takeColorFromScheme {
             if (selected) secondaryContainer
             else SafeLocalContainerColor

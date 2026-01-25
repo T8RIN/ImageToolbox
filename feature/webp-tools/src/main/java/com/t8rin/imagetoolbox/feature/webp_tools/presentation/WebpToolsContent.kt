@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -102,8 +101,6 @@ import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpTo
 fun WebpToolsContent(
     component: WebpToolsComponent
 ) {
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -112,11 +109,11 @@ fun WebpToolsContent(
     val pickSingleWebpLauncher = rememberFilePicker(
         mimeType = MimeType.Webp,
         onSuccess = { uri: Uri ->
-            if (uri.isWebp(context)) {
+            if (uri.isWebp()) {
                 component.setWebpUri(uri)
             } else {
                 essentials.showToast(
-                    message = context.getString(R.string.select_webp_image_to_start),
+                    message = essentials.getString(R.string.select_webp_image_to_start),
                     icon = Icons.Rounded.Webp
                 )
             }
@@ -314,7 +311,7 @@ fun WebpToolsContent(
             if (component.type == null) 12.dp
             else 20.dp
         ).value,
-        buttons = {
+        buttons = { actions ->
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -346,7 +343,7 @@ fun WebpToolsContent(
                     } else showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (isPortrait) it()
+                    if (isPortrait) actions()
                 },
                 showNullDataButtonAsContainer = true,
                 onSecondaryButtonLongClick = if (component.type is Screen.WebpTools.Type.ImageToWebp || component.type == null) {

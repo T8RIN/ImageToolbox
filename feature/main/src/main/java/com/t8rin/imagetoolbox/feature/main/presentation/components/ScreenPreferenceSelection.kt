@@ -67,9 +67,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -84,16 +84,14 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberClipboardData
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(
@@ -109,8 +107,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     onToggleFavorite: (Screen) -> Unit,
     showNavRail: Boolean,
 ) {
-    val scope = rememberCoroutineScope()
-    val context = LocalComponentActivity.current
+    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val canSearchScreens = settingsState.screensSearchEnabled
@@ -311,7 +308,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                         )
                     }
                 }
-                val toastHostState = LocalToastHostState.current
+
+                val context = LocalContext.current
                 val clipboardManager = remember(context) {
                     context.getSystemService<ClipboardManager>()
                 }
@@ -344,12 +342,10 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 if (!allowAutoPaste) {
                                     val list = clipboardManager.clipList()
                                     if (list.isEmpty()) {
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                message = context.getString(R.string.clipboard_paste_invalid_empty),
-                                                icon = Icons.Outlined.ContentPasteOff
-                                            )
-                                        }
+                                        essentials.showToast(
+                                            message = essentials.getString(R.string.clipboard_paste_invalid_empty),
+                                            icon = Icons.Outlined.ContentPasteOff
+                                        )
                                     } else onGetClipList(list)
                                 } else onGetClipList(clipboardData)
                             },

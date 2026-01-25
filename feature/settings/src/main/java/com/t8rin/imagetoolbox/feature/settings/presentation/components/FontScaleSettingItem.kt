@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
@@ -49,7 +49,7 @@ fun FontScaleSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalComponentActivity.current
+    val resources = LocalResourceManager.current
 
     var sliderValue by remember(settingsState.fontScale) {
         mutableFloatStateOf(settingsState.fontScale ?: 0.45f)
@@ -76,7 +76,7 @@ fun FontScaleSettingItem(
         valueRange = 0.45f..1.5f,
         steps = 20,
         valuesPreviewMapping = remember {
-            persistentMapOf(0.45f to context.getString(R.string.defaultt))
+            persistentMapOf(0.45f to resources.getString(R.string.defaultt))
         },
         valueTextTapEnabled = false,
         additionalContent = {

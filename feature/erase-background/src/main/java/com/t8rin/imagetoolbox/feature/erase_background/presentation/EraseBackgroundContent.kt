@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,7 +114,6 @@ fun EraseBackgroundContent(
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
@@ -231,7 +230,7 @@ fun EraseBackgroundContent(
                 if (isPortrait) {
                     EnhancedIconButton(
                         onClick = {
-                            scope.launch {
+                            essentials.launch {
                                 if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                                     scaffoldState.bottomSheetState.partialExpand()
                                 } else {
@@ -351,7 +350,7 @@ fun EraseBackgroundContent(
                 AutoEraseBackgroundCard(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { modelType ->
-                        scope.launch {
+                        essentials.launch {
                             scaffoldState.bottomSheetState.partialExpand()
                             component.autoEraseBackground(
                                 modelType = modelType,

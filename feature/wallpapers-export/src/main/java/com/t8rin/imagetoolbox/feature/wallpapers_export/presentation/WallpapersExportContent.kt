@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -48,7 +47,7 @@ fun WallpapersExportContent(
 ) {
     val essentials = rememberLocalEssentials()
 
-    if (essentials.context.isInstalledFromPlayStore()) {
+    if (essentials.isInstalledFromPlayStore()) {
         FeatureNotAvailableContent(
             title = {
                 Text(

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -227,8 +226,6 @@ fun ImagePreviewContent(
                             if (notSelection && haveUris) {
                                 TopAppBarEmoji()
                             } else if (haveUris) {
-                                val context = LocalContext.current
-
                                 SortButton(
                                     modifier = Modifier.size(40.dp),
                                     iconSize = 24.dp,
@@ -239,8 +236,7 @@ fun ImagePreviewContent(
                                             onFinish = { gridInvalidations++ },
                                             action = {
                                                 it.orEmpty().sortedByType(
-                                                    sortType = sortType,
-                                                    context = context
+                                                    sortType = sortType
                                                 )
                                             }
                                         )

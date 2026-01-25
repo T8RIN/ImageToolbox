@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
@@ -67,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.launch
 
 @Composable
@@ -79,10 +79,9 @@ internal fun TemplateFilterSelectionItem(
     shape: Shape,
     modifier: Modifier
 ) {
-    val context = LocalContext.current
     val previewModel = LocalFilterPreviewModelProvider.current.preview
     val model = remember(templateFilter, previewModel) {
-        ImageRequest.Builder(context)
+        ImageRequest.Builder(appContext)
             .data(previewModel.data)
             .error(R.drawable.filter_preview_source)
             .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })

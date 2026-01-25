@@ -47,7 +47,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -67,7 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toUiPath
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -93,7 +92,7 @@ fun OneTimeSaveLocationSelectionDialog(
 ) {
     val settingsState = LocalSettingsState.current
     val settingsInteractor = LocalSimpleSettingsInteractor.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
     var tempSelectedSaveFolderUri by rememberSaveable(visible) {
         mutableStateOf(settingsState.saveFolderUri?.toString())
     }
@@ -156,7 +155,6 @@ fun OneTimeSaveLocationSelectionDialog(
                 }
             }
 
-            val context = LocalComponentActivity.current
             val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier
@@ -170,14 +168,14 @@ fun OneTimeSaveLocationSelectionDialog(
                 data.forEachIndexed { index, item ->
                     val title by remember(item) {
                         derivedStateOf {
-                            val default = context.getString(R.string.default_folder)
-                            item?.uri?.toUri()?.toUiPath(context, default = default) ?: default
+                            val default = essentials.getString(R.string.default_folder)
+                            item?.uri?.toUri()?.toUiPath(default = default) ?: default
                         }
                     }
                     val subtitle by remember(item) {
                         derivedStateOf {
                             if (item?.uri == settingsState.saveFolderUri?.toString()) {
-                                context.getString(R.string.default_value)
+                                essentials.getString(R.string.default_value)
                             } else {
                                 val time = item?.date?.let {
                                     timestamp(
@@ -224,10 +222,10 @@ fun OneTimeSaveLocationSelectionDialog(
                                         resultPadding = 0.dp
                                     )
                                     .hapticsClickable {
-                                        scope.launch {
+                                        essentials.launch {
                                             state.animateTo(RevealValue.Default)
                                         }
-                                        scope.launch {
+                                        essentials.launch {
                                             settingsInteractor.setOneTimeSaveLocations((settingsState.oneTimeSaveLocations - item).filterNotNull())
                                             if (item?.uri == selectedSaveFolderUri) {
                                                 selectedSaveFolderUri = null
@@ -262,7 +260,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 },
                                 onLongClick = if (item != null) {
                                     {
-                                        scope.launch {
+                                        essentials.launch {
                                             state.animateTo(RevealValue.FullyRevealedStart)
                                         }
                                     }
@@ -352,7 +350,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
                     checked = settingsState.overwriteFiles,
                     onClick = {
-                        scope.launch { settingsInteractor.toggleOverwriteFiles() }
+                        essentials.launch { settingsInteractor.toggleOverwriteFiles() }
                     },
                     modifier = Modifier
                         .fillMaxWidth()

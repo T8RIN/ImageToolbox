@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -58,7 +57,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -78,6 +76,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvideFilterPreview
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -87,8 +86,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -118,9 +115,7 @@ fun FilterEditOption(
 
     ProvideFilterPreview(stateBitmap)
 
-    val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current
+    val essentials = rememberLocalEssentials()
     bitmap?.let {
         val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -177,14 +172,11 @@ fun FilterEditOption(
                                 FilterItem(
                                     filter = filter,
                                     onFilterChange = { filterChange ->
-                                        updateFilter(filterChange, index) {
-                                            scope.launch {
-                                                toastHostState.showFailureToast(
-                                                    context = context,
-                                                    throwable = it
-                                                )
-                                            }
-                                        }
+                                        updateFilter(
+                                            filterChange,
+                                            index,
+                                            essentials::showFailureToast
+                                        )
                                     },
                                     onLongPress = {
                                         showReorderSheet = true
@@ -198,7 +190,7 @@ fun FilterEditOption(
                                         showTemplateCreationSheet = true
                                         filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                             TemplateFilter(
-                                                name = context.getString(filter.title),
+                                                name = essentials.getString(filter.title),
                                                 filters = listOf(filter)
                                             )
                                         )
@@ -336,13 +328,13 @@ fun FilterEditOption(
             onVisibleChange = { showFilterSheet = it },
             previewBitmap = stateBitmap,
             onFilterPicked = {
-                scope.launch {
+                essentials.launch {
                     scaffoldState.bottomSheetState.expand()
                 }
                 addFilter(it.newInstance())
             },
             onFilterPickedWithParams = {
-                scope.launch {
+                essentials.launch {
                     scaffoldState.bottomSheetState.expand()
                 }
                 addFilter(it)

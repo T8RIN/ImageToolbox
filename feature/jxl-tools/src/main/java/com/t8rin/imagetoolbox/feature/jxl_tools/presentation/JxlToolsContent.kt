@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -53,8 +52,6 @@ import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.screenLogic.JxlTool
 fun JxlToolsContent(
     component: JxlToolsComponent
 ) {
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -74,11 +71,11 @@ fun JxlToolsContent(
 
     val pickJxlsLauncher = rememberFilePicker { list: List<Uri> ->
         list.filter {
-            it.isJxl(context)
+            it.isJxl()
         }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                    message = context.getString(R.string.select_jxl_image_to_start),
+                    message = essentials.getString(R.string.select_jxl_image_to_start),
                     icon = Icons.Filled.Jxl
                 )
             } else {
@@ -91,14 +88,14 @@ fun JxlToolsContent(
     }
 
     val pickSingleJxlLauncher = rememberFilePicker { uri: Uri ->
-        if (uri.isJxl(context)) {
+        if (uri.isJxl()) {
             component.setType(
                 type = Screen.JxlTools.Type.JxlToImage(uri),
                 onFailure = onFailure
             )
         } else {
             essentials.showToast(
-                message = context.getString(R.string.select_jxl_image_to_start),
+                message = essentials.getString(R.string.select_jxl_image_to_start),
                 icon = Icons.Filled.Jxl
             )
         }
@@ -135,17 +132,17 @@ fun JxlToolsContent(
 
     val addJxlsLauncher = rememberFilePicker { list: List<Uri> ->
         list.filter {
-            it.isJxl(context)
+            it.isJxl()
         }.let { uris ->
             if (uris.isEmpty()) {
                 essentials.showToast(
-                    message = context.getString(R.string.select_jxl_image_to_start),
+                    message = essentials.getString(R.string.select_jxl_image_to_start),
                     icon = Icons.Filled.Jxl
                 )
             } else {
                 component.setType(
                     type = (component.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
-                        it.copy(it.jxlImageUris?.plus(uris)?.distinct())
+                        it.copy(jxlImageUris = it.jxlImageUris?.plus(uris)?.distinct())
                     },
                     onFailure = onFailure
                 )

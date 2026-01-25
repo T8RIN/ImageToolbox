@@ -48,7 +48,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import java.io.File
@@ -357,10 +357,9 @@ fun NeuralModelSizeBadge(
             else onSurfaceVariant
         }
 
-        val context = LocalContext.current
-        val modelFile by remember(context, model.name) {
+        val modelFile by remember(model.name) {
             derivedStateOf {
-                File(File(context.filesDir, NeuralConstants.DIR), model.name)
+                File(File(appContext.filesDir, NeuralConstants.DIR), model.name)
             }
         }
         val size by remember(model.downloadSize, modelFile) {

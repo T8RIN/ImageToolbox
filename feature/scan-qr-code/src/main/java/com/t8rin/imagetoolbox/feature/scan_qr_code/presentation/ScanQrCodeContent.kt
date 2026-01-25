@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberBarcodeScanner
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -74,10 +73,7 @@ import kotlinx.coroutines.launch
 fun ScanQrCodeContent(
     component: ScanQrCodeComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val params = component.params
@@ -98,7 +94,7 @@ fun ScanQrCodeContent(
             image = uri,
             onFailure = {
                 essentials.showFailureToast(
-                    Throwable(context.getString(R.string.no_barcode_found), it)
+                    Throwable(essentials.getString(R.string.no_barcode_found), it)
                 )
             }
         )
@@ -121,7 +117,7 @@ fun ScanQrCodeContent(
         component.processFilterTemplateFromQrContent(
             onSuccess = { filterName, filtersCount ->
                 essentials.showToast(
-                    message = context.getString(
+                    message = essentials.getString(
                         R.string.added_filter_template,
                         filterName,
                         filtersCount
@@ -175,7 +171,7 @@ fun ScanQrCodeContent(
             ShareButton(
                 enabled = params.content.raw.isNotEmpty(),
                 onShare = {
-                    scope.launch {
+                    essentials.launch {
                         component.shareImage(
                             bitmap = captureController.bitmap(),
                             onComplete = showConfetti
@@ -183,7 +179,7 @@ fun ScanQrCodeContent(
                     }
                 },
                 onCopy = {
-                    scope.launch {
+                    essentials.launch {
                         component.cacheImage(
                             bitmap = captureController.bitmap(),
                             onComplete = essentials::copyToClipboard
@@ -235,7 +231,7 @@ fun ScanQrCodeContent(
                 onSecondaryButtonClick = scanner::scan,
                 isPrimaryButtonEnabled = isSaveEnabled,
                 onPrimaryButtonClick = {
-                    scope.launch {
+                    essentials.launch {
                         saveBitmap(null, captureController.bitmap())
                     }
                 },
@@ -277,7 +273,7 @@ fun ScanQrCodeContent(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = {
-                    scope.launch {
+                    essentials.launch {
                         saveBitmap(it, captureController.bitmap())
                     }
                 },

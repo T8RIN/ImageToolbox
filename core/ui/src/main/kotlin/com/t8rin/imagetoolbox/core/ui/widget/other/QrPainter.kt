@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
@@ -52,7 +54,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -467,8 +468,6 @@ fun QrCode(
     onFailure: (Throwable) -> Unit = {},
     onSuccess: () -> Unit = {},
 ) {
-    val context = LocalContext.current
-
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -497,12 +496,12 @@ fun QrCode(
         }
 
         LaunchedEffect(qrParams.logo) {
-            logoPainterRaw = context.imageLoader.execute(
-                ImageRequest.Builder(context)
+            logoPainterRaw = appContext.imageLoader.execute(
+                ImageRequest.Builder(appContext)
                     .data(qrParams.logo)
                     .size(1024)
                     .build()
-            ).image?.asPainter(context)?.centerCrop()
+            ).image?.asPainter(appContext)?.centerCrop()
         }
 
         val density = LocalDensity.current

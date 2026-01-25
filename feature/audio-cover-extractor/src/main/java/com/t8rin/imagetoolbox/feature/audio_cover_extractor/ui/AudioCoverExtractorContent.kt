@@ -77,12 +77,10 @@ fun AudioCoverExtractorContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    val onFailure: (Throwable) -> Unit = essentials::showFailureToast
-
-    LaunchedEffect(component.initialUris, component.covers, onFailure) {
+    LaunchedEffect(component.initialUris, component.covers, essentials) {
         delay(500)
         if (component.initialUris != null && component.covers.isEmpty()) {
-            onFailure(Throwable(essentials.context.getString(R.string.no_covers_found)))
+            essentials.showFailureToast(essentials.getString(R.string.no_covers_found))
         }
     }
 

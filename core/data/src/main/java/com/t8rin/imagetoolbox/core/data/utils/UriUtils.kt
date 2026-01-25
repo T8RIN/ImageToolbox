@@ -118,12 +118,12 @@ private sealed interface DirUri {
     data class All(val uris: List<Uri>) : DirUri
 }
 
-fun Uri.fileSize(context: Context): Long? {
+fun Uri.fileSize(): Long? {
     if (this.toString().isEmpty()) return null
 
     if (this.scheme == "content") {
         runCatching {
-            context.contentResolver
+            appContext.contentResolver
                 .query(this, null, null, null, null, null)
                 .use { cursor ->
                     if (cursor != null && cursor.moveToFirst()) {

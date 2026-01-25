@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -71,6 +70,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -91,10 +91,9 @@ internal fun PdfPage(
     renderer: PdfRenderer?,
     cacheKey: MemoryCache.Key,
 ) {
-    val context = LocalContext.current
     val imageLoadingScope = rememberCoroutineScope()
 
-    val cacheValue: Image? = context.imageLoader.memoryCache?.get(cacheKey)?.image
+    val cacheValue: Image? = appContext.imageLoader.memoryCache?.get(cacheKey)?.image
 
     var bitmap: Image? by remember { mutableStateOf(cacheValue) }
     if (bitmap == null) {
@@ -134,8 +133,8 @@ internal fun PdfPage(
         }
     }
 
-    val request = remember(context, renderWidth, renderHeight, bitmap) {
-        ImageRequest.Builder(context)
+    val request = remember(renderWidth, renderHeight, bitmap) {
+        ImageRequest.Builder(appContext)
             .size(renderWidth, renderHeight)
             .memoryCacheKey(cacheKey)
             .data(bitmap?.toBitmap())

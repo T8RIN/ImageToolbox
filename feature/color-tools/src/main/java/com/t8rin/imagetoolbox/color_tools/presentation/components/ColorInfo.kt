@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -174,13 +174,14 @@ internal fun ColorInfo(
                     },
                     onLoseFocus = {
                         resetJob?.cancel()
-                        resetJob = essentials.coroutineScope.launch {
+                        resetJob = essentials.launch {
                             delay(100)
                             if (wasNull) {
-                                val temp = selectedColor
-                                onColorChange(Color.White)
-                                delay(100)
-                                onColorChange(temp)
+                                selectedColor.let {
+                                    onColorChange(Color.White)
+                                    delay(100)
+                                    onColorChange(it)
+                                }
                             }
                         }
                     }

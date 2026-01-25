@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Build
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
@@ -31,6 +32,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -46,6 +48,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
+import com.t8rin.imagetoolbox.core.utils.initAppContext
 
 @SuppressLint("NewApi")
 @Composable
@@ -119,6 +122,10 @@ fun ImageToolboxThemeForPreview(
     keyColor: Color? = defaultColorTuple.primary,
     content: @Composable () -> Unit
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(context) {
+        runCatching { (context.applicationContext as Application).initAppContext() }
+    }
     DynamicTheme(
         state = rememberDynamicThemeState(
             initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)

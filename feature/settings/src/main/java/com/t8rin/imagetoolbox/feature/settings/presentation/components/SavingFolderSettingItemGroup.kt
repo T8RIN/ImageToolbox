@@ -32,7 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -50,8 +49,6 @@ fun SavingFolderSettingItemGroup(
     onValueChange: (Uri?) -> Unit
 ) {
     Column(modifier) {
-        val context = LocalContext.current
-
         val settingsState = LocalSettingsState.current
         val currentFolderUri = settingsState.saveFolderUri
         val launcher = rememberFolderPicker(
@@ -89,7 +86,6 @@ fun SavingFolderSettingItemGroup(
             },
             title = stringResource(R.string.custom),
             subtitle = currentFolderUri.toUiPath(
-                context = context,
                 default = stringResource(R.string.unspecified)
             ),
             containerColor = takeColorFromScheme {

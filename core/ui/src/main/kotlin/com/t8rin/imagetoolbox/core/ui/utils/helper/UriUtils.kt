@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,18 +30,16 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.SortType
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.coroutineScope
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-
 fun Uri?.toUiPath(
-    context: Context,
     default: String
 ): String = this?.let { uri ->
     DocumentFile
-        .fromTreeUri(context, uri)
+        .fromTreeUri(appContext, uri)
         ?.uri?.path?.split(":")
         ?.lastOrNull()?.let { p ->
             val endPath = p.takeIf {
@@ -51,14 +49,14 @@ fun Uri?.toUiPath(
                 uri.toString()
                     .split("%")[0]
                     .contains("primary")
-            ) context.getString(R.string.device_storage)
-            else context.getString(R.string.external_storage)
+            ) appContext.getString(R.string.device_storage)
+            else appContext.getString(R.string.external_storage)
 
             startPath + endPath
         }
 } ?: default
 
-private fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
+private fun Uri.lastModified(): Long? = with(appContext.contentResolver) {
     val query = query(this@lastModified, null, null, null, null)
 
     query?.use { cursor ->
@@ -84,20 +82,20 @@ private fun Uri.lastModified(context: Context): Long? = with(context.contentReso
     return null
 }
 
-private fun Uri.addedTime(context: Context): Long? =
-    getLongColumn(context, MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
+private fun Uri.addedTime(): Long? =
+    getLongColumn(MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
 
 
-private fun Uri.getLongColumn(context: Context, column: String): Long? =
-    context.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+private fun Uri.getLongColumn(column: String): Long? =
+    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
         if (cursor.moveToFirst()) {
             val index = cursor.getColumnIndex(column)
             if (index != -1 && !cursor.isNull(index)) cursor.getLong(index) else null
         } else null
     }
 
-private fun Uri.getStringColumn(context: Context, column: String): String? =
-    context.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+private fun Uri.getStringColumn(column: String): String? =
+    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
         if (cursor.moveToFirst()) {
             val index = cursor.getColumnIndex(column)
             if (index != -1 && !cursor.isNull(index)) cursor.getString(index) else null
@@ -107,68 +105,60 @@ private fun Uri.getStringColumn(context: Context, column: String): String? =
 
 suspend fun List<Uri>.sortedByType(
     sortType: SortType,
-    context: Context
 ): List<Uri> = coroutineScope {
     when (sortType) {
-        SortType.DateModified -> sortedByDateModified(context = context)
-        SortType.DateModifiedReversed -> sortedByDateModified(context = context, descending = true)
-        SortType.Name -> sortedByName(context = context)
-        SortType.NameReversed -> sortedByName(context = context, descending = true)
-        SortType.Size -> sortedBySize(context = context)
-        SortType.SizeReversed -> sortedBySize(context = context, descending = true)
-        SortType.MimeType -> sortedByMimeType(context = context)
-        SortType.MimeTypeReversed -> sortedByMimeType(context = context, descending = true)
-        SortType.Extension -> sortedByExtension(context = context)
-        SortType.ExtensionReversed -> sortedByExtension(context = context, descending = true)
-        SortType.DateAdded -> sortedByDateAdded(context = context)
-        SortType.DateAddedReversed -> sortedByDateAdded(context = context, descending = true)
+        SortType.DateModified -> sortedByDateModified()
+        SortType.DateModifiedReversed -> sortedByDateModified(descending = true)
+        SortType.Name -> sortedByName()
+        SortType.NameReversed -> sortedByName(descending = true)
+        SortType.Size -> sortedBySize()
+        SortType.SizeReversed -> sortedBySize(descending = true)
+        SortType.MimeType -> sortedByMimeType()
+        SortType.MimeTypeReversed -> sortedByMimeType(descending = true)
+        SortType.Extension -> sortedByExtension()
+        SortType.ExtensionReversed -> sortedByExtension(descending = true)
+        SortType.DateAdded -> sortedByDateAdded()
+        SortType.DateAddedReversed -> sortedByDateAdded(descending = true)
     }
 }
 
 private fun List<Uri>.sortedByExtension(
-    context: Context,
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    context.getFilename(it)?.substringAfterLast(
+    it.getFilename()?.substringAfterLast(
         delimiter = '.',
         missingDelimiterValue = ""
     )?.lowercase()
 }
 
 private fun List<Uri>.sortedByDateModified(
-    context: Context,
     descending: Boolean = false
-) = sortedByKey(descending) { it.lastModified(context) }
+) = sortedByKey(descending) { it.lastModified() }
 
 private fun List<Uri>.sortedByName(
-    context: Context,
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    context.getFilename(it)
+    it.getFilename()
 }
 
 private fun List<Uri>.sortedBySize(
-    context: Context,
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    it.getLongColumn(context, OpenableColumns.SIZE)
+    it.getLongColumn(OpenableColumns.SIZE)
 }
 
 private fun List<Uri>.sortedByMimeType(
-    context: Context,
     descending: Boolean = false
 ) = sortedByKey(descending) {
     it.getStringColumn(
-        context = context,
         column = DocumentsContract.Document.COLUMN_MIME_TYPE
     )
 }
 
 private fun List<Uri>.sortedByDateAdded(
-    context: Context,
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    it.addedTime(context)
+    it.addedTime()
 }
 
 fun ImageModel.toUri(): Uri? = when (data) {
@@ -199,23 +189,31 @@ fun String.encodeEscaped(): String {
     }
 }
 
-fun Uri.isApng(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".png")
-        .or(context.contentResolver.getType(this)?.contains("png") == true)
-        .or(context.contentResolver.getType(this)?.contains("apng") == true)
+fun Uri.isApng(): Boolean {
+    return getFilename().toString().endsWith(".png")
+        .or(appContext.contentResolver.getType(this)?.contains("png") == true)
+        .or(appContext.contentResolver.getType(this)?.contains("apng") == true)
 }
 
-fun Uri.isWebp(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".webp")
-        .or(context.contentResolver.getType(this)?.contains("webp") == true)
+fun Uri.isWebp(): Boolean {
+    return getFilename().toString().endsWith(".webp")
+        .or(appContext.contentResolver.getType(this)?.contains("webp") == true)
 }
 
-fun Uri.isJxl(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".jxl")
-        .or(context.contentResolver.getType(this)?.contains("jxl") == true)
+fun Uri.isJxl(): Boolean {
+    return getFilename().toString().endsWith(".jxl")
+        .or(appContext.contentResolver.getType(this)?.contains("jxl") == true)
 }
 
-fun Uri.isGif(context: Context): Boolean {
-    return context.getFilename(this).toString().endsWith(".gif")
-        .or(context.contentResolver.getType(this)?.contains("gif") == true)
+fun Uri.isGif(): Boolean {
+    return getFilename().toString().endsWith(".gif")
+        .or(appContext.contentResolver.getType(this)?.contains("gif") == true)
 }
+
+fun Uri.getFilename(
+    context: Context = appContext
+): String? = if (this.toString().startsWith("file:///")) {
+    this.toString().takeLastWhile { it != '/' }
+} else {
+    DocumentFile.fromSingleUri(context, this)?.name
+}?.decodeEscaped()

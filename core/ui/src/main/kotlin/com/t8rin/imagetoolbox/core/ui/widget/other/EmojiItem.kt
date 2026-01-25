@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -52,6 +51,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun EmojiItem(
@@ -61,7 +61,6 @@ fun EmojiItem(
     fontScale: Float,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
-    val context = LocalContext.current
     val dens = LocalDensity.current
     val density by remember(dens, fontScale) {
         derivedStateOf {
@@ -75,7 +74,7 @@ fun EmojiItem(
     val painter = rememberAsyncImagePainter(
         model = remember(emoji) {
             derivedStateOf {
-                ImageRequest.Builder(context)
+                ImageRequest.Builder(appContext)
                     .data(emoji)
                     .memoryCacheKey(emoji)
                     .diskCacheKey(emoji)
@@ -92,7 +91,7 @@ fun EmojiItem(
                     .build()
             }
         }.value,
-        imageLoader = context.imageLoader,
+        imageLoader = appContext.imageLoader,
         filterQuality = FilterQuality.High
     )
 

@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMetadataProvider
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
@@ -56,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.setContentWithWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,6 +85,9 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var keepAliveService: KeepAliveService
+
+    @Inject
+    lateinit var resourceManager: ResourceManager
 
     private lateinit var settingsManager: SettingsManager
 
@@ -158,6 +163,7 @@ abstract class ComposeActivity : AppCompatActivity() {
                 LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
                 LocalMetadataProvider provides fileController.toMetadataProvider(),
                 LocalKeepAliveService provides keepAliveService,
+                LocalResourceManager provides resourceManager,
                 content = ::Content
             )
         }

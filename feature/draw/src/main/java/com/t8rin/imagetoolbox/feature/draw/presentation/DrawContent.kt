@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,19 +97,20 @@ fun DrawContent(
     val appColorTuple = rememberAppColorTuple()
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (component.drawBehavior !is DrawBehavior.None && component.haveChanges) {
-            showExitDialog = true
-        } else if (component.drawBehavior !is DrawBehavior.None) {
-            component.resetDrawBehavior()
-            themeState.updateColorTuple(appColorTuple)
-        } else {
-            component.onGoBack()
+        when (component.drawBehavior) {
+            !is DrawBehavior.None if component.haveChanges -> showExitDialog = true
+
+            !is DrawBehavior.None -> {
+                component.resetDrawBehavior()
+                themeState.updateColorTuple(appColorTuple)
+            }
+
+            else -> component.onGoBack()
         }
     }
 
@@ -213,7 +214,7 @@ fun DrawContent(
                 if (isPortrait) {
                     EnhancedIconButton(
                         onClick = {
-                            scope.launch {
+                            essentials.launch {
                                 if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                                     scaffoldState.bottomSheetState.partialExpand()
                                 } else {

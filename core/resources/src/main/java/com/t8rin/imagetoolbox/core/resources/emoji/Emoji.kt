@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.resources.emoji
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
@@ -31,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
 import kotlinx.collections.immutable.ImmutableList
@@ -58,43 +60,44 @@ object Emoji {
 
     @Composable
     fun allIconsCategorized(
-        context: Context = LocalContext.current
+        context: Context = LocalContext.current,
+        resources: Resources = LocalResources.current
     ): ImmutableList<EmojiData> = remember {
         derivedStateOf {
             initializeEmojis(context)
             persistentListOf(
                 EmojiData(
-                    title = context.getString(R.string.emotions),
+                    title = resources.getString(R.string.emotions),
                     icon = Icons.Outlined.EmojiEmotions,
                     emojis = Emotions!!
                 ),
                 EmojiData(
-                    title = context.getString(R.string.food_and_drink),
+                    title = resources.getString(R.string.food_and_drink),
                     icon = Icons.Outlined.EmojiFoodBeverage,
                     emojis = Food!!
                 ),
                 EmojiData(
-                    title = context.getString(R.string.nature_and_animals),
+                    title = resources.getString(R.string.nature_and_animals),
                     icon = Icons.Outlined.EmojiNature,
                     emojis = Nature!!
                 ),
                 EmojiData(
-                    title = context.getString(R.string.objects),
+                    title = resources.getString(R.string.objects),
                     icon = Icons.Outlined.EmojiObjects,
                     emojis = Objects!!
                 ),
                 EmojiData(
-                    title = context.getString(R.string.activities),
+                    title = resources.getString(R.string.activities),
                     icon = Icons.Outlined.EmojiEvents,
                     emojis = Events!!
                 ),
                 EmojiData(
-                    context.getString(R.string.travels_and_places),
-                    Icons.Outlined.EmojiTransportation,
-                    Transportation!!
+                    title = resources.getString(R.string.travels_and_places),
+                    icon = Icons.Outlined.EmojiTransportation,
+                    emojis = Transportation!!
                 ),
                 EmojiData(
-                    title = context.getString(R.string.symbols),
+                    title = resources.getString(R.string.symbols),
                     icon = Icons.Outlined.EmojiSymbols,
                     emojis = Symbols!!
                 )

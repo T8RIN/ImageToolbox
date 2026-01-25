@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.utils.appContext
 import java.util.Locale
 
 
@@ -236,10 +237,10 @@ object ImageUtils {
         it in possibleConfigs
     } ?: Bitmap.Config.ARGB_8888
 
-    private fun Uri.fileSize(context: Context): Long? {
+    private fun Uri.fileSize(): Long? {
         if (this.scheme == "content") {
             runCatching {
-                context.contentResolver
+                appContext.contentResolver
                     .query(this, null, null, null, null, null)
                     .use { cursor ->
                         if (cursor != null && cursor.moveToFirst()) {
@@ -260,11 +261,9 @@ object ImageUtils {
 
     @Composable
     fun rememberFileSize(uri: Uri?): Long {
-        val context = LocalContext.current
-
-        return remember(uri, context) {
+        return remember(uri) {
             derivedStateOf {
-                uri?.fileSize(context) ?: 0L
+                uri?.fileSize() ?: 0L
             }
         }.value
     }

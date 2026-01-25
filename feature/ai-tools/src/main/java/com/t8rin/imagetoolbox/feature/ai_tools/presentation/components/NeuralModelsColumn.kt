@@ -117,20 +117,20 @@ internal fun NeuralModelsColumn(
     val listState = rememberLazyListState()
 
     val filePicker = rememberFilePicker { uri: Uri ->
-        val name = uri.getFilename(essentials.context).orEmpty()
+        val name = uri.getFilename().orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
             onImportModel(uri) {
                 when (it) {
                     SaveResult.Skipped -> {
                         essentials.showToast(
-                            message = essentials.context.getString(R.string.model_already_downloaded),
+                            message = essentials.getString(R.string.model_already_downloaded),
                             icon = Icons.Outlined.Info
                         )
                     }
 
                     is SaveResult.Success -> {
                         essentials.showToast(
-                            message = essentials.context.getString(R.string.model_successfully_imported),
+                            message = essentials.getString(R.string.model_successfully_imported),
                             icon = Icons.Outlined.CheckCircle
                         )
                     }
@@ -140,7 +140,7 @@ internal fun NeuralModelsColumn(
             }
         } else {
             essentials.showFailureToast(
-                essentials.context.getString(R.string.only_onnx_models)
+                essentials.getString(R.string.only_onnx_models)
             )
         }
     }

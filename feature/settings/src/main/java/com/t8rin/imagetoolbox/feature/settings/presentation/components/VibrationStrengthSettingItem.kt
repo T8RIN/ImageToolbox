@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlinx.collections.immutable.persistentMapOf
@@ -42,7 +42,7 @@ fun VibrationStrengthSettingItem(
     shape: Shape = ShapeDefaults.default
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalComponentActivity.current
+    val resources = LocalResourceManager.current
 
     EnhancedSliderItem(
         modifier = modifier,
@@ -58,7 +58,7 @@ fun VibrationStrengthSettingItem(
         },
         valueRange = 0f..2f,
         valuesPreviewMapping = remember {
-            persistentMapOf(0f to context.getString(R.string.disabled))
+            persistentMapOf(0f to resources.getString(R.string.disabled))
         },
         steps = 1,
         valueTextTapEnabled = false

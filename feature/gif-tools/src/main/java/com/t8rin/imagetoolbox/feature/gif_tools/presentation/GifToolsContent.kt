@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
@@ -60,8 +59,6 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifTool
 fun GifToolsContent(
     component: GifToolsComponent
 ) {
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -70,11 +67,11 @@ fun GifToolsContent(
     val pickSingleGifLauncher = rememberFilePicker(
         mimeType = MimeType.Gif,
         onSuccess = { uri: Uri ->
-            if (uri.isGif(context)) {
+            if (uri.isGif()) {
                 component.setGifUri(uri)
             } else {
                 essentials.showToast(
-                    message = context.getString(R.string.select_gif_image_to_start),
+                    message = essentials.getString(R.string.select_gif_image_to_start),
                     icon = Icons.Rounded.Gif
                 )
             }
@@ -85,11 +82,11 @@ fun GifToolsContent(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isGif(context)
+                it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
+                        message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -105,11 +102,11 @@ fun GifToolsContent(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isGif(context)
+                it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
+                        message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -125,11 +122,11 @@ fun GifToolsContent(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isGif(context)
+                it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
+                        message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -148,11 +145,11 @@ fun GifToolsContent(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isGif(context)
+                it.isGif()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
+                        message = essentials.getString(R.string.select_gif_image_to_start),
                         icon = Icons.Filled.Gif
                     )
                 } else {
@@ -228,7 +225,7 @@ fun GifToolsContent(
             if (component.type == null) 12.dp
             else 20.dp
         ).value,
-        buttons = {
+        buttons = { actions ->
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
                     oneTimeSaveLocationUri = it,
@@ -263,7 +260,7 @@ fun GifToolsContent(
                     } else showFolderSelectionDialog = true
                 },
                 actions = {
-                    if (isPortrait) it()
+                    if (isPortrait) actions()
                 },
                 showNullDataButtonAsContainer = true,
                 onSecondaryButtonLongClick = if (component.type is Screen.GifTools.Type.ImageToGif || component.type == null) {

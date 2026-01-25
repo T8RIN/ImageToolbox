@@ -56,7 +56,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,9 +68,8 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -93,8 +91,7 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val context = LocalComponentActivity.current
+    val essentials = rememberLocalEssentials()
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -110,10 +107,10 @@ fun ProcessImagesPreferenceSheet(
             if (searchKeyword.isNotEmpty()) {
                 rawScreenList.filter {
                     val string =
-                        context.getString(it.title) + " " + context.getString(it.subtitle)
-                    val stringEn = context.getStringLocalized(it.title, Locale.ENGLISH)
+                        essentials.getString(it.title) + " " + essentials.getString(it.subtitle)
+                    val stringEn = essentials.getStringLocalized(it.title, Locale.ENGLISH.language)
                         .plus(" ")
-                        .plus(context.getStringLocalized(it.subtitle, Locale.ENGLISH))
+                        .plus(essentials.getStringLocalized(it.subtitle, Locale.ENGLISH.language))
                     stringEn.contains(other = searchKeyword, ignoreCase = true).or(
                         string.contains(other = searchKeyword, ignoreCase = true)
                     )
@@ -237,7 +234,7 @@ fun ProcessImagesPreferenceSheet(
                             ScreenPreference(
                                 screen = screen,
                                 navigate = {
-                                    scope.launch {
+                                    essentials.launch {
                                         onDismiss()
                                         delay(200)
                                         onNavigate(screen)

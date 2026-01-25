@@ -23,7 +23,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getExtension
@@ -34,14 +33,13 @@ internal fun List<Uri>.screenList(
     extraDataType: ExtraDataType?
 ): State<List<Screen>> {
     val uris = this
-    val context = LocalContext.current
 
     fun Uri?.type(
         vararg extensions: String
     ): Boolean {
         if (this == null) return false
 
-        val extension = context.getExtension(this) ?: return false
+        val extension = getExtension() ?: return false
 
         return extensions.any(extension::contains)
     }

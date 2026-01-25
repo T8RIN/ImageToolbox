@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -59,7 +58,6 @@ internal fun RecognizeTextControls(
     val isExtraction = type is Screen.RecognizeText.Type.Extraction
     val imagePickerMode = localImagePickerMode(Picker.Single)
 
-    val context = LocalContext.current
     val essentials = rememberLocalEssentials()
     val showConfetti = { essentials.showConfetti() }
 
@@ -98,7 +96,7 @@ internal fun RecognizeTextControls(
                 onSuccess = {
                     showConfetti()
                     essentials.showToast(
-                        message = context.getString(R.string.languages_imported),
+                        message = essentials.getString(R.string.languages_imported),
                         icon = Icons.Outlined.Language
                     )
                     startRecognition()

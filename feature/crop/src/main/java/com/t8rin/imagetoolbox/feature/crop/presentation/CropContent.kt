@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,7 +93,6 @@ fun CropContent(
     component: CropComponent
 ) {
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
@@ -190,7 +189,7 @@ fun CropContent(
                 if (isPortrait) {
                     EnhancedIconButton(
                         onClick = {
-                            scope.launch {
+                            essentials.launch {
                                 if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                                     scaffoldState.bottomSheetState.partialExpand()
                                 } else {
@@ -325,7 +324,7 @@ fun CropContent(
                         pickImage()
                     } else {
                         job?.cancel()
-                        job = scope.launch {
+                        job = essentials.launch {
                             delay(500)
                             crop = true
                         }

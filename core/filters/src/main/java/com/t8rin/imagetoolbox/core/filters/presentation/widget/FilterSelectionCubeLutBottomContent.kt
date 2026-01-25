@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -97,6 +96,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 internal fun FilterSelectionCubeLutBottomContent(
@@ -111,7 +111,6 @@ internal fun FilterSelectionCubeLutBottomContent(
 ) {
     cubeLutRemoteResources?.let { resources ->
         val previewModel = LocalFilterPreviewModelProvider.current.preview
-        val context = LocalContext.current
 
         var showSelection by rememberSaveable {
             mutableStateOf(false)
@@ -316,7 +315,7 @@ internal fun FilterSelectionCubeLutBottomContent(
                                     ) {
                                         Picture(
                                             model = remember(uri, previewModel) {
-                                                ImageRequest.Builder(context)
+                                                ImageRequest.Builder(appContext)
                                                     .data(previewModel.data)
                                                     .error(R.drawable.filter_preview_source)
                                                     .transformations(

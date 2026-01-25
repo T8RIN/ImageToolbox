@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,6 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import com.mikepenz.aboutlibraries.util.withContext
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -64,7 +64,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun LibrariesInfoContent(
     component: LibrariesInfoComponent
 ) {
-    val essentials = rememberLocalEssentials()
+    val context = LocalContext.current
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -102,9 +102,9 @@ fun LibrariesInfoContent(
 
             val linkHandler = LocalUriHandler.current
 
-            val libraries = remember {
+            val libraries = remember(context) {
                 Libs.Builder()
-                    .withContext(essentials.context)
+                    .withContext(context)
                     .build().let { libs ->
                         libs.copy(
                             libraries = libs.libraries.distinctBy {

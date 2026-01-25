@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -50,17 +49,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import kotlinx.coroutines.launch
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -80,9 +77,7 @@ fun ScreenOrderSettingItem(
     }
     var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
 
-    val toastHostState = LocalToastHostState.current
-    val context = LocalComponentActivity.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
 
     PreferenceItem(
         shape = shape,
@@ -91,12 +86,10 @@ fun ScreenOrderSettingItem(
             showArrangementSheet = true
         },
         onDisabledClick = {
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Outlined.BatchPrediction,
-                    message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
-                )
-            }
+            essentials.showToast(
+                icon = Icons.Outlined.BatchPrediction,
+                message = essentials.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
+            )
         },
         enabled = !settingsState.groupOptionsByTypes,
         startIcon = Icons.Outlined.FormatLineSpacing,
