@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,13 @@ internal class MoshiParser @Inject constructor(
     override fun <T> fromJson(
         json: String,
         type: Type,
-    ): T? = runCatching {
-        moshi.adapter<T>(type).fromJson(json)
-    }.onFailure { it.makeLog("MoshiParser fromJson") }.getOrNull()
+    ): T? = if (json.isBlank()) {
+        "json is empty".makeLog("MoshiParser fromJson")
+        null
+    } else {
+        runCatching {
+            moshi.adapter<T>(type).fromJson(json)
+        }.onFailure { it.makeLog("MoshiParser fromJson") }.getOrNull()
+    }
 
 }
