@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -2038,4 +2036,5 @@
     <string name="bottom_drop">Goccia dal basso</string>
     <string name="start_drop">Inizia a rilasciare</string>
     <string name="end_drop">Fine Goccia</string>
+    <string name="downloading">Scaricamento in corso</string>
 </resources>
