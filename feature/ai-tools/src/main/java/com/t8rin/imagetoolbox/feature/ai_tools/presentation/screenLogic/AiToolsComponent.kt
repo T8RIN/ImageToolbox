@@ -31,7 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -61,7 +61,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 
@@ -110,9 +109,9 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     val selectedModel: StateFlow<NeuralModel?> = aiToolsRepository.selectedModel
 
-    private val _downloadProgresses: SnapshotStateMap<String, RemoteResourcesDownloadProgress> =
+    private val _downloadProgresses: SnapshotStateMap<String, DownloadProgress> =
         mutableStateMapOf()
-    val downloadProgresses: Map<String, RemoteResourcesDownloadProgress> = _downloadProgresses
+    val downloadProgresses: Map<String, DownloadProgress> = _downloadProgresses
 
     private val _params = fileController.savable(
         scope = componentScope,
@@ -157,12 +156,6 @@ class AiToolsComponent @AssistedInject internal constructor(
         downloadJobs[model.name] = componentScope.launch {
             aiToolsRepository
                 .downloadModel(model)
-                .onStart {
-                    _downloadProgresses[model.name] = RemoteResourcesDownloadProgress(
-                        currentPercent = 0f,
-                        currentTotalSize = 0
-                    )
-                }
                 .onCompletion {
                     _downloadProgresses.remove(model.name)
                     downloadJobs.remove(model.name)
@@ -172,10 +165,7 @@ class AiToolsComponent @AssistedInject internal constructor(
                     downloadJobs.remove(model.name)
                 }
                 .collect { progress ->
-                    _downloadProgresses[model.name] = RemoteResourcesDownloadProgress(
-                        currentPercent = progress.currentPercent,
-                        currentTotalSize = progress.currentTotalSize
-                    )
+                    _downloadProgresses[model.name] = progress
                 }
         }
     }

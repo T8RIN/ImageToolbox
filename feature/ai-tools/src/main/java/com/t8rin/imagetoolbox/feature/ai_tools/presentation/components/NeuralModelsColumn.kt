@@ -73,7 +73,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -108,7 +108,7 @@ internal fun NeuralModelsColumn(
     onDownloadModel: (NeuralModel) -> Unit,
     onDeleteModel: (NeuralModel) -> Unit,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
-    downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
     val essentials = rememberLocalEssentials()

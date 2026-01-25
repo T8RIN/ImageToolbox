@@ -17,7 +17,9 @@
 
 package com.t8rin.imagetoolbox.core.data.di
 
+import com.t8rin.imagetoolbox.core.data.remote.AndroidDownloadManager
 import com.t8rin.imagetoolbox.core.data.remote.AndroidRemoteResourcesStore
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.logger.makeLog
 import dagger.Binds
@@ -42,6 +44,12 @@ internal interface RemoteModule {
     fun remoteResources(
         impl: AndroidRemoteResourcesStore
     ): RemoteResourcesStore
+
+    @Binds
+    @Singleton
+    fun downloadManager(
+        impl: AndroidDownloadManager
+    ): DownloadManager
 
     companion object {
         @Provides

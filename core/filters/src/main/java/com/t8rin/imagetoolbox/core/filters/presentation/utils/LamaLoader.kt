@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.filters.presentation.utils
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.neural_tools.inpaint.LaMaProcessor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 
 interface LamaLoader {
     val isDownloaded: Boolean
-    fun download(): Flow<RemoteResourcesDownloadProgress>
+    fun download(): Flow<DownloadProgress>
 
     companion object Companion : LamaLoader by LamaLoaderImpl
 }
@@ -47,9 +47,9 @@ private object LamaLoaderImpl : LamaLoader {
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
-    override fun download(): Flow<RemoteResourcesDownloadProgress> =
+    override fun download(): Flow<DownloadProgress> =
         LaMaProcessor.startDownload().map {
-            RemoteResourcesDownloadProgress(
+            DownloadProgress(
                 currentPercent = it.currentPercent,
                 currentTotalSize = it.currentTotalSize
             )

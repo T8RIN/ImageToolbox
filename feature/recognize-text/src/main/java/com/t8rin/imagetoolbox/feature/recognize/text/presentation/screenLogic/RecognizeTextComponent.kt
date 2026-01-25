@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
@@ -267,6 +268,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             val languageCodes = settingsManager
                 .getSettingsState()
                 .initialOcrCodes
+                .filter { it.isNotBlank() }
                 .map(imageTextReader::getLanguageForCode)
             _selectedLanguages.update { languageCodes }
         }
@@ -495,7 +497,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     fun downloadTrainData(
         type: RecognitionType,
         languageCode: String,
-        onProgress: (Float, Long) -> Unit,
+        onProgress: (DownloadProgress) -> Unit,
         onComplete: () -> Unit
     ) {
         componentScope.launch {
@@ -522,7 +524,7 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             componentScope.launch {
                 settingsManager.setInitialOCRLanguageCodes(
                     ocrLanguages.filter {
-                        it.downloaded.isNotEmpty()
+                        it.downloaded.isNotEmpty() && it.code.isNotBlank()
                     }.map { it.code }
                 )
             }

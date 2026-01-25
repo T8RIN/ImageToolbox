@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ internal object TessConstants {
     const val LANGUAGE_CODE = "%s.traineddata"
 
     const val TESSERACT_DATA_DOWNLOAD_URL_BEST =
-        "https://github.com/tesseract-ocr/tessdata_best/raw/4.1.0/%s.traineddata"
+        "https://github.com/tesseract-ocr/tessdata_best/raw/refs/heads/main/%s.traineddata"
     const val TESSERACT_DATA_DOWNLOAD_URL_STANDARD =
-        "https://github.com/tesseract-ocr/tessdata/raw/4.1.0/%s.traineddata"
+        "https://github.com/tesseract-ocr/tessdata/raw/refs/heads/main/%s.traineddata"
     const val TESSERACT_DATA_DOWNLOAD_URL_FAST =
-        "https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/%s.traineddata"
+        "https://github.com/tesseract-ocr/tessdata_fast/raw/refs/heads/main/%s.traineddata"
 
     const val KEY_PRESERVE_INTERWORD_SPACES = "preserve_interword_spaces"
     const val KEY_CHOP_ENABLE = "chop_enable"

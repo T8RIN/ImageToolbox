@@ -36,7 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
@@ -80,7 +80,7 @@ internal fun SpotHealParamsSelector(
             mutableStateOf<Job?>(null)
         }
         var downloadProgress by remember(LamaLoader.isDownloaded) {
-            mutableStateOf<RemoteResourcesDownloadProgress?>(null)
+            mutableStateOf<DownloadProgress?>(null)
         }
         var useLama by remember(settingsState.spotHealMode) {
             mutableStateOf(settingsState.spotHealMode == 1)
@@ -125,7 +125,7 @@ internal fun SpotHealParamsSelector(
                             ) {
                                 LamaLoader.download()
                                     .onStart {
-                                        downloadProgress = RemoteResourcesDownloadProgress(
+                                        downloadProgress = DownloadProgress(
                                             currentPercent = 0f,
                                             currentTotalSize = 0
                                         )

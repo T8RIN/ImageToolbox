@@ -34,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
@@ -53,7 +53,7 @@ internal fun NeuralModelSelector(
     downloadedModels: List<NeuralModel>,
     notDownloadedModels: List<NeuralModel>,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
-    downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
     var showSelectionSheet by rememberSaveable {
