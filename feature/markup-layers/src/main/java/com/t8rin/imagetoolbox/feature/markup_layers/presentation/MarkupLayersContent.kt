@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation
 
@@ -39,7 +41,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Rectangle
-import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -87,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
@@ -123,13 +125,15 @@ fun MarkupLayersContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (component.backgroundBehavior !is BackgroundBehavior.None && component.haveChanges) {
-            showExitDialog = true
-        } else if (component.backgroundBehavior !is BackgroundBehavior.None) {
-            component.resetState()
-            themeState.updateColorTuple(appColorTuple)
-        } else {
-            component.onGoBack()
+        when (component.backgroundBehavior) {
+            !is BackgroundBehavior.None if component.haveChanges -> showExitDialog = true
+
+            !is BackgroundBehavior.None -> {
+                component.resetState()
+                themeState.updateColorTuple(appColorTuple)
+            }
+
+            else -> component.onGoBack()
         }
     }
 
@@ -193,7 +197,7 @@ fun MarkupLayersContent(
                 Text(
                     text = stringResource(R.string.markup_layers)
                 )
-                Badge(
+                EnhancedBadge(
                     content = {
                         Text(stringResource(R.string.beta))
                     },

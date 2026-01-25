@@ -58,7 +58,6 @@ import androidx.compose.material.icons.outlined.ContentPasteOff
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
-import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -85,6 +84,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.clipList
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberClipboardData
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -230,7 +230,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                 enter = fadeIn(),
                                                 exit = fadeOut()
                                             ) {
-                                                Badge(
+                                                EnhancedBadge(
                                                     content = {
                                                         Text(stringResource(R.string.beta))
                                                     },
@@ -329,7 +329,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                     BadgedBox(
                         badge = {
                             if (clipboardData.isNotEmpty()) {
-                                Badge(
+                                EnhancedBadge(
                                     containerColor = MaterialTheme.colorScheme.primary
                                 ) {
                                     Text(clipboardData.size.toString())

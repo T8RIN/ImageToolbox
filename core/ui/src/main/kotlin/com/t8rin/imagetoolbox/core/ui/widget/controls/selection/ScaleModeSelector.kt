@@ -42,7 +42,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -113,7 +113,7 @@ fun ScaleModeSelector(
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.weight(1f, false)
             )
-            Badge(
+            EnhancedBadge(
                 content = {
                     Text(entries.size.toString())
                 },
