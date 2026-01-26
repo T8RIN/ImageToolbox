@@ -28,7 +28,6 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -45,7 +44,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.kyant.capsule.ContinuousRoundedRectangle
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -294,21 +292,13 @@ internal class AnimatedShape(
             this.size = size
         }
 
-        return if (settingsState.isSmoothShapes) {
-            ContinuousRoundedRectangle(
-                topStart = topStart.boundedValue(),
-                topEnd = topEnd.boundedValue(),
-                bottomStart = bottomStart.boundedValue(),
-                bottomEnd = bottomEnd.boundedValue(),
-            )
-        } else {
-            RoundedCornerShape(
-                topStart = topStart.boundedValue(),
-                topEnd = topEnd.boundedValue(),
-                bottomStart = bottomStart.boundedValue(),
-                bottomEnd = bottomEnd.boundedValue(),
-            )
-        }.createOutline(
+        return AutoCornersShape(
+            topStart = topStart.boundedValue(),
+            topEnd = topEnd.boundedValue(),
+            bottomStart = bottomStart.boundedValue(),
+            bottomEnd = bottomEnd.boundedValue(),
+            isSmoothShapes = settingsState.isSmoothShapes
+        ).createOutline(
             size = size,
             layoutDirection = layoutDirection,
             density = density
