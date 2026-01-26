@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.asUnsafe
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.pulsate
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -157,7 +157,7 @@ internal fun SearchableBottomBar(
                                 }
                             }
                         },
-                        shape = CircleShape
+                        shape = ShapeDefaults.circle
                     )
                 }
             }

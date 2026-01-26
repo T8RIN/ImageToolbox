@@ -22,7 +22,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
@@ -121,7 +120,7 @@ fun ColorSchemeSettingItem(
             ) {
                 ColorTupleItem(
                     modifier = Modifier
-                        .clip(CircleShape),
+                        .clip(ShapeDefaults.circle),
                     colorTuple = colorTuple,
                     backgroundColor = Color.Transparent
                 ) {
@@ -138,7 +137,7 @@ fun ColorSchemeSettingItem(
                                         darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
                                     )
                                 ).value,
-                                shape = CircleShape
+                                shape = ShapeDefaults.circle
                             )
                     )
                     Icon(

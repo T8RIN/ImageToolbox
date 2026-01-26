@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -131,7 +131,8 @@ data class SettingsState(
     val spotHealMode: Int,
     val snowfallMode: SnowfallMode,
     val defaultImageFormat: ImageFormat?,
-    val defaultQuality: Quality
+    val defaultQuality: Quality,
+    val isSmoothShapes: Boolean
 ) {
 
     companion object {
@@ -238,7 +239,8 @@ data class SettingsState(
                 spotHealMode = 0,
                 snowfallMode = SnowfallMode.Auto,
                 defaultImageFormat = null,
-                defaultQuality = Quality.Base()
+                defaultQuality = Quality.Base(),
+                isSmoothShapes = true
             )
         }
     }

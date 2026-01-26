@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
@@ -88,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagesPreviewWithSelection
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -179,7 +179,7 @@ fun WebpToolsContent(
                 modifier = Modifier
                     .padding(8.dp)
                     .container(
-                        shape = CircleShape,
+                        shape = ShapeDefaults.circle,
                         color = MaterialTheme.colorScheme.surfaceContainerHighest,
                         resultPadding = 0.dp
                     ),

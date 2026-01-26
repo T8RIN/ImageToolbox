@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.Bookmark
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
@@ -163,7 +163,7 @@ internal fun FilterSelectionItem(
                         Box(
                             modifier = Modifier
                                 .size(36.dp)
-                                .clip(CircleShape)
+                                .clip(ShapeDefaults.circle)
                                 .hapticsClickable(onClick = onOpenPreview),
                             contentAlignment = Alignment.Center
                         ) {

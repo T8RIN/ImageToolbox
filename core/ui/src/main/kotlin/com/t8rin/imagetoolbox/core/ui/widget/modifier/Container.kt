@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 
 fun Modifier.container(
-    shape: Shape = ShapeDefaults.default,
+    shape: Shape? = null,
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
     borderWidth: Dp = Dp.Unspecified,
@@ -58,7 +58,7 @@ fun Modifier.container(
     shadowColor: Color = Color.Black
 ) = this.composed {
     val localContainerShape = LocalContainerShape.current
-    val resultShape = localContainerShape ?: shape
+    val resultShape = localContainerShape ?: shape ?: ShapeDefaults.default
     val settingsState = LocalSettingsState.current
 
     val targetBorderWidth = borderWidth.takeOrElse {

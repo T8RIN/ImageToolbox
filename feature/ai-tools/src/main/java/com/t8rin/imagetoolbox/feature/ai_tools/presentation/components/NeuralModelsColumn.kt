@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.CheckCircle
@@ -557,7 +556,7 @@ internal fun NeuralModelsColumn(
                                 if (progress != null) {
                                     Row(
                                         modifier = Modifier.container(
-                                            shape = CircleShape,
+                                            shape = ShapeDefaults.circle,
                                             color = MaterialTheme.colorScheme.surface,
                                             resultPadding = 8.dp
                                         ),

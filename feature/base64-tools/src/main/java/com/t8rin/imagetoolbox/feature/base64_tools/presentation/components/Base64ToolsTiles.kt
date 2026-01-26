@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.Save
@@ -161,8 +160,8 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    pasteTile(CircleShape)
-                    importTile(CircleShape)
+                    pasteTile(ShapeDefaults.circle)
+                    importTile(ShapeDefaults.circle)
 
                     Tile(
                         onClick = {
@@ -218,7 +217,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
 @Composable
 private fun RowScope.Tile(
     onClick: () -> Unit,
-    shape: Shape = CircleShape,
+    shape: Shape = ShapeDefaults.circle,
     icon: ImageVector,
     textRes: Int,
     isButton: Boolean = true

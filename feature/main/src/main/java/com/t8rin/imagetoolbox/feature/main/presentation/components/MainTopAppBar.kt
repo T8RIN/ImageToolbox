@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PushPin
@@ -261,7 +260,7 @@ private fun PinShortcutButton() {
                     ) {
                         Box(
                             modifier = Modifier
-                                .background(Color.White, CircleShape)
+                                .background(Color.White, ShapeDefaults.circle)
                                 .padding(8.dp)
                         ) {
                             Icon(

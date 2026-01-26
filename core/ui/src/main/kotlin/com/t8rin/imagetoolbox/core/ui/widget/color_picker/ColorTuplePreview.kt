@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
@@ -51,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 
@@ -91,7 +91,7 @@ fun ColorTuplePreview(
             )
             .hapticsClickable(onClick = onClick)
             .padding(3.dp)
-            .clip(CircleShape),
+            .clip(ShapeDefaults.circle),
         backgroundColor = Color.Transparent
     ) {
         AnimatedContent(
@@ -120,7 +120,7 @@ fun ColorTuplePreview(
                                         darkMode = colorTuple.primary.luminance() < 0.3f
                                     )
                                 ).value,
-                                shape = CircleShape
+                                shape = ShapeDefaults.circle
                             )
                     )
                     Icon(

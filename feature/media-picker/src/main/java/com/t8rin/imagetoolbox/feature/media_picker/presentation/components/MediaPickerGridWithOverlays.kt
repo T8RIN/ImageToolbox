@@ -49,7 +49,6 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TaskAlt
@@ -87,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
@@ -400,7 +400,7 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
                                     }
                                 }
                             },
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                     } else {
                         EnhancedIconButton(

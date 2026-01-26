@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.RotateLeft
 import androidx.compose.material.icons.automirrored.rounded.RotateRight
@@ -55,6 +53,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -68,7 +68,7 @@ fun ImageTransformBar(
     canRotate: Boolean = true,
     leadingContent: @Composable RowScope.() -> Unit = {},
 ) {
-    val shape = RoundedCornerShape(
+    val shape = AutoCornersShape(
         animateIntAsState(if (imageFormat?.canWriteExif == false) 20 else 50).value
     )
     Column(
@@ -160,7 +160,7 @@ fun ImageExtraTransformBar(
     onApplyCurves: () -> Unit
 ) {
     if (LocalSettingsState.current.generatePreviews) {
-        Row(Modifier.container(shape = CircleShape)) {
+        Row(Modifier.container(shape = ShapeDefaults.circle)) {
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
                 contentColor = MaterialTheme.colorScheme.onMixedContainer,

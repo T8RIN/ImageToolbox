@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlinx.coroutines.launch
 
@@ -104,24 +105,24 @@ internal fun BoxScope.SettingsOpenButton(
         )
     )
 
-    val createShape: (Dp) -> RoundedCornerShape = {
+    val createShape: @Composable (Dp) -> CornerBasedShape = {
         if (fastSettingsSide == FastSettingsSide.CenterStart) {
             if (startPadding == 0.dp) {
-                RoundedCornerShape(
+                AutoCornersShape(
                     topEnd = it,
                     bottomEnd = it
                 )
             } else {
-                RoundedCornerShape(it)
+                AutoCornersShape(it)
             }
         } else {
             if (endPadding == 0.dp) {
-                RoundedCornerShape(
+                AutoCornersShape(
                     topStart = it,
                     bottomStart = it
                 )
             } else {
-                RoundedCornerShape(it)
+                AutoCornersShape(it)
             }
         }
     }

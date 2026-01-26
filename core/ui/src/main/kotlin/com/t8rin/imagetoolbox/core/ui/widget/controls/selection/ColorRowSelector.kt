@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.Icon
@@ -57,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -131,7 +131,7 @@ fun ColorRowSelector(
                                                 modifier = Modifier
                                                     .size(24.dp)
                                                     .container(
-                                                        shape = CircleShape,
+                                                        shape = ShapeDefaults.circle,
                                                         color = value,
                                                         resultPadding = 0.dp
                                                     )
@@ -155,7 +155,7 @@ fun ColorRowSelector(
                                             )
                                             .clip(
                                                 LocalSettingsState.current.iconShape?.shape
-                                                    ?: CircleShape
+                                                    ?: ShapeDefaults.circle
                                             )
                                             .hapticsCombinedClickable(
                                                 onLongClick = {

@@ -42,8 +42,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -89,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -195,7 +194,7 @@ fun AddFiltersSheet(
                                     ),
                                     width = Dp.Unspecified,
                                     height = 4.dp,
-                                    shape = RoundedCornerShape(
+                                    shape = AutoCornersShape(
                                         topStart = 100f,
                                         topEnd = 100f
                                     )
@@ -211,7 +210,7 @@ fun AddFiltersSheet(
                                 )
                                 val interactionSource = remember { MutableInteractionSource() }
                                 val shape = shapeByInteraction(
-                                    shape = RoundedCornerShape(42.dp),
+                                    shape = AutoCornersShape(42.dp),
                                     pressedShape = ShapeDefaults.default,
                                     interactionSource = interactionSource
                                 )
@@ -432,7 +431,7 @@ fun AddFiltersSheet(
                                     }
                                 }
                             },
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                     }
                 } else {

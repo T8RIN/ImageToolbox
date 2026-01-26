@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Circle
@@ -43,6 +42,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.theme.suggestContainerColorBy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -98,7 +98,7 @@ fun MediaCheckBox(
                         modifier = modifier
                             .size(24.dp)
                             .padding(2.dp)
-                            .clip(CircleShape)
+                            .clip(ShapeDefaults.circle)
                             .background(color),
                         contentAlignment = Alignment.Center
                     ) {

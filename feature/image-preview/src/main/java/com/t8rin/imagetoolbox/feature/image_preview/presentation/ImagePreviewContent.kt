@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -98,6 +97,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePreviewGrid
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -266,7 +266,7 @@ fun ImagePreviewContent(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .container(
-                                    shape = CircleShape,
+                                    shape = ShapeDefaults.circle,
                                     color = MaterialTheme.colorScheme.surfaceContainerHighest,
                                     resultPadding = 0.dp
                                 ),

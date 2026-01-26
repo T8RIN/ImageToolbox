@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -122,7 +121,7 @@ internal fun AddEditMaskSheetControls(
                     )
                 } else Modifier.padding(16.dp)
             )
-            .container(shape = CircleShape)
+            .container(shape = ShapeDefaults.circle)
     ) {
         PanModeButton(
             selected = panEnabled,

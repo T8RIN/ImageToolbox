@@ -34,8 +34,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -69,6 +67,7 @@ import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.Dispatchers
@@ -165,7 +164,7 @@ internal fun PdfPage(
                 .width(with(density) { renderWidth.toDp() * zoom })
                 .aspectRatio(renderWidth / renderHeight.toFloat())
                 .padding(padding)
-                .clip(RoundedCornerShape(corners))
+                .clip(AutoCornersShape(corners))
                 .background(Color.White),
             shape = RectangleShape,
             contentScale = contentScale,
@@ -181,7 +180,7 @@ internal fun PdfPage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .clip(RoundedCornerShape(corners))
+                    .clip(AutoCornersShape(corners))
                     .background(MaterialTheme.colorScheme.scrim.copy(0.32f)),
                 contentAlignment = Alignment.Center
             ) {
@@ -205,8 +204,8 @@ internal fun PdfPage(
                         contentDescription = null,
                         modifier = Modifier
                             .padding(4.dp)
-                            .border(2.dp, bgColor, CircleShape)
-                            .clip(CircleShape)
+                            .border(2.dp, bgColor, ShapeDefaults.circle)
+                            .clip(ShapeDefaults.circle)
                             .background(bgColor)
                     )
                 } else {

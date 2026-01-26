@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -62,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import com.kyant.backdrop.backdrops.rememberCanvasBackdrop
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 /**
@@ -441,7 +441,7 @@ object CupertinoSwitchDefaults {
 
     val LiquidHeight: Dp = 28.dp
 
-    internal val Shape: CornerBasedShape = CircleShape
+    internal val Shape: CornerBasedShape @Composable get() = ShapeDefaults.circle
 
     @Composable
     @ReadOnlyComposable

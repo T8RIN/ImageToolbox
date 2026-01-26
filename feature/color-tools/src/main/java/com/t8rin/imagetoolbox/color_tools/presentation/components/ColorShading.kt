@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
@@ -191,9 +190,7 @@ internal fun ColorShading(
                                             .padding(4.dp)
                                             .background(
                                                 color = boxColor.copy(alpha = 1f),
-                                                shape = RoundedCornerShape(
-                                                    8.dp
-                                                )
+                                                shape = ShapeDefaults.mini
                                             )
                                             .padding(horizontal = 4.dp),
                                         fontSize = 12.sp

@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
@@ -191,7 +190,7 @@ fun UrisPreview(
                                     contentDescription = stringResource(R.string.remove),
                                     modifier = Modifier
                                         .padding(4.dp)
-                                        .clip(CircleShape)
+                                        .clip(ShapeDefaults.circle)
                                         .background(
                                             MaterialTheme.colorScheme.scrim.copy(
                                                 animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value

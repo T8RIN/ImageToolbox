@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.BookmarkBorder
@@ -154,12 +153,12 @@ fun RecentAndFavoriteColorsCard(
                                     .size(40.dp)
                                     .aspectRatio(1f)
                                     .container(
-                                        shape = CircleShape,
+                                        shape = ShapeDefaults.circle,
                                         color = color,
                                         resultPadding = 0.dp
                                     )
                                     .transparencyChecker()
-                                    .background(color, CircleShape)
+                                    .background(color, ShapeDefaults.circle)
                                     .hapticsClickable {
                                         onRecentColorClick(color)
                                     }
@@ -180,7 +179,7 @@ fun RecentAndFavoriteColorsCard(
                                         .size(24.dp)
                                         .background(
                                             color = color.copy(alpha = 1f),
-                                            shape = CircleShape
+                                            shape = ShapeDefaults.circle
                                         )
                                         .padding(3.dp)
                                 )
@@ -191,7 +190,7 @@ fun RecentAndFavoriteColorsCard(
                                 Box(
                                     modifier = Modifier
                                         .size(40.dp)
-                                        .clip(CircleShape)
+                                        .clip(ShapeDefaults.circle)
                                         .alpha(0.4f)
                                         .transparencyChecker()
                                         .animateItem()
@@ -253,12 +252,12 @@ fun RecentAndFavoriteColorsCard(
                                             ).value
                                         )
                                         .container(
-                                            shape = CircleShape,
+                                            shape = ShapeDefaults.circle,
                                             color = color,
                                             resultPadding = 0.dp
                                         )
                                         .transparencyChecker()
-                                        .background(color, CircleShape)
+                                        .background(color, ShapeDefaults.circle)
                                         .hapticsClickable {
                                             onFavoriteColorClick(color)
                                         }
@@ -289,7 +288,7 @@ fun RecentAndFavoriteColorsCard(
                                             .size(24.dp)
                                             .background(
                                                 color = color.copy(alpha = 1f),
-                                                shape = CircleShape
+                                                shape = ShapeDefaults.circle
                                             )
                                             .padding(3.dp)
                                     )
@@ -301,7 +300,7 @@ fun RecentAndFavoriteColorsCard(
                                 Box(
                                     modifier = Modifier
                                         .size(40.dp)
-                                        .clip(CircleShape)
+                                        .clip(ShapeDefaults.circle)
                                         .alpha(0.4f)
                                         .transparencyChecker()
                                         .animateItem()

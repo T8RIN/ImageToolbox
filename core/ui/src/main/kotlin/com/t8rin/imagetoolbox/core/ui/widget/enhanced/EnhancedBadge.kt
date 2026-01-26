@@ -35,14 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import com.kyant.capsule.ContinuousCapsule
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun EnhancedBadge(
     modifier: Modifier = Modifier,
     containerColor: Color = BadgeDefaults.containerColor,
     contentColor: Color = contentColorFor(containerColor),
-    shape: Shape = ContinuousCapsule,
+    shape: Shape = ShapeDefaults.circle,
     content: @Composable (RowScope.() -> Unit)? = null,
 ) {
     val size = if (content != null) 16.dp else 6.dp

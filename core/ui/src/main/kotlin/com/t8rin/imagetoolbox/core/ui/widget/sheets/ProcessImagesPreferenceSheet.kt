@@ -40,7 +40,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -74,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisCarousel
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.ScreenPreference
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -176,7 +176,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             },
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                     }
                 } else {

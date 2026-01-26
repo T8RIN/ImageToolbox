@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,8 +44,6 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -84,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFileExte
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
@@ -368,7 +367,7 @@ private fun ImageItem(
             modifier = Modifier
                 .matchParentSize()
                 .padding(padding)
-                .clip(RoundedCornerShape(corners))
+                .clip(AutoCornersShape(corners))
                 .background(MaterialTheme.colorScheme.surface),
             onError = {
                 onError(uri)
@@ -402,7 +401,7 @@ private fun ImageItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .clip(RoundedCornerShape(corners))
+                .clip(AutoCornersShape(corners))
                 .then(
                     if (isAboveImageScrimEnabled) {
                         Modifier.background(MaterialTheme.colorScheme.scrim.copy(0.32f))
@@ -478,8 +477,8 @@ private fun ImageItem(
                         contentDescription = null,
                         modifier = Modifier
                             .padding(4.dp)
-                            .border(2.dp, bgColor, CircleShape)
-                            .clip(CircleShape)
+                            .border(2.dp, bgColor, ShapeDefaults.circle)
+                            .clip(ShapeDefaults.circle)
                             .background(bgColor)
                     )
                 } else {

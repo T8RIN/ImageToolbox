@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
@@ -157,7 +156,7 @@ fun NeuralModelTypeBadge(
                     }
                 },
                 shape = shapeByInteraction(
-                    shape = CircleShape,
+                    shape = ShapeDefaults.circle,
                     pressedShape = ShapeDefaults.pressed,
                     interactionSource = interactionSource
                 ),
@@ -257,7 +256,7 @@ fun NeuralModelSpeedBadge(
                     }
                 },
                 shape = shapeByInteraction(
-                    shape = CircleShape,
+                    shape = ShapeDefaults.circle,
                     pressedShape = ShapeDefaults.pressed,
                     interactionSource = interactionSource
                 ),
@@ -345,7 +344,7 @@ fun NeuralModelSizeBadge(
                     if (isInverted) surface
                     else surfaceVariant
                 },
-                shape = CircleShape,
+                shape = ShapeDefaults.circle,
                 resultPadding = 0.dp
             )
             .padding(start = 4.dp, end = 6.dp),

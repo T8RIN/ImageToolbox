@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 
 
@@ -50,7 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 internal fun PaletteColorNameField(
     value: String,
     onValueChange: (String) -> Unit,
-    shape: Shape = RoundedCornerShape(20.dp),
+    shape: Shape = ShapeDefaults.large,
     colors: TextFieldColors = RoundedTextFieldColors(
         isError = false,
         unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceVariant.inverse({ 0.2f })

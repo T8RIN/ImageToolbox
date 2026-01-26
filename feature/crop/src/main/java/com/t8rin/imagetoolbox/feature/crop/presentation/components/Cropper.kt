@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,6 +62,7 @@ import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropProperties
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
@@ -169,8 +169,8 @@ fun Cropper(
                                 text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
                                 modifier = Modifier
                                     .background(
-                                        MaterialTheme.colorScheme.scrim.copy(0.4f),
-                                        CircleShape
+                                        color = MaterialTheme.colorScheme.scrim.copy(0.4f),
+                                        shape = ShapeDefaults.circle
                                     )
                                     .padding(horizontal = 8.dp, vertical = 4.dp),
                                 color = Color.White

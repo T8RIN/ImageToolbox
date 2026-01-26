@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.AddCircleOutline
@@ -215,7 +214,7 @@ internal fun EditPaletteControls(
                     Row(
                         modifier = Modifier
                             .container(
-                                shape = CircleShape,
+                                shape = ShapeDefaults.circle,
                                 color = data.color.inverse(
                                     fraction = { 0.8f },
                                     darkMode = data.color.luminance() < 0.3f
@@ -233,7 +232,7 @@ internal fun EditPaletteControls(
                             modifier = Modifier
                                 .size(32.dp)
                                 .container(
-                                    shape = CircleShape,
+                                    shape = ShapeDefaults.circle,
                                     color = data.color
                                 )
                         )

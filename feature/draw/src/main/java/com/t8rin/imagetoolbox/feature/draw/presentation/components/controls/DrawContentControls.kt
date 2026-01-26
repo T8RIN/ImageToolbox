@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -100,7 +99,7 @@ internal fun DrawContentControls(
             Row(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
-                    .container(shape = CircleShape)
+                    .container(shape = ShapeDefaults.circle)
             ) {
                 secondaryControls()
             }

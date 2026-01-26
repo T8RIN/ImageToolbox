@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
@@ -197,7 +196,7 @@ fun AvailableColorTuplesSheet(
                                     resultPadding = 0.dp
                                 )
                                 .padding(3.dp)
-                                .clip(CircleShape),
+                                .clip(ShapeDefaults.circle),
                             backgroundColor = Color.Transparent
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -448,7 +447,7 @@ fun AvailableColorTuplesSheet(
                                     )
                                     .hapticsClickable(onClick = onOpenColorPicker)
                                     .padding(3.dp)
-                                    .clip(CircleShape),
+                                    .clip(ShapeDefaults.circle),
                                 backgroundColor = Color.Transparent
                             ) {
                                 Icon(

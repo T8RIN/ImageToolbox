@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
@@ -186,7 +185,7 @@ private fun RowScope.WallpaperItem(
                             checkedColor = MaterialTheme.colorScheme.primary,
                             checkedIcon = Icons.Filled.CheckCircle,
                             modifier = Modifier
-                                .clip(CircleShape)
+                                .clip(ShapeDefaults.circle)
                                 .background(
                                     animateColorAsState(
                                         if (isSelected) MaterialTheme.colorScheme.surfaceContainer
@@ -206,7 +205,7 @@ private fun RowScope.WallpaperItem(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
                     .container(
-                        shape = CircleShape,
+                        shape = ShapeDefaults.circle,
                         color = MaterialTheme.colorScheme.mixedContainer
                     )
                     .padding(horizontal = 4.dp, vertical = 2.dp),
@@ -222,7 +221,7 @@ private fun RowScope.WallpaperItem(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .container(
-                            shape = CircleShape,
+                            shape = ShapeDefaults.circle,
                             color = MaterialTheme.colorScheme.secondaryContainer
                         )
                         .padding(horizontal = 4.dp, vertical = 2.dp),

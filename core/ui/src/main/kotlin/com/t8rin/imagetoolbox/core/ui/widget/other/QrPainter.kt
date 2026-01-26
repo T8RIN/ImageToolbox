@@ -90,6 +90,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.applyPadding
 import com.t8rin.imagetoolbox.core.ui.utils.painter.centerCrop
 import com.t8rin.imagetoolbox.core.ui.utils.painter.roundCorners
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -582,7 +583,7 @@ fun QrCode(
                     width = width,
                     height = height
                 )
-                .clip(RoundedCornerShape(cornerRadius))
+                .clip(AutoCornersShape(cornerRadius))
                 .background(backgroundColor)
                 .padding(padding)
                 .alpha(
@@ -600,7 +601,7 @@ fun QrCode(
                     width = width,
                     height = height
                 )
-                .clip(RoundedCornerShape((cornerRadius - 1.dp).coerceAtLeast(0.dp)))
+                .clip(AutoCornersShape((cornerRadius - 1.dp).coerceAtLeast(0.dp)))
                 .shimmer(isLoading)
         )
     }

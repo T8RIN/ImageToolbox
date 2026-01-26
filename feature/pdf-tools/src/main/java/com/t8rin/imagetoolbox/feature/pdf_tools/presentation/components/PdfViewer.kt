@@ -47,8 +47,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -86,6 +84,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
@@ -286,7 +286,7 @@ fun PdfViewer(
                                 scrollbarPadding = 0.dp,
                                 thumbThickness = 10.dp,
                                 selectionMode = ScrollbarSelectionMode.Full,
-                                thumbShape = RoundedCornerShape(
+                                thumbShape = AutoCornersShape(
                                     topStartPercent = 100,
                                     bottomStartPercent = 100
                                 ),
@@ -309,7 +309,7 @@ fun PdfViewer(
                                     modifier = Modifier
                                         .padding(6.dp)
                                         .container(
-                                            shape = CircleShape,
+                                            shape = ShapeDefaults.circle,
                                             color = MaterialTheme.colorScheme.secondaryContainer
                                         )
                                         .padding(

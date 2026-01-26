@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.CompareArrows
 import androidx.compose.material.icons.rounded.Calculate
@@ -65,6 +64,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderCompare
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -112,7 +112,7 @@ internal fun ChecksumToolsTabs(
                 ),
                 width = Dp.Unspecified,
                 height = 4.dp,
-                shape = RoundedCornerShape(
+                shape = AutoCornersShape(
                     topStart = 100f,
                     topEnd = 100f
                 )
@@ -137,7 +137,7 @@ internal fun ChecksumToolsTabs(
 
                 val interactionSource = remember { MutableInteractionSource() }
                 val shape = shapeByInteraction(
-                    shape = RoundedCornerShape(42.dp),
+                    shape = AutoCornersShape(42.dp),
                     pressedShape = ShapeDefaults.default,
                     interactionSource = interactionSource
                 )

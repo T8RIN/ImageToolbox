@@ -496,6 +496,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setDefaultQuality(quality: Quality) =
         settingsScope { setDefaultQuality(quality) }
 
+    fun toggleIsSmoothShapes() = settingsScope { toggleIsSmoothShapes() }
+
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit
     ) {

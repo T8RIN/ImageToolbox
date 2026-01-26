@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Slideshow
@@ -63,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvid
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
@@ -130,7 +130,7 @@ internal fun TemplateFilterSelectionItem(
                     Box(
                         modifier = Modifier
                             .size(36.dp)
-                            .clip(CircleShape)
+                            .clip(ShapeDefaults.circle)
                             .hapticsClickable(onClick = onLongClick),
                         contentAlignment = Alignment.Center
                     ) {
