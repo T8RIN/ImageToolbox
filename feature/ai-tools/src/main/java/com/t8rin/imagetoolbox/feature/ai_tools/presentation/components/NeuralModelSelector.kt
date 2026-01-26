@@ -116,8 +116,28 @@ internal fun NeuralModelSelector(
 @Preview
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(
-    isDarkTheme = true,
-    keyColor = Color.Blue
+    isDarkTheme = false,
+    keyColor = Color.Green
+) {
+    NeuralModelSelector(
+        value = NeuralModel.entries.first(),
+        onSelectModel = {},
+        onDownloadModel = {},
+        onDeleteModel = {},
+        downloadedModels = emptyList(),
+        notDownloadedModels = emptyList(),
+        onImportModel = { _, _ -> },
+        downloadProgresses = emptyMap(),
+        occupiedStorageSize = 0
+    )
+}
+
+@Preview
+@Composable
+private fun Preview1() = ImageToolboxThemeForPreview(
+    isDarkTheme = false,
+    isSmoothShapes = false,
+    keyColor = Color.Green
 ) {
     NeuralModelSelector(
         value = NeuralModel.entries.first(),

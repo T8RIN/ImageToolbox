@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.os.Build
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
@@ -33,7 +32,6 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -123,12 +121,11 @@ fun ImageToolboxThemeSurface(
 fun ImageToolboxThemeForPreview(
     isDarkTheme: Boolean,
     keyColor: Color? = defaultColorTuple.primary,
+    isSmoothShapes: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
-    LaunchedEffect(context) {
-        runCatching { (context.applicationContext as Application).initAppContext() }
-    }
+    LocalContext.current.applicationContext.initAppContext()
+
     DynamicTheme(
         state = rememberDynamicThemeState(
             initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)
@@ -139,11 +136,14 @@ fun ImageToolboxThemeForPreview(
         colorAnimationSpec = snap(),
         content = {
             CompositionLocalProvider(
-                LocalSettingsState provides SettingsState.Default.toUiState()
+                LocalSettingsState provides SettingsState.Default.toUiState().copy(
+                    isSmoothShapes = isSmoothShapes
+                )
             ) {
                 MaterialTheme(
                     motionScheme = CustomMotionScheme,
                     colorScheme = modifiedColorScheme(),
+                    shapes = modifiedShapes(),
                     content = content
                 )
             }
