@@ -2037,4 +2037,7 @@
     <string name="bottom_drop">Thả dưới cùng</string>
     <string name="start_drop">Bắt đầu thả</string>
     <string name="end_drop">Thả cuối</string>
+    <string name="downloading">Đang tải xuống</string>
+    <string name="smooth_shapes">Hình dạng mượt mà</string>
+    <string name="smooth_shapes_sub">Sử dụng hình siêu elip thay vì hình chữ nhật bo tròn tiêu chuẩn để có hình dạng mượt mà, tự nhiên hơn</string>
 </resources>

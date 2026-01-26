@@ -2039,4 +2039,7 @@
     <string name="bottom_drop">Боттом Дроп</string>
     <string name="start_drop">Старт Дроп</string>
     <string name="end_drop">Енд Дроп</string>
+    <string name="downloading">Преузимање</string>
+    <string name="smooth_shapes">Смоотх Схапес</string>
+    <string name="smooth_shapes_sub">Користите суперелипсе уместо стандардних заобљених правоугаоника за глаткије, природније облике</string>
 </resources>

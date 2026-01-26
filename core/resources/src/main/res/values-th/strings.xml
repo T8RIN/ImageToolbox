@@ -2037,4 +2037,7 @@
     <string name="bottom_drop">ดรอปล่าง</string>
     <string name="start_drop">เริ่มดรอป</string>
     <string name="end_drop">สิ้นสุดดรอป</string>
+    <string name="downloading">กำลังดาวน์โหลด</string>
+    <string name="smooth_shapes">รูปร่างเรียบเนียน</string>
+    <string name="smooth_shapes_sub">ใช้ซูเปอร์รีลิปส์แทนสี่เหลี่ยมมนมาตรฐานเพื่อให้รูปทรงเรียบเนียนและเป็นธรรมชาติยิ่งขึ้น</string>
 </resources>

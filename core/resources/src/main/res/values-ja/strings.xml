@@ -2037,4 +2037,7 @@
     <string name="bottom_drop">ボトムドロップ</string>
     <string name="start_drop">スタートドロップ</string>
     <string name="end_drop">エンドドロップ</string>
+    <string name="downloading">ダウンロード中</string>
+    <string name="smooth_shapes">滑らかな形状</string>
+    <string name="smooth_shapes_sub">より滑らかで自然な形状を得るには、標準の角丸長方形の代わりに超楕円を使用します。</string>
 </resources>

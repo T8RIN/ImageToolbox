@@ -2040,4 +2040,7 @@
     <string name="bottom_drop">Dolny spadek</string>
     <string name="start_drop">Rozpocznij upuszczanie</string>
     <string name="end_drop">Koniec zrzutu</string>
+    <string name="downloading">Ściąganie</string>
+    <string name="smooth_shapes">Gładkie kształty</string>
+    <string name="smooth_shapes_sub">Użyj superelips zamiast standardowych zaokrąglonych prostokątów, aby uzyskać gładsze, bardziej naturalne kształty</string>
 </resources>

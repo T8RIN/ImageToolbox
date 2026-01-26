@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">বটম ড্রপ</string>
     <string name="start_drop">স্টার্ট ড্রপ</string>
     <string name="end_drop">শেষ ড্রপ</string>
+    <string name="downloading">ডাউনলোড হচ্ছে</string>
+    <string name="smooth_shapes">মসৃণ আকার</string>
+    <string name="smooth_shapes_sub">মসৃণ, আরও প্রাকৃতিক আকৃতির জন্য আদর্শ গোলাকার আয়তক্ষেত্রের পরিবর্তে সুপারেলিপ্স ব্যবহার করুন</string>
 </resources>

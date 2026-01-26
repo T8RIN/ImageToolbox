@@ -2039,4 +2039,7 @@
     <string name="bottom_drop">तळ ड्रॉप</string>
     <string name="start_drop">ड्रॉप सुरू करा</string>
     <string name="end_drop">समाप्ती ड्रॉप</string>
+    <string name="downloading">डाउनलोड करत आहे</string>
+    <string name="smooth_shapes">गुळगुळीत आकार</string>
+    <string name="smooth_shapes_sub">गुळगुळीत, अधिक नैसर्गिक आकारांसाठी मानक गोलाकार आयतांऐवजी सुपरएलिप्स वापरा</string>
 </resources>

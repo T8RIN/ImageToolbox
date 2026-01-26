@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">ئاستى تامچە</string>
     <string name="start_drop">باشلاش</string>
     <string name="end_drop">ئاخىرلىشىش</string>
+    <string name="downloading">چۈشۈرۈش</string>
+    <string name="smooth_shapes">سىلىق شەكىللەر</string>
+    <string name="smooth_shapes_sub">تېخىمۇ يۇمىلاق ، تەبىئىي شەكىللەر ئۈچۈن ئۆلچەملىك يۇمىلاق شەكىللىك تىك تۆت بۇلۇڭنىڭ ئورنىغا ئادەتتىن تاشقىرى تېز سۈرئەتلىك نۇر ئىشلىتىڭ</string>
 </resources>

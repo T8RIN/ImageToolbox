@@ -2040,4 +2040,7 @@
     <string name="bottom_drop">Dolní Drop</string>
     <string name="start_drop">Spusťte aplikaci Drop</string>
     <string name="end_drop">End Drop</string>
+    <string name="downloading">Stahování</string>
+    <string name="smooth_shapes">Hladké tvary</string>
+    <string name="smooth_shapes_sub">Použijte superelipsy místo standardních zaoblených obdélníků pro hladší a přirozenější tvary</string>
 </resources>

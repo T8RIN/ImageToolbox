@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2041,4 +2043,6 @@
     <string name="start_drop">ابدأ بالاسقاط</string>
     <string name="end_drop">نهاية السقوط</string>
     <string name="downloading">يُنزّل</string>
+    <string name="smooth_shapes">الأشكال السلسة</string>
+    <string name="smooth_shapes_sub">استخدم القطع الناقص الفائق بدلاً من المستطيلات المستديرة القياسية للحصول على أشكال أكثر سلاسة وطبيعية</string>
 </resources>

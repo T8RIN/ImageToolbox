@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">Onderste daling</string>
     <string name="start_drop">Begin druppel</string>
     <string name="end_drop">Einde daling</string>
+    <string name="downloading">Downloaden</string>
+    <string name="smooth_shapes">Gladde vormen</string>
+    <string name="smooth_shapes_sub">Gebruik superellipsen in plaats van standaard afgeronde rechthoeken voor vloeiendere, natuurlijkere vormen</string>
 </resources>

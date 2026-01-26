@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">ਹੇਠਲਾ ਬੂੰਦ</string>
     <string name="start_drop">ਡ੍ਰੌਪ ਸ਼ੁਰੂ ਕਰੋ</string>
     <string name="end_drop">ਡ੍ਰੌਪ ਖਤਮ ਕਰੋ</string>
+    <string name="downloading">ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+    <string name="smooth_shapes">ਨਿਰਵਿਘਨ ਆਕਾਰ</string>
+    <string name="smooth_shapes_sub">ਨਿਰਵਿਘਨ, ਵਧੇਰੇ ਕੁਦਰਤੀ ਆਕਾਰਾਂ ਲਈ ਮਿਆਰੀ ਗੋਲ ਆਇਤਕਾਰ ਦੀ ਬਜਾਏ ਸੁਪਰਇਲਿਪਸ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
 </resources>

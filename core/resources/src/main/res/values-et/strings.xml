@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">Alumine tilk</string>
     <string name="start_drop">Käivitage Drop</string>
     <string name="end_drop">Lõpeta kukkumine</string>
+    <string name="downloading">Allalaadimine</string>
+    <string name="smooth_shapes">Siledad kujundid</string>
+    <string name="smooth_shapes_sub">Kasutage tavaliste ümarate ristkülikute asemel superellipsi, et saada sujuvamaid ja loomulikumaid kujundeid</string>
 </resources>
