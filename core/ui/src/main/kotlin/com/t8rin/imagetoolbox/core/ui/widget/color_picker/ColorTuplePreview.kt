@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
+
 package com.t8rin.imagetoolbox.core.ui.widget.color_picker
 
 import androidx.compose.animation.AnimatedContent
