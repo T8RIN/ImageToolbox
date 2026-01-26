@@ -306,7 +306,8 @@ fun ResizeAndConvertContent(
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
-                onValueChange = component::setImageFormat
+                onValueChange = component::setImageFormat,
+                quality = imageInfo.quality,
             )
             Spacer(Modifier.height(8.dp))
             ResizeTypeSelector(

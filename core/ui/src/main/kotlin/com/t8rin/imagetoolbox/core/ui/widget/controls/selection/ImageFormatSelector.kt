@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.resources.R
@@ -76,6 +77,7 @@ fun ImageFormatSelector(
     entries: List<ImageFormatGroup> = ImageFormatGroup.entries,
     forceEnabled: Boolean = false,
     value: ImageFormat?,
+    quality: Quality? = null,
     onValueChange: (ImageFormat) -> Unit,
     shape: Shape = ShapeDefaults.extraLarge,
     enableItemsCardBackground: Boolean = true,
@@ -147,7 +149,7 @@ fun ImageFormatSelector(
                 allFormats.filteredFormats()
             }
             val showBackgroundSelector =
-                value != null && value !in ImageFormat.alphaContainedEntries
+                value != null && (value !in ImageFormat.alphaContainedEntries || quality?.isNonAlpha() == true)
 
             val entriesSize = (if (filteredFormats.size > 1) 1 else 0)
                 .plus(if (showBackgroundSelector) 1 else 0)

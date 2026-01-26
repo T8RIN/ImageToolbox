@@ -85,7 +85,8 @@ fun WallpapersControls(component: WallpapersExportComponent) {
                     }
                     ImageFormatSelector(
                         value = component.imageFormat,
-                        onValueChange = component::setImageFormat
+                        onValueChange = component::setImageFormat,
+                        quality = component.quality,
                     )
                 }
             }

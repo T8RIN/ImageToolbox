@@ -590,6 +590,7 @@ fun CollageMakerContent(
                 ImageFormatSelector(
                     modifier = Modifier.navigationBarsPadding(),
                     value = component.imageFormat,
+                    quality = component.quality,
                     onValueChange = component::setImageFormat,
                     entries = if (component.backgroundColor.alpha != 1f) {
                         ImageFormatGroup.alphaContainedEntries

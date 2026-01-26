@@ -334,6 +334,11 @@ fun ApngToolsContent(
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
                         value = component.imageFormat,
+                        quality = if (component.type is Screen.ApngTools.Type.ApngToJxl) {
+                            component.jxlQuality
+                        } else {
+                            component.params.quality
+                        },
                         onValueChange = component::setImageFormat,
                         entries = ImageFormatGroup.alphaContainedEntries
                     )

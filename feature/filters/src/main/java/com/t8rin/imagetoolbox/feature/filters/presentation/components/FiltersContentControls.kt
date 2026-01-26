@@ -205,9 +205,8 @@ internal fun FiltersContentControls(
                 Spacer(Modifier.size(8.dp))
                 ImageFormatSelector(
                     value = component.imageInfo.imageFormat,
-                    onValueChange = {
-                        component.setImageFormat(it)
-                    }
+                    onValueChange = component::setImageFormat,
+                    quality = component.imageInfo.quality,
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -324,9 +323,8 @@ internal fun FiltersContentControls(
                 Spacer(Modifier.size(8.dp))
                 ImageFormatSelector(
                     value = component.imageInfo.imageFormat,
-                    onValueChange = {
-                        component.setImageFormat(it)
-                    }
+                    onValueChange = component::setImageFormat,
+                    quality = component.imageInfo.quality
                 )
             }
             Spacer(Modifier.height(8.dp))

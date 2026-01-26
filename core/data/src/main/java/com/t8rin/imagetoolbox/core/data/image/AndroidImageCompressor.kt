@@ -21,6 +21,8 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.data.utils.fileSize
@@ -62,15 +64,19 @@ internal class AndroidImageCompressor @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
-        val transformedImage = image.toSoftware().let {
-            if (imageFormat !in ImageFormat.alphaContainedEntries) {
+        val transformedImage = image.toSoftware().let { software ->
+            if (imageFormat !in ImageFormat.alphaContainedEntries || quality.isNonAlpha()) {
                 withContext(defaultDispatcher) {
-                    Trickle.drawColorBehind(
-                        color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
-                        input = it
-                    )
+                    if (settingsState.backgroundForNoAlphaImageFormats.colorInt == Color.Black.toArgb()) {
+                        software
+                    } else {
+                        Trickle.drawColorBehind(
+                            color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
+                            input = software
+                        )
+                    }
                 }
-            } else it
+            } else software
         }
 
         ImageCompressorBackend.Factory()

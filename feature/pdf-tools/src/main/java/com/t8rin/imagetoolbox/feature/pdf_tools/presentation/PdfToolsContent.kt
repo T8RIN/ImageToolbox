@@ -473,7 +473,8 @@ fun PdfToolsContent(
                         Spacer(Modifier.height(8.dp))
                         ImageFormatSelector(
                             value = component.imageInfo.imageFormat,
-                            onValueChange = component::updateImageFormat
+                            onValueChange = component::updateImageFormat,
+                            quality = component.imageInfo.quality,
                         )
                     }
                 }

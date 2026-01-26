@@ -214,6 +214,7 @@ fun AudioCoverExtractorContent(
         controls = {
             ImageFormatSelector(
                 value = component.imageFormat,
+                quality = component.quality,
                 onValueChange = component::setImageFormat
             )
             if (component.imageFormat.canChangeCompressionValue) {

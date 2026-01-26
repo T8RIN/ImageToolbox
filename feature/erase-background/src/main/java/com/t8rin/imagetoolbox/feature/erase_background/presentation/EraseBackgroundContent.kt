@@ -420,9 +420,7 @@ fun EraseBackgroundContent(
                     modifier = Modifier.navigationBarsPadding(),
                     entries = ImageFormatGroup.alphaContainedEntries,
                     value = component.imageFormat,
-                    onValueChange = {
-                        component.setImageFormat(it)
-                    }
+                    onValueChange = component::setImageFormat
                 )
             }
         },
