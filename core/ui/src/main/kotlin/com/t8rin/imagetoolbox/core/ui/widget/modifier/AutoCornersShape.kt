@@ -31,9 +31,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kyant.capsule.Continuity
 import com.kyant.capsule.ContinuousCapsule
 import com.kyant.capsule.ContinuousRoundedRectangle
-import com.kyant.capsule.continuities.G1Continuity
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 @Stable
@@ -133,7 +133,7 @@ fun AutoCornersShape(
         topEnd = topEnd,
         bottomEnd = bottomEnd,
         bottomStart = bottomStart,
-        continuity = G1Continuity
+        continuity = continuity
     )
 } else {
     RoundedCornerShape(
@@ -143,9 +143,6 @@ fun AutoCornersShape(
         bottomStart = bottomStart
     )
 }
-
-@Stable
-val SmoothCircleShape = ContinuousCapsule(G1Continuity)
 
 @Stable
 fun AutoCircleShape(isSmoothShapes: Boolean) = if (isSmoothShapes) {
@@ -262,6 +259,11 @@ fun AutoCornersShape(
 fun AutoCircleShape() = rememberSettings { isSmoothShapes ->
     AutoCircleShape(isSmoothShapes)
 }
+
+private val continuity by lazy { Continuity.Default }
+
+@Stable
+val SmoothCircleShape = ContinuousCapsule(continuity)
 
 @Stable
 @Composable

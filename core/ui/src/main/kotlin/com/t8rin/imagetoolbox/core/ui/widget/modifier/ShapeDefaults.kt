@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
-import com.t8rin.imagetoolbox.core.settings.presentation.model.UiSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
@@ -248,7 +247,7 @@ val ZeroCornerSize: CornerSize = CornerSize(0f)
 @Stable
 internal class AnimatedShape(
     initialShape: CornerBasedShape,
-    private val settingsState: UiSettingsState,
+    private val isSmoothShapes: Boolean,
     private val density: Density,
     private val animationSpec: FiniteAnimationSpec<Float>,
 ) : Shape {
@@ -297,7 +296,7 @@ internal class AnimatedShape(
             topEnd = topEnd.boundedValue(),
             bottomStart = bottomStart.boundedValue(),
             bottomEnd = bottomEnd.boundedValue(),
-            isSmoothShapes = settingsState.isSmoothShapes
+            isSmoothShapes = isSmoothShapes
         ).createOutline(
             size = size,
             layoutDirection = layoutDirection,
@@ -315,11 +314,11 @@ internal fun rememberAnimatedShape(
     animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
 ): AnimatedShape {
     val density = LocalDensity.current
-    val settingsState = LocalSettingsState.current
+    val isSmoothShapes = LocalSettingsState.current.isSmoothShapes
 
-    val state = remember(animationSpec, density, settingsState) {
+    val state = remember(animationSpec, density, isSmoothShapes) {
         AnimatedShape(
-            settingsState = settingsState,
+            isSmoothShapes = isSmoothShapes,
             initialShape = currentShape,
             animationSpec = animationSpec,
             density = density
