@@ -48,15 +48,14 @@ fun EnhancedBadge(
     val size = if (content != null) 16.dp else 6.dp
 
     Row(
-        modifier =
-            modifier
-                .defaultMinSize(minWidth = size, minHeight = size)
-                .background(color = containerColor, shape = shape)
-                .then(
-                    if (content != null)
-                        Modifier.padding(horizontal = 4.dp)
-                    else Modifier
-                ),
+        modifier = modifier
+            .defaultMinSize(minWidth = size, minHeight = size)
+            .background(color = containerColor, shape = shape)
+            .then(
+                if (content != null)
+                    Modifier.padding(horizontal = 4.dp)
+                else Modifier
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
