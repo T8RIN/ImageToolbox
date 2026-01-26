@@ -47,7 +47,6 @@ fun EnhancedBadge(
 ) {
     val size = if (content != null) 16.dp else 6.dp
 
-    // Draw badge container.
     Row(
         modifier =
             modifier
