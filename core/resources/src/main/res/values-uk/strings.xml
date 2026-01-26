@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -153,7 +151,7 @@
     <string name="photo_picker">Вибір фотографій</string>
     <string name="gallery_picker">Галерея</string>
     <string name="file_explorer_picker">Файловий провідник</string>
-    <string name="photo_picker_sub">Сучасна фотозбірка для Android, яка з\'являється внизу екрана, може працювати лише на Android 12+, а також має проблеми з отриманням метаданих EXIF.</string>
+    <string name="photo_picker_sub">Сучасний вибір фото в Android (знизу екрана), працює лише на Android 12+. Має проблеми з отриманням метаданих EXIF.</string>
     <string name="file_explorer_picker_sub">Використовувати GetContent для отримання зображення, працює скрізь, але на деяких пристроях можуть виникати проблеми з отриманням вибраних зображень, це не моя провина.</string>
     <string name="gallery_picker_sub">Простий вибір зображень галереї, він працюватиме, лише якщо у вас є цей застосунок</string>
     <string name="options_arrangement">Розташування опцій</string>
