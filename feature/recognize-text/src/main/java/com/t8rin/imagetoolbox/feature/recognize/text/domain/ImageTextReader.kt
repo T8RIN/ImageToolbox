@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.domain
 
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
+
 interface ImageTextReader {
 
     suspend fun getTextFromImage(
@@ -32,7 +34,7 @@ interface ImageTextReader {
     suspend fun downloadTrainingData(
         type: RecognitionType,
         languageCode: String,
-        onProgress: (Float, Long) -> Unit
+        onProgress: (DownloadProgress) -> Unit
     )
 
     fun isLanguageDataExists(

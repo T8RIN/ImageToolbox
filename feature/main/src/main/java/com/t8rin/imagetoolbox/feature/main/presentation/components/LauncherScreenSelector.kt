@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.BadgedBox
@@ -78,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -153,7 +152,7 @@ internal fun LauncherScreenSelector(
                                 val interactionSource = remember { MutableInteractionSource() }
                                 val shape = shapeByInteraction(
                                     shape = IconButtonDefaults.smallRoundShape,
-                                    pressedShape = RoundedCornerShape(10.dp),
+                                    pressedShape = ShapeDefaults.smallMini,
                                     interactionSource = interactionSource
                                 )
                                 EnhancedIconButton(
@@ -219,7 +218,7 @@ internal fun LauncherScreenSelector(
                                     resultPadding = 0.dp,
                                     color = containerColor,
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = iconShape?.shape ?: CircleShape
+                                    shape = iconShape?.shape ?: ShapeDefaults.circle
                                 )
                                 .hapticsClickable {
                                     onNavigateToScreenWithPopUpTo(screen)

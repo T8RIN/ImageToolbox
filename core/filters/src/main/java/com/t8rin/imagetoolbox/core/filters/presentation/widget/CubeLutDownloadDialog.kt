@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
@@ -47,7 +47,7 @@ internal fun CubeLutDownloadDialog(
     onDismiss: () -> Unit,
     onDownload: () -> Unit,
     downloadOnlyNewData: Boolean,
-    cubeLutDownloadProgress: RemoteResourcesDownloadProgress?
+    cubeLutDownloadProgress: DownloadProgress?
 ) {
     EnhancedAlertDialog(
         visible = visible,

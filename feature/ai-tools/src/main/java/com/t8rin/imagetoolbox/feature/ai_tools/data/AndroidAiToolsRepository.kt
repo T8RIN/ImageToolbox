@@ -32,36 +32,29 @@ import com.t8rin.imagetoolbox.core.data.saving.io.FileReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
+import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
-import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
-import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getFilename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
-import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralDownloadProgress
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
 import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.ktor.client.HttpClient
-import io.ktor.client.request.prepareGet
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.contentLength
-import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -75,26 +68,22 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.io.readByteArray
 import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 internal class AndroidAiToolsRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val client: HttpClient,
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
     private val keepAliveService: KeepAliveService,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
+    private val downloadManager: DownloadManager,
     private val fileController: FileController
 ) : AiToolsRepository<Bitmap>,
     DispatchersHolder by dispatchersHolder,
@@ -150,9 +139,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     override fun downloadModel(
         model: NeuralModel
-    ): Flow<NeuralDownloadProgress> = callbackFlow {
-        val modelFile = model.file
-
+    ): Flow<DownloadProgress> = callbackFlow {
         ensureActive()
 
         if (model.name.contains("u2netp")) {
@@ -160,72 +147,23 @@ internal class AndroidAiToolsRepository @Inject constructor(
             selectModelForced(model)
             close()
         } else {
-            keepAliveService.track(
-                initial = {
-                    updateOrStart(
-                        title = getString(R.string.downloading)
+            downloadManager.download(
+                url = model.downloadLink,
+                onStart = {
+                    trySend(
+                        DownloadProgress(
+                            currentPercent = 0f,
+                            currentTotalSize = model.downloadSize
+                        )
                     )
+                },
+                onProgress = ::trySend,
+                destinationPath = model.file.absolutePath,
+                onFinish = {
+                    if (it == null) selectModelForced(model)
+                    close(it)
                 }
-            ) {
-                trySend(
-                    NeuralDownloadProgress(
-                        currentPercent = 0f,
-                        currentTotalSize = model.downloadSize
-                    )
-                )
-
-                val progressChannel = Channel<NeuralDownloadProgress>(Channel.BUFFERED)
-
-                launch {
-                    progressChannel.receiveAsFlow()
-                        .throttleLatest(50).collect {
-                            updateProgress(
-                                title = getString(R.string.downloading),
-                                done = (it.currentPercent * 100).roundToInt(),
-                                total = 100
-                            )
-                        }
-                }
-
-                client.prepareGet(model.downloadLink).execute { response ->
-                    val total = response.contentLength() ?: -1L
-
-                    ensureActive()
-                    val tmp = File(modelFile.parentFile, modelFile.name + ".tmp")
-
-                    val channel = response.bodyAsChannel()
-                    var downloaded = 0L
-
-                    FileOutputStream(tmp).use { fos ->
-                        try {
-                            while (!channel.isClosedForRead) {
-                                ensureActive()
-                                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                                while (!packet.exhausted()) {
-                                    ensureActive()
-                                    val bytes = packet.readByteArray()
-                                    downloaded += bytes.size
-                                    fos.write(bytes)
-                                    trySend(
-                                        NeuralDownloadProgress(
-                                            currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                            currentTotalSize = total
-                                        ).also(progressChannel::trySend)
-                                    )
-                                }
-                            }
-
-                            tmp.renameTo(modelFile)
-
-                            selectModelForced(model)
-                            close()
-                        } catch (e: Throwable) {
-                            tmp.delete()
-                            close(e)
-                        }
-                    }
-                }
-            }
+            )
         }
     }.flowOn(ioDispatcher)
 
@@ -255,7 +193,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         }
 
         val modelName = possibleModel?.name
-            ?: context.getFilename(uri.toUri()).orEmpty().ifEmpty {
+            ?: uri.toUri().getFilename().orEmpty().ifEmpty {
                 "imported_model_($modelChecksum).onnx"
             }
 
@@ -349,6 +287,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {
         model.file.delete()
         if (selectedModel.value?.name == model.name) selectModel(null)
+        updateFlow.emit(Unit)
     }
 
     override fun cleanup() {
@@ -430,11 +369,11 @@ internal class AndroidAiToolsRepository @Inject constructor(
         onGetFiles: (List<File>) -> Unit
     ) = withContext(ioDispatcher) {
         modelsDir.listFiles().orEmpty().toList().filter {
-            !it.name.orEmpty().endsWith(".tmp")
+            !it.name.orEmpty().endsWith(".tmp") && !it.name.isNullOrEmpty() && it.length() > 0
         }.also(onGetFiles).mapNotNull {
             val name = it.name
 
-            if (name.isNullOrEmpty()) return@mapNotNull null
+            if (name.isNullOrEmpty() || it.length() <= 0) return@mapNotNull null
 
             NeuralModel.find(name) ?: NeuralModel.Imported(
                 name = name,

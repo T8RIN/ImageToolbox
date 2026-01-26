@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import coil3.request.ImageRequest
@@ -48,6 +47,7 @@ import coil3.request.crossfade
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -93,10 +93,9 @@ internal fun UrisCarousel(uris: List<Uri>) {
             var aspectRatio by rememberSaveable {
                 mutableFloatStateOf(0.5f)
             }
-            val context = LocalContext.current
             Picture(
-                model = remember(context, uri, key) {
-                    ImageRequest.Builder(context)
+                model = remember(uri, key) {
+                    ImageRequest.Builder(appContext)
                         .data(uri)
                         .size(1000)
                         .crossfade(true)

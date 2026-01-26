@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.data.utils.fileSize
@@ -74,8 +73,6 @@ import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic
 fun FormatConversionContent(
     component: FormatConversionComponent
 ) {
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -141,7 +138,7 @@ fun FormatConversionContent(
                 input = component.bitmap,
                 isLoading = component.isImageLoading,
                 size = component.imageInfo.sizeInBytes.toLong(),
-                originalSize = component.selectedUri?.fileSize(context)
+                originalSize = component.selectedUri?.fileSize()
             )
         },
         onGoBack = onBack,
@@ -213,7 +210,8 @@ fun FormatConversionContent(
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
-                onValueChange = component::setImageFormat
+                onValueChange = component::setImageFormat,
+                quality = imageInfo.quality
             )
             if (imageInfo.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))

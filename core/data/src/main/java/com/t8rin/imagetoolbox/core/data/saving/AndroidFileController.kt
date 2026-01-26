@@ -91,7 +91,7 @@ internal class AndroidFileController @Inject constructor(
     private val _settingsState = settingsManager.settingsState
     private val settingsState get() = _settingsState.value
 
-    override fun getSize(uri: String): Long? = uri.toUri().fileSize(context)
+    override fun getSize(uri: String): Long? = uri.toUri().fileSize()
 
     override val defaultSavingPath: String
         get() = settingsState.saveFolderUri.getPath(context)
@@ -161,7 +161,7 @@ internal class AndroidFileController @Inject constructor(
             val originalUri = saveTarget.originalUri.toUri()
 
             if (saveTarget is ImageSaveTarget && saveTarget.canSkipIfLarger && settingsState.allowSkipIfLarger) {
-                val originalSize = originalUri.fileSize(context)
+                val originalSize = originalUri.fileSize()
                 val newSize = data.size
 
                 if (originalSize != null && newSize > originalSize) {

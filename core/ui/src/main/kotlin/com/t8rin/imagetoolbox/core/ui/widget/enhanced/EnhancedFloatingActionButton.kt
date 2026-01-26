@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.LocalContentColor
@@ -51,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.containerFabBorder
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -76,8 +76,8 @@ fun EnhancedFloatingActionButton(
     val focus = LocalFocusManager.current
 
     val shape = shapeByInteraction(
-        shape = type.shape,
-        pressedShape = RoundedCornerShape(max(width, height) / 8),
+        shape = type.shape(),
+        pressedShape = AutoCornersShape(max(width, height) / 8),
         interactionSource = interactionSource
     )
 
@@ -161,11 +161,11 @@ private fun contentColor(
 sealed class EnhancedFloatingActionButtonType(
     val width: Dp,
     val height: Dp,
-    val shape: Shape
+    val shape: @Composable () -> Shape
 ) {
     constructor(
         size: Dp,
-        shape: Shape
+        shape: @Composable () -> Shape
     ) : this(
         width = size,
         height = size,
@@ -174,29 +174,29 @@ sealed class EnhancedFloatingActionButtonType(
 
     data object Small : EnhancedFloatingActionButtonType(
         size = 40.dp,
-        shape = ShapeDefaults.small
+        shape = { ShapeDefaults.small }
     )
 
     data object Primary : EnhancedFloatingActionButtonType(
         size = 56.dp,
-        shape = ShapeDefaults.default
+        shape = { ShapeDefaults.default }
     )
 
     data object SecondaryHorizontal : EnhancedFloatingActionButtonType(
         width = 42.dp,
         height = 56.dp,
-        shape = RoundedCornerShape(50)
+        shape = { ShapeDefaults.circle }
     )
 
     data object SecondaryVertical : EnhancedFloatingActionButtonType(
         width = 56.dp,
         height = 42.dp,
-        shape = RoundedCornerShape(50)
+        shape = { ShapeDefaults.circle }
     )
 
     data object Large : EnhancedFloatingActionButtonType(
         size = 96.dp,
-        shape = ShapeDefaults.extremeLarge
+        shape = { ShapeDefaults.extremeLarge }
     )
 
     class Custom(
@@ -204,7 +204,7 @@ sealed class EnhancedFloatingActionButtonType(
         shape: Shape
     ) : EnhancedFloatingActionButtonType(
         size = size,
-        shape = shape
+        shape = { shape }
     )
 }
 

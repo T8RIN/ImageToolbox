@@ -286,7 +286,8 @@ fun ImageStitchingContent(
                 )
                 ImageFormatSelector(
                     value = component.imageInfo.imageFormat,
-                    onValueChange = component::setImageFormat
+                    onValueChange = component::setImageFormat,
+                    quality = component.imageInfo.quality,
                 )
             }
         },

@@ -2037,4 +2037,7 @@
     <string name="bottom_drop">底部下降</string>
     <string name="start_drop">开始掉落</string>
     <string name="end_drop">结束掉落</string>
+    <string name="downloading">正在下载</string>
+    <string name="smooth_shapes">光滑的形状</string>
+    <string name="smooth_shapes_sub">使用超椭圆代替标准圆角矩形以获得更平滑、更自然的形状</string>
 </resources>

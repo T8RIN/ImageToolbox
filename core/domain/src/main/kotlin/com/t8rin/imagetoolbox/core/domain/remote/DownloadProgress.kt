@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.ai_tools.domain.model
+package com.t8rin.imagetoolbox.core.domain.remote
 
-data class NeuralDownloadProgress(
+data class DownloadProgress(
     val currentPercent: Float,
     val currentTotalSize: Long
 )

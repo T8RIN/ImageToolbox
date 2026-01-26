@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
@@ -30,12 +29,10 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiMultiple
 import com.t8rin.imagetoolbox.core.resources.icons.Robot
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import kotlinx.coroutines.launch
 
 @Composable
 fun EmojisCountSettingItem(
@@ -44,9 +41,7 @@ fun EmojisCountSettingItem(
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
-    val toastHost = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
-    val context = LocalComponentActivity.current
+    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
 
     EnhancedSliderItem(
@@ -55,12 +50,10 @@ fun EmojisCountSettingItem(
                 Modifier
                     .clip(ShapeDefaults.extraSmall)
                     .hapticsClickable {
-                        scope.launch {
-                            toastHost.showToast(
-                                message = context.getString(R.string.random_emojis_error),
-                                icon = Icons.Rounded.Robot
-                            )
-                        }
+                        essentials.showToast(
+                            message = essentials.getString(R.string.random_emojis_error),
+                            icon = Icons.Rounded.Robot
+                        )
                     }
             } else Modifier
         ),

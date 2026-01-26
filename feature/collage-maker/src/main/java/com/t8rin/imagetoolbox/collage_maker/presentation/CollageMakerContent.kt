@@ -90,7 +90,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -130,10 +129,7 @@ fun CollageMakerContent(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
@@ -144,7 +140,7 @@ fun CollageMakerContent(
                 component.updateUris(it)
             } else {
                 essentials.showToast(
-                    message = context.getString(R.string.pick_up_to_ten_images),
+                    message = essentials.getString(R.string.pick_up_to_ten_images),
                     icon = Icons.Outlined.AutoAwesomeMosaic
                 )
             }
@@ -158,9 +154,9 @@ fun CollageMakerContent(
         } else {
             essentials.showToast(
                 message = if (uris.size > 10) {
-                    context.getString(R.string.pick_up_to_ten_images)
+                    essentials.getString(R.string.pick_up_to_ten_images)
                 } else {
-                    context.getString(R.string.pick_at_least_two_images)
+                    essentials.getString(R.string.pick_at_least_two_images)
                 },
                 icon = Icons.Outlined.AutoAwesomeMosaic
             )
@@ -222,7 +218,7 @@ fun CollageMakerContent(
             }
             EnhancedIconButton(
                 onClick = {
-                    scope.launch {
+                    essentials.launch {
                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                             scaffoldState.bottomSheetState.partialExpand()
                         } else {
@@ -594,6 +590,7 @@ fun CollageMakerContent(
                 ImageFormatSelector(
                     modifier = Modifier.navigationBarsPadding(),
                     value = component.imageFormat,
+                    quality = component.quality,
                     onValueChange = component::setImageFormat,
                     entries = if (component.backgroundColor.alpha != 1f) {
                         ImageFormatGroup.alphaContainedEntries

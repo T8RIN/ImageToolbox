@@ -26,9 +26,7 @@ class StreamWriteable(
     outputStream: OutputStream
 ) : Writeable {
 
-    private val stream = outputStream.buffered()
-
-    override fun copyFrom(readable: Readable) = writeBytes(readable.readBytes())
+    internal val stream = outputStream
 
     override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
 
@@ -43,11 +41,17 @@ class StreamReadable(
     inputStream: InputStream
 ) : Readable {
 
-    private val stream = inputStream.buffered()
+    private val stream = inputStream
 
-    override fun readBytes(): ByteArray = stream.buffered().readBytes()
+    override fun readBytes(): ByteArray = stream.readBytes()
 
-    override fun copyTo(writeable: Writeable) = writeable.writeBytes(readBytes())
+    override fun copyTo(writeable: Writeable) {
+        if (writeable is StreamWriteable) {
+            stream.copyTo(writeable.stream)
+        } else {
+            writeable.writeBytes(readBytes())
+        }
+    }
 
     override fun close() = stream.close()
 

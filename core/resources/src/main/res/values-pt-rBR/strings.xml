@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -2038,4 +2040,6 @@
     <string name="start_drop">Iniciar queda</string>
     <string name="end_drop">Fim da queda</string>
     <string name="downloading">Baixando</string>
+    <string name="smooth_shapes">Formas Suaves</string>
+    <string name="smooth_shapes_sub">Use superelipses em vez de retângulos arredondados padrão para obter formas mais suaves e naturais</string>
 </resources>

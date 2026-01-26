@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">Pohjapudotus</string>
     <string name="start_drop">Käynnistä pudotus</string>
     <string name="end_drop">Lopeta pudotus</string>
+    <string name="downloading">Ladataan</string>
+    <string name="smooth_shapes">Sileät muodot</string>
+    <string name="smooth_shapes_sub">Käytä superellipsiä tavallisten pyöristetyn suorakulmion sijaan saadaksesi pehmeämpiä ja luonnollisempia muotoja</string>
 </resources>

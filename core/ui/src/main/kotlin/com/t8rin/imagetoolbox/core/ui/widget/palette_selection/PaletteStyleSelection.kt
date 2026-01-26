@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.PaletteStyle
@@ -47,22 +46,22 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 fun PaletteStyleSelection(
     onThemeStyleSelected: (PaletteStyle) -> Unit,
-    shape: RoundedCornerShape,
+    shape: Shape,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified
 ) {
-    val context = LocalContext.current
     val settingsState = LocalSettingsState.current
     var showPaletteStyleSelectionSheet by rememberSaveable { mutableStateOf(false) }
     PreferenceItem(
         title = stringResource(R.string.palette_style),
         subtitle = remember(settingsState.themeStyle) {
             derivedStateOf {
-                settingsState.themeStyle.getTitle(context)
+                settingsState.themeStyle.getTitle(appContext)
             }
         }.value,
         shape = shape,

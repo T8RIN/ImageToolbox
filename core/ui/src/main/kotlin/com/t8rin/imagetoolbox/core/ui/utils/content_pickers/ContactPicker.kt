@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ import androidx.core.content.ContextCompat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -102,13 +103,15 @@ fun rememberContactPicker(
     onSuccess: (Contact) -> Unit,
 ): ContactPicker {
     val essentials = rememberLocalEssentials()
+    val context = LocalComponentActivity.current
+
     val pickContact = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickContact(),
         onResult = { uri ->
             uri?.takeIf {
                 it != Uri.EMPTY
             }?.let {
-                essentials.coroutineScope.launch {
+                essentials.launch {
                     onSuccess(it.parseContact())
                 }
             } ?: onFailure()
@@ -131,7 +134,7 @@ fun rememberContactPicker(
     return remember(pickContact) {
         derivedStateOf {
             ContactPickerImpl(
-                context = essentials.context,
+                context = context,
                 pickContact = pickContact,
                 requestPermissionLauncher = requestPermissionLauncher,
                 onFailure = {

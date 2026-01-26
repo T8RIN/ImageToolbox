@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
@@ -56,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FastInvokeEasing
 import com.t8rin.imagetoolbox.core.ui.utils.animation.PointToPointEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun FluentSwitch(
@@ -165,9 +165,9 @@ fun FluentSwitch(
                 .border(
                     width = 1.dp,
                     color = borderColor,
-                    shape = CircleShape
+                    shape = ShapeDefaults.circle
                 )
-                .clip(CircleShape)
+                .clip(ShapeDefaults.circle)
                 .background(trackColor)
                 .padding(horizontal = 4.dp),
             contentAlignment = Alignment.CenterStart
@@ -186,7 +186,7 @@ fun FluentSwitch(
                             radius = 16.dp
                         )
                     )
-                    .clip(CircleShape)
+                    .clip(ShapeDefaults.circle)
                     .background(thumbColor)
             )
         }

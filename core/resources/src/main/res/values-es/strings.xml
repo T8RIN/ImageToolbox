@@ -2039,4 +2039,7 @@
     <string name="bottom_drop">Caída inferior</string>
     <string name="start_drop">Iniciar caída</string>
     <string name="end_drop">Caída final</string>
+    <string name="downloading">Descargando</string>
+    <string name="smooth_shapes">Formas suaves</string>
+    <string name="smooth_shapes_sub">Utilice superelipses en lugar de rectángulos redondeados estándar para obtener formas más suaves y naturales</string>
 </resources>

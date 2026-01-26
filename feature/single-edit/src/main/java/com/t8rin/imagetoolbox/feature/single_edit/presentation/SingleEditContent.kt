@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.data.utils.fileSize
@@ -83,8 +82,6 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.Singl
 fun SingleEditContent(
     component: SingleEditComponent,
 ) {
-    val context = LocalContext.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -147,7 +144,7 @@ fun SingleEditContent(
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
-            val originalSize = component.uri.fileSize(context) ?: 0
+            val originalSize = component.uri.fileSize() ?: 0
             val compressedSize = component.imageInfo.sizeInBytes.toLong()
             TopAppBarTitle(
                 title = stringResource(R.string.single_edit),
@@ -281,7 +278,8 @@ fun SingleEditContent(
             Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = imageInfo.imageFormat,
-                onValueChange = component::setImageFormat
+                onValueChange = component::setImageFormat,
+                quality = imageInfo.quality,
             )
             Spacer(Modifier.height(8.dp))
             ResizeTypeSelector(

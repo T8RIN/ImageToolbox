@@ -256,7 +256,8 @@ internal fun SplitParamsSelector(
             onValueChange(
                 value.copy(imageFormat = it)
             )
-        }
+        },
+        quality = value.quality,
     )
 }
 

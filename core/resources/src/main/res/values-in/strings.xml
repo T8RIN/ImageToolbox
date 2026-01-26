@@ -2037,4 +2037,7 @@
     <string name="bottom_drop">Penurunan Bawah</string>
     <string name="start_drop">Mulai Jatuhkan</string>
     <string name="end_drop">Akhir Penurunan</string>
+    <string name="downloading">Mengunduh</string>
+    <string name="smooth_shapes">Bentuk Halus</string>
+    <string name="smooth_shapes_sub">Gunakan superelips daripada persegi panjang bulat standar untuk mendapatkan bentuk yang lebih halus dan alami</string>
 </resources>

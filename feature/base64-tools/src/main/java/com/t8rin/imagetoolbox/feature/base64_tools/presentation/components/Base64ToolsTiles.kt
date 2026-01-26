@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileOpen
 import androidx.compose.material.icons.outlined.Save
@@ -62,7 +61,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimToBase64
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -74,7 +72,6 @@ import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base
 @Composable
 internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
     val essentials = rememberLocalEssentials()
-    val context = LocalComponentActivity.current
 
     val pasteTile: @Composable RowScope.(shape: Shape) -> Unit = { shape ->
         Tile(
@@ -86,7 +83,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                         component.setBase64(text)
                     } else {
                         essentials.showToast(
-                            message = context.getString(R.string.not_a_valid_base_64),
+                            message = essentials.getString(R.string.not_a_valid_base_64),
                             icon = Icons.Rounded.Base64
                         )
                     }
@@ -108,7 +105,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                     uri = uri,
                     onFailure = {
                         essentials.showToast(
-                            message = context.getString(R.string.not_a_valid_base_64),
+                            message = essentials.getString(R.string.not_a_valid_base_64),
                             icon = Icons.Rounded.Base64
                         )
                     }
@@ -163,8 +160,8 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    pasteTile(CircleShape)
-                    importTile(CircleShape)
+                    pasteTile(ShapeDefaults.circle)
+                    importTile(ShapeDefaults.circle)
 
                     Tile(
                         onClick = {
@@ -175,7 +172,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
                                 essentials.copyToClipboard(text)
                             } else {
                                 essentials.showToast(
-                                    message = context.getString(R.string.copy_not_a_valid_base_64),
+                                    message = essentials.getString(R.string.copy_not_a_valid_base_64),
                                     icon = Icons.Rounded.Base64
                                 )
                             }
@@ -220,7 +217,7 @@ internal fun Base64ToolsTiles(component: Base64ToolsComponent) {
 @Composable
 private fun RowScope.Tile(
     onClick: () -> Unit,
-    shape: Shape = CircleShape,
+    shape: Shape = ShapeDefaults.circle,
     icon: ImageVector,
     textRes: Int,
     isButton: Boolean = true

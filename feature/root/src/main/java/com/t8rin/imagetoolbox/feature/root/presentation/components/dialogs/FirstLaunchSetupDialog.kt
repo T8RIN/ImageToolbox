@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,8 +47,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
 import com.t8rin.imagetoolbox.core.settings.presentation.model.isFirstLaunch
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.performanceClass
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -57,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 internal fun FirstLaunchSetupDialog(
@@ -64,8 +64,6 @@ internal fun FirstLaunchSetupDialog(
     toggleShowUpdateDialog: () -> Unit,
     adjustPerformance: (PerformanceClass) -> Unit
 ) {
-    val context = LocalContext.current
-
     val settingsState = LocalSettingsState.current
     var updateOnFirstOpen by rememberSaveable {
         mutableStateOf(false)
@@ -73,7 +71,10 @@ internal fun FirstLaunchSetupDialog(
 
     OneTimeEffect {
         updateOnFirstOpen = settingsState.isFirstLaunch(false)
-        adjustPerformance(context.performanceClass)
+
+        if (updateOnFirstOpen) {
+            adjustPerformance(appContext.performanceClass)
+        }
     }
 
     EnhancedAlertDialog(
@@ -89,6 +90,7 @@ internal fun FirstLaunchSetupDialog(
             Text(stringResource(R.string.updates))
         },
         text = {
+            val essentials = rememberLocalEssentials()
             val state = rememberScrollState()
             ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Left)) {
                 Column(
@@ -112,7 +114,7 @@ internal fun FirstLaunchSetupDialog(
                         )
                     }
                     PreferenceRowSwitch(
-                        shape = if (!context.isInstalledFromPlayStore()) {
+                        shape = if (!essentials.isInstalledFromPlayStore()) {
                             ShapeDefaults.top
                         } else ShapeDefaults.default,
                         modifier = Modifier,
@@ -124,7 +126,7 @@ internal fun FirstLaunchSetupDialog(
                         },
                         startIcon = Icons.Rounded.NewReleases
                     )
-                    if (!context.isInstalledFromPlayStore()) {
+                    if (!essentials.isInstalledFromPlayStore()) {
                         Spacer(Modifier.height(4.dp))
                         PreferenceRowSwitch(
                             modifier = Modifier,

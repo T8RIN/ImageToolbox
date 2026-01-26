@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +40,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.SearchOff
@@ -57,7 +55,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,13 +66,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisCarousel
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.ScreenPreference
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -93,8 +91,7 @@ fun ProcessImagesPreferenceSheet(
     onDismiss: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val context = LocalComponentActivity.current
+    val essentials = rememberLocalEssentials()
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -110,10 +107,10 @@ fun ProcessImagesPreferenceSheet(
             if (searchKeyword.isNotEmpty()) {
                 rawScreenList.filter {
                     val string =
-                        context.getString(it.title) + " " + context.getString(it.subtitle)
-                    val stringEn = context.getStringLocalized(it.title, Locale.ENGLISH)
+                        essentials.getString(it.title) + " " + essentials.getString(it.subtitle)
+                    val stringEn = essentials.getStringLocalized(it.title, Locale.ENGLISH.language)
                         .plus(" ")
-                        .plus(context.getStringLocalized(it.subtitle, Locale.ENGLISH))
+                        .plus(essentials.getStringLocalized(it.subtitle, Locale.ENGLISH.language))
                     stringEn.contains(other = searchKeyword, ignoreCase = true).or(
                         string.contains(other = searchKeyword, ignoreCase = true)
                     )
@@ -179,7 +176,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             },
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                     }
                 } else {
@@ -196,7 +193,7 @@ fun ProcessImagesPreferenceSheet(
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
+                                imageVector = Icons.Outlined.LayersSearchOutline,
                                 contentDescription = stringResource(R.string.search_here)
                             )
                         }
@@ -237,7 +234,7 @@ fun ProcessImagesPreferenceSheet(
                             ScreenPreference(
                                 screen = screen,
                                 navigate = {
-                                    scope.launch {
+                                    essentials.launch {
                                         onDismiss()
                                         delay(200)
                                         onNavigate(screen)

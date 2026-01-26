@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -61,7 +60,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -79,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 import java.util.Locale
 
 @Composable
@@ -110,7 +109,6 @@ fun AddExifSheet(
             onDismiss(false)
         }
     }
-    val context = LocalContext.current
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
@@ -120,8 +118,9 @@ fun AddExifSheet(
     val list by remember(tags, searchKeyword) {
         derivedStateOf {
             tags.filter {
-                it.localizedName(context).contains(searchKeyword, true)
-                        || it.localizedName(context, Locale.ENGLISH).contains(searchKeyword, true)
+                it.localizedName(appContext).contains(searchKeyword, true)
+                        || it.localizedName(appContext, Locale.ENGLISH)
+                    .contains(searchKeyword, true)
             }
         }
     }
@@ -186,7 +185,7 @@ fun AddExifSheet(
                                     }
                                 }
                             },
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                     }
                 } else {

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -51,7 +50,6 @@ import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Share
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -71,7 +69,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -92,6 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -99,6 +97,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePreviewGrid
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -186,7 +185,7 @@ fun ImagePreviewContent(
                                 text = stringResource(R.string.image_preview)
                             )
                             AnimatedVisibility(!component.uris.isNullOrEmpty()) {
-                                Badge(
+                                EnhancedBadge(
                                     content = {
                                         val prefix = if (isLoadingImages) "~" else ""
                                         Text(
@@ -227,8 +226,6 @@ fun ImagePreviewContent(
                             if (notSelection && haveUris) {
                                 TopAppBarEmoji()
                             } else if (haveUris) {
-                                val context = LocalContext.current
-
                                 SortButton(
                                     modifier = Modifier.size(40.dp),
                                     iconSize = 24.dp,
@@ -239,8 +236,7 @@ fun ImagePreviewContent(
                                             onFinish = { gridInvalidations++ },
                                             action = {
                                                 it.orEmpty().sortedByType(
-                                                    sortType = sortType,
-                                                    context = context
+                                                    sortType = sortType
                                                 )
                                             }
                                         )
@@ -270,7 +266,7 @@ fun ImagePreviewContent(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .container(
-                                    shape = CircleShape,
+                                    shape = ShapeDefaults.circle,
                                     color = MaterialTheme.colorScheme.surfaceContainerHighest,
                                     resultPadding = 0.dp
                                 ),

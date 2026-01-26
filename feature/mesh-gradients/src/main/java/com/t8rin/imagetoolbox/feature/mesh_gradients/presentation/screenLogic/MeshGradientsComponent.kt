@@ -27,8 +27,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -50,7 +50,7 @@ class MeshGradientsComponent @AssistedInject constructor(
     private val _meshGradientUris = mutableStateOf(emptyList<Uri>())
     val meshGradientUris by _meshGradientUris
 
-    private val _meshGradientDownloadProgress: MutableState<RemoteResourcesDownloadProgress?> =
+    private val _meshGradientDownloadProgress: MutableState<DownloadProgress?> =
         mutableStateOf(null)
     val meshGradientDownloadProgress by _meshGradientDownloadProgress
 

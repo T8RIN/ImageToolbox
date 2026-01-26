@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
@@ -39,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCode
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 @Composable
 internal fun QrCodePreview(
@@ -155,15 +157,13 @@ internal fun QrCodePreview(
                 }
 
                 if (params.imageUri != null && params.content.raw.isNotEmpty()) {
-                    val context = LocalContext.current
-
                     Picture(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .offset(y = (-48).dp)
                             .size(64.dp),
                         model = remember(params.imageUri) {
-                            ImageRequest.Builder(context)
+                            ImageRequest.Builder(appContext)
                                 .data(params.imageUri)
                                 .size(1000, 1000)
                                 .precision(Precision.INEXACT)

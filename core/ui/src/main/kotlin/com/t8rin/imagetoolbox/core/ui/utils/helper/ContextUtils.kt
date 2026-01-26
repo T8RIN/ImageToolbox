@@ -43,7 +43,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.core.app.ActivityCompat
 import androidx.core.app.PendingIntentCompat
@@ -54,7 +53,6 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
-import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.resources.R
@@ -189,32 +187,20 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFilename(
-        uri: Uri
-    ): String? = if (uri.toString().startsWith("file:///")) {
-        uri.toString().takeLastWhile { it != '/' }
-    } else {
-        DocumentFile.fromSingleUri(this, uri)?.name
-    }?.decodeEscaped()
-
     @Composable
     fun rememberFilename(uri: Uri): String? {
-        val context = LocalContext.current
-
-        return remember(context, uri) {
+        return remember(uri) {
             derivedStateOf {
-                context.getFilename(uri)
+                uri.getFilename()
             }
         }.value
     }
 
     @Composable
     fun rememberFileExtension(uri: Uri): String? {
-        val context = LocalContext.current
-
-        return remember(context, uri) {
+        return remember(uri) {
             derivedStateOf {
-                context.getExtension(uri)
+                uri.getExtension()
             }
         }.value
     }
@@ -224,8 +210,7 @@ object ContextUtils {
         get() {
             val androidVersion = Build.VERSION.SDK_INT
             val cpuCount = Runtime.getRuntime().availableProcessors()
-            val memoryClass =
-                (applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).memoryClass
+            val memoryClass = getSystemService<ActivityManager>()!!.memoryClass
             var totalCpuFreq = 0
             var freqResolved = 0
             for (i in 0 until cpuCount) {
@@ -485,7 +470,7 @@ object ContextUtils {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             type = MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(
-                    getExtension(uris.first())
+                    uris.first().getExtension()
                 ) ?: "*/*"
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
@@ -493,17 +478,18 @@ object ContextUtils {
         startActivity(shareIntent)
     }
 
-    fun Context.getExtension(uri: Uri): String? = runCatching {
-        val filename = getFilename(uri) ?: ""
+    fun Uri.getExtension(): String? = runCatching {
+        val filename = getFilename().orEmpty()
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"
-        return if (ContentResolver.SCHEME_CONTENT == uri.scheme) {
+        return if (ContentResolver.SCHEME_CONTENT == scheme) {
             MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(
-                    contentResolver.getType(uri)
+                    appContext.contentResolver.getType(this@getExtension)
                 )
         } else {
-            MimeTypeMap.getFileExtensionFromUrl(uri.toString()).lowercase(Locale.getDefault())
+            MimeTypeMap.getFileExtensionFromUrl(this@getExtension.toString())
+                .lowercase(Locale.getDefault())
         }
     }.getOrNull()
 
@@ -545,7 +531,7 @@ object ContextUtils {
         contentResolver.openInputStream(this@moveToCache)?.use { stream ->
             val file = File(
                 cacheDir,
-                getFilename(this@moveToCache) ?: "cache_${Random.nextInt()}.tmp"
+                getFilename() ?: "cache_${Random.nextInt()}.tmp"
             ).apply { createNewFile() }
 
             file.outputStream().use { stream.copyTo(it) }

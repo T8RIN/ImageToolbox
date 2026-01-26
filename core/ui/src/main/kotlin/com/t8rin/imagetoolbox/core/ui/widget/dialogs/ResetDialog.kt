@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import kotlinx.coroutines.launch
 
 @Composable
 fun ResetDialog(
@@ -45,9 +42,7 @@ fun ResetDialog(
     text: String = stringResource(R.string.reset_image_sub),
     icon: ImageVector = Icons.Rounded.ImageReset
 ) {
-    val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-    val toastHostState = LocalToastHostState.current
+    val essentials = rememberLocalEssentials()
 
     EnhancedAlertDialog(
         visible = visible,
@@ -78,12 +73,10 @@ fun ResetDialog(
                 onClick = {
                     onReset()
                     onDismiss()
-                    scope.launch {
-                        toastHostState.showToast(
-                            context.getString(R.string.values_reset),
-                            Icons.Rounded.DoneOutline
-                        )
-                    }
+                    essentials.showToast(
+                        message = essentials.getString(R.string.values_reset),
+                        icon = Icons.Rounded.DoneOutline
+                    )
                 }
             ) {
                 Text(stringResource(R.string.reset))

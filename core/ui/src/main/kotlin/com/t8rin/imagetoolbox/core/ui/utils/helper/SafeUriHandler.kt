@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ private class SafeUriHandler(
             },
             onFailure = {
                 essentials.showFailureToast(
-                    essentials.context.getString(
+                    essentials.getString(
                         R.string.cannot_open_uri, uri
                     )
                 )
@@ -70,7 +70,7 @@ private class SafeUriHandler(
     }
 
     private fun rawOpenUri(uri: String) {
-        essentials.context.startActivity(
+        essentials.startActivity(
             Intent(Intent.ACTION_VIEW, uri.toUri()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }

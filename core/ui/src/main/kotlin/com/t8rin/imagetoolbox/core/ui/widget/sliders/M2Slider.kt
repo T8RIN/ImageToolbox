@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.core.ui.widget.sliders
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SwitchDefaults
@@ -34,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomRangeSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSlider
@@ -61,7 +61,7 @@ fun M2Slider(
                 if (drawContainer) {
                     Modifier
                         .container(
-                            shape = CircleShape,
+                            shape = ShapeDefaults.circle,
                             autoShadowElevation = animateDpAsState(
                                 if (settingsState.drawSliderShadows) {
                                     1.dp
@@ -142,7 +142,7 @@ fun M2RangeSlider(
                 if (drawContainer) {
                     Modifier
                         .container(
-                            shape = CircleShape,
+                            shape = ShapeDefaults.circle,
                             autoShadowElevation = animateDpAsState(
                                 if (settingsState.drawSliderShadows) {
                                     1.dp

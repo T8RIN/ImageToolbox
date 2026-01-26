@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,20 @@
 
 package com.t8rin.imagetoolbox.core.domain.remote
 
-data class RemoteResourcesDownloadProgress(
-    val currentPercent: Float,
-    val currentTotalSize: Long
-)
+interface DownloadManager {
+    suspend fun download(
+        url: String,
+        destinationPath: String,
+        onStart: suspend () -> Unit = {},
+        onProgress: suspend (DownloadProgress) -> Unit,
+        onFinish: suspend (Throwable?) -> Unit = {}
+    )
+
+    suspend fun downloadZip(
+        url: String,
+        destinationPath: String,
+        onStart: suspend () -> Unit = {},
+        onProgress: (DownloadProgress) -> Unit,
+        downloadOnlyNewData: Boolean
+    )
+}

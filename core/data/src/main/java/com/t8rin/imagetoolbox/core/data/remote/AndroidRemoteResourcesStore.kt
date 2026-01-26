@@ -21,40 +21,23 @@ import android.content.Context
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.decodeEscaped
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResource
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesStore
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
-import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
-import com.t8rin.imagetoolbox.core.domain.saving.track
-import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
-import com.t8rin.imagetoolbox.core.domain.utils.withProgress
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.ktor.client.HttpClient
-import io.ktor.client.request.prepareGet
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.contentLength
-import io.ktor.utils.io.jvm.javaio.toInputStream
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 
 internal class AndroidRemoteResourcesStore @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val client: HttpClient,
-    private val keepAliveService: KeepAliveService,
+    private val downloadManager: DownloadManager,
     resourceManager: ResourceManager,
     dispatchersHolder: DispatchersHolder
 ) : RemoteResourcesStore,
@@ -89,7 +72,7 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
 
     override suspend fun downloadResources(
         name: String,
-        onProgress: (RemoteResourcesDownloadProgress) -> Unit,
+        onProgress: (DownloadProgress) -> Unit,
         onFailure: (Throwable) -> Unit,
         downloadOnlyNewData: Boolean
     ): RemoteResources? = withContext(defaultDispatcher) {
@@ -97,82 +80,12 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
             val url = getResourcesLink(name)
             val savingDir = getSavingDir(name)
 
-            val downloadedUris = mutableListOf<RemoteResource>()
-
-            keepAliveService.track(
-                initial = {
-                    updateOrStart(
-                        title = getString(R.string.downloading)
-                    )
-                }
-            ) {
-                channelFlow {
-                    client.prepareGet(url).execute { response ->
-                        val total = response.contentLength() ?: -1L
-
-                        ensureActive()
-                        val source = response.bodyAsChannel().toInputStream().withProgress(
-                            total = total,
-                            onProgress = { percent ->
-                                trySend(
-                                    RemoteResourcesDownloadProgress(
-                                        currentPercent = percent,
-                                        currentTotalSize = total
-                                    ).also(onProgress)
-                                )
-                            }
-                        )
-
-                        ZipInputStream(source).use { zipIn ->
-                            var entry: ZipEntry?
-                            while (zipIn.nextEntry.also { entry = it } != null) {
-                                entry?.let { zipEntry ->
-                                    val filename = zipEntry.name
-
-                                    if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
-
-                                    val outFile = File(
-                                        savingDir,
-                                        filename.decodeEscaped()
-                                    ).apply {
-                                        delete()
-                                        parentFile?.mkdirs()
-                                        createNewFile()
-                                    }
-
-                                    if (downloadOnlyNewData) {
-                                        val file = savingDir.listFiles()?.find {
-                                            it.name == filename && it.length() > 0L
-                                        }
-
-                                        if (file != null) return@let
-                                    }
-
-                                    FileOutputStream(outFile).use { fos ->
-                                        zipIn.copyTo(fos)
-                                    }
-                                    zipIn.closeEntry()
-
-                                    downloadedUris.add(
-                                        RemoteResource(
-                                            uri = outFile.toUri().toString(),
-                                            name = filename.decodeEscaped()
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    close()
-                }.throttleLatest(50).collect {
-                    updateProgress(
-                        title = getString(R.string.downloading),
-                        done = (it.currentPercent * 100).roundToInt(),
-                        total = 100
-                    )
-                }
-            }
+            downloadManager.downloadZip(
+                url = url,
+                destinationPath = savingDir.absolutePath,
+                onProgress = onProgress,
+                downloadOnlyNewData = downloadOnlyNewData
+            )
 
             name to url makeLog "downloadResources"
 
@@ -185,17 +98,10 @@ internal class AndroidRemoteResourcesStore @Inject constructor(
                 )
             } ?: emptyList()
 
-            if (downloadedUris.isNotEmpty()) {
-                RemoteResources(
-                    name = name,
-                    list = (savedAlready + downloadedUris).distinct().sortedBy { it.name }
-                )
-            } else {
-                RemoteResources(
-                    name = name,
-                    list = savedAlready.sortedBy { it.name }
-                )
-            }
+            RemoteResources(
+                name = name,
+                list = savedAlready.sortedBy { it.name }
+            )
         }.onFailure {
             it.makeLog()
             onFailure(it)

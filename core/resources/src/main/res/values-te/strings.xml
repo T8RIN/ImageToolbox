@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">బాటమ్ డ్రాప్</string>
     <string name="start_drop">డ్రాప్ ప్రారంభించండి</string>
     <string name="end_drop">ఎండ్ డ్రాప్</string>
+    <string name="downloading">డౌన్‌లోడ్ చేస్తోంది</string>
+    <string name="smooth_shapes">స్మూత్ ఆకారాలు</string>
+    <string name="smooth_shapes_sub">మృదువైన, మరింత సహజమైన ఆకారాల కోసం ప్రామాణిక గుండ్రని దీర్ఘచతురస్రాలకు బదులుగా సూపర్‌ఎల్లిప్స్‌లను ఉపయోగించండి</string>
 </resources>

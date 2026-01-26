@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FilterAlt
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,10 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -58,7 +58,7 @@ internal fun NeuralModelSelectionSheet(
     downloadedModels: List<NeuralModel>,
     notDownloadedModels: List<NeuralModel>,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
-    downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
     var typeFilters by rememberSaveable(stateSaver = TypeFiltersSaver) {
@@ -102,7 +102,7 @@ internal fun NeuralModelSelectionSheet(
                                 .size(6.dp)
                                 .align(Alignment.TopEnd)
                         ) {
-                            Badge()
+                            EnhancedBadge()
                         }
                     }
                 }

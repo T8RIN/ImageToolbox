@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">Төменгі тамшы</string>
     <string name="start_drop">Drop бастау</string>
     <string name="end_drop">Аяқтау</string>
+    <string name="downloading">Жүктеп алынуда</string>
+    <string name="smooth_shapes">Тегіс пішіндер</string>
+    <string name="smooth_shapes_sub">Тегіс, табиғи пішіндер үшін стандартты дөңгелектелген төртбұрыштардың орнына суперэллипстерді пайдаланыңыз</string>
 </resources>

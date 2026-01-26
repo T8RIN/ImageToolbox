@@ -2040,4 +2040,7 @@
     <string name="bottom_drop">ירידה למטה</string>
     <string name="start_drop">התחל ירידה</string>
     <string name="end_drop">סוף ירידה</string>
+    <string name="downloading">מוריד</string>
+    <string name="smooth_shapes">צורות חלקות</string>
+    <string name="smooth_shapes_sub">השתמש בסופראליפסות במקום במלבנים מעוגלים סטנדרטיים לקבלת צורות חלקות וטבעיות יותר</string>
 </resources>

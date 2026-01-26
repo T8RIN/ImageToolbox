@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
@@ -61,10 +60,6 @@ fun AuthorLinksSheet(
     visible: Boolean,
     onDismiss: () -> Unit
 ) {
-    val context = LocalComponentActivity.current
-    val linkHandler = LocalUriHandler.current
-    val settingsState = LocalSettingsState.current
-
     EnhancedModalBottomSheet(
         visible = visible,
         onDismiss = {
@@ -85,6 +80,11 @@ fun AuthorLinksSheet(
             }
         },
         sheetContent = {
+            val essentials = rememberLocalEssentials()
+            val linkHandler = LocalUriHandler.current
+            val settingsState = LocalSettingsState.current
+
+
             Box {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
                     Spacer(Modifier.height(16.dp))
@@ -112,15 +112,15 @@ fun AuthorLinksSheet(
                     PreferenceItem(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            val mail = context.getString(R.string.developer_email)
+                            val mail = essentials.getString(R.string.developer_email)
                             runCatching {
-                                context.startActivity(
+                                essentials.startActivity(
                                     Intent(Intent.ACTION_SENDTO).apply {
                                         data = "mailto:$mail".toUri()
                                     }
                                 )
                             }.onFailure {
-                                context.shareText(mail)
+                                essentials.shareText(mail)
                             }
                         },
                         shape = center,

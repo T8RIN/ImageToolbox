@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
@@ -210,7 +209,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier
-                                .clip(CircleShape)
+                                .clip(ShapeDefaults.circle)
                                 .hapticsClickable {
                                     onValueChangeForced(value, type)
                                 }
@@ -266,7 +265,7 @@ internal fun LazyItemScope.DownloadedLanguageItem(
                                     .border(
                                         width = settingsState.borderWidth,
                                         color = MaterialTheme.colorScheme.outlineVariant(),
-                                        shape = CircleShape
+                                        shape = ShapeDefaults.circle
                                     )
                             )
                         }

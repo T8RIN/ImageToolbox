@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChangeCircle
 import androidx.compose.material3.Icon
@@ -45,6 +43,8 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
@@ -62,7 +62,7 @@ fun ImageCounter(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .container(shape = CircleShape)
+                .container(shape = ShapeDefaults.circle)
                 .padding(start = 3.dp),
             horizontalArrangement = Arrangement.spacedBy((-1).dp)
         ) {
@@ -79,7 +79,7 @@ fun ImageCounter(
                             .copy(0.1f),
                     ),
                     isShadowClip = true,
-                    shape = RoundedCornerShape(
+                    shape = AutoCornersShape(
                         topStart = CornerSize(50),
                         topEnd = CornerSize(4.dp),
                         bottomStart = CornerSize(50),
@@ -100,7 +100,7 @@ fun ImageCounter(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
                     isShadowClip = true,
-                    shape = RoundedCornerShape(
+                    shape = AutoCornersShape(
                         topEnd = CornerSize(50),
                         topStart = CornerSize(4.dp),
                         bottomEnd = CornerSize(50),

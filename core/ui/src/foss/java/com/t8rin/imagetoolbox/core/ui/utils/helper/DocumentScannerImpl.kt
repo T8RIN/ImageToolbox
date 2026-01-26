@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate
 
@@ -61,10 +62,11 @@ internal fun rememberDocumentScannerImpl(
     onSuccess: (ScanResult) -> Unit
 ): DocumentScanner {
     val essentials = rememberLocalEssentials()
+    val context = LocalComponentActivity.current
 
-    val scanner = remember(essentials.context) {
+    val scanner = remember(context) {
         DocumentScannerDelegate(
-            activity = essentials.context,
+            activity = context,
             successHandler = { imageUris ->
                 onSuccess(
                     ScanResult(imageUris.map { it.toUri() })
@@ -99,9 +101,9 @@ internal fun rememberDocumentScannerImpl(
         }
     }
 
-    return remember(essentials.context, scannerLauncher) {
+    return remember(context, scannerLauncher) {
         DocumentScannerImpl(
-            context = essentials.context,
+            context = context,
             scanner = scanner,
             scannerLauncher = scannerLauncher,
             requestPermissionLauncher = requestPermissionLauncher

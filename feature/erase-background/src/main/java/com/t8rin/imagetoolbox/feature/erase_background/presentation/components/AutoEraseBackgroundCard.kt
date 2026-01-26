@@ -152,7 +152,7 @@ fun AutoEraseBackgroundCard(
                             keepAliveService.trackSafe(
                                 initial = {
                                     updateOrStart(
-                                        title = essentials.context.getString(R.string.downloading)
+                                        title = essentials.getString(R.string.downloading)
                                     )
                                 }
                             ) {
@@ -180,7 +180,7 @@ fun AutoEraseBackgroundCard(
                                     .throttleLatest(50)
                                     .collect {
                                         updateProgress(
-                                            title = essentials.context.getString(R.string.downloading),
+                                            title = essentials.getString(R.string.downloading),
                                             done = (it.currentPercent * 100).roundToInt(),
                                             total = 100
                                         )

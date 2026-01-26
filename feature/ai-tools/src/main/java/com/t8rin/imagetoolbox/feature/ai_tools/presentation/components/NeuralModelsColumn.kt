@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.CheckCircle
@@ -53,7 +52,6 @@ import androidx.compose.material.icons.rounded.ModelTraining
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.SearchOff
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -73,7 +71,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.data.utils.getFilename
-import com.t8rin.imagetoolbox.core.domain.remote.RemoteResourcesDownloadProgress
+import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -83,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -108,7 +107,7 @@ internal fun NeuralModelsColumn(
     onDownloadModel: (NeuralModel) -> Unit,
     onDeleteModel: (NeuralModel) -> Unit,
     onImportModel: (Uri, (SaveResult) -> Unit) -> Unit,
-    downloadProgresses: Map<String, RemoteResourcesDownloadProgress>,
+    downloadProgresses: Map<String, DownloadProgress>,
     occupiedStorageSize: Long
 ) {
     val essentials = rememberLocalEssentials()
@@ -117,20 +116,20 @@ internal fun NeuralModelsColumn(
     val listState = rememberLazyListState()
 
     val filePicker = rememberFilePicker { uri: Uri ->
-        val name = uri.getFilename(essentials.context).orEmpty()
+        val name = uri.getFilename().orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
             onImportModel(uri) {
                 when (it) {
                     SaveResult.Skipped -> {
                         essentials.showToast(
-                            message = essentials.context.getString(R.string.model_already_downloaded),
+                            message = essentials.getString(R.string.model_already_downloaded),
                             icon = Icons.Outlined.Info
                         )
                     }
 
                     is SaveResult.Success -> {
                         essentials.showToast(
-                            message = essentials.context.getString(R.string.model_successfully_imported),
+                            message = essentials.getString(R.string.model_successfully_imported),
                             icon = Icons.Outlined.CheckCircle
                         )
                     }
@@ -140,7 +139,7 @@ internal fun NeuralModelsColumn(
             }
         } else {
             essentials.showFailureToast(
-                essentials.context.getString(R.string.only_onnx_models)
+                essentials.getString(R.string.only_onnx_models)
             )
         }
     }
@@ -315,7 +314,7 @@ internal fun NeuralModelsColumn(
                     icon = Icons.Rounded.DownloadDone,
                     text = stringResource(id = R.string.downloaded_models),
                     endContent = {
-                        Badge(
+                        EnhancedBadge(
                             containerColor = MaterialTheme.colorScheme.tertiary
                         ) {
                             Text(
@@ -557,7 +556,7 @@ internal fun NeuralModelsColumn(
                                 if (progress != null) {
                                     Row(
                                         modifier = Modifier.container(
-                                            shape = CircleShape,
+                                            shape = ShapeDefaults.circle,
                                             color = MaterialTheme.colorScheme.surface,
                                             resultPadding = 8.dp
                                         ),

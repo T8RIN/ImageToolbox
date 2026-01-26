@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">Chute inférieure</string>
     <string name="start_drop">Démarrer le dépôt</string>
     <string name="end_drop">Fin du dépôt</string>
+    <string name="downloading">Téléchargement</string>
+    <string name="smooth_shapes">Formes lisses</string>
+    <string name="smooth_shapes_sub">Utilisez des superellipses au lieu des rectangles arrondis standard pour des formes plus douces et plus naturelles</string>
 </resources>

@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.provider
 
 import android.content.ActivityNotFoundException
-import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
@@ -36,12 +37,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.ConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.createScreenShortcut
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isNetworkAvailable
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareText
 import com.t8rin.imagetoolbox.core.ui.utils.helper.asClip
 import com.t8rin.imagetoolbox.core.ui.utils.helper.parseFileSaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.helper.parseSaveResult
@@ -62,39 +67,46 @@ fun rememberLocalEssentials(): LocalEssentials {
     val context = LocalComponentActivity.current
     val coroutineScope = rememberCoroutineScope()
     val clipboard = LocalClipboard.current
+    val resourceManager = LocalResourceManager.current
 
     return remember(
         toastHostState,
         coroutineScope,
         confettiHostState,
         context,
-        clipboard
+        clipboard,
+        resourceManager
     ) {
         LocalEssentials(
             toastHostState = toastHostState,
             confettiHostState = confettiHostState,
             coroutineScope = coroutineScope,
             context = context,
-            clipboard = clipboard
+            clipboard = clipboard,
+            resourceManager = resourceManager
         )
     }
 }
 
-@ConsistentCopyVisibility
 @Stable
 @Immutable
-data class LocalEssentials internal constructor(
-    val toastHostState: ToastHostState,
-    val confettiHostState: ConfettiHostState,
-    val coroutineScope: CoroutineScope,
-    val context: ComponentActivity,
-    val clipboard: Clipboard
-) : CoroutineScope by coroutineScope {
+class LocalEssentials internal constructor(
+    private val context: ComponentActivity,
+    private val toastHostState: ToastHostState,
+    private val confettiHostState: ConfettiHostState,
+    private val clipboard: Clipboard,
+    coroutineScope: CoroutineScope,
+    resourceManager: ResourceManager
+) : CoroutineScope by coroutineScope,
+    ResourceManager by resourceManager {
+
+    fun isNetworkAvailable() = context.isNetworkAvailable()
+
     fun showToast(
         message: String,
         icon: ImageVector? = null,
         duration: ToastDuration = ToastDuration.Short
-    ) = coroutineScope.launch {
+    ) = launch {
         toastHostState.showToast(
             message = message,
             icon = icon,
@@ -103,17 +115,17 @@ data class LocalEssentials internal constructor(
     }
 
     fun showToast(
-        messageSelector: Context.() -> String,
+        messageSelector: LocalEssentials.() -> String,
         icon: ImageVector? = null,
         duration: ToastDuration = ToastDuration.Short
     ) = showToast(
-        message = messageSelector(context),
+        message = messageSelector(),
         icon = icon,
         duration = duration
     )
 
     fun showFailureToast(throwable: Throwable) {
-        coroutineScope.launch {
+        launch {
             toastHostState.showFailureToast(
                 context = context,
                 throwable = throwable
@@ -122,7 +134,7 @@ data class LocalEssentials internal constructor(
     }
 
     fun showFailureToast(message: String) {
-        coroutineScope.launch {
+        launch {
             toastHostState.showFailureToast(
                 message = message
             )
@@ -130,7 +142,7 @@ data class LocalEssentials internal constructor(
     }
 
     fun showFailureToast(res: Int) {
-        coroutineScope.launch {
+        launch {
             toastHostState.showFailureToast(
                 message = context.getString(res)
             )
@@ -143,7 +155,7 @@ data class LocalEssentials internal constructor(
 
     fun showConfetti(
         duration: ToastDuration
-    ) = coroutineScope.launch {
+    ) = launch {
         confettiHostState.showConfetti(duration)
     }
 
@@ -183,7 +195,7 @@ data class LocalEssentials internal constructor(
         screen: Screen,
         tint: Color = Color.Unspecified
     ) {
-        coroutineScope.launch {
+        launch {
             context.createScreenShortcut(
                 screen = screen,
                 tint = tint,
@@ -196,7 +208,7 @@ data class LocalEssentials internal constructor(
         clipEntry: ClipEntry?,
         onSuccess: () -> Unit = {}
     ) {
-        coroutineScope.launch {
+        launch {
             runSuspendCatching {
                 clipboard.setClipEntry(clipEntry)
             }.onSuccess {
@@ -247,7 +259,7 @@ data class LocalEssentials internal constructor(
     fun getTextFromClipboard(
         onSuccess: (CharSequence) -> Unit
     ) {
-        coroutineScope.launch {
+        launch {
             runSuspendCatching {
                 clipboard.getClipEntry()
                     ?.clipData?.let { primaryClip ->
@@ -264,10 +276,20 @@ data class LocalEssentials internal constructor(
     }
 
     fun clearClipboard() {
-        coroutineScope.launch {
+        launch {
             clipboard.setClipEntry(null)
         }
     }
+
+    fun shareText(text: String) = context.shareText(text)
+
+    fun startActivity(intent: Intent) {
+        runCatching {
+            context.startActivity(intent)
+        }.onFailure(::showFailureToast)
+    }
+
+    fun isInstalledFromPlayStore() = context.isInstalledFromPlayStore()
 
     private fun showActivateFilesToast() {
         showToast(
@@ -277,3 +299,5 @@ data class LocalEssentials internal constructor(
         )
     }
 }
+
+val LocalResourceManager = compositionLocalOf<ResourceManager> { error("ResourceManager") }

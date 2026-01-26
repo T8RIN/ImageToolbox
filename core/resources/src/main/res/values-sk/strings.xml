@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -2038,4 +2040,7 @@
     <string name="bottom_drop">Spodná kvapka</string>
     <string name="start_drop">Spustite aplikáciu Drop</string>
     <string name="end_drop">End Drop</string>
+    <string name="downloading">Sťahovanie</string>
+    <string name="smooth_shapes">Hladké tvary</string>
+    <string name="smooth_shapes_sub">Pre hladšie a prirodzenejšie tvary použite superelipsy namiesto štandardných zaoblených obdĺžnikov</string>
 </resources>

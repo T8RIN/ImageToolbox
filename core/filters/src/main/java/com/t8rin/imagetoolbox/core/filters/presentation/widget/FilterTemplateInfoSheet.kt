@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
@@ -58,7 +60,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -91,6 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.launch
 
 @Composable
@@ -387,10 +389,9 @@ internal fun TemplateFilterPreviewItem(
     onRequestFilterMapping: (UiFilter<*>) -> Transformation,
     templateFilter: TemplateFilter
 ) {
-    val context = LocalContext.current
     val previewModel = LocalFilterPreviewModelProvider.current.preview
     val model = remember(templateFilter, previewModel) {
-        ImageRequest.Builder(context)
+        ImageRequest.Builder(appContext)
             .data(previewModel.data)
             .error(R.drawable.filter_preview_source)
             .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })

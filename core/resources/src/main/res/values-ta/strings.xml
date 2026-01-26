@@ -2038,4 +2038,7 @@
     <string name="bottom_drop">பாட்டம் டிராப்</string>
     <string name="start_drop">துளியைத் தொடங்கு</string>
     <string name="end_drop">என்ட் டிராப்</string>
+    <string name="downloading">பதிவிறக்குகிறது</string>
+    <string name="smooth_shapes">மென்மையான வடிவங்கள்</string>
+    <string name="smooth_shapes_sub">மென்மையான, இயற்கையான வடிவங்களுக்கு நிலையான வட்டமான செவ்வகங்களுக்குப் பதிலாக சூப்பர் எலிப்ஸைப் பயன்படுத்தவும்</string>
 </resources>

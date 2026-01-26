@@ -33,8 +33,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
@@ -64,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 
@@ -118,27 +117,28 @@ fun MediaImage(
             )
             .aspectRatio(1f)
     ) {
+        val shape = AutoCornersShape(selectedShapeSize)
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
                 .aspectRatio(1f)
                 .padding(selectedSize)
-                .clip(RoundedCornerShape(selectedShapeSize))
+                .clip(shape)
                 .border(
                     width = strokeSize,
-                    shape = RoundedCornerShape(selectedShapeSize),
+                    shape = shape,
                     color = strokeColor
                 )
                 .then(
                     if (isSelected) {
                         Modifier.clip(
-                            RoundedCornerShape(selectedShapeSize + 2.dp)
+                            AutoCornersShape(selectedShapeSize + 2.dp)
                         )
                     } else Modifier
                 )
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = RoundedCornerShape(selectedShapeSize)
+                    shape = shape
                 )
         ) {
             Picture(
@@ -257,7 +257,7 @@ fun MediaImage(
                     } else Icons.Filled.CheckCircle,
                     selectionIndex = selectionIndex,
                     modifier = Modifier
-                        .clip(CircleShape)
+                        .clip(ShapeDefaults.circle)
                         .background(
                             animateColorAsState(
                                 if (isSelected) MaterialTheme.colorScheme.surfaceContainer

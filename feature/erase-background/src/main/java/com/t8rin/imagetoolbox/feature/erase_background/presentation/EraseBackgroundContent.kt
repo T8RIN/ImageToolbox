@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -114,7 +113,6 @@ fun EraseBackgroundContent(
     val settingsState = LocalSettingsState.current
 
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     AutoContentBasedColors(component.bitmap)
@@ -231,7 +229,7 @@ fun EraseBackgroundContent(
                 if (isPortrait) {
                     EnhancedIconButton(
                         onClick = {
-                            scope.launch {
+                            essentials.launch {
                                 if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                                     scaffoldState.bottomSheetState.partialExpand()
                                 } else {
@@ -337,7 +335,7 @@ fun EraseBackgroundContent(
                     Row(
                         modifier = Modifier
                             .padding(vertical = 8.dp)
-                            .container(shape = CircleShape)
+                            .container(shape = ShapeDefaults.circle)
                     ) {
                         secondaryControls()
                     }
@@ -351,7 +349,7 @@ fun EraseBackgroundContent(
                 AutoEraseBackgroundCard(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { modelType ->
-                        scope.launch {
+                        essentials.launch {
                             scaffoldState.bottomSheetState.partialExpand()
                             component.autoEraseBackground(
                                 modelType = modelType,
@@ -421,9 +419,7 @@ fun EraseBackgroundContent(
                     modifier = Modifier.navigationBarsPadding(),
                     entries = ImageFormatGroup.alphaContainedEntries,
                     value = component.imageFormat,
-                    onValueChange = {
-                        component.setImageFormat(it)
-                    }
+                    onValueChange = component::setImageFormat
                 )
             }
         },

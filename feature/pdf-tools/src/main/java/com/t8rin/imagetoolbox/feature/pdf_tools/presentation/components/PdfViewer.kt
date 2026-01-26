@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
+
+@file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components
 
@@ -45,8 +47,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,12 +67,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.fragment.compose.AndroidFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.pdf.viewer.fragment.PdfViewerFragment
@@ -86,9 +84,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.canUseNewPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.createPdfRenderer
 import com.t8rin.logger.makeLog
@@ -109,7 +110,6 @@ import my.nanihadesuka.compose.ScrollbarSettings
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import kotlin.math.sqrt
-
 
 @Composable
 fun PdfViewer(
@@ -182,7 +182,9 @@ fun PdfViewer(
                 }
 
                 AndroidFragment<PdfViewerDelegate>(
-                    arguments = bundleOf("documentUri" to uri),
+                    arguments = Bundle().apply {
+                        putParcelable("documentUri", uri)
+                    },
                     modifier = modifier
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.surface),
@@ -200,7 +202,6 @@ fun PdfViewer(
                     val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
                     val height = (width * sqrt(2f)).toInt()
 
-                    val context = LocalContext.current
                     val rendererScope = rememberCoroutineScope()
                     val mutex = remember { Mutex() }
                     val pagesSize = remember { mutableStateListOf<IntegerSize>() }
@@ -208,7 +209,7 @@ fun PdfViewer(
                         rendererScope.launch(Dispatchers.IO) {
                             runCatching {
                                 mutex.withLock {
-                                    val input = context
+                                    val input = appContext
                                         .contentResolver
                                         .openFileDescriptor(uri, FileMode.Read.mode)
 
@@ -285,7 +286,7 @@ fun PdfViewer(
                                 scrollbarPadding = 0.dp,
                                 thumbThickness = 10.dp,
                                 selectionMode = ScrollbarSelectionMode.Full,
-                                thumbShape = RoundedCornerShape(
+                                thumbShape = AutoCornersShape(
                                     topStartPercent = 100,
                                     bottomStartPercent = 100
                                 ),
@@ -308,7 +309,7 @@ fun PdfViewer(
                                     modifier = Modifier
                                         .padding(6.dp)
                                         .container(
-                                            shape = CircleShape,
+                                            shape = ShapeDefaults.circle,
                                             color = MaterialTheme.colorScheme.secondaryContainer
                                         )
                                         .padding(

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
@@ -32,7 +31,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -40,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
@@ -54,13 +51,12 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.AvailableColorTuplesSheet
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorTuplePicker
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRow
-import kotlinx.coroutines.launch
 
 @Composable
 fun ColorSchemeSettingItem(
@@ -73,9 +69,7 @@ fun ColorSchemeSettingItem(
     shape: Shape = ShapeDefaults.top,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val toastHostState = LocalToastHostState.current
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
     val enabled = !settingsState.isDynamicColors
 
@@ -91,12 +85,10 @@ fun ColorSchemeSettingItem(
             showPickColorSheet = true
         },
         onDisabledClick = {
-            scope.launch {
-                toastHostState.showToast(
-                    icon = Icons.Rounded.Palette,
-                    message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
-                )
-            }
+            essentials.showToast(
+                icon = Icons.Rounded.Palette,
+                message = essentials.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
+            )
         },
         endContent = {
             val colorTuple by remember(
@@ -128,7 +120,7 @@ fun ColorSchemeSettingItem(
             ) {
                 ColorTupleItem(
                     modifier = Modifier
-                        .clip(CircleShape),
+                        .clip(ShapeDefaults.circle),
                     colorTuple = colorTuple,
                     backgroundColor = Color.Transparent
                 ) {
@@ -145,7 +137,7 @@ fun ColorSchemeSettingItem(
                                         darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
                                     )
                                 ).value,
-                                shape = CircleShape
+                                shape = ShapeDefaults.circle
                             )
                     )
                     Icon(

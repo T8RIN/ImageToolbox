@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.utils.appContext
 import java.util.Locale
 
 @Composable
@@ -35,7 +35,6 @@ internal fun filteredScreenListFor(
     showScreenSearch: Boolean
 ): State<List<Screen>> {
     val settingsState = LocalSettingsState.current
-    val context = LocalComponentActivity.current
     val canSearchScreens = settingsState.screensSearchEnabled
 
     val screenList by remember(settingsState.screenList) {
@@ -55,24 +54,28 @@ internal fun filteredScreenListFor(
         showScreenSearch
     ) {
         derivedStateOf {
-            if (settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
-                Screen.typedEntries[selectedNavigationItem].entries
-            } else if (!settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
-                if (selectedNavigationItem == 0) {
-                    screenList.filter {
-                        it.id in settingsState.favoriteScreenList
-                    }
-                } else screenList
-            } else {
-                screenList
+            when {
+                settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
+                    Screen.typedEntries[selectedNavigationItem].entries
+                }
+
+                !settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch) -> {
+                    if (selectedNavigationItem == 0) {
+                        screenList.filter {
+                            it.id in settingsState.favoriteScreenList
+                        }
+                    } else screenList
+                }
+
+                else -> screenList
             }.let { screens ->
                 if (screenSearchKeyword.isNotEmpty() && canSearchScreens) {
                     screens.filter {
                         val string =
-                            context.getString(it.title) + " " + context.getString(it.subtitle)
-                        val stringEn = context.getStringLocalized(it.title, Locale.ENGLISH)
+                            appContext.getString(it.title) + " " + appContext.getString(it.subtitle)
+                        val stringEn = appContext.getStringLocalized(it.title, Locale.ENGLISH)
                             .plus(" ")
-                            .plus(context.getStringLocalized(it.subtitle, Locale.ENGLISH))
+                            .plus(appContext.getStringLocalized(it.subtitle, Locale.ENGLISH))
                         stringEn.contains(other = screenSearchKeyword, ignoreCase = true).or(
                             string.contains(other = screenSearchKeyword, ignoreCase = true)
                         )

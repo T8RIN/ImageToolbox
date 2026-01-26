@@ -42,8 +42,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gif
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
@@ -68,7 +68,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
-import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -76,7 +75,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isApng
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -93,6 +91,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagesPreviewWithSelection
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -106,8 +105,6 @@ import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngTo
 fun ApngToolsContent(
     component: ApngToolsComponent
 ) {
-    val context = LocalComponentActivity.current
-
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
@@ -116,11 +113,11 @@ fun ApngToolsContent(
     val pickSingleApngLauncher = rememberFilePicker(
         mimeType = MimeType.Png,
         onSuccess = { uri: Uri ->
-            if (uri.isApng(context)) {
+            if (uri.isApng()) {
                 component.setApngUri(uri)
             } else {
                 essentials.showToast(
-                    message = context.getString(R.string.select_apng_image_to_start),
+                    message = essentials.getString(R.string.select_apng_image_to_start),
                     icon = Icons.Rounded.Apng
                 )
             }
@@ -131,11 +128,11 @@ fun ApngToolsContent(
         mimeType = MimeType.Png,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isApng(context)
+                it.isApng()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_apng_image_to_start),
+                        message = essentials.getString(R.string.select_apng_image_to_start),
                         icon = Icons.Rounded.Apng
                     )
                 } else {
@@ -151,12 +148,12 @@ fun ApngToolsContent(
         mimeType = MimeType.Png,
         onSuccess = { list: List<Uri> ->
             list.filter {
-                it.isApng(context)
+                it.isApng()
             }.let { uris ->
                 if (uris.isEmpty()) {
                     essentials.showToast(
-                        message = context.getString(R.string.select_gif_image_to_start),
-                        icon = Icons.Filled.Jxl
+                        message = essentials.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Gif
                     )
                 } else {
                     component.setType(
@@ -230,7 +227,7 @@ fun ApngToolsContent(
                 modifier = Modifier
                     .padding(8.dp)
                     .container(
-                        shape = CircleShape,
+                        shape = ShapeDefaults.circle,
                         color = MaterialTheme.colorScheme.surfaceContainerHighest,
                         resultPadding = 0.dp
                     ),
@@ -337,6 +334,11 @@ fun ApngToolsContent(
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
                         value = component.imageFormat,
+                        quality = if (component.type is Screen.ApngTools.Type.ApngToJxl) {
+                            component.jxlQuality
+                        } else {
+                            component.params.quality
+                        },
                         onValueChange = component::setImageFormat,
                         entries = ImageFormatGroup.alphaContainedEntries
                     )

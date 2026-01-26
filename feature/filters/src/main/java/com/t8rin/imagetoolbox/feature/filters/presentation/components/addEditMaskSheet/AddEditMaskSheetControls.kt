@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -47,7 +46,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -66,7 +64,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -76,8 +74,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
-import com.t8rin.imagetoolbox.core.ui.widget.other.LocalToastHostState
-import com.t8rin.imagetoolbox.core.ui.widget.other.showFailureToast
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -88,7 +84,6 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeS
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.model.UiDrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.model.toUi
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -108,9 +103,7 @@ internal fun AddEditMaskSheetControls(
 ) {
     var showAddFilterSheet by rememberSaveable { mutableStateOf(false) }
 
-    val context = LocalComponentActivity.current
-    val toastHostState = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
+    val essentials = rememberLocalEssentials()
 
     var showReorderSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -128,7 +121,7 @@ internal fun AddEditMaskSheetControls(
                     )
                 } else Modifier.padding(16.dp)
             )
-            .container(shape = CircleShape)
+            .container(shape = ShapeDefaults.circle)
     ) {
         PanModeButton(
             selected = panEnabled,
@@ -330,14 +323,7 @@ internal fun AddEditMaskSheetControls(
                                 component.updateFilter(
                                     value = value,
                                     index = index,
-                                    showError = {
-                                        scope.launch {
-                                            toastHostState.showFailureToast(
-                                                context = context,
-                                                throwable = it
-                                            )
-                                        }
-                                    }
+                                    showError = essentials::showFailureToast
                                 )
                             },
                             onLongPress = {
@@ -351,7 +337,7 @@ internal fun AddEditMaskSheetControls(
                                 showTemplateCreationSheet = true
                                 component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                     TemplateFilter(
-                                        name = context.getString(filter.title),
+                                        name = essentials.getString(filter.title),
                                         filters = listOf(filter)
                                     )
                                 )
@@ -367,7 +353,7 @@ internal fun AddEditMaskSheetControls(
                             showTemplateCreationSheet = true
                             component.filterTemplateCreationSheetComponent.setInitialTemplateFilter(
                                 TemplateFilter(
-                                    name = context.getString(
+                                    name = essentials.getString(
                                         component.filterList.firstOrNull()?.title
                                             ?: R.string.template_filter
                                     ),

@@ -145,6 +145,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSC
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SLIDER_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SMOOTH_SHAPES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SNOWFALL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SPOT_HEAL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
@@ -658,6 +659,7 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun adjustPerformance(performanceClass: PerformanceClass) = edit {
         when (performanceClass) {
             PerformanceClass.Low -> {
+                it[SMOOTH_SHAPES] = false
                 it[CONFETTI_ENABLED] = false
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = false
@@ -667,6 +669,7 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.Average -> {
+                it[SMOOTH_SHAPES] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -676,6 +679,7 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.High -> {
+                it[SMOOTH_SHAPES] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = true
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -919,6 +923,11 @@ internal class AndroidSettingsManager @Inject constructor(
             it[DEFAULT_QUALITY] = this
         }
     }
+
+    override suspend fun toggleIsSmoothShapes() = toggle(
+        key = SMOOTH_SHAPES,
+        defaultValue = default.isSmoothShapes
+    )
 
     private fun MutablePreferences.toggle(
         key: Preferences.Key<Boolean>,

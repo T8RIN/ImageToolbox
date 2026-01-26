@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.Line
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.toTypeface
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
@@ -463,14 +464,13 @@ internal fun NativeCanvas.drawRepeatedImageOnPath(
     paint: NativePaint,
     invalidations: Int
 ) {
-    val context = LocalContext.current
     var pathImage by remember(strokeWidth, canvasSize, drawMode.imageData) {
         mutableStateOf<Bitmap?>(null)
     }
     LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize, invalidations) {
         if (pathImage == null) {
-            pathImage = context.imageLoader.execute(
-                ImageRequest.Builder(context)
+            pathImage = appContext.imageLoader.execute(
+                ImageRequest.Builder(appContext)
                     .data(drawMode.imageData)
                     .size(strokeWidth.toPx(canvasSize).roundToInt())
                     .build()

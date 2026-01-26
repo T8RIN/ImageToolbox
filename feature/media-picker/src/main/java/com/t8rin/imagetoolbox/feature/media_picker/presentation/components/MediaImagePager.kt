@@ -54,7 +54,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
@@ -102,6 +101,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
 import com.t8rin.imagetoolbox.core.ui.widget.image.MetadataPreviewButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
@@ -414,7 +414,7 @@ internal fun MediaImagePager(
                                             .animateContentSizeNoClip()
                                             .background(
                                                 color = MaterialTheme.colorScheme.primaryContainerFixed,
-                                                shape = CircleShape
+                                                shape = ShapeDefaults.circle
                                             )
                                             .padding(horizontal = 8.dp, vertical = 4.dp),
                                         color = MaterialTheme.colorScheme.onPrimaryContainerFixed,

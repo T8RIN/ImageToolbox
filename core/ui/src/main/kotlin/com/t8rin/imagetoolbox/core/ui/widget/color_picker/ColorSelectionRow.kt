@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.rounded.DoneAll
@@ -62,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -124,7 +124,7 @@ fun ColorSelectionRow(
                 val isSelected = customColor != null
                 val interactionSource = remember { MutableInteractionSource() }
                 val shape = shapeByInteraction(
-                    shape = if (isSelected) ShapeDefaults.small else RoundedCornerShape(itemSize / 2),
+                    shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
                     pressedShape = ShapeDefaults.pressed,
                     interactionSource = interactionSource
                 )
@@ -200,7 +200,7 @@ fun ColorSelectionRow(
                 val isSelected = value == color && customColor == null
                 val interactionSource = remember { MutableInteractionSource() }
                 val shape = shapeByInteraction(
-                    shape = if (isSelected) ShapeDefaults.small else RoundedCornerShape(itemSize / 2),
+                    shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
                     pressedShape = ShapeDefaults.pressed,
                     interactionSource = interactionSource
                 )

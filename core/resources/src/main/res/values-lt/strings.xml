@@ -2041,4 +2041,7 @@
     <string name="bottom_drop">Apatinis lašas</string>
     <string name="start_drop">Pradėti Drop</string>
     <string name="end_drop">Pabaigos kritimas</string>
+    <string name="downloading">Atsisiunčiama</string>
+    <string name="smooth_shapes">Lygios formos</string>
+    <string name="smooth_shapes_sub">Naudokite superelipses, o ne standartinius suapvalintus stačiakampius, kad gautumėte lygesnes, natūralesnes formas</string>
 </resources>

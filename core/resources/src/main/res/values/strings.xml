@@ -2060,4 +2060,6 @@
     <string name="start_drop">Start Drop</string>
     <string name="end_drop">End Drop</string>
     <string name="downloading">Downloading</string>
+    <string name="smooth_shapes">Smooth Shapes</string>
+    <string name="smooth_shapes_sub">Use superellipses instead of standard rounded rectangles for smoother, more natural shapes</string>
 </resources>

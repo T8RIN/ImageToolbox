@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -386,7 +385,6 @@ fun PdfToolsContent(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        val context = LocalContext.current
                         var showSelector by rememberSaveable {
                             mutableStateOf(false)
                         }
@@ -397,11 +395,11 @@ fun PdfToolsContent(
                                     component.pdfToImageState?.takeIf { it.selectedPages.isNotEmpty() }
                                         ?.let {
                                             if (it.selectedPages.size == it.pagesCount) {
-                                                context.getString(R.string.all)
+                                                essentials.getString(R.string.all)
                                             } else {
                                                 PagesSelectionParser.formatPageOutput(it.selectedPages)
                                             }
-                                        } ?: context.getString(R.string.none)
+                                        } ?: essentials.getString(R.string.none)
                                 }
                             }.value,
                             onClick = {
@@ -475,7 +473,8 @@ fun PdfToolsContent(
                         Spacer(Modifier.height(8.dp))
                         ImageFormatSelector(
                             value = component.imageInfo.imageFormat,
-                            onValueChange = component::updateImageFormat
+                            onValueChange = component::updateImageFormat,
+                            quality = component.imageInfo.quality,
                         )
                     }
                 }
@@ -515,6 +514,6 @@ private fun rememberCanSaveOrShare(
     pdfType: Screen.PdfTools.Type?
 ) = remember(selectedPages, pdfType) {
     derivedStateOf {
-        (selectedPages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
+        (selectedPages?.isNotEmpty() != false && pdfType is Screen.PdfTools.Type.PdfToImages) || pdfType !is Screen.PdfTools.Type.PdfToImages
     }
 }

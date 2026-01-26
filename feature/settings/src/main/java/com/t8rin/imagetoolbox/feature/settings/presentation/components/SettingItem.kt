@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -51,9 +50,7 @@ internal fun SettingItem(
     isUpdateAvailable: Boolean,
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
-    val context = LocalComponentActivity.current
     val essentials = rememberLocalEssentials()
-    val scope = essentials.coroutineScope
     val showConfetti: () -> Unit = essentials::showConfetti
 
     ProvideContainerDefaults(
@@ -70,7 +67,7 @@ internal fun SettingItem(
             }
 
             Setting.AllowBetas -> {
-                if (!context.isInstalledFromPlayStore()) {
+                if (!essentials.isInstalledFromPlayStore()) {
                     AllowBetasSettingItem(
                         onClick = {
                             component.toggleAllowBetas()
@@ -121,6 +118,7 @@ internal fun SettingItem(
             }
 
             Setting.ChangeFont -> {
+                val context = LocalComponentActivity.current
                 ChangeFontSettingItem(
                     onValueChange = { font ->
                         component.setFont(font.asDomain())
@@ -132,7 +130,7 @@ internal fun SettingItem(
                             onSuccess = showConfetti,
                             onFailure = {
                                 essentials.showToast(
-                                    message = context.getString(R.string.wrong_font),
+                                    message = essentials.getString(R.string.wrong_font),
                                     icon = Icons.Rounded.TextFields
                                 )
                             }
@@ -190,12 +188,12 @@ internal fun SettingItem(
 
                     if (clicks == 0) return@LaunchedEffect
 
-                    essentials.toastHostState.currentToastData?.dismiss()
+                    essentials.dismissToasts()
                     if (clicks == 1) {
                         component.tryGetUpdate(true) {
                             essentials.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = context.getString(R.string.no_updates)
+                                message = essentials.getString(R.string.no_updates)
                             )
                         }
                     }
@@ -240,6 +238,7 @@ internal fun SettingItem(
             }
 
             Setting.FontScale -> {
+                val context = LocalComponentActivity.current
                 FontScaleSettingItem(
                     onValueChange = {
                         component.setFontScale(it)
@@ -296,20 +295,21 @@ internal fun SettingItem(
             }
 
             Setting.Restore -> {
+                val context = LocalComponentActivity.current
                 RestoreSettingItem(
                     onObtainBackupFile = { uri ->
                         component.restoreBackupFrom(
                             uri = uri,
                             onSuccess = {
-                                scope.launch {
+                                essentials.launch {
                                     showConfetti()
                                     //Wait for confetti to appear, then trigger font scale adjustment
                                     delay(300L)
                                     context.recreate()
                                 }
                                 essentials.showToast(
-                                    context.getString(R.string.settings_restored),
-                                    Icons.Rounded.Save
+                                    message = essentials.getString(R.string.settings_restored),
+                                    icon = Icons.Rounded.Save
                                 )
                             },
                             onFailure = essentials::showFailureToast
@@ -352,7 +352,7 @@ internal fun SettingItem(
                         component.tryGetUpdate(true) {
                             essentials.showToast(
                                 icon = Icons.Rounded.FileDownloadOff,
-                                message = context.getString(R.string.no_updates)
+                                message = essentials.getString(R.string.no_updates)
                             )
                         }
                     }
@@ -591,6 +591,10 @@ internal fun SettingItem(
 
             Setting.DefaultQuality -> {
                 DefaultQualitySettingItem(onValueChange = component::setDefaultQuality)
+            }
+
+            Setting.SmoothShapes -> {
+                SmoothShapesSettingItem(onClick = component::toggleIsSmoothShapes)
             }
         }
     }
