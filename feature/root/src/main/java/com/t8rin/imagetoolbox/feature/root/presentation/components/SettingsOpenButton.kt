@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -51,6 +50,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlinx.coroutines.launch
 
@@ -97,37 +98,36 @@ internal fun BoxScope.SettingsOpenButton(
         }
     }.value
 
-    val expandedPart by animateDpAsState(
-        targetValue = if (isWantOpenSettings) 12.dp else 42.dp,
+    val expandedPart = if (isWantOpenSettings) 12.dp else 42.dp
+    val cornerRadius = expandedPart.coerceAtLeast(4.dp)
+
+    val shape = animateShape(
+        targetValue = key(cornerRadius) {
+            if (fastSettingsSide == FastSettingsSide.CenterStart) {
+                if (startPadding == 0.dp) {
+                    AutoCornersShape(
+                        topEnd = cornerRadius,
+                        bottomEnd = cornerRadius
+                    )
+                } else {
+                    AutoCornersShape(cornerRadius)
+                }
+            } else {
+                if (endPadding == 0.dp) {
+                    AutoCornersShape(
+                        topStart = cornerRadius,
+                        bottomStart = cornerRadius
+                    )
+                } else {
+                    AutoCornersShape(cornerRadius)
+                }
+            }
+        },
         animationSpec = spring(
             dampingRatio = 0.5f,
             stiffness = Spring.StiffnessLow
         )
     )
-
-    val createShape: @Composable (Dp) -> CornerBasedShape = {
-        if (fastSettingsSide == FastSettingsSide.CenterStart) {
-            if (startPadding == 0.dp) {
-                AutoCornersShape(
-                    topEnd = it,
-                    bottomEnd = it
-                )
-            } else {
-                AutoCornersShape(it)
-            }
-        } else {
-            if (endPadding == 0.dp) {
-                AutoCornersShape(
-                    topStart = it,
-                    bottomStart = it
-                )
-            } else {
-                AutoCornersShape(it)
-            }
-        }
-    }
-
-    val shape = createShape(expandedPart.coerceAtLeast(4.dp))
 
     val height by animateDpAsState(
         targetValue = if (isWantOpenSettings) 64.dp else 104.dp

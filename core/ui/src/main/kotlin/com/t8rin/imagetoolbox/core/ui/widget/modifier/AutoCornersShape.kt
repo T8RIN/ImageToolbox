@@ -30,36 +30,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kyant.capsule.Continuity
 import com.kyant.capsule.ContinuousCapsule
 import com.kyant.capsule.ContinuousRoundedRectangle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 fun AutoCornersShape(
+    corner: CornerSize,
+    isSmoothShapes: Boolean
+) = AutoCornersShape(
+    topStart = corner,
+    topEnd = corner,
+    bottomEnd = corner,
+    bottomStart = corner,
+    isSmoothShapes = isSmoothShapes
+)
+
+fun AutoCornersShape(
     size: Dp,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(size)
-} else {
-    RoundedCornerShape(size)
-}
+) = AutoCornersShape(
+    corner = CornerSize(size),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     size: Float,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(size)
-} else {
-    RoundedCornerShape(size)
-}
+) = AutoCornersShape(
+    corner = CornerSize(size),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     percent: Int,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(percent)
-} else {
-    RoundedCornerShape(percent)
-}
+) = AutoCornersShape(
+    corner = CornerSize(percent),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     topStart: Dp = 0.dp,
@@ -67,21 +76,13 @@ fun AutoCornersShape(
     bottomEnd: Dp = 0.dp,
     bottomStart: Dp = 0.dp,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
-    )
-} else {
-    RoundedCornerShape(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
-    )
-}
+) = AutoCornersShape(
+    topStart = CornerSize(topStart),
+    topEnd = CornerSize(topEnd),
+    bottomEnd = CornerSize(bottomEnd),
+    bottomStart = CornerSize(bottomStart),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     topStart: Float = 0.0f,
@@ -89,21 +90,13 @@ fun AutoCornersShape(
     bottomEnd: Float = 0.0f,
     bottomStart: Float = 0.0f,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
-    )
-} else {
-    RoundedCornerShape(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
-    )
-}
+) = AutoCornersShape(
+    topStart = CornerSize(topStart),
+    topEnd = CornerSize(topEnd),
+    bottomEnd = CornerSize(bottomEnd),
+    bottomStart = CornerSize(bottomStart),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     topStartPercent: Int = 0,
@@ -111,21 +104,13 @@ fun AutoCornersShape(
     bottomEndPercent: Int = 0,
     bottomStartPercent: Int = 0,
     isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(
-        topStartPercent = topStartPercent,
-        topEndPercent = topEndPercent,
-        bottomEndPercent = bottomEndPercent,
-        bottomStartPercent = bottomStartPercent
-    )
-} else {
-    RoundedCornerShape(
-        topStartPercent = topStartPercent,
-        topEndPercent = topEndPercent,
-        bottomEndPercent = bottomEndPercent,
-        bottomStartPercent = bottomStartPercent
-    )
-}
+) = AutoCornersShape(
+    topStart = CornerSize(topStartPercent),
+    topEnd = CornerSize(topEndPercent),
+    bottomEnd = CornerSize(bottomEndPercent),
+    bottomStart = CornerSize(bottomStartPercent),
+    isSmoothShapes = isSmoothShapes
+)
 
 fun AutoCornersShape(
     topStart: CornerSize,
@@ -138,7 +123,8 @@ fun AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
         bottomEnd = bottomEnd,
-        bottomStart = bottomStart
+        bottomStart = bottomStart,
+        continuity = Continuity.Default
     )
 } else {
     RoundedCornerShape(
