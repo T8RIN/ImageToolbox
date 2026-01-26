@@ -116,8 +116,8 @@
     <string name="search_here">Шукайте тут</string>
     <string name="help_translate_sub">Виправте помилки перекладу або перекладіть проєкт іншими мовами</string>
     <string name="nothing_found_by_search">За вашим запитом нічого не знайдено</string>
-    <string name="dynamic_colors_sub">Якщо ввімкнено, то кольори додатків будуть прийняті до кольорів шпалер</string>
-    <string name="failed_to_save">Не вдалося зберегти %d зображення(и)</string>
+    <string name="dynamic_colors_sub">Якщо ввімкнено, то кольори додатку підлаштуються під шпалери</string>
+    <string name="failed_to_save">Не вдалося зберегти %d зображення</string>
     <string name="primary">Первинний</string>
     <string name="tertiary">Третинний</string>
     <string name="secondary">Вторинний</string>
