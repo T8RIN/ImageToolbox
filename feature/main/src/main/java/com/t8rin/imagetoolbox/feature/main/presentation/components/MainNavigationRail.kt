@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationRailItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -105,10 +105,8 @@ internal fun MainNavigationRail(
                 Screen.typedEntries.forEachIndexed { index, group ->
                     val selected = index == selectedIndex
                     val haptics = LocalHapticFeedback.current
-                    NavigationRailItem(
-                        modifier = Modifier
-                            .height(height = 56.dp)
-                            .width(100.dp),
+                    EnhancedNavigationRailItem(
+                        modifier = Modifier.width(100.dp),
                         selected = selected,
                         onClick = {
                             onValueChange(index)

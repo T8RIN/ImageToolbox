@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -137,7 +138,7 @@ fun EnhancedButton(
                 colors = ButtonDefaults.buttonColors(
                     contentColor = animateColorAsState(
                         if (enabled) contentColor
-                        else MaterialTheme.colorScheme.onSurface.copy(0.38f)
+                        else MaterialTheme.colorScheme.onSurface.copy(DisabledAlpha)
                     ).value,
                     containerColor = animateColorAsState(
                         if (enabled) containerColor

@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -273,7 +274,7 @@ fun EnhancedButtonGroup(
     val settingsState = LocalSettingsState.current
 
     val disabledColor = MaterialTheme.colorScheme.onSurface
-        .copy(alpha = 0.38f)
+        .copy(alpha = DisabledAlpha)
         .compositeOver(MaterialTheme.colorScheme.surface)
 
     ProvideTextStyle(

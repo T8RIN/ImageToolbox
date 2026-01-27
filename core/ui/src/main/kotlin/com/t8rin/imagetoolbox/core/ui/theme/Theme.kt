@@ -235,3 +235,5 @@ private fun modifiedColorScheme(): ColorScheme {
         }
     }.value
 }
+
+const val DisabledAlpha = 0.38f

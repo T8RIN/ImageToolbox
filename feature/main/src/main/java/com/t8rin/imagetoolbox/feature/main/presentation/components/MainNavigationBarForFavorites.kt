@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -59,7 +59,7 @@ internal fun MainNavigationBarForFavorites(
     ) {
         val haptics = LocalHapticFeedback.current
 
-        NavigationBarItem(
+        EnhancedNavigationBarItem(
             modifier = Modifier.weight(1f),
             selected = selectedIndex == 0,
             onClick = {
@@ -87,7 +87,7 @@ internal fun MainNavigationBarForFavorites(
             }
         )
 
-        NavigationBarItem(
+        EnhancedNavigationBarItem(
             modifier = Modifier.weight(1f),
             selected = selectedIndex == 1,
             onClick = {

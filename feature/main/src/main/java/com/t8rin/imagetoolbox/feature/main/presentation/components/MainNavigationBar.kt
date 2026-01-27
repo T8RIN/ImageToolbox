@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,6 +34,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -56,7 +56,7 @@ internal fun MainNavigationBar(
         Screen.typedEntries.forEachIndexed { index, group ->
             val selected = index == selectedIndex
             val haptics = LocalHapticFeedback.current
-            NavigationBarItem(
+            EnhancedNavigationBarItem(
                 modifier = Modifier.weight(1f),
                 selected = selected,
                 onClick = {
