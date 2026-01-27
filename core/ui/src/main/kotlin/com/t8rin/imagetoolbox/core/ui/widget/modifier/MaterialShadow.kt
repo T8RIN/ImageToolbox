@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -43,20 +44,40 @@ fun Modifier.materialShadow(
     isClipped: Boolean = true,
     color: Color = Color.Black
 ) = composed {
-    val isConcavePath by remember(shape) {
-        derivedStateOf {
-            shape.createOutline(
-                size = Size(1f, 1f),
-                layoutDirection = LayoutDirection.Ltr,
-                density = Density(1f)
-            ).let {
-                it is Outline.Generic && !it.path.isConvex
-            }
-        }
-    }
     val elev = animateDpAsState(if (enabled) elevation else 0.dp).value
 
     if (elev > 0.dp) {
+        val shape by remember(shape) {
+            derivedStateOf {
+                if ((shape is AnimatedShape && shape.isSmoothShapes)) {
+                    @Stable
+                    object : Shape by shape {
+                        override fun createOutline(
+                            size: Size,
+                            layoutDirection: LayoutDirection,
+                            density: Density
+                        ): Outline = shape.createOutline(
+                            size = size,
+                            layoutDirection = layoutDirection,
+                            density = density,
+                            isSmoothShapes = false
+                        )
+                    }
+                } else shape
+            }
+        }
+        val isConcavePath by remember(shape) {
+            derivedStateOf {
+                shape.createOutline(
+                    size = Size(1f, 1f),
+                    layoutDirection = LayoutDirection.Ltr,
+                    density = Density(1f)
+                ).let {
+                    it is Outline.Generic && !it.path.isConvex
+                }
+            }
+        }
+
         when {
             isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                 val api21Shadow = Modifier.rsBlurShadow(

@@ -37,7 +37,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.lerp
 import androidx.compose.ui.graphics.Color
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.materialShadow
 
 /**
  * Object to hold defaults used by [CustomSlider]
@@ -176,7 +176,11 @@ object CustomSliderDefaults {
                     )
                 )
                 .hoverable(interactionSource = interactionSource)
-                .shadow(if (enabled) elevation else 0.dp, shape, clip = false)
+                .materialShadow(
+                    shape = shape,
+                    elevation = if (enabled) elevation else 0.dp,
+                    isClipped = false
+                )
                 .background(colors.thumbColor(enabled), shape)
         )
     }

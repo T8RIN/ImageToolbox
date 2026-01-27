@@ -247,7 +247,7 @@ val ZeroCornerSize: CornerSize = CornerSize(0f)
 @Stable
 internal class AnimatedShape(
     initialShape: CornerBasedShape,
-    private val isSmoothShapes: Boolean,
+    internal val isSmoothShapes: Boolean,
     private val density: Density,
     private val animationSpec: FiniteAnimationSpec<Float>,
 ) : Shape {
@@ -286,6 +286,29 @@ internal class AnimatedShape(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
+    ): Outline {
+        if (size.width > 1f && size.height > 1f) {
+            this.size = size
+        }
+
+        return AutoCornersShape(
+            topStart = topStart.boundedValue(),
+            topEnd = topEnd.boundedValue(),
+            bottomStart = bottomStart.boundedValue(),
+            bottomEnd = bottomEnd.boundedValue(),
+            isSmoothShapes = isSmoothShapes
+        ).createOutline(
+            size = size,
+            layoutDirection = layoutDirection,
+            density = density
+        )
+    }
+
+    fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density,
+        isSmoothShapes: Boolean
     ): Outline {
         if (size.width > 1f && size.height > 1f) {
             this.size = size
