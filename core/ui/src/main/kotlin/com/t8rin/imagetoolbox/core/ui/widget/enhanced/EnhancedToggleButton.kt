@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -65,50 +66,56 @@ fun EnhancedToggleButton(
     interactionSource: MutableInteractionSource? = null,
     content: @Composable RowScope.() -> Unit
 ) {
-    val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    LocalSettingsState.ProvidesValue(
+        LocalSettingsState.current.copy(
+            isSmoothShapes = false
+        )
+    ) {
+        val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
 
-    val containerColor = colors.containerColor(enabled, checked)
-    val contentColor = colors.contentColor(enabled, checked)
-    val buttonShape = shapeByInteraction(
-        shape = if (checked) shapes.checkedShape else shapes.shape,
-        pressedShape = shapes.pressedShape,
-        interactionSource = realInteractionSource
-    )
-
-    val haptics = LocalHapticFeedback.current
-    val focus = LocalFocusManager.current
-
-    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-        Surface(
-            checked = checked,
-            onCheckedChange = {
-                focus.clearFocus()
-                haptics.longPress()
-                onCheckedChange(it)
-            },
-            modifier = modifier.semantics { role = Role.Checkbox },
-            enabled = enabled,
-            shape = buttonShape,
-            color = containerColor,
-            contentColor = contentColor,
-            shadowElevation = elevation,
-            border = border,
+        val containerColor = colors.containerColor(enabled, checked)
+        val contentColor = colors.contentColor(enabled, checked)
+        val buttonShape = shapeByInteraction(
+            shape = if (checked) shapes.checkedShape else shapes.shape,
+            pressedShape = shapes.pressedShape,
             interactionSource = realInteractionSource
-        ) {
-            val mergedStyle = LocalTextStyle.current.merge(MaterialTheme.typography.labelLarge)
+        )
 
-            CompositionLocalProvider(
-                LocalContentColor provides contentColor,
-                LocalTextStyle provides mergedStyle
+        val haptics = LocalHapticFeedback.current
+        val focus = LocalFocusManager.current
+
+        LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+            Surface(
+                checked = checked,
+                onCheckedChange = {
+                    focus.clearFocus()
+                    haptics.longPress()
+                    onCheckedChange(it)
+                },
+                modifier = modifier.semantics { role = Role.Checkbox },
+                enabled = enabled,
+                shape = buttonShape,
+                color = containerColor,
+                contentColor = contentColor,
+                shadowElevation = elevation,
+                border = border,
+                interactionSource = realInteractionSource
             ) {
-                Row(
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = ToggleButtonDefaults.MinHeight)
-                        .padding(contentPadding),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    content = content
-                )
+                val mergedStyle = LocalTextStyle.current.merge(MaterialTheme.typography.labelLarge)
+
+                CompositionLocalProvider(
+                    LocalContentColor provides contentColor,
+                    LocalTextStyle provides mergedStyle
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = ToggleButtonDefaults.MinHeight)
+                            .padding(contentPadding),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        content = content
+                    )
+                }
             }
         }
     }

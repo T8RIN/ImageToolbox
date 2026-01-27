@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 
 @Composable
 fun EnhancedButtonGroup(
@@ -363,7 +364,15 @@ fun EnhancedButtonGroup(
                                     else Modifier.weight(1f)
                                 )
                             ) {
-                                itemContent(index)
+                                if (!isScrollable) {
+                                    Row(
+                                        modifier = Modifier.marquee()
+                                    ) {
+                                        itemContent(index)
+                                    }
+                                } else {
+                                    itemContent(index)
+                                }
                             }
                         }
                     }

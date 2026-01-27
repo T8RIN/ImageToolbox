@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
-import com.kyant.capsule.ContinuousCapsule
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.delay
@@ -188,6 +188,7 @@ internal fun LiquidToggle(
 
     val trackBackdrop = rememberLayerBackdrop()
 
+    val shape = AutoCircleShape()
     Box(
         modifier = modifier,
         contentAlignment = Alignment.CenterStart
@@ -195,7 +196,7 @@ internal fun LiquidToggle(
         Box(
             Modifier
                 .layerBackdrop(trackBackdrop)
-                .clip(ContinuousCapsule)
+                .clip(shape)
                 .drawBehind {
                     val fraction = dampedDragAnimation.value
                     drawRect(lerp(trackColor, accentColor, fraction))
@@ -228,7 +229,7 @@ internal fun LiquidToggle(
                             }
                         }
                     ),
-                    shape = { ContinuousCapsule },
+                    shape = { shape },
                     effects = {
                         val progress = dampedDragAnimation.pressProgress
                         blur(8f.dp.toPx() * (1f - progress))

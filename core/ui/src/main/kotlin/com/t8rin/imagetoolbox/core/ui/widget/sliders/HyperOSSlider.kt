@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,13 +54,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import com.kyant.capsule.ContinuousCapsule
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlin.math.abs
 import kotlin.math.pow
@@ -96,7 +96,7 @@ fun HyperOSSlider(
         if (steps > 0) (maxValue - minValue) / (steps + 1) else 0f
     }
 
-    val shape = ContinuousCapsule
+    val shape = AutoCircleShape()
     val calculateProgress = remember(minValue, maxValue, factor, stepSize) {
         { offset: Float, width: Int ->
             var newValue = (offset / width) * (maxValue - minValue) + minValue
@@ -238,7 +238,7 @@ fun HyperOSRangeSlider(
     val sliderColors = SliderDefaults.sliderColors(colors)
     val minValue = valueRange.start
     val maxValue = valueRange.endInclusive
-    val shape = ContinuousCapsule
+    val shape = AutoCircleShape()
     val stepSize = if (steps > 0) (maxValue - minValue) / (steps + 1) else 0f
 
     var startRaw by remember { mutableFloatStateOf(value.start) }

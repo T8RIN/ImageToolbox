@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,8 +58,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.kyant.capsule.ContinuousCapsule
 import com.t8rin.imagetoolbox.core.ui.utils.animation.PointToPointEasing
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -134,7 +134,7 @@ fun HyperOSSwitch(
             .wrapContentSize(Alignment.Center)
             .size(50.dp, 28.5.dp)
             .requiredSize(50.dp, 28.5.dp)
-            .clip(ContinuousCapsule)
+            .clip(AutoCircleShape())
             .drawBehind {
                 drawRect(backgroundColor)
             }
