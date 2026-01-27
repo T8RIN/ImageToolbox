@@ -27,13 +27,11 @@ import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kyant.capsule.Continuity
-import com.kyant.capsule.ContinuousCapsule
-import com.kyant.capsule.ContinuousRoundedRectangle
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 @Stable
@@ -153,8 +151,7 @@ fun AutoCircleShape(isSmoothShapes: Boolean) = if (isSmoothShapes) {
 
 @Stable
 @Composable
-@ReadOnlyComposable
-fun AutoCornersShape(size: Dp) = rememberSettings { isSmoothShapes ->
+fun AutoCornersShape(size: Dp) = rememberSettings(size) { isSmoothShapes ->
     AutoCornersShape(
         size = size,
         isSmoothShapes = isSmoothShapes
@@ -163,8 +160,7 @@ fun AutoCornersShape(size: Dp) = rememberSettings { isSmoothShapes ->
 
 @Stable
 @Composable
-@ReadOnlyComposable
-fun AutoCornersShape(size: Float) = rememberSettings { isSmoothShapes ->
+fun AutoCornersShape(size: Float) = rememberSettings(size) { isSmoothShapes ->
     AutoCornersShape(
         size = size,
         isSmoothShapes = isSmoothShapes
@@ -173,8 +169,7 @@ fun AutoCornersShape(size: Float) = rememberSettings { isSmoothShapes ->
 
 @Stable
 @Composable
-@ReadOnlyComposable
-fun AutoCornersShape(percent: Int) = rememberSettings { isSmoothShapes ->
+fun AutoCornersShape(percent: Int) = rememberSettings(percent) { isSmoothShapes ->
     AutoCornersShape(
         percent = percent,
         isSmoothShapes = isSmoothShapes
@@ -183,13 +178,12 @@ fun AutoCornersShape(percent: Int) = rememberSettings { isSmoothShapes ->
 
 @Stable
 @Composable
-@ReadOnlyComposable
 fun AutoCornersShape(
     topStart: Dp = 0.dp,
     topEnd: Dp = 0.dp,
     bottomEnd: Dp = 0.dp,
     bottomStart: Dp = 0.dp,
-) = rememberSettings { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
@@ -201,13 +195,12 @@ fun AutoCornersShape(
 
 @Stable
 @Composable
-@ReadOnlyComposable
 fun AutoCornersShape(
     topStart: Float = 0.0f,
     topEnd: Float = 0.0f,
     bottomEnd: Float = 0.0f,
     bottomStart: Float = 0.0f,
-) = rememberSettings { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
@@ -219,13 +212,17 @@ fun AutoCornersShape(
 
 @Stable
 @Composable
-@ReadOnlyComposable
 fun AutoCornersShape(
     topStartPercent: Int = 0,
     topEndPercent: Int = 0,
     bottomEndPercent: Int = 0,
     bottomStartPercent: Int = 0,
-) = rememberSettings { isSmoothShapes ->
+) = rememberSettings(
+    topStartPercent,
+    topEndPercent,
+    bottomEndPercent,
+    bottomStartPercent
+) { isSmoothShapes ->
     AutoCornersShape(
         topStartPercent = topStartPercent,
         topEndPercent = topEndPercent,
@@ -237,13 +234,12 @@ fun AutoCornersShape(
 
 @Stable
 @Composable
-@ReadOnlyComposable
 fun AutoCornersShape(
     topStart: CornerSize,
     topEnd: CornerSize,
     bottomEnd: CornerSize,
     bottomStart: CornerSize,
-) = rememberSettings { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
@@ -255,7 +251,6 @@ fun AutoCornersShape(
 
 @Stable
 @Composable
-@ReadOnlyComposable
 fun AutoCircleShape() = rememberSettings { isSmoothShapes ->
     AutoCircleShape(isSmoothShapes)
 }
@@ -267,11 +262,13 @@ val SmoothCircleShape = ContinuousCapsule(continuity)
 
 @Stable
 @Composable
-@ReadOnlyComposable
 private fun rememberSettings(
+    vararg keys: Any?,
     calculation: (isSmoothShapes: Boolean) -> CornerBasedShape
 ): CornerBasedShape {
     val isSmoothShapes = LocalSettingsState.current.isSmoothShapes
 
-    return calculation(isSmoothShapes)
+    return remember(*keys, isSmoothShapes) {
+        calculation(isSmoothShapes)
+    }
 }

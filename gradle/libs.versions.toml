@@ -6,7 +6,7 @@ androidCompileSdk = "36"
 versionName = "3.6.0-rc01"
 versionCode = "201"
 
-jvmTarget = "17"
+jvmTarget = "21"
 
 imageToolboxLibs = "5.3.5"
 trickle = "1.4.0"
