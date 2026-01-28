@@ -326,52 +326,65 @@ fun EnhancedButtonGroup(
 
                             val selected = index in selectedIndices
 
-                            EnhancedToggleButton(
-                                enabled = enabled,
-                                onCheckedChange = {
-                                    onIndexChange(index)
-                                },
-                                border = BorderStroke(
-                                    width = settingsState.borderWidth,
-                                    color = MaterialTheme.colorScheme.outlineVariant(
-                                        onTopOf = if (selected) activeContainerColor
-                                        else inactiveButtonColor
-                                    )
-                                ),
-                                colors = ToggleButtonDefaults.toggleButtonColors(
-                                    containerColor = inactiveButtonColor,
-                                    contentColor = contentColorFor(inactiveButtonColor),
-                                    checkedContainerColor = activeContainerColor,
-                                    checkedContentColor = contentColorFor(activeContainerColor)
-                                ),
-                                checked = selected,
-                                shapes = when (index) {
-                                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes(
-                                        pressedShape = ButtonDefaults.pressedShape
-                                    )
+                            val disableSmoothness =
+                                !selected && index == 0 || index == itemCount - 1
 
-                                    itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes(
-                                        pressedShape = ButtonDefaults.pressedShape
+                            LocalSettingsState.ProvidesValue(
+                                if (disableSmoothness) {
+                                    LocalSettingsState.current.copy(
+                                        isSmoothShapes = false
                                     )
-
-                                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes(
-                                        pressedShape = ButtonDefaults.pressedShape,
-                                    )
-                                },
-                                elevation = elevation,
-                                modifier = Modifier.then(
-                                    if (isScrollable) Modifier
-                                    else Modifier.weight(1f)
-                                )
+                                } else {
+                                    LocalSettingsState.current
+                                }
                             ) {
-                                if (!isScrollable) {
-                                    Row(
-                                        modifier = Modifier.marquee()
-                                    ) {
+                                EnhancedToggleButton(
+                                    enabled = enabled,
+                                    onCheckedChange = {
+                                        onIndexChange(index)
+                                    },
+                                    border = BorderStroke(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = if (selected) activeContainerColor
+                                            else inactiveButtonColor
+                                        )
+                                    ),
+                                    colors = ToggleButtonDefaults.toggleButtonColors(
+                                        containerColor = inactiveButtonColor,
+                                        contentColor = contentColorFor(inactiveButtonColor),
+                                        checkedContainerColor = activeContainerColor,
+                                        checkedContentColor = contentColorFor(activeContainerColor)
+                                    ),
+                                    checked = selected,
+                                    shapes = when (index) {
+                                        0 -> ButtonGroupDefaults.connectedLeadingButtonShapes(
+                                            pressedShape = ButtonDefaults.pressedShape
+                                        )
+
+                                        itemCount - 1 -> ButtonGroupDefaults.connectedTrailingButtonShapes(
+                                            pressedShape = ButtonDefaults.pressedShape
+                                        )
+
+                                        else -> ButtonGroupDefaults.connectedMiddleButtonShapes(
+                                            pressedShape = ButtonDefaults.pressedShape,
+                                        )
+                                    },
+                                    elevation = elevation,
+                                    modifier = Modifier.then(
+                                        if (isScrollable) Modifier
+                                        else Modifier.weight(1f)
+                                    )
+                                ) {
+                                    if (!isScrollable) {
+                                        Row(
+                                            modifier = Modifier.marquee()
+                                        ) {
+                                            itemContent(index)
+                                        }
+                                    } else {
                                         itemContent(index)
                                     }
-                                } else {
-                                    itemContent(index)
                                 }
                             }
                         }

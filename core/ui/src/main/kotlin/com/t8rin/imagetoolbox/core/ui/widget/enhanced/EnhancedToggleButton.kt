@@ -48,7 +48,6 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 
@@ -66,56 +65,50 @@ fun EnhancedToggleButton(
     interactionSource: MutableInteractionSource? = null,
     content: @Composable RowScope.() -> Unit
 ) {
-    LocalSettingsState.ProvidesValue(
-        LocalSettingsState.current.copy(
-            isSmoothShapes = false
-        )
-    ) {
-        val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val realInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
 
-        val containerColor = colors.containerColor(enabled, checked)
-        val contentColor = colors.contentColor(enabled, checked)
-        val buttonShape = shapeByInteraction(
-            shape = if (checked) shapes.checkedShape else shapes.shape,
-            pressedShape = shapes.pressedShape,
+    val containerColor = colors.containerColor(enabled, checked)
+    val contentColor = colors.contentColor(enabled, checked)
+    val buttonShape = shapeByInteraction(
+        shape = if (checked) shapes.checkedShape else shapes.shape,
+        pressedShape = shapes.pressedShape,
+        interactionSource = realInteractionSource
+    )
+
+    val haptics = LocalHapticFeedback.current
+    val focus = LocalFocusManager.current
+
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+        Surface(
+            checked = checked,
+            onCheckedChange = {
+                focus.clearFocus()
+                haptics.longPress()
+                onCheckedChange(it)
+            },
+            modifier = modifier.semantics { role = Role.Checkbox },
+            enabled = enabled,
+            shape = buttonShape,
+            color = containerColor,
+            contentColor = contentColor,
+            shadowElevation = elevation,
+            border = border,
             interactionSource = realInteractionSource
-        )
+        ) {
+            val mergedStyle = LocalTextStyle.current.merge(MaterialTheme.typography.labelLarge)
 
-        val haptics = LocalHapticFeedback.current
-        val focus = LocalFocusManager.current
-
-        LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-            Surface(
-                checked = checked,
-                onCheckedChange = {
-                    focus.clearFocus()
-                    haptics.longPress()
-                    onCheckedChange(it)
-                },
-                modifier = modifier.semantics { role = Role.Checkbox },
-                enabled = enabled,
-                shape = buttonShape,
-                color = containerColor,
-                contentColor = contentColor,
-                shadowElevation = elevation,
-                border = border,
-                interactionSource = realInteractionSource
+            CompositionLocalProvider(
+                LocalContentColor provides contentColor,
+                LocalTextStyle provides mergedStyle
             ) {
-                val mergedStyle = LocalTextStyle.current.merge(MaterialTheme.typography.labelLarge)
-
-                CompositionLocalProvider(
-                    LocalContentColor provides contentColor,
-                    LocalTextStyle provides mergedStyle
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .defaultMinSize(minHeight = ToggleButtonDefaults.MinHeight)
-                            .padding(contentPadding),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        content = content
-                    )
-                }
+                Row(
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = ToggleButtonDefaults.MinHeight)
+                        .padding(contentPadding),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = content
+                )
             }
         }
     }

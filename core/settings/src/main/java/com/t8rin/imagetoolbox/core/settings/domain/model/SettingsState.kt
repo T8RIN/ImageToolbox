@@ -201,7 +201,7 @@ data class SettingsState(
                 generatePreviews = true,
                 showSettingsInLandscape = true,
                 useFullscreenSettings = false,
-                switchType = SwitchType.MaterialYou,
+                switchType = SwitchType.Compose,
                 defaultDrawLineWidth = 20f,
                 oneTimeSaveLocations = emptyList(),
                 openEditInsteadOfPreview = false,
@@ -240,7 +240,7 @@ data class SettingsState(
                 snowfallMode = SnowfallMode.Auto,
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
-                isSmoothShapes = true
+                isSmoothShapes = false
             )
         }
     }
