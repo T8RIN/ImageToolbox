@@ -65,7 +65,7 @@ documentfile = "1.1.0"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.4.1"
 
-material = "1.14.0-alpha08"
+material = "1.14.0-alpha09"
 jsoup = "1.22.1"
 androidliquidglass = "1.0.5"
 capsule = "2.1.3"
