@@ -25,6 +25,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -32,45 +33,46 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kyant.capsule.Continuity
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 
 @Stable
 fun AutoCornersShape(
     corner: CornerSize,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     topStart = corner,
     topEnd = corner,
     bottomEnd = corner,
     bottomStart = corner,
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
 fun AutoCornersShape(
     size: Dp,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     corner = CornerSize(size),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
 fun AutoCornersShape(
     size: Float,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     corner = CornerSize(size),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
 fun AutoCornersShape(
     percent: Int,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     corner = CornerSize(percent),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
@@ -79,13 +81,13 @@ fun AutoCornersShape(
     topEnd: Dp = 0.dp,
     bottomEnd: Dp = 0.dp,
     bottomStart: Dp = 0.dp,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     topStart = CornerSize(topStart),
     topEnd = CornerSize(topEnd),
     bottomEnd = CornerSize(bottomEnd),
     bottomStart = CornerSize(bottomStart),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
@@ -94,13 +96,13 @@ fun AutoCornersShape(
     topEnd: Float = 0.0f,
     bottomEnd: Float = 0.0f,
     bottomStart: Float = 0.0f,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     topStart = CornerSize(topStart),
     topEnd = CornerSize(topEnd),
     bottomEnd = CornerSize(bottomEnd),
     bottomStart = CornerSize(bottomStart),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
@@ -109,13 +111,13 @@ fun AutoCornersShape(
     topEndPercent: Int = 0,
     bottomEndPercent: Int = 0,
     bottomStartPercent: Int = 0,
-    isSmoothShapes: Boolean
+    shapesType: ShapeType
 ) = AutoCornersShape(
     topStart = CornerSize(topStartPercent),
     topEnd = CornerSize(topEndPercent),
     bottomEnd = CornerSize(bottomEndPercent),
     bottomStart = CornerSize(bottomStartPercent),
-    isSmoothShapes = isSmoothShapes
+    shapesType = shapesType
 )
 
 @Stable
@@ -124,55 +126,62 @@ fun AutoCornersShape(
     topEnd: CornerSize,
     bottomEnd: CornerSize,
     bottomStart: CornerSize,
-    isSmoothShapes: Boolean
-) = if (isSmoothShapes) {
-    ContinuousRoundedRectangle(
+    shapesType: ShapeType
+) = when (shapesType) {
+    ShapeType.Cut -> CutCornerShape(
+        topStart = topStart,
+        topEnd = topEnd,
+        bottomEnd = bottomEnd,
+        bottomStart = bottomStart
+    )
+
+    ShapeType.Rounded -> RoundedCornerShape(
+        topStart = topStart,
+        topEnd = topEnd,
+        bottomEnd = bottomEnd,
+        bottomStart = bottomStart
+    )
+
+    ShapeType.Smooth -> ContinuousRoundedRectangle(
         topStart = topStart,
         topEnd = topEnd,
         bottomEnd = bottomEnd,
         bottomStart = bottomStart,
         continuity = continuity
     )
-} else {
-    RoundedCornerShape(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
-    )
 }
 
 @Stable
-fun AutoCircleShape(isSmoothShapes: Boolean) = if (isSmoothShapes) {
-    SmoothCircleShape
-} else {
-    CircleShape
+fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
+    ShapeType.Cut -> CutCircleShape
+    ShapeType.Rounded -> CircleShape
+    ShapeType.Smooth -> SmoothCircleShape
 }
 
 @Stable
 @Composable
-fun AutoCornersShape(size: Dp) = rememberSettings(size) { isSmoothShapes ->
+fun AutoCornersShape(size: Dp) = rememberSettings(size) { shapesType ->
     AutoCornersShape(
         size = size,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
 @Stable
 @Composable
-fun AutoCornersShape(size: Float) = rememberSettings(size) { isSmoothShapes ->
+fun AutoCornersShape(size: Float) = rememberSettings(size) { shapesType ->
     AutoCornersShape(
         size = size,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
 @Stable
 @Composable
-fun AutoCornersShape(percent: Int) = rememberSettings(percent) { isSmoothShapes ->
+fun AutoCornersShape(percent: Int) = rememberSettings(percent) { shapesType ->
     AutoCornersShape(
         percent = percent,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
@@ -183,13 +192,13 @@ fun AutoCornersShape(
     topEnd: Dp = 0.dp,
     bottomEnd: Dp = 0.dp,
     bottomStart: Dp = 0.dp,
-) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { shapesType ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
         bottomEnd = bottomEnd,
         bottomStart = bottomStart,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
@@ -200,13 +209,13 @@ fun AutoCornersShape(
     topEnd: Float = 0.0f,
     bottomEnd: Float = 0.0f,
     bottomStart: Float = 0.0f,
-) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { shapesType ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
         bottomEnd = bottomEnd,
         bottomStart = bottomStart,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
@@ -222,13 +231,13 @@ fun AutoCornersShape(
     topEndPercent,
     bottomEndPercent,
     bottomStartPercent
-) { isSmoothShapes ->
+) { shapesType ->
     AutoCornersShape(
         topStartPercent = topStartPercent,
         topEndPercent = topEndPercent,
         bottomEndPercent = bottomEndPercent,
         bottomStartPercent = bottomStartPercent,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
@@ -239,20 +248,20 @@ fun AutoCornersShape(
     topEnd: CornerSize,
     bottomEnd: CornerSize,
     bottomStart: CornerSize,
-) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { isSmoothShapes ->
+) = rememberSettings(topStart, topEnd, bottomEnd, bottomStart) { shapesType ->
     AutoCornersShape(
         topStart = topStart,
         topEnd = topEnd,
         bottomEnd = bottomEnd,
         bottomStart = bottomStart,
-        isSmoothShapes = isSmoothShapes
+        shapesType = shapesType
     )
 }
 
 @Stable
 @Composable
-fun AutoCircleShape() = rememberSettings { isSmoothShapes ->
-    AutoCircleShape(isSmoothShapes)
+fun AutoCircleShape() = rememberSettings { shapesType ->
+    AutoCircleShape(shapesType)
 }
 
 private val continuity by lazy { Continuity.Default }
@@ -260,15 +269,17 @@ private val continuity by lazy { Continuity.Default }
 @Stable
 val SmoothCircleShape = ContinuousCapsule(continuity)
 
+val CutCircleShape = CutCornerShape(50)
+
 @Stable
 @Composable
 private fun rememberSettings(
     vararg keys: Any?,
-    calculation: (isSmoothShapes: Boolean) -> CornerBasedShape
+    calculation: (type: ShapeType) -> CornerBasedShape
 ): CornerBasedShape {
-    val isSmoothShapes = LocalSettingsState.current.isSmoothShapes
+    val shapesType = LocalSettingsState.current.shapesType
 
-    return remember(*keys, isSmoothShapes) {
-        calculation(isSmoothShapes)
+    return remember(*keys, shapesType) {
+        calculation(shapesType)
     }
 }

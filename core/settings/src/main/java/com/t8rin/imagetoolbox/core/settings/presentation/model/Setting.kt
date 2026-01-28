@@ -533,8 +533,8 @@ sealed class Setting(
         subtitle = null
     )
 
-    data object SmoothShapes : Setting(
-        title = R.string.smooth_shapes,
-        subtitle = R.string.smooth_shapes_sub
+    data object ShapeType : Setting(
+        title = R.string.shape_type,
+        subtitle = null
     )
 }

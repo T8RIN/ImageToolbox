@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
@@ -496,7 +497,7 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setDefaultQuality(quality: Quality) =
         settingsScope { setDefaultQuality(quality) }
 
-    fun toggleIsSmoothShapes() = settingsScope { toggleIsSmoothShapes() }
+    fun setShapesType(shapeType: ShapeType) = settingsScope { setShapesType(shapeType) }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

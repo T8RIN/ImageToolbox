@@ -54,7 +54,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -129,12 +131,14 @@ fun HyperOSSwitch(
         Modifier
     }
 
+    val shape = AutoCircleShape()
+    val density = LocalDensity.current
     Box(
         modifier = modifier
             .wrapContentSize(Alignment.Center)
             .size(50.dp, 28.5.dp)
             .requiredSize(50.dp, 28.5.dp)
-            .clip(AutoCircleShape())
+            .clip(shape)
             .drawBehind {
                 drawRect(backgroundColor)
             }
@@ -151,7 +155,14 @@ fun HyperOSSwitch(
                 .offset(x = thumbOffset)
                 .size(thumbSize)
                 .drawBehind {
-                    drawCircle(color = thumbColor)
+                    drawOutline(
+                        outline = shape.createOutline(
+                            size = size,
+                            layoutDirection = layoutDirection,
+                            density = density
+                        ),
+                        color = thumbColor
+                    )
                 }
                 .pointerInput(checked, enabled) {
                     if (!enabled) return@pointerInput

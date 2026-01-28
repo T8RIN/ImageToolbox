@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
@@ -141,11 +142,11 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SECURE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SKIP_IMAGE_PICKING
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SLIDER_TYPE
-import com.t8rin.imagetoolbox.feature.settings.data.keys.SMOOTH_SHAPES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SNOWFALL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SPOT_HEAL_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SWITCH_TYPE
@@ -659,7 +660,6 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun adjustPerformance(performanceClass: PerformanceClass) = edit {
         when (performanceClass) {
             PerformanceClass.Low -> {
-                it[SMOOTH_SHAPES] = false
                 it[CONFETTI_ENABLED] = false
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = false
@@ -669,7 +669,6 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.Average -> {
-                it[SMOOTH_SHAPES] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = false
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -679,7 +678,6 @@ internal class AndroidSettingsManager @Inject constructor(
             }
 
             PerformanceClass.High -> {
-                it[SMOOTH_SHAPES] = true
                 it[CONFETTI_ENABLED] = true
                 it[DRAW_BUTTON_SHADOWS] = true
                 it[DRAW_SWITCH_SHADOWS] = true
@@ -924,10 +922,9 @@ internal class AndroidSettingsManager @Inject constructor(
         }
     }
 
-    override suspend fun toggleIsSmoothShapes() = toggle(
-        key = SMOOTH_SHAPES,
-        defaultValue = default.isSmoothShapes
-    )
+    override suspend fun setShapesType(shapeType: ShapeType) = edit {
+        it[SHAPES_TYPE] = shapeType.ordinal
+    }
 
     private fun MutablePreferences.toggle(
         key: Preferences.Key<Boolean>,

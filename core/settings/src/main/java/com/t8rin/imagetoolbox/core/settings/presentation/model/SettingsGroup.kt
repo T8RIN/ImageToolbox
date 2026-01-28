@@ -101,7 +101,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.SwitchType,
             Setting.SliderType,
-            Setting.SmoothShapes,
+            Setting.ShapeType,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,
             Setting.CenterAlignDialogButtons,

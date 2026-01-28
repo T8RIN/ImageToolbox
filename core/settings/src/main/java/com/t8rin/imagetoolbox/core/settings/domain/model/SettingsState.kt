@@ -132,7 +132,7 @@ data class SettingsState(
     val snowfallMode: SnowfallMode,
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
-    val isSmoothShapes: Boolean
+    val shapesType: ShapeType
 ) {
 
     companion object {
@@ -240,7 +240,7 @@ data class SettingsState(
                 snowfallMode = SnowfallMode.Auto,
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
-                isSmoothShapes = false
+                shapesType = ShapeType.Rounded,
             )
         }
     }

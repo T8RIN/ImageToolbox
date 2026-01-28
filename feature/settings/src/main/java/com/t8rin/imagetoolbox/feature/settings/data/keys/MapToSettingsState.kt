@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
@@ -224,7 +225,9 @@ internal fun Preferences.toSettingsState(
             type = Quality::class.java
         )
     } ?: default.defaultQuality,
-    isSmoothShapes = this[SMOOTH_SHAPES] ?: default.isSmoothShapes
+    shapesType = this[SHAPES_TYPE]?.let {
+        ShapeType.entries[it]
+    } ?: default.shapesType
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

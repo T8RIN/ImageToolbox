@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.zedalpha.shadowgadgets.compose.clippedShadow
 
 fun Modifier.materialShadow(
@@ -49,7 +50,7 @@ fun Modifier.materialShadow(
     if (elev > 0.dp) {
         val shape by remember(shape) {
             derivedStateOf {
-                if ((shape is AnimatedShape && shape.isSmoothShapes)) {
+                if ((shape is AnimatedShape && shape.shapesType is ShapeType.Smooth)) {
                     @Stable
                     object : Shape by shape {
                         override fun createOutline(
@@ -60,7 +61,7 @@ fun Modifier.materialShadow(
                             size = size,
                             layoutDirection = layoutDirection,
                             density = density,
-                            isSmoothShapes = false
+                            shapesType = ShapeType.Rounded
                         )
                     }
                 } else shape

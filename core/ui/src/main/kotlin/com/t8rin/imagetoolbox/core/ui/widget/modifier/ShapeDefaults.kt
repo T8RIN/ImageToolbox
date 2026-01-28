@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.t8rin.imagetoolbox.core.domain.utils.autoCast
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import kotlinx.coroutines.channels.Channel
@@ -247,7 +248,7 @@ val ZeroCornerSize: CornerSize = CornerSize(0f)
 @Stable
 internal class AnimatedShape(
     initialShape: CornerBasedShape,
-    internal val isSmoothShapes: Boolean,
+    val shapesType: ShapeType,
     private val density: Density,
     private val animationSpec: FiniteAnimationSpec<Float>,
 ) : Shape {
@@ -286,40 +287,29 @@ internal class AnimatedShape(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
-    ): Outline {
-        if (size.width > 1f && size.height > 1f) {
-            this.size = size
-        }
-
-        return AutoCornersShape(
-            topStart = topStart.boundedValue(),
-            topEnd = topEnd.boundedValue(),
-            bottomStart = bottomStart.boundedValue(),
-            bottomEnd = bottomEnd.boundedValue(),
-            isSmoothShapes = isSmoothShapes
-        ).createOutline(
-            size = size,
-            layoutDirection = layoutDirection,
-            density = density
-        )
-    }
+    ): Outline = createOutline(
+        size = size,
+        layoutDirection = layoutDirection,
+        density = density,
+        shapesType = shapesType
+    )
 
     fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density,
-        isSmoothShapes: Boolean
+        shapesType: ShapeType
     ): Outline {
         if (size.width > 1f && size.height > 1f) {
             this.size = size
         }
 
         return AutoCornersShape(
-            topStart = topStart.boundedValue(),
-            topEnd = topEnd.boundedValue(),
-            bottomStart = bottomStart.boundedValue(),
-            bottomEnd = bottomEnd.boundedValue(),
-            isSmoothShapes = isSmoothShapes
+            topStart = CornerSize(topStart.boundedValue()),
+            topEnd = CornerSize(topEnd.boundedValue()),
+            bottomStart = CornerSize(bottomStart.boundedValue()),
+            bottomEnd = CornerSize(bottomEnd.boundedValue()),
+            shapesType = shapesType
         ).createOutline(
             size = size,
             layoutDirection = layoutDirection,
@@ -337,11 +327,11 @@ internal fun rememberAnimatedShape(
     animationSpec: FiniteAnimationSpec<Float> = lessSpringySpec(),
 ): AnimatedShape {
     val density = LocalDensity.current
-    val isSmoothShapes = LocalSettingsState.current.isSmoothShapes
+    val shapesType = LocalSettingsState.current.shapesType
 
-    val state = remember(animationSpec, density, isSmoothShapes) {
+    val state = remember(animationSpec, density, shapesType) {
         AnimatedShape(
-            isSmoothShapes = isSmoothShapes,
+            shapesType = shapesType,
             initialShape = currentShape,
             animationSpec = animationSpec,
             density = density

@@ -41,6 +41,7 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -121,7 +122,7 @@ fun ImageToolboxThemeSurface(
 fun ImageToolboxThemeForPreview(
     isDarkTheme: Boolean,
     keyColor: Color? = defaultColorTuple.primary,
-    isSmoothShapes: Boolean = true,
+    shapesType: ShapeType = ShapeType.Rounded,
     content: @Composable () -> Unit
 ) {
     LocalContext.current.applicationContext.initAppContext()
@@ -137,7 +138,7 @@ fun ImageToolboxThemeForPreview(
         content = {
             CompositionLocalProvider(
                 LocalSettingsState provides SettingsState.Default.toUiState().copy(
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 )
             ) {
                 MaterialTheme(
@@ -154,9 +155,9 @@ fun ImageToolboxThemeForPreview(
 @Composable
 private fun modifiedShapes(): Shapes {
     val shapes = MaterialTheme.shapes
-    val isSmoothShapes = LocalSettingsState.current.isSmoothShapes
+    val shapesType = LocalSettingsState.current.shapesType
 
-    return remember(shapes, isSmoothShapes) {
+    return remember(shapes, shapesType) {
         derivedStateOf {
             shapes.copy(
                 extraSmall = AutoCornersShape(
@@ -164,56 +165,56 @@ private fun modifiedShapes(): Shapes {
                     topEnd = shapes.extraSmall.topEnd,
                     bottomEnd = shapes.extraSmall.bottomEnd,
                     bottomStart = shapes.extraSmall.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 small = AutoCornersShape(
                     topStart = shapes.small.topStart,
                     topEnd = shapes.small.topEnd,
                     bottomEnd = shapes.small.bottomEnd,
                     bottomStart = shapes.small.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 medium = AutoCornersShape(
                     topStart = shapes.medium.topStart,
                     topEnd = shapes.medium.topEnd,
                     bottomEnd = shapes.medium.bottomEnd,
                     bottomStart = shapes.medium.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 large = AutoCornersShape(
                     topStart = shapes.large.topStart,
                     topEnd = shapes.large.topEnd,
                     bottomEnd = shapes.large.bottomEnd,
                     bottomStart = shapes.large.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 extraLarge = AutoCornersShape(
                     topStart = shapes.extraLarge.topStart,
                     topEnd = shapes.extraLarge.topEnd,
                     bottomEnd = shapes.extraLarge.bottomEnd,
                     bottomStart = shapes.extraLarge.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 largeIncreased = AutoCornersShape(
                     topStart = shapes.largeIncreased.topStart,
                     topEnd = shapes.largeIncreased.topEnd,
                     bottomEnd = shapes.largeIncreased.bottomEnd,
                     bottomStart = shapes.largeIncreased.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 extraLargeIncreased = AutoCornersShape(
                     topStart = shapes.extraLargeIncreased.topStart,
                     topEnd = shapes.extraLargeIncreased.topEnd,
                     bottomEnd = shapes.extraLargeIncreased.bottomEnd,
                     bottomStart = shapes.extraLargeIncreased.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 ),
                 extraExtraLarge = AutoCornersShape(
                     topStart = shapes.extraExtraLarge.topStart,
                     topEnd = shapes.extraExtraLarge.topEnd,
                     bottomEnd = shapes.extraExtraLarge.bottomEnd,
                     bottomStart = shapes.extraExtraLarge.bottomStart,
-                    isSmoothShapes = isSmoothShapes
+                    shapesType = shapesType
                 )
             )
         }

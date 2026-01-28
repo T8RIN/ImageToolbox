@@ -593,8 +593,8 @@ internal fun SettingItem(
                 DefaultQualitySettingItem(onValueChange = component::setDefaultQuality)
             }
 
-            Setting.SmoothShapes -> {
-                SmoothShapesSettingItem(onClick = component::toggleIsSmoothShapes)
+            Setting.ShapeType -> {
+                ShapeTypeSettingItem(onValueChange = component::setShapesType)
             }
         }
     }

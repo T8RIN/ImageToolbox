@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -329,13 +330,15 @@ fun EnhancedButtonGroup(
                             val disableSmoothness =
                                 !selected && index == 0 || index == itemCount - 1
 
+                            val settingsState = LocalSettingsState.current
+
                             LocalSettingsState.ProvidesValue(
-                                if (disableSmoothness) {
-                                    LocalSettingsState.current.copy(
-                                        isSmoothShapes = false
+                                if (disableSmoothness && settingsState.shapesType == ShapeType.Smooth) {
+                                    settingsState.copy(
+                                        shapesType = ShapeType.Rounded
                                     )
                                 } else {
-                                    LocalSettingsState.current
+                                    settingsState
                                 }
                             ) {
                                 EnhancedToggleButton(

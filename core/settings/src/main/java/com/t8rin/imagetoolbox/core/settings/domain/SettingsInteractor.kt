@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
@@ -242,7 +243,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setDefaultQuality(quality: Quality)
 
-    suspend fun toggleIsSmoothShapes()
+    suspend fun setShapesType(shapeType: ShapeType)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

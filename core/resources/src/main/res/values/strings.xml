@@ -2062,4 +2062,10 @@
     <string name="downloading">Downloading</string>
     <string name="smooth_shapes">Smooth Shapes</string>
     <string name="smooth_shapes_sub">Use superellipses instead of standard rounded rectangles for smoother, more natural shapes</string>
+    <string name="shape_type">Shape Type</string>
+    <string name="cut">Cut</string>
+    <string name="rounded">Rounded</string>
+    <string name="smooth">Smooth</string>
+    <string name="cut_shapes_sub">Sharp edges without rounding</string>
+    <string name="rounded_shapes_sub">Classic rounded corners</string>
 </resources>

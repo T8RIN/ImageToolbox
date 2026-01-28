@@ -131,23 +131,3 @@ private fun Preview() = ImageToolboxThemeForPreview(
         occupiedStorageSize = 0
     )
 }
-
-@Preview
-@Composable
-private fun Preview1() = ImageToolboxThemeForPreview(
-    isDarkTheme = false,
-    isSmoothShapes = false,
-    keyColor = Color.Green
-) {
-    NeuralModelSelector(
-        value = NeuralModel.entries.first(),
-        onSelectModel = {},
-        onDownloadModel = {},
-        onDeleteModel = {},
-        downloadedModels = emptyList(),
-        notDownloadedModels = emptyList(),
-        onImportModel = { _, _ -> },
-        downloadProgresses = emptyMap(),
-        occupiedStorageSize = 0
-    )
-}
