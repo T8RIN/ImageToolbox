@@ -160,7 +160,7 @@ fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
     is ShapeType.Rounded -> CircleShape
     is ShapeType.Smooth -> SmoothCircleShape
 }.let { shape ->
-    if (shapesType.strength == 1f) {
+    if (shapesType.strength >= 1f) {
         shape
     } else {
         shape.copy(CornerSize(percent = 50).toAuto(shapesType.strength))

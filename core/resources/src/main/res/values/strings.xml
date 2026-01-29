@@ -2068,4 +2068,6 @@
     <string name="smooth">Smooth</string>
     <string name="cut_shapes_sub">Sharp edges without rounding</string>
     <string name="rounded_shapes_sub">Classic rounded corners</string>
+    <string name="shapes_type">Shapes Type</string>
+    <string name="corners_size">Corners Size</string>
 </resources>

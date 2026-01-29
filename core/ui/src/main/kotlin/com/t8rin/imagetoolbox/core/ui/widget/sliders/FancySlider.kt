@@ -74,9 +74,10 @@ fun FancySlider(
     val thumbColor by animateColorAsState(
         if (enabled) colors.thumbColor else colors.disabledThumbColor
     )
+    val settingsState = LocalSettingsState.current
 
     val thumb: @Composable (CustomSliderState) -> Unit = { sliderState ->
-        val sliderFraction by remember {
+        val sliderFraction by remember(value, sliderState) {
             derivedStateOf {
                 (value - sliderState.valueRange.start) / (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
             }
@@ -97,13 +98,12 @@ fun FancySlider(
                 .materialShadow(
                     shape = thumbShape,
                     elevation = 1.dp,
-                    enabled = LocalSettingsState.current.drawSliderShadows
+                    enabled = settingsState.drawSliderShadows
                 )
                 .background(thumbColor, thumbShape)
         )
     }
 
-    val settingsState = LocalSettingsState.current
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         CustomSlider(
             interactionSource = interactionSource,

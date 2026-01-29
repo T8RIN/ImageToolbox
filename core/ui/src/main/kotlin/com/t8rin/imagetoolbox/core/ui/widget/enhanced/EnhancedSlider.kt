@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.FancyRangeSlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.FancySlider
 import com.t8rin.imagetoolbox.core.ui.widget.sliders.HyperOSRangeSlider
@@ -110,7 +112,15 @@ fun EnhancedSlider(
                 enabled = enabled,
                 colors = realColors,
                 interactionSource = interactionSource,
-                thumbShape = MaterialStarShape,
+                thumbShape = if (settingsState.shapesType is ShapeType.Cut) {
+                    AutoCircleShape(
+                        shapesType = settingsState.shapesType.copy(
+                            strength = settingsState.shapesType.strength.coerceAtLeast(0.5f)
+                        )
+                    )
+                } else {
+                    MaterialStarShape
+                },
                 modifier = modifier,
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,
@@ -224,7 +234,15 @@ fun EnhancedRangeSlider(
                 colors = realColors,
                 startInteractionSource = startInteractionSource,
                 endInteractionSource = endInteractionSource,
-                thumbShape = MaterialStarShape,
+                thumbShape = if (settingsState.shapesType is ShapeType.Cut) {
+                    AutoCircleShape(
+                        shapesType = settingsState.shapesType.copy(
+                            strength = settingsState.shapesType.strength.coerceAtLeast(0.5f)
+                        )
+                    )
+                } else {
+                    MaterialStarShape
+                },
                 modifier = modifier,
                 onValueChange = onValueChange,
                 onValueChangeFinished = onValueChangeFinished,

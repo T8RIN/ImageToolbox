@@ -596,6 +596,10 @@ internal fun SettingItem(
             Setting.ShapeType -> {
                 ShapeTypeSettingItem(onValueChange = component::setShapesType)
             }
+
+            Setting.CornersSize -> {
+                CornersSizeSettingItem(onValueChange = component::setShapesType)
+            }
         }
     }
 }

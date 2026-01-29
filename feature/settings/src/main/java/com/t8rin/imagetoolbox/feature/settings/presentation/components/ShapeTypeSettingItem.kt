@@ -72,7 +72,7 @@ fun ShapeTypeSettingItem(
 
     PreferenceItem(
         modifier = modifier,
-        title = stringResource(id = R.string.shape_type),
+        title = stringResource(id = R.string.shapes_type),
         startIcon = Icons.Rounded.RoundedCorner,
         subtitle = stringResource(settingsState.shapesType.title()),
         onClick = {
@@ -111,9 +111,9 @@ fun ShapeTypeSettingItem(
             val entries = ShapeType.entries
 
             entries.forEachIndexed { index, type ->
-                val selected = type == settingsState.sliderType
+                val selected = type::class.isInstance(settingsState.shapesType)
                 PreferenceItemOverload(
-                    onClick = { onValueChange(type) },
+                    onClick = { onValueChange(type.copy(settingsState.shapesType.strength)) },
                     title = stringResource(type.title()),
                     subtitle = stringResource(type.subtitle()),
                     containerColor = takeColorFromScheme {

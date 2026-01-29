@@ -59,7 +59,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleDynamicColors()
 
-    suspend fun setBorderWidth(width: Float)
+    override suspend fun setBorderWidth(width: Float)
 
     suspend fun toggleAllowImageMonet()
 

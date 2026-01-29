@@ -534,7 +534,12 @@ sealed class Setting(
     )
 
     data object ShapeType : Setting(
-        title = R.string.shape_type,
+        title = R.string.shapes_type,
+        subtitle = null
+    )
+
+    data object CornersSize : Setting(
+        title = R.string.corners_size,
         subtitle = null
     )
 }

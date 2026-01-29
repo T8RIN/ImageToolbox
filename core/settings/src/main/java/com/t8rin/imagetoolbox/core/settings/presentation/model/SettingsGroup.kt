@@ -102,6 +102,7 @@ sealed class SettingsGroup(
             Setting.SwitchType,
             Setting.SliderType,
             Setting.ShapeType,
+            Setting.CornersSize,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,
             Setting.CenterAlignDialogButtons,
