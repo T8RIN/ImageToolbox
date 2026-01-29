@@ -61,7 +61,7 @@ fun Modifier.materialShadow(
                             size = size,
                             layoutDirection = layoutDirection,
                             density = density,
-                            shapesType = ShapeType.Rounded
+                            shapesType = ShapeType.Rounded()
                         )
                     }
                 } else shape

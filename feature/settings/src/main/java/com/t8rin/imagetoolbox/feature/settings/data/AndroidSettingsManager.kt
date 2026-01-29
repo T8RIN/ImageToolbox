@@ -923,7 +923,9 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun setShapesType(shapeType: ShapeType) = edit {
-        it[SHAPES_TYPE] = shapeType.ordinal
+        jsonParser.toJson(shapeType, ShapeType::class.java)?.apply {
+            it[SHAPES_TYPE] = this
+        }
     }
 
     private fun MutablePreferences.toggle(

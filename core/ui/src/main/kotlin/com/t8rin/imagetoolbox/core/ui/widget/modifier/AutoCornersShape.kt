@@ -28,8 +28,11 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kyant.capsule.Continuity
@@ -128,34 +131,40 @@ fun AutoCornersShape(
     bottomStart: CornerSize,
     shapesType: ShapeType
 ) = when (shapesType) {
-    ShapeType.Cut -> CutCornerShape(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
+    is ShapeType.Cut -> CutCornerShape(
+        topStart = topStart.toAuto(shapesType),
+        topEnd = topEnd.toAuto(shapesType),
+        bottomEnd = bottomEnd.toAuto(shapesType),
+        bottomStart = bottomStart.toAuto(shapesType),
     )
 
-    ShapeType.Rounded -> RoundedCornerShape(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart
+    is ShapeType.Rounded -> RoundedCornerShape(
+        topStart = topStart.toAuto(shapesType),
+        topEnd = topEnd.toAuto(shapesType),
+        bottomEnd = bottomEnd.toAuto(shapesType),
+        bottomStart = bottomStart.toAuto(shapesType),
     )
 
-    ShapeType.Smooth -> ContinuousRoundedRectangle(
-        topStart = topStart,
-        topEnd = topEnd,
-        bottomEnd = bottomEnd,
-        bottomStart = bottomStart,
+    is ShapeType.Smooth -> ContinuousRoundedRectangle(
+        topStart = topStart.toAuto(shapesType),
+        topEnd = topEnd.toAuto(shapesType),
+        bottomEnd = bottomEnd.toAuto(shapesType),
+        bottomStart = bottomStart.toAuto(shapesType),
         continuity = continuity
     )
 }
 
 @Stable
 fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
-    ShapeType.Cut -> CutCircleShape
-    ShapeType.Rounded -> CircleShape
-    ShapeType.Smooth -> SmoothCircleShape
+    is ShapeType.Cut -> CutCircleShape
+    is ShapeType.Rounded -> CircleShape
+    is ShapeType.Smooth -> SmoothCircleShape
+}.let { shape ->
+    if (shapesType.strength == 1f) {
+        shape
+    } else {
+        shape.copy(CornerSize(percent = 50).toAuto(shapesType.strength))
+    }
 }
 
 @Stable
@@ -282,4 +291,28 @@ private fun rememberSettings(
     return remember(*keys, shapesType) {
         calculation(shapesType)
     }
+}
+
+private fun CornerSize.toAuto(shapeType: ShapeType) = toAuto(shapeType.strength)
+
+private fun CornerSize.toAuto(strength: Float) =
+    if (strength == 1f) {
+        this
+    } else {
+        AutoCornerSize(
+            parent = this,
+            strength = strength
+        )
+    }
+
+@Stable
+@Immutable
+private class AutoCornerSize(
+    private val parent: CornerSize,
+    private val strength: Float
+) : CornerSize by parent {
+
+    override fun toPx(shapeSize: Size, density: Density): Float =
+        (parent.toPx(shapeSize, density) * strength).coerceAtLeast(0f)
+
 }

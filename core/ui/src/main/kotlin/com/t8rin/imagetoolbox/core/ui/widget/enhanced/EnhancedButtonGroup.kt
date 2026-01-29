@@ -333,9 +333,9 @@ fun EnhancedButtonGroup(
                             val settingsState = LocalSettingsState.current
 
                             LocalSettingsState.ProvidesValue(
-                                if (disableSmoothness && settingsState.shapesType == ShapeType.Smooth) {
+                                if (disableSmoothness && settingsState.shapesType is ShapeType.Smooth) {
                                     settingsState.copy(
-                                        shapesType = ShapeType.Rounded
+                                        shapesType = ShapeType.Rounded()
                                     )
                                 } else {
                                     settingsState

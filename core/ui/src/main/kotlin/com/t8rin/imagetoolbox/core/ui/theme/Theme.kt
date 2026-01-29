@@ -122,7 +122,7 @@ fun ImageToolboxThemeSurface(
 fun ImageToolboxThemeForPreview(
     isDarkTheme: Boolean,
     keyColor: Color? = defaultColorTuple.primary,
-    shapesType: ShapeType = ShapeType.Rounded,
+    shapesType: ShapeType = ShapeType.Rounded(),
     content: @Composable () -> Unit
 ) {
     LocalContext.current.applicationContext.initAppContext()

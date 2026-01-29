@@ -163,13 +163,13 @@ fun ShapeTypeSettingItem(
 }
 
 private fun ShapeType.title() = when (this) {
-    ShapeType.Cut -> R.string.cut
-    ShapeType.Rounded -> R.string.rounded
-    ShapeType.Smooth -> R.string.smooth
+    is ShapeType.Cut -> R.string.cut
+    is ShapeType.Rounded -> R.string.rounded
+    is ShapeType.Smooth -> R.string.smooth
 }
 
 private fun ShapeType.subtitle() = when (this) {
-    ShapeType.Cut -> R.string.cut_shapes_sub
-    ShapeType.Rounded -> R.string.rounded_shapes_sub
-    ShapeType.Smooth -> R.string.smooth_shapes_sub
+    is ShapeType.Cut -> R.string.cut_shapes_sub
+    is ShapeType.Rounded -> R.string.rounded_shapes_sub
+    is ShapeType.Smooth -> R.string.smooth_shapes_sub
 }

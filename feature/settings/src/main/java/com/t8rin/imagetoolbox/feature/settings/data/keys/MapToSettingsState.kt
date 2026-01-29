@@ -226,8 +226,11 @@ internal fun Preferences.toSettingsState(
         )
     } ?: default.defaultQuality,
     shapesType = this[SHAPES_TYPE]?.let {
-        ShapeType.entries[it]
-    } ?: default.shapesType
+        jsonParser.fromJson(
+            json = it,
+            type = ShapeType::class.java
+        )
+    } ?: default.shapesType,
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

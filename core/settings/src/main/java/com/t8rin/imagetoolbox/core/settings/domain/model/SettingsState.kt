@@ -240,7 +240,7 @@ data class SettingsState(
                 snowfallMode = SnowfallMode.Auto,
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
-                shapesType = ShapeType.Rounded,
+                shapesType = ShapeType.Rounded(),
             )
         }
     }

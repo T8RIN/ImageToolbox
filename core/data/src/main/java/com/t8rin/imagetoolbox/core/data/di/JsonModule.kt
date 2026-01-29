@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.t8rin.imagetoolbox.core.data.json.MoshiParser
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -53,6 +54,13 @@ internal interface JsonModule {
                     .withSubtype(Quality.Tiff::class.java, "Tiff")
                     .withSubtype(Quality.Base::class.java, "Base")
                     .withDefaultValue(Quality.Base())
+            )
+            .add(
+                PolymorphicJsonAdapterFactory.of(ShapeType::class.java, "ShapeType")
+                    .withSubtype(ShapeType.Rounded::class.java, "Rounded")
+                    .withSubtype(ShapeType.Cut::class.java, "Cut")
+                    .withSubtype(ShapeType.Smooth::class.java, "Smooth")
+                    .withDefaultValue(ShapeType.Rounded())
             )
             .addLast(KotlinJsonAdapterFactory())
             .build()
