@@ -216,7 +216,6 @@ internal fun MediaPickerGrid(
                                 .replace("Today", stringToday)
                                 .replace("Yesterday", stringYesterday)
                         },
-                        showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
                         isChecked = isChecked.value,
                         onChecked = {

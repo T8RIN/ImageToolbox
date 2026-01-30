@@ -34,7 +34,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
@@ -43,47 +42,34 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 fun MediaStickyHeader(
     modifier: Modifier = Modifier,
     date: String,
-    showAsBig: Boolean = false,
     isCheckVisible: MutableState<Boolean>,
     isChecked: Boolean,
     onChecked: (() -> Unit)? = null
 ) {
-    val smallModifier = modifier
-        .padding(
-            horizontal = 16.dp,
-            vertical = 24.dp
-        )
-        .fillMaxWidth()
-    val bigModifier = modifier
-        .padding(horizontal = 16.dp)
-        .padding(top = 80.dp)
-    val bigTextStyle = MaterialTheme.typography.headlineMedium.copy(
-        fontWeight = FontWeight.Bold
-    )
-    val smallTextStyle = MaterialTheme.typography.titleMedium
     Row(
-        modifier = if (showAsBig) bigModifier else smallModifier,
+        modifier = modifier
+            .padding(
+                horizontal = 16.dp,
+                vertical = 24.dp
+            )
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = date,
-            style = if (showAsBig) bigTextStyle else smallTextStyle,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.then(
-                if (!showAsBig) {
-                    Modifier.hapticsCombinedClickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onLongClick = onChecked,
-                        onClick = {
-                            if (isCheckVisible.value) onChecked?.invoke()
-                        }
-                    )
-                } else Modifier
+            modifier = Modifier.hapticsCombinedClickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onLongClick = onChecked,
+                onClick = {
+                    if (isCheckVisible.value) onChecked?.invoke()
+                }
             )
         )
-        if (!showAsBig && onChecked != null) {
+        if (onChecked != null) {
             AnimatedVisibility(
                 visible = isCheckVisible.value,
                 enter = enterAnimation,

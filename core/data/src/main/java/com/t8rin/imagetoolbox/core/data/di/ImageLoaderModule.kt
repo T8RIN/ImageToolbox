@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ import android.os.Build
 import coil3.ComponentRegistry
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.imageLoader
+import coil3.memory.MemoryCache
 import coil3.request.allowHardware
 import coil3.request.maxBitmapSize
 import coil3.size.Size
@@ -67,6 +69,17 @@ internal object ImageLoaderModule {
         .fetcherCoroutineContext(dispatchersHolder.ioDispatcher)
         .allowHardware(false)
         .maxBitmapSize(Size.ORIGINAL)
+        .diskCache {
+            DiskCache.Builder()
+                .maxSizePercent(0.2)
+                .cleanupCoroutineContext(dispatchersHolder.ioDispatcher)
+                .build()
+        }
+        .memoryCache {
+            MemoryCache.Builder()
+                .maxSizePercent(context, 0.3)
+                .build()
+        }
         .logger(logger)
         .build()
         .also(SingletonImageLoader::setUnsafe)

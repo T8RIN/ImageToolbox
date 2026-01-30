@@ -139,6 +139,7 @@ fun MediaImage(
             Picture(
                 modifier = Modifier.fillMaxSize(),
                 model = media.uri,
+                crossfadeEnabled = false,
                 contentDescription = media.label,
                 contentScale = ContentScale.Crop,
                 onSuccess = {
