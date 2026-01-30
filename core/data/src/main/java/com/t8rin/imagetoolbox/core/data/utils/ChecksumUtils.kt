@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.data.utils
 
+import com.t8rin.imagetoolbox.core.data.saving.io.StreamReadable
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
 import java.io.InputStream
@@ -26,11 +27,19 @@ private const val STREAM_BUFFER_LENGTH = 1024
 
 fun HashingType.computeBytesFromReadable(
     readable: Readable
-): ByteArray = computeBytesFromByteArray(readable.readBytes())
+): ByteArray = if (readable is StreamReadable) {
+    computeBytesFromInputStream(readable.stream)
+} else {
+    computeBytesFromByteArray(readable.readBytes())
+}
 
 fun HashingType.computeFromReadable(
     readable: Readable
-): String = computeFromByteArray(readable.readBytes())
+): String = if (readable is StreamReadable) {
+    computeFromInputStream(readable.stream)
+} else {
+    computeFromByteArray(readable.readBytes())
+}
 
 internal fun HashingType.computeFromByteArray(
     byteArray: ByteArray

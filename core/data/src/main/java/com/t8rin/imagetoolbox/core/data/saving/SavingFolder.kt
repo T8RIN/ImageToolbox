@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import android.provider.MediaStore
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
-import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import kotlinx.coroutines.coroutineScope
 import java.io.File
@@ -37,7 +36,7 @@ import java.io.OutputStream
 internal data class SavingFolder private constructor(
     val outputStream: OutputStream,
     val fileUri: Uri
-) : Writeable by StreamWriteable(outputStream) {
+) : StreamWriteable by StreamWriteable(outputStream) {
     companion object {
         suspend fun getInstance(
             context: Context,

@@ -20,8 +20,6 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 import android.content.Context
 import android.net.Uri
 import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
-import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
-import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.logger.makeLog
 import io.ktor.utils.io.charsets.Charset
 import java.io.ByteArrayOutputStream
@@ -30,14 +28,14 @@ import java.io.ByteArrayOutputStream
 class UriReadable(
     private val uri: Uri,
     private val context: Context
-) : Readable by StreamReadable(
+) : StreamReadable by StreamReadable(
     inputStream = context.contentResolver.openInputStream(uri) ?: ByteArray(0).inputStream()
 )
 
 class UriWriteable(
     private val uri: Uri,
     private val context: Context
-) : Writeable by StreamWriteable(
+) : StreamWriteable by StreamWriteable(
     outputStream = context.openWriteableStream(
         uri = uri,
         onFailure = {
@@ -50,13 +48,13 @@ class UriWriteable(
 
 class ByteArrayReadable(
     private val byteArray: ByteArray
-) : Readable by StreamReadable(
+) : StreamReadable by StreamReadable(
     inputStream = byteArray.inputStream()
 )
 
 class StringReadable(
     private val string: String,
     private val charset: Charset = Charsets.UTF_8
-) : Readable by ByteArrayReadable(
+) : StreamReadable by ByteArrayReadable(
     byteArray = string.toByteArray(charset)
 )

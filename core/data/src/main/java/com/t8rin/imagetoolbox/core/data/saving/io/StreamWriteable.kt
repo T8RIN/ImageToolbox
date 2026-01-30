@@ -22,11 +22,11 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import java.io.InputStream
 import java.io.OutputStream
 
-class StreamWriteable(
+private class StreamWriteableImpl(
     outputStream: OutputStream
-) : Writeable {
+) : StreamWriteable {
 
-    internal val stream = outputStream
+    override val stream = outputStream
 
     override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
 
@@ -37,11 +37,11 @@ class StreamWriteable(
 
 }
 
-class StreamReadable(
+private class StreamReadableImpl(
     inputStream: InputStream
-) : Readable {
+) : StreamReadable {
 
-    private val stream = inputStream
+    override val stream = inputStream
 
     override fun readBytes(): ByteArray = stream.readBytes()
 
@@ -55,4 +55,24 @@ class StreamReadable(
 
     override fun close() = stream.close()
 
+}
+
+interface StreamReadable : Readable {
+    val stream: InputStream
+
+    companion object {
+        operator fun invoke(
+            inputStream: InputStream
+        ): StreamReadable = StreamReadableImpl(inputStream)
+    }
+}
+
+interface StreamWriteable : Writeable {
+    val stream: OutputStream
+
+    companion object {
+        operator fun invoke(
+            outputStream: OutputStream
+        ): StreamWriteable = StreamWriteableImpl(outputStream)
+    }
 }

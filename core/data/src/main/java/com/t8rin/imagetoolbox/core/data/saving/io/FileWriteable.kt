@@ -17,14 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.data.saving.io
 
-import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
-import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import java.io.File
 
 class FileWriteable(
     private val file: File
-) : Writeable by StreamWriteable(file.outputStream())
+) : StreamWriteable by StreamWriteable(file.outputStream())
 
 class FileReadable(
     private val file: File
-) : Readable by StreamReadable(file.inputStream())
+) : StreamReadable by StreamReadable(file.inputStream())
