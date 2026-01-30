@@ -958,13 +958,18 @@ or click one of the badges below.
     - Pixel
     - Fluent
     - Cupertino
-    - Liquid Glas
+  - Liquid Glass
     - HyperOS
 - Slider Type Selection:
     - Fancy
     - Material You
     - Material
     - HyperOS
+- Shapes Type Selection with size adjustment:
+    - Rounded
+    - Cut
+    - Squircle
+    - Smooth
 - Main screen layout customization
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
