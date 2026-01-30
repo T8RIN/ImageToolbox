@@ -2070,4 +2070,6 @@
     <string name="rounded_shapes_sub">Classic rounded corners</string>
     <string name="shapes_type">Shapes Type</string>
     <string name="corners_size">Corners Size</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegant rounded UI elements</string>
 </resources>

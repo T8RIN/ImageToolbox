@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import com.kyant.capsule.Continuity
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import sv.lib.squircleshape.CornerSmoothing
+import sv.lib.squircleshape.SquircleShape
 
 @Stable
 fun AutoCornersShape(
@@ -152,6 +154,14 @@ fun AutoCornersShape(
         bottomStart = bottomStart.toAuto(shapesType),
         continuity = continuity
     )
+
+    is ShapeType.Squircle -> SquircleShape(
+        topStartCorner = topStart.toAuto(shapesType),
+        topEndCorner = topEnd.toAuto(shapesType),
+        bottomEndCorner = bottomEnd.toAuto(shapesType),
+        bottomStartCorner = bottomStart.toAuto(shapesType),
+        smoothing = CornerSmoothing.Medium
+    )
 }
 
 @Stable
@@ -159,11 +169,12 @@ fun AutoCircleShape(shapesType: ShapeType) = when (shapesType) {
     is ShapeType.Cut -> CutCircleShape
     is ShapeType.Rounded -> CircleShape
     is ShapeType.Smooth -> SmoothCircleShape
+    is ShapeType.Squircle -> SquircleCircleShape
 }.let { shape ->
     if (shapesType.strength >= 1f) {
         shape
     } else {
-        shape.copy(CornerSize(percent = 50).toAuto(shapesType.strength))
+        shape.copy(shape.topStart.toAuto(shapesType))
     }
 }
 
@@ -278,7 +289,14 @@ private val continuity by lazy { Continuity.Default }
 @Stable
 val SmoothCircleShape = ContinuousCapsule(continuity)
 
+@Stable
 val CutCircleShape = CutCornerShape(50)
+
+@Stable
+val SquircleCircleShape = SquircleShape(
+    percent = 50,
+    smoothing = CornerSmoothing.Medium
+)
 
 @Stable
 @Composable
@@ -293,8 +311,10 @@ private fun rememberSettings(
     }
 }
 
+@Stable
 private fun CornerSize.toAuto(shapeType: ShapeType) = toAuto(shapeType.strength)
 
+@Stable
 private fun CornerSize.toAuto(strength: Float) =
     if (strength == 1f) {
         this

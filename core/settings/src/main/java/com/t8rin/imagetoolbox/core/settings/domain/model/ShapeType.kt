@@ -25,6 +25,7 @@ sealed interface ShapeType {
     fun copy(strength: Float): ShapeType = when (this) {
         is Cut -> Cut(strength = strength)
         is Rounded -> Rounded(strength = strength)
+        is Squircle -> Squircle(strength = strength)
         is Smooth -> Smooth(strength = strength)
     }
 
@@ -36,6 +37,10 @@ sealed interface ShapeType {
         override val strength: Float = 1f
     ) : ShapeType
 
+    class Squircle(
+        override val strength: Float = 1f
+    ) : ShapeType
+
     class Smooth(
         override val strength: Float = 1f
     ) : ShapeType
@@ -43,7 +48,7 @@ sealed interface ShapeType {
     companion object {
         val entries by lazy {
             listOf(
-                Rounded(), Cut(), Smooth()
+                Rounded(), Cut(), Squircle(), Smooth()
             )
         }
     }

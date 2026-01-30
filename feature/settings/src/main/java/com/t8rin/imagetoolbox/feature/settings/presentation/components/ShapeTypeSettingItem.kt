@@ -130,7 +130,11 @@ fun ShapeTypeSettingItem(
                                     width = 2.dp,
                                     color = LocalContentColor.current,
                                     shape = AutoCornersShape(
-                                        size = if (type is ShapeType.Smooth) 8.dp else 6.dp,
+                                        size = when (type) {
+                                            is ShapeType.Smooth -> 8.dp
+                                            is ShapeType.Squircle -> 24.dp
+                                            else -> 6.dp
+                                        },
                                         shapesType = type
                                     )
                                 )
@@ -166,10 +170,12 @@ private fun ShapeType.title() = when (this) {
     is ShapeType.Cut -> R.string.cut
     is ShapeType.Rounded -> R.string.rounded
     is ShapeType.Smooth -> R.string.smooth
+    is ShapeType.Squircle -> R.string.squircle
 }
 
 private fun ShapeType.subtitle() = when (this) {
     is ShapeType.Cut -> R.string.cut_shapes_sub
     is ShapeType.Rounded -> R.string.rounded_shapes_sub
     is ShapeType.Smooth -> R.string.smooth_shapes_sub
+    is ShapeType.Squircle -> R.string.squircle_shapes_sub
 }

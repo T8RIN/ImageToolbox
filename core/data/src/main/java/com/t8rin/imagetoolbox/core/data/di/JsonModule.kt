@@ -59,6 +59,7 @@ internal interface JsonModule {
                 PolymorphicJsonAdapterFactory.of(ShapeType::class.java, "ShapeType")
                     .withSubtype(ShapeType.Rounded::class.java, "Rounded")
                     .withSubtype(ShapeType.Cut::class.java, "Cut")
+                    .withSubtype(ShapeType.Squircle::class.java, "Squircle")
                     .withSubtype(ShapeType.Smooth::class.java, "Smooth")
                     .withDefaultValue(ShapeType.Rounded())
             )
