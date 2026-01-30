@@ -41,6 +41,9 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import sv.lib.squircleshape.CornerSmoothing
 import sv.lib.squircleshape.SquircleShape
 
+private val continuity = Continuity.Default
+private val smoothing = CornerSmoothing.Medium
+
 @Stable
 fun AutoCornersShape(
     corner: CornerSize,
@@ -160,7 +163,7 @@ fun AutoCornersShape(
         topEndCorner = topEnd.toAuto(shapesType),
         bottomEndCorner = bottomEnd.toAuto(shapesType),
         bottomStartCorner = bottomStart.toAuto(shapesType),
-        smoothing = CornerSmoothing.Medium
+        smoothing = smoothing
     )
 }
 
@@ -284,8 +287,6 @@ fun AutoCircleShape() = rememberSettings { shapesType ->
     AutoCircleShape(shapesType)
 }
 
-private val continuity by lazy { Continuity.Default }
-
 @Stable
 val SmoothCircleShape = ContinuousCapsule(continuity)
 
@@ -295,7 +296,7 @@ val CutCircleShape = CutCornerShape(50)
 @Stable
 val SquircleCircleShape = SquircleShape(
     percent = 50,
-    smoothing = CornerSmoothing.Medium
+    smoothing = smoothing
 )
 
 @Stable
