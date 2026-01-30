@@ -2041,4 +2041,14 @@
     <string name="downloading">Ladataan</string>
     <string name="smooth_shapes">Sileät muodot</string>
     <string name="smooth_shapes_sub">Käytä superellipsiä tavallisten pyöristetyn suorakulmion sijaan saadaksesi pehmeämpiä ja luonnollisempia muotoja</string>
+    <string name="shape_type">Muototyyppi</string>
+    <string name="cut">Leikata</string>
+    <string name="rounded">Pyöristetty</string>
+    <string name="smooth">Sileä</string>
+    <string name="cut_shapes_sub">Terävät reunat ilman pyöristystä</string>
+    <string name="rounded_shapes_sub">Klassiset pyöristetyt kulmat</string>
+    <string name="shapes_type">Muodot Tyyppi</string>
+    <string name="corners_size">Kulmien koko</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Tyylikkäät pyöristetyt käyttöliittymäelementit</string>
 </resources>

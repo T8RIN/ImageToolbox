@@ -2041,4 +2041,14 @@
     <string name="downloading">چۈشۈرۈش</string>
     <string name="smooth_shapes">سىلىق شەكىللەر</string>
     <string name="smooth_shapes_sub">تېخىمۇ يۇمىلاق ، تەبىئىي شەكىللەر ئۈچۈن ئۆلچەملىك يۇمىلاق شەكىللىك تىك تۆت بۇلۇڭنىڭ ئورنىغا ئادەتتىن تاشقىرى تېز سۈرئەتلىك نۇر ئىشلىتىڭ</string>
+    <string name="shape_type">شەكىل تىپى</string>
+    <string name="cut">كېسىڭ</string>
+    <string name="rounded">يۇمىلاق ئۈستەل</string>
+    <string name="smooth">سىلىق</string>
+    <string name="cut_shapes_sub">يۇمىلاق قىرلار يۇمىلاق ئەمەس</string>
+    <string name="rounded_shapes_sub">كلاسسىك يۇمىلاق بۇلۇڭ</string>
+    <string name="shapes_type">شەكىل تىپى</string>
+    <string name="corners_size">بۇلۇڭ چوڭلۇقى</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">نەپىس يۇمىلاق UI ئېلېمېنتلىرى</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">डाउनलोड</string>
     <string name="smooth_shapes">चिकनी आकृतियाँ</string>
     <string name="smooth_shapes_sub">चिकनी, अधिक प्राकृतिक आकृतियों के लिए मानक गोल आयतों के बजाय सुपरलिप्स का उपयोग करें</string>
+    <string name="shape_type">आकार प्रकार</string>
+    <string name="cut">काटना</string>
+    <string name="rounded">गोल</string>
+    <string name="smooth">चिकना</string>
+    <string name="cut_shapes_sub">बिना गोलाई के तेज किनारे</string>
+    <string name="rounded_shapes_sub">क्लासिक गोलाकार कोने</string>
+    <string name="shapes_type">आकृतियाँ प्रकार</string>
+    <string name="corners_size">कोनों का आकार</string>
+    <string name="squircle">स्क्विर्कल</string>
+    <string name="squircle_shapes_sub">सुंदर गोलाकार यूआई तत्व</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="smooth_shapes">ਨਿਰਵਿਘਨ ਆਕਾਰ</string>
     <string name="smooth_shapes_sub">ਨਿਰਵਿਘਨ, ਵਧੇਰੇ ਕੁਦਰਤੀ ਆਕਾਰਾਂ ਲਈ ਮਿਆਰੀ ਗੋਲ ਆਇਤਕਾਰ ਦੀ ਬਜਾਏ ਸੁਪਰਇਲਿਪਸ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="shape_type">ਆਕਾਰ ਦੀ ਕਿਸਮ</string>
+    <string name="cut">ਕੱਟੋ</string>
+    <string name="rounded">ਗੋਲ ਕੀਤਾ</string>
+    <string name="smooth">ਨਿਰਵਿਘਨ</string>
+    <string name="cut_shapes_sub">ਗੋਲ ਕੀਤੇ ਬਿਨਾਂ ਤਿੱਖੇ ਕਿਨਾਰੇ</string>
+    <string name="rounded_shapes_sub">ਕਲਾਸਿਕ ਗੋਲ ਕੋਨੇ</string>
+    <string name="shapes_type">ਆਕਾਰ ਦੀ ਕਿਸਮ</string>
+    <string name="corners_size">ਕੋਨਿਆਂ ਦਾ ਆਕਾਰ</string>
+    <string name="squircle">ਸਕਰਕਲ</string>
+    <string name="squircle_shapes_sub">ਸ਼ਾਨਦਾਰ ਗੋਲ UI ਤੱਤ</string>
 </resources>

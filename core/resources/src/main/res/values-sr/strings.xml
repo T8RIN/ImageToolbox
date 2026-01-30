@@ -2042,4 +2042,14 @@
     <string name="downloading">Преузимање</string>
     <string name="smooth_shapes">Смоотх Схапес</string>
     <string name="smooth_shapes_sub">Користите суперелипсе уместо стандардних заобљених правоугаоника за глаткије, природније облике</string>
+    <string name="shape_type">Облик облика</string>
+    <string name="cut">Цут</string>
+    <string name="rounded">Заобљен</string>
+    <string name="smooth">Смоотх</string>
+    <string name="cut_shapes_sub">Оштре ивице без заобљења</string>
+    <string name="rounded_shapes_sub">Класични заобљени углови</string>
+    <string name="shapes_type">Схапес Типе</string>
+    <string name="corners_size">Цорнерс Сизе</string>
+    <string name="squircle">Скуирцле</string>
+    <string name="squircle_shapes_sub">Елегантни заобљени елементи корисничког интерфејса</string>
 </resources>

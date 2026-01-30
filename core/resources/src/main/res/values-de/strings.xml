@@ -2041,4 +2041,14 @@
     <string name="downloading">Herunterladen</string>
     <string name="smooth_shapes">Glatte Formen</string>
     <string name="smooth_shapes_sub">Verwenden Sie Superellipsen anstelle der standardmäßigen abgerundeten Rechtecke für glattere, natürlichere Formen</string>
+    <string name="shape_type">Formtyp</string>
+    <string name="cut">Schneiden</string>
+    <string name="rounded">Gerundet</string>
+    <string name="smooth">Glatt</string>
+    <string name="cut_shapes_sub">Scharfe Kanten ohne Rundung</string>
+    <string name="rounded_shapes_sub">Klassische abgerundete Ecken</string>
+    <string name="shapes_type">Formentyp</string>
+    <string name="corners_size">Eckengröße</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegante abgerundete UI-Elemente</string>
 </resources>

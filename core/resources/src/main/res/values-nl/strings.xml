@@ -2041,4 +2041,14 @@
     <string name="downloading">Downloaden</string>
     <string name="smooth_shapes">Gladde vormen</string>
     <string name="smooth_shapes_sub">Gebruik superellipsen in plaats van standaard afgeronde rechthoeken voor vloeiendere, natuurlijkere vormen</string>
+    <string name="shape_type">Vormtype</string>
+    <string name="cut">Snee</string>
+    <string name="rounded">Afgerond</string>
+    <string name="smooth">Zacht</string>
+    <string name="cut_shapes_sub">Scherpe randen zonder afronding</string>
+    <string name="rounded_shapes_sub">Klassieke afgeronde hoeken</string>
+    <string name="shapes_type">Vormentype</string>
+    <string name="corners_size">Hoeken maat</string>
+    <string name="squircle">Eekhoorn</string>
+    <string name="squircle_shapes_sub">Elegante afgeronde UI-elementen</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">İndiriliyor</string>
     <string name="smooth_shapes">Pürüzsüz Şekiller</string>
     <string name="smooth_shapes_sub">Daha düzgün, daha doğal şekiller için standart yuvarlatılmış dikdörtgenler yerine süper elipsler kullanın</string>
+    <string name="shape_type">Şekil Türü</string>
+    <string name="cut">Kesmek</string>
+    <string name="rounded">Yuvarlak</string>
+    <string name="smooth">Düz</string>
+    <string name="cut_shapes_sub">Yuvarlama olmadan keskin kenarlar</string>
+    <string name="rounded_shapes_sub">Klasik yuvarlatılmış köşeler</string>
+    <string name="shapes_type">Şekiller Türü</string>
+    <string name="corners_size">Köşe Boyutu</string>
+    <string name="squircle">sincap</string>
+    <string name="squircle_shapes_sub">Zarif yuvarlak kullanıcı arayüzü öğeleri</string>
 </resources>

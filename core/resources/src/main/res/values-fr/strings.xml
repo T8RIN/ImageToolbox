@@ -2041,4 +2041,14 @@
     <string name="downloading">Téléchargement</string>
     <string name="smooth_shapes">Formes lisses</string>
     <string name="smooth_shapes_sub">Utilisez des superellipses au lieu des rectangles arrondis standard pour des formes plus douces et plus naturelles</string>
+    <string name="shape_type">Type de forme</string>
+    <string name="cut">Couper</string>
+    <string name="rounded">Arrondi</string>
+    <string name="smooth">Lisse</string>
+    <string name="cut_shapes_sub">Arêtes vives sans arrondi</string>
+    <string name="rounded_shapes_sub">Coins arrondis classiques</string>
+    <string name="shapes_type">Type de formes</string>
+    <string name="corners_size">Taille des coins</string>
+    <string name="squircle">Cercle</string>
+    <string name="squircle_shapes_sub">Éléments d\'interface utilisateur arrondis et élégants</string>
 </resources>

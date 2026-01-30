@@ -2042,4 +2042,14 @@
     <string name="downloading">Baixando</string>
     <string name="smooth_shapes">Formas Suaves</string>
     <string name="smooth_shapes_sub">Use superelipses em vez de retângulos arredondados padrão para obter formas mais suaves e naturais</string>
+    <string name="shape_type">Tipo de forma</string>
+    <string name="cut">Corte</string>
+    <string name="rounded">Arredondado</string>
+    <string name="smooth">Suave</string>
+    <string name="cut_shapes_sub">Arestas vivas sem arredondamento</string>
+    <string name="rounded_shapes_sub">Cantos arredondados clássicos</string>
+    <string name="shapes_type">Tipo de formas</string>
+    <string name="corners_size">Tamanho dos cantos</string>
+    <string name="squircle">Esquilo</string>
+    <string name="squircle_shapes_sub">Elementos de UI elegantes e arredondados</string>
 </resources>

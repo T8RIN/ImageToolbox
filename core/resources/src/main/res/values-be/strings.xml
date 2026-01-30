@@ -2043,4 +2043,14 @@
     <string name="downloading">Ідзе загрузка</string>
     <string name="smooth_shapes">Гладкія фігуры</string>
     <string name="smooth_shapes_sub">Выкарыстоўвайце суперэліпсы замест стандартных круглявых прамавугольнікаў для больш гладкіх і натуральных формаў</string>
+    <string name="shape_type">Тып формы</string>
+    <string name="cut">Выразаць</string>
+    <string name="rounded">Закругленыя</string>
+    <string name="smooth">Гладкая</string>
+    <string name="cut_shapes_sub">Вострыя краю без закруглення</string>
+    <string name="rounded_shapes_sub">Класічныя закругленыя куты</string>
+    <string name="shapes_type">Формы Тып</string>
+    <string name="corners_size">Памер кутоў</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Элегантныя закругленыя элементы інтэрфейсу</string>
 </resources>

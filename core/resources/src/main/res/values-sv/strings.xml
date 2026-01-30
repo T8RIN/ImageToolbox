@@ -2042,4 +2042,14 @@
     <string name="downloading">Laddar ner</string>
     <string name="smooth_shapes">Släta former</string>
     <string name="smooth_shapes_sub">Använd superellipser istället för vanliga rundade rektanglar för jämnare, mer naturliga former</string>
+    <string name="shape_type">Form typ</string>
+    <string name="cut">Skära</string>
+    <string name="rounded">Avrundad</string>
+    <string name="smooth">Jämna</string>
+    <string name="cut_shapes_sub">Skarpa kanter utan avrundning</string>
+    <string name="rounded_shapes_sub">Klassiska rundade hörn</string>
+    <string name="shapes_type">Former Typ</string>
+    <string name="corners_size">Hörnstorlek</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Eleganta rundade UI-element</string>
 </resources>

@@ -2042,4 +2042,14 @@
     <string name="downloading">බාගත කිරීම</string>
     <string name="smooth_shapes">සිනිඳු හැඩතල</string>
     <string name="smooth_shapes_sub">සිනිඳු, වඩාත් ස්වාභාවික හැඩතල සඳහා සම්මත වටකුරු සෘජුකෝණාස්‍ර වෙනුවට සුපිරි ඉලිප්සාකාර භාවිතා කරන්න</string>
+    <string name="shape_type">හැඩ වර්ගය</string>
+    <string name="cut">කපනවා</string>
+    <string name="rounded">වටකුරු</string>
+    <string name="smooth">සිනිඳුයි</string>
+    <string name="cut_shapes_sub">වටකුරු තොරව තියුණු දාර</string>
+    <string name="rounded_shapes_sub">සම්භාව්ය වටකුරු කොන්</string>
+    <string name="shapes_type">හැඩතල වර්ගය</string>
+    <string name="corners_size">කෝනර් ප්රමාණය</string>
+    <string name="squircle">ලේනා</string>
+    <string name="squircle_shapes_sub">අලංකාර වටකුරු UI මූලද්‍රව්‍ය</string>
 </resources>

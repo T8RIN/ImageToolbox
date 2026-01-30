@@ -2041,4 +2041,14 @@
     <string name="downloading">Nagda-download</string>
     <string name="smooth_shapes">Makinis na Hugis</string>
     <string name="smooth_shapes_sub">Gumamit ng mga superellipse sa halip na mga karaniwang bilugan na parihaba para sa mas makinis, mas natural na mga hugis</string>
+    <string name="shape_type">Uri ng Hugis</string>
+    <string name="cut">Putulin</string>
+    <string name="rounded">Bilugan</string>
+    <string name="smooth">Makinis</string>
+    <string name="cut_shapes_sub">Matalim ang mga gilid nang walang pagbilog</string>
+    <string name="rounded_shapes_sub">Mga klasikong bilugan na sulok</string>
+    <string name="shapes_type">Uri ng Hugis</string>
+    <string name="corners_size">Sukat ng mga Sulok</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Mga eleganteng bilugan na elemento ng UI</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">Жүктеп алынуда</string>
     <string name="smooth_shapes">Тегіс пішіндер</string>
     <string name="smooth_shapes_sub">Тегіс, табиғи пішіндер үшін стандартты дөңгелектелген төртбұрыштардың орнына суперэллипстерді пайдаланыңыз</string>
+    <string name="shape_type">Пішін түрі</string>
+    <string name="cut">Кесу</string>
+    <string name="rounded">Дөңгеленген</string>
+    <string name="smooth">Тегіс</string>
+    <string name="cut_shapes_sub">Дөңгелектеусіз өткір жиектер</string>
+    <string name="rounded_shapes_sub">Классикалық дөңгелек бұрыштар</string>
+    <string name="shapes_type">Фигуралар түрі</string>
+    <string name="corners_size">Бұрыштардың өлшемі</string>
+    <string name="squircle">Айналма</string>
+    <string name="squircle_shapes_sub">Керемет дөңгелектенген UI элементтері</string>
 </resources>

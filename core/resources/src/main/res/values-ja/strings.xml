@@ -2040,4 +2040,14 @@
     <string name="downloading">ダウンロード中</string>
     <string name="smooth_shapes">滑らかな形状</string>
     <string name="smooth_shapes_sub">より滑らかで自然な形状を得るには、標準の角丸長方形の代わりに超楕円を使用します。</string>
+    <string name="shape_type">形状タイプ</string>
+    <string name="cut">カット</string>
+    <string name="rounded">丸い</string>
+    <string name="smooth">スムーズ</string>
+    <string name="cut_shapes_sub">丸みのないシャープなエッジ</string>
+    <string name="rounded_shapes_sub">クラシックな丸い角</string>
+    <string name="shapes_type">形状の種類</string>
+    <string name="corners_size">コーナーサイズ</string>
+    <string name="squircle">スクワクル</string>
+    <string name="squircle_shapes_sub">エレガントな丸みを帯びた UI 要素</string>
 </resources>

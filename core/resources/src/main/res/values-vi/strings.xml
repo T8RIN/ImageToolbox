@@ -2040,4 +2040,14 @@
     <string name="downloading">Đang tải xuống</string>
     <string name="smooth_shapes">Hình dạng mượt mà</string>
     <string name="smooth_shapes_sub">Sử dụng hình siêu elip thay vì hình chữ nhật bo tròn tiêu chuẩn để có hình dạng mượt mà, tự nhiên hơn</string>
+    <string name="shape_type">Loại hình dạng</string>
+    <string name="cut">Cắt</string>
+    <string name="rounded">làm tròn</string>
+    <string name="smooth">Trơn tru</string>
+    <string name="cut_shapes_sub">Các cạnh sắc nét mà không làm tròn</string>
+    <string name="rounded_shapes_sub">Các góc bo tròn cổ điển</string>
+    <string name="shapes_type">Loại hình dạng</string>
+    <string name="corners_size">Kích thước góc</string>
+    <string name="squircle">hình tròn</string>
+    <string name="squircle_shapes_sub">Các thành phần UI được bo tròn trang nhã</string>
 </resources>

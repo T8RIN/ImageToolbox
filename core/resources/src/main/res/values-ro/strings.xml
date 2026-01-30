@@ -2042,4 +2042,14 @@
     <string name="downloading">Descărcarea</string>
     <string name="smooth_shapes">Forme netede</string>
     <string name="smooth_shapes_sub">Folosiți superelipse în loc de dreptunghiuri rotunjite standard pentru forme mai fine și mai naturale</string>
+    <string name="shape_type">Tip de formă</string>
+    <string name="cut">Tăiați</string>
+    <string name="rounded">rotunjite</string>
+    <string name="smooth">Netezi</string>
+    <string name="cut_shapes_sub">Margini ascuțite fără rotunjire</string>
+    <string name="rounded_shapes_sub">Colțuri clasice rotunjite</string>
+    <string name="shapes_type">Tip de forme</string>
+    <string name="corners_size">Dimensiunea colțurilor</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elemente elegante de UI rotunjite</string>
 </resources>

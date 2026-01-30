@@ -2040,4 +2040,14 @@
     <string name="downloading">다운로드 중</string>
     <string name="smooth_shapes">부드러운 모양</string>
     <string name="smooth_shapes_sub">더 부드럽고 자연스러운 모양을 위해 표준 둥근 직사각형 대신 초타원을 사용하세요.</string>
+    <string name="shape_type">모양 유형</string>
+    <string name="cut">자르다</string>
+    <string name="rounded">둥근</string>
+    <string name="smooth">매끄러운</string>
+    <string name="cut_shapes_sub">둥글게 뭉치지 않고 날카로운 모서리</string>
+    <string name="rounded_shapes_sub">클래식한 둥근 모서리</string>
+    <string name="shapes_type">모양 유형</string>
+    <string name="corners_size">모서리 크기</string>
+    <string name="squircle">다람쥐</string>
+    <string name="squircle_shapes_sub">우아한 둥근 UI 요소</string>
 </resources>

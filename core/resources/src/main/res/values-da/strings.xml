@@ -2041,4 +2041,14 @@
     <string name="downloading">Downloader</string>
     <string name="smooth_shapes">Glatte former</string>
     <string name="smooth_shapes_sub">Brug superellipser i stedet for standard afrundede rektangler for glattere, mere naturlige former</string>
+    <string name="shape_type">Form Type</string>
+    <string name="cut">Skære</string>
+    <string name="rounded">Afrundet</string>
+    <string name="smooth">Glat</string>
+    <string name="cut_shapes_sub">Skarpe kanter uden afrunding</string>
+    <string name="rounded_shapes_sub">Klassiske afrundede hjørner</string>
+    <string name="shapes_type">Former Type</string>
+    <string name="corners_size">Hjørner Størrelse</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegante afrundede UI-elementer</string>
 </resources>

@@ -2040,4 +2040,14 @@
     <string name="downloading">กำลังดาวน์โหลด</string>
     <string name="smooth_shapes">รูปร่างเรียบเนียน</string>
     <string name="smooth_shapes_sub">ใช้ซูเปอร์รีลิปส์แทนสี่เหลี่ยมมนมาตรฐานเพื่อให้รูปทรงเรียบเนียนและเป็นธรรมชาติยิ่งขึ้น</string>
+    <string name="shape_type">ประเภทรูปร่าง</string>
+    <string name="cut">ตัด</string>
+    <string name="rounded">โค้งมน</string>
+    <string name="smooth">เรียบ</string>
+    <string name="cut_shapes_sub">ขอบคมโดยไม่ต้องปัดเศษ</string>
+    <string name="rounded_shapes_sub">มุมโค้งมนสุดคลาสสิก</string>
+    <string name="shapes_type">ประเภทรูปร่าง</string>
+    <string name="corners_size">ขนาดมุม</string>
+    <string name="squircle">สควอเคิล</string>
+    <string name="squircle_shapes_sub">องค์ประกอบ UI แบบโค้งมนที่หรูหรา</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">Allalaadimine</string>
     <string name="smooth_shapes">Siledad kujundid</string>
     <string name="smooth_shapes_sub">Kasutage tavaliste ümarate ristkülikute asemel superellipsi, et saada sujuvamaid ja loomulikumaid kujundeid</string>
+    <string name="shape_type">Kuju tüüp</string>
+    <string name="cut">Lõika</string>
+    <string name="rounded">Ümardatud</string>
+    <string name="smooth">Sujuv</string>
+    <string name="cut_shapes_sub">Teravad servad ilma ümardamiseta</string>
+    <string name="rounded_shapes_sub">Klassikalised ümarad nurgad</string>
+    <string name="shapes_type">Kujundite tüüp</string>
+    <string name="corners_size">Nurkade suurus</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegantsed ümarad kasutajaliidese elemendid</string>
 </resources>

@@ -2041,4 +2041,14 @@
     <string name="downloading">Descàrrega</string>
     <string name="smooth_shapes">Formes llises</string>
     <string name="smooth_shapes_sub">Utilitzeu superel·lipses en lloc de rectangles arrodonits estàndard per obtenir formes més suaus i naturals</string>
+    <string name="shape_type">Tipus de forma</string>
+    <string name="cut">Tallar</string>
+    <string name="rounded">Arrodonit</string>
+    <string name="smooth">suau</string>
+    <string name="cut_shapes_sub">Vores afilades sense arrodoniments</string>
+    <string name="rounded_shapes_sub">Clàssiques cantonades arrodonides</string>
+    <string name="shapes_type">Tipus de formes</string>
+    <string name="corners_size">Mida de les cantonades</string>
+    <string name="squircle">Esquirol</string>
+    <string name="squircle_shapes_sub">Elements d\'IU arrodonits elegants</string>
 </resources>

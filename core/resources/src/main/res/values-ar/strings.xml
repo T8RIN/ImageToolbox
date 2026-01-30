@@ -2045,4 +2045,14 @@
     <string name="downloading">يُنزّل</string>
     <string name="smooth_shapes">الأشكال السلسة</string>
     <string name="smooth_shapes_sub">استخدم القطع الناقص الفائق بدلاً من المستطيلات المستديرة القياسية للحصول على أشكال أكثر سلاسة وطبيعية</string>
+    <string name="shape_type">نوع الشكل</string>
+    <string name="cut">يقطع</string>
+    <string name="rounded">مدور</string>
+    <string name="smooth">سلس</string>
+    <string name="cut_shapes_sub">حواف حادة بدون تقريب</string>
+    <string name="rounded_shapes_sub">زوايا مستديرة كلاسيكية</string>
+    <string name="shapes_type">نوع الأشكال</string>
+    <string name="corners_size">حجم الزوايا</string>
+    <string name="squircle">سكويركل</string>
+    <string name="squircle_shapes_sub">عناصر واجهة المستخدم مدورة أنيقة</string>
 </resources>

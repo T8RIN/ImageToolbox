@@ -2041,4 +2041,14 @@
     <string name="downloading">در حال دانلود</string>
     <string name="smooth_shapes">اشکال صاف</string>
     <string name="smooth_shapes_sub">به جای مستطیل های گرد استاندارد از ابربیضی ها استفاده کنید تا شکل های صاف تر و طبیعی تر داشته باشید</string>
+    <string name="shape_type">نوع شکل</string>
+    <string name="cut">برش دهید</string>
+    <string name="rounded">گرد شده</string>
+    <string name="smooth">صاف</string>
+    <string name="cut_shapes_sub">لبه های تیز بدون گرد</string>
+    <string name="rounded_shapes_sub">گوشه های گرد کلاسیک</string>
+    <string name="shapes_type">نوع اشکال</string>
+    <string name="corners_size">اندازه گوشه ها</string>
+    <string name="squircle">سنجاب</string>
+    <string name="squircle_shapes_sub">عناصر رابط کاربری گرد و زیبا</string>
 </resources>

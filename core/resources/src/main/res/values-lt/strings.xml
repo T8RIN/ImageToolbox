@@ -2044,4 +2044,14 @@
     <string name="downloading">Atsisiunčiama</string>
     <string name="smooth_shapes">Lygios formos</string>
     <string name="smooth_shapes_sub">Naudokite superelipses, o ne standartinius suapvalintus stačiakampius, kad gautumėte lygesnes, natūralesnes formas</string>
+    <string name="shape_type">Formos tipas</string>
+    <string name="cut">Iškirpti</string>
+    <string name="rounded">Suapvalinti</string>
+    <string name="smooth">Sklandžiai</string>
+    <string name="cut_shapes_sub">Aštrūs kraštai be apvalinimo</string>
+    <string name="rounded_shapes_sub">Klasikiniai užapvalinti kampai</string>
+    <string name="shapes_type">Formos tipas</string>
+    <string name="corners_size">Kampų dydis</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegantiški suapvalinti vartotojo sąsajos elementai</string>
 </resources>

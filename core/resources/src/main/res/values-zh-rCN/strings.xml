@@ -2040,4 +2040,14 @@
     <string name="downloading">下载中</string>
     <string name="smooth_shapes">光滑的形状</string>
     <string name="smooth_shapes_sub">使用超椭圆代替标准圆角矩形以获得更平滑、更自然的形状</string>
+    <string name="shape_type">形状类型</string>
+    <string name="cut">切</string>
+    <string name="rounded">圆形</string>
+    <string name="smooth">光滑的</string>
+    <string name="cut_shapes_sub">边缘锋利，无倒圆角</string>
+    <string name="rounded_shapes_sub">经典圆角</string>
+    <string name="shapes_type">形状类型</string>
+    <string name="corners_size">边角尺寸</string>
+    <string name="squircle">松鼠</string>
+    <string name="squircle_shapes_sub">优雅的圆形 UI 元素</string>
 </resources>

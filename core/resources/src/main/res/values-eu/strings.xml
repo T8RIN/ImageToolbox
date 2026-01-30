@@ -2041,4 +2041,14 @@
     <string name="downloading">Deskargatzen</string>
     <string name="smooth_shapes">Forma leunak</string>
     <string name="smooth_shapes_sub">Erabili superelipseak laukizuzen biribilduen ordez forma leunagoak eta naturalagoak lortzeko</string>
+    <string name="shape_type">Forma mota</string>
+    <string name="cut">Moztu</string>
+    <string name="rounded">Biribildua</string>
+    <string name="smooth">Leuna</string>
+    <string name="cut_shapes_sub">Ertz zorrotzak biribildu gabe</string>
+    <string name="rounded_shapes_sub">Ertz biribildu klasikoak</string>
+    <string name="shapes_type">Formak Mota</string>
+    <string name="corners_size">Txokoak Tamaina</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">UI elementu biribildu dotoreak</string>
 </resources>

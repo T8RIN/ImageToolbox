@@ -2041,4 +2041,14 @@
     <string name="downloading">Letöltés</string>
     <string name="smooth_shapes">Sima formák</string>
     <string name="smooth_shapes_sub">Használjon szuperellipszeket a szokásos lekerekített téglalapok helyett a simább, természetesebb formák érdekében</string>
+    <string name="shape_type">Alaktípus</string>
+    <string name="cut">Vágott</string>
+    <string name="rounded">Lekerekített</string>
+    <string name="smooth">Sima</string>
+    <string name="cut_shapes_sub">Éles élek lekerekítés nélkül</string>
+    <string name="rounded_shapes_sub">Klasszikus lekerekített sarkok</string>
+    <string name="shapes_type">Formák típusa</string>
+    <string name="corners_size">Sarkok mérete</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Elegáns, lekerekített felhasználói felület elemei</string>
 </resources>

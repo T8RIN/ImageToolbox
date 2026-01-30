@@ -2043,4 +2043,14 @@
     <string name="downloading">Stahování</string>
     <string name="smooth_shapes">Hladké tvary</string>
     <string name="smooth_shapes_sub">Použijte superelipsy místo standardních zaoblených obdélníků pro hladší a přirozenější tvary</string>
+    <string name="shape_type">Typ tvaru</string>
+    <string name="cut">Střih</string>
+    <string name="rounded">Zaoblený</string>
+    <string name="smooth">Hladký</string>
+    <string name="cut_shapes_sub">Ostré hrany bez zaoblení</string>
+    <string name="rounded_shapes_sub">Klasické zaoblené rohy</string>
+    <string name="shapes_type">Tvary Typ</string>
+    <string name="corners_size">Velikost rohů</string>
+    <string name="squircle">Veverka</string>
+    <string name="squircle_shapes_sub">Elegantní zaoblené prvky uživatelského rozhraní</string>
 </resources>

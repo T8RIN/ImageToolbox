@@ -2043,4 +2043,14 @@
     <string name="downloading">מוריד</string>
     <string name="smooth_shapes">צורות חלקות</string>
     <string name="smooth_shapes_sub">השתמש בסופראליפסות במקום במלבנים מעוגלים סטנדרטיים לקבלת צורות חלקות וטבעיות יותר</string>
+    <string name="shape_type">סוג צורה</string>
+    <string name="cut">גְזִירָה</string>
+    <string name="rounded">מְעוּגָל</string>
+    <string name="smooth">לְהַחלִיק</string>
+    <string name="cut_shapes_sub">קצוות חדים ללא עיגול</string>
+    <string name="rounded_shapes_sub">פינות מעוגלות קלאסיות</string>
+    <string name="shapes_type">סוג צורות</string>
+    <string name="corners_size">גודל פינות</string>
+    <string name="squircle">סקוורקל</string>
+    <string name="squircle_shapes_sub">רכיבי ממשק משתמש מעוגלים ואלגנטיים</string>
 </resources>

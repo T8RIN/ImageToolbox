@@ -2042,4 +2042,14 @@
     <string name="downloading">डाउनलोड करत आहे</string>
     <string name="smooth_shapes">गुळगुळीत आकार</string>
     <string name="smooth_shapes_sub">गुळगुळीत, अधिक नैसर्गिक आकारांसाठी मानक गोलाकार आयतांऐवजी सुपरएलिप्स वापरा</string>
+    <string name="shape_type">आकार प्रकार</string>
+    <string name="cut">कट</string>
+    <string name="rounded">गोलाकार</string>
+    <string name="smooth">गुळगुळीत</string>
+    <string name="cut_shapes_sub">गोलाकार न करता तीक्ष्ण कडा</string>
+    <string name="rounded_shapes_sub">क्लासिक गोलाकार कोपरे</string>
+    <string name="shapes_type">आकार प्रकार</string>
+    <string name="corners_size">कोपऱ्यांचा आकार</string>
+    <string name="squircle">गिलहरी</string>
+    <string name="squircle_shapes_sub">मोहक गोलाकार UI घटक</string>
 </resources>

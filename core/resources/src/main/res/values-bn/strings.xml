@@ -2041,4 +2041,14 @@
     <string name="downloading">ডাউনলোড হচ্ছে</string>
     <string name="smooth_shapes">মসৃণ আকার</string>
     <string name="smooth_shapes_sub">মসৃণ, আরও প্রাকৃতিক আকৃতির জন্য আদর্শ গোলাকার আয়তক্ষেত্রের পরিবর্তে সুপারেলিপ্স ব্যবহার করুন</string>
+    <string name="shape_type">আকৃতির ধরন</string>
+    <string name="cut">কাটা</string>
+    <string name="rounded">গোলাকার</string>
+    <string name="smooth">মসৃণ</string>
+    <string name="cut_shapes_sub">বৃত্তাকার ছাড়াই ধারালো প্রান্ত</string>
+    <string name="rounded_shapes_sub">ক্লাসিক গোলাকার কোণ</string>
+    <string name="shapes_type">আকারের ধরন</string>
+    <string name="corners_size">কোণার আকার</string>
+    <string name="squircle">কাঠবিড়ালি</string>
+    <string name="squircle_shapes_sub">মার্জিত গোলাকার UI উপাদান</string>
 </resources>

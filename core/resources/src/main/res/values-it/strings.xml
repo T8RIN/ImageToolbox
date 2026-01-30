@@ -2041,4 +2041,14 @@
     <string name="downloading">Scaricamento in corso</string>
     <string name="smooth_shapes">Forme morbide</string>
     <string name="smooth_shapes_sub">Utilizza le superellissi invece dei rettangoli arrotondati standard per forme più morbide e naturali</string>
+    <string name="shape_type">Tipo di forma</string>
+    <string name="cut">Taglio</string>
+    <string name="rounded">Arrotondato</string>
+    <string name="smooth">Liscio</string>
+    <string name="cut_shapes_sub">Spigoli vivi senza arrotondamenti</string>
+    <string name="rounded_shapes_sub">Angoli arrotondati classici</string>
+    <string name="shapes_type">Tipo di forme</string>
+    <string name="corners_size">Dimensioni degli angoli</string>
+    <string name="squircle">Squircle</string>
+    <string name="squircle_shapes_sub">Eleganti elementi dell\'interfaccia utente arrotondati</string>
 </resources>

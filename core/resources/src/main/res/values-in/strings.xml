@@ -2040,4 +2040,14 @@
     <string name="downloading">Mengunduh</string>
     <string name="smooth_shapes">Bentuk Halus</string>
     <string name="smooth_shapes_sub">Gunakan superelips daripada persegi panjang bulat standar untuk mendapatkan bentuk yang lebih halus dan alami</string>
+    <string name="shape_type">Tipe Bentuk</string>
+    <string name="cut">Memotong</string>
+    <string name="rounded">Bulat</string>
+    <string name="smooth">Mulus</string>
+    <string name="cut_shapes_sub">Tepi tajam tanpa pembulatan</string>
+    <string name="rounded_shapes_sub">Sudut membulat klasik</string>
+    <string name="shapes_type">Tipe Bentuk</string>
+    <string name="corners_size">Ukuran Sudut</string>
+    <string name="squircle">tupai</string>
+    <string name="squircle_shapes_sub">Elemen UI bulat yang elegan</string>
 </resources>

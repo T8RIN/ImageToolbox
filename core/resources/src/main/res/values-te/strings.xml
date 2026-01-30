@@ -2041,4 +2041,14 @@
     <string name="downloading">డౌన్‌లోడ్ చేస్తోంది</string>
     <string name="smooth_shapes">స్మూత్ ఆకారాలు</string>
     <string name="smooth_shapes_sub">మృదువైన, మరింత సహజమైన ఆకారాల కోసం ప్రామాణిక గుండ్రని దీర్ఘచతురస్రాలకు బదులుగా సూపర్‌ఎల్లిప్స్‌లను ఉపయోగించండి</string>
+    <string name="shape_type">ఆకార రకం</string>
+    <string name="cut">కట్</string>
+    <string name="rounded">గుండ్రంగా</string>
+    <string name="smooth">మృదువైన</string>
+    <string name="cut_shapes_sub">గుండ్రంగా లేకుండా పదునైన అంచులు</string>
+    <string name="rounded_shapes_sub">క్లాసిక్ గుండ్రని మూలలు</string>
+    <string name="shapes_type">ఆకారాల రకం</string>
+    <string name="corners_size">మూలల పరిమాణం</string>
+    <string name="squircle">ఉడుత</string>
+    <string name="squircle_shapes_sub">సొగసైన గుండ్రని UI మూలకాలు</string>
 </resources>
