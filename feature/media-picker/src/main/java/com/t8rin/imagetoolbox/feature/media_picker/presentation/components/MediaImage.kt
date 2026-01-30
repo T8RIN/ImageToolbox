@@ -20,8 +20,9 @@ package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -40,9 +41,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import kotlinx.coroutines.delay
 
 @Composable
 fun MediaImage(
@@ -77,18 +81,20 @@ fun MediaImage(
     onItemClick: (Media) -> Unit,
     onItemLongClick: (Media) -> Unit,
 ) {
-    val selectedSize by animateDpAsState(
-        if (isSelected) 12.dp else 0.dp
-    )
-    val scale by animateFloatAsState(
-        if (isSelected) 0.5f else 1f
-    )
-    val selectedShapeSize by animateDpAsState(
-        if (isSelected) 16.dp else 4.dp
-    )
-    val strokeSize by animateDpAsState(
-        targetValue = if (isSelected) 2.dp else 0.dp
-    )
+    val transition = updateTransition(isSelected)
+
+    val selectedSize by transition.animateDp {
+        if (it) 12.dp else 0.dp
+    }
+    val scale by transition.animateFloat {
+        if (it) 0.5f else 1f
+    }
+    val selectedShapeSize by transition.animateDp {
+        if (it) 16.dp else 4.dp
+    }
+    val strokeSize by transition.animateDp {
+        if (it) 2.dp else 0.dp
+    }
     var isImageError by remember {
         mutableStateOf(false)
     }
@@ -97,6 +103,15 @@ fun MediaImage(
             if (isImageError) errorContainer
             else primaryContainer
         } else Color.Transparent
+    }
+
+    var isVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        delay(500)
+        isVisible = true
     }
 
     Box(
@@ -142,8 +157,7 @@ fun MediaImage(
                 )
         ) {
             Picture(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 model = media.uri,
                 contentDescription = media.label,
                 contentScale = ContentScale.Crop,
@@ -178,29 +192,31 @@ fun MediaImage(
         }
 
         AnimatedContent(
-            targetState = media.duration != null,
+            targetState = media.duration != null && isVisible,
             transitionSpec = { fadeIn() togetherWith fadeOut() },
             modifier = Modifier.align(Alignment.TopEnd)
         ) { haveDuration ->
-            if (haveDuration) {
-                MediaVideoDurationHeader(
-                    modifier = Modifier
-                        .padding(selectedSize / 2)
-                        .scale(scale),
-                    media = media
-                )
-            } else {
-                MediaExtensionHeader(
-                    modifier = Modifier
-                        .padding(selectedSize / 2)
-                        .scale(scale),
-                    media = media
-                )
+            if (isVisible) {
+                if (haveDuration) {
+                    MediaVideoDurationHeader(
+                        modifier = Modifier
+                            .padding(selectedSize / 2)
+                            .scale(scale),
+                        media = media
+                    )
+                } else {
+                    MediaExtensionHeader(
+                        modifier = Modifier
+                            .padding(selectedSize / 2)
+                            .scale(scale),
+                        media = media
+                    )
+                }
             }
         }
 
         AnimatedVisibility(
-            visible = media.fileSize > 0,
+            visible = media.fileSize > 0 && isVisible,
             enter = fadeIn(),
             exit = fadeOut(),
             modifier = Modifier.align(Alignment.BottomStart)
@@ -218,7 +234,7 @@ fun MediaImage(
         }
 
         AnimatedVisibility(
-            visible = media.isFavorite,
+            visible = media.isFavorite && isVisible,
             enter = fadeIn(),
             exit = fadeOut(),
             modifier = Modifier

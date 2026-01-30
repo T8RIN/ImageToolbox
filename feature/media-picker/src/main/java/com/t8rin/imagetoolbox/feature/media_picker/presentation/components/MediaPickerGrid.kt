@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -190,17 +190,17 @@ internal fun MediaPickerGrid(
                 ManageExternalStorageWarning(onRequestManagePermission)
             }
         }
-        items(
+        itemsIndexed(
             items = state.mappedMedia,
-            key = {
-                val first = if (it is MediaItem.MediaViewItem) it.media.toString() else it.key
-                "$first-${state.mappedMedia.indexOf(it)}"
+            key = { index, item ->
+                val first = if (item is MediaItem.MediaViewItem) item.media.toString() else item.key
+                "$first-$index"
             },
-            contentType = { it.key.startsWith("media_") },
-            span = { item ->
+            contentType = { _, item -> item.key.startsWith("media_") },
+            span = { _, item ->
                 GridItemSpan(if (item.key.isHeaderKey) maxLineSpan else 1)
             }
-        ) { item ->
+        ) { _, item ->
             when (item) {
                 is MediaItem.Header -> {
                     val isChecked = rememberSaveable { mutableStateOf(false) }
@@ -210,14 +210,15 @@ internal fun MediaPickerGrid(
                             isChecked.value = selectedMedia.containsAll(item.data)
                         }
                     }
-                    val title = item.text
-                        .replace("Today", stringToday)
-                        .replace("Yesterday", stringYesterday)
                     MediaStickyHeader(
-                        date = title,
+                        date = remember(item.text) {
+                            item.text
+                                .replace("Today", stringToday)
+                                .replace("Yesterday", stringYesterday)
+                        },
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
-                        isChecked = isChecked,
+                        isChecked = isChecked.value,
                         onChecked = {
                             if (allowMultiple) {
                                 hapticFeedback.longPress()
