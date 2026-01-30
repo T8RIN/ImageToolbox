@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -156,18 +156,15 @@ class MediaPickerComponent @AssistedInject internal constructor(
         data: List<Media>,
         error: String,
         albumId: Long,
-        groupByMonth: Boolean = false,
-        withMonthHeader: Boolean = true
+        groupByMonth: Boolean = false
     ) {
         val mappedData = mutableListOf<MediaItem>()
-        val mappedDataWithMonthly = mutableListOf<MediaItem>()
         val monthHeaderList: MutableSet<String> = mutableSetOf()
         withContext(defaultDispatcher) {
             val groupedData = data.groupBy {
                 if (groupByMonth) {
                     it.timestamp.getMonth()
                 } else {
-                    /** Localized in composition */
                     it.timestamp.getDate(
                         stringToday = "Today",
                         stringYesterday = "Yesterday"
@@ -182,30 +179,13 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 if (groupByMonth) {
                     mappedData.add(dateHeader)
                     mappedData.addAll(groupedMedia)
-                    mappedDataWithMonthly.add(dateHeader)
-                    mappedDataWithMonthly.addAll(groupedMedia)
                 } else {
                     val month = getMonth(date)
                     if (month.isNotEmpty() && !monthHeaderList.contains(month)) {
                         monthHeaderList.add(month)
-                        if (withMonthHeader && mappedDataWithMonthly.isNotEmpty()) {
-                            mappedDataWithMonthly.add(
-                                MediaItem.Header(
-                                    "header_big_${month}_${data.size}",
-                                    month,
-                                    emptyList()
-                                )
-                            )
-                        }
                     }
                     mappedData.add(dateHeader)
-                    if (withMonthHeader) {
-                        mappedDataWithMonthly.add(dateHeader)
-                    }
                     mappedData.addAll(groupedMedia)
-                    if (withMonthHeader) {
-                        mappedDataWithMonthly.addAll(groupedMedia)
-                    }
                 }
             }
         }
@@ -216,7 +196,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     error = error,
                     media = data,
                     mappedMedia = mappedData,
-                    mappedMediaWithMonthly = if (withMonthHeader) mappedDataWithMonthly else emptyList(),
                     dateHeader = data.dateHeader(albumId)
                 )
             )

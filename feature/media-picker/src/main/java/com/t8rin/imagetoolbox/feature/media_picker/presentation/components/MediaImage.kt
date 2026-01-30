@@ -17,15 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -33,19 +28,15 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +50,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
-import com.t8rin.imagetoolbox.core.ui.theme.Red
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
@@ -68,7 +58,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
-import kotlinx.coroutines.delay
 
 @Composable
 fun MediaImage(
@@ -103,15 +92,6 @@ fun MediaImage(
             if (isImageError) errorContainer
             else primaryContainer
         } else Color.Transparent
-    }
-
-    var isVisible by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    LaunchedEffect(Unit) {
-        delay(500)
-        isVisible = true
     }
 
     Box(
@@ -191,72 +171,41 @@ fun MediaImage(
             )
         }
 
-        AnimatedContent(
-            targetState = media.duration != null && isVisible,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
+        Box(
             modifier = Modifier.align(Alignment.TopEnd)
-        ) { haveDuration ->
-            if (isVisible) {
-                if (haveDuration) {
-                    MediaVideoDurationHeader(
-                        modifier = Modifier
-                            .padding(selectedSize / 2)
-                            .scale(scale),
-                        media = media
-                    )
-                } else {
-                    MediaExtensionHeader(
-                        modifier = Modifier
-                            .padding(selectedSize / 2)
-                            .scale(scale),
-                        media = media
-                    )
-                }
+        ) {
+            if (media.duration != null) {
+                MediaVideoDurationHeader(
+                    modifier = Modifier
+                        .padding(selectedSize / 2)
+                        .scale(scale),
+                    media = media,
+                )
+            } else {
+                MediaExtensionHeader(
+                    modifier = Modifier
+                        .padding(selectedSize / 2)
+                        .scale(scale),
+                    media = media
+                )
             }
         }
 
-        AnimatedVisibility(
-            visible = media.fileSize > 0 && isVisible,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier.align(Alignment.BottomStart)
-        ) {
+        if (media.fileSize > 0) {
             MediaSizeFooter(
                 modifier = Modifier
+                    .align(Alignment.BottomStart)
                     .padding(selectedSize / 2)
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
                         transformOrigin = TransformOrigin(0.3f, 0.5f)
                     },
-                media = media
+                media = media,
             )
         }
 
-        AnimatedVisibility(
-            visible = media.isFavorite && isVisible,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(selectedSize / 2)
-                    .scale(scale)
-                    .padding(8.dp)
-                    .size(16.dp),
-                imageVector = Icons.Filled.Favorite,
-                tint = Red,
-                contentDescription = null
-            )
-        }
-
-        AnimatedVisibility(
-            visible = isInSelection,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
+        if (isInSelection) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -275,10 +224,10 @@ fun MediaImage(
                     modifier = Modifier
                         .clip(ShapeDefaults.circle)
                         .background(
-                            animateColorAsState(
-                                if (isSelected) MaterialTheme.colorScheme.surfaceContainer
+                            transition.animateColor {
+                                if (it) MaterialTheme.colorScheme.surfaceContainer
                                 else Color.Transparent
-                            ).value
+                            }.value
                         )
                 )
             }

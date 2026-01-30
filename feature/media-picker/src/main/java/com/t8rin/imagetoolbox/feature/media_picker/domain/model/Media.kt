@@ -37,8 +37,6 @@ data class Media(
     val takenTimestamp: Long? = null,
     val fullDate: String,
     val mimeType: String,
-    val favorite: Int,
-    val trashed: Int,
     val duration: String? = null,
 ) {
     val fileSize: Long by lazy { uri.toUri().fileSize() ?: 0 }
@@ -48,10 +46,6 @@ data class Media(
     val isVideo: Boolean = mimeType.startsWith("video/") && duration != null
 
     val isImage: Boolean = mimeType.startsWith("image/")
-
-    val isTrashed: Boolean = trashed == 1
-
-    val isFavorite: Boolean = favorite == 1
 
     /**
      * Used to determine if the Media object is not accessible
