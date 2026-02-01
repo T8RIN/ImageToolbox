@@ -49,6 +49,8 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.request.ImageRequest
+import coil3.size.Precision
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -57,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 
 @Composable
@@ -138,8 +141,13 @@ fun MediaImage(
         ) {
             Picture(
                 modifier = Modifier.fillMaxSize(),
-                model = media.uri,
-                crossfadeEnabled = false,
+                model = remember(media.uri) {
+                    ImageRequest.Builder(appContext)
+                        .data(media.uri)
+                        .size(512)
+                        .precision(Precision.INEXACT)
+                        .build()
+                },
                 contentDescription = media.label,
                 contentScale = ContentScale.Crop,
                 onSuccess = {
@@ -168,7 +176,7 @@ fun MediaImage(
                         )
                     }
                 },
-                filterQuality = FilterQuality.Low
+                filterQuality = FilterQuality.High
             )
         }
 
