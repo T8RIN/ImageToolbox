@@ -116,6 +116,7 @@ fun MediaImage(
             .aspectRatio(1f)
     ) {
         val shape = AutoCornersShape(selectedShapeSize)
+
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
