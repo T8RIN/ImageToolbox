@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>

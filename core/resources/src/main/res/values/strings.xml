@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -2077,7 +2077,7 @@
     <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact.</string>
     <string name="width_pattern_description">The image width in pixels, useful for tracking resolution changes or scaling results.</string>
     <string name="height_pattern_description">The image height in pixels, helpful when working with aspect ratios or exports.</string>
-    <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format like yyyy-MM-dd_HH-mm-ss for perfect sorting.</string>
+    <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format by java specification for perfect sorting.</string>
     <string name="random_numbers_pattern_description">Generates random digits to guarantee unique filenames; add more digits for extra safety against duplicates.</string>
     <string name="sequence_number_pattern_description">Auto-incrementing counter for batch exports, ideal when saving multiple images in one session.</string>
     <string name="preset_info_pattern_description">Inserts the applied preset name into the filename so you can easily remember how the image was processed.</string>
