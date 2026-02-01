@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -2056,11 +2058,11 @@
     <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła.</string>
     <string name="width_pattern_description">Szerokość obrazu w pikselach, przydatna do śledzenia zmian rozdzielczości lub wyników skalowania.</string>
     <string name="height_pattern_description">Wysokość obrazu w pikselach, pomocna podczas pracy ze współczynnikami proporcji lub eksportami.</string>
-    <string name="formatted_timestamp_pattern_description">Konfigurowalny znacznik czasu, który pozwala zdefiniować własny format, np. rrrr-MM-dd_HH-mm-ss, w celu idealnego sortowania.</string>
     <string name="random_numbers_pattern_description">Generuje losowe cyfry, aby zagwarantować unikalne nazwy plików; dodaj więcej cyfr, aby zapewnić dodatkowe bezpieczeństwo przed duplikatami.</string>
     <string name="sequence_number_pattern_description">Automatycznie zwiększający się licznik do eksportu wsadowego, idealny przy zapisywaniu wielu obrazów w jednej sesji.</string>
     <string name="preset_info_pattern_description">Wstawia zastosowaną nazwę ustawienia wstępnego do nazwy pliku, dzięki czemu można łatwo zapamiętać sposób przetwarzania obrazu.</string>
     <string name="scale_mode_pattern_description">Wyświetla tryb skalowania obrazu używany podczas przetwarzania, pomagając rozróżnić obrazy o zmienionym rozmiarze, przycięte lub dopasowane.</string>
     <string name="suffix_pattern_description">Niestandardowy tekst umieszczony na końcu nazwy pliku, przydatny przy wersjonowaniu, takim jak _v2, _edited lub _final.</string>
     <string name="extension_pattern_description">Rozszerzenie pliku (png, jpg, webp itp.), automatycznie dopasowujące się do aktualnie zapisanego formatu.</string>
+    <string name="formatted_timestamp_pattern_description">Konfigurowalny znacznik czasu, który pozwala zdefiniować własny format według specyfikacji Java w celu idealnego sortowania.</string>
 </resources>

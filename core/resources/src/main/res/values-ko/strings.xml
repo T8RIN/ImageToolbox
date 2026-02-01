@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -2053,11 +2055,11 @@
     <string name="original_filename_pattern_description">확장자 없이 원본 파일 이름을 사용하므로 소스 식별을 그대로 유지하는 데 도움이 됩니다.</string>
     <string name="width_pattern_description">해상도 변경을 추적하거나 결과를 조정하는 데 유용한 이미지 너비(픽셀)입니다.</string>
     <string name="height_pattern_description">픽셀 단위의 이미지 높이. 종횡비 작업이나 내보내기 작업 시 유용합니다.</string>
-    <string name="formatted_timestamp_pattern_description">완벽한 정렬을 위해 yyyy-MM-dd_HH-mm-ss와 같은 고유한 형식을 정의할 수 있는 사용자 정의 가능한 타임스탬프입니다.</string>
     <string name="random_numbers_pattern_description">고유한 파일 이름을 보장하기 위해 임의의 숫자를 생성합니다. 중복에 대한 추가 안전을 위해 더 많은 숫자를 추가하십시오.</string>
     <string name="sequence_number_pattern_description">일괄 내보내기를 위한 자동 증가 카운터로, 한 세션에서 여러 이미지를 저장할 때 이상적입니다.</string>
     <string name="preset_info_pattern_description">적용된 프리셋 이름을 파일 이름에 삽입하여 이미지 처리 방법을 쉽게 기억할 수 있습니다.</string>
     <string name="scale_mode_pattern_description">처리 중에 사용되는 이미지 크기 조정 모드를 표시하여 크기가 조정되거나 잘리거나 맞는 이미지를 구별하는 데 도움이 됩니다.</string>
     <string name="suffix_pattern_description">파일 이름 끝에 배치된 사용자 정의 텍스트는 _v2, _edited 또는 _final과 같은 버전 관리에 유용합니다.</string>
     <string name="extension_pattern_description">파일 확장자(png, jpg, webp 등)는 실제 저장된 형식과 자동으로 일치합니다.</string>
+    <string name="formatted_timestamp_pattern_description">완벽한 정렬을 위해 Java 사양에 따라 고유한 형식을 정의할 수 있는 사용자 정의 가능한 타임스탬프입니다.</string>
 </resources>

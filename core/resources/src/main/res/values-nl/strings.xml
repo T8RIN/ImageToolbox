@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden.</string>
     <string name="width_pattern_description">De afbeeldingsbreedte in pixels, handig voor het volgen van resolutiewijzigingen of schaalresultaten.</string>
     <string name="height_pattern_description">De afbeeldingshoogte in pixels, handig bij het werken met beeldverhoudingen of exporten.</string>
-    <string name="formatted_timestamp_pattern_description">Een aanpasbare tijdstempel waarmee u uw eigen notatie kunt definiëren, zoals jjjj-MM-dd_HH-mm-ss, voor een perfecte sortering.</string>
     <string name="random_numbers_pattern_description">Genereert willekeurige cijfers om unieke bestandsnamen te garanderen; voeg meer cijfers toe voor extra veiligheid tegen duplicaten.</string>
     <string name="sequence_number_pattern_description">Automatisch oplopende teller voor batchexports, ideaal bij het opslaan van meerdere afbeeldingen in één sessie.</string>
     <string name="preset_info_pattern_description">Voegt de toegepaste voorinstellingsnaam in de bestandsnaam in, zodat u gemakkelijk kunt onthouden hoe de afbeelding is verwerkt.</string>
     <string name="scale_mode_pattern_description">Toont de afbeeldingsschaalmodus die wordt gebruikt tijdens de verwerking, zodat afbeeldingen waarvan het formaat is aangepast, bijgesneden of passend zijn gemaakt, beter te onderscheiden zijn.</string>
     <string name="suffix_pattern_description">Aangepaste tekst aan het einde van de bestandsnaam, handig voor versiebeheer zoals _v2, _edited of _final.</string>
     <string name="extension_pattern_description">De bestandsextensie (png, jpg, webp, etc.), die automatisch overeenkomt met het daadwerkelijk opgeslagen formaat.</string>
+    <string name="formatted_timestamp_pattern_description">Een aanpasbare tijdstempel waarmee u uw eigen formaat kunt definiëren via Java-specificatie voor perfecte sortering.</string>
 </resources>

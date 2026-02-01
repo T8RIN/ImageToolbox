@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">Käyttää alkuperäistä tiedostonimeä ilman päätettä, mikä auttaa sinua pitämään lähteen tunnisteen ennallaan.</string>
     <string name="width_pattern_description">Kuvan leveys pikseleinä, hyödyllinen tarkkuuden muutosten seurannassa tai tulosten skaalaus.</string>
     <string name="height_pattern_description">Kuvan korkeus pikseleinä, hyödyllinen kuvasuhteita tai vientiä käytettäessä.</string>
-    <string name="formatted_timestamp_pattern_description">Muokattava aikaleima, jonka avulla voit määrittää oman muotosi, kuten vvvv-KK-pp_HH-mm-ss täydelliseen lajitteluun.</string>
     <string name="random_numbers_pattern_description">Luo satunnaisia ​​numeroita ainutlaatuisten tiedostonimien takaamiseksi; lisää numeroita lisäturvaaksesi kaksoiskappaleita vastaan.</string>
     <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri erävientiä varten, ihanteellinen, kun tallennetaan useita kuvia yhdessä istunnossa.</string>
     <string name="preset_info_pattern_description">Lisää käytetyn esiasetuksen nimen tiedostonimeen, jotta voit helposti muistaa, kuinka kuvaa käsiteltiin.</string>
     <string name="scale_mode_pattern_description">Näyttää käsittelyn aikana käytetyn kuvan skaalaustilan, mikä auttaa erottamaan muutetut, rajatut tai sovitetut kuvat.</string>
     <string name="suffix_pattern_description">Muokattu teksti, joka on sijoitettu tiedostonimen loppuun, hyödyllinen versioinnissa, kuten _v2, _edited tai _final.</string>
     <string name="extension_pattern_description">Tiedostotunniste (png, jpg, webp jne.), joka vastaa automaattisesti todellista tallennettua muotoa.</string>
+    <string name="formatted_timestamp_pattern_description">Muokattava aikaleima, jonka avulla voit määrittää oman muotosi java-määrityksen avulla täydellisen lajittelun saavuttamiseksi.</string>
 </resources>

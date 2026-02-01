@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -2056,11 +2058,11 @@
     <string name="original_filename_pattern_description">Выкарыстоўвае зыходнае імя файла без пашырэння, што дапамагае захаваць ідэнтыфікацыю крыніцы.</string>
     <string name="width_pattern_description">Шырыня выявы ў пікселях, карысная для адсочвання змяненняў раздзялення або маштабавання вынікаў.</string>
     <string name="height_pattern_description">Вышыня выявы ў пікселях, карысная пры працы з суадносінамі бакоў або экспартам.</string>
-    <string name="formatted_timestamp_pattern_description">Наладжвальная пазнака часу, якая дазваляе вам вызначаць уласны фармат, напрыклад гггг-ММ-дд_ГГ-мм-сс, для ідэальнага сартавання.</string>
     <string name="random_numbers_pattern_description">Генеруе выпадковыя лічбы, каб гарантаваць унікальныя імёны файлаў; дадаць больш лічбаў для дадатковай бяспекі ад дублікатаў.</string>
     <string name="sequence_number_pattern_description">Лічыльнік з аўтаматычным павелічэннем для пакетнага экспарту, ідэальны варыянт пры захаванні некалькіх малюнкаў за адзін сеанс.</string>
     <string name="preset_info_pattern_description">Устаўляе прымененае імя загадзя ў імя файла, каб вы маглі лёгка запомніць, як апрацоўваўся малюнак.</string>
     <string name="scale_mode_pattern_description">Адлюстроўвае рэжым маштабавання выявы, які выкарыстоўваецца падчас апрацоўкі, дапамагаючы адрозніваць выявы змененага памеру, абрэзаныя або падагнаныя.</string>
     <string name="suffix_pattern_description">Нестандартны тэкст, размешчаны ў канцы імя файла, карысны для кіравання версіямі, такімі як _v2, _edited або _final.</string>
     <string name="extension_pattern_description">Пашырэнне файла (png, jpg, webp і г.д.), якое аўтаматычна адпавядае фактычнаму захаванаму фармату.</string>
+    <string name="formatted_timestamp_pattern_description">Наладжвальная пазнака часу, якая дазваляе вам вызначаць уласны фармат па спецыфікацыі Java для ідэальнага сартавання.</string>
 </resources>

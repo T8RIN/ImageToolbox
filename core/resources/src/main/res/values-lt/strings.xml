@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
@@ -2057,11 +2059,11 @@
     <string name="original_filename_pattern_description">Naudoja originalų failo pavadinimą be plėtinio, padedantį išlaikyti šaltinio identifikavimo duomenis.</string>
     <string name="width_pattern_description">Vaizdo plotis pikseliais, naudingas stebint skiriamosios gebos pokyčius arba keičiant mastelio rezultatus.</string>
     <string name="height_pattern_description">Vaizdo aukštis pikseliais, naudinga dirbant su formato koeficientu arba eksportuojant.</string>
-    <string name="formatted_timestamp_pattern_description">Pritaikoma laiko žyma, leidžianti nustatyti savo formatą, pvz., yyyy-MM-dd_HH-mm-ss, kad būtų tobulas rūšiavimas.</string>
     <string name="random_numbers_pattern_description">Generuoja atsitiktinius skaitmenis, kad garantuotų unikalius failų pavadinimus; pridėkite daugiau skaitmenų, kad išvengtumėte dublikatų.</string>
     <string name="sequence_number_pattern_description">Automatiškai didėjantis paketinio eksporto skaitiklis, idealiai tinka išsaugant kelis vaizdus per vieną sesiją.</string>
     <string name="preset_info_pattern_description">Į failo pavadinimą įterpia pritaikytą išankstinio nustatymo pavadinimą, kad galėtumėte lengvai prisiminti, kaip buvo apdorotas vaizdas.</string>
     <string name="scale_mode_pattern_description">Rodomas vaizdo mastelio keitimo režimas, naudojamas apdorojimo metu, padedantis atskirti pakeisto dydžio, apkarpytus ar pritaikytus vaizdus.</string>
     <string name="suffix_pattern_description">Pasirinktinis tekstas, dedamas failo pavadinimo pabaigoje, naudingas kuriant versijas, pvz., _v2, _edited arba _final.</string>
     <string name="extension_pattern_description">Failo plėtinys (png, jpg, webp ir kt.), automatiškai atitinkantis tikrąjį išsaugotą formatą.</string>
+    <string name="formatted_timestamp_pattern_description">Pritaikoma laiko žyma, leidžianti nustatyti savo formatą pagal „Java“ specifikaciją, kad būtų galima tobulai rūšiuoti.</string>
 </resources>

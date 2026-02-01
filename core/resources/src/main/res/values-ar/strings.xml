@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2058,11 +2060,11 @@
     <string name="original_filename_pattern_description">يستخدم اسم الملف الأصلي بدون امتداد، مما يساعدك على الحفاظ على تعريف المصدر سليمًا.</string>
     <string name="width_pattern_description">عرض الصورة بالبكسل، مفيد لتتبع تغييرات الدقة أو قياس النتائج.</string>
     <string name="height_pattern_description">يعد ارتفاع الصورة بالبكسل مفيدًا عند العمل مع نسب العرض إلى الارتفاع أو الصادرات.</string>
-    <string name="formatted_timestamp_pattern_description">طابع زمني قابل للتخصيص يتيح لك تحديد التنسيق الخاص بك مثل yyyy-MM-dd_HH-mm-ss للحصول على فرز مثالي.</string>
     <string name="random_numbers_pattern_description">يولد أرقام عشوائية لضمان أسماء ملفات فريدة من نوعها؛ أضف المزيد من الأرقام لمزيد من الأمان ضد التكرارات.</string>
     <string name="sequence_number_pattern_description">عداد متزايد تلقائيًا لصادرات الدُفعات، وهو مثالي عند حفظ صور متعددة في جلسة واحدة.</string>
     <string name="preset_info_pattern_description">يقوم بإدراج اسم الإعداد المسبق المطبق في اسم الملف حتى تتمكن من تذكر كيفية معالجة الصورة بسهولة.</string>
     <string name="scale_mode_pattern_description">يعرض وضع تغيير حجم الصورة المستخدم أثناء المعالجة، مما يساعد على تمييز الصور التي تم تغيير حجمها أو اقتصاصها أو تركيبها.</string>
     <string name="suffix_pattern_description">نص مخصص يتم وضعه في نهاية اسم الملف، وهو مفيد لإصدارات مثل _v2، أو _edited، أو _final.</string>
     <string name="extension_pattern_description">امتداد الملف (png، jpg، webp، وما إلى ذلك)، يطابق تلقائيًا التنسيق الفعلي المحفوظ.</string>
+    <string name="formatted_timestamp_pattern_description">طابع زمني قابل للتخصيص يتيح لك تحديد التنسيق الخاص بك من خلال مواصفات جافا للفرز المثالي.</string>
 </resources>

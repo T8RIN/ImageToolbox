@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2056,11 +2058,11 @@
     <string name="original_filename_pattern_description">משתמש בשם הקובץ המקורי ללא סיומת, ועוזר לך לשמור על זיהוי המקור ללא פגע.</string>
     <string name="width_pattern_description">רוחב התמונה בפיקסלים, שימושי למעקב אחר שינויים ברזולוציה או שינוי קנה מידה של תוצאות.</string>
     <string name="height_pattern_description">גובה התמונה בפיקסלים, מועיל בעבודה עם יחסי גובה-רוחב או ייצוא.</string>
-    <string name="formatted_timestamp_pattern_description">חותמת זמן הניתנת להתאמה אישית המאפשרת לך להגדיר פורמט משלך כמו yyyy-MM-dd_HH-mm-ss למיון מושלם.</string>
     <string name="random_numbers_pattern_description">יוצר ספרות אקראיות כדי להבטיח שמות קבצים ייחודיים; הוסף ספרות נוספות לבטיחות נוספת מפני כפילויות.</string>
     <string name="sequence_number_pattern_description">מונה הגדלה אוטומטית ליצוא אצווה, אידיאלי בעת שמירת תמונות מרובות בסשן אחד.</string>
     <string name="preset_info_pattern_description">מכניס את השם המוגדר מראש שהוחל לשם הקובץ כך שתוכל לזכור בקלות כיצד עבדה התמונה.</string>
     <string name="scale_mode_pattern_description">מציג את מצב קנה המידה של התמונה המשמש במהלך העיבוד, ועוזר להבחין בין תמונות שגודלו, חתכו או הותאמו.</string>
     <string name="suffix_pattern_description">טקסט מותאם אישית ממוקם בסוף שם הקובץ, שימושי לניהול גרסאות כמו _v2, _edited או _final.</string>
     <string name="extension_pattern_description">סיומת הקובץ (png, jpg, webp וכו\'), תואמת אוטומטית לפורמט השמור בפועל.</string>
+    <string name="formatted_timestamp_pattern_description">חותמת זמן הניתנת להתאמה אישית המאפשרת לך להגדיר פורמט משלך לפי מפרט Java למיון מושלם.</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -2055,11 +2057,11 @@
     <string name="original_filename_pattern_description">मूळ फाइल नाव विस्ताराशिवाय वापरते, तुम्हाला स्त्रोत ओळख अबाधित ठेवण्यास मदत करते.</string>
     <string name="width_pattern_description">प्रतिमेची रुंदी पिक्सेलमध्ये, रिझोल्यूशन बदलांचा मागोवा घेण्यासाठी किंवा परिणाम स्केलिंगसाठी उपयुक्त.</string>
     <string name="height_pattern_description">प्रतिमेची उंची पिक्सेलमध्ये, गुणोत्तर किंवा निर्यातीसह कार्य करताना उपयुक्त.</string>
-    <string name="formatted_timestamp_pattern_description">एक सानुकूल करण्यायोग्य टाइमस्टॅम्प जो तुम्हाला परिपूर्ण क्रमवारीसाठी yyyy-MM-dd_HH-mm-ss सारखे तुमचे स्वतःचे स्वरूप परिभाषित करू देतो.</string>
     <string name="random_numbers_pattern_description">अद्वितीय फाइलनावांची हमी देण्यासाठी यादृच्छिक अंक व्युत्पन्न करते; डुप्लिकेट विरूद्ध अतिरिक्त सुरक्षिततेसाठी अधिक अंक जोडा.</string>
     <string name="sequence_number_pattern_description">बॅच निर्यातीसाठी स्वयं-वाढीव काउंटर, एका सत्रात एकाधिक प्रतिमा जतन करताना आदर्श.</string>
     <string name="preset_info_pattern_description">फाइलनावामध्ये लागू केलेले प्रीसेट नाव समाविष्ट करते जेणेकरुन तुम्ही इमेजवर प्रक्रिया कशी केली हे सहज लक्षात ठेवू शकता.</string>
     <string name="scale_mode_pattern_description">प्रक्रिया करताना वापरलेला प्रतिमा स्केलिंग मोड प्रदर्शित करते, आकार बदललेल्या, क्रॉप केलेल्या किंवा फिट केलेल्या प्रतिमा वेगळे करण्यात मदत करते.</string>
     <string name="suffix_pattern_description">फाइल नावाच्या शेवटी ठेवलेला सानुकूल मजकूर, _v2, _edited किंवा _final सारख्या आवृत्तीसाठी उपयुक्त.</string>
     <string name="extension_pattern_description">फाइल विस्तार (png, jpg, webp, इ.), वास्तविक जतन केलेल्या स्वरूपाशी स्वयंचलितपणे जुळणारा.</string>
+    <string name="formatted_timestamp_pattern_description">एक सानुकूल करण्यायोग्य टाइमस्टॅम्प जो तुम्हाला परिपूर्ण क्रमवारीसाठी जावा विनिर्देशानुसार तुमचे स्वतःचे स्वरूप परिभाषित करू देतो.</string>
 </resources>

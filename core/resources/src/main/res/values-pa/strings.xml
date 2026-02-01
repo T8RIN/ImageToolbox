@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">ਸਰੋਤ ਪਛਾਣ ਨੂੰ ਬਰਕਰਾਰ ਰੱਖਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੇ ਹੋਏ, ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਬਿਨਾਂ ਮੂਲ ਫਾਈਲ ਨਾਮ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।</string>
     <string name="width_pattern_description">ਚਿੱਤਰ ਦੀ ਚੌੜਾਈ ਪਿਕਸਲਾਂ ਵਿੱਚ, ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਤਬਦੀਲੀਆਂ ਜਾਂ ਨਤੀਜਿਆਂ ਨੂੰ ਸਕੇਲਿੰਗ ਕਰਨ ਲਈ ਉਪਯੋਗੀ।</string>
     <string name="height_pattern_description">ਚਿੱਤਰ ਦੀ ਉਚਾਈ ਪਿਕਸਲ ਵਿੱਚ, ਆਕਾਰ ਅਨੁਪਾਤ ਜਾਂ ਨਿਰਯਾਤ ਨਾਲ ਕੰਮ ਕਰਨ ਵੇਲੇ ਮਦਦਗਾਰ।</string>
-    <string name="formatted_timestamp_pattern_description">ਇੱਕ ਅਨੁਕੂਲਿਤ ਟਾਈਮਸਟੈਂਪ ਜੋ ਤੁਹਾਨੂੰ ਸੰਪੂਰਨ ਛਾਂਟੀ ਲਈ yyyy-MM-dd_HH-mm-ss ਵਰਗੇ ਤੁਹਾਡੇ ਆਪਣੇ ਫਾਰਮੈਟ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰਨ ਦਿੰਦਾ ਹੈ।</string>
     <string name="random_numbers_pattern_description">ਵਿਲੱਖਣ ਫਾਈਲਨਾਮਾਂ ਦੀ ਗਰੰਟੀ ਦੇਣ ਲਈ ਬੇਤਰਤੀਬ ਅੰਕ ਤਿਆਰ ਕਰਦਾ ਹੈ; ਡੁਪਲੀਕੇਟ ਦੇ ਵਿਰੁੱਧ ਵਾਧੂ ਸੁਰੱਖਿਆ ਲਈ ਹੋਰ ਅੰਕ ਜੋੜੋ।</string>
     <string name="sequence_number_pattern_description">ਬੈਚ ਨਿਰਯਾਤ ਲਈ ਸਵੈ-ਵਧਾਉਣ ਵਾਲਾ ਕਾਊਂਟਰ, ਇੱਕ ਸੈਸ਼ਨ ਵਿੱਚ ਕਈ ਚਿੱਤਰਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਵੇਲੇ ਆਦਰਸ਼।</string>
     <string name="preset_info_pattern_description">ਲਾਗੂ ਕੀਤੇ ਪ੍ਰੀਸੈਟ ਨਾਮ ਨੂੰ ਫਾਈਲ ਨਾਮ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਦਾ ਹੈ ਤਾਂ ਜੋ ਤੁਸੀਂ ਆਸਾਨੀ ਨਾਲ ਯਾਦ ਰੱਖ ਸਕੋ ਕਿ ਚਿੱਤਰ ਦੀ ਪ੍ਰਕਿਰਿਆ ਕਿਵੇਂ ਕੀਤੀ ਗਈ ਸੀ।</string>
     <string name="scale_mode_pattern_description">ਪ੍ਰੋਸੈਸਿੰਗ ਦੌਰਾਨ ਵਰਤੇ ਗਏ ਚਿੱਤਰ ਸਕੇਲਿੰਗ ਮੋਡ ਨੂੰ ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਦਾ ਹੈ, ਮੁੜ ਆਕਾਰ, ਕੱਟੇ ਜਾਂ ਫਿੱਟ ਕੀਤੇ ਚਿੱਤਰਾਂ ਨੂੰ ਵੱਖ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।</string>
     <string name="suffix_pattern_description">ਫਾਈਲ ਨਾਮ ਦੇ ਅੰਤ ਵਿੱਚ ਰੱਖਿਆ ਕਸਟਮ ਟੈਕਸਟ, _v2, _edited, ਜਾਂ _final ਵਰਗੇ ਸੰਸਕਰਣ ਲਈ ਉਪਯੋਗੀ।</string>
     <string name="extension_pattern_description">ਫਾਈਲ ਐਕਸਟੈਂਸ਼ਨ (png, jpg, webp, ਆਦਿ), ਆਪਣੇ ਆਪ ਅਸਲ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਫਾਰਮੈਟ ਨਾਲ ਮੇਲ ਖਾਂਦੀ ਹੈ।</string>
+    <string name="formatted_timestamp_pattern_description">ਇੱਕ ਅਨੁਕੂਲਿਤ ਟਾਈਮਸਟੈਂਪ ਜੋ ਤੁਹਾਨੂੰ ਸੰਪੂਰਨ ਛਾਂਟੀ ਲਈ ਜਾਵਾ ਨਿਰਧਾਰਨ ਦੁਆਰਾ ਆਪਣੇ ਖੁਦ ਦੇ ਫਾਰਮੈਟ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰਨ ਦਿੰਦਾ ਹੈ।</string>
 </resources>

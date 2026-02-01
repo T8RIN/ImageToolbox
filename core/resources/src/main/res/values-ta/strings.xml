@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் பயன்படுத்துகிறது, இது மூல அடையாளத்தை அப்படியே வைத்திருக்க உதவுகிறது.</string>
     <string name="width_pattern_description">பிக்சல்களில் உள்ள படத்தின் அகலம், தெளிவுத்திறன் மாற்றங்கள் அல்லது அளவிடுதல் முடிவுகளைக் கண்காணிக்கப் பயன்படுகிறது.</string>
     <string name="height_pattern_description">பிக்சல்களில் உள்ள படத்தின் உயரம், விகிதங்கள் அல்லது ஏற்றுமதிகளுடன் பணிபுரியும் போது உதவியாக இருக்கும்.</string>
-    <string name="formatted_timestamp_pattern_description">yyyy-MM-dd_HH-mm-ss போன்ற உங்கள் சொந்த வடிவமைப்பை சரியான வரிசைப்படுத்துதலுக்காக வரையறுக்க உங்களை அனுமதிக்கும் தனிப்பயனாக்கக்கூடிய நேர முத்திரை.</string>
     <string name="random_numbers_pattern_description">தனிப்பட்ட கோப்புப் பெயர்களுக்கு உத்தரவாதம் அளிக்க சீரற்ற இலக்கங்களை உருவாக்குகிறது; நகல்களுக்கு எதிராக கூடுதல் பாதுகாப்பிற்காக அதிக இலக்கங்களைச் சேர்க்கவும்.</string>
     <string name="sequence_number_pattern_description">தொகுப்பு ஏற்றுமதிகளுக்கான தானியங்கு-அதிகரிப்பு கவுண்டர், ஒரு அமர்வில் பல படங்களைச் சேமிக்கும் போது சிறந்தது.</string>
     <string name="preset_info_pattern_description">பயன்படுத்தப்பட்ட முன்னமைக்கப்பட்ட பெயரை கோப்பு பெயரில் செருகும், இதன் மூலம் படம் எவ்வாறு செயலாக்கப்பட்டது என்பதை நீங்கள் எளிதாக நினைவில் கொள்ளலாம்.</string>
     <string name="scale_mode_pattern_description">செயலாக்கத்தின் போது பயன்படுத்தப்படும் பட அளவிடுதல் பயன்முறையைக் காட்டுகிறது, மறுஅளவிடப்பட்ட, செதுக்கப்பட்ட அல்லது பொருத்தப்பட்ட படங்களை வேறுபடுத்த உதவுகிறது.</string>
     <string name="suffix_pattern_description">_v2, _edited, அல்லது _final போன்ற பதிப்பிற்குப் பயன்படும், கோப்புப் பெயரின் இறுதியில் வைக்கப்படும் தனிப்பயன் உரை.</string>
     <string name="extension_pattern_description">கோப்பு நீட்டிப்பு (png, jpg, webp, முதலியன), உண்மையான சேமிக்கப்பட்ட வடிவத்துடன் தானாகவே பொருந்தும்.</string>
+    <string name="formatted_timestamp_pattern_description">ஒரு தனிப்பயனாக்கக்கூடிய நேர முத்திரை, சரியான வரிசைப்படுத்துதலுக்கான ஜாவா விவரக்குறிப்பு மூலம் உங்கள் சொந்த வடிவமைப்பை வரையறுக்க உதவுகிறது.</string>
 </resources>

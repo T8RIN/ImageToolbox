@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -2056,11 +2058,11 @@
     <string name="original_filename_pattern_description">Používa pôvodný názov súboru bez prípony, čo vám pomôže zachovať identifikáciu zdroja neporušenú.</string>
     <string name="width_pattern_description">Šírka obrázka v pixeloch, užitočná na sledovanie zmien rozlíšenia alebo škálovanie výsledkov.</string>
     <string name="height_pattern_description">Výška obrázka v pixeloch, užitočná pri práci s pomermi strán alebo pri exporte.</string>
-    <string name="formatted_timestamp_pattern_description">Prispôsobiteľná časová pečiatka, ktorá vám umožní definovať svoj vlastný formát ako rrrr-MM-dd_HH-mm-ss pre dokonalé triedenie.</string>
     <string name="random_numbers_pattern_description">Generuje náhodné číslice na zaručenie jedinečných názvov súborov; pridajte viac číslic pre väčšiu bezpečnosť pred duplikátmi.</string>
     <string name="sequence_number_pattern_description">Automatické počítadlo pre dávkové exporty, ideálne pri ukladaní viacerých obrázkov v jednej relácii.</string>
     <string name="preset_info_pattern_description">Vloží použitý názov predvoľby do názvu súboru, aby ste si ľahko zapamätali, ako bol obrázok spracovaný.</string>
     <string name="scale_mode_pattern_description">Zobrazuje režim zmeny mierky obrazu použitý počas spracovania, čím pomáha rozlíšiť obrázky so zmenenou veľkosťou, orezané alebo prispôsobené.</string>
     <string name="suffix_pattern_description">Vlastný text umiestnený na konci názvu súboru, užitočný pri vytváraní verzií ako _v2, _edited alebo _final.</string>
     <string name="extension_pattern_description">Prípona súboru (png, jpg, webp atď.), ktorá sa automaticky zhoduje so skutočným uloženým formátom.</string>
+    <string name="formatted_timestamp_pattern_description">Prispôsobiteľná časová pečiatka, ktorá vám umožní definovať svoj vlastný formát podľa špecifikácie Java pre dokonalé triedenie.</string>
 </resources>

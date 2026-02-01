@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte.</string>
     <string name="width_pattern_description">La largeur de l\'image en pixels, utile pour suivre les changements de résolution ou la mise à l\'échelle des résultats.</string>
     <string name="height_pattern_description">La hauteur de l\'image en pixels, utile lorsque vous travaillez avec des proportions ou des exportations.</string>
-    <string name="formatted_timestamp_pattern_description">Un horodatage personnalisable qui vous permet de définir votre propre format comme aaaa-MM-jj_HH-mm-ss pour un tri parfait.</string>
     <string name="random_numbers_pattern_description">Génère des chiffres aléatoires pour garantir des noms de fichiers uniques ; ajoutez plus de chiffres pour plus de sécurité contre les doublons.</string>
     <string name="sequence_number_pattern_description">Compteur à incrémentation automatique pour les exportations par lots, idéal lors de l\'enregistrement de plusieurs images en une seule session.</string>
     <string name="preset_info_pattern_description">Insère le nom du préréglage appliqué dans le nom de fichier afin que vous puissiez facilement vous rappeler comment l\'image a été traitée.</string>
     <string name="scale_mode_pattern_description">Affiche le mode de mise à l\'échelle de l\'image utilisé pendant le traitement, permettant de distinguer les images redimensionnées, recadrées ou ajustées.</string>
     <string name="suffix_pattern_description">Texte personnalisé placé à la fin du nom de fichier, utile pour le versioning comme _v2, _edited ou _final.</string>
     <string name="extension_pattern_description">L\'extension du fichier (png, jpg, webp, etc.), correspondant automatiquement au format réellement enregistré.</string>
+    <string name="formatted_timestamp_pattern_description">Un horodatage personnalisable qui vous permet de définir votre propre format par spécification Java pour un tri parfait.</string>
 </resources>

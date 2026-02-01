@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">Gumagamit ng orihinal na pangalan ng file nang walang extension, na tumutulong sa iyong panatilihing buo ang pagkakakilanlan ng pinagmulan.</string>
     <string name="width_pattern_description">Ang lapad ng imahe sa mga pixel, kapaki-pakinabang para sa pagsubaybay sa mga pagbabago sa resolution o pag-scale ng mga resulta.</string>
     <string name="height_pattern_description">Ang taas ng larawan sa mga pixel, nakakatulong kapag nagtatrabaho sa mga aspect ratio o pag-export.</string>
-    <string name="formatted_timestamp_pattern_description">Isang nako-customize na timestamp na nagbibigay-daan sa iyong tukuyin ang sarili mong format tulad ng yyyy-MM-dd_HH-mm-ss para sa perpektong pag-uuri.</string>
     <string name="random_numbers_pattern_description">Bumubuo ng mga random na digit upang magarantiya ang mga natatanging filename; magdagdag ng higit pang mga digit para sa karagdagang kaligtasan laban sa mga duplicate.</string>
     <string name="sequence_number_pattern_description">Auto-incrementing counter para sa mga batch export, perpekto kapag nagse-save ng maraming larawan sa isang session.</string>
     <string name="preset_info_pattern_description">Inilalagay ang inilapat na preset na pangalan sa filename upang madali mong matandaan kung paano naproseso ang larawan.</string>
     <string name="scale_mode_pattern_description">Ipinapakita ang mode ng pag-scale ng imahe na ginagamit sa pagpoproseso, na tumutulong na makilala ang binago, na-crop, o nilagyan ng mga larawan.</string>
     <string name="suffix_pattern_description">Custom na text na inilagay sa dulo ng filename, kapaki-pakinabang para sa pag-bersyon tulad ng _v2, _edit, o _final.</string>
     <string name="extension_pattern_description">Ang extension ng file (png, jpg, webp, atbp.), ay awtomatikong tumutugma sa aktwal na naka-save na format.</string>
+    <string name="formatted_timestamp_pattern_description">Isang nako-customize na timestamp na nagbibigay-daan sa iyong tukuyin ang sarili mong format ayon sa java specification para sa perpektong pag-uuri.</string>
 </resources>

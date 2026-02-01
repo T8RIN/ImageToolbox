@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -2054,11 +2056,11 @@
     <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását.</string>
     <string name="width_pattern_description">A kép szélessége pixelben, hasznos a felbontás változásainak követéséhez vagy az eredmények méretezéséhez.</string>
     <string name="height_pattern_description">A képmagasság pixelben, ami hasznos a képarányok vagy az exportálás során.</string>
-    <string name="formatted_timestamp_pattern_description">Egy testreszabható időbélyeg, amely lehetővé teszi saját formátum meghatározását, például éééé-hh-nn_óóó-mm-ss a tökéletes rendezés érdekében.</string>
     <string name="random_numbers_pattern_description">Véletlen számjegyeket generál az egyedi fájlnevek garantálása érdekében; adjon hozzá több számjegyet az ismétlődések elleni fokozott biztonság érdekében.</string>
     <string name="sequence_number_pattern_description">Automatikusan növekvő számláló kötegelt exportáláshoz, ideális több kép mentéséhez egy munkamenetben.</string>
     <string name="preset_info_pattern_description">Az alkalmazott előre beállított nevet beszúrja a fájlnévbe, így könnyen megjegyezheti, hogyan dolgozták fel a képet.</string>
     <string name="scale_mode_pattern_description">Megjeleníti a feldolgozás során használt képméretezési módot, segítve az átméretezett, vágott vagy illesztett képek megkülönböztetését.</string>
     <string name="suffix_pattern_description">A fájlnév végén elhelyezett egyéni szöveg, amely hasznos a verziószámításhoz, például a _v2, _edited vagy _final.</string>
     <string name="extension_pattern_description">A fájl kiterjesztése (png, jpg, webp stb.), amely automatikusan megfelel a tényleges mentett formátumnak.</string>
+    <string name="formatted_timestamp_pattern_description">Egy testreszabható időbélyeg, amely lehetővé teszi, hogy saját formátumot határozzon meg Java specifikációval a tökéletes rendezés érdekében.</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -2055,11 +2057,11 @@
     <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом.</string>
     <string name="width_pattern_description">Ширина слике у пикселима, корисна за праћење промена резолуције или скалирања резултата.</string>
     <string name="height_pattern_description">Висина слике у пикселима, корисна када радите са пропорцијама или извозима.</string>
-    <string name="formatted_timestamp_pattern_description">Прилагодљива временска ознака која вам омогућава да дефинишете сопствени формат као што је гггг-ММ-дд_ХХ-мм-сс за савршено сортирање.</string>
     <string name="random_numbers_pattern_description">Генерише насумичне цифре да гарантује јединствена имена датотека; додајте још цифара за додатну сигурност од дупликата.</string>
     <string name="sequence_number_pattern_description">Бројач са аутоматским повећањем за групни извоз, идеалан за чување више слика у једној сесији.</string>
     <string name="preset_info_pattern_description">Умеће примењено унапред подешено име у назив датотеке тако да можете лако да запамтите како је слика обрађена.</string>
     <string name="scale_mode_pattern_description">Приказује режим скалирања слике који се користи током обраде, помажући у разликовању слика промењене величине, исечених или уклопљених слика.</string>
     <string name="suffix_pattern_description">Прилагођени текст постављен на крај назива датотеке, користан за верзионисање као што је _в2, _едитед или _финал.</string>
     <string name="extension_pattern_description">Екстензија датотеке (пнг, јпг, вебп, итд.), аутоматски се подудара са стварним сачуваним форматом.</string>
+    <string name="formatted_timestamp_pattern_description">Прилагодљива временска ознака која вам омогућава да дефинишете сопствени формат помоћу Јава спецификације за савршено сортирање.</string>
 </resources>

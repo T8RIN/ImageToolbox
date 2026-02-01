@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -2055,11 +2057,11 @@
     <string name="original_filename_pattern_description">Usa o nome do arquivo original sem extensão, ajudando a manter intacta a identificação da fonte.</string>
     <string name="width_pattern_description">A largura da imagem em pixels, útil para rastrear alterações de resolução ou resultados de dimensionamento.</string>
     <string name="height_pattern_description">A altura da imagem em pixels, útil ao trabalhar com proporções ou exportações.</string>
-    <string name="formatted_timestamp_pattern_description">Um carimbo de data/hora personalizável que permite definir seu próprio formato, como aaaa-MM-dd_HH-mm-ss para uma classificação perfeita.</string>
     <string name="random_numbers_pattern_description">Gera dígitos aleatórios para garantir nomes de arquivos exclusivos; adicione mais dígitos para segurança extra contra duplicatas.</string>
     <string name="sequence_number_pattern_description">Contador de incremento automático para exportações em lote, ideal ao salvar várias imagens em uma sessão.</string>
     <string name="preset_info_pattern_description">Insere o nome da predefinição aplicada no nome do arquivo para que você possa lembrar facilmente como a imagem foi processada.</string>
     <string name="scale_mode_pattern_description">Exibe o modo de dimensionamento da imagem usado durante o processamento, ajudando a distinguir imagens redimensionadas, cortadas ou ajustadas.</string>
     <string name="suffix_pattern_description">Texto personalizado colocado no final do nome do arquivo, útil para controle de versão como _v2, _edited ou _final.</string>
     <string name="extension_pattern_description">A extensão do arquivo (png, jpg, webp, etc.), correspondendo automaticamente ao formato real salvo.</string>
+    <string name="formatted_timestamp_pattern_description">Um carimbo de data/hora personalizável que permite definir seu próprio formato por especificação Java para uma classificação perfeita.</string>
 </resources>

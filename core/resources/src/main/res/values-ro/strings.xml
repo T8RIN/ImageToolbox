@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -2055,11 +2057,11 @@
     <string name="original_filename_pattern_description">Folosește numele fișierului original fără extensie, ajutându-vă să păstrați intactă identificarea sursei.</string>
     <string name="width_pattern_description">Lățimea imaginii în pixeli, utilă pentru urmărirea modificărilor rezoluției sau scalarea rezultatelor.</string>
     <string name="height_pattern_description">Înălțimea imaginii în pixeli, utilă atunci când lucrați cu raporturi de aspect sau exporturi.</string>
-    <string name="formatted_timestamp_pattern_description">O ștampilă de timp personalizabilă care vă permite să vă definiți propriul format, cum ar fi aaaa-MM-dd_HH-mm-ss pentru o sortare perfectă.</string>
     <string name="random_numbers_pattern_description">Generează cifre aleatorii pentru a garanta nume de fișiere unice; adăugați mai multe cifre pentru mai multă siguranță împotriva duplicatelor.</string>
     <string name="sequence_number_pattern_description">Contor cu incrementare automată pentru exporturi în loturi, ideal atunci când salvați mai multe imagini într-o singură sesiune.</string>
     <string name="preset_info_pattern_description">Inserează numele presetat aplicat în numele fișierului, astfel încât să vă puteți aminti cu ușurință cum a fost procesată imaginea.</string>
     <string name="scale_mode_pattern_description">Afișează modul de scalare a imaginii utilizat în timpul procesării, ajutând la distingerea imaginilor redimensionate, decupate sau adaptate.</string>
     <string name="suffix_pattern_description">Text personalizat plasat la sfârșitul numelui fișierului, util pentru versiuni precum _v2, _edited sau _final.</string>
     <string name="extension_pattern_description">Extensia fișierului (png, jpg, webp etc.), care se potrivește automat cu formatul salvat real.</string>
+    <string name="formatted_timestamp_pattern_description">O marcaj de timp personalizabil care vă permite să vă definiți propriul format după specificațiile java pentru o sortare perfectă.</string>
 </resources>

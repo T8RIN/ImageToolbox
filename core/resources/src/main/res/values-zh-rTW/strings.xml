@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2053,11 +2055,11 @@
     <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。</string>
     <string name="width_pattern_description">图像宽度（以像素为单位），可用于跟踪分辨率变化或缩放结果。</string>
     <string name="height_pattern_description">图像高度（以像素为单位），在处理宽高比或导出时很有帮助。</string>
-    <string name="formatted_timestamp_pattern_description">可自定义的时间戳，可让您定义自己的格式，例如 yyyy-MM-dd_HH-mm-ss 以实现完美排序。</string>
     <string name="random_numbers_pattern_description">生成随机数字以保证唯一的文件名；添加更多数字以提高安全性，防止重复。</string>
     <string name="sequence_number_pattern_description">用于批量导出的自动递增计数器，非常适合在一个会话中保存多个图像时。</string>
     <string name="preset_info_pattern_description">将应用的预设名称插入文件名中，以便您可以轻松记住图像的处理方式。</string>
     <string name="scale_mode_pattern_description">显示处理过程中使用的图像缩放模式，帮助区分调整大小、裁剪或拟合的图像。</string>
     <string name="suffix_pattern_description">放置在文件名末尾的自定义文本，对于 _v2、_edited 或 _final 等版本控制很有用。</string>
     <string name="extension_pattern_description">文件扩展名（png、jpg、webp等），自动匹配实际保存格式。</string>
+    <string name="formatted_timestamp_pattern_description">可自定义的时间戳，让您可以通过 java 规范定义自己的格式以实现完美排序。</string>
 </resources>
