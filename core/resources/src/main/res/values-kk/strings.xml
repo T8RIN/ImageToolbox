@@ -2051,4 +2051,16 @@
     <string name="corners_size">Бұрыштардың өлшемі</string>
     <string name="squircle">Айналма</string>
     <string name="squircle_shapes_sub">Керемет дөңгелектенген UI элементтері</string>
+    <string name="filename_format">Файл атауы пішімі</string>
+    <string name="prefix_pattern_description">Жоба атаулары, брендтер немесе жеке тегтер үшін тамаша файл атауының ең басында орналастырылған теңшелетін мәтін.</string>
+    <string name="original_filename_pattern_description">Бастапқы файл атауын кеңейтусіз пайдаланады, бұл бастапқы идентификацияны сақтауыңызға көмектеседі.</string>
+    <string name="width_pattern_description">Ажыратымдылық өзгерістерін немесе масштабтау нәтижелерін бақылау үшін пайдалы пиксельдегі кескін ені.</string>
+    <string name="height_pattern_description">Пиксельдегі кескін биіктігі, пропорциялармен немесе экспорттармен жұмыс істегенде пайдалы.</string>
+    <string name="formatted_timestamp_pattern_description">Керемет сұрыптау үшін жжжж-АА-кг_СС-мм-сс сияқты жеке пішімді анықтауға мүмкіндік беретін теңшелетін уақыт белгісі.</string>
+    <string name="random_numbers_pattern_description">Бірегей файл атауларына кепілдік беру үшін кездейсоқ сандарды жасайды; көшірмелерден қосымша қауіпсіздік үшін қосымша сандарды қосыңыз.</string>
+    <string name="sequence_number_pattern_description">Пакеттік экспортқа арналған автоматты ұлғайту есептегіші, бір сеанста бірнеше кескінді сақтау үшін өте қолайлы.</string>
+    <string name="preset_info_pattern_description">Кескіннің қалай өңделгенін оңай есте сақтау үшін қолданылатын алдын ала орнатылған атауды файл атауына енгізеді.</string>
+    <string name="scale_mode_pattern_description">Өлшемі өзгертілген, қиылған немесе орнатылған кескіндерді ажыратуға көмектесетін өңдеу кезінде пайдаланылатын кескін масштабтау режимін көрсетеді.</string>
+    <string name="suffix_pattern_description">Файл атауының соңында орналастырылған теңшелетін мәтін, _v2, _edited немесе _final сияқты нұсқалар үшін пайдалы.</string>
+    <string name="extension_pattern_description">Файл кеңейтімі (png, jpg, webp, т.б.), нақты сақталған пішімге автоматты түрде сәйкес келеді.</string>
 </resources>

@@ -2051,4 +2051,16 @@
     <string name="corners_size">Hjørner Størrelse</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Elegante afrundede UI-elementer</string>
+    <string name="filename_format">Filnavn format</string>
+    <string name="prefix_pattern_description">Brugerdefineret tekst placeret helt i begyndelsen af ​​filnavnet, perfekt til projektnavne, mærker eller personlige tags.</string>
+    <string name="original_filename_pattern_description">Bruger det originale filnavn uden filtypenavn, hvilket hjælper dig med at holde kildeidentifikationen intakt.</string>
+    <string name="width_pattern_description">Billedbredden i pixels, nyttig til sporing af opløsningsændringer eller skalering af resultater.</string>
+    <string name="height_pattern_description">Billedhøjden i pixels, nyttigt, når du arbejder med billedformater eller eksporter.</string>
+    <string name="formatted_timestamp_pattern_description">Et tilpasseligt tidsstempel, der lader dig definere dit eget format som åååå-MM-dd_HH-mm-ss for perfekt sortering.</string>
+    <string name="random_numbers_pattern_description">Genererer tilfældige cifre for at garantere unikke filnavne; tilføje flere cifre for ekstra sikkerhed mod dubletter.</string>
+    <string name="sequence_number_pattern_description">Auto-inkrementerende tæller til batch-eksport, ideel, når du gemmer flere billeder i én session.</string>
+    <string name="preset_info_pattern_description">Indsætter det anvendte forudindstillede navn i filnavnet, så du nemt kan huske, hvordan billedet blev behandlet.</string>
+    <string name="scale_mode_pattern_description">Viser billedskaleringstilstanden, der bruges under behandling, og hjælper med at skelne mellem ændrede, beskårne eller tilpassede billeder.</string>
+    <string name="suffix_pattern_description">Brugerdefineret tekst placeret i slutningen af ​​filnavnet, nyttig til versionering som _v2, _edited eller _final.</string>
+    <string name="extension_pattern_description">Filtypenavnet (png, jpg, webp osv.), der automatisk matcher det faktiske gemte format.</string>
 </resources>

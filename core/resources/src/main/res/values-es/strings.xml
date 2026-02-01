@@ -2052,4 +2052,16 @@
     <string name="corners_size">Tamaño de las esquinas</string>
     <string name="squircle">ardilla</string>
     <string name="squircle_shapes_sub">Elementos de interfaz de usuario redondeados y elegantes</string>
+    <string name="filename_format">Formato de nombre de archivo</string>
+    <string name="prefix_pattern_description">Texto personalizado colocado al principio del nombre del archivo, perfecto para nombres de proyectos, marcas o etiquetas personales.</string>
+    <string name="original_filename_pattern_description">Utiliza el nombre del archivo original sin extensión, lo que le ayuda a mantener intacta la identificación de la fuente.</string>
+    <string name="width_pattern_description">El ancho de la imagen en píxeles, útil para rastrear cambios de resolución o escalar resultados.</string>
+    <string name="height_pattern_description">La altura de la imagen en píxeles, útil cuando se trabaja con relaciones de aspecto o exportaciones.</string>
+    <string name="formatted_timestamp_pattern_description">Una marca de tiempo personalizable que le permite definir su propio formato como aaaa-MM-dd_HH-mm-ss para una clasificación perfecta.</string>
+    <string name="random_numbers_pattern_description">Genera dígitos aleatorios para garantizar nombres de archivos únicos; agregue más dígitos para mayor seguridad contra duplicados.</string>
+    <string name="sequence_number_pattern_description">Contador de incremento automático para exportaciones por lotes, ideal para guardar varias imágenes en una sesión.</string>
+    <string name="preset_info_pattern_description">Inserta el nombre preestablecido aplicado en el nombre del archivo para que pueda recordar fácilmente cómo se procesó la imagen.</string>
+    <string name="scale_mode_pattern_description">Muestra el modo de escala de imagen utilizado durante el procesamiento, lo que ayuda a distinguir imágenes redimensionadas, recortadas o ajustadas.</string>
+    <string name="suffix_pattern_description">Texto personalizado colocado al final del nombre del archivo, útil para versiones como _v2, _edited o _final.</string>
+    <string name="extension_pattern_description">La extensión del archivo (png, jpg, webp, etc.), que coincide automáticamente con el formato guardado real.</string>
 </resources>

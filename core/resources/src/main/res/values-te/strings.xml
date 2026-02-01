@@ -2051,4 +2051,16 @@
     <string name="corners_size">మూలల పరిమాణం</string>
     <string name="squircle">ఉడుత</string>
     <string name="squircle_shapes_sub">సొగసైన గుండ్రని UI మూలకాలు</string>
+    <string name="filename_format">ఫైల్ పేరు ఫార్మాట్</string>
+    <string name="prefix_pattern_description">ప్రాజెక్ట్ పేర్లు, బ్రాండ్‌లు లేదా వ్యక్తిగత ట్యాగ్‌ల కోసం అనుకూలమైన వచనం ఫైల్ పేరు ప్రారంభంలోనే ఉంచబడుతుంది.</string>
+    <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది.</string>
+    <string name="width_pattern_description">పిక్సెల్‌లలో ఇమేజ్ వెడల్పు, రిజల్యూషన్ మార్పులు లేదా స్కేలింగ్ ఫలితాలను ట్రాక్ చేయడానికి ఉపయోగపడుతుంది.</string>
+    <string name="height_pattern_description">పిక్సెల్‌లలో ఇమేజ్ ఎత్తు, కారక నిష్పత్తులు లేదా ఎగుమతులతో పని చేస్తున్నప్పుడు సహాయకరంగా ఉంటుంది.</string>
+    <string name="formatted_timestamp_pattern_description">అనుకూలీకరించదగిన టైమ్‌స్టాంప్ ఖచ్చితమైన సార్టింగ్ కోసం yyyy-MM-dd_HH-mm-ss వంటి మీ స్వంత ఆకృతిని నిర్వచించడానికి మిమ్మల్ని అనుమతిస్తుంది.</string>
+    <string name="random_numbers_pattern_description">ప్రత్యేకమైన ఫైల్ పేర్లకు హామీ ఇవ్వడానికి యాదృచ్ఛిక అంకెలను రూపొందిస్తుంది; నకిలీలకు వ్యతిరేకంగా అదనపు భద్రత కోసం మరిన్ని అంకెలను జోడించండి.</string>
+    <string name="sequence_number_pattern_description">బ్యాచ్ ఎగుమతుల కోసం ఆటో-ఇంక్రిమెంటింగ్ కౌంటర్, ఒక సెషన్‌లో బహుళ చిత్రాలను సేవ్ చేసేటప్పుడు అనువైనది.</string>
+    <string name="preset_info_pattern_description">ఫైల్ పేరులో వర్తింపజేయబడిన ప్రీసెట్ పేరును చొప్పిస్తుంది, తద్వారా చిత్రం ఎలా ప్రాసెస్ చేయబడిందో మీరు సులభంగా గుర్తుంచుకోగలరు.</string>
+    <string name="scale_mode_pattern_description">ప్రాసెసింగ్ సమయంలో ఉపయోగించిన ఇమేజ్ స్కేలింగ్ మోడ్‌ను ప్రదర్శిస్తుంది, పరిమాణం మార్చబడిన, కత్తిరించిన లేదా అమర్చిన చిత్రాలను వేరు చేయడంలో సహాయపడుతుంది.</string>
+    <string name="suffix_pattern_description">_v2, _edited లేదా _final వంటి సంస్కరణకు ఉపయోగపడే అనుకూల వచనం ఫైల్ పేరు చివరిలో ఉంచబడుతుంది.</string>
+    <string name="extension_pattern_description">ఫైల్ పొడిగింపు (png, jpg, webp, మొదలైనవి), స్వయంచాలకంగా సేవ్ చేయబడిన వాస్తవ ఆకృతికి సరిపోలుతుంది.</string>
 </resources>

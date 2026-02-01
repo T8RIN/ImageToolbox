@@ -2051,4 +2051,16 @@
     <string name="corners_size">اندازه گوشه ها</string>
     <string name="squircle">سنجاب</string>
     <string name="squircle_shapes_sub">عناصر رابط کاربری گرد و زیبا</string>
+    <string name="filename_format">فرمت نام فایل</string>
+    <string name="prefix_pattern_description">متن سفارشی قرار داده شده در همان ابتدای نام فایل، مناسب برای نام پروژه، مارک ها، یا برچسب های شخصی.</string>
+    <string name="original_filename_pattern_description">از نام فایل اصلی بدون پسوند استفاده می کند و به شما کمک می کند تا شناسایی منبع را دست نخورده نگه دارید.</string>
+    <string name="width_pattern_description">عرض تصویر بر حسب پیکسل، برای ردیابی تغییرات وضوح یا مقیاس بندی نتایج مفید است.</string>
+    <string name="height_pattern_description">ارتفاع تصویر بر حسب پیکسل، هنگام کار با نسبت ابعاد یا صادرات مفید است.</string>
+    <string name="formatted_timestamp_pattern_description">یک مهر زمانی قابل تنظیم که به شما امکان می دهد قالب خود را مانند yyyy-MM-dd_HH-mm-ss برای مرتب سازی کامل تعریف کنید.</string>
+    <string name="random_numbers_pattern_description">ارقام تصادفی را برای تضمین نام فایل های منحصر به فرد تولید می کند. برای ایمنی بیشتر در برابر موارد تکراری، ارقام بیشتری اضافه کنید.</string>
+    <string name="sequence_number_pattern_description">شمارنده افزایش خودکار برای صادرات دسته ای، ایده آل برای ذخیره چندین تصویر در یک جلسه.</string>
+    <string name="preset_info_pattern_description">نام از پیش تعیین شده اعمال شده را در نام فایل درج می کند تا بتوانید به راحتی نحوه پردازش تصویر را به خاطر بسپارید.</string>
+    <string name="scale_mode_pattern_description">حالت مقیاس‌بندی تصویر را که در حین پردازش استفاده می‌شود، نمایش می‌دهد و به تشخیص تصاویر تغییر اندازه، برش‌خورده یا متناسب کمک می‌کند.</string>
+    <string name="suffix_pattern_description">متن سفارشی قرار داده شده در انتهای نام فایل، مفید برای نسخه سازی مانند _v2، _edited، یا _final.</string>
+    <string name="extension_pattern_description">پسوند فایل (png، jpg، webp، و غیره)، به طور خودکار با فرمت ذخیره شده واقعی مطابقت دارد.</string>
 </resources>

@@ -2051,4 +2051,16 @@
     <string name="corners_size">Txokoak Tamaina</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">UI elementu biribildu dotoreak</string>
+    <string name="filename_format">Fitxategi-izenen formatua</string>
+    <string name="prefix_pattern_description">Fitxategi-izenaren hasieran jarritako testu pertsonalizatua, ezin hobea proiektuen izenetarako, marketarako edo etiketa pertsonaletarako.</string>
+    <string name="original_filename_pattern_description">Jatorrizko fitxategi-izena luzapenik gabe erabiltzen du, iturriaren identifikazioa osorik mantentzen lagunduko dizu.</string>
+    <string name="width_pattern_description">Irudiaren zabalera pixeletan, erabilgarria bereizmen-aldaketen jarraipena egiteko edo emaitzak eskalatzeko.</string>
+    <string name="height_pattern_description">Irudiaren altuera pixeletan, lagungarria aspektu-erlazioekin edo esportazioekin lan egiteko.</string>
+    <string name="formatted_timestamp_pattern_description">Denbora-zigilu pertsonalizagarria, eta zure formatua definitzeko aukera ematen dizu yyyy-MM-dd_HH-mm-ss bezalakoak ordenatzeko.</string>
+    <string name="random_numbers_pattern_description">Ausazko zifrak sortzen ditu fitxategi-izen bakarrak bermatzeko; Gehitu zifra gehiago bikoiztuen aurkako segurtasun gehigarrirako.</string>
+    <string name="sequence_number_pattern_description">Loteen esportazioetarako automatikoki gehitzen den kontagailua, saio batean hainbat irudi gordetzeko aproposa.</string>
+    <string name="preset_info_pattern_description">Aplikatutako aurrez ezarritako izena fitxategi-izenean txertatzen du, irudia nola prozesatu zen erraz gogoratu ahal izateko.</string>
+    <string name="scale_mode_pattern_description">Prozesatzean erabilitako irudien eskalatze modua bistaratzen du, tamaina aldatu, moztutako edo egokitutako irudiak bereizten laguntzen du.</string>
+    <string name="suffix_pattern_description">Testu pertsonalizatua fitxategi-izenaren amaieran jartzen da, _v2, _edited edo _final bezalako bertsioak egiteko erabilgarria.</string>
+    <string name="extension_pattern_description">Fitxategiaren luzapena (png, jpg, webp, etab.), automatikoki gordetako benetako formatuarekin bat datorrena.</string>
 </resources>

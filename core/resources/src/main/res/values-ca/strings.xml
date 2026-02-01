@@ -2051,4 +2051,16 @@
     <string name="corners_size">Mida de les cantonades</string>
     <string name="squircle">Esquirol</string>
     <string name="squircle_shapes_sub">Elements d\'IU arrodonits elegants</string>
+    <string name="filename_format">Format de nom de fitxer</string>
+    <string name="prefix_pattern_description">Text personalitzat situat al principi del nom del fitxer, perfecte per a noms de projectes, marques o etiquetes personals.</string>
+    <string name="original_filename_pattern_description">Utilitza el nom del fitxer original sense extensió, ajudant-vos a mantenir intacta la identificació de la font.</string>
+    <string name="width_pattern_description">L\'amplada de la imatge en píxels, útil per fer un seguiment dels canvis de resolució o per escalar els resultats.</string>
+    <string name="height_pattern_description">L\'alçada de la imatge en píxels, útil quan es treballa amb relacions d\'aspecte o exportacions.</string>
+    <string name="formatted_timestamp_pattern_description">Una marca de temps personalitzable que us permet definir el vostre propi format com aaaa-MM-dd_HH-mm-ss per a una ordenació perfecta.</string>
+    <string name="random_numbers_pattern_description">Genera dígits aleatoris per garantir noms de fitxer únics; afegir més dígits per a més seguretat contra duplicats.</string>
+    <string name="sequence_number_pattern_description">Comptador d\'increment automàtic per a exportacions per lots, ideal per desar diverses imatges en una sessió.</string>
+    <string name="preset_info_pattern_description">Insereix el nom predefinit aplicat al nom del fitxer perquè pugueu recordar fàcilment com es va processar la imatge.</string>
+    <string name="scale_mode_pattern_description">Mostra el mode d\'escala de la imatge utilitzat durant el processament, ajudant a distingir les imatges redimensionades, retallades o ajustades.</string>
+    <string name="suffix_pattern_description">Text personalitzat situat al final del nom del fitxer, útil per a versions com _v2, _edited o _final.</string>
+    <string name="extension_pattern_description">L\'extensió del fitxer (png, jpg, webp, etc.), que coincideix automàticament amb el format desat real.</string>
 </resources>

@@ -2051,4 +2051,16 @@
     <string name="corners_size">Eckengröße</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Elegante abgerundete UI-Elemente</string>
+    <string name="filename_format">Dateinamenformat</string>
+    <string name="prefix_pattern_description">Benutzerdefinierter Text wird ganz am Anfang des Dateinamens platziert, ideal für Projektnamen, Marken oder persönliche Tags.</string>
+    <string name="original_filename_pattern_description">Verwendet den ursprünglichen Dateinamen ohne Erweiterung, sodass die Quellenidentifizierung erhalten bleibt.</string>
+    <string name="width_pattern_description">Die Bildbreite in Pixel, nützlich zum Verfolgen von Auflösungsänderungen oder zum Skalieren von Ergebnissen.</string>
+    <string name="height_pattern_description">Die Bildhöhe in Pixel, hilfreich beim Arbeiten mit Seitenverhältnissen oder Exporten.</string>
+    <string name="formatted_timestamp_pattern_description">Ein anpassbarer Zeitstempel, mit dem Sie Ihr eigenes Format wie jjjj-MM-tt_HH-mm-ss für eine perfekte Sortierung definieren können.</string>
+    <string name="random_numbers_pattern_description">Erzeugt zufällige Ziffern, um eindeutige Dateinamen zu gewährleisten; Fügen Sie weitere Ziffern hinzu, um die Sicherheit vor Duplikaten zu erhöhen.</string>
+    <string name="sequence_number_pattern_description">Automatisch inkrementierender Zähler für Batch-Exporte, ideal beim Speichern mehrerer Bilder in einer Sitzung.</string>
+    <string name="preset_info_pattern_description">Fügt den Namen der angewendeten Voreinstellung in den Dateinamen ein, damit Sie sich leicht daran erinnern können, wie das Bild verarbeitet wurde.</string>
+    <string name="scale_mode_pattern_description">Zeigt den Bildskalierungsmodus an, der während der Verarbeitung verwendet wird, und hilft dabei, in der Größe veränderte, zugeschnittene oder angepasste Bilder zu unterscheiden.</string>
+    <string name="suffix_pattern_description">Benutzerdefinierter Text am Ende des Dateinamens, nützlich für die Versionierung, z. B. _v2, _edited oder _final.</string>
+    <string name="extension_pattern_description">Die Dateierweiterung (png, jpg, webp usw.) passt automatisch zum tatsächlich gespeicherten Format.</string>
 </resources>

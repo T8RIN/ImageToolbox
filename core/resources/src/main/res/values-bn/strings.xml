@@ -2051,4 +2051,16 @@
     <string name="corners_size">কোণার আকার</string>
     <string name="squircle">কাঠবিড়ালি</string>
     <string name="squircle_shapes_sub">মার্জিত গোলাকার UI উপাদান</string>
+    <string name="filename_format">ফাইলের নাম বিন্যাস</string>
+    <string name="prefix_pattern_description">কাস্টম টেক্সট ফাইলের নামের একেবারে শুরুতে, প্রকল্পের নাম, ব্র্যান্ড বা ব্যক্তিগত ট্যাগের জন্য উপযুক্ত।</string>
+    <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে।</string>
+    <string name="width_pattern_description">ছবির প্রস্থ পিক্সেলে, রেজোলিউশন পরিবর্তন বা স্কেলিং ফলাফল ট্র্যাক করার জন্য দরকারী।</string>
+    <string name="height_pattern_description">চিত্রের উচ্চতা পিক্সেলে, আকৃতির অনুপাত বা রপ্তানির সাথে কাজ করার সময় সহায়ক।</string>
+    <string name="formatted_timestamp_pattern_description">একটি কাস্টমাইজযোগ্য টাইমস্ট্যাম্প যা আপনাকে নিখুঁত সাজানোর জন্য yyyy-MM-dd_HH-mm-ss এর মতো আপনার নিজস্ব বিন্যাস সংজ্ঞায়িত করতে দেয়।</string>
+    <string name="random_numbers_pattern_description">অনন্য ফাইলের নাম নিশ্চিত করতে র্যান্ডম সংখ্যা তৈরি করে; ডুপ্লিকেটের বিরুদ্ধে অতিরিক্ত নিরাপত্তার জন্য আরও সংখ্যা যোগ করুন।</string>
+    <string name="sequence_number_pattern_description">ব্যাচ রপ্তানির জন্য স্বয়ংক্রিয়-বর্ধিত কাউন্টার, এক সেশনে একাধিক ছবি সংরক্ষণ করার সময় আদর্শ।</string>
+    <string name="preset_info_pattern_description">ফাইলের নামের মধ্যে প্রয়োগকৃত প্রিসেট নাম সন্নিবেশ করান যাতে আপনি সহজেই মনে রাখতে পারেন কিভাবে চিত্রটি প্রক্রিয়া করা হয়েছিল।</string>
+    <string name="scale_mode_pattern_description">প্রসেসিং এর সময় ব্যবহৃত ইমেজ স্কেলিং মোড প্রদর্শন করে, রিসাইজ করা, ক্রপ করা বা ফিট করা ছবিগুলিকে আলাদা করতে সাহায্য করে।</string>
+    <string name="suffix_pattern_description">ফাইলের নামের শেষে কাস্টম টেক্সট রাখা, _v2, _edited বা _final-এর মত সংস্করণের জন্য উপযোগী।</string>
+    <string name="extension_pattern_description">ফাইল এক্সটেনশন (png, jpg, webp, ইত্যাদি), স্বয়ংক্রিয়ভাবে প্রকৃত সংরক্ষিত বিন্যাসের সাথে মিলে যায়।</string>
 </resources>

@@ -2050,4 +2050,16 @@
     <string name="corners_size">コーナーサイズ</string>
     <string name="squircle">スクワクル</string>
     <string name="squircle_shapes_sub">エレガントな丸みを帯びた UI 要素</string>
+    <string name="filename_format">ファイル名の形式</string>
+    <string name="prefix_pattern_description">ファイル名の先頭に配置されるカスタム テキスト。プロジェクト名、ブランド、個人タグに最適です。</string>
+    <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。</string>
+    <string name="width_pattern_description">ピクセル単位の画像幅。解像度の変更の追跡や結果のスケーリングに役立ちます。</string>
+    <string name="height_pattern_description">画像の高さ (ピクセル単位)。アスペクト比やエクスポートを操作するときに役立ちます。</string>
+    <string name="formatted_timestamp_pattern_description">完全な並べ替えのために yyyy-MM-dd_HH-mm-ss などの独自の形式を定義できるカスタマイズ可能なタイムスタンプ。</string>
+    <string name="random_numbers_pattern_description">ランダムな数字を生成して、一意のファイル名を保証します。重複に対する安全性を高めるために、さらに桁を追加します。</string>
+    <string name="sequence_number_pattern_description">バッチエクスポート用の自動インクリメントカウンター。1 つのセッションで複数の画像を保存する場合に最適です。</string>
+    <string name="preset_info_pattern_description">適用されたプリセット名をファイル名に挿入すると、画像がどのように処理されたかを簡単に思い出すことができます。</string>
+    <string name="scale_mode_pattern_description">処理中に使用される画像スケーリング モードを表示し、サイズ変更、トリミング、またはフィットした画像を区別するのに役立ちます。</string>
+    <string name="suffix_pattern_description">ファイル名の末尾に配置されるカスタム テキスト。_v2、_edited、_final などのバージョン管理に役立ちます。</string>
+    <string name="extension_pattern_description">ファイル拡張子 (png、jpg、webp など) は、実際に保存された形式に自動的に一致します。</string>
 </resources>

@@ -2052,4 +2052,16 @@
     <string name="corners_size">Hörnstorlek</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Eleganta rundade UI-element</string>
+    <string name="filename_format">Filnamnsformat</string>
+    <string name="prefix_pattern_description">Anpassad text placerad i början av filnamnet, perfekt för projektnamn, varumärken eller personliga taggar.</string>
+    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt.</string>
+    <string name="width_pattern_description">Bildbredden i pixlar, användbar för att spåra upplösningsändringar eller skalningsresultat.</string>
+    <string name="height_pattern_description">Bildhöjden i pixlar, användbart när du arbetar med bildförhållanden eller exporter.</string>
+    <string name="formatted_timestamp_pattern_description">En anpassningsbar tidsstämpel som låter dig definiera ditt eget format som åååå-MM-dd_HH-mm-ss för perfekt sortering.</string>
+    <string name="random_numbers_pattern_description">Genererar slumpmässiga siffror för att garantera unika filnamn; lägg till fler siffror för extra säkerhet mot dubbletter.</string>
+    <string name="sequence_number_pattern_description">Automatisk inkrementerande räknare för batchexport, perfekt när du sparar flera bilder i en session.</string>
+    <string name="preset_info_pattern_description">Infogar det använda förinställningsnamnet i filnamnet så att du enkelt kan komma ihåg hur bilden bearbetades.</string>
+    <string name="scale_mode_pattern_description">Visar bildskalningsläget som används under bearbetningen, vilket hjälper till att särskilja bilder som har ändrats, beskurna eller anpassade.</string>
+    <string name="suffix_pattern_description">Anpassad text placerad i slutet av filnamnet, användbar för versionshantering som _v2, _edited eller _final.</string>
+    <string name="extension_pattern_description">Filtillägget (png, jpg, webp, etc.), matchar automatiskt det faktiska sparade formatet.</string>
 </resources>

@@ -2050,4 +2050,16 @@
     <string name="corners_size">Ukuran Sudut</string>
     <string name="squircle">tupai</string>
     <string name="squircle_shapes_sub">Elemen UI bulat yang elegan</string>
+    <string name="filename_format">Format Nama File</string>
+    <string name="prefix_pattern_description">Teks khusus ditempatkan di awal nama file, cocok untuk nama proyek, merek, atau tag pribadi.</string>
+    <string name="original_filename_pattern_description">Menggunakan nama file asli tanpa ekstensi, membantu Anda menjaga identifikasi sumber tetap utuh.</string>
+    <string name="width_pattern_description">Lebar gambar dalam piksel, berguna untuk melacak perubahan resolusi atau menskalakan hasil.</string>
+    <string name="height_pattern_description">Tinggi gambar dalam piksel, berguna saat bekerja dengan rasio aspek atau ekspor.</string>
+    <string name="formatted_timestamp_pattern_description">Stempel waktu yang dapat disesuaikan yang memungkinkan Anda menentukan format Anda sendiri seperti yyyy-MM-dd_HH-mm-ss untuk penyortiran yang sempurna.</string>
+    <string name="random_numbers_pattern_description">Menghasilkan digit acak untuk menjamin nama file unik; tambahkan lebih banyak digit untuk keamanan ekstra terhadap duplikat.</string>
+    <string name="sequence_number_pattern_description">Penghitung penambahan otomatis untuk ekspor batch, ideal saat menyimpan banyak gambar dalam satu sesi.</string>
+    <string name="preset_info_pattern_description">Menyisipkan nama preset yang diterapkan ke dalam nama file sehingga Anda dapat dengan mudah mengingat bagaimana gambar diproses.</string>
+    <string name="scale_mode_pattern_description">Menampilkan mode penskalaan gambar yang digunakan selama pemrosesan, membantu membedakan gambar yang diubah ukurannya, dipotong, atau dipasang.</string>
+    <string name="suffix_pattern_description">Teks khusus ditempatkan di akhir nama file, berguna untuk pembuatan versi seperti _v2, _edited, atau _final.</string>
+    <string name="extension_pattern_description">Ekstensi file (png, jpg, webp, dll.), secara otomatis cocok dengan format penyimpanan sebenarnya.</string>
 </resources>

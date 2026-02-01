@@ -2053,4 +2053,16 @@
     <string name="corners_size">Velikost rohů</string>
     <string name="squircle">Veverka</string>
     <string name="squircle_shapes_sub">Elegantní zaoblené prvky uživatelského rozhraní</string>
+    <string name="filename_format">Formát názvu souboru</string>
+    <string name="prefix_pattern_description">Vlastní text umístěný na samém začátku názvu souboru, ideální pro názvy projektů, značky nebo osobní značky.</string>
+    <string name="original_filename_pattern_description">Používá původní název souboru bez přípony, což vám pomáhá zachovat identifikaci zdroje nedotčenou.</string>
+    <string name="width_pattern_description">Šířka obrázku v pixelech, užitečné pro sledování změn rozlišení nebo změny měřítka výsledků.</string>
+    <string name="height_pattern_description">Výška obrázku v pixelech, užitečná při práci s poměry stran nebo exportu.</string>
+    <string name="formatted_timestamp_pattern_description">Přizpůsobitelné časové razítko, které vám umožní definovat svůj vlastní formát, jako je yyyy-MM-dd_HH-mm-ss pro dokonalé třídění.</string>
+    <string name="random_numbers_pattern_description">Generuje náhodné číslice pro zaručení jedinečných názvů souborů; přidejte další číslice pro větší bezpečnost proti duplikátům.</string>
+    <string name="sequence_number_pattern_description">Automatické počítadlo pro dávkové exporty, ideální při ukládání více obrázků v jedné relaci.</string>
+    <string name="preset_info_pattern_description">Vloží použitý název předvolby do názvu souboru, abyste si snadno zapamatovali, jak byl obrázek zpracován.</string>
+    <string name="scale_mode_pattern_description">Zobrazuje režim změny velikosti obrazu použitý během zpracování a pomáhá rozlišovat obrazy se změněnou velikostí, oříznuté nebo přizpůsobené obrazy.</string>
+    <string name="suffix_pattern_description">Vlastní text umístěný na konci názvu souboru, užitečný pro verzování jako _v2, _edited nebo _final.</string>
+    <string name="extension_pattern_description">Přípona souboru (png, jpg, webp atd.), automaticky odpovídající skutečně uloženému formátu.</string>
 </resources>

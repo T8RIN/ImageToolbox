@@ -2050,4 +2050,16 @@
     <string name="corners_size">ขนาดมุม</string>
     <string name="squircle">สควอเคิล</string>
     <string name="squircle_shapes_sub">องค์ประกอบ UI แบบโค้งมนที่หรูหรา</string>
+    <string name="filename_format">รูปแบบชื่อไฟล์</string>
+    <string name="prefix_pattern_description">ข้อความแบบกำหนดเองวางไว้ที่จุดเริ่มต้นของชื่อไฟล์ เหมาะสำหรับชื่อโปรเจ็กต์ แบรนด์ หรือแท็กส่วนตัว</string>
+    <string name="original_filename_pattern_description">ใช้ชื่อไฟล์ต้นฉบับโดยไม่มีนามสกุล ช่วยให้การระบุแหล่งที่มาไม่เสียหาย</string>
+    <string name="width_pattern_description">ความกว้างของภาพเป็นพิกเซล มีประโยชน์สำหรับการติดตามการเปลี่ยนแปลงความละเอียดหรือการปรับขนาดผลลัพธ์</string>
+    <string name="height_pattern_description">ความสูงของรูปภาพเป็นพิกเซล ซึ่งมีประโยชน์เมื่อทำงานกับอัตราส่วนภาพหรือการส่งออก</string>
+    <string name="formatted_timestamp_pattern_description">การประทับเวลาที่ปรับแต่งได้ซึ่งช่วยให้คุณกำหนดรูปแบบของคุณเอง เช่น yyyy-MM-dd_HH-mm-ss เพื่อการเรียงลำดับที่สมบูรณ์แบบ</string>
+    <string name="random_numbers_pattern_description">สร้างตัวเลขสุ่มเพื่อรับประกันชื่อไฟล์ที่ไม่ซ้ำใคร เพิ่มตัวเลขเพิ่มเติมเพื่อความปลอดภัยเป็นพิเศษจากการซ้ำซ้อน</string>
+    <string name="sequence_number_pattern_description">ตัวนับที่เพิ่มขึ้นอัตโนมัติสำหรับการส่งออกเป็นชุด เหมาะอย่างยิ่งเมื่อบันทึกหลายภาพในเซสชันเดียว</string>
+    <string name="preset_info_pattern_description">แทรกชื่อที่ตั้งไว้ล่วงหน้าที่ใช้ลงในชื่อไฟล์ เพื่อให้คุณสามารถจดจำวิธีการประมวลผลภาพได้อย่างง่ายดาย</string>
+    <string name="scale_mode_pattern_description">แสดงโหมดการปรับขนาดภาพที่ใช้ในระหว่างการประมวลผล ช่วยแยกแยะความแตกต่างของภาพที่ปรับขนาด ครอบตัด หรือพอดี</string>
+    <string name="suffix_pattern_description">ข้อความที่กำหนดเองวางไว้ท้ายชื่อไฟล์ ซึ่งมีประโยชน์สำหรับการกำหนดเวอร์ชัน เช่น _v2, _edited หรือ _final</string>
+    <string name="extension_pattern_description">นามสกุลไฟล์ (png, jpg, webp ฯลฯ) จะตรงกับรูปแบบที่บันทึกไว้จริงโดยอัตโนมัติ</string>
 </resources>

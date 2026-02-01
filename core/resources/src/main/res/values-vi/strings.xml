@@ -2050,4 +2050,16 @@
     <string name="corners_size">Kích thước góc</string>
     <string name="squircle">hình tròn</string>
     <string name="squircle_shapes_sub">Các thành phần UI được bo tròn trang nhã</string>
+    <string name="filename_format">Định dạng tên tệp</string>
+    <string name="prefix_pattern_description">Văn bản tùy chỉnh được đặt ở đầu tên tệp, hoàn hảo cho tên dự án, nhãn hiệu hoặc thẻ cá nhân.</string>
+    <string name="original_filename_pattern_description">Sử dụng tên tệp gốc không có phần mở rộng, giúp bạn giữ nguyên nhận dạng nguồn.</string>
+    <string name="width_pattern_description">Chiều rộng hình ảnh tính bằng pixel, hữu ích để theo dõi các thay đổi về độ phân giải hoặc kết quả chia tỷ lệ.</string>
+    <string name="height_pattern_description">Chiều cao hình ảnh tính bằng pixel, hữu ích khi làm việc với tỷ lệ khung hình hoặc xuất.</string>
+    <string name="formatted_timestamp_pattern_description">Dấu thời gian có thể tùy chỉnh cho phép bạn xác định định dạng của riêng mình như yyyy-MM-dd_HH-mm-ss để sắp xếp hoàn hảo.</string>
+    <string name="random_numbers_pattern_description">Tạo các chữ số ngẫu nhiên để đảm bảo tên tệp duy nhất; thêm nhiều chữ số để tăng cường an toàn chống lại sự trùng lặp.</string>
+    <string name="sequence_number_pattern_description">Bộ đếm tăng tự động để xuất hàng loạt, lý tưởng khi lưu nhiều hình ảnh trong một phiên.</string>
+    <string name="preset_info_pattern_description">Chèn tên đặt trước đã áp dụng vào tên tệp để bạn có thể dễ dàng nhớ cách xử lý hình ảnh.</string>
+    <string name="scale_mode_pattern_description">Hiển thị chế độ chia tỷ lệ hình ảnh được sử dụng trong quá trình xử lý, giúp phân biệt hình ảnh đã thay đổi kích thước, cắt xén hoặc vừa vặn.</string>
+    <string name="suffix_pattern_description">Văn bản tùy chỉnh được đặt ở cuối tên tệp, hữu ích cho việc lập phiên bản như _v2, _edited hoặc _final.</string>
+    <string name="extension_pattern_description">Phần mở rộng tệp (png, jpg, webp, v.v.), tự động khớp với định dạng đã lưu thực tế.</string>
 </resources>

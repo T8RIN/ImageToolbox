@@ -2052,4 +2052,16 @@
     <string name="corners_size">Dimensiunea colțurilor</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Elemente elegante de UI rotunjite</string>
+    <string name="filename_format">Format nume de fișier</string>
+    <string name="prefix_pattern_description">Text personalizat plasat chiar la începutul numelui fișierului, perfect pentru numele proiectelor, mărci sau etichete personale.</string>
+    <string name="original_filename_pattern_description">Folosește numele fișierului original fără extensie, ajutându-vă să păstrați intactă identificarea sursei.</string>
+    <string name="width_pattern_description">Lățimea imaginii în pixeli, utilă pentru urmărirea modificărilor rezoluției sau scalarea rezultatelor.</string>
+    <string name="height_pattern_description">Înălțimea imaginii în pixeli, utilă atunci când lucrați cu raporturi de aspect sau exporturi.</string>
+    <string name="formatted_timestamp_pattern_description">O ștampilă de timp personalizabilă care vă permite să vă definiți propriul format, cum ar fi aaaa-MM-dd_HH-mm-ss pentru o sortare perfectă.</string>
+    <string name="random_numbers_pattern_description">Generează cifre aleatorii pentru a garanta nume de fișiere unice; adăugați mai multe cifre pentru mai multă siguranță împotriva duplicatelor.</string>
+    <string name="sequence_number_pattern_description">Contor cu incrementare automată pentru exporturi în loturi, ideal atunci când salvați mai multe imagini într-o singură sesiune.</string>
+    <string name="preset_info_pattern_description">Inserează numele presetat aplicat în numele fișierului, astfel încât să vă puteți aminti cu ușurință cum a fost procesată imaginea.</string>
+    <string name="scale_mode_pattern_description">Afișează modul de scalare a imaginii utilizat în timpul procesării, ajutând la distingerea imaginilor redimensionate, decupate sau adaptate.</string>
+    <string name="suffix_pattern_description">Text personalizat plasat la sfârșitul numelui fișierului, util pentru versiuni precum _v2, _edited sau _final.</string>
+    <string name="extension_pattern_description">Extensia fișierului (png, jpg, webp etc.), care se potrivește automat cu formatul salvat real.</string>
 </resources>

@@ -2053,4 +2053,16 @@
     <string name="corners_size">Розмір кутів</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Елегантні округлі елементи інтерфейсу користувача</string>
+    <string name="filename_format">Формат імені файлу</string>
+    <string name="prefix_pattern_description">Спеціальний текст, розміщений на самому початку назви файлу, ідеально підходить для назв проектів, брендів або особистих тегів.</string>
+    <string name="original_filename_pattern_description">Використовує оригінальну назву файлу без розширення, що допомагає зберегти ідентифікацію джерела.</string>
+    <string name="width_pattern_description">Ширина зображення в пікселях, корисна для відстеження змін роздільної здатності або масштабування результатів.</string>
+    <string name="height_pattern_description">Висота зображення в пікселях, корисна під час роботи зі співвідношенням сторін або експорту.</string>
+    <string name="formatted_timestamp_pattern_description">Настроювана позначка часу, яка дозволяє визначити власний формат, наприклад рррр-ММ-дд_ГГ-хм-сс для ідеального сортування.</string>
+    <string name="random_numbers_pattern_description">Генерує випадкові цифри, щоб гарантувати унікальні імена файлів; додайте більше цифр для додаткового захисту від дублікатів.</string>
+    <string name="sequence_number_pattern_description">Лічильник із автоматичним збільшенням для пакетного експорту, ідеальний під час збереження кількох зображень за один сеанс.</string>
+    <string name="preset_info_pattern_description">Вставляє застосовану назву попереднього налаштування в назву файлу, щоб ви могли легко запам’ятати, як було оброблено зображення.</string>
+    <string name="scale_mode_pattern_description">Відображає режим масштабування зображення, що використовується під час обробки, допомагаючи розрізняти зображення зі зміненим розміром, обрізані чи підібрані.</string>
+    <string name="suffix_pattern_description">Спеціальний текст, розміщений у кінці назви файлу, корисний для керування версіями, наприклад _v2, _edited або _final.</string>
+    <string name="extension_pattern_description">Розширення файлу (png, jpg, webp тощо), що автоматично відповідає дійсному збереженому формату.</string>
 </resources>

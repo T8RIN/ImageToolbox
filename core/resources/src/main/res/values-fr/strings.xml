@@ -2051,4 +2051,16 @@
     <string name="corners_size">Taille des coins</string>
     <string name="squircle">Cercle</string>
     <string name="squircle_shapes_sub">Éléments d\'interface utilisateur arrondis et élégants</string>
+    <string name="filename_format">Format du nom de fichier</string>
+    <string name="prefix_pattern_description">Texte personnalisé placé au tout début du nom de fichier, parfait pour les noms de projets, les marques ou les balises personnelles.</string>
+    <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte.</string>
+    <string name="width_pattern_description">La largeur de l\'image en pixels, utile pour suivre les changements de résolution ou la mise à l\'échelle des résultats.</string>
+    <string name="height_pattern_description">La hauteur de l\'image en pixels, utile lorsque vous travaillez avec des proportions ou des exportations.</string>
+    <string name="formatted_timestamp_pattern_description">Un horodatage personnalisable qui vous permet de définir votre propre format comme aaaa-MM-jj_HH-mm-ss pour un tri parfait.</string>
+    <string name="random_numbers_pattern_description">Génère des chiffres aléatoires pour garantir des noms de fichiers uniques ; ajoutez plus de chiffres pour plus de sécurité contre les doublons.</string>
+    <string name="sequence_number_pattern_description">Compteur à incrémentation automatique pour les exportations par lots, idéal lors de l\'enregistrement de plusieurs images en une seule session.</string>
+    <string name="preset_info_pattern_description">Insère le nom du préréglage appliqué dans le nom de fichier afin que vous puissiez facilement vous rappeler comment l\'image a été traitée.</string>
+    <string name="scale_mode_pattern_description">Affiche le mode de mise à l\'échelle de l\'image utilisé pendant le traitement, permettant de distinguer les images redimensionnées, recadrées ou ajustées.</string>
+    <string name="suffix_pattern_description">Texte personnalisé placé à la fin du nom de fichier, utile pour le versioning comme _v2, _edited ou _final.</string>
+    <string name="extension_pattern_description">L\'extension du fichier (png, jpg, webp, etc.), correspondant automatiquement au format réellement enregistré.</string>
 </resources>

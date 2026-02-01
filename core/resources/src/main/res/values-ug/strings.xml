@@ -2051,4 +2051,16 @@
     <string name="corners_size">بۇلۇڭ چوڭلۇقى</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">نەپىس يۇمىلاق UI ئېلېمېنتلىرى</string>
+    <string name="filename_format">ھۆججەت ئىسمى فورماتى</string>
+    <string name="prefix_pattern_description">ھۆججەت نامىنىڭ بېشىدا قويۇلغان ئىختىيارى تېكىست ، تۈر ئىسمى ، ماركا ياكى شەخسىي خەتكۈچلەرگە ماس كېلىدۇ.</string>
+    <string name="original_filename_pattern_description">ئەسلى ھۆججەت نامىنى كېڭەيتمەي ئىشلىتىڭ ، مەنبە پەرقلەندۈرۈشنى ساقلىشىڭىزغا ياردەم بېرىدۇ.</string>
+    <string name="width_pattern_description">پىكسېلدىكى رەسىم كەڭلىكى ، ئېنىقلىق دەرىجىسىنى ئۆزگەرتىش ياكى ئۆلچەش نەتىجىسىنى ئىز قوغلاشقا پايدىلىق.</string>
+    <string name="height_pattern_description">رەسىمنىڭ ئېگىزلىكى پېكسىل بولۇپ ، تەرەپ نىسبىتى ياكى ئېكسپورتى بىلەن ئىشلىگەندە پايدىلىق.</string>
+    <string name="formatted_timestamp_pattern_description">مۇكەممەل تەرتىپلەش ئۈچۈن yyyy-MM-dd_HH-mm-ss غا ئوخشاش ئۆزىڭىزنىڭ فورماتىنى بەلگىلىيەلەيدىغان خاسلاشتۇرغىلى بولىدىغان ۋاقىت تامغىسى.</string>
+    <string name="random_numbers_pattern_description">ئۆزگىچە ھۆججەت نامىغا كاپالەتلىك قىلىش ئۈچۈن ئىختىيارى سان ھاسىل قىلىدۇ. كۆپەيتىلگەنگە قارشى قوشۇمچە بىخەتەرلىك ئۈچۈن تېخىمۇ كۆپ رەقەم قوشۇڭ.</string>
+    <string name="sequence_number_pattern_description">تۈركۈملەپ ئېكسپورت قىلىش ئۈچۈن ئاپتوماتىك كۆپەيتىش ھېساباتى ، بىر بۆلەكتە كۆپ رەسىمنى ساقلىغاندا كۆڭۈلدىكىدەك.</string>
+    <string name="preset_info_pattern_description">قوللىنىشچان ئالدىن بېكىتىلگەن ئىسىمنى ھۆججەت نامىغا قىستۇرۇڭ ، بۇنداق بولغاندا رەسىمنىڭ قانداق بىر تەرەپ قىلىنغانلىقىنى ئاسانلا ئەستە ساقلىيالايسىز.</string>
+    <string name="scale_mode_pattern_description">بىر تەرەپ قىلىش جەريانىدا ئىشلىتىلگەن رەسىمنى كىچىكلىتىش ھالىتىنى كۆرسىتىدۇ ، چوڭ-كىچىكلىكى ، كېسىلگەن ياكى ماسلاشتۇرۇلغان رەسىملەرنى پەرقلەندۈرۈشكە ياردەم بېرىدۇ.</string>
+    <string name="suffix_pattern_description">ھۆججەت نامىنىڭ ئاخىرىغا قويۇلغان ئىختىيارى تېكىست ، _v2 ، _edited ياكى _final غا ئوخشاش نەشىر قىلىشقا پايدىلىق.</string>
+    <string name="extension_pattern_description">ھۆججەت كېڭەيتىلمىسى (png, jpg ، webp قاتارلىقلار) ، ئاپتوماتىك ساقلانغان فورماتقا ئاپتوماتىك ماس كېلىدۇ.</string>
 </resources>
