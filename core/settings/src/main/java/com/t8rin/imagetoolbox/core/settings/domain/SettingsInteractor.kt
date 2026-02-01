@@ -244,6 +244,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setDefaultQuality(quality: Quality)
 
     suspend fun setShapesType(shapeType: ShapeType)
+
+    suspend fun setFilenamePattern(pattern: String?)
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =

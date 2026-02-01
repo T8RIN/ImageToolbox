@@ -231,6 +231,7 @@ internal fun Preferences.toSettingsState(
             type = ShapeType::class.java
         )
     } ?: default.shapesType,
+    filenamePattern = this[FILENAME_PATTERN]?.takeIf { it.isNotBlank() } ?: default.filenamePattern
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

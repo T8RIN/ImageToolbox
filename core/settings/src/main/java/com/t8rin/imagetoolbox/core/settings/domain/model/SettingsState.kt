@@ -132,7 +132,8 @@ data class SettingsState(
     val snowfallMode: SnowfallMode,
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
-    val shapesType: ShapeType
+    val shapesType: ShapeType,
+    val filenamePattern: String?
 ) {
 
     companion object {
@@ -241,6 +242,7 @@ data class SettingsState(
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
                 shapesType = ShapeType.Rounded(),
+                filenamePattern = null
             )
         }
     }

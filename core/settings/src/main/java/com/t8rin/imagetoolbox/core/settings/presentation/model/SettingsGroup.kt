@@ -228,6 +228,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.FilenamePrefix,
             Setting.FilenameSuffix,
+            Setting.FilenamePattern,
             Setting.AddFileSize,
             Setting.AddOriginalFilename,
             Setting.ReplaceSequenceNumber,

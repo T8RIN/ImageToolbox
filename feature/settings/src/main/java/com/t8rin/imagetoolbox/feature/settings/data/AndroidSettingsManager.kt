@@ -108,6 +108,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAST_SETTINGS_SIDE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_SCREENS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PATTERN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PREFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
@@ -926,6 +927,10 @@ internal class AndroidSettingsManager @Inject constructor(
         jsonParser.toJson(shapeType, ShapeType::class.java)?.apply {
             it[SHAPES_TYPE] = this
         }
+    }
+
+    override suspend fun setFilenamePattern(pattern: String?) = edit {
+        it[FILENAME_PATTERN] = pattern.orEmpty()
     }
 
     private fun MutablePreferences.toggle(

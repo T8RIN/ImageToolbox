@@ -167,7 +167,8 @@ data class UiSettingsState(
     val snowfallMode: SnowfallMode,
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
-    val shapesType: ShapeType
+    val shapesType: ShapeType,
+    val filenamePattern: String?
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -415,7 +416,8 @@ fun SettingsState.toUiState(
                 snowfallMode = snowfallMode,
                 defaultImageFormat = defaultImageFormat,
                 defaultQuality = defaultQuality,
-                shapesType = shapesType
+                shapesType = shapesType,
+                filenamePattern = filenamePattern
             )
         }
     }.value

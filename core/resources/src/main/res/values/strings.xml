@@ -2072,4 +2072,16 @@
     <string name="corners_size">Corners Size</string>
     <string name="squircle">Squircle</string>
     <string name="squircle_shapes_sub">Elegant rounded UI elements</string>
+    <string name="filename_format">Filename Format</string>
+    <string name="prefix_pattern_description">Custom text placed at the very beginning of the filename, perfect for project names, brands, or personal tags.</string>
+    <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact.</string>
+    <string name="width_pattern_description">The image width in pixels, useful for tracking resolution changes or scaling results.</string>
+    <string name="height_pattern_description">The image height in pixels, helpful when working with aspect ratios or exports.</string>
+    <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format like yyyy-MM-dd_HH-mm-ss for perfect sorting.</string>
+    <string name="random_numbers_pattern_description">Generates random digits to guarantee unique filenames; add more digits for extra safety against duplicates.</string>
+    <string name="sequence_number_pattern_description">Auto-incrementing counter for batch exports, ideal when saving multiple images in one session.</string>
+    <string name="preset_info_pattern_description">Inserts the applied preset name into the filename so you can easily remember how the image was processed.</string>
+    <string name="scale_mode_pattern_description">Displays the image scaling mode used during processing, helping distinguish resized, cropped, or fitted images.</string>
+    <string name="suffix_pattern_description">Custom text placed at the end of the filename, useful for versioning like _v2, _edited, or _final.</string>
+    <string name="extension_pattern_description">The file extension (png, jpg, webp, etc.), automatically matching the actual saved format.</string>
 </resources>

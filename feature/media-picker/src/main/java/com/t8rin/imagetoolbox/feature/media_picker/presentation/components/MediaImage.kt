@@ -144,7 +144,7 @@ fun MediaImage(
                 model = remember(media.uri) {
                     ImageRequest.Builder(appContext)
                         .data(media.uri)
-                        .size(512)
+                        .size(384)
                         .precision(Precision.INEXACT)
                         .build()
                 },

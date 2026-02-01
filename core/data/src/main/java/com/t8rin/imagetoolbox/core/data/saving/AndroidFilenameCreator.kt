@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,30 @@ import com.t8rin.imagetoolbox.core.domain.image.model.title
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Date
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.DateUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ExtensionUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalNameUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Prefix
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PrefixUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfo
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfoUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Rand
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ScaleMode
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ScaleModeUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Sequence
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Suffix
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.SuffixUpper
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import java.util.Locale
@@ -55,7 +75,8 @@ internal class AndroidFilenameCreator @Inject constructor(
     override fun constructImageFilename(
         saveTarget: ImageSaveTarget,
         oneTimePrefix: String?,
-        forceNotAddSizeInFilename: Boolean
+        forceNotAddSizeInFilename: Boolean,
+        pattern: String?
     ): String {
         val extension = saveTarget.extension
 
@@ -66,79 +87,150 @@ internal class AndroidFilenameCreator @Inject constructor(
             if (name.isNotEmpty()) return "$name.$extension"
         }
 
-        if (settingsState.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
+        if (settingsState.randomizeFilename) {
+            return "${randomStringGenerator.generate(32)}.$extension"
+        }
+
+        return constructImageFilename(
+            saveTarget = saveTarget,
+            oneTimePrefix = oneTimePrefix,
+            pattern = (pattern ?: settingsState.filenamePattern).orEmpty().ifBlank {
+                if (settingsState.addOriginalFilename) {
+                    FilenamePattern.ForOriginal
+                } else {
+                    FilenamePattern.Default
+                }
+            }
+        ).makeLog("Filename")
+    }
+
+    private fun constructImageFilename(
+        saveTarget: ImageSaveTarget,
+        oneTimePrefix: String?,
+        pattern: String
+    ): String {
+        val random = Random(Date().time)
+        val extension = saveTarget.extension
 
         val isOriginalEmpty = saveTarget.originalUri.toUri() == Uri.EMPTY
 
-        val widthString =
-            if (isOriginalEmpty) getString(R.string.width).split(" ")[0] else saveTarget.imageInfo.width
-        val heightString = if (isOriginalEmpty) getString(
-            R.string.height
-        ).split(" ")[0] else saveTarget.imageInfo.height
+        val widthString = if (settingsState.addSizeInFilename) {
+            if (isOriginalEmpty) "" else saveTarget.imageInfo.width.toString()
+        } else ""
+        val heightString = if (settingsState.addSizeInFilename) {
+            if (isOriginalEmpty) "" else saveTarget.imageInfo.height.toString()
+        } else ""
 
-        val wh = "($widthString)x($heightString)"
+        val prefix = oneTimePrefix ?: settingsState.filenamePrefix
+        val suffix = settingsState.filenameSuffix
 
-        var prefix = oneTimePrefix ?: settingsState.filenamePrefix
-        var suffix = settingsState.filenameSuffix
+        val originalName = if (settingsState.addOriginalFilename && !isOriginalEmpty) {
+            saveTarget.originalUri.toUri().getFilename(context)
+                ?.substringBeforeLast('.').orEmpty()
+        } else ""
 
-        if (prefix.isNotEmpty()) prefix = "${prefix}_"
-        if (suffix.isNotEmpty()) suffix = "_$suffix"
+        val presetInfo =
+            if (settingsState.addPresetInfoToFilename && saveTarget.presetInfo != null && saveTarget.presetInfo != Preset.None) {
+                saveTarget.presetInfo?.asString().orEmpty()
+            } else ""
 
-        if (settingsState.addOriginalFilename) {
-            prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
-                saveTarget.originalUri.toUri()
-                    .getFilename(context)
-                    ?.dropLastWhile { it != '.' }
-                    ?.removeSuffix(".") ?: ""
-            } else {
-                getString(R.string.original_filename)
-            }
-        }
-        if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
-
-        if (settingsState.addPresetInfoToFilename && saveTarget.presetInfo != null && saveTarget.presetInfo != Preset.None) {
-            suffix += "_${saveTarget.presetInfo?.asString()}"
-        }
-
-        if (settingsState.addImageScaleModeInfoToFilename && saveTarget.imageInfo.imageScaleMode != ImageScaleMode.NotPresent) {
-            suffix += "_${
+        val scaleModeInfo =
+            if (settingsState.addImageScaleModeInfoToFilename && saveTarget.imageInfo.imageScaleMode != ImageScaleMode.NotPresent) {
                 getStringLocalized(
                     resId = saveTarget.imageInfo.imageScaleMode.title,
                     language = Locale.ENGLISH.language
                 ).replace(" ", "-")
-            }"
+            } else ""
+
+        val randomNumber: (count: Int) -> String = { count ->
+            buildString {
+                repeat(count) {
+                    append(random.nextInt(0, 10))
+                }
+            }.take(count)
         }
 
-        val randomNumber: () -> String = {
-            Random(Random.nextInt()).hashCode().toString().take(4)
-        }
-
-        val timeStamp = if (settingsState.useFormattedFilenameTimestamp) {
-            "${timestamp()}_${randomNumber()}"
-        } else Date().time.toString()
-
-        var body = if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
-            if (settingsState.addOriginalFilename) {
-                saveTarget.sequenceNumber.toString()
-            } else {
-                val timeStampPart = if (settingsState.addTimestampToFilename) {
-                    timeStamp.dropLastWhile { it != '_' }
-                } else ""
-
-                timeStampPart + saveTarget.sequenceNumber
-            }
-        } else if (settingsState.addTimestampToFilename) {
-            timeStamp
+        val timestampString = if (settingsState.addTimestampToFilename) {
+            if (settingsState.useFormattedFilenameTimestamp) {
+                "${timestamp()}_${randomNumber(4)}"
+            } else Date().time.toString()
         } else ""
 
-        if (body.isEmpty()) {
-            if (prefix.endsWith("_")) prefix = prefix.dropLast(1)
-            if (suffix.startsWith("_")) suffix = suffix.drop(1)
-            if (prefix.isEmpty() && suffix.isEmpty()) body = "image${randomNumber()}"
+        val sequenceNumber = saveTarget.sequenceNumber?.toString() ?: ""
+
+        var result = pattern
+
+        runCatching {
+            result = result.replace("""\\d\{(.*?)\}""".toRegex()) { match ->
+                if (settingsState.addTimestampToFilename) {
+                    timestamp(
+                        format = match.groupValues[1]
+                    )
+                } else {
+                    ""
+                }
+            }
+
+            result = result.replace("""\\D\{(.*?)\}""".toRegex()) { match ->
+                if (settingsState.addTimestampToFilename) {
+                    timestamp(
+                        format = match.groupValues[1]
+                    ).uppercase()
+                } else {
+                    ""
+                }
+            }
+        }.onFailure {
+            it.makeLog("pattern date")
         }
 
-        return "$prefix$body$suffix.$extension"
+        runCatching {
+            result = result.replace("""\\r\{(\d+)\}""".toRegex()) { match ->
+                randomNumber(match.groupValues[1].toIntOrNull() ?: 4)
+            }
+        }.onFailure {
+            it.makeLog("pattern random")
+        }
+
+        return result
+            .replace(Width, widthString)
+            .replace(Height, heightString)
+            .replace(Prefix, prefix)
+            .replace(Suffix, suffix)
+            .replace(OriginalName, originalName)
+            .replace(Sequence, sequenceNumber)
+            .replace(PresetInfo, presetInfo)
+            .replace(ScaleMode, scaleModeInfo)
+            .replace(Extension, extension)
+            .replace(Rand, randomNumber(4))
+            .replace(Date, timestampString)
+            .replace(PrefixUpper, prefix.uppercase())
+            .replace(SuffixUpper, suffix.uppercase())
+            .replace(OriginalNameUpper, originalName.uppercase())
+            .replace(PresetInfoUpper, presetInfo.uppercase())
+            .replace(ScaleModeUpper, scaleModeInfo.uppercase())
+            .replace(ExtensionUpper, extension.uppercase())
+            .replace(DateUpper, timestampString.uppercase())
+            .clean()
+            .let { str ->
+                if (str.split(".").filter { it.isNotBlank() }.size < 2) {
+                    "image${randomNumber(4)}.$extension"
+                } else {
+                    str
+                }
+            }
+            .clean()
     }
+
+    private fun String.clean(): String = this
+        .replace("[]", "")
+        .replace("{}", "")
+        .replace("()x()", "")
+        .replace("()", "")
+        .replace("___", "_")
+        .replace("__", "_")
+        .replace("_.", ".")
+        .removePrefix("_")
 
     override fun constructRandomFilename(
         extension: String,

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.BitcoinWallet
 import com.t8rin.imagetoolbox.core.domain.BoostyLink
@@ -58,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerC
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 
 @Composable
 fun DonateContainerContent(
@@ -100,7 +102,10 @@ fun DonateContainerContent(
                     endIcon = option.endIcon,
                     startIcon = option.startIcon,
                     title = option.title(),
-                    subtitle = option.subtitle
+                    subtitle = option.subtitle,
+                    titleFontStyle = PreferenceItemDefaults.TitleFontStyle.copy(
+                        textAlign = TextAlign.Start
+                    )
                 )
             }
         }

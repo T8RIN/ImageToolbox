@@ -542,4 +542,10 @@ sealed class Setting(
         title = R.string.corners_size,
         subtitle = null
     )
+
+    data object FilenamePattern : Setting(
+        title = R.string.filename_format,
+        subtitle = null
+    )
+
 }

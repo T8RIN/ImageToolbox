@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -80,8 +81,9 @@ class SettingsComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
     private val shareProvider: ShareProvider,
+    filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseComponent(dispatchersHolder, componentContext), FilenameCreator by filenameCreator {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -498,6 +500,8 @@ class SettingsComponent @AssistedInject internal constructor(
         settingsScope { setDefaultQuality(quality) }
 
     fun setShapesType(shapeType: ShapeType) = settingsScope { setShapesType(shapeType) }
+
+    fun setFilenamePattern(value: String) = settingsScope { setFilenamePattern(value) }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

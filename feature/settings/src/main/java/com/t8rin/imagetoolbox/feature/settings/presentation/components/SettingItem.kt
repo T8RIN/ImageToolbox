@@ -600,6 +600,13 @@ internal fun SettingItem(
             Setting.CornersSize -> {
                 CornersSizeSettingItem(onValueChange = component::setShapesType)
             }
+
+            Setting.FilenamePattern -> {
+                FilenamePatternSettingItem(
+                    onValueChange = component::setFilenamePattern,
+                    filenameCreator = component
+                )
+            }
         }
     }
 }
