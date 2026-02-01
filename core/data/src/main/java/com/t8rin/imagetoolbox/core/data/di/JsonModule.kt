@@ -23,6 +23,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.t8rin.imagetoolbox.core.data.json.MoshiParser
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import dagger.Binds
 import dagger.Module
@@ -62,6 +63,14 @@ internal interface JsonModule {
                     .withSubtype(ShapeType.Squircle::class.java, "squircle")
                     .withSubtype(ShapeType.Smooth::class.java, "smooth")
                     .withDefaultValue(ShapeType.Rounded())
+            )
+            .add(
+                PolymorphicJsonAdapterFactory.of(FilenameBehavior::class.java, "filename_type")
+                    .withSubtype(FilenameBehavior.None::class.java, "none")
+                    .withSubtype(FilenameBehavior.Overwrite::class.java, "overwrite")
+                    .withSubtype(FilenameBehavior.Checksum::class.java, "checksum")
+                    .withSubtype(FilenameBehavior.Random::class.java, "random")
+                    .withDefaultValue(FilenameBehavior.None())
             )
             .addLast(KotlinJsonAdapterFactory())
             .build()

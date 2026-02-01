@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -52,7 +53,6 @@ data class SettingsState(
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
-    val randomizeFilename: Boolean,
     val font: DomainFontFamily,
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
@@ -72,7 +72,6 @@ data class SettingsState(
     val screensSearchEnabled: Boolean,
     val copyToClipboardMode: CopyToClipboardMode,
     val hapticsStrength: Int,
-    val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
     val magnifierEnabled: Boolean,
@@ -116,7 +115,6 @@ data class SettingsState(
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
-    val hashingTypeForFilename: HashingType?,
     val customFonts: List<DomainFontFamily.Custom>,
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<ColorModel>,
@@ -133,8 +131,13 @@ data class SettingsState(
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
     val shapesType: ShapeType,
-    val filenamePattern: String?
+    val filenamePattern: String?,
+    val filenameBehavior: FilenameBehavior
 ) {
+    val overwriteFiles: Boolean = filenameBehavior is FilenameBehavior.Overwrite
+    val hashingTypeForFilename: HashingType? =
+        filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
+    val randomizeFilename: Boolean = filenameBehavior is FilenameBehavior.Random
 
     companion object {
         val Default by lazy {
@@ -160,7 +163,6 @@ data class SettingsState(
                 filenamePrefix = "ResizedImage",
                 addSizeInFilename = false,
                 addOriginalFilename = false,
-                randomizeFilename = false,
                 font = DomainFontFamily.System,
                 fontScale = 1f,
                 allowCollectCrashlytics = true,
@@ -180,7 +182,6 @@ data class SettingsState(
                 isInvertThemeColors = false,
                 screensSearchEnabled = false,
                 hapticsStrength = 1,
-                overwriteFiles = false,
                 filenameSuffix = "",
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
@@ -225,7 +226,6 @@ data class SettingsState(
                 isCenterAlignDialogButtons = false,
                 fastSettingsSide = FastSettingsSide.CenterEnd,
                 settingGroupsInitialVisibility = emptyMap(),
-                hashingTypeForFilename = null,
                 customFonts = emptyList(),
                 enableToolExitConfirmation = true,
                 recentColors = emptyList(),
@@ -242,7 +242,8 @@ data class SettingsState(
                 defaultImageFormat = null,
                 defaultQuality = Quality.Base(),
                 shapesType = ShapeType.Rounded(),
-                filenamePattern = null
+                filenamePattern = null,
+                filenameBehavior = FilenameBehavior.None()
             )
         }
     }

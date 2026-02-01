@@ -26,12 +26,12 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
-import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -69,7 +69,6 @@ internal fun Preferences.toSettingsState(
     addSizeInFilename = this[ADD_SIZE_TO_FILENAME] ?: default.addSizeInFilename,
     addOriginalFilename = this[ADD_ORIGINAL_NAME_TO_FILENAME]
         ?: default.addOriginalFilename,
-    randomizeFilename = this[RANDOMIZE_FILENAME] ?: default.randomizeFilename,
     font = DomainFontFamily.fromString(this[SELECTED_FONT]) ?: default.font,
     fontScale = (this[FONT_SCALE] ?: 1f).takeIf { it > 0f },
     allowCollectCrashlytics = this[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
@@ -98,7 +97,6 @@ internal fun Preferences.toSettingsState(
         CopyToClipboardMode.fromInt(it)
     } ?: default.copyToClipboardMode,
     hapticsStrength = this[VIBRATION_STRENGTH] ?: default.hapticsStrength,
-    overwriteFiles = this[OVERWRITE_FILE] ?: default.overwriteFiles,
     filenameSuffix = this[FILENAME_SUFFIX] ?: default.filenameSuffix,
     defaultImageScaleMode = this.toDefaultImageScaleMode(default),
     magnifierEnabled = this[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
@@ -191,7 +189,6 @@ internal fun Preferences.toSettingsState(
     settingGroupsInitialVisibility = this[SETTINGS_GROUP_VISIBILITY].toSettingGroupsInitialVisibility(
         default
     ),
-    hashingTypeForFilename = HashingType.fromString(this[CHECKSUM_TYPE_FOR_FILENAME]),
     customFonts = this[CUSTOM_FONTS].toCustomFonts(),
     enableToolExitConfirmation = this[ENABLE_TOOL_EXIT_CONFIRMATION]
         ?: default.enableToolExitConfirmation,
@@ -231,7 +228,13 @@ internal fun Preferences.toSettingsState(
             type = ShapeType::class.java
         )
     } ?: default.shapesType,
-    filenamePattern = this[FILENAME_PATTERN]?.takeIf { it.isNotBlank() } ?: default.filenamePattern
+    filenamePattern = this[FILENAME_PATTERN]?.takeIf { it.isNotBlank() } ?: default.filenamePattern,
+    filenameBehavior = this[FILENAME_BEHAVIOR]?.let {
+        jsonParser.fromJson(
+            json = it,
+            type = FilenameBehavior::class.java
+        )
+    } ?: default.filenameBehavior
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

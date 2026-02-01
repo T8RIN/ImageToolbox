@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -77,7 +78,6 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.BACKGROUND_COLOR_FOR_NA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BORDER_WIDTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CENTER_ALIGN_DIALOG_BUTTONS
-import com.t8rin.imagetoolbox.feature.settings.data.keys.CHECKSUM_TYPE_FOR_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.COLOR_BLIND_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.COLOR_TUPLES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.CONFETTI_ENABLED
@@ -108,6 +108,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAST_SETTINGS_SIDE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_SCREENS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_BEHAVIOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PATTERN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PREFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
@@ -131,9 +132,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.NIGHT_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
-import com.t8rin.imagetoolbox.feature.settings.data.keys.OVERWRITE_FILE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
-import com.t8rin.imagetoolbox.feature.settings.data.keys.RANDOMIZE_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
@@ -321,9 +320,8 @@ internal class AndroidSettingsManager @Inject constructor(
         defaultValue = default.groupOptionsByTypes
     )
 
-    override suspend fun toggleRandomizeFilename() = toggle(
-        key = RANDOMIZE_FILENAME,
-        defaultValue = default.randomizeFilename
+    override suspend fun toggleRandomizeFilename() = toggleFilenameBehavior(
+        behavior = FilenameBehavior.Random()
     )
 
     override suspend fun createBackupFile(): ByteArray =
@@ -446,14 +444,9 @@ internal class AndroidSettingsManager @Inject constructor(
         it[VIBRATION_STRENGTH] = strength
     }
 
-    override suspend fun toggleOverwriteFiles() = edit {
-        it.toggle(
-            key = OVERWRITE_FILE,
-            defaultValue = default.overwriteFiles
-        )
-
-        it[IMAGE_PICKER_MODE] = 2
-    }
+    override suspend fun toggleOverwriteFiles() = toggleFilenameBehavior(
+        behavior = FilenameBehavior.Overwrite()
+    )
 
     override suspend fun setSpotHealMode(mode: Int) = edit {
         it[SPOT_HEAL_MODE] = mode
@@ -817,9 +810,11 @@ internal class AndroidSettingsManager @Inject constructor(
         it[FAST_SETTINGS_SIDE] = side.ordinal
     }
 
-    override suspend fun setChecksumTypeForFilename(type: HashingType?) = edit {
-        it[CHECKSUM_TYPE_FOR_FILENAME] = type?.digest ?: ""
-    }
+    override suspend fun setChecksumTypeForFilename(type: HashingType?) = toggleFilenameBehavior(
+        behavior = type?.let {
+            FilenameBehavior.Checksum(type)
+        } ?: FilenameBehavior.None()
+    )
 
     override suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>) = edit {
         it[CUSTOM_FONTS] = fonts.map(DomainFontFamily::asString).toSet()
@@ -931,6 +926,24 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setFilenamePattern(pattern: String?) = edit {
         it[FILENAME_PATTERN] = pattern.orEmpty()
+    }
+
+    private suspend fun toggleFilenameBehavior(
+        behavior: FilenameBehavior
+    ) = edit {
+        val useToggle = behavior is FilenameBehavior.Checksum
+                || !currentSettings.filenameBehavior::class.isInstance(behavior)
+
+        if (useToggle) {
+            if (behavior is FilenameBehavior.Overwrite) {
+                it[IMAGE_PICKER_MODE] = 2
+            }
+
+            it[FILENAME_BEHAVIOR] =
+                jsonParser.toJson(behavior, FilenameBehavior::class.java).orEmpty()
+        } else {
+            it[FILENAME_BEHAVIOR] = ""
+        }
     }
 
     private fun MutablePreferences.toggle(
