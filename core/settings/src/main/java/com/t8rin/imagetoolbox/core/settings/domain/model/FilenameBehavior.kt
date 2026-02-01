@@ -19,24 +19,14 @@ package com.t8rin.imagetoolbox.core.settings.domain.model
 
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 
-sealed class FilenameBehavior {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        return true
-    }
+sealed interface FilenameBehavior {
+    class None : FilenameBehavior
 
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
+    class Overwrite : FilenameBehavior
 
-    class None : FilenameBehavior()
-
-    class Overwrite : FilenameBehavior()
-
-    class Random : FilenameBehavior()
+    class Random : FilenameBehavior
 
     data class Checksum(
         val hashingType: HashingType
-    ) : FilenameBehavior()
+    ) : FilenameBehavior
 }

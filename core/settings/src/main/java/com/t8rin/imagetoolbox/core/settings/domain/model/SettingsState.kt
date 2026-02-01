@@ -134,10 +134,6 @@ data class SettingsState(
     val filenamePattern: String?,
     val filenameBehavior: FilenameBehavior
 ) {
-    val overwriteFiles: Boolean = filenameBehavior is FilenameBehavior.Overwrite
-    val hashingTypeForFilename: HashingType? =
-        filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
-    val randomizeFilename: Boolean = filenameBehavior is FilenameBehavior.Random
 
     companion object {
         val Default by lazy {

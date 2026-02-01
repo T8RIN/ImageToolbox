@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Prefix
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -62,7 +63,7 @@ fun FilenamePrefixSettingItem(
         onClick = {
             showChangeFilenameDialog = true
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.hashingTypeForFilename == null,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None,
         title = stringResource(R.string.prefix),
         subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),

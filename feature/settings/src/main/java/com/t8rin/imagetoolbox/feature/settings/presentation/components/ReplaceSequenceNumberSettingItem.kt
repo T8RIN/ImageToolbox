@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Numeric
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -43,7 +44,7 @@ fun ReplaceSequenceNumberSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.hashingTypeForFilename == null,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None,
         title = stringResource(R.string.replace_sequence_number),
         subtitle = stringResource(R.string.replace_sequence_number_sub),
         checked = settingsState.addSequenceNumber,

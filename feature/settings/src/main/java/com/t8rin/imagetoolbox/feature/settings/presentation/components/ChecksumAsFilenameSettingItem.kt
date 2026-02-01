@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -49,12 +51,13 @@ fun ChecksumAsFilenameSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     var checkedState by remember {
-        mutableStateOf(settingsState.hashingTypeForFilename != null)
+        mutableStateOf(settingsState.filenameBehavior is FilenameBehavior.None)
     }
     LaunchedEffect(checkedState) {
         onValueChange(
             if (checkedState) {
-                settingsState.hashingTypeForFilename ?: HashingType.entries.first()
+                settingsState.filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
+                    ?: HashingType.entries.first()
             } else {
                 null
             }
@@ -64,7 +67,7 @@ fun ChecksumAsFilenameSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        enabled = !settingsState.overwriteFiles && !settingsState.randomizeFilename,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None || settingsState.filenameBehavior is FilenameBehavior.Checksum,
         onClick = {
             checkedState = it
         },
@@ -80,7 +83,8 @@ fun ChecksumAsFilenameSettingItem(
                 DataSelector(
                     modifier = Modifier
                         .padding(top = 16.dp),
-                    value = settingsState.hashingTypeForFilename ?: HashingType.entries.first(),
+                    value = settingsState.filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
+                        ?: HashingType.entries.first(),
                     onValueChange = onValueChange,
                     entries = HashingType.entries,
                     containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,

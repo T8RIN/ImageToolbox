@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
@@ -265,7 +266,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                         }
                                     }
                                 } else null,
-                                enabled = !settingsState.overwriteFiles,
+                                enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
                                 startIconTransitionSpec = {
                                     fadeIn() togetherWith fadeOut()
                                 },
@@ -281,7 +282,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 }
                             )
                         },
-                        enableSwipe = canDeleteItem && !settingsState.overwriteFiles,
+                        enableSwipe = canDeleteItem && settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
                         interactionSource = interactionSource,
                         modifier = Modifier
                             .fadingEdges(
@@ -307,7 +308,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     onClick = {
                         launcher.pickFolder(currentFolderUri)
                     },
-                    enabled = !settingsState.overwriteFiles,
+                    enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp, vertical = 2.dp),
@@ -330,7 +331,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         startIcon = Icons.Outlined.DriveFileRenameOutline,
                         shape = ShapeDefaults.default,
                         titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                        enabled = !settingsState.overwriteFiles,
+                        enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite,
                         onClick = {
                             createLauncher.make("$imageString.${formatForFilenameSelection.extension}")
                         },
@@ -345,10 +346,10 @@ fun OneTimeSaveLocationSelectionDialog(
                     title = stringResource(id = R.string.overwrite_files),
                     subtitle = stringResource(id = R.string.overwrite_files_sub_short),
                     startIcon = Icons.Outlined.FileReplace,
-                    enabled = !settingsState.randomizeFilename && settingsState.hashingTypeForFilename == null,
+                    enabled = settingsState.filenameBehavior is FilenameBehavior.Overwrite || settingsState.filenameBehavior is FilenameBehavior.None,
                     shape = ShapeDefaults.default,
                     titleFontStyle = PreferenceItemDefaults.TitleFontStyleSmall,
-                    checked = settingsState.overwriteFiles,
+                    checked = settingsState.filenameBehavior is FilenameBehavior.Overwrite,
                     onClick = {
                         essentials.launch { settingsInteractor.toggleOverwriteFiles() }
                     },

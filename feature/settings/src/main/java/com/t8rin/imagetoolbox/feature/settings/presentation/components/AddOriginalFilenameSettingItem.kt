@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -43,7 +44,7 @@ fun AddOriginalFilenameSettingItem(
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = shape,
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker && settingsState.hashingTypeForFilename == null,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker,
         modifier = modifier,
         startIcon = Icons.Outlined.Difference,
         onClick = {

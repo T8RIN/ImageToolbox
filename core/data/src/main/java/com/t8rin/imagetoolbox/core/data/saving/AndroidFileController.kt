@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -169,7 +170,7 @@ internal class AndroidFileController @Inject constructor(
                 }
             }
 
-            if (settingsState.overwriteFiles) {
+            if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
                 runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()
 

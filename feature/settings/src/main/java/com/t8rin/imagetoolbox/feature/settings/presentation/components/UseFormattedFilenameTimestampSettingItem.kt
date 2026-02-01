@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -47,7 +48,7 @@ fun UseFormattedFilenameTimestampSettingItem(
         onClick = {
             onClick()
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.addTimestampToFilename && settingsState.hashingTypeForFilename == null,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None && settingsState.addTimestampToFilename,
         onDisabledClick = {
             essentials.showToast(
                 message = essentials.getString(R.string.enable_timestamps_to_format_them),

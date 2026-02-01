@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
@@ -80,28 +81,22 @@ internal class AndroidFilenameCreator @Inject constructor(
     ): String {
         val extension = saveTarget.extension
 
-        val checksumType = settingsState.hashingTypeForFilename
-        if (checksumType != null && saveTarget.data.isNotEmpty()) {
-            val name = checksumType.computeFromByteArray(saveTarget.data)
-
-            if (name.isNotEmpty()) return "$name.$extension"
-        }
-
-        if (settingsState.randomizeFilename) {
-            return "${randomStringGenerator.generate(32)}.$extension"
-        }
-
-        return constructImageFilename(
-            saveTarget = saveTarget,
-            oneTimePrefix = oneTimePrefix,
-            pattern = (pattern ?: settingsState.filenamePattern).orEmpty().ifBlank {
-                if (settingsState.addOriginalFilename) {
-                    FilenamePattern.ForOriginal
-                } else {
-                    FilenamePattern.Default
+        return when (val behavior = settingsState.filenameBehavior) {
+            is FilenameBehavior.Checksum -> "${behavior.hashingType.computeFromByteArray(saveTarget.data)}.$extension"
+            is FilenameBehavior.Random -> "${randomStringGenerator.generate(32)}.$extension"
+            is FilenameBehavior.Overwrite,
+            is FilenameBehavior.None -> constructImageFilename(
+                saveTarget = saveTarget,
+                oneTimePrefix = oneTimePrefix,
+                pattern = (pattern ?: settingsState.filenamePattern).orEmpty().ifBlank {
+                    if (settingsState.addOriginalFilename) {
+                        FilenamePattern.ForOriginal
+                    } else {
+                        FilenamePattern.Default
+                    }
                 }
-            }
-        ).makeLog("Filename")
+            )
+        }.makeLog("Filename")
     }
 
     private fun constructImageFilename(

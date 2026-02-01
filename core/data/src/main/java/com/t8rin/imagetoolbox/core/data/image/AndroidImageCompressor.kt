@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.trickle.Trickle
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -130,7 +131,8 @@ internal class AndroidImageCompressor @Inject constructor(
 
         val extension = imageInfo.originalUri?.let { imageGetter.getExtension(it) }
 
-        val imageFormat = if (settingsState.overwriteFiles && extension != null) {
+        val imageFormat =
+            if (settingsState.filenameBehavior is FilenameBehavior.Overwrite && extension != null) {
             ImageFormat[extension]
         } else imageInfo.imageFormat
 

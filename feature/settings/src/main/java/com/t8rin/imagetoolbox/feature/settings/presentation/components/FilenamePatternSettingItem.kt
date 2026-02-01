@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
@@ -134,7 +135,7 @@ fun FilenamePatternSettingItem(
         onClick = {
             showEditDialog = true
         },
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.hashingTypeForFilename == null,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None,
         title = stringResource(R.string.filename_format),
         subtitle = exampleFilename,
         endIcon = Icons.Rounded.MiniEdit,

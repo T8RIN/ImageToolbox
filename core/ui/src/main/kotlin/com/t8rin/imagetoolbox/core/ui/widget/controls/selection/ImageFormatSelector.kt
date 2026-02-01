@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
@@ -93,7 +94,8 @@ fun ImageFormatSelector(
     },
     onAutoClick: (() -> Unit)? = null
 ) {
-    val enabled = !LocalSettingsState.current.overwriteFiles || forceEnabled
+    val settingsState = LocalSettingsState.current
+    val enabled = settingsState.filenameBehavior !is FilenameBehavior.Overwrite || forceEnabled
     val essentials = rememberLocalEssentials()
 
     val cannotChangeFormat: () -> Unit = {
@@ -290,7 +292,6 @@ fun ImageFormatSelector(
             }
 
             val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
-            val settingsState = LocalSettingsState.current
             AnimatedVisibility(
                 visible = showBackgroundSelector,
                 modifier = Modifier.fillMaxWidth()

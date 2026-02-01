@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
-import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -89,7 +89,6 @@ data class UiSettingsState(
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
-    val randomizeFilename: Boolean,
     val font: UiFontFamily,
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
@@ -110,7 +109,6 @@ data class UiSettingsState(
     val screensSearchEnabled: Boolean,
     val copyToClipboardMode: CopyToClipboardMode,
     val hapticsStrength: Int,
-    val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
     val magnifierEnabled: Boolean,
@@ -153,7 +151,6 @@ data class UiSettingsState(
     val isCenterAlignDialogButtons: Boolean,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
-    val hashingTypeForFilename: HashingType?,
     val customFonts: List<UiFontFamily.Custom>,
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<Color>,
@@ -168,7 +165,8 @@ data class UiSettingsState(
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
     val shapesType: ShapeType,
-    val filenamePattern: String?
+    val filenamePattern: String?,
+    val filenameBehavior: FilenameBehavior,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -338,7 +336,6 @@ fun SettingsState.toUiState(
                 filenamePrefix = filenamePrefix,
                 addSizeInFilename = addSizeInFilename,
                 addOriginalFilename = addOriginalFilename,
-                randomizeFilename = randomizeFilename,
                 font = font,
                 fontScale = fontScale?.takeIf { it > 0 },
                 allowCollectCrashlytics = allowCollectCrashlytics,
@@ -359,7 +356,6 @@ fun SettingsState.toUiState(
                 screensSearchEnabled = screensSearchEnabled,
                 copyToClipboardMode = copyToClipboardMode,
                 hapticsStrength = hapticsStrength,
-                overwriteFiles = overwriteFiles,
                 filenameSuffix = filenameSuffix,
                 defaultImageScaleMode = defaultImageScaleMode,
                 magnifierEnabled = magnifierEnabled,
@@ -402,7 +398,6 @@ fun SettingsState.toUiState(
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
-                hashingTypeForFilename = hashingTypeForFilename,
                 customFonts = customFonts,
                 enableToolExitConfirmation = enableToolExitConfirmation,
                 recentColors = recentColors,
@@ -417,7 +412,8 @@ fun SettingsState.toUiState(
                 defaultImageFormat = defaultImageFormat,
                 defaultQuality = defaultQuality,
                 shapesType = shapesType,
-                filenamePattern = filenamePattern
+                filenamePattern = filenamePattern,
+                filenameBehavior = filenameBehavior,
             )
         }
     }.value
