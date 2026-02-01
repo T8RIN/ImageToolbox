@@ -81,6 +81,8 @@ internal class KeepAliveForegroundService : Service() {
             }
 
             ACTION_STOP -> {
+                startForeground()
+
                 removeNotification = intent.getBooleanExtra(
                     EXTRA_REMOVE_NOTIFICATION, true
                 ).makeLog("KeepAliveForegroundService")
@@ -121,14 +123,19 @@ internal class KeepAliveForegroundService : Service() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun stopForegroundSafe() {
-        stopForeground(
-            if (removeNotification) {
-                STOP_FOREGROUND_REMOVE
-            } else {
-                STOP_FOREGROUND_DETACH
-            }
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(
+                if (removeNotification) {
+                    STOP_FOREGROUND_REMOVE
+                } else {
+                    STOP_FOREGROUND_DETACH
+                }
+            )
+        } else {
+            stopForeground(removeNotification)
+        }
         if (removeNotification) {
             notificationManager.cancel(NOTIFICATION_ID)
         }

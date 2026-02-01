@@ -56,3 +56,18 @@
 
 -dontwarn com.google.re2j.Matcher
 -dontwarn com.google.re2j.Pattern
+
+-keepclassmembers class * {
+    public java.lang.String name();
+}
+
+-keep enum * { *; }
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * extends java.lang.Enum {
+    public java.lang.String name();
+}
