@@ -2,20 +2,26 @@
 
 ```mermaid
 %%{
-  init: {
-    "theme": "base",
-    "themeVariables": {
-        "primaryColor": "#00381a",
-        "primaryTextColor": "#d4fcb1",
-        "primaryBorderColor": "#14b800",
-        "lineColor": "#15c400",
-        "secondaryColor": "#283b26",
-        "tertiaryColor": "#355238",
-        "nodeTextColor": "#e0ffd6",
-        "edgeLabelBackground": "#1a1a1a",
-        "fontSize": "28px"
+    init: {
+      "theme": "base",
+      "themeVariables": {
+        "mainBkg": "#121418",
+        "primaryColor": "#1b3a1b",
+        "primaryTextColor": "#e0e3de",
+        "primaryBorderColor": "#76c893",
+        "nodeBorder": "#76c893",
+        "lineColor": "#76c893",
+        "secondaryColor": "#1f2721",
+        "tertiaryColor": "#232c26",
+        "clusterBkg": "#182018",
+        "clusterBorder": "#4caf50",
+        "nodeTextColor": "#e0e3de",
+        "edgeLabelBackground": "#111316",
+        "edgeLabelColor": "#cfe9de",
+        "fontSize": "28px",
+        "fontFamily": "JetBrains Mono, Inter, system-ui"
+      }
     }
-  }
 }%%
 
 graph LR
@@ -27,7 +33,9 @@ graph LR
         :core:settings("settings")
         :core:di("di")
         :core:crash("crash")
+        :core:utils("utils")
         :core:filters("filters")
+        :core:ksp("ksp")
     end
     subgraph :feature
         :feature:root("root")
@@ -40,7 +48,7 @@ graph LR
         :feature:weight-resize("weight-resize")
         :feature:compare("compare")
         :feature:delete-exif("delete-exif")
-        :feature:generate-palette("generate-palette")
+        :feature:palette-tools("palette-tools")
         :feature:resize-convert("resize-convert")
         :feature:pdf-tools("pdf-tools")
         :feature:single-edit("single-edit")
@@ -77,6 +85,9 @@ graph LR
         :feature:image-cutting("image-cutting")
         :feature:audio-cover-extractor("audio-cover-extractor")
         :feature:library-details("library-details")
+        :feature:wallpapers-export("wallpapers-export")
+        :feature:ascii-art("ascii-art")
+        :feature:ai-tools("ai-tools")
         :feature:media-picker("media-picker")
         :feature:quick-tiles("quick-tiles")
     end
@@ -96,7 +107,7 @@ graph LR
     :feature:root --> :feature:weight-resize
     :feature:root --> :feature:compare
     :feature:root --> :feature:delete-exif
-    :feature:root --> :feature:generate-palette
+    :feature:root --> :feature:palette-tools
     :feature:root --> :feature:resize-convert
     :feature:root --> :feature:pdf-tools
     :feature:root --> :feature:single-edit
@@ -133,6 +144,9 @@ graph LR
     :feature:root --> :feature:image-cutting
     :feature:root --> :feature:audio-cover-extractor
     :feature:root --> :feature:library-details
+    :feature:root --> :feature:wallpapers-export
+    :feature:root --> :feature:ascii-art
+    :feature:root --> :feature:ai-tools
     :feature:erase-background --> :core:data
     :feature:erase-background --> :core:ui
     :feature:erase-background --> :core:domain
@@ -141,14 +155,6 @@ graph LR
     :feature:erase-background --> :core:di
     :feature:erase-background --> :core:crash
     :feature:erase-background --> :feature:draw
-    :feature:generate-palette --> :core:data
-    :feature:generate-palette --> :core:ui
-    :feature:generate-palette --> :core:domain
-    :feature:generate-palette --> :core:resources
-    :feature:generate-palette --> :core:settings
-    :feature:generate-palette --> :core:di
-    :feature:generate-palette --> :core:crash
-    :feature:generate-palette --> :feature:pick-color
     :feature:edit-exif --> :core:data
     :feature:edit-exif --> :core:ui
     :feature:edit-exif --> :core:domain
@@ -213,6 +219,7 @@ graph LR
     :app --> :core:settings
     :app --> :core:di
     :app --> :core:crash
+    :app --> :core:utils
     :app --> :feature:root
     :app --> :feature:media-picker
     :app --> :feature:quick-tiles
@@ -262,6 +269,7 @@ graph LR
     :feature:image-stitch --> :core:filters
     :core:ui --> :core:resources
     :core:ui --> :core:domain
+    :core:ui --> :core:utils
     :core:ui --> :core:di
     :core:ui --> :core:settings
     :feature:noise-generation --> :core:data
@@ -271,6 +279,13 @@ graph LR
     :feature:noise-generation --> :core:settings
     :feature:noise-generation --> :core:di
     :feature:noise-generation --> :core:crash
+    :feature:wallpapers-export --> :core:data
+    :feature:wallpapers-export --> :core:ui
+    :feature:wallpapers-export --> :core:domain
+    :feature:wallpapers-export --> :core:resources
+    :feature:wallpapers-export --> :core:settings
+    :feature:wallpapers-export --> :core:di
+    :feature:wallpapers-export --> :core:crash
     :feature:document-scanner --> :core:data
     :feature:document-scanner --> :core:ui
     :feature:document-scanner --> :core:domain
@@ -294,6 +309,9 @@ graph LR
     :feature:zip --> :core:settings
     :feature:zip --> :core:di
     :feature:zip --> :core:crash
+    :core:utils --> :core:domain
+    :core:utils --> :core:resources
+    :core:utils --> :core:settings
     :feature:cipher --> :core:data
     :feature:cipher --> :core:ui
     :feature:cipher --> :core:domain
@@ -310,6 +328,13 @@ graph LR
     :feature:draw --> :core:crash
     :feature:draw --> :core:filters
     :feature:draw --> :feature:pick-color
+    :feature:ai-tools --> :core:data
+    :feature:ai-tools --> :core:ui
+    :feature:ai-tools --> :core:domain
+    :feature:ai-tools --> :core:resources
+    :feature:ai-tools --> :core:settings
+    :feature:ai-tools --> :core:di
+    :feature:ai-tools --> :core:crash
     :feature:audio-cover-extractor --> :core:data
     :feature:audio-cover-extractor --> :core:ui
     :feature:audio-cover-extractor --> :core:domain
@@ -394,6 +419,14 @@ graph LR
     :feature:base64-tools --> :core:settings
     :feature:base64-tools --> :core:di
     :feature:base64-tools --> :core:crash
+    :feature:palette-tools --> :core:data
+    :feature:palette-tools --> :core:ui
+    :feature:palette-tools --> :core:domain
+    :feature:palette-tools --> :core:resources
+    :feature:palette-tools --> :core:settings
+    :feature:palette-tools --> :core:di
+    :feature:palette-tools --> :core:crash
+    :feature:palette-tools --> :feature:pick-color
     :feature:settings --> :core:data
     :feature:settings --> :core:ui
     :feature:settings --> :core:domain
@@ -401,6 +434,7 @@ graph LR
     :feature:settings --> :core:settings
     :feature:settings --> :core:di
     :feature:settings --> :core:crash
+    :core:data --> :core:utils
     :core:data --> :core:domain
     :core:data --> :core:resources
     :core:data --> :core:filters
@@ -427,6 +461,7 @@ graph LR
     :feature:quick-tiles --> :core:settings
     :feature:quick-tiles --> :core:di
     :feature:quick-tiles --> :core:crash
+    :feature:quick-tiles --> :feature:erase-background
     :feature:recognize-text --> :core:data
     :feature:recognize-text --> :core:ui
     :feature:recognize-text --> :core:domain
@@ -480,9 +515,19 @@ graph LR
     :feature:format-conversion --> :core:di
     :feature:format-conversion --> :core:crash
     :feature:format-conversion --> :feature:compare
+    :feature:ascii-art --> :core:data
+    :feature:ascii-art --> :core:ui
+    :feature:ascii-art --> :core:domain
+    :feature:ascii-art --> :core:resources
+    :feature:ascii-art --> :core:settings
+    :feature:ascii-art --> :core:di
+    :feature:ascii-art --> :core:crash
+    :feature:ascii-art --> :feature:filters
     :core:filters --> :core:domain
     :core:filters --> :core:ui
     :core:filters --> :core:resources
+    :core:filters --> :core:settings
+    :core:filters --> :core:utils
     :feature:apng-tools --> :core:data
     :feature:apng-tools --> :core:ui
     :feature:apng-tools --> :core:domain
@@ -505,6 +550,7 @@ graph LR
     :feature:filters --> :core:settings
     :feature:filters --> :core:di
     :feature:filters --> :core:crash
+    :feature:filters --> :core:ksp
     :feature:filters --> :feature:draw
     :feature:filters --> :feature:pick-color
     :feature:filters --> :feature:compare
