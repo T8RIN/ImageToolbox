@@ -37,7 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
-import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
@@ -116,7 +116,7 @@ internal fun SpotHealParamsSelector(
                     if (useLama && !LamaLoader.isDownloaded) {
                         downloadJob?.cancel()
                         downloadJob = scope.launch {
-                            keepAliveService.trackSafe(
+                            keepAliveService.track(
                                 initial = {
                                     updateOrStart(
                                         title = essentials.getString(R.string.downloading)

@@ -27,7 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
-import com.t8rin.imagetoolbox.core.domain.saving.trackSafe
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.coroutineScope
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -74,7 +74,10 @@ abstract class BaseComponent(
     fun trackProgress(
         action: suspend KeepAliveService.() -> Unit
     ): Job = componentScope.launch {
-        keepAliveService.trackSafe(action = action)
+        keepAliveService.track(
+            onFailure = { it.makeLog("CRITICAL") },
+            action = action
+        )
     }
 
     protected fun registerSave() {

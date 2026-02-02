@@ -77,27 +77,3 @@ suspend fun <R> KeepAliveService.track(
         onComplete(true)
     }
 }
-
-suspend fun <R> KeepAliveService.trackSafe(
-    initial: KeepAliveService.() -> Unit = { updateOrStart() },
-    onCancel: () -> Unit = {},
-    onComplete: KeepAliveService.(isSuccess: Boolean) -> Unit = { stop(true) },
-    action: suspend KeepAliveService.() -> R
-): R = coroutineScope {
-    val deferred = async {
-        initial()
-        action()
-    }
-
-    deferred.invokeOnCompletion { onComplete(true) }
-
-    try {
-        deferred.await()
-    } catch (e: CancellationException) {
-        onComplete(false)
-        onCancel()
-        throw e
-    } finally {
-        onComplete(true)
-    }
-}
