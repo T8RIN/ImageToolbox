@@ -139,7 +139,7 @@ internal class AndroidFilenameCreator @Inject constructor(
 
         val randomNumber: (count: Int) -> String = { count ->
             buildString {
-                repeat(count) {
+                repeat(count.coerceAtMost(500)) {
                     append(random.nextInt(0, 10))
                 }
             }.take(count)
