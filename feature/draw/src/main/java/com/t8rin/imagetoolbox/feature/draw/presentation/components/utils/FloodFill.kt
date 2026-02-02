@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asComposePath
+import com.t8rin.logger.makeLog
 import java.util.LinkedList
 import java.util.Queue
 import kotlin.math.roundToInt
@@ -63,6 +64,8 @@ internal class FloodFill(image: Bitmap) {
         y: Int,
         tolerance: Float
     ): Path? {
+        if (x >= width || y >= height || x < 0 || y < 0) return null
+
         path.rewind()
         this.tolerance = (tolerance * 255).roundToInt().coerceIn(0, 255)
         // Setup
@@ -175,16 +178,22 @@ internal class FloodFill(image: Bitmap) {
     }
 
     //  Represents a linear range to be filled and branched from.
-    private inner class FloodFillRange(var startX: Int, var endX: Int, var Y: Int)
+    private data class FloodFillRange(
+        val startX: Int,
+        val endX: Int,
+        val Y: Int
+    )
 }
 
 fun ImageBitmap.floodFill(
     offset: Offset,
     tolerance: Float
-): ComposePath? = FloodFill(
-    asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
-).performFloodFill(
-    x = offset.x.roundToInt(),
-    y = offset.y.roundToInt(),
-    tolerance = tolerance
-)?.asComposePath()
+): ComposePath? = runCatching {
+    FloodFill(
+        asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+    ).performFloodFill(
+        x = offset.x.roundToInt().coerceIn(0, width - 1),
+        y = offset.y.roundToInt().coerceIn(0, height - 1),
+        tolerance = tolerance
+    )?.asComposePath()
+}.onFailure { it.makeLog("floodFill") }.getOrNull()
