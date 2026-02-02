@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -378,8 +376,8 @@
     <string name="image_crop_mask_sub">Använd den här masktypen för att skapa mask från en given bild, lägg märke till att den SKA ha alfakanal</string>
     <string name="backup_and_restore">Säkerhetskopiera och återställa</string>
     <string name="backup">Säkerhetskopiering</string>
-    <string name="restore">Återställa</string>
-    <string name="backup_sub">Säkerhetskopiera dina appinställningar till en fil</string>
+    <string name="restore">Återställ</string>
+    <string name="backup_sub">Säkerhetskopiera appinställningar till en fil</string>
     <string name="restore_sub">Återställ appinställningar från tidigare genererad fil</string>
     <string name="corrupted_file_or_not_a_backup">Skadad fil eller inte en säkerhetskopia</string>
     <string name="settings_restored">Inställningarna har återställts</string>
@@ -392,8 +390,8 @@
     <string name="text">Text</string>
     <string name="font_scale">Teckensnittsskala</string>
     <string name="defaultt">Standard</string>
-    <string name="using_large_fonts_warn">Användning av stora teckensnittsskalor kan orsaka gränssnittsfel och problem, som inte kommer att åtgärdas. Använd försiktigt.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn ​​Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="using_large_fonts_warn">Användning av stora teckensnittsskalor kan orsaka gränssnittsfel och problem som inte kommer att åtgärdas. Använd med försiktighet.</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Känslor</string>
     <string name="food_and_drink">Mat och dryck</string>
     <string name="nature_and_animals">Natur och djur</string>
@@ -404,28 +402,28 @@
     <string name="activities">Aktiviteter</string>
     <string name="background_remover">Bakgrundsborttagare</string>
     <string name="background_remover_sub">Ta bort bakgrunden från bilden genom att rita eller använd alternativet Auto</string>
-    <string name="trim_image">Trimma bilden</string>
+    <string name="trim_image">Beskär bild</string>
     <string name="keep_exif_sub">Originalbildens metadata kommer att behållas</string>
-    <string name="trim_image_sub">Genomskinliga utrymmen runt bilden kommer att trimmas</string>
+    <string name="trim_image_sub">Genomskinliga utrymmen runt bilden kommer att beskäras</string>
     <string name="auto_erase_background">Autoradera bakgrund</string>
     <string name="restore_image">Återställ bild</string>
-    <string name="erase_mode">Radera läge</string>
+    <string name="erase_mode">Raderings-läge</string>
     <string name="erase_background">Radera bakgrund</string>
     <string name="restore_background">Återställ bakgrund</string>
-    <string name="blur_radius">Oskärpa radie</string>
+    <string name="blur_radius">Oskarphetsradie</string>
     <string name="pipette">Pipett</string>
     <string name="draw_mode">Ritläge</string>
     <string name="create_issue">Skapa problem</string>
     <string name="something_went_wrong_emphasis">Hoppsan… Något gick fel. Du kan skriva till mig med hjälp av alternativen nedan så ska jag försöka hitta en lösning</string>
-    <string name="resize_and_convert">Ändra storlek och konvertera</string>
-    <string name="resize_and_convert_sub">Ändra storlek på givna bilder eller konvertera dem till andra format. EXIF-metadata kan också redigeras här om du väljer en enskild bild.</string>
+    <string name="resize_and_convert">Storleksändra och konvertera</string>
+    <string name="resize_and_convert_sub">Ändra storlek på givna bilder eller konvertera dem till andra format. EXIF-metadata kan också redigeras här om du väljer enskild bild.</string>
     <string name="max_colors_count">Max antal färger</string>
     <string name="crashlytics_sub">Detta gör att appen kan samla in kraschrapporter automatiskt</string>
-    <string name="analytics">Analytics</string>
-    <string name="analytics_sub">Tillåt insamling av anonym appanvändningsstatistik</string>
-    <string name="image_exif_warning">För närvarande tillåter formatet %1$s endast läsning av EXIF-metadata på Android. Utdatabild kommer inte att ha metadata alls när den sparas.</string>
+    <string name="analytics">Analyser</string>
+    <string name="analytics_sub">Tillåt anonym insamling av appanvändningsstatistik</string>
+    <string name="image_exif_warning">För närvarande tillåter formatet %1$s endast läsning av EXIF-metadata på Android. Utdatabild kommer inte inkludera metadata när den sparas.</string>
     <string name="effort">Ansträngning</string>
-    <string name="effort_sub">Ett värde på %1$s betyder en snabb komprimering, vilket resulterar i en relativt stor filstorlek. %2$s betyder en långsammare komprimering, vilket resulterar i en mindre fil.</string>
+    <string name="effort_sub">Ett värde på %1$s betyder snabb komprimering, vilket resulterar i en relativt stor filstorlek. %2$s betyder en långsammare komprimering, vilket resulterar i en mindre fil.</string>
     <string name="wait">Vänta</string>
     <string name="saving_almost_complete">Sparningen är nästan klar. Om du avbryter nu måste du spara igen.</string>
     <string name="updates">Uppdateringar</string>
