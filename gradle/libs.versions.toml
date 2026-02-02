@@ -81,8 +81,10 @@ fragmentCompose = "1.8.9"
 firebaseCrashlyticsGradle = "3.0.6"
 aboutlibraries = "13.2.1"
 moduleGraphGradle = "0.13.0"
+flinger = "2.0.2"
 
 [libraries]
+flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }
 capsule = { module = "io.github.kyant0:capsule", version.ref = "capsule" }
 androidliquidglass = { module = "io.github.kyant0:backdrop", version.ref = "androidliquidglass" }

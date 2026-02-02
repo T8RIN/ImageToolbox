@@ -41,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.TransformOrigin
@@ -50,6 +49,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.request.ImageRequest
+import coil3.request.allowHardware
 import coil3.size.Precision
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.ui.theme.White
@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 
@@ -75,17 +76,11 @@ fun MediaImage(
 ) {
     val transition = updateTransition(isSelected)
 
-    val selectedSize by transition.animateDp {
+    val selectedSize = transition.animateDp {
         if (it) 12.dp else 0.dp
     }
-    val scale by transition.animateFloat {
+    val scale = transition.animateFloat {
         if (it) 0.5f else 1f
-    }
-    val selectedShapeSize by transition.animateDp {
-        if (it) 16.dp else 4.dp
-    }
-    val strokeSize by transition.animateDp {
-        if (it) 2.dp else 0.dp
     }
     var isImageError by remember {
         mutableStateOf(false)
@@ -115,25 +110,24 @@ fun MediaImage(
             )
             .aspectRatio(1f)
     ) {
-        val shape = AutoCornersShape(selectedShapeSize)
+        val shape = animateShape(
+            if (isSelected) {
+                AutoCornersShape(16.dp)
+            } else {
+                AutoCornersShape(4.dp)
+            }
+        )
 
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
                 .aspectRatio(1f)
-                .padding(selectedSize)
+                .padding(selectedSize.value)
                 .clip(shape)
                 .border(
-                    width = strokeSize,
+                    width = if (isSelected) 2.dp else 0.dp,
                     shape = shape,
                     color = strokeColor
-                )
-                .then(
-                    if (isSelected) {
-                        Modifier.clip(
-                            AutoCornersShape(selectedShapeSize + 2.dp)
-                        )
-                    } else Modifier
                 )
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -147,6 +141,9 @@ fun MediaImage(
                         .data(media.uri)
                         .size(384)
                         .precision(Precision.INEXACT)
+                        .memoryCacheKey(media.uri)
+                        .diskCacheKey(media.uri)
+                        .allowHardware(true)
                         .build()
                 },
                 contentDescription = media.label,
@@ -187,15 +184,21 @@ fun MediaImage(
             if (media.duration != null) {
                 MediaVideoDurationHeader(
                     modifier = Modifier
-                        .padding(selectedSize / 2)
-                        .scale(scale),
+                        .padding(selectedSize.value / 2)
+                        .graphicsLayer {
+                            scaleX = scale.value
+                            scaleY = scale.value
+                        },
                     media = media,
                 )
             } else {
                 MediaExtensionHeader(
                     modifier = Modifier
-                        .padding(selectedSize / 2)
-                        .scale(scale),
+                        .padding(selectedSize.value / 2)
+                        .graphicsLayer {
+                            scaleX = scale.value
+                            scaleY = scale.value
+                        },
                     media = media
                 )
             }
@@ -205,10 +208,10 @@ fun MediaImage(
             MediaSizeFooter(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(selectedSize / 2)
+                    .padding(selectedSize.value / 2)
                     .graphicsLayer {
-                        scaleX = scale
-                        scaleY = scale
+                        scaleX = scale.value
+                        scaleY = scale.value
                         transformOrigin = TransformOrigin(0.3f, 0.5f)
                     },
                 media = media,

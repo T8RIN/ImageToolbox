@@ -105,4 +105,6 @@ dependencies {
     api(libs.squircle.shape)
 
     api(libs.evaluator)
+
+    api(libs.flinger)
 }

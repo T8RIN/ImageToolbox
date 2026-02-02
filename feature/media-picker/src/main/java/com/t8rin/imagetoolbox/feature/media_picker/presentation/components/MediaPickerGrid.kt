@@ -36,7 +36,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
@@ -131,6 +131,9 @@ internal fun MediaPickerGrid(
         }
     }
 
+    val cutout = WindowInsets.displayCutout.asPaddingValues()
+    val navBar = WindowInsets.navigationBars.asPaddingValues()
+
     LazyVerticalGrid(
         state = gridState,
         modifier = Modifier
@@ -168,18 +171,26 @@ internal fun MediaPickerGrid(
         columns = GridCells.Adaptive(100.dp),
         horizontalArrangement = Arrangement.spacedBy(1.dp),
         verticalArrangement = Arrangement.spacedBy(1.dp),
-        contentPadding = PaddingValues(
-            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding().plus(
-                if (isButtonVisible) 80.dp
-                else 0.dp
-            ).plus(
-                if (selectedMedia.isNotEmpty()) 52.dp
-                else 0.dp
-            ),
-            start = WindowInsets.displayCutout.asPaddingValues()
-                .calculateStartPadding(layoutDirection),
-            end = WindowInsets.displayCutout.asPaddingValues().calculateEndPadding(layoutDirection)
-        )
+        contentPadding = remember(
+            navBar,
+            cutout,
+            layoutDirection,
+            isButtonVisible,
+            selectedMedia.isNotEmpty()
+        ) {
+            PaddingValues(
+                bottom = navBar.calculateBottomPadding().plus(
+                    if (isButtonVisible) 80.dp
+                    else 0.dp
+                ).plus(
+                    if (selectedMedia.isNotEmpty()) 52.dp
+                    else 0.dp
+                ),
+                start = cutout.calculateStartPadding(layoutDirection),
+                end = cutout.calculateEndPadding(layoutDirection)
+            )
+        },
+        flingBehavior = enhancedFlingBehavior()
     ) {
         if (!isManagePermissionAllowed) {
             item(
@@ -193,8 +204,7 @@ internal fun MediaPickerGrid(
         itemsIndexed(
             items = state.mappedMedia,
             key = { index, item ->
-                val first = if (item is MediaItem.MediaViewItem) item.media.toString() else item.key
-                "$first-$index"
+                "${item.key}-$index"
             },
             contentType = { _, item -> item.key.startsWith("media_") },
             span = { _, item ->
@@ -237,11 +247,7 @@ internal fun MediaPickerGrid(
                 }
 
                 is MediaItem.MediaViewItem -> {
-                    val selectionIndex by remember(selectedMedia, item.media) {
-                        derivedStateOf {
-                            selectedMedia.indexOf(item.media)
-                        }
-                    }
+                    val selectionIndex = selectedMedia.indexOf(item.media)
 
                     MediaImage(
                         media = item.media,
