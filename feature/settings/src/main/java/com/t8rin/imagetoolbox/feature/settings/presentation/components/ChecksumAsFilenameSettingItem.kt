@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -42,6 +43,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.drop
 
 @Composable
 fun ChecksumAsFilenameSettingItem(
@@ -51,17 +54,21 @@ fun ChecksumAsFilenameSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     var checkedState by remember {
-        mutableStateOf(settingsState.filenameBehavior is FilenameBehavior.None)
+        mutableStateOf(settingsState.filenameBehavior is FilenameBehavior.Checksum)
     }
-    LaunchedEffect(checkedState) {
-        onValueChange(
-            if (checkedState) {
-                settingsState.filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
-                    ?: HashingType.entries.first()
-            } else {
-                null
+    LaunchedEffect(onValueChange, settingsState) {
+        snapshotFlow { checkedState }
+            .drop(1)
+            .collectLatest {
+                onValueChange(
+                    if (it) {
+                        settingsState.filenameBehavior.safeCast<FilenameBehavior.Checksum>()?.hashingType
+                            ?: HashingType.entries.first()
+                    } else {
+                        null
+                    }
+                )
             }
-        )
     }
 
     PreferenceRowSwitch(
