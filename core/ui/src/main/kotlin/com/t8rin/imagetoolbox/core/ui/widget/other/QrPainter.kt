@@ -65,6 +65,9 @@ import coil3.compose.asPainter
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.shapes.ArrowShape
 import com.t8rin.imagetoolbox.core.resources.shapes.BookmarkShape
@@ -94,7 +97,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.other.QrCodeParams.BallShape.Shaped
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.generateQrBitmap
 import io.github.alexzhirkevich.qrose.QrCodePainter
 import io.github.alexzhirkevich.qrose.options.Neighbors
 import io.github.alexzhirkevich.qrose.options.QrBallShape
@@ -118,8 +120,10 @@ import io.github.alexzhirkevich.qrose.options.verticalLines
 import io.github.alexzhirkevich.qrose.qrcode.MaskPattern
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import io.github.alexzhirkevich.qrose.toImageBitmap
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 /**
  * Creates a [Painter] that draws a QR code for the given [content].
@@ -201,6 +205,47 @@ private fun rememberBarcodePainter(
             }
         )
     }
+}
+
+/**
+ * Generates a QR code bitmap for the given [content].
+ * The [widthPx] parameter defines the size of the QR code in pixels.
+ * The [paddingPx] parameter defines the padding of the QR code in pixels.
+ * Returns null if the QR code could not be generated.
+ * This function is suspendable and should be called from a coroutine is thread-safe.
+ */
+private suspend fun generateQrBitmap(
+    content: String,
+    widthPx: Int,
+    heightPx: Int,
+    paddingPx: Int,
+    foregroundColor: Color = Color.Black,
+    backgroundColor: Color = Color.White,
+    format: BarcodeFormat = BarcodeFormat.QR_CODE
+): Bitmap = withContext(Dispatchers.IO) {
+    val encodeHints = mutableMapOf<EncodeHintType, Any?>()
+        .apply {
+            this[EncodeHintType.CHARACTER_SET] = "utf-8"
+            if (format == BarcodeFormat.QR_CODE) {
+                this[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
+            }
+            this[EncodeHintType.MARGIN] = paddingPx
+        }
+
+    val bitmapMatrix =
+        MultiFormatWriter().encode(content, format, widthPx, heightPx, encodeHints)
+
+    val matrixWidth = bitmapMatrix.width
+    val matrixHeight = bitmapMatrix.height
+
+    val colors = IntArray(matrixWidth * matrixHeight) { index ->
+        val x = index % matrixWidth
+        val y = index / matrixWidth
+        val shouldColorPixel = bitmapMatrix.get(x, y)
+        if (shouldColorPixel) foregroundColor.toArgb() else backgroundColor.toArgb()
+    }
+
+    Bitmap.createBitmap(colors, matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888)
 }
 
 private sealed interface BarcodeParams {
