@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.copyTo
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
-import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import kotlinx.coroutines.coroutineScope
 import java.io.OutputStream
@@ -106,7 +105,7 @@ internal suspend fun Context.clearCache() = coroutineScope {
     }
 }
 
-internal fun Context.cacheSize(): String = runCatching {
+internal fun Context.cacheSize(): Long = runCatching {
     val cache =
         cacheDir?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     val code =
@@ -115,8 +114,9 @@ internal fun Context.cacheSize(): String = runCatching {
     externalCacheDirs?.forEach { file ->
         size += file?.walkTopDown()?.sumOf { if (it.isFile) it.length() else 0 } ?: 0
     }
-    humanFileSize(size)
-}.getOrNull() ?: "0 B"
+
+    size
+}.getOrNull() ?: 0
 
 
 fun Context.isInstalledFromPlayStore(): Boolean = verifyInstallerId(

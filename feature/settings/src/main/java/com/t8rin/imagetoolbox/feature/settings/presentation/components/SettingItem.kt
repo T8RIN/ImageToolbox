@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
@@ -151,8 +152,9 @@ internal fun SettingItem(
             }
 
             Setting.ClearCache -> {
+                val lifecycleEvent = rememberCurrentLifecycleEvent()
                 ClearCacheSettingItem(
-                    value = remember {
+                    value = remember(lifecycleEvent) {
                         component.getReadableCacheSize()
                     },
                     onClearCache = component::clearCache

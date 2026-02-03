@@ -340,15 +340,16 @@ internal class AndroidFileController @Inject constructor(
     }
 
     override fun clearCache(
-        onComplete: (String) -> Unit,
+        onComplete: (Long) -> Unit,
     ) {
         appScope.launch {
             context.clearCache()
-            onComplete(getReadableCacheSize())
+            onComplete(getCacheSize())
+            "cache cleared".makeLog("AndroidFileController")
         }
     }
 
-    override fun getReadableCacheSize(): String = context.cacheSize()
+    override fun getCacheSize(): Long = context.cacheSize()
 
     override suspend fun readBytes(
         uri: String,

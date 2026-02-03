@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -165,9 +166,6 @@ class SettingsComponent @AssistedInject internal constructor(
 
     init {
         settingsScope {
-            _settingsState.value = getSettingsState().also {
-                if (it.clearCacheOnLaunch) clearCache()
-            }
             settingsState.onEach {
                 _settingsState.value = it
             }.collect()
@@ -178,9 +176,11 @@ class SettingsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun getReadableCacheSize(): String = fileController.getReadableCacheSize()
+    fun getReadableCacheSize(): String = humanFileSize(fileController.getCacheSize(), 2)
 
-    fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache(onComplete)
+    fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache {
+        onComplete(getReadableCacheSize())
+    }
 
     fun toggleAddSequenceNumber() = settingsScope { toggleAddSequenceNumber() }
 
