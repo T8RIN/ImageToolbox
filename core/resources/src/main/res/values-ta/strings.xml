@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">பறக்கும் வேகத்தின் அடிப்படையில் இயற்பியலைச் சரிசெய்கிறது</string>
     <string name="accessibility_aware_sub">கணினி அணுகல்தன்மை அமைப்புகளை மதிக்கிறது</string>
     <string name="reduced_motion_sub">அணுகல் தேவைகளுக்கான குறைந்தபட்ச இயக்கம்</string>
+    <string name="primary_lines">முதன்மை கோடுகள்</string>
+    <string name="primary_lines_sub">ஒவ்வொரு ஐந்தாவது வரியும் தடிமனான வரியைச் சேர்க்கிறது</string>
 </resources>

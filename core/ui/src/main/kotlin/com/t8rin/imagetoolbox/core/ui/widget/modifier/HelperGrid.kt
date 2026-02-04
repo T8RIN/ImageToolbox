@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,20 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.tooling.preview.Preview
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 
 @Stable
@@ -37,32 +41,8 @@ data class HelperGridParams(
     val cellHeight: Float = 20f,
     val linesWidth: Float = 0f,
     val enabled: Boolean = false,
-) {
-
-    companion object {
-        val Saver = listSaver<HelperGridParams, Float>(
-            save = {
-                listOf(
-                    it.color.toFloat(),
-                    it.cellWidth,
-                    it.cellHeight,
-                    it.linesWidth,
-                    if (it.enabled) 1f else 0f
-                )
-            },
-            restore = {
-                HelperGridParams(
-                    color = it[0].toInt(),
-                    cellWidth = it[1],
-                    cellHeight = it[2],
-                    linesWidth = it[3],
-                    enabled = if (it[4] > 0f) true else false
-                )
-            }
-        )
-    }
-
-}
+    val withPrimaryLines: Boolean = false
+)
 
 fun Modifier.drawHelperGrid(
     params: HelperGridParams,
@@ -95,7 +75,11 @@ fun Modifier.drawHelperGrid(
                         color = composeColor,
                         start = Offset(x = x * cellWidthPx, y = 0f),
                         end = Offset(x = x * cellWidthPx, y = height),
-                        strokeWidth = linesWidthPx
+                        strokeWidth = if (x % 5 == 0 && x != 0 && withPrimaryLines) {
+                            if (linesWidthPx == 0f) 2f else linesWidthPx * 2
+                        } else {
+                            linesWidthPx
+                        }
                     )
                 }
 
@@ -104,11 +88,31 @@ fun Modifier.drawHelperGrid(
                         color = composeColor,
                         start = Offset(x = 0f, y = y * cellHeightPx),
                         end = Offset(x = width, y = y * cellHeightPx),
-                        strokeWidth = linesWidthPx
+                        strokeWidth = if (y % 5 == 0 && y != 0 && withPrimaryLines) {
+                            if (linesWidthPx == 0f) 2f else linesWidthPx * 2
+                        } else {
+                            linesWidthPx
+                        }
                     )
                 }
             }
         }
     }
 
+}
+
+
+@Composable
+@Preview
+private fun Preview() = ImageToolboxThemeForPreview(false) {
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawHelperGrid(
+                HelperGridParams(
+                    enabled = true,
+                    withPrimaryLines = true
+                )
+            )
+    ) { }
 }

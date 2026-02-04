@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +84,7 @@ fun TitleItem(
     modifier: Modifier = Modifier.padding(16.dp),
     subtitle: String? = null,
     iconEndPadding: Dp = 8.dp,
+    endContent: (@Composable RowScope.() -> Unit)? = null,
     iconContainerColor: Color = IconShapeDefaults.containerColor,
     iconContentColor: Color = IconShapeDefaults.contentColor,
 ) {
@@ -108,7 +109,7 @@ fun TitleItem(
             Spacer(Modifier.width(iconEndPadding))
         }
         Column(
-            modifier = Modifier.weight(1f, false)
+            modifier = Modifier.weight(1f, endContent != null)
         ) {
             Text(
                 text = text,
@@ -125,6 +126,10 @@ fun TitleItem(
                     color = LocalContentColor.current.copy(alpha = 0.5f)
                 )
             }
+        }
+        endContent?.let {
+            Spacer(Modifier.width(8.dp))
+            it()
         }
     }
 }

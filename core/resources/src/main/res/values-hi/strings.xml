@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">फ़्लिंग वेग के आधार पर भौतिकी को समायोजित करता है</string>
     <string name="accessibility_aware_sub">सिस्टम एक्सेसिबिलिटी सेटिंग्स का सम्मान करता है</string>
     <string name="reduced_motion_sub">पहुंच आवश्यकताओं के लिए न्यूनतम गति</string>
+    <string name="primary_lines">प्राथमिक पंक्तियाँ</string>
+    <string name="primary_lines_sub">प्रत्येक पाँचवीं पंक्ति में मोटी रेखा जोड़ता है</string>
 </resources>

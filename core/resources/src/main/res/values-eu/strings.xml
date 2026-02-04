@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Fling abiaduran oinarritutako fisika doitzen du</string>
     <string name="accessibility_aware_sub">Sistemaren irisgarritasun-ezarpenak errespetatzen ditu</string>
     <string name="reduced_motion_sub">Irisgarritasun-beharretarako mugimendu minimoa</string>
+    <string name="primary_lines">Lehen lerroak</string>
+    <string name="primary_lines_sub">Lerro lodiagoa gehitzen du bosgarren lerroan behin</string>
 </resources>

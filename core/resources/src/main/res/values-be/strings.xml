@@ -2089,4 +2089,6 @@
     <string name="adaptive_sub">Рэгулюе фізіку ў залежнасці ад хуткасці кідка</string>
     <string name="accessibility_aware_sub">Паважае налады даступнасці сістэмы</string>
     <string name="reduced_motion_sub">Мінімальны рух для патрэб даступнасці</string>
+    <string name="primary_lines">Першасныя лініі</string>
+    <string name="primary_lines_sub">Дадае больш тоўстую лінію кожны пяты радок</string>
 </resources>

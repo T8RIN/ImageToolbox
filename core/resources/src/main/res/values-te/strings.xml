@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">ఫ్లింగ్ వేగం ఆధారంగా భౌతిక శాస్త్రాన్ని సర్దుబాటు చేస్తుంది</string>
     <string name="accessibility_aware_sub">సిస్టమ్ యాక్సెసిబిలిటీ సెట్టింగ్‌లను గౌరవిస్తుంది</string>
     <string name="reduced_motion_sub">ప్రాప్యత అవసరాల కోసం కనీస చలనం</string>
+    <string name="primary_lines">ప్రాథమిక పంక్తులు</string>
+    <string name="primary_lines_sub">ప్రతి ఐదవ పంక్తికి మందమైన పంక్తిని జోడిస్తుంది</string>
 </resources>

@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">ਫਲਿੰਗ ਵੇਲੋਸਿਟੀ ਦੇ ਆਧਾਰ \'ਤੇ ਭੌਤਿਕ ਵਿਗਿਆਨ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰਦਾ ਹੈ</string>
     <string name="accessibility_aware_sub">ਸਿਸਟਮ ਪਹੁੰਚਯੋਗਤਾ ਸੈਟਿੰਗਾਂ ਦਾ ਆਦਰ ਕਰਦਾ ਹੈ</string>
     <string name="reduced_motion_sub">ਪਹੁੰਚਯੋਗਤਾ ਲੋੜਾਂ ਲਈ ਨਿਊਨਤਮ ਗਤੀ</string>
+    <string name="primary_lines">ਪ੍ਰਾਇਮਰੀ ਲਾਈਨਾਂ</string>
+    <string name="primary_lines_sub">ਹਰ ਪੰਜਵੀਂ ਲਾਈਨ ਨੂੰ ਮੋਟੀ ਲਾਈਨ ਜੋੜਦਾ ਹੈ</string>
 </resources>

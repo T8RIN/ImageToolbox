@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Säätää fysiikkaa heittonopeuden perusteella</string>
     <string name="accessibility_aware_sub">Kunnioita järjestelmän esteettömyysasetuksia</string>
     <string name="reduced_motion_sub">Minimaalinen liike esteettömyystarpeisiin</string>
+    <string name="primary_lines">Ensisijaiset linjat</string>
+    <string name="primary_lines_sub">Lisää paksumman viivan joka viides rivi</string>
 </resources>

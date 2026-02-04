@@ -98,9 +98,9 @@ fun ColorSelectionRow(
     LaunchedEffect(Unit) {
         delay(250)
         if (value == customColor) {
-            listState.scrollToItem(0)
+            listState.animateScrollToItem(0)
         } else if (value in defaultColors) {
-            listState.scrollToItem(defaultColors.indexOf(value))
+            listState.animateScrollToItem(defaultColors.indexOf(value))
         }
     }
 

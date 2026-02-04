@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">ফ্লিং বেগের উপর ভিত্তি করে পদার্থবিদ্যা সামঞ্জস্য করে</string>
     <string name="accessibility_aware_sub">সিস্টেম অ্যাক্সেসিবিলিটি সেটিংসকে সম্মান করে</string>
     <string name="reduced_motion_sub">অ্যাক্সেসযোগ্যতার প্রয়োজনের জন্য ন্যূনতম গতি</string>
+    <string name="primary_lines">প্রাথমিক লাইন</string>
+    <string name="primary_lines_sub">প্রতি পঞ্চম লাইনে মোটা লাইন যোগ করে</string>
 </resources>

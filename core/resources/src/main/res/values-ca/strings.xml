@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Ajusta la física en funció de la velocitat de llançament</string>
     <string name="accessibility_aware_sub">Respecta la configuració d\'accessibilitat del sistema</string>
     <string name="reduced_motion_sub">Moviment mínim per a necessitats d\'accessibilitat</string>
+    <string name="primary_lines">Línies primàries</string>
+    <string name="primary_lines_sub">Afegeix una línia més gruixuda cada cinquena línia</string>
 </resources>

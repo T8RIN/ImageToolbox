@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Ұшу жылдамдығына негізделген физиканы реттейді</string>
     <string name="accessibility_aware_sub">Жүйенің қол жетімділік параметрлерін құрметтейді</string>
     <string name="reduced_motion_sub">Қол жетімділік қажеттіліктері үшін минималды қозғалыс</string>
+    <string name="primary_lines">Бастапқы сызықтар</string>
+    <string name="primary_lines_sub">Әрбір бесінші жолға қалыңырақ жолды қосады</string>
 </resources>

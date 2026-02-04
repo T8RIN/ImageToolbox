@@ -2108,4 +2108,6 @@
     <string name="adaptive_sub">Adjusts physics based on fling velocity</string>
     <string name="accessibility_aware_sub">Respects system accessibility settings</string>
     <string name="reduced_motion_sub">Minimal motion for accessibility needs</string>
+    <string name="primary_lines">Primary Lines</string>
+    <string name="primary_lines_sub">Adds thicker line every fifth line</string>
 </resources>

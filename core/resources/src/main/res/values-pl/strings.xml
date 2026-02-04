@@ -2089,4 +2089,6 @@
     <string name="adaptive_sub">Dostosowuje fizykę w oparciu o prędkość rzucania</string>
     <string name="accessibility_aware_sub">Przestrzega systemowych ustawień dostępności</string>
     <string name="reduced_motion_sub">Minimalny ruch ze względu na potrzeby dostępności</string>
+    <string name="primary_lines">Linie podstawowe</string>
+    <string name="primary_lines_sub">Dodaje grubszą linię co piątą linię</string>
 </resources>

@@ -40,11 +40,15 @@ import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
@@ -139,13 +143,53 @@ fun ImageToolboxThemeForPreview(
             CompositionLocalProvider(
                 LocalSettingsState provides SettingsState.Default.toUiState().copy(
                     shapesType = shapesType
-                )
+                ),
+                LocalSimpleSettingsInteractor provides object : SimpleSettingsInteractor {
+                    override suspend fun toggleMagnifierEnabled() = Unit
+                    override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) =
+                        Unit
+
+                    override suspend fun toggleRecentColor(
+                        color: ColorModel,
+                        forceExclude: Boolean
+                    ) = Unit
+
+                    override suspend fun toggleFavoriteColor(
+                        color: ColorModel,
+                        forceExclude: Boolean
+                    ) = Unit
+
+                    override fun isInstalledFromPlayStore(): Boolean = false
+
+                    override suspend fun toggleSettingsGroupVisibility(
+                        key: Int,
+                        value: Boolean
+                    ) = Unit
+
+                    override suspend fun clearRecentColors() = Unit
+
+                    override suspend fun updateFavoriteColors(colors: List<ColorModel>) = Unit
+
+                    override suspend fun setBackgroundColorForNoAlphaFormats(color: ColorModel) =
+                        Unit
+
+                    override suspend fun toggleCustomAsciiGradient(gradient: String) = Unit
+
+                    override suspend fun toggleOverwriteFiles() = Unit
+
+                    override suspend fun setSpotHealMode(mode: Int) = Unit
+                    override suspend fun setBorderWidth(width: Float) = Unit
+                }
             ) {
                 MaterialTheme(
                     motionScheme = CustomMotionScheme,
                     colorScheme = modifiedColorScheme(),
                     shapes = modifiedShapes(),
-                    content = content
+                    content = {
+                        Surface {
+                            content()
+                        }
+                    }
                 )
             }
         }

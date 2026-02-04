@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Passt die Physik basierend auf der Wurfgeschwindigkeit an</string>
     <string name="accessibility_aware_sub">Berücksichtigt die Barrierefreiheitseinstellungen des Systems</string>
     <string name="reduced_motion_sub">Minimale Bewegung für Zugänglichkeitsanforderungen</string>
+    <string name="primary_lines">Primäre Linien</string>
+    <string name="primary_lines_sub">Fügt jede fünfte Zeile eine dickere Linie hinzu</string>
 </resources>

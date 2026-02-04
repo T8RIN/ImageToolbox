@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">A fizikát a kirepülési sebesség alapján állítja be</string>
     <string name="accessibility_aware_sub">Tiszteletben tartja a rendszer akadálymentesítési beállításait</string>
     <string name="reduced_motion_sub">Minimális mozgás a hozzáférhetőségi igényekhez</string>
+    <string name="primary_lines">Elsődleges vonalak</string>
+    <string name="primary_lines_sub">Minden ötödik sor vastagabb vonalat ad hozzá</string>
 </resources>

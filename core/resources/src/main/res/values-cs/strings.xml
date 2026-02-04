@@ -2089,4 +2089,6 @@
     <string name="adaptive_sub">Upravuje fyziku na základě rychlosti letu</string>
     <string name="accessibility_aware_sub">Respektuje nastavení přístupnosti systému</string>
     <string name="reduced_motion_sub">Minimální pohyb pro potřeby dostupnosti</string>
+    <string name="primary_lines">Primární linky</string>
+    <string name="primary_lines_sub">Přidá silnější čáru každý pátý řádek</string>
 </resources>

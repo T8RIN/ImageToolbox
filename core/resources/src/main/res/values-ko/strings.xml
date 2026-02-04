@@ -2086,4 +2086,6 @@
     <string name="adaptive_sub">플링 속도에 따라 물리학을 조정합니다.</string>
     <string name="accessibility_aware_sub">시스템 접근성 설정을 존중합니다.</string>
     <string name="reduced_motion_sub">접근성 요구 사항에 맞는 최소한의 동작</string>
+    <string name="primary_lines">기본 라인</string>
+    <string name="primary_lines_sub">다섯 번째 줄마다 더 두꺼운 줄을 추가합니다.</string>
 </resources>

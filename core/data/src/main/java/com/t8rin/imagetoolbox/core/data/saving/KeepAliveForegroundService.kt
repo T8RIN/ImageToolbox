@@ -46,6 +46,7 @@ internal class KeepAliveForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
         createChannel()
+        startForeground()
     }
 
     override fun onDestroy() {
@@ -58,7 +59,11 @@ internal class KeepAliveForegroundService : Service() {
         flags: Int,
         startId: Int
     ): Int {
-        if (intent == null) return START_NOT_STICKY
+        if (intent == null) {
+            startForeground()
+            stopForegroundSafe()
+            return START_NOT_STICKY
+        }
 
         handleIntent(intent)
 
@@ -106,6 +111,9 @@ internal class KeepAliveForegroundService : Service() {
                     0
                 }
             )
+        }.onFailure {
+            it.makeLog()
+            "startForeground failed".makeLog("KeepAliveForegroundService")
         }
     }
 

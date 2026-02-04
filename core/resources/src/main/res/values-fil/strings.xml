@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Inaayos ang physics batay sa bilis ng fling</string>
     <string name="accessibility_aware_sub">Iginagalang ang mga setting ng accessibility ng system</string>
     <string name="reduced_motion_sub">Minimal na paggalaw para sa mga pangangailangan sa accessibility</string>
+    <string name="primary_lines">Mga Pangunahing Linya</string>
+    <string name="primary_lines_sub">Nagdaragdag ng mas makapal na linya sa bawat ikalimang linya</string>
 </resources>
