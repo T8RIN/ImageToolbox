@@ -2086,4 +2086,6 @@
     <string name="adaptive_sub">Menyesuaikan fisika berdasarkan kecepatan lemparan</string>
     <string name="accessibility_aware_sub">Menghargai pengaturan aksesibilitas sistem</string>
     <string name="reduced_motion_sub">Gerakan minimal untuk kebutuhan aksesibilitas</string>
+    <string name="primary_lines">Jalur Utama</string>
+    <string name="primary_lines_sub">Menambahkan garis tebal setiap baris kelima</string>
 </resources>

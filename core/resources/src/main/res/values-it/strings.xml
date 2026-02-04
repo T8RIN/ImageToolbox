@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Regola la fisica in base alla velocità di lancio</string>
     <string name="accessibility_aware_sub">Rispetta le impostazioni di accessibilità del sistema</string>
     <string name="reduced_motion_sub">Movimento minimo per esigenze di accessibilità</string>
+    <string name="primary_lines">Linee primarie</string>
+    <string name="primary_lines_sub">Aggiunge una linea più spessa ogni quinta linea</string>
 </resources>

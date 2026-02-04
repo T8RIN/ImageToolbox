@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Ajuste la physique en fonction de la vitesse de lancement</string>
     <string name="accessibility_aware_sub">Respecte les paramètres d\'accessibilité du système</string>
     <string name="reduced_motion_sub">Mouvement minimal pour les besoins d’accessibilité</string>
+    <string name="primary_lines">Lignes primaires</string>
+    <string name="primary_lines_sub">Ajoute une ligne plus épaisse toutes les cinq lignes</string>
 </resources>

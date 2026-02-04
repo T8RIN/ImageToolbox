@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Justerer fysik baseret på slyngehastighed</string>
     <string name="accessibility_aware_sub">Respekterer systemtilgængelighedsindstillinger</string>
     <string name="reduced_motion_sub">Minimal bevægelse for tilgængelighedsbehov</string>
+    <string name="primary_lines">Primære Linjer</string>
+    <string name="primary_lines_sub">Tilføjer tykkere linje hver femte linje</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2075,4 +2077,15 @@
     <string name="adaptive_sub">根据投掷速度调整物理</string>
     <string name="accessibility_aware_sub">尊重系统辅助功能设置</string>
     <string name="reduced_motion_sub">满足无障碍需求的最小运动</string>
+    <string name="fling_type">投掷型</string>
+    <string name="android_native">安卓原生</string>
+    <string name="ios_style">iOS风格</string>
+    <string name="smooth_curve">平滑曲线</string>
+    <string name="bouncy">弹力</string>
+    <string name="floaty">飘逸</string>
+    <string name="ultra_smooth">超光滑</string>
+    <string name="accessibility_aware">无障碍意识</string>
+    <string name="reduced_motion">减少运动</string>
+    <string name="primary_lines">主要线路</string>
+    <string name="primary_lines_sub">每五行添加较粗的线</string>
 </resources>

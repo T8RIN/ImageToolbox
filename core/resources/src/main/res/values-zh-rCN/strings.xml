@@ -2086,4 +2086,6 @@
     <string name="adaptive_sub">根据投掷速度调整物理</string>
     <string name="accessibility_aware_sub">尊重系统辅助功能设置</string>
     <string name="reduced_motion_sub">满足无障碍需求的最小运动</string>
+    <string name="primary_lines">主要线路</string>
+    <string name="primary_lines_sub">每五行添加较粗的线</string>
 </resources>

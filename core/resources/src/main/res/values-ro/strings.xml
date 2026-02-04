@@ -2088,4 +2088,6 @@
     <string name="adaptive_sub">Ajustează fizica pe baza vitezei de aruncare</string>
     <string name="accessibility_aware_sub">Respectă setările de accesibilitate ale sistemului</string>
     <string name="reduced_motion_sub">Mișcare minimă pentru nevoile de accesibilitate</string>
+    <string name="primary_lines">Liniile primare</string>
+    <string name="primary_lines_sub">Adaugă o linie mai groasă la fiecare a cincea linie</string>
 </resources>

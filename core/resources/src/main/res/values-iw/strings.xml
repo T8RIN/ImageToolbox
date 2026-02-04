@@ -2089,4 +2089,6 @@
     <string name="adaptive_sub">מתאים את הפיזיקה על סמך מהירות הטיפה</string>
     <string name="accessibility_aware_sub">מכבד את הגדרות נגישות המערכת</string>
     <string name="reduced_motion_sub">תנועה מינימלית לצרכי נגישות</string>
+    <string name="primary_lines">קווים ראשיים</string>
+    <string name="primary_lines_sub">מוסיף קו עבה יותר בכל שורה חמישית</string>
 </resources>

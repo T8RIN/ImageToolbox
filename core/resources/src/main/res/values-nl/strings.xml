@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Past de fysica aan op basis van de vliegsnelheid</string>
     <string name="accessibility_aware_sub">Respecteert de instellingen voor systeemtoegankelijkheid</string>
     <string name="reduced_motion_sub">Minimale beweging voor toegankelijkheidsbehoeften</string>
+    <string name="primary_lines">Primaire lijnen</string>
+    <string name="primary_lines_sub">Voegt elke vijfde lijn een dikkere lijn toe</string>
 </resources>

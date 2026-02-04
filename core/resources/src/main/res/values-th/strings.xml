@@ -2086,4 +2086,6 @@
     <string name="adaptive_sub">ปรับฟิสิกส์ตามความเร็วการเหวี่ยง</string>
     <string name="accessibility_aware_sub">เคารพการตั้งค่าการเข้าถึงระบบ</string>
     <string name="reduced_motion_sub">การเคลื่อนไหวน้อยที่สุดสำหรับความต้องการในการเข้าถึง</string>
+    <string name="primary_lines">สายหลัก</string>
+    <string name="primary_lines_sub">เพิ่มเส้นหนาทุกๆ บรรทัดที่ห้า</string>
 </resources>

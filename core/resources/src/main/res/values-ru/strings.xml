@@ -2089,4 +2089,6 @@
     <string name="adaptive_sub">Регулирует физику в зависимости от скорости броска.</string>
     <string name="accessibility_aware_sub">Соблюдает настройки специальных возможностей системы</string>
     <string name="reduced_motion_sub">Минимальное движение для обеспечения доступности</string>
+    <string name="primary_lines">Первичные линии</string>
+    <string name="primary_lines_sub">Добавляет более толстую линию каждую пятую строку.</string>
 </resources>

@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">فىزىكىنى تەڭشەش سۈرئىتىگە ئاساسەن تەڭشەيدۇ</string>
     <string name="accessibility_aware_sub">سىستېمىنىڭ زىيارەت قىلىش تەڭشىكىگە ھۆرمەت قىلىدۇ</string>
     <string name="reduced_motion_sub">زىيارەت قىلىش ئېھتىياجى ئۈچۈن ئەڭ تۆۋەن ھەرىكەت</string>
+    <string name="primary_lines">Primary Line</string>
+    <string name="primary_lines_sub">ھەر بەشىنچى قۇرغا قېلىن سىزىق قوشىدۇ</string>
 </resources>

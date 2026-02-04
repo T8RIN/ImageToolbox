@@ -2088,4 +2088,6 @@
     <string name="adaptive_sub">ප්‍රවේගය මත පදනම්ව භෞතික විද්‍යාව සීරුමාරු කරයි</string>
     <string name="accessibility_aware_sub">පද්ධති ප්‍රවේශ්‍යතා සැකසීම් වලට ගරු කරයි</string>
     <string name="reduced_motion_sub">ප්රවේශ්යතා අවශ්යතා සඳහා අවම චලනය</string>
+    <string name="primary_lines">ප්රාථමික රේඛා</string>
+    <string name="primary_lines_sub">සෑම පස්වන පේළියකම ඝන රේඛාවක් එකතු කරයි</string>
 </resources>

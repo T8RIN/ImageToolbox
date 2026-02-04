@@ -2086,4 +2086,6 @@
     <string name="adaptive_sub">飛行速度に基づいて物理を調整します</string>
     <string name="accessibility_aware_sub">システムのアクセシビリティ設定を尊重します</string>
     <string name="reduced_motion_sub">アクセシビリティのニーズに合わせた最小限の動き</string>
+    <string name="primary_lines">プライマリライン</string>
+    <string name="primary_lines_sub">5行ごとに太い線を追加します</string>
 </resources>

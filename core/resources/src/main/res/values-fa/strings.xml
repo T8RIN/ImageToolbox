@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">فیزیک را بر اساس سرعت پرتاب تنظیم می کند</string>
     <string name="accessibility_aware_sub">به تنظیمات دسترسی سیستم احترام می گذارد</string>
     <string name="reduced_motion_sub">حداقل حرکت برای نیازهای دسترسی</string>
+    <string name="primary_lines">خطوط اولیه</string>
+    <string name="primary_lines_sub">هر خط پنجم خط ضخیم‌تری اضافه می‌کند</string>
 </resources>

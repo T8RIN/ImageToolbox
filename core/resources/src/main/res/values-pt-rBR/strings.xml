@@ -2087,4 +2087,6 @@
     <string name="adaptive_sub">Ajusta a física com base na velocidade de arremesso</string>
     <string name="accessibility_aware_sub">Respeita as configurações de acessibilidade do sistema</string>
     <string name="reduced_motion_sub">Movimento mínimo para necessidades de acessibilidade</string>
+    <string name="primary_lines">Linhas Primárias</string>
+    <string name="primary_lines_sub">Adiciona linha mais grossa a cada quinta linha</string>
 </resources>
