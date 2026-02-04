@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -641,7 +639,7 @@
     <string name="image_stitching_sub">שלב את התמונות הנתונות כדי לקבל תמונה אחת גדולה</string>
     <string name="randomize_filename_sub">אם מופעל שם קובץ הפלט יהיה אקראי לחלוטין</string>
     <string name="brightness_enforcement">אכיפת בהירות</string>
-    <string name="screen">מָסָך</string>
+    <string name="screen">מסך</string>
     <string name="gradient_maker_type_image">שכבת שיפוע</string>
     <string name="gradient_maker_type_image_sub">חבר כל גרדיאנט של החלק העליון של תמונות נתונות</string>
     <string name="transformations">טרנספורמציות</string>
@@ -745,7 +743,7 @@
     <string name="regular">רגיל</string>
     <string name="blur_edges">טשטוש קצוות</string>
     <string name="blur_edges_sub">מצייר קצוות מטושטשים מתחת לתמונה המקורית כדי למלא רווחים סביבה במקום צבע בודד אם מופעל</string>
-    <string name="confetti">פְּתִיתֵי נִיָר סַסגוֹנִיִם</string>
+    <string name="confetti">פתיתי נייר ססגוניים</string>
     <string name="confetti_sub">קונפטי יוצג על שמירה, שיתוף ופעולות עיקריות אחרות</string>
     <string name="secure_mode">מצב בטוח</string>
     <string name="secure_mode_sub">מסתיר תוכן במסך \'יישומים אחרונים\', לא יהיה ניתן ללכוד או להקליט.</string>
@@ -794,7 +792,7 @@
     <string name="both">שניהם</string>
     <string name="invert_colors">הפוך צבעים</string>
     <string name="invert_colors_sub">מחליף צבעי ערכת נושא לשליליים אם מופעל</string>
-    <string name="exit">יְצִיאָה</string>
+    <string name="exit">יציאה</string>
     <string name="preview_closing">אם תעזוב את התצוגה המקדימה כעת, תצטרך להוסיף את התמונות שוב</string>
     <string name="image_format">פורמט תמונה</string>
     <string name="material_you_sub">יוצר\"Material You\" צבעים מתמונה</string>
@@ -856,28 +854,28 @@
     <string name="lossy_compression_sub">משתמש בדחיסה מאבדת כדי להקטין את גודל הקובץ במקום ללא אובדן</string>
     <string name="compression_type">סוג דחיסה</string>
     <string name="speed_sub">שולט במהירות פענוח התמונה המתקבלת, זה אמור לעזור לפתוח את התמונה המתקבלת מהר יותר, הערך של %1$s פירושו הפענוח האיטי ביותר, ואילו %2$s - המהיר ביותר, הגדרה זו עשויה להגדיל את גודל תמונת הפלט</string>
-    <string name="sorting">מִיוּן</string>
-    <string name="sort_by_date">תַאֲרִיך</string>
+    <string name="sorting">מיון</string>
+    <string name="sort_by_date">תאריך</string>
     <string name="sort_by_date_reversed">תאריך (הפוך)</string>
-    <string name="sort_by_name">שֵׁם</string>
+    <string name="sort_by_name">שם</string>
     <string name="sort_by_name_reversed">שם (הפוך)</string>
     <string name="channels_configuration">תצורת ערוצים</string>
-    <string name="header_today">הַיוֹם</string>
-    <string name="header_yesterday">אֶתמוֹל</string>
+    <string name="header_today">היום</string>
+    <string name="header_yesterday">אתמול</string>
     <string name="embedded_picker">בוחר מוטבע</string>
     <string name="embedded_picker_sub">בוחר התמונות של ארגז הכלים של תמונות</string>
     <string name="no_permissions">אין הרשאות</string>
-    <string name="request">בַּקָשָׁה</string>
-    <string name="pick_multiple_media">בחר Multiple Media</string>
+    <string name="request">בקשה</string>
+    <string name="pick_multiple_media">בחירת מדיה מרובה</string>
     <string name="pick_single_media">בחר מדיה אחת</string>
-    <string name="pick">לִבחוֹר</string>
+    <string name="pick">בחירה</string>
     <string name="try_again">נסה שוב</string>
     <string name="show_settings_in_landscape">הצג הגדרות בנוף</string>
     <string name="show_settings_in_landscape_sub">אם זה מושבת, הגדרות מצב לרוחב ייפתחו על הכפתור בסרגל האפליקציה העליון כמו תמיד, במקום אפשרות גלויה קבועה</string>
     <string name="fullscreen_settings">הגדרות מסך מלא</string>
     <string name="fullscreen_settings_sub">הפעל אותו ודף ההגדרות ייפתח תמיד כמסך מלא במקום גיליון מגירה הניתן להחלקה</string>
     <string name="switch_type">סוג מתג</string>
-    <string name="compose">לְהַלחִין</string>
+    <string name="compose">לחבר</string>
     <string name="compose_switch_sub">Jetpack Compose חומר שאתה מחליף</string>
     <string name="material_you_switch_sub">חומר שאתה מחליף</string>
     <string name="max">מקסימום</string>
