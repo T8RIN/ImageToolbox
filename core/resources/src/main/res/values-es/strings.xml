@@ -2002,7 +2002,6 @@
     <string name="vertical_border_thickness">Grosor del borde vertical</string>
     <plurals name="color_count">
         <item quantity="one">%1$s color</item>
-        <item quantity="many">%1$s colores</item>
         <item quantity="other">%1$s colores</item>
     </plurals>
     <string name="current_model_not_chunkable">El modelo actual no admite fragmentación, la imagen se procesará en las dimensiones originales, lo que puede causar un alto consumo de memoria y problemas con dispositivos de gama baja.</string>
@@ -2019,7 +2018,7 @@
     <string name="model_successfully_imported">Modelo importado exitosamente</string>
     <string name="type">Tipo</string>
     <string name="keyword">Palabra clave</string>
-    <string name="very_fast">muy rapido</string>
+    <string name="very_fast">muy rápido</string>
     <string name="normal">Normal</string>
     <string name="slow">Lento</string>
     <string name="very_slow">muy lento</string>
@@ -2064,4 +2063,28 @@
     <string name="suffix_pattern_description">Texto personalizado colocado al final del nombre del archivo, útil para versiones como _v2, _edited o _final.</string>
     <string name="extension_pattern_description">La extensión del archivo (png, jpg, webp, etc.), que coincide automáticamente con el formato guardado real.</string>
     <string name="formatted_timestamp_pattern_description">Una marca de tiempo personalizable que le permite definir su propio formato según la especificación de Java para una clasificación perfecta.</string>
+    <string name="fling_type">Tipo de aventura</string>
+    <string name="android_native">Nativo de Android</string>
+    <string name="ios_style">Estilo iOS</string>
+    <string name="smooth_curve">Curva suave</string>
+    <string name="quick_stop">Parada rápida</string>
+    <string name="bouncy">Activo</string>
+    <string name="floaty">flotante</string>
+    <string name="snappy">Rápido</string>
+    <string name="ultra_smooth">Ultrasuave</string>
+    <string name="adaptive">Adaptado</string>
+    <string name="accessibility_aware">Accesibilidad consciente</string>
+    <string name="reduced_motion">Movimiento reducido</string>
+    <string name="android_native_sub">Física de desplazamiento nativa de Android para comparación de referencia</string>
+    <string name="smooth_sub">Desplazamiento equilibrado y fluido para uso general</string>
+    <string name="ios_style_sub">Comportamiento de desplazamiento similar al de iOS de mayor fricción</string>
+    <string name="smooth_curve_sub">Curva spline única para una sensación de desplazamiento distinta</string>
+    <string name="quick_stop_sub">Desplazamiento preciso con parada rápida</string>
+    <string name="bouncy_sub">Desplazamiento lúdico y responsivo</string>
+    <string name="floaty_sub">Desplazamientos largos y deslizantes para explorar contenidos</string>
+    <string name="snappy_sub">Desplazamiento rápido y responsivo para interfaces de usuario interactivas</string>
+    <string name="ultra_smooth_sub">Desplazamiento suave premium con impulso extendido</string>
+    <string name="adaptive_sub">Ajusta la física según la velocidad de lanzamiento.</string>
+    <string name="accessibility_aware_sub">Respeta la configuración de accesibilidad del sistema</string>
+    <string name="reduced_motion_sub">Movimiento mínimo para necesidades de accesibilidad.</string>
 </resources>

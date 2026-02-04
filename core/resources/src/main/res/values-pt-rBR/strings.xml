@@ -1846,7 +1846,6 @@
     <string name="open_github_page">Abrir página do Github</string>
     <plurals name="color_count">
         <item quantity="one">%1$s cor</item>
-        <item quantity="many">%1$s cores</item>
         <item quantity="other">%1$s cores</item>
     </plurals>
     <string name="overwrite_files_sub_short">O arquivo original será substituído por um novo, em vez de ser salvo na pasta selecionada</string>
@@ -2064,4 +2063,28 @@
     <string name="suffix_pattern_description">Texto personalizado colocado no final do nome do arquivo, útil para controle de versão como _v2, _edited ou _final.</string>
     <string name="extension_pattern_description">A extensão do arquivo (png, jpg, webp, etc.), correspondendo automaticamente ao formato real salvo.</string>
     <string name="formatted_timestamp_pattern_description">Um carimbo de data/hora personalizável que permite definir seu próprio formato por especificação Java para uma classificação perfeita.</string>
+    <string name="fling_type">Tipo de arremesso</string>
+    <string name="android_native">Android nativo</string>
+    <string name="ios_style">Estilo iOS</string>
+    <string name="smooth_curve">Curva Suave</string>
+    <string name="quick_stop">Parada rápida</string>
+    <string name="bouncy">Saltitante</string>
+    <string name="floaty">Flutuante</string>
+    <string name="snappy">Rápido</string>
+    <string name="ultra_smooth">Ultra Suave</string>
+    <string name="adaptive">Adaptativo</string>
+    <string name="accessibility_aware">Consciente de acessibilidade</string>
+    <string name="reduced_motion">Movimento Reduzido</string>
+    <string name="android_native_sub">Física de rolagem nativa do Android</string>
+    <string name="smooth_sub">Rolagem suave e equilibrada para uso geral</string>
+    <string name="ios_style_sub">Comportamento de rolagem semelhante ao iOS de maior fricção</string>
+    <string name="smooth_curve_sub">Curva spline exclusiva para uma sensação de rolagem distinta</string>
+    <string name="quick_stop_sub">Rolagem precisa com parada rápida</string>
+    <string name="bouncy_sub">Rolagem saltitante divertida e responsiva</string>
+    <string name="floaty_sub">Pergaminhos longos e deslizantes para navegação de conteúdo</string>
+    <string name="snappy_sub">Rolagem rápida e responsiva para UIs interativas</string>
+    <string name="ultra_smooth_sub">Rolagem suave premium com impulso estendido</string>
+    <string name="adaptive_sub">Ajusta a física com base na velocidade de arremesso</string>
+    <string name="accessibility_aware_sub">Respeita as configurações de acessibilidade do sistema</string>
+    <string name="reduced_motion_sub">Movimento mínimo para necessidades de acessibilidade</string>
 </resources>

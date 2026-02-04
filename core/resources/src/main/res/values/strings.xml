@@ -2092,11 +2092,11 @@
     <string name="bouncy">Bouncy</string>
     <string name="floaty">Floaty</string>
     <string name="snappy">Snappy</string>
-    <string name="ultra_smooth">Ultra Smooth</string>=
+    <string name="ultra_smooth">Ultra Smooth</string>
     <string name="adaptive">Adaptive</string>
     <string name="accessibility_aware">Accessibility Aware</string>
-    <string name="reduced_motion">Reduced Motion</string>=
-    <string name="android_native_sub">Native Android scroll physics for baseline comparison</string>
+    <string name="reduced_motion">Reduced Motion</string>
+    <string name="android_native_sub">Native Android scroll physics</string>
     <string name="smooth_sub">Balanced, smooth scrolling for general use</string>
     <string name="ios_style_sub">Higher friction iOS-like scroll behavior</string>
     <string name="smooth_curve_sub">Unique spline curve for distinct scroll feel</string>

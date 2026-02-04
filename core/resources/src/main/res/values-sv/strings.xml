@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2062,4 +2064,28 @@
     <string name="suffix_pattern_description">Anpassad text placerad i slutet av filnamnet, användbar för versionshantering som _v2, _edited eller _final.</string>
     <string name="extension_pattern_description">Filtillägget (png, jpg, webp, etc.), matchar automatiskt det faktiska sparade formatet.</string>
     <string name="formatted_timestamp_pattern_description">En anpassningsbar tidsstämpel som låter dig definiera ditt eget format med java-specifikation för perfekt sortering.</string>
+    <string name="fling_type">Släng typ</string>
+    <string name="android_native">Android Native</string>
+    <string name="ios_style">iOS-stil</string>
+    <string name="smooth_curve">Jämn kurva</string>
+    <string name="quick_stop">Snabbt stopp</string>
+    <string name="bouncy">Studsande</string>
+    <string name="floaty">Flytande</string>
+    <string name="snappy">Snappy</string>
+    <string name="ultra_smooth">Ultra Smidig</string>
+    <string name="adaptive">Adaptiv</string>
+    <string name="accessibility_aware">Tillgänglighetsmedveten</string>
+    <string name="reduced_motion">Minskad rörelse</string>
+    <string name="android_native_sub">Inbyggd Android rullningsfysik</string>
+    <string name="smooth_sub">Balanserad, mjuk rullning för allmänt bruk</string>
+    <string name="ios_style_sub">Högre friktion iOS-liknande rullningsbeteende</string>
+    <string name="smooth_curve_sub">Unik splinekurva för distinkt rullkänsla</string>
+    <string name="quick_stop_sub">Exakt rullning med snabb stopp</string>
+    <string name="bouncy_sub">Lekfull, lyhörd studsande rullning</string>
+    <string name="floaty_sub">Långa, glidande rullar för innehållssökning</string>
+    <string name="snappy_sub">Snabb, lyhörd rullning för interaktiva användargränssnitt</string>
+    <string name="ultra_smooth_sub">Premium mjuk rullning med utökat momentum</string>
+    <string name="adaptive_sub">Justerar fysiken baserat på flinghastighet</string>
+    <string name="accessibility_aware_sub">Respekterar systemtillgänglighetsinställningar</string>
+    <string name="reduced_motion_sub">Minimal rörelse för tillgänglighetsbehov</string>
 </resources>
