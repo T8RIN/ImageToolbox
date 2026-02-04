@@ -102,6 +102,7 @@ fun AdaptiveLayoutScreen(
     showImagePreviewAsStickyHeader: Boolean = true,
     autoClearFocus: Boolean = true,
     placeImagePreview: Boolean = true,
+    useRegularStickyHeader: Boolean = false,
     addHorizontalCutoutPaddingIfNoPreview: Boolean = true,
     showActionsInTopAppBar: Boolean = true,
     underTopAppBarContent: (@Composable ColumnScope.() -> Unit)? = null,
@@ -243,22 +244,28 @@ fun AdaptiveLayoutScreen(
                                 .clipToBounds(),
                             flingBehavior = enhancedFlingBehavior()
                         ) {
-                            imageStickyHeader(
-                                visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
-                                internalHeight = internalHeight,
-                                imageState = imageState,
-                                onStateChange = { imageState = it },
-                                imageBlock = imagePreview,
-                                onGloballyPositioned = {
-                                    if (!isScrolled) {
-                                        scope.launch {
-                                            delay(200)
-                                            listState.animateScrollToItem(0)
-                                            isScrolled = true
+                            if (useRegularStickyHeader && isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview) {
+                                stickyHeader {
+                                    imagePreview()
+                                }
+                            } else {
+                                imageStickyHeader(
+                                    visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
+                                    internalHeight = internalHeight,
+                                    imageState = imageState,
+                                    onStateChange = { imageState = it },
+                                    imageBlock = imagePreview,
+                                    onGloballyPositioned = {
+                                        if (!isScrolled) {
+                                            scope.launch {
+                                                delay(200)
+                                                listState.animateScrollToItem(0)
+                                                isScrolled = true
+                                            }
                                         }
                                     }
-                                }
-                            )
+                                )
+                            }
                             item {
                                 Column(
                                     modifier = Modifier.fillMaxSize(),

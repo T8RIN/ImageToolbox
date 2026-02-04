@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,13 +122,13 @@ internal fun ColorMixing(
                 EnhancedSliderItem(
                     value = mixingVariation,
                     title = stringResource(R.string.variation),
-                    valueRange = 2f..15f,
+                    valueRange = 2f..20f,
                     onValueChange = { mixingVariation = it.roundToInt() },
                     internalStateTransformation = { it.roundToInt() },
                     shape = ShapeDefaults.bottom,
                     behaveAsContainer = true,
                     containerColor = MaterialTheme.colorScheme.surface,
-                    steps = 12
+                    steps = 17
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Column(

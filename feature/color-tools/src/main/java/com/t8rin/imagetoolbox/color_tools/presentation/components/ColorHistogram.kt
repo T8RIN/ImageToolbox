@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,10 @@ internal fun ColorHistogram() {
                             .padding(top = 16.dp)
                             .fillMaxWidth()
                             .height(250.dp)
-                            .background(MaterialTheme.colorScheme.background),
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = ShapeDefaults.extraSmall
+                            ),
                         initialType = HistogramType.RGB,
                         onSwapType = null,
                         linesThickness = 1.dp,
@@ -93,7 +96,10 @@ internal fun ColorHistogram() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)
-                            .background(MaterialTheme.colorScheme.background),
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = ShapeDefaults.extraSmall
+                            ),
                         initialType = HistogramType.Brightness,
                         onSwapType = null,
                         linesThickness = 1.dp,
@@ -104,7 +110,10 @@ internal fun ColorHistogram() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)
-                            .background(MaterialTheme.colorScheme.background),
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = ShapeDefaults.extraSmall
+                            ),
                         initialType = HistogramType.Camera,
                         onSwapType = null,
                         linesThickness = 1.dp,

@@ -117,12 +117,12 @@ internal fun ColorShading(
                 EnhancedSliderItem(
                     value = shadingVariation,
                     title = stringResource(R.string.variation),
-                    valueRange = 2f..15f,
+                    valueRange = 2f..20f,
                     onValueChange = { shadingVariation = it.roundToInt() },
                     internalStateTransformation = { it.roundToInt() },
                     behaveAsContainer = true,
                     containerColor = MaterialTheme.colorScheme.surface,
-                    steps = 12
+                    steps = 17
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(

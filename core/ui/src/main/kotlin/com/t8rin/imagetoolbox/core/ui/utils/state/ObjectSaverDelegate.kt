@@ -23,13 +23,16 @@ import androidx.compose.runtime.setValue
 import com.t8rin.imagetoolbox.core.domain.saving.ObjectSaver
 import com.t8rin.imagetoolbox.core.domain.utils.ReadWriteDelegate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun <O : Any> ObjectSaver.savable(
+    delay: Long = 0,
     scope: CoroutineScope,
     initial: O,
     key: String = initial::class.simpleName.toString()
 ): ReadWriteDelegate<O> = ObjectSaverDelegate(
+    delay = delay,
     saver = this,
     scope = scope,
     initial = initial,
@@ -37,6 +40,7 @@ fun <O : Any> ObjectSaver.savable(
 )
 
 private class ObjectSaverDelegate<O : Any>(
+    delay: Long,
     private val saver: ObjectSaver,
     private val scope: CoroutineScope,
     initial: O,
@@ -47,6 +51,7 @@ private class ObjectSaverDelegate<O : Any>(
 
     init {
         scope.launch {
+            if (delay > 0) delay(delay)
             value = saver.restoreObject(
                 key = key,
                 kClass = initial::class
