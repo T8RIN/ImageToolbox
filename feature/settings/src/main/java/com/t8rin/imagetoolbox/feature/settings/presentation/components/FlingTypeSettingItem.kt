@@ -21,17 +21,13 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Animation
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
-import androidx.compose.material.icons.rounded.RoundedCorner
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,36 +41,36 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
-import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
-fun ShapeTypeSettingItem(
-    onValueChange: (ShapeType) -> Unit,
+fun FlingTypeSettingItem(
+    onValueChange: (FlingType) -> Unit,
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
+
     var showSheet by rememberSaveable {
         mutableStateOf(false)
     }
 
     PreferenceItem(
         modifier = modifier,
-        title = stringResource(id = R.string.shapes_type),
-        startIcon = Icons.Rounded.RoundedCorner,
-        subtitle = stringResource(settingsState.shapesType.title()),
+        title = stringResource(id = R.string.fling_type),
+        startIcon = Icons.Outlined.Animation,
+        subtitle = settingsState.flingType.title,
         onClick = {
             showSheet = true
         },
@@ -87,8 +83,8 @@ fun ShapeTypeSettingItem(
         onDismiss = { showSheet = it },
         title = {
             TitleItem(
-                text = stringResource(id = R.string.shape_type),
-                icon = Icons.Rounded.RoundedCorner
+                text = stringResource(id = R.string.fling_type),
+                icon = Icons.Rounded.Animation
             )
         },
         confirmButton = {
@@ -108,38 +104,19 @@ fun ShapeTypeSettingItem(
                 .enhancedVerticalScroll(rememberScrollState())
                 .padding(8.dp)
         ) {
-            val entries = ShapeType.entries
+            val entries = FlingType.entries
 
             entries.forEachIndexed { index, type ->
-                val selected = type::class.isInstance(settingsState.shapesType)
-                PreferenceItemOverload(
-                    onClick = { onValueChange(type.copy(settingsState.shapesType.strength)) },
-                    title = stringResource(type.title()),
-                    subtitle = stringResource(type.subtitle()),
+                val selected = type == settingsState.flingType
+                PreferenceItem(
+                    onClick = { onValueChange(type) },
+                    title = type.title,
+                    subtitle = type.subtitle,
                     containerColor = takeColorFromScheme {
                         if (selected) secondaryContainer
                         else SafeLocalContainerColor
                     },
                     shape = ShapeDefaults.byIndex(index, entries.size),
-                    startIcon = {
-                        Spacer(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .padding(2.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = LocalContentColor.current,
-                                    shape = AutoCornersShape(
-                                        size = when (type) {
-                                            is ShapeType.Smooth -> 8.dp
-                                            is ShapeType.Squircle -> 24.dp
-                                            else -> 6.dp
-                                        },
-                                        shapesType = type
-                                    )
-                                )
-                        )
-                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(
@@ -152,30 +129,45 @@ fun ShapeTypeSettingItem(
                             ).value,
                             shape = ShapeDefaults.byIndex(index, entries.size)
                         ),
-                    endIcon = {
-                        Icon(
-                            imageVector = if (selected) {
-                                Icons.Rounded.RadioButtonChecked
-                            } else Icons.Rounded.RadioButtonUnchecked,
-                            contentDescription = null
-                        )
-                    }
+                    endIcon = if (selected) {
+                        Icons.Rounded.RadioButtonChecked
+                    } else Icons.Rounded.RadioButtonUnchecked
                 )
             }
         }
     }
 }
 
-private fun ShapeType.title() = when (this) {
-    is ShapeType.Cut -> R.string.cut
-    is ShapeType.Rounded -> R.string.rounded
-    is ShapeType.Smooth -> R.string.smooth
-    is ShapeType.Squircle -> R.string.squircle
-}
+private val FlingType.title: String
+    @Composable
+    get() = when (this) {
+        FlingType.DEFAULT -> stringResource(R.string.android_native)
+        FlingType.SMOOTH -> stringResource(R.string.smooth)
+        FlingType.IOS_STYLE -> stringResource(R.string.ios_style)
+        FlingType.SMOOTH_CURVE -> stringResource(R.string.smooth_curve)
+        FlingType.QUICK_STOP -> stringResource(R.string.quick_stop)
+        FlingType.BOUNCY -> stringResource(R.string.bouncy)
+        FlingType.FLOATY -> stringResource(R.string.floaty)
+        FlingType.SNAPPY -> stringResource(R.string.snappy)
+        FlingType.ULTRA_SMOOTH -> stringResource(R.string.ultra_smooth)
+        FlingType.ADAPTIVE -> stringResource(R.string.adaptive)
+        FlingType.ACCESSIBILITY_AWARE -> stringResource(R.string.accessibility_aware)
+        FlingType.REDUCED_MOTION -> stringResource(R.string.reduced_motion)
+    }
 
-private fun ShapeType.subtitle() = when (this) {
-    is ShapeType.Cut -> R.string.cut_shapes_sub
-    is ShapeType.Rounded -> R.string.rounded_shapes_sub
-    is ShapeType.Smooth -> R.string.smooth_shapes_sub
-    is ShapeType.Squircle -> R.string.squircle_shapes_sub
-}
+private val FlingType.subtitle: String
+    @Composable
+    get() = when (this) {
+        FlingType.DEFAULT -> stringResource(R.string.android_native_sub)
+        FlingType.SMOOTH -> stringResource(R.string.smooth_sub)
+        FlingType.IOS_STYLE -> stringResource(R.string.ios_style_sub)
+        FlingType.SMOOTH_CURVE -> stringResource(R.string.smooth_curve_sub)
+        FlingType.QUICK_STOP -> stringResource(R.string.quick_stop_sub)
+        FlingType.BOUNCY -> stringResource(R.string.bouncy_sub)
+        FlingType.FLOATY -> stringResource(R.string.floaty_sub)
+        FlingType.SNAPPY -> stringResource(R.string.snappy_sub)
+        FlingType.ULTRA_SMOOTH -> stringResource(R.string.ultra_smooth_sub)
+        FlingType.ADAPTIVE -> stringResource(R.string.adaptive_sub)
+        FlingType.ACCESSIBILITY_AWARE -> stringResource(R.string.accessibility_aware_sub)
+        FlingType.REDUCED_MOTION -> stringResource(R.string.reduced_motion_sub)
+    }

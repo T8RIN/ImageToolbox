@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 
 import android.net.Uri
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -47,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -81,7 +81,7 @@ internal fun MarkupLayersActions(
     Row(
         modifier = Modifier
             .fadingEdges(state)
-            .horizontalScroll(state)
+            .enhancedHorizontalScroll(state)
             .padding(bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

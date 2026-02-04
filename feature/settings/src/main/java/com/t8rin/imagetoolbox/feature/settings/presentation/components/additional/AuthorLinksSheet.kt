@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Link
@@ -46,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.LocalIconShapeContentColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults.bottom
@@ -86,7 +86,7 @@ fun AuthorLinksSheet(
 
 
             Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+                Column(Modifier.enhancedVerticalScroll(rememberScrollState())) {
                     Spacer(Modifier.height(16.dp))
                     CompositionLocalProvider(
                         LocalIconShapeContentColor provides MaterialTheme.colorScheme.onTertiaryContainer,

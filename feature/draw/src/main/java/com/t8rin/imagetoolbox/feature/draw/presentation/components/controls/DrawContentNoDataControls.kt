@@ -35,7 +35,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.FormatPaint
@@ -64,6 +63,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -102,6 +103,7 @@ internal fun DrawContentNoDataControls(
                 LocalLayoutDirection.current
             )
         ),
+        flingBehavior = enhancedFlingBehavior()
     ) {
         item {
             PreferenceItem(
@@ -173,7 +175,7 @@ internal fun DrawContentNoDataControls(
         },
         sheetContent = {
             Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+                Column(Modifier.enhancedVerticalScroll(rememberScrollState())) {
                     Row(
                         Modifier
                             .padding(16.dp)

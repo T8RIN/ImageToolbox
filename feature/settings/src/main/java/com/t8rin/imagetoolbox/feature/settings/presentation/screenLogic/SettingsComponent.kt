@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
@@ -502,6 +503,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setShapesType(shapeType: ShapeType) = settingsScope { setShapesType(shapeType) }
 
     fun setFilenamePattern(value: String) = settingsScope { setFilenamePattern(value) }
+
+    fun setFlingType(type: FlingType) = settingsScope { setFlingType(type) }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.ScreenPreference
@@ -218,7 +219,8 @@ fun ProcessImagesPreferenceSheet(
                         columns = StaggeredGridCells.Adaptive(250.dp),
                         contentPadding = PaddingValues(16.dp),
                         verticalItemSpacing = 8.dp,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        flingBehavior = enhancedFlingBehavior()
                     ) {
                         if (extraDataType == null || extraDataType == ExtraDataType.Gif) {
                             item(

@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -112,6 +113,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_BEHAVIOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PATTERN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PREFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
@@ -926,6 +928,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setFilenamePattern(pattern: String?) = edit {
         it[FILENAME_PATTERN] = pattern.orEmpty()
+    }
+
+    override suspend fun setFlingType(type: FlingType) = edit {
+        it[FLING_TYPE] = type.ordinal
     }
 
     private suspend fun toggleFilenameBehavior(

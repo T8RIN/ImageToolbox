@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import android.net.Uri
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -45,6 +44,7 @@ import androidx.compose.ui.util.fastForEach
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -79,7 +79,7 @@ internal fun UrisCarousel(uris: List<Uri>) {
                     placeable.place(0, 0)
                 }
             }
-            .horizontalScroll(rememberScrollState())
+            .enhancedHorizontalScroll(rememberScrollState())
             .padding(
                 PaddingValues(
                     start = 16.dp,

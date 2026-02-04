@@ -51,6 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -190,7 +191,7 @@ internal fun MediaPickerGrid(
                 end = cutout.calculateEndPadding(layoutDirection)
             )
         },
-        flingBehavior = enhancedFlingBehavior()
+        flingBehavior = enhancedFlingBehavior(FlingType.IOS_STYLE)
     ) {
         if (!isManagePermissionAllowed) {
             item(

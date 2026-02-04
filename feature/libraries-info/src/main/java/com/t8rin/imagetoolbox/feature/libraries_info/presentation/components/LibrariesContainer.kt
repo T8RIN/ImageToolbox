@@ -65,6 +65,7 @@ import com.mikepenz.aboutlibraries.ui.compose.LibraryTextStyles
 import com.mikepenz.aboutlibraries.ui.compose.m3.component.LibraryChip
 import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.author
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -318,7 +319,8 @@ private fun LibrariesScaffold(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensions.itemSpacing),
         state = lazyListState,
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
+        flingBehavior = enhancedFlingBehavior()
     ) {
         header?.invoke(this)
         itemsIndexed(libraries) { index, library ->

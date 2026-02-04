@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
@@ -142,7 +143,8 @@ fun RecentAndFavoriteColorsCard(
                             .fillMaxWidth()
                             .fadingEdges(recentState),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        flingBehavior = enhancedFlingBehavior()
                     ) {
                         items(
                             items = recentColors,
@@ -231,7 +233,8 @@ fun RecentAndFavoriteColorsCard(
                             .fillMaxWidth()
                             .fadingEdges(favoriteState),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        flingBehavior = enhancedFlingBehavior()
                     ) {
                         items(
                             items = data.value,

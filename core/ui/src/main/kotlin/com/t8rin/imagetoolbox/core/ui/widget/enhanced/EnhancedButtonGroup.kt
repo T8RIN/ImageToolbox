@@ -21,7 +21,6 @@ import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -312,7 +311,7 @@ fun EnhancedButtonGroup(
                                 if (isScrollable) {
                                     Modifier
                                         .fadingEdges(scrollState)
-                                        .horizontalScroll(scrollState)
+                                        .enhancedHorizontalScroll(scrollState)
                                 } else Modifier.fillMaxWidth()
                             )
                             .padding(contentPadding),

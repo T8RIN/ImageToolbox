@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelection
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -136,7 +136,7 @@ fun ColorStopSelection(
             Box {
                 Column(
                     Modifier
-                        .verticalScroll(rememberScrollState())
+                        .enhancedVerticalScroll(rememberScrollState())
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
                     ColorSelection(
@@ -294,7 +294,7 @@ private fun ColorStopSelectionItem(
             Box {
                 Column(
                     Modifier
-                        .verticalScroll(rememberScrollState())
+                        .enhancedVerticalScroll(rememberScrollState())
                         .padding(start = 36.dp, top = 36.dp, end = 36.dp, bottom = 24.dp)
                 ) {
                     ColorSelection(

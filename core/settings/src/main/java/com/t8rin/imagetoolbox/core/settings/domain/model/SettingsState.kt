@@ -25,10 +25,8 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
-import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -132,7 +130,8 @@ data class SettingsState(
     val defaultQuality: Quality,
     val shapesType: ShapeType,
     val filenamePattern: String?,
-    val filenameBehavior: FilenameBehavior
+    val filenameBehavior: FilenameBehavior,
+    val flingType: FlingType,
 ) {
 
     companion object {
@@ -239,7 +238,8 @@ data class SettingsState(
                 defaultQuality = Quality.Base(),
                 shapesType = ShapeType.Rounded(),
                 filenamePattern = null,
-                filenameBehavior = FilenameBehavior.None()
+                filenameBehavior = FilenameBehavior.None(),
+                flingType = FlingType.DEFAULT
             )
         }
     }

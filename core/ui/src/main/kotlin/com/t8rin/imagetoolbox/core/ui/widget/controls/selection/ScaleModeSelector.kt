@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
@@ -199,7 +200,8 @@ fun ScaleModeSelector(
                     isVertical = false,
                     spanCount = 3
                 ),
-            contentPadding = PaddingValues(2.dp)
+            contentPadding = PaddingValues(2.dp),
+            flingBehavior = enhancedFlingBehavior()
         ) {
             items(entries) {
                 val selected by remember(value, it) {
@@ -268,7 +270,8 @@ fun ScaleModeSelector(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 itemsIndexed(entries) { index, item ->
                     val selected by remember(value, item) {

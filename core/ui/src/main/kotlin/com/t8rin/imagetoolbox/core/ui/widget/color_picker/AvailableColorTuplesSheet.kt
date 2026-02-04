@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.core.ui.widget.color_picker
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.AddCircleOutline
@@ -86,6 +84,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -323,7 +324,7 @@ fun AvailableColorTuplesSheet(
                     Box {
                         Row(
                             modifier = Modifier
-                                .horizontalScroll(listState)
+                                .enhancedHorizontalScroll(listState)
                                 .padding(PaddingValues(16.dp)),
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
@@ -372,7 +373,7 @@ fun AvailableColorTuplesSheet(
                 if (!isPortrait) {
                     Column(
                         modifier = Modifier
-                            .verticalScroll(rememberScrollState())
+                            .enhancedVerticalScroll(rememberScrollState())
                             .weight(0.8f)
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -391,7 +392,8 @@ fun AvailableColorTuplesSheet(
                         space = 4.dp,
                         alignment = Alignment.CenterHorizontally
                     ),
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
+                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+                    flingBehavior = enhancedFlingBehavior()
                 ) {
                     if (isPortrait) {
                         item(

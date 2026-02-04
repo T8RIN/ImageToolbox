@@ -609,6 +609,10 @@ internal fun SettingItem(
                     filenameCreator = component
                 )
             }
+
+            Setting.FlingType -> {
+                FlingTypeSettingItem(onValueChange = component::setFlingType)
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.other
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -43,6 +42,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import kotlinx.coroutines.delay
@@ -87,7 +87,7 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .fadingEdges(state)
-            .horizontalScroll(state)
+            .enhancedHorizontalScroll(state)
             .focusRequester(focusRequester),
         value = searchString,
         textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onBackground),

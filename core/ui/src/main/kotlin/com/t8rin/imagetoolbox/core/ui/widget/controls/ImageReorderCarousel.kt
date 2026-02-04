@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.sortedByType
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
@@ -183,7 +184,8 @@ fun ImageReorderCarousel(
                     .fadingEdges(scrollableState = listState)
                     .animateContentSizeNoClip(),
                 contentPadding = PaddingValues(12.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 itemsIndexed(
                     items = data.value,

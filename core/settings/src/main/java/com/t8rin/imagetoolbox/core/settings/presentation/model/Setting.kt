@@ -548,4 +548,9 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object FlingType : Setting(
+        title = R.string.fling_type,
+        subtitle = null
+    )
+
 }

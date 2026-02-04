@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvid
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -295,7 +296,8 @@ internal fun FilterSelectionCubeLutBottomContent(
                 if (haveData) {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
-                        contentPadding = PaddingValues(8.dp)
+                        contentPadding = PaddingValues(8.dp),
+                        flingBehavior = enhancedFlingBehavior()
                     ) {
                         itemsIndexed(
                             items = data,

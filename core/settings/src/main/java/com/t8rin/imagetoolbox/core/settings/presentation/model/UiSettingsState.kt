@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -167,6 +168,7 @@ data class UiSettingsState(
     val shapesType: ShapeType,
     val filenamePattern: String?,
     val filenameBehavior: FilenameBehavior,
+    val flingType: FlingType,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -414,6 +416,7 @@ fun SettingsState.toUiState(
                 shapesType = shapesType,
                 filenamePattern = filenamePattern,
                 filenameBehavior = filenameBehavior,
+                flingType = flingType,
             )
         }
     }.value

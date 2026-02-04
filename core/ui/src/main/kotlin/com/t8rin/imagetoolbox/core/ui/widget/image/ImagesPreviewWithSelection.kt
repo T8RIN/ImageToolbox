@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFileExte
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
@@ -213,7 +214,8 @@ fun ImagesPreviewWithSelection(
                     alignment = if (isContentAlignToCenter) Alignment.CenterHorizontally
                     else Alignment.Start
                 ),
-                contentPadding = contentPadding
+                contentPadding = contentPadding,
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 itemsIndexed(
                     items = imageUris,
@@ -288,7 +290,8 @@ fun ImagesPreviewWithSelection(
                     alignment = if (isContentAlignToCenter) Alignment.CenterHorizontally
                     else Alignment.Start
                 ),
-                contentPadding = contentPadding
+                contentPadding = contentPadding,
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 itemsIndexed(
                     items = imageUris,

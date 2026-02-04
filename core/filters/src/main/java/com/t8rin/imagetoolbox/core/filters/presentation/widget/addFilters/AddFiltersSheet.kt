@@ -86,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHandle
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -264,7 +265,8 @@ fun AddFiltersSheet(
                                 state = rememberRetainedLazyListState("sheet"),
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                                 modifier = Modifier.animateContentSizeNoClip(),
-                                contentPadding = PaddingValues(16.dp)
+                                contentPadding = PaddingValues(16.dp),
+                                flingBehavior = enhancedFlingBehavior()
                             ) {
                                 itemsIndexed(
                                     items = filtersForSearch,

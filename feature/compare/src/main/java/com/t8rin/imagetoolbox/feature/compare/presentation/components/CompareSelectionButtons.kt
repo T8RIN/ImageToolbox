@@ -18,11 +18,9 @@
 package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,6 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -79,8 +79,8 @@ fun CompareSelectionButtons(
             isVertical = !isPortrait
         )
         .then(
-            if (isPortrait) Modifier.horizontalScroll(scrollState)
-            else Modifier.verticalScroll(scrollState)
+            if (isPortrait) Modifier.enhancedHorizontalScroll(scrollState)
+            else Modifier.enhancedVerticalScroll(scrollState)
         )
 
     if (isPortrait) {

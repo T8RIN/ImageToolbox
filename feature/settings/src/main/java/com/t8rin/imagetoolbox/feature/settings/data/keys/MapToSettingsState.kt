@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
+import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -234,7 +235,10 @@ internal fun Preferences.toSettingsState(
             json = it,
             type = FilenameBehavior::class.java
         )
-    } ?: default.filenameBehavior
+    } ?: default.filenameBehavior,
+    flingType = this[FLING_TYPE]?.let {
+        FlingType.entries[it]
+    } ?: default.flingType
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

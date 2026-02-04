@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
@@ -117,7 +118,8 @@ fun ColorSelectionRow(
             userScrollEnabled = allowScroll,
             contentPadding = contentPadding,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            flingBehavior = enhancedFlingBehavior()
         ) {
             item {
                 val background = customColor ?: MaterialTheme.colorScheme.primary

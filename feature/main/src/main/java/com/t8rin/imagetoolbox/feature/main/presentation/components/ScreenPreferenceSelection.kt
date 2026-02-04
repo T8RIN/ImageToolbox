@@ -89,6 +89,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
@@ -203,6 +204,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 alignment = Alignment.CenterHorizontally
                             ),
                             contentPadding = contentPadding,
+                            flingBehavior = enhancedFlingBehavior(),
                             content = {
                                 items(currentScreenList) { screen ->
                                     PreferenceItemOverload(

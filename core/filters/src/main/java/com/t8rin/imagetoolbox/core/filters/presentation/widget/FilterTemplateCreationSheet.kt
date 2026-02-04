@@ -86,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
@@ -231,7 +232,8 @@ fun FilterTemplateCreationSheet(
             val internalHeight = rememberAvailableHeight(imageState = imageState)
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 imageStickyHeader(
                     visible = isPortrait,

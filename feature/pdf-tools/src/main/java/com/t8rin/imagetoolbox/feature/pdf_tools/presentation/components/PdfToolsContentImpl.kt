@@ -47,7 +47,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Search
@@ -83,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
@@ -273,7 +273,7 @@ internal fun PdfToolsContentImpl(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .weight(1f)
-                                .verticalScroll(rememberScrollState())
+                                .enhancedVerticalScroll(rememberScrollState())
                                 .padding(12.dp)
                         ) {
                             if (isPortrait) {
@@ -371,7 +371,7 @@ internal fun PdfToolsContentImpl(
                                             modifier = if (isPortrait) {
                                                 Modifier
                                                     .fillMaxSize()
-                                                    .verticalScroll(rememberScrollState())
+                                                    .enhancedVerticalScroll(rememberScrollState())
                                             } else Modifier,
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
@@ -423,7 +423,7 @@ internal fun PdfToolsContentImpl(
                                 ) {
                                     Column(
                                         modifier = Modifier
-                                            .verticalScroll(rememberScrollState())
+                                            .enhancedVerticalScroll(rememberScrollState())
                                             .then(
                                                 if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
                                                     Modifier.padding(

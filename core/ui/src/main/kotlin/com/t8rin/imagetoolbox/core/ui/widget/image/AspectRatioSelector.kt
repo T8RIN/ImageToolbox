@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
@@ -130,7 +131,8 @@ fun AspectRatioSelector(
             modifier = Modifier.fadingEdges(
                 scrollableState = listState,
                 enabled = enableFadingEdges
-            )
+            ),
+            flingBehavior = enhancedFlingBehavior()
         ) {
             itemsIndexed(
                 items = aspectRatios,

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.BottomSheetScaffold
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
@@ -189,7 +189,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                 Column(
                                     Modifier
                                         .weight(mainContentWeight)
-                                        .verticalScroll(scrollState)
+                                        .enhancedVerticalScroll(scrollState)
                                 ) {
                                     controls(scaffoldState)
                                 }
@@ -206,7 +206,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                         val scrollState = rememberScrollState()
                                         Modifier
                                             .fillMaxSize()
-                                            .verticalScroll(scrollState)
+                                            .enhancedVerticalScroll(scrollState)
                                             .padding(
                                                 bottom = 88.dp,
                                                 top = 20.dp,
@@ -292,7 +292,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor
                             ) {
                                 val scrollState = rememberScrollState()
-                                Column(Modifier.verticalScroll(scrollState)) {
+                                Column(Modifier.enhancedVerticalScroll(scrollState)) {
                                     controls(scaffoldState)
                                 }
                             }

@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.confetti.LocalConfettiHostState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -210,7 +211,8 @@ fun <T : Any> DataSelector(
                         isVertical = false,
                         spanCount = realSpanCount
                     ),
-                contentPadding = contentPadding
+                contentPadding = contentPadding,
+                flingBehavior = enhancedFlingBehavior()
             ) {
                 items(entries) { item ->
                     ChipItem(

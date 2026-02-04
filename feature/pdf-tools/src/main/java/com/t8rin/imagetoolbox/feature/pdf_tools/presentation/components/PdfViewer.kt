@@ -84,6 +84,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
@@ -333,6 +334,7 @@ fun PdfViewer(
                                     ),
                                 contentPadding = contentPadding,
                                 horizontalAlignment = Alignment.CenterHorizontally,
+                                flingBehavior = enhancedFlingBehavior()
                             ) {
                                 items(
                                     count = pageCount,
@@ -422,6 +424,7 @@ fun PdfViewer(
                                     alignment = Alignment.CenterHorizontally
                                 ),
                                 contentPadding = PaddingValues(12.dp),
+                                flingBehavior = enhancedFlingBehavior()
                             ) {
                                 items(
                                     count = pageCount,
@@ -475,6 +478,7 @@ fun PdfViewer(
                                     Alignment.CenterHorizontally
                                 ),
                                 contentPadding = PaddingValues(12.dp),
+                                flingBehavior = enhancedFlingBehavior()
                             ) {
                                 items(
                                     count = pageCount,

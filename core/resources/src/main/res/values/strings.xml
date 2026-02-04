@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,8 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -2084,4 +2084,28 @@
     <string name="scale_mode_pattern_description">Displays the image scaling mode used during processing, helping distinguish resized, cropped, or fitted images.</string>
     <string name="suffix_pattern_description">Custom text placed at the end of the filename, useful for versioning like _v2, _edited, or _final.</string>
     <string name="extension_pattern_description">The file extension (png, jpg, webp, etc.), automatically matching the actual saved format.</string>
+    <string name="fling_type">Fling Type</string>
+    <string name="android_native">Android Native</string>
+    <string name="ios_style">iOS Style</string>
+    <string name="smooth_curve">Smooth Curve</string>
+    <string name="quick_stop">Quick Stop</string>
+    <string name="bouncy">Bouncy</string>
+    <string name="floaty">Floaty</string>
+    <string name="snappy">Snappy</string>
+    <string name="ultra_smooth">Ultra Smooth</string>=
+    <string name="adaptive">Adaptive</string>
+    <string name="accessibility_aware">Accessibility Aware</string>
+    <string name="reduced_motion">Reduced Motion</string>=
+    <string name="android_native_sub">Native Android scroll physics for baseline comparison</string>
+    <string name="smooth_sub">Balanced, smooth scrolling for general use</string>
+    <string name="ios_style_sub">Higher friction iOS-like scroll behavior</string>
+    <string name="smooth_curve_sub">Unique spline curve for distinct scroll feel</string>
+    <string name="quick_stop_sub">Precise scrolling with quick stopping</string>
+    <string name="bouncy_sub">Playful, responsive bouncy scroll</string>
+    <string name="floaty_sub">Long, gliding scrolls for content browsing</string>
+    <string name="snappy_sub">Quick, responsive scrolling for interactive UIs</string>
+    <string name="ultra_smooth_sub">Premium smooth scrolling with extended momentum</string>
+    <string name="adaptive_sub">Adjusts physics based on fling velocity</string>
+    <string name="accessibility_aware_sub">Respects system accessibility settings</string>
+    <string name="reduced_motion_sub">Minimal motion for accessibility needs</string>
 </resources>
