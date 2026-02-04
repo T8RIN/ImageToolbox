@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2062,18 +2060,9 @@
     <string name="suffix_pattern_description">放置在文件名末尾的自定义文本，对于 _v2、_edited 或 _final 等版本控制很有用。</string>
     <string name="extension_pattern_description">文件扩展名（png、jpg、webp等），自动匹配实际保存格式。</string>
     <string name="formatted_timestamp_pattern_description">可自定义的时间戳，让您可以通过 java 规范定义自己的格式以实现完美排序。</string>
-    <string name="fling_type" />
-    <string name="android_native" />
-    <string name="ios_style" />
-    <string name="smooth_curve" />
     <string name="quick_stop">快速停止</string>
-    <string name="bouncy" />
-    <string name="floaty" />
     <string name="snappy">活泼</string>
-    <string name="ultra_smooth" />
     <string name="adaptive">自适应</string>
-    <string name="accessibility_aware" />
-    <string name="reduced_motion" />
     <string name="android_native_sub">原生 Android 滚动物理</string>
     <string name="smooth_sub">平衡、平滑的滚动，适合一般用途</string>
     <string name="ios_style_sub">更高的摩擦力，类似 iOS 的滚动行为</string>
