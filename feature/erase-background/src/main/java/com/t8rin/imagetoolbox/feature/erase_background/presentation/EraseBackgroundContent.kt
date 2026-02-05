@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftnessSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeSelector
@@ -381,7 +382,8 @@ fun EraseBackgroundContent(
                             DrawPathMode.Rect(),
                             DrawPathMode.Oval
                         )
-                    }
+                    },
+                    drawMode = DrawMode.Pen
                 )
                 BoxAnimatedVisibility(drawPathMode.canChangeStrokeWidth) {
                     LineWidthSelector(

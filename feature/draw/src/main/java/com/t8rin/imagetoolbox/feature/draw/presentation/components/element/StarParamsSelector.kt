@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -42,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.innerRa
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isRegular
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isStar
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rotationDegrees
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlined
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateStar
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.vertices
 import kotlin.math.roundToInt
@@ -49,7 +51,8 @@ import kotlin.math.roundToInt
 @Composable
 internal fun StarParamsSelector(
     value: DrawPathMode,
-    onValueChange: (DrawPathMode) -> Unit
+    onValueChange: (DrawPathMode) -> Unit,
+    canChangeFillColor: Boolean
 ) {
     AnimatedVisibility(
         visible = value.isStar(),
@@ -57,6 +60,24 @@ internal fun StarParamsSelector(
         exit = fadeOut() + shrinkVertically()
     ) {
         Column {
+            AnimatedVisibility(
+                visible = canChangeFillColor,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                OutlinedFillColorSelector(
+                    value = value.outlinedFillColor?.toColor(),
+                    onValueChange = {
+                        onValueChange(value.updateOutlined(it))
+                    },
+                    shape = ShapeDefaults.top,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    containerColor = MaterialTheme.colorScheme.surface,
+                )
+            }
             EnhancedSliderItem(
                 value = value.vertices(),
                 title = stringResource(R.string.vertices),
@@ -74,7 +95,7 @@ internal fun StarParamsSelector(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                shape = ShapeDefaults.top
+                shape = if (canChangeFillColor) ShapeDefaults.center else ShapeDefaults.top
             )
             Spacer(modifier = Modifier.height(4.dp))
             EnhancedSliderItem(

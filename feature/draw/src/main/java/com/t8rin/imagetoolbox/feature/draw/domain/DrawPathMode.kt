@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.FloodFill
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Lasso
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.OutlinedOval
@@ -34,6 +36,9 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode.Triangle
 sealed class DrawPathMode(
     val ordinal: Int
 ) {
+    sealed class Outlined(ordinal: Int) : DrawPathMode(ordinal) {
+        abstract val fillColor: ColorModel?
+    }
 
     data object Free : DrawPathMode(0)
     data object Line : DrawPathMode(1)
@@ -62,10 +67,13 @@ sealed class DrawPathMode(
 
     data class OutlinedRect(
         val rotationDegrees: Int = 0,
-        val cornerRadius: Float = 0f
-    ) : DrawPathMode(7)
+        val cornerRadius: Float = 0f,
+        override val fillColor: ColorModel? = null
+    ) : Outlined(7)
 
-    data object OutlinedOval : DrawPathMode(8)
+    data class OutlinedOval(
+        override val fillColor: ColorModel? = null
+    ) : Outlined(8)
 
     data class Rect(
         val rotationDegrees: Int = 0,
@@ -74,7 +82,9 @@ sealed class DrawPathMode(
 
     data object Oval : DrawPathMode(10)
     data object Triangle : DrawPathMode(11)
-    data object OutlinedTriangle : DrawPathMode(12)
+    data class OutlinedTriangle(
+        override val fillColor: ColorModel? = null
+    ) : Outlined(12)
 
     data class Polygon(
         val vertices: Int = 5,
@@ -85,8 +95,9 @@ sealed class DrawPathMode(
     data class OutlinedPolygon(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
-        val isRegular: Boolean = false
-    ) : DrawPathMode(14)
+        val isRegular: Boolean = false,
+        override val fillColor: ColorModel? = null
+    ) : Outlined(14)
 
     data class Star(
         val vertices: Int = 5,
@@ -99,8 +110,9 @@ sealed class DrawPathMode(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val innerRadiusRatio: Float = 0.5f,
-        val isRegular: Boolean = false
-    ) : DrawPathMode(16)
+        val isRegular: Boolean = false,
+        override val fillColor: ColorModel? = null
+    ) : Outlined(16)
 
     data class FloodFill(
         val tolerance: Float = 0.25f
@@ -122,6 +134,9 @@ sealed class DrawPathMode(
     val isFilled: Boolean
         get() = filled.any { this::class.isInstance(it) }
 
+    val outlinedFillColor: ColorModel?
+        get() = this.safeCast<Outlined>()?.fillColor
+
     val isSharpEdge: Boolean
         get() = sharp.any { this::class.isInstance(it) }
 
@@ -138,8 +153,8 @@ sealed class DrawPathMode(
                 DoubleLinePointingArrow(),
                 Lasso,
                 OutlinedRect(),
-                OutlinedOval,
-                OutlinedTriangle,
+                OutlinedOval(),
+                OutlinedTriangle(),
                 OutlinedPolygon(),
                 OutlinedStar(),
                 Rect(),
@@ -147,6 +162,16 @@ sealed class DrawPathMode(
                 Triangle,
                 Polygon(),
                 Star()
+            )
+        }
+
+        val outlinedEntries by lazy {
+            listOf(
+                OutlinedRect(),
+                OutlinedOval(),
+                OutlinedTriangle(),
+                OutlinedPolygon(),
+                OutlinedStar()
             )
         }
 
@@ -178,7 +203,7 @@ private val filled = listOf(
 
 private val sharp = listOf(
     OutlinedRect(),
-    OutlinedOval,
+    OutlinedOval(),
     Rect(),
     Oval,
     Lasso,

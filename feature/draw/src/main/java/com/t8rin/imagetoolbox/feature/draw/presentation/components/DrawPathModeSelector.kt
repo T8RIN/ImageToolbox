@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,14 +43,17 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.ArrowParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.DrawPathModeInfoSheet
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.FloodFillParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.OvalParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PolygonParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.RectParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.SprayParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.StarParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.TriangleParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.getIcon
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.saveState
 
@@ -60,6 +63,7 @@ fun DrawPathModeSelector(
     values: List<DrawPathMode> = DrawPathMode.entries,
     value: DrawPathMode,
     onValueChange: (DrawPathMode) -> Unit,
+    drawMode: DrawMode,
     containerColor: Color = Color.Unspecified
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
@@ -113,19 +117,37 @@ fun DrawPathModeSelector(
             }
         )
 
+        val canChangeFillColor =
+            value is DrawPathMode.Outlined && (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter || drawMode is DrawMode.Neon)
+
         PolygonParamsSelector(
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            canChangeFillColor = canChangeFillColor
         )
 
         StarParamsSelector(
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            canChangeFillColor = canChangeFillColor
         )
 
         RectParamsSelector(
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            canChangeFillColor = canChangeFillColor
+        )
+
+        OvalParamsSelector(
+            value = value,
+            onValueChange = onValueChange,
+            canChangeFillColor = canChangeFillColor
+        )
+
+        TriangleParamsSelector(
+            value = value,
+            onValueChange = onValueChange,
+            canChangeFillColor = canChangeFillColor
         )
 
         ArrowParamsSelector(

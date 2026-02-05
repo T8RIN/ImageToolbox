@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.PushPin
+import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -75,7 +76,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ColorRowSelector(
-    value: Color,
+    value: Color?,
     onValueChange: (Color) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.background_color),
@@ -85,6 +86,7 @@ fun ColorRowSelector(
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorListVariant,
     topEndIcon: (@Composable () -> Unit)? = null,
     contentHorizontalPadding: Dp = 12.dp,
+    onNullClick: (() -> Unit)? = null
 ) {
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
     val tooltipState = rememberTooltipState()
@@ -150,15 +152,30 @@ fun ColorRowSelector(
                                         ),
                                         title = { Text(title) },
                                         text = {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(24.dp)
-                                                    .container(
-                                                        shape = ShapeDefaults.circle,
-                                                        color = value,
-                                                        resultPadding = 0.dp
-                                                    )
-                                            )
+                                            if (value != null) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(24.dp)
+                                                        .container(
+                                                            shape = ShapeDefaults.circle,
+                                                            color = value,
+                                                            resultPadding = 0.dp
+                                                        )
+                                                )
+                                            } else {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.Block,
+                                                    contentDescription = null,
+                                                    modifier = Modifier
+                                                        .size(24.dp)
+                                                        .container(
+                                                            shape = ShapeDefaults.circle,
+                                                            color = MaterialTheme.colorScheme.surfaceVariant,
+                                                            resultPadding = 0.dp
+                                                        ),
+                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                            }
                                         }
                                     )
                                 },
@@ -218,7 +235,8 @@ fun ColorRowSelector(
                 allowScroll = allowScroll,
                 value = value,
                 onValueChange = onValueChange,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onNullClick = onNullClick
             )
             if (isCompactLayout && topEndIcon != null) {
                 topEndIcon()
@@ -231,17 +249,21 @@ fun ColorRowSelector(
 @Preview
 private fun Preview() = ImageToolboxThemeForPreview(false) {
     var color by remember {
-        mutableStateOf(Color.Black)
+        mutableStateOf<Color?>(null)
     }
 
     CompositionLocalProvider(
-        LocalSettingsState provides LocalSettingsState.current.copy(isCompactSelectorsLayout = false)
+        LocalSettingsState provides LocalSettingsState.current.copy(isCompactSelectorsLayout = true)
     ) {
         ColorRowSelector(
             value = color,
+            onNullClick = {
+                color = null
+            },
             onValueChange = { color = it },
             modifier = Modifier
                 .padding(20.dp)
+                .padding(vertical = 100.dp)
                 .fillMaxWidth()
                 .container(
                     shape = ShapeDefaults.large

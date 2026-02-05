@@ -421,8 +421,8 @@ data class PathHelper(
                     cornerRadius = drawPathMode.cornerRadius
                 )
 
-                DrawPathMode.Triangle,
-                DrawPathMode.OutlinedTriangle -> drawTriangle()
+                is DrawPathMode.Triangle,
+                is DrawPathMode.OutlinedTriangle -> drawTriangle()
 
                 is DrawPathMode.Polygon -> {
                     drawPolygon(
@@ -458,11 +458,11 @@ data class PathHelper(
                     )
                 }
 
-                DrawPathMode.Oval,
-                DrawPathMode.OutlinedOval -> drawOval()
+                is DrawPathMode.Oval,
+                is DrawPathMode.OutlinedOval -> drawOval()
 
-                DrawPathMode.Free,
-                DrawPathMode.Lasso -> onBaseDraw()
+                is DrawPathMode.Free,
+                is DrawPathMode.Lasso -> onBaseDraw()
 
                 is DrawPathMode.FloodFill -> onFloodFill(drawPathMode.tolerance)
 

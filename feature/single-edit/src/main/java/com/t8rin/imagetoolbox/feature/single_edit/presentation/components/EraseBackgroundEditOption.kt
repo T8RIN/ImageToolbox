@@ -81,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftnessSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeSelector
@@ -265,7 +266,8 @@ fun EraseBackgroundEditOption(
                                 DrawPathMode.Rect(),
                                 DrawPathMode.Oval
                             )
-                        }
+                        },
+                        drawMode = DrawMode.Pen
                     )
                     BoxAnimatedVisibility(drawPathMode.canChangeStrokeWidth) {
                         LineWidthSelector(

@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -76,6 +77,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
+import android.graphics.Paint as AndroidPaint
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -364,6 +366,24 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 paint = pathPaint,
                 invalidations = invalidations
             )
+        } else if (drawPathMode is DrawPathMode.Outlined) {
+            drawPathMode.fillColor?.let { fillColor ->
+                val filledPaint = remember(fillColor, pathPaint) {
+                    AndroidPaint().apply {
+                        set(pathPaint)
+                        style = AndroidPaint.Style.FILL
+                        color = fillColor.colorInt
+                        if (Color(fillColor.colorInt).alpha == 1f) {
+                            alpha =
+                                (drawColor.alpha * 255).roundToInt().coerceIn(0, 255)
+                        }
+                        pathEffect = null
+                    }
+                }
+
+                drawPath(path, filledPaint)
+            }
+            drawPath(path, pathPaint)
         } else {
             drawPath(path, pathPaint)
         }

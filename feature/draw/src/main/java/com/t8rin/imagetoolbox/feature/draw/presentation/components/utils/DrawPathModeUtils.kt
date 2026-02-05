@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,10 @@ import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
+import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.FreeArrow
@@ -189,6 +192,12 @@ internal fun DrawPathMode.saveState(
     }
 
     else -> this
+}.run {
+    if (value is DrawPathMode.Outlined && this is DrawPathMode.Outlined) {
+        updateOutlined(
+            fillColor = value.fillColor?.toColor()
+        )
+    } else this
 }
 
 internal fun DrawPathMode.density(): Int = when (this) {
@@ -263,6 +272,36 @@ internal fun DrawPathMode.innerRadiusRatio(): Float = when (this) {
     is DrawPathMode.Star -> innerRadiusRatio
     is DrawPathMode.OutlinedStar -> innerRadiusRatio
     else -> 0.5f
+}
+
+internal fun DrawPathMode.updateOutlined(
+    fillColor: Color?
+) = when (this) {
+    is DrawPathMode.Outlined -> {
+        when (this) {
+            is DrawPathMode.OutlinedOval -> copy(
+                fillColor = fillColor?.toModel()
+            )
+
+            is DrawPathMode.OutlinedPolygon -> copy(
+                fillColor = fillColor?.toModel()
+            )
+
+            is DrawPathMode.OutlinedRect -> copy(
+                fillColor = fillColor?.toModel()
+            )
+
+            is DrawPathMode.OutlinedStar -> copy(
+                fillColor = fillColor?.toModel()
+            )
+
+            is DrawPathMode.OutlinedTriangle -> copy(
+                fillColor = fillColor?.toModel()
+            )
+        }
+    }
+
+    else -> this
 }
 
 internal fun DrawPathMode.updatePolygon(
@@ -426,12 +465,12 @@ internal fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.Line -> R.string.line_sub
     is DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
     is DrawPathMode.PointingArrow -> R.string.arrow_sub
-    DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
+    is DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
     is DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
     DrawPathMode.Oval -> R.string.oval_sub
     is DrawPathMode.Rect -> R.string.rect_sub
     DrawPathMode.Lasso -> R.string.lasso_sub
-    DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
+    is DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
     DrawPathMode.Triangle -> R.string.triangle_sub
     is DrawPathMode.Polygon -> R.string.polygon_sub
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
@@ -448,12 +487,12 @@ internal fun DrawPathMode.getTitle(): Int = when (this) {
     DrawPathMode.Line -> R.string.line
     is DrawPathMode.LinePointingArrow -> R.string.line_arrow
     is DrawPathMode.PointingArrow -> R.string.arrow
-    DrawPathMode.OutlinedOval -> R.string.outlined_oval
+    is DrawPathMode.OutlinedOval -> R.string.outlined_oval
     is DrawPathMode.OutlinedRect -> R.string.outlined_rect
     DrawPathMode.Oval -> R.string.oval
     is DrawPathMode.Rect -> R.string.rect
     DrawPathMode.Lasso -> R.string.lasso
-    DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
+    is DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
     DrawPathMode.Triangle -> R.string.triangle
     is DrawPathMode.Polygon -> R.string.polygon
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
@@ -470,13 +509,13 @@ internal fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.Line -> Icons.Rounded.Line
     is DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
     is DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
-    DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+    is DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
     is DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
     DrawPathMode.Oval -> Icons.Rounded.Circle
     is DrawPathMode.Rect -> Icons.Rounded.Square
     DrawPathMode.Lasso -> Icons.Rounded.Lasso
     DrawPathMode.Triangle -> Icons.Rounded.Triangle
-    DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
+    is DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
     is DrawPathMode.Polygon -> Icons.Rounded.Polygon
     is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
     is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline

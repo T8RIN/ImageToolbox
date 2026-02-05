@@ -77,21 +77,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftnessSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawColorSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.model.UiDrawPathMode
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.model.toUi
 
 
 @Composable
 internal fun AddEditMaskSheetControls(
     component: AddMaskSheetComponent,
     imageState: ImageHeaderState,
-    domainDrawPathMode: DrawPathMode,
-    onDrawPathModeChange: (UiDrawPathMode) -> Unit,
     strokeWidth: Pt,
     onStrokeWidthChange: (Pt) -> Unit,
     brushSoftness: Pt,
@@ -254,8 +251,9 @@ internal fun AddEditMaskSheetControls(
                     DrawPathMode.Star()
                 )
             },
-            value = domainDrawPathMode,
-            onValueChange = { onDrawPathModeChange(it.toUi()) }
+            value = component.drawPathMode,
+            onValueChange = component::setDrawPathMode,
+            drawMode = DrawMode.Pen
         )
         LineWidthSelector(
             modifier = Modifier.padding(

@@ -336,13 +336,6 @@ fun DrawEditOption(
                             onValueChange = onUpdateDrawPathMode,
                             values = remember(drawMode, drawLineStyle) {
                                 derivedStateOf {
-                                    val outlinedModes = listOf(
-                                        DrawPathMode.OutlinedRect(),
-                                        DrawPathMode.OutlinedOval,
-                                        DrawPathMode.OutlinedTriangle,
-                                        DrawPathMode.OutlinedPolygon(),
-                                        DrawPathMode.OutlinedStar()
-                                    )
                                     if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
                                         when (drawLineStyle) {
                                             DrawLineStyle.None -> DrawPathMode.entries
@@ -354,21 +347,22 @@ fun DrawEditOption(
                                                 DrawPathMode.PointingArrow(),
                                                 DrawPathMode.DoublePointingArrow(),
                                                 DrawPathMode.DoubleLinePointingArrow(),
-                                            ) + outlinedModes
+                                            ) + DrawPathMode.outlinedEntries
 
                                             else -> listOf(
                                                 DrawPathMode.Free,
                                                 DrawPathMode.Line
-                                            ) + outlinedModes
+                                            ) + DrawPathMode.outlinedEntries
                                         }
                                     } else {
                                         listOf(
                                             DrawPathMode.Free,
                                             DrawPathMode.Line
-                                        ) + outlinedModes
+                                        ) + DrawPathMode.outlinedEntries
                                     }
                                 }
-                            }.value
+                            }.value,
+                            drawMode = drawMode
                         )
                     }
                     AnimatedVisibility(

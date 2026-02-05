@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCre
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.toUiPathPaint
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
@@ -97,6 +98,9 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
 
     private val _isInverseFillType: MutableState<Boolean> = mutableStateOf(false)
     val isInverseFillType by _isInverseFillType
+
+    private val _drawPathMode: MutableState<DrawPathMode> = mutableStateOf(DrawPathMode.Line)
+    val drawPathMode by _drawPathMode
 
     private var bitmapUri: Uri? = null
 
@@ -274,6 +278,10 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
+
+    fun setDrawPathMode(mode: DrawPathMode) {
+        _drawPathMode.update { mode }
+    }
 
     override fun resetState() {
         _maskColor.update { Color.Red }

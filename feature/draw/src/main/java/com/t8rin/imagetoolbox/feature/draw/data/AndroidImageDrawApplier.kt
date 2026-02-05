@@ -66,6 +66,7 @@ import com.t8rin.imagetoolbox.feature.draw.data.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 import com.t8rin.trickle.WarpBrush
@@ -74,6 +75,7 @@ import com.t8rin.trickle.WarpMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import android.graphics.Paint as AndroidPaint
 import android.graphics.Paint as NativePaint
 import android.graphics.Path as NativePath
 
@@ -338,6 +340,22 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             }
+                        } else if (drawPathMode is DrawPathMode.Outlined) {
+                            drawPathMode.fillColor?.let { fillColor ->
+                                val filledPaint = AndroidPaint().apply {
+                                    set(paint)
+                                    style = AndroidPaint.Style.FILL
+                                    color = fillColor.colorInt
+                                    if (Color(fillColor.colorInt).alpha == 1f) {
+                                        alpha =
+                                            (drawColor.alpha * 255).roundToInt().coerceIn(0, 255)
+                                    }
+                                    pathEffect = null
+                                }
+
+                                drawPath(androidPath, filledPaint)
+                            }
+                            drawPath(androidPath, paint)
                         } else {
                             drawPath(androidPath, paint)
                         }

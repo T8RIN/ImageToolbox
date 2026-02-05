@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import androidx.compose.foundation.layout.Box
@@ -86,9 +87,12 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
+import kotlin.math.roundToInt
 import android.graphics.Canvas as AndroidCanvas
+import android.graphics.Paint as AndroidPaint
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
@@ -308,6 +312,25 @@ fun BitmapDrawer(
                                     drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
                                 )
                             }
+                        } else if (drawPathMode is DrawPathMode.Outlined) {
+                            drawPathMode.fillColor?.let { fillColor ->
+                                val filledPaint = remember(fillColor, drawPaint) {
+                                    AndroidPaint().apply {
+                                        set(drawPaint)
+                                        style = AndroidPaint.Style.FILL
+                                        color = fillColor.colorInt
+                                        if (Color(fillColor.colorInt).alpha == 1f) {
+                                            alpha =
+                                                (drawColor.alpha * 255).roundToInt()
+                                                    .coerceIn(0, 255)
+                                        }
+                                        pathEffect = null
+                                    }
+                                }
+
+                                drawPath(androidPath, filledPaint)
+                            }
+                            drawPath(androidPath, drawPaint)
                         } else {
                             drawPath(androidPath, drawPaint)
                         }

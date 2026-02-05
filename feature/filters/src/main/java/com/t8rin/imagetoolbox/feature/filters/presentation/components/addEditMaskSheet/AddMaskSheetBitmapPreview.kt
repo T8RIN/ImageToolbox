@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
 import net.engawapg.lib.zoomable.rememberZoomState
 
@@ -59,8 +58,7 @@ internal fun AddMaskSheetBitmapPreview(
     strokeWidth: Pt,
     brushSoftness: Pt,
     isEraserOn: Boolean,
-    panEnabled: Boolean,
-    domainDrawPathMode: DrawPathMode
+    panEnabled: Boolean
 ) {
     val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
     val isPortrait by isPortraitOrientationAsState()
@@ -125,7 +123,7 @@ internal fun AddMaskSheetBitmapPreview(
                     drawing = false
                 },
                 onRequestFiltering = component::filter,
-                drawPathMode = domainDrawPathMode,
+                drawPathMode = component.drawPathMode,
                 backgroundColor = Color.Transparent
             )
         }
