@@ -2093,4 +2093,7 @@
     <string name="reduced_motion_sub">الحد الأدنى من الحركة لتلبية احتياجات الوصول</string>
     <string name="primary_lines">الخطوط الأولية</string>
     <string name="primary_lines_sub">يضيف خطًا أكثر سمكًا في كل سطر خامس</string>
+    <string name="fill_color">لون التعبئة</string>
+    <string name="hidden_tools">الأدوات المخفية</string>
+    <string name="hidden_for_share">أدوات مخفية للمشاركة</string>
 </resources>

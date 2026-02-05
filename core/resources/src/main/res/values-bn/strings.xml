@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">অ্যাক্সেসযোগ্যতার প্রয়োজনের জন্য ন্যূনতম গতি</string>
     <string name="primary_lines">প্রাথমিক লাইন</string>
     <string name="primary_lines_sub">প্রতি পঞ্চম লাইনে মোটা লাইন যোগ করে</string>
+    <string name="fill_color">রঙ পূরণ করুন</string>
+    <string name="hidden_tools">লুকানো টুলস</string>
+    <string name="hidden_for_share">শেয়ারের জন্য লুকানো টুল</string>
 </resources>

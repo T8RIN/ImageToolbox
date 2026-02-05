@@ -2090,4 +2090,7 @@
     <string name="reduced_motion_sub">Mișcare minimă pentru nevoile de accesibilitate</string>
     <string name="primary_lines">Liniile primare</string>
     <string name="primary_lines_sub">Adaugă o linie mai groasă la fiecare a cincea linie</string>
+    <string name="fill_color">Culoare de umplere</string>
+    <string name="hidden_tools">Instrumente ascunse</string>
+    <string name="hidden_for_share">Instrumente ascunse pentru distribuire</string>
 </resources>

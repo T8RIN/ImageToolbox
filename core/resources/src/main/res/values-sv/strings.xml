@@ -2090,4 +2090,7 @@
     <string name="reduced_motion_sub">Minimal rörelse för tillgänglighetsbehov</string>
     <string name="primary_lines">Primära linjer</string>
     <string name="primary_lines_sub">Lägger till tjockare linje var femte rad</string>
+    <string name="fill_color">Fyllningsfärg</string>
+    <string name="hidden_tools">Dolda verktyg</string>
+    <string name="hidden_for_share">Verktyg dolda för delning</string>
 </resources>

@@ -2088,4 +2088,7 @@
     <string name="reduced_motion_sub">Chuyển động tối thiểu cho nhu cầu tiếp cận</string>
     <string name="primary_lines">Dòng chính</string>
     <string name="primary_lines_sub">Thêm dòng dày hơn vào mỗi dòng thứ năm</string>
+    <string name="fill_color">Tô màu</string>
+    <string name="hidden_tools">Công cụ ẩn</string>
+    <string name="hidden_for_share">Công cụ ẩn để chia sẻ</string>
 </resources>

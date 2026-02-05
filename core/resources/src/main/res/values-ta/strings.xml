@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">அணுகல் தேவைகளுக்கான குறைந்தபட்ச இயக்கம்</string>
     <string name="primary_lines">முதன்மை கோடுகள்</string>
     <string name="primary_lines_sub">ஒவ்வொரு ஐந்தாவது வரியும் தடிமனான வரியைச் சேர்க்கிறது</string>
+    <string name="fill_color">நிறத்தை நிரப்பவும்</string>
+    <string name="hidden_tools">மறைக்கப்பட்ட கருவிகள்</string>
+    <string name="hidden_for_share">பகிர்வுக்காக மறைக்கப்பட்ட கருவிகள்</string>
 </resources>

@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Minimale beweging voor toegankelijkheidsbehoeften</string>
     <string name="primary_lines">Primaire lijnen</string>
     <string name="primary_lines_sub">Voegt elke vijfde lijn een dikkere lijn toe</string>
+    <string name="fill_color">Vulkleur</string>
+    <string name="hidden_tools">Verborgen hulpmiddelen</string>
+    <string name="hidden_for_share">Hulpmiddelen verborgen om te delen</string>
 </resources>

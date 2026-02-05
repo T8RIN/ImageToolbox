@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Minimaalne liikumine juurdepääsetavuse vajadustele</string>
     <string name="primary_lines">Põhiliinid</string>
     <string name="primary_lines_sub">Lisab paksema joone igal viiendal real</string>
+    <string name="fill_color">Täitevärv</string>
+    <string name="hidden_tools">Peidetud tööriistad</string>
+    <string name="hidden_for_share">Jagamiseks peidetud tööriistad</string>
 </resources>

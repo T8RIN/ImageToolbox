@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Minimal na paggalaw para sa mga pangangailangan sa accessibility</string>
     <string name="primary_lines">Mga Pangunahing Linya</string>
     <string name="primary_lines_sub">Nagdaragdag ng mas makapal na linya sa bawat ikalimang linya</string>
+    <string name="fill_color">Kulay ng Punan</string>
+    <string name="hidden_tools">Mga Nakatagong Tool</string>
+    <string name="hidden_for_share">Mga Tool na Nakatago Para Ibahagi</string>
 </resources>

@@ -2091,4 +2091,7 @@
     <string name="reduced_motion_sub">Мінімальний рух для потреб у доступності</string>
     <string name="primary_lines">Первинні лінії</string>
     <string name="primary_lines_sub">Кожний п’ятий рядок додає товстішу лінію</string>
+    <string name="fill_color">Колір заливки</string>
+    <string name="hidden_tools">Приховані інструменти</string>
+    <string name="hidden_for_share">Інструменти, приховані для спільного використання</string>
 </resources>

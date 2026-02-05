@@ -2091,4 +2091,7 @@
     <string name="reduced_motion_sub">Minimalny ruch ze względu na potrzeby dostępności</string>
     <string name="primary_lines">Linie podstawowe</string>
     <string name="primary_lines_sub">Dodaje grubszą linię co piątą linię</string>
+    <string name="fill_color">Kolor wypełnienia</string>
+    <string name="hidden_tools">Ukryte narzędzia</string>
+    <string name="hidden_for_share">Narzędzia ukryte do udostępnienia</string>
 </resources>

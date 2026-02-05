@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">زىيارەت قىلىش ئېھتىياجى ئۈچۈن ئەڭ تۆۋەن ھەرىكەت</string>
     <string name="primary_lines">Primary Line</string>
     <string name="primary_lines_sub">ھەر بەشىنچى قۇرغا قېلىن سىزىق قوشىدۇ</string>
+    <string name="fill_color">رەڭنى تولدۇرۇڭ</string>
+    <string name="hidden_tools">يوشۇرۇن قوراللار</string>
+    <string name="hidden_for_share">ئورتاقلىشىش ئۈچۈن يوشۇرۇنغان قوراللار</string>
 </resources>

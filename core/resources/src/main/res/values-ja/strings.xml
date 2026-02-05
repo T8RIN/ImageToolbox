@@ -2088,4 +2088,7 @@
     <string name="reduced_motion_sub">アクセシビリティのニーズに合わせた最小限の動き</string>
     <string name="primary_lines">プライマリライン</string>
     <string name="primary_lines_sub">5行ごとに太い線を追加します</string>
+    <string name="fill_color">塗りつぶしの色</string>
+    <string name="hidden_tools">隠しツール</string>
+    <string name="hidden_for_share">共有用に非表示になっているツール</string>
 </resources>

@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Minimaalinen liike esteettömyystarpeisiin</string>
     <string name="primary_lines">Ensisijaiset linjat</string>
     <string name="primary_lines_sub">Lisää paksumman viivan joka viides rivi</string>
+    <string name="fill_color">Täyttöväri</string>
+    <string name="hidden_tools">Piilotetut työkalut</string>
+    <string name="hidden_for_share">Työkalut Piilotettu jakaa varten</string>
 </resources>

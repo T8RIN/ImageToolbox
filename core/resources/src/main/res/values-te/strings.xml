@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">ప్రాప్యత అవసరాల కోసం కనీస చలనం</string>
     <string name="primary_lines">ప్రాథమిక పంక్తులు</string>
     <string name="primary_lines_sub">ప్రతి ఐదవ పంక్తికి మందమైన పంక్తిని జోడిస్తుంది</string>
+    <string name="fill_color">రంగును పూరించండి</string>
+    <string name="hidden_tools">దాచిన సాధనాలు</string>
+    <string name="hidden_for_share">భాగస్వామ్యం కోసం దాచబడిన సాధనాలు</string>
 </resources>

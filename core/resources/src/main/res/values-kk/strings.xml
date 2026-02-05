@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Қол жетімділік қажеттіліктері үшін минималды қозғалыс</string>
     <string name="primary_lines">Бастапқы сызықтар</string>
     <string name="primary_lines_sub">Әрбір бесінші жолға қалыңырақ жолды қосады</string>
+    <string name="fill_color">Түсті толтыру</string>
+    <string name="hidden_tools">Жасырын құралдар</string>
+    <string name="hidden_for_share">Бөлісу үшін жасырылған құралдар</string>
 </resources>

@@ -2090,4 +2090,7 @@
     <string name="reduced_motion_sub">ප්රවේශ්යතා අවශ්යතා සඳහා අවම චලනය</string>
     <string name="primary_lines">ප්රාථමික රේඛා</string>
     <string name="primary_lines_sub">සෑම පස්වන පේළියකම ඝන රේඛාවක් එකතු කරයි</string>
+    <string name="fill_color">වර්ණ පුරවන්න</string>
+    <string name="hidden_tools">සැඟවුණු මෙවලම්</string>
+    <string name="hidden_for_share">බෙදාගැනීම සඳහා සැඟවුණු මෙවලම්</string>
 </resources>

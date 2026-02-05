@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Minimal bevægelse for tilgængelighedsbehov</string>
     <string name="primary_lines">Primære Linjer</string>
     <string name="primary_lines_sub">Tilføjer tykkere linje hver femte linje</string>
+    <string name="fill_color">Fyld farve</string>
+    <string name="hidden_tools">Skjulte værktøjer</string>
+    <string name="hidden_for_share">Værktøjer skjult til deling</string>
 </resources>

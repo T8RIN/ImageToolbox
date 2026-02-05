@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Mouvement minimal pour les besoins d’accessibilité</string>
     <string name="primary_lines">Lignes primaires</string>
     <string name="primary_lines_sub">Ajoute une ligne plus épaisse toutes les cinq lignes</string>
+    <string name="fill_color">Couleur de remplissage</string>
+    <string name="hidden_tools">Outils cachés</string>
+    <string name="hidden_for_share">Outils masqués pour le partage</string>
 </resources>

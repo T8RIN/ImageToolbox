@@ -2088,4 +2088,7 @@
     <string name="reduced_motion_sub">접근성 요구 사항에 맞는 최소한의 동작</string>
     <string name="primary_lines">기본 라인</string>
     <string name="primary_lines_sub">다섯 번째 줄마다 더 두꺼운 줄을 추가합니다.</string>
+    <string name="fill_color">채우기 색상</string>
+    <string name="hidden_tools">숨겨진 도구</string>
+    <string name="hidden_for_share">공유를 위해 숨겨진 도구</string>
 </resources>

@@ -2090,4 +2090,7 @@
     <string name="reduced_motion_sub">प्रवेशयोग्यता गरजांसाठी किमान गती</string>
     <string name="primary_lines">प्राथमिक ओळी</string>
     <string name="primary_lines_sub">प्रत्येक पाचव्या ओळीत जाड ओळ जोडते</string>
+    <string name="fill_color">रंग भरा</string>
+    <string name="hidden_tools">लपलेली साधने</string>
+    <string name="hidden_for_share">शेअरसाठी लपवलेली साधने</string>
 </resources>

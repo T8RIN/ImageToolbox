@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">ਪਹੁੰਚਯੋਗਤਾ ਲੋੜਾਂ ਲਈ ਨਿਊਨਤਮ ਗਤੀ</string>
     <string name="primary_lines">ਪ੍ਰਾਇਮਰੀ ਲਾਈਨਾਂ</string>
     <string name="primary_lines_sub">ਹਰ ਪੰਜਵੀਂ ਲਾਈਨ ਨੂੰ ਮੋਟੀ ਲਾਈਨ ਜੋੜਦਾ ਹੈ</string>
+    <string name="fill_color">ਰੰਗ ਭਰੋ</string>
+    <string name="hidden_tools">ਲੁਕਵੇਂ ਟੂਲ</string>
+    <string name="hidden_for_share">ਸ਼ੇਅਰ ਲਈ ਲੁਕੇ ਹੋਏ ਟੂਲ</string>
 </resources>

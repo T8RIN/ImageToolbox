@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Moviment mínim per a necessitats d\'accessibilitat</string>
     <string name="primary_lines">Línies primàries</string>
     <string name="primary_lines_sub">Afegeix una línia més gruixuda cada cinquena línia</string>
+    <string name="fill_color">Color de farciment</string>
+    <string name="hidden_tools">Eines ocultes</string>
+    <string name="hidden_for_share">Eines amagades per compartir</string>
 </resources>

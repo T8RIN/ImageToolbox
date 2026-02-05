@@ -2089,4 +2089,7 @@
     <string name="reduced_motion_sub">Irisgarritasun-beharretarako mugimendu minimoa</string>
     <string name="primary_lines">Lehen lerroak</string>
     <string name="primary_lines_sub">Lerro lodiagoa gehitzen du bosgarren lerroan behin</string>
+    <string name="fill_color">Bete kolorea</string>
+    <string name="hidden_tools">Ezkutuko Tresnak</string>
+    <string name="hidden_for_share">Partekatzeko ezkutatuta dauden tresnak</string>
 </resources>

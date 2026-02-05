@@ -2091,4 +2091,7 @@
     <string name="reduced_motion_sub">Minimálny pohyb pre potreby dostupnosti</string>
     <string name="primary_lines">Primárne linky</string>
     <string name="primary_lines_sub">Každý piaty riadok pridá hrubší riadok</string>
+    <string name="fill_color">Farba výplne</string>
+    <string name="hidden_tools">Skryté nástroje</string>
+    <string name="hidden_for_share">Nástroje skryté na zdieľanie</string>
 </resources>
