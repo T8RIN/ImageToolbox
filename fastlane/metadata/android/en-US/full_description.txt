@@ -1,51 +1,60 @@
-<h1>✨Image Toolbox✨</h1> 
-<h2>Basic Features</h2>
-<p>Note: This is only a partial list of features. For a complete list of this app's capabilities please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file.</p>
+<h1>✨ Image Toolbox ✨</h1>
 
+<p>Powerful all-in-one image editor, AI toolkit and format converter for creators and power users.</p>
+
+<p><strong>Note:</strong> This is only a partial list of features. Full list is available in the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">README</a>.</p>
+
+<h2>Core Features</h2>
 <ul>
-<li>batch processing</li>
-<li>includes over 230 filters</li>
-<li>AES-256 GCM, no padding file encryption and decryption</li>
-<li>EXIF metadata editing/deleting</li>
-<li>internet image access</li>
-<li>background removal (automatic and interactive)</li>
-<li>drawing capabilities (pen, highlighter, neon)</li>
-<li>resize options (width/height; aspect ratio retention; resize by specific dimension)</li>
-<li>image size reduction (quality compressing; preset shrinking options; size reduction by specific amount (in KB)</li>
-<li>cropping</li>
-<li>different scale color spaces</li>
-<li>PDF tools</li>
-<li>image stitching</li>
-<li>image stacking</li>
-<li>image splitting</li>
-<li>watermarking</li>
-<li>file encryption and decryption with 100+ different algorithms available</li>
-<li>add stickers and text (Markup Layers Mode)</li>
-<li>extract text from images in over 120 languages</li>
+<li>Batch processing</li>
+<li>310+ filters + custom filter chains (share via QR)</li>
+<li>File encryption/decryption (100+ algorithms)</li>
+<li>EXIF editing/deleting</li>
+<li>Load images from the internet</li>
+<li>Background removal (manual + AI models)</li>
+<li>Markup layers (stickers, text, shapes)</li>
+<li>Advanced drawing tools (pen, neon, highlighter, warp, pixelation, blur, spot healing)</li>
+<li>Flexible resizing (adaptive, aspect ratio, limits, multiple algorithms)</li>
+<li>Quality compression & size reduction</li>
 </ul>
 
-<h2>Robust Cropping</h2>
-<p>Image Toolbox's magnificent cropping feature includes:</p>
-
+<h2>AI Tools</h2>
 <ul>
-<li>standard cropping</li>
-<li>aspect ratio cropping</li>
-<li>mask cropping</li>
+<li>81 ready AI models</li>
+<li>Upscale, denoise, colorize, enhance</li>
 </ul>
 
-<p>The app can mask crop the following shapes: rounded corners, cut corners, oval, squircle, octagon, rounded pentagon, clover, star of David, kotlin logo, heart, star, and image mask.</p>
-
-<h2>Extensive Conversion Options</h2>
-<p>The Image Toolbox app allows conversions into many standard graphic types, such as: SVG, GIF, HEIF, HEIC, AVIF, WEBP, JPEG, JPG, JXL, APNG, PNG, and Telegram PNG.</p>
-
-<h2>Additional Features</h2>
+<h2>OCR (Text from Images)</h2>
 <ul>
-<li>color utilities (palette generation; color selection from image)</li>
-<li>rotate</li>
-<li>flip</li>
-<li>image comparison</li>
-<li>preview most types of images</li>
-<li>save to local folders</li>
+<li>120+ languages</li>
+<li>Fast / Standard / Best modes</li>
+<li>Batch extraction</li>
+<li>Write results to files or EXIF</li>
 </ul>
 
-<p>This app has many more features that could not be listed here due to space constraints. Please see the <a href="https://github.com/T8RIN/ImageToolbox/blob/master/README.md">readme</a> file for a complete description.</p>
+<h2>Conversion & Media</h2>
+<ul>
+<li>HEIF, HEIC, AVIF, WEBP, JPEG, PNG, JXL, TIFF, QOI, ICO</li>
+</ul>
+
+<h2>PDF & Documents</h2>
+<ul>
+<li>PDF → Images</li>
+<li>Images → PDF</li>
+<li>Document scanning</li>
+</ul>
+
+<h2>Image Tools</h2>
+<ul>
+<li>Stitching, stacking, splitting</li>
+<li>Batch cutting</li>
+<li>Raster → SVG tracing</li>
+<li>Collages (2–10 images, 180+ layouts)</li>
+<li>Watermarking (text, image, timestamp, steganography)</li>
+</ul>
+
+<h2>Barcodes</h2>
+<ul>
+<li>Create & scan 13 formats (QR, Aztec, Data Matrix, EAN, Code 128, PDF417, UPC)</li>
+<li>Share as images</li>
+</ul>
