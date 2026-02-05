@@ -21,7 +21,8 @@ import java.io.File
 
 internal data class ChunkInfo(
     val index: Int,
-    val file: File,
+    val inputFile: File,
+    val processedFile: File,
     val x: Int,
     val y: Int,
     val width: Int,

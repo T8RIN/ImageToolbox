@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -54,9 +55,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import javax.inject.Inject
-import kotlin.io.deleteRecursively
 import kotlin.math.ceil
-import kotlin.use
 
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -238,15 +237,19 @@ internal class AiProcessor @Inject constructor(
 
                 ensureActive()
 
-                val chunkFile = File(chunksDir, "chunk_${chunkIndex}.png")
-                FileOutputStream(chunkFile).use {
-                    converted.compress(Bitmap.CompressFormat.PNG, 100, it)
+                val inputChunkFile = File(chunksDir, "chunk_${chunkIndex}.png")
+                val processedChunkFile = File(chunksDir, "chunk_${chunkIndex}_processed.png")
+                withContext(Dispatchers.IO) {
+                    FileOutputStream(inputChunkFile).use {
+                        converted.compress(Bitmap.CompressFormat.PNG, 100, it)
+                    }
                 }
                 converted.recycle()
                 chunkInfoList.add(
                     ChunkInfo(
                         index = chunkIndex,
-                        file = chunkFile,
+                        inputFile = inputChunkFile,
+                        processedFile = processedChunkFile,
                         x = chunkX,
                         y = chunkY,
                         width = chunkW,
@@ -266,7 +269,7 @@ internal class AiProcessor @Inject constructor(
         for (chunkInfo in chunkInfoList) {
             ensureActive()
 
-            val loadedChunk = BitmapFactory.decodeFile(chunkInfo.file.absolutePath)
+            val loadedChunk = BitmapFactory.decodeFile(chunkInfo.inputFile.absolutePath)
 
             val processed = processChunk(
                 session = session,
@@ -276,13 +279,12 @@ internal class AiProcessor @Inject constructor(
             )
 
             loadedChunk.recycle()
-            val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
-
-            FileOutputStream(processedChunkFile).use {
-                processed.compress(Bitmap.CompressFormat.PNG, 100, it)
+            withContext(ioDispatcher) {
+                FileOutputStream(chunkInfo.processedFile).use {
+                    processed.compress(Bitmap.CompressFormat.PNG, 100, it)
+                }
+                chunkInfo.inputFile.delete()
             }
-            chunkInfo.file.delete()
-
 
             ensureActive()
 
@@ -299,12 +301,12 @@ internal class AiProcessor @Inject constructor(
         val result = createBitmap(resultWidth, resultHeight, config)
         for (chunkInfo in chunkInfoList) {
             ensureActive()
-            val processedChunkFile = File(chunksDir, "chunk_${chunkInfo.index}_processed.png")
-            val loadedProcessed = BitmapFactory.decodeFile(processedChunkFile.absolutePath)
+            val loadedProcessed = withContext(ioDispatcher) {
+                BitmapFactory.decodeFile(chunkInfo.processedFile.absolutePath)
+            } ?: throw Exception("Failed to load processed chunk ${chunkInfo.index}")
 
             mergeChunkWithBlending(result, loadedProcessed, chunkInfo, overlap, info.scaleFactor)
             loadedProcessed.recycle()
-            processedChunkFile.delete()
         }
         clearChunks()
 
