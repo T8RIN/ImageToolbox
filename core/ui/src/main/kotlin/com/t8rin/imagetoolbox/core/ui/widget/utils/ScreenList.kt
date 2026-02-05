@@ -31,7 +31,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 @Composable
 internal fun List<Uri>.screenList(
     extraDataType: ExtraDataType?
-): State<List<Screen>> {
+): State<Pair<List<Screen>, List<Screen>>> {
     val uris = this
 
     fun Uri?.type(
@@ -280,7 +280,9 @@ internal fun List<Uri>.screenList(
         }
     }
 
-    val favoriteScreens = LocalSettingsState.current.favoriteScreenList
+    val settingsState = LocalSettingsState.current
+    val favoriteScreens = settingsState.favoriteScreenList
+    val hiddenForShareScreens = settingsState.hiddenForShareScreens
 
     return remember(
         favoriteScreens,
@@ -288,18 +290,21 @@ internal fun List<Uri>.screenList(
         uris,
         pdfAvailableScreens,
         audioAvailableScreens,
-        imageScreens
+        imageScreens,
+        hiddenForShareScreens
     ) {
         derivedStateOf {
-            when (extraDataType) {
+            val allScreens = when (extraDataType) {
                 is ExtraDataType.Backup -> filesAvailableScreens
                 is ExtraDataType.Text -> textAvailableScreens
                 ExtraDataType.Audio -> audioAvailableScreens
                 ExtraDataType.File -> filesAvailableScreens
                 ExtraDataType.Gif -> gifAvailableScreens
                 ExtraDataType.Pdf -> pdfAvailableScreens
-                null, ExtraDataType.Jxl -> imageScreens
+                null -> imageScreens
             }.sortedWith(compareBy(nullsLast()) { s -> favoriteScreens.find { it == s.id } })
+
+            allScreens.partition { it.id !in hiddenForShareScreens }
         }
     }
 }

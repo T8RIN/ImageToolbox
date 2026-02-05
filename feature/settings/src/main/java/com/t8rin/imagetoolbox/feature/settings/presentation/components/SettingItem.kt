@@ -613,6 +613,10 @@ internal fun SettingItem(
             Setting.FlingType -> {
                 FlingTypeSettingItem(onValueChange = component::setFlingType)
             }
+
+            Setting.ToolsHiddenForShare -> {
+                ToolsHiddenForShareSettingItem(onValueChange = component::setHiddenForShareScreens)
+            }
         }
     }
 }

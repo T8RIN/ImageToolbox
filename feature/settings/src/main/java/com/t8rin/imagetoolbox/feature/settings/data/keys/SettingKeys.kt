@@ -130,3 +130,5 @@ internal val SHAPES_TYPE = stringPreferencesKey("SHAPES_TYPE_NEW")
 internal val FILENAME_PATTERN = stringPreferencesKey("FILENAME_PATTERN")
 internal val FILENAME_BEHAVIOR = stringPreferencesKey("FILENAME_BEHAVIOR")
 internal val FLING_TYPE = intPreferencesKey("FLING_TYPE")
+internal val HIDDEN_FOR_SHARE_SCREENS =
+    stringPreferencesKey("HIDDEN_FOR_SHARE_SCREENS")

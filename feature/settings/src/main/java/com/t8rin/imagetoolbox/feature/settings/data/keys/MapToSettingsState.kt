@@ -238,7 +238,12 @@ internal fun Preferences.toSettingsState(
     } ?: default.filenameBehavior,
     flingType = this[FLING_TYPE]?.let {
         FlingType.entries[it]
-    } ?: default.flingType
+    } ?: default.flingType,
+    hiddenForShareScreens = this[HIDDEN_FOR_SHARE_SCREENS]?.split(
+        "/"
+    )?.mapNotNull {
+        it.toIntOrNull()
+    } ?: default.hiddenForShareScreens,
 )
 
 private fun Preferences.toDefaultImageScaleMode(default: SettingsState): ImageScaleMode {

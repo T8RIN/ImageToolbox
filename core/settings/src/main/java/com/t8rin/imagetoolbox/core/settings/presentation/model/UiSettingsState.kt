@@ -169,6 +169,7 @@ data class UiSettingsState(
     val filenamePattern: String?,
     val filenameBehavior: FilenameBehavior,
     val flingType: FlingType,
+    val hiddenForShareScreens: List<Int>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -417,6 +418,7 @@ fun SettingsState.toUiState(
                 filenamePattern = filenamePattern,
                 filenameBehavior = filenameBehavior,
                 flingType = flingType,
+                hiddenForShareScreens = hiddenForShareScreens
             )
         }
     }.value

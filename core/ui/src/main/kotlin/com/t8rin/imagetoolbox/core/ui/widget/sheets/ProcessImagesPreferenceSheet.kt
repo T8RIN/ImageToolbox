@@ -21,10 +21,14 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,7 +49,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -59,22 +66,29 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.ScreenPreference
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -101,12 +115,12 @@ fun ProcessImagesPreferenceSheet(
         mutableStateOf("")
     }
 
-    val rawScreenList by uris.screenList(extraDataType)
+    val (rawScreenList, hiddenScreenList) = uris.screenList(extraDataType).value
 
-    val urisCorrespondingScreens by remember(rawScreenList, searchKeyword) {
+    val urisCorrespondingScreens by remember(hiddenScreenList, rawScreenList, searchKeyword) {
         derivedStateOf {
-            if (searchKeyword.isNotEmpty()) {
-                rawScreenList.filter {
+            if (searchKeyword.isNotBlank()) {
+                (rawScreenList + hiddenScreenList).filter {
                     val string =
                         essentials.getString(it.title) + " " + essentials.getString(it.subtitle)
                     val stringEn = essentials.getStringLocalized(it.title, Locale.ENGLISH.language)
@@ -116,7 +130,9 @@ fun ProcessImagesPreferenceSheet(
                         string.contains(other = searchKeyword, ignoreCase = true)
                     )
                 }
-            } else rawScreenList
+            } else {
+                rawScreenList
+            }
         }
     }
 
@@ -215,6 +231,10 @@ fun ProcessImagesPreferenceSheet(
                 modifier = Modifier.fillMaxWidth()
             ) { isNotEmpty ->
                 if (isNotEmpty) {
+                    var showHidden by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+
                     LazyVerticalStaggeredGrid(
                         columns = StaggeredGridCells.Adaptive(250.dp),
                         contentPadding = PaddingValues(16.dp),
@@ -243,6 +263,76 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             )
+                        }
+
+                        if (hiddenScreenList.isNotEmpty() && searchKeyword.isBlank()) {
+                            item(
+                                span = StaggeredGridItemSpan.FullLine
+                            ) {
+                                val interactionSource = remember { MutableInteractionSource() }
+
+                                TitleItem(
+                                    modifier = Modifier
+                                        .padding(
+                                            vertical = animateDpAsState(
+                                                if (showHidden) 8.dp
+                                                else 0.dp
+                                            ).value
+                                        )
+                                        .container(
+                                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                            resultPadding = 0.dp,
+                                            shape = shapeByInteraction(
+                                                shape = ShapeDefaults.default,
+                                                pressedShape = ShapeDefaults.pressed,
+                                                interactionSource = interactionSource
+                                            )
+                                        )
+                                        .hapticsClickable(
+                                            interactionSource = interactionSource,
+                                            indication = LocalIndication.current
+                                        ) {
+                                            showHidden = !showHidden
+                                        }
+                                        .padding(16.dp),
+                                    text = stringResource(R.string.hidden_tools),
+                                    icon = if (showHidden) {
+                                        Icons.Rounded.Visibility
+                                    } else {
+                                        Icons.Rounded.VisibilityOff
+                                    },
+                                    endContent = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                                            contentDescription = null,
+                                            modifier = Modifier.rotate(
+                                                animateFloatAsState(
+                                                    if (showHidden) 180f
+                                                    else 0f
+                                                ).value
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+
+                            if (showHidden) {
+                                items(
+                                    items = hiddenScreenList,
+                                    key = { it.toString() }
+                                ) { screen ->
+                                    ScreenPreference(
+                                        screen = screen,
+                                        navigate = {
+                                            essentials.launch {
+                                                onDismiss()
+                                                delay(200)
+                                                onNavigate(screen)
+                                            }
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 } else {
@@ -284,5 +374,17 @@ fun ProcessImagesPreferenceSheet(
         onDismiss = {
             if (!it) onDismiss()
         }
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = ImageToolboxThemeForPreview(true) {
+    ProcessImagesPreferenceSheet(
+        uris = listOf("fff".toUri()),
+        visible = true,
+        extraDataType = null,
+        onDismiss = {},
+        onNavigate = {}
     )
 }

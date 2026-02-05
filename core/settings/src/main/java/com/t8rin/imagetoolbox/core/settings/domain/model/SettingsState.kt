@@ -132,6 +132,7 @@ data class SettingsState(
     val filenamePattern: String?,
     val filenameBehavior: FilenameBehavior,
     val flingType: FlingType,
+    val hiddenForShareScreens: List<Int>
 ) {
 
     companion object {
@@ -239,7 +240,8 @@ data class SettingsState(
                 shapesType = ShapeType.Rounded(),
                 filenamePattern = null,
                 filenameBehavior = FilenameBehavior.None(),
-                flingType = FlingType.DEFAULT
+                flingType = FlingType.DEFAULT,
+                hiddenForShareScreens = emptyList(),
             )
         }
     }

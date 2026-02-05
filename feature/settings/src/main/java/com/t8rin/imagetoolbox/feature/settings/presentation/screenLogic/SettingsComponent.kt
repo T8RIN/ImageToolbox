@@ -378,9 +378,7 @@ class SettingsComponent @AssistedInject internal constructor(
             this@SettingsComponent.settingsState.screenListWithMaxBrightnessEnforcement
                 .toggle(screen.id)
 
-        setScreensWithBrightnessEnforcement(
-            screens.joinToString("/") { it.toString() }
-        )
+        setScreensWithBrightnessEnforcement(screens)
     }
 
     fun toggleConfettiEnabled() = settingsScope { toggleConfettiEnabled() }
@@ -505,6 +503,15 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setFilenamePattern(value: String) = settingsScope { setFilenamePattern(value) }
 
     fun setFlingType(type: FlingType) = settingsScope { setFlingType(type) }
+
+    fun setHiddenForShareScreens(screen: Screen) = settingsScope {
+        val screens =
+            this@SettingsComponent.settingsState.hiddenForShareScreens
+                .toggle(screen.id)
+
+        setHiddenForShareScreens(screens)
+    }
+
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit

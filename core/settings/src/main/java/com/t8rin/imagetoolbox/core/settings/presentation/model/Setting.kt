@@ -553,4 +553,9 @@ sealed class Setting(
         subtitle = null
     )
 
+    data object ToolsHiddenForShare : Setting(
+        title = R.string.hidden_for_share,
+        subtitle = null
+    )
+
 }

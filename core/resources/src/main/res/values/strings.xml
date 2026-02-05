@@ -2111,4 +2111,6 @@
     <string name="primary_lines">Primary Lines</string>
     <string name="primary_lines_sub">Adds thicker line every fifth line</string>
     <string name="fill_color">Fill Color</string>
+    <string name="hidden_tools">Hidden Tools</string>
+    <string name="hidden_for_share">Tools Hidden For Share</string>
 </resources>

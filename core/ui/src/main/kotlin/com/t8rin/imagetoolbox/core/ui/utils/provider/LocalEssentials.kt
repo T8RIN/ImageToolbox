@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -64,7 +65,11 @@ import kotlinx.coroutines.launch
 fun rememberLocalEssentials(): LocalEssentials {
     val toastHostState = LocalToastHostState.current
     val confettiHostState = LocalConfettiHostState.current
-    val context = LocalComponentActivity.current
+    val context = if (LocalInspectionMode.current) {
+        null
+    } else {
+        LocalComponentActivity.current
+    }
     val coroutineScope = rememberCoroutineScope()
     val clipboard = LocalClipboard.current
     val resourceManager = LocalResourceManager.current
@@ -91,7 +96,7 @@ fun rememberLocalEssentials(): LocalEssentials {
 @Stable
 @Immutable
 class LocalEssentials internal constructor(
-    private val context: ComponentActivity,
+    private val context: ComponentActivity?,
     private val toastHostState: ToastHostState,
     private val confettiHostState: ConfettiHostState,
     private val clipboard: Clipboard,
@@ -100,7 +105,7 @@ class LocalEssentials internal constructor(
 ) : CoroutineScope by coroutineScope,
     ResourceManager by resourceManager {
 
-    fun isNetworkAvailable() = context.isNetworkAvailable()
+    fun isNetworkAvailable(): Boolean = context?.isNetworkAvailable() == true
 
     fun showToast(
         message: String,
@@ -127,7 +132,7 @@ class LocalEssentials internal constructor(
     fun showFailureToast(throwable: Throwable) {
         launch {
             toastHostState.showFailureToast(
-                context = context,
+                context = context ?: return@launch,
                 throwable = throwable
             )
         }
@@ -144,7 +149,7 @@ class LocalEssentials internal constructor(
     fun showFailureToast(res: Int) {
         launch {
             toastHostState.showFailureToast(
-                message = context.getString(res)
+                message = getString(res)
             )
         }
     }
@@ -171,21 +176,21 @@ class LocalEssentials internal constructor(
     }
 
     fun parseSaveResult(saveResult: SaveResult) {
-        context.parseSaveResult(
+        context?.parseSaveResult(
             saveResult = saveResult,
             essentials = this
         )
     }
 
     fun parseSaveResults(saveResults: List<SaveResult>) {
-        context.parseSaveResults(
+        context?.parseSaveResults(
             results = saveResults,
             essentials = this
         )
     }
 
     fun parseFileSaveResult(saveResult: SaveResult) {
-        context.parseFileSaveResult(
+        context?.parseFileSaveResult(
             saveResult = saveResult,
             essentials = this
         )
@@ -196,7 +201,7 @@ class LocalEssentials internal constructor(
         tint: Color = Color.Unspecified
     ) {
         launch {
-            context.createScreenShortcut(
+            context?.createScreenShortcut(
                 screen = screen,
                 tint = tint,
                 onFailure = ::showFailureToast
@@ -214,7 +219,7 @@ class LocalEssentials internal constructor(
             }.onSuccess {
                 onSuccess()
             }.onFailure {
-                showFailureToast(context.getString(R.string.data_is_too_large_to_copy))
+                showFailureToast(getString(R.string.data_is_too_large_to_copy))
             }
         }
     }
@@ -225,12 +230,12 @@ class LocalEssentials internal constructor(
         icon: ImageVector = Icons.Rounded.CopyAll
     ) {
         copyToClipboard(
-            clipEntry = uri.asClip(context),
+            clipEntry = uri.asClip(context ?: return),
             onSuccess = {
                 showConfetti()
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                     showToast(
-                        message = context.getString(message),
+                        message = getString(message),
                         icon = icon
                     )
                 }
@@ -248,7 +253,7 @@ class LocalEssentials internal constructor(
             onSuccess = {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                     showToast(
-                        message = context.getString(message),
+                        message = getString(message),
                         icon = icon
                     )
                 }
@@ -270,7 +275,7 @@ class LocalEssentials internal constructor(
                         }
                     }?.takeIf { it.isNotEmpty() }?.let(onSuccess)
             }.onFailure {
-                showFailureToast(context.getString(R.string.clipboard_data_is_too_large))
+                showFailureToast(getString(R.string.clipboard_data_is_too_large))
             }
         }
     }
@@ -281,19 +286,21 @@ class LocalEssentials internal constructor(
         }
     }
 
-    fun shareText(text: String) = context.shareText(text)
+    fun shareText(text: String) {
+        context?.shareText(text)
+    }
 
     fun startActivity(intent: Intent) {
         runCatching {
-            context.startActivity(intent)
+            context?.startActivity(intent)
         }.onFailure(::showFailureToast)
     }
 
-    fun isInstalledFromPlayStore() = context.isInstalledFromPlayStore()
+    fun isInstalledFromPlayStore(): Boolean = context?.isInstalledFromPlayStore() == true
 
     private fun showActivateFilesToast() {
         showToast(
-            message = context.getString(R.string.activate_files),
+            message = getString(R.string.activate_files),
             icon = Icons.Outlined.FolderOff,
             duration = ToastDuration.Long
         )

@@ -384,6 +384,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.SkipFilePicking,
             Setting.AllowSkipIfLarger,
+            Setting.ToolsHiddenForShare,
             Setting.EnableToolExitConfirmation,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,

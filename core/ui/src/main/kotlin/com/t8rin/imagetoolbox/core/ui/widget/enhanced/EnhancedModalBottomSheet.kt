@@ -218,6 +218,10 @@ private fun EnhancedModalSheetImpl(
                 onDismissRequest = { onVisibleChange(false) },
                 containerColor = containerColor,
                 contentColor = contentColor,
+                shape = shape,
+                sheetState = androidx.compose.material3.rememberModalBottomSheetState(
+                    skipPartiallyExpanded = skipHalfExpanded
+                ),
                 dragHandle = { Column(content = dragHandle) },
                 content = content
             )

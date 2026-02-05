@@ -138,7 +138,7 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setInitialOCRLanguageCodes(list: List<String>)
 
-    suspend fun setScreensWithBrightnessEnforcement(data: String)
+    suspend fun setScreensWithBrightnessEnforcement(data: List<Int>)
 
     suspend fun toggleConfettiEnabled()
 
@@ -249,6 +249,9 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setFilenamePattern(pattern: String?)
 
     suspend fun setFlingType(type: FlingType)
+
+    suspend fun setHiddenForShareScreens(data: List<Int>)
+
 }
 
 fun SettingsInteractor.toSimpleSettingsInteractor(): SimpleSettingsInteractor =
