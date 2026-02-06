@@ -88,7 +88,7 @@
 # 🗺️ Project Overview
 
 ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows
-users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs.
+users to crop, apply filters, edit EXIF data, erase backgrounds, and even enhance images with AI.
 Ideal for both photographers and developers, the tool offers a simple interface with powerful
 capabilities.
 
