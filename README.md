@@ -88,7 +88,7 @@
 # 🗺️ Project Overview
 
 ImageToolbox is a versatile image editing tool designed for efficient photo manipulation. It allows
-users to crop, apply filters, edit EXIF data, erase backgrounds, and even convert images to PDFs.
+users to crop, apply filters, edit EXIF data, erase backgrounds, and even enhance images with AI.
 Ideal for both photographers and developers, the tool offers a simple interface with powerful
 capabilities.
 
@@ -1076,7 +1076,7 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 # 📢 Contributors
 
 <a href="https://github.com/t8rin/imageresizer/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
+  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer"/>
 </a>
 
 # 🔒 Signing Certificate Hashes

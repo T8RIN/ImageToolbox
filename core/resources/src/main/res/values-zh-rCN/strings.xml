@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -1962,10 +1960,10 @@
     <string name="model_repainter">通过重新绘制瑕疵并改善图像一致性来修复损坏或不均匀的区域。</string>
     <string name="model_debandurh_fs_ultra_lite">轻量级去色带模型，以最小的性能成本去除色带。</string>
     <string name="model_jpeg_0_20">优化具有非常高的压缩伪影（0-20%质量）的图像，以提高清晰度。</string>
-    <string name="model_jpeg_20_40">增强具有较高压缩伪影（20-40%质量）的图像，恢复细节并减少噪声。</string>
-    <string name="model_jpeg_40_60">改善中等压缩（40-60%质量）的图像，平衡清晰度和平滑度。</string>
-    <string name="model_jpeg_60_80">使用轻度压缩（60-80%质量）优化图像，以增强细微细节和纹理。</string>
-    <string name="model_jpeg_80_100">略微增强接近无损图像（质量 80-100%），同时保留自然外观和细节。</string>
+    <string name="model_jpeg_20_40">优化具有较高压缩伪影（20-40%质量）的图像，恢复细节并减少噪声。</string>
+    <string name="model_jpeg_40_60">优化中等压缩（40-60%质量）的图像，平衡清晰度和平滑度。</string>
+    <string name="model_jpeg_60_80">优化轻度压缩（60-80%质量）的图像，以增强细微细节和纹理。</string>
+    <string name="model_jpeg_80_100">优化接近无损图像（质量 80-100%），同时保留自然外观和细节。</string>
     <string name="model_deblr">略微减少图像模糊，提高清晰度而不引入伪影。</string>
     <string name="processing_channel">长时间运行的操作</string>
     <string name="processing_image">处理图像</string>
@@ -1982,7 +1980,7 @@
     <string name="model_sbdv_dejpeg">去除JPEG压缩伪影并恢复压缩照片的图像质量。</string>
     <string name="model_iso_denoise_v1">降低在低光条件下拍摄的照片中的ISO噪点，同时保留细节。</string>
     <string name="model_dejumbo">修正曝光过度或“巨大”的高光，并恢复更好的色调平衡。</string>
-    <string name="model_ddcolor_tiny">轻量级且快速的彩色化模型，为灰度图像添加自然色彩。</string>
+    <string name="model_ddcolor_tiny">轻量级且快速的着色模型，为灰度图像添加自然色彩。</string>
     <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">降噪</string>
     <string name="type_colorize">着色</string>
@@ -1991,36 +1989,36 @@
     <string name="type_anime">动漫</string>
     <string name="type_scans">扫描</string>
     <string name="type_upscale">放大</string>
-    <string name="model_realesrgan_x4v3">通用图像的X4放大器；体积小巧的模型，使用更少的GPU和更短的时间，具有适度的去模糊和去噪功能。</string>
-    <string name="model_realesrgan_x2plus">通用图像的X2放大器，保留纹理和自然细节。</string>
-    <string name="model_realesrgan_x4plus">通用图像的X4放大器，增强纹理和逼真效果。</string>
-    <string name="model_realesrgan_x4plus_anime">为动漫图像优化的X4上采样器；6个RRDB块，使线条更清晰，细节更丰富。</string>
-    <string name="model_realesrnet_x4plus">带有MSE损失的X4上采样器，为普通图像生成更平滑的结果并减少伪影。</string>
-    <string name="type_removebg">移除背景</string>
-    <string name="horizontal_border_thickness">水平边界厚度</string>
-    <string name="vertical_border_thickness">垂直边界厚度</string>
-    <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡性能和准确性。适用于肖像、物体和场景。建议用于大多数用例。</string>
-    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快更小的GPU在使用更少GPU内存的同时保留细节。</string>
-    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2模型，适用于一般图像；强调锐度和清晰度。</string>
-    <string name="model_realesrgan_x4plus_anime_4b32f">X4 Upscaler针对动漫图像进行了优化；4B32F变体，细节更清晰，线条流畅。</string>
-    <string name="current_model_not_chunkable">当前模型不支持分块，图像将以原始尺寸处理，这可能会导致高内存消耗和低端设备问题</string>
-    <string name="chunking_disabled">禁用分块，图像将以原始尺寸进行处理，这可能会导致高内存消耗和低端设备的问题，但可能会给出更好的推理结果</string>
+    <string name="model_realesrgan_x4v3">适用于大多数图像的 X4 放大器；体积小巧的模型，使用更少的 GPU 和更短的时间，具有适度的去模糊和去噪功能。</string>
+    <string name="model_realesrgan_x2plus">适用于大多数图像的 X2 放大器，保留纹理和自然细节。</string>
+    <string name="model_realesrgan_x4plus">适用于大多数图像的 X4 放大器，有着增强的纹理和逼真的效果。</string>
+    <string name="model_realesrgan_x4plus_anime">为动漫图像优化的 X4 放大器；具有6个RRDB块，使线条更清晰，细节更丰富。</string>
+    <string name="model_realesrnet_x4plus">带有 MSE 损失的 X4 放大器，为普通图像生成更平滑的结果并减少伪影。</string>
+    <string name="type_removebg">抠图</string>
+    <string name="horizontal_border_thickness">水平边框厚度</string>
+    <string name="vertical_border_thickness">垂直边框厚度</string>
+    <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡速度与效果。适用于肖像、物体和场景­。大多数图像皆可使用。</string>
+    <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快且更小，在使用更少显存的同时保留细节。</string>
+    <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 模型，适用于一般图像；强调锐度和清晰度。</string>
+    <string name="model_realesrgan_x4plus_anime_4b32f">针对动漫图像进行了优化的 X4 放大器；4B32F 变体，细节更清晰，线条流畅。</string>
+    <string name="current_model_not_chunkable">当前模型不支持分块，图像将以原始尺寸处理，这可能会导致高内存消耗并且在低性能设备上产生问题</string>
+    <string name="chunking_disabled">禁用分块，图像将以原始尺寸进行处理，这可能会导致高内存消耗并在低性能设备上产生问题，但可能会给出更好的推理结果</string>
     <string name="chunking">分块</string>
-    <string name="model_u2net">高精度背景去除图像分割模型</string>
-    <string name="model_u2netp">U2Net 的轻量级版本，可以以更小的内存使用更快地去除背景。</string>
-    <string name="model_ddcolor">完整的 DDColor 模型可为一般图像提供高质量的彩色化，且伪影最少。所有着色模型的最佳选择。</string>
+    <string name="model_u2net">高精度抠图用图像分割模型</string>
+    <string name="model_u2netp">U2Net 的轻量级版本，使用更少内存并更快地去除背景。</string>
+    <string name="model_ddcolor">完整的 DDColor 模型可以很高的质量为大多数图像上色，且伪影最少。它是所有着色模型的最佳选择。</string>
     <string name="model_ddcolor_artistic">DDColor 训练有素的私人艺术数据集；产生多样化和艺术化的色彩结果，减少不切实际的色彩伪影。</string>
-    <string name="model_birefnet">基于 Swin Transformer 的轻量级 BiRefNet 模型，可实现准确的背景去除。</string>
-    <string name="model_inspyrenet">高质量的背景去除，具有锐利的边缘和出色的细节保留，尤其是在复杂的物体和棘手的背景上。</string>
-    <string name="model_isnet">背景去除模型可产生具有平滑边缘的精确掩模，适用于一般物体和适度的细节保留。</string>
+    <string name="model_birefnet">基于 Swin Transformer 的轻量级 BiRefNet 模型，可实现准确的抠图效果。</string>
+    <string name="model_inspyrenet">高质量的抠图效果，具有锐利的边缘和出色的细节保留能力，尤其对于复杂的物体和棘手的背景。</string>
+    <string name="model_isnet">抠图模型，可生成平滑的边缘与精确的蒙版，适用于一般物体并能适度保留细节。</string>
     <string name="model_already_downloaded">模型已下载</string>
     <string name="model_successfully_imported">模型导入成功</string>
     <string name="type">类型</string>
     <string name="keyword">关键词</string>
-    <string name="very_fast">非常快</string>
-    <string name="normal">普通的</string>
-    <string name="slow">慢的</string>
-    <string name="very_slow">非常慢</string>
+    <string name="very_fast">很快</string>
+    <string name="normal">正常</string>
+    <string name="slow">慢</string>
+    <string name="very_slow">很慢</string>
     <string name="compute_percents">计算百分比</string>
     <string name="minimum_value_is">最小值为 %1$s</string>
     <string name="warp_sub">用手指绘图扭曲图像</string>
@@ -2041,14 +2039,14 @@
     <string name="smooth_shapes">光滑的形状</string>
     <string name="smooth_shapes_sub">使用超椭圆代替标准圆角矩形以获得更平滑、更自然的形状</string>
     <string name="shape_type">形状类型</string>
-    <string name="cut">裁切</string>
+    <string name="cut">八角形角</string>
     <string name="rounded">圆润</string>
     <string name="smooth">光滑</string>
     <string name="cut_shapes_sub">边缘锐利，无圆角</string>
     <string name="rounded_shapes_sub">经典圆角</string>
     <string name="shapes_type">形状类型</string>
     <string name="corners_size">边角大小</string>
-    <string name="squircle">方圆形</string>
+    <string name="squircle">圆角矩形</string>
     <string name="squircle_shapes_sub">雅致的圆角UI元素</string>
     <string name="filename_format">文件名格式</string>
     <string name="prefix_pattern_description">自定义文本放置在文件名的开头，非常适合项目名称、品牌或个人标签。</string>
@@ -2061,8 +2059,8 @@
     <string name="scale_mode_pattern_description">显示处理过程中使用的图像缩放模式，帮助区分调整大小、裁剪或拟合的图像。</string>
     <string name="suffix_pattern_description">放置在文件名末尾的自定义文本，对于 _v2、_edited 或 _final 等版本控制很有用。</string>
     <string name="extension_pattern_description">文件扩展名（png、jpg、webp等），自动匹配实际保存格式。</string>
-    <string name="formatted_timestamp_pattern_description">可自定义的时间戳，让您可以通过 java 规范定义自己的格式以实现完美排序。</string>
-    <string name="fling_type">投掷型</string>
+    <string name="formatted_timestamp_pattern_description">可自定义的时间戳，让您可以通过 Java 规范定义自己的格式以实现完美排序。</string>
+    <string name="fling_type">滑动类型</string>
     <string name="android_native">安卓原生</string>
     <string name="ios_style">iOS风格</string>
     <string name="smooth_curve">平滑曲线</string>
@@ -2088,7 +2086,7 @@
     <string name="reduced_motion_sub">满足无障碍需求的最小运动</string>
     <string name="primary_lines">主要线路</string>
     <string name="primary_lines_sub">每五行添加较粗的线</string>
-    <string name="fill_color">填充颜​​色</string>
+    <string name="fill_color">填充颜色</string>
     <string name="hidden_tools">隐藏工具</string>
     <string name="hidden_for_share">隐藏共享工具</string>
 </resources>
