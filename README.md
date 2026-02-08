@@ -1076,7 +1076,7 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 # 📢 Contributors
 
 <a href="https://github.com/t8rin/imageresizer/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
+  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer"/>
 </a>
 
 # 🔒 Signing Certificate Hashes
