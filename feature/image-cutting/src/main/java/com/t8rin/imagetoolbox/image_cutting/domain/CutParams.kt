@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,29 @@ data class CutParams(
     }
 }
 
-data class PivotPair(
+class PivotPair(
     val start: Float,
-    val end: Float
-)
+    val end: Float,
+    val isRtl: Boolean = false
+) {
+    val startRtlAdjusted = if (isRtl) 1f - end else start
+    val endRtlAdjusted = if (isRtl) 1f - start else end
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PivotPair
+
+        if (start != other.start) return false
+        if (end != other.end) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = start.hashCode()
+        result = 31 * result + end.hashCode()
+        return result
+    }
+}

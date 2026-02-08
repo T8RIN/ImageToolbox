@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,13 +57,13 @@ internal class AndroidImageCutter @Inject constructor(
     ): Bitmap = withContext(defaultDispatcher) {
         runSuspendCatching {
             val verticalStart = params.vertical.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.start * image.width).roundToInt() }
+                ?.let { (it.startRtlAdjusted * image.width).roundToInt() }
             val verticalEnd = params.vertical.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.end * image.width).roundToInt() }
+                ?.let { (it.endRtlAdjusted * image.width).roundToInt() }
             val horizontalStart = params.horizontal.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.start * image.height).roundToInt() }
+                ?.let { (it.startRtlAdjusted * image.height).roundToInt() }
             val horizontalEnd = params.horizontal.takeIf { it != PivotPair(0f, 1f) }
-                ?.let { (it.end * image.height).roundToInt() }
+                ?.let { (it.endRtlAdjusted * image.height).roundToInt() }
 
             require(
                 (verticalStart == null || verticalStart in 0..image.width) &&

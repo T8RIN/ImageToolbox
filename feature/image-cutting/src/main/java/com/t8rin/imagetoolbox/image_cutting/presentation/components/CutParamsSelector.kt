@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
@@ -46,6 +48,7 @@ internal fun CutParamsSelector(
     onValueChange: (CutParams) -> Unit
 ) {
     val params by rememberUpdatedState(value)
+    val layoutDirection = LocalLayoutDirection.current
 
     Column {
         EnhancedRangeSliderItem(
@@ -61,7 +64,8 @@ internal fun CutParamsSelector(
                     params.copy(
                         vertical = PivotPair(
                             start = it.start,
-                            end = it.endInclusive
+                            end = it.endInclusive,
+                            isRtl = layoutDirection == LayoutDirection.Rtl
                         )
                     )
                 )
@@ -103,7 +107,8 @@ internal fun CutParamsSelector(
                     params.copy(
                         horizontal = PivotPair(
                             start = it.start,
-                            end = it.endInclusive
+                            end = it.endInclusive,
+                            isRtl = layoutDirection == LayoutDirection.Rtl
                         )
                     )
                 )
