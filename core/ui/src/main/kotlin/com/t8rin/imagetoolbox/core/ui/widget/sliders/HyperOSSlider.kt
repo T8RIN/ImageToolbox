@@ -53,6 +53,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
@@ -97,9 +99,18 @@ fun HyperOSSlider(
     }
 
     val shape = AutoCircleShape()
-    val calculateProgress = remember(minValue, maxValue, factor, stepSize) {
+
+    val layoutDirection = LocalLayoutDirection.current
+
+    val calculateProgress = remember(minValue, maxValue, factor, stepSize, layoutDirection) {
         { offset: Float, width: Int ->
-            var newValue = (offset / width) * (maxValue - minValue) + minValue
+            val normalizedOffset = if (layoutDirection == LayoutDirection.Rtl) {
+                width.toFloat() - offset
+            } else {
+                offset
+            }
+
+            var newValue = (normalizedOffset / width) * (maxValue - minValue) + minValue
             if (steps > 0) {
                 val snapped = ((newValue - minValue) / stepSize).roundToInt() * stepSize + minValue
                 newValue = snapped
@@ -115,24 +126,43 @@ fun HyperOSSlider(
             .then(
                 if (enabled) {
                     Modifier
-                        .pointerInput(Unit) {
+                        .pointerInput(calculateProgress) {
                             detectTapGestures { offset ->
-                                val calculatedValue = calculateProgress(offset.x, size.width)
+                                val adjustedOffset = if (layoutDirection == LayoutDirection.Rtl) {
+                                    Offset(size.width - offset.x, offset.y)
+                                } else {
+                                    offset
+                                }
+                                val calculatedValue =
+                                    calculateProgress(adjustedOffset.x, size.width)
                                 onValueChange(calculatedValue)
                                 onValueChangeFinished?.invoke()
                             }
                         }
-                        .pointerInput(Unit) {
+                        .pointerInput(calculateProgress) {
                             detectHorizontalDragGestures(
                                 onDragStart = { offset ->
                                     isDragging = true
-                                    dragOffset = offset.x
+                                    dragOffset = if (layoutDirection == LayoutDirection.Rtl) {
+                                        size.width.toFloat() - offset.x
+                                    } else {
+                                        offset.x
+                                    }
                                     val calculatedValue = calculateProgress(dragOffset, size.width)
                                     onValueChange(calculatedValue)
                                 },
                                 onHorizontalDrag = { _, dragAmount ->
+                                    val adjustedDragAmount =
+                                        if (layoutDirection == LayoutDirection.Rtl) {
+                                            -dragAmount
+                                        } else {
+                                            dragAmount
+                                        }
                                     dragOffset =
-                                        (dragOffset + dragAmount).coerceIn(0f, size.width.toFloat())
+                                        (dragOffset + adjustedDragAmount).coerceIn(
+                                            0f,
+                                            size.width.toFloat()
+                                        )
                                     val calculatedValue = calculateProgress(dragOffset, size.width)
                                     onValueChange(calculatedValue)
                                 },
@@ -187,6 +217,7 @@ fun HyperOSSlider(
             minValue = minValue,
             maxValue = maxValue,
             isDragging = isDragging,
+            layoutDirection = layoutDirection
         )
 
         if (steps > 0) {
@@ -210,10 +241,16 @@ fun HyperOSSlider(
                         else -> colors.inactiveTickColor.copy(alpha = 0.3f)
                     }
 
+                    val xPosition = if (layoutDirection == LayoutDirection.Rtl) {
+                        size.width - (i * stepSpacing)
+                    } else {
+                        i * stepSpacing
+                    }
+
                     drawCircle(
                         color = color,
                         radius = 1.dp.toPx(),
-                        center = Offset(i * stepSpacing, center.y)
+                        center = Offset(xPosition, center.y)
                     )
                 }
             }
@@ -251,6 +288,7 @@ fun HyperOSRangeSlider(
     var activeThumb by remember { mutableStateOf<Thumb?>(null) }
 
     val settingsState = LocalSettingsState.current
+    val layoutDirection = LocalLayoutDirection.current
 
     fun snapToStep(v: Float): Float {
         if (steps == 0) return v
@@ -299,8 +337,14 @@ fun HyperOSRangeSlider(
                             .pointerInput(Unit) {
                                 detectTapGestures { offset ->
                                     val width = size.width
+                                    val normalizedOffset =
+                                        if (layoutDirection == LayoutDirection.Rtl) {
+                                            width.toFloat() - offset.x
+                                        } else {
+                                            offset.x
+                                        }
                                     val tappedValue =
-                                        ((offset.x / width) * (maxValue - minValue) + minValue).coerceIn(
+                                        ((normalizedOffset / width) * (maxValue - minValue) + minValue).coerceIn(
                                             minValue,
                                             maxValue
                                         )
@@ -329,12 +373,21 @@ fun HyperOSRangeSlider(
                                 detectHorizontalDragGestures(
                                     onDragStart = { offset ->
                                         val width = size.width
-                                        val startX =
-                                            ((startRaw - minValue) / (maxValue - minValue)) * width
-                                        val endX =
-                                            ((endRaw - minValue) / (maxValue - minValue)) * width
+                                        val startNormalized =
+                                            if (layoutDirection == LayoutDirection.Rtl) {
+                                                width.toFloat() - ((startRaw - minValue) / (maxValue - minValue)) * width
+                                            } else {
+                                                ((startRaw - minValue) / (maxValue - minValue)) * width
+                                            }
+                                        val endNormalized =
+                                            if (layoutDirection == LayoutDirection.Rtl) {
+                                                width.toFloat() - ((endRaw - minValue) / (maxValue - minValue)) * width
+                                            } else {
+                                                ((endRaw - minValue) / (maxValue - minValue)) * width
+                                            }
+
                                         activeThumb =
-                                            if (abs(offset.x - startX) < abs(offset.x - endX)) Thumb.Start else Thumb.End
+                                            if (abs(offset.x - startNormalized) < abs(offset.x - endNormalized)) Thumb.Start else Thumb.End
 
                                         if (activeThumb == Thumb.Start) {
                                             startInteractionSource.tryEmit(
@@ -352,8 +405,14 @@ fun HyperOSRangeSlider(
                                     },
                                     onHorizontalDrag = { _, dragAmount ->
                                         val width = size.width
+                                        val adjustedDragAmount =
+                                            if (layoutDirection == LayoutDirection.Rtl) {
+                                                -dragAmount
+                                            } else {
+                                                dragAmount
+                                            }
                                         val deltaValue =
-                                            (dragAmount / width) * (maxValue - minValue)
+                                            (adjustedDragAmount / width) * (maxValue - minValue)
                                         when (activeThumb) {
                                             Thumb.Start -> {
                                                 startRaw = snapToStep(
@@ -402,18 +461,40 @@ fun HyperOSRangeSlider(
         ) {
             val barWidth = size.width
             val barHeight = size.height
-            val startX = (start - minValue) / (maxValue - minValue) * barWidth
-            val endX = (end - minValue) / (maxValue - minValue) * barWidth
+
+            val startX = if (layoutDirection == LayoutDirection.Rtl) {
+                barWidth - ((start - minValue) / (maxValue - minValue) * barWidth)
+            } else {
+                (start - minValue) / (maxValue - minValue) * barWidth
+            }
+
+            val endX = if (layoutDirection == LayoutDirection.Rtl) {
+                barWidth - ((end - minValue) / (maxValue - minValue) * barWidth)
+            } else {
+                (end - minValue) / (maxValue - minValue) * barWidth
+            }
 
             drawRect(
                 color = sliderColors.backgroundColor(),
                 size = Size(barWidth, barHeight)
             )
 
+            val rectStartX = if (layoutDirection == LayoutDirection.Rtl) {
+                minOf(startX, endX)
+            } else {
+                startX
+            }
+
+            val rectWidth = if (layoutDirection == LayoutDirection.Rtl) {
+                abs(endX - startX)
+            } else {
+                endX - startX
+            }
+
             drawRect(
                 color = sliderColors.foregroundColor(enabled),
-                topLeft = Offset(startX, center.y - barHeight / 2),
-                size = Size(endX - startX, barHeight)
+                topLeft = Offset(rectStartX, center.y - barHeight / 2),
+                size = Size(rectWidth, barHeight)
             )
 
             if (steps > 0) {
@@ -429,17 +510,22 @@ fun HyperOSRangeSlider(
                             .copy(alpha = 0.3f)
                     }
 
+                    val xPosition = if (layoutDirection == LayoutDirection.Rtl) {
+                        barWidth - (i * stepSpacing)
+                    } else {
+                        i * stepSpacing
+                    }
+
                     drawCircle(
                         color = color,
                         radius = barHeight / 6,
-                        center = Offset(i * stepSpacing, center.y)
+                        center = Offset(xPosition, center.y)
                     )
                 }
             }
         }
     }
 }
-
 
 private enum class Thumb { Start, End }
 
@@ -454,6 +540,7 @@ private fun SliderTrack(
     minValue: Float,
     maxValue: Float,
     isDragging: Boolean,
+    layoutDirection: LayoutDirection
 ) {
     val backgroundAlpha by animateFloatAsState(
         targetValue = if (isDragging) 0.044f else 0f,
@@ -467,13 +554,25 @@ private fun SliderTrack(
     ) {
         val barHeight = size.height
         val barWidth = size.width
-        val progressWidth = barWidth * ((progress - minValue) / (maxValue - minValue))
+
+        val progressWidth = if (layoutDirection == LayoutDirection.Rtl) {
+            barWidth * ((maxValue - progress) / (maxValue - minValue))
+        } else {
+            barWidth * ((progress - minValue) / (maxValue - minValue))
+        }
+
         val cornerRadius = CornerRadius.Zero
+
+        val rectStartX = if (layoutDirection == LayoutDirection.Rtl) {
+            barWidth - progressWidth
+        } else {
+            0f
+        }
 
         drawRoundRect(
             color = foregroundColor,
             size = Size(progressWidth, barHeight),
-            topLeft = Offset(0f, center.y - barHeight / 2),
+            topLeft = Offset(rectStartX, center.y - barHeight / 2),
             cornerRadius = cornerRadius
         )
     }
