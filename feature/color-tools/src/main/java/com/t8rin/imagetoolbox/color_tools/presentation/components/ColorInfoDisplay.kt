@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,18 +159,7 @@ fun ColorInfoDisplay(
             value = name,
             onValueChange = { newName ->
                 name = newName
-                onValueChange(
-                    ColorNameParser.parseColorFromName(newName)
-                        .sortedBy { it.name.length }
-                        .run {
-                            find {
-                                it.name.equals(
-                                    other = newName,
-                                    ignoreCase = true
-                                )
-                            }?.color ?: firstOrNull()?.color ?: Color.Black
-                        }
-                )
+                onValueChange(ColorNameParser.parseColorFromNameSingle(newName))
             },
             onCopy = onCopy,
             modifier = Modifier.fillMaxWidth(),

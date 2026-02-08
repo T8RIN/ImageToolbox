@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.app.presentation.components
 
 import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWriter
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initAI
+import com.t8rin.imagetoolbox.app.presentation.components.functions.initColorNames
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initQrScanner
 import com.t8rin.imagetoolbox.app.presentation.components.functions.injectBaseComponent
@@ -56,6 +57,7 @@ class ImageToolboxApplication : ComposeApplication() {
         initAppContext()
         initOpenCV()
         initAI()
+        initColorNames()
         initQrScanner()
         attachLogWriter()
         applyGlobalExceptionHandler()
