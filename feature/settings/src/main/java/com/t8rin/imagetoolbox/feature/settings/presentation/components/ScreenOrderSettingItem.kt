@@ -39,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -69,11 +70,19 @@ fun ScreenOrderSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val screenList by remember(settingsState.screenList) {
+    val screenList by remember(settingsState.screenList, settingsState.favoriteScreenList) {
         derivedStateOf {
-            settingsState.screenList.mapNotNull {
+            val fav = settingsState.favoriteScreenList.mapNotNull {
                 Screen.entries.find { s -> s.id == it }
-            }.takeIf { it.isNotEmpty() } ?: Screen.entries
+            }
+
+            val other = settingsState.screenList.mapNotNull {
+                Screen.entries.find { s -> s.id == it }
+            }.ifEmpty { Screen.entries }.filter {
+                it !in fav
+            }
+
+            fav.plus(other)
         }
     }
     var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
@@ -120,7 +129,7 @@ fun ScreenOrderSettingItem(
         },
         sheetContent = {
             Box {
-                val data = remember { mutableStateOf(screenList) }
+                val data = remember(screenList) { mutableStateOf(screenList) }
                 val listState = rememberLazyListState()
                 val haptics = LocalHapticFeedback.current
                 val state = rememberReorderableLazyListState(
@@ -167,6 +176,9 @@ fun ScreenOrderSettingItem(
                                 subtitle = stringResource(screen.subtitle),
                                 startIcon = screen.icon,
                                 endIcon = Icons.Rounded.DragHandle,
+                                containerColor = if (screen.id in settingsState.favoriteScreenList) {
+                                    MaterialTheme.colorScheme.secondaryContainer
+                                } else Color.Unspecified,
                                 shape = ShapeDefaults.byIndex(
                                     index = index,
                                     size = data.value.size
