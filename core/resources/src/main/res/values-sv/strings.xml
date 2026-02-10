@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -1353,8 +1351,8 @@
     <string name="harmony_complementary">Komplementär</string>
     <string name="harmony_analogous">Analog</string>
     <string name="harmony_triadic">Triadisk</string>
-    <string name="harmony_split_complementary">Split Kompletterande</string>
-    <string name="harmony_tetradic">tetradisk</string>
+    <string name="harmony_split_complementary">Dela Kompletterande</string>
+    <string name="harmony_tetradic">Tetradisk</string>
     <string name="harmony_square">Fyrkant</string>
     <string name="harmony_analogous_complementary">Analog + Komplementär</string>
     <string name="color_tools">Färgverktyg</string>
@@ -1372,7 +1370,7 @@
     <string name="cannot_use_monet_while_dynamic_colors_applied">Det går inte att använda monet när dynamiska färger är aktiverade</string>
     <string name="lut512x512">512x512 2D LUT</string>
     <string name="target_lut_image">Mål LUT-bild</string>
-    <string name="amatorka">En amatör</string>
+    <string name="amatorka">Amatör</string>
     <string name="miss_etikate">Fröken Etikett</string>
     <string name="soft_elegance">Mjuk elegans</string>
     <string name="soft_elegance_variant">Mjuk elegansvariant</string>
