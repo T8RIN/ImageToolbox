@@ -146,6 +146,7 @@ private fun WarpMode.title(): Int = when (this) {
     WarpMode.SHRINK -> R.string.warp_mode_shrink
     WarpMode.SWIRL_CW -> R.string.warp_mode_swirl_cw
     WarpMode.SWIRL_CCW -> R.string.warp_mode_swirl_ccw
+    WarpMode.MIXING -> R.string.mix
 }
 
 @Composable
