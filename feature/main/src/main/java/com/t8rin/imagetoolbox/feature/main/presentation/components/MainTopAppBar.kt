@@ -186,7 +186,7 @@ private fun PinShortcutButton() {
                 derivedStateOf {
                     settingsState.screenList.mapNotNull {
                         Screen.entries.find { s -> s.id == it }
-                    }.takeIf { it.isNotEmpty() } ?: Screen.entries
+                    }.distinctBy { it.id }.ifEmpty { Screen.entries }
                 }
             }
 

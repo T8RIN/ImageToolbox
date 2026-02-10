@@ -82,7 +82,7 @@ fun ScreenOrderSettingItem(
                 it !in fav
             }
 
-            fav.plus(other)
+            fav.plus(other).distinctBy { it.id }
         }
     }
     var showArrangementSheet by rememberSaveable { mutableStateOf(false) }
