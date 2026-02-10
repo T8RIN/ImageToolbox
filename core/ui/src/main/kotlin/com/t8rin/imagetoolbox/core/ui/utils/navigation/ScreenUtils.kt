@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FileImage
+import com.t8rin.imagetoolbox.core.resources.icons.FormatPaintVariant
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -89,6 +90,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Cipher
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
@@ -193,6 +195,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is WallpapersExport -> "Wallpapers_Export"
     is AsciiArt -> "Ascii_Art"
     is AiTools -> "Ai_Tools"
+    is ColorLibrary -> "ColorLibrary"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -246,6 +249,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.Outlined.Neurology
+    is ColorLibrary -> Icons.Outlined.FormatPaintVariant
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -299,6 +303,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is WallpapersExport -> Icons.Outlined.WallpaperAlt
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.TwoTone.Neurology
+    is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -386,6 +391,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     DocumentScanner,
                     ScanQrCode(),
                     ColorTools,
+                    ColorLibrary,
                     GifTools(),
                     Cipher(),
                     ChecksumTools(),
@@ -407,5 +413,5 @@ private object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 81
+    override val FEATURES_COUNT = 82
 }

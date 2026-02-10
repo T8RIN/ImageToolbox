@@ -823,6 +823,13 @@ sealed class Screen(
         subtitle = R.string.ai_tools_sub
     )
 
+    @Serializable
+    data object ColorLibrary : Screen(
+        id = 43,
+        title = R.string.color_library,
+        subtitle = R.string.color_library_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 }
 

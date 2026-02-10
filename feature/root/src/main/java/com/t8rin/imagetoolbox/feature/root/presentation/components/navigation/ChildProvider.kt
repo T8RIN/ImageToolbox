@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components.navigation
 
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
+import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
@@ -63,6 +64,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Cipher
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CollageMaker
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorLibrary
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Compare
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
@@ -170,6 +172,7 @@ internal class ChildProvider @Inject constructor(
     private val wallpapersExportComponentFactory: WallpapersExportComponent.Factory,
     private val asciiArtComponentFactory: AsciiArtComponent.Factory,
     private val aiToolsComponentFactory: AiToolsComponent.Factory,
+    private val colorLibraryComponentFactory: ColorLibraryComponent.Factory
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -602,6 +605,13 @@ internal class ChildProvider @Inject constructor(
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.ColorLibrary -> ColorLibrary(
+            colorLibraryComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
             )
         )
     }

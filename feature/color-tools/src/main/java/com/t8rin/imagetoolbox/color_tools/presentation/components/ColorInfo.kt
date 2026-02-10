@@ -72,7 +72,8 @@ internal fun ColorInfo(
         visibleContent = {
             TitleItem(
                 text = stringResource(R.string.color_info),
-                icon = Icons.Rounded.Info
+                icon = Icons.Rounded.Info,
+                modifier = Modifier.padding(12.dp)
             )
         },
         expandableContent = {

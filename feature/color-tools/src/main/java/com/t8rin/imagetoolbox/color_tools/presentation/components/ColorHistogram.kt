@@ -53,7 +53,8 @@ internal fun ColorHistogram() {
         visibleContent = {
             TitleItem(
                 text = stringResource(R.string.histogram),
-                icon = Icons.Rounded.AreaChart
+                icon = Icons.Rounded.AreaChart,
+                modifier = Modifier.padding(12.dp)
             )
         },
         expandableContent = {

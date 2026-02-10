@@ -43,7 +43,7 @@ class ColorToolsComponent @AssistedInject internal constructor(
     val selectedColor: Color by _selectedColor
 
     private val _isPinned = fileController.savable(
-        delay = 600,
+        delay = 750,
         scope = componentScope,
         initial = false,
         key = "ColorToolsComponent"

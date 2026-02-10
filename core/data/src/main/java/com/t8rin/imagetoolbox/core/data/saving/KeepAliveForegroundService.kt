@@ -25,6 +25,8 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
@@ -61,7 +63,10 @@ internal class KeepAliveForegroundService : Service() {
     ): Int {
         if (intent == null) {
             startForeground()
-            stopForegroundSafe()
+            Handler(Looper.getMainLooper()).postDelayed(
+                ::stopForegroundSafe,
+                1000
+            )
             return START_NOT_STICKY
         }
 
@@ -92,7 +97,10 @@ internal class KeepAliveForegroundService : Service() {
                     EXTRA_REMOVE_NOTIFICATION, true
                 ).makeLog("KeepAliveForegroundService")
 
-                stopForegroundSafe()
+                Handler(Looper.getMainLooper()).postDelayed(
+                    ::stopForegroundSafe,
+                    1000
+                )
             }
 
             else -> startForeground()
@@ -100,7 +108,7 @@ internal class KeepAliveForegroundService : Service() {
     }
 
     private fun startForeground() {
-        runCatching {
+        val action = {
             ServiceCompat.startForeground(
                 this,
                 NOTIFICATION_ID,
@@ -111,7 +119,11 @@ internal class KeepAliveForegroundService : Service() {
                     0
                 }
             )
+        }
+        runCatching {
+            action()
         }.onFailure {
+            action()
             it.makeLog()
             "startForeground failed".makeLog("KeepAliveForegroundService")
         }
@@ -179,8 +191,10 @@ internal class KeepAliveForegroundService : Service() {
             .setOngoing(true)
             .setContentIntent(contentPendingIntent)
             .build()
-            .also {
-                notificationManager.notify(NOTIFICATION_ID, it)
+            .also { notification ->
+                runCatching {
+                    notificationManager.notify(NOTIFICATION_ID, notification)
+                }.onFailure { it.makeLog("KeepAliveForegroundService") }
             }
     }
 

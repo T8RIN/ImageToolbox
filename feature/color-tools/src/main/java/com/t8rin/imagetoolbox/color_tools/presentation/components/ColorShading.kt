@@ -103,7 +103,8 @@ internal fun ColorShading(
         visibleContent = {
             TitleItem(
                 text = stringResource(R.string.color_shading),
-                icon = Icons.Rounded.Swatch
+                icon = Icons.Rounded.Swatch,
+                modifier = Modifier.padding(12.dp)
             )
         },
         expandableContent = {

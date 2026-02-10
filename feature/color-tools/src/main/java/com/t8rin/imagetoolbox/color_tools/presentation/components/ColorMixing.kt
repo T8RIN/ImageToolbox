@@ -96,7 +96,8 @@ internal fun ColorMixing(
         visibleContent = {
             TitleItem(
                 text = stringResource(R.string.color_mixing),
-                icon = Icons.Rounded.Blender
+                icon = Icons.Rounded.Blender,
+                modifier = Modifier.padding(12.dp)
             )
         },
         expandableContent = {
