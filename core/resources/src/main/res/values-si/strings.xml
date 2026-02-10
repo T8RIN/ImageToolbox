@@ -2093,4 +2093,6 @@
     <string name="fill_color">වර්ණ පුරවන්න</string>
     <string name="hidden_tools">සැඟවුණු මෙවලම්</string>
     <string name="hidden_for_share">බෙදාගැනීම සඳහා සැඟවුණු මෙවලම්</string>
+    <string name="color_library">වර්ණ පුස්තකාලය</string>
+    <string name="color_library_sub">විශාල වර්ණ එකතුවක් පිරික්සන්න</string>
 </resources>

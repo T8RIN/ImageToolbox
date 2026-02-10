@@ -2092,4 +2092,6 @@
     <string name="fill_color">Color de relleno</string>
     <string name="hidden_tools">Herramientas ocultas</string>
     <string name="hidden_for_share">Herramientas ocultas para compartir</string>
+    <string name="color_library">Biblioteca de colores</string>
+    <string name="color_library_sub">Explora una amplia colección de colores</string>
 </resources>

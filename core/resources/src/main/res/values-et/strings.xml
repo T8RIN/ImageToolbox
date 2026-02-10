@@ -2092,4 +2092,6 @@
     <string name="fill_color">Täitevärv</string>
     <string name="hidden_tools">Peidetud tööriistad</string>
     <string name="hidden_for_share">Jagamiseks peidetud tööriistad</string>
+    <string name="color_library">Värviteek</string>
+    <string name="color_library_sub">Sirvige suurt värvikogu</string>
 </resources>

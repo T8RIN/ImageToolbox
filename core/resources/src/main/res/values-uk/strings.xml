@@ -2094,4 +2094,6 @@
     <string name="fill_color">Колір заливки</string>
     <string name="hidden_tools">Приховані інструменти</string>
     <string name="hidden_for_share">Інструменти, приховані для спільного використання</string>
+    <string name="color_library">Бібліотека кольорів</string>
+    <string name="color_library_sub">Перегляньте величезну колекцію кольорів</string>
 </resources>

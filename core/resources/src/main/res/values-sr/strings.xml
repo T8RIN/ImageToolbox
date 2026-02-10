@@ -2093,4 +2093,6 @@
     <string name="fill_color">Филл Цолор</string>
     <string name="hidden_tools">Скривени алати</string>
     <string name="hidden_for_share">Алати скривени за дељење</string>
+    <string name="color_library">Библиотека боја</string>
+    <string name="color_library_sub">Прегледајте огромну колекцију боја</string>
 </resources>

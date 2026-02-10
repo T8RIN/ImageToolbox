@@ -2092,4 +2092,6 @@
     <string name="fill_color">Color de farciment</string>
     <string name="hidden_tools">Eines ocultes</string>
     <string name="hidden_for_share">Eines amagades per compartir</string>
+    <string name="color_library">Biblioteca de colors</string>
+    <string name="color_library_sub">Exploreu una àmplia col·lecció de colors</string>
 </resources>

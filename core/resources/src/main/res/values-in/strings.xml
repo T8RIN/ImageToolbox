@@ -2091,4 +2091,6 @@
     <string name="fill_color">Isi Warna</string>
     <string name="hidden_tools">Alat Tersembunyi</string>
     <string name="hidden_for_share">Alat Tersembunyi Untuk Dibagikan</string>
+    <string name="color_library">Perpustakaan Warna</string>
+    <string name="color_library_sub">Jelajahi banyak koleksi warna</string>
 </resources>

@@ -2091,4 +2091,6 @@
     <string name="fill_color">เติมสี</string>
     <string name="hidden_tools">เครื่องมือที่ซ่อนอยู่</string>
     <string name="hidden_for_share">เครื่องมือที่ซ่อนอยู่เพื่อการแบ่งปัน</string>
+    <string name="color_library">ห้องสมุดสี</string>
+    <string name="color_library_sub">เรียกดูคอลเลกชันสีที่หลากหลาย</string>
 </resources>

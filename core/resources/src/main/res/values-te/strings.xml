@@ -2092,4 +2092,6 @@
     <string name="fill_color">రంగును పూరించండి</string>
     <string name="hidden_tools">దాచిన సాధనాలు</string>
     <string name="hidden_for_share">భాగస్వామ్యం కోసం దాచబడిన సాధనాలు</string>
+    <string name="color_library">రంగు లైబ్రరీ</string>
+    <string name="color_library_sub">రంగుల విస్తారమైన సేకరణను బ్రౌజ్ చేయండి</string>
 </resources>

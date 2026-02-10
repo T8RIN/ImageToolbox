@@ -2092,4 +2092,6 @@
     <string name="fill_color">Füllfarbe</string>
     <string name="hidden_tools">Versteckte Werkzeuge</string>
     <string name="hidden_for_share">Zum Teilen ausgeblendete Tools</string>
+    <string name="color_library">Farbbibliothek</string>
+    <string name="color_library_sub">Stöbern Sie in einer riesigen Farbkollektion</string>
 </resources>

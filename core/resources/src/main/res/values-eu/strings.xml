@@ -2092,4 +2092,6 @@
     <string name="fill_color">Bete kolorea</string>
     <string name="hidden_tools">Ezkutuko Tresnak</string>
     <string name="hidden_for_share">Partekatzeko ezkutatuta dauden tresnak</string>
+    <string name="color_library">Kolore Liburutegia</string>
+    <string name="color_library_sub">Arakatu kolore bilduma zabala</string>
 </resources>

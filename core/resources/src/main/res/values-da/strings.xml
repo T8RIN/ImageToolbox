@@ -2092,4 +2092,6 @@
     <string name="fill_color">Fyld farve</string>
     <string name="hidden_tools">Skjulte værktøjer</string>
     <string name="hidden_for_share">Værktøjer skjult til deling</string>
+    <string name="color_library">Farvebibliotek</string>
+    <string name="color_library_sub">Gennemse en stor samling af farver</string>
 </resources>

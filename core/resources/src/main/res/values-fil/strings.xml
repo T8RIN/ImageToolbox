@@ -2092,4 +2092,6 @@
     <string name="fill_color">Kulay ng Punan</string>
     <string name="hidden_tools">Mga Nakatagong Tool</string>
     <string name="hidden_for_share">Mga Tool na Nakatago Para Ibahagi</string>
+    <string name="color_library">Library ng Kulay</string>
+    <string name="color_library_sub">Mag-browse ng malawak na koleksyon ng mga kulay</string>
 </resources>

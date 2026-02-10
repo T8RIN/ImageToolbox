@@ -2092,4 +2092,6 @@
     <string name="fill_color">رەڭنى تولدۇرۇڭ</string>
     <string name="hidden_tools">يوشۇرۇن قوراللار</string>
     <string name="hidden_for_share">ئورتاقلىشىش ئۈچۈن يوشۇرۇنغان قوراللار</string>
+    <string name="color_library">رەڭلىك كۇتۇپخانا</string>
+    <string name="color_library_sub">كەڭ رەڭلەرنى كۆرۈڭ</string>
 </resources>

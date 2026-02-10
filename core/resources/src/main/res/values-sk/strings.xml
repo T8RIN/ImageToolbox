@@ -2094,4 +2094,6 @@
     <string name="fill_color">Farba výplne</string>
     <string name="hidden_tools">Skryté nástroje</string>
     <string name="hidden_for_share">Nástroje skryté na zdieľanie</string>
+    <string name="color_library">Farebná knižnica</string>
+    <string name="color_library_sub">Prezrite si rozsiahlu kolekciu farieb</string>
 </resources>

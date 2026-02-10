@@ -2091,4 +2091,6 @@
     <string name="fill_color">채우기 색상</string>
     <string name="hidden_tools">숨겨진 도구</string>
     <string name="hidden_for_share">공유를 위해 숨겨진 도구</string>
+    <string name="color_library">컬러 라이브러리</string>
+    <string name="color_library_sub">다양한 색상 컬렉션을 살펴보세요</string>
 </resources>

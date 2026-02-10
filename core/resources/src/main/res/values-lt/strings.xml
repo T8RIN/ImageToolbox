@@ -2095,4 +2095,6 @@
     <string name="fill_color">Užpildymo spalva</string>
     <string name="hidden_tools">Paslėpti įrankiai</string>
     <string name="hidden_for_share">Įrankiai, paslėpti bendrinimui</string>
+    <string name="color_library">Spalvų biblioteka</string>
+    <string name="color_library_sub">Naršykite didelę spalvų kolekciją</string>
 </resources>

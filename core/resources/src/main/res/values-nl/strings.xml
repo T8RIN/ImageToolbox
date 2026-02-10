@@ -2092,4 +2092,6 @@
     <string name="fill_color">Vulkleur</string>
     <string name="hidden_tools">Verborgen hulpmiddelen</string>
     <string name="hidden_for_share">Hulpmiddelen verborgen om te delen</string>
+    <string name="color_library">Kleurenbibliotheek</string>
+    <string name="color_library_sub">Blader door een uitgebreide collectie kleuren</string>
 </resources>

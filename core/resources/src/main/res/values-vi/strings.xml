@@ -2091,4 +2091,6 @@
     <string name="fill_color">Tô màu</string>
     <string name="hidden_tools">Công cụ ẩn</string>
     <string name="hidden_for_share">Công cụ ẩn để chia sẻ</string>
+    <string name="color_library">Thư viện màu</string>
+    <string name="color_library_sub">Duyệt qua một bộ sưu tập lớn các màu sắc</string>
 </resources>

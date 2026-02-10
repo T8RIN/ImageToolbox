@@ -2094,4 +2094,6 @@
     <string name="fill_color">צבע מילוי</string>
     <string name="hidden_tools">כלים נסתרים</string>
     <string name="hidden_for_share">כלים מוסתרים לשיתוף</string>
+    <string name="color_library">ספריית צבע</string>
+    <string name="color_library_sub">עיין באוסף עצום של צבעים</string>
 </resources>

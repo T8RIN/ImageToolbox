@@ -2091,4 +2091,6 @@
     <string name="fill_color">填充颜​​色</string>
     <string name="hidden_tools">隐藏工具</string>
     <string name="hidden_for_share">隐藏共享工具</string>
+    <string name="color_library">颜色库</string>
+    <string name="color_library_sub">浏览大量颜色</string>
 </resources>

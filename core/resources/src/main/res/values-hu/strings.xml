@@ -2092,4 +2092,6 @@
     <string name="fill_color">Kitöltés színe</string>
     <string name="hidden_tools">Rejtett eszközök</string>
     <string name="hidden_for_share">Megosztáshoz rejtett eszközök</string>
+    <string name="color_library">Színes könyvtár</string>
+    <string name="color_library_sub">Böngésszen a színek hatalmas gyűjteményében</string>
 </resources>

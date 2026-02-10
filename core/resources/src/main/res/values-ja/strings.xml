@@ -2091,4 +2091,6 @@
     <string name="fill_color">塗りつぶしの色</string>
     <string name="hidden_tools">隠しツール</string>
     <string name="hidden_for_share">共有用に非表示になっているツール</string>
+    <string name="color_library">カラーライブラリ</string>
+    <string name="color_library_sub">膨大な色のコレクションを閲覧する</string>
 </resources>

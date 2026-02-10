@@ -2092,4 +2092,6 @@
     <string name="fill_color">रंग भरना</string>
     <string name="hidden_tools">छिपे हुए उपकरण</string>
     <string name="hidden_for_share">साझा करने के लिए छिपे हुए उपकरण</string>
+    <string name="color_library">रंग पुस्तकालय</string>
+    <string name="color_library_sub">रंगों का विशाल संग्रह ब्राउज़ करें</string>
 </resources>

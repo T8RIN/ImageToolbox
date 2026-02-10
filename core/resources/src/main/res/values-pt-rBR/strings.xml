@@ -2092,4 +2092,6 @@
     <string name="fill_color">Cor de preenchimento</string>
     <string name="hidden_tools">Ferramentas ocultas</string>
     <string name="hidden_for_share">Ferramentas ocultas para compartilhamento</string>
+    <string name="color_library">Biblioteca de cores</string>
+    <string name="color_library_sub">Navegue por uma vasta coleção de cores</string>
 </resources>

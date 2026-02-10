@@ -2093,4 +2093,6 @@
     <string name="fill_color">Culoare de umplere</string>
     <string name="hidden_tools">Instrumente ascunse</string>
     <string name="hidden_for_share">Instrumente ascunse pentru distribuire</string>
+    <string name="color_library">Biblioteca de culori</string>
+    <string name="color_library_sub">Răsfoiți o colecție vastă de culori</string>
 </resources>

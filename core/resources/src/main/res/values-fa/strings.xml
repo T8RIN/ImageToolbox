@@ -2092,4 +2092,6 @@
     <string name="fill_color">رنگ را پر کنید</string>
     <string name="hidden_tools">ابزارهای پنهان</string>
     <string name="hidden_for_share">ابزارهای پنهان برای اشتراک گذاری</string>
+    <string name="color_library">کتابخانه رنگ</string>
+    <string name="color_library_sub">مجموعه گسترده ای از رنگ ها را مرور کنید</string>
 </resources>

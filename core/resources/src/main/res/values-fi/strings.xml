@@ -2092,4 +2092,6 @@
     <string name="fill_color">Täyttöväri</string>
     <string name="hidden_tools">Piilotetut työkalut</string>
     <string name="hidden_for_share">Työkalut Piilotettu jakaa varten</string>
+    <string name="color_library">Värikirjasto</string>
+    <string name="color_library_sub">Selaa laajaa värivalikoimaa</string>
 </resources>

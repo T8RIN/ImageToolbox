@@ -2092,4 +2092,6 @@
     <string name="fill_color">ਰੰਗ ਭਰੋ</string>
     <string name="hidden_tools">ਲੁਕਵੇਂ ਟੂਲ</string>
     <string name="hidden_for_share">ਸ਼ੇਅਰ ਲਈ ਲੁਕੇ ਹੋਏ ਟੂਲ</string>
+    <string name="color_library">ਰੰਗ ਲਾਇਬ੍ਰੇਰੀ</string>
+    <string name="color_library_sub">ਰੰਗਾਂ ਦਾ ਇੱਕ ਵਿਸ਼ਾਲ ਸੰਗ੍ਰਹਿ ਬ੍ਰਾਊਜ਼ ਕਰੋ</string>
 </resources>

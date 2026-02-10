@@ -2092,4 +2092,6 @@
     <string name="fill_color">நிறத்தை நிரப்பவும்</string>
     <string name="hidden_tools">மறைக்கப்பட்ட கருவிகள்</string>
     <string name="hidden_for_share">பகிர்வுக்காக மறைக்கப்பட்ட கருவிகள்</string>
+    <string name="color_library">வண்ண நூலகம்</string>
+    <string name="color_library_sub">வண்ணங்களின் பரந்த தொகுப்பை உலாவவும்</string>
 </resources>

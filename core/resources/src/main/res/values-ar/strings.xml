@@ -2096,4 +2096,6 @@
     <string name="fill_color">لون التعبئة</string>
     <string name="hidden_tools">الأدوات المخفية</string>
     <string name="hidden_for_share">أدوات مخفية للمشاركة</string>
+    <string name="color_library">مكتبة الألوان</string>
+    <string name="color_library_sub">تصفح مجموعة واسعة من الألوان</string>
 </resources>

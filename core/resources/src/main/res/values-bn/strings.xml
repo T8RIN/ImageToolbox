@@ -2092,4 +2092,6 @@
     <string name="fill_color">রঙ পূরণ করুন</string>
     <string name="hidden_tools">লুকানো টুলস</string>
     <string name="hidden_for_share">শেয়ারের জন্য লুকানো টুল</string>
+    <string name="color_library">রঙিন গ্রন্থাগার</string>
+    <string name="color_library_sub">রঙের একটি বিশাল সংগ্রহ ব্রাউজ করুন</string>
 </resources>

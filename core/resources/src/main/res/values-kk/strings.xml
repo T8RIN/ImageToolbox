@@ -2092,4 +2092,6 @@
     <string name="fill_color">Түсті толтыру</string>
     <string name="hidden_tools">Жасырын құралдар</string>
     <string name="hidden_for_share">Бөлісу үшін жасырылған құралдар</string>
+    <string name="color_library">Түстер кітапханасы</string>
+    <string name="color_library_sub">Түстердің кең жиынтығын шолыңыз</string>
 </resources>

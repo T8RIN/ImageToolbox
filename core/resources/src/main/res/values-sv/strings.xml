@@ -2093,4 +2093,6 @@
     <string name="fill_color">Fyllningsfärg</string>
     <string name="hidden_tools">Dolda verktyg</string>
     <string name="hidden_for_share">Verktyg dolda för delning</string>
+    <string name="color_library">Färgbibliotek</string>
+    <string name="color_library_sub">Bläddra i en stor samling färger</string>
 </resources>
