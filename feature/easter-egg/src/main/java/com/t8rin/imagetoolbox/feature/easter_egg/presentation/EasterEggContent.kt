@@ -113,7 +113,7 @@ fun EasterEggContent(
     }
 
     LaunchedEffect(Unit) {
-        while (true) {
+        while (isActive) {
             delay(700)
             if (counter.value > 10) counter.value = 0
             emojiData[counter.value] = allEmojis.random().toString()
