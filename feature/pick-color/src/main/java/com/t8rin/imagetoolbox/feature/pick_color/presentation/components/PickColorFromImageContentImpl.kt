@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -182,7 +183,9 @@ internal fun PickColorFromImageContentImpl(
                 }
             }
         } ?: Column(
-            modifier = Modifier.enhancedVerticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .fillMaxWidth()
+                .enhancedVerticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ImageNotPickedWidget(
