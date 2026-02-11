@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("KotlinConstantConditions")
+@file:Suppress("KotlinConstantConditions", "COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.easter_egg.presentation
 
@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -117,37 +119,41 @@ fun EasterEggContent(
 
     val painter = painterResource(R.drawable.ic_launcher_foreground)
 
-    Column(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-    ) {
-        EnhancedTopAppBar(
-            title = {
-                Row(modifier = Modifier.marquee()) {
-                    emojiData.forEach { emoji ->
-                        EmojiItem(
-                            emoji = emoji,
-                            fontScale = 1f
+            .background(MaterialTheme.colorScheme.surface),
+        topBar = {
+            EnhancedTopAppBar(
+                title = {
+                    Row(modifier = Modifier.marquee()) {
+                        emojiData.forEach { emoji ->
+                            EmojiItem(
+                                emoji = emoji,
+                                fontScale = 1f
+                            )
+                        }
+                    }
+                },
+                navigationIcon = {
+                    EnhancedIconButton(
+                        onClick = component.onGoBack
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.exit)
                         )
                     }
-                }
-            },
-            navigationIcon = {
-                EnhancedIconButton(
-                    onClick = component.onGoBack
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = stringResource(R.string.exit)
-                    )
-                }
-            },
-            type = EnhancedTopAppBarType.Center
-        )
-
+                },
+                type = EnhancedTopAppBarType.Center
+            )
+        },
+        contentWindowInsets = WindowInsets()
+    ) { contentPadding ->
         BoxWithConstraints(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
         ) {
             val width = this.constraints.maxWidth
             val height = constraints.maxHeight

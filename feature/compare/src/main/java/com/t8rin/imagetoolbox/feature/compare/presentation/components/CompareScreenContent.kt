@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -106,9 +107,15 @@ internal fun CompareScreenContent(
     onPixelByPixelCompareStateChange: (PixelByPixelCompareState) -> Unit,
     imagePicker: ImagePicker,
     isLabelsEnabled: Boolean,
-    createPixelByPixelTransformation: () -> Transformation
+    createPixelByPixelTransformation: () -> Transformation,
+    contentPadding: PaddingValues
 ) {
-    AnimatedContent(bitmapData == null) { noData ->
+    AnimatedContent(
+        targetState = bitmapData == null,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)
+    ) { noData ->
         bitmapData.takeIf { !noData }?.let { bitmapPair ->
             var showOneTimeImagePickingDialog by rememberSaveable {
                 mutableStateOf(false)
@@ -475,7 +482,10 @@ internal fun CompareScreenContent(
                 visible = showOneTimeImagePickingDialog
             )
         } ?: Column(
-            modifier = Modifier.enhancedVerticalScroll(rememberScrollState())
+            modifier = Modifier
+                .fillMaxWidth()
+                .enhancedVerticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ImageNotPickedWidget(
                 onPickImage = imagePicker::pickImage,

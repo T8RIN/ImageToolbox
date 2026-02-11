@@ -47,6 +47,7 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -172,62 +173,64 @@ fun FullscreenEditOption(
                         sheetShape = RectangleShape,
                         sheetSwipeEnabled = sheetSwipeEnabled,
                         sheetContent = {
-                            Column(
+                            Scaffold(
                                 modifier = modifier
                                     .heightIn(max = screenHeight * 0.7f)
-                                    .clearFocusOnTap()
-                            ) {
-                                val scope = rememberCoroutineScope()
-                                Box(
-                                    modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
-                                        scope.launch {
-                                            scaffoldState.bottomSheetState.partialExpand()
+                                    .clearFocusOnTap(),
+                                topBar = {
+                                    val scope = rememberCoroutineScope()
+                                    Box(
+                                        modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
+                                            scope.launch {
+                                                scaffoldState.bottomSheetState.partialExpand()
+                                            }
                                         }
-                                    }
-                                ) {
-                                    BottomAppBar(
-                                        modifier = Modifier.drawHorizontalStroke(true),
-                                        actions = {
-                                            actions()
-                                            if (showControls) {
-                                                EnhancedIconButton(
-                                                    onClick = {
-                                                        scope.launch {
-                                                            if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                                                scaffoldState.bottomSheetState.partialExpand()
-                                                            } else {
-                                                                scaffoldState.bottomSheetState.expand()
+                                    ) {
+                                        BottomAppBar(
+                                            modifier = Modifier.drawHorizontalStroke(true),
+                                            actions = {
+                                                actions()
+                                                if (showControls) {
+                                                    EnhancedIconButton(
+                                                        onClick = {
+                                                            scope.launch {
+                                                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                                                    scaffoldState.bottomSheetState.partialExpand()
+                                                                } else {
+                                                                    scaffoldState.bottomSheetState.expand()
+                                                                }
                                                             }
                                                         }
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.Tune,
+                                                            contentDescription = stringResource(R.string.properties)
+                                                        )
                                                     }
+                                                }
+                                            },
+                                            floatingActionButton = {
+                                                Row(
+                                                    horizontalArrangement = Arrangement.spacedBy(
+                                                        8.dp,
+                                                        Alignment.CenterHorizontally
+                                                    ),
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    Icon(
-                                                        imageVector = Icons.Rounded.Tune,
-                                                        contentDescription = stringResource(R.string.properties)
-                                                    )
+                                                    if (fabButtons != null) {
+                                                        fabButtons()
+                                                    }
                                                 }
                                             }
-                                        },
-                                        floatingActionButton = {
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(
-                                                    8.dp,
-                                                    Alignment.CenterHorizontally
-                                                ),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                if (fabButtons != null) {
-                                                    fabButtons()
-                                                }
-                                            }
-                                        }
-                                    )
+                                        )
+                                    }
                                 }
+                            ) { contentPadding ->
                                 if (showControls) {
                                     Column(
                                         modifier = Modifier
                                             .enhancedVerticalScroll(rememberScrollState())
-                                            .navigationBarsPadding(),
+                                            .padding(contentPadding),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         ProvideContainerDefaults(
@@ -246,78 +249,85 @@ fun FullscreenEditOption(
                         }
                     )
                 } else {
-                    topAppBar {
-                        EnhancedIconButton(
-                            onClick = internalOnDismiss
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = stringResource(R.string.close)
-                            )
-                        }
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            Modifier
-                                .container(
-                                    shape = RectangleShape,
-                                    resultPadding = 0.dp
-                                )
-                                .weight(0.8f)
-                                .fillMaxHeight()
-                                .clipToBounds()
-                        ) {
-                            content()
-                        }
-
-                        if (showControls) {
-                            Column(
-                                modifier = Modifier
-                                    .weight(0.7f)
-                                    .clearFocusOnTap()
-                                    .enhancedVerticalScroll(rememberScrollState())
-                                    .then(
-                                        if (fabButtons == null) {
-                                            Modifier.padding(
-                                                end = WindowInsets.displayCutout
-                                                    .asPaddingValues()
-                                                    .calculateEndPadding(direction)
-                                            )
-                                        } else Modifier
-                                    ),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                ProvideContainerDefaults(
-                                    color = MaterialTheme.colorScheme.surfaceContainerLowest
+                    Scaffold(
+                        topBar = {
+                            topAppBar {
+                                EnhancedIconButton(
+                                    onClick = internalOnDismiss
                                 ) {
-                                    controls(null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Close,
+                                        contentDescription = stringResource(R.string.close)
+                                    )
                                 }
                             }
-                        }
-                        fabButtons?.let {
-                            Column(
+                        },
+                        contentWindowInsets = WindowInsets()
+                    ) { contentPadding ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(contentPadding)
+                        ) {
+                            Box(
                                 Modifier
                                     .container(
                                         shape = RectangleShape,
                                         resultPadding = 0.dp
                                     )
-                                    .padding(horizontal = 20.dp)
-                                    .padding(
-                                        end = WindowInsets.displayCutout
-                                            .asPaddingValues()
-                                            .calculateEndPadding(direction)
-                                    )
+                                    .weight(0.8f)
                                     .fillMaxHeight()
-                                    .navigationBarsPadding(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(
-                                    8.dp,
-                                    Alignment.CenterVertically
-                                )
+                                    .clipToBounds()
                             ) {
-                                it()
+                                content()
+                            }
+
+                            if (showControls) {
+                                Column(
+                                    modifier = Modifier
+                                        .weight(0.7f)
+                                        .clearFocusOnTap()
+                                        .enhancedVerticalScroll(rememberScrollState())
+                                        .then(
+                                            if (fabButtons == null) {
+                                                Modifier.padding(
+                                                    end = WindowInsets.displayCutout
+                                                        .asPaddingValues()
+                                                        .calculateEndPadding(direction)
+                                                )
+                                            } else Modifier
+                                        ),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    ProvideContainerDefaults(
+                                        color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                    ) {
+                                        controls(null)
+                                    }
+                                }
+                            }
+                            fabButtons?.let {
+                                Column(
+                                    Modifier
+                                        .container(
+                                            shape = RectangleShape,
+                                            resultPadding = 0.dp
+                                        )
+                                        .padding(horizontal = 20.dp)
+                                        .padding(
+                                            end = WindowInsets.displayCutout
+                                                .asPaddingValues()
+                                                .calculateEndPadding(direction)
+                                        )
+                                        .fillMaxHeight()
+                                        .navigationBarsPadding(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(
+                                        8.dp,
+                                        Alignment.CenterVertically
+                                    )
+                                ) {
+                                    it()
+                                }
                             }
                         }
                     }

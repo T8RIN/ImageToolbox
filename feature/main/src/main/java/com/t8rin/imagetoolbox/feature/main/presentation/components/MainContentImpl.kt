@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -127,32 +129,73 @@ internal fun MainContentImpl(
             )
         }
 
-        Column(
+        Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            val colorScheme = MaterialTheme.colorScheme
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                val colorScheme = MaterialTheme.colorScheme
 
-            var key by remember {
-                mutableStateOf(colorScheme.primary)
-            }
+                var key by remember {
+                    mutableStateOf(colorScheme.primary)
+                }
 
-            LaunchedEffect(colorScheme) {
-                delay(200)
-                key = colorScheme.primary
-            }
+                LaunchedEffect(colorScheme) {
+                    delay(200)
+                    key = colorScheme.primary
+                }
 
-            if (showSnowfall) {
-                key(key) {
+                if (showSnowfall) {
+                    key(key) {
+                        topBar()
+                    }
+                } else {
                     topBar()
                 }
-            } else {
-                topBar()
-            }
-
+            },
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = !isGrid || sheetExpanded || (showScreenSearch && canSearchScreens),
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    AnimatedContent(
+                        targetState = settingsState.groupOptionsByTypes to (showScreenSearch && canSearchScreens),
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) { (groupOptionsByTypes, searching) ->
+                        if (groupOptionsByTypes && !searching) {
+                            MainNavigationBar(
+                                selectedIndex = selectedNavigationItem,
+                                onValueChange = { selectedNavigationItem = it }
+                            )
+                        } else if (!searching) {
+                            MainNavigationBarForFavorites(
+                                selectedIndex = selectedNavigationItem,
+                                onValueChange = { selectedNavigationItem = it }
+                            )
+                        } else {
+                            SearchableBottomBar(
+                                searching = true,
+                                updateAvailable = isUpdateAvailable,
+                                onTryGetUpdate = onTryGetUpdate,
+                                screenSearchKeyword = screenSearchKeyword,
+                                onUpdateSearch = {
+                                    screenSearchKeyword = it
+                                },
+                                onCloseSearch = {
+                                    showScreenSearch = false
+                                }
+                            )
+                        }
+                    }
+                }
+            },
+            contentWindowInsets = WindowInsets()
+        ) { contentPadding ->
             Row(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding)
             ) {
                 val showNavRail =
                     isGrid && screenSearchKeyword.isEmpty() && !sheetExpanded
@@ -194,42 +237,6 @@ internal fun MainContentImpl(
                     onNavigationBarItemChange = { selectedNavigationItem = it },
                     onToggleFavorite = onToggleFavorite
                 )
-            }
-
-            AnimatedVisibility(
-                visible = !isGrid || sheetExpanded || (showScreenSearch && canSearchScreens),
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                AnimatedContent(
-                    targetState = settingsState.groupOptionsByTypes to (showScreenSearch && canSearchScreens),
-                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                ) { (groupOptionsByTypes, searching) ->
-                    if (groupOptionsByTypes && !searching) {
-                        MainNavigationBar(
-                            selectedIndex = selectedNavigationItem,
-                            onValueChange = { selectedNavigationItem = it }
-                        )
-                    } else if (!searching) {
-                        MainNavigationBarForFavorites(
-                            selectedIndex = selectedNavigationItem,
-                            onValueChange = { selectedNavigationItem = it }
-                        )
-                    } else {
-                        SearchableBottomBar(
-                            searching = true,
-                            updateAvailable = isUpdateAvailable,
-                            onTryGetUpdate = onTryGetUpdate,
-                            screenSearchKeyword = screenSearchKeyword,
-                            onUpdateSearch = {
-                                screenSearchKeyword = it
-                            },
-                            onCloseSearch = {
-                                showScreenSearch = false
-                            }
-                        )
-                    }
-                }
             }
         }
     }

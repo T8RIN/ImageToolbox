@@ -22,7 +22,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -65,7 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 
 @Composable
-internal fun ColumnScope.PickColorFromImageContentImpl(
+internal fun PickColorFromImageContentImpl(
     bitmap: Bitmap?,
     isPortrait: Boolean,
     panEnabled: Boolean,
@@ -74,12 +74,15 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
     magnifierButton: @Composable () -> Unit,
     switch: @Composable () -> Unit,
     onOneTimePickImage: () -> Unit,
-    color: Color
+    color: Color,
+    contentPadding: PaddingValues
 ) {
     val settingsState = LocalSettingsState.current
 
     Box(
-        modifier = Modifier.weight(1f)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)
     ) {
         bitmap?.let {
             if (isPortrait) {
@@ -178,7 +181,10 @@ internal fun ColumnScope.PickColorFromImageContentImpl(
                     }
                 }
             }
-        } ?: Column(Modifier.enhancedVerticalScroll(rememberScrollState())) {
+        } ?: Column(
+            modifier = Modifier.enhancedVerticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             ImageNotPickedWidget(
                 onPickImage = onPickImage,
                 modifier = Modifier

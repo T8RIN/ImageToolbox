@@ -51,6 +51,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -170,141 +171,146 @@ fun ImagePreviewContent(
                 mutableStateOf(false)
             }
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                EnhancedTopAppBar(
-                    type = EnhancedTopAppBarType.Large,
-                    scrollBehavior = scrollBehavior,
-                    title = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.marquee()
-                        ) {
-                            Text(
-                                text = stringResource(R.string.image_preview)
-                            )
-                            AnimatedVisibility(!component.uris.isNullOrEmpty()) {
-                                EnhancedBadge(
-                                    content = {
-                                        val prefix = if (isLoadingImages) "~" else ""
-                                        Text(
-                                            text = "$prefix${component.uris.orEmpty().size}"
-                                        )
-                                    },
-                                    containerColor = MaterialTheme.colorScheme.tertiary,
-                                    contentColor = MaterialTheme.colorScheme.onTertiary,
-                                    modifier = Modifier
-                                        .padding(horizontal = 2.dp)
-                                        .padding(bottom = 12.dp)
-                                        .scaleOnTap {
-                                            showConfetti()
-                                        }
-                                )
-                            }
-                        }
-                    },
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = component.onGoBack
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
-                            )
-                        }
-                    },
-                    actions = {
-                        val isCanClear = selectedUris.isNotEmpty()
-                        val isCanSelectAll =
-                            component.uris?.size != selectedUris.size && component.uris != null
-
-                        AnimatedContent(
-                            targetState = (!isCanSelectAll && !isCanClear) to selectedUris.isEmpty(),
-                            modifier = Modifier.size(40.dp)
-                        ) { (notSelection, haveUris) ->
-                            if (notSelection && haveUris) {
-                                TopAppBarEmoji()
-                            } else if (haveUris) {
-                                SortButton(
-                                    modifier = Modifier.size(40.dp),
-                                    iconSize = 24.dp,
-                                    containerColor = Color.Transparent,
-                                    contentColor = MaterialTheme.colorScheme.onSurface,
-                                    onSortTypeSelected = { sortType ->
-                                        component.asyncUpdateUris(
-                                            onFinish = { gridInvalidations++ },
-                                            action = {
-                                                it.orEmpty().sortedByType(
-                                                    sortType = sortType
-                                                )
-                                            }
-                                        )
-                                    }
-                                )
-                            }
-                        }
-
-                        AnimatedVisibility(
-                            visible = isCanSelectAll && isCanClear,
-                            enter = fadeIn() + scaleIn() + expandHorizontally(),
-                            exit = fadeOut() + scaleOut() + shrinkHorizontally()
-                        ) {
-                            EnhancedIconButton(
-                                onClick = {
-                                    component.updateImageFrames(ImageFrames.All)
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.SelectAll,
-                                    contentDescription = "Select All"
-                                )
-                            }
-                        }
-
-                        AnimatedVisibility(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .container(
-                                    shape = ShapeDefaults.circle,
-                                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                                    resultPadding = 0.dp
-                                ),
-                            visible = isCanClear
-                        ) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    EnhancedTopAppBar(
+                        type = EnhancedTopAppBarType.Large,
+                        scrollBehavior = scrollBehavior,
+                        title = {
                             Row(
-                                modifier = Modifier.padding(start = 12.dp),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                                modifier = Modifier.marquee()
                             ) {
-                                Spacer(Modifier.width(8.dp))
                                 Text(
-                                    text = selectedUris.size.toString(),
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Medium
+                                    text = stringResource(R.string.image_preview)
                                 )
-                                EnhancedIconButton(
-                                    onClick = {
-                                        component.updateImageFrames(
-                                            ImageFrames.ManualSelection(emptyList())
-                                        )
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Close,
-                                        contentDescription = stringResource(R.string.close)
+                                AnimatedVisibility(!component.uris.isNullOrEmpty()) {
+                                    EnhancedBadge(
+                                        content = {
+                                            val prefix = if (isLoadingImages) "~" else ""
+                                            Text(
+                                                text = "$prefix${component.uris.orEmpty().size}"
+                                            )
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.tertiary,
+                                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .padding(bottom = 12.dp)
+                                            .scaleOnTap {
+                                                showConfetti()
+                                            }
                                     )
                                 }
                             }
+                        },
+                        navigationIcon = {
+                            EnhancedIconButton(
+                                onClick = component.onGoBack
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
+                            }
+                        },
+                        actions = {
+                            val isCanClear = selectedUris.isNotEmpty()
+                            val isCanSelectAll =
+                                component.uris?.size != selectedUris.size && component.uris != null
+
+                            AnimatedContent(
+                                targetState = (!isCanSelectAll && !isCanClear) to selectedUris.isEmpty(),
+                                modifier = Modifier.size(40.dp)
+                            ) { (notSelection, haveUris) ->
+                                if (notSelection && haveUris) {
+                                    TopAppBarEmoji()
+                                } else if (haveUris) {
+                                    SortButton(
+                                        modifier = Modifier.size(40.dp),
+                                        iconSize = 24.dp,
+                                        containerColor = Color.Transparent,
+                                        contentColor = MaterialTheme.colorScheme.onSurface,
+                                        onSortTypeSelected = { sortType ->
+                                            component.asyncUpdateUris(
+                                                onFinish = { gridInvalidations++ },
+                                                action = {
+                                                    it.orEmpty().sortedByType(
+                                                        sortType = sortType
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+
+                            AnimatedVisibility(
+                                visible = isCanSelectAll && isCanClear,
+                                enter = fadeIn() + scaleIn() + expandHorizontally(),
+                                exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                            ) {
+                                EnhancedIconButton(
+                                    onClick = {
+                                        component.updateImageFrames(ImageFrames.All)
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.SelectAll,
+                                        contentDescription = "Select All"
+                                    )
+                                }
+                            }
+
+                            AnimatedVisibility(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .container(
+                                        shape = ShapeDefaults.circle,
+                                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                                        resultPadding = 0.dp
+                                    ),
+                                visible = isCanClear
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(start = 12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        text = selectedUris.size.toString(),
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            component.updateImageFrames(
+                                                ImageFrames.ManualSelection(emptyList())
+                                            )
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close)
+                                        )
+                                    }
+                                }
+                            }
                         }
-                    }
-                )
+                    )
+                },
+                contentWindowInsets = WindowInsets()
+            ) { contentPadding ->
                 AnimatedContent(
                     targetState = !component.uris.isNullOrEmpty() || isLoadingImages,
                     transitionSpec = {
                         fadeIn() togetherWith fadeOut()
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(contentPadding)
                 ) { canShowGrid ->
                     if (canShowGrid) {
                         Crossfade(gridInvalidations) { key ->

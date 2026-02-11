@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
@@ -43,6 +42,7 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -134,35 +134,38 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                     } else Modifier
                 )
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                EnhancedTopAppBar(
-                    type = if (collapseTopAppBarWhenHaveData && canShowScreenData) EnhancedTopAppBarType.Normal
-                    else EnhancedTopAppBarType.Large,
-                    scrollBehavior = scrollBehavior,
-                    title = title,
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = onGoBack
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
+            Scaffold(
+                topBar = {
+                    EnhancedTopAppBar(
+                        type = if (collapseTopAppBarWhenHaveData && canShowScreenData) EnhancedTopAppBarType.Normal
+                        else EnhancedTopAppBarType.Large,
+                        scrollBehavior = scrollBehavior,
+                        title = title,
+                        navigationIcon = {
+                            EnhancedIconButton(
+                                onClick = onGoBack
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
+                            }
+                        },
+                        actions = {
+                            if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions(
+                                scaffoldState
                             )
-                        }
-                    },
-                    actions = {
-                        if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions(
-                            scaffoldState
-                        )
-                        topAppBarPersistentActions(scaffoldState)
-                    },
-                )
-
+                            topAppBarPersistentActions(scaffoldState)
+                        },
+                    )
+                },
+                contentWindowInsets = WindowInsets()
+            ) { contentPadding ->
                 AnimatedContent(
                     targetState = canShowScreenData,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                        .fillMaxSize()
+                        .padding(contentPadding),
                     transitionSpec = {
                         fancySlideTransition(
                             isForward = targetState,
@@ -271,28 +274,35 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                     sheetShape = RectangleShape,
                     sheetSwipeEnabled = sheetSwipeEnabled,
                     sheetContent = {
-                        Column(
-                            Modifier
+                        Scaffold(
+                            modifier = Modifier
                                 .heightIn(max = screenHeight * 0.7f)
-                                .clearFocusOnTap()
-                        ) {
-                            val scope = rememberCoroutineScope()
-                            Box(
-                                modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
-                                    scope.launch {
-                                        scaffoldState.bottomSheetState.partialExpand()
+                                .clearFocusOnTap(),
+                            topBar = {
+                                val scope = rememberCoroutineScope()
+                                Box(
+                                    modifier = Modifier.onSwipeDown(!sheetSwipeEnabled) {
+                                        scope.launch {
+                                            scaffoldState.bottomSheetState.partialExpand()
+                                        }
+                                    }
+                                ) {
+                                    buttons {
+                                        actions(scaffoldState)
                                     }
                                 }
-                            ) {
-                                buttons {
-                                    actions(scaffoldState)
-                                }
-                            }
+                            },
+                            contentWindowInsets = WindowInsets()
+                        ) { contentPadding ->
                             ProvideContainerDefaults(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor
                             ) {
                                 val scrollState = rememberScrollState()
-                                Column(Modifier.enhancedVerticalScroll(scrollState)) {
+                                Column(
+                                    modifier = Modifier
+                                        .enhancedVerticalScroll(scrollState)
+                                        .padding(contentPadding)
+                                ) {
                                     controls(scaffoldState)
                                 }
                             }

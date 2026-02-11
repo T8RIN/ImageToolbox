@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.feature.pick_color.presentation
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -36,7 +37,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -134,20 +134,32 @@ fun PickColorFromImageContent(
     }
 
     Box {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            PickColorFromImageTopAppBar(
-                bitmap = component.bitmap,
-                scrollBehavior = scrollBehavior,
-                onGoBack = component.onGoBack,
-                isPortrait = isPortrait,
-                magnifierButton = magnifierButton,
-                color = component.color
-            )
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                PickColorFromImageTopAppBar(
+                    bitmap = component.bitmap,
+                    scrollBehavior = scrollBehavior,
+                    onGoBack = component.onGoBack,
+                    isPortrait = isPortrait,
+                    magnifierButton = magnifierButton,
+                    color = component.color
+                )
+            },
+            bottomBar = {
+                PickColorFromImageBottomAppBar(
+                    bitmap = component.bitmap,
+                    isPortrait = isPortrait,
+                    switch = switch,
+                    color = component.color,
+                    onPickImage = pickImage,
+                    onOneTimePickImage = { showOneTimeImagePickingDialog = true },
+                )
+            },
+            contentWindowInsets = WindowInsets()
+        ) { contentPadding ->
             PickColorFromImageContentImpl(
                 bitmap = component.bitmap,
                 isPortrait = isPortrait,
@@ -157,15 +169,8 @@ fun PickColorFromImageContent(
                 onOneTimePickImage = { showOneTimeImagePickingDialog = true },
                 magnifierButton = magnifierButton,
                 switch = switch,
-                color = component.color
-            )
-            PickColorFromImageBottomAppBar(
-                bitmap = component.bitmap,
-                isPortrait = isPortrait,
-                switch = switch,
                 color = component.color,
-                onPickImage = pickImage,
-                onOneTimePickImage = { showOneTimeImagePickingDialog = true },
+                contentPadding = contentPadding
             )
         }
 

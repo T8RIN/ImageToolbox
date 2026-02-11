@@ -56,6 +56,7 @@ import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -109,121 +110,125 @@ internal fun PdfToolsContentImpl(
     val selectAllToggle = remember { mutableStateOf(false) }
     val deselectAllToggle = remember { mutableStateOf(false) }
 
-    Column(Modifier.fillMaxSize()) {
-        EnhancedTopAppBar(
-            type = EnhancedTopAppBarType.Large,
-            scrollBehavior = scrollBehavior,
-            title = {
-                AnimatedContent(
-                    targetState = component.pdfType to component.pdfPreviewUri,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    modifier = Modifier.marquee()
-                ) { (pdfType, previewUri) ->
-                    Text(
-                        text = previewUri?.let {
-                            rememberFilename(it)
-                        } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            },
-            navigationIcon = {
-                EnhancedIconButton(
-                    onClick = onGoBack
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = stringResource(R.string.exit)
-                    )
-                }
-            },
-            actions = {
-                if (!isPortrait) {
-                    actionButtons(component.pdfType)
-                }
-                if (component.pdfType == null) {
-                    TopAppBarEmoji()
-                } else {
-                    val selectedPagesSize = component.pdfToImageState?.selectedPages?.size
-                    val visible by remember(
-                        component.pdfToImageState?.selectedPages,
-                        component.pdfType
-                    ) {
-                        derivedStateOf {
-                            (selectedPagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
-                        }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            EnhancedTopAppBar(
+                type = EnhancedTopAppBarType.Large,
+                scrollBehavior = scrollBehavior,
+                title = {
+                    AnimatedContent(
+                        targetState = component.pdfType to component.pdfPreviewUri,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                        modifier = Modifier.marquee()
+                    ) { (pdfType, previewUri) ->
+                        Text(
+                            text = previewUri?.let {
+                                rememberFilename(it)
+                            } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
+                            textAlign = TextAlign.Center
+                        )
                     }
-                    AnimatedVisibility(
-                        visible = component.pdfType is Screen.PdfTools.Type.PdfToImages && selectedPagesSize != component.pdfToImageState?.pagesCount,
-                        enter = fadeIn() + scaleIn() + expandHorizontally(),
-                        exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                },
+                navigationIcon = {
+                    EnhancedIconButton(
+                        onClick = onGoBack
                     ) {
-                        EnhancedIconButton(
-                            onClick = {
-                                selectAllToggle.value = true
-                            },
-                            enabled = component.pdfType != null
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.SelectAll,
-                                contentDescription = "Select All"
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.exit)
+                        )
                     }
-                    AnimatedVisibility(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .container(
-                                shape = ShapeDefaults.circle,
-                                color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                                resultPadding = 0.dp
-                            ),
-                        visible = visible
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+                },
+                actions = {
+                    if (!isPortrait) {
+                        actionButtons(component.pdfType)
+                    }
+                    if (component.pdfType == null) {
+                        TopAppBarEmoji()
+                    } else {
+                        val selectedPagesSize = component.pdfToImageState?.selectedPages?.size
+                        val visible by remember(
+                            component.pdfToImageState?.selectedPages,
+                            component.pdfType
                         ) {
-                            selectedPagesSize?.takeIf { it != 0 }?.let {
-                                Spacer(Modifier.width(8.dp))
-                                Text(
-                                    text = selectedPagesSize.toString(),
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Medium
-                                )
+                            derivedStateOf {
+                                (selectedPagesSize != 0 && component.pdfType is Screen.PdfTools.Type.PdfToImages)
                             }
+                        }
+                        AnimatedVisibility(
+                            visible = component.pdfType is Screen.PdfTools.Type.PdfToImages && selectedPagesSize != component.pdfToImageState?.pagesCount,
+                            enter = fadeIn() + scaleIn() + expandHorizontally(),
+                            exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                        ) {
                             EnhancedIconButton(
                                 onClick = {
-                                    deselectAllToggle.value = true
-                                }
+                                    selectAllToggle.value = true
+                                },
+                                enabled = component.pdfType != null
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Close,
-                                    contentDescription = stringResource(R.string.close)
+                                    imageVector = Icons.Outlined.SelectAll,
+                                    contentDescription = "Select All"
                                 )
                             }
                         }
-                    }
-
-                    if (canUseNewPdf()) {
                         AnimatedVisibility(
-                            visible = component.pdfType is Screen.PdfTools.Type.Preview
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .container(
+                                    shape = ShapeDefaults.circle,
+                                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                                    resultPadding = 0.dp
+                                ),
+                            visible = visible
                         ) {
-                            EnhancedIconButton(
-                                onClick = PdfViewerDelegate::toggleSearch
+                            Row(
+                                modifier = Modifier.padding(start = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
                             ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Search,
-                                    contentDescription = stringResource(R.string.search_here)
-                                )
+                                selectedPagesSize?.takeIf { it != 0 }?.let {
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        text = selectedPagesSize.toString(),
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                                EnhancedIconButton(
+                                    onClick = {
+                                        deselectAllToggle.value = true
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Close,
+                                        contentDescription = stringResource(R.string.close)
+                                    )
+                                }
+                            }
+                        }
+
+                        if (canUseNewPdf()) {
+                            AnimatedVisibility(
+                                visible = component.pdfType is Screen.PdfTools.Type.Preview
+                            ) {
+                                EnhancedIconButton(
+                                    onClick = PdfViewerDelegate::toggleSearch
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Search,
+                                        contentDescription = stringResource(R.string.search_here)
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
-        )
-
+            )
+        },
+        contentWindowInsets = WindowInsets()
+    ) { contentPadding ->
         val screenWidth = LocalScreenSize.current.widthPx
 
         AnimatedContent(
@@ -233,7 +238,8 @@ internal fun PdfToolsContentImpl(
                     screenWidthPx = screenWidth
                 )
             },
-            targetState = component.pdfType
+            targetState = component.pdfType,
+            modifier = Modifier.padding(contentPadding)
         ) { pdfType ->
             when (pdfType) {
                 null -> {
