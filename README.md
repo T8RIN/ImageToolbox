@@ -529,7 +529,7 @@ or click one of the badges below.
     - Spray
     - Neon
     - Highlighter
-    - Warp (Move, Grow, Shrink, Swirl)
+    - Warp (Move, Grow, Shrink, Swirl, Mix)
     - Privacy Blur
     - Pixelation Paint
     - Text
@@ -845,6 +845,7 @@ or click one of the badges below.
     - Harmonies
     - Shading
     - Tone Curves applying
+- Color Library with more than 33k different colors
 - Histograms
     - RGB
     - Brightness
