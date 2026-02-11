@@ -22,8 +22,9 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -32,12 +33,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,9 +52,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.parser.ColorNameParser
 import com.smarttoolfactory.colordetector.parser.ColorWithName
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.utils.animation.CombinedMutableInteractionSource
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -63,6 +70,8 @@ import kotlinx.coroutines.runBlocking
 @Composable
 internal fun ColorWithNameItem(
     colorWithName: ColorWithName,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -76,67 +85,107 @@ internal fun ColorWithNameItem(
         },
         darkMode = boxColor.luminance() < 0.3f
     )
-    val interactionSource = remember { MutableInteractionSource() }
+    val favoriteInteractionSource = remember { MutableInteractionSource() }
+    val copyInteractionSource = remember { MutableInteractionSource() }
+    val interactionSource = remember {
+        CombinedMutableInteractionSource(
+            favoriteInteractionSource,
+            copyInteractionSource
+        )
+    }
+
     val shape = shapeByInteraction(
         shape = ShapeDefaults.default,
         pressedShape = ShapeDefaults.pressed,
         interactionSource = interactionSource
     )
-    Box(
+    Column(
         modifier = modifier
-            .heightIn(min = 96.dp)
+            .heightIn(min = 100.dp)
             .fillMaxWidth()
             .clip(shape)
-            .transparencyChecker()
-            .background(boxColor)
-            .hapticsClickable(
-                indication = LocalIndication.current,
-                interactionSource = interactionSource,
-                onClick = onCopy
+            .then(
+                if (color.alpha < 1f) Modifier.transparencyChecker()
+                else Modifier
             )
+            .background(boxColor),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
-            imageVector = Icons.Rounded.ContentCopy,
-            contentDescription = stringResource(R.string.copy),
-            tint = contentColor,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(4.dp)
-                .size(28.dp)
-                .background(
-                    color = boxColor.copy(alpha = 1f),
-                    shape = ShapeDefaults.mini
-                )
-                .padding(4.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = color.toHex(),
+                color = contentColor,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .background(
+                        color = boxColor.copy(alpha = 1f),
+                        shape = ShapeDefaults.mini
+                    )
+                    .padding(horizontal = 4.dp),
+                fontSize = 12.sp
+            )
 
-        Text(
-            text = color.toHex(),
-            color = contentColor,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(4.dp)
-                .background(
-                    color = boxColor.copy(alpha = 1f),
-                    shape = ShapeDefaults.mini
-                )
-                .padding(horizontal = 4.dp),
-            fontSize = 12.sp
-        )
+            Icon(
+                imageVector = Icons.Rounded.ContentCopy,
+                contentDescription = stringResource(R.string.copy),
+                tint = contentColor.copy(0.8f),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(28.dp)
+                    .clip(ShapeDefaults.mini)
+                    .background(boxColor.copy(alpha = 1f))
+                    .hapticsClickable(
+                        indication = LocalIndication.current,
+                        interactionSource = copyInteractionSource,
+                        onClick = onCopy
+                    )
+                    .padding(4.dp)
+            )
+        }
 
-        Text(
-            text = name,
-            color = contentColor,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(4.dp)
-                .background(
-                    color = boxColor.copy(alpha = 1f),
-                    shape = ShapeDefaults.mini
-                )
-                .padding(horizontal = 4.dp),
-            fontSize = 12.sp
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Icon(
+                imageVector = if (isFavorite) {
+                    Icons.Rounded.BookmarkRemove
+                } else {
+                    Icons.Outlined.BookmarkBorder
+                },
+                contentDescription = stringResource(R.string.favorite),
+                tint = contentColor.copy(0.8f),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(28.dp)
+                    .clip(ShapeDefaults.mini)
+                    .background(boxColor.copy(alpha = 1f))
+                    .hapticsClickable(
+                        indication = LocalIndication.current,
+                        interactionSource = favoriteInteractionSource,
+                        onClick = onToggleFavorite
+                    )
+                    .padding(4.dp)
+            )
+
+            Text(
+                text = name,
+                color = contentColor,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .background(
+                        color = boxColor.copy(alpha = 1f),
+                        shape = ShapeDefaults.mini
+                    )
+                    .padding(horizontal = 4.dp),
+                fontSize = 12.sp
+            )
+        }
     }
 }
 
@@ -151,8 +200,12 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
         ColorNameParser.colorNames.values.sortedBy { it.name }.toList()
     }
 
+    var fav by remember {
+        mutableStateOf(setOf<String>())
+    }
+
     LazyVerticalGrid(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         flingBehavior = enhancedFlingBehavior(),
@@ -161,7 +214,10 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
         items(colors) { colorWithName ->
             ColorWithNameItem(
                 colorWithName = colorWithName,
-                onCopy = {}
+                isFavorite = colorWithName.name in fav,
+                onToggleFavorite = { fav = fav.toggle(colorWithName.name) },
+                onCopy = {},
+                modifier = Modifier.animateItem()
             )
         }
     }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ fun RoundedTextField(
     loading: Boolean = false,
     supportingText: (@Composable (isError: Boolean) -> Unit)? = null,
     supportingTextVisible: Boolean = true,
-    endIcon: (@Composable () -> Unit)? = null,
+    endIcon: (@Composable (Boolean) -> Unit)? = null,
     formatText: String.() -> String = { this },
     textStyle: TextStyle = LocalTextStyle.current,
     onLoseFocusTransformation: String.() -> String = { this },
@@ -155,7 +155,7 @@ fun RoundedTextField(
     loading: Boolean = false,
     supportingText: (@Composable (isError: Boolean) -> Unit)? = null,
     supportingTextVisible: Boolean = true,
-    endIcon: (@Composable () -> Unit)? = null,
+    endIcon: (@Composable (Boolean) -> Unit)? = null,
     formatText: String.() -> String = { this },
     textStyle: TextStyle = LocalTextStyle.current,
     onLoseFocusTransformation: String.() -> String = { this },
@@ -246,7 +246,7 @@ fun RoundedTextField(
             readOnly = readOnly,
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
-            trailingIcon = endIcon,
+            trailingIcon = endIcon?.let { { it(focused) } },
             leadingIcon = startIcon,
             label = label,
             placeholder = hint,

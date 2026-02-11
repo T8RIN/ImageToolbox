@@ -18,11 +18,6 @@
 package com.t8rin.imagetoolbox.color_library.presentation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +44,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,11 +54,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -72,7 +72,9 @@ import com.smarttoolfactory.colordetector.util.ColorUtil
 import com.t8rin.imagetoolbox.color_library.presentation.components.ColorWithNameItem
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -94,6 +96,8 @@ fun ColorLibraryContent(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val colors = component.colors
     val searchKeyword = component.searchKeyword
+    val favoriteColors = component.favoriteColors
+    val settingsState = LocalSettingsState.current
 
     val copyColor: (Color) -> Unit = { color ->
         essentials.copyToClipboard(
@@ -105,6 +109,8 @@ fun ColorLibraryContent(
             message = R.string.color_copied
         )
     }
+
+    val focus = LocalFocusManager.current
 
     Scaffold(
         modifier = Modifier
@@ -136,55 +142,88 @@ fun ColorLibraryContent(
             )
         },
         bottomBar = {
+            var isSearching by rememberSaveable {
+                mutableStateOf(false)
+            }
             val insets = WindowInsets.navigationBars.union(
                 WindowInsets.displayCutout.only(
                     WindowInsetsSides.Horizontal
                 )
             )
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .drawHorizontalStroke(true)
-                    .background(
-                        MaterialTheme.colorScheme.surfaceContainer
-                    )
-                    .pointerInput(Unit) { detectTapGestures { } }
-                    .windowInsetsPadding(insets)
-                    .padding(16.dp)
-            ) {
-                ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                    RoundedTextField(
-                        maxLines = 1,
-                        hint = {
-                            Text(stringResource(id = R.string.search_here))
-                        },
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Search,
-                            autoCorrectEnabled = null
-                        ),
-                        value = searchKeyword,
-                        onValueChange = component::updateSearch,
-                        endIcon = {
-                            AnimatedVisibility(
-                                visible = searchKeyword.isNotEmpty(),
-                                enter = fadeIn() + scaleIn(),
-                                exit = fadeOut() + scaleOut()
-                            ) {
-                                EnhancedIconButton(
-                                    onClick = component::clearSearch,
-                                    modifier = Modifier.padding(end = 4.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Close,
-                                        contentDescription = stringResource(R.string.close),
-                                        tint = MaterialTheme.colorScheme.onSurface
-                                    )
-                                }
-                            }
-                        },
-                        shape = ShapeDefaults.circle
-                    )
+            AnimatedContent(
+                targetState = isSearching,
+                modifier = Modifier.fillMaxWidth()
+            ) { isSearch ->
+                if (isSearch) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainer
+                            )
+                            .pointerInput(Unit) { detectTapGestures { } }
+                            .windowInsetsPadding(insets)
+                            .padding(16.dp)
+                    ) {
+                        ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = {
+                                    Text(stringResource(id = R.string.search_here))
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                value = searchKeyword,
+                                onValueChange = component::updateSearch,
+                                endIcon = {
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            if (searchKeyword.isNotBlank()) {
+                                                component.clearSearch()
+                                            } else {
+                                                isSearching = false
+                                                focus.clearFocus()
+                                            }
+                                        },
+                                        modifier = Modifier.padding(end = 4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close),
+                                            tint = MaterialTheme.colorScheme.onSurface.copy(
+                                                if (it) 1f else 0.5f
+                                            )
+                                        )
+                                    }
+                                },
+                                shape = ShapeDefaults.circle
+                            )
+                        }
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .windowInsetsPadding(insets)
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        EnhancedFloatingActionButton(
+                            onClick = { isSearching = true },
+                            modifier = Modifier.align(
+                                settingsState.fabAlignment.takeIf { it != Alignment.BottomCenter }
+                                    ?: Alignment.BottomEnd
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -195,8 +234,9 @@ fun ColorLibraryContent(
         ) { isNotEmpty ->
             if (isNotEmpty) {
                 val reverseLayout = searchKeyword.isNotEmpty() && isKeyboardVisible
+
                 LazyVerticalGrid(
-                    contentPadding = contentPadding + PaddingValues(16.dp),
+                    contentPadding = contentPadding + PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(
                         space = 4.dp,
                         alignment = if (reverseLayout) {
@@ -210,10 +250,16 @@ fun ColorLibraryContent(
                     columns = GridCells.Adaptive(150.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(colors) { colorWithName ->
+                    items(
+                        items = colors,
+                        key = { it.toString() }
+                    ) { colorWithName ->
                         ColorWithNameItem(
+                            isFavorite = colorWithName.name in favoriteColors,
                             colorWithName = colorWithName,
-                            onCopy = { copyColor(colorWithName.color) }
+                            onToggleFavorite = { component.toggleFavoriteColor(colorWithName) },
+                            onCopy = { copyColor(colorWithName.color) },
+                            modifier = Modifier.animateItem()
                         )
                     }
                 }
