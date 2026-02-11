@@ -230,9 +230,9 @@ fun ColorLibraryContent(
         }
     ) { contentPadding ->
         AnimatedContent(
-            targetState = colors.isNotEmpty() to isSearching,
+            targetState = colors.isNotEmpty(),
             modifier = Modifier.fillMaxSize()
-        ) { (isNotEmpty, isSearch) ->
+        ) { isNotEmpty ->
             if (isNotEmpty) {
                 val reverseLayout = searchKeyword.isNotEmpty() && isKeyboardVisible
 
@@ -265,7 +265,7 @@ fun ColorLibraryContent(
                         )
                     }
                 }
-            } else if (isSearch) {
+            } else if (isSearching) {
                 Column(
                     modifier = Modifier
                         .padding(contentPadding)
