@@ -248,7 +248,7 @@ fun ColorLibraryContent(
                     ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     flingBehavior = enhancedFlingBehavior(),
-                    columns = GridCells.Adaptive(150.dp),
+                    columns = GridCells.Adaptive(180.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(
