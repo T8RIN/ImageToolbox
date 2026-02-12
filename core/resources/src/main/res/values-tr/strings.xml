@@ -2106,4 +2106,6 @@
     <string name="model_dat_3x">Orta düzeydeki genişletme ihtiyaçları için ideal olan gelişmiş transformatör mimarisini kullanan 3 kat ölçeklendirme.</string>
     <string name="model_dat_4x">Son teknoloji trafo ağıyla 4 kat yüksek kalite yükseltme, daha büyük ölçeklerde ince ayrıntıları korur.</string>
     <string name="model_nafnet_deblurring">Fotoğraflardan bulanıklığı/gürültüyü ve titremeyi giderir. Genel amaçlı ama fotoğraflarda en iyisi.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN bozulması için optimize edilmiş Swin2SR transformatörünü kullanarak düşük kaliteli görüntüleri geri yükler. Ağır sıkıştırma bozukluklarını düzeltmek ve ayrıntıları 4x ölçekte geliştirmek için idealdir.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN bozulması konusunda eğitilmiş SwinIR transformatörüyle 4 kat yükseltme. Fotoğraflar ve karmaşık sahnelerde daha keskin dokular ve daha doğal ayrıntılar için GAN\'ı kullanır.</string>
 </resources>

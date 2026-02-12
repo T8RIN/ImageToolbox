@@ -2108,4 +2108,6 @@
     <string name="model_dat_3x">הגדלה פי 3 באמצעות ארכיטקטורת שנאים מתקדמת, אידיאלית לצרכי הגדלה מתונים.</string>
     <string name="model_dat_4x">שיפוץ קנה מידה איכותי פי 4 עם רשת שנאים מתקדמת, משמרת פרטים עדינים בקנה מידה גדול יותר.</string>
     <string name="model_nafnet_deblurring">מסיר טשטוש/רעש ורעידות מתמונות. מטרה כללית אבל הכי טובה בתמונות.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">משחזר תמונות באיכות נמוכה באמצעות שנאי Swin2SR, מותאם לפירוק BSRGAN. נהדר לתיקון חפצי דחיסה כבדים ושיפור פרטים בקנה מידה פי 4.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">העלאת קנה מידה פי 4 עם שנאי SwinIR מאומן על השפלה של BSRGAN. משתמש ב-GAN למרקמים חדים יותר ופרטים טבעיים יותר בתמונות ובסצנות מורכבות.</string>
 </resources>

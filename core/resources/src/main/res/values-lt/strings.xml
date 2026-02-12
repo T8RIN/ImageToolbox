@@ -2109,4 +2109,6 @@
     <string name="model_dat_3x">3x padidinimas naudojant pažangią transformatoriaus architektūrą, idealiai tinka vidutinio dydžio padidinimo poreikiams.</string>
     <string name="model_dat_4x">4x aukštos kokybės padidinimas naudojant moderniausią transformatorių tinklą, išsaugo smulkias detales esant didesniam masteliui.</string>
     <string name="model_nafnet_deblurring">Pašalina nuotraukų susiliejimą/triukšmą ir drebėjimą. Bendra paskirtis, bet geriausia nuotraukose.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Atkuria žemos kokybės vaizdus naudojant Swin2SR transformatorių, optimizuotą BSRGAN degradacijai. Puikiai tinka tvirtinti stiprius suspaudimo artefaktus ir patobulinti detales 4 kartus.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x padidinimas naudojant SwinIR transformatorių, apmokytą BSRGAN degradacijai. Naudoja GAN, kad nuotraukose ir sudėtingose ​​scenose būtų ryškesnės tekstūros ir natūralesnės detalės.</string>
 </resources>

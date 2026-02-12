@@ -2107,4 +2107,6 @@
     <string name="model_dat_3x">3x uppskalning med avancerad transformatorarkitektur, perfekt för måttliga förstoringsbehov.</string>
     <string name="model_dat_4x">4x högkvalitativ uppskalning med toppmodernt transformatornätverk, bevarar fina detaljer i större skala.</string>
     <string name="model_nafnet_deblurring">Tar bort oskärpa/brus och skakningar från foton. Allmänt men bäst på bilder.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Återställer bilder av låg kvalitet med Swin2SR-transformator, optimerad för BSRGAN-nedbrytning. Perfekt för att fixa tunga kompressionsartefakter och förbättra detaljer i 4x skala.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x uppskalning med SwinIR-transformator utbildad på BSRGAN-nedbrytning. Använder GAN för skarpare texturer och mer naturliga detaljer i foton och komplexa scener.</string>
 </resources>

@@ -2105,4 +2105,6 @@
     <string name="model_dat_3x">Peningkatan 3x menggunakan arsitektur transformator canggih, ideal untuk kebutuhan pembesaran sedang.</string>
     <string name="model_dat_4x">4x peningkatan kualitas tinggi dengan jaringan transformator canggih, mempertahankan detail halus pada skala yang lebih besar.</string>
     <string name="model_nafnet_deblurring">Menghilangkan keburaman/noise dan guncangan pada foto. Tujuan umum tetapi terbaik untuk foto.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Mengembalikan gambar berkualitas rendah menggunakan transformator Swin2SR, dioptimalkan untuk degradasi BSRGAN. Sangat bagus untuk memperbaiki artefak kompresi berat dan meningkatkan detail pada skala 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Peningkatan 4x dengan transformator SwinIR yang dilatih tentang degradasi BSRGAN. Menggunakan GAN untuk tekstur yang lebih tajam dan detail yang lebih alami dalam foto dan pemandangan yang kompleks.</string>
 </resources>

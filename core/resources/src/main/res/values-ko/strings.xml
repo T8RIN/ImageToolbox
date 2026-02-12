@@ -2105,4 +2105,6 @@
     <string name="model_dat_3x">고급 트랜스포머 아키텍처를 사용한 3배 업스케일링으로 적당한 확장 요구 사항에 이상적입니다.</string>
     <string name="model_dat_4x">최첨단 변압기 네트워크를 통한 4배 고품질 업스케일링으로 더 큰 규모에서도 미세한 디테일을 보존합니다.</string>
     <string name="model_nafnet_deblurring">사진에서 흐림/노이즈 및 흔들림을 제거합니다. 일반적인 용도이지만 사진에 가장 적합합니다.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN 저하에 최적화된 Swin2SR 변환기를 사용하여 저품질 이미지를 복원합니다. 과도한 압축 아티팩트를 수정하고 4배율로 디테일을 향상시키는 데 적합합니다.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN 저하에 대해 훈련된 SwinIR 변환기를 사용한 4배 업스케일링. 사진과 복잡한 장면에서 더 선명한 질감과 더 자연스러운 디테일을 위해 GAN을 사용합니다.</string>
 </resources>

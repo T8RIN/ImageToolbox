@@ -2108,4 +2108,6 @@
     <string name="model_dat_3x">3x upscaling pomocí pokročilé architektury transformátoru, ideální pro potřeby mírného zvětšení.</string>
     <string name="model_dat_4x">4x vysoce kvalitní upscaling s nejmodernější sítí transformátorů, zachovává jemné detaily ve větším měřítku.</string>
     <string name="model_nafnet_deblurring">Odstraňuje rozmazání/šum a chvění z fotografií. Všeobecný účel, ale nejlépe na fotografiích.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Obnovuje obrazy nízké kvality pomocí transformátoru Swin2SR, optimalizovaného pro degradaci BSRGAN. Skvělé pro opravu těžkých kompresních artefaktů a vylepšení detailů ve 4násobném měřítku.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x upscaling s transformátorem SwinIR trénovaným na degradaci BSRGAN. Využívá GAN pro ostřejší textury a přirozenější detaily na fotografiích a složitých scénách.</string>
 </resources>

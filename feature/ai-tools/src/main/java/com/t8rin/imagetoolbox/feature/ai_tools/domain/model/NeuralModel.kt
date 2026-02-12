@@ -1006,7 +1006,27 @@ data class NeuralModel(
                     downloadSize = 91736251,
                     speed = Speed.VeryFast(1.371f),
                     checksum = "07263f416febecce10193dd648e950b22e397cf521eedab1a114ef77b2bc9587"
-                )
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/swin2SR-x4-bsrgan-psnr.onnx?download=true",
+                    name = "swin2SR-x4-bsrgan-psnr.onnx",
+                    title = "Swin2SR BSRGAN PSNR x4",
+                    description = R.string.model_swin2sr_x4_bsrgan_psnr,
+                    type = Type.UPSCALE,
+                    downloadSize = 53827735,
+                    speed = Speed.Normal(14.478f),
+                    checksum = "987d88b356554161cbb8f67b7a8f4162cad6dc147839c344e3d5142140f25d6f"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/BSRGAN_SwinIR-M_x4_GAN.onnx?download=true",
+                    name = "BSRGAN_SwinIR-M_x4_GAN.onnx",
+                    title = "SwinIR-M BSRGAN GAN x4",
+                    description = R.string.model_bsrgan_swinir_m_x4_gan,
+                    type = Type.UPSCALE,
+                    downloadSize = 61316800,
+                    speed = Speed.Normal(13.116f),
+                    checksum = "50a7b6fcaad6c4f342c5e1d059916a3e5d48e89d1d311270a476a7ce6a2ea09f"
+                ),
             ).sortedBy { it.type?.ordinal }
         }
 

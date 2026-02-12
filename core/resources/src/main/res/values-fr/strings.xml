@@ -2106,4 +2106,6 @@
     <string name="model_dat_3x">Mise à l\'échelle 3x grâce à une architecture de transformateur avancée, idéale pour les besoins d\'agrandissement modérés.</string>
     <string name="model_dat_4x">Mise à l\'échelle 4x de haute qualité avec un réseau de transformateurs de pointe, préserve les détails fins à plus grande échelle.</string>
     <string name="model_nafnet_deblurring">Supprime le flou/bruit et les secousses des photos. Usage général mais meilleur sur les photos.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restaure les images de faible qualité à l\'aide du transformateur Swin2SR, optimisé pour la dégradation BSRGAN. Idéal pour corriger les artefacts de compression importants et améliorer les détails à une échelle 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Mise à l\'échelle 4x avec le transformateur SwinIR formé à la dégradation BSRGAN. Utilise GAN pour des textures plus nettes et des détails plus naturels dans les photos et les scènes complexes.</string>
 </resources>

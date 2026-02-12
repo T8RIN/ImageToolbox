@@ -2105,4 +2105,6 @@
     <string name="model_dat_3x">Nâng cấp gấp 3 lần bằng cách sử dụng kiến ​​trúc biến áp tiên tiến, lý tưởng cho nhu cầu mở rộng vừa phải.</string>
     <string name="model_dat_4x">Nâng cấp chất lượng cao gấp 4 lần với mạng biến áp hiện đại, bảo toàn các chi tiết đẹp ở quy mô lớn hơn.</string>
     <string name="model_nafnet_deblurring">Loại bỏ hiện tượng mờ/nhiễu và rung lắc khỏi ảnh. Mục đích chung nhưng tốt nhất trên ảnh.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Khôi phục hình ảnh chất lượng thấp bằng biến áp Swin2SR, được tối ưu hóa cho sự suy giảm BSRGAN. Tuyệt vời để sửa các hiện vật nén nặng và nâng cao chi tiết ở tỷ lệ 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Nâng cấp gấp 4 lần với máy biến áp SwinIR được đào tạo về suy giảm BSRGAN. Sử dụng GAN để có kết cấu sắc nét hơn và nhiều chi tiết tự nhiên hơn trong ảnh và cảnh phức tạp.</string>
 </resources>

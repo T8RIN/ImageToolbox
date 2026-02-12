@@ -2105,4 +2105,6 @@
     <string name="model_dat_3x">高度なトランス アーキテクチャを使用した 3 倍のアップスケーリングは、中程度の拡大ニーズに最適です。</string>
     <string name="model_dat_4x">最先端のトランスネットワークによる 4 倍の高品質アップスケーリングにより、大規模なスケールでも微細なディテールを維持します。</string>
     <string name="model_nafnet_deblurring">写真のブレやノイズ、手ぶれを除去します。汎用ですが写真に最適です。</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN の劣化に対して最適化された Swin2SR トランスフォーマーを使用して低品質の画像を復元します。重度の圧縮アーティファクトを修正し、4 倍スケールで細部を強調するのに最適です。</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN 劣化でトレーニングされた SwinIR トランスフォーマーによる 4 倍のアップスケーリング。 GAN を使用して、写真や複雑なシーンのより鮮明なテクスチャとより自然なディテールを実現します。</string>
 </resources>
