@@ -666,7 +666,7 @@ or click one of the badges below.
     - Images to PDF
     - PDF previewing
 - Document Scanning
-- AI tools (81 ready to use models available)
+- AI tools (95+ ready to use models available)
     - Upscale
     - Remove BG
     - DeJPEG
