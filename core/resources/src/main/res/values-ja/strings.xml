@@ -2093,4 +2093,15 @@
     <string name="hidden_for_share">共有用に非表示になっているツール</string>
     <string name="color_library">カラーライブラリ</string>
     <string name="color_library_sub">膨大な色のコレクションを閲覧する</string>
+    <string name="model_fatality_deblur">自然なディテールを維持しながら、画像のぼやけを鮮明にして除去します。焦点の合っていない写真を修正するのに最適です。</string>
+    <string name="model_unresize_v3">以前にサイズ変更された画像をインテリジェントに復元し、失われたディテールやテクスチャを復元します。</string>
+    <string name="model_liveaction_v1_span">実写コンテンツ用に最適化されており、圧縮アーチファクトが軽減され、映画/テレビ番組のフレームの細部が強調されます。</string>
+    <string name="model_vhs2hd_realplksr">VHS 品質の映像を HD に変換し、テープノイズを除去し、ヴィンテージ感を維持しながら解像度を高めます。</string>
+    <string name="model_text2hd_v1">テキストの多い画像やスクリーンショットに特化しており、文字を鮮明にして読みやすさを向上させます。</string>
+    <string name="model_frankendata_pretrainer">多様なデータセットでトレーニングされた高度なアップスケーリングで、汎用の写真補正に優れています。</string>
+    <string name="model_realwebphoto_v2">Web 圧縮された写真用に最適化され、JPEG アーティファクトを除去し、自然な外観を復元します。</string>
+    <string name="model_realwebphoto_v4">テクスチャの保存とアーティファクトの削減が向上した、Web 写真用の改良版。</string>
+    <string name="model_dat_2x">Dual Aggregation Transformer テクノロジーによる 2 倍のアップスケーリングにより、鮮明さと自然なディテールが維持されます。</string>
+    <string name="model_dat_3x">高度なトランス アーキテクチャを使用した 3 倍のアップスケーリングは、中程度の拡大ニーズに最適です。</string>
+    <string name="model_dat_4x">最先端のトランスネットワークによる 4 倍の高品質アップスケーリングにより、大規模なスケールでも微細なディテールを維持します。</string>
 </resources>

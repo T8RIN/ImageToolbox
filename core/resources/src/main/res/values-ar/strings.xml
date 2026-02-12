@@ -2098,4 +2098,15 @@
     <string name="hidden_for_share">أدوات مخفية للمشاركة</string>
     <string name="color_library">مكتبة الألوان</string>
     <string name="color_library_sub">تصفح مجموعة واسعة من الألوان</string>
+    <string name="model_fatality_deblur">يعمل على زيادة حدة الصور وإزالة التشويش منها مع الحفاظ على التفاصيل الطبيعية، وهو مثالي لإصلاح الصور خارج نطاق التركيز.</string>
+    <string name="model_unresize_v3">يستعيد الصور التي تم تغيير حجمها مسبقًا بذكاء، ويستعيد التفاصيل والأنسجة المفقودة.</string>
+    <string name="model_liveaction_v1_span">تم تحسينه لمحتوى الحركة الحية، ويقلل من تأثيرات الضغط ويعزز التفاصيل الدقيقة في إطارات الأفلام/البرامج التلفزيونية.</string>
+    <string name="model_vhs2hd_realplksr">يحول لقطات بجودة VHS إلى HD، مما يزيل ضوضاء الشريط ويعزز الدقة مع الحفاظ على المظهر القديم.</string>
+    <string name="model_text2hd_v1">مخصص للصور ذات النصوص الثقيلة ولقطات الشاشة، ويزيد من حدة الأحرف ويحسن إمكانية القراءة.</string>
+    <string name="model_frankendata_pretrainer">تم تدريب الترقية المتقدمة على مجموعات بيانات متنوعة، وهي ممتازة لتحسين الصور للأغراض العامة.</string>
+    <string name="model_realwebphoto_v2">تم تحسينه للصور المضغوطة على الويب، ويزيل آثار JPEG ويستعيد المظهر الطبيعي.</string>
+    <string name="model_realwebphoto_v4">نسخة محسنة لصور الويب مع الحفاظ بشكل أفضل على الملمس وتقليل الشوائب.</string>
+    <string name="model_dat_2x">ترقية 2x باستخدام تقنية محول التجميع المزدوج، تحافظ على الوضوح والتفاصيل الطبيعية.</string>
+    <string name="model_dat_3x">ترقية 3x باستخدام بنية المحولات المتقدمة، مثالية لاحتياجات التوسيع المعتدلة.</string>
+    <string name="model_dat_4x">ترقية الجودة العالية 4x باستخدام شبكة محولات حديثة، تحافظ على التفاصيل الدقيقة بمقاييس أكبر.</string>
 </resources>

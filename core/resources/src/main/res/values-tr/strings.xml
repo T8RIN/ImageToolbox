@@ -2094,4 +2094,15 @@
     <string name="hidden_for_share">Paylaşım İçin Gizlenen Araçlar</string>
     <string name="color_library">Renk Kitaplığı</string>
     <string name="color_library_sub">Geniş bir renk koleksiyonuna göz atın</string>
+    <string name="model_fatality_deblur">Odak dışı fotoğrafları düzeltmek için ideal olan, doğal ayrıntıları korurken görüntülerdeki bulanıklığı keskinleştirir ve ortadan kaldırır.</string>
+    <string name="model_unresize_v3">Daha önce yeniden boyutlandırılmış görüntüleri akıllıca geri yükleyerek kayıp ayrıntıları ve dokuları kurtarır.</string>
+    <string name="model_liveaction_v1_span">Canlı aksiyon içeriği için optimize edilmiştir, sıkıştırma bozulmalarını azaltır ve film/TV şovu karelerindeki ince ayrıntıları geliştirir.</string>
+    <string name="model_vhs2hd_realplksr">VHS kalitesinde çekimi HD\'ye dönüştürerek bant gürültüsünü ortadan kaldırır ve çözünürlüğü artırırken aynı zamanda vintage hissi korur.</string>
+    <string name="model_text2hd_v1">Metin ağırlıklı görüntüler ve ekran görüntüleri için özel olarak tasarlanmıştır, karakterleri keskinleştirir ve okunabilirliği artırır.</string>
+    <string name="model_frankendata_pretrainer">Genel amaçlı fotoğraf geliştirme için mükemmel olan, çeşitli veri kümeleri üzerinde eğitilmiş gelişmiş yükseltme.</string>
+    <string name="model_realwebphoto_v2">Web\'de sıkıştırılmış fotoğraflar için optimize edilmiştir, JPEG bozulmalarını kaldırır ve doğal görünümü geri kazandırır.</string>
+    <string name="model_realwebphoto_v4">Web fotoğrafları için daha iyi doku koruması ve artefakt azaltma özellikleriyle geliştirilmiş sürüm.</string>
+    <string name="model_dat_2x">Çift Toplama Transformatörü teknolojisiyle 2 kat yükseltme, keskinliği ve doğal ayrıntıları korur.</string>
+    <string name="model_dat_3x">Orta düzeydeki genişletme ihtiyaçları için ideal olan gelişmiş transformatör mimarisini kullanan 3 kat ölçeklendirme.</string>
+    <string name="model_dat_4x">Son teknoloji trafo ağıyla 4 kat yüksek kalite yükseltme, daha büyük ölçeklerde ince ayrıntıları korur.</string>
 </resources>

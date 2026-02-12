@@ -2094,4 +2094,15 @@
     <string name="hidden_for_share">Strumenti nascosti per la condivisione</string>
     <string name="color_library">Libreria dei colori</string>
     <string name="color_library_sub">Sfoglia una vasta collezione di colori</string>
+    <string name="model_fatality_deblur">Rende più nitidi e rimuove la sfocatura dalle immagini mantenendo i dettagli naturali, ideale per correggere le foto sfocate.</string>
+    <string name="model_unresize_v3">Ripristina in modo intelligente le immagini che sono state precedentemente ridimensionate, recuperando dettagli e texture perdute.</string>
+    <string name="model_liveaction_v1_span">Ottimizzato per contenuti live-action, riduce gli artefatti di compressione e migliora i dettagli più fini nei fotogrammi di film/programmi TV.</string>
+    <string name="model_vhs2hd_realplksr">Converte filmati di qualità VHS in HD, rimuovendo il rumore del nastro e migliorando la risoluzione preservando l\'atmosfera vintage.</string>
+    <string name="model_text2hd_v1">Specializzato per immagini e screenshot con molto testo, rende più nitidi i caratteri e migliora la leggibilità.</string>
+    <string name="model_frankendata_pretrainer">Upscaling avanzato addestrato su diversi set di dati, eccellente per il miglioramento fotografico generico.</string>
+    <string name="model_realwebphoto_v2">Ottimizzato per foto compresse sul Web, rimuove gli artefatti JPEG e ripristina l\'aspetto naturale.</string>
+    <string name="model_realwebphoto_v4">Versione migliorata per le foto web con migliore conservazione della texture e riduzione degli artefatti.</string>
+    <string name="model_dat_2x">Upscaling 2x con tecnologia Dual Aggregation Transformer, mantiene nitidezza e dettagli naturali.</string>
+    <string name="model_dat_3x">Upscaling 3x utilizzando un\'architettura avanzata del trasformatore, ideale per esigenze di ingrandimento moderate.</string>
+    <string name="model_dat_4x">Upscaling 4x di alta qualità con rete di trasformatori all\'avanguardia, preserva i dettagli più fini su scale più grandi.</string>
 </resources>

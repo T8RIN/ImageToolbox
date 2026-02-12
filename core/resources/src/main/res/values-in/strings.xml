@@ -2093,4 +2093,15 @@
     <string name="hidden_for_share">Alat Tersembunyi Untuk Dibagikan</string>
     <string name="color_library">Perpustakaan Warna</string>
     <string name="color_library_sub">Jelajahi banyak koleksi warna</string>
+    <string name="model_fatality_deblur">Mempertajam dan menghilangkan keburaman pada gambar sambil mempertahankan detail alami, ideal untuk memperbaiki foto yang tidak fokus.</string>
+    <string name="model_unresize_v3">Secara cerdas mengembalikan gambar yang telah diubah ukurannya sebelumnya, memulihkan detail dan tekstur yang hilang.</string>
+    <string name="model_liveaction_v1_span">Dioptimalkan untuk konten aksi langsung, mengurangi artefak kompresi, dan menyempurnakan detail halus dalam bingkai film/acara TV.</string>
+    <string name="model_vhs2hd_realplksr">Mengonversi rekaman berkualitas VHS ke HD, menghilangkan noise rekaman dan meningkatkan resolusi sekaligus mempertahankan nuansa vintage.</string>
+    <string name="model_text2hd_v1">Khusus untuk gambar dan tangkapan layar yang banyak teks, mempertajam karakter dan meningkatkan keterbacaan.</string>
+    <string name="model_frankendata_pretrainer">Peningkatan tingkat lanjut dilatih pada beragam kumpulan data, sangat baik untuk penyempurnaan foto tujuan umum.</string>
+    <string name="model_realwebphoto_v2">Dioptimalkan untuk foto terkompresi web, menghilangkan artefak JPEG dan mengembalikan tampilan alami.</string>
+    <string name="model_realwebphoto_v4">Versi yang ditingkatkan untuk foto web dengan pelestarian tekstur dan pengurangan artefak yang lebih baik.</string>
+    <string name="model_dat_2x">Peningkatan 2x dengan teknologi Dual Aggregation Transformer, menjaga ketajaman dan detail alami.</string>
+    <string name="model_dat_3x">Peningkatan 3x menggunakan arsitektur transformator canggih, ideal untuk kebutuhan pembesaran sedang.</string>
+    <string name="model_dat_4x">4x peningkatan kualitas tinggi dengan jaringan transformator canggih, mempertahankan detail halus pada skala yang lebih besar.</string>
 </resources>

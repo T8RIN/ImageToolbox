@@ -2094,4 +2094,15 @@
     <string name="hidden_for_share">Megosztáshoz rejtett eszközök</string>
     <string name="color_library">Színes könyvtár</string>
     <string name="color_library_sub">Böngésszen a színek hatalmas gyűjteményében</string>
+    <string name="model_fatality_deblur">Élesíti és eltávolítja a képek elmosódását, miközben megőrzi a természetes részleteket, ideális az életlen fényképek kijavításához.</string>
+    <string name="model_unresize_v3">Intelligensen visszaállítja a korábban átméretezett képeket, helyreállítva az elveszett részleteket és textúrákat.</string>
+    <string name="model_liveaction_v1_span">Élőszereplős tartalomhoz optimalizálva, csökkenti a tömörítési műtermékeket, és javítja a film/TV-műsor képkockáinak finom részleteit.</string>
+    <string name="model_vhs2hd_realplksr">A VHS-minőségű felvételeket HD-vé alakítja, eltávolítja a szalagzajt és javítja a felbontást, miközben megőrzi a vintage hangulatot.</string>
+    <string name="model_text2hd_v1">A nehéz szöveget tartalmazó képekre és képernyőképekre specializálódott, élesíti a karaktereket és javítja az olvashatóságot.</string>
+    <string name="model_frankendata_pretrainer">Különféle adatkészletekre kiképzett fejlett felskálázás, kiváló általános célú fényképjavításhoz.</string>
+    <string name="model_realwebphoto_v2">Interneten tömörített fényképekhez optimalizálva, eltávolítja a JPEG műtermékeket és visszaállítja a természetes megjelenést.</string>
+    <string name="model_realwebphoto_v4">Továbbfejlesztett változat webes fényképekhez jobb textúramegőrzéssel és műtermékcsökkentéssel.</string>
+    <string name="model_dat_2x">Kétszeres felskálázás a Dual Aggregation Transformer technológiával, megőrzi az élességet és a természetes részleteket.</string>
+    <string name="model_dat_3x">3-szoros felskálázás fejlett transzformátor architektúrával, ideális közepes nagyítási igényekhez.</string>
+    <string name="model_dat_4x">4x kiváló minőségű felskálázás a legmodernebb transzformátor hálózattal, megőrzi a finom részleteket nagyobb méretekben.</string>
 </resources>

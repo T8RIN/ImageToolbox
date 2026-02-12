@@ -2095,4 +2095,15 @@
     <string name="hidden_for_share">Verktyg dolda för delning</string>
     <string name="color_library">Färgbibliotek</string>
     <string name="color_library_sub">Bläddra i en stor samling färger</string>
+    <string name="model_fatality_deblur">Skärper och tar bort oskärpa från bilder med bibehållen naturliga detaljer, perfekt för att fixa ofokuserade bilder.</string>
+    <string name="model_unresize_v3">Återställer intelligent bilder som tidigare har ändrats, och återställer förlorade detaljer och texturer.</string>
+    <string name="model_liveaction_v1_span">Optimerad för live-action-innehåll, minskar komprimeringsartefakter och förbättrar fina detaljer i film-/TV-programramar.</string>
+    <string name="model_vhs2hd_realplksr">Konverterar videomaterial av VHS-kvalitet till HD, tar bort bandbrus och förbättrar upplösningen samtidigt som vintagekänslan bevaras.</string>
+    <string name="model_text2hd_v1">Specialiserad för texttunga bilder och skärmdumpar, skärper tecken och förbättrar läsbarheten.</string>
+    <string name="model_frankendata_pretrainer">Avancerad uppskalning utbildad på olika datauppsättningar, utmärkt för allmänna fotoförbättringar.</string>
+    <string name="model_realwebphoto_v2">Optimerad för webbkomprimerade foton, tar bort JPEG-artefakter och återställer det naturliga utseendet.</string>
+    <string name="model_realwebphoto_v4">Förbättrad version för webbfoton med bättre texturbevarande och artefakterminskning.</string>
+    <string name="model_dat_2x">2x uppskalning med Dual Aggregation Transformer-teknik, bibehåller skärpa och naturliga detaljer.</string>
+    <string name="model_dat_3x">3x uppskalning med avancerad transformatorarkitektur, perfekt för måttliga förstoringsbehov.</string>
+    <string name="model_dat_4x">4x högkvalitativ uppskalning med toppmodernt transformatornätverk, bevarar fina detaljer i större skala.</string>
 </resources>

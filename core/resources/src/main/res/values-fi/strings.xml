@@ -2094,4 +2094,15 @@
     <string name="hidden_for_share">Työkalut Piilotettu jakaa varten</string>
     <string name="color_library">Värikirjasto</string>
     <string name="color_library_sub">Selaa laajaa värivalikoimaa</string>
+    <string name="model_fatality_deblur">Terävöittää ja poistaa kuvista epäterävyyden säilyttäen luonnolliset yksityiskohdat, mikä sopii erinomaisesti epätarkkojen kuvien korjaamiseen.</string>
+    <string name="model_unresize_v3">Palauttaa älykkäästi kuvat, joiden kokoa on muutettu, ja palauttaa kadonneet yksityiskohdat ja tekstuurit.</string>
+    <string name="model_liveaction_v1_span">Optimoitu live-action-sisällölle, vähentää pakkausartefakteja ja parantaa elokuvien/TV-ohjelmien kehysten hienoja yksityiskohtia.</string>
+    <string name="model_vhs2hd_realplksr">Muuntaa VHS-laatuisen materiaalin HD:ksi, poistaa nauhakohinaa ja parantaa resoluutiota säilyttäen samalla vintage-tunnelman.</string>
+    <string name="model_text2hd_v1">Erikoistunut paljon tekstiä sisältäviin kuviin ja kuvakaappauksiin, terävöittää merkkejä ja parantaa luettavuutta.</string>
+    <string name="model_frankendata_pretrainer">Edistynyt skaalaus, joka on koulutettu erilaisiin tietokokonaisuuksiin, sopii erinomaisesti yleiskäyttöiseen valokuvien parantamiseen.</string>
+    <string name="model_realwebphoto_v2">Optimoitu web-pakattuille valokuville, poistaa JPEG-artefaktit ja palauttaa luonnollisen ulkonäön.</string>
+    <string name="model_realwebphoto_v4">Paranneltu versio verkkovalokuville paremmalla tekstuurin säilyttämisellä ja artefaktien vähentämisellä.</string>
+    <string name="model_dat_2x">Kaksinkertainen skaalaus Dual Aggregation Transformer -teknologialla, säilyttää terävyyden ja luonnolliset yksityiskohdat.</string>
+    <string name="model_dat_3x">3x skaalaus edistyneellä muuntajaarkkitehtuurilla, ihanteellinen kohtalaisiin laajennustarpeisiin.</string>
+    <string name="model_dat_4x">4x korkealaatuinen skaalaus huippuluokan muuntajaverkolla, säilyttää hienot yksityiskohdat suuremmissa mittakaavaissa.</string>
 </resources>

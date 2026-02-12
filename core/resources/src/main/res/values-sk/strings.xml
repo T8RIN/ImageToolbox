@@ -2096,4 +2096,15 @@
     <string name="hidden_for_share">Nástroje skryté na zdieľanie</string>
     <string name="color_library">Farebná knižnica</string>
     <string name="color_library_sub">Prezrite si rozsiahlu kolekciu farieb</string>
+    <string name="model_fatality_deblur">Zaostruje a odstraňuje rozmazanie z obrázkov pri zachovaní prirodzených detailov, čo je ideálne na opravu rozostrených fotografií.</string>
+    <string name="model_unresize_v3">Inteligentne obnovuje obrázky, ktorých veľkosť bola predtým zmenená, a obnovuje stratené detaily a textúry.</string>
+    <string name="model_liveaction_v1_span">Optimalizované pre obsah naživo, znižuje kompresné artefakty a vylepšuje jemné detaily v snímkach filmu/televíznej relácie.</string>
+    <string name="model_vhs2hd_realplksr">Konvertuje záznam v kvalite VHS na HD, odstraňuje šum na páske a zvyšuje rozlíšenie pri zachovaní vintage nádychu.</string>
+    <string name="model_text2hd_v1">Špecializovaný na obrázky a snímky obrazovky s vysokým obsahom textu, zaostruje znaky a zlepšuje čitateľnosť.</string>
+    <string name="model_frankendata_pretrainer">Pokročilé upscaling trénované na rôznych súboroch údajov, vynikajúce pre všeobecné vylepšenie fotografií.</string>
+    <string name="model_realwebphoto_v2">Optimalizované pre fotografie komprimované na webe, odstraňuje JPEG artefakty a obnovuje prirodzený vzhľad.</string>
+    <string name="model_realwebphoto_v4">Vylepšená verzia pre webové fotografie s lepším zachovaním textúry a redukciou artefaktov.</string>
+    <string name="model_dat_2x">2x upscaling s technológiou Dual Aggregation Transformer, zachováva ostrosť a prirodzené detaily.</string>
+    <string name="model_dat_3x">3x upscaling pomocou pokročilej architektúry transformátora, ideálne pre potreby mierneho zväčšenia.</string>
+    <string name="model_dat_4x">4x vysokokvalitný upscaling s najmodernejšou sieťou transformátorov, zachováva jemné detaily vo väčších mierkach.</string>
 </resources>
