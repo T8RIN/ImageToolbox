@@ -83,6 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
@@ -256,7 +257,7 @@ internal fun MediaPickerHavePermissions(
                 }
             }
         },
-        contentWindowInsets = WindowInsets()
+        contentWindowInsets = ZeroWindowInsets
     ) { contentPadding ->
         MediaPickerGridWithOverlays(
             component = component,

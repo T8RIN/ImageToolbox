@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -262,7 +263,7 @@ fun FullscreenEditOption(
                                 }
                             }
                         },
-                        contentWindowInsets = WindowInsets()
+                        contentWindowInsets = ZeroWindowInsets
                     ) { contentPadding ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,

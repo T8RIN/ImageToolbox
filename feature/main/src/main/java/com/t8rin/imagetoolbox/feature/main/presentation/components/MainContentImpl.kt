@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.realisticSnowfall
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import kotlinx.coroutines.delay
 import java.time.LocalDate
 
@@ -190,7 +191,7 @@ internal fun MainContentImpl(
                     }
                 }
             },
-            contentWindowInsets = WindowInsets()
+            contentWindowInsets = ZeroWindowInsets
         ) { contentPadding ->
             Row(
                 modifier = Modifier

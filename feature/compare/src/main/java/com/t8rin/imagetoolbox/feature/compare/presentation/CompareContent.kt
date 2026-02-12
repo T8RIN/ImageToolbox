@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.compare.presentation
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -56,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareScreenContent
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareScreenTopAppBar
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareShareSheet
@@ -142,7 +142,7 @@ fun CompareContent(
                     isLabelsButtonVisible = component.compareType != CompareType.PixelByPixel
                 )
             },
-            contentWindowInsets = WindowInsets()
+            contentWindowInsets = ZeroWindowInsets
         ) { contentPadding ->
             CompareScreenContent(
                 bitmapData = component.bitmapData,

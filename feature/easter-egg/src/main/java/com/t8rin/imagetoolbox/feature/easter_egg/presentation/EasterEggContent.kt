@@ -85,6 +85,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -153,7 +154,7 @@ fun EasterEggContent(
                 type = EnhancedTopAppBarType.Center
             )
         },
-        contentWindowInsets = WindowInsets()
+        contentWindowInsets = ZeroWindowInsets
     ) { contentPadding ->
         BoxWithConstraints(
             modifier = Modifier
@@ -161,7 +162,7 @@ fun EasterEggContent(
                 .padding(contentPadding)
         ) {
             val density = LocalDensity.current
-            val width = constraints.maxWidth
+            val width = this.constraints.maxWidth
             val height = constraints.maxHeight
             val ballSize = remember(maxWidth, maxHeight) {
                 (min(maxWidth, maxHeight) * 0.3f).coerceAtMost(180.dp)

@@ -23,6 +23,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -32,13 +33,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension,
     createFlavors: Boolean = true
 ) {
     commonExtension.apply {
         compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
-        defaultConfig {
+        defaultConfig.apply {
             minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         }
 
@@ -55,30 +56,30 @@ internal fun Project.configureKotlinAndroid(
             }
         }
 
-        compileOptions {
+        compileOptions.apply {
             sourceCompatibility = javaVersion
             targetCompatibility = javaVersion
             isCoreLibraryDesugaringEnabled = true
         }
 
-        buildFeatures {
+        buildFeatures.apply {
             compose = false
             aidl = false
-            renderScript = false
             shaders = false
             buildConfig = false
             resValues = false
         }
 
-        packaging {
+        packaging.apply {
             resources {
                 excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             }
         }
 
-        lint {
+        lint.apply {
             disable += "UsingMaterialAndMaterial3Libraries"
             disable += "ModifierParameter"
+            disable += "COMPOSE_APPLIER_CALL_MISMATCH"
         }
     }
 

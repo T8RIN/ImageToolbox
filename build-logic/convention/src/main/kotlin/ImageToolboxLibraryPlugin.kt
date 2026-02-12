@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.t8rin.imagetoolbox.configureDetekt
 import com.t8rin.imagetoolbox.configureKotlinAndroid
@@ -33,7 +34,6 @@ class ImageToolboxLibraryPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
                 apply("kotlin-parcelize")
                 apply("kotlinx-serialization")
                 apply(libs.detekt.gradle.get().group)
@@ -52,3 +52,5 @@ class ImageToolboxLibraryPlugin : Plugin<Project> {
         }
     }
 }
+
+val Project.android: CommonExtension get() = extensions.getByType()

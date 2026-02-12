@@ -100,6 +100,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SearchableSettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
@@ -281,7 +282,7 @@ fun SettingsContent(
                 } else null
             )
         },
-        contentWindowInsets = WindowInsets()
+        contentWindowInsets = ZeroWindowInsets
     ) { contentPadding ->
         Box(
             modifier = Modifier.padding(contentPadding)

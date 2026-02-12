@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.core.ui.widget.utils.isExpanded
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberImageState
@@ -169,7 +170,7 @@ fun AdaptiveLayoutScreen(
                         Column(content = it)
                     }
                 },
-                contentWindowInsets = WindowInsets()
+                contentWindowInsets = ZeroWindowInsets
             ) { scaffoldPadding ->
                 val screenWidthPx = LocalScreenSize.current.widthPx
                 AnimatedContent(

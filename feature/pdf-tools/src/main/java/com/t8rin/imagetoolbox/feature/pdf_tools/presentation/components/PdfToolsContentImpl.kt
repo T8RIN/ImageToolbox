@@ -91,6 +91,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.canUseNewPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
 
@@ -227,7 +228,7 @@ internal fun PdfToolsContentImpl(
                 }
             )
         },
-        contentWindowInsets = WindowInsets()
+        contentWindowInsets = ZeroWindowInsets
     ) { contentPadding ->
         val screenWidth = LocalScreenSize.current.widthPx
 

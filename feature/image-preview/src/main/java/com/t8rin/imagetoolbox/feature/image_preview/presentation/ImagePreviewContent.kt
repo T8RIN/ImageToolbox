@@ -104,6 +104,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 
 @Composable
@@ -301,7 +302,7 @@ fun ImagePreviewContent(
                         }
                     )
                 },
-                contentWindowInsets = WindowInsets()
+                contentWindowInsets = ZeroWindowInsets
             ) { contentPadding ->
                 AnimatedContent(
                     targetState = !component.uris.isNullOrEmpty() || isLoadingImages,

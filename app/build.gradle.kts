@@ -17,6 +17,8 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.android.build.api.dsl.ApplicationExtension
+
 var isFoss = false
 
 plugins {
@@ -24,7 +26,7 @@ plugins {
     alias(libs.plugins.image.toolbox.hilt)
 }
 
-android {
+configure<ApplicationExtension> {
     val supportedAbi = arrayOf("armeabi-v7a", "arm64-v8a", "x86_64")
 
     namespace = "com.t8rin.imagetoolbox"
@@ -43,8 +45,6 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters += supportedAbi.toSet()
         }
-
-        setProperty("archivesBaseName", "image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
 
     androidResources {
@@ -99,7 +99,8 @@ android {
 
             // AppBundle tasks usually contain "bundle" in their name
             //noinspection WrongGradleMethod
-            val isBuildingBundle = gradle.startParameter.taskNames.any { it.lowercase().contains("bundle") }
+            val isBuildingBundle =
+                gradle.startParameter.taskNames.any { it.lowercase().contains("bundle") }
 
             // Disable split abis when building appBundle
             isEnable = !isBuildingBundle
@@ -125,13 +126,18 @@ android {
         }
     }
 
-    aboutLibraries {
-        export.excludeFields.addAll("generated")
-    }
-
     buildFeatures {
         resValues = true
     }
+}
+
+aboutLibraries {
+    export.excludeFields.addAll("generated")
+}
+
+base {
+    archivesName =
+        "image-toolbox-${androidApplication.defaultConfig.versionName}${if (isFoss) "-foss" else ""}"
 }
 
 dependencies {

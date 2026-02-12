@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
@@ -20,7 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
+configure<LibraryExtension> {
     namespace = "com.t8rin.imagetoolbox.core.resources"
 
     defaultConfig.vectorDrawables.useSupportLibrary = true

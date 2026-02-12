@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.onSwipeDown
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import kotlinx.coroutines.launch
 
 @Composable
@@ -159,7 +160,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         },
                     )
                 },
-                contentWindowInsets = WindowInsets()
+                contentWindowInsets = WindowInsets(0)
             ) { contentPadding ->
                 AnimatedContent(
                     targetState = canShowScreenData,
@@ -292,7 +293,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                     }
                                 }
                             },
-                            contentWindowInsets = WindowInsets()
+                            contentWindowInsets = ZeroWindowInsets
                         ) { contentPadding ->
                             ProvideContainerDefaults(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor

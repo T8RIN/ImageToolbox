@@ -44,7 +44,6 @@ class ImageToolboxApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "com.android.application")
-            apply(plugin = "org.jetbrains.kotlin.android")
             apply(plugin = "kotlin-parcelize")
             apply(plugin = "com.google.gms.google-services")
             apply(plugin = "com.google.firebase.crashlytics")
@@ -78,3 +77,5 @@ class ImageToolboxApplicationPlugin : Plugin<Project> {
         }
     }
 }
+
+val Project.androidApplication: ApplicationExtension get() = extensions.getByType()

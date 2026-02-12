@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.pick_color.presentation
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -57,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.core.ui.widget.utils.ZeroWindowInsets
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageBottomAppBar
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageContentImpl
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageTopAppBar
@@ -158,7 +158,7 @@ fun PickColorFromImageContent(
                     onOneTimePickImage = { showOneTimeImagePickingDialog = true },
                 )
             },
-            contentWindowInsets = WindowInsets()
+            contentWindowInsets = ZeroWindowInsets
         ) { contentPadding ->
             PickColorFromImageContentImpl(
                 bitmap = component.bitmap,
