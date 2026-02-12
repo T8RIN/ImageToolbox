@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">La mejora 2x con la tecnología Dual Aggregation Transformer mantiene la nitidez y los detalles naturales.</string>
     <string name="model_dat_3x">Ampliación 3x utilizando arquitectura de transformador avanzada, ideal para necesidades de ampliación moderadas.</string>
     <string name="model_dat_4x">La ampliación de alta calidad 4x con una red de transformadores de última generación conserva los detalles finos a escalas más grandes.</string>
+    <string name="model_nafnet_deblurring">Elimina el desenfoque/ruido y las sacudidas de las fotos. Propósito general pero mejor en fotografías.</string>
 </resources>

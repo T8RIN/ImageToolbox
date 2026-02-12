@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">2-fache Hochskalierung mit Dual Aggregation Transformer-Technologie, behält Schärfe und natürliche Details bei.</string>
     <string name="model_dat_3x">3-fache Hochskalierung mit fortschrittlicher Transformatorarchitektur, ideal für moderate Vergrößerungsanforderungen.</string>
     <string name="model_dat_4x">4-fache hochwertige Hochskalierung mit modernstem Transformatornetzwerk, bewahrt feine Details in größeren Maßstäben.</string>
+    <string name="model_nafnet_deblurring">Entfernt Unschärfe/Rauschen und Verwacklungen aus Fotos. Universell einsetzbar, aber am besten für Fotos geeignet.</string>
 </resources>

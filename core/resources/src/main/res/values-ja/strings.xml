@@ -2104,4 +2104,5 @@
     <string name="model_dat_2x">Dual Aggregation Transformer テクノロジーによる 2 倍のアップスケーリングにより、鮮明さと自然なディテールが維持されます。</string>
     <string name="model_dat_3x">高度なトランス アーキテクチャを使用した 3 倍のアップスケーリングは、中程度の拡大ニーズに最適です。</string>
     <string name="model_dat_4x">最先端のトランスネットワークによる 4 倍の高品質アップスケーリングにより、大規模なスケールでも微細なディテールを維持します。</string>
+    <string name="model_nafnet_deblurring">写真のブレやノイズ、手ぶれを除去します。汎用ですが写真に最適です。</string>
 </resources>

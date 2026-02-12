@@ -2104,4 +2104,5 @@
     <string name="model_dat_2x">Peningkatan 2x dengan teknologi Dual Aggregation Transformer, menjaga ketajaman dan detail alami.</string>
     <string name="model_dat_3x">Peningkatan 3x menggunakan arsitektur transformator canggih, ideal untuk kebutuhan pembesaran sedang.</string>
     <string name="model_dat_4x">4x peningkatan kualitas tinggi dengan jaringan transformator canggih, mempertahankan detail halus pada skala yang lebih besar.</string>
+    <string name="model_nafnet_deblurring">Menghilangkan keburaman/noise dan guncangan pada foto. Tujuan umum tetapi terbaik untuk foto.</string>
 </resources>

@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">2x upscaling gamit ang Dual Aggregation Transformer na teknolohiya, nagpapanatili ng sharpness at natural na mga detalye.</string>
     <string name="model_dat_3x">3x upscaling gamit ang advanced na transformer architecture, perpekto para sa katamtamang mga pangangailangan sa pagpapalaki.</string>
     <string name="model_dat_4x">4x na mataas na kalidad na upscaling na may makabagong network ng transformer, pinapanatili ang magagandang detalye sa mas malalaking sukat.</string>
+    <string name="model_nafnet_deblurring">Nag-aalis ng blur/ingay at nanginginig sa mga larawan. Pangkalahatang layunin ngunit pinakamahusay sa mga larawan.</string>
 </resources>

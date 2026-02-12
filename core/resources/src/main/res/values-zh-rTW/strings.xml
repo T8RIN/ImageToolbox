@@ -2104,4 +2104,5 @@
     <string name="model_dat_2x">使用双聚合变压器技术进行 2 倍升级，保持清晰度和自然细节。</string>
     <string name="model_dat_3x">使用先进的变压器架构进行 3 倍放大，非常适合中等放大需求。</string>
     <string name="model_dat_4x">通过最先进的变压器网络进行 4 倍高质量放大，在更大的尺度上保留精细细节。</string>
+    <string name="model_nafnet_deblurring">消除照片中的模糊/噪点和抖动。通用但最适合照片。</string>
 </resources>

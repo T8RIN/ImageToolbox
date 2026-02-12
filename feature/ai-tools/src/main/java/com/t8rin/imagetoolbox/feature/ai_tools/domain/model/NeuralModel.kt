@@ -997,6 +997,16 @@ data class NeuralModel(
                     speed = Speed.VerySlow(26.169f),
                     checksum = "e6354e8fdd1b31b6e1114300843bf7bc31f91e4294fbb8e41282fc43f0a46cbc"
                 ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/deblurring_nafnet_2025may.onnx?download=true",
+                    name = "deblurring_nafnet_2025may.onnx",
+                    title = "NAFNET deblurring",
+                    description = R.string.model_nafnet_deblurring,
+                    type = Type.DENOISE,
+                    downloadSize = 91736251,
+                    speed = Speed.VeryFast(1.371f),
+                    checksum = "07263f416febecce10193dd648e950b22e397cf521eedab1a114ef77b2bc9587"
+                )
             ).sortedBy { it.type?.ordinal }
         }
 

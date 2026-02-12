@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">2x opschalen met Dual Aggregation Transformer-technologie, behoudt scherpte en natuurlijke details.</string>
     <string name="model_dat_3x">3x opschaling met behulp van geavanceerde transformatorarchitectuur, ideaal voor gematigde uitbreidingsbehoeften.</string>
     <string name="model_dat_4x">4x hoogwaardige opschaling met het modernste transformatornetwerk, behoudt fijne details op grotere schaal.</string>
+    <string name="model_nafnet_deblurring">Verwijdert onscherpte/ruis en trillingen uit foto\'s. Algemeen gebruik, maar het beste op foto\'s.</string>
 </resources>

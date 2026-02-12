@@ -2108,4 +2108,5 @@
     <string name="model_dat_2x">2x padidinimas naudojant Dual Aggregation Transformer technologiją, išlaiko ryškumą ir natūralias detales.</string>
     <string name="model_dat_3x">3x padidinimas naudojant pažangią transformatoriaus architektūrą, idealiai tinka vidutinio dydžio padidinimo poreikiams.</string>
     <string name="model_dat_4x">4x aukštos kokybės padidinimas naudojant moderniausią transformatorių tinklą, išsaugo smulkias detales esant didesniam masteliui.</string>
+    <string name="model_nafnet_deblurring">Pašalina nuotraukų susiliejimą/triukšmą ir drebėjimą. Bendra paskirtis, bet geriausia nuotraukose.</string>
 </resources>

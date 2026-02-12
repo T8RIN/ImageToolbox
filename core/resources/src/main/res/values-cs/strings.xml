@@ -2107,4 +2107,5 @@
     <string name="model_dat_2x">2x upscaling s technologií Dual Aggregation Transformer, zachovává ostrost a přirozené detaily.</string>
     <string name="model_dat_3x">3x upscaling pomocí pokročilé architektury transformátoru, ideální pro potřeby mírného zvětšení.</string>
     <string name="model_dat_4x">4x vysoce kvalitní upscaling s nejmodernější sítí transformátorů, zachovává jemné detaily ve větším měřítku.</string>
+    <string name="model_nafnet_deblurring">Odstraňuje rozmazání/šum a chvění z fotografií. Všeobecný účel, ale nejlépe na fotografiích.</string>
 </resources>

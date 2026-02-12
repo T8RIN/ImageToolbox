@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">2x opskalering med Dual Aggregation Transformer-teknologi, bevarer skarphed og naturlige detaljer.</string>
     <string name="model_dat_3x">3x opskalering ved hjælp af avanceret transformerarkitektur, ideel til moderate forstørrelsesbehov.</string>
     <string name="model_dat_4x">4x højkvalitets opskalering med state-of-the-art transformer netværk, bevarer fine detaljer i større skalaer.</string>
+    <string name="model_nafnet_deblurring">Fjerner sløring/støj og rystelser fra fotos. Generelt formål, men bedst på billeder.</string>
 </resources>

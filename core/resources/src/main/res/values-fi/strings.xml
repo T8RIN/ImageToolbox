@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">Kaksinkertainen skaalaus Dual Aggregation Transformer -teknologialla, säilyttää terävyyden ja luonnolliset yksityiskohdat.</string>
     <string name="model_dat_3x">3x skaalaus edistyneellä muuntajaarkkitehtuurilla, ihanteellinen kohtalaisiin laajennustarpeisiin.</string>
     <string name="model_dat_4x">4x korkealaatuinen skaalaus huippuluokan muuntajaverkolla, säilyttää hienot yksityiskohdat suuremmissa mittakaavaissa.</string>
+    <string name="model_nafnet_deblurring">Poistaa kuvista epäterävyyttä/kohinaa ja tärinää. Yleiskäyttöinen, mutta paras kuvissa.</string>
 </resources>

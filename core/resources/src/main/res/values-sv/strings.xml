@@ -2106,4 +2106,5 @@
     <string name="model_dat_2x">2x uppskalning med Dual Aggregation Transformer-teknik, bibehåller skärpa och naturliga detaljer.</string>
     <string name="model_dat_3x">3x uppskalning med avancerad transformatorarkitektur, perfekt för måttliga förstoringsbehov.</string>
     <string name="model_dat_4x">4x högkvalitativ uppskalning med toppmodernt transformatornätverk, bevarar fina detaljer i större skala.</string>
+    <string name="model_nafnet_deblurring">Tar bort oskärpa/brus och skakningar från foton. Allmänt men bäst på bilder.</string>
 </resources>

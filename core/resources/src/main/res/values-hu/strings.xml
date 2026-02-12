@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">Kétszeres felskálázás a Dual Aggregation Transformer technológiával, megőrzi az élességet és a természetes részleteket.</string>
     <string name="model_dat_3x">3-szoros felskálázás fejlett transzformátor architektúrával, ideális közepes nagyítási igényekhez.</string>
     <string name="model_dat_4x">4x kiváló minőségű felskálázás a legmodernebb transzformátor hálózattal, megőrzi a finom részleteket nagyobb méretekben.</string>
+    <string name="model_nafnet_deblurring">Eltávolítja az elmosódást/zajt és a remegést a fényképekről. Általános célú, de legjobb fotókon.</string>
 </resources>

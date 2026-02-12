@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">Dual Aggregation Transformer teknologiarekin 2 aldiz eskalatzea, zorroztasuna eta xehetasun naturalak mantentzen ditu.</string>
     <string name="model_dat_3x">3 aldiz eskalatzea transformadoreen arkitektura aurreratua erabiliz, handitze neurrizko beharretarako aproposa.</string>
     <string name="model_dat_4x">Kalitate handiko 4 aldiz eskalatzea punta-puntako transformadore-sarearekin, xehetasun finak gordetzen ditu eskala handiagoetan.</string>
+    <string name="model_nafnet_deblurring">Argazkietatik lausotasuna/zarata eta dardarak kentzen ditu. Helburu orokorra baina onena argazkietan.</string>
 </resources>

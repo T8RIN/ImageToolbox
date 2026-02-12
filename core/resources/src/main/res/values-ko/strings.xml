@@ -2104,4 +2104,5 @@
     <string name="model_dat_2x">Dual Aggregation Transformer 기술로 2배 업스케일링하여 선명도와 자연스러운 디테일을 유지합니다.</string>
     <string name="model_dat_3x">고급 트랜스포머 아키텍처를 사용한 3배 업스케일링으로 적당한 확장 요구 사항에 이상적입니다.</string>
     <string name="model_dat_4x">최첨단 변압기 네트워크를 통한 4배 고품질 업스케일링으로 더 큰 규모에서도 미세한 디테일을 보존합니다.</string>
+    <string name="model_nafnet_deblurring">사진에서 흐림/노이즈 및 흔들림을 제거합니다. 일반적인 용도이지만 사진에 가장 적합합니다.</string>
 </resources>

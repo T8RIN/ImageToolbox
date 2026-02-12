@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">2x ülesskaleerimine Dual Aggregation Transformer tehnoloogiaga, säilitab teravuse ja loomulikud detailid.</string>
     <string name="model_dat_3x">3x ülesskaleerimine täiustatud trafoarhitektuuri abil, sobib ideaalselt mõõdukate laiendusvajaduste jaoks.</string>
     <string name="model_dat_4x">4x kvaliteetne ülesskaleerimine tipptasemel trafovõrguga, säilitab peened detailid suuremates mõõtkavades.</string>
+    <string name="model_nafnet_deblurring">Eemaldab fotodelt hägususe/müra ja värinad. Üldotstarbeline, kuid parim fotodel.</string>
 </resources>

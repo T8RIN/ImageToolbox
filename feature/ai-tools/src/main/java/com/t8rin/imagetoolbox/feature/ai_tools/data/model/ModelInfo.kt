@@ -48,6 +48,7 @@ internal class ModelInfo(
     } else {
         chunkSize
     }
+    val minSpatialSize = getMinSpatialSize(model.name)
 
     val scaleFactor: Int = scaleMap.entries.find {
         model.name.contains(it.key)
@@ -108,4 +109,18 @@ private val scaleMap = buildMap {
         put("x$scale", scale)
         put("${scale}x", scale)
     }
+}
+
+private val minSpatial = mapOf(
+    "nafnet" to 512
+)
+
+private fun getMinSpatialSize(modelName: String?): Int {
+    val normalized = modelName?.lowercase() ?: return 256
+    for ((pattern, size) in minSpatial) {
+        if (normalized.contains(pattern)) {
+            return size
+        }
+    }
+    return 256
 }

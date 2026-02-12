@@ -2107,4 +2107,5 @@
     <string name="model_dat_2x">העלאת קנה מידה פי 2 עם טכנולוגיית Dual Aggregation Transformer, שומרת על חדות ופרטים טבעיים.</string>
     <string name="model_dat_3x">הגדלה פי 3 באמצעות ארכיטקטורת שנאים מתקדמת, אידיאלית לצרכי הגדלה מתונים.</string>
     <string name="model_dat_4x">שיפוץ קנה מידה איכותי פי 4 עם רשת שנאים מתקדמת, משמרת פרטים עדינים בקנה מידה גדול יותר.</string>
+    <string name="model_nafnet_deblurring">מסיר טשטוש/רעש ורעידות מתמונות. מטרה כללית אבל הכי טובה בתמונות.</string>
 </resources>

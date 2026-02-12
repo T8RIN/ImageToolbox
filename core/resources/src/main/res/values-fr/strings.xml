@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">La mise à l\'échelle 2x avec la technologie Dual Aggregation Transformer maintient la netteté et les détails naturels.</string>
     <string name="model_dat_3x">Mise à l\'échelle 3x grâce à une architecture de transformateur avancée, idéale pour les besoins d\'agrandissement modérés.</string>
     <string name="model_dat_4x">Mise à l\'échelle 4x de haute qualité avec un réseau de transformateurs de pointe, préserve les détails fins à plus grande échelle.</string>
+    <string name="model_nafnet_deblurring">Supprime le flou/bruit et les secousses des photos. Usage général mais meilleur sur les photos.</string>
 </resources>

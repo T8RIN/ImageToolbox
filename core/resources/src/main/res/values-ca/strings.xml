@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">Ampliació 2x amb tecnologia Dual Aggregation Transformer, manté la nitidesa i els detalls naturals.</string>
     <string name="model_dat_3x">Ampliació 3x utilitzant una arquitectura de transformador avançada, ideal per a necessitats d\'ampliació moderades.</string>
     <string name="model_dat_4x">L\'augment d\'alta qualitat 4x amb una xarxa de transformadors d\'última generació, conserva els detalls fins a escala més gran.</string>
+    <string name="model_nafnet_deblurring">Elimina el borrós/soroll i els tremolors de les fotos. Propòsit general però millor en fotos.</string>
 </resources>

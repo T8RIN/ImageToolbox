@@ -2105,4 +2105,5 @@
     <string name="model_dat_2x">Upscaling 2x com tecnologia Dual Aggregation Transformer, mantém a nitidez e os detalhes naturais.</string>
     <string name="model_dat_3x">Upscaling 3x usando arquitetura de transformador avançada, ideal para necessidades moderadas de ampliação.</string>
     <string name="model_dat_4x">Upscaling 4x de alta qualidade com rede de transformadores de última geração, preserva detalhes finos em escalas maiores.</string>
+    <string name="model_nafnet_deblurring">Remove desfoque/ruído e tremores das fotos. Uso geral, mas melhor em fotos.</string>
 </resources>
