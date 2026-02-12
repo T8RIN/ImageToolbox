@@ -325,9 +325,9 @@ internal class AiProcessor @Inject constructor(
         val originalH = chunk.height
         var w: Int
         var h: Int
+        val minModelSize = info.minSpatialSize
 
-        if (info.isScuNetColor) {
-            val minModelSize = 256
+        if (info.isScuNetColor || minModelSize > 256) {
             w = if (info.expectedWidth != null && info.expectedWidth > 0) {
                 info.expectedWidth
             } else {
@@ -457,10 +457,10 @@ internal class AiProcessor @Inject constructor(
                 val outputH = h * info.scaleFactor
                 val outputW = w * info.scaleFactor
                 val (outputArray, actualOutputChannels) = extractOutputArray(
-                    sessionResult[0].value,
-                    outputChannels,
-                    outputH,
-                    outputW
+                    outputValue = sessionResult[0].value,
+                    channels = outputChannels,
+                    h = outputH,
+                    w = outputW
                 )
                 val fullResultBitmap =
                     createBitmap(width = outputW, height = outputH, config = config)
@@ -595,11 +595,18 @@ internal class AiProcessor @Inject constructor(
                 try {
                     val arr = outputValue as Array<Array<Array<FloatArray>>>
                     "Output is multi-dimensional FloatArray".makeLog("AiProcessor")
+                    val actualBatches = arr.size
                     val actualChannels = arr[0].size
-                    "Expected channels: $channels, Actual channels: $actualChannels".makeLog("AiProcessor")
+                    val actualHeight = arr[0][0].size
+                    val actualWidth = arr[0][0][0].size
 
-                    val out = FloatArray(channels * h * w)
-                    val channelsToProcess = minOf(channels, actualChannels)
+                    val channelsToProcess = maxOf(channels, actualChannels)
+                    "Actual tensor shape: [$actualBatches, $actualChannels, $actualHeight, $actualWidth]".makeLog(
+                        "AiProcessor"
+                    )
+                    "Requested extraction shape: [$channelsToProcess, $h, $w]".makeLog("AiProcessor")
+
+                    val out = FloatArray(channelsToProcess * h * w)
                     for (ch in 0 until channelsToProcess) {
                         for (y in 0 until h) {
                             for (x in 0 until w) {
@@ -608,16 +615,23 @@ internal class AiProcessor @Inject constructor(
                             }
                         }
                     }
-                    out to actualChannels
+                    out to channelsToProcess
                 } catch (e: Throwable) {
                     try {
                         val arr = outputValue as Array<Array<Array<ShortArray>>>
                         "Output is multi-dimensional ShortArray (FP16)".makeLog("AiProcessor")
+                        val actualBatches = arr.size
                         val actualChannels = arr[0].size
-                        "Expected channels: $channels, Actual channels: $actualChannels".makeLog("AiProcessor")
+                        val actualHeight = arr[0][0].size
+                        val actualWidth = arr[0][0][0].size
 
-                        val out = FloatArray(channels * h * w)
-                        val channelsToProcess = minOf(channels, actualChannels)
+                        val channelsToProcess = maxOf(channels, actualChannels)
+                        "Actual tensor shape: [$actualBatches, $actualChannels, $actualHeight, $actualWidth]".makeLog(
+                            "AiProcessor"
+                        )
+                        "Requested extraction shape: [$channelsToProcess, $h, $w]".makeLog("AiProcessor")
+
+                        val out = FloatArray(channelsToProcess * h * w)
                         for (ch in 0 until channelsToProcess) {
                             for (y in 0 until h) {
                                 for (x in 0 until w) {
@@ -626,7 +640,7 @@ internal class AiProcessor @Inject constructor(
                                 }
                             }
                         }
-                        out to actualChannels
+                        out to channelsToProcess
                     } catch (e2: Throwable) {
                         throw RuntimeException("Failed to extract output array: ${e.message}, ${e2.message}")
                     }
