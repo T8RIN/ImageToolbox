@@ -1949,7 +1949,7 @@
     <string name="failed_to_open_session">Не удалось открыть сессию</string>
     <string name="type_dejpeg">DeJPEG</string>
     <string name="type_denoise">Шумоподавление</string>
-    <string name="type_colorize">Раскаршивание</string>
+    <string name="type_colorize">Раскрашивание</string>
     <string name="type_artifacts">Артефакты</string>
     <string name="type_enhance">Улучшение</string>
     <string name="type_anime">Аниме</string>
