@@ -97,7 +97,7 @@ internal class ModelInfo(
         expectedWidth = foundExpectedWidth
         expectedHeight = foundExpectedHeight
 
-        "Model input type: ${if (isFp16) "FP16" else "FP32"}, input channels: $inputChannels, output channels: $outputChannels, expected dimensions: ${expectedWidth ?: "dynamic"}x${expectedHeight ?: "dynamic"}"
+        "Model input type: ${if (isFp16) "FP16" else "FP32"}, input channels: $inputChannels, output channels: $outputChannels, expected dimensions: ${expectedWidth ?: "dynamic"}x${expectedHeight ?: "dynamic"}, scaleFactor: $scaleFactor"
             .makeLog("ModelInfo")
     }
 }

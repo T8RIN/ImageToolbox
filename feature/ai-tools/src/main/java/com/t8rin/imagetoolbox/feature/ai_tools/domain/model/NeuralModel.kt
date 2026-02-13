@@ -910,7 +910,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2xLiveActionV1_SPAN_490000.onnx?download=true",
                     name = "2xLiveActionV1_SPAN_490000.onnx",
-                    title = "LiveAction V1 SPAN 2x",
+                    title = "LiveAction V1 SPAN x2",
                     description = R.string.model_liveaction_v1_span,
                     type = Type.UPSCALE,
                     downloadSize = 1654748,
@@ -920,7 +920,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2xVHS2HD-RealPLKSR.onnx?download=true",
                     name = "2xVHS2HD-RealPLKSR.onnx",
-                    title = "VHS to HD 2x",
+                    title = "VHS to HD x2",
                     description = R.string.model_vhs2hd_realplksr,
                     type = Type.UPSCALE,
                     downloadSize = 29718646,
@@ -930,7 +930,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2x_Text2HD_v.1-RealPLKSR.onnx?download=true",
                     name = "2x_Text2HD_v.1-RealPLKSR.onnx",
-                    title = "Text2HD 2x",
+                    title = "Text2HD x2",
                     description = R.string.model_text2hd_v1,
                     type = Type.UPSCALE,
                     downloadSize = 29718646,
@@ -940,7 +940,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4x-FrankendataPretrainer_SRFormer400K.onnx?download=true",
                     name = "4x-Frankendata_Pretrainer_SRFormer400K.onnx",
-                    title = "SRFormer 4x",
+                    title = "SRFormer x4",
                     description = R.string.model_frankendata_pretrainer,
                     type = Type.UPSCALE,
                     downloadSize = 120837871,
@@ -950,7 +950,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4xRealWebPhoto_v2_rgt_s.onnx?download=true",
                     name = "4xRealWebPhoto_v2_rgt_s.onnx",
-                    title = "RealWebPhoto v2 RGT-S 4x",
+                    title = "RealWebPhoto v2 RGT-S x4",
                     description = R.string.model_realwebphoto_v2,
                     type = Type.UPSCALE,
                     downloadSize = 48824340,
@@ -960,7 +960,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4xRealWebPhoto_v4_dat2.onnx?download=true",
                     name = "4xRealWebPhoto_v4_dat2.onnx",
-                    title = "RealWebPhoto v4 DAT2 4x",
+                    title = "RealWebPhoto v4 DAT2 x4",
                     description = R.string.model_realwebphoto_v4,
                     type = Type.UPSCALE,
                     downloadSize = 48760847,
@@ -970,7 +970,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x2.onnx?download=true",
                     name = "DAT_2_x2.onnx",
-                    title = "DAT2 2x",
+                    title = "DAT2 x2",
                     description = R.string.model_dat_2x,
                     type = Type.UPSCALE,
                     downloadSize = 49503576,
@@ -980,7 +980,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x3.onnx?download=true",
                     name = "DAT_2_x3.onnx",
-                    title = "DAT2 3x",
+                    title = "DAT2 x3",
                     description = R.string.model_dat_3x,
                     type = Type.UPSCALE,
                     downloadSize = 50242136,
@@ -990,7 +990,7 @@ data class NeuralModel(
                 NeuralModel(
                     downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x4.onnx?download=true",
                     name = "DAT_2_x4.onnx",
-                    title = "DAT2 4x",
+                    title = "DAT2 x4",
                     description = R.string.model_dat_4x,
                     type = Type.UPSCALE,
                     downloadSize = 50094919,
