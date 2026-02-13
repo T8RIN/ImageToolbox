@@ -27,10 +27,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun <O : Any> ObjectSaver.savable(
-    delay: Long = 0,
     scope: CoroutineScope,
     initial: O,
-    key: String = initial::class.simpleName.toString()
+    key: String = initial::class.simpleName.toString(),
+    delay: Long = 0,
 ): ReadWriteDelegate<O> = ObjectSaverDelegate(
     delay = delay,
     saver = this,

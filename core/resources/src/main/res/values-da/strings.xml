@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Værktøjer skjult til deling</string>
     <string name="color_library">Farvebibliotek</string>
     <string name="color_library_sub">Gennemse en stor samling af farver</string>
+    <string name="model_fatality_deblur">Gør skarpere og fjerner sløring fra billeder, samtidig med at de naturlige detaljer bevares, ideel til at rette ufokuserede billeder.</string>
+    <string name="model_unresize_v3">Intelligent gendanner billeder, der tidligere er blevet ændret, og genskaber mistede detaljer og teksturer.</string>
+    <string name="model_liveaction_v1_span">Optimeret til live-action-indhold, reducerer kompressionsartefakter og forbedrer fine detaljer i film-/tv-showrammer.</string>
+    <string name="model_vhs2hd_realplksr">Konverterer optagelser i VHS-kvalitet til HD, fjerner båndstøj og forbedrer opløsningen, samtidig med at vintage-følelsen bevares.</string>
+    <string name="model_text2hd_v1">Specialiseret til teksttunge billeder og skærmbilleder, skærper tegn og forbedrer læsbarheden.</string>
+    <string name="model_frankendata_pretrainer">Avanceret opskalering trænet på forskellige datasæt, fremragende til generelle fotoforbedring.</string>
+    <string name="model_realwebphoto_v2">Optimeret til webkomprimerede billeder, fjerner JPEG-artefakter og genopretter det naturlige udseende.</string>
+    <string name="model_realwebphoto_v4">Forbedret version til webfotos med bedre teksturbevarelse og reduktion af artefakter.</string>
+    <string name="model_dat_2x">2x opskalering med Dual Aggregation Transformer-teknologi, bevarer skarphed og naturlige detaljer.</string>
+    <string name="model_dat_3x">3x opskalering ved hjælp af avanceret transformerarkitektur, ideel til moderate forstørrelsesbehov.</string>
+    <string name="model_dat_4x">4x højkvalitets opskalering med state-of-the-art transformer netværk, bevarer fine detaljer i større skalaer.</string>
+    <string name="model_nafnet_deblurring">Fjerner sløring/støj og rystelser fra fotos. Generelt formål, men bedst på billeder.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Gendanner billeder i lav kvalitet ved hjælp af Swin2SR-transformer, optimeret til BSRGAN-nedbrydning. Fantastisk til at fikse tunge kompressionsartefakter og forbedre detaljer i 4x skala.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x opskalering med SwinIR-transformer trænet på BSRGAN-nedbrydning. Bruger GAN til skarpere teksturer og mere naturlige detaljer i fotos og komplekse scener.</string>
 </resources>

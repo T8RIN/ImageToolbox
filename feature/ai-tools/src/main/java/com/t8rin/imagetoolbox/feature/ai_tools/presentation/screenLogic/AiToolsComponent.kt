@@ -229,6 +229,9 @@ class AiToolsComponent @AssistedInject internal constructor(
                         params = params
                     )?.let {
                         it to imageInfo.copy(
+                            width = it.width,
+                            height = it.height,
+                            originalUri = uri.toString(),
                             imageFormat = imageFormat ?: imageInfo.imageFormat
                         )
                     }
@@ -240,18 +243,12 @@ class AiToolsComponent @AssistedInject internal constructor(
                     results.add(
                         fileController.save(
                             ImageSaveTarget(
-                                imageInfo = imageInfo.copy(
-                                    width = image.width,
-                                    height = image.height
-                                ),
+                                imageInfo = imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _saveProgress.value?.doneImages?.plus(1),
                                 data = imageCompressor.compressAndTransform(
                                     image = image,
-                                    imageInfo = imageInfo.copy(
-                                        width = image.width,
-                                        height = image.height
-                                    )
+                                    imageInfo = imageInfo
                                 )
                             ),
                             keepOriginalMetadata = false,
@@ -307,13 +304,16 @@ class AiToolsComponent @AssistedInject internal constructor(
                         params = params
                     )?.let {
                         it to imageInfo.copy(
+                            width = it.width,
+                            height = it.height,
+                            originalUri = uri.toString(),
                             imageFormat = imageFormat ?: imageInfo.imageFormat
                         )
                     }
                 }.getOrNull()?.let { (image, imageInfo) ->
                     shareProvider.cacheImage(
                         image = image,
-                        imageInfo = imageInfo.copy(originalUri = uri.toString())
+                        imageInfo = imageInfo
                     )?.let { uri ->
                         list.add(uri.toUri())
                     }

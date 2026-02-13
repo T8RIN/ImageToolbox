@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Zum Teilen ausgeblendete Tools</string>
     <string name="color_library">Farbbibliothek</string>
     <string name="color_library_sub">Stöbern Sie in einer riesigen Farbkollektion</string>
+    <string name="model_fatality_deblur">Schärft und entfernt Unschärfen aus Bildern und behält gleichzeitig natürliche Details bei, ideal zum Korrigieren unscharfer Fotos.</string>
+    <string name="model_unresize_v3">Stellt Bilder, deren Größe zuvor geändert wurde, intelligent wieder her und stellt verlorene Details und Texturen wieder her.</string>
+    <string name="model_liveaction_v1_span">Optimiert für Live-Action-Inhalte, reduziert Komprimierungsartefakte und verbessert feine Details in Film-/TV-Show-Frames.</string>
+    <string name="model_vhs2hd_realplksr">Konvertiert Filmmaterial in VHS-Qualität in HD, entfernt Bandrauschen und verbessert die Auflösung, während das Vintage-Feeling erhalten bleibt.</string>
+    <string name="model_text2hd_v1">Spezialisiert auf textlastige Bilder und Screenshots, schärft Zeichen und verbessert die Lesbarkeit.</string>
+    <string name="model_frankendata_pretrainer">Erweitertes Upscaling, trainiert auf verschiedenen Datensätzen, hervorragend für die allgemeine Fotoverbesserung.</string>
+    <string name="model_realwebphoto_v2">Optimiert für webkomprimierte Fotos, entfernt JPEG-Artefakte und stellt das natürliche Erscheinungsbild wieder her.</string>
+    <string name="model_realwebphoto_v4">Verbesserte Version für Webfotos mit besserer Texturerhaltung und Artefaktreduzierung.</string>
+    <string name="model_dat_2x">2-fache Hochskalierung mit Dual Aggregation Transformer-Technologie, behält Schärfe und natürliche Details bei.</string>
+    <string name="model_dat_3x">3-fache Hochskalierung mit fortschrittlicher Transformatorarchitektur, ideal für moderate Vergrößerungsanforderungen.</string>
+    <string name="model_dat_4x">4-fache hochwertige Hochskalierung mit modernstem Transformatornetzwerk, bewahrt feine Details in größeren Maßstäben.</string>
+    <string name="model_nafnet_deblurring">Entfernt Unschärfe/Rauschen und Verwacklungen aus Fotos. Universell einsetzbar, aber am besten für Fotos geeignet.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Stellt Bilder mit geringer Qualität mithilfe des Swin2SR-Transformators wieder her, der für die BSRGAN-Verschlechterung optimiert ist. Ideal zum Beheben starker Komprimierungsartefakte und zur Verbesserung von Details im 4-fachen Maßstab.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4-fache Hochskalierung mit SwinIR-Transformator, trainiert auf BSRGAN-Degradation. Verwendet GAN für schärfere Texturen und natürlichere Details in Fotos und komplexen Szenen.</string>
 </resources>

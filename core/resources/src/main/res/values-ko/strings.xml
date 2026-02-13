@@ -2093,4 +2093,18 @@
     <string name="hidden_for_share">공유를 위해 숨겨진 도구</string>
     <string name="color_library">컬러 라이브러리</string>
     <string name="color_library_sub">다양한 색상 컬렉션을 살펴보세요</string>
+    <string name="model_fatality_deblur">자연스러운 디테일을 유지하면서 이미지의 흐림을 선명하게 하고 제거하여 초점이 맞지 않는 사진을 수정하는 데 이상적입니다.</string>
+    <string name="model_unresize_v3">이전에 크기가 조정된 이미지를 지능적으로 복원하여 손실된 세부 정보와 질감을 복구합니다.</string>
+    <string name="model_liveaction_v1_span">실사 콘텐츠에 최적화되어 압축 아티팩트를 줄이고 영화/TV 쇼 프레임의 미세한 디테일을 향상시킵니다.</string>
+    <string name="model_vhs2hd_realplksr">VHS 품질의 영상을 HD로 변환하여 빈티지 느낌을 유지하면서 테이프 노이즈를 제거하고 해상도를 향상시킵니다.</string>
+    <string name="model_text2hd_v1">텍스트가 많은 이미지와 스크린샷에 특화되어 문자를 선명하게 하고 가독성을 높입니다.</string>
+    <string name="model_frankendata_pretrainer">다양한 데이터 세트에 대해 훈련된 고급 업스케일링으로 범용 사진 향상에 탁월합니다.</string>
+    <string name="model_realwebphoto_v2">웹 압축 사진에 최적화되어 JPEG 아티팩트를 제거하고 자연스러운 모습을 복원합니다.</string>
+    <string name="model_realwebphoto_v4">더 나은 질감 보존 및 아티팩트 감소 기능을 갖춘 웹 사진용 개선 버전입니다.</string>
+    <string name="model_dat_2x">Dual Aggregation Transformer 기술로 2배 업스케일링하여 선명도와 자연스러운 디테일을 유지합니다.</string>
+    <string name="model_dat_3x">고급 트랜스포머 아키텍처를 사용한 3배 업스케일링으로 적당한 확장 요구 사항에 이상적입니다.</string>
+    <string name="model_dat_4x">최첨단 변압기 네트워크를 통한 4배 고품질 업스케일링으로 더 큰 규모에서도 미세한 디테일을 보존합니다.</string>
+    <string name="model_nafnet_deblurring">사진에서 흐림/노이즈 및 흔들림을 제거합니다. 일반적인 용도이지만 사진에 가장 적합합니다.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN 저하에 최적화된 Swin2SR 변환기를 사용하여 저품질 이미지를 복원합니다. 과도한 압축 아티팩트를 수정하고 4배율로 디테일을 향상시키는 데 적합합니다.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN 저하에 대해 훈련된 SwinIR 변환기를 사용한 4배 업스케일링. 사진과 복잡한 장면에서 더 선명한 질감과 더 자연스러운 디테일을 위해 GAN을 사용합니다.</string>
 </resources>

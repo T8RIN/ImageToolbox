@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("KotlinConstantConditions")
+@file:Suppress("KotlinConstantConditions", "COMPOSE_APPLIER_CALL_MISMATCH")
 
 package com.t8rin.imagetoolbox.feature.easter_egg.presentation
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -36,6 +42,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,14 +57,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
@@ -75,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.EmojiItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -106,7 +113,7 @@ fun EasterEggContent(
     }
 
     LaunchedEffect(Unit) {
-        while (true) {
+        while (isActive) {
             delay(700)
             if (counter.value > 10) counter.value = 0
             emojiData[counter.value] = allEmojis.random().toString()
@@ -117,42 +124,51 @@ fun EasterEggContent(
 
     val painter = painterResource(R.drawable.ic_launcher_foreground)
 
-    Column(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-    ) {
-        EnhancedTopAppBar(
-            title = {
-                Row(modifier = Modifier.marquee()) {
-                    emojiData.forEach { emoji ->
-                        EmojiItem(
-                            emoji = emoji,
-                            fontScale = 1f
+            .background(MaterialTheme.colorScheme.surface),
+        topBar = {
+            EnhancedTopAppBar(
+                title = {
+                    Row(modifier = Modifier.marquee()) {
+                        emojiData.forEach { emoji ->
+                            EmojiItem(
+                                emoji = emoji,
+                                fontScale = 1f
+                            )
+                        }
+                    }
+                },
+                navigationIcon = {
+                    EnhancedIconButton(
+                        onClick = component.onGoBack
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.exit)
                         )
                     }
-                }
-            },
-            navigationIcon = {
-                EnhancedIconButton(
-                    onClick = component.onGoBack
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = stringResource(R.string.exit)
-                    )
-                }
-            },
-            type = EnhancedTopAppBarType.Center
-        )
-
+                },
+                type = EnhancedTopAppBarType.Center
+            )
+        },
+        contentWindowInsets = WindowInsets()
+    ) { contentPadding ->
         BoxWithConstraints(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
         ) {
-            val width = this.constraints.maxWidth
+            val density = LocalDensity.current
+            val width = constraints.maxWidth
             val height = constraints.maxHeight
-            val ballSize = (min(maxWidth, maxHeight) * 0.3f).coerceAtMost(180.dp)
-            val ballSizePx = with(LocalDensity.current) { ballSize.toPx().roundToInt() }
+            val ballSize = remember(maxWidth, maxHeight) {
+                (min(maxWidth, maxHeight) * 0.3f).coerceAtMost(180.dp)
+            }
+            val ballSizePx = remember(density, ballSize) {
+                with(density) { ballSize.toPx().roundToInt() }
+            }
             var speed by remember { mutableFloatStateOf(0.2f) }
 
             var x by remember { mutableFloatStateOf((width - ballSizePx) * 1f) }
@@ -163,6 +179,14 @@ fun EasterEggContent(
 
             var xSpeed by rememberSaveable { mutableFloatStateOf(10f) }
             var ySpeed by rememberSaveable { mutableFloatStateOf(10f) }
+            val rotation = rememberInfiniteTransition().animateFloat(
+                initialValue = 0f,
+                targetValue = 360f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(2500),
+                    repeatMode = RepeatMode.Reverse
+                )
+            )
 
             var bounces by remember {
                 mutableIntStateOf(0)
@@ -194,43 +218,58 @@ fun EasterEggContent(
                         bounces++
                     }
 
-                    delay(1)
+                    delay(10)
                 }
             }
 
             val icons = remember {
-                Screen.entries.mapNotNull { it.icon }
+                Screen.entries.mapNotNull { it.icon }.shuffled()
             }
-            FlowRow {
-                repeat(width * height / (24 * 24)) {
-                    val icon = remember(it) {
-                        icons.shuffled()[it % icons.size]
+            val tint = MaterialTheme.colorScheme.secondary.copy(0.8f)
+            val minIconSize = remember(density) {
+                with(density) { 22.dp.roundToPx() }
+            }
+
+
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                repeat(height / minIconSize) {
+                    Row(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        repeat(width / minIconSize) {
+                            val icon = remember(it) { icons.random() }
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .aspectRatio(1f)
+                                    .padding(1.dp),
+                                tint = tint
+                            )
+                        }
                     }
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(1.dp),
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
                 }
             }
 
             Box(
-                modifier = Modifier.offset {
-                    IntOffset(
-                        animatedX.value.roundToInt(),
-                        animatedY.value.roundToInt()
-                    )
-                },
+                modifier = Modifier
+                    .graphicsLayer {
+                        translationX = animatedX.value
+                        translationY = animatedY.value
+                        rotationZ = rotation.value
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 val scope = rememberCoroutineScope()
                 Column(
                     modifier = Modifier
-                        .clip(MaterialStarShape)
-                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .container(
+                            shape = MaterialStarShape,
+                            color = MaterialTheme.colorScheme.tertiaryContainer
+                        )
                         .hapticsClickable {
                             speed = if (speed == 0.2f) {
                                 Random.nextFloat()
@@ -239,7 +278,10 @@ fun EasterEggContent(
                                 confettiHostState.showConfetti()
                             }
                         }
-                        .size(ballSize),
+                        .size(ballSize)
+                        .graphicsLayer {
+                            rotationZ = -rotation.value
+                        },
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

@@ -2096,4 +2096,18 @@
     <string name="hidden_for_share">כלים מוסתרים לשיתוף</string>
     <string name="color_library">ספריית צבע</string>
     <string name="color_library_sub">עיין באוסף עצום של צבעים</string>
+    <string name="model_fatality_deblur">מחדד ומסיר טשטוש מתמונות תוך שמירה על פרטים טבעיים, אידיאלי לתיקון תמונות לא ממוקדות.</string>
+    <string name="model_unresize_v3">משחזר באופן אינטליגנטי תמונות ששונו בעבר, משחזר פרטים ומרקמים שאבדו.</string>
+    <string name="model_liveaction_v1_span">מותאם לתוכן חי, מפחית חפצי דחיסה ומשפר פרטים עדינים במסגרות של סרטים/תוכניות טלוויזיה.</string>
+    <string name="model_vhs2hd_realplksr">ממיר קטעים באיכות VHS ל-HD, מסיר רעשי קלטת ושיפור הרזולוציה תוך שמירה על תחושת וינטג\'.</string>
+    <string name="model_text2hd_v1">מתמחה לתמונות וצילומי מסך עתירי טקסט, מחדד תווים ומשפר את הקריאה.</string>
+    <string name="model_frankendata_pretrainer">שיפור קנה מידה מתקדם מאומן על מערכי נתונים מגוונים, מצוין לשיפור צילום למטרות כלליות.</string>
+    <string name="model_realwebphoto_v2">מותאם לתמונות דחוסות באינטרנט, מסיר חפצי JPEG ומשחזר מראה טבעי.</string>
+    <string name="model_realwebphoto_v4">גרסה משופרת לתמונות אינטרנט עם שימור מרקם טוב יותר והפחתת חפצים.</string>
+    <string name="model_dat_2x">העלאת קנה מידה פי 2 עם טכנולוגיית Dual Aggregation Transformer, שומרת על חדות ופרטים טבעיים.</string>
+    <string name="model_dat_3x">הגדלה פי 3 באמצעות ארכיטקטורת שנאים מתקדמת, אידיאלית לצרכי הגדלה מתונים.</string>
+    <string name="model_dat_4x">שיפוץ קנה מידה איכותי פי 4 עם רשת שנאים מתקדמת, משמרת פרטים עדינים בקנה מידה גדול יותר.</string>
+    <string name="model_nafnet_deblurring">מסיר טשטוש/רעש ורעידות מתמונות. מטרה כללית אבל הכי טובה בתמונות.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">משחזר תמונות באיכות נמוכה באמצעות שנאי Swin2SR, מותאם לפירוק BSRGAN. נהדר לתיקון חפצי דחיסה כבדים ושיפור פרטים בקנה מידה פי 4.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">העלאת קנה מידה פי 4 עם שנאי SwinIR מאומן על השפלה של BSRGAN. משתמש ב-GAN למרקמים חדים יותר ופרטים טבעיים יותר בתמונות ובסצנות מורכבות.</string>
 </resources>

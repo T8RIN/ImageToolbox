@@ -887,6 +887,146 @@ data class NeuralModel(
                     speed = Speed.Normal(0.573f),
                     checksum = "4fcc3f7f7af1d16565dd7ec767e6e2500565ed6ba76c5c30b9934116ca32153e"
                 ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/1x-Fatality-DeBlur.onnx?download=true",
+                    name = "1x-Fatality-DeBlur.onnx",
+                    title = "Fatality DeBlur",
+                    description = R.string.model_fatality_deblur,
+                    type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
+                    speed = Speed.Normal(11.609f),
+                    checksum = "ea7b0d0d873151265ed096a55f9911240a7ef0b66db419c6f6912f2cf0c94888"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/1x-UnResize-V3.onnx?download=true",
+                    name = "1x-UnResize-V3.onnx",
+                    title = "UnResize V3",
+                    description = R.string.model_unresize_v3,
+                    type = Type.ARTIFACTS,
+                    downloadSize = 33456842,
+                    speed = Speed.Normal(12.356f),
+                    checksum = "f4d67d604a8cc3fb184a662f3e2fe427a80cef444e87870be8b8eedfda774fd2"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2xLiveActionV1_SPAN_490000.onnx?download=true",
+                    name = "2xLiveActionV1_SPAN_490000.onnx",
+                    title = "LiveAction V1 SPAN x2",
+                    description = R.string.model_liveaction_v1_span,
+                    type = Type.UPSCALE,
+                    downloadSize = 1654748,
+                    speed = Speed.VeryFast(0.311f),
+                    checksum = "bfa72f3c6347076aed140d0836cee30c27ea434c047beeaf9466469483836ecc"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2xVHS2HD-RealPLKSR.onnx?download=true",
+                    name = "2xVHS2HD-RealPLKSR.onnx",
+                    title = "VHS to HD x2",
+                    description = R.string.model_vhs2hd_realplksr,
+                    type = Type.UPSCALE,
+                    downloadSize = 29718646,
+                    speed = Speed.Fast(5.591f),
+                    checksum = "441c8c8acedee4cf79c5629779e7720aef25952cfc68ca137034d835bbfa66f4"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/2x_Text2HD_v.1-RealPLKSR.onnx?download=true",
+                    name = "2x_Text2HD_v.1-RealPLKSR.onnx",
+                    title = "Text2HD x2",
+                    description = R.string.model_text2hd_v1,
+                    type = Type.UPSCALE,
+                    downloadSize = 29718646,
+                    speed = Speed.Fast(5.550f),
+                    checksum = "0c3ef0e30de53ff0156da5fb4593dd4cbc89eee4707ca8e84d640302e4b9c3df"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4x-FrankendataPretrainer_SRFormer400K.onnx?download=true",
+                    name = "4x-Frankendata_Pretrainer_SRFormer400K.onnx",
+                    title = "SRFormer x4",
+                    description = R.string.model_frankendata_pretrainer,
+                    type = Type.UPSCALE,
+                    downloadSize = 120837871,
+                    speed = Speed.Slow(15.130f),
+                    checksum = "6f505d321e07dadaa3f2f2cb91e4cb37cc47ba630a601fa4207abae6f8877bbc"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4xRealWebPhoto_v2_rgt_s.onnx?download=true",
+                    name = "4xRealWebPhoto_v2_rgt_s.onnx",
+                    title = "RealWebPhoto v2 RGT-S x4",
+                    description = R.string.model_realwebphoto_v2,
+                    type = Type.UPSCALE,
+                    downloadSize = 48824340,
+                    speed = Speed.VerySlow(39.655f),
+                    checksum = "1c014ca191c9e3c41c47e26a6fe859a6847dd00d9d49073386e7104ac438450e"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/4xRealWebPhoto_v4_dat2.onnx?download=true",
+                    name = "4xRealWebPhoto_v4_dat2.onnx",
+                    title = "RealWebPhoto v4 DAT2 x4",
+                    description = R.string.model_realwebphoto_v4,
+                    type = Type.UPSCALE,
+                    downloadSize = 48760847,
+                    speed = Speed.VerySlow(25.959f),
+                    checksum = "a9a3a9099e0108b793556ed9cf2123a61a727bbc611dd8d93475f7144596589e"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x2.onnx?download=true",
+                    name = "DAT_2_x2.onnx",
+                    title = "DAT2 x2",
+                    description = R.string.model_dat_2x,
+                    type = Type.UPSCALE,
+                    downloadSize = 49503576,
+                    speed = Speed.VerySlow(25.567f),
+                    checksum = "fee6f4901207b1b5f68900ebbc7e0a2dbcb881b8ddfac97219f118af2cc53066"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x3.onnx?download=true",
+                    name = "DAT_2_x3.onnx",
+                    title = "DAT2 x3",
+                    description = R.string.model_dat_3x,
+                    type = Type.UPSCALE,
+                    downloadSize = 50242136,
+                    speed = Speed.VerySlow(25.736f),
+                    checksum = "59aeb6835c29f57dc9cab3b1367ec670eddc5b51d5a8177f3f921ad7ffb63ad9"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/DAT_2_x4.onnx?download=true",
+                    name = "DAT_2_x4.onnx",
+                    title = "DAT2 x4",
+                    description = R.string.model_dat_4x,
+                    type = Type.UPSCALE,
+                    downloadSize = 50094919,
+                    speed = Speed.VerySlow(26.169f),
+                    checksum = "e6354e8fdd1b31b6e1114300843bf7bc31f91e4294fbb8e41282fc43f0a46cbc"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/deblurring_nafnet_2025may.onnx?download=true",
+                    name = "deblurring_nafnet_2025may.onnx",
+                    title = "NAFNET deblurring",
+                    description = R.string.model_nafnet_deblurring,
+                    type = Type.DENOISE,
+                    downloadSize = 91736251,
+                    speed = Speed.VeryFast(1.371f),
+                    checksum = "07263f416febecce10193dd648e950b22e397cf521eedab1a114ef77b2bc9587"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/swin2SR-x4-bsrgan-psnr.onnx?download=true",
+                    name = "swin2SR-x4-bsrgan-psnr.onnx",
+                    title = "Swin2SR BSRGAN PSNR x4",
+                    description = R.string.model_swin2sr_x4_bsrgan_psnr,
+                    type = Type.UPSCALE,
+                    downloadSize = 53827735,
+                    speed = Speed.Normal(14.478f),
+                    checksum = "987d88b356554161cbb8f67b7a8f4162cad6dc147839c344e3d5142140f25d6f"
+                ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/BSRGAN_SwinIR-M_x4_GAN.onnx?download=true",
+                    name = "BSRGAN_SwinIR-M_x4_GAN.onnx",
+                    title = "SwinIR-M BSRGAN GAN x4",
+                    description = R.string.model_bsrgan_swinir_m_x4_gan,
+                    type = Type.UPSCALE,
+                    downloadSize = 61316800,
+                    speed = Speed.Normal(13.116f),
+                    checksum = "50a7b6fcaad6c4f342c5e1d059916a3e5d48e89d1d311270a476a7ce6a2ea09f"
+                ),
             ).sortedBy { it.type?.ordinal }
         }
 

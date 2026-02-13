@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Eines amagades per compartir</string>
     <string name="color_library">Biblioteca de colors</string>
     <string name="color_library_sub">Exploreu una àmplia col·lecció de colors</string>
+    <string name="model_fatality_deblur">Augmenta i elimina el desenfocament de les imatges mantenint els detalls naturals, ideal per arreglar fotos desenfocades.</string>
+    <string name="model_unresize_v3">Restaura de manera intel·ligent les imatges que s\'han redimensionat prèviament, recuperant els detalls i les textures perduts.</string>
+    <string name="model_liveaction_v1_span">Optimitzat per a contingut d\'acció en directe, redueix els artefactes de compressió i millora els detalls detallats en fotogrames de pel·lícules o programes de televisió.</string>
+    <string name="model_vhs2hd_realplksr">Converteix metratges de qualitat VHS a HD, eliminant el soroll de la cinta i millorant la resolució alhora que conserva la sensació vintage.</string>
+    <string name="model_text2hd_v1">Especialitzat per a imatges i captures de pantalla amb un gran nombre de text, aguditza els caràcters i millora la llegibilitat.</string>
+    <string name="model_frankendata_pretrainer">Escala avançada entrenada en diversos conjunts de dades, excel·lent per a la millora de fotografies d\'ús general.</string>
+    <string name="model_realwebphoto_v2">Optimitzat per a fotos comprimides a la web, elimina els artefactes JPEG i restaura l\'aspecte natural.</string>
+    <string name="model_realwebphoto_v4">Versió millorada per a fotos web amb una millor preservació de la textura i reducció d\'artefactes.</string>
+    <string name="model_dat_2x">Ampliació 2x amb tecnologia Dual Aggregation Transformer, manté la nitidesa i els detalls naturals.</string>
+    <string name="model_dat_3x">Ampliació 3x utilitzant una arquitectura de transformador avançada, ideal per a necessitats d\'ampliació moderades.</string>
+    <string name="model_dat_4x">L\'augment d\'alta qualitat 4x amb una xarxa de transformadors d\'última generació, conserva els detalls fins a escala més gran.</string>
+    <string name="model_nafnet_deblurring">Elimina el borrós/soroll i els tremolors de les fotos. Propòsit general però millor en fotos.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restaura imatges de baixa qualitat mitjançant el transformador Swin2SR, optimitzat per a la degradació de BSRGAN. Ideal per arreglar artefactes de compressió pesats i millorar els detalls a escala 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Ampliació 4x amb transformador SwinIR entrenat en degradació BSRGAN. Utilitza GAN per obtenir textures més nítides i detalls més naturals en fotos i escenes complexes.</string>
 </resources>

@@ -46,6 +46,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -141,28 +142,35 @@ fun AdaptiveLayoutScreen(
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
-            Column(Modifier.fillMaxSize()) {
-                EnhancedTopAppBar(
-                    type = EnhancedTopAppBarType.Large,
-                    scrollBehavior = scrollBehavior,
-                    title = title,
-                    drawHorizontalStroke = underTopAppBarContent == null,
-                    navigationIcon = {
-                        EnhancedIconButton(
-                            onClick = onGoBack
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(R.string.exit)
-                            )
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    EnhancedTopAppBar(
+                        type = EnhancedTopAppBarType.Large,
+                        scrollBehavior = scrollBehavior,
+                        title = title,
+                        drawHorizontalStroke = underTopAppBarContent == null,
+                        navigationIcon = {
+                            EnhancedIconButton(
+                                onClick = onGoBack
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
+                            }
+                        },
+                        actions = {
+                            if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
+                            topAppBarPersistentActions()
                         }
-                    },
-                    actions = {
-                        if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
-                        topAppBarPersistentActions()
+                    )
+                    underTopAppBarContent?.let {
+                        Column(content = it)
                     }
-                )
-                underTopAppBarContent?.invoke(this)
+                },
+                contentWindowInsets = WindowInsets()
+            ) { scaffoldPadding ->
                 val screenWidthPx = LocalScreenSize.current.widthPx
                 AnimatedContent(
                     targetState = canShowScreenData,
@@ -172,7 +180,9 @@ fun AdaptiveLayoutScreen(
                             screenWidthPx = screenWidthPx
                         )
                     },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(scaffoldPadding)
                 ) { canShowScreenData ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

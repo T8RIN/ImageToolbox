@@ -2093,4 +2093,18 @@
     <string name="hidden_for_share">Công cụ ẩn để chia sẻ</string>
     <string name="color_library">Thư viện màu</string>
     <string name="color_library_sub">Duyệt qua một bộ sưu tập lớn các màu sắc</string>
+    <string name="model_fatality_deblur">Làm sắc nét và xóa mờ khỏi hình ảnh trong khi vẫn duy trì các chi tiết tự nhiên, lý tưởng để sửa ảnh mất nét.</string>
+    <string name="model_unresize_v3">Khôi phục thông minh các hình ảnh đã được thay đổi kích thước trước đó, khôi phục các chi tiết và kết cấu bị mất.</string>
+    <string name="model_liveaction_v1_span">Được tối ưu hóa cho nội dung người thật đóng, giảm hiện tượng nén giả và tăng cường chi tiết đẹp trong khung hình phim/chương trình truyền hình.</string>
+    <string name="model_vhs2hd_realplksr">Chuyển đổi cảnh quay chất lượng VHS thành HD, loại bỏ nhiễu băng và nâng cao độ phân giải trong khi vẫn giữ được cảm giác cổ điển.</string>
+    <string name="model_text2hd_v1">Chuyên dùng cho hình ảnh và ảnh chụp màn hình có nhiều văn bản, làm sắc nét các ký tự và cải thiện khả năng đọc.</string>
+    <string name="model_frankendata_pretrainer">Nâng cấp nâng cao được đào tạo trên các bộ dữ liệu đa dạng, tuyệt vời để cải thiện ảnh cho mục đích chung.</string>
+    <string name="model_realwebphoto_v2">Tối ưu hóa cho ảnh nén trên web, loại bỏ các thành phần giả JPEG và khôi phục hình thức tự nhiên.</string>
+    <string name="model_realwebphoto_v4">Phiên bản cải tiến dành cho ảnh trên web với khả năng bảo toàn kết cấu và giảm hiện vật tốt hơn.</string>
+    <string name="model_dat_2x">Nâng cấp gấp 2 lần với công nghệ Biến áp tập hợp kép, duy trì độ sắc nét và chi tiết tự nhiên.</string>
+    <string name="model_dat_3x">Nâng cấp gấp 3 lần bằng cách sử dụng kiến ​​trúc biến áp tiên tiến, lý tưởng cho nhu cầu mở rộng vừa phải.</string>
+    <string name="model_dat_4x">Nâng cấp chất lượng cao gấp 4 lần với mạng biến áp hiện đại, bảo toàn các chi tiết đẹp ở quy mô lớn hơn.</string>
+    <string name="model_nafnet_deblurring">Loại bỏ hiện tượng mờ/nhiễu và rung lắc khỏi ảnh. Mục đích chung nhưng tốt nhất trên ảnh.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Khôi phục hình ảnh chất lượng thấp bằng biến áp Swin2SR, được tối ưu hóa cho sự suy giảm BSRGAN. Tuyệt vời để sửa các hiện vật nén nặng và nâng cao chi tiết ở tỷ lệ 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Nâng cấp gấp 4 lần với máy biến áp SwinIR được đào tạo về suy giảm BSRGAN. Sử dụng GAN để có kết cấu sắc nét hơn và nhiều chi tiết tự nhiên hơn trong ảnh và cảnh phức tạp.</string>
 </resources>

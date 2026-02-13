@@ -123,6 +123,7 @@ internal fun ColorHistogram() {
                 }
             }
         },
+        shape = ShapeDefaults.extraLarge,
         initialState = false
     )
 }

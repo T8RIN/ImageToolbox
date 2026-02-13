@@ -2115,4 +2115,18 @@
     <string name="hidden_for_share">Tools Hidden For Share</string>
     <string name="color_library">Color Library</string>
     <string name="color_library_sub">Browse a vast collection of colors</string>
+    <string name="model_fatality_deblur">Sharpens and removes blur from images while maintaining natural details, ideal for fixing out-of-focus photos.</string>
+    <string name="model_unresize_v3">Intelligently restores images that have been previously resized, recovering lost details and textures.</string>
+    <string name="model_liveaction_v1_span">Optimized for live-action content, reduces compression artifacts and enhances fine details in movie/TV show frames.</string>
+    <string name="model_vhs2hd_realplksr">Converts VHS-quality footage to HD, removing tape noise and enhancing resolution while preserving vintage feel.</string>
+    <string name="model_text2hd_v1">Specialized for text-heavy images and screenshots, sharpens characters and improves readability.</string>
+    <string name="model_frankendata_pretrainer">Advanced upscaling trained on diverse datasets, excellent for general-purpose photo enhancement.</string>
+    <string name="model_realwebphoto_v2">Optimized for web-compressed photos, removes JPEG artifacts and restores natural appearance.</string>
+    <string name="model_realwebphoto_v4">Improved version for web photos with better texture preservation and artifact reduction.</string>
+    <string name="model_dat_2x">2x upscaling with Dual Aggregation Transformer technology, maintains sharpness and natural details.</string>
+    <string name="model_dat_3x">3x upscaling using advanced transformer architecture, ideal for moderate enlargement needs.</string>
+    <string name="model_dat_4x">4x high-quality upscaling with state-of-the-art transformer network, preserves fine details at larger scales.</string>
+    <string name="model_nafnet_deblurring">Removes blur/noise and shakes from photos. General purpose but best on photos.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restores low-quality images using Swin2SR transformer, optimized for BSRGAN degradation. Great for fixing heavy compression artifacts and enhancing details at 4x scale.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x upscaling with SwinIR transformer trained on BSRGAN degradation. Uses GAN for sharper textures and more natural details in photos and complex scenes.</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.withContext
 
 class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -110,22 +111,34 @@ class ImagePreviewComponent @AssistedInject internal constructor(
         asyncUpdateUris {
             _uris.update { emptyList() }
 
-            fileController.listFilesInDirectoryAsFlow(uri.toString())
-                .mapNotNull { uri ->
-                    val excluded = listOf(
-                        "xml", "mov", "zip", "apk", "mp4", "mp3", "pdf", "ldb", "ttf", "gz", "rar"
-                    )
-                    if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
+            withContext(ioDispatcher) {
+                fileController.listFilesInDirectoryAsFlow(uri.toString())
+                    .mapNotNull { uri ->
+                        val excluded = listOf(
+                            "xml",
+                            "mov",
+                            "zip",
+                            "apk",
+                            "mp4",
+                            "mp3",
+                            "pdf",
+                            "ldb",
+                            "ttf",
+                            "gz",
+                            "rar"
+                        )
+                        if (excluded.any { uri.endsWith(".$it", true) }) return@mapNotNull null
 
-                    imageGetter.getImage(
-                        data = uri,
-                        size = 10
-                    )?.let { uri.toUri() }
-                }
-                .onEach { uri ->
-                    _uris.update { it.orEmpty() + uri }
-                }
-                .toList()
+                        imageGetter.getImage(
+                            data = uri,
+                            size = 10
+                        )?.let { uri.toUri() }
+                    }
+                    .onEach { uri ->
+                        _uris.update { it.orEmpty() + uri }
+                    }
+                    .toList()
+            }
         }
     }
 

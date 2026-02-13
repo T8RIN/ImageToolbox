@@ -361,6 +361,8 @@ private fun ImageItem(
     }
     val bgColor = MaterialTheme.colorScheme.secondaryContainer
 
+    val shape = AutoCornersShape(corners)
+
     Box(
         modifier
             .clip(ShapeDefaults.extraSmall)
@@ -370,7 +372,7 @@ private fun ImageItem(
             modifier = Modifier
                 .matchParentSize()
                 .padding(padding)
-                .clip(AutoCornersShape(corners))
+                .clip(shape)
                 .background(MaterialTheme.colorScheme.surface),
             onError = {
                 onError(uri)
@@ -404,7 +406,7 @@ private fun ImageItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .clip(AutoCornersShape(corners))
+                .clip(shape)
                 .then(
                     if (isAboveImageScrimEnabled) {
                         Modifier.background(MaterialTheme.colorScheme.scrim.copy(0.32f))

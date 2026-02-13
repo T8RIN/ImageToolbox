@@ -2093,4 +2093,18 @@
     <string name="hidden_for_share">隐藏共享工具</string>
     <string name="color_library">颜色库</string>
     <string name="color_library_sub">浏览大量颜色</string>
+    <string name="model_fatality_deblur">锐化并消除图像模糊，同时保持自然细节，是修复失焦照片的理想选择。</string>
+    <string name="model_unresize_v3">智能恢复之前调整过大小的图像，恢复丢失的细节和纹理。</string>
+    <string name="model_liveaction_v1_span">针对真人内容进行了优化，减少了压缩伪影并增强了电影/电视节目帧中的精细细节。</string>
+    <string name="model_vhs2hd_realplksr">将 VHS 质量的素材转换为高清，消除磁带噪音并提高分辨率，同时保留复古感。</string>
+    <string name="model_text2hd_v1">专门用于文本较多的图像和屏幕截图，锐化字符并提高可读性。</string>
+    <string name="model_frankendata_pretrainer">在不同数据集上进行高级升级训练，非常适合通用照片增强。</string>
+    <string name="model_realwebphoto_v2">针对网络压缩照片进行了优化，消除了 JPEG 伪影并恢复自然外观。</string>
+    <string name="model_realwebphoto_v4">网页照片的改进版本，具有更好的纹理保留和伪影减少。</string>
+    <string name="model_dat_2x">使用双聚合变压器技术进行 2 倍升级，保持清晰度和自然细节。</string>
+    <string name="model_dat_3x">使用先进的变压器架构进行 3 倍放大，非常适合中等放大需求。</string>
+    <string name="model_dat_4x">通过最先进的变压器网络进行 4 倍高质量放大，在更大的尺度上保留精细细节。</string>
+    <string name="model_nafnet_deblurring">消除照片中的模糊/噪点和抖动。通用但最适合照片。</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">使用 Swin2SR 转换器恢复低质量图像，并针对 BSRGAN 退化进行了优化。非常适合修复严重的压缩伪影并以 4 倍比例增强细节。</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">使用经过 BSRGAN 退化训练的 SwinIR 变压器进行 4 倍升级。使用 GAN 在照片和复杂场景中获得更清晰的纹理和更自然的细节。</string>
 </resources>

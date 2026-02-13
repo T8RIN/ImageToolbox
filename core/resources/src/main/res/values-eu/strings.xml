@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Partekatzeko ezkutatuta dauden tresnak</string>
     <string name="color_library">Kolore Liburutegia</string>
     <string name="color_library_sub">Arakatu kolore bilduma zabala</string>
+    <string name="model_fatality_deblur">Irudiak zorrozten eta kentzen ditu xehetasun naturalak mantenduz, fokurik gabeko argazkiak konpontzeko aproposa.</string>
+    <string name="model_unresize_v3">Aurrez tamaina aldatutako irudiak modu adimentsuan leheneratzen ditu, galdutako xehetasunak eta ehundurak berreskuratuz.</string>
+    <string name="model_liveaction_v1_span">Zuzeneko ekintzako edukietarako optimizatuta, konpresio-artefaktuak murrizten ditu eta xehetasun finak hobetzen ditu pelikula/telebistako saioen fotogrametan.</string>
+    <string name="model_vhs2hd_realplksr">VHS kalitateko metrajeak HD bihurtzen ditu, zintaren zarata kenduz eta bereizmena hobetuz, vintage kutsua mantenduz.</string>
+    <string name="model_text2hd_v1">Testu handiko irudi eta pantaila-argazkietarako espezializatua, karaktereak zorrozten ditu eta irakurgarritasuna hobetzen du.</string>
+    <string name="model_frankendata_pretrainer">Datu-multzo ezberdinetan trebatutako igoera aurreratua, helburu orokorreko argazkiak hobetzeko bikaina.</string>
+    <string name="model_realwebphoto_v2">Web-konprimitutako argazkietarako optimizatua, JPEG artefaktuak kentzen ditu eta itxura naturala berreskuratzen du.</string>
+    <string name="model_realwebphoto_v4">Web-argazkietarako bertsio hobetua, testura hobeto kontserbatzeko eta artefaktuak murrizteko.</string>
+    <string name="model_dat_2x">Dual Aggregation Transformer teknologiarekin 2 aldiz eskalatzea, zorroztasuna eta xehetasun naturalak mantentzen ditu.</string>
+    <string name="model_dat_3x">3 aldiz eskalatzea transformadoreen arkitektura aurreratua erabiliz, handitze neurrizko beharretarako aproposa.</string>
+    <string name="model_dat_4x">Kalitate handiko 4 aldiz eskalatzea punta-puntako transformadore-sarearekin, xehetasun finak gordetzen ditu eskala handiagoetan.</string>
+    <string name="model_nafnet_deblurring">Argazkietatik lausotasuna/zarata eta dardarak kentzen ditu. Helburu orokorra baina onena argazkietan.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Kalitate baxuko irudiak leheneratzen ditu Swin2SR transformagailua erabiliz, BSRGAN degradaziorako optimizatuta. Konpresio-artefaktu astunak konpontzeko eta xehetasunak 4x eskalan hobetzeko bikaina.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x igoera BSRGAN degradazioan trebatutako SwinIR transformadorearekin. GAN erabiltzen du testura zorrotzagoak eta xehetasun naturalagoak lortzeko argazkietan eta eszena konplexuetan.</string>
 </resources>

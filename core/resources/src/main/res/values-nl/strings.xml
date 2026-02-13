@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Hulpmiddelen verborgen om te delen</string>
     <string name="color_library">Kleurenbibliotheek</string>
     <string name="color_library_sub">Blader door een uitgebreide collectie kleuren</string>
+    <string name="model_fatality_deblur">Verscherpt en verwijdert onscherpte uit afbeeldingen met behoud van natuurlijke details, ideaal voor het corrigeren van onscherpe foto\'s.</string>
+    <string name="model_unresize_v3">Herstelt op intelligente wijze afbeeldingen waarvan het formaat eerder is gewijzigd, waarbij verloren details en texturen worden hersteld.</string>
+    <string name="model_liveaction_v1_span">Geoptimaliseerd voor live-action-inhoud, vermindert compressieartefacten en verbetert fijne details in film-/tv-showframes.</string>
+    <string name="model_vhs2hd_realplksr">Converteert beelden van VHS-kwaliteit naar HD, verwijdert bandruis en verbetert de resolutie met behoud van het vintage gevoel.</string>
+    <string name="model_text2hd_v1">Gespecialiseerd voor afbeeldingen en schermafbeeldingen met veel tekst, verscherpt karakters en verbetert de leesbaarheid.</string>
+    <string name="model_frankendata_pretrainer">Geavanceerde opschaling getraind op diverse datasets, uitstekend geschikt voor algemene fotoverbetering.</string>
+    <string name="model_realwebphoto_v2">Geoptimaliseerd voor webgecomprimeerde foto\'s, verwijdert JPEG-artefacten en herstelt de natuurlijke uitstraling.</string>
+    <string name="model_realwebphoto_v4">Verbeterde versie voor webfoto\'s met beter behoud van textuur en vermindering van artefacten.</string>
+    <string name="model_dat_2x">2x opschalen met Dual Aggregation Transformer-technologie, behoudt scherpte en natuurlijke details.</string>
+    <string name="model_dat_3x">3x opschaling met behulp van geavanceerde transformatorarchitectuur, ideaal voor gematigde uitbreidingsbehoeften.</string>
+    <string name="model_dat_4x">4x hoogwaardige opschaling met het modernste transformatornetwerk, behoudt fijne details op grotere schaal.</string>
+    <string name="model_nafnet_deblurring">Verwijdert onscherpte/ruis en trillingen uit foto\'s. Algemeen gebruik, maar het beste op foto\'s.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Herstelt afbeeldingen van lage kwaliteit met behulp van de Swin2SR-transformator, geoptimaliseerd voor BSRGAN-degradatie. Ideaal voor het corrigeren van zware compressieartefacten en het verbeteren van details op 4x schaal.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x opschalen met SwinIR-transformator getraind op BSRGAN-degradatie. Gebruikt GAN voor scherpere texturen en natuurlijkere details in foto\'s en complexe scènes.</string>
 </resources>

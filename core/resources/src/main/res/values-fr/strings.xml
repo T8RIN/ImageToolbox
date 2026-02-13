@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Outils masqués pour le partage</string>
     <string name="color_library">Bibliothèque de couleurs</string>
     <string name="color_library_sub">Parcourez une vaste collection de couleurs</string>
+    <string name="model_fatality_deblur">Affine et supprime le flou des images tout en conservant les détails naturels, idéal pour corriger les photos floues.</string>
+    <string name="model_unresize_v3">Restaure intelligemment les images précédemment redimensionnées, en récupérant les détails et les textures perdus.</string>
+    <string name="model_liveaction_v1_span">Optimisé pour le contenu d\'action en direct, réduit les artefacts de compression et améliore les détails fins des images de films/émissions de télévision.</string>
+    <string name="model_vhs2hd_realplksr">Convertit les séquences de qualité VHS en HD, supprimant le bruit de la bande et améliorant la résolution tout en préservant l\'aspect vintage.</string>
+    <string name="model_text2hd_v1">Spécialisé pour les images et captures d\'écran contenant beaucoup de texte, il affine les caractères et améliore la lisibilité.</string>
+    <string name="model_frankendata_pretrainer">Mise à l\'échelle avancée formée sur divers ensembles de données, excellente pour l\'amélioration de photos à usage général.</string>
+    <string name="model_realwebphoto_v2">Optimisé pour les photos compressées sur le Web, supprime les artefacts JPEG et restaure l\'apparence naturelle.</string>
+    <string name="model_realwebphoto_v4">Version améliorée pour les photos Web avec une meilleure préservation de la texture et une réduction des artefacts.</string>
+    <string name="model_dat_2x">La mise à l\'échelle 2x avec la technologie Dual Aggregation Transformer maintient la netteté et les détails naturels.</string>
+    <string name="model_dat_3x">Mise à l\'échelle 3x grâce à une architecture de transformateur avancée, idéale pour les besoins d\'agrandissement modérés.</string>
+    <string name="model_dat_4x">Mise à l\'échelle 4x de haute qualité avec un réseau de transformateurs de pointe, préserve les détails fins à plus grande échelle.</string>
+    <string name="model_nafnet_deblurring">Supprime le flou/bruit et les secousses des photos. Usage général mais meilleur sur les photos.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restaure les images de faible qualité à l\'aide du transformateur Swin2SR, optimisé pour la dégradation BSRGAN. Idéal pour corriger les artefacts de compression importants et améliorer les détails à une échelle 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Mise à l\'échelle 4x avec le transformateur SwinIR formé à la dégradation BSRGAN. Utilise GAN pour des textures plus nettes et des détails plus naturels dans les photos et les scènes complexes.</string>
 </resources>

@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Herramientas ocultas para compartir</string>
     <string name="color_library">Biblioteca de colores</string>
     <string name="color_library_sub">Explora una amplia colección de colores</string>
+    <string name="model_fatality_deblur">Mejora la nitidez y elimina las imágenes borrosas manteniendo los detalles naturales, ideal para corregir fotografías desenfocadas.</string>
+    <string name="model_unresize_v3">Restaura de forma inteligente imágenes cuyo tamaño ha sido redimensionado previamente, recuperando detalles y texturas perdidas.</string>
+    <string name="model_liveaction_v1_span">Optimizado para contenido de acción en vivo, reduce los artefactos de compresión y mejora los detalles finos en fotogramas de películas o programas de televisión.</string>
+    <string name="model_vhs2hd_realplksr">Convierte metraje con calidad VHS a HD, eliminando el ruido de la cinta y mejorando la resolución al mismo tiempo que conserva la sensación vintage.</string>
+    <string name="model_text2hd_v1">Especializado para imágenes y capturas de pantalla con mucho texto, afina los caracteres y mejora la legibilidad.</string>
+    <string name="model_frankendata_pretrainer">Ampliación avanzada entrenada en diversos conjuntos de datos, excelente para mejorar fotografías de uso general.</string>
+    <string name="model_realwebphoto_v2">Optimizado para fotografías comprimidas web, elimina artefactos JPEG y restaura la apariencia natural.</string>
+    <string name="model_realwebphoto_v4">Versión mejorada para fotografías web con mejor conservación de texturas y reducción de artefactos.</string>
+    <string name="model_dat_2x">La mejora 2x con la tecnología Dual Aggregation Transformer mantiene la nitidez y los detalles naturales.</string>
+    <string name="model_dat_3x">Ampliación 3x utilizando arquitectura de transformador avanzada, ideal para necesidades de ampliación moderadas.</string>
+    <string name="model_dat_4x">La ampliación de alta calidad 4x con una red de transformadores de última generación conserva los detalles finos a escalas más grandes.</string>
+    <string name="model_nafnet_deblurring">Elimina el desenfoque/ruido y las sacudidas de las fotos. Propósito general pero mejor en fotografías.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restaura imágenes de baja calidad utilizando el transformador Swin2SR, optimizado para la degradación de BSRGAN. Excelente para corregir artefactos de compresión intensa y mejorar detalles a escala 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Ampliación 4x con transformador SwinIR entrenado en degradación de BSRGAN. Utiliza GAN para obtener texturas más nítidas y detalles más naturales en fotografías y escenas complejas.</string>
 </resources>

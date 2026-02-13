@@ -19,14 +19,15 @@ package com.t8rin.imagetoolbox.feature.compare.presentation
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -37,7 +38,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -114,36 +114,36 @@ fun CompareContent(
     val isPortrait by isPortraitOrientationAsState()
 
     var showShareSheet by rememberSaveable { mutableStateOf(false) }
+    var isLabelsEnabled by rememberSaveable {
+        mutableStateOf(true)
+    }
 
     Box {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
-            var isLabelsEnabled by rememberSaveable {
-                mutableStateOf(true)
-            }
-
-            CompareScreenTopAppBar(
-                imageNotPicked = component.bitmapData == null,
-                scrollBehavior = scrollBehavior,
-                onNavigationIconClick = component.onGoBack,
-                onShareButtonClick = {
-                    showShareSheet = true
-                },
-                onSwapImagesClick = component::swap,
-                onRotateImagesClick = component::rotate,
-                isShareButtonVisible = component.compareType == CompareType.Slide
-                        || component.compareType == CompareType.PixelByPixel,
-                isImagesRotated = component.rotation == 90f,
-                titleWhenBitmapsPicked = stringResource(component.compareType.title),
-                isLabelsEnabled = isLabelsEnabled,
-                onToggleLabelsEnabled = { isLabelsEnabled = it },
-                isLabelsButtonVisible = component.compareType != CompareType.PixelByPixel
-            )
-
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                CompareScreenTopAppBar(
+                    imageNotPicked = component.bitmapData == null,
+                    scrollBehavior = scrollBehavior,
+                    onNavigationIconClick = component.onGoBack,
+                    onShareButtonClick = {
+                        showShareSheet = true
+                    },
+                    onSwapImagesClick = component::swap,
+                    onRotateImagesClick = component::rotate,
+                    isShareButtonVisible = component.compareType == CompareType.Slide
+                            || component.compareType == CompareType.PixelByPixel,
+                    isImagesRotated = component.rotation == 90f,
+                    titleWhenBitmapsPicked = stringResource(component.compareType.title),
+                    isLabelsEnabled = isLabelsEnabled,
+                    onToggleLabelsEnabled = { isLabelsEnabled = it },
+                    isLabelsButtonVisible = component.compareType != CompareType.PixelByPixel
+                )
+            },
+            contentWindowInsets = WindowInsets()
+        ) { contentPadding ->
             CompareScreenContent(
                 bitmapData = component.bitmapData,
                 compareType = component.compareType,
@@ -155,7 +155,8 @@ fun CompareContent(
                 isLabelsEnabled = isLabelsEnabled,
                 pixelByPixelCompareState = component.pixelByPixelCompareState,
                 onPixelByPixelCompareStateChange = component::updatePixelByPixelCompareState,
-                createPixelByPixelTransformation = component::createPixelByPixelTransformation
+                createPixelByPixelTransformation = component::createPixelByPixelTransformation,
+                contentPadding = contentPadding
             )
         }
 

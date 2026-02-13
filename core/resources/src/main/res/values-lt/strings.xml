@@ -2095,4 +2095,19 @@
     <string name="hidden_for_share">Įrankiai, paslėpti bendrinimui</string>
     <string name="color_library">Spalvų biblioteka</string>
     <string name="color_library_sub">Naršykite didelę spalvų kolekciją.</string>
+    <string name="color_library_sub">Naršykite didelę spalvų kolekciją</string>
+    <string name="model_fatality_deblur">Paryškina ir pašalina vaizdų susiliejimą išlaikant natūralias detales, idealiai tinka taisyti nesufokusuotas nuotraukas.</string>
+    <string name="model_unresize_v3">Protingai atkuria vaizdus, ​​kurių dydis anksčiau buvo pakeistas, atkuriant prarastas detales ir tekstūras.</string>
+    <string name="model_liveaction_v1_span">Optimizuotas tiesioginio veiksmo turiniui, sumažina suspaudimo artefaktus ir pagerina smulkias detales filmų / TV laidų kadruose.</string>
+    <string name="model_vhs2hd_realplksr">Konvertuoja VHS kokybės filmuotą medžiagą į HD, pašalina juostos triukšmą ir padidina skiriamąją gebą, išsaugant senovinį pojūtį.</string>
+    <string name="model_text2hd_v1">Specializuotas vaizdams ir ekrano kopijoms, kuriuose yra daug teksto, paryškina simbolius ir pagerina skaitomumą.</string>
+    <string name="model_frankendata_pretrainer">Išplėstinis padidinimas, parengtas naudojant įvairius duomenų rinkinius, puikiai tinka bendrosios paskirties nuotraukų patobulinimui.</string>
+    <string name="model_realwebphoto_v2">Optimizuotas žiniatinklyje suspaustoms nuotraukoms, pašalina JPEG artefaktus ir atkuria natūralią išvaizdą.</string>
+    <string name="model_realwebphoto_v4">Patobulinta žiniatinklio nuotraukų versija su geresniu tekstūros išsaugojimu ir artefaktų mažinimu.</string>
+    <string name="model_dat_2x">2x padidinimas naudojant Dual Aggregation Transformer technologiją, išlaiko ryškumą ir natūralias detales.</string>
+    <string name="model_dat_3x">3x padidinimas naudojant pažangią transformatoriaus architektūrą, idealiai tinka vidutinio dydžio padidinimo poreikiams.</string>
+    <string name="model_dat_4x">4x aukštos kokybės padidinimas naudojant moderniausią transformatorių tinklą, išsaugo smulkias detales esant didesniam masteliui.</string>
+    <string name="model_nafnet_deblurring">Pašalina nuotraukų susiliejimą/triukšmą ir drebėjimą. Bendra paskirtis, bet geriausia nuotraukose.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Atkuria žemos kokybės vaizdus naudojant Swin2SR transformatorių, optimizuotą BSRGAN degradacijai. Puikiai tinka tvirtinti stiprius suspaudimo artefaktus ir patobulinti detales 4 kartus.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x padidinimas naudojant SwinIR transformatorių, apmokytą BSRGAN degradacijai. Naudoja GAN, kad nuotraukose ir sudėtingose ​​scenose būtų ryškesnės tekstūros ir natūralesnės detalės.</string>
 </resources>

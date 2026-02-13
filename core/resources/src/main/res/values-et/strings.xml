@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Jagamiseks peidetud tööriistad</string>
     <string name="color_library">Värviteek</string>
     <string name="color_library_sub">Sirvige suurt värvikogu</string>
+    <string name="model_fatality_deblur">Teravustab ja eemaldab piltidelt hägususe, säilitades samal ajal loomulikud detailid, mis on ideaalne fookusest väljas olevate fotode parandamiseks.</string>
+    <string name="model_unresize_v3">Taastab nutikalt pildid, mille suurust on varem muudetud, taastades kadunud detailid ja tekstuurid.</string>
+    <string name="model_liveaction_v1_span">Optimeeritud reaalajas toimuva sisu jaoks, vähendab tihendusartefakte ja täiustab filmi/telesaadete kaadrite peeneid detaile.</string>
+    <string name="model_vhs2hd_realplksr">Teisendab VHS-kvaliteediga video HD-vormingusse, eemaldades lindimüra ja parandades eraldusvõimet, säilitades samas vanaaegse tunde.</string>
+    <string name="model_text2hd_v1">Spetsialiseerunud tekstirohkete piltide ja ekraanipiltide jaoks, teravdab tähemärke ja parandab loetavust.</string>
+    <string name="model_frankendata_pretrainer">Täiustatud ülesskaleerimine, mis on koolitatud erinevatele andmekogumitele, sobib suurepäraselt üldotstarbeliseks fotode täiustamiseks.</string>
+    <string name="model_realwebphoto_v2">Optimeeritud veebis kokkusurutud fotode jaoks, eemaldab JPEG-artefaktid ja taastab loomuliku välimuse.</string>
+    <string name="model_realwebphoto_v4">Täiustatud versioon veebifotode jaoks parema tekstuuri säilitamise ja artefaktide vähendamisega.</string>
+    <string name="model_dat_2x">2x ülesskaleerimine Dual Aggregation Transformer tehnoloogiaga, säilitab teravuse ja loomulikud detailid.</string>
+    <string name="model_dat_3x">3x ülesskaleerimine täiustatud trafoarhitektuuri abil, sobib ideaalselt mõõdukate laiendusvajaduste jaoks.</string>
+    <string name="model_dat_4x">4x kvaliteetne ülesskaleerimine tipptasemel trafovõrguga, säilitab peened detailid suuremates mõõtkavades.</string>
+    <string name="model_nafnet_deblurring">Eemaldab fotodelt hägususe/müra ja värinad. Üldotstarbeline, kuid parim fotodel.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Taastab madala kvaliteediga pildid, kasutades Swin2SR-i trafot, mis on optimeeritud BSRGAN-i halvenemise jaoks. Suurepärane raskete kokkusurutud artefaktide kinnitamiseks ja detailide täiustamiseks 4x skaalal.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x ülesskaleerimine SwinIR-trafoga, mis on koolitatud BSRGANi halvenemise kohta. Kasutab GAN-i teravamate tekstuuride ja loomulikumate detailide saamiseks fotodel ja keerulistes stseenides.</string>
 </resources>

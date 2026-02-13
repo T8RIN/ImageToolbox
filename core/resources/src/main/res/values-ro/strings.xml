@@ -2095,4 +2095,18 @@
     <string name="hidden_for_share">Instrumente ascunse pentru distribuire</string>
     <string name="color_library">Biblioteca de culori</string>
     <string name="color_library_sub">Răsfoiți o colecție vastă de culori</string>
+    <string name="model_fatality_deblur">Clarifică și elimină neclaritatea din imagini, păstrând în același timp detaliile naturale, ideal pentru remedierea fotografiilor nefocalizate.</string>
+    <string name="model_unresize_v3">Restaurează inteligent imaginile care au fost redimensionate anterior, recuperând detaliile și texturile pierdute.</string>
+    <string name="model_liveaction_v1_span">Optimizat pentru conținut live-action, reduce artefactele de compresie și îmbunătățește detaliile fine în cadrele filmului/emisiunii TV.</string>
+    <string name="model_vhs2hd_realplksr">Convertește filmările de calitate VHS în HD, eliminând zgomotul benzii și îmbunătățind rezoluția, păstrând în același timp aspectul vintage.</string>
+    <string name="model_text2hd_v1">Specializat pentru imagini și capturi de ecran cu text intens, clarifică caracterele și îmbunătățește lizibilitatea.</string>
+    <string name="model_frankendata_pretrainer">Upscaling avansat instruit pe diverse seturi de date, excelent pentru îmbunătățirea fotografiilor de uz general.</string>
+    <string name="model_realwebphoto_v2">Optimizat pentru fotografii comprimate pe web, elimină artefactele JPEG și restabilește aspectul natural.</string>
+    <string name="model_realwebphoto_v4">Versiune îmbunătățită pentru fotografiile web, cu o mai bună conservare a texturii și reducerea artefactelor.</string>
+    <string name="model_dat_2x">2x upscaling cu tehnologia Dual Aggregation Transformer, menține claritatea și detaliile naturale.</string>
+    <string name="model_dat_3x">Upscaling de 3x folosind arhitectura avansată a transformatorului, ideală pentru nevoi moderate de extindere.</string>
+    <string name="model_dat_4x">Upscaling de înaltă calitate de 4x cu o rețea de transformatoare de ultimă generație, păstrează detaliile fine la o scară mai mare.</string>
+    <string name="model_nafnet_deblurring">Îndepărtează neclaritatea/zgomotul și tremurăturile din fotografii. Scop general, dar cel mai bine pentru fotografii.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Restaurează imagini de calitate scăzută folosind transformatorul Swin2SR, optimizat pentru degradarea BSRGAN. Excelent pentru repararea artefactelor de compresie grele și îmbunătățirea detaliilor la scară de 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Upscaling de 4x cu transformator SwinIR instruit pe degradarea BSRGAN. Utilizează GAN pentru texturi mai clare și detalii mai naturale în fotografii și scene complexe.</string>
 </resources>

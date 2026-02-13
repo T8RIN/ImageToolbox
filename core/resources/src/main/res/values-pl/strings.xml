@@ -2096,4 +2096,18 @@
     <string name="hidden_for_share">Narzędzia ukryte do udostępnienia</string>
     <string name="color_library">Biblioteka kolorów</string>
     <string name="color_library_sub">Przeglądaj bogatą kolekcję kolorów</string>
+    <string name="model_fatality_deblur">Wyostrza i usuwa rozmycia obrazów, zachowując naturalne szczegóły, idealne do poprawiania nieostrych zdjęć.</string>
+    <string name="model_unresize_v3">Inteligentnie przywraca obrazy, których rozmiar został wcześniej zmieniony, odzyskując utracone szczegóły i tekstury.</string>
+    <string name="model_liveaction_v1_span">Zoptymalizowany pod kątem treści zawierających akcję na żywo, redukuje artefakty powstałe w wyniku kompresji i poprawia drobne szczegóły w klatkach filmów/programów telewizyjnych.</string>
+    <string name="model_vhs2hd_realplksr">Konwertuje materiał filmowy o jakości VHS na HD, usuwając szumy taśmy i zwiększając rozdzielczość, zachowując jednocześnie klimat vintage.</string>
+    <string name="model_text2hd_v1">Specjalizuje się w obrazach i zrzutach ekranu zawierających dużo tekstu, wyostrza znaki i poprawia czytelność.</string>
+    <string name="model_frankendata_pretrainer">Zaawansowane skalowanie trenowane na różnych zestawach danych, doskonałe do ogólnego ulepszania zdjęć.</string>
+    <string name="model_realwebphoto_v2">Zoptymalizowany pod kątem zdjęć skompresowanych w Internecie, usuwa artefakty JPEG i przywraca naturalny wygląd.</string>
+    <string name="model_realwebphoto_v4">Ulepszona wersja zdjęć internetowych z lepszym zachowaniem tekstur i redukcją artefaktów.</string>
+    <string name="model_dat_2x">Dwukrotne skalowanie dzięki technologii podwójnego transformatora agregującego pozwala zachować ostrość i naturalne szczegóły.</string>
+    <string name="model_dat_3x">3-krotne skalowanie przy użyciu zaawansowanej architektury transformatorowej, idealne do umiarkowanych potrzeb powiększenia.</string>
+    <string name="model_dat_4x">4-krotne skalowanie wysokiej jakości dzięki najnowocześniejszej sieci transformatorowej pozwala zachować drobne szczegóły w większych skalach.</string>
+    <string name="model_nafnet_deblurring">Usuwa rozmycie/szumy i drgania ze zdjęć. Ogólnego przeznaczenia, ale najlepiej na zdjęciach.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Przywraca obrazy o niskiej jakości przy użyciu transformatora Swin2SR, zoptymalizowanego pod kątem degradacji BSRGAN. Doskonały do ​​naprawiania artefaktów spowodowanych dużą kompresją i uwydatniania szczegółów w skali 4x.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">Skalowanie 4x za pomocą transformatora SwinIR trenowanego pod kątem degradacji BSRGAN. Wykorzystuje GAN, aby uzyskać ostrzejsze tekstury i bardziej naturalne szczegóły na zdjęciach i złożonych scenach.</string>
 </resources>

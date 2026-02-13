@@ -2094,4 +2094,18 @@
     <string name="hidden_for_share">Mga Tool na Nakatago Para Ibahagi</string>
     <string name="color_library">Library ng Kulay</string>
     <string name="color_library_sub">Mag-browse ng malawak na koleksyon ng mga kulay</string>
+    <string name="model_fatality_deblur">Pinatalas at inaalis ang blur sa mga larawan habang pinapanatili ang mga natural na detalye, perpekto para sa pag-aayos ng mga hindi naka-focus na larawan.</string>
+    <string name="model_unresize_v3">Matalinong nire-restore ang mga larawang dati nang na-resize, binabawi ang mga nawawalang detalye at texture.</string>
+    <string name="model_liveaction_v1_span">Na-optimize para sa live-action na content, binabawasan ang mga artifact ng compression at pinapahusay ang magagandang detalye sa mga frame ng pelikula/palabas sa TV.</string>
+    <string name="model_vhs2hd_realplksr">Kino-convert ang VHS-kalidad na footage sa HD, inaalis ang ingay ng tape at pinapahusay ang resolution habang pinapanatili ang vintage na pakiramdam.</string>
+    <string name="model_text2hd_v1">Espesyalista para sa mga larawan at screenshot na mabigat sa teksto, nagpapatalas ng mga character at pinapahusay ang pagiging madaling mabasa.</string>
+    <string name="model_frankendata_pretrainer">Advanced na upscaling na sinanay sa magkakaibang mga dataset, mahusay para sa pangkalahatang layunin na pagpapahusay ng larawan.</string>
+    <string name="model_realwebphoto_v2">Na-optimize para sa mga larawang naka-compress sa web, nag-aalis ng mga JPEG artifact at nagpapanumbalik ng natural na hitsura.</string>
+    <string name="model_realwebphoto_v4">Pinahusay na bersyon para sa mga larawan sa web na may mas mahusay na pangangalaga sa texture at pagbabawas ng artifact.</string>
+    <string name="model_dat_2x">2x upscaling gamit ang Dual Aggregation Transformer na teknolohiya, nagpapanatili ng sharpness at natural na mga detalye.</string>
+    <string name="model_dat_3x">3x upscaling gamit ang advanced na transformer architecture, perpekto para sa katamtamang mga pangangailangan sa pagpapalaki.</string>
+    <string name="model_dat_4x">4x na mataas na kalidad na upscaling na may makabagong network ng transformer, pinapanatili ang magagandang detalye sa mas malalaking sukat.</string>
+    <string name="model_nafnet_deblurring">Nag-aalis ng blur/ingay at nanginginig sa mga larawan. Pangkalahatang layunin ngunit pinakamahusay sa mga larawan.</string>
+    <string name="model_swin2sr_x4_bsrgan_psnr">Ibinabalik ang mababang kalidad na mga larawan gamit ang Swin2SR transformer, na na-optimize para sa BSRGAN degradation. Mahusay para sa pag-aayos ng mga heavy compression artifact at pagpapahusay ng mga detalye sa 4x scale.</string>
+    <string name="model_bsrgan_swinir_m_x4_gan">4x na upscaling gamit ang SwinIR transformer na sinanay sa BSRGAN degradation. Gumagamit ng GAN para sa mas matalas na mga texture at mas natural na mga detalye sa mga larawan at kumplikadong mga eksena.</string>
 </resources>

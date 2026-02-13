@@ -58,6 +58,7 @@ import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -160,7 +161,7 @@ fun SettingsContent(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    Column(
+    Scaffold(
         modifier = if (isStandaloneScreen) {
             Modifier
                 .fillMaxSize()
@@ -168,118 +169,123 @@ fun SettingsContent(
                 .nestedScroll(
                     scrollBehavior.nestedScrollConnection
                 )
-        } else Modifier
-    ) {
-        EnhancedTopAppBar(
-            type = if (isStandaloneScreen) EnhancedTopAppBarType.Large
-            else EnhancedTopAppBarType.Normal,
-            title = {
-                AnimatedContent(
-                    targetState = showSearch
-                ) { searching ->
-                    if (!searching) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.marquee()
-                        ) {
-                            Text(
-                                text = stringResource(R.string.settings),
-                                style = if (!isStandaloneScreen) {
-                                    MaterialTheme.typography.titleLarge
-                                } else LocalTextStyle.current
-                            )
-                            if (isStandaloneScreen) {
-                                Spacer(modifier = Modifier.width(8.dp))
-                                TopAppBarEmoji()
+        } else Modifier,
+        topBar = {
+            EnhancedTopAppBar(
+                type = if (isStandaloneScreen) EnhancedTopAppBarType.Large
+                else EnhancedTopAppBarType.Normal,
+                title = {
+                    AnimatedContent(
+                        targetState = showSearch
+                    ) { searching ->
+                        if (!searching) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.marquee()
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.settings),
+                                    style = if (!isStandaloneScreen) {
+                                        MaterialTheme.typography.titleLarge
+                                    } else LocalTextStyle.current
+                                )
+                                if (isStandaloneScreen) {
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    TopAppBarEmoji()
+                                }
                             }
-                        }
-                    } else {
-                        BackHandler {
-                            component.updateSearchKeyword("")
-                            showSearch = false
-                        }
-                        SearchBar(
-                            searchString = searchKeyword,
-                            onValueChange = component::updateSearchKeyword
-                        )
-                    }
-                }
-            },
-            actions = {
-                AnimatedContent(
-                    targetState = showSearch to searchKeyword.isNotEmpty(),
-                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                ) { (searching, hasSearchKey) ->
-                    EnhancedIconButton(
-                        onClick = {
-                            if (!showSearch) {
-                                showSearch = true
-                            } else {
+                        } else {
+                            BackHandler {
                                 component.updateSearchKeyword("")
-                            }
-                        }
-                    ) {
-                        if (searching && hasSearchKey) {
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = stringResource(R.string.close)
-                            )
-                        } else if (!searching) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = stringResource(R.string.search_here)
-                            )
-                        }
-                    }
-                }
-            },
-            navigationIcon = {
-                if (appBarNavigationIcon != null) {
-                    appBarNavigationIcon(showSearch) {
-                        showSearch = false
-                        component.updateSearchKeyword("")
-                    }
-                } else if (component.onGoBack != null || showSearch) {
-                    EnhancedIconButton(
-                        onClick = {
-                            if (showSearch) {
                                 showSearch = false
-                                component.updateSearchKeyword("")
-                            } else {
-                                component.onGoBack?.invoke()
                             }
-                        },
-                        containerColor = Color.Transparent
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.exit)
-                        )
+                            SearchBar(
+                                searchString = searchKeyword,
+                                onValueChange = component::updateSearchKeyword
+                            )
+                        }
                     }
-                }
-            },
-            windowInsets = if (isStandaloneScreen) {
-                EnhancedTopAppBarDefaults.windowInsets
-            } else {
-                EnhancedTopAppBarDefaults.windowInsets.only(
-                    WindowInsetsSides.End + WindowInsetsSides.Top
-                )
-            },
-            colors = if (isStandaloneScreen) {
-                EnhancedTopAppBarDefaults.colors()
-            } else {
-                EnhancedTopAppBarDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.blend(
-                        color = MaterialTheme.colorScheme.surfaceContainer,
-                        fraction = 0.5f
+                },
+                actions = {
+                    AnimatedContent(
+                        targetState = showSearch to searchKeyword.isNotEmpty(),
+                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                    ) { (searching, hasSearchKey) ->
+                        EnhancedIconButton(
+                            onClick = {
+                                if (!showSearch) {
+                                    showSearch = true
+                                } else {
+                                    component.updateSearchKeyword("")
+                                }
+                            }
+                        ) {
+                            if (searching && hasSearchKey) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Close,
+                                    contentDescription = stringResource(R.string.close)
+                                )
+                            } else if (!searching) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = stringResource(R.string.search_here)
+                                )
+                            }
+                        }
+                    }
+                },
+                navigationIcon = {
+                    if (appBarNavigationIcon != null) {
+                        appBarNavigationIcon(showSearch) {
+                            showSearch = false
+                            component.updateSearchKeyword("")
+                        }
+                    } else if (component.onGoBack != null || showSearch) {
+                        EnhancedIconButton(
+                            onClick = {
+                                if (showSearch) {
+                                    showSearch = false
+                                    component.updateSearchKeyword("")
+                                } else {
+                                    component.onGoBack?.invoke()
+                                }
+                            },
+                            containerColor = Color.Transparent
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
+                        }
+                    }
+                },
+                windowInsets = if (isStandaloneScreen) {
+                    EnhancedTopAppBarDefaults.windowInsets
+                } else {
+                    EnhancedTopAppBarDefaults.windowInsets.only(
+                        WindowInsetsSides.End + WindowInsetsSides.Top
                     )
-                )
-            },
-            scrollBehavior = if (isStandaloneScreen) {
-                scrollBehavior
-            } else null
-        )
-        Box {
+                },
+                colors = if (isStandaloneScreen) {
+                    EnhancedTopAppBarDefaults.colors()
+                } else {
+                    EnhancedTopAppBarDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.blend(
+                            color = MaterialTheme.colorScheme.surfaceContainer,
+                            fraction = 0.5f
+                        )
+                    )
+                },
+                scrollBehavior = if (isStandaloneScreen) {
+                    scrollBehavior
+                } else null
+            )
+        },
+        contentWindowInsets = WindowInsets()
+    ) { contentPadding ->
+        Box(
+            modifier = Modifier.padding(contentPadding)
+        ) {
             AnimatedContent(
                 targetState = settings,
                 modifier = Modifier

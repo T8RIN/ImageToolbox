@@ -21,19 +21,14 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.plus
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -63,17 +58,14 @@ fun MeshGradientsContent(
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
 
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val childScrollBehavior =
-            TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val childScrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(childScrollBehavior.nestedScrollConnection)
-        ) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(childScrollBehavior.nestedScrollConnection),
+        topBar = {
             EnhancedTopAppBar(
                 title = {
                     Text(
@@ -97,74 +89,63 @@ fun MeshGradientsContent(
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = childScrollBehavior
             )
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                AnimatedContent(component.meshGradientUris) { uris ->
-                    if (uris.isNotEmpty()) {
-                        ImagePreviewGrid(
-                            data = uris,
-                            onAddImages = null,
-                            onShareImage = {
-                                component.shareImages(
-                                    uriList = listOf(element = it),
-                                    onComplete = showConfetti
-                                )
-                            },
-                            onRemove = null,
-                            onNavigate = component.onNavigate,
-                            imageFrames = null,
-                            onFrameSelectionChange = {},
-                            contentPadding = WindowInsets.navigationBars.union(
-                                WindowInsets.displayCutout.only(
-                                    WindowInsetsSides.Horizontal
-                                )
-                            ).union(
-                                WindowInsets(
-                                    left = 12.dp,
-                                    top = 12.dp,
-                                    right = 12.dp,
-                                    bottom = 12.dp
-                                )
-                            ).asPaddingValues()
+        }
+    ) { contentPadding ->
+        AnimatedContent(
+            modifier = Modifier.fillMaxSize(),
+            targetState = component.meshGradientUris
+        ) { uris ->
+            if (uris.isNotEmpty()) {
+                ImagePreviewGrid(
+                    data = uris,
+                    onAddImages = null,
+                    onShareImage = {
+                        component.shareImages(
+                            uriList = listOf(element = it),
+                            onComplete = showConfetti
                         )
-                    } else {
-                        val meshGradientDownloadProgress =
-                            component.meshGradientDownloadProgress
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            val currentPercent =
-                                meshGradientDownloadProgress?.currentPercent ?: 0f
+                    },
+                    onRemove = null,
+                    onNavigate = component.onNavigate,
+                    imageFrames = null,
+                    onFrameSelectionChange = {},
+                    contentPadding = contentPadding + PaddingValues(12.dp)
+                )
+            } else {
+                val meshGradientDownloadProgress =
+                    component.meshGradientDownloadProgress
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    val currentPercent =
+                        meshGradientDownloadProgress?.currentPercent ?: 0f
 
-                            if (currentPercent > 0f) {
-                                EnhancedLoadingIndicator(
-                                    progress = currentPercent,
-                                    loaderSize = 72.dp
-                                ) {
-                                    Column(
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(8.dp)
-                                    ) {
-                                        Text(
-                                            text = rememberHumanFileSize(
-                                                meshGradientDownloadProgress?.currentTotalSize ?: 0
-                                            ),
-                                            maxLines = 1,
-                                            textAlign = TextAlign.Center,
-                                            fontSize = 10.sp,
-                                            lineHeight = 10.sp
-                                        )
-                                    }
-                                }
-                            } else {
-                                EnhancedLoadingIndicator()
+                    if (currentPercent > 0f) {
+                        EnhancedLoadingIndicator(
+                            progress = currentPercent,
+                            loaderSize = 72.dp
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
+                            ) {
+                                Text(
+                                    text = rememberHumanFileSize(
+                                        meshGradientDownloadProgress?.currentTotalSize ?: 0
+                                    ),
+                                    maxLines = 1,
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 10.sp,
+                                    lineHeight = 10.sp
+                                )
                             }
                         }
+                    } else {
+                        EnhancedLoadingIndicator()
                     }
                 }
             }

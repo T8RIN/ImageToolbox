@@ -20,7 +20,7 @@
   </br>
   </br>
   
- <img src="https://img.shields.io/badge/236.8K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
+ <img src="https://img.shields.io/badge/245.3K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
 
 <img src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnNvdXJjZS1jb21taXQ8L3RpdGxlPjxwYXRoIGQ9Ik0xNywxMkMxNywxNC40MiAxNS4yOCwxNi40NCAxMywxNi45VjIxSDExVjE2LjlDOC43MiwxNi40NCA3LDE0LjQyIDcsMTJDNyw5LjU4IDguNzIsNy41NiAxMSw3LjFWM0gxM1Y3LjFDMTUuMjgsNy41NiAxNyw5LjU4IDE3LDEyTTEyLDlBMywzIDAgMCwwIDksMTJBMywzIDAgMCwwIDEyLDE1QTMsMyAwIDAsMCAxNSwxMkEzLDMgMCAwLDAgMTIsOVoiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg==&labelColor=07ab4e">
  
@@ -529,7 +529,7 @@ or click one of the badges below.
     - Spray
     - Neon
     - Highlighter
-    - Warp (Move, Grow, Shrink, Swirl)
+    - Warp (Move, Grow, Shrink, Swirl, Mix)
     - Privacy Blur
     - Pixelation Paint
     - Text
@@ -666,7 +666,7 @@ or click one of the badges below.
     - Images to PDF
     - PDF previewing
 - Document Scanning
-- AI tools (81 ready to use models available)
+- AI tools (95+ ready to use models available)
     - Upscale
     - Remove BG
     - DeJPEG
@@ -845,6 +845,7 @@ or click one of the badges below.
     - Harmonies
     - Shading
     - Tone Curves applying
+- Color Library with more than 33k different colors
 - Histograms
     - RGB
     - Brightness

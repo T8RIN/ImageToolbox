@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -49,6 +50,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -101,156 +103,161 @@ internal fun MediaPickerHavePermissions(
         mutableStateOf(false)
     }
 
-    Column {
-        AnimatedVisibility(
-            visible = albumsState.albums.size > 1
-        ) {
-            val layoutDirection = LocalLayoutDirection.current
-            var showAlbumThumbnail by rememberSaveable {
-                mutableStateOf(false)
-            }
-            val listState = rememberLazyListState()
-            Row(
-                modifier = Modifier
-                    .drawHorizontalStroke()
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
+    Scaffold(
+        topBar = {
+            AnimatedVisibility(
+                modifier = Modifier.fillMaxWidth(),
+                visible = albumsState.albums.size > 1
             ) {
-                LazyRow(
+                val layoutDirection = LocalLayoutDirection.current
+                var showAlbumThumbnail by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                val listState = rememberLazyListState()
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .fadingEdges(listState)
-                        .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp
-                    ),
-                    contentPadding = PaddingValues(
-                        start = WindowInsets.displayCutout
-                            .asPaddingValues()
-                            .calculateStartPadding(layoutDirection) + 8.dp,
-                        end = WindowInsets.displayCutout
-                            .asPaddingValues()
-                            .calculateEndPadding(layoutDirection) + 8.dp
-                    ),
-                    state = listState,
-                    flingBehavior = enhancedFlingBehavior()
+                        .drawHorizontalStroke()
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
-                    items(
-                        items = albumsState.albums,
-                        key = Album::toString
-                    ) { album ->
-                        val selected = selectedAlbumIndex == album.id
-                        val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
-                        EnhancedChip(
-                            selected = selected,
-                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                            unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                            unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            onClick = {
-                                selectedAlbumIndex = album.id
-                                component.getAlbum(selectedAlbumIndex)
-                            },
-                            contentPadding = PaddingValues(
-                                horizontal = animateDpAsState(
-                                    if (isImageVisible) 8.dp
-                                    else 12.dp
-                                ).value,
-                                vertical = animateDpAsState(
-                                    if (isImageVisible) 8.dp
-                                    else 0.dp
-                                ).value
-                            ),
-                            label = {
-                                val title =
-                                    if (album.id == -1L) stringResource(R.string.all) else album.label
-                                Column(
-                                    modifier = Modifier
-                                        .animateContentSizeNoClip(
-                                            alignment = Alignment.Center
-                                        )
-                                        .then(
-                                            if (showAlbumThumbnail && album.uri.isEmpty()) {
-                                                Modifier.height(140.dp)
-                                            } else Modifier
-                                        ),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    var width by remember {
-                                        mutableStateOf(1.dp)
-                                    }
-                                    val density = LocalDensity.current
-                                    Text(
-                                        text = title,
-                                        modifier = Modifier.onSizeChanged {
-                                            width = with(density) {
-                                                it.width.toDp().coerceAtLeast(100.dp)
-                                            }
-                                        }
-                                    )
-                                    BoxAnimatedVisibility(
-                                        visible = isImageVisible,
-                                        enter = fadeIn() + expandVertically(),
-                                        exit = fadeOut() + shrinkVertically()
+                    LazyRow(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fadingEdges(listState)
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp
+                        ),
+                        contentPadding = PaddingValues(
+                            start = WindowInsets.displayCutout
+                                .asPaddingValues()
+                                .calculateStartPadding(layoutDirection) + 8.dp,
+                            end = WindowInsets.displayCutout
+                                .asPaddingValues()
+                                .calculateEndPadding(layoutDirection) + 8.dp
+                        ),
+                        state = listState,
+                        flingBehavior = enhancedFlingBehavior()
+                    ) {
+                        items(
+                            items = albumsState.albums,
+                            key = Album::toString
+                        ) { album ->
+                            val selected = selectedAlbumIndex == album.id
+                            val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
+                            EnhancedChip(
+                                selected = selected,
+                                selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                                unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                onClick = {
+                                    selectedAlbumIndex = album.id
+                                    component.getAlbum(selectedAlbumIndex)
+                                },
+                                contentPadding = PaddingValues(
+                                    horizontal = animateDpAsState(
+                                        if (isImageVisible) 8.dp
+                                        else 12.dp
+                                    ).value,
+                                    vertical = animateDpAsState(
+                                        if (isImageVisible) 8.dp
+                                        else 0.dp
+                                    ).value
+                                ),
+                                label = {
+                                    val title =
+                                        if (album.id == -1L) stringResource(R.string.all) else album.label
+                                    Column(
+                                        modifier = Modifier
+                                            .animateContentSizeNoClip(
+                                                alignment = Alignment.Center
+                                            )
+                                            .then(
+                                                if (showAlbumThumbnail && album.uri.isEmpty()) {
+                                                    Modifier.height(140.dp)
+                                                } else Modifier
+                                            ),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        Box {
-                                            BoxAnimatedVisibility(
-                                                visible = width > 1.dp,
-                                                enter = fadeIn() + scaleIn(),
-                                                exit = fadeOut() + scaleOut()
-                                            ) {
-                                                Picture(
-                                                    model = album.uri,
+                                        var width by remember {
+                                            mutableStateOf(1.dp)
+                                        }
+                                        val density = LocalDensity.current
+                                        Text(
+                                            text = title,
+                                            modifier = Modifier.onSizeChanged {
+                                                width = with(density) {
+                                                    it.width.toDp().coerceAtLeast(100.dp)
+                                                }
+                                            }
+                                        )
+                                        BoxAnimatedVisibility(
+                                            visible = isImageVisible,
+                                            enter = fadeIn() + expandVertically(),
+                                            exit = fadeOut() + shrinkVertically()
+                                        ) {
+                                            Box {
+                                                BoxAnimatedVisibility(
+                                                    visible = width > 1.dp,
+                                                    enter = fadeIn() + scaleIn(),
+                                                    exit = fadeOut() + scaleOut()
+                                                ) {
+                                                    Picture(
+                                                        model = album.uri,
+                                                        modifier = Modifier
+                                                            .padding(top = 8.dp)
+                                                            .height(100.dp)
+                                                            .width(width),
+                                                        shape = ShapeDefaults.small
+                                                    )
+                                                }
+                                                Box(
                                                     modifier = Modifier
                                                         .padding(top = 8.dp)
                                                         .height(100.dp)
-                                                        .width(width),
-                                                    shape = ShapeDefaults.small
-                                                )
-                                            }
-                                            Box(
-                                                modifier = Modifier
-                                                    .padding(top = 8.dp)
-                                                    .height(100.dp)
-                                                    .width(width)
-                                                    .clip(ShapeDefaults.small)
-                                                    .background(
-                                                        MaterialTheme
-                                                            .colorScheme
-                                                            .surfaceContainer
-                                                            .copy(0.6f)
-                                                    ),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                AutoSizeText(
-                                                    text = album.count.toString(),
-                                                    style = MaterialTheme.typography.headlineLarge.copy(
-                                                        fontSize = 20.sp,
-                                                        color = MaterialTheme.colorScheme.onSurface,
-                                                        fontWeight = FontWeight.Bold
+                                                        .width(width)
+                                                        .clip(ShapeDefaults.small)
+                                                        .background(
+                                                            MaterialTheme
+                                                                .colorScheme
+                                                                .surfaceContainer
+                                                                .copy(0.6f)
+                                                        ),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    AutoSizeText(
+                                                        text = album.count.toString(),
+                                                        style = MaterialTheme.typography.headlineLarge.copy(
+                                                            fontSize = 20.sp,
+                                                            color = MaterialTheme.colorScheme.onSurface,
+                                                            fontWeight = FontWeight.Bold
+                                                        )
                                                     )
-                                                )
+                                                }
                                             }
                                         }
                                     }
-                                }
-                            },
-                            defaultMinSize = 32.dp,
-                            shape = ShapeDefaults.default
+                                },
+                                defaultMinSize = 32.dp,
+                                shape = ShapeDefaults.default
+                            )
+                        }
+                    }
+                    EnhancedIconButton(
+                        onClick = { showAlbumThumbnail = !showAlbumThumbnail }
+                    ) {
+                        val rotation by animateFloatAsState(if (showAlbumThumbnail) 180f else 0f)
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = "Expand",
+                            modifier = Modifier.rotate(rotation)
                         )
                     }
                 }
-                EnhancedIconButton(
-                    onClick = { showAlbumThumbnail = !showAlbumThumbnail }
-                ) {
-                    val rotation by animateFloatAsState(if (showAlbumThumbnail) 180f else 0f)
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = "Expand",
-                        modifier = Modifier.rotate(rotation)
-                    )
-                }
             }
-        }
+        },
+        contentWindowInsets = WindowInsets()
+    ) { contentPadding ->
         MediaPickerGridWithOverlays(
             component = component,
             isSearching = isSearching,
@@ -260,7 +267,8 @@ internal fun MediaPickerHavePermissions(
             isManagePermissionAllowed = isManagePermissionAllowed,
             selectedAlbumIndex = selectedAlbumIndex,
             onSearchingChange = { isSearching = it },
-            onPicked = onPicked
+            onPicked = onPicked,
+            modifier = Modifier.padding(contentPadding)
         )
     }
     BackHandler(selectedAlbumIndex != -1L) {

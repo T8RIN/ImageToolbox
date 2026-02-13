@@ -17,21 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.libraries_info.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.plus
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -66,16 +59,12 @@ fun LibrariesInfoContent(
 ) {
     val context = LocalContext.current
 
-    Surface(
-        color = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
             EnhancedTopAppBar(
                 title = {
                     Text(
@@ -99,69 +88,50 @@ fun LibrariesInfoContent(
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = scrollBehavior
             )
-
-            val linkHandler = LocalUriHandler.current
-
-            val libraries = remember(context) {
-                Libs.Builder()
-                    .withContext(context)
-                    .build().let { libs ->
-                        libs.copy(
-                            libraries = libs.libraries.distinctBy {
-                                it.name
-                            }.filter { it.licenses.isNotEmpty() }.sortedWith(
-                                compareBy(
-                                    { !it.name.contains("T8RIN", true) },
-                                    { it.name }
-                                ),
-                            ).toPersistentList()
-                        )
-                    }
-            }
-            val contentPadding = WindowInsets
-                .navigationBars
-                .only(WindowInsetsSides.Bottom)
-                .union(WindowInsets.ime)
-                .union(
-                    WindowInsets.displayCutout
-                        .only(
-                            WindowInsetsSides.Horizontal
-                        )
-                )
-                .union(
-                    WindowInsets(
-                        left = 12.dp,
-                        top = 12.dp,
-                        right = 12.dp,
-                        bottom = 12.dp
-                    )
-                )
-                .asPaddingValues()
-
-            LibrariesContainer(
-                libraries = libraries,
-                modifier = Modifier.weight(1f),
-                contentPadding = contentPadding,
-                dimensions = LibraryDefaults.libraryDimensions(
-                    itemSpacing = 4.dp
-                ),
-                colors = LibraryDefaults.libraryColors(
-                    versionChipColors = LibraryDefaults.chipColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                ),
-                onLibraryClick = { library ->
-                    val license = library.licenses.firstOrNull()
-                    val url = library.link()
-
-                    if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
-                        component.selectLibrary(library)
-                    } else if (!url.isNullOrBlank()) {
-                        linkHandler.openUri(url)
-                    }
-                }
-            )
         }
+    ) { contentPadding ->
+        val linkHandler = LocalUriHandler.current
+
+        val libraries = remember(context) {
+            Libs.Builder()
+                .withContext(context)
+                .build().let { libs ->
+                    libs.copy(
+                        libraries = libs.libraries.distinctBy {
+                            it.name
+                        }.filter { it.licenses.isNotEmpty() }.sortedWith(
+                            compareBy(
+                                { !it.name.contains("T8RIN", true) },
+                                { it.name }
+                            ),
+                        ).toPersistentList()
+                    )
+                }
+        }
+
+        LibrariesContainer(
+            libraries = libraries,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = contentPadding + PaddingValues(12.dp),
+            dimensions = LibraryDefaults.libraryDimensions(
+                itemSpacing = 4.dp
+            ),
+            colors = LibraryDefaults.libraryColors(
+                versionChipColors = LibraryDefaults.chipColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            ),
+            onLibraryClick = { library ->
+                val license = library.licenses.firstOrNull()
+                val url = library.link()
+
+                if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
+                    component.selectLibrary(library)
+                } else if (!url.isNullOrBlank()) {
+                    linkHandler.openUri(url)
+                }
+            }
+        )
     }
 }

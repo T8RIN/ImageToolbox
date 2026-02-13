@@ -17,15 +17,7 @@
 
 package com.t8rin.imagetoolbox.library_details.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -33,8 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -59,15 +50,11 @@ fun LibraryDetailsContent(
     val childScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val linkHandler = LocalUriHandler.current
 
-    Surface(
-        color = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(childScrollBehavior.nestedScrollConnection)
-        ) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(childScrollBehavior.nestedScrollConnection),
+        topBar = {
             EnhancedTopAppBar(
                 title = {
                     Text(
@@ -102,27 +89,20 @@ fun LibraryDetailsContent(
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = childScrollBehavior
             )
-            SelectionContainer {
-                HtmlText(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .enhancedVerticalScroll(rememberScrollState())
-                        .navigationBarsPadding()
-                        .padding(
-                            WindowInsets.displayCutout
-                                .only(
-                                    WindowInsetsSides.Horizontal
-                                )
-                                .asPaddingValues()
-                        )
-                        .padding(12.dp)
-                        .container(
-                            resultPadding = 12.dp
-                        ),
-                    html = component.libraryDescription
-                )
-            }
+        }
+    ) { contentPadding ->
+        SelectionContainer {
+            HtmlText(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .enhancedVerticalScroll(rememberScrollState())
+                    .padding(contentPadding)
+                    .padding(12.dp)
+                    .container(
+                        resultPadding = 12.dp
+                    ),
+                html = component.libraryDescription
+            )
         }
     }
 }

@@ -33,7 +33,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -93,7 +92,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
-internal fun ColumnScope.MediaPickerGridWithOverlays(
+internal fun MediaPickerGridWithOverlays(
     component: MediaPickerComponent,
     isSearching: Boolean,
     allowedMedia: AllowedMedia,
@@ -102,7 +101,8 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
     isManagePermissionAllowed: Boolean,
     selectedAlbumIndex: Long,
     onSearchingChange: (Boolean) -> Unit,
-    onPicked: (List<Uri>) -> Unit
+    onPicked: (List<Uri>) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val albumsState by component.albumsState.collectAsState()
     val mediaState by component.mediaState.collectAsState()
@@ -123,10 +123,10 @@ internal fun ColumnScope.MediaPickerGridWithOverlays(
     val filteredMediaState by component.filteredMediaState.collectAsState()
 
     Box(
-        modifier = Modifier.weight(1f)
+        modifier = modifier.fillMaxSize()
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(1f)
+            modifier = Modifier.fillMaxSize()
         ) {
             val isButtonVisible =
                 (!allowMultiple || selectedMedia.isNotEmpty()) && !isSearching
