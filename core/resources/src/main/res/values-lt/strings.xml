@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
@@ -28,7 +26,7 @@
     <string name="height">%1$s aukštis</string>
     <string name="quality">Kokybė</string>
     <string name="extension">Plėtinys</string>
-    <string name="single_edit_sub">Pakeiskite vieno pateikto vaizdo specifikacijas.</string>
+    <string name="single_edit_sub">Modifikuokite, keiskite dydį ir redaguokite vieną vaizdą.</string>
     <string name="update">Atnaujinti</string>
     <string name="check_updates">Tikrinti naujinimus</string>
     <string name="tool_exit_confirmation_sub">Jei naudodami tam tikrus įrankius turite neišsaugotų pakeitimų ir bandote juos užverti, bus rodomas patvirtinimo dialogas.</string>
@@ -75,46 +73,46 @@
     <string name="explicit">Aiškus</string>
     <string name="flexible">Lankstus</string>
     <string name="pick_image_alt">Pasirinkite vaizdą</string>
-    <string name="app_closing_sub">Ar tikrai norite uždaryti programą?</string>
-    <string name="app_closing">Programėlės uždarymas</string>
-    <string name="stay">Pasilik</string>
-    <string name="reset_image">Iš naujo nustatyti vaizdą</string>
-    <string name="reset_image_sub">Vaizdo pakeitimai grįš į pradines reikšmes</string>
-    <string name="values_reset">Vertės tinkamai nustatytos iš naujo</string>
+    <string name="app_closing_sub">Ar tikrai norite užverti programą?</string>
+    <string name="app_closing">Programa užveriama</string>
+    <string name="stay">Likti</string>
+    <string name="reset_image">Nustatyti iš naujo vaizdą</string>
+    <string name="reset_image_sub">Vaizdo pakeitimai bus grąžinti į pradines reikšmes.</string>
+    <string name="values_reset">Reikšmės tinkamai iš naujo nustatytos.</string>
     <string name="something_went_wrong">Kažkas nutiko</string>
-    <string name="restart_app">Iš naujo paleiskite programą</string>
-    <string name="copied">Nukopijuota į mainų sritį</string>
+    <string name="restart_app">Paleisti programą iš naujo</string>
+    <string name="copied">Nukopijuota į iškarpinę.</string>
     <string name="exception">Išimtis</string>
     <string name="edit_exif">Redaguoti EXIF</string>
     <string name="ok">Gerai</string>
-    <string name="no_exif">EXIF duomenų nerasta</string>
-    <string name="add_tag">Pridėti žymą</string>
+    <string name="no_exif">EXIF duomenų nerasta.</string>
+    <string name="add_tag">Pridėti žymę</string>
     <string name="save">Išsaugoti</string>
-    <string name="clear">Aišku</string>
-    <string name="clear_exif">Išvalyti EXIF</string>
+    <string name="clear">Valyti</string>
+    <string name="clear_exif">Valyti EXIF</string>
     <string name="cancel">Atšaukti</string>
-    <string name="clear_exif_sub">Visi vaizdo EXIF ​​duomenys bus ištrinti. Šio veiksmo anuliuoti negalima!</string>
+    <string name="clear_exif_sub">Visi vaizdo EXIF duomenys bus ištrinti. Šio veiksmo anuliuoti negalima.</string>
     <string name="presets">Išankstiniai nustatymai</string>
-    <string name="crop">Apkarpyti</string>
-    <string name="image_not_saved">Išsaugomas</string>
-    <string name="image_not_saved_sub">Jei išeisite dabar, visi neišsaugoti pakeitimai bus prarasti</string>
-    <string name="pick_color">Spalvų rinkiklis</string>
-    <string name="pick_color_sub">Pasirinkite spalvą iš vaizdo, nukopijuokite arba bendrinkite</string>
+    <string name="crop">Apkirpti</string>
+    <string name="image_not_saved">Išsaugoma</string>
+    <string name="image_not_saved_sub">Jei dabar išeisite, visi neišsaugoti pakeitimai bus prarasti.</string>
+    <string name="pick_color">Spalvų parinkiklis</string>
+    <string name="pick_color_sub">Pasirinkite spalvą iš vaizdo, nukopijuokite arba bendrinkite.</string>
     <string name="image">Vaizdas</string>
     <string name="color">Spalva</string>
     <string name="color_copied">Spalva nukopijuota</string>
-    <string name="crop_sub">Apkarpykite vaizdą iki bet kokių ribų</string>
+    <string name="crop_sub">Apkirpkite vaizdą iki bet kokių ribų.</string>
     <string name="version">Versija</string>
-    <string name="keep_exif">Laikykite EXIF</string>
+    <string name="keep_exif">Išlaikyti EXIF</string>
     <string name="images">Vaizdai: %d</string>
     <string name="change_preview">Keisti peržiūrą</string>
-    <string name="remove">Pašalinti</string>
-    <string name="palette_sub">Sukurkite spalvų paletės pavyzdį iš pateikto vaizdo</string>
-    <string name="generate_palette">Sukurti paletę</string>
+    <string name="remove">Šalinti</string>
+    <string name="palette_sub">Generuokite spalvų paletės pavyzdį iš nurodyto vaizdo.</string>
+    <string name="generate_palette">Generuoti paletę</string>
     <string name="palette">Paletė</string>
     <string name="new_version">Nauja versija %1$s</string>
     <string name="unsupported_type">Nepalaikomas tipas: %1$s</string>
-    <string name="no_palette">Nepavyko sugeneruoti paletės nurodytam vaizdui</string>
+    <string name="no_palette">Nepavyko sugeneruoti paletės nurodytam vaizdui.</string>
     <string name="original">Originalus</string>
     <string name="folder">Išvesties aplankas</string>
     <string name="def">Numatytoji</string>
@@ -2096,6 +2094,7 @@
     <string name="hidden_tools">Paslėpti įrankiai</string>
     <string name="hidden_for_share">Įrankiai, paslėpti bendrinimui</string>
     <string name="color_library">Spalvų biblioteka</string>
+    <string name="color_library_sub">Naršykite didelę spalvų kolekciją.</string>
     <string name="color_library_sub">Naršykite didelę spalvų kolekciją</string>
     <string name="model_fatality_deblur">Paryškina ir pašalina vaizdų susiliejimą išlaikant natūralias detales, idealiai tinka taisyti nesufokusuotas nuotraukas.</string>
     <string name="model_unresize_v3">Protingai atkuria vaizdus, ​​kurių dydis anksčiau buvo pakeistas, atkuriant prarastas detales ir tekstūras.</string>
