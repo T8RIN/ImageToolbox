@@ -2105,4 +2105,5 @@
     <string name="model_nafnet_deblurring">消除照片中的模糊/噪点和抖动。通用但最适合照片。</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">使用 Swin2SR 转换器恢复低质量图像，并针对 BSRGAN 退化进行了优化。非常适合修复严重的压缩伪影并以 4 倍比例增强细节。</string>
     <string name="model_bsrgan_swinir_m_x4_gan">使用经过 BSRGAN 退化训练的 SwinIR 变压器进行 4 倍升级。使用 GAN 在照片和复杂场景中获得更清晰的纹理和更自然的细节。</string>
+    <string name="path">小路</string>
 </resources>

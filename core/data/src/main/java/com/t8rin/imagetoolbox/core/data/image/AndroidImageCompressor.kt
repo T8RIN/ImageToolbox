@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
-import com.t8rin.imagetoolbox.core.data.utils.fileSize
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -40,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
+import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.trickle.Trickle
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -133,8 +133,8 @@ internal class AndroidImageCompressor @Inject constructor(
 
         val imageFormat =
             if (settingsState.filenameBehavior is FilenameBehavior.Overwrite && extension != null) {
-            ImageFormat[extension]
-        } else imageInfo.imageFormat
+                ImageFormat[extension]
+            } else imageInfo.imageFormat
 
         yield()
         compress(

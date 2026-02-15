@@ -27,6 +27,8 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.resources)
     implementation(projects.core.settings)
+    implementation(libs.toolbox.logger)
+    implementation(libs.androidx.documentfile)
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
     implementation(libs.zxing.core)

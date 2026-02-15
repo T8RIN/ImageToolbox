@@ -21,7 +21,9 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,11 +41,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.toMap
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
@@ -61,10 +66,20 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.dateAdded
+import com.t8rin.imagetoolbox.core.utils.fileSize
+import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.lastModified
+import com.t8rin.imagetoolbox.core.utils.path
 
 @Composable
 fun MetadataPreviewButton(
-    uri: Uri?
+    uri: Uri?,
+    dateModified: (Uri) -> Long? = { it.lastModified() },
+    dateAdded: (Uri) -> Long? = { it.dateAdded() },
+    path: (Uri) -> String? = { it.path() },
+    name: (Uri) -> String? = { it.filename() },
+    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L, 2) }
 ) {
     AnimatedContent(
         targetState = uri
@@ -78,7 +93,18 @@ fun MetadataPreviewButton(
                     .filter { it.second.isNotBlank() }
             }
         }
-        if (tagMap.isNotEmpty()) {
+        val info by remember(uri, dateModified, dateAdded, path, name, fileSize) {
+            derivedStateOf {
+                UriInfo(
+                    dateModified = dateModified(uri),
+                    dateAdded = dateAdded(uri),
+                    path = path(uri),
+                    name = name(uri),
+                    fileSize = fileSize(uri)
+                )
+            }
+        }
+        if (tagMap.isNotEmpty() || info.data.isNotEmpty()) {
             var showExif by rememberSaveable {
                 mutableStateOf(false)
             }
@@ -114,40 +140,118 @@ fun MetadataPreviewButton(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     flingBehavior = enhancedFlingBehavior()
                 ) {
-                    itemsIndexed(tagMap) { index, (tag, value) ->
-                        val shape = ShapeDefaults.byIndex(
-                            index = index,
-                            size = tagMap.size
-                        )
-                        RoundedTextField(
-                            onValueChange = {},
-                            readOnly = true,
+                    itemsIndexed(info.data) { index, (name, value) ->
+                        ValueField(
+                            label = stringResource(name),
                             value = value,
+                            shape = ShapeDefaults.byIndex(
+                                index = index,
+                                size = info.data.size
+                            )
+                        )
+                    }
+
+                    if (info.data.isNotEmpty() && tagMap.isNotEmpty()) {
+                        item { Spacer(Modifier.height(4.dp)) }
+                    }
+
+                    itemsIndexed(tagMap) { index, (tag, value) ->
+                        ValueField(
                             label = tag.localizedName,
-                            textStyle = LocalTextStyle.current.copy(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            colors = RoundedTextFieldColors(
-                                isError = false,
-                                containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
-                                unfocusedIndicatorColor = Color.Transparent
-                            ).copy(
-                                unfocusedLabelColor = MaterialTheme.colorScheme
-                                    .surfaceVariant.inverse({ 0.3f })
-                            ),
-                            shape = shape,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .container(
-                                    color = EnhancedBottomSheetDefaults.contentContainerColor,
-                                    shape = shape,
-                                    resultPadding = 0.dp
-                                )
+                            value = value,
+                            shape = ShapeDefaults.byIndex(
+                                index = index,
+                                size = tagMap.size
+                            )
                         )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ValueField(
+    label: String,
+    value: String,
+    shape: Shape
+) {
+    RoundedTextField(
+        onValueChange = {},
+        readOnly = true,
+        value = value,
+        label = label,
+        textStyle = LocalTextStyle.current.copy(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        ),
+        colors = RoundedTextFieldColors(
+            isError = false,
+            containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
+            unfocusedIndicatorColor = Color.Transparent
+        ).copy(
+            unfocusedLabelColor = MaterialTheme.colorScheme
+                .surfaceVariant.inverse({ 0.3f })
+        ),
+        singleLine = false,
+        maxLines = Int.MAX_VALUE,
+        shape = shape,
+        modifier = Modifier
+            .fillMaxWidth()
+            .container(
+                color = EnhancedBottomSheetDefaults.contentContainerColor,
+                shape = shape,
+                resultPadding = 0.dp
+            )
+    )
+}
+
+private data class UriInfo(
+    val dateModified: Long?,
+    val dateAdded: Long?,
+    val path: String?,
+    val name: String?,
+    val fileSize: String?
+) {
+    val data: List<Pair<Int, String>> = buildList {
+        name?.takeIf { it.isNotBlank() }?.let {
+            add(R.string.filename to it)
+        }
+
+        fileSize?.takeIf { it.isNotBlank() }?.let {
+            add(R.string.file_size to it)
+        }
+
+        val dateAddedFormatted = dateAdded?.takeIf { it > 0 }?.let {
+            timestamp(
+                format = "d MMMM, yyyy • HH:mm",
+                date = it
+            )
+        }
+
+        val dateModifiedFormatted = dateModified?.takeIf { it > 0 }?.let {
+            timestamp(
+                format = "d MMMM, yyyy • HH:mm",
+                date = it
+            )
+        }
+
+        if (dateModifiedFormatted != dateAddedFormatted) {
+            dateModifiedFormatted?.let {
+                add(R.string.sort_by_date_modified to it)
+            }
+        }
+
+        dateAddedFormatted?.let {
+            add(R.string.sort_by_date_added to it)
+        }
+
+        path?.takeIf { it.isNotBlank() }
+            ?.removeSuffix("/$name")
+            ?.removeSuffix("/${name?.substringBeforeLast('.')}")
+            ?.let {
+                add(R.string.path to it)
+            }
     }
 }

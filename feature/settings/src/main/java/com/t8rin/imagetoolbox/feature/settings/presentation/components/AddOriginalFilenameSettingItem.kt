@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Difference
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -28,9 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
-import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -40,21 +37,14 @@ fun AddOriginalFilenameSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val essentials = rememberLocalEssentials()
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = shape,
-        enabled = settingsState.filenameBehavior is FilenameBehavior.None && settingsState.picturePickerMode != PicturePickerMode.PhotoPicker,
+        enabled = settingsState.filenameBehavior is FilenameBehavior.None,
         modifier = modifier,
         startIcon = Icons.Outlined.Difference,
         onClick = {
             onClick()
-        },
-        onDisabledClick = {
-            essentials.showToast(
-                message = essentials.getString(R.string.filename_not_work_with_photopicker),
-                icon = Icons.Outlined.ErrorOutline
-            )
         },
         title = stringResource(R.string.add_original_filename),
         subtitle = stringResource(R.string.add_original_filename_sub),

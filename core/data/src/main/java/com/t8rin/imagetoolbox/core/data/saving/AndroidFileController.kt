@@ -34,14 +34,8 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriWriteable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
 import com.t8rin.imagetoolbox.core.data.utils.copyMetadata
-import com.t8rin.imagetoolbox.core.data.utils.fileSize
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
-import com.t8rin.imagetoolbox.core.data.utils.getPath
 import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
-import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectory
-import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
-import com.t8rin.imagetoolbox.core.data.utils.toUiPath
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
@@ -62,6 +56,13 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.utils.fileSize
+import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.getPath
+import com.t8rin.imagetoolbox.core.utils.listFilesInDirectory
+import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
+import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
+import com.t8rin.imagetoolbox.core.utils.uiPath
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -201,7 +202,7 @@ internal class AndroidFileController @Inject constructor(
                     return@withContext SaveResult.Success(
                         message = getString(
                             R.string.saved_to_original,
-                            originalUri.getFilename(context).toString()
+                            originalUri.filename(context).toString()
                         ),
                         isOverwritten = true,
                         savingPath = savingPath
@@ -236,7 +237,7 @@ internal class AndroidFileController @Inject constructor(
                             Exception(
                                 getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().toUiPath(context, treeUri)
+                                    treeUri.toUri().uiPath(treeUri)
                                 )
                             )
                         )
@@ -477,16 +478,18 @@ internal class AndroidFileController @Inject constructor(
 
     override suspend fun readMetadata(
         imageUri: String
-    ): Metadata? = context.openFileDescriptor(imageUri.toUri())?.fileDescriptor?.toMetadata()
+    ): Metadata? = imageUri.toUri().tryRequireOriginal(context).let {
+        context.openFileDescriptor(it)?.fileDescriptor?.toMetadata()
+    }
 
     override suspend fun listFilesInDirectory(
         treeUri: String
     ): List<String> = withContext(ioDispatcher) {
-        context.listFilesInDirectory(treeUri.toUri()).map { it.toString() }
+        treeUri.toUri().listFilesInDirectory().map { it.toString() }
     }
 
     override fun listFilesInDirectoryAsFlow(
         treeUri: String
-    ): Flow<String> = context.listFilesInDirectoryProgressive(treeUri.toUri()).map(Uri::toString)
+    ): Flow<String> = treeUri.toUri().listFilesInDirectoryProgressive().map(Uri::toString)
 
 }

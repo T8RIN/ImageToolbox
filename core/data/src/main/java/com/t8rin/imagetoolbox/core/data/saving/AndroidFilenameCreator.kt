@@ -21,7 +21,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.computeFromByteArray
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
@@ -53,6 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
@@ -120,7 +120,7 @@ internal class AndroidFilenameCreator @Inject constructor(
         val suffix = settingsState.filenameSuffix
 
         val originalName = if (settingsState.addOriginalFilename && !isOriginalEmpty) {
-            saveTarget.originalUri.toUri().getFilename(context)
+            saveTarget.originalUri.toUri().filename(context)
                 ?.substringBeforeLast('.').orEmpty()
         } else ""
 
@@ -232,6 +232,6 @@ internal class AndroidFilenameCreator @Inject constructor(
         length: Int
     ): String = "${randomStringGenerator.generate(length)}.${extension}"
 
-    override fun getFilename(uri: String): String = uri.toUri().getFilename(context) ?: ""
+    override fun getFilename(uri: String): String = uri.toUri().filename(context) ?: ""
 
 }

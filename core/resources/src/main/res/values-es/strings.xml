@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Elimina el desenfoque/ruido y las sacudidas de las fotos. Propósito general pero mejor en fotografías.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Restaura imágenes de baja calidad utilizando el transformador Swin2SR, optimizado para la degradación de BSRGAN. Excelente para corregir artefactos de compresión intensa y mejorar detalles a escala 4x.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">Ampliación 4x con transformador SwinIR entrenado en degradación de BSRGAN. Utiliza GAN para obtener texturas más nítidas y detalles más naturales en fotografías y escenas complejas.</string>
+    <string name="path">Camino</string>
 </resources>

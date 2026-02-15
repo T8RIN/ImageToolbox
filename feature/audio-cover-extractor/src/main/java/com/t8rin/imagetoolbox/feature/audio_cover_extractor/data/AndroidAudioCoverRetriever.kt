@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -30,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.AudioCoverRetriever
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model.AudioCoverResult
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -71,7 +71,7 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
                 data = pictureData,
                 originalSize = true
             )?.let { bitmap ->
-                val originalName = audioUri.toUri().getFilename(context)?.substringBeforeLast('.')
+                val originalName = audioUri.toUri().filename(context)?.substringBeforeLast('.')
                     ?: "AUDIO_${System.currentTimeMillis()}"
 
                 shareProvider.cacheData(

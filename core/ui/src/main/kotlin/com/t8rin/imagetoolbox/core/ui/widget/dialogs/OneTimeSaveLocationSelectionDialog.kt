@@ -65,7 +65,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSet
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toUiPath
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -81,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import com.t8rin.imagetoolbox.core.utils.uiPath
 import kotlinx.coroutines.launch
 
 
@@ -170,7 +170,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     val title by remember(item) {
                         derivedStateOf {
                             val default = essentials.getString(R.string.default_folder)
-                            item?.uri?.toUri()?.toUiPath(default = default) ?: default
+                            item?.uri?.toUri()?.uiPath(default = default) ?: default
                         }
                     }
                     val subtitle by remember(item) {

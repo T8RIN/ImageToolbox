@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@
 package com.t8rin.imagetoolbox.feature.zip.data
 
 import android.content.Context
-import android.net.Uri
 import androidx.core.net.toUri
-import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
@@ -49,7 +48,7 @@ internal class AndroidZipManager @Inject constructor(
                         withContext(ioDispatcher) {
                             context.contentResolver.openInputStream(file.toUri()).use { input ->
                                 BufferedInputStream(input).use { origin ->
-                                    val entry = ZipEntry(file.toUri().getFilename())
+                                    val entry = ZipEntry(file.toUri().filename(context))
                                     output.putNextEntry(entry)
                                     origin.copyTo(output, 1024)
                                 }
@@ -59,10 +58,8 @@ internal class AndroidZipManager @Inject constructor(
                     }
                 }
             },
-            filename = files.firstOrNull()?.toUri()?.getFilename() ?: "temp.zip"
+            filename = files.firstOrNull()?.toUri()?.filename() ?: "temp.zip"
         ) ?: throw IllegalArgumentException("Cached to null file")
     }
-
-    private fun Uri.getFilename(): String = DocumentFile.fromSingleUri(context, this)?.name ?: ""
 
 }

@@ -15,24 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.compose)
-    alias(libs.plugins.image.toolbox.hilt)
-}
+package com.t8rin.imagetoolbox.core.data.utils
 
-android.namespace = "com.t8rin.imagetoolbox.core.filters"
+import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import java.io.OutputStream
 
-dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.ui)
-    implementation(projects.core.resources)
-    implementation(projects.core.settings)
-    implementation(projects.core.utils)
-
-    implementation(libs.kotlin.reflect)
-    implementation(libs.toolbox.curves)
-    implementation(libs.toolbox.ascii)
-    implementation(libs.toolbox.neuralTools)
-    implementation(libs.trickle)
+fun Writeable.outputStream(): OutputStream = if (this is StreamWriteable) {
+    stream
+} else {
+    object : OutputStream() {
+        override fun write(b: Int) = writeBytes(byteArrayOf(b.toByte()))
+    }
 }

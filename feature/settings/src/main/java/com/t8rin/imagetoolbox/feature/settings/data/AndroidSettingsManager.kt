@@ -25,7 +25,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.BackupFileExtension
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILENAME
@@ -831,7 +831,7 @@ internal class AndroidSettingsManager @Inject constructor(
         val font = context.contentResolver.openInputStream(uri.toUri())?.use {
             it.buffered().readBytes()
         } ?: ByteArray(0)
-        val filename = uri.toUri().getFilename(context) ?: "font${Random.nextInt()}.ttf"
+        val filename = uri.toUri().filename(context) ?: "font${Random.nextInt()}.ttf"
 
         val directory = File(context.filesDir, "customFonts").apply {
             mkdir()

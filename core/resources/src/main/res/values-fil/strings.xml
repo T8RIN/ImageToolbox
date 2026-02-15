@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Nag-aalis ng blur/ingay at nanginginig sa mga larawan. Pangkalahatang layunin ngunit pinakamahusay sa mga larawan.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Ibinabalik ang mababang kalidad na mga larawan gamit ang Swin2SR transformer, na na-optimize para sa BSRGAN degradation. Mahusay para sa pag-aayos ng mga heavy compression artifact at pagpapahusay ng mga detalye sa 4x scale.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x na upscaling gamit ang SwinIR transformer na sinanay sa BSRGAN degradation. Gumagamit ng GAN para sa mas matalas na mga texture at mas natural na mga detalye sa mga larawan at kumplikadong mga eksena.</string>
+    <string name="path">Daan</string>
 </resources>

@@ -2107,4 +2107,5 @@
     <string name="model_nafnet_deblurring">사진에서 흐림/노이즈 및 흔들림을 제거합니다. 일반적인 용도이지만 사진에 가장 적합합니다.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN 저하에 최적화된 Swin2SR 변환기를 사용하여 저품질 이미지를 복원합니다. 과도한 압축 아티팩트를 수정하고 4배율로 디테일을 향상시키는 데 적합합니다.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN 저하에 대해 훈련된 SwinIR 변환기를 사용한 4배 업스케일링. 사진과 복잡한 장면에서 더 선명한 질감과 더 자연스러운 디테일을 위해 GAN을 사용합니다.</string>
+    <string name="path">길</string>
 </resources>

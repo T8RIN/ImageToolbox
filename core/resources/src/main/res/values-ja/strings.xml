@@ -2107,4 +2107,5 @@
     <string name="model_nafnet_deblurring">写真のブレやノイズ、手ぶれを除去します。汎用ですが写真に最適です。</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">BSRGAN の劣化に対して最適化された Swin2SR トランスフォーマーを使用して低品質の画像を復元します。重度の圧縮アーティファクトを修正し、4 倍スケールで細部を強調するのに最適です。</string>
     <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN 劣化でトレーニングされた SwinIR トランスフォーマーによる 4 倍のアップスケーリング。 GAN を使用して、写真や複雑なシーンのより鮮明なテクスチャとより自然なディテールを実現します。</string>
+    <string name="path">パス</string>
 </resources>

@@ -2129,4 +2129,5 @@
     <string name="model_nafnet_deblurring">Removes blur/noise and shakes from photos. General purpose but best on photos.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Restores low-quality images using Swin2SR transformer, optimized for BSRGAN degradation. Great for fixing heavy compression artifacts and enhancing details at 4x scale.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x upscaling with SwinIR transformer trained on BSRGAN degradation. Uses GAN for sharper textures and more natural details in photos and complex scenes.</string>
+    <string name="path">Path</string>
 </resources>

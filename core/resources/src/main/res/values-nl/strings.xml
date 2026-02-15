@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Verwijdert onscherpte/ruis en trillingen uit foto\'s. Algemeen gebruik, maar het beste op foto\'s.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Herstelt afbeeldingen van lage kwaliteit met behulp van de Swin2SR-transformator, geoptimaliseerd voor BSRGAN-degradatie. Ideaal voor het corrigeren van zware compressieartefacten en het verbeteren van details op 4x schaal.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x opschalen met SwinIR-transformator getraind op BSRGAN-degradatie. Gebruikt GAN voor scherpere texturen en natuurlijkere details in foto\'s en complexe scènes.</string>
+    <string name="path">Pad</string>
 </resources>

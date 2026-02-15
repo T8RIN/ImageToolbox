@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Argazkietatik lausotasuna/zarata eta dardarak kentzen ditu. Helburu orokorra baina onena argazkietan.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Kalitate baxuko irudiak leheneratzen ditu Swin2SR transformagailua erabiliz, BSRGAN degradaziorako optimizatuta. Konpresio-artefaktu astunak konpontzeko eta xehetasunak 4x eskalan hobetzeko bikaina.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x igoera BSRGAN degradazioan trebatutako SwinIR transformadorearekin. GAN erabiltzen du testura zorrotzagoak eta xehetasun naturalagoak lortzeko argazkietan eta eszena konplexuetan.</string>
+    <string name="path">Bidea</string>
 </resources>

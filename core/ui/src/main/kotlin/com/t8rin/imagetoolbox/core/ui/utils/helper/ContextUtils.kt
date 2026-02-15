@@ -64,12 +64,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPerm
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 import java.io.RandomAccessFile
 import java.util.Locale
 import kotlin.math.ceil
@@ -191,7 +190,7 @@ object ContextUtils {
     fun rememberFilename(uri: Uri): String? {
         return remember(uri) {
             derivedStateOf {
-                uri.getFilename()
+                uri.filename()
             }
         }.value
     }
@@ -274,28 +273,6 @@ object ContextUtils {
         } ?: run {
             onPastedColorFailure(getString(R.string.clipboard_paste_invalid_empty))
         }
-    }
-
-    fun isMiUi(): Boolean {
-        return !getSystemProperty("ro.miui.ui.version.name").isNullOrBlank()
-    }
-
-    fun isRedMagic(): Boolean {
-        val osName = runCatching {
-            System.getProperty("os.name")
-        }.getOrNull() ?: getSystemProperty("os.name")
-        return listOf("redmagic", "magic", "red").all {
-            osName?.contains(it, true) == true
-        }
-    }
-
-    private fun getSystemProperty(name: String): String? {
-        return runCatching {
-            val p = Runtime.getRuntime().exec("getprop $name")
-            BufferedReader(InputStreamReader(p.inputStream), 1024).use {
-                return@runCatching it.readLine()
-            }
-        }.getOrNull()
     }
 
     fun Context.getLanguages(): Map<String, String> {
@@ -479,7 +456,7 @@ object ContextUtils {
     }
 
     fun Uri.getExtension(): String? = runCatching {
-        val filename = getFilename().orEmpty()
+        val filename = filename().orEmpty()
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"
         return if (ContentResolver.SCHEME_CONTENT == scheme) {
@@ -531,7 +508,7 @@ object ContextUtils {
         contentResolver.openInputStream(this@moveToCache)?.use { stream ->
             val file = File(
                 cacheDir,
-                getFilename() ?: "cache_${Random.nextInt()}.tmp"
+                filename() ?: "cache_${Random.nextInt()}.tmp"
             ).apply { createNewFile() }
 
             file.outputStream().use { stream.copyTo(it) }
@@ -540,7 +517,8 @@ object ContextUtils {
         }
     }
 
-    fun Uri.isFromAppFileProvider() =
-        toString().contains(appContext.getString(R.string.file_provider))
+    fun Uri.isFromAppFileProvider() = toString().run {
+        contains("content://media/external") || contains(appContext.getString(R.string.file_provider))
+    }
 
 }

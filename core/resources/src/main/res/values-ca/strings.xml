@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Elimina el borrós/soroll i els tremolors de les fotos. Propòsit general però millor en fotos.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Restaura imatges de baixa qualitat mitjançant el transformador Swin2SR, optimitzat per a la degradació de BSRGAN. Ideal per arreglar artefactes de compressió pesats i millorar els detalls a escala 4x.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">Ampliació 4x amb transformador SwinIR entrenat en degradació BSRGAN. Utilitza GAN per obtenir textures més nítides i detalls més naturals en fotos i escenes complexes.</string>
+    <string name="path">Camí</string>
 </resources>
