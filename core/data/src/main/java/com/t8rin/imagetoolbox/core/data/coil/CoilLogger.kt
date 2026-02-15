@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,10 +38,15 @@ internal class CoilLogger : Logger {
         message: String?,
         throwable: Throwable?
     ) {
-        message?.makeLog(tag, level.toLogger())
-        throwable?.makeLog(tag)
+        message?.takeIf { "NullRequestData" !in it }?.makeLog(tag, level.toLogger())
+        throwable?.takeIf { "The request's data is null" !in it.message.orEmpty() }?.makeLog(tag)
 
-        delegate.log(tag, level, message, throwable)
+        delegate.log(
+            tag = tag,
+            level = level,
+            message = message,
+            throwable = throwable
+        )
     }
 
     private fun Logger.Level.toLogger(): RealLogger.Level = when (this) {

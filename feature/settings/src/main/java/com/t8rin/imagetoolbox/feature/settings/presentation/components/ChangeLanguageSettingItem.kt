@@ -168,7 +168,7 @@ private fun PickLanguageSheet(
                                 if (isSelected) MaterialTheme
                                     .colorScheme
                                     .secondaryContainer
-                                else EnhancedBottomSheetDefaults.containerColor
+                                else EnhancedBottomSheetDefaults.contentContainerColor
                             ).value,
                             shape = ShapeDefaults.byIndex(
                                 index = index,
