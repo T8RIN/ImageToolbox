@@ -221,8 +221,8 @@ internal class AndroidShareProvider @Inject constructor(
     }
 
     override suspend fun cacheData(
-        writeData: suspend (Writeable) -> Unit,
-        filename: String
+        filename: String,
+        writeData: suspend (Writeable) -> Unit
     ): String? = withContext(ioDispatcher) {
         val imagesFolder = if (filename.startsWith("temp.")) {
             File(context.cacheDir, "temp")

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,8 @@ android {
 
             // AppBundle tasks usually contain "bundle" in their name
             //noinspection WrongGradleMethod
-            val isBuildingBundle = gradle.startParameter.taskNames.any { it.lowercase().contains("bundle") }
+            val isBuildingBundle =
+                gradle.startParameter.taskNames.any { it.lowercase().contains("bundle") }
 
             // Disable split abis when building appBundle
             isEnable = !isBuildingBundle
@@ -113,6 +114,7 @@ android {
         jniLibs {
             pickFirsts.add("lib/*/libcoder.so")
             pickFirsts.add("**/libc++_shared.so")
+            pickFirsts.add("**/libdatstore_shared_counter.so")
             useLegacyPackaging = true
         }
         resources {
@@ -144,6 +146,7 @@ dependencies {
 
     implementation(libs.bouncycastle.pkix)
     implementation(libs.bouncycastle.provider)
+    implementation(libs.pdfbox)
 
     "marketImplementation"(libs.quickie.bundled)
     "fossImplementation"(libs.quickie.foss)
@@ -183,4 +186,6 @@ fun Project.dependencySubstitution(action: DependencySubstitutions.() -> Unit) {
 fun DependencySubstitutions.substitute(
     dependency: String,
     using: String
-) = substitute(module(dependency)).using(module(using))
+) {
+    substitute(module(dependency)).using(module(using))
+}

@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
 
     api(libs.datastore.preferences.android)
+    api(libs.datastore.core.android)
 
     implementation(libs.avif.coder.coil) {
         exclude(module = "com.github.awxkee:avif-coder")

@@ -15,17 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
-android.namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
+enum class PageNumberPosition {
+    TOP_LEFT, TOP_CENTER, TOP_RIGHT,
+    BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT;
 
-dependencies {
-    implementation(libs.androidx.pdfviewer.fragment)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.pdfbox)
+    companion object {
+        const val DEFAULT_FORMAT = "Page {n} of {total}"
+    }
 }

@@ -81,6 +81,7 @@ dependencies {
     api(libs.scrollbar)
 
     implementation(libs.datastore.preferences.android)
+    implementation(libs.datastore.core.android)
     api(libs.material)
 
     "marketImplementation"(libs.firebase.crashlytics.ktx)

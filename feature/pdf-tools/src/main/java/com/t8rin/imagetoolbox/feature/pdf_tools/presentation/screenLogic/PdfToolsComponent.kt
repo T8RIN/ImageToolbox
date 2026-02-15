@@ -153,9 +153,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun setPdfPreview(uri: Uri?) {
         _pdfType.update {
-            if (it !is Screen.PdfTools.Type.Preview) {
-                Screen.PdfTools.Type.Preview(uri)
-            } else it
+            it as? Screen.PdfTools.Type.Preview ?: Screen.PdfTools.Type.Preview(uri)
         }
         _pdfPreviewUri.update { uri }
         _imagesToPdfState.update { null }
@@ -165,9 +163,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun setImagesToPdf(uris: List<Uri>?) {
         _pdfType.update {
-            if (it !is Screen.PdfTools.Type.ImagesToPdf) {
-                Screen.PdfTools.Type.ImagesToPdf(uris)
-            } else it
+            it as? Screen.PdfTools.Type.ImagesToPdf ?: Screen.PdfTools.Type.ImagesToPdf(uris)
         }
         _imagesToPdfState.update { uris }
         _pdfPreviewUri.update { null }
@@ -178,9 +174,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     fun setPdfToImagesUri(newUri: Uri?) {
         _pdfToImageState.update { null }
         _pdfType.update {
-            if (it !is Screen.PdfTools.Type.PdfToImages) {
-                Screen.PdfTools.Type.PdfToImages(newUri)
-            } else it
+            it as? Screen.PdfTools.Type.PdfToImages ?: Screen.PdfTools.Type.PdfToImages(newUri)
         }
         componentScope.launch {
             newUri?.let {
@@ -311,7 +305,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         return "PDF_$timeStamp.pdf"
     }
 
-    fun preformSharing(
+    fun performSharing(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
@@ -345,7 +339,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {
-                    savingJob?.cancel()
                     _done.value = 0
                     _left.value = 1
                     _isSaving.value = false

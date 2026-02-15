@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,5 +50,51 @@ interface PdfManager<I> {
         onProgressChange: suspend (Int, I) -> Unit,
         onComplete: suspend () -> Unit = {}
     )
+
+    suspend fun mergePdfs(
+        uris: List<String>
+    ): String
+
+    suspend fun splitPdf(
+        uri: String,
+        pageRanges: List<IntRange>
+    ): List<String>
+
+    suspend fun rotatePdf(
+        uri: String,
+        rotations: List<Int>
+    ): String
+
+    suspend fun rearrangePdf(
+        uri: String,
+        newOrder: List<Int>
+    ): String
+
+    suspend fun addPageNumbers(
+        uri: String,
+        labelFormat: String,
+        position: PageNumberPosition
+    ): String
+
+    suspend fun addWatermark(
+        uri: String,
+        watermarkText: String
+    ): String
+
+    suspend fun protectPdf(
+        uri: String,
+        password: String
+    ): String
+
+    suspend fun unlockPdf(
+        uri: String,
+        password: String
+    ): String
+
+    suspend fun addSignature(
+        uri: String,
+        signatureImage: I,
+        options: SignatureOptions
+    ): String
 
 }

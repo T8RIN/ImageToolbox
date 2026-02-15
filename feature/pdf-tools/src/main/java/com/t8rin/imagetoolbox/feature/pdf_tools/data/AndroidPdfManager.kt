@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import coil3.request.ImageRequest
 import coil3.size.Size
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
@@ -41,13 +42,25 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PageNumberPosition
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
+import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
+import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
+import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
+import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
+import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 
 internal class AndroidPdfManager @Inject constructor(
@@ -198,6 +211,212 @@ internal class AndroidPdfManager @Inject constructor(
         }.getOrNull() ?: emptyList()
     }
 
+    override suspend fun mergePdfs(uris: List<String>): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("merged")) { output ->
+            PDDocument().use { mergedDoc ->
+                uris.forEach { uri ->
+                    PDDocument.load(uri.inputStream()).use { doc ->
+                        doc.pages.forEach { page -> mergedDoc.addPage(page) }
+                    }
+                }
+                mergedDoc.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun splitPdf(
+        uri: String,
+        pageRanges: List<IntRange>
+    ): List<String> = withContext(defaultDispatcher) {
+        PDDocument.load(uri.inputStream()).use { document ->
+            pageRanges.mapIndexedNotNull { index, range ->
+                shareProvider.cacheData(filename = tempName("split_$index")) { output ->
+                    PDDocument().use { newDoc ->
+                        range.forEach { i -> newDoc.addPage(document.getPage(i)) }
+                        newDoc.save(output.outputStream())
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun rotatePdf(
+        uri: String,
+        rotations: List<Int>
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("rotated")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                document.pages.forEachIndexed { idx, page ->
+                    val angle = rotations.getOrNull(idx) ?: 0
+                    page.rotation = (page.rotation + angle) % 360
+                }
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun rearrangePdf(
+        uri: String,
+        newOrder: List<Int>
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("rearranged")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                PDDocument().use { newDoc ->
+                    newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
+                    newDoc.save(output.outputStream())
+                }
+            }
+
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun addPageNumbers(
+        uri: String,
+        labelFormat: String,
+        position: PageNumberPosition
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("numbered")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                val font = PDType1Font.HELVETICA_BOLD
+                val totalPages = document.pages.count()
+
+                document.pages.forEachIndexed { idx, page ->
+                    val text = labelFormat.replace("{n}", (idx + 1).toString())
+                        .replace("{total}", totalPages.toString())
+
+                    val x = when (position) {
+                        PageNumberPosition.TOP_LEFT, PageNumberPosition.BOTTOM_LEFT -> 10f
+                        PageNumberPosition.TOP_CENTER, PageNumberPosition.BOTTOM_CENTER -> page.mediaBox.width / 2
+                        PageNumberPosition.TOP_RIGHT, PageNumberPosition.BOTTOM_RIGHT -> page.mediaBox.width - 10f
+                    }
+
+                    val y = when (position) {
+                        PageNumberPosition.TOP_LEFT, PageNumberPosition.TOP_CENTER, PageNumberPosition.TOP_RIGHT -> page.mediaBox.height - 20f
+                        PageNumberPosition.BOTTOM_LEFT, PageNumberPosition.BOTTOM_CENTER, PageNumberPosition.BOTTOM_RIGHT -> 20f
+                    }
+
+                    PDPageContentStream(
+                        document,
+                        page,
+                        PDPageContentStream.AppendMode.APPEND,
+                        true
+                    ).use { stream ->
+                        stream.beginText()
+                        stream.setFont(font, 12f)
+
+                        val adjustedX = when (position) {
+                            PageNumberPosition.TOP_CENTER, PageNumberPosition.BOTTOM_CENTER -> x - (font.getStringWidth(
+                                text
+                            ) / 1000f * 12f / 2f)
+
+                            PageNumberPosition.TOP_RIGHT, PageNumberPosition.BOTTOM_RIGHT -> x - (font.getStringWidth(
+                                text
+                            ) / 1000f * 12f)
+
+                            else -> x
+                        }
+
+                        stream.newLineAtOffset(adjustedX, y)
+                        stream.showText(text)
+                        stream.endText()
+                    }
+                }
+
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun addWatermark(
+        uri: String,
+        watermarkText: String
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("watermarked")) { output ->
+            PDDocument.load(File(uri)).use { document ->
+                val font = PDType1Font.HELVETICA_BOLD
+                document.pages.forEach { page ->
+                    PDPageContentStream(
+                        document, page, PDPageContentStream.AppendMode.APPEND, true
+                    ).use { stream ->
+                        with(stream) {
+                            beginText()
+                            setFont(font, 50f)
+                            setNonStrokingColor(150, 150, 150, 80)
+                            setTextMatrix(
+                                Matrix.getRotateInstance(
+                                    Math.toRadians(-45.0),
+                                    page.mediaBox.width / 2f,
+                                    page.mediaBox.height / 2f
+                                )
+                            )
+                            showText(watermarkText)
+                            endText()
+                        }
+                    }
+                }
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun protectPdf(
+        uri: String,
+        password: String
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("protected")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                val protection = StandardProtectionPolicy(password, password, AccessPermission())
+                protection.encryptionKeyLength = 128
+                document.protect(protection)
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun unlockPdf(
+        uri: String,
+        password: String
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("unlocked")) { output ->
+            PDDocument.load(uri.inputStream(), password).use { document ->
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun addSignature(
+        uri: String,
+        signatureImage: Bitmap,
+        options: SignatureOptions
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("signed")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                val pagesToSign = options.pages.ifEmpty { List(document.pages.count) { it } }
+                val pdImage = LosslessFactory.createFromImage(document, signatureImage)
+
+                pagesToSign.forEach { idx ->
+                    val page = document.getPage(idx.coerceIn(0 until document.pages.count()))
+                    PDPageContentStream(
+                        document,
+                        page,
+                        PDPageContentStream.AppendMode.APPEND,
+                        true
+                    ).use { stream ->
+                        stream.drawImage(
+                            pdImage,
+                            options.x,
+                            options.y,
+                            options.width,
+                            options.height
+                        )
+                    }
+                }
+
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
     private suspend fun calculateCombinedImageDimensionsAndBitmaps(
         imageUris: List<String>,
         isHorizontal: Boolean,
@@ -307,4 +526,10 @@ internal class AndroidPdfManager @Inject constructor(
         height = height
     )
 
+    private fun String.inputStream() = UriReadable(toUri(), context).stream
+
+    private fun tempName(key: String): String {
+        val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        return "PDF_${key}_$timeStamp.pdf"
+    }
 }

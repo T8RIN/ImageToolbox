@@ -248,7 +248,7 @@ fun PdfToolsContent(
                 ) {
                     ShareButton(
                         onShare = {
-                            component.preformSharing(
+                            component.performSharing(
                                 onSuccess = showConfetti,
                                 onFailure = essentials::showFailureToast
                             )

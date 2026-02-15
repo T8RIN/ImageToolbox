@@ -15,17 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.app.presentation.components.functions
 
-android.namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
+import android.app.Application
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 
-dependencies {
-    implementation(libs.androidx.pdfviewer.fragment)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.pdfbox)
-}
+internal fun Application.initPdfBox() = PDFBoxResourceLoader.init(this)

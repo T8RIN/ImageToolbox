@@ -15,17 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
-android.namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
-
-dependencies {
-    implementation(libs.androidx.pdfviewer.fragment)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.pdfbox)
-}
+data class SignatureOptions(
+    val x: Float = 50f,
+    val y: Float = 50f,
+    val width: Float = 150f,
+    val height: Float = 50f,
+    val pages: List<Int>
+)

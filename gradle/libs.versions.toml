@@ -26,7 +26,7 @@ tesseract = "4.9.0"
 material3 = "1.5.0-alpha14"
 composeVersion = "1.11.0-alpha05"
 materialIconsExtended = "1.7.8"
-androidx-datastorePreferencesAndroid = "1.3.0-alpha05"
+dataStore = "1.3.0-alpha05"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 shadowGadgets = "2.3.1"
@@ -82,8 +82,10 @@ aboutlibraries = "13.2.1"
 moduleGraphGradle = "0.13.0"
 flinger = "2.0.2"
 zxingCore = "3.5.4"
+pdfbox = "2.0.27.0"
 
 [libraries]
+pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }
@@ -151,7 +153,8 @@ app-update = { module = "com.google.android.play:app-update", version.ref = "app
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
 avif-coder-coil = { module = "com.github.awxkee:avif-coder-coil", version.ref = "avifCoderCoil" }
 shadowGadgets = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
-datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "androidx-datastorePreferencesAndroid" }
+datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "dataStore" }
+datastore-core-android = { module = "androidx.datastore:datastore-core-android", version.ref = "dataStore" }
 fadingEdges = { module = "com.github.t8rin:ComposeFadingEdges", version.ref = "fadingEdges" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }

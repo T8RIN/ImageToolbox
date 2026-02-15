@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.app.presentation.components.functions.attachLogWri
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initAI
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initColorNames
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initOpenCV
+import com.t8rin.imagetoolbox.app.presentation.components.functions.initPdfBox
 import com.t8rin.imagetoolbox.app.presentation.components.functions.initQrScanner
 import com.t8rin.imagetoolbox.app.presentation.components.functions.injectBaseComponent
 import com.t8rin.imagetoolbox.app.presentation.components.functions.registerSecurityProviders
@@ -62,6 +63,7 @@ class ImageToolboxApplication : ComposeApplication() {
         attachLogWriter()
         applyGlobalExceptionHandler()
         registerSecurityProviders()
+        initPdfBox()
         injectBaseComponent()
 
         isSetupCompleted = true

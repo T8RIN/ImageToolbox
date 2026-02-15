@@ -39,6 +39,7 @@ import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
+import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
@@ -107,6 +108,7 @@ internal object ImageLoaderModule {
             add(PsdDecoder.Factory())
             add(DjvuDecoder.Factory())
             add(Base64Fetcher.Factory())
+            add(PdfDecoder.Factory())
             if (BuildConfig.DEBUG) add(TimeMeasureInterceptor)
         }
         .build()

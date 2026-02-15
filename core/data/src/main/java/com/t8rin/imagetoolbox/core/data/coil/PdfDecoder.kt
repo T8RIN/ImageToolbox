@@ -1,0 +1,74 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.core.data.coil
+
+import android.graphics.pdf.PdfRenderer
+import android.os.ParcelFileDescriptor
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
+import coil3.ImageLoader
+import coil3.asImage
+import coil3.decode.DecodeResult
+import coil3.decode.Decoder
+import coil3.decode.ImageSource
+import coil3.fetch.SourceFetchResult
+import coil3.request.Options
+
+class PdfDecoder(
+    private val source: ImageSource,
+    private val options: Options,
+) : Decoder {
+
+    override suspend fun decode(): DecodeResult {
+        val context = options.context
+        val pdfRenderer = PdfRenderer(
+            ParcelFileDescriptor.open(
+                source.file().toFile(),
+                ParcelFileDescriptor.MODE_READ_ONLY,
+            )
+        )
+        val page = pdfRenderer.openPage(0)
+
+        // For better bitmap quality: https://stackoverflow.com/a/32327174/5285687
+        val densityDpi = context.resources.displayMetrics.densityDpi
+        val bitmap = createBitmap(densityDpi * page.width / 72, densityDpi * page.height / 72)
+        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+        page.close()
+        pdfRenderer.close()
+
+        return DecodeResult(
+            image = bitmap.toDrawable(context.resources).asImage(),
+            isSampled = false,
+        )
+    }
+
+    class Factory : Decoder.Factory {
+        override fun create(
+            result: SourceFetchResult,
+            options: Options,
+            imageLoader: ImageLoader
+        ): Decoder? {
+            if (!isApplicable(result)) return null
+            return PdfDecoder(result.source, options)
+        }
+
+        private fun isApplicable(result: SourceFetchResult): Boolean =
+            result.mimeType == "application/pdf"
+    }
+
+}
