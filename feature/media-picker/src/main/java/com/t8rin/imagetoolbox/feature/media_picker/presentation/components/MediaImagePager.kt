@@ -422,7 +422,11 @@ internal fun MediaImagePager(
                                     )
                                 }
                             MetadataPreviewButton(
-                                uri = currentMedia?.uri?.toUri()
+                                uri = currentMedia?.uri?.toUri(),
+                                dateModified = { currentMedia?.timestamp?.times(1000) },
+                                path = { currentMedia?.path },
+                                name = { currentMedia?.label },
+                                fileSize = { currentMedia?.humanFileSize }
                             )
                         }
                         Spacer(Modifier.width(16.dp))

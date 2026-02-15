@@ -41,7 +41,7 @@ data class Media(
 ) {
     val fileSize: Long by lazy { uri.toUri().fileSize() ?: 0 }
 
-    val humanFileSize: String by lazy { humanFileSize(fileSize) }
+    val humanFileSize: String by lazy { humanFileSize(fileSize, 2) }
 
     val isVideo: Boolean = mimeType.startsWith("video/") && duration != null
 

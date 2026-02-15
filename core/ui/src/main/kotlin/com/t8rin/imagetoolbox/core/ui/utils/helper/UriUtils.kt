@@ -17,12 +17,14 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
@@ -31,6 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.model.SortType
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.coroutineScope
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -56,35 +59,98 @@ fun Uri?.toUiPath(
         }
 } ?: default
 
-private fun Uri.lastModified(): Long? = with(appContext.contentResolver) {
-    val query = query(this@lastModified, null, null, null, null)
+fun Uri.lastModified(): Long? = tryExtractOriginal().run {
+    runCatching {
+        if (this.toString().startsWith("file:///")) {
+            return toFile().lastModified()
+        }
 
-    query?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            val columnNames = listOf(
-                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
-                "datetaken", // When sharing an Image from Google Photos into the app.
-            )
+        with(appContext.contentResolver) {
+            val query = query(this@lastModified, null, null, null, null)
 
-            val millis = columnNames.firstNotNullOfOrNull {
-                val index = cursor.getColumnIndex(it)
-                if (!cursor.isNull(index)) {
-                    cursor.getLong(index)
-                } else {
-                    null
+            query?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val columnNames = listOf(
+                        DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                        "datetaken", // When sharing an Image from Google Photos into the app.
+                    )
+
+                    val millis = columnNames.firstNotNullOfOrNull {
+                        val index = cursor.getColumnIndex(it)
+                        if (!cursor.isNull(index)) {
+                            cursor.getLong(index)
+                        } else {
+                            null
+                        }
+                    }
+
+                    return millis
                 }
             }
-
-            return millis
         }
-    }
+
+        return DocumentFile.fromSingleUri(appContext, this)?.lastModified()
+    }.onFailure { it.printStackTrace() }
 
     return null
 }
 
-private fun Uri.addedTime(): Long? =
-    getLongColumn(MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
+fun Uri.path(): String? = tryExtractOriginal().run {
+    getStringColumn(MediaStore.MediaColumns.DATA)?.takeIf {
+        ".transforms" !in it
+    }.orEmpty().ifEmpty {
+        runCatching {
+            DocumentFile.fromSingleUri(appContext, this)?.uri?.path?.split(":")
+                ?.lastOrNull()
+        }.getOrNull()
+    }
+}
 
+fun Uri.addedTime(): Long? = tryExtractOriginal().run {
+    getLongColumn(MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
+}
+
+fun Uri.getFilename(
+    context: Context = appContext
+): String? = tryExtractOriginal().run {
+    if (this.toString().startsWith("file:///")) {
+        this.toString().takeLastWhile { it != '/' }
+    } else {
+        DocumentFile.fromSingleUri(context, this)?.name
+    }?.decodeEscaped()
+}
+
+fun Uri.fileSize(): Long? = tryExtractOriginal().run {
+    if (this.scheme == "content") {
+        runCatching {
+            appContext.contentResolver
+                .query(this, null, null, null, null, null)
+                .use { cursor ->
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                        if (!cursor.isNull(sizeIndex)) {
+                            return cursor.getLong(sizeIndex)
+                        }
+                    }
+                }
+        }
+    } else {
+        runCatching {
+            return this.toFile().length()
+        }
+    }
+    return null
+}
+
+fun Uri.tryExtractOriginal(): Uri = try {
+    ContentUris.withAppendedId(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        this.toString().substringAfterLast('/').filter { it.isDigit() }.toLong()
+    )
+} catch (e: Throwable) {
+    e.makeLog("tryExtractOriginal")
+    this
+}
 
 private fun Uri.getLongColumn(column: String): Long? =
     appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
@@ -209,11 +275,3 @@ fun Uri.isGif(): Boolean {
     return getFilename().toString().endsWith(".gif")
         .or(appContext.contentResolver.getType(this)?.contains("gif") == true)
 }
-
-fun Uri.getFilename(
-    context: Context = appContext
-): String? = if (this.toString().startsWith("file:///")) {
-    this.toString().takeLastWhile { it != '/' }
-} else {
-    DocumentFile.fromSingleUri(context, this)?.name
-}?.decodeEscaped()

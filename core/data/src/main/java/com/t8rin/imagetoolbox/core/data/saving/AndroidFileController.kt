@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectory
 import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.toUiPath
+import com.t8rin.imagetoolbox.core.data.utils.tryRequireOriginal
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
@@ -477,7 +478,9 @@ internal class AndroidFileController @Inject constructor(
 
     override suspend fun readMetadata(
         imageUri: String
-    ): Metadata? = context.openFileDescriptor(imageUri.toUri())?.fileDescriptor?.toMetadata()
+    ): Metadata? = imageUri.toUri().tryRequireOriginal(context).let {
+        context.openFileDescriptor(it)?.fileDescriptor?.toMetadata()
+    }
 
     override suspend fun listFilesInDirectory(
         treeUri: String

@@ -83,6 +83,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
@@ -424,7 +425,7 @@ fun ImagePager(
                                 ?.let { size ->
                                     Spacer(Modifier.width(8.dp))
                                     Text(
-                                        text = rememberHumanFileSize(size),
+                                        text = rememberHumanFileSize(size, 2),
                                         modifier = Modifier
                                             .animateContentSizeNoClip()
                                             .background(
@@ -437,7 +438,9 @@ fun ImagePager(
                                     )
                                 }
                             MetadataPreviewButton(
-                                uri = selectedUri
+                                uri = selectedUri,
+                                name = { selectedUriFilename },
+                                fileSize = { selectedUriFileSize?.let { humanFileSize(it, 2) } }
                             )
                         }
                         Spacer(Modifier.width(16.dp))

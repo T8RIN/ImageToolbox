@@ -103,6 +103,15 @@ internal fun MediaPickerHavePermissions(
         mutableStateOf(false)
     }
 
+    BackHandler(selectedAlbumIndex != -1L) {
+        selectedAlbumIndex = -1L
+        component.getAlbum(selectedAlbumIndex)
+    }
+
+    BackHandler(isSearching) {
+        isSearching = false
+    }
+
     Scaffold(
         topBar = {
             AnimatedVisibility(
@@ -270,13 +279,5 @@ internal fun MediaPickerHavePermissions(
             onPicked = onPicked,
             modifier = Modifier.padding(contentPadding)
         )
-    }
-    BackHandler(selectedAlbumIndex != -1L) {
-        selectedAlbumIndex = -1L
-        component.getAlbum(selectedAlbumIndex)
-    }
-
-    BackHandler(isSearching) {
-        isSearching = false
     }
 }

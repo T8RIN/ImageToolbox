@@ -540,7 +540,8 @@ object ContextUtils {
         }
     }
 
-    fun Uri.isFromAppFileProvider() =
-        toString().contains(appContext.getString(R.string.file_provider))
+    fun Uri.isFromAppFileProvider() = toString().run {
+        contains("content://media/external") || contains(appContext.getString(R.string.file_provider))
+    }
 
 }

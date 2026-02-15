@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.data.utils
 
+import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.os.Build
@@ -33,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.filterIsInstance
@@ -152,12 +154,10 @@ fun String?.getPath(
 
 fun Uri?.toUiPath(
     context: Context,
-    default: String,
-    isTreeUri: Boolean = true
+    default: String
 ): String = this?.let { uri ->
     runCatching {
-        val document = if (isTreeUri) DocumentFile.fromTreeUri(context, uri)
-        else DocumentFile.fromSingleUri(context, uri)
+        val document = DocumentFile.fromTreeUri(context, uri)
 
         document?.uri?.path?.split(":")
             ?.lastOrNull()?.let { p ->
@@ -187,7 +187,7 @@ fun Context.getFileDescriptorFor(
     }.getOrNull()
 }
 
-internal fun Uri.tryRequireOriginal(context: Context): Uri {
+fun Uri.tryRequireOriginal(context: Context): Uri {
     val tempUri = this
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         runCatching {
@@ -198,13 +198,25 @@ internal fun Uri.tryRequireOriginal(context: Context): Uri {
     } else this
 }
 
+fun Uri.tryExtractOriginal(): Uri = try {
+    ContentUris.withAppendedId(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        this.toString().substringAfterLast('/').filter { it.isDigit() }.toLong()
+    )
+} catch (e: Throwable) {
+    e.makeLog("tryExtractOriginal")
+    this
+}
+
 fun Uri.getFilename(
     context: Context = appContext
-): String? = if (this.toString().startsWith("file:///")) {
-    this.toString().takeLastWhile { it != '/' }
-} else {
-    DocumentFile.fromSingleUri(context, this)?.name
-}?.decodeEscaped()
+): String? = tryExtractOriginal().run {
+    if (this.toString().startsWith("file:///")) {
+        this.toString().takeLastWhile { it != '/' }
+    } else {
+        DocumentFile.fromSingleUri(context, this)?.name
+    }?.decodeEscaped()
+}
 
 fun String.decodeEscaped(): String = runCatching {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

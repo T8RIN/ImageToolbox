@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
-import android.provider.OpenableColumns
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -37,7 +36,6 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.scale
-import androidx.core.net.toFile
 import androidx.core.text.isDigitsOnly
 import coil3.Image
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -45,7 +43,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
-import com.t8rin.imagetoolbox.core.utils.appContext
 import java.util.Locale
 
 
@@ -236,28 +233,6 @@ object ImageUtils {
     ): Bitmap.Config = image?.config?.takeIf {
         it in possibleConfigs
     } ?: Bitmap.Config.ARGB_8888
-
-    private fun Uri.fileSize(): Long? {
-        if (this.scheme == "content") {
-            runCatching {
-                appContext.contentResolver
-                    .query(this, null, null, null, null, null)
-                    .use { cursor ->
-                        if (cursor != null && cursor.moveToFirst()) {
-                            val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
-                            if (!cursor.isNull(sizeIndex)) {
-                                return cursor.getLong(sizeIndex)
-                            }
-                        }
-                    }
-            }
-        } else {
-            runCatching {
-                return this.toFile().length()
-            }
-        }
-        return null
-    }
 
     @Composable
     fun rememberFileSize(uri: Uri?): Long {

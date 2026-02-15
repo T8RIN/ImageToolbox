@@ -1628,7 +1628,7 @@
     <string name="sort_by_mime_type_reversed">Тип MIME (обратная)</string>
     <string name="sort_by_extension">Расширение</string>
     <string name="sort_by_extension_reversed">Расширение (обратная)</string>
-    <string name="sort_by_date_added">Дата Добавлено</string>
+    <string name="sort_by_date_added">Дата добавления</string>
     <string name="sort_by_date_added_reversed">Дата добавления (в обратном порядке)</string>
     <string name="left_to_right">Слева направо</string>
     <string name="right_to_left">Справа налево</string>
