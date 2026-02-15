@@ -57,12 +57,12 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.utils.fileSize
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getPath
 import com.t8rin.imagetoolbox.core.utils.listFilesInDirectory
 import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
-import com.t8rin.imagetoolbox.core.utils.toUiPath
 import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
+import com.t8rin.imagetoolbox.core.utils.uiPath
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -202,7 +202,7 @@ internal class AndroidFileController @Inject constructor(
                     return@withContext SaveResult.Success(
                         message = getString(
                             R.string.saved_to_original,
-                            originalUri.getFilename(context).toString()
+                            originalUri.filename(context).toString()
                         ),
                         isOverwritten = true,
                         savingPath = savingPath
@@ -237,7 +237,7 @@ internal class AndroidFileController @Inject constructor(
                             Exception(
                                 getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().toUiPath(treeUri)
+                                    treeUri.toUri().uiPath(treeUri)
                                 )
                             )
                         )

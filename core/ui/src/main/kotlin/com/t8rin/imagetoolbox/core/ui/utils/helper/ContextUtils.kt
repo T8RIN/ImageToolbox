@@ -64,7 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPerm
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -190,7 +190,7 @@ object ContextUtils {
     fun rememberFilename(uri: Uri): String? {
         return remember(uri) {
             derivedStateOf {
-                uri.getFilename()
+                uri.filename()
             }
         }.value
     }
@@ -456,7 +456,7 @@ object ContextUtils {
     }
 
     fun Uri.getExtension(): String? = runCatching {
-        val filename = getFilename().orEmpty()
+        val filename = filename().orEmpty()
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"
         return if (ContentResolver.SCHEME_CONTENT == scheme) {
@@ -508,7 +508,7 @@ object ContextUtils {
         contentResolver.openInputStream(this@moveToCache)?.use { stream ->
             val file = File(
                 cacheDir,
-                getFilename() ?: "cache_${Random.nextInt()}.tmp"
+                filename() ?: "cache_${Random.nextInt()}.tmp"
             ).apply { createNewFile() }
 
             file.outputStream().use { stream.copyTo(it) }

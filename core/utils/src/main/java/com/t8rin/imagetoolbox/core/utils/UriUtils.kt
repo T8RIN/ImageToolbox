@@ -44,7 +44,7 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.LinkedList
 
-fun Uri?.toUiPath(
+fun Uri?.uiPath(
     default: String
 ): String = this?.let { uri ->
     DocumentFile
@@ -118,11 +118,11 @@ fun Uri.path(): String? = tryExtractOriginal().run {
     }
 }
 
-fun Uri.addedTime(): Long? = tryExtractOriginal().run {
+fun Uri.dateAdded(): Long? = tryExtractOriginal().run {
     getLongColumn(MediaStore.MediaColumns.DATE_ADDED)?.times(1000)
 }
 
-fun Uri.getFilename(
+fun Uri.filename(
     context: Context = appContext
 ): String? = tryExtractOriginal().run {
     if (this.toString().startsWith("file:///")) {
@@ -221,23 +221,23 @@ fun String.encodeEscaped(): String {
 }
 
 fun Uri.isApng(): Boolean {
-    return getFilename().toString().endsWith(".png")
+    return filename().toString().endsWith(".png")
         .or(appContext.contentResolver.getType(this)?.contains("png") == true)
         .or(appContext.contentResolver.getType(this)?.contains("apng") == true)
 }
 
 fun Uri.isWebp(): Boolean {
-    return getFilename().toString().endsWith(".webp")
+    return filename().toString().endsWith(".webp")
         .or(appContext.contentResolver.getType(this)?.contains("webp") == true)
 }
 
 fun Uri.isJxl(): Boolean {
-    return getFilename().toString().endsWith(".jxl")
+    return filename().toString().endsWith(".jxl")
         .or(appContext.contentResolver.getType(this)?.contains("jxl") == true)
 }
 
 fun Uri.isGif(): Boolean {
-    return getFilename().toString().endsWith(".gif")
+    return filename().toString().endsWith(".gif")
         .or(appContext.contentResolver.getType(this)?.contains("gif") == true)
 }
 
@@ -253,7 +253,7 @@ fun Context.listFilesInDirectoryProgressive(
 
 fun String?.getPath(
     context: Context = appContext
-) = this?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
+) = this?.takeIf { it.isNotEmpty() }?.toUri().uiPath(
     default = context.getString(R.string.default_folder)
 )
 
@@ -332,7 +332,7 @@ private fun isDirectory(mimeType: String): Boolean {
 private fun List<Uri>.sortedByExtension(
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    it.getFilename()?.substringAfterLast(
+    it.filename()?.substringAfterLast(
         delimiter = '.',
         missingDelimiterValue = ""
     )?.lowercase()
@@ -345,7 +345,7 @@ private fun List<Uri>.sortedByDateModified(
 private fun List<Uri>.sortedByName(
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    it.getFilename()
+    it.filename()
 }
 
 private fun List<Uri>.sortedBySize(
@@ -365,7 +365,7 @@ private fun List<Uri>.sortedByMimeType(
 private fun List<Uri>.sortedByDateAdded(
     descending: Boolean = false
 ) = sortedByKey(descending) {
-    it.addedTime()
+    it.dateAdded()
 }
 
 private fun Uri.getLongColumn(column: String): Long? =

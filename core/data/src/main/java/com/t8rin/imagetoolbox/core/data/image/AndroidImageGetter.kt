@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -213,7 +213,7 @@ internal class AndroidImageGetter @Inject constructor(
     }
 
     override fun getExtension(uri: String): String? {
-        val filename = uri.toUri().getFilename(context) ?: ""
+        val filename = uri.toUri().filename(context) ?: ""
         if (filename.endsWith(".qoi")) return "qoi"
         if (filename.endsWith(".jxl")) return "jxl"
         return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {

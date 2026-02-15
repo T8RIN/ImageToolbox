@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PaletteType
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedPalette
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.PaletteFormatHelper
@@ -110,7 +110,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
                 withContext(defaultDispatcher) {
                     val data = fileController.readBytes(uri.toString())
                     val entries =
-                        PaletteFormatHelper.entriesFor(uri.getFilename() ?: uri.toString())
+                        PaletteFormatHelper.entriesFor(uri.filename() ?: uri.toString())
 
                     for (format in entries) {
                         format.getCoder().use { decode(data) }.onSuccess { palette ->

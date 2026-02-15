@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
@@ -193,7 +193,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         }
 
         val modelName = possibleModel?.name
-            ?: uri.toUri().getFilename().orEmpty().ifEmpty {
+            ?: uri.toUri().filename().orEmpty().ifEmpty {
                 "imported_model_($modelChecksum).onnx"
             }
 

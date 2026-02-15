@@ -29,7 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.AudioCoverRetriever
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.domain.model.AudioCoverResult
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -71,7 +71,7 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
                 data = pictureData,
                 originalSize = true
             )?.let { bitmap ->
-                val originalName = audioUri.toUri().getFilename(context)?.substringBeforeLast('.')
+                val originalName = audioUri.toUri().filename(context)?.substringBeforeLast('.')
                     ?: "AUDIO_${System.currentTimeMillis()}"
 
                 shareProvider.cacheData(

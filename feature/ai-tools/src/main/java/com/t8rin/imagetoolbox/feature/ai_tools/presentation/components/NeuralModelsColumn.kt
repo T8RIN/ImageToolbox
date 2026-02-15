@@ -94,7 +94,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -117,7 +117,7 @@ internal fun NeuralModelsColumn(
     val listState = rememberLazyListState()
 
     val filePicker = rememberFilePicker { uri: Uri ->
-        val name = uri.getFilename().orEmpty()
+        val name = uri.filename().orEmpty()
         if (name.endsWith(".onnx") || name.endsWith(".ort")) {
             onImportModel(uri) {
                 when (it) {

@@ -66,9 +66,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.utils.addedTime
+import com.t8rin.imagetoolbox.core.utils.dateAdded
 import com.t8rin.imagetoolbox.core.utils.fileSize
-import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.lastModified
 import com.t8rin.imagetoolbox.core.utils.path
 
@@ -76,9 +76,9 @@ import com.t8rin.imagetoolbox.core.utils.path
 fun MetadataPreviewButton(
     uri: Uri?,
     dateModified: (Uri) -> Long? = { it.lastModified() },
-    dateAdded: (Uri) -> Long? = { it.addedTime() },
+    dateAdded: (Uri) -> Long? = { it.dateAdded() },
     path: (Uri) -> String? = { it.path() },
-    name: (Uri) -> String? = { it.getFilename() },
+    name: (Uri) -> String? = { it.filename() },
     fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L, 2) }
 ) {
     AnimatedContent(
