@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -169,8 +167,8 @@
     <string name="limits_resize">按限制缩放</string>
     <string name="limits_resize_sub">在保持纵横比的同时将图片调整为给定的高度和宽度</string>
     <string name="posterize">色调分离</string>
-    <string name="non_maximum_suppression">非极大值抑制(NMS)</string>
-    <string name="weak_pixel_inclusion">弱像素包含(WPI)</string>
+    <string name="non_maximum_suppression">非极大值抑制（NMS）</string>
+    <string name="weak_pixel_inclusion">弱像素包含（WPI）</string>
     <string name="lookup">抬头</string>
     <string name="stack_blur">堆叠模糊</string>
     <string name="second_color">第二种颜色</string>
