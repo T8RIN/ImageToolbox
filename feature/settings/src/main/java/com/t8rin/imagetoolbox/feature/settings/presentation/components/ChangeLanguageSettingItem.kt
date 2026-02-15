@@ -52,7 +52,6 @@ import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getLanguages
@@ -67,6 +66,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.logger.makeLog
 import java.util.Locale
 
 @Composable
@@ -88,15 +88,16 @@ fun ChangeLanguageSettingItem(
             startIcon = Icons.Outlined.Language,
             endIcon = Icons.Rounded.MiniEdit,
             onClick = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi() && !ContextUtils.isRedMagic()) {
-                    runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    try {
                         context.startActivity(
                             Intent(
                                 Settings.ACTION_APP_LOCALE_SETTINGS,
                                 "package:${context.packageName}".toUri()
                             )
                         )
-                    }.onFailure {
+                    } catch (e: Throwable) {
+                        e.makeLog("LocaleSelect")
                         showEmbeddedLanguagePicker = true
                     }
                 } else {
