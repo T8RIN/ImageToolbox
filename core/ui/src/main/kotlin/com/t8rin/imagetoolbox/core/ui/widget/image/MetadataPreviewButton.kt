@@ -104,7 +104,7 @@ fun MetadataPreviewButton(
                 )
             }
         }
-        if (tagMap.isNotEmpty() || info.isNotEmpty()) {
+        if (tagMap.isNotEmpty() || info.data.isNotEmpty()) {
             var showExif by rememberSaveable {
                 mutableStateOf(false)
             }
@@ -214,8 +214,6 @@ private data class UriInfo(
     val name: String?,
     val fileSize: String?
 ) {
-    fun isNotEmpty() = data.isNotEmpty()
-
     val data: List<Pair<Int, String>> = buildList {
         name?.takeIf { it.isNotBlank() }?.let {
             add(R.string.filename to it)
