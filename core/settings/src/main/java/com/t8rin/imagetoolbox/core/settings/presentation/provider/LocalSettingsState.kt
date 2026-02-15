@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package com.t8rin.imagetoolbox.core.settings.presentation.provider
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
@@ -47,6 +47,6 @@ fun rememberAppColorTuple(
 @Composable
 fun rememberEditPresetsController(
     initialVisibility: Boolean = false
-) = remember(initialVisibility) {
+) = rememberSaveable(initialVisibility, saver = EditPresetsController.Saver) {
     EditPresetsController(initialVisibility)
 }
