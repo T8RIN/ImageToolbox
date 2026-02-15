@@ -17,8 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import android.app.LocaleManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Build
+import android.os.LocaleList
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateColorAsState
@@ -63,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import java.util.Locale
 
 @Composable
 fun ChangeLanguageSettingItem(
@@ -108,13 +113,10 @@ fun ChangeLanguageSettingItem(
         selected = remember {
             context.getCurrentLocaleString()
         },
-        onSelect = {
-            val locale = if (it == "") {
-                LocaleListCompat.getEmptyLocaleList()
-            } else {
-                LocaleListCompat.forLanguageTags(it)
-            }
-            AppCompatDelegate.setApplicationLocales(locale)
+        onSelect = { tag ->
+            context.setGlobalLocale(
+                tag.takeIf { it.isNotBlank() }?.let(Locale::forLanguageTag)
+            )
         },
         visible = showEmbeddedLanguagePicker,
         onDismiss = {
@@ -203,5 +205,36 @@ private fun PickLanguageSheet(
             }
         },
         visible = visible
+    )
+}
+
+@Suppress("DEPRECATION")
+private fun Context.setGlobalLocale(locale: Locale?) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getSystemService(LocaleManager::class.java).applicationLocales =
+            locale?.let {
+                LocaleList.forLanguageTags(locale.toLanguageTag())
+            } ?: LocaleList.getEmptyLocaleList()
+    } else {
+        val newLocale = locale ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Resources.getSystem().configuration.locales[0]
+        } else {
+            Resources.getSystem().configuration.locale
+        }
+        Locale.setDefault(newLocale)
+
+        val configuration = resources.configuration
+        configuration.setLocale(newLocale)
+
+        resources.updateConfiguration(
+            configuration,
+            resources.displayMetrics
+        )
+    }
+
+    AppCompatDelegate.setApplicationLocales(
+        locale?.let {
+            LocaleListCompat.forLanguageTags(locale.toLanguageTag())
+        } ?: LocaleListCompat.getEmptyLocaleList()
     )
 }
