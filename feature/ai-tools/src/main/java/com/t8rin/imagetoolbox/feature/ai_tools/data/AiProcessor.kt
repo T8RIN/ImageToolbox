@@ -141,7 +141,7 @@ internal class AiProcessor @Inject constructor(
             }
         }
 
-        val processed = if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
+        if (width > effectiveMaxChunkSize || height > effectiveMaxChunkSize) {
             processTiled(
                 session = session,
                 inputBitmap = inputBitmap,
@@ -158,8 +158,6 @@ internal class AiProcessor @Inject constructor(
                 info = info
             )
         }
-
-        processed
     }
 
     private suspend fun processTiled(
@@ -275,7 +273,13 @@ internal class AiProcessor @Inject constructor(
                 BitmapFactory.decodeFile(chunkInfo.processedFile.absolutePath)
             } ?: throw Exception("Failed to load processed chunk ${chunkInfo.index}")
 
-            mergeChunkWithBlending(result, loadedProcessed, chunkInfo, overlap, info.scaleFactor)
+            mergeChunkWithBlending(
+                result = result,
+                processedChunk = loadedProcessed,
+                chunkInfo = chunkInfo,
+                overlap = overlap,
+                scaleFactor = info.scaleFactor
+            )
             loadedProcessed.recycle()
         }
         clearChunks()
