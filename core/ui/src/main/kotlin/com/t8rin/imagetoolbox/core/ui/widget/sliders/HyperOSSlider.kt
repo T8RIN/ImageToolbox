@@ -18,56 +18,25 @@
 package com.t8rin.imagetoolbox.core.ui.widget.sliders
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
-import com.t8rin.imagetoolbox.core.ui.utils.animation.animateFloatingRangeAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.round
-import kotlin.math.roundToInt
+import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomRangeSlider
+import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSlider
+import com.t8rin.imagetoolbox.core.ui.widget.sliders.custom_slider.CustomSliderDefaults
 import androidx.compose.material3.SliderColors as M3SliderColors
 import androidx.compose.material3.SliderDefaults as M3Defaults
 
@@ -82,180 +51,63 @@ fun HyperOSSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     colors: M3SliderColors = M3Defaults.colors(),
     steps: Int = 0,
-    decimalPlaces: Int = 2,
     drawContainer: Boolean = true
 ) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val minValue = valueRange.start
-    val maxValue = valueRange.endInclusive
-    val sliderColors = SliderDefaults.sliderColors(colors)
-    val factor = remember(decimalPlaces) { 10f.pow(decimalPlaces) }
-
-    var dragOffset by remember { mutableFloatStateOf(0f) }
-    var isDragging by remember { mutableStateOf(false) }
-
-    val stepSize = remember(steps, minValue, maxValue) {
-        if (steps > 0) (maxValue - minValue) / (steps + 1) else 0f
-    }
-
     val shape = AutoCircleShape()
-
-    val layoutDirection = LocalLayoutDirection.current
-
-    val calculateProgress = remember(minValue, maxValue, factor, stepSize, layoutDirection) {
-        { offset: Float, width: Int ->
-            val normalizedOffset = if (layoutDirection == LayoutDirection.Rtl) {
-                width.toFloat() - offset
-            } else {
-                offset
-            }
-
-            var newValue = (normalizedOffset / width) * (maxValue - minValue) + minValue
-            if (steps > 0) {
-                val snapped = ((newValue - minValue) / stepSize).roundToInt() * stepSize + minValue
-                newValue = snapped
-            }
-            (round(newValue * factor) / factor).coerceIn(minValue, maxValue)
-        }
-    }
-
     val settingsState = LocalSettingsState.current
+    val sliderColors = colors.toCustom()
 
-    Box(
-        modifier = modifier
-            .then(
-                if (enabled) {
-                    Modifier
-                        .pointerInput(calculateProgress) {
-                            detectTapGestures { offset ->
-                                val adjustedOffset = if (layoutDirection == LayoutDirection.Rtl) {
-                                    Offset(size.width - offset.x, offset.y)
-                                } else {
-                                    offset
-                                }
-                                val calculatedValue =
-                                    calculateProgress(adjustedOffset.x, size.width)
-                                onValueChange(calculatedValue)
-                                onValueChangeFinished?.invoke()
-                            }
-                        }
-                        .pointerInput(calculateProgress) {
-                            detectHorizontalDragGestures(
-                                onDragStart = { offset ->
-                                    isDragging = true
-                                    dragOffset = if (layoutDirection == LayoutDirection.Rtl) {
-                                        size.width.toFloat() - offset.x
-                                    } else {
-                                        offset.x
+    CustomSlider(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        enabled = enabled,
+        onValueChangeFinished = onValueChangeFinished,
+        colors = sliderColors,
+        interactionSource = interactionSource,
+        steps = steps,
+        thumb = {},
+        track = { sliderState ->
+            CustomSliderDefaults.Track(
+                colors = sliderColors,
+                enabled = enabled,
+                sliderState = sliderState,
+                trackHeight = 30.dp,
+                modifier = Modifier.then(
+                    if (drawContainer) {
+                        Modifier.container(
+                            shape = shape,
+                            autoShadowElevation = animateDpAsState(
+                                if (settingsState.drawSliderShadows) 1.dp else 0.dp
+                            ).value,
+                            resultPadding = 0.dp,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                luminance = 0.1f,
+                                onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                            ).copy(0.3f),
+                            color = SafeLocalContainerColor
+                                .copy(0.3f)
+                                .compositeOver(
+                                    takeColorFromScheme {
+                                        if (it) tertiaryContainer
+                                            .blend(secondaryContainer, 0.5f)
+                                            .copy(0.1f)
+                                        else secondaryContainer
+                                            .blend(tertiaryContainer, 0.3f)
+                                            .copy(0.2f)
                                     }
-                                    val calculatedValue = calculateProgress(dragOffset, size.width)
-                                    onValueChange(calculatedValue)
-                                },
-                                onHorizontalDrag = { _, dragAmount ->
-                                    val adjustedDragAmount =
-                                        if (layoutDirection == LayoutDirection.Rtl) {
-                                            -dragAmount
-                                        } else {
-                                            dragAmount
-                                        }
-                                    dragOffset =
-                                        (dragOffset + adjustedDragAmount).coerceIn(
-                                            0f,
-                                            size.width.toFloat()
-                                        )
-                                    val calculatedValue = calculateProgress(dragOffset, size.width)
-                                    onValueChange(calculatedValue)
-                                },
-                                onDragEnd = {
-                                    isDragging = false
-                                    onValueChangeFinished?.invoke()
-                                }
-                            )
-                        }
-                        .indication(interactionSource, LocalIndication.current)
-                } else Modifier
+                                )
+                                .copy(sliderColors.activeTrackColor.alpha),
+                            composeColorOnTopOfBackground = false
+                        )
+                    } else Modifier
+                ),
+                strokeCap = StrokeCap.Butt
             )
-            .then(
-                if (drawContainer) {
-                    Modifier.container(
-                        shape = shape,
-                        autoShadowElevation = animateDpAsState(
-                            if (settingsState.drawSliderShadows) 1.dp else 0.dp
-                        ).value,
-                        resultPadding = 0.dp,
-                        borderColor = MaterialTheme.colorScheme.outlineVariant(
-                            luminance = 0.1f,
-                            onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
-                        ).copy(0.3f),
-                        color = SafeLocalContainerColor
-                            .copy(0.3f)
-                            .compositeOver(
-                                takeColorFromScheme {
-                                    if (it) tertiaryContainer
-                                        .blend(secondaryContainer, 0.5f)
-                                        .copy(0.1f)
-                                    else secondaryContainer
-                                        .blend(tertiaryContainer, 0.3f)
-                                        .copy(0.2f)
-                                }
-                            )
-                            .copy(sliderColors.foregroundColor(true).alpha),
-                        composeColorOnTopOfBackground = false
-                    )
-                } else Modifier
-            ),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        SliderTrack(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(SliderDefaults.MinHeight),
-            shape = shape,
-            backgroundColor = sliderColors.backgroundColor(),
-            foregroundColor = sliderColors.foregroundColor(enabled),
-            progress = value,
-            minValue = minValue,
-            maxValue = maxValue,
-            isDragging = isDragging,
-            layoutDirection = layoutDirection
-        )
-
-        if (steps > 0) {
-            Canvas(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(SliderDefaults.MinHeight)
-                    .padding(horizontal = 2.dp)
-            ) {
-                val stepSpacing = size.width / (steps + 1)
-
-                val currentStep = if (stepSize > 0f) {
-                    ((value - minValue) / stepSize).toInt().coerceIn(0, steps)
-                } else 0
-
-                repeat(steps + 2) { i ->
-                    if (i == 0 || i == steps + 1) return@repeat
-
-                    val color = when {
-                        i - 1 < currentStep -> colors.activeTickColor
-                        else -> colors.inactiveTickColor.copy(alpha = 0.3f)
-                    }
-
-                    val xPosition = if (layoutDirection == LayoutDirection.Rtl) {
-                        size.width - (i * stepSpacing)
-                    } else {
-                        i * stepSpacing
-                    }
-
-                    drawCircle(
-                        color = color,
-                        radius = 1.dp.toPx(),
-                        center = Offset(xPosition, center.y)
-                    )
-                }
-            }
-        }
-    }
+        },
+        valueRange = valueRange
+    )
 }
 
 @Composable
@@ -272,335 +124,60 @@ fun HyperOSRangeSlider(
     steps: Int = 0,
     drawContainer: Boolean = true,
 ) {
-    val sliderColors = SliderDefaults.sliderColors(colors)
-    val minValue = valueRange.start
-    val maxValue = valueRange.endInclusive
     val shape = AutoCircleShape()
-    val stepSize = if (steps > 0) (maxValue - minValue) / (steps + 1) else 0f
-
-    var startRaw by remember { mutableFloatStateOf(value.start) }
-    var endRaw by remember { mutableFloatStateOf(value.endInclusive) }
-
-    val animatedRange by animateFloatingRangeAsState(startRaw..endRaw)
-    val start = animatedRange.start
-    val end = animatedRange.endInclusive
-
-    var activeThumb by remember { mutableStateOf<Thumb?>(null) }
-
     val settingsState = LocalSettingsState.current
-    val layoutDirection = LocalLayoutDirection.current
+    val sliderColors = colors.toCustom()
 
-    fun snapToStep(v: Float): Float {
-        if (steps == 0) return v
-        val snapped = ((v - minValue) / stepSize).roundToInt() * stepSize + minValue
-        return snapped.coerceIn(minValue, maxValue)
-    }
-
-    Box(
-        modifier = modifier.then(
-            if (drawContainer) {
-                Modifier.container(
-                    shape = shape,
-                    autoShadowElevation = animateDpAsState(
-                        if (settingsState.drawSliderShadows) 1.dp else 0.dp
-                    ).value,
-                    resultPadding = 0.dp,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f,
-                        onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
-                    ).copy(0.3f),
-                    color = SafeLocalContainerColor
-                        .copy(0.3f)
-                        .compositeOver(
-                            takeColorFromScheme {
-                                if (it) tertiaryContainer
-                                    .blend(secondaryContainer, 0.5f)
-                                    .copy(0.1f)
-                                else secondaryContainer
-                                    .blend(tertiaryContainer, 0.3f)
-                                    .copy(0.2f)
-                            }
-                        )
-                        .copy(sliderColors.foregroundColor(true).alpha),
-                    composeColorOnTopOfBackground = false
-                )
-            } else Modifier
-        )
-    ) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(SliderDefaults.MinHeight)
-                .then(
-                    if (enabled) {
-                        Modifier
-                            .pointerInput(Unit) {
-                                detectTapGestures { offset ->
-                                    val width = size.width
-                                    val normalizedOffset =
-                                        if (layoutDirection == LayoutDirection.Rtl) {
-                                            width.toFloat() - offset.x
-                                        } else {
-                                            offset.x
-                                        }
-                                    val tappedValue =
-                                        ((normalizedOffset / width) * (maxValue - minValue) + minValue).coerceIn(
-                                            minValue,
-                                            maxValue
-                                        )
-
-                                    activeThumb =
-                                        if (abs(tappedValue - startRaw) < abs(tappedValue - endRaw)) {
-                                            Thumb.Start
-                                        } else Thumb.End
-
-                                    when (activeThumb) {
-                                        Thumb.Start -> {
-                                            startRaw =
-                                                snapToStep(tappedValue.coerceIn(minValue, endRaw))
-                                        }
-
-                                        else -> {
-                                            endRaw =
-                                                snapToStep(tappedValue.coerceIn(startRaw, maxValue))
-                                        }
-                                    }
-                                    onValueChange(startRaw..endRaw)
-                                    onValueChangeFinished?.invoke()
-                                }
-                            }
-                            .pointerInput(Unit) {
-                                detectHorizontalDragGestures(
-                                    onDragStart = { offset ->
-                                        val width = size.width
-                                        val startNormalized =
-                                            if (layoutDirection == LayoutDirection.Rtl) {
-                                                width.toFloat() - ((startRaw - minValue) / (maxValue - minValue)) * width
-                                            } else {
-                                                ((startRaw - minValue) / (maxValue - minValue)) * width
-                                            }
-                                        val endNormalized =
-                                            if (layoutDirection == LayoutDirection.Rtl) {
-                                                width.toFloat() - ((endRaw - minValue) / (maxValue - minValue)) * width
-                                            } else {
-                                                ((endRaw - minValue) / (maxValue - minValue)) * width
-                                            }
-
-                                        activeThumb =
-                                            if (abs(offset.x - startNormalized) < abs(offset.x - endNormalized)) Thumb.Start else Thumb.End
-
-                                        if (activeThumb == Thumb.Start) {
-                                            startInteractionSource.tryEmit(
-                                                PressInteraction.Press(
-                                                    offset
-                                                )
-                                            )
-                                        } else {
-                                            endInteractionSource.tryEmit(
-                                                PressInteraction.Press(
-                                                    offset
-                                                )
-                                            )
-                                        }
-                                    },
-                                    onHorizontalDrag = { _, dragAmount ->
-                                        val width = size.width
-                                        val adjustedDragAmount =
-                                            if (layoutDirection == LayoutDirection.Rtl) {
-                                                -dragAmount
-                                            } else {
-                                                dragAmount
-                                            }
-                                        val deltaValue =
-                                            (adjustedDragAmount / width) * (maxValue - minValue)
-                                        when (activeThumb) {
-                                            Thumb.Start -> {
-                                                startRaw = snapToStep(
-                                                    (startRaw + deltaValue).coerceIn(
-                                                        minValue,
-                                                        endRaw
-                                                    )
-                                                )
-                                                onValueChange(startRaw..endRaw)
-                                            }
-
-                                            Thumb.End -> {
-                                                endRaw = snapToStep(
-                                                    (endRaw + deltaValue).coerceIn(
-                                                        startRaw,
-                                                        maxValue
-                                                    )
-                                                )
-                                                onValueChange(startRaw..endRaw)
-                                            }
-
-                                            null -> {}
-                                        }
-                                    },
-                                    onDragEnd = {
-                                        onValueChangeFinished?.invoke()
-                                        activeThumb?.let { thumb ->
-                                            val interactionSource =
-                                                if (thumb == Thumb.Start) startInteractionSource else endInteractionSource
-                                            interactionSource.tryEmit(
-                                                PressInteraction.Release(
-                                                    PressInteraction.Press(Offset.Zero)
-                                                )
-                                            )
-                                        }
-                                        activeThumb = null
+    CustomRangeSlider(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        enabled = enabled,
+        onValueChangeFinished = onValueChangeFinished,
+        colors = sliderColors,
+        startInteractionSource = startInteractionSource,
+        endInteractionSource = endInteractionSource,
+        steps = steps,
+        startThumb = {},
+        endThumb = {},
+        track = { rangeSliderState ->
+            CustomSliderDefaults.Track(
+                colors = sliderColors,
+                enabled = enabled,
+                rangeSliderState = rangeSliderState,
+                trackHeight = 30.dp,
+                modifier = Modifier.then(
+                    if (drawContainer) {
+                        Modifier.container(
+                            shape = shape,
+                            autoShadowElevation = animateDpAsState(
+                                if (settingsState.drawSliderShadows) 1.dp else 0.dp
+                            ).value,
+                            resultPadding = 0.dp,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                luminance = 0.1f,
+                                onTopOf = SwitchDefaults.colors().disabledCheckedTrackColor
+                            ).copy(0.3f),
+                            color = SafeLocalContainerColor
+                                .copy(0.3f)
+                                .compositeOver(
+                                    takeColorFromScheme {
+                                        if (it) tertiaryContainer
+                                            .blend(secondaryContainer, 0.5f)
+                                            .copy(0.1f)
+                                        else secondaryContainer
+                                            .blend(tertiaryContainer, 0.3f)
+                                            .copy(0.2f)
                                     }
                                 )
-                            }
-                            .indication(
-                                interactionSource = if (activeThumb == Thumb.End) endInteractionSource else startInteractionSource,
-                                indication = LocalIndication.current
-                            )
+                                .copy(sliderColors.activeTrackColor.alpha),
+                            composeColorOnTopOfBackground = false
+                        )
                     } else Modifier
-                )
-        ) {
-            val barWidth = size.width
-            val barHeight = size.height
-
-            val startX = if (layoutDirection == LayoutDirection.Rtl) {
-                barWidth - ((start - minValue) / (maxValue - minValue) * barWidth)
-            } else {
-                (start - minValue) / (maxValue - minValue) * barWidth
-            }
-
-            val endX = if (layoutDirection == LayoutDirection.Rtl) {
-                barWidth - ((end - minValue) / (maxValue - minValue) * barWidth)
-            } else {
-                (end - minValue) / (maxValue - minValue) * barWidth
-            }
-
-            drawRect(
-                color = sliderColors.backgroundColor(),
-                size = Size(barWidth, barHeight)
+                ),
+                strokeCap = StrokeCap.Butt
             )
-
-            val rectStartX = if (layoutDirection == LayoutDirection.Rtl) {
-                minOf(startX, endX)
-            } else {
-                startX
-            }
-
-            val rectWidth = if (layoutDirection == LayoutDirection.Rtl) {
-                abs(endX - startX)
-            } else {
-                endX - startX
-            }
-
-            drawRect(
-                color = sliderColors.foregroundColor(enabled),
-                topLeft = Offset(rectStartX, center.y - barHeight / 2),
-                size = Size(rectWidth, barHeight)
-            )
-
-            if (steps > 0) {
-                val stepSpacing = barWidth / (steps + 1)
-                repeat(steps + 2) { i ->
-                    if (i == 0 || i == steps + 1) return@repeat
-
-                    val stepValue = minValue + (i - 1) * stepSize
-                    val color = when {
-                        stepValue < start -> colors.activeTickColor
-                        stepValue > end -> colors.inactiveTickColor.copy(alpha = 0.3f)
-                        else -> sliderColors.backgroundColor()
-                            .copy(alpha = 0.3f)
-                    }
-
-                    val xPosition = if (layoutDirection == LayoutDirection.Rtl) {
-                        barWidth - (i * stepSpacing)
-                    } else {
-                        i * stepSpacing
-                    }
-
-                    drawCircle(
-                        color = color,
-                        radius = barHeight / 6,
-                        center = Offset(xPosition, center.y)
-                    )
-                }
-            }
-        }
-    }
-}
-
-private enum class Thumb { Start, End }
-
-/** * Internal slider track renderer */
-@Composable
-private fun SliderTrack(
-    modifier: Modifier,
-    shape: Shape,
-    backgroundColor: Color,
-    foregroundColor: Color,
-    progress: Float,
-    minValue: Float,
-    maxValue: Float,
-    isDragging: Boolean,
-    layoutDirection: LayoutDirection
-) {
-    val backgroundAlpha by animateFloatAsState(
-        targetValue = if (isDragging) 0.044f else 0f,
-        animationSpec = tween(150)
+        },
+        valueRange = valueRange
     )
-    Canvas(
-        modifier = modifier
-            .clip(shape)
-            .background(backgroundColor)
-            .drawBehind { drawRect(Color.Black.copy(alpha = backgroundAlpha)) }
-    ) {
-        val barHeight = size.height
-        val barWidth = size.width
-
-        val progressWidth = if (layoutDirection == LayoutDirection.Rtl) {
-            barWidth * ((maxValue - progress) / (maxValue - minValue))
-        } else {
-            barWidth * ((progress - minValue) / (maxValue - minValue))
-        }
-
-        val cornerRadius = CornerRadius.Zero
-
-        val rectStartX = if (layoutDirection == LayoutDirection.Rtl) {
-            barWidth - progressWidth
-        } else {
-            0f
-        }
-
-        drawRoundRect(
-            color = foregroundColor,
-            size = Size(progressWidth, barHeight),
-            topLeft = Offset(rectStartX, center.y - barHeight / 2),
-            cornerRadius = cornerRadius
-        )
-    }
-}
-
-private object SliderDefaults {
-    val MinHeight = 30.dp
-
-    @Composable
-    fun sliderColors(
-        sliderColors: M3SliderColors
-    ): SliderColors = SliderColors(
-        foregroundColor = sliderColors.activeTrackColor,
-        disabledForegroundColor = sliderColors.disabledActiveTrackColor,
-        backgroundColor = sliderColors.inactiveTrackColor
-    )
-}
-
-@Immutable
-private class SliderColors(
-    private val foregroundColor: Color,
-    private val disabledForegroundColor: Color,
-    private val backgroundColor: Color
-) {
-    @Stable
-    fun foregroundColor(enabled: Boolean): Color =
-        if (enabled) foregroundColor else disabledForegroundColor
-
-    @Stable
-    fun backgroundColor(): Color = backgroundColor
 }

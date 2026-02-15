@@ -202,7 +202,8 @@ object CustomSliderDefaults {
         modifier: Modifier = Modifier,
         colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
-        trackHeight: Dp = 32.dp
+        trackHeight: Dp = 32.dp,
+        strokeCap: StrokeCap = StrokeCap.Round
     ) {
         val inactiveTrackColor = colors.trackColor(enabled, active = false)
         val activeTrackColor = colors.trackColor(enabled, active = true)
@@ -221,7 +222,8 @@ object CustomSliderDefaults {
                 activeTrackColor,
                 inactiveTickColor,
                 activeTickColor,
-                trackHeight.toPx()
+                trackHeight.toPx(),
+                strokeCap
             )
         }
     }
@@ -243,7 +245,8 @@ object CustomSliderDefaults {
         modifier: Modifier = Modifier,
         colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
-        trackHeight: Dp = 32.dp
+        trackHeight: Dp = 32.dp,
+        strokeCap: StrokeCap = StrokeCap.Round
     ) {
         val inactiveTrackColor = colors.trackColor(enabled, active = false)
         val activeTrackColor = colors.trackColor(enabled, active = true)
@@ -262,7 +265,8 @@ object CustomSliderDefaults {
                 activeTrackColor,
                 inactiveTickColor,
                 activeTickColor,
-                trackHeight.toPx()
+                trackHeight.toPx(),
+                strokeCap
             )
         }
     }
@@ -275,7 +279,8 @@ object CustomSliderDefaults {
         activeTrackColor: Color,
         inactiveTickColor: Color,
         activeTickColor: Color,
-        trackHeight: Float
+        trackHeight: Float,
+        strokeCap: StrokeCap
     ) {
         val isRtl = layoutDirection == LayoutDirection.Rtl
         val sliderLeft = Offset(0f, center.y)
@@ -288,7 +293,7 @@ object CustomSliderDefaults {
             sliderStart,
             sliderEnd,
             trackHeight,
-            StrokeCap.Round
+            strokeCap
         )
         val sliderValueEnd = Offset(
             sliderStart.x +
@@ -307,7 +312,7 @@ object CustomSliderDefaults {
             sliderValueStart,
             sliderValueEnd,
             trackHeight,
-            StrokeCap.Round
+            strokeCap
         )
 
         for (tick in tickFractions) {
