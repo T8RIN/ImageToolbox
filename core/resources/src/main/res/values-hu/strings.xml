@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Eltávolítja az elmosódást/zajt és a remegést a fényképekről. Általános célú, de legjobb fotókon.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Az alacsony minőségű képeket visszaállítja a Swin2SR transzformátor segítségével, amely a BSRGAN leromlására van optimalizálva. Kiválóan alkalmas erős tömörítési műtermékek rögzítésére és 4-szeres léptékű részletek javítására.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x-es felskálázás a BSRGAN degradációra kiképzett SwinIR transzformátorral. GAN-t használ az élesebb textúrák és a természetesebb részletek érdekében a fényképeken és az összetett jeleneteken.</string>
+    <string name="path">Útvonal</string>
 </resources>

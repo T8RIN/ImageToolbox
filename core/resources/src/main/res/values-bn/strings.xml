@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">ফটো থেকে ঝাপসা/গোলমাল এবং ঝাঁকুনি সরিয়ে দেয়। সাধারণ উদ্দেশ্য কিন্তু ফটোতে সেরা।</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Swin2SR ট্রান্সফরমার ব্যবহার করে নিম্ন-মানের ছবি পুনরুদ্ধার করে, BSRGAN অবক্ষয়ের জন্য অপ্টিমাইজ করা হয়েছে। ভারী কম্প্রেশন আর্টিফ্যাক্ট ঠিক করার জন্য এবং 4x স্কেলে বিশদ উন্নত করার জন্য দুর্দান্ত।</string>
     <string name="model_bsrgan_swinir_m_x4_gan">BSRGAN অবক্ষয়ের উপর প্রশিক্ষিত SwinIR ট্রান্সফরমার সহ 4x upscaling। ফটো এবং জটিল দৃশ্যগুলিতে তীক্ষ্ণ টেক্সচার এবং আরও প্রাকৃতিক বিবরণের জন্য GAN ব্যবহার করে।</string>
+    <string name="path">পথ</string>
 </resources>

@@ -2112,4 +2112,5 @@
     <string name="model_nafnet_deblurring">يزيل الضبابية/الضوضاء والاهتزازات من الصور. للأغراض العامة ولكن الأفضل في الصور.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">يستعيد الصور ذات الجودة المنخفضة باستخدام محول Swin2SR، الأمثل لتدهور BSRGAN. رائعة لإصلاح التحف المضغوطة الثقيلة وتحسين التفاصيل بمقياس 4x.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">ترقية 4x باستخدام محول SwinIR المدرب على تحلل BSRGAN. يستخدم GAN للحصول على مواد أكثر وضوحًا وتفاصيل أكثر طبيعية في الصور والمشاهد المعقدة.</string>
+    <string name="path">طريق</string>
 </resources>

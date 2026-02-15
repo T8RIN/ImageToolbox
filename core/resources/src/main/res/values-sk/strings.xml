@@ -2110,4 +2110,5 @@
     <string name="model_nafnet_deblurring">Odstraňuje rozmazanie/šum a chvenie z fotografií. Všeobecný účel, ale najlepšie na fotografiách.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Obnovuje obrázky nízkej kvality pomocou transformátora Swin2SR, optimalizovaného pre degradáciu BSRGAN. Skvelé na opravu ťažkých kompresných artefaktov a vylepšenie detailov v 4-násobnej mierke.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x upscaling s transformátorom SwinIR vyškoleným na degradáciu BSRGAN. Používa GAN pre ostrejšie textúry a prirodzenejšie detaily na fotografiách a zložitých scénach.</string>
+    <string name="path">Cesta</string>
 </resources>

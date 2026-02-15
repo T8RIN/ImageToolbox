@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Eemaldab fotodelt hägususe/müra ja värinad. Üldotstarbeline, kuid parim fotodel.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Taastab madala kvaliteediga pildid, kasutades Swin2SR-i trafot, mis on optimeeritud BSRGAN-i halvenemise jaoks. Suurepärane raskete kokkusurutud artefaktide kinnitamiseks ja detailide täiustamiseks 4x skaalal.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x ülesskaleerimine SwinIR-trafoga, mis on koolitatud BSRGANi halvenemise kohta. Kasutab GAN-i teravamate tekstuuride ja loomulikumate detailide saamiseks fotodel ja keerulistes stseenides.</string>
+    <string name="path">Tee</string>
 </resources>

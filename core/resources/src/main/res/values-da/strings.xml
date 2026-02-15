@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Fjerner sløring/støj og rystelser fra fotos. Generelt formål, men bedst på billeder.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Gendanner billeder i lav kvalitet ved hjælp af Swin2SR-transformer, optimeret til BSRGAN-nedbrydning. Fantastisk til at fikse tunge kompressionsartefakter og forbedre detaljer i 4x skala.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4x opskalering med SwinIR-transformer trænet på BSRGAN-nedbrydning. Bruger GAN til skarpere teksturer og mere naturlige detaljer i fotos og komplekse scener.</string>
+    <string name="path">Sti</string>
 </resources>

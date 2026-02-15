@@ -2110,4 +2110,5 @@
     <string name="model_nafnet_deblurring">מסיר טשטוש/רעש ורעידות מתמונות. מטרה כללית אבל הכי טובה בתמונות.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">משחזר תמונות באיכות נמוכה באמצעות שנאי Swin2SR, מותאם לפירוק BSRGAN. נהדר לתיקון חפצי דחיסה כבדים ושיפור פרטים בקנה מידה פי 4.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">העלאת קנה מידה פי 4 עם שנאי SwinIR מאומן על השפלה של BSRGAN. משתמש ב-GAN למרקמים חדים יותר ופרטים טבעיים יותר בתמונות ובסצנות מורכבות.</string>
+    <string name="path">נָתִיב</string>
 </resources>

@@ -2108,4 +2108,5 @@
     <string name="model_nafnet_deblurring">Entfernt Unschärfe/Rauschen und Verwacklungen aus Fotos. Universell einsetzbar, aber am besten für Fotos geeignet.</string>
     <string name="model_swin2sr_x4_bsrgan_psnr">Stellt Bilder mit geringer Qualität mithilfe des Swin2SR-Transformators wieder her, der für die BSRGAN-Verschlechterung optimiert ist. Ideal zum Beheben starker Komprimierungsartefakte und zur Verbesserung von Details im 4-fachen Maßstab.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4-fache Hochskalierung mit SwinIR-Transformator, trainiert auf BSRGAN-Degradation. Verwendet GAN für schärfere Texturen und natürlichere Details in Fotos und komplexen Szenen.</string>
+    <string name="path">Weg</string>
 </resources>
