@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.ui.utils.helper
+package com.t8rin.imagetoolbox.core.utils
 
 import android.content.ContentUris
 import android.content.Context
@@ -30,13 +30,19 @@ import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.SortType
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.net.URLDecoder
 import java.net.URLEncoder
+import java.util.LinkedList
 
 fun Uri?.toUiPath(
     default: String
@@ -143,31 +149,23 @@ fun Uri.fileSize(): Long? = tryExtractOriginal().run {
 }
 
 fun Uri.tryExtractOriginal(): Uri = try {
+    val mimeType = getStringColumn(MediaStore.MediaColumns.MIME_TYPE).orEmpty()
+
+    val contentUri = when {
+        "image" in mimeType -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        "video" in mimeType -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        "audio" in mimeType -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        else -> MediaStore.Files.getContentUri("external")
+    }
+
     ContentUris.withAppendedId(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        this.toString().substringAfterLast('/').filter { it.isDigit() }.toLong()
+        contentUri,
+        this.toString().decodeEscaped().substringAfterLast('/').filter { it.isDigit() }.toLong()
     )
 } catch (e: Throwable) {
     e.makeLog("tryExtractOriginal")
     this
 }
-
-private fun Uri.getLongColumn(column: String): Long? =
-    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            val index = cursor.getColumnIndex(column)
-            if (index != -1 && !cursor.isNull(index)) cursor.getLong(index) else null
-        } else null
-    }
-
-private fun Uri.getStringColumn(column: String): String? =
-    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            val index = cursor.getColumnIndex(column)
-            if (index != -1 && !cursor.isNull(index)) cursor.getString(index) else null
-        } else null
-    }
-
 
 suspend fun List<Uri>.sortedByType(
     sortType: SortType,
@@ -186,45 +184,6 @@ suspend fun List<Uri>.sortedByType(
         SortType.DateAdded -> sortedByDateAdded()
         SortType.DateAddedReversed -> sortedByDateAdded(descending = true)
     }
-}
-
-private fun List<Uri>.sortedByExtension(
-    descending: Boolean = false
-) = sortedByKey(descending) {
-    it.getFilename()?.substringAfterLast(
-        delimiter = '.',
-        missingDelimiterValue = ""
-    )?.lowercase()
-}
-
-private fun List<Uri>.sortedByDateModified(
-    descending: Boolean = false
-) = sortedByKey(descending) { it.lastModified() }
-
-private fun List<Uri>.sortedByName(
-    descending: Boolean = false
-) = sortedByKey(descending) {
-    it.getFilename()
-}
-
-private fun List<Uri>.sortedBySize(
-    descending: Boolean = false
-) = sortedByKey(descending) {
-    it.getLongColumn(OpenableColumns.SIZE)
-}
-
-private fun List<Uri>.sortedByMimeType(
-    descending: Boolean = false
-) = sortedByKey(descending) {
-    it.getStringColumn(
-        column = DocumentsContract.Document.COLUMN_MIME_TYPE
-    )
-}
-
-private fun List<Uri>.sortedByDateAdded(
-    descending: Boolean = false
-) = sortedByKey(descending) {
-    it.addedTime()
 }
 
 fun ImageModel.toUri(): Uri? = when (data) {
@@ -275,3 +234,146 @@ fun Uri.isGif(): Boolean {
     return getFilename().toString().endsWith(".gif")
         .or(appContext.contentResolver.getType(this)?.contains("gif") == true)
 }
+
+suspend fun Context.listFilesInDirectory(
+    rootUri: Uri
+): List<Uri> = listFilesInDirectoryAsFlowImpl(rootUri).filterIsInstance<DirUri.All>().first().uris
+
+fun Context.listFilesInDirectoryProgressive(
+    rootUri: Uri
+): Flow<Uri> = listFilesInDirectoryAsFlowImpl(rootUri)
+    .filterIsInstance<DirUri.Entry>()
+    .map { it.uri }
+
+fun String?.getPath(
+    context: Context = appContext
+) = this?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
+    default = context.getString(R.string.default_folder)
+)
+
+fun Uri.tryRequireOriginal(context: Context): Uri {
+    val tempUri = this
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        runCatching {
+            MediaStore.setRequireOriginal(this).also {
+                context.contentResolver.openFileDescriptor(it, FileMode.Read.mode)?.close()
+            }
+        }.getOrNull() ?: tempUri
+    } else this
+}
+
+private fun Context.listFilesInDirectoryAsFlowImpl(
+    rootUri: Uri
+): Flow<DirUri> = callbackFlow {
+    var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
+        rootUri,
+        DocumentsContract.getTreeDocumentId(rootUri)
+    )
+
+    val files: MutableList<Pair<Uri, Long>> = LinkedList()
+
+    val dirNodes: MutableList<Uri> = LinkedList()
+    dirNodes.add(childrenUri)
+    while (dirNodes.isNotEmpty()) {
+        childrenUri = dirNodes.removeAt(0)
+
+        contentResolver.query(
+            childrenUri,
+            arrayOf(
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                DocumentsContract.Document.COLUMN_MIME_TYPE,
+            ),
+            null,
+            null,
+            null
+        ).use {
+            while (it!!.moveToNext()) {
+                val docId = it.getString(0)
+                val lastModified = it.getLong(1)
+                val mime = it.getString(2)
+                if (isDirectory(mime)) {
+                    val newNode = DocumentsContract.buildChildDocumentsUriUsingTree(rootUri, docId)
+                    dirNodes.add(newNode)
+                } else {
+                    val uri = DocumentsContract.buildDocumentUriUsingTree(rootUri, docId)
+
+                    channel.send(DirUri.Entry(uri))
+
+                    files.add(
+                        uri to lastModified
+                    )
+                }
+            }
+        }
+    }
+
+    files.sortedByDescending { it.second }.map { it.first }.also {
+        channel.send(DirUri.All(it))
+        channel.close()
+    }
+}
+
+private sealed interface DirUri {
+    data class Entry(val uri: Uri) : DirUri
+    data class All(val uris: List<Uri>) : DirUri
+}
+
+private fun isDirectory(mimeType: String): Boolean {
+    return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
+}
+
+private fun List<Uri>.sortedByExtension(
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getFilename()?.substringAfterLast(
+        delimiter = '.',
+        missingDelimiterValue = ""
+    )?.lowercase()
+}
+
+private fun List<Uri>.sortedByDateModified(
+    descending: Boolean = false
+) = sortedByKey(descending) { it.lastModified() }
+
+private fun List<Uri>.sortedByName(
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getFilename()
+}
+
+private fun List<Uri>.sortedBySize(
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getLongColumn(OpenableColumns.SIZE)
+}
+
+private fun List<Uri>.sortedByMimeType(
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.getStringColumn(
+        column = DocumentsContract.Document.COLUMN_MIME_TYPE
+    )
+}
+
+private fun List<Uri>.sortedByDateAdded(
+    descending: Boolean = false
+) = sortedByKey(descending) {
+    it.addedTime()
+}
+
+private fun Uri.getLongColumn(column: String): Long? =
+    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val index = cursor.getColumnIndex(column)
+            if (index != -1 && !cursor.isNull(index)) cursor.getLong(index) else null
+        } else null
+    }
+
+private fun Uri.getStringColumn(column: String): String? =
+    appContext.contentResolver.query(this, arrayOf(column), null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val index = cursor.getColumnIndex(column)
+            if (index != -1 && !cursor.isNull(index)) cursor.getString(index) else null
+        } else null
+    }

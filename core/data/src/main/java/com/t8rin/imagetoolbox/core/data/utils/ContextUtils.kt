@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.ParcelFileDescriptor
 import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
@@ -30,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.copyTo
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
 import kotlinx.coroutines.coroutineScope
 import java.io.OutputStream
 
@@ -67,6 +69,17 @@ suspend fun Context.copyMetadata(
             }
         }
     }
+}
+
+private fun Context.getFileDescriptorFor(
+    uri: Uri?
+): ParcelFileDescriptor? = uri?.let {
+    runCatching {
+        openFileDescriptor(
+            uri = uri,
+            mode = FileMode.ReadWrite
+        )
+    }.getOrNull()
 }
 
 fun Context.openWriteableStream(

@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.utils.fileSize
 import java.util.Locale
 
 

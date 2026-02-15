@@ -34,15 +34,8 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriWriteable
 import com.t8rin.imagetoolbox.core.data.utils.cacheSize
 import com.t8rin.imagetoolbox.core.data.utils.clearCache
 import com.t8rin.imagetoolbox.core.data.utils.copyMetadata
-import com.t8rin.imagetoolbox.core.data.utils.fileSize
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
-import com.t8rin.imagetoolbox.core.data.utils.getPath
 import com.t8rin.imagetoolbox.core.data.utils.isExternalStorageWritable
-import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectory
-import com.t8rin.imagetoolbox.core.data.utils.listFilesInDirectoryProgressive
 import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
-import com.t8rin.imagetoolbox.core.data.utils.toUiPath
-import com.t8rin.imagetoolbox.core.data.utils.tryRequireOriginal
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
@@ -63,6 +56,13 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.utils.fileSize
+import com.t8rin.imagetoolbox.core.utils.getFilename
+import com.t8rin.imagetoolbox.core.utils.getPath
+import com.t8rin.imagetoolbox.core.utils.listFilesInDirectory
+import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
+import com.t8rin.imagetoolbox.core.utils.toUiPath
+import com.t8rin.imagetoolbox.core.utils.tryRequireOriginal
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -237,7 +237,7 @@ internal class AndroidFileController @Inject constructor(
                             Exception(
                                 getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().toUiPath(context, treeUri)
+                                    treeUri.toUri().toUiPath(treeUri)
                                 )
                             )
                         )

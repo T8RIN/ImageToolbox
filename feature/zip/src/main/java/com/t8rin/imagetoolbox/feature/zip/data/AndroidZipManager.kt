@@ -19,10 +19,10 @@ package com.t8rin.imagetoolbox.feature.zip.data
 
 import android.content.Context
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.data.utils.getFilename
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.utils.getFilename
 import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext

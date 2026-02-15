@@ -51,11 +51,11 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.handleDeeplinks
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toImageModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastDuration
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHostState
+import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.ChildProvider
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.BackEventObserver

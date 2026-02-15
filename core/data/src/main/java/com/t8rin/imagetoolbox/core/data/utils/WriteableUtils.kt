@@ -15,21 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.compose)
-    alias(libs.plugins.image.toolbox.hilt)
-}
+package com.t8rin.imagetoolbox.core.data.utils
 
-android.namespace = "com.t8rin.imagetoolbox.core.utils"
+import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import java.io.OutputStream
 
-dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.resources)
-    implementation(projects.core.settings)
-    implementation(libs.toolbox.logger)
-    implementation(libs.androidx.documentfile)
-    "marketImplementation"(libs.quickie.bundled)
-    "fossImplementation"(libs.quickie.foss)
-    implementation(libs.zxing.core)
+fun Writeable.outputStream(): OutputStream = if (this is StreamWriteable) {
+    stream
+} else {
+    object : OutputStream() {
+        override fun write(b: Int) = writeBytes(byteArrayOf(b.toByte()))
+    }
 }
