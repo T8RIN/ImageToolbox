@@ -249,8 +249,11 @@ private data class UriInfo(
             add(R.string.sort_by_date_added to it)
         }
 
-        path?.takeIf { it.isNotBlank() }?.removeSuffix("/$name")?.let {
-            add(R.string.path to it)
-        }
+        path?.takeIf { it.isNotBlank() }
+            ?.removeSuffix("/$name")
+            ?.removeSuffix("/${name?.substringBeforeLast('.')}")
+            ?.let {
+                add(R.string.path to it)
+            }
     }
 }

@@ -106,8 +106,14 @@ fun Uri.path(): String? = tryExtractOriginal().run {
         ".transforms" !in it
     }.orEmpty().ifEmpty {
         runCatching {
-            DocumentFile.fromSingleUri(appContext, this)?.uri?.path?.split(":")
-                ?.lastOrNull()
+            val path = DocumentFile.fromSingleUri(appContext, this)?.uri?.path?.split(":")
+                ?.lastOrNull() ?: return@run null
+
+            if ("cloud" in path) {
+                "/cloud/${path.substringAfterLast('/')}"
+            } else {
+                path
+            }
         }.getOrNull()
     }
 }
