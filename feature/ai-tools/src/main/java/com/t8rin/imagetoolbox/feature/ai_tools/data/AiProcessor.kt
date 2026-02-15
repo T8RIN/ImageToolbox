@@ -29,7 +29,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
-import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
@@ -127,12 +126,6 @@ internal class AiProcessor @Inject constructor(
         listener: AiProgressListener,
         info: ModelInfo,
     ): Bitmap = withContext(defaultDispatcher) {
-        // to handle edge artifacts, dunno if it's needed for *all* models, but it helped with SCUNet
-        val inputBitmap = if (info.isScuNet) {
-            addBlackBorder(inputBitmap)
-        } else {
-            inputBitmap
-        }
         val width = inputBitmap.getWidth()
         val height = inputBitmap.getHeight()
 
@@ -166,32 +159,7 @@ internal class AiProcessor @Inject constructor(
             )
         }
 
-        if (info.isScuNet) {
-            removeBlackBorder(processed)
-        } else {
-            processed
-        }
-    }
-
-    private fun addBlackBorder(
-        bitmap: Bitmap,
-        borderSize: Int = 8
-    ): Bitmap = createBitmap(
-        width = bitmap.width + 2 * borderSize,
-        height = bitmap.height + 2 * borderSize,
-        config = Bitmap.Config.ARGB_8888
-    ).applyCanvas {
-        drawColor(Color.BLACK)
-        drawBitmap(bitmap, borderSize.toFloat(), borderSize.toFloat(), null)
-    }
-
-    private fun removeBlackBorder(bitmap: Bitmap, borderSize: Int = 8): Bitmap {
-        val croppedWidth = bitmap.width - 2 * borderSize
-        val croppedHeight = bitmap.height - 2 * borderSize
-        if (croppedWidth <= 0 || croppedHeight <= 0) {
-            return bitmap
-        }
-        return Bitmap.createBitmap(bitmap, borderSize, borderSize, croppedWidth, croppedHeight)
+        processed
     }
 
     private suspend fun processTiled(
