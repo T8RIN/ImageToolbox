@@ -250,7 +250,7 @@ object ImageUtils {
 
         return remember(size, uri) {
             derivedStateOf {
-                humanFileSize(size)
+                humanFileSize(size, 2)
             }
         }.value
     }
