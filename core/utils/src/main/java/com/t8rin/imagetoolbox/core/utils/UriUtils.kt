@@ -241,13 +241,10 @@ fun Uri.isGif(): Boolean {
         .or(appContext.contentResolver.getType(this)?.contains("gif") == true)
 }
 
-suspend fun Context.listFilesInDirectory(
-    rootUri: Uri
-): List<Uri> = listFilesInDirectoryAsFlowImpl(rootUri).filterIsInstance<DirUri.All>().first().uris
+suspend fun Uri.listFilesInDirectory(): List<Uri> =
+    listFilesInDirectoryAsFlowImpl().filterIsInstance<DirUri.All>().first().uris
 
-fun Context.listFilesInDirectoryProgressive(
-    rootUri: Uri
-): Flow<Uri> = listFilesInDirectoryAsFlowImpl(rootUri)
+fun Uri.listFilesInDirectoryProgressive(): Flow<Uri> = listFilesInDirectoryAsFlowImpl()
     .filterIsInstance<DirUri.Entry>()
     .map { it.uri }
 
@@ -268,9 +265,9 @@ fun Uri.tryRequireOriginal(context: Context): Uri {
     } else this
 }
 
-private fun Context.listFilesInDirectoryAsFlowImpl(
-    rootUri: Uri
-): Flow<DirUri> = callbackFlow {
+private fun Uri.listFilesInDirectoryAsFlowImpl(): Flow<DirUri> = callbackFlow {
+    val rootUri = this@listFilesInDirectoryAsFlowImpl
+
     var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
         rootUri,
         DocumentsContract.getTreeDocumentId(rootUri)
@@ -283,7 +280,7 @@ private fun Context.listFilesInDirectoryAsFlowImpl(
     while (dirNodes.isNotEmpty()) {
         childrenUri = dirNodes.removeAt(0)
 
-        contentResolver.query(
+        appContext.contentResolver.query(
             childrenUri,
             arrayOf(
                 DocumentsContract.Document.COLUMN_DOCUMENT_ID,

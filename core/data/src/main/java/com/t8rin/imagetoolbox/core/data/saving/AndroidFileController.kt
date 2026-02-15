@@ -485,11 +485,11 @@ internal class AndroidFileController @Inject constructor(
     override suspend fun listFilesInDirectory(
         treeUri: String
     ): List<String> = withContext(ioDispatcher) {
-        context.listFilesInDirectory(treeUri.toUri()).map { it.toString() }
+        treeUri.toUri().listFilesInDirectory().map { it.toString() }
     }
 
     override fun listFilesInDirectoryAsFlow(
         treeUri: String
-    ): Flow<String> = context.listFilesInDirectoryProgressive(treeUri.toUri()).map(Uri::toString)
+    ): Flow<String> = treeUri.toUri().listFilesInDirectoryProgressive().map(Uri::toString)
 
 }
