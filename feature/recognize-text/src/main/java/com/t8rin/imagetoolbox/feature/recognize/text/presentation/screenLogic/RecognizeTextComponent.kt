@@ -255,6 +255,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                             oldList[index] = ocrLanguage
                         }
                     }
+                }.ifEmpty {
+                    listOf(OCRLanguage.Default)
                 }
             }
             _languages.update { data }
@@ -270,7 +272,9 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                 .initialOcrCodes
                 .filter { it.isNotBlank() }
                 .map(imageTextReader::getLanguageForCode)
-            _selectedLanguages.update { languageCodes }
+            _selectedLanguages.update {
+                languageCodes.ifEmpty { listOf(OCRLanguage.Default) }
+            }
         }
     }
 
@@ -511,7 +515,9 @@ class RecognizeTextComponent @AssistedInject internal constructor(
                     settingsManager.setInitialOCRLanguageCodes(
                         selectedLanguages.filter {
                             it.downloaded.isNotEmpty()
-                        }.map { it.code }
+                        }.map { it.code }.ifEmpty {
+                            listOf(OCRLanguage.Default.code)
+                        }
                     )
                 }
                 onComplete()
@@ -520,20 +526,24 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     fun onLanguagesSelected(ocrLanguages: List<OCRLanguage>) {
-        if (ocrLanguages.isNotEmpty()) {
-            componentScope.launch {
-                settingsManager.setInitialOCRLanguageCodes(
-                    ocrLanguages.filter {
-                        it.downloaded.isNotEmpty() && it.code.isNotBlank()
-                    }.map { it.code }
-                )
-            }
-            _selectedLanguages.update { ocrLanguages }
-            _recognitionData.update { null }
-            _editedText.update { null }
-            recognitionJob?.cancel()
-            _textLoadingProgress.update { -1 }
+        componentScope.launch {
+            settingsManager.setInitialOCRLanguageCodes(
+                ocrLanguages.filter {
+                    it.downloaded.isNotEmpty() && it.code.isNotBlank()
+                }.map { it.code }.ifEmpty {
+                    listOf(OCRLanguage.Default.code)
+                }
+            )
         }
+        _selectedLanguages.update {
+            ocrLanguages.ifEmpty {
+                listOf(OCRLanguage.Default)
+            }
+        }
+        _recognitionData.update { null }
+        _editedText.update { null }
+        recognitionJob?.cancel()
+        _textLoadingProgress.update { -1 }
     }
 
     fun setSegmentationMode(segmentationMode: SegmentationMode) {
