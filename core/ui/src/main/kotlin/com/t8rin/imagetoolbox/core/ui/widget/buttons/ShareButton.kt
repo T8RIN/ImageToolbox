@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -54,7 +55,9 @@ fun ShareButton(
     enabled: Boolean = true,
     onShare: () -> Unit,
     onEdit: (() -> Unit)? = null,
-    onCopy: (() -> Unit)? = null
+    onCopy: (() -> Unit)? = null,
+    dialogTitle: String = stringResource(R.string.image),
+    dialogIcon: ImageVector = Icons.Outlined.Image
 ) {
     var showSelectionDialog by rememberSaveable {
         mutableStateOf(false)
@@ -88,11 +91,11 @@ fun ShareButton(
             }
         },
         title = {
-            Text(stringResource(R.string.image))
+            Text(dialogTitle)
         },
         icon = {
             Icon(
-                imageVector = Icons.Outlined.Image,
+                imageVector = dialogIcon,
                 contentDescription = null
             )
         },

@@ -34,6 +34,9 @@ import coil3.getExtra
 import coil3.request.ImageRequest
 import coil3.request.Options
 import coil3.size.Size
+import coil3.size.pxOrElse
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.utils.appContext
 
 class PdfDecoder(
@@ -50,17 +53,27 @@ class PdfDecoder(
             )
         )
         val page = pdfRenderer.openPage(options.pdfPage)
-
-        // For better bitmap quality: https://stackoverflow.com/a/32327174/5285687
         val densityDpi = context.resources.displayMetrics.densityDpi
-        val bitmap = createBitmap(densityDpi * page.width / 72, densityDpi * page.height / 72)
+
+        val size = IntegerSize(
+            width = densityDpi * page.width / 72,
+            height = densityDpi * page.height / 72
+        ).flexibleResize(
+            w = options.size.width.pxOrElse { 0 },
+            h = options.size.height.pxOrElse { 0 }
+        )
+
+        val bitmap = createBitmap(
+            width = size.width,
+            height = size.height
+        )
         page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
         page.close()
         pdfRenderer.close()
 
         return DecodeResult(
             image = bitmap.toDrawable(context.resources).asImage(),
-            isSampled = false,
+            isSampled = true,
         )
     }
 
@@ -82,7 +95,7 @@ class PdfDecoder(
 
 fun PdfImageRequest(
     data: Any,
-    pdfPage: Int,
+    pdfPage: Int = 0,
     size: Size? = null
 ): ImageRequest = ImageRequest.Builder(appContext)
     .data(data)

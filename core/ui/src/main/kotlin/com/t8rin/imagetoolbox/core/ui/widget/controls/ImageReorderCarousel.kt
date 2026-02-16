@@ -95,7 +95,8 @@ fun ImageReorderCarousel(
         .container(ShapeDefaults.extraLarge),
     onNeedToAddImage: () -> Unit,
     onNeedToRemoveImageAt: (Int) -> Unit,
-    onNavigate: (Screen) -> Unit
+    onNavigate: (Screen) -> Unit,
+    title: Int = R.string.images_order
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
@@ -135,7 +136,7 @@ fun ImageReorderCarousel(
         ) {
             Text(
                 fontWeight = FontWeight.Medium,
-                text = stringResource(R.string.images_order),
+                text = stringResource(title),
                 modifier = Modifier.padding(start = 8.dp),
                 fontSize = 18.sp
             )

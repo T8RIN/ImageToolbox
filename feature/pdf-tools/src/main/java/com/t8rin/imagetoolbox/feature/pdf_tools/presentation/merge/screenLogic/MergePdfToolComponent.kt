@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -57,6 +58,14 @@ class MergePdfToolComponent @AssistedInject internal constructor(
         _uris.update { uris }
     }
 
+    fun addUris(uris: List<Uri>) {
+        _uris.update { (it + uris).distinct() }
+    }
+
+    fun removeAt(index: Int) {
+        _uris.update { it.toMutableList().apply { removeAt(index) } }
+    }
+
     override fun saveTo(
         uri: Uri,
         onResult: (SaveResult) -> Unit
@@ -78,12 +87,22 @@ class MergePdfToolComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
+        prepareForSharing(
+            onSuccess = {
+                shareProvider.shareUris(it.map(Uri::toString))
+                onSuccess()
+            },
+            onFailure = onFailure
+        )
+    }
+
+    override fun prepareForSharing(
+        onSuccess: suspend (List<Uri>) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
         doSharing(
             action = {
-                shareProvider.shareUri(
-                    uri = pdfManager.mergePdfs(uris.map(Uri::toString)),
-                    onComplete = onSuccess
-                )
+                onSuccess(listOf(pdfManager.mergePdfs(uris.map(Uri::toString)).toUri()))
             },
             onFailure = onFailure
         )

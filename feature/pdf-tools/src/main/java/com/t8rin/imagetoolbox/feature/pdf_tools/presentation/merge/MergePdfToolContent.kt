@@ -17,10 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 
@@ -39,6 +44,24 @@ fun MergePdfToolContent(
         titleRes = R.string.merge_pdf,
         actions = {},
         imagePreview = {},
-        controls = {}
+        placeImagePreview = false,
+        showImagePreviewAsStickyHeader = false,
+        controls = {
+            val addFilesPicker = rememberFilePicker(
+                mimeType = MimeType.Pdf,
+                onSuccess = component::addUris
+            )
+
+            Spacer(Modifier.height(20.dp))
+            ImageReorderCarousel(
+                images = component.uris,
+                onReorder = component::setUris,
+                onNeedToAddImage = addFilesPicker::pickFile,
+                onNeedToRemoveImageAt = component::removeAt,
+                onNavigate = component.onNavigate,
+                title = R.string.order
+            )
+            Spacer(Modifier.height(20.dp))
+        }
     )
 }

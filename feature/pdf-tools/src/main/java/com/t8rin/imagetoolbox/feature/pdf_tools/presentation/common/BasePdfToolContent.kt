@@ -17,15 +17,20 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
 
+import android.net.Uri
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
@@ -40,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 
 @Composable
@@ -51,6 +57,8 @@ internal fun BasePdfToolContent(
     titleRes: Int,
     actions: @Composable RowScope.() -> Unit,
     imagePreview: @Composable () -> Unit,
+    placeImagePreview: Boolean = true,
+    showImagePreviewAsStickyHeader: Boolean = true,
     controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
 ) {
     val essentials = rememberLocalEssentials()
@@ -82,6 +90,8 @@ internal fun BasePdfToolContent(
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
+        placeImagePreview = placeImagePreview,
+        showImagePreviewAsStickyHeader = showImagePreviewAsStickyHeader,
         title = {
             TopAppBarTitle(
                 title = stringResource(titleRes),
@@ -92,14 +102,39 @@ internal fun BasePdfToolContent(
         },
         onGoBack = onBack,
         actions = {
+            var editSheetData by remember {
+                mutableStateOf(listOf<Uri>())
+            }
+
             ShareButton(
                 onShare = {
                     component.performSharing(
                         onSuccess = showConfetti,
                         onFailure = essentials::showFailureToast
                     )
-                }
+                },
+                onEdit = {
+                    component.prepareForSharing(
+                        onSuccess = {
+                            editSheetData = it
+                        },
+                        onFailure = essentials::showFailureToast
+                    )
+                },
+                dialogTitle = "PDF",
+                dialogIcon = Icons.Outlined.PictureAsPdf
             )
+
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = {
+                    editSheetData = emptyList()
+                },
+                extraDataType = ExtraDataType.Pdf,
+                onNavigate = component.onNavigate
+            )
+
             actions()
         },
         topAppBarPersistentActions = {

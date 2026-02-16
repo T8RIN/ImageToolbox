@@ -69,6 +69,11 @@ abstract class BasePdfToolComponent(
         onFailure: (Throwable) -> Unit
     )
 
+    abstract fun prepareForSharing(
+        onSuccess: suspend (List<Uri>) -> Unit,
+        onFailure: (Throwable) -> Unit
+    )
+
     protected fun doSaving(
         action: suspend KeepAliveService.() -> SaveResult,
         onResult: (SaveResult) -> Unit
