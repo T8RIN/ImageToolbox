@@ -19,10 +19,6 @@
 
 package com.t8rin.imagetoolbox.core.data.coil
 
-import android.graphics.pdf.PdfRenderer
-import android.os.ParcelFileDescriptor
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toDrawable
 import coil3.Extras
 import coil3.ImageLoader
 import coil3.asImage
@@ -38,42 +34,52 @@ import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.logger.makeLog
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.rendering.PDFRenderer
+import kotlin.math.roundToInt
 
-class PdfDecoder(
+internal class PdfDecoder(
     private val source: ImageSource,
     private val options: Options,
 ) : Decoder {
 
     override suspend fun decode(): DecodeResult {
-        val context = options.context
-        val pdfRenderer = PdfRenderer(
-            ParcelFileDescriptor.open(
-                source.file().toFile(),
-                ParcelFileDescriptor.MODE_READ_ONLY,
+        val file = source.file().toFile()
+
+        val image = PDDocument.load(file).use { document ->
+
+            val renderer = PDFRenderer(document)
+
+            val pageIndex = options.pdfPage.coerceIn(0, document.numberOfPages - 1)
+            val box = document.getPage(pageIndex).mediaBox
+
+            val originalWidth = box.width
+            val originalHeight = box.height
+
+            val targetSize = IntegerSize(
+                width = originalWidth.roundToInt(),
+                height = originalHeight.roundToInt()
+            ).flexibleResize(
+                w = options.size.width.pxOrElse { 0 },
+                h = options.size.height.pxOrElse { 0 }
             )
-        )
-        val page = pdfRenderer.openPage(options.pdfPage)
-        val densityDpi = context.resources.displayMetrics.densityDpi
 
-        val size = IntegerSize(
-            width = densityDpi * page.width / 72,
-            height = densityDpi * page.height / 72
-        ).flexibleResize(
-            w = options.size.width.pxOrElse { 0 },
-            h = options.size.height.pxOrElse { 0 }
-        )
+            val scaleX = targetSize.width / originalWidth
+            val scaleY = targetSize.height / originalHeight
+            val scale = minOf(scaleX, scaleY)
 
-        val bitmap = createBitmap(
-            width = size.width,
-            height = size.height
-        )
-        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-        page.close()
-        pdfRenderer.close()
+            val bitmap = renderer.renderImage(
+                pageIndex,
+                scale.coerceAtMost(2f).makeLog("PdfDecoder, scale")
+            )
+
+            bitmap.asImage()
+        }
 
         return DecodeResult(
-            image = bitmap.toDrawable(context.resources).asImage(),
-            isSampled = true,
+            image = image,
+            isSampled = true
         )
     }
 

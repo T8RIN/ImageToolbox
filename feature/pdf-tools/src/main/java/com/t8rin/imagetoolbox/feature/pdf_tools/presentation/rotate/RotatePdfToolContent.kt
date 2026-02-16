@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.components.PdfPagesRotationGrid
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 
@@ -62,6 +63,15 @@ fun RotatePdfToolContent(
         showImagePreviewAsStickyHeader = false,
         controls = {
             Spacer(Modifier.height(20.dp))
+            component.uri?.let {
+                PdfPreviewItem(
+                    uri = it,
+                    onRemove = {
+                        component.setUri(null)
+                    }
+                )
+                Spacer(Modifier.height(16.dp))
+            }
             PdfPagesRotationGrid(
                 pages = remember(pagesCount, component.uri) {
                     List(pagesCount) {

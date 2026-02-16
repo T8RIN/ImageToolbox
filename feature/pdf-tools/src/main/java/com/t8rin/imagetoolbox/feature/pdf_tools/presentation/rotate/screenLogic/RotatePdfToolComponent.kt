@@ -60,8 +60,12 @@ class RotatePdfToolComponent @AssistedInject internal constructor(
     private val _rotations: MutableState<List<Int>> = mutableStateOf(emptyList())
     val rotations by _rotations
 
-    fun setUri(uri: Uri) {
-        registerChanges()
+    fun setUri(uri: Uri?) {
+        if (uri == null) {
+            registerChangesCleared()
+        } else {
+            registerChanges()
+        }
         _uri.update { uri }
     }
 

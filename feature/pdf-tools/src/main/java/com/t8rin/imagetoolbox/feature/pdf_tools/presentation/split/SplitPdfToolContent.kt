@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
@@ -186,6 +187,16 @@ fun SplitPdfToolContent(
             Spacer(Modifier.height(20.dp))
             var showSelector by rememberSaveable {
                 mutableStateOf(false)
+            }
+
+            component.uri?.let {
+                PdfPreviewItem(
+                    uri = it,
+                    onRemove = {
+                        component.setUri(null)
+                    }
+                )
+                Spacer(Modifier.height(16.dp))
             }
 
             PreferenceItem(

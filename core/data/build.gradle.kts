@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.toolbox.psd)
     implementation(libs.toolbox.apng)
     implementation(libs.toolbox.djvuCoder)
+    implementation(libs.pdfbox)
     implementation(libs.trickle)
 
     implementation(projects.core.domain)

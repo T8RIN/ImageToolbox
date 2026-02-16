@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -264,6 +265,7 @@ fun FileReorderVerticalList(
                                         color = Color.Transparent,
                                         resultPadding = 0.dp
                                     )
+                                    .widthIn(max = 120.dp)
                             ) {
                                 Picture(
                                     model = uri,
@@ -271,7 +273,7 @@ fun FileReorderVerticalList(
                                         .fillMaxHeight()
                                         .defaultMinSize(minWidth = 60.dp),
                                     shape = RectangleShape,
-                                    contentScale = ContentScale.FillHeight
+                                    contentScale = ContentScale.Fit
                                 )
                                 Box(
                                     modifier = Modifier
