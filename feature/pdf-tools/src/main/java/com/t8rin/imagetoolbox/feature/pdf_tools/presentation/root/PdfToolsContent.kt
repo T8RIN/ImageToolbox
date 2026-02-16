@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -90,12 +90,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PageInputField
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PagesSelectionParser
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PdfToImagesPreference
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PdfToolsContentImpl
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PreviewPdfPreference
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImagesPreference
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToolsContentImpl
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PreviewPdfPreference
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import kotlinx.coroutines.delay
 
 @Composable

@@ -52,7 +52,8 @@ import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponen
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
@@ -90,6 +91,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.LoadNetImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Main
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MarkupLayers
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MergePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MeshGradients
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
@@ -172,7 +174,8 @@ internal class ChildProvider @Inject constructor(
     private val wallpapersExportComponentFactory: WallpapersExportComponent.Factory,
     private val asciiArtComponentFactory: AsciiArtComponent.Factory,
     private val aiToolsComponentFactory: AiToolsComponent.Factory,
-    private val colorLibraryComponentFactory: ColorLibraryComponent.Factory
+    private val colorLibraryComponentFactory: ColorLibraryComponent.Factory,
+    private val mergePdfToolComponentFactory: MergePdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -612,6 +615,15 @@ internal class ChildProvider @Inject constructor(
             colorLibraryComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
+            )
+        )
+
+        is Screen.PdfTools.Merge -> MergePdfTool(
+            mergePdfToolComponentFactory(
+                initialUris = config.uris,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
     }

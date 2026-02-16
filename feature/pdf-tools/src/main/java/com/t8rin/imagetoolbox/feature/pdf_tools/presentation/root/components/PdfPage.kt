@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.animation.AnimatedContent

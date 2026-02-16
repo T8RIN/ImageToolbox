@@ -17,7 +17,7 @@
 
 @file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri

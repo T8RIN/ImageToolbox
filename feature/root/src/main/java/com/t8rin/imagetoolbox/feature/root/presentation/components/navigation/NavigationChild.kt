@@ -84,8 +84,10 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsC
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.PdfToolsContent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.RecognizeTextContent
@@ -376,5 +378,10 @@ internal sealed interface NavigationChild {
     class ColorLibrary(private val component: ColorLibraryComponent) : NavigationChild {
         @Composable
         override fun Content() = ColorLibraryContent(component)
+    }
+
+    class MergePdfTool(private val component: MergePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = MergePdfToolContent(component)
     }
 }

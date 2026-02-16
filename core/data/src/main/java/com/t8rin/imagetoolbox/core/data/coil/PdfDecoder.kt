@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("FunctionName")
+
 package com.t8rin.imagetoolbox.core.data.coil
 
 import android.graphics.pdf.PdfRenderer
@@ -31,6 +33,8 @@ import coil3.fetch.SourceFetchResult
 import coil3.getExtra
 import coil3.request.ImageRequest
 import coil3.request.Options
+import coil3.size.Size
+import com.t8rin.imagetoolbox.core.utils.appContext
 
 class PdfDecoder(
     private val source: ImageSource,
@@ -75,6 +79,18 @@ class PdfDecoder(
     }
 
 }
+
+fun PdfImageRequest(
+    data: Any,
+    pdfPage: Int,
+    size: Size? = null
+): ImageRequest = ImageRequest.Builder(appContext)
+    .data(data)
+    .pdfPage(pdfPage)
+    .apply {
+        size?.let(::size)
+    }
+    .build()
 
 fun ImageRequest.Builder.pdfPage(pdfPage: Int) = apply {
     extras[pdfPageKey] = pdfPage

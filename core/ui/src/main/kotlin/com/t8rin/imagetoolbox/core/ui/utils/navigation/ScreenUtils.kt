@@ -196,6 +196,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AsciiArt -> "Ascii_Art"
     is AiTools -> "Ai_Tools"
     is ColorLibrary -> "ColorLibrary"
+    is PdfTools.Merge -> "PdfTools_Merge"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -250,6 +251,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
+    is PdfTools.Merge -> Icons.Rounded.ImageCombine
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -304,6 +306,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AsciiArt -> Icons.Outlined.Ascii
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
+    is PdfTools.Merge -> Icons.TwoTone.ImageCombine
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
@@ -413,5 +416,5 @@ private object ScreenConstantsImpl : ScreenConstants {
         typedEntries.flatMap { it.entries }.sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 82
+    override val FEATURES_COUNT = 82 + PdfTools.options.size
 }

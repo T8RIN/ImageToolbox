@@ -337,6 +337,23 @@ sealed class Screen(
                 }
             }
         }
+
+        companion object {
+            val options: List<Screen> by lazy {
+                listOf(
+                    Merge()
+                )
+            }
+        }
+
+        @Serializable
+        data class Merge(
+            val uris: List<Uri>? = null
+        ) : Screen(
+            id = 44,
+            title = R.string.merge_pdf,
+            subtitle = R.string.merge_pdf_sub
+        )
     }
 
     @Serializable

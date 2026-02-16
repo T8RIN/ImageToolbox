@@ -46,6 +46,8 @@ import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PageNumberPosition
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
+import com.tom_roush.pdfbox.io.MemoryUsageSetting
+import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
@@ -213,13 +215,12 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun mergePdfs(uris: List<String>): String = withContext(defaultDispatcher) {
         shareProvider.cacheData(filename = tempName("merged")) { output ->
-            PDDocument().use { mergedDoc ->
+            PDFMergerUtility().apply {
                 uris.forEach { uri ->
-                    PDDocument.load(uri.inputStream()).use { doc ->
-                        doc.pages.forEach { page -> mergedDoc.addPage(page) }
-                    }
+                    addSource(uri.inputStream())
                 }
-                mergedDoc.save(output.outputStream())
+                destinationStream = output.outputStream()
+                mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
             }
         } ?: throw IllegalAccessException("No PDF created")
     }

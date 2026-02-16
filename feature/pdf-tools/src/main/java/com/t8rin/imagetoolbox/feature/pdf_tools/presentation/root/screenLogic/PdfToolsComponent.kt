@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components.PdfToImageState
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImageState
 import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

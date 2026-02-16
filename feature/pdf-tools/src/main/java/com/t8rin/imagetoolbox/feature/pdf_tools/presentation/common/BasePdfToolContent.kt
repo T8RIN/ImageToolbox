@@ -1,0 +1,147 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
+
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+
+@Composable
+internal fun BasePdfToolContent(
+    component: BasePdfToolComponent,
+    pdfPicker: FilePicker,
+    isPickedAlready: Boolean,
+    canShowScreenData: Boolean,
+    titleRes: Int,
+    actions: @Composable RowScope.() -> Unit,
+    imagePreview: @Composable () -> Unit,
+    controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
+) {
+    val essentials = rememberLocalEssentials()
+    val showConfetti: () -> Unit = essentials::showConfetti
+
+    val saveLauncher = rememberFileCreator(
+        mimeType = MimeType.Pdf,
+        onSuccess = { uri ->
+            component.saveTo(
+                uri = uri,
+                onResult = essentials::parseFileSaveResult
+            )
+        }
+    )
+
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+
+    val isPortrait by isPortraitOrientationAsState()
+
+    val onBack = {
+        if (component.haveChanges) showExitDialog = true
+        else component.onGoBack()
+    }
+
+    AutoFilePicker(
+        onAutoPick = pdfPicker::pickFile,
+        isPickedAlready = isPickedAlready
+    )
+
+    AdaptiveLayoutScreen(
+        shouldDisableBackHandler = !component.haveChanges,
+        title = {
+            TopAppBarTitle(
+                title = stringResource(titleRes),
+                input = null,
+                isLoading = component.isImageLoading,
+                size = null
+            )
+        },
+        onGoBack = onBack,
+        actions = {
+            ShareButton(
+                onShare = {
+                    component.performSharing(
+                        onSuccess = showConfetti,
+                        onFailure = essentials::showFailureToast
+                    )
+                }
+            )
+            actions()
+        },
+        topAppBarPersistentActions = {
+            if (!canShowScreenData) {
+                TopAppBarEmoji()
+            }
+        },
+        imagePreview = imagePreview,
+        controls = controls,
+        buttons = { actions ->
+            BottomButtonsBlock(
+                isNoData = !canShowScreenData,
+                onSecondaryButtonClick = pdfPicker::pickFile,
+                onPrimaryButtonClick = {
+                    saveLauncher.make(component.generatePdfFilename())
+                },
+                actions = {
+                    if (isPortrait) actions()
+                }
+            )
+        },
+        noDataControls = {
+            FileNotPickedWidget(
+                onPickFile = pdfPicker::pickFile
+            )
+        },
+        canShowScreenData = canShowScreenData
+    )
+
+    LoadingDialog(
+        visible = component.isSaving,
+        onCancelLoading = component::cancelSaving
+    )
+
+    ExitBackHandler(
+        enabled = component.haveChanges,
+        onBack = onBack
+    )
+
+    ExitWithoutSavingDialog(
+        onExit = component.onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
+    )
+}

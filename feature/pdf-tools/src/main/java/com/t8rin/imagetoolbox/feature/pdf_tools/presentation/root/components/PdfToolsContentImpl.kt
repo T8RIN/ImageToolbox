@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -44,8 +45,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.plus
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -83,16 +91,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.canUseNewPdf
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 
 @Composable
 internal fun PdfToolsContentImpl(
@@ -243,69 +251,42 @@ internal fun PdfToolsContentImpl(
         ) { pdfType ->
             when (pdfType) {
                 null -> {
-                    val types = remember {
-                        Screen.PdfTools.Type.entries
-                    }
-                    val preference1 = @Composable {
-                        PreferenceItem(
-                            title = stringResource(types[0].title),
-                            subtitle = stringResource(types[0].subtitle),
-                            startIcon = types[0].icon,
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onPickContent(types[0]) }
-                        )
-                    }
-                    val preference2 = @Composable {
-                        PreferenceItem(
-                            title = stringResource(types[1].title),
-                            subtitle = stringResource(types[1].subtitle),
-                            startIcon = types[1].icon,
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onPickContent(types[1]) }
-                        )
-                    }
-                    val preference3 = @Composable {
-                        PreferenceItem(
-                            title = stringResource(types[2].title),
-                            subtitle = stringResource(types[2].subtitle),
-                            startIcon = types[2].icon,
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onPickContent(types[2]) }
-                        )
-                    }
-
                     Column {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .weight(1f)
-                                .enhancedVerticalScroll(rememberScrollState())
-                                .padding(12.dp)
-                        ) {
-                            if (isPortrait) {
-                                preference1()
-                                Spacer(modifier = Modifier.height(8.dp))
-                                preference2()
-                                Spacer(modifier = Modifier.height(8.dp))
-                                preference3()
-                            } else {
-                                val direction = LocalLayoutDirection.current
-                                Row(
-                                    modifier = Modifier.padding(
-                                        WindowInsets.displayCutout.asPaddingValues().let {
-                                            PaddingValues(
-                                                start = it.calculateStartPadding(direction),
-                                                end = it.calculateEndPadding(direction)
-                                            )
-                                        }
+                        Scaffold(
+                            modifier = Modifier.weight(1f),
+                            contentWindowInsets = WindowInsets.systemBars
+                                .union(WindowInsets.displayCutout)
+                                .only(WindowInsetsSides.Horizontal)
+                        ) { innerPadding ->
+                            LazyVerticalStaggeredGrid(
+                                modifier = Modifier.fillMaxHeight(),
+                                columns = StaggeredGridCells.Adaptive(300.dp),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = 12.dp,
+                                    alignment = Alignment.CenterHorizontally
+                                ),
+                                verticalItemSpacing = 12.dp,
+                                contentPadding = innerPadding + PaddingValues(16.dp),
+                                flingBehavior = enhancedFlingBehavior()
+                            ) {
+                                items(Screen.PdfTools.Type.entries) { type ->
+                                    PreferenceItem(
+                                        title = stringResource(type.title),
+                                        subtitle = stringResource(type.subtitle),
+                                        startIcon = type.icon,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = { onPickContent(type) }
                                     )
-                                ) {
-                                    preference1.withModifier(modifier = Modifier.weight(1f))
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    preference2.withModifier(modifier = Modifier.weight(1f))
                                 }
-                                Spacer(modifier = Modifier.height(8.dp))
-                                preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                                items(Screen.PdfTools.options) { screen ->
+                                    PreferenceItem(
+                                        title = stringResource(screen.title),
+                                        subtitle = stringResource(screen.subtitle),
+                                        startIcon = screen.icon,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = { component.onNavigate(screen) }
+                                    )
+                                }
                             }
                         }
 
