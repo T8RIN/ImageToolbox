@@ -74,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
+import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
@@ -197,6 +198,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AiTools -> "Ai_Tools"
     is ColorLibrary -> "ColorLibrary"
     is PdfTools.Merge -> "PdfTools_Merge"
+    is PdfTools.Split -> "PdfTools_Split"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -252,6 +254,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
+    is PdfTools.Split -> Icons.Rounded.Scissors
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -307,6 +310,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
+    is PdfTools.Split -> Icons.TwoTone.Scissors
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

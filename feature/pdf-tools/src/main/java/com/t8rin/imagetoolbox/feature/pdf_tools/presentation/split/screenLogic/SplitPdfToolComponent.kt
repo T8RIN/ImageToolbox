@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -36,8 +36,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-class MergePdfToolComponent @AssistedInject internal constructor(
-    @Assisted val initialUris: List<Uri>?,
+class SplitPdfToolComponent @AssistedInject internal constructor(
+    @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
@@ -51,23 +51,23 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
-    override val _haveChanges: MutableState<Boolean> = mutableStateOf(!initialUris.isNullOrEmpty())
+    override val _haveChanges: MutableState<Boolean> = mutableStateOf(initialUri != null)
     override val haveChanges: Boolean by _haveChanges
 
-    private val _uris: MutableState<List<Uri>> = mutableStateOf(initialUris.orEmpty())
-    val uris by _uris
+    private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
+    val uri by _uri
 
-    fun setUris(uris: List<Uri>) {
+    private val _pages: MutableState<List<Int>?> = mutableStateOf(null)
+    val pages by _pages
+
+    fun setUri(uri: Uri) {
         registerChanges()
-        _uris.update { uris }
+        _uri.update { uri }
     }
 
-    fun addUris(uris: List<Uri>) {
-        _uris.update { (it + uris).distinct() }
-    }
-
-    fun removeAt(index: Int) {
-        _uris.update { it.toMutableList().apply { removeAt(index) } }
+    fun updatePages(pages: List<Int>) {
+        registerChanges()
+        _pages.update { pages }
     }
 
     override fun saveTo(
@@ -76,7 +76,10 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     ) {
         doSaving(
             action = {
-                val processed = pdfManager.mergePdfs(uris.map(Uri::toString))
+                val processed = pdfManager.splitPdf(
+                    uri = _uri.value.toString(),
+                    pages = pages
+                )
 
                 fileController.transferBytes(
                     fromUri = processed,
@@ -107,7 +110,14 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     ) {
         doSharing(
             action = {
-                onSuccess(listOf(pdfManager.mergePdfs(uris.map(Uri::toString)).toUri()))
+                onSuccess(
+                    listOf(
+                        pdfManager.splitPdf(
+                            uri = _uri.value.toString(),
+                            pages = pages
+                        ).toUri()
+                    )
+                )
                 registerSave()
             },
             onFailure = onFailure
@@ -117,10 +127,10 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
-            initialUris: List<Uri>?,
+            initialUri: Uri?,
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
-        ): MergePdfToolComponent
+        ): SplitPdfToolComponent
     }
 }

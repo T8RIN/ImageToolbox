@@ -227,18 +227,18 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun splitPdf(
         uri: String,
-        pageRanges: List<IntRange>
-    ): List<String> = withContext(defaultDispatcher) {
+        pages: List<Int>?
+    ): String = withContext(defaultDispatcher) {
         PDDocument.load(uri.inputStream()).use { document ->
-            pageRanges.mapIndexedNotNull { index, range ->
-                shareProvider.cacheData(filename = tempName("split_$index")) { output ->
-                    PDDocument().use { newDoc ->
-                        range.forEach { i -> newDoc.addPage(document.getPage(i)) }
-                        newDoc.save(output.outputStream())
+            shareProvider.cacheData(filename = tempName("split")) { output ->
+                PDDocument().use { newDoc ->
+                    (pages ?: List(document.numberOfPages) { it }).forEach { index ->
+                        newDoc.addPage(document.getPage(index))
                     }
+                    newDoc.save(output.outputStream())
                 }
             }
-        }
+        } ?: throw IllegalAccessException("No PDF created")
     }
 
     override suspend fun rotatePdf(

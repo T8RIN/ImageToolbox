@@ -58,6 +58,7 @@ internal fun BasePdfToolContent(
     canShowScreenData: Boolean,
     title: String,
     actions: @Composable RowScope.() -> Unit,
+    topAppBarPersistentActions: @Composable RowScope.() -> Unit = {},
     imagePreview: @Composable () -> Unit,
     placeImagePreview: Boolean = true,
     showImagePreviewAsStickyHeader: Boolean = true,
@@ -142,6 +143,8 @@ internal fun BasePdfToolContent(
         topAppBarPersistentActions = {
             if (!canShowScreenData) {
                 TopAppBarEmoji()
+            } else {
+                topAppBarPersistentActions()
             }
         },
         imagePreview = imagePreview,

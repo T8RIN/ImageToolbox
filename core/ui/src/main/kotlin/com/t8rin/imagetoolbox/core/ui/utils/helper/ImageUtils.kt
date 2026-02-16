@@ -28,6 +28,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.key
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -261,17 +262,23 @@ object ImageUtils {
     }
 
     @Composable
-    fun rememberPdfPages(uri: Uri): State<Int> = produceState(0) {
-        val pageCount = runCatching {
-            appContext
-                .contentResolver
-                .openFileDescriptor(uri, FileMode.Read.mode)
-                ?.use { fd ->
-                    PdfRenderer(fd).use { it.pageCount }
-                } ?: 0
-        }.getOrDefault(0)
+    fun rememberPdfPages(uri: Uri?): State<Int> = key(uri) {
+        produceState(0) {
+            if (uri == null) {
+                value = 0
+                return@produceState
+            }
+            val pageCount = runCatching {
+                appContext
+                    .contentResolver
+                    .openFileDescriptor(uri, FileMode.Read.mode)
+                    ?.use { fd ->
+                        PdfRenderer(fd).use { it.pageCount }
+                    } ?: 0
+            }.getOrDefault(0)
 
-        value = pageCount
+            value = pageCount
+        }
     }
 
     @Composable

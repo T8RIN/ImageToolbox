@@ -94,12 +94,14 @@ class PdfDecoder(
 }
 
 fun PdfImageRequest(
-    data: Any,
+    data: Any?,
     pdfPage: Int = 0,
     size: Size? = null
 ): ImageRequest = ImageRequest.Builder(appContext)
     .data(data)
     .pdfPage(pdfPage)
+    .memoryCacheKey(data.toString() + pdfPage)
+    .diskCacheKey(data.toString() + pdfPage)
     .apply {
         size?.let(::size)
     }

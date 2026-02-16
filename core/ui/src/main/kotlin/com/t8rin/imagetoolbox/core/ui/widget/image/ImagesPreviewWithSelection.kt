@@ -92,7 +92,7 @@ import kotlinx.coroutines.isActive
 
 @Composable
 fun ImagesPreviewWithSelection(
-    imageUris: List<String>,
+    imageUris: List<Any>,
     imageFrames: ImageFrames,
     onFrameSelectionChange: (ImageFrames) -> Unit,
     isPortrait: Boolean,
@@ -342,7 +342,7 @@ fun ImagesPreviewWithSelection(
 @Composable
 private fun ImageItem(
     modifier: Modifier,
-    uri: String,
+    uri: Any,
     index: Int,
     onError: (String) -> Unit,
     selected: Boolean,
@@ -374,9 +374,11 @@ private fun ImageItem(
                 .padding(padding)
                 .clip(shape)
                 .background(MaterialTheme.colorScheme.surface),
-            onError = {
-                onError(uri)
-            },
+            onError = if (uri is String) {
+                {
+                    onError(uri)
+                }
+            } else null,
             error = {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -416,7 +418,7 @@ private fun ImageItem(
             content = {
                 aboveImageContent(index)
 
-                if (showExtension) {
+                if (showExtension && uri is String) {
                     val extension = rememberFileExtension(uri.toUri())?.uppercase()
                     val humanFileSize = rememberHumanFileSize(uri.toUri())
 

@@ -57,8 +57,8 @@ interface PdfManager<I> {
 
     suspend fun splitPdf(
         uri: String,
-        pageRanges: List<IntRange>
-    ): List<String>
+        pages: List<Int>?
+    ): String
 
     suspend fun rotatePdf(
         uri: String,

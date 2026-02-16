@@ -36,6 +36,7 @@ internal object PagesSelectionParser {
 
     fun formatPageOutput(pages: List<Int>): String {
         if (pages.isEmpty()) return ""
+        val pages = pages.sorted()
         val result = mutableListOf<String>()
         var start = pages[0]
         var prev = pages[0]

@@ -341,7 +341,8 @@ sealed class Screen(
         companion object {
             val options: List<Screen> by lazy {
                 listOf(
-                    Merge()
+                    Merge(),
+                    Split()
                 )
             }
         }
@@ -353,6 +354,15 @@ sealed class Screen(
             id = 44,
             title = R.string.merge_pdf,
             subtitle = R.string.merge_pdf_sub
+        )
+
+        @Serializable
+        data class Split(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 45,
+            title = R.string.split_pdf,
+            subtitle = R.string.split_pdf_sub
         )
     }
 

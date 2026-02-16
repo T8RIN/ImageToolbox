@@ -2134,4 +2134,6 @@
     <string name="merge_pdf_sub">Combine multiple PDF files into one document</string>
     <string name="files_order">Files Order</string>
     <string name="pages_short">pp.</string>
+    <string name="split_pdf">Split PDF</string>
+    <string name="split_pdf_sub">Extract specific pages from PDF document</string>
 </resources>
