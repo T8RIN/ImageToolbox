@@ -49,7 +49,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,22 +56,20 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
@@ -86,21 +83,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import kotlin.random.Random
+
 
 @Composable
-fun ImageReorderCarousel(
-    images: List<Uri>?,
+fun FileReorderVerticalList(
+    files: List<Uri>?,
     onReorder: (List<Uri>) -> Unit,
     modifier: Modifier = Modifier
         .container(ShapeDefaults.extraLarge),
-    onNeedToAddImage: () -> Unit,
-    onNeedToRemoveImageAt: (Int) -> Unit,
-    onNavigate: (Screen) -> Unit,
-    title: String = stringResource(R.string.images_order)
+    onNeedToAddFile: () -> Unit,
+    onNeedToRemoveFileAt: (Int) -> Unit,
+    title: String = stringResource(R.string.files_order)
 ) {
-    val data = remember { mutableStateOf(images ?: emptyList()) }
+    val data = remember { mutableStateOf(files ?: emptyList()) }
 
-    val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
     val state = rememberReorderableLazyListState(
@@ -113,15 +110,11 @@ fun ImageReorderCarousel(
         }
     )
 
-    LaunchedEffect(images) {
-        if (data.value.sorted() != images?.sorted()) {
-            data.value = images ?: emptyList()
+    LaunchedEffect(files) {
+        if (data.value.sorted() != files?.sorted()) {
+            data.value = files ?: emptyList()
             listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
         }
-    }
-
-    var previewUri by rememberSaveable {
-        mutableStateOf<Uri?>(null)
     }
 
     Column(
@@ -141,7 +134,7 @@ fun ImageReorderCarousel(
                 fontSize = 18.sp
             )
             EnhancedIconButton(
-                onClick = onNeedToAddImage,
+                onClick = onNeedToAddFile,
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 forceMinimumInteractiveComponentSize = false,
@@ -163,7 +156,7 @@ fun ImageReorderCarousel(
                     .size(30.dp),
                 onSortTypeSelected = { sortType ->
                     scope.launch(Dispatchers.Default) {
-                        val newValue = images
+                        val newValue = files
                             .orEmpty()
                             .sortedByType(
                                 sortType = sortType
@@ -178,7 +171,7 @@ fun ImageReorderCarousel(
             )
         }
         Box {
-            val showButton = (images?.size ?: 0) > 2 && !state.isAnyItemDragging
+            val showButton = (files?.size ?: 0) > 2 && !state.isAnyItemDragging
             LazyRow(
                 state = listState,
                 modifier = Modifier
@@ -219,7 +212,6 @@ fun ImageReorderCarousel(
                                         color = Color.Transparent,
                                         resultPadding = 0.dp
                                     )
-                                    .hapticsClickable { previewUri = uri }
                                     .longPressDraggableHandle(
                                         onDragStarted = {
                                             haptics.longPress()
@@ -261,7 +253,7 @@ fun ImageReorderCarousel(
                             ) {
                                 EnhancedButton(
                                     contentPadding = PaddingValues(),
-                                    onClick = { onNeedToRemoveImageAt(index) },
+                                    onClick = { onNeedToRemoveFileAt(index) },
                                     containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
                                         0.5f
                                     ),
@@ -281,14 +273,26 @@ fun ImageReorderCarousel(
             }
         }
     }
+}
 
-    ImagePager(
-        visible = previewUri != null,
-        selectedUri = previewUri,
-        uris = images,
-        onNavigate = onNavigate,
-        onUriSelected = { previewUri = it },
-        onShare = { context.shareUris(listOf(it)) },
-        onDismiss = { previewUri = null }
+@Composable
+@Preview
+private fun Preview() = ImageToolboxThemeForPreview(false) {
+    var files by remember {
+        mutableStateOf(
+            List(5) {
+                "file:///uri_$it.pdf".toUri()
+            }
+        )
+    }
+    FileReorderVerticalList(
+        files = files,
+        onReorder = { files = it },
+        onNeedToAddFile = {
+            files += "file:///uri_COCK${Random.nextInt()}.pdf".toUri()
+        },
+        onNeedToRemoveFileAt = {
+            files = files.toMutableList().apply { removeAt(it) }
+        }
     )
 }

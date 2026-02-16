@@ -161,7 +161,7 @@ fun Uri.tryExtractOriginal(): Uri = try {
         "image" in mimeType -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         "video" in mimeType -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         "audio" in mimeType -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        else -> MediaStore.Files.getContentUri("external")
+        else -> return this
     }
 
     ContentUris.withAppendedId(

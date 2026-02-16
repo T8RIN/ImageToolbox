@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -54,7 +56,7 @@ internal fun BasePdfToolContent(
     pdfPicker: FilePicker,
     isPickedAlready: Boolean,
     canShowScreenData: Boolean,
-    titleRes: Int,
+    title: String,
     actions: @Composable RowScope.() -> Unit,
     imagePreview: @Composable () -> Unit,
     placeImagePreview: Boolean = true,
@@ -94,7 +96,7 @@ internal fun BasePdfToolContent(
         showImagePreviewAsStickyHeader = showImagePreviewAsStickyHeader,
         title = {
             TopAppBarTitle(
-                title = stringResource(titleRes),
+                title = title,
                 input = null,
                 isLoading = component.isImageLoading,
                 size = null
@@ -147,6 +149,8 @@ internal fun BasePdfToolContent(
         buttons = { actions ->
             BottomButtonsBlock(
                 isNoData = !canShowScreenData,
+                secondaryButtonIcon = Icons.Rounded.FileOpen,
+                secondaryButtonText = stringResource(R.string.pick_file),
                 onSecondaryButtonClick = pdfPicker::pickFile,
                 onPrimaryButtonClick = {
                     saveLauncher.make(component.generatePdfFilename())

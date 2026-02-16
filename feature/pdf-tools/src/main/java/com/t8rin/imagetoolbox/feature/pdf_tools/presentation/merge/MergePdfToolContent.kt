@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
@@ -41,7 +42,7 @@ fun MergePdfToolContent(
         ),
         isPickedAlready = !component.initialUris.isNullOrEmpty(),
         canShowScreenData = component.uris.isNotEmpty(),
-        titleRes = R.string.merge_pdf,
+        title = stringResource(R.string.merge_pdf),
         actions = {},
         imagePreview = {},
         placeImagePreview = false,
@@ -58,8 +59,7 @@ fun MergePdfToolContent(
                 onReorder = component::setUris,
                 onNeedToAddImage = addFilesPicker::pickFile,
                 onNeedToRemoveImageAt = component::removeAt,
-                onNavigate = component.onNavigate,
-                title = R.string.order
+                onNavigate = component.onNavigate
             )
             Spacer(Modifier.height(20.dp))
         }
