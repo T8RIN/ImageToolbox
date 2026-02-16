@@ -342,7 +342,8 @@ sealed class Screen(
             val options: List<Screen> by lazy {
                 listOf(
                     Merge(),
-                    Split()
+                    Split(),
+                    Rotate()
                 )
             }
         }
@@ -363,6 +364,15 @@ sealed class Screen(
             id = 45,
             title = R.string.split_pdf,
             subtitle = R.string.split_pdf_sub
+        )
+
+        @Serializable
+        data class Rotate(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 46,
+            title = R.string.rotate_pdf,
+            subtitle = R.string.rotate_pdf_sub
         )
     }
 

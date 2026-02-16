@@ -88,6 +88,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolC
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.SplitPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
@@ -390,5 +392,10 @@ internal sealed interface NavigationChild {
     class SplitPdfTool(private val component: SplitPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = SplitPdfToolContent(component)
+    }
+
+    class RotatePdfTool(private val component: RotatePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = RotatePdfToolContent(component)
     }
 }

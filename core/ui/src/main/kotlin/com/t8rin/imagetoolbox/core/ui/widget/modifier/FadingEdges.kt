@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
@@ -112,14 +114,17 @@ fun Modifier.fadingEdges(
             }
 
             is LazyGridState -> {
-                require(spanCount != null)
                 if (isVertical) {
                     Modifier.verticalFadingEdges(
                         gravity = gravity,
                         contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
-                            spanCount = spanCount
+                            spanCount = spanCount ?: remember(scrollableState) {
+                                derivedStateOf {
+                                    scrollableState.layoutInfo.maxSpan
+                                }
+                            }.value
                         ),
                         fillType = fillType,
                         length = length
@@ -130,7 +135,11 @@ fun Modifier.fadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
-                            spanCount = spanCount
+                            spanCount = spanCount ?: remember(scrollableState) {
+                                derivedStateOf {
+                                    scrollableState.layoutInfo.maxSpan
+                                }
+                            }.value
                         ),
                         fillType = fillType,
                         length = length

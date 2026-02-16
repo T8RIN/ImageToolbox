@@ -21,12 +21,9 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -48,10 +45,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import coil3.SingletonImageLoader
 import coil3.compose.AsyncImageModelEqualityDelegate
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalAsyncImageModelEqualityDelegate
+import coil3.compose.LocalPlatformContext
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageScope
 import coil3.imageLoader
@@ -62,8 +62,8 @@ import coil3.request.transformations
 import coil3.toBitmap
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.findActivity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import kotlinx.coroutines.Dispatchers
@@ -138,15 +138,6 @@ fun Picture(
             )
         }
 
-        else if LocalInspectionMode.current -> {
-            Box(
-                modifier.background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = shape
-                )
-            )
-        }
-
         else -> {
             CoilPicture(
                 model = model,
@@ -207,7 +198,7 @@ private fun CoilPicture(
     size: Int?,
     contentPadding: PaddingValues = PaddingValues()
 ) {
-    val context = LocalComponentActivity.current
+    val context = LocalContext.current
 
     var errorOccurred by rememberSaveable { mutableStateOf(false) }
 
@@ -221,7 +212,7 @@ private fun CoilPicture(
                 GenericTransformation<Bitmap> { bitmap ->
                     withContext(Dispatchers.Main.immediate) {
                         delay(1000)
-                        context.window.colorMode = if (bitmap.hasGainmap()) {
+                        context.findActivity()?.window?.colorMode = if (bitmap.hasGainmap()) {
                             ActivityInfo.COLOR_MODE_HDR
                         } else ActivityInfo.COLOR_MODE_DEFAULT
                     }
@@ -257,7 +248,7 @@ private fun CoilPicture(
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && enableUltraHDRSupport) {
         DisposableEffect(model) {
             onDispose {
-                context.window.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
+                context.findActivity()?.window?.colorMode = ActivityInfo.COLOR_MODE_DEFAULT
             }
         }
     }
@@ -267,12 +258,21 @@ private fun CoilPicture(
     ) {
         SubcomposeAsyncImage(
             model = request,
-            imageLoader = imageLoader,
+            imageLoader = if (LocalInspectionMode.current) {
+                SingletonImageLoader.get(LocalPlatformContext.current)
+            } else imageLoader,
             contentDescription = contentDescription,
             modifier = modifier
                 .clip(shape)
-                .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-                .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
+                .then(
+                    if (!LocalInspectionMode.current) {
+                        Modifier
+                            .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
+                            .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
+                    } else {
+                        Modifier
+                    }
+                )
                 .padding(contentPadding),
             contentScale = contentScale,
             loading = {
@@ -283,7 +283,7 @@ private fun CoilPicture(
             error = error,
             onSuccess = {
                 if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
-                    context.window.colorMode =
+                    context.findActivity()?.window?.colorMode =
                         if (it.result.image.toBitmap(400, 400).hasGainmap()) {
                             ActivityInfo.COLOR_MODE_HDR
                         } else ActivityInfo.COLOR_MODE_DEFAULT
