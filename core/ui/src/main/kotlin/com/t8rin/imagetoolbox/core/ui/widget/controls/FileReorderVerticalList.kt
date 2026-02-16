@@ -30,17 +30,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,15 +62,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
+import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -73,10 +83,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.utils.sortedByType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -91,15 +101,25 @@ fun FileReorderVerticalList(
     files: List<Uri>?,
     onReorder: (List<Uri>) -> Unit,
     modifier: Modifier = Modifier
-        .container(ShapeDefaults.extraLarge),
+        .container(
+            shape = ShapeDefaults.extraLarge,
+            clip = false
+        ),
     onNeedToAddFile: () -> Unit,
     onNeedToRemoveFileAt: (Int) -> Unit,
-    title: String = stringResource(R.string.files_order)
+    additionalInfo: (@Composable (Uri) -> String)? = {
+        val pages by rememberPdfPages(it)
+
+        "$pages ${stringResource(R.string.pages_short)}"
+    },
+    title: String = stringResource(R.string.files_order),
+    coerceHeight: Boolean = true
 ) {
     val data = remember { mutableStateOf(files ?: emptyList()) }
 
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
+
     val state = rememberReorderableLazyListState(
         lazyListState = listState,
         onMove = { from, to ->
@@ -118,21 +138,38 @@ fun FileReorderVerticalList(
     }
 
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .then(
+                if (coerceHeight) {
+                    Modifier
+                        .heightIn(
+                            max = LocalWindowInfo.current.containerDpSize.height * 0.7f
+                        )
+                } else {
+                    Modifier
+                }
+            ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            modifier = Modifier
+                .padding(
+                    top = 16.dp,
+                    bottom = 8.dp,
+                    start = 16.dp,
+                    end = 8.dp
+                )
         ) {
             Text(
                 fontWeight = FontWeight.Medium,
                 text = title,
-                modifier = Modifier.padding(start = 8.dp),
-                fontSize = 18.sp
+                modifier = Modifier.weight(1f),
+                fontSize = 18.sp,
             )
+            Spacer(Modifier.width(16.dp))
             EnhancedIconButton(
                 onClick = onNeedToAddFile,
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -170,15 +207,20 @@ fun FileReorderVerticalList(
                 }
             )
         }
-        Box {
-            val showButton = (files?.size ?: 0) > 2 && !state.isAnyItemDragging
-            LazyRow(
+        Box(
+            modifier = Modifier.weight(1f, false)
+        ) {
+            val showButton = (files?.size ?: 0) >= 2
+            LazyColumn(
                 state = listState,
                 modifier = Modifier
-                    .fadingEdges(scrollableState = listState)
+                    .fadingEdges(
+                        scrollableState = listState,
+                        isVertical = true
+                    )
                     .animateContentSizeNoClip(),
                 contentPadding = PaddingValues(12.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 flingBehavior = enhancedFlingBehavior()
             ) {
                 itemsIndexed(
@@ -187,49 +229,53 @@ fun FileReorderVerticalList(
                 ) { index, uri ->
                     ReorderableItem(
                         state = state,
-                        key = uri.toString() + uri.hashCode()
+                        key = uri.toString() + uri.hashCode(),
                     ) { isDragging ->
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
-                        val shape = animateShape(
-                            if (showButton) ShapeDefaults.top
-                            else ShapeDefaults.default
-                        )
 
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scale(
+                                    animateFloatAsState(
+                                        if (isDragging) 1.05f
+                                        else 1f
+                                    ).value
+                                )
+                                .container(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    resultPadding = 8.dp
+                                )
+                                .longPressDraggableHandle(
+                                    onDragStarted = {
+                                        haptics.longPress()
+                                    },
+                                    onDragStopped = {
+                                        onReorder(data.value)
+                                    }
+                                )
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(120.dp)
-                                    .scale(
-                                        animateFloatAsState(
-                                            if (isDragging) 1.05f
-                                            else 1f
-                                        ).value
-                                    )
+                                    .height(80.dp)
                                     .container(
-                                        shape = shape,
+                                        shape = ShapeDefaults.small,
                                         color = Color.Transparent,
                                         resultPadding = 0.dp
-                                    )
-                                    .longPressDraggableHandle(
-                                        onDragStarted = {
-                                            haptics.longPress()
-                                        },
-                                        onDragStopped = {
-                                            onReorder(data.value)
-                                        }
                                     )
                             ) {
                                 Picture(
                                     model = uri,
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .defaultMinSize(minWidth = 60.dp),
                                     shape = RectangleShape,
-                                    contentScale = ContentScale.Fit
+                                    contentScale = ContentScale.FillHeight
                                 )
                                 Box(
                                     modifier = Modifier
-                                        .size(120.dp)
+                                        .matchParentSize()
                                         .background(
                                             MaterialTheme.colorScheme
                                                 .surfaceContainer
@@ -245,26 +291,45 @@ fun FileReorderVerticalList(
                                     )
                                 }
                             }
+                            Spacer(Modifier.width(16.dp))
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = rememberFilename(uri) ?: uri.toString(),
+                                    style = PreferenceItemDefaults.TitleFontStyle
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                val size = rememberHumanFileSize(uri)
+                                Text(
+                                    text = additionalInfo?.let {
+                                        "$size • ${additionalInfo(uri)}"
+                                    } ?: size,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Start,
+                                    fontWeight = FontWeight.Normal,
+                                    lineHeight = 14.sp,
+                                    color = LocalContentColor.current.copy(alpha = 0.5f)
+                                )
+                            }
+                            Spacer(Modifier.width(16.dp))
                             BoxAnimatedVisibility(
                                 visible = showButton,
                                 enter = expandVertically(tween(300)) + fadeIn(),
-                                exit = shrinkVertically(tween(300)) + fadeOut(),
-                                modifier = Modifier.width(120.dp)
+                                exit = shrinkVertically(tween(300)) + fadeOut()
                             ) {
-                                EnhancedButton(
-                                    contentPadding = PaddingValues(),
+                                EnhancedIconButton(
                                     onClick = { onNeedToRemoveFileAt(index) },
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        0.5f
+                                    containerColor = MaterialTheme.colorScheme.errorContainer.copy(
+                                        0.4f
                                     ),
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    shape = ShapeDefaults.bottom,
-                                    modifier = Modifier
-                                        .padding(top = 4.dp)
-                                        .height(30.dp)
-                                        .width(120.dp)
+                                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                    modifier = Modifier.padding(top = 4.dp)
                                 ) {
-                                    Text(stringResource(R.string.remove), fontSize = 11.sp)
+                                    Icon(
+                                        imageVector = Icons.Outlined.Delete,
+                                        contentDescription = null
+                                    )
                                 }
                             }
                         }
@@ -276,23 +341,34 @@ fun FileReorderVerticalList(
 }
 
 @Composable
-@Preview
-private fun Preview() = ImageToolboxThemeForPreview(false) {
+@EnPreview
+private fun Preview() = ImageToolboxThemeForPreview(true) {
     var files by remember {
         mutableStateOf(
-            List(5) {
+            List(15) {
                 "file:///uri_$it.pdf".toUri()
             }
         )
     }
-    FileReorderVerticalList(
-        files = files,
-        onReorder = { files = it },
-        onNeedToAddFile = {
-            files += "file:///uri_COCK${Random.nextInt()}.pdf".toUri()
-        },
-        onNeedToRemoveFileAt = {
-            files = files.toMutableList().apply { removeAt(it) }
+    LazyColumn {
+        item {
+            FileReorderVerticalList(
+                files = files,
+                onReorder = { files = it },
+                onNeedToAddFile = {
+                    files += "file:///uri_COCK${Random.nextInt()}.pdf".toUri()
+                },
+                additionalInfo = {
+                    "30 pages"
+                },
+                onNeedToRemoveFileAt = {
+                    files = files.toMutableList().apply { removeAt(it) }
+                }
+            )
         }
-    )
+
+        items(30) {
+            Text("COCK $it")
+        }
+    }
 }

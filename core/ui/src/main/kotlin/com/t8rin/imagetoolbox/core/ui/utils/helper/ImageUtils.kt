@@ -20,12 +20,15 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -40,9 +43,11 @@ import androidx.core.text.isDigitsOnly
 import coil3.Image
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
+import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import java.util.Locale
 
@@ -253,6 +258,20 @@ object ImageUtils {
                 humanFileSize(size, 2)
             }
         }.value
+    }
+
+    @Composable
+    fun rememberPdfPages(uri: Uri): State<Int> = produceState(0) {
+        val pageCount = runCatching {
+            appContext
+                .contentResolver
+                .openFileDescriptor(uri, FileMode.Read.mode)
+                ?.use { fd ->
+                    PdfRenderer(fd).use { it.pageCount }
+                } ?: 0
+        }.getOrDefault(0)
+
+        value = pageCount
     }
 
     @Composable

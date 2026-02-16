@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
+import com.t8rin.imagetoolbox.core.ui.widget.controls.FileReorderVerticalList
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 
@@ -54,12 +54,11 @@ fun MergePdfToolContent(
             )
 
             Spacer(Modifier.height(20.dp))
-            ImageReorderCarousel(
-                images = component.uris,
+            FileReorderVerticalList(
+                files = component.uris,
                 onReorder = component::setUris,
-                onNeedToAddImage = addFilesPicker::pickFile,
-                onNeedToRemoveImageAt = component::removeAt,
-                onNavigate = component.onNavigate
+                onNeedToAddFile = addFilesPicker::pickFile,
+                onNeedToRemoveFileAt = component::removeAt
             )
             Spacer(Modifier.height(20.dp))
         }

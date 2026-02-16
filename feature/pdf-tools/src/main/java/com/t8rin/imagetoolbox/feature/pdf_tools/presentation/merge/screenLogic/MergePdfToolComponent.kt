@@ -51,10 +51,13 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
+    override val _haveChanges: MutableState<Boolean> = mutableStateOf(!initialUris.isNullOrEmpty())
+
     private val _uris: MutableState<List<Uri>> = mutableStateOf(initialUris.orEmpty())
     val uris by _uris
 
     fun setUris(uris: List<Uri>) {
+        registerChanges()
         _uris.update { uris }
     }
 
@@ -77,7 +80,7 @@ class MergePdfToolComponent @AssistedInject internal constructor(
                 fileController.transferBytes(
                     fromUri = processed,
                     toUri = uri.toString()
-                )
+                ).onSuccess(::registerSave)
             },
             onResult = onResult
         )
@@ -90,6 +93,7 @@ class MergePdfToolComponent @AssistedInject internal constructor(
         prepareForSharing(
             onSuccess = {
                 shareProvider.shareUris(it.map(Uri::toString))
+                registerSave()
                 onSuccess()
             },
             onFailure = onFailure
@@ -103,6 +107,7 @@ class MergePdfToolComponent @AssistedInject internal constructor(
         doSharing(
             action = {
                 onSuccess(listOf(pdfManager.mergePdfs(uris.map(Uri::toString)).toUri()))
+                registerSave()
             },
             onFailure = onFailure
         )

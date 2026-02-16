@@ -2133,4 +2133,5 @@
     <string name="merge_pdf">Merge PDF</string>
     <string name="merge_pdf_sub">Combine multiple PDF files into one document</string>
     <string name="files_order">Files Order</string>
+    <string name="pages_short">pp.</string>
 </resources>
