@@ -344,7 +344,8 @@ sealed class Screen(
                     Merge(),
                     Split(),
                     Rotate(),
-                    Rearrange()
+                    Rearrange(),
+                    PageNumbers()
                 )
             }
         }
@@ -383,6 +384,15 @@ sealed class Screen(
             id = 47,
             title = R.string.rearrange_pdf,
             subtitle = R.string.rearrange_pdf_sub
+        )
+
+        @Serializable
+        data class PageNumbers(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 48,
+            title = R.string.page_numbers,
+            subtitle = R.string.page_numbers_sub
         )
     }
 

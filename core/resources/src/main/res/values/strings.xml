@@ -2141,5 +2141,8 @@
     <string name="pages">Pages</string>
     <string name="rearrange_pdf">Rearrange PDF</string>
     <string name="rearrange_pdf_sub">Drag and drop pages to reorder them</string>
-    <string name="hold_drag_drop"><![CDATA[Hold & Drag pages]]></string>
+    <string name="hold_drag_drop">Hold &amp; Drag pages</string>
+    <string name="page_numbers">Page Numbers</string>
+    <string name="page_numbers_sub">Add numbering to your documents automatically</string>
+    <string name="label_format">Label Format</string>
 </resources>

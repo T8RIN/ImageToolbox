@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.Position
 
 interface PdfManager<I> {
 
@@ -73,7 +74,8 @@ interface PdfManager<I> {
     suspend fun addPageNumbers(
         uri: String,
         labelFormat: String,
-        position: PageNumberPosition
+        position: Position,
+        color: Int
     ): String
 
     suspend fun addWatermark(

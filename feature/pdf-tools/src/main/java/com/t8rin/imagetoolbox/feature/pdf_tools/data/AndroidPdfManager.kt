@@ -42,10 +42,11 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PageNumberPosition
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
+import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
@@ -274,8 +275,11 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun addPageNumbers(
         uri: String,
         labelFormat: String,
-        position: PageNumberPosition
+        position: Position,
+        color: Int
     ): String = withContext(defaultDispatcher) {
+        val color = Color(color)
+
         shareProvider.cacheData(filename = tempName("numbered")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
@@ -285,15 +289,56 @@ internal class AndroidPdfManager @Inject constructor(
                     val text = labelFormat.replace("{n}", (idx + 1).toString())
                         .replace("{total}", totalPages.toString())
 
-                    val x = when (position) {
-                        PageNumberPosition.TOP_LEFT, PageNumberPosition.BOTTOM_LEFT -> 10f
-                        PageNumberPosition.TOP_CENTER, PageNumberPosition.BOTTOM_CENTER -> page.mediaBox.width / 2
-                        PageNumberPosition.TOP_RIGHT, PageNumberPosition.BOTTOM_RIGHT -> page.mediaBox.width - 10f
+                    val pageWidth = page.mediaBox.width
+                    val pageHeight = page.mediaBox.height
+                    val textWidth = font.getStringWidth(text) / 1000f * 12f
+
+                    val baseX = when (position) {
+                        Position.TopLeft,
+                        Position.CenterLeft,
+                        Position.BottomLeft -> 10f
+
+                        Position.TopCenter,
+                        Position.Center,
+                        Position.BottomCenter -> pageWidth / 2f
+
+                        Position.TopRight,
+                        Position.CenterRight,
+                        Position.BottomRight -> pageWidth - 10f
                     }
 
-                    val y = when (position) {
-                        PageNumberPosition.TOP_LEFT, PageNumberPosition.TOP_CENTER, PageNumberPosition.TOP_RIGHT -> page.mediaBox.height - 20f
-                        PageNumberPosition.BOTTOM_LEFT, PageNumberPosition.BOTTOM_CENTER, PageNumberPosition.BOTTOM_RIGHT -> 20f
+                    val baseY = when (position) {
+                        Position.TopLeft,
+                        Position.TopCenter,
+                        Position.TopRight -> pageHeight - 20f
+
+                        Position.CenterLeft,
+                        Position.Center,
+                        Position.CenterRight -> pageHeight / 2f
+
+                        Position.BottomLeft,
+                        Position.BottomCenter,
+                        Position.BottomRight -> 20f
+                    }
+
+                    val adjustedX = when (position) {
+                        Position.TopCenter,
+                        Position.Center,
+                        Position.BottomCenter -> baseX - textWidth / 2f
+
+                        Position.TopRight,
+                        Position.CenterRight,
+                        Position.BottomRight -> baseX - textWidth
+
+                        else -> baseX
+                    }
+
+                    val adjustedY = when (position) {
+                        Position.CenterLeft,
+                        Position.Center,
+                        Position.CenterRight -> baseY - 6f
+
+                        else -> baseY
                     }
 
                     PDPageContentStream(
@@ -304,20 +349,15 @@ internal class AndroidPdfManager @Inject constructor(
                     ).use { stream ->
                         stream.beginText()
                         stream.setFont(font, 12f)
-
-                        val adjustedX = when (position) {
-                            PageNumberPosition.TOP_CENTER, PageNumberPosition.BOTTOM_CENTER -> x - (font.getStringWidth(
-                                text
-                            ) / 1000f * 12f / 2f)
-
-                            PageNumberPosition.TOP_RIGHT, PageNumberPosition.BOTTOM_RIGHT -> x - (font.getStringWidth(
-                                text
-                            ) / 1000f * 12f)
-
-                            else -> x
-                        }
-
-                        stream.newLineAtOffset(adjustedX, y)
+                        stream.setNonStrokingColor(
+                            AWTColor(
+                                (color.red * 255).roundToInt(),
+                                (color.green * 255).roundToInt(),
+                                (color.blue * 255).roundToInt(),
+                                (color.alpha * 255).roundToInt()
+                            )
+                        )
+                        stream.newLineAtOffset(adjustedX, adjustedY)
                         stream.showText(text)
                         stream.endText()
                     }
