@@ -358,7 +358,7 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
                 files = files,
                 onReorder = { files = it },
                 onNeedToAddFile = {
-                    files += "file:///uri_COCK${Random.nextInt()}.pdf".toUri()
+                    files += "file:///uri_TEST${Random.nextInt()}.pdf".toUri()
                 },
                 additionalInfo = {
                     "30 pages"
@@ -370,7 +370,7 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
         }
 
         items(30) {
-            Text("COCK $it")
+            Text("TEST $it")
         }
     }
 }

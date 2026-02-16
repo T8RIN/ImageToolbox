@@ -343,7 +343,8 @@ sealed class Screen(
                 listOf(
                     Merge(),
                     Split(),
-                    Rotate()
+                    Rotate(),
+                    Rearrange()
                 )
             }
         }
@@ -373,6 +374,15 @@ sealed class Screen(
             id = 46,
             title = R.string.rotate_pdf,
             subtitle = R.string.rotate_pdf_sub
+        )
+
+        @Serializable
+        data class Rearrange(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 47,
+            title = R.string.rearrange_pdf,
+            subtitle = R.string.rearrange_pdf_sub
         )
     }
 

@@ -2139,4 +2139,7 @@
     <string name="rotate_pdf">Rotate PDF</string>
     <string name="rotate_pdf_sub">Fix page orientation permanently</string>
     <string name="pages">Pages</string>
+    <string name="rearrange_pdf">Rearrange PDF</string>
+    <string name="rearrange_pdf_sub">Drag and drop pages to reorder them</string>
+    <string name="hold_drag_drop"><![CDATA[Hold & Drag pages]]></string>
 </resources>

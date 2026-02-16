@@ -30,6 +30,7 @@ import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
+import androidx.compose.material.icons.outlined.SwapVerticalCircle
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Rotate90DegreesCcw
 import androidx.compose.material.icons.rounded.Tag
@@ -45,6 +46,7 @@ import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material.icons.twotone.Rotate90DegreesCcw
+import androidx.compose.material.icons.twotone.SwapVerticalCircle
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
@@ -202,6 +204,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Merge -> "PdfTools_Merge"
     is PdfTools.Split -> "PdfTools_Split"
     is PdfTools.Rotate -> "PdfTools_Rotate"
+    is PdfTools.Rearrange -> "PdfTools_Rearrange"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -259,6 +262,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
     is PdfTools.Split -> Icons.Rounded.Scissors
     is PdfTools.Rotate -> Icons.Rounded.Rotate90DegreesCcw
+    is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -316,6 +320,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
     is PdfTools.Split -> Icons.TwoTone.Scissors
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90DegreesCcw
+    is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

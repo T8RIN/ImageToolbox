@@ -154,6 +154,7 @@ fun SplitPdfToolContent(
                 }
             }
         },
+        canSave = !component.pages.isNullOrEmpty(),
         actions = {},
         imagePreview = {
             key(trigger, pagesCount, component.uri) {

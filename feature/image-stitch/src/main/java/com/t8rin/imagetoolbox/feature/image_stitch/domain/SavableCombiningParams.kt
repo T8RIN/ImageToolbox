@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
-import com.t8rin.logger.makeLog
 
 data class SavableCombiningParams(
     val stitchMode: String,
@@ -71,4 +70,4 @@ fun SavableCombiningParams.toParams() = CombiningParams(
     outputScale = outputScale,
     blendingMode = BlendingMode.entries.find { it.value == blendingMode } ?: BlendingMode.SrcOver,
     fadeStrength = fadeStrength
-).makeLog("COCK")
+)

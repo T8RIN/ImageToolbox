@@ -19,10 +19,8 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Preview
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -30,15 +28,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 @Composable
 fun PreviewPdfPreference(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceContainerHigh
+    modifier: Modifier = Modifier
 ) {
     PreferenceItem(
         onClick = onClick,
         startIcon = Icons.Rounded.Preview,
         title = stringResource(R.string.preview_pdf),
         subtitle = stringResource(R.string.preview_pdf_sub),
-        containerColor = color,
         modifier = modifier
     )
 }

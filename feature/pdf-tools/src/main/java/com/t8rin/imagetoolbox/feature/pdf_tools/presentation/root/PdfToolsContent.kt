@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Pages
@@ -192,6 +193,31 @@ fun PdfToolsContent(
                             showSelectionPdfPicker = false
                         },
                         modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                items(Screen.PdfTools.options) { screen ->
+                    PreferenceItem(
+                        title = stringResource(screen.title),
+                        subtitle = stringResource(screen.subtitle),
+                        startIcon = screen.icon,
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            showSelectionPdfPicker = false
+                            component.onNavigate(
+                                when (screen) {
+                                    is Screen.PdfTools.Merge -> screen.copy(
+                                        uris = tempSelectionUri?.let(
+                                            ::listOf
+                                        )
+                                    )
+
+                                    is Screen.PdfTools.Split -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Rotate -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Rearrange -> screen.copy(uri = tempSelectionUri)
+                                    else -> screen
+                                }
+                            )
+                        }
                     )
                 }
             }

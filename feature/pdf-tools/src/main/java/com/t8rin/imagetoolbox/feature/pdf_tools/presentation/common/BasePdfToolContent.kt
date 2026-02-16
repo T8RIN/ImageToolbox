@@ -63,6 +63,7 @@ internal fun BasePdfToolContent(
     placeImagePreview: Boolean = true,
     showImagePreviewAsStickyHeader: Boolean = true,
     controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
+    canSave: Boolean = true
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -110,6 +111,7 @@ internal fun BasePdfToolContent(
             }
 
             ShareButton(
+                enabled = canSave,
                 onShare = {
                     component.performSharing(
                         onSuccess = showConfetti,
@@ -152,6 +154,7 @@ internal fun BasePdfToolContent(
         buttons = { actions ->
             BottomButtonsBlock(
                 isNoData = !canShowScreenData,
+                isPrimaryButtonVisible = canSave,
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 onSecondaryButtonClick = pdfPicker::pickFile,

@@ -15,12 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.components
 
 import android.graphics.drawable.GradientDrawable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,10 +37,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.RotateRight
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,11 +52,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,32 +71,47 @@ import coil3.request.ImageRequest
 import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.core.utils.appContext
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyGridState
 
 @Composable
-internal fun PdfPagesRotationGrid(
-    pages: List<Any>,
+internal fun PdfPagesRearrangeGrid(
+    pages: List<PageData>?,
     modifier: Modifier = Modifier
         .container(
             shape = ShapeDefaults.extraLarge,
             clip = false
         ),
-    onRotateAll: () -> Unit,
-    onClearAll: () -> Unit,
-    rotations: List<Int>,
-    onRotateAt: (Int) -> Unit,
-    title: String = stringResource(R.string.pages),
+    onReorder: (List<PageData>) -> Unit,
+    title: String = stringResource(R.string.hold_drag_drop),
     coerceHeight: Boolean = true
 ) {
+    val data = remember(pages) { mutableStateOf(pages ?: emptyList()) }
+
+    val haptics = LocalHapticFeedback.current
+    val listState = rememberLazyGridState()
+
+    val state = rememberReorderableLazyGridState(
+        lazyGridState = listState,
+        onMove = { from, to ->
+            haptics.press()
+            data.value = data.value.toMutableList().apply {
+                add(to.index, removeAt(from.index))
+            }
+        }
+    )
+
     Column(
         modifier = modifier
             .then(
@@ -132,35 +145,11 @@ internal fun PdfPagesRotationGrid(
                 fontSize = 18.sp,
             )
             Spacer(Modifier.width(16.dp))
-            EnhancedButton(
-                onClick = onRotateAll,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                contentPadding = PaddingValues(
-                    start = 8.dp,
-                    end = 12.dp
-                ),
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .height(30.dp),
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.RotateRight,
-                        contentDescription = "Rotate 90",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        stringResource(R.string.all)
-                    )
-                }
-            }
 
             EnhancedButton(
-                onClick = onClearAll,
+                onClick = {
+                    onReorder(data.value.sortedBy { it.index })
+                },
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 contentPadding = PaddingValues(
@@ -188,7 +177,6 @@ internal fun PdfPagesRotationGrid(
         Box(
             modifier = Modifier.weight(1f, false)
         ) {
-            val listState = rememberLazyGridState()
             LazyVerticalGrid(
                 state = listState,
                 modifier = Modifier
@@ -203,56 +191,58 @@ internal fun PdfPagesRotationGrid(
                 flingBehavior = enhancedFlingBehavior(),
                 columns = GridCells.Adaptive(minSize = 150.dp)
             ) {
-                itemsIndexed(
-                    items = pages,
-                    key = { _, uri -> uri.toString() + uri.hashCode() }
-                ) { index, uri ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .container(
-                                color = MaterialTheme.colorScheme.surface,
-                                resultPadding = 8.dp
-                            )
-                            .container(
-                                shape = ShapeDefaults.small,
-                                color = Color.Transparent,
-                                resultPadding = 0.dp
-                            )
-                            .clickable {
-                                onRotateAt(index)
-                            }
-                    ) {
-                        Picture(
-                            model = uri,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .transparencyChecker()
-                                .rotate(
-                                    animateFloatAsState(
-                                        targetValue = rotations.getOrNull(index)?.toFloat() ?: 0f,
-                                        animationSpec = lessSpringySpec()
-                                    ).value
-                                ),
-                            showTransparencyChecker = false,
-                            shape = RectangleShape,
-                            contentScale = ContentScale.Inside
-                        )
+                items(
+                    items = data.value,
+                    key = { uri -> uri.toString() + uri.hashCode() }
+                ) { uri ->
+                    ReorderableItem(
+                        state = state,
+                        key = uri.toString() + uri.hashCode(),
+                    ) { isDragging ->
+                        val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
                         Box(
                             modifier = Modifier
-                                .matchParentSize()
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceContainer.copy(0.6f)
-                                ),
-                            contentAlignment = Alignment.Center
+                                .fillMaxWidth()
+                                .aspectRatio(1f)
+                                .container(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    resultPadding = 8.dp
+                                )
+                                .container(
+                                    shape = ShapeDefaults.small,
+                                    color = Color.Transparent,
+                                    resultPadding = 0.dp
+                                )
+                                .longPressDraggableHandle(
+                                    onDragStarted = {
+                                        haptics.longPress()
+                                    },
+                                    onDragStopped = {
+                                        onReorder(data.value)
+                                    }
+                                )
                         ) {
-                            Text(
-                                text = "${index + 1}",
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
+                            Picture(
+                                model = uri.request,
+                                modifier = Modifier.fillMaxSize(),
+                                shape = RectangleShape,
+                                contentScale = ContentScale.Inside
                             )
+                            Box(
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceContainer.copy(alpha)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "${uri.index + 1}",
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
@@ -261,22 +251,26 @@ internal fun PdfPagesRotationGrid(
     }
 }
 
+internal data class PageData(
+    val index: Int,
+    val request: ImageRequest
+)
+
 @Composable
 @EnPreview
 private fun Preview() = ImageToolboxThemeForPreview(true) {
     var files by remember {
         mutableStateOf(
             List(15) {
-                "file:///uri_$it.pdf".toUri()
+                PageData(
+                    index = it,
+                    request = ImageRequest.Builder(appContext).data("file:///uri_$it.pdf".toUri())
+                        .build()
+                )
             }
         )
     }
 
-    var rotations by remember(files) {
-        mutableStateOf(
-            List(files.size) { 0 }
-        )
-    }
     CompositionLocalProvider(
         LocalAsyncImagePreviewHandler provides remember {
             AsyncImagePreviewHandler(
@@ -297,19 +291,10 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
     ) {
         LazyColumn {
             item {
-                PdfPagesRotationGrid(
+                PdfPagesRearrangeGrid(
                     pages = files,
-                    rotations = rotations,
-                    onRotateAll = {
-                        rotations = rotations.map { (it + 90) % 360 }
-                    },
-                    onClearAll = {
-                        rotations = rotations.map { 0 }
-                    },
-                    onRotateAt = {
-                        rotations = rotations.toMutableList().apply {
-                            this[it] = (this[it] + 90) % 360
-                        }
+                    onReorder = {
+                        files = it
                     }
                 )
             }

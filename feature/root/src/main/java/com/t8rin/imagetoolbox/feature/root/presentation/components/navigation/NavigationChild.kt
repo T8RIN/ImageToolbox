@@ -86,6 +86,8 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsCon
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.RearrangePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
@@ -397,5 +399,10 @@ internal sealed interface NavigationChild {
     class RotatePdfTool(private val component: RotatePdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = RotatePdfToolContent(component)
+    }
+
+    class RearrangePdfTool(private val component: RearrangePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = RearrangePdfToolContent(component)
     }
 }
