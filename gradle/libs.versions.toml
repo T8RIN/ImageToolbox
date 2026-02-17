@@ -58,7 +58,7 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0"
 
 espresso = "3.7.0"
-ksp = "2.3.5"
+ksp = "2.3.6"
 
 androidx-test-ext-junit = "1.3.0"
 documentfile = "1.1.0"
