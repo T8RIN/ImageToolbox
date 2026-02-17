@@ -84,6 +84,10 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsC
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.GrayscalePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.OCRPdfToolContent
@@ -94,6 +98,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.ProtectPdfT
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.RearrangePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.RepairPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
@@ -446,5 +452,20 @@ internal sealed interface NavigationChild {
     class UnlockPdfTool(private val component: UnlockPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = UnlockPdfToolContent(component)
+    }
+
+    class CompressPdfTool(private val component: CompressPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = CompressPdfToolContent(component)
+    }
+
+    class GrayscalePdfTool(private val component: GrayscalePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = GrayscalePdfToolContent(component)
+    }
+
+    class RepairPdfTool(private val component: RepairPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = RepairPdfToolContent(component)
     }
 }

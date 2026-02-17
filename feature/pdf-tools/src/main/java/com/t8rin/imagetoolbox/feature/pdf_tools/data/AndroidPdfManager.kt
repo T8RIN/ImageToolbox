@@ -19,6 +19,9 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -57,7 +60,9 @@ import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
+import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
+import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -549,6 +554,88 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             }
         } ?: throw NullPointerException("File cannot be read")
+    }
+
+    override suspend fun compressPdf(
+        uri: String,
+        quality: Float
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("compressed")) { output ->
+            PDDocument.load(uri.inputStream(), password).use { document ->
+                document.pages.forEach { page ->
+                    val resources = page.resources
+                    val xObjectNames = resources.xObjectNames
+                    xObjectNames.forEach { name ->
+                        val xobj = resources.getXObject(name)
+                        if (xobj is PDImageXObject) {
+                            val orig = xobj.image
+
+                            val jpeg = JPEGFactory.createFromImage(
+                                document,
+                                orig,
+                                quality
+                            )
+
+                            resources.put(name, jpeg)
+                        }
+                    }
+                }
+
+                document.save(output.outputStream())
+            }
+        }
+    }
+
+    override suspend fun convertToGrayscale(uri: String): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("grayscale")) { output ->
+            PDDocument.load(uri.inputStream(), password).use { document ->
+                document.pages.forEach { page ->
+                    val resources = page.resources
+                    val xObjectNames = resources.xObjectNames
+                    xObjectNames.forEach { name ->
+                        val xobj = resources.getXObject(name)
+                        if (xobj is PDImageXObject) {
+                            val bmp = xobj.image
+
+                            val grayBmp = bmp.copy(Bitmap.Config.ARGB_8888, true)
+                                .applyCanvas {
+                                    val paint = Paint().apply {
+                                        colorFilter = ColorMatrixColorFilter(
+                                            ColorMatrix().apply {
+                                                setSaturation(0f)
+                                            }
+                                        )
+                                    }
+
+                                    drawBitmap(bmp, 0f, 0f, paint)
+                                }
+
+                            val newImage = JPEGFactory.createFromImage(document, grayBmp, 0.8f)
+                            resources.put(name, newImage)
+                        }
+                    }
+                }
+
+                document.save(output.outputStream())
+            }
+        }
+    }
+
+    override suspend fun repairPdf(uri: String): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("repaired")) { output ->
+            try {
+                PDDocument.load(uri.inputStream(), password).use { document ->
+                    document.save(output.outputStream())
+                }
+            } catch (t: Throwable) {
+                if (t is InvalidPasswordException) throw t
+
+                PDDocument.load(uri.inputStream(), password, MemoryUsageSetting.setupTempFileOnly())
+                    .use { document ->
+                        document.save(output.outputStream())
+                    }
+            }
+        }
     }
 
     private suspend fun unlockPdf(

@@ -22,6 +22,7 @@ import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.automirrored.twotone.BrandingWatermark
 import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoFixHigh
+import androidx.compose.material.icons.outlined.BuildCircle
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.FilePresent
@@ -29,6 +30,8 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.OfflineBolt
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
@@ -40,6 +43,7 @@ import androidx.compose.material.icons.rounded.Rotate90DegreesCcw
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material.icons.twotone.AutoFixHigh
+import androidx.compose.material.icons.twotone.BuildCircle
 import androidx.compose.material.icons.twotone.ColorLens
 import androidx.compose.material.icons.twotone.Compare
 import androidx.compose.material.icons.twotone.DocumentScanner
@@ -49,6 +53,8 @@ import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Lock
 import androidx.compose.material.icons.twotone.Numbers
+import androidx.compose.material.icons.twotone.OfflineBolt
+import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
@@ -220,6 +226,9 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Signature -> "PdfTools_Signature"
     is PdfTools.Protect -> "PdfTools_Protect"
     is PdfTools.Unlock -> "PdfTools_Unlock"
+    is PdfTools.Compress -> "PdfTools_Compress"
+    is PdfTools.Grayscale -> "PdfTools_Grayscale"
+    is PdfTools.Repair -> "PdfTools_Repair"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -284,6 +293,9 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Signature -> Icons.Outlined.Stylus
     is PdfTools.Protect -> Icons.Outlined.Lock
     is PdfTools.Unlock -> Icons.Outlined.VpnKey
+    is PdfTools.Compress -> Icons.Outlined.OfflineBolt
+    is PdfTools.Grayscale -> Icons.Outlined.Palette
+    is PdfTools.Repair -> Icons.Outlined.BuildCircle
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -348,6 +360,9 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Signature -> Icons.TwoTone.Stylus
     is PdfTools.Protect -> Icons.TwoTone.Lock
     is PdfTools.Unlock -> Icons.TwoTone.VpnKey
+    is PdfTools.Compress -> Icons.TwoTone.OfflineBolt
+    is PdfTools.Grayscale -> Icons.TwoTone.Palette
+    is PdfTools.Repair -> Icons.TwoTone.BuildCircle
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

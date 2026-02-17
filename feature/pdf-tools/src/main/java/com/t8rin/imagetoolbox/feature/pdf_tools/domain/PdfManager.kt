@@ -110,4 +110,17 @@ interface PdfManager<I> {
         uri: String
     ): List<String>
 
+    suspend fun compressPdf(
+        uri: String,
+        quality: Float
+    ): String
+
+    suspend fun convertToGrayscale(
+        uri: String
+    ): String
+
+    suspend fun repairPdf(
+        uri: String
+    ): String
+
 }

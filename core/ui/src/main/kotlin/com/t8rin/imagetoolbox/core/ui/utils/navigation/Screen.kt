@@ -348,6 +348,9 @@ sealed class Screen(
                     PageNumbers(),
                     Watermark(),
                     Signature(),
+                    Compress(),
+                    Grayscale(),
+                    Repair(),
                     Protect(),
                     Unlock(),
                     OCR()
@@ -443,6 +446,33 @@ sealed class Screen(
             id = 53,
             title = R.string.unlock_pdf,
             subtitle = R.string.unlock_pdf_sub
+        )
+
+        @Serializable
+        data class Compress(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 54,
+            title = R.string.compress_pdf,
+            subtitle = R.string.compress_pdf_sub
+        )
+
+        @Serializable
+        data class Grayscale(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 55,
+            title = R.string.grayscale,
+            subtitle = R.string.grayscale_pdf_sub
+        )
+
+        @Serializable
+        data class Repair(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 56,
+            title = R.string.repair_pdf,
+            subtitle = R.string.repair_pdf_sub
         )
     }
 
