@@ -17,11 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 
@@ -29,11 +31,17 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCR
 fun OCRPdfToolContent(
     component: OCRPdfToolComponent
 ) {
+    val essentials = rememberLocalEssentials()
     BasePdfToolContent(
         component = component,
         pdfPicker = rememberFilePicker(
             mimeType = MimeType.Pdf,
-            onSuccess = component::setUri
+            onSuccess = { uri: Uri ->
+                component.setUri(
+                    uri = uri,
+                    onFailure = essentials::showFailureToast
+                )
+            }
         ),
         isPickedAlready = component.initialUri != null,
         canShowScreenData = component.uri != null,
@@ -44,7 +52,10 @@ fun OCRPdfToolContent(
         showImagePreviewAsStickyHeader = false,
         controls = {},
         onFilledPassword = {
-            component.setUri(component.uri)
+            component.setUri(
+                uri = component.uri,
+                onFailure = essentials::showFailureToast
+            )
         }
     )
 }

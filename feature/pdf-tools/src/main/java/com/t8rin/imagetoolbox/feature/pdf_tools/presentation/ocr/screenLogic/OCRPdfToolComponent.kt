@@ -54,7 +54,10 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    fun setUri(uri: Uri?) {
+    fun setUri(
+        uri: Uri?,
+        onFailure: (Throwable) -> Unit
+    ) {
         if (uri == null) {
             registerChangesCleared()
         } else {
@@ -71,7 +74,11 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
                         Screen.RecognizeText(Screen.RecognizeText.Type.WriteToFile(uris.map { it.toUri() }))
                     )
                 },
-                onFailure = {}
+                onFailure = {
+                    onFailure(it)
+                    _uri.value = null
+                    registerChangesCleared()
+                }
             )
         }
     }

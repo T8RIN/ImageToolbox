@@ -503,8 +503,8 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override suspend fun extractPagesFromPdf(uri: String): List<String> {
-        return uri.toUri().createPdfRenderer(
+    override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
+        uri.toUri().createPdfRenderer(
             password = password,
             onFailure = { throw it },
             onPasswordRequest = null
