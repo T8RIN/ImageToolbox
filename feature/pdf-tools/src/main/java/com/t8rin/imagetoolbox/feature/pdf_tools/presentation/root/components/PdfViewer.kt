@@ -19,7 +19,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
-import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -77,7 +76,6 @@ import androidx.pdf.viewer.fragment.PdfViewerFragment
 import coil3.memory.MemoryCache
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
-import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -90,7 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
-import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.canUseNewPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.createPdfRenderer
 import com.t8rin.logger.makeLog
@@ -210,12 +208,8 @@ fun PdfViewer(
                         rendererScope.launch(Dispatchers.IO) {
                             runCatching {
                                 mutex.withLock {
-                                    val input = appContext
-                                        .contentResolver
-                                        .openFileDescriptor(uri, FileMode.Read.mode)
-
                                     pagesSize.clear()
-                                    val renderer = input?.createPdfRenderer(
+                                    val renderer = uri.createPdfRenderer(
                                         password = pdfPassword,
                                         onFailure = showError,
                                         onPasswordRequest = { showPasswordRequestDialog = true }
@@ -223,7 +217,7 @@ fun PdfViewer(
                                         onGetCorrectPassword(pdfPassword)
                                         onGetPagesCount(it.pageCount)
                                         repeat(it.pageCount) { index ->
-                                            it.openPage(index).use { page ->
+                                            it.openPage(index).let { page ->
                                                 val size = IntegerSize(
                                                     width = page.width,
                                                     height = page.height

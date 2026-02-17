@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
-import android.graphics.pdf.PdfRenderer
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDp
@@ -57,7 +56,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.createBitmap
 import coil3.Image
 import coil3.asImage
 import coil3.imageLoader
@@ -70,6 +68,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.PdfRenderer
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -102,22 +102,26 @@ internal fun PdfPage(
                     if (!coroutineContext.isActive) return@launch
                     try {
                         renderer?.let {
-                            it.openPage(index).use { page ->
-                                val size = IntegerSize(
-                                    width = page.width,
-                                    height = page.height
-                                ).flexibleResize(renderWidth, renderHeight)
-                                val destinationBitmap = createBitmap(
-                                    width = size.width,
-                                    height = size.height
+                            it.openPage(index).let { page ->
+                                val originalWidth = page.width
+                                val originalHeight = page.height
+
+                                val targetSize = IntegerSize(
+                                    width = originalWidth,
+                                    height = originalHeight
+                                ).flexibleResize(
+                                    w = renderWidth,
+                                    h = renderHeight
                                 )
-                                page.render(
-                                    destinationBitmap,
-                                    null,
-                                    null,
-                                    PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
-                                )
-                                bitmap = destinationBitmap.asImage()
+
+                                val scaleX = targetSize.width / originalWidth.toFloat()
+                                val scaleY = targetSize.height / originalHeight.toFloat()
+                                val scale = minOf(scaleX, scaleY)
+
+                                bitmap = renderer.renderImage(
+                                    index,
+                                    scale.coerceAtMost(2f).makeLog("PdfDecoder, scale")
+                                ).asImage()
                             }
                         }
                     } catch (_: Throwable) {

@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfDocument
-import android.graphics.pdf.PdfRenderer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
@@ -34,7 +33,6 @@ import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
-import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -156,45 +154,35 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit
     ): Unit = withContext(ioDispatcher) {
-        context.openFileDescriptor(pdfUri.toUri())?.use { fileDescriptor ->
-            withContext(defaultDispatcher) default@{
-                val pdfRenderer = fileDescriptor.createPdfRenderer(
-                    password = password ?: password,
-                    onFailure = onFailure,
-                    onPasswordRequest = null
-                ) ?: return@default onFailure(NullPointerException("File cannot be read"))
+        val pdfRenderer = pdfUri.toUri().createPdfRenderer(
+            password = password ?: this@AndroidPdfManager.password,
+            onFailure = onFailure,
+            onPasswordRequest = null
+        ) ?: return@withContext onFailure(NullPointerException("File cannot be read"))
 
-                onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
+        onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
 
-                for (pageIndex in 0 until pdfRenderer.pageCount) {
-                    if (pages == null || pages.contains(pageIndex)) {
-                        val bitmap: Bitmap
-                        pdfRenderer.openPage(pageIndex).use { page ->
-                            bitmap = imageScaler.scaleUntilCanShow(
-                                createBitmap(
-                                    (page.width * (preset.value / 100f)).roundToInt(),
-                                    (page.height * (preset.value / 100f)).roundToInt()
-                                )
-                            )!!
-                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                        }
+        for (pageIndex in 0 until pdfRenderer.pageCount) {
+            if (pages == null || pages.contains(pageIndex)) {
+                val bitmap = pdfRenderer.renderImage(
+                    pageIndex,
+                    preset.value / 100f
+                )
 
-                        val renderedBitmap = createBitmap(
-                            width = bitmap.width,
-                            height = bitmap.height,
-                            config = getSuitableConfig(bitmap)
-                        ).applyCanvas {
-                            drawColor(Color.White.toArgb())
-                            drawBitmap(bitmap)
-                        }
-
-                        onProgressChange(pageIndex, renderedBitmap)
-                    }
+                val renderedBitmap = createBitmap(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    config = getSuitableConfig(bitmap)
+                ).applyCanvas {
+                    drawColor(Color.White.toArgb())
+                    drawBitmap(bitmap)
                 }
-                onComplete()
-                pdfRenderer.close()
+
+                onProgressChange(pageIndex, renderedBitmap)
             }
         }
+        onComplete()
+        pdfRenderer.close()
     }
 
     override suspend fun getPdfPages(
@@ -202,15 +190,13 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<Int> = withContext(decodingDispatcher) {
         runCatching {
-            context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
-                val renderer = fileDescriptor.createPdfRenderer(
-                    password = password ?: password,
-                    onFailure = {},
-                    onPasswordRequest = null
-                )
+            val renderer = uri.toUri().createPdfRenderer(
+                password = password ?: password,
+                onFailure = {},
+                onPasswordRequest = null
+            )
 
-                List(renderer?.pageCount ?: 0) { it }
-            }
+            List(renderer?.pageCount ?: 0) { it }
         }.getOrNull() ?: emptyList()
     }
 
@@ -219,23 +205,18 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<IntegerSize> = withContext(decodingDispatcher) {
         pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
-            context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
-                val renderer = fileDescriptor.createPdfRenderer(
-                    password = password ?: password,
-                    onFailure = {},
-                    onPasswordRequest = null
-                ) ?: return@withContext emptyList()
+            val renderer = uri.toUri().createPdfRenderer(
+                password = password ?: password,
+                onFailure = {},
+                onPasswordRequest = null
+            ) ?: return@withContext emptyList()
 
-                List(renderer.pageCount) {
-                    val page = renderer.openPage(it)
-                    page.run {
-                        IntegerSize(width, height)
-                    }.also {
-                        page.close()
-                    }
-                }.also {
-                    pagesCache[uri] = it
+            List(renderer.pageCount) {
+                renderer.openPage(it).run {
+                    IntegerSize(width, height)
                 }
+            }.also {
+                pagesCache[uri] = it
             }
         }.getOrNull() ?: emptyList()
     }
@@ -523,44 +504,31 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> {
-        return context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
-            withContext(defaultDispatcher) {
-                fileDescriptor.createPdfRenderer(
-                    password = password,
-                    onFailure = { throw it },
-                    onPasswordRequest = null
-                )?.use { pdfRenderer ->
-                    (0 until pdfRenderer.pageCount).mapNotNull { pageIndex ->
-                        val bitmap: Bitmap
-                        pdfRenderer.openPage(pageIndex).use { page ->
-                            bitmap = imageScaler.scaleUntilCanShow(
-                                createBitmap(
-                                    width = page.width,
-                                    height = page.height
-                                )
-                            )!!
-                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                        }
+        return uri.toUri().createPdfRenderer(
+            password = password,
+            onFailure = { throw it },
+            onPasswordRequest = null
+        )?.use { pdfRenderer ->
+            (0 until pdfRenderer.pageCount).mapNotNull { pageIndex ->
+                val bitmap = pdfRenderer.renderImage(pageIndex, 1f)
 
-                        val renderedBitmap = createBitmap(
-                            width = bitmap.width,
-                            height = bitmap.height,
-                            config = getSuitableConfig(bitmap)
-                        ).applyCanvas {
-                            drawColor(Color.White.toArgb())
-                            drawBitmap(bitmap)
-                        }
-
-                        shareProvider.cacheImage(
-                            image = renderedBitmap,
-                            imageInfo = ImageInfo(
-                                width = renderedBitmap.width,
-                                height = renderedBitmap.height,
-                                imageFormat = ImageFormat.Png.Lossless
-                            )
-                        )
-                    }
+                val renderedBitmap = createBitmap(
+                    width = bitmap.width,
+                    height = bitmap.height,
+                    config = getSuitableConfig(bitmap)
+                ).applyCanvas {
+                    drawColor(Color.White.toArgb())
+                    drawBitmap(bitmap)
                 }
+
+                shareProvider.cacheImage(
+                    image = renderedBitmap,
+                    imageInfo = ImageInfo(
+                        width = renderedBitmap.width,
+                        height = renderedBitmap.height,
+                        imageFormat = ImageFormat.Png.Lossless
+                    )
+                )
             }
         } ?: throw NullPointerException("File cannot be read")
     }

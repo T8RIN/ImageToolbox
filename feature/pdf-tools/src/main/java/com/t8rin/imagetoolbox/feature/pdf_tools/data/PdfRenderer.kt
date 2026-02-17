@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,46 +17,51 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
-import android.annotation.SuppressLint
-import android.graphics.pdf.LoadParams
-import android.graphics.pdf.PdfRenderer
+import android.net.Uri
 import android.os.Build
-import android.os.ParcelFileDescriptor
 import android.os.ext.SdkExtensions
 import androidx.annotation.ChecksSdkIntAtLeast
-import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.PDPage
+import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
+import com.tom_roush.pdfbox.rendering.PDFRenderer
+import java.lang.AutoCloseable
+import kotlin.math.roundToInt
 
-fun ParcelFileDescriptor.createPdfRenderer(
+class PdfRenderer(
+    val pDocument: PDDocument
+) : PDFRenderer(pDocument), AutoCloseable {
+    val pageCount: Int get() = pDocument.numberOfPages
+
+    fun openPage(index: Int): Page = pDocument.getPage(index).let { page ->
+        Page(
+            width = page.mediaBox.width.roundToInt(),
+            height = page.mediaBox.height.roundToInt(),
+            pdPage = page
+        )
+    }
+
+    override fun close() = pDocument.close()
+
+    class Page(
+        val width: Int,
+        val height: Int,
+        val pdPage: PDPage
+    )
+}
+
+fun Uri.createPdfRenderer(
     password: String?,
     onFailure: (Throwable) -> Unit,
     onPasswordRequest: (() -> Unit)?
 ): PdfRenderer? = runCatching {
-    if (canUseNewPdf()) {
-        runCatching {
-            @SuppressLint("NewApi")
-            PdfRenderer(
-                this@createPdfRenderer,
-                LoadParams.Builder().setPassword(password).build()
-            )
-        }.onFailure {
-            when {
-                it is SecurityException -> onPasswordRequest?.invoke() ?: throw it
-
-                "No direct method" in it.message.orEmpty() -> {
-                    DeviceInfo.pushLog("createPdfRenderer, no LoadParams")
-
-                    return@runCatching PdfRenderer(this)
-                }
-
-                else -> throw it
-            }
-        }.getOrNull()
-    } else {
-        PdfRenderer(this)
-    }
+    PDDocument.load(
+        appContext.contentResolver.openInputStream(this), password.orEmpty()
+    ).let(::PdfRenderer)
 }.onFailure { throwable ->
     when (throwable) {
-        is SecurityException -> onPasswordRequest?.invoke() ?: onFailure(throwable)
+        is InvalidPasswordException -> onPasswordRequest?.invoke() ?: onFailure(throwable)
         else -> onFailure(throwable)
     }
 }.getOrNull()
