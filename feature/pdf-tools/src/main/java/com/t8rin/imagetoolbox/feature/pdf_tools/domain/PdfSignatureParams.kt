@@ -17,10 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
-data class SignatureOptions(
-    val x: Float = 50f,
-    val y: Float = 50f,
-    val width: Float = 150f,
-    val height: Float = 50f,
-    val pages: List<Int>
+data class PdfSignatureParams(
+    val x: Float = 0.1f,
+    val y: Float = 0.1f,
+    val size: Float = 0.25f,
+    val pages: List<Int> = emptyList()
 )

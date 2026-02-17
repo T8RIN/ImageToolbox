@@ -2148,4 +2148,7 @@
     <string name="pdf_to_text">PDF to Text</string>
     <string name="pdf_to_text_sub">Extract plain text from your PDF documents</string>
     <string name="watermark_pdf_sub">Overlay custom text for branding or security</string>
+    <string name="signature">Signature</string>
+    <string name="signature_sub">Add your electronic signature to any document</string>
+    <string name="will_be_for_signature">This will be used as signature</string>
 </resources>

@@ -215,6 +215,8 @@ fun PdfToolsContent(
                                     is Screen.PdfTools.Rotate -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Rearrange -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.PageNumbers -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Watermark -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Signature -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.OCR -> screen.copy(uri = tempSelectionUri)
                                     else -> screen
                                 }

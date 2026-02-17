@@ -46,8 +46,8 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
 import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
@@ -443,15 +443,38 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun addSignature(
         uri: String,
         signatureImage: Bitmap,
-        options: SignatureOptions
+        params: PdfSignatureParams
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(filename = tempName("signed")) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
-                val pagesToSign = options.pages.ifEmpty { List(document.pages.count) { it } }
+
+                val pagesToSign =
+                    params.pages.ifEmpty { List(document.pages.count) { it } }
+
                 val pdImage = LosslessFactory.createFromImage(document, signatureImage)
 
+                val imageAspect =
+                    signatureImage.width.toFloat() / signatureImage.height.toFloat()
+
                 pagesToSign.forEach { idx ->
-                    val page = document.getPage(idx.coerceIn(0 until document.pages.count()))
+                    val page =
+                        document.getPage(idx.coerceIn(0 until document.pages.count()))
+
+                    val pageWidth = page.mediaBox.width
+                    val pageHeight = page.mediaBox.height
+
+                    val targetWidth = pageWidth * params.size
+                    val targetHeight = targetWidth / imageAspect
+
+                    val centerX = pageWidth * params.x
+                    val centerY = pageHeight * params.y
+
+                    var targetX = centerX - targetWidth / 2f
+                    var targetY = centerY - targetHeight / 2f
+
+                    targetX = targetX.coerceIn(0f, pageWidth - targetWidth)
+                    targetY = targetY.coerceIn(0f, pageHeight - targetHeight)
+
                     PDPageContentStream(
                         document,
                         page,
@@ -460,10 +483,10 @@ internal class AndroidPdfManager @Inject constructor(
                     ).use { stream ->
                         stream.drawImage(
                             pdImage,
-                            options.x,
-                            options.y,
-                            options.width,
-                            options.height
+                            targetX,
+                            targetY,
+                            targetWidth,
+                            targetHeight
                         )
                     }
                 }

@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screen
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
@@ -111,6 +112,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RotatePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SignaturePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SplitPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
@@ -194,6 +196,7 @@ internal class ChildProvider @Inject constructor(
     private val pageNumbersPdfToolComponentFactory: PageNumbersPdfToolComponent.Factory,
     private val ocrPdfToolComponentFactory: OCRPdfToolComponent.Factory,
     private val watermarkPdfToolComponentFactory: WatermarkPdfToolComponent.Factory,
+    private val signaturePdfToolComponentFactory: SignaturePdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -692,6 +695,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.Watermark -> WatermarkPdfTool(
             watermarkPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.PdfTools.Signature -> SignaturePdfTool(
+            signaturePdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

@@ -93,7 +93,7 @@ interface PdfManager<I> {
     suspend fun addSignature(
         uri: String,
         signatureImage: I,
-        options: SignatureOptions
+        params: PdfSignatureParams
     ): String
 
     suspend fun protectPdf(

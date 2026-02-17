@@ -96,6 +96,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.PdfToolsConten
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.SignaturePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.SplitPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.WatermarkPdfToolContent
@@ -425,5 +427,10 @@ internal sealed interface NavigationChild {
     class WatermarkPdfTool(private val component: WatermarkPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = WatermarkPdfToolContent(component)
+    }
+
+    class SignaturePdfTool(private val component: SignaturePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = SignaturePdfToolContent(component)
     }
 }

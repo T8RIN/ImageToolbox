@@ -86,6 +86,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
+import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
@@ -212,6 +213,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.PageNumbers -> "PdfTools_PageNumbers"
     is PdfTools.OCR -> "PdfTools_OCR"
     is PdfTools.Watermark -> "PdfTools_Watermark"
+    is PdfTools.Signature -> "PdfTools_Signature"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -273,6 +275,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.PageNumbers -> Icons.Rounded.Numbers
     is PdfTools.OCR -> Icons.Outlined.FilePresent
     is PdfTools.Watermark -> Icons.AutoMirrored.Outlined.BrandingWatermark
+    is PdfTools.Signature -> Icons.Outlined.Stylus
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -334,6 +337,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.PageNumbers -> Icons.TwoTone.Numbers
     is PdfTools.OCR -> Icons.TwoTone.FilePresent
     is PdfTools.Watermark -> Icons.AutoMirrored.TwoTone.BrandingWatermark
+    is PdfTools.Signature -> Icons.TwoTone.Stylus
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
