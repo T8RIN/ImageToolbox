@@ -492,17 +492,6 @@ internal class AndroidPdfManager @Inject constructor(
         )
     }
 
-    private suspend fun unlockPdf(
-        uri: String,
-        password: String,
-        filename: String
-    ) = shareProvider.cacheDataOrThrow(filename = filename) { output ->
-        PDDocument.load(uri.inputStream(), password).use { document ->
-            document.isAllSecurityToBeRemoved = true
-            document.save(output.outputStream())
-        }
-    }
-
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
         uri.toUri().createPdfRenderer(
             password = password,
@@ -531,6 +520,17 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             }
         } ?: throw NullPointerException("File cannot be read")
+    }
+
+    private suspend fun unlockPdf(
+        uri: String,
+        password: String,
+        filename: String
+    ) = shareProvider.cacheDataOrThrow(filename = filename) { output ->
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            document.isAllSecurityToBeRemoved = true
+            document.save(output.outputStream())
+        }
     }
 
     private suspend inline fun <T> catchPdf(
