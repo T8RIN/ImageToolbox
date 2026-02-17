@@ -2154,5 +2154,5 @@
     <string name="keywords">Ключевые слова</string>
     <string name="creator">Создатель</string>
     <string name="privacy_deep_clean">Глубокая очистка</string>
-    <string name="privacy_deep_clean_sub">Удалить все доступные метаданные для этого документа.</string>
+    <string name="privacy_deep_clean_sub">Удалите все доступные метаданные для этого документа</string>
 </resources>
