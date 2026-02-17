@@ -145,28 +145,28 @@ fun AdaptiveLayoutScreen(
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
-                    EnhancedTopAppBar(
-                        type = EnhancedTopAppBarType.Large,
-                        scrollBehavior = scrollBehavior,
-                        title = title,
-                        drawHorizontalStroke = underTopAppBarContent == null,
-                        navigationIcon = {
-                            EnhancedIconButton(
-                                onClick = onGoBack
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.exit)
-                                )
+                    Column {
+                        EnhancedTopAppBar(
+                            type = EnhancedTopAppBarType.Large,
+                            scrollBehavior = scrollBehavior,
+                            title = title,
+                            drawHorizontalStroke = underTopAppBarContent == null,
+                            navigationIcon = {
+                                EnhancedIconButton(
+                                    onClick = onGoBack
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = stringResource(R.string.exit)
+                                    )
+                                }
+                            },
+                            actions = {
+                                if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
+                                topAppBarPersistentActions()
                             }
-                        },
-                        actions = {
-                            if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
-                            topAppBarPersistentActions()
-                        }
-                    )
-                    underTopAppBarContent?.let {
-                        Column(content = it)
+                        )
+                        underTopAppBarContent?.invoke(this)
                     }
                 },
                 contentWindowInsets = WindowInsets()

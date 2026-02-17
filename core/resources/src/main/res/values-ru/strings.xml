@@ -2111,7 +2111,7 @@
     <string name="model_swin2sr_x4_bsrgan_psnr">Восстанавливает изображения низкого качества с помощью преобразователя Swin2SR, оптимизированного для деградации BSRGAN. Отлично подходит для исправления сильных артефактов сжатия и улучшения деталей в 4-кратном масштабе.</string>
     <string name="model_bsrgan_swinir_m_x4_gan">4-кратное масштабирование с помощью преобразователя SwinIR, обученного ухудшению BSRGAN. Использует GAN для получения более четких текстур и более естественных деталей на фотографиях и сложных сценах.</string>
     <string name="path">Путь</string>
-    <string name="merge_pdf">Объединить PDF-файл</string>
+    <string name="merge_pdf">Объединить PDF</string>
     <string name="merge_pdf_sub">Объединение нескольких PDF-файлов в один документ</string>
     <string name="files_order">Порядок файлов</string>
     <string name="pages_short">стр.</string>

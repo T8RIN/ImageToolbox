@@ -87,6 +87,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -96,6 +98,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
@@ -117,6 +120,7 @@ internal fun PdfToolsContentImpl(
 ) {
     val selectAllToggle = remember { mutableStateOf(false) }
     val deselectAllToggle = remember { mutableStateOf(false) }
+    val essentials = rememberLocalEssentials()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -125,18 +129,38 @@ internal fun PdfToolsContentImpl(
                 type = EnhancedTopAppBarType.Large,
                 scrollBehavior = scrollBehavior,
                 title = {
-                    AnimatedContent(
-                        targetState = component.pdfType to component.pdfPreviewUri,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.marquee()
-                    ) { (pdfType, previewUri) ->
-                        Text(
-                            text = previewUri?.let {
-                                rememberFilename(it)
-                            } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
-                            textAlign = TextAlign.Center
+                    ) {
+                        AnimatedContent(
+                            targetState = component.pdfType to component.pdfPreviewUri,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { (pdfType, previewUri) ->
+                            Text(
+                                text = previewUri?.let {
+                                    rememberFilename(it)
+                                } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        EnhancedBadge(
+                            content = {
+                                Text(
+                                    text = (Screen.PdfTools.Type.entries.size + Screen.PdfTools.options.size).toString()
+                                )
+                            },
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary,
+                            modifier = Modifier
+                                .padding(horizontal = 2.dp)
+                                .padding(bottom = 12.dp)
+                                .scaleOnTap {
+                                    essentials.showConfetti()
+                                }
                         )
                     }
+
                 },
                 navigationIcon = {
                     EnhancedIconButton(
