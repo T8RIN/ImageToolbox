@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
 import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
@@ -55,11 +56,11 @@ import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
+import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -347,6 +348,11 @@ internal class AndroidPdfManager @Inject constructor(
                         PDPageContentStream.AppendMode.APPEND,
                         true
                     ).use { stream ->
+                        val gs = PDExtendedGraphicsState().apply {
+                            nonStrokingAlphaConstant = color.alpha
+                        }
+
+                        stream.setGraphicsStateParameters(gs)
                         stream.beginText()
                         stream.setFont(font, 12f)
                         stream.setNonStrokingColor(
@@ -370,56 +376,53 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun addWatermark(
         uri: String,
-        watermarkText: String
+        watermarkText: String,
+        params: PdfWatermarkParams
     ): String = withContext(defaultDispatcher) {
+        val color = Color(params.color)
+
         shareProvider.cacheData(filename = tempName("watermarked")) { output ->
-            PDDocument.load(File(uri)).use { document ->
+            PDDocument.load(uri.inputStream()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
+
                 document.pages.forEach { page ->
                     PDPageContentStream(
-                        document, page, PDPageContentStream.AppendMode.APPEND, true
+                        document,
+                        page,
+                        PDPageContentStream.AppendMode.APPEND,
+                        true
                     ).use { stream ->
-                        with(stream) {
-                            beginText()
-                            setFont(font, 50f)
-                            setNonStrokingColor(150, 150, 150, 80)
-                            setTextMatrix(
-                                Matrix.getRotateInstance(
-                                    Math.toRadians(-45.0),
-                                    page.mediaBox.width / 2f,
-                                    page.mediaBox.height / 2f
-                                )
-                            )
-                            showText(watermarkText)
-                            endText()
+
+                        val gs = PDExtendedGraphicsState().apply {
+                            nonStrokingAlphaConstant = params.opacity
                         }
+
+                        stream.setGraphicsStateParameters(gs)
+                        stream.beginText()
+                        stream.setFont(font, params.fontSize)
+                        stream.setNonStrokingColor(
+                            AWTColor(
+                                (color.red * 255).roundToInt(),
+                                (color.green * 255).roundToInt(),
+                                (color.blue * 255).roundToInt(),
+                                (color.alpha * 255).roundToInt()
+                            )
+                        )
+
+                        val radians = Math.toRadians(params.rotation.toDouble())
+                        val cos = kotlin.math.cos(radians).toFloat()
+                        val sin = kotlin.math.sin(radians).toFloat()
+                        val x = page.mediaBox.width / 2f
+                        val y = page.mediaBox.height / 2f
+
+                        val matrix = Matrix(cos, sin, -sin, cos, x, y)
+                        stream.setTextMatrix(matrix)
+
+                        stream.showText(watermarkText)
+                        stream.endText()
                     }
                 }
-                document.save(output.outputStream())
-            }
-        } ?: throw IllegalAccessException("No PDF created")
-    }
 
-    override suspend fun protectPdf(
-        uri: String,
-        password: String
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("protected")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
-                val protection = StandardProtectionPolicy(password, password, AccessPermission())
-                protection.encryptionKeyLength = 128
-                document.protect(protection)
-                document.save(output.outputStream())
-            }
-        } ?: throw IllegalAccessException("No PDF created")
-    }
-
-    override suspend fun unlockPdf(
-        uri: String,
-        password: String
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("unlocked")) { output ->
-            PDDocument.load(uri.inputStream(), password).use { document ->
                 document.save(output.outputStream())
             }
         } ?: throw IllegalAccessException("No PDF created")
@@ -453,6 +456,31 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun protectPdf(
+        uri: String,
+        password: String
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("protected")) { output ->
+            PDDocument.load(uri.inputStream()).use { document ->
+                val protection = StandardProtectionPolicy(password, password, AccessPermission())
+                protection.encryptionKeyLength = 128
+                document.protect(protection)
+                document.save(output.outputStream())
+            }
+        } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun unlockPdf(
+        uri: String,
+        password: String
+    ): String = withContext(defaultDispatcher) {
+        shareProvider.cacheData(filename = tempName("unlocked")) { output ->
+            PDDocument.load(uri.inputStream(), password).use { document ->
                 document.save(output.outputStream())
             }
         } ?: throw IllegalAccessException("No PDF created")

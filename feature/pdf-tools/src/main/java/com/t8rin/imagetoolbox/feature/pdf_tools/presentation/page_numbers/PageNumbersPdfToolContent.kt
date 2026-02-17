@@ -166,8 +166,7 @@ fun PageNumbersPdfToolContent(
                 title = stringResource(R.string.text_color),
                 modifier = Modifier.container(
                     shape = ShapeDefaults.large
-                ),
-                allowAlpha = false
+                )
             )
 
             Spacer(Modifier.height(20.dp))

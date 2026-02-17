@@ -80,7 +80,14 @@ interface PdfManager<I> {
 
     suspend fun addWatermark(
         uri: String,
-        watermarkText: String
+        watermarkText: String,
+        params: PdfWatermarkParams
+    ): String
+
+    suspend fun addSignature(
+        uri: String,
+        signatureImage: I,
+        options: SignatureOptions
     ): String
 
     suspend fun protectPdf(
@@ -91,12 +98,6 @@ interface PdfManager<I> {
     suspend fun unlockPdf(
         uri: String,
         password: String
-    ): String
-
-    suspend fun addSignature(
-        uri: String,
-        signatureImage: I,
-        options: SignatureOptions
     ): String
 
 }
