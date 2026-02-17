@@ -50,7 +50,7 @@ abstract class BasePdfToolComponent(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    private val _showPasswordRequestDialog: MutableState<Boolean> = mutableStateOf(false)
+    protected val _showPasswordRequestDialog: MutableState<Boolean> = mutableStateOf(false)
     val showPasswordRequestDialog by _showPasswordRequestDialog
 
     init {
@@ -63,7 +63,7 @@ abstract class BasePdfToolComponent(
         _isSaving.update { false }
     }
 
-    fun setPassword(password: String) {
+    open fun setPassword(password: String) {
         _showPasswordRequestDialog.update { false }
         pdfManager.setMasterPassword(password)
     }

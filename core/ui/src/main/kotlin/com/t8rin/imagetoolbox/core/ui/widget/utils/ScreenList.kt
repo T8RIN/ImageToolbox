@@ -101,6 +101,8 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.PageNumbers(uris.firstOrNull()),
                 Screen.PdfTools.Watermark(uris.firstOrNull()),
                 Screen.PdfTools.Signature(uris.firstOrNull()),
+                Screen.PdfTools.Protect(uris.firstOrNull()),
+                Screen.PdfTools.Unlock(uris.firstOrNull()),
                 Screen.PdfTools.OCR(uris.firstOrNull()),
             ) + filesAvailableScreens
         }

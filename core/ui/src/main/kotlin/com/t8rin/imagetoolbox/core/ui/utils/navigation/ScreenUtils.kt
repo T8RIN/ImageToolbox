@@ -28,10 +28,12 @@ import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
 import androidx.compose.material.icons.outlined.SwapVerticalCircle
+import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Rotate90DegreesCcw
@@ -45,6 +47,7 @@ import androidx.compose.material.icons.twotone.FilePresent
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
+import androidx.compose.material.icons.twotone.Lock
 import androidx.compose.material.icons.twotone.Numbers
 import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
@@ -52,6 +55,7 @@ import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material.icons.twotone.Rotate90DegreesCcw
 import androidx.compose.material.icons.twotone.SwapVerticalCircle
 import androidx.compose.material.icons.twotone.Tag
+import androidx.compose.material.icons.twotone.VpnKey
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.R
@@ -214,6 +218,8 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.OCR -> "PdfTools_OCR"
     is PdfTools.Watermark -> "PdfTools_Watermark"
     is PdfTools.Signature -> "PdfTools_Signature"
+    is PdfTools.Protect -> "PdfTools_Protect"
+    is PdfTools.Unlock -> "PdfTools_Unlock"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -276,6 +282,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.OCR -> Icons.Outlined.FilePresent
     is PdfTools.Watermark -> Icons.AutoMirrored.Outlined.BrandingWatermark
     is PdfTools.Signature -> Icons.Outlined.Stylus
+    is PdfTools.Protect -> Icons.Outlined.Lock
+    is PdfTools.Unlock -> Icons.Outlined.VpnKey
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -338,6 +346,8 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.OCR -> Icons.TwoTone.FilePresent
     is PdfTools.Watermark -> Icons.AutoMirrored.TwoTone.BrandingWatermark
     is PdfTools.Signature -> Icons.TwoTone.Stylus
+    is PdfTools.Protect -> Icons.TwoTone.Lock
+    is PdfTools.Unlock -> Icons.TwoTone.VpnKey
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

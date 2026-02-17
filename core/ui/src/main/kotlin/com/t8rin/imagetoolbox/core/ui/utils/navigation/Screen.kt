@@ -348,6 +348,8 @@ sealed class Screen(
                     PageNumbers(),
                     Watermark(),
                     Signature(),
+                    Protect(),
+                    Unlock(),
                     OCR()
                 )
             }
@@ -423,6 +425,24 @@ sealed class Screen(
             id = 51,
             title = R.string.signature,
             subtitle = R.string.signature_sub
+        )
+
+        @Serializable
+        data class Protect(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 52,
+            title = R.string.protect_pdf,
+            subtitle = R.string.protect_pdf_sub
+        )
+
+        @Serializable
+        data class Unlock(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 53,
+            title = R.string.unlock_pdf,
+            subtitle = R.string.unlock_pdf_sub
         )
     }
 

@@ -21,15 +21,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Pages
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -43,18 +50,25 @@ import coil3.compose.AsyncImage
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toDp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
+import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import kotlin.math.roundToInt
 
@@ -67,7 +81,7 @@ fun SignaturePdfToolContent(
     val pagesCount by rememberPdfPages(component.uri)
 
     LaunchedEffect(pagesCount, params.pages) {
-        if (pagesCount > 0 && (params.pages.isEmpty() || params.pages.size != pagesCount)) {
+        if (pagesCount > 0 && params.pages.isEmpty()) {
             component.updateParams(
                 params.copy(
                     pages = List(pagesCount) { it }
@@ -75,6 +89,12 @@ fun SignaturePdfToolContent(
             )
         }
     }
+
+    var showSelector by remember {
+        mutableStateOf(false)
+    }
+
+    val essentials = rememberLocalEssentials()
 
     BasePdfToolContent(
         component = component,
@@ -167,6 +187,28 @@ fun SignaturePdfToolContent(
                 subtitle = stringResource(R.string.will_be_for_signature)
             )
             Spacer(Modifier.height(8.dp))
+            PreferenceItem(
+                title = stringResource(R.string.pages_selection),
+                subtitle = remember(params.pages) {
+                    derivedStateOf {
+                        params.pages.takeIf { it.isNotEmpty() }
+                            ?.let {
+                                if (it.size == pagesCount) {
+                                    essentials.getString(R.string.all)
+                                } else {
+                                    PagesSelectionParser.formatPageOutput(it)
+                                }
+                            } ?: essentials.getString(R.string.none)
+                    }
+                }.value,
+                onClick = {
+                    showSelector = true
+                },
+                modifier = Modifier.fillMaxWidth(),
+                startIcon = Icons.Rounded.Pages,
+                endIcon = Icons.Rounded.MiniEdit
+            )
+            Spacer(Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = params.x,
                 title = stringResource(id = R.string.offset_x),
@@ -210,6 +252,49 @@ fun SignaturePdfToolContent(
         },
         onFilledPassword = {
             component.setUri(component.uri)
+        }
+    )
+
+    var pages by rememberSaveable(showSelector) {
+        mutableStateOf(params.pages)
+    }
+    EnhancedAlertDialog(
+        visible = showSelector,
+        onDismissRequest = { showSelector = false },
+        title = {
+            Text(stringResource(R.string.pages_selection))
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Pages,
+                contentDescription = null
+            )
+        },
+        text = {
+            PageInputField(
+                selectedPages = pages,
+                onPagesChanged = { pages = it }
+            )
+        },
+        dismissButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = {
+                    showSelector = false
+                }
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    component.updateParams(params.copy(pages = pages))
+                    showSelector = false
+                }
+            ) {
+                Text(stringResource(R.string.apply))
+            }
         }
     )
 }

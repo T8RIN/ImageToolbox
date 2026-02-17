@@ -2151,4 +2151,10 @@
     <string name="signature">Signature</string>
     <string name="signature_sub">Add your electronic signature to any document</string>
     <string name="will_be_for_signature">This will be used as signature</string>
+    <string name="unlock_pdf">Unlock PDF</string>
+    <string name="unlock_pdf_sub">Remove passwords from your protected files</string>
+    <string name="protect_pdf">Protect PDF</string>
+    <string name="protect_pdf_sub">Secure your documents with strong encryption</string>
+    <string name="success">Success</string>
+    <string name="pdf_unlocked">PDF unlocked, you can save or share it</string>
 </resources>
