@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.Pal
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
@@ -107,6 +108,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MarkupLayers
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MergePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MeshGradients
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MetadataPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.OCRPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
@@ -212,6 +214,7 @@ internal class ChildProvider @Inject constructor(
     private val compressPdfToolComponentFactory: CompressPdfToolComponent.Factory,
     private val grayscalePdfToolComponentFactory: GrayscalePdfToolComponent.Factory,
     private val repairPdfToolComponentFactory: RepairPdfToolComponent.Factory,
+    private val metadataPdfToolComponentFactory: MetadataPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -764,6 +767,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.Repair -> RepairPdfTool(
             repairPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.PdfTools.Metadata -> MetadataPdfTool(
+            metadataPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

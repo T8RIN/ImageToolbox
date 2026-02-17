@@ -353,6 +353,7 @@ sealed class Screen(
                     Repair(),
                     Protect(),
                     Unlock(),
+                    Metadata(),
                     OCR()
                 )
             }
@@ -473,6 +474,15 @@ sealed class Screen(
             id = 56,
             title = R.string.repair_pdf,
             subtitle = R.string.repair_pdf_sub
+        )
+
+        @Serializable
+        data class Metadata(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 57,
+            title = R.string.metadata,
+            subtitle = R.string.metadata_pdf_sub
         )
     }
 

@@ -123,4 +123,13 @@ interface PdfManager<I> {
         uri: String
     ): String
 
+    suspend fun changePdfMetadata(
+        uri: String,
+        metadata: PdfMetadata?
+    ): String
+
+    suspend fun getPdfMetadata(
+        uri: String
+    ): PdfMetadata
+
 }

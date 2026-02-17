@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
+import androidx.compose.material.icons.outlined.Sell
 import androidx.compose.material.icons.outlined.SwapVerticalCircle
 import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material.icons.rounded.Compare
@@ -59,6 +60,7 @@ import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
 import androidx.compose.material.icons.twotone.Rotate90DegreesCcw
+import androidx.compose.material.icons.twotone.Sell
 import androidx.compose.material.icons.twotone.SwapVerticalCircle
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.material.icons.twotone.VpnKey
@@ -229,6 +231,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Compress -> "PdfTools_Compress"
     is PdfTools.Grayscale -> "PdfTools_Grayscale"
     is PdfTools.Repair -> "PdfTools_Repair"
+    is PdfTools.Metadata -> "PdfTools_Metadata"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -296,6 +299,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Compress -> Icons.Outlined.OfflineBolt
     is PdfTools.Grayscale -> Icons.Outlined.Palette
     is PdfTools.Repair -> Icons.Outlined.BuildCircle
+    is PdfTools.Metadata -> Icons.Outlined.Sell
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -363,6 +367,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Compress -> Icons.TwoTone.OfflineBolt
     is PdfTools.Grayscale -> Icons.TwoTone.Palette
     is PdfTools.Repair -> Icons.TwoTone.BuildCircle
+    is PdfTools.Metadata -> Icons.TwoTone.Sell
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

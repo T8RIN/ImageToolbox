@@ -2165,4 +2165,13 @@
     <string name="compress_pdf_sub">Optimize your document file size for easier sharing</string>
     <string name="repair_info">ImageToolbox rebuilds the internal cross-reference table and regenerates the file structure from scratch. This can restore access to many files that \"cannot be opened\"</string>
     <string name="grayscale_info">This tool converts all document images to grayscale. Best for printing and reducing file size</string>
+    <string name="metadata">Metadata</string>
+    <string name="metadata_pdf_sub">Edit document properties for better privacy</string>
+    <string name="tags">Tags</string>
+    <string name="producer">Producer</string>
+    <string name="author">Author</string>
+    <string name="keywords">Keywords</string>
+    <string name="creator">Creator</string>
+    <string name="privacy_deep_clean">Privacy Deep Clean</string>
+    <string name="privacy_deep_clean_sub">Clear all avaialable metadata for this document</string>
 </resources>

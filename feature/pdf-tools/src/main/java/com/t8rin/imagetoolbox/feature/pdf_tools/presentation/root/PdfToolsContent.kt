@@ -217,8 +217,12 @@ fun PdfToolsContent(
                                     is Screen.PdfTools.PageNumbers -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Watermark -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Signature -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Compress -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Grayscale -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Repair -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Protect -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Unlock -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.Metadata -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.OCR -> screen.copy(uri = tempSelectionUri)
                                     else -> screen
                                 }

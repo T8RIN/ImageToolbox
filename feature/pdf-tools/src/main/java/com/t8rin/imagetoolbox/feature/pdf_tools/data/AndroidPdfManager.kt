@@ -49,12 +49,14 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
 import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
@@ -69,6 +71,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -634,6 +637,47 @@ internal class AndroidPdfManager @Inject constructor(
                     .use { document ->
                         document.save(output.outputStream())
                     }
+            }
+        }
+    }
+
+    override suspend fun changePdfMetadata(
+        uri: String,
+        metadata: PdfMetadata?
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("metadata")) { output ->
+            PDDocument.load(uri.inputStream(), password).use { document ->
+                if (metadata == null) {
+                    document.documentInformation = PDDocumentInformation().apply {
+                        creationDate = Calendar.getInstance()
+                        modificationDate = Calendar.getInstance()
+                    }
+                } else {
+                    document.documentInformation.apply {
+                        title = metadata.title ?: title
+                        author = metadata.author ?: author
+                        subject = metadata.subject ?: subject
+                        keywords = metadata.keywords ?: keywords
+                        creator = metadata.creator ?: creator
+                        producer = metadata.producer ?: producer
+                    }
+                }
+                document.save(output.outputStream())
+            }
+        }
+    }
+
+    override suspend fun getPdfMetadata(uri: String): PdfMetadata = catchPdf {
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            document.documentInformation.run {
+                PdfMetadata(
+                    title = title,
+                    author = author,
+                    subject = subject,
+                    keywords = keywords,
+                    creator = creator,
+                    producer = producer
+                )
             }
         }
     }

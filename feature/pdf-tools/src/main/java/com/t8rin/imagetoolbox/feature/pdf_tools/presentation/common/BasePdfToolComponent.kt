@@ -74,7 +74,8 @@ abstract class BasePdfToolComponent(
 
     fun checkPdf(
         uri: Uri?,
-        onDecrypted: (Uri) -> Unit
+        onDecrypted: (Uri) -> Unit,
+        onSuccess: (Uri) -> Unit = {}
     ) {
         uri ?: return
 
@@ -83,7 +84,8 @@ abstract class BasePdfToolComponent(
                 pdfManager.checkIsPdfEncrypted(uri.toString())?.let { decrypted ->
                     pdfManager.setMasterPassword(null)
                     onDecrypted(decrypted.toUri())
-                }
+                    onSuccess(decrypted.toUri())
+                } ?: onSuccess(uri)
             }.onFailure {
                 if (it is SecurityException) {
                     _showPasswordRequestDialog.update { true }

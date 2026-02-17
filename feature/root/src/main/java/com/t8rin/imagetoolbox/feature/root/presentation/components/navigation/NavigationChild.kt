@@ -90,6 +90,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.Grayscale
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.MetadataPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.OCRPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.PageNumbersPdfToolContent
@@ -467,5 +469,10 @@ internal sealed interface NavigationChild {
     class RepairPdfTool(private val component: RepairPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = RepairPdfToolContent(component)
+    }
+
+    class MetadataPdfTool(private val component: MetadataPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = MetadataPdfToolContent(component)
     }
 }
