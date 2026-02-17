@@ -51,6 +51,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.createMediaPickerIntent
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.random.Random
 
@@ -297,22 +299,29 @@ fun rememberImagePicker(
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): ImagePicker {
+    val essentials = rememberLocalEssentials()
     val context = LocalComponentActivity.current
 
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
-            uri?.takeIf {
-                it != Uri.EMPTY
-            }?.let {
-                onSuccess(listOf(it))
-            } ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uri?.takeIf {
+                    it != Uri.EMPTY
+                }?.let {
+                    onSuccess(listOf(it))
+                } ?: onFailure()
+            }
         }
     )
     val photoPickerMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            }
         }
     )
 
@@ -334,7 +343,10 @@ fun rememberImagePicker(
                     emptyList()
                 }
 
-            resultList.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            essentials.launch {
+                delay(300)
+                resultList.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            }
         }
     )
 
@@ -344,15 +356,17 @@ fun rememberImagePicker(
     val takePhoto = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = {
-            val uri = takePhotoUri
-            if (it && uri != null && uri != Uri.EMPTY) {
-                onSuccess(listOf(uri))
-            } else onFailure()
-            takePhotoUri = null
+            essentials.launch {
+                val uri = takePhotoUri
+                delay(300)
+                if (it && uri != null && uri != Uri.EMPTY) {
+                    onSuccess(listOf(uri))
+                } else onFailure()
+                takePhotoUri = null
+            }
         }
     )
 
-    val essentials = rememberLocalEssentials()
     val currentAccent = LocalDynamicThemeState.current.colorTuple.value.primary
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(

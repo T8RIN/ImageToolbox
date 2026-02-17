@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private data class FilePickerImpl(
     val context: Context,
@@ -78,24 +80,30 @@ fun rememberFilePicker(
 ): FilePicker {
     val context = LocalContext.current
 
+    val essentials = rememberLocalEssentials()
+
     val openDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
-            uri?.takeIf {
-                it != Uri.EMPTY
-            }?.let {
-                onSuccess(listOf(it))
-            } ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uri?.takeIf {
+                    it != Uri.EMPTY
+                }?.let {
+                    onSuccess(listOf(it))
+                } ?: onFailure()
+            }
         }
     )
     val openDocumentMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
+            }
         }
     )
-
-    val essentials = rememberLocalEssentials()
 
     return remember(
         type,

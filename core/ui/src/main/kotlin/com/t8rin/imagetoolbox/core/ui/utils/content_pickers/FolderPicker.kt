@@ -29,6 +29,8 @@ import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 private data class FolderPickerImpl(
@@ -62,17 +64,20 @@ fun rememberFolderPicker(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FolderPicker {
+    val essentials = rememberLocalEssentials()
     val openDocumentTree = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocumentTree(),
         onResult = { uri ->
-            uri?.takeIf {
-                it != Uri.EMPTY
-            }?.let {
-                onSuccess(uri.takePersistablePermission())
-            } ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uri?.takeIf {
+                    it != Uri.EMPTY
+                }?.let {
+                    onSuccess(uri.takePersistablePermission())
+                } ?: onFailure()
+            }
         }
     )
-    val essentials = rememberLocalEssentials()
 
     return remember(openDocumentTree) {
         derivedStateOf {

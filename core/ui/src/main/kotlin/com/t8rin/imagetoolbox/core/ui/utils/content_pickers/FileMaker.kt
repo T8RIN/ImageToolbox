@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 private data class FileMakerImpl(
@@ -63,17 +65,20 @@ fun rememberFileCreator(
     onFailure: () -> Unit = {},
     onSuccess: (Uri) -> Unit,
 ): FileMaker {
+    val essentials = rememberLocalEssentials()
     val createDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(mimeType.entry),
         onResult = { uri ->
-            uri?.takeIf {
-                it != Uri.EMPTY
-            }?.let {
-                onSuccess(it)
-            } ?: onFailure()
+            essentials.launch {
+                delay(300)
+                uri?.takeIf {
+                    it != Uri.EMPTY
+                }?.let {
+                    onSuccess(it)
+                } ?: onFailure()
+            }
         }
     )
-    val essentials = rememberLocalEssentials()
 
     return remember(createDocument) {
         derivedStateOf {

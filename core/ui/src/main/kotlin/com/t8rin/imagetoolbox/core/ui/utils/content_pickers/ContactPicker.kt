@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -112,6 +113,7 @@ fun rememberContactPicker(
                 it != Uri.EMPTY
             }?.let {
                 essentials.launch {
+                    delay(200)
                     onSuccess(it.parseContact())
                 }
             } ?: onFailure()
