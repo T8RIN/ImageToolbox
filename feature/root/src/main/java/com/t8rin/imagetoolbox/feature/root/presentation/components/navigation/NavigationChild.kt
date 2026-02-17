@@ -86,6 +86,8 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsCon
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.OCRPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.PageNumbersPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.RearrangePdfToolContent
@@ -411,5 +413,10 @@ internal sealed interface NavigationChild {
     class PageNumbersPdfTool(private val component: PageNumbersPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = PageNumbersPdfToolContent(component)
+    }
+
+    class OCRPdfTool(private val component: OCRPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = OCRPdfToolContent(component)
     }
 }

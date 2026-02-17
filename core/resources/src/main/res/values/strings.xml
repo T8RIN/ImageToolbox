@@ -2145,4 +2145,6 @@
     <string name="page_numbers">Page Numbers</string>
     <string name="page_numbers_sub">Add numbering to your documents automatically</string>
     <string name="label_format">Label Format</string>
+    <string name="pdf_to_text">PDF to Text</string>
+    <string name="pdf_to_text_sub">Extract plain text from your PDF documents</string>
 </resources>

@@ -345,7 +345,8 @@ sealed class Screen(
                     Split(),
                     Rotate(),
                     Rearrange(),
-                    PageNumbers()
+                    PageNumbers(),
+                    OCR()
                 )
             }
         }
@@ -393,6 +394,15 @@ sealed class Screen(
             id = 48,
             title = R.string.page_numbers,
             subtitle = R.string.page_numbers_sub
+        )
+
+        @Serializable
+        data class OCR(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 49,
+            title = R.string.pdf_to_text,
+            subtitle = R.string.pdf_to_text_sub
         )
     }
 

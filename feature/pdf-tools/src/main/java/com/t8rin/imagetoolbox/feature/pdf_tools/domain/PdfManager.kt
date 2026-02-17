@@ -100,4 +100,8 @@ interface PdfManager<I> {
         password: String
     ): String
 
+    suspend fun extractPagesFromPdf(
+        uri: String
+    ): List<String>
+
 }

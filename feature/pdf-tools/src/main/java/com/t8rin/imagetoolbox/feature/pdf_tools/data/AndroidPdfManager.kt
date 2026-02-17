@@ -38,7 +38,9 @@ import com.t8rin.imagetoolbox.core.data.utils.openFileDescriptor
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
-import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -71,7 +73,7 @@ internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider,
+    private val shareProvider: ImageShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
 
@@ -484,6 +486,49 @@ internal class AndroidPdfManager @Inject constructor(
                 document.save(output.outputStream())
             }
         } ?: throw IllegalAccessException("No PDF created")
+    }
+
+    override suspend fun extractPagesFromPdf(uri: String): List<String> {
+        return context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
+            withContext(defaultDispatcher) {
+                fileDescriptor.createPdfRenderer(
+                    password = null,
+                    onFailure = { throw it },
+                    onPasswordRequest = null
+                )?.use { pdfRenderer ->
+                    (0 until pdfRenderer.pageCount).mapNotNull { pageIndex ->
+                        val bitmap: Bitmap
+                        pdfRenderer.openPage(pageIndex).use { page ->
+                            bitmap = imageScaler.scaleUntilCanShow(
+                                createBitmap(
+                                    width = page.width,
+                                    height = page.height
+                                )
+                            )!!
+                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+                        }
+
+                        val renderedBitmap = createBitmap(
+                            width = bitmap.width,
+                            height = bitmap.height,
+                            config = getSuitableConfig(bitmap)
+                        ).applyCanvas {
+                            drawColor(Color.White.toArgb())
+                            drawBitmap(bitmap)
+                        }
+
+                        shareProvider.cacheImage(
+                            image = renderedBitmap,
+                            imageInfo = ImageInfo(
+                                width = renderedBitmap.width,
+                                height = renderedBitmap.height,
+                                imageFormat = ImageFormat.Png.Lossless
+                            )
+                        )
+                    }
+                }
+            }
+        } ?: throw NullPointerException("File cannot be read")
     }
 
     private suspend fun calculateCombinedImageDimensionsAndBitmaps(

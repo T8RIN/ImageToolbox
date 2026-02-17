@@ -80,10 +80,12 @@ abstract class BasePdfToolComponent(
     ) {
         savingJob = trackProgress {
             runSuspendCatching {
+                _isSaving.value = true
                 onResult(action())
             }.onFailure {
                 onResult(SaveResult.Error.Exception(it))
             }
+            _isSaving.value = false
         }
     }
 
@@ -94,10 +96,12 @@ abstract class BasePdfToolComponent(
     ) {
         savingJob = trackProgress {
             runSuspendCatching {
+                _isSaving.value = true
                 onSuccess(action())
             }.onFailure {
                 onFailure(it)
             }
+            _isSaving.value = false
         }
     }
 

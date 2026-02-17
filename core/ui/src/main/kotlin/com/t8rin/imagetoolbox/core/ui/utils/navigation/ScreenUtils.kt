@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.DocumentScanner
+import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
@@ -40,6 +41,7 @@ import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.ColorLens
 import androidx.compose.material.icons.twotone.Compare
 import androidx.compose.material.icons.twotone.DocumentScanner
+import androidx.compose.material.icons.twotone.FilePresent
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
@@ -208,6 +210,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Rotate -> "PdfTools_Rotate"
     is PdfTools.Rearrange -> "PdfTools_Rearrange"
     is PdfTools.PageNumbers -> "PdfTools_PageNumbers"
+    is PdfTools.OCR -> "PdfTools_OCR"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -267,6 +270,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Rotate -> Icons.Rounded.Rotate90DegreesCcw
     is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.Rounded.Numbers
+    is PdfTools.OCR -> Icons.Outlined.FilePresent
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -326,6 +330,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90DegreesCcw
     is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.TwoTone.Numbers
+    is PdfTools.OCR -> Icons.TwoTone.FilePresent
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
