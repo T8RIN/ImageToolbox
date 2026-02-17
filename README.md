@@ -665,6 +665,20 @@ or click one of the badges below.
     - PDF to images
     - Images to PDF
     - PDF previewing
+    - Merge
+    - Split
+    - Rotate
+    - Rearrange
+    - Page Numbering
+    - Watermark
+    - Signature
+    - Compress
+    - Grayscale
+    - Repair
+    - Protect
+    - Unlock
+    - Metadata
+    - PDF to Text (OCR)
 - Document Scanning
 - AI tools (95+ ready to use models available)
     - Upscale
