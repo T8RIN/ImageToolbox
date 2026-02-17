@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
@@ -114,6 +115,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SplitPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SvgMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WallpapersExport
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WatermarkPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Watermarking
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WebpTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WeightResize
@@ -191,6 +193,7 @@ internal class ChildProvider @Inject constructor(
     private val rearrangePdfToolComponentFactory: RearrangePdfToolComponent.Factory,
     private val pageNumbersPdfToolComponentFactory: PageNumbersPdfToolComponent.Factory,
     private val ocrPdfToolComponentFactory: OCRPdfToolComponent.Factory,
+    private val watermarkPdfToolComponentFactory: WatermarkPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -680,6 +683,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.OCR -> OCRPdfTool(
             ocrPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.PdfTools.Watermark -> WatermarkPdfTool(
+            watermarkPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

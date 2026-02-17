@@ -415,15 +415,21 @@ internal class AndroidPdfManager @Inject constructor(
                             )
                         )
 
-                        val radians = Math.toRadians(params.rotation.toDouble())
-                        val cos = kotlin.math.cos(radians).toFloat()
-                        val sin = kotlin.math.sin(radians).toFloat()
-                        val x = page.mediaBox.width / 2f
-                        val y = page.mediaBox.height / 2f
+                        val textWidth =
+                            font.getStringWidth(watermarkText) / 1000f * params.fontSize
 
-                        val matrix = Matrix(cos, sin, -sin, cos, x, y)
+                        val radians = Math.toRadians(-params.rotation.toDouble())
+                        val centerX = page.mediaBox.width / 2f
+                        val centerY = page.mediaBox.height / 2f
+
+                        val matrix = Matrix.getRotateInstance(
+                            radians,
+                            centerX,
+                            centerY
+                        )
+
                         stream.setTextMatrix(matrix)
-
+                        stream.newLineAtOffset(-textWidth / 2f, 0f)
                         stream.showText(watermarkText)
                         stream.endText()
                     }

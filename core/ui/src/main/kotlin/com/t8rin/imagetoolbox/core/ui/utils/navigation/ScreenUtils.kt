@@ -211,6 +211,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Rearrange -> "PdfTools_Rearrange"
     is PdfTools.PageNumbers -> "PdfTools_PageNumbers"
     is PdfTools.OCR -> "PdfTools_OCR"
+    is PdfTools.Watermark -> "PdfTools_Watermark"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -271,6 +272,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.Rounded.Numbers
     is PdfTools.OCR -> Icons.Outlined.FilePresent
+    is PdfTools.Watermark -> Icons.AutoMirrored.Outlined.BrandingWatermark
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -331,6 +333,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.TwoTone.Numbers
     is PdfTools.OCR -> Icons.TwoTone.FilePresent
+    is PdfTools.Watermark -> Icons.AutoMirrored.TwoTone.BrandingWatermark
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

@@ -98,6 +98,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToo
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.SplitPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.WatermarkPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.RecognizeTextContent
@@ -418,5 +420,10 @@ internal sealed interface NavigationChild {
     class OCRPdfTool(private val component: OCRPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = OCRPdfToolContent(component)
+    }
+
+    class WatermarkPdfTool(private val component: WatermarkPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = WatermarkPdfToolContent(component)
     }
 }

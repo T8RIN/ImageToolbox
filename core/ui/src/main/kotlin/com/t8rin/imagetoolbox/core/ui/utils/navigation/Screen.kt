@@ -346,6 +346,7 @@ sealed class Screen(
                     Rotate(),
                     Rearrange(),
                     PageNumbers(),
+                    Watermark(),
                     OCR()
                 )
             }
@@ -403,6 +404,15 @@ sealed class Screen(
             id = 49,
             title = R.string.pdf_to_text,
             subtitle = R.string.pdf_to_text_sub
+        )
+
+        @Serializable
+        data class Watermark(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 50,
+            title = R.string.watermarking,
+            subtitle = R.string.watermark_pdf_sub
         )
     }
 
