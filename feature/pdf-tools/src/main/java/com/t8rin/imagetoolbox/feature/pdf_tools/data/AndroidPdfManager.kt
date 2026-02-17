@@ -55,12 +55,14 @@ import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
+import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -136,7 +138,7 @@ internal class AndroidPdfManager @Inject constructor(
         context.openFileDescriptor(pdfUri.toUri())?.use { fileDescriptor ->
             withContext(defaultDispatcher) default@{
                 val pdfRenderer = fileDescriptor.createPdfRenderer(
-                    password = password,
+                    password = password ?: password,
                     onFailure = onFailure,
                     onPasswordRequest = null
                 ) ?: return@default onFailure(NullPointerException("File cannot be read"))
@@ -181,7 +183,7 @@ internal class AndroidPdfManager @Inject constructor(
         runCatching {
             context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
                 val renderer = fileDescriptor.createPdfRenderer(
-                    password = password,
+                    password = password ?: password,
                     onFailure = {},
                     onPasswordRequest = null
                 )
@@ -198,7 +200,7 @@ internal class AndroidPdfManager @Inject constructor(
         pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
             context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
                 val renderer = fileDescriptor.createPdfRenderer(
-                    password = password,
+                    password = password ?: password,
                     onFailure = {},
                     onPasswordRequest = null
                 ) ?: return@withContext emptyList()
@@ -217,8 +219,8 @@ internal class AndroidPdfManager @Inject constructor(
         }.getOrNull() ?: emptyList()
     }
 
-    override suspend fun mergePdfs(uris: List<String>): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("merged")) { output ->
+    override suspend fun mergePdfs(uris: List<String>): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("merged")) { output ->
             PDFMergerUtility().apply {
                 uris.forEach { uri ->
                     addSource(uri.inputStream())
@@ -226,15 +228,15 @@ internal class AndroidPdfManager @Inject constructor(
                 destinationStream = output.outputStream()
                 mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun splitPdf(
         uri: String,
         pages: List<Int>?
-    ): String = withContext(defaultDispatcher) {
+    ): String = catchPdf {
         PDDocument.load(uri.inputStream()).use { document ->
-            shareProvider.cacheData(filename = tempName("split")) { output ->
+            shareProvider.cacheDataOrThrow(filename = tempName("split")) { output ->
                 PDDocument().use { newDoc ->
                     (pages ?: List(document.numberOfPages) { it }).forEach { index ->
                         newDoc.addPage(document.getPage(index))
@@ -242,14 +244,14 @@ internal class AndroidPdfManager @Inject constructor(
                     newDoc.save(output.outputStream())
                 }
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun rotatePdf(
         uri: String,
         rotations: List<Int>
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("rotated")) { output ->
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("rotated")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 document.pages.forEachIndexed { idx, page ->
                     val angle = rotations.getOrNull(idx) ?: 0
@@ -257,14 +259,14 @@ internal class AndroidPdfManager @Inject constructor(
                 }
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun rearrangePdf(
         uri: String,
         newOrder: List<Int>
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("rearranged")) { output ->
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("rearranged")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 PDDocument().use { newDoc ->
                     newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
@@ -272,7 +274,7 @@ internal class AndroidPdfManager @Inject constructor(
                 }
             }
 
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun addPageNumbers(
@@ -280,10 +282,10 @@ internal class AndroidPdfManager @Inject constructor(
         labelFormat: String,
         position: Position,
         color: Int
-    ): String = withContext(defaultDispatcher) {
+    ): String = catchPdf {
         val color = Color(color)
 
-        shareProvider.cacheData(filename = tempName("numbered")) { output ->
+        shareProvider.cacheDataOrThrow(filename = tempName("numbered")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
                 val totalPages = document.pages.count()
@@ -373,17 +375,17 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun addWatermark(
         uri: String,
         watermarkText: String,
         params: PdfWatermarkParams
-    ): String = withContext(defaultDispatcher) {
+    ): String = catchPdf {
         val color = Color(params.color)
 
-        shareProvider.cacheData(filename = tempName("watermarked")) { output ->
+        shareProvider.cacheDataOrThrow(filename = tempName("watermarked")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
 
@@ -427,15 +429,15 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun addSignature(
         uri: String,
         signatureImage: Bitmap,
         options: SignatureOptions
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("signed")) { output ->
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("signed")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 val pagesToSign = options.pages.ifEmpty { List(document.pages.count) { it } }
                 val pdImage = LosslessFactory.createFromImage(document, signatureImage)
@@ -460,32 +462,32 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun protectPdf(
         uri: String,
         password: String
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("protected")) { output ->
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("protected")) { output ->
             PDDocument.load(uri.inputStream()).use { document ->
                 val protection = StandardProtectionPolicy(password, password, AccessPermission())
                 protection.encryptionKeyLength = 128
                 document.protect(protection)
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun unlockPdf(
         uri: String,
         password: String
-    ): String = withContext(defaultDispatcher) {
-        shareProvider.cacheData(filename = tempName("unlocked")) { output ->
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(filename = tempName("unlocked")) { output ->
             PDDocument.load(uri.inputStream(), password).use { document ->
                 document.save(output.outputStream())
             }
-        } ?: throw IllegalAccessException("No PDF created")
+        }
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> {
@@ -529,6 +531,18 @@ internal class AndroidPdfManager @Inject constructor(
                 }
             }
         } ?: throw NullPointerException("File cannot be read")
+    }
+
+    private suspend inline fun <T> catchPdf(
+        crossinline action: suspend () -> T
+    ): T = withContext(defaultDispatcher) {
+        try {
+            action()
+        } catch (k: InvalidPasswordException) {
+            throw SecurityException(k.message)
+        } catch (e: CancellationException) {
+            throw e
+        }
     }
 
     private suspend fun calculateCombinedImageDimensionsAndBitmaps(

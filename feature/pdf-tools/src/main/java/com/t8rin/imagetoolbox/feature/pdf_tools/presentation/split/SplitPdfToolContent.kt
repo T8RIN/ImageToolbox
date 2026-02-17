@@ -178,7 +178,7 @@ fun SplitPdfToolContent(
                         )
                     },
                     isPortrait = isPortrait,
-                    isLoadingImages = pagesCount == 0
+                    isLoadingImages = false
                 )
             }
         },

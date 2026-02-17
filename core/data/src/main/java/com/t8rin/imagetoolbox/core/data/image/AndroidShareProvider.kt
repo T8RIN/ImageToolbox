@@ -224,33 +224,43 @@ internal class AndroidShareProvider @Inject constructor(
         filename: String,
         writeData: suspend (Writeable) -> Unit
     ): String? = withContext(ioDispatcher) {
+        runSuspendCatching {
+            cacheDataOrThrow(
+                filename = filename,
+                writeData = writeData
+            )
+        }.onFailure { it.makeLog("cacheData") }.getOrNull()
+    }
+
+    override suspend fun cacheDataOrThrow(
+        filename: String,
+        writeData: suspend (Writeable) -> Unit
+    ): String = withContext(ioDispatcher) {
         val imagesFolder = if (filename.startsWith("temp.")) {
             File(context.cacheDir, "temp")
         } else {
             File(context.cacheDir, "cache/${Random.nextInt()}")
         }
 
-        runSuspendCatching {
-            imagesFolder.mkdirs()
-            val file = File(imagesFolder, filename)
-            FileWriteable(file).use {
-                writeData(it)
-            }
+        imagesFolder.mkdirs()
+        val file = File(imagesFolder, filename)
+        FileWriteable(file).use {
+            writeData(it)
+        }
 
-            FileProvider.getUriForFile(
-                context,
-                getString(R.string.file_provider),
-                file
-            ).also { uri ->
-                runCatching {
-                    context.grantUriPermission(
-                        context.packageName,
-                        uri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
+        FileProvider.getUriForFile(
+            context,
+            getString(R.string.file_provider),
+            file
+        ).also { uri ->
+            runCatching {
+                context.grantUriPermission(
+                    context.packageName,
+                    uri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
             }
-        }.onFailure { it.makeLog("cacheData") }.getOrNull()?.toString()
+        }.toString()
     }
 
     override suspend fun shareData(

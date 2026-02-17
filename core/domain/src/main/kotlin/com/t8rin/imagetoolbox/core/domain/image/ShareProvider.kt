@@ -38,6 +38,11 @@ interface ShareProvider {
         writeData: suspend (Writeable) -> Unit,
     ): String?
 
+    suspend fun cacheDataOrThrow(
+        filename: String,
+        writeData: suspend (Writeable) -> Unit,
+    ): String
+
     suspend fun shareData(
         writeData: suspend (Writeable) -> Unit,
         filename: String,
