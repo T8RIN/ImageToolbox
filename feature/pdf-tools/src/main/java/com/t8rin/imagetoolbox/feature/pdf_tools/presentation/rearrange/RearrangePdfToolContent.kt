@@ -87,6 +87,9 @@ fun RearrangePdfToolContent(
                 onReorder = component::updatePages
             )
             Spacer(Modifier.height(20.dp))
+        },
+        onFilledPassword = {
+            component.setUri(component.uri)
         }
     )
 }

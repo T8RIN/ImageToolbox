@@ -49,7 +49,8 @@ class SplitPdfToolComponent @AssistedInject internal constructor(
     onGoBack = onGoBack,
     onNavigate = onNavigate,
     dispatchersHolder = dispatchersHolder,
-    componentContext = componentContext
+    componentContext = componentContext,
+    pdfManager = pdfManager
 ) {
     override val _haveChanges: MutableState<Boolean> = mutableStateOf(initialUri != null)
     override val haveChanges: Boolean by _haveChanges
@@ -67,6 +68,10 @@ class SplitPdfToolComponent @AssistedInject internal constructor(
             registerChanges()
         }
         _uri.update { uri }
+        checkPdf(
+            uri = uri,
+            onDecrypted = { _uri.value = it }
+        )
     }
 
     fun updatePages(pages: List<Int>) {

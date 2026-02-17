@@ -49,7 +49,8 @@ class MergePdfToolComponent @AssistedInject internal constructor(
     onGoBack = onGoBack,
     onNavigate = onNavigate,
     dispatchersHolder = dispatchersHolder,
-    componentContext = componentContext
+    componentContext = componentContext,
+    pdfManager = pdfManager
 ) {
     override val _haveChanges: MutableState<Boolean> = mutableStateOf(!initialUris.isNullOrEmpty())
     override val haveChanges: Boolean by _haveChanges

@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.SignatureOptions
@@ -80,6 +81,26 @@ internal class AndroidPdfManager @Inject constructor(
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
 
     private val pagesCache = hashMapOf<String, List<IntegerSize>>()
+
+    private var password: String? = null
+
+    override fun setMasterPassword(password: String?) {
+        this.password = password
+    }
+
+    override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
+        val unlocked = unlockPdf(
+            uri = uri,
+            password = password.orEmpty(),
+            filename = uri.toUri().filename() ?: tempName("unlocked")
+        )
+
+        if (password.isNullOrBlank()) {
+            null
+        } else {
+            unlocked
+        }
+    }
 
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
@@ -235,7 +256,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         pages: List<Int>?
     ): String = catchPdf {
-        PDDocument.load(uri.inputStream()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
             shareProvider.cacheDataOrThrow(filename = tempName("split")) { output ->
                 PDDocument().use { newDoc ->
                     (pages ?: List(document.numberOfPages) { it }).forEach { index ->
@@ -252,7 +273,7 @@ internal class AndroidPdfManager @Inject constructor(
         rotations: List<Int>
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(filename = tempName("rotated")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 document.pages.forEachIndexed { idx, page ->
                     val angle = rotations.getOrNull(idx) ?: 0
                     page.rotation = (page.rotation + angle) % 360
@@ -267,7 +288,7 @@ internal class AndroidPdfManager @Inject constructor(
         newOrder: List<Int>
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(filename = tempName("rearranged")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 PDDocument().use { newDoc ->
                     newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
                     newDoc.save(output.outputStream())
@@ -286,7 +307,7 @@ internal class AndroidPdfManager @Inject constructor(
         val color = Color(color)
 
         shareProvider.cacheDataOrThrow(filename = tempName("numbered")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
                 val totalPages = document.pages.count()
 
@@ -386,7 +407,7 @@ internal class AndroidPdfManager @Inject constructor(
         val color = Color(params.color)
 
         shareProvider.cacheDataOrThrow(filename = tempName("watermarked")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val font = PDType1Font.HELVETICA_BOLD
 
                 document.pages.forEach { page ->
@@ -438,7 +459,7 @@ internal class AndroidPdfManager @Inject constructor(
         options: SignatureOptions
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(filename = tempName("signed")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val pagesToSign = options.pages.ifEmpty { List(document.pages.count) { it } }
                 val pdImage = LosslessFactory.createFromImage(document, signatureImage)
 
@@ -470,7 +491,7 @@ internal class AndroidPdfManager @Inject constructor(
         password: String
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(filename = tempName("protected")) { output ->
-            PDDocument.load(uri.inputStream()).use { document ->
+            PDDocument.load(uri.inputStream(), this.password.orEmpty()).use { document ->
                 val protection = StandardProtectionPolicy(password, password, AccessPermission())
                 protection.encryptionKeyLength = 128
                 document.protect(protection)
@@ -483,10 +504,21 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("unlocked")) { output ->
-            PDDocument.load(uri.inputStream(), password).use { document ->
-                document.save(output.outputStream())
-            }
+        unlockPdf(
+            uri = uri,
+            password = password,
+            filename = tempName("unlocked")
+        )
+    }
+
+    private suspend fun unlockPdf(
+        uri: String,
+        password: String,
+        filename: String
+    ) = shareProvider.cacheDataOrThrow(filename = filename) { output ->
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            document.isAllSecurityToBeRemoved = true
+            document.save(output.outputStream())
         }
     }
 
@@ -494,7 +526,7 @@ internal class AndroidPdfManager @Inject constructor(
         return context.openFileDescriptor(uri.toUri())?.use { fileDescriptor ->
             withContext(defaultDispatcher) {
                 fileDescriptor.createPdfRenderer(
-                    password = null,
+                    password = password,
                     onFailure = { throw it },
                     onPasswordRequest = null
                 )?.use { pdfRenderer ->

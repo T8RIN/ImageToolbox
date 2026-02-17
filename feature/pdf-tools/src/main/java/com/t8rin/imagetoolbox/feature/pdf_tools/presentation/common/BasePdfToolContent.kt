@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfPasswordRequestDialog
 
 @Composable
 internal fun BasePdfToolContent(
@@ -63,7 +64,8 @@ internal fun BasePdfToolContent(
     placeImagePreview: Boolean = true,
     showImagePreviewAsStickyHeader: Boolean = true,
     controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
-    canSave: Boolean = true
+    canSave: Boolean = true,
+    onFilledPassword: () -> Unit = {}
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -188,5 +190,17 @@ internal fun BasePdfToolContent(
         onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
+    )
+
+    PdfPasswordRequestDialog(
+        isVisible = component.showPasswordRequestDialog,
+        onDismiss = {
+            component.hidePasswordRequestDialog()
+            component.onGoBack()
+        },
+        onFillPassword = {
+            component.setPassword(it)
+            onFilledPassword()
+        }
     )
 }

@@ -23,6 +23,12 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 
 interface PdfManager<I> {
 
+    fun setMasterPassword(
+        password: String?
+    )
+
+    suspend fun checkIsPdfEncrypted(uri: String): String?
+
     suspend fun getPdfPages(
         uri: String,
         password: String?

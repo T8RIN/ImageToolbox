@@ -42,6 +42,9 @@ fun OCRPdfToolContent(
         imagePreview = {},
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
-        controls = {}
+        controls = {},
+        onFilledPassword = {
+            component.setUri(component.uri)
+        }
     )
 }

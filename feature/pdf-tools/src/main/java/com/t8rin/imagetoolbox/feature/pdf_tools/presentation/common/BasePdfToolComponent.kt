@@ -17,11 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -31,6 +34,8 @@ import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Job
 import kotlin.random.Random
 
@@ -38,14 +43,55 @@ abstract class BasePdfToolComponent(
     val onGoBack: () -> Unit,
     val onNavigate: (Screen) -> Unit,
     dispatchersHolder: DispatchersHolder,
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val pdfManager: PdfManager<Bitmap>,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
+    private val _showPasswordRequestDialog: MutableState<Boolean> = mutableStateOf(false)
+    val showPasswordRequestDialog by _showPasswordRequestDialog
+
+    init {
+        doOnDestroy {
+            pdfManager.setMasterPassword(null)
+        }
+    }
+
     protected var savingJob: Job? by smartJob {
         _isSaving.update { false }
+    }
+
+    fun setPassword(password: String) {
+        _showPasswordRequestDialog.update { false }
+        pdfManager.setMasterPassword(password)
+    }
+
+    fun hidePasswordRequestDialog() {
+        _showPasswordRequestDialog.update { false }
+    }
+
+    fun checkPdf(
+        uri: Uri?,
+        onDecrypted: (Uri) -> Unit
+    ) {
+        uri ?: return
+
+        componentScope.launch {
+            runSuspendCatching {
+                pdfManager.checkIsPdfEncrypted(uri.toString())?.let { decrypted ->
+                    pdfManager.setMasterPassword(null)
+                    onDecrypted(decrypted.toUri())
+                }
+            }.onFailure {
+                if (it is SecurityException) {
+                    _showPasswordRequestDialog.update { true }
+                } else {
+                    it.makeLog("checkPdf")
+                }
+            }
+        }
     }
 
     fun cancelSaving() {
@@ -83,7 +129,11 @@ abstract class BasePdfToolComponent(
                 _isSaving.value = true
                 onResult(action())
             }.onFailure {
-                onResult(SaveResult.Error.Exception(it))
+                if (it is SecurityException) {
+                    _showPasswordRequestDialog.update { true }
+                } else {
+                    onResult(SaveResult.Error.Exception(it))
+                }
             }
             _isSaving.value = false
         }
@@ -99,7 +149,11 @@ abstract class BasePdfToolComponent(
                 _isSaving.value = true
                 onSuccess(action())
             }.onFailure {
-                onFailure(it)
+                if (it is SecurityException) {
+                    _showPasswordRequestDialog.update { true }
+                } else {
+                    onFailure(it)
+                }
             }
             _isSaving.value = false
         }
