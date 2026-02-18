@@ -2153,4 +2153,7 @@
     <string name="creator">Yaratıcı</string>
     <string name="privacy_deep_clean">Gizlilik Derinlemesine Temizlik</string>
     <string name="privacy_deep_clean_sub">Bu belge için mevcut tüm meta verileri temizle</string>
+    <string name="page">Sayfa</string>
+    <string name="deep_ocr">Derin OCR</string>
+    <string name="deep_ocr_sub">Tesseract motorunu kullanarak belgeden metni çıkarın ve tek bir metin dosyasında saklayın</string>
 </resources>

@@ -2153,4 +2153,7 @@
     <string name="creator">Sortzailea</string>
     <string name="privacy_deep_clean">Pribatutasuna Deep Clean</string>
     <string name="privacy_deep_clean_sub">Garbitu dokumentu honetarako erabilgarri dauden metadatu guztiak</string>
+    <string name="page">Orria</string>
+    <string name="deep_ocr">OCR sakona</string>
+    <string name="deep_ocr_sub">Atera testua dokumentutik eta gorde testu fitxategi bakarrean Tesseract motorra erabiliz</string>
 </resources>

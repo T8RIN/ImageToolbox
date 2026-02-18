@@ -2155,4 +2155,7 @@
     <string name="creator">Tvůrce</string>
     <string name="privacy_deep_clean">Soukromí Deep Clean</string>
     <string name="privacy_deep_clean_sub">Vymažte všechna dostupná metadata pro tento dokument</string>
+    <string name="page">Strana</string>
+    <string name="deep_ocr">Hluboké OCR</string>
+    <string name="deep_ocr_sub">Extrahujte text z dokumentu a uložte jej do jednoho textového souboru pomocí enginu Tesseract</string>
 </resources>

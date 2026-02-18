@@ -2153,4 +2153,7 @@
     <string name="creator">ياراتقۇچى</string>
     <string name="privacy_deep_clean">مەخپىيەتلىك چوڭقۇر</string>
     <string name="privacy_deep_clean_sub">بۇ ھۆججەتنىڭ بارلىق ئىشلەتكىلى بولىدىغان مېتا سانلىق مەلۇماتلىرىنى تازىلاڭ</string>
+    <string name="page">بەت</string>
+    <string name="deep_ocr">چوڭقۇر OCR</string>
+    <string name="deep_ocr_sub">ھۆججەتتىن تېكىست چىقىرىپ ، Tesseract ماتورى ئارقىلىق بىر تېكىست ھۆججىتىگە ساقلاڭ</string>
 </resources>

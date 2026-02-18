@@ -2153,4 +2153,7 @@
     <string name="creator">Creador</string>
     <string name="privacy_deep_clean">Limpieza profunda de privacidad</string>
     <string name="privacy_deep_clean_sub">Borrar todos los metadatos disponibles para este documento</string>
+    <string name="page">Página</string>
+    <string name="deep_ocr">OCR profundo</string>
+    <string name="deep_ocr_sub">Extraiga texto del documento y guárdelo en un archivo de texto utilizando el motor Tesseract</string>
 </resources>

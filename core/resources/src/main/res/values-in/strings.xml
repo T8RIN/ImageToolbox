@@ -2152,4 +2152,7 @@
     <string name="creator">Pencipta</string>
     <string name="privacy_deep_clean">Privasi Sangat Bersih</string>
     <string name="privacy_deep_clean_sub">Hapus semua metadata yang tersedia untuk dokumen ini</string>
+    <string name="page">Halaman</string>
+    <string name="deep_ocr">OCR yang dalam</string>
+    <string name="deep_ocr_sub">Ekstrak teks dari dokumen dan simpan dalam satu file teks menggunakan mesin Tesseract</string>
 </resources>

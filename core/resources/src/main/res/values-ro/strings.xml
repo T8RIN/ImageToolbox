@@ -2154,4 +2154,7 @@
     <string name="creator">Creator</string>
     <string name="privacy_deep_clean">Confidențialitate Deep Clean</string>
     <string name="privacy_deep_clean_sub">Ștergeți toate metadatele disponibile pentru acest document</string>
+    <string name="page">Pagină</string>
+    <string name="deep_ocr">OCR profund</string>
+    <string name="deep_ocr_sub">Extrageți textul din document și stocați-l într-un singur fișier text folosind motorul Tesseract</string>
 </resources>

@@ -2153,4 +2153,7 @@
     <string name="creator">Créateur</string>
     <string name="privacy_deep_clean">Nettoyage en profondeur de la confidentialité</string>
     <string name="privacy_deep_clean_sub">Effacer toutes les métadonnées disponibles pour ce document</string>
+    <string name="page">Page</string>
+    <string name="deep_ocr">ROC profonde</string>
+    <string name="deep_ocr_sub">Extrayez le texte du document et stockez-le dans un fichier texte à l\'aide du moteur Tesseract</string>
 </resources>

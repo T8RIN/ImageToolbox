@@ -2152,4 +2152,7 @@
     <string name="creator">クリエイター</string>
     <string name="privacy_deep_clean">プライバシーのディープクリーン</string>
     <string name="privacy_deep_clean_sub">このドキュメントの利用可能なメタデータをすべてクリアします</string>
+    <string name="page">ページ</string>
+    <string name="deep_ocr">ディープ OCR</string>
+    <string name="deep_ocr_sub">Tesseract エンジンを使用してドキュメントからテキストを抽出し、1 つのテキスト ファイルに保存します</string>
 </resources>

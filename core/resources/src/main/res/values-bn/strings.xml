@@ -2153,4 +2153,7 @@
     <string name="creator">সৃষ্টিকর্তা</string>
     <string name="privacy_deep_clean">গোপনীয়তা গভীর পরিষ্কার</string>
     <string name="privacy_deep_clean_sub">এই নথির জন্য সমস্ত উপলব্ধ মেটাডেটা সাফ করুন</string>
+    <string name="page">পাতা</string>
+    <string name="deep_ocr">গভীর ওসিআর</string>
+    <string name="deep_ocr_sub">ডকুমেন্ট থেকে টেক্সট বের করুন এবং Tesseract ইঞ্জিন ব্যবহার করে একটি টেক্সট ফাইলে সংরক্ষণ করুন</string>
 </resources>

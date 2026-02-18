@@ -2153,4 +2153,7 @@
     <string name="creator">సృష్టికర్త</string>
     <string name="privacy_deep_clean">గోప్యత డీప్ క్లీన్</string>
     <string name="privacy_deep_clean_sub">ఈ పత్రం కోసం అందుబాటులో ఉన్న మొత్తం మెటాడేటాను క్లియర్ చేయండి</string>
+    <string name="page">పేజీ</string>
+    <string name="deep_ocr">లోతైన OCR</string>
+    <string name="deep_ocr_sub">పత్రం నుండి వచనాన్ని సంగ్రహించి, టెసెరాక్ట్ ఇంజిన్‌ని ఉపయోగించి ఒక టెక్స్ట్ ఫైల్‌లో నిల్వ చేయండి</string>
 </resources>

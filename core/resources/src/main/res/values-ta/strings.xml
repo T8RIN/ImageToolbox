@@ -2153,4 +2153,7 @@
     <string name="creator">படைப்பாளி</string>
     <string name="privacy_deep_clean">தனியுரிமை ஆழமான சுத்தம்</string>
     <string name="privacy_deep_clean_sub">இந்த ஆவணத்திற்கு கிடைக்கக்கூடிய அனைத்து மெட்டாடேட்டாவையும் அழிக்கவும்</string>
+    <string name="page">பக்கம்</string>
+    <string name="deep_ocr">ஆழமான OCR</string>
+    <string name="deep_ocr_sub">ஆவணத்திலிருந்து உரையைப் பிரித்தெடுத்து டெஸராக்ட் என்ஜினைப் பயன்படுத்தி ஒரு உரை கோப்பில் சேமிக்கவும்</string>
 </resources>

@@ -2153,4 +2153,7 @@
     <string name="creator">Luoja</string>
     <string name="privacy_deep_clean">Yksityisyys syväpuhdistus</string>
     <string name="privacy_deep_clean_sub">Tyhjennä kaikki tämän asiakirjan saatavilla olevat metatiedot</string>
+    <string name="page">Sivu</string>
+    <string name="deep_ocr">Syvä OCR</string>
+    <string name="deep_ocr_sub">Pura teksti asiakirjasta ja tallenna se yhteen tekstitiedostoon Tesseract-moottorilla</string>
 </resources>

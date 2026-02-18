@@ -2153,4 +2153,7 @@
     <string name="creator">निर्माता</string>
     <string name="privacy_deep_clean">प्राइवेसी डीप क्लीन</string>
     <string name="privacy_deep_clean_sub">इस दस्तावेज़ के लिए सभी उपलब्ध मेटाडेटा साफ़ करें</string>
+    <string name="page">पेज</string>
+    <string name="deep_ocr">गहरा ओसीआर</string>
+    <string name="deep_ocr_sub">टेस्सेरैक्ट इंजन का उपयोग करके दस्तावेज़ से टेक्स्ट निकालें और उसे एक टेक्स्ट फ़ाइल में संग्रहीत करें</string>
 </resources>

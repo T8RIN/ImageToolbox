@@ -2156,4 +2156,7 @@
     <string name="creator">Kūrėjas</string>
     <string name="privacy_deep_clean">Privatumas Deep Clean</string>
     <string name="privacy_deep_clean_sub">Išvalyti visus galimus šio dokumento metaduomenis</string>
+    <string name="page">Puslapis</string>
+    <string name="deep_ocr">Gilus OCR</string>
+    <string name="deep_ocr_sub">Ištraukite tekstą iš dokumento ir išsaugokite jį viename tekstiniame faile naudodami Tesseract variklį</string>
 </resources>

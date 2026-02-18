@@ -2157,4 +2157,7 @@
     <string name="creator">الخالق</string>
     <string name="privacy_deep_clean">الخصوصية العميقة النظيفة</string>
     <string name="privacy_deep_clean_sub">امسح كافة البيانات التعريفية المتوفرة لهذا المستند</string>
+    <string name="page">صفحة</string>
+    <string name="deep_ocr">التعرف الضوئي على الحروف العميق</string>
+    <string name="deep_ocr_sub">استخرج النص من المستند وقم بتخزينه في ملف نصي واحد باستخدام محرك Tesseract</string>
 </resources>

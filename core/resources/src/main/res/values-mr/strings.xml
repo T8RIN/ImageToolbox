@@ -2154,4 +2154,7 @@
     <string name="creator">निर्माता</string>
     <string name="privacy_deep_clean">गोपनीयता खोल स्वच्छ</string>
     <string name="privacy_deep_clean_sub">या दस्तऐवजासाठी सर्व उपलब्ध मेटाडेटा साफ करा</string>
+    <string name="page">पान</string>
+    <string name="deep_ocr">खोल OCR</string>
+    <string name="deep_ocr_sub">दस्तऐवजातून मजकूर काढा आणि टेसरॅक्ट इंजिन वापरून एका मजकूर फाइलमध्ये संग्रहित करा</string>
 </resources>

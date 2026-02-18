@@ -2153,4 +2153,7 @@
     <string name="creator">Schöpfer</string>
     <string name="privacy_deep_clean">Privatsphäre tief reinigen</string>
     <string name="privacy_deep_clean_sub">Löschen Sie alle verfügbaren Metadaten für dieses Dokument</string>
+    <string name="page">Seite</string>
+    <string name="deep_ocr">Tiefe OCR</string>
+    <string name="deep_ocr_sub">Extrahieren Sie Text aus dem Dokument und speichern Sie ihn mithilfe der Tesseract-Engine in einer Textdatei</string>
 </resources>
