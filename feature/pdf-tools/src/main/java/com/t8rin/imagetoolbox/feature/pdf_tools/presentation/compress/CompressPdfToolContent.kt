@@ -69,7 +69,8 @@ fun CompressPdfToolContent(
                 quality = Quality.Base((component.quality * 100).roundToInt()),
                 onQualityChange = {
                     component.updateQuality(it.qualityValue / 100f)
-                }
+                },
+                autoCoerce = false
             )
 
             Spacer(Modifier.height(20.dp))

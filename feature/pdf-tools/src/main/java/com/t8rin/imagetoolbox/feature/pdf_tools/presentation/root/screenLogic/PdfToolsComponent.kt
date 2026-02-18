@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -96,6 +97,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _presetSelected: MutableState<Preset.Percentage> =
         mutableStateOf(Preset.Percentage(100))
     val presetSelected by _presetSelected
+
+    private val _quality: MutableState<Int> = mutableIntStateOf(85)
+    val quality by _quality
 
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
     val scaleSmallImagesToLarge by _scaleSmallImagesToLarge
@@ -211,6 +215,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _presetSelected.update { Preset.Original }
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
+        _quality.value = 85
         _pdfPassword = null
         resetCalculatedData()
         registerChangesCleared()
@@ -291,7 +296,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     },
                     scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                     preset = _presetSelected.value,
-                    tempFilename = generatePdfFilename()
+                    tempFilename = generatePdfFilename(),
+                    quality = _quality.value
                 )
             }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
             registerChanges()
@@ -307,6 +313,19 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun performSharing(
         onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        prepareForSharing(
+            onSuccess = {
+                shareProvider.shareUris(it.map(Uri::toString))
+                onSuccess()
+            },
+            onFailure = onFailure
+        )
+    }
+
+    fun prepareForSharing(
+        onSuccess: suspend (List<Uri>) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
         savingJob = trackProgress {
@@ -327,15 +346,12 @@ class PdfToolsComponent @AssistedInject internal constructor(
                             },
                             scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
                             preset = _presetSelected.value,
-                            tempFilename = generatePdfFilename()
+                            tempFilename = generatePdfFilename(),
+                            quality = _quality.value
                         ).let {
-                            shareProvider.shareUri(
-                                uri = it,
-                                onComplete = onSuccess
-                            )
+                            onSuccess(listOf(it.toUri()))
                         }
-                    }
-                    onSuccess()
+                    }.onFailure(onFailure)
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {
@@ -377,8 +393,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                         },
                         onComplete = {
                             _isSaving.value = false
-                            shareProvider.shareUris(uris.filterNotNull())
-                            onSuccess()
+                            onSuccess(uris.mapNotNull { it?.toUri() })
                         },
                         password = _pdfPassword,
                         onFailure = onFailure
@@ -386,17 +401,18 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 }
 
                 is Screen.PdfTools.Type.Preview -> {
-                    type.pdfUri?.toString()?.let {
-                        shareProvider.shareData(
+                    type.pdfUri?.toString()?.let { uri ->
+                        shareProvider.cacheData(
                             writeData = { writeable ->
                                 fileController.transferBytes(
-                                    fromUri = it,
+                                    fromUri = uri,
                                     to = writeable
                                 )
                             },
-                            filename = filenameCreator.getFilename(it),
-                            onComplete = onSuccess
-                        )
+                            filename = filenameCreator.getFilename(uri)
+                        )?.let {
+                            onSuccess(listOf(it.toUri()))
+                        }
                     }
                 }
 
@@ -429,6 +445,11 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun toggleScaleSmallImagesToLarge() {
         _scaleSmallImagesToLarge.update { !it }
+        registerChanges()
+    }
+
+    fun setQuality(quality: Int) {
+        _quality.update { quality }
         registerChanges()
     }
 

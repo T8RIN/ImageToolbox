@@ -22,7 +22,6 @@ import android.graphics.Bitmap
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
-import android.graphics.pdf.PdfDocument
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
@@ -57,7 +56,9 @@ import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
+import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
@@ -113,43 +114,56 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
         preset: Preset.Percentage,
-        tempFilename: String
+        tempFilename: String,
+        quality: Int
     ): String = withContext(encodingDispatcher) {
-        val pdfDocument = PdfDocument()
+        PDDocument().use { pdfDocument ->
+            val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
+                imageUris = imageUris,
+                scaleSmallImagesToLarge = scaleSmallImagesToLarge,
+                isHorizontal = false,
+                imageSpacing = 0,
+                percent = preset.value
+            )
 
-        val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
-            imageUris = imageUris,
-            scaleSmallImagesToLarge = scaleSmallImagesToLarge,
-            isHorizontal = false,
-            imageSpacing = 0,
-            percent = preset.value
-        )
+            val bitmaps = images.map { image ->
+                if (scaleSmallImagesToLarge && image.shouldUpscale(false, size)) {
+                    image.upscale(false, size)
+                } else image
+            }
 
-        val bitmaps = images.map { image ->
-            if (scaleSmallImagesToLarge && image.shouldUpscale(false, size)) {
-                image.upscale(false, size)
-            } else image
+            val qualityValue = (quality / 100f).coerceIn(0f, 1f)
+
+            bitmaps.forEachIndexed { index, imageBitmap ->
+                val page = PDPage(
+                    PDRectangle(
+                        imageBitmap.width.toFloat(),
+                        imageBitmap.height.toFloat()
+                    )
+                )
+                pdfDocument.addPage(page)
+
+                PDPageContentStream(pdfDocument, page).use { contentStream ->
+                    contentStream.drawImage(
+                        JPEGFactory.createFromImage(pdfDocument, imageBitmap, qualityValue),
+                        0f,
+                        0f,
+                        imageBitmap.width.toFloat(),
+                        imageBitmap.height.toFloat()
+                    )
+                }
+
+                delay(10L)
+                onProgressChange(index)
+            }
+
+            shareProvider.cacheData(
+                writeData = {
+                    pdfDocument.save(it.outputStream())
+                },
+                filename = tempFilename
+            ) ?: throw IllegalAccessException("No PDF created")
         }
-
-        bitmaps.forEachIndexed { index, imageBitmap ->
-            val pageInfo = PdfDocument.PageInfo.Builder(
-                imageBitmap.width,
-                imageBitmap.height,
-                index
-            ).create()
-            val page = pdfDocument.startPage(pageInfo)
-            page.canvas.drawBitmap(imageBitmap)
-            pdfDocument.finishPage(page)
-            delay(10L)
-            onProgressChange(index)
-        }
-
-        shareProvider.cacheData(
-            writeData = {
-                pdfDocument.writeTo(it.outputStream())
-            },
-            filename = tempFilename
-        ) ?: throw IllegalAccessException("No PDF created")
     }
 
     override suspend fun convertPdfToImages(

@@ -89,6 +89,7 @@ fun QualitySelector(
     shape: Shape = ShapeDefaults.extraLarge,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     activeButtonColor: Color = MaterialTheme.colorScheme.secondary,
+    autoCoerce: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     var actualImageFormat by remember {
@@ -108,9 +109,11 @@ fun QualitySelector(
                 actualImageFormat = imageFormat
             }
         }
-        onQualityChange(
-            quality.coerceIn(imageFormat)
-        )
+        if (autoCoerce) {
+            onQualityChange(
+                quality.coerceIn(imageFormat)
+            )
+        }
     }
 
     AnimatedVisibility(
@@ -119,9 +122,11 @@ fun QualitySelector(
         exit = fadeOut() + shrinkVertically(),
         modifier = Modifier.fillMaxWidth()
     ) {
-        OneTimeEffect {
-            if (quality != settingsState.defaultQuality) {
-                onQualityChange(settingsState.defaultQuality)
+        if (autoCoerce) {
+            OneTimeEffect {
+                if (quality != settingsState.defaultQuality) {
+                    onQualityChange(settingsState.defaultQuality)
+                }
             }
         }
 

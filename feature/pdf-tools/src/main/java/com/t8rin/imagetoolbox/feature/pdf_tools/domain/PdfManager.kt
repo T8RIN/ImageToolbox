@@ -44,7 +44,8 @@ interface PdfManager<I> {
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
         preset: Preset.Percentage,
-        tempFilename: String
+        tempFilename: String,
+        quality: Int = 85
     ): String
 
     suspend fun convertPdfToImages(

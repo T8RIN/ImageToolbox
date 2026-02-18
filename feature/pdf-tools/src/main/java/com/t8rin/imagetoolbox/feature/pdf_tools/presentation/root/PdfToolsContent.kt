@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Save
@@ -61,7 +62,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
@@ -90,6 +94,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
@@ -282,13 +287,37 @@ fun PdfToolsContent(
                     enter = fadeIn() + scaleIn() + expandHorizontally(),
                     exit = fadeOut() + scaleOut() + shrinkHorizontally()
                 ) {
+                    var editSheetData by remember {
+                        mutableStateOf(listOf<Uri>())
+                    }
+
                     ShareButton(
                         onShare = {
                             component.performSharing(
                                 onSuccess = showConfetti,
                                 onFailure = essentials::showFailureToast
                             )
-                        }
+                        },
+                        onEdit = {
+                            component.prepareForSharing(
+                                onSuccess = {
+                                    editSheetData = it
+                                },
+                                onFailure = essentials::showFailureToast
+                            )
+                        },
+                        dialogTitle = "PDF",
+                        dialogIcon = Icons.Outlined.PictureAsPdf
+                    )
+
+                    ProcessImagesPreferenceSheet(
+                        uris = editSheetData,
+                        visible = editSheetData.isNotEmpty(),
+                        onDismiss = {
+                            editSheetData = emptyList()
+                        },
+                        extraDataType = ExtraDataType.Pdf,
+                        onNavigate = component.onNavigate
                     )
                 }
             },
@@ -406,9 +435,16 @@ fun PdfToolsContent(
                             },
                             showWarning = component.showOOMWarning
                         )
-                        Spacer(
-                            Modifier.height(8.dp)
+                        Spacer(Modifier.height(8.dp))
+                        QualitySelector(
+                            imageFormat = ImageFormat.Jpg,
+                            quality = Quality.Base(component.quality),
+                            onQualityChange = {
+                                component.setQuality(it.qualityValue)
+                            },
+                            autoCoerce = false
                         )
+                        Spacer(Modifier.height(8.dp))
                         ScaleSmallImagesToLargeToggle(
                             checked = component.scaleSmallImagesToLarge,
                             onCheckedChange = {
