@@ -17,14 +17,22 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr
 
-import android.net.Uri
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 
 @Composable
@@ -32,16 +40,12 @@ fun OCRPdfToolContent(
     component: OCRPdfToolComponent
 ) {
     val essentials = rememberLocalEssentials()
+
     BasePdfToolContent(
         component = component,
         pdfPicker = rememberFilePicker(
             mimeType = MimeType.Pdf,
-            onSuccess = { uri: Uri ->
-                component.setUri(
-                    uri = uri,
-                    onFailure = essentials::showFailureToast
-                )
-            }
+            onSuccess = component::setUri
         ),
         isPickedAlready = component.initialUri != null,
         canShowScreenData = component.uri != null,
@@ -50,12 +54,33 @@ fun OCRPdfToolContent(
         imagePreview = {},
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
-        controls = {},
-        onFilledPassword = {
-            component.setUri(
-                uri = component.uri,
-                onFailure = essentials::showFailureToast
+        controls = {
+            Spacer(Modifier.height(20.dp))
+
+            component.uri?.let {
+                PdfPreviewItem(
+                    uri = it,
+                    onRemove = {
+                        component.setUri(null)
+                    }
+                )
+                Spacer(Modifier.height(16.dp))
+            }
+
+            PreferenceItem(
+                title = stringResource(R.string.deep_ocr),
+                subtitle = stringResource(R.string.deep_ocr_sub),
+                startIcon = Icons.Outlined.FilePresent,
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    component.navigateToOcr(essentials::showFailureToast)
+                }
             )
+
+            Spacer(Modifier.height(20.dp))
+        },
+        onFilledPassword = {
+            component.setUri(component.uri)
         }
     )
 }

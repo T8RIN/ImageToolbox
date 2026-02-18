@@ -71,7 +71,11 @@ internal fun BasePdfToolContent(
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
-        mimeType = MimeType.Pdf,
+        mimeType = if (component.extraDataType == ExtraDataType.Pdf) {
+            MimeType.Pdf
+        } else {
+            MimeType.Txt
+        },
         onSuccess = { uri ->
             component.saveTo(
                 uri = uri,
@@ -138,7 +142,7 @@ internal fun BasePdfToolContent(
                 onDismiss = {
                     editSheetData = emptyList()
                 },
-                extraDataType = ExtraDataType.Pdf,
+                extraDataType = component.extraDataType,
                 onNavigate = component.onNavigate
             )
 

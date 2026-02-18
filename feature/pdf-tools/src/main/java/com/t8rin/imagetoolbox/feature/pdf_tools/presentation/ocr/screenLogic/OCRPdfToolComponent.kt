@@ -25,9 +25,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
@@ -40,6 +47,8 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
     private val pdfManager: PdfManager<Bitmap>,
+    private val fileController: FileController,
+    private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
 ) : BasePdfToolComponent(
     onGoBack = onGoBack,
@@ -51,36 +60,45 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
     override val _haveChanges: MutableState<Boolean> = mutableStateOf(initialUri != null)
     override val haveChanges: Boolean by _haveChanges
 
+    override val extraDataType: ExtraDataType = ExtraDataType.File
+
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    fun setUri(
-        uri: Uri?,
-        onFailure: (Throwable) -> Unit
-    ) {
+    fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()
         } else {
             registerChanges()
         }
-        _uri.update { uri }?.let { uri ->
-            doSharing(
-                action = {
-                    pdfManager.extractPagesFromPdf(uri.toString())
-                },
-                onSuccess = { uris ->
-                    onGoBack()
-                    onNavigate(
-                        Screen.RecognizeText(Screen.RecognizeText.Type.WriteToFile(uris.map { it.toUri() }))
-                    )
-                },
-                onFailure = {
-                    onFailure(it)
-                    _uri.value = null
-                    registerChangesCleared()
-                }
-            )
-        }
+        _uri.update { uri }
+        checkPdf(
+            uri = uri,
+            onDecrypted = { _uri.value = it }
+        )
+    }
+
+    override fun generatePdfFilename(): String =
+        "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.txt"
+
+    fun navigateToOcr(
+        onFailure: (Throwable) -> Unit
+    ) {
+        doSharing(
+            action = {
+                pdfManager.extractPagesFromPdf(uri.toString())
+            },
+            onSuccess = { uris ->
+                onNavigate(
+                    Screen.RecognizeText(Screen.RecognizeText.Type.WriteToFile(uris.map { it.toUri() }))
+                )
+            },
+            onFailure = {
+                onFailure(it)
+                _uri.value = null
+                registerChangesCleared()
+            }
+        )
     }
 
     override fun saveTo(
@@ -88,7 +106,16 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
         onResult: (SaveResult) -> Unit
     ) {
         doSaving(
-            action = { SaveResult.Skipped },
+            action = {
+                val processed = stripText()
+
+                fileController.writeBytes(
+                    uri = uri.toString(),
+                    block = {
+                        it.writeBytes(processed)
+                    }
+                ).onSuccess(::registerSave)
+            },
             onResult = onResult
         )
     }
@@ -98,7 +125,11 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit
     ) {
         prepareForSharing(
-            onSuccess = {},
+            onSuccess = {
+                shareProvider.shareUris(it.map(Uri::toString))
+                registerSave()
+                onSuccess()
+            },
             onFailure = onFailure
         )
     }
@@ -108,10 +139,28 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
         onFailure: (Throwable) -> Unit
     ) {
         doSharing(
-            action = {},
+            action = {
+                val processed = stripText()
+
+                shareProvider.cacheData(
+                    filename = generatePdfFilename(),
+                    writeData = {
+                        it.writeBytes(processed)
+                    }
+                )?.toUri()?.let {
+                    onSuccess(listOf(it))
+                    registerSave()
+                }
+            },
             onFailure = onFailure
         )
     }
+
+    private suspend fun stripText(): ByteArray = pdfManager.stripText(
+        uri = _uri.value.toString()
+    ).mapIndexed { index, text ->
+        "--- ${getString(R.string.page)} ${index + 1} ---\n$text\n\n"
+    }.joinToString("").encodeToByteArray()
 
     @AssistedFactory
     fun interface Factory {

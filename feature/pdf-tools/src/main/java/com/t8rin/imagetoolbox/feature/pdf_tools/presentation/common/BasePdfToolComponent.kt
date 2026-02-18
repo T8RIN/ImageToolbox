@@ -26,6 +26,7 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -52,6 +53,8 @@ abstract class BasePdfToolComponent(
 
     protected val _showPasswordRequestDialog: MutableState<Boolean> = mutableStateOf(false)
     val showPasswordRequestDialog by _showPasswordRequestDialog
+
+    open val extraDataType: ExtraDataType = ExtraDataType.Pdf
 
     init {
         doOnDestroy {
@@ -102,7 +105,7 @@ abstract class BasePdfToolComponent(
         _isSaving.value = false
     }
 
-    fun generatePdfFilename(): String {
+    open fun generatePdfFilename(): String {
         val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
         return "PDF_$timeStamp.pdf"
     }

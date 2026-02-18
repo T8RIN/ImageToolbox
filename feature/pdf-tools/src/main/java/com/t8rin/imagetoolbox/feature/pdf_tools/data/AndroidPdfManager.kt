@@ -67,6 +67,7 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
+import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -281,6 +282,7 @@ internal class AndroidPdfManager @Inject constructor(
                     val angle = rotations.getOrNull(idx) ?: 0
                     page.rotation = (page.rotation + angle) % 360
                 }
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -397,6 +399,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -457,6 +460,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -513,6 +517,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -598,6 +603,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -633,6 +639,7 @@ internal class AndroidPdfManager @Inject constructor(
                     }
                 }
 
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -649,6 +656,7 @@ internal class AndroidPdfManager @Inject constructor(
 
                 PDDocument.load(uri.inputStream(), password, MemoryUsageSetting.setupTempFileOnly())
                     .use { document ->
+                        document.isAllSecurityToBeRemoved = true
                         document.save(output.outputStream())
                     }
             }
@@ -676,6 +684,7 @@ internal class AndroidPdfManager @Inject constructor(
                         producer = metadata.producer ?: producer
                     }
                 }
+                document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
             }
         }
@@ -692,6 +701,18 @@ internal class AndroidPdfManager @Inject constructor(
                     creator = creator,
                     producer = producer
                 )
+            }
+        }
+    }
+
+    override suspend fun stripText(uri: String): List<String> = catchPdf {
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            val stripper = PDFTextStripper()
+
+            (1..document.numberOfPages).map { pageIndex ->
+                stripper.startPage = pageIndex
+                stripper.endPage = pageIndex
+                stripper.getText(document)
             }
         }
     }

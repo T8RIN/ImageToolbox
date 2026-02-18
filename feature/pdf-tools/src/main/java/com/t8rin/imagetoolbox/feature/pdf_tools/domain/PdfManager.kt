@@ -133,4 +133,8 @@ interface PdfManager<I> {
         uri: String
     ): PdfMetadata
 
+    suspend fun stripText(
+        uri: String
+    ): List<String>
+
 }

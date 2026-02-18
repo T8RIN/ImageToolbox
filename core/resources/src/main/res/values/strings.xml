@@ -2173,5 +2173,8 @@
     <string name="keywords">Keywords</string>
     <string name="creator">Creator</string>
     <string name="privacy_deep_clean">Privacy Deep Clean</string>
-    <string name="privacy_deep_clean_sub">Clear all avaialable metadata for this document</string>
+    <string name="privacy_deep_clean_sub">Clear all available metadata for this document</string>
+    <string name="page">Page</string>
+    <string name="deep_ocr">Deep OCR</string>
+    <string name="deep_ocr_sub">Extract text from document and store it in the one text file using Tesseract engine</string>
 </resources>
