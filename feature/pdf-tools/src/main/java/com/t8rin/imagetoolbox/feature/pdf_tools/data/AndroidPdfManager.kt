@@ -707,12 +707,12 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun stripText(uri: String): List<String> = catchPdf {
         PDDocument.load(uri.inputStream(), password).use { document ->
-            val stripper = PDFTextStripper()
-
-            (1..document.numberOfPages).map { pageIndex ->
-                stripper.startPage = pageIndex
-                stripper.endPage = pageIndex
-                stripper.getText(document)
+            PDFTextStripper().run {
+                (1..document.numberOfPages).map { pageIndex ->
+                    startPage = pageIndex
+                    endPage = pageIndex
+                    getText(document)
+                }
             }
         }
     }
