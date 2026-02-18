@@ -214,6 +214,7 @@ fun AddEditMaskSheet(
     ExitWithoutSavingDialog(
         onExit = onDismiss,
         onDismiss = { showExitDialog = false },
-        visible = showExitDialog
+        visible = showExitDialog,
+        placeAboveAll = true
     )
 }
