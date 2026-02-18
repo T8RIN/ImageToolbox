@@ -464,7 +464,10 @@ private object ScreenConstantsImpl : ScreenConstants {
     }
 
     override val entries by lazy {
-        typedEntries.flatMap { it.entries }.sortedBy { it.id }
+        typedEntries.flatMap { it.entries }
+            .plus(PdfTools.options)
+            .distinctBy { it.id }
+            .sortedBy { it.id }
     }
 
     override val FEATURES_COUNT = 82 + PdfTools.options.size
