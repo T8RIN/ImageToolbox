@@ -28,7 +28,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -52,10 +51,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -67,8 +64,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -87,8 +82,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 
 @Composable
 fun ImagesPreviewWithSelection(
@@ -122,15 +115,7 @@ fun ImagesPreviewWithSelection(
     modifier: Modifier? = null
 ) {
     val state = rememberLazyGridState()
-    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
-    LaunchedEffect(autoScrollSpeed.value) {
-        if (autoScrollSpeed.value != 0f) {
-            while (isActive) {
-                state.scrollBy(autoScrollSpeed.value)
-                delay(10)
-            }
-        }
-    }
+
     val getUris: () -> Set<Int> = {
         val indexes = imageFrames
             .getFramePositions(imageUris.size)
@@ -193,13 +178,10 @@ fun ImagesPreviewWithSelection(
                         key = null,
                         lazyGridState = state,
                         isVertical = false,
-                        haptics = LocalHapticFeedback.current,
                         selectedItems = privateSelectedItems,
                         onSelectionChange = {
                             onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
-                        autoScrollSpeed = autoScrollSpeed,
-                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
                         tapEnabled = isSelectionMode,
                         onTap = onItemClick,
                         onLongTap = onItemLongClick
@@ -269,13 +251,10 @@ fun ImagesPreviewWithSelection(
                         key = null,
                         lazyGridState = state,
                         isVertical = true,
-                        haptics = LocalHapticFeedback.current,
                         selectedItems = privateSelectedItems,
                         onSelectionChange = {
                             onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
-                        autoScrollSpeed = autoScrollSpeed,
-                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
                         tapEnabled = isSelectionMode,
                         onTap = onItemClick,
                         onLongTap = onItemLongClick

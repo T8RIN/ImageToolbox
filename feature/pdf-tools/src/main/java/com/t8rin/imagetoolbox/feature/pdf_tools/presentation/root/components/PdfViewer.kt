@@ -28,7 +28,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresExtension
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,7 +53,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -67,7 +65,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.compose.AndroidFragment
@@ -94,12 +91,10 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.createPdfRenderer
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -251,15 +246,26 @@ fun PdfViewer(
                             uri to selectedPages
                         }
                     }
-                    val selectedItems = remember(key) {
+                    val selectedItems by remember(key) {
                         mutableStateOf(selectedPages.toSet())
                     }
-                    LaunchedEffect(selectedItems.value) {
-                        updateSelectedPages(selectedItems.value.toList())
+                    val privateSelectedItems = remember {
+                        mutableStateOf(selectedItems)
                     }
+
+                    LaunchedEffect(selectedPages, selectedItems) {
+                        if (selectedPages != selectedItems) {
+                            privateSelectedItems.value = selectedItems
+                        }
+                    }
+
+                    LaunchedEffect(privateSelectedItems.value) {
+                        updateSelectedPages(privateSelectedItems.value.toList())
+                    }
+
                     LaunchedEffect(selectAllToggle.value) {
                         if (selectAllToggle.value) {
-                            selectedItems.update {
+                            privateSelectedItems.update {
                                 List(pageCount) { it }.toSet()
                             }
                             selectAllToggle.value = false
@@ -267,7 +273,7 @@ fun PdfViewer(
                     }
                     LaunchedEffect(deselectAllToggle.value) {
                         if (deselectAllToggle.value) {
-                            selectedItems.update { emptySet() }
+                            privateSelectedItems.update { emptySet() }
                             deselectAllToggle.value = false
                         }
                     }
@@ -340,9 +346,9 @@ fun PdfViewer(
 
                                     val cacheKey =
                                         MemoryCache.Key("$uri-${pagesSize[index]}-$index")
-                                    val selected by remember(selectedItems.value) {
+                                    val selected by remember(privateSelectedItems.value) {
                                         derivedStateOf {
-                                            selectedItems.value.contains(index)
+                                            privateSelectedItems.value.contains(index)
                                         }
                                     }
 
@@ -359,9 +365,9 @@ fun PdfViewer(
                                                         indication = null,
                                                         onValueChange = { value ->
                                                             if (value) {
-                                                                selectedItems.update { it - index }
+                                                                privateSelectedItems.update { it - index }
                                                             } else {
-                                                                selectedItems.update { it + index }
+                                                                privateSelectedItems.update { it + index }
                                                             }
                                                         }
                                                     )
@@ -382,16 +388,6 @@ fun PdfViewer(
                         }
                     } else {
                         val state = rememberLazyGridState()
-                        val autoScrollSpeed: MutableState<Float> =
-                            remember { mutableFloatStateOf(0f) }
-                        LaunchedEffect(autoScrollSpeed.value) {
-                            if (autoScrollSpeed.value != 0f) {
-                                while (isActive) {
-                                    state.scrollBy(autoScrollSpeed.value)
-                                    delay(10)
-                                }
-                            }
-                        }
                         val isPortrait by isPortraitOrientationAsState()
 
                         if (isPortrait) {
@@ -401,13 +397,10 @@ fun PdfViewer(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .dragHandler(
-                                        key = key,
+                                        key = null,
                                         lazyGridState = state,
                                         isVertical = false,
-                                        haptics = LocalHapticFeedback.current,
-                                        selectedItems = selectedItems,
-                                        autoScrollSpeed = autoScrollSpeed,
-                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                        selectedItems = privateSelectedItems
                                     ),
                                 verticalArrangement = Arrangement.spacedBy(
                                     space = spacing,
@@ -424,12 +417,11 @@ fun PdfViewer(
                                     count = pageCount,
                                     key = { index -> "$uri-$index" }
                                 ) { index ->
-
                                     val cacheKey = MemoryCache.Key("$uri-120-$index")
-                                    val selected by remember(selectedItems.value) {
+                                    val selected by remember(privateSelectedItems.value) {
                                         derivedStateOf {
-                                            selectedItems.value.contains(index).also {
-                                                updateSelectedPages(selectedItems.value.toList())
+                                            privateSelectedItems.value.contains(index).also {
+                                                updateSelectedPages(privateSelectedItems.value.toList())
                                             }
                                         }
                                     }
@@ -455,13 +447,10 @@ fun PdfViewer(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .dragHandler(
-                                        key = key,
+                                        key = null,
                                         lazyGridState = state,
                                         isVertical = true,
-                                        haptics = LocalHapticFeedback.current,
-                                        selectedItems = selectedItems,
-                                        autoScrollSpeed = autoScrollSpeed,
-                                        autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                        selectedItems = privateSelectedItems
                                     ),
                                 verticalArrangement = Arrangement.spacedBy(
                                     spacing,
@@ -479,10 +468,10 @@ fun PdfViewer(
                                     key = { index -> "$uri-$index" }
                                 ) { index ->
                                     val cacheKey = MemoryCache.Key("$uri-120-$index")
-                                    val selected by remember(selectedItems.value) {
+                                    val selected by remember(privateSelectedItems.value) {
                                         derivedStateOf {
-                                            selectedItems.value.contains(index).also {
-                                                updateSelectedPages(selectedItems.value.toList())
+                                            privateSelectedItems.value.contains(index).also {
+                                                updateSelectedPages(privateSelectedItems.value.toList())
                                             }
                                         }
                                     }

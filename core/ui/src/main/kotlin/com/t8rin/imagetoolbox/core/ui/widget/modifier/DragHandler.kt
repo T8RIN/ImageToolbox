@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,53 +17,76 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.toIntRect
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 
 /**
 [Modifier] which helps you to implement google photos selection grid,
-to make it work pass [key] and list item key which is should be "[key]-position"
+to make it work pass item key which is should be "[key]-index"
  **/
+@SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.dragHandler(
     key: Any?,
     isVertical: Boolean,
     lazyGridState: LazyGridState,
-    haptics: HapticFeedback,
     selectedItems: MutableState<Set<Int>>,
     onSelectionChange: (Set<Int>) -> Unit = {},
-    autoScrollSpeed: MutableState<Float>,
-    autoScrollThreshold: Float,
     enabled: Boolean = true,
     onTap: (Int) -> Unit = {},
     onLongTap: (Int) -> Unit = {},
     shouldHandleLongTap: Boolean = true,
     tapEnabled: Boolean = true
-): Modifier {
-    fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
-        val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
-            itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
+): Modifier = this.composed {
+    val haptics = LocalHapticFeedback.current
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+
+    val autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
+
+    LaunchedEffect(autoScrollSpeed.value) {
+        if (autoScrollSpeed.value != 0f) {
+            while (isActive) {
+                lazyGridState.scrollBy(autoScrollSpeed.value)
+                delay(10)
+            }
         }
-        val itemKey = find?.key
-        return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
     }
 
-    return this
-        .pointerInput(key, tapEnabled, enabled) {
+    val isPortrait by isPortraitOrientationAsState()
+
+    Modifier
+        .pointerInput(key, tapEnabled, enabled, isRtl, isPortrait) {
             if (enabled) {
                 detectTapGestures { offset ->
                     lazyGridState
-                        .gridItemKeyAtPosition(offset)
+                        .gridItemKeyAtPosition(
+                            if (isRtl) offset.copy(x = size.width - offset.x) else offset
+                        )
                         ?.let { key ->
                             if (tapEnabled) {
                                 val newItems = if (selectedItems.value.contains(key)) {
@@ -80,14 +103,16 @@ fun Modifier.dragHandler(
                 }
             }
         }
-        .pointerInput(key, shouldHandleLongTap, enabled) {
+        .pointerInput(key, shouldHandleLongTap, enabled, isRtl, isPortrait) {
             if (enabled) {
                 var initialKey: Int? = null
                 var currentKey: Int? = null
                 detectDragGesturesAfterLongPress(
                     onDragStart = { offset ->
                         lazyGridState
-                            .gridItemKeyAtPosition(offset)
+                            .gridItemKeyAtPosition(
+                                if (isRtl) offset.copy(x = size.width - offset.x) else offset
+                            )
                             ?.let { key ->
                                 if (!selectedItems.value.contains(key) && shouldHandleLongTap) {
                                     initialKey = key
@@ -110,12 +135,15 @@ fun Modifier.dragHandler(
                     },
                     onDrag = { change, _ ->
                         if (initialKey != null) {
+                            val position =
+                                if (isRtl) change.position.copy(x = size.width - change.position.x) else change.position
+
                             val distFromBottom = if (isVertical) {
-                                lazyGridState.layoutInfo.viewportSize.height - change.position.y
-                            } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
+                                lazyGridState.layoutInfo.viewportSize.height - position.y
+                            } else lazyGridState.layoutInfo.viewportSize.width - position.x
                             val distFromTop = if (isVertical) {
-                                change.position.y
-                            } else change.position.x
+                                position.y
+                            } else position.x
                             autoScrollSpeed.value = when {
                                 distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
                                 distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
@@ -123,7 +151,7 @@ fun Modifier.dragHandler(
                             }
 
                             lazyGridState
-                                .gridItemKeyAtPosition(change.position)
+                                .gridItemKeyAtPosition(position)
                                 ?.let { key ->
                                     if (currentKey != key) {
                                         val newItems = selectedItems.value
@@ -142,4 +170,12 @@ fun Modifier.dragHandler(
                 )
             }
         }
+}
+
+private fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
+    val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
+        itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
+    }
+    val itemKey = find?.key
+    return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
 }

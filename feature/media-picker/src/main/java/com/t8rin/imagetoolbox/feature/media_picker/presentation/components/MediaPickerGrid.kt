@@ -17,7 +17,6 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -27,6 +26,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -35,9 +35,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,7 +50,6 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
@@ -60,8 +57,6 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isHeaderKey
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 @Composable
@@ -103,15 +98,6 @@ internal fun MediaPickerGrid(
     }
 
     val layoutDirection = LocalLayoutDirection.current
-    val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
-    LaunchedEffect(autoScrollSpeed.value) {
-        if (autoScrollSpeed.value != 0f) {
-            while (isActive) {
-                gridState.scrollBy(autoScrollSpeed.value)
-                delay(10)
-            }
-        }
-    }
     val privateSelection = remember {
         mutableStateOf(emptySet<Int>())
     }
@@ -140,12 +126,15 @@ internal fun MediaPickerGrid(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
+            .padding(
+                start = cutout.calculateStartPadding(layoutDirection),
+                end = cutout.calculateEndPadding(layoutDirection)
+            )
             .dragHandler(
                 enabled = isSelectionOfAll && allowMultiple,
                 key = state.mappedMedia,
                 lazyGridState = gridState,
                 isVertical = true,
-                haptics = LocalHapticFeedback.current,
                 selectedItems = privateSelection,
                 onSelectionChange = { indices ->
                     val order: MutableList<Any> = indices.toMutableList()
@@ -159,8 +148,6 @@ internal fun MediaPickerGrid(
                     selectedMedia.clear()
                     selectedMedia.addAll(order.mapNotNull(Any::safeCast))
                 },
-                autoScrollSpeed = autoScrollSpeed,
-                autoScrollThreshold = 40.dp.toPx(),
                 onLongTap = {
                     if (selectedMedia.isEmpty()) {
                         imagePreviewUri =
@@ -174,7 +161,6 @@ internal fun MediaPickerGrid(
         verticalArrangement = Arrangement.spacedBy(1.dp),
         contentPadding = remember(
             navBar,
-            cutout,
             layoutDirection,
             isButtonVisible,
             selectedMedia.isNotEmpty()
@@ -186,9 +172,7 @@ internal fun MediaPickerGrid(
                 ).plus(
                     if (selectedMedia.isNotEmpty()) 52.dp
                     else 0.dp
-                ),
-                start = cutout.calculateStartPadding(layoutDirection),
-                end = cutout.calculateEndPadding(layoutDirection)
+                )
             )
         },
         flingBehavior = enhancedFlingBehavior(FlingType.IOS_STYLE)

@@ -144,21 +144,23 @@ internal fun PdfToolsContentImpl(
                                 textAlign = TextAlign.Center
                             )
                         }
-                        EnhancedBadge(
-                            content = {
-                                Text(
-                                    text = (Screen.PdfTools.Type.entries.size + Screen.PdfTools.options.size).toString()
-                                )
-                            },
-                            containerColor = MaterialTheme.colorScheme.tertiary,
-                            contentColor = MaterialTheme.colorScheme.onTertiary,
-                            modifier = Modifier
-                                .padding(horizontal = 2.dp)
-                                .padding(bottom = 12.dp)
-                                .scaleOnTap {
-                                    essentials.showConfetti()
-                                }
-                        )
+                        if (component.pdfType == null) {
+                            EnhancedBadge(
+                                content = {
+                                    Text(
+                                        text = (Screen.PdfTools.Type.entries.size + Screen.PdfTools.options.size).toString()
+                                    )
+                                },
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                                contentColor = MaterialTheme.colorScheme.onTertiary,
+                                modifier = Modifier
+                                    .padding(horizontal = 2.dp)
+                                    .padding(bottom = 12.dp)
+                                    .scaleOnTap {
+                                        essentials.showConfetti()
+                                    }
+                            )
+                        }
                     }
 
                 },
