@@ -30,7 +30,6 @@ import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
-import androidx.compose.material.icons.outlined.Sell
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Tag
@@ -47,7 +46,6 @@ import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
-import androidx.compose.material.icons.twotone.Sell
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
@@ -89,6 +87,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
+import com.t8rin.imagetoolbox.core.resources.icons.TagText
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
@@ -290,7 +289,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Compress -> Icons.Outlined.Bolt
     is PdfTools.Grayscale -> Icons.Outlined.FilterBAndW
     is PdfTools.Repair -> Icons.Outlined.Build
-    is PdfTools.Metadata -> Icons.Outlined.Sell
+    is PdfTools.Metadata -> Icons.Outlined.TagText
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -358,7 +357,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Compress -> Icons.TwoTone.Bolt
     is PdfTools.Grayscale -> Icons.TwoTone.FilterBAndW
     is PdfTools.Repair -> Icons.TwoTone.Build
-    is PdfTools.Metadata -> Icons.TwoTone.Sell
+    is PdfTools.Metadata -> Icons.TwoTone.TagText
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {
