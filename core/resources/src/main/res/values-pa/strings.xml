@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">ਪੰਨਾ</string>
     <string name="deep_ocr">ਡੂੰਘੀ OCR</string>
     <string name="deep_ocr_sub">ਡੌਕੂਮੈਂਟ ਤੋਂ ਟੈਕਸਟ ਐਕਸਟਰੈਕਟ ਕਰੋ ਅਤੇ ਇਸਨੂੰ ਟੈਸਰੈਕਟ ਇੰਜਣ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਇੱਕ ਟੈਕਸਟ ਫਾਈਲ ਵਿੱਚ ਸਟੋਰ ਕਰੋ</string>
+    <string name="cant_remove_all">ਸਾਰੇ ਪੰਨਿਆਂ ਨੂੰ ਹਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
+    <string name="remove_pages_pdf">PDF ਪੰਨਿਆਂ ਨੂੰ ਹਟਾਓ</string>
+    <string name="remove_pages_pdf_sub">PDF ਦਸਤਾਵੇਜ਼ ਤੋਂ ਖਾਸ ਪੰਨਿਆਂ ਨੂੰ ਹਟਾਓ</string>
+    <string name="tap_to_remove">ਹਟਾਉਣ ਲਈ ਟੈਪ ਕਰੋ</string>
+    <string name="manually">ਹੱਥੀਂ</string>
+    <string name="crop_pdf">PDF ਨੂੰ ਕੱਟੋ</string>
+    <string name="crop_pdf_sub">ਦਸਤਾਵੇਜ਼ ਪੰਨਿਆਂ ਨੂੰ ਕਿਸੇ ਵੀ ਹੱਦ ਤੱਕ ਕੱਟੋ</string>
+    <string name="flatten_pdf">PDF ਫਲੈਟ ਕਰੋ</string>
+    <string name="flatten_pdf_sub">ਦਸਤਾਵੇਜ਼ ਪੰਨਿਆਂ ਨੂੰ ਰਾਸਟਰ ਕਰਕੇ PDF ਨੂੰ ਸੋਧਣਯੋਗ ਬਣਾਓ</string>
 </resources>

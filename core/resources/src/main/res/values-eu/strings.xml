@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Orria</string>
     <string name="deep_ocr">OCR sakona</string>
     <string name="deep_ocr_sub">Atera testua dokumentutik eta gorde testu fitxategi bakarrean Tesseract motorra erabiliz</string>
+    <string name="cant_remove_all">Ezin dira orri guztiak kendu</string>
+    <string name="remove_pages_pdf">Kendu PDF orriak</string>
+    <string name="remove_pages_pdf_sub">Kendu orri zehatzak PDF dokumentutik</string>
+    <string name="tap_to_remove">Sakatu Kendu</string>
+    <string name="manually">Eskuz</string>
+    <string name="crop_pdf">Moztu PDFa</string>
+    <string name="crop_pdf_sub">Moztu dokumentuaren orriak edozein mugatara</string>
+    <string name="flatten_pdf">Laundu PDFa</string>
+    <string name="flatten_pdf_sub">Egin PDF aldaezina dokumentu-orriak rasterizatuz</string>
 </resources>

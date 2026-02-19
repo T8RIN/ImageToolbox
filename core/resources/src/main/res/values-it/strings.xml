@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Pagina</string>
     <string name="deep_ocr">OCR profondo</string>
     <string name="deep_ocr_sub">Estrai il testo dal documento e memorizzalo in un unico file di testo utilizzando il motore Tesseract</string>
+    <string name="cant_remove_all">Impossibile rimuovere tutte le pagine</string>
+    <string name="remove_pages_pdf">Rimuovere le pagine PDF</string>
+    <string name="remove_pages_pdf_sub">Rimuovi pagine specifiche dal documento PDF</string>
+    <string name="tap_to_remove">Tocca per rimuovere</string>
+    <string name="manually">Manualmente</string>
+    <string name="crop_pdf">Ritaglia PDF</string>
+    <string name="crop_pdf_sub">Ritaglia le pagine del documento fino a qualsiasi limite</string>
+    <string name="flatten_pdf">Appiattisci PDF</string>
+    <string name="flatten_pdf_sub">Rendi il PDF immodificabile rasterizzando le pagine del documento</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -2153,4 +2155,13 @@
     <string name="page">페이지</string>
     <string name="deep_ocr">깊은 OCR</string>
     <string name="deep_ocr_sub">Tesseract 엔진을 사용하여 문서에서 텍스트를 추출하고 하나의 텍스트 파일에 저장합니다.</string>
+    <string name="cant_remove_all">모든 페이지를 제거할 수 없습니다</string>
+    <string name="remove_pages_pdf">PDF 페이지 제거</string>
+    <string name="remove_pages_pdf_sub">PDF 문서에서 특정 페이지 제거</string>
+    <string name="tap_to_remove">삭제하려면 탭하세요.</string>
+    <string name="manually">수동으로</string>
+    <string name="crop_pdf">PDF 자르기</string>
+    <string name="crop_pdf_sub">문서 페이지를 원하는 대로 자르기</string>
+    <string name="flatten_pdf">PDF를 병합</string>
+    <string name="flatten_pdf_sub">문서 페이지를 래스터링하여 PDF를 수정할 수 없게 만듭니다.</string>
 </resources>

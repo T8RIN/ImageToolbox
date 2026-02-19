@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Lehekülg</string>
     <string name="deep_ocr">Sügav OCR</string>
     <string name="deep_ocr_sub">Ekstraktige dokumendist tekst ja salvestage see Tesseracti mootori abil ühte tekstifaili</string>
+    <string name="cant_remove_all">Kõiki lehti ei saa eemaldada</string>
+    <string name="remove_pages_pdf">Eemaldage PDF-lehed</string>
+    <string name="remove_pages_pdf_sub">Eemaldage PDF-dokumendist konkreetsed lehed</string>
+    <string name="tap_to_remove">Puudutage Eemaldamiseks</string>
+    <string name="manually">Käsitsi</string>
+    <string name="crop_pdf">Kärbi PDF-i</string>
+    <string name="crop_pdf_sub">Kärbi dokumendi lehti suvaliste piirideni</string>
+    <string name="flatten_pdf">Lamendada PDF</string>
+    <string name="flatten_pdf_sub">Muutke PDF-i muutmatuks, rasterdades dokumendi lehekülgi</string>
 </resources>

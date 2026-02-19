@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
     <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
     <string name="height">ئېگىزلىك %1$s</string>
@@ -2154,4 +2156,13 @@
     <string name="page">بەت</string>
     <string name="deep_ocr">چوڭقۇر OCR</string>
     <string name="deep_ocr_sub">ھۆججەتتىن تېكىست چىقىرىپ ، Tesseract ماتورى ئارقىلىق بىر تېكىست ھۆججىتىگە ساقلاڭ</string>
+    <string name="cant_remove_all">بارلىق بەتلەرنى ئۆچۈرەلمەيدۇ</string>
+    <string name="remove_pages_pdf">PDF بەتلىرىنى ئۆچۈرۈڭ</string>
+    <string name="remove_pages_pdf_sub">PDF ھۆججىتىدىن ئالاھىدە بەتلەرنى ئۆچۈرۈڭ</string>
+    <string name="tap_to_remove">ئۆچۈرۈشنى چېكىڭ</string>
+    <string name="manually">قولدا</string>
+    <string name="crop_pdf">Crop PDF</string>
+    <string name="crop_pdf_sub">ھۆججەت بەتلىرىنى خالىغانچە كېسىڭ</string>
+    <string name="flatten_pdf">تەكشى PDF</string>
+    <string name="flatten_pdf_sub">ھۆججەت بەتلىرىنى رەتلەش ئارقىلىق PDF نى ئۆزگەرتكىلى بولمايدۇ</string>
 </resources>

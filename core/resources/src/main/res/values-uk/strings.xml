@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -2156,4 +2158,13 @@
     <string name="page">Сторінка</string>
     <string name="deep_ocr">Глибоке OCR</string>
     <string name="deep_ocr_sub">Витягніть текст із документа та збережіть його в одному текстовому файлі за допомогою механізму Tesseract</string>
+    <string name="cant_remove_all">Неможливо видалити всі сторінки</string>
+    <string name="remove_pages_pdf">Видаліть сторінки PDF</string>
+    <string name="remove_pages_pdf_sub">Видалити певні сторінки з документа PDF</string>
+    <string name="tap_to_remove">Натисніть, щоб видалити</string>
+    <string name="manually">Вручну</string>
+    <string name="crop_pdf">Обрізати PDF</string>
+    <string name="crop_pdf_sub">Обрізайте сторінки документа до будь-яких меж</string>
+    <string name="flatten_pdf">Звести PDF</string>
+    <string name="flatten_pdf_sub">Зробіть файл PDF незмінним за допомогою растрування сторінок документа</string>
 </resources>

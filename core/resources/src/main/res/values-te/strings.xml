@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -2154,4 +2156,13 @@
     <string name="page">పేజీ</string>
     <string name="deep_ocr">లోతైన OCR</string>
     <string name="deep_ocr_sub">పత్రం నుండి వచనాన్ని సంగ్రహించి, టెసెరాక్ట్ ఇంజిన్‌ని ఉపయోగించి ఒక టెక్స్ట్ ఫైల్‌లో నిల్వ చేయండి</string>
+    <string name="cant_remove_all">అన్ని పేజీలను తీసివేయలేరు</string>
+    <string name="remove_pages_pdf">PDF పేజీలను తీసివేయండి</string>
+    <string name="remove_pages_pdf_sub">PDF పత్రం నుండి నిర్దిష్ట పేజీలను తీసివేయండి</string>
+    <string name="tap_to_remove">తీసివేయడానికి నొక్కండి</string>
+    <string name="manually">మానవీయంగా</string>
+    <string name="crop_pdf">PDFని కత్తిరించండి</string>
+    <string name="crop_pdf_sub">డాక్యుమెంట్ పేజీలను ఏదైనా హద్దులకు కత్తిరించండి</string>
+    <string name="flatten_pdf">PDFని చదును చేయండి</string>
+    <string name="flatten_pdf_sub">డాక్యుమెంట్ పేజీలను రేస్టరింగ్ చేయడం ద్వారా PDFని సవరించలేనిదిగా చేయండి</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -2155,4 +2157,13 @@
     <string name="page">Sida</string>
     <string name="deep_ocr">Djup OCR</string>
     <string name="deep_ocr_sub">Extrahera text från dokument och lagra den i en textfil med hjälp av Tesseract-motorn</string>
+    <string name="cant_remove_all">Kan inte ta bort alla sidor</string>
+    <string name="remove_pages_pdf">Ta bort PDF-sidor</string>
+    <string name="remove_pages_pdf_sub">Ta bort specifika sidor från PDF-dokument</string>
+    <string name="tap_to_remove">Tryck för att ta bort</string>
+    <string name="manually">Manuellt</string>
+    <string name="crop_pdf">Beskär PDF</string>
+    <string name="crop_pdf_sub">Beskär dokumentsidor till valfri gräns</string>
+    <string name="flatten_pdf">Platta till PDF</string>
+    <string name="flatten_pdf_sub">Gör PDF oföränderlig genom att rastra dokumentsidor</string>
 </resources>

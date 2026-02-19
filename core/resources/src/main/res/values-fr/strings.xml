@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Page</string>
     <string name="deep_ocr">ROC profonde</string>
     <string name="deep_ocr_sub">Extrayez le texte du document et stockez-le dans un fichier texte à l\'aide du moteur Tesseract</string>
+    <string name="cant_remove_all">Impossible de supprimer toutes les pages</string>
+    <string name="remove_pages_pdf">Supprimer des pages PDF</string>
+    <string name="remove_pages_pdf_sub">Supprimer des pages spécifiques du document PDF</string>
+    <string name="tap_to_remove">Appuyez pour supprimer</string>
+    <string name="manually">Manuellement</string>
+    <string name="crop_pdf">Recadrer le PDF</string>
+    <string name="crop_pdf_sub">Recadrer les pages du document à n\'importe quelle limite</string>
+    <string name="flatten_pdf">Aplatir le PDF</string>
+    <string name="flatten_pdf_sub">Rendre le PDF non modifiable en pixellisant les pages du document</string>
 </resources>

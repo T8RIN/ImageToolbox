@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -2155,4 +2157,13 @@
     <string name="page">Pagină</string>
     <string name="deep_ocr">OCR profund</string>
     <string name="deep_ocr_sub">Extrageți textul din document și stocați-l într-un singur fișier text folosind motorul Tesseract</string>
+    <string name="cant_remove_all">Nu se pot elimina toate paginile</string>
+    <string name="remove_pages_pdf">Eliminați paginile PDF</string>
+    <string name="remove_pages_pdf_sub">Eliminați anumite pagini din documentul PDF</string>
+    <string name="tap_to_remove">Atinge Pentru a elimina</string>
+    <string name="manually">Manual</string>
+    <string name="crop_pdf">Decupați PDF</string>
+    <string name="crop_pdf_sub">Decupați paginile documentului la orice limite</string>
+    <string name="flatten_pdf">Aplatizați PDF</string>
+    <string name="flatten_pdf_sub">Faceți PDF nemodificabil prin rasterizarea paginilor documentului</string>
 </resources>

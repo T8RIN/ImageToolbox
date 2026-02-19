@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -2154,4 +2156,13 @@
     <string name="page">पेज</string>
     <string name="deep_ocr">गहरा ओसीआर</string>
     <string name="deep_ocr_sub">टेस्सेरैक्ट इंजन का उपयोग करके दस्तावेज़ से टेक्स्ट निकालें और उसे एक टेक्स्ट फ़ाइल में संग्रहीत करें</string>
+    <string name="cant_remove_all">सभी पेज नहीं निकाले जा सकते</string>
+    <string name="remove_pages_pdf">पीडीएफ पेज हटाएं</string>
+    <string name="remove_pages_pdf_sub">पीडीएफ दस्तावेज़ से विशिष्ट पृष्ठ हटाएँ</string>
+    <string name="tap_to_remove">हटाने के लिए टैप करें</string>
+    <string name="manually">मैन्युअल</string>
+    <string name="crop_pdf">पीडीएफ को काटें</string>
+    <string name="crop_pdf_sub">दस्तावेज़ पृष्ठों को किसी भी सीमा तक काटें</string>
+    <string name="flatten_pdf">पीडीएफ को समतल करें</string>
+    <string name="flatten_pdf_sub">दस्तावेज़ पृष्ठों को व्यवस्थित करके पीडीएफ को अपरिवर्तनीय बनाएं</string>
 </resources>

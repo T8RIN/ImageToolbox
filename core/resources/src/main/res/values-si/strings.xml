@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -2155,4 +2157,13 @@
     <string name="page">පිටුව</string>
     <string name="deep_ocr">ගැඹුරු OCR</string>
     <string name="deep_ocr_sub">ලේඛනයෙන් පෙළ උපුටා ගෙන එය Tesseract එන්ජිම භාවිතයෙන් එක් පෙළ ගොනුවක ගබඩා කරන්න</string>
+    <string name="cant_remove_all">සියලුම පිටු ඉවත් කළ නොහැක</string>
+    <string name="remove_pages_pdf">PDF පිටු ඉවත් කරන්න</string>
+    <string name="remove_pages_pdf_sub">PDF ලේඛනයෙන් නිශ්චිත පිටු ඉවත් කරන්න</string>
+    <string name="tap_to_remove">ඉවත් කිරීමට තට්ටු කරන්න</string>
+    <string name="manually">අතින්</string>
+    <string name="crop_pdf">PDF කපන්න</string>
+    <string name="crop_pdf_sub">ලේඛන පිටු ඕනෑම සීමාවකට කපන්න</string>
+    <string name="flatten_pdf">PDF සමතලා කරන්න</string>
+    <string name="flatten_pdf_sub">ලේඛන පිටු රාස්ටර් කිරීමෙන් PDF වෙනස් කළ නොහැකි කරන්න</string>
 </resources>

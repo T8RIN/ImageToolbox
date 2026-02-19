@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
@@ -2156,4 +2158,13 @@
     <string name="page">Страница</string>
     <string name="deep_ocr">Глубокое распознавание текста</string>
     <string name="deep_ocr_sub">Извлеките текст из документа и сохраните его в одном текстовом файле с помощью механизма Tesseract.</string>
+    <string name="cant_remove_all">Невозможно удалить все страницы</string>
+    <string name="remove_pages_pdf">Удалить PDF-страницы</string>
+    <string name="remove_pages_pdf_sub">Удалить определенные страницы из PDF-документа</string>
+    <string name="tap_to_remove">Нажмите, чтобы удалить</string>
+    <string name="manually">Вручную</string>
+    <string name="crop_pdf">Обрезать PDF-файл</string>
+    <string name="crop_pdf_sub">Обрезать страницы документа до любых границ</string>
+    <string name="flatten_pdf">Свести PDF-файл</string>
+    <string name="flatten_pdf_sub">Сделайте PDF неизменяемым, растрируя страницы документа</string>
 </resources>

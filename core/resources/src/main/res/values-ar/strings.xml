@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -2158,4 +2160,13 @@
     <string name="page">صفحة</string>
     <string name="deep_ocr">التعرف الضوئي على الحروف العميق</string>
     <string name="deep_ocr_sub">استخرج النص من المستند وقم بتخزينه في ملف نصي واحد باستخدام محرك Tesseract</string>
+    <string name="cant_remove_all">لا يمكن إزالة كافة الصفحات</string>
+    <string name="remove_pages_pdf">إزالة صفحات PDF</string>
+    <string name="remove_pages_pdf_sub">إزالة صفحات محددة من وثيقة PDF</string>
+    <string name="tap_to_remove">انقر لإزالة</string>
+    <string name="manually">يدويا</string>
+    <string name="crop_pdf">قص ملف PDF</string>
+    <string name="crop_pdf_sub">قص صفحات المستند إلى أي حدود</string>
+    <string name="flatten_pdf">تتسطح قوات الدفاع الشعبي</string>
+    <string name="flatten_pdf_sub">اجعل ملف PDF غير قابل للتعديل عن طريق تنقيط صفحات المستند</string>
 </resources>

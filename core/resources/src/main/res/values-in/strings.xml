@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -2153,4 +2155,13 @@
     <string name="page">Halaman</string>
     <string name="deep_ocr">OCR yang dalam</string>
     <string name="deep_ocr_sub">Ekstrak teks dari dokumen dan simpan dalam satu file teks menggunakan mesin Tesseract</string>
+    <string name="cant_remove_all">Tidak dapat menghapus semua halaman</string>
+    <string name="remove_pages_pdf">Hapus halaman PDF</string>
+    <string name="remove_pages_pdf_sub">Hapus halaman tertentu dari dokumen PDF</string>
+    <string name="tap_to_remove">Ketuk Untuk Menghapus</string>
+    <string name="manually">Secara manual</string>
+    <string name="crop_pdf">Pangkas PDF</string>
+    <string name="crop_pdf_sub">Pangkas halaman dokumen hingga batas apa pun</string>
+    <string name="flatten_pdf">Ratakan PDF</string>
+    <string name="flatten_pdf_sub">Jadikan PDF tidak dapat dimodifikasi dengan melakukan raster pada halaman dokumen</string>
 </resources>

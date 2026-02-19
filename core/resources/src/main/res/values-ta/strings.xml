@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2154,4 +2156,13 @@
     <string name="page">பக்கம்</string>
     <string name="deep_ocr">ஆழமான OCR</string>
     <string name="deep_ocr_sub">ஆவணத்திலிருந்து உரையைப் பிரித்தெடுத்து டெஸராக்ட் என்ஜினைப் பயன்படுத்தி ஒரு உரை கோப்பில் சேமிக்கவும்</string>
+    <string name="cant_remove_all">எல்லா பக்கங்களையும் அகற்ற முடியாது</string>
+    <string name="remove_pages_pdf">PDF பக்கங்களை அகற்று</string>
+    <string name="remove_pages_pdf_sub">PDF ஆவணத்திலிருந்து குறிப்பிட்ட பக்கங்களை அகற்றவும்</string>
+    <string name="tap_to_remove">அகற்ற தட்டவும்</string>
+    <string name="manually">கைமுறையாக</string>
+    <string name="crop_pdf">செதுக்கு PDF</string>
+    <string name="crop_pdf_sub">ஆவணப் பக்கங்களை எந்த எல்லைக்கும் செதுக்குங்கள்</string>
+    <string name="flatten_pdf">PDF ஐத் தட்டவும்</string>
+    <string name="flatten_pdf_sub">ஆவணப் பக்கங்களை மதிப்பாய்வு செய்வதன் மூலம் PDF ஐ மாற்ற முடியாததாக மாற்றவும்</string>
 </resources>

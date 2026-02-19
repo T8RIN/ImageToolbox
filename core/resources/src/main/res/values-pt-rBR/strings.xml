@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Página</string>
     <string name="deep_ocr">OCR profundo</string>
     <string name="deep_ocr_sub">Extraia o texto do documento e armazene-o em um arquivo de texto usando o mecanismo Tesseract</string>
+    <string name="cant_remove_all">Não é possível remover todas as páginas</string>
+    <string name="remove_pages_pdf">Remover páginas PDF</string>
+    <string name="remove_pages_pdf_sub">Remova páginas específicas do documento PDF</string>
+    <string name="tap_to_remove">Toque para remover</string>
+    <string name="manually">Manualmente</string>
+    <string name="crop_pdf">Cortar PDF</string>
+    <string name="crop_pdf_sub">Cortar páginas do documento em qualquer limite</string>
+    <string name="flatten_pdf">Achatar PDF</string>
+    <string name="flatten_pdf_sub">Torne o PDF inalterável rasterizando as páginas do documento</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -2153,4 +2155,13 @@
     <string name="page">Trang</string>
     <string name="deep_ocr">OCR sâu</string>
     <string name="deep_ocr_sub">Trích xuất văn bản từ tài liệu và lưu trữ nó trong một tệp văn bản bằng công cụ Tesseract</string>
+    <string name="cant_remove_all">Không thể xóa tất cả các trang</string>
+    <string name="remove_pages_pdf">Xóa các trang PDF</string>
+    <string name="remove_pages_pdf_sub">Xóa các trang cụ thể khỏi tài liệu PDF</string>
+    <string name="tap_to_remove">Nhấn để xóa</string>
+    <string name="manually">thủ công</string>
+    <string name="crop_pdf">Cắt PDF</string>
+    <string name="crop_pdf_sub">Cắt các trang tài liệu theo bất kỳ giới hạn nào</string>
+    <string name="flatten_pdf">Làm phẳng PDF</string>
+    <string name="flatten_pdf_sub">Làm cho PDF không thể sửa đổi bằng cách rastering các trang tài liệu</string>
 </resources>

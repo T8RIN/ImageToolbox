@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Seite</string>
     <string name="deep_ocr">Tiefe OCR</string>
     <string name="deep_ocr_sub">Extrahieren Sie Text aus dem Dokument und speichern Sie ihn mithilfe der Tesseract-Engine in einer Textdatei</string>
+    <string name="cant_remove_all">Es können nicht alle Seiten entfernt werden</string>
+    <string name="remove_pages_pdf">PDF-Seiten entfernen</string>
+    <string name="remove_pages_pdf_sub">Entfernen Sie bestimmte Seiten aus dem PDF-Dokument</string>
+    <string name="tap_to_remove">Tippen Sie auf „Entfernen“.</string>
+    <string name="manually">Manuell</string>
+    <string name="crop_pdf">PDF zuschneiden</string>
+    <string name="crop_pdf_sub">Beschneiden Sie Dokumentseiten auf beliebige Grenzen</string>
+    <string name="flatten_pdf">PDF reduzieren</string>
+    <string name="flatten_pdf_sub">Machen Sie PDFs durch Rastern von Dokumentseiten unveränderbar</string>
 </resources>

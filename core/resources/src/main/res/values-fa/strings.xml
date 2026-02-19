@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -2154,4 +2156,13 @@
     <string name="page">صفحه</string>
     <string name="deep_ocr">OCR عمیق</string>
     <string name="deep_ocr_sub">متن را از سند استخراج کرده و با استفاده از موتور Tesseract در یک فایل متنی ذخیره کنید</string>
+    <string name="cant_remove_all">نمی توان همه صفحات را حذف کرد</string>
+    <string name="remove_pages_pdf">صفحات PDF را حذف کنید</string>
+    <string name="remove_pages_pdf_sub">صفحات خاصی را از سند PDF حذف کنید</string>
+    <string name="tap_to_remove">برای حذف ضربه بزنید</string>
+    <string name="manually">به صورت دستی</string>
+    <string name="crop_pdf">برش PDF</string>
+    <string name="crop_pdf_sub">صفحات سند را به هر حدی برش دهید</string>
+    <string name="flatten_pdf">PDF را صاف کنید</string>
+    <string name="flatten_pdf_sub">PDF را با شطرنجی کردن صفحات سند غیرقابل تغییر کنید</string>
 </resources>

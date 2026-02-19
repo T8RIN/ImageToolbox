@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Pahina</string>
     <string name="deep_ocr">Malalim na OCR</string>
     <string name="deep_ocr_sub">I-extract ang text mula sa dokumento at iimbak ito sa isang text file gamit ang Tesseract engine</string>
+    <string name="cant_remove_all">Hindi maalis ang lahat ng pahina</string>
+    <string name="remove_pages_pdf">Alisin ang mga pahinang PDF</string>
+    <string name="remove_pages_pdf_sub">Alisin ang mga partikular na pahina mula sa dokumentong PDF</string>
+    <string name="tap_to_remove">I-tap ang Upang Alisin</string>
+    <string name="manually">Manu-manong</string>
+    <string name="crop_pdf">I-crop ang PDF</string>
+    <string name="crop_pdf_sub">I-crop ang mga pahina ng dokumento sa anumang mga hangganan</string>
+    <string name="flatten_pdf">I-flatte ang PDF</string>
+    <string name="flatten_pdf_sub">Gawing hindi nababago ang PDF sa pamamagitan ng pag-raster ng mga pahina ng dokumento</string>
 </resources>

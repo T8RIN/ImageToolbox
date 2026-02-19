@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
     <string name="smth_went_wrong">Kažkas nutiko ne taip: %1$s.</string>
@@ -2157,4 +2159,13 @@
     <string name="page">Puslapis</string>
     <string name="deep_ocr">Gilus OCR</string>
     <string name="deep_ocr_sub">Ištraukite tekstą iš dokumento ir išsaugokite jį viename tekstiniame faile naudodami Tesseract variklį</string>
+    <string name="cant_remove_all">Negalima pašalinti visų puslapių</string>
+    <string name="remove_pages_pdf">Pašalinti PDF puslapius</string>
+    <string name="remove_pages_pdf_sub">Pašalinkite konkrečius puslapius iš PDF dokumento</string>
+    <string name="tap_to_remove">Bakstelėkite Norėdami pašalinti</string>
+    <string name="manually">Rankiniu būdu</string>
+    <string name="crop_pdf">Apkarpyti PDF</string>
+    <string name="crop_pdf_sub">Apkarpykite dokumento puslapius iki bet kokių ribų</string>
+    <string name="flatten_pdf">Išlyginti PDF</string>
+    <string name="flatten_pdf_sub">Padarykite PDF nekeičiamą rastruodami dokumento puslapius</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2153,4 +2155,13 @@
     <string name="page">页</string>
     <string name="deep_ocr">深度OCR</string>
     <string name="deep_ocr_sub">使用 Tesseract 引擎从文档中提取文本并将其存储在一个文本文件中</string>
+    <string name="cant_remove_all">无法删除所有页面</string>
+    <string name="remove_pages_pdf">删除 PDF 页面</string>
+    <string name="remove_pages_pdf_sub">从 PDF 文档中删除特定页面</string>
+    <string name="tap_to_remove">点击删除</string>
+    <string name="manually">手动</string>
+    <string name="crop_pdf">裁剪 PDF</string>
+    <string name="crop_pdf_sub">将文档页面裁剪到任意范围</string>
+    <string name="flatten_pdf">拼合PDF</string>
+    <string name="flatten_pdf_sub">通过光栅化文档页面使 PDF 不可修改</string>
 </resources>

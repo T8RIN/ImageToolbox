@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -2153,4 +2155,13 @@
     <string name="page">ページ</string>
     <string name="deep_ocr">ディープ OCR</string>
     <string name="deep_ocr_sub">Tesseract エンジンを使用してドキュメントからテキストを抽出し、1 つのテキスト ファイルに保存します</string>
+    <string name="cant_remove_all">すべてのページを削除できません</string>
+    <string name="remove_pages_pdf">PDF ページを削除する</string>
+    <string name="remove_pages_pdf_sub">PDF ドキュメントから特定のページを削除する</string>
+    <string name="tap_to_remove">タップして削除</string>
+    <string name="manually">手動で</string>
+    <string name="crop_pdf">PDFのトリミング</string>
+    <string name="crop_pdf_sub">ドキュメントページを任意の境界にトリミング</string>
+    <string name="flatten_pdf">PDF を平坦化する</string>
+    <string name="flatten_pdf_sub">文書ページをラスター化して PDF を変更不可能にする</string>
 </resources>

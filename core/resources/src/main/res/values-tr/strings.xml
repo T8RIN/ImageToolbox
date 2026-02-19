@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Sayfa</string>
     <string name="deep_ocr">Derin OCR</string>
     <string name="deep_ocr_sub">Tesseract motorunu kullanarak belgeden metni çıkarın ve tek bir metin dosyasında saklayın</string>
+    <string name="cant_remove_all">Tüm sayfalar kaldırılamıyor</string>
+    <string name="remove_pages_pdf">PDF sayfalarını kaldır</string>
+    <string name="remove_pages_pdf_sub">PDF belgesinden belirli sayfaları kaldırın</string>
+    <string name="tap_to_remove">Kaldırmak İçin Dokunun</string>
+    <string name="manually">Manuel olarak</string>
+    <string name="crop_pdf">PDF\'yi kırp</string>
+    <string name="crop_pdf_sub">Belge sayfalarını istediğiniz sınırlara göre kırpın</string>
+    <string name="flatten_pdf">PDF\'yi düzleştir</string>
+    <string name="flatten_pdf_sub">Belge sayfalarını tarayarak PDF\'yi değiştirilemez hale getirin</string>
 </resources>

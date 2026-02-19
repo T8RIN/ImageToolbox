@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Pagina</string>
     <string name="deep_ocr">Diepe OCR</string>
     <string name="deep_ocr_sub">Extraheer tekst uit het document en sla deze op in één tekstbestand met behulp van de Tesseract-engine</string>
+    <string name="cant_remove_all">Kan niet alle pagina\'s verwijderen</string>
+    <string name="remove_pages_pdf">Verwijder PDF-pagina\'s</string>
+    <string name="remove_pages_pdf_sub">Verwijder specifieke pagina\'s uit het PDF-document</string>
+    <string name="tap_to_remove">Tik om te verwijderen</string>
+    <string name="manually">Handmatig</string>
+    <string name="crop_pdf">PDF bijsnijden</string>
+    <string name="crop_pdf_sub">Snijd documentpagina\'s bij tot de gewenste grenzen</string>
+    <string name="flatten_pdf">PDF plat maken</string>
+    <string name="flatten_pdf_sub">Maak PDF onaanpasbaar door documentpagina\'s te rasteren</string>
 </resources>

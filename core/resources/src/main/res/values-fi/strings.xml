@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Sivu</string>
     <string name="deep_ocr">Syvä OCR</string>
     <string name="deep_ocr_sub">Pura teksti asiakirjasta ja tallenna se yhteen tekstitiedostoon Tesseract-moottorilla</string>
+    <string name="cant_remove_all">Kaikkia sivuja ei voi poistaa</string>
+    <string name="remove_pages_pdf">Poista PDF-sivut</string>
+    <string name="remove_pages_pdf_sub">Poista tietyt sivut PDF-dokumentista</string>
+    <string name="tap_to_remove">Poista napauttamalla</string>
+    <string name="manually">Käsin</string>
+    <string name="crop_pdf">Rajaa PDF</string>
+    <string name="crop_pdf_sub">Rajaa asiakirjan sivut mihin tahansa reunaan</string>
+    <string name="flatten_pdf">Litistä PDF</string>
+    <string name="flatten_pdf_sub">Tee PDF-tiedostosta muokkaamaton rasteroimalla asiakirjan sivut</string>
 </resources>

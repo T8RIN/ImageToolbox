@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -2155,4 +2157,13 @@
     <string name="page">पान</string>
     <string name="deep_ocr">खोल OCR</string>
     <string name="deep_ocr_sub">दस्तऐवजातून मजकूर काढा आणि टेसरॅक्ट इंजिन वापरून एका मजकूर फाइलमध्ये संग्रहित करा</string>
+    <string name="cant_remove_all">सर्व पृष्ठे काढू शकत नाही</string>
+    <string name="remove_pages_pdf">PDF पृष्ठे काढा</string>
+    <string name="remove_pages_pdf_sub">पीडीएफ दस्तऐवजातून विशिष्ट पृष्ठे काढा</string>
+    <string name="tap_to_remove">काढण्यासाठी टॅप करा</string>
+    <string name="manually">स्वहस्ते</string>
+    <string name="crop_pdf">पीडीएफ क्रॉप करा</string>
+    <string name="crop_pdf_sub">दस्तऐवजाची पृष्ठे कोणत्याही मर्यादेपर्यंत क्रॉप करा</string>
+    <string name="flatten_pdf">सपाट पीडीएफ</string>
+    <string name="flatten_pdf_sub">दस्तऐवजाची पृष्ठे रास्टर करून PDF बदलण्यायोग्य बनवा</string>
 </resources>

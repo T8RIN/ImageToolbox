@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -2154,4 +2156,13 @@
     <string name="page">oldal</string>
     <string name="deep_ocr">Mély OCR</string>
     <string name="deep_ocr_sub">Kivonja a szöveget a dokumentumból, és tárolja azt egyetlen szövegfájlban a Tesseract motor segítségével</string>
+    <string name="cant_remove_all">Nem lehet eltávolítani az összes oldalt</string>
+    <string name="remove_pages_pdf">PDF-oldalak eltávolítása</string>
+    <string name="remove_pages_pdf_sub">Adott oldalak eltávolítása a PDF-dokumentumból</string>
+    <string name="tap_to_remove">Koppintson az Eltávolítás elemre</string>
+    <string name="manually">Manuálisan</string>
+    <string name="crop_pdf">PDF vágása</string>
+    <string name="crop_pdf_sub">A dokumentum oldalainak levágása tetszőleges határig</string>
+    <string name="flatten_pdf">PDF lapítása</string>
+    <string name="flatten_pdf_sub">A PDF-et módosíthatatlanná teheti a dokumentumoldalak raszterezésével</string>
 </resources>

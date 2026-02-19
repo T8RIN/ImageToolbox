@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -2156,4 +2158,13 @@
     <string name="page">старонка</string>
     <string name="deep_ocr">Глыбокае OCR</string>
     <string name="deep_ocr_sub">Выняць тэкст з дакумента і захаваць яго ў адным тэкставым файле з дапамогай рухавіка Tesseract</string>
+    <string name="cant_remove_all">Немагчыма выдаліць усе старонкі</string>
+    <string name="remove_pages_pdf">Выдаліць старонкі PDF</string>
+    <string name="remove_pages_pdf_sub">Выдаліць пэўныя старонкі з дакумента PDF</string>
+    <string name="tap_to_remove">Націсніце, каб выдаліць</string>
+    <string name="manually">Ўручную</string>
+    <string name="crop_pdf">Абрэзаць PDF</string>
+    <string name="crop_pdf_sub">Абрэжце старонкі дакумента да любых межаў</string>
+    <string name="flatten_pdf">Звесці PDF</string>
+    <string name="flatten_pdf_sub">Зрабіце PDF-файл нязменным, растравіўшы старонкі дакумента</string>
 </resources>

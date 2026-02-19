@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="flexible">Fleksibel</string>
     <string name="ok">OK</string>
     <string name="crop">Beskær</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Side</string>
     <string name="deep_ocr">Dyb OCR</string>
     <string name="deep_ocr_sub">Uddrag tekst fra dokument og gem den i den ene tekstfil ved hjælp af Tesseract-motoren</string>
+    <string name="cant_remove_all">Kan ikke fjerne alle sider</string>
+    <string name="remove_pages_pdf">Fjern PDF-sider</string>
+    <string name="remove_pages_pdf_sub">Fjern bestemte sider fra PDF-dokument</string>
+    <string name="tap_to_remove">Tryk for at fjerne</string>
+    <string name="manually">Manuelt</string>
+    <string name="crop_pdf">Beskær PDF</string>
+    <string name="crop_pdf_sub">Beskær dokumentsider til enhver grænse</string>
+    <string name="flatten_pdf">Udglat PDF</string>
+    <string name="flatten_pdf_sub">Gør PDF uændret ved at rastere dokumentsider</string>
 </resources>

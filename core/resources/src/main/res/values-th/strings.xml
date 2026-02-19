@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -2153,4 +2155,13 @@
     <string name="page">หน้าหนังสือ</string>
     <string name="deep_ocr">OCR ลึก</string>
     <string name="deep_ocr_sub">แยกข้อความออกจากเอกสารและจัดเก็บไว้ในไฟล์ข้อความเดียวโดยใช้เครื่องมือ Tesseract</string>
+    <string name="cant_remove_all">ไม่สามารถลบหน้าทั้งหมดได้</string>
+    <string name="remove_pages_pdf">ลบหน้า PDF</string>
+    <string name="remove_pages_pdf_sub">ลบหน้าเฉพาะออกจากเอกสาร PDF</string>
+    <string name="tap_to_remove">แตะเพื่อลบ</string>
+    <string name="manually">ด้วยตนเอง</string>
+    <string name="crop_pdf">ครอบตัด PDF</string>
+    <string name="crop_pdf_sub">ครอบตัดหน้าเอกสารเป็นขอบเขตใดก็ได้</string>
+    <string name="flatten_pdf">แผ่ PDF</string>
+    <string name="flatten_pdf_sub">ทำให้ PDF ไม่สามารถแก้ไขได้โดยการแรสเตอร์หน้าเอกสาร</string>
 </resources>

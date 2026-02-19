@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -2156,4 +2158,13 @@
     <string name="page">עַמוּד</string>
     <string name="deep_ocr">OCR עמוק</string>
     <string name="deep_ocr_sub">חלץ טקסט מהמסמך ואחסן אותו בקובץ הטקסט האחד באמצעות מנוע Tesseract</string>
+    <string name="cant_remove_all">לא ניתן להסיר את כל הדפים</string>
+    <string name="remove_pages_pdf">הסר דפי PDF</string>
+    <string name="remove_pages_pdf_sub">הסר דפים ספציפיים ממסמך PDF</string>
+    <string name="tap_to_remove">הקש כדי להסיר</string>
+    <string name="manually">באופן ידני</string>
+    <string name="crop_pdf">חיתוך PDF</string>
+    <string name="crop_pdf_sub">חתוך דפי מסמכים לכל גבול</string>
+    <string name="flatten_pdf">שטח PDF</string>
+    <string name="flatten_pdf_sub">הפוך את PDF לבלתי ניתן לשינוי על ידי רסטר דפי מסמכים</string>
 </resources>

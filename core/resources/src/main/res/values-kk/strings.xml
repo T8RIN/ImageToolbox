@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
     <string name="image_not_saved_sub">Қазір шықсаңыз, барлық сақталмаған өңдеме жоғалады</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Бет</string>
     <string name="deep_ocr">Терең OCR</string>
     <string name="deep_ocr_sub">Құжаттан мәтінді шығарып, оны Tesseract қозғалтқышының көмегімен бір мәтіндік файлға сақтаңыз</string>
+    <string name="cant_remove_all">Барлық беттерді жою мүмкін емес</string>
+    <string name="remove_pages_pdf">PDF беттерін жою</string>
+    <string name="remove_pages_pdf_sub">PDF құжатынан арнайы беттерді алып тастаңыз</string>
+    <string name="tap_to_remove">Жою үшін түртіңіз</string>
+    <string name="manually">Қолмен</string>
+    <string name="crop_pdf">PDF қию</string>
+    <string name="crop_pdf_sub">Құжат беттерін кез келген шекке қию</string>
+    <string name="flatten_pdf">PDF файлын тегістеңіз</string>
+    <string name="flatten_pdf_sub">Құжат беттерін растирлеу арқылы PDF файлын өзгертілмейтін етіңіз</string>
 </resources>

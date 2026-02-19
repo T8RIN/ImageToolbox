@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -2155,4 +2157,13 @@
     <string name="page">Страница</string>
     <string name="deep_ocr">Дубоки ОЦР</string>
     <string name="deep_ocr_sub">Извуците текст из документа и сачувајте га у једној текстуалној датотеци користећи Тессерацт енгине</string>
+    <string name="cant_remove_all">Није могуће уклонити све странице</string>
+    <string name="remove_pages_pdf">Уклоните ПДФ странице</string>
+    <string name="remove_pages_pdf_sub">Уклоните одређене странице из ПДФ документа</string>
+    <string name="tap_to_remove">Додирните За уклањање</string>
+    <string name="manually">Ручно</string>
+    <string name="crop_pdf">Изрежите ПДФ</string>
+    <string name="crop_pdf_sub">Опсеците странице документа на било коју границу</string>
+    <string name="flatten_pdf">Изравнајте ПДФ</string>
+    <string name="flatten_pdf_sub">Учините ПДФ непромењивим растером страница документа</string>
 </resources>

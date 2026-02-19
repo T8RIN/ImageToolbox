@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -2154,4 +2156,13 @@
     <string name="page">Pàgina</string>
     <string name="deep_ocr">OCR profund</string>
     <string name="deep_ocr_sub">Extraieu text del document i emmagatzemeu-lo en un fitxer de text mitjançant el motor Tesseract</string>
+    <string name="cant_remove_all">No es poden eliminar totes les pàgines</string>
+    <string name="remove_pages_pdf">Elimina les pàgines PDF</string>
+    <string name="remove_pages_pdf_sub">Elimina pàgines específiques del document PDF</string>
+    <string name="tap_to_remove">Toqueu Per eliminar</string>
+    <string name="manually">Manualment</string>
+    <string name="crop_pdf">Retalla PDF</string>
+    <string name="crop_pdf_sub">Retalla les pàgines del document fins a qualsevol límit</string>
+    <string name="flatten_pdf">Aplanar PDF</string>
+    <string name="flatten_pdf_sub">Feu que els PDF no siguin modificables rasteritzant les pàgines del document</string>
 </resources>

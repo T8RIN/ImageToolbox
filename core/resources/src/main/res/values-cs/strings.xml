@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -2156,4 +2158,13 @@
     <string name="page">Strana</string>
     <string name="deep_ocr">Hluboké OCR</string>
     <string name="deep_ocr_sub">Extrahujte text z dokumentu a uložte jej do jednoho textového souboru pomocí enginu Tesseract</string>
+    <string name="cant_remove_all">Nelze odstranit všechny stránky</string>
+    <string name="remove_pages_pdf">Odstraňte stránky PDF</string>
+    <string name="remove_pages_pdf_sub">Odstraňte konkrétní stránky z dokumentu PDF</string>
+    <string name="tap_to_remove">Klepněte na Odebrat</string>
+    <string name="manually">Ručně</string>
+    <string name="crop_pdf">Oříznout PDF</string>
+    <string name="crop_pdf_sub">Ořízněte stránky dokumentu na libovolné hranice</string>
+    <string name="flatten_pdf">Vyrovnat PDF</string>
+    <string name="flatten_pdf_sub">Udělejte PDF nemodifikovatelné rastrováním stránek dokumentu</string>
 </resources>

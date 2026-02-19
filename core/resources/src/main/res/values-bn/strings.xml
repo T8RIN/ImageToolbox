@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -2154,4 +2156,13 @@
     <string name="page">পাতা</string>
     <string name="deep_ocr">গভীর ওসিআর</string>
     <string name="deep_ocr_sub">ডকুমেন্ট থেকে টেক্সট বের করুন এবং Tesseract ইঞ্জিন ব্যবহার করে একটি টেক্সট ফাইলে সংরক্ষণ করুন</string>
+    <string name="cant_remove_all">সব পৃষ্ঠা মুছে ফেলা যাবে না</string>
+    <string name="remove_pages_pdf">পিডিএফ পৃষ্ঠাগুলি সরান</string>
+    <string name="remove_pages_pdf_sub">পিডিএফ ডকুমেন্ট থেকে নির্দিষ্ট পৃষ্ঠাগুলি সরান</string>
+    <string name="tap_to_remove">সরাতে আলতো চাপুন</string>
+    <string name="manually">ম্যানুয়ালি</string>
+    <string name="crop_pdf">পিডিএফ ক্রপ করুন</string>
+    <string name="crop_pdf_sub">দস্তাবেজ পৃষ্ঠাগুলিকে যে কোনও সীমা পর্যন্ত কাটুন</string>
+    <string name="flatten_pdf">পিডিএফ সমতল করুন</string>
+    <string name="flatten_pdf_sub">ডকুমেন্ট পেজ রাস্টার করে পিডিএফকে পরিবর্তনযোগ্য করুন</string>
 </resources>
