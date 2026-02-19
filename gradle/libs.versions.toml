@@ -74,7 +74,7 @@ squircle-shape = "5.1.1"
 mlkitDocumentScanner = "16.0.0"
 moshi = "1.15.2"
 bouncycastle = "1.83"
-pdfviewer = "1.0.0-alpha12"
+pdfviewer = "1.0.0-alpha13"
 fragmentCompose = "1.8.9"
 
 firebaseCrashlyticsGradle = "3.0.6"
