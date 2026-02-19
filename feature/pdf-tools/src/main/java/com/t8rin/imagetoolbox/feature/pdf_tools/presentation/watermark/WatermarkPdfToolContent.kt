@@ -24,9 +24,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -56,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import kotlin.math.roundToInt
@@ -137,6 +141,21 @@ fun WatermarkPdfToolContent(
         controls = {
             Spacer(Modifier.height(20.dp))
 
+            RoundedTextField(
+                modifier = Modifier
+                    .container(
+                        shape = MaterialTheme.shapes.large,
+                        resultPadding = 8.dp
+                    ),
+                value = component.watermarkText,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                singleLine = false,
+                onValueChange = component::updateWatermarkText,
+                label = {
+                    Text(stringResource(R.string.text))
+                }
+            )
+            Spacer(Modifier.height(16.dp))
             EnhancedSliderItem(
                 value = params.rotation,
                 icon = Icons.Outlined.TextRotationAngleup,

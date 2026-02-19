@@ -82,6 +82,11 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
+    fun updateWatermarkText(text: String) {
+        registerChanges()
+        _watermarkText.update { text }
+    }
+
     fun updateParams(params: PdfWatermarkParams) {
         registerChanges()
         _params.update { params }
