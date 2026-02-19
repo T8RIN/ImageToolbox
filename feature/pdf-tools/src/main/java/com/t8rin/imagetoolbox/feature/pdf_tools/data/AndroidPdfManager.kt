@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
@@ -62,7 +63,7 @@ import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
-import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
+import com.tom_roush.pdfbox.pdmodel.font.PDType0Font
 import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
@@ -313,7 +314,7 @@ internal class AndroidPdfManager @Inject constructor(
 
         shareProvider.cacheDataOrThrow(filename = tempName("numbered")) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
-                val font = PDType1Font.HELVETICA_BOLD
+                val font = document.getBaseFont()
                 val totalPages = document.pages.count()
 
                 document.pages.forEachIndexed { idx, page ->
@@ -414,7 +415,7 @@ internal class AndroidPdfManager @Inject constructor(
 
         shareProvider.cacheDataOrThrow(filename = tempName("watermarked")) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
-                val font = PDType1Font.HELVETICA_BOLD
+                val font = document.getBaseFont()
 
                 document.pages.forEach { page ->
                     PDPageContentStream(
@@ -855,4 +856,7 @@ internal class AndroidPdfManager @Inject constructor(
         val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
         return "PDF_${key}_$timeStamp.pdf"
     }
+
+    private fun PDDocument.getBaseFont() =
+        PDType0Font.load(this, context.resources.openRawResource(R.raw.roboto_bold))
 }
