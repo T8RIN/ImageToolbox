@@ -98,16 +98,15 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
-        val unlocked = unlockPdf(
+        unlockPdf(
             uri = uri,
             password = password.orEmpty(),
-            filename = uri.toUri().filename() ?: tempName("unlocked")
-        )
-
-        if (password.isNullOrBlank()) {
-            null
-        } else {
-            unlocked
+            filename = uri.toUri().filename() ?: tempName(
+                key = "unlocked",
+                uri = uri
+            )
+        ).takeIf {
+            !password.isNullOrBlank()
         }
     }
 
@@ -262,7 +261,12 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<Int>?
     ): String = catchPdf {
         PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
-            shareProvider.cacheDataOrThrow(filename = tempName("split")) { output ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "split",
+                    uri = uri
+                )
+            ) { output ->
                 PDDocument().use { newDoc ->
                     (pages ?: List(document.numberOfPages) { it }).forEach { index ->
                         newDoc.addPage(document.getPage(index))
@@ -277,7 +281,12 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         rotations: List<Int>
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("rotated")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "rotated",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 document.pages.forEachIndexed { idx, page ->
                     val angle = rotations.getOrNull(idx) ?: 0
@@ -293,7 +302,12 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         newOrder: List<Int>
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("rearranged")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "rearranged",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 PDDocument().use { newDoc ->
                     newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
@@ -312,7 +326,12 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(color)
 
-        shareProvider.cacheDataOrThrow(filename = tempName("numbered")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "numbered",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val font = document.getBaseFont()
                 val totalPages = document.pages.count()
@@ -413,7 +432,12 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(params.color)
 
-        shareProvider.cacheDataOrThrow(filename = tempName("watermarked")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "watermarked",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val font = document.getBaseFont()
 
@@ -472,7 +496,12 @@ internal class AndroidPdfManager @Inject constructor(
         signatureImage: Bitmap,
         params: PdfSignatureParams
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("signed")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "signed",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
 
                 val pagesToSign =
@@ -528,7 +557,12 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("protected")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "protected",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), this.password.orEmpty()).use { document ->
                 val protection = StandardProtectionPolicy(password, password, AccessPermission())
                 protection.encryptionKeyLength = 128
@@ -545,7 +579,10 @@ internal class AndroidPdfManager @Inject constructor(
         unlockPdf(
             uri = uri,
             password = password,
-            filename = tempName("unlocked")
+            filename = tempName(
+                key = "unlocked",
+                uri = uri
+            )
         )
     }
 
@@ -583,7 +620,12 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         quality: Float
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("compressed")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "compressed",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password).use { document ->
                 document.pages.forEach { page ->
                     val resources = page.resources
@@ -611,7 +653,12 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun convertToGrayscale(uri: String): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("grayscale")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "grayscale",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password).use { document ->
                 document.pages.forEach { page ->
                     val resources = page.resources
@@ -647,7 +694,12 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun repairPdf(uri: String): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("repaired")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "repaired",
+                uri = uri
+            )
+        ) { output ->
             try {
                 PDDocument.load(uri.inputStream(), password).use { document ->
                     document.save(output.outputStream())
@@ -668,7 +720,12 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         metadata: PdfMetadata?
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("metadata")) { output ->
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "metadata",
+                uri = uri
+            )
+        ) { output ->
             PDDocument.load(uri.inputStream(), password).use { document ->
                 if (metadata == null) {
                     document.documentInformation = PDDocumentInformation().apply {
@@ -852,9 +909,15 @@ internal class AndroidPdfManager @Inject constructor(
 
     private fun String.inputStream() = UriReadable(toUri(), context).stream
 
-    private fun tempName(key: String): String {
-        val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
-        return "PDF_${key}_$timeStamp.pdf"
+    private fun tempName(
+        key: String,
+        uri: String? = null
+    ): String {
+        return uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
+            "${it}_${key}.pdf"
+        } ?: "PDF_${key}_${timestamp()}_${
+            Random(Random.nextInt()).hashCode().toString().take(4)
+        }.pdf"
     }
 
     private fun PDDocument.getBaseFont() =

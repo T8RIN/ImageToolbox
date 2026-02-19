@@ -393,14 +393,12 @@ internal class AndroidFileController @Inject constructor(
     override suspend fun transferBytes(
         fromUri: String,
         toUri: String
-    ): SaveResult = writeBytes(
-        uri = toUri,
-        block = { output ->
-            UriReadable(
-                uri = fromUri.toUri(),
-                context = context
-            ).copyTo(output)
-        }
+    ): SaveResult = transferBytes(
+        fromUri = fromUri,
+        to = UriWriteable(
+            uri = toUri.toUri(),
+            context = context
+        )
     )
 
     override suspend fun transferBytes(

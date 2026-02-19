@@ -321,7 +321,9 @@ fun RoundedTextFieldColors(
             focusedTrailingIconColor = if (isError) error else focusedIndicatorColor,
             unfocusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
             focusedLabelColor = if (isError) error else focusedIndicatorColor,
-            unfocusedLabelColor = if (isError) error else MaterialTheme.colorScheme.surfaceVariant,
+            unfocusedLabelColor = if (isError) error else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                0.9f
+            ),
             selectionColors = TextSelectionColors(
                 handleColor = focusedIndicatorColor.copy(1f),
                 backgroundColor = focusedIndicatorColor.copy(0.4f)
