@@ -2182,4 +2182,6 @@
     <string name="remove_pages_pdf_sub">Remove specific pages from PDF document</string>
     <string name="tap_to_remove">Tap To Remove</string>
     <string name="manually">Manually</string>
+    <string name="crop_pdf">Crop PDF</string>
+    <string name="crop_pdf_sub">Crop document pages to any bounds</string>
 </resources>

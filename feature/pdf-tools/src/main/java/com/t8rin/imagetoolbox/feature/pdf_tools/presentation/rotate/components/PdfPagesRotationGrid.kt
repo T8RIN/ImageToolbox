@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.components
 
-import android.graphics.drawable.GradientDrawable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,7 +45,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,20 +54,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import coil3.asImage
-import coil3.compose.AsyncImagePreviewHandler
-import coil3.compose.LocalAsyncImagePreviewHandler
-import coil3.request.ImageRequest
-import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
@@ -277,46 +268,27 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
             List(files.size) { 0 }
         )
     }
-    CompositionLocalProvider(
-        LocalAsyncImagePreviewHandler provides remember {
-            AsyncImagePreviewHandler(
-                image = { request: ImageRequest ->
-                    GradientDrawable(
-                        GradientDrawable.Orientation.BOTTOM_TOP,
-                        listOf(
-                            Color.Yellow,
-                            Color.Red
-                        ).map { it.toArgb() }.toIntArray()
-                    ).toBitmap(
-                        request.sizeResolver.size().width.pxOrElse { 0 } - 200,
-                        request.sizeResolver.size().height.pxOrElse { 0 }
-                    ).asImage()
+    LazyColumn {
+        item {
+            PdfPagesRotationGrid(
+                pages = files,
+                rotations = rotations,
+                onRotateAll = {
+                    rotations = rotations.map { (it + 90) % 360 }
+                },
+                onClearAll = {
+                    rotations = rotations.map { 0 }
+                },
+                onRotateAt = {
+                    rotations = rotations.toMutableList().apply {
+                        this[it] = (this[it] + 90) % 360
+                    }
                 }
             )
         }
-    ) {
-        LazyColumn {
-            item {
-                PdfPagesRotationGrid(
-                    pages = files,
-                    rotations = rotations,
-                    onRotateAll = {
-                        rotations = rotations.map { (it + 90) % 360 }
-                    },
-                    onClearAll = {
-                        rotations = rotations.map { 0 }
-                    },
-                    onRotateAt = {
-                        rotations = rotations.toMutableList().apply {
-                            this[it] = (this[it] + 90) % 360
-                        }
-                    }
-                )
-            }
 
-            items(30) {
-                Text("TEST $it")
-            }
+        items(30) {
+            Text("TEST $it")
         }
     }
 }

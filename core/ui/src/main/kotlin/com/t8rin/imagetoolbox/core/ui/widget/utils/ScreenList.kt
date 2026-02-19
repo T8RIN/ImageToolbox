@@ -99,6 +99,7 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.RemovePages(uris.firstOrNull()),
                 Screen.PdfTools.Rotate(uris.firstOrNull()),
                 Screen.PdfTools.Rearrange(uris.firstOrNull()),
+                Screen.PdfTools.Crop(uris.firstOrNull()),
                 Screen.PdfTools.PageNumbers(uris.firstOrNull()),
                 Screen.PdfTools.Watermark(uris.firstOrNull()),
                 Screen.PdfTools.Signature(uris.firstOrNull()),

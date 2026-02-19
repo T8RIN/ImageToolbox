@@ -346,6 +346,7 @@ sealed class Screen(
                     RemovePages(),
                     Rotate(),
                     Rearrange(),
+                    Crop(),
                     PageNumbers(),
                     Watermark(),
                     Signature(),
@@ -493,6 +494,15 @@ sealed class Screen(
             id = 58,
             title = R.string.remove_pages_pdf,
             subtitle = R.string.remove_pages_pdf_sub
+        )
+
+        @Serializable
+        data class Crop(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 59,
+            title = R.string.crop_pdf,
+            subtitle = R.string.crop_pdf_sub
         )
     }
 

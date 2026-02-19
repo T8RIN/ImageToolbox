@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
@@ -36,7 +37,14 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.graphics.drawable.toBitmap
+import coil3.asImage
+import coil3.compose.AsyncImagePreviewHandler
+import coil3.compose.LocalAsyncImagePreviewHandler
+import coil3.request.ImageRequest
+import coil3.size.pxOrElse
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
@@ -206,6 +214,22 @@ fun ImageToolboxThemeForPreview(
                     ): String =
                         appContext.getStringLocalized(resId, Locale.forLanguageTag(language))
 
+                },
+                LocalAsyncImagePreviewHandler provides remember {
+                    AsyncImagePreviewHandler(
+                        image = { request: ImageRequest ->
+                            GradientDrawable(
+                                GradientDrawable.Orientation.BOTTOM_TOP,
+                                listOf(
+                                    Color.Yellow,
+                                    Color.Red
+                                ).map { it.toArgb() }.toIntArray()
+                            ).toBitmap(
+                                request.sizeResolver.size().width.pxOrElse { 0 } - 200,
+                                request.sizeResolver.size().height.pxOrElse { 0 }
+                            ).asImage()
+                        }
+                    )
                 }
             ) {
                 MaterialTheme(

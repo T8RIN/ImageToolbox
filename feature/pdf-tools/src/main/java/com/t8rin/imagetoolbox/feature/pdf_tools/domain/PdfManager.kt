@@ -147,4 +147,13 @@ interface PdfManager<I> {
         uri: String? = null
     ): String
 
+    suspend fun cropPdf(
+        uri: String,
+        pages: List<Int>? = null,
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float
+    ): String
+
 }

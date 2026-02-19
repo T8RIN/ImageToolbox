@@ -801,6 +801,76 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
+    override suspend fun cropPdf(
+        uri: String,
+        pages: List<Int>?,
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float
+    ): String = catchPdf {
+        shareProvider.cacheDataOrThrow(
+            filename = tempName(
+                key = "cropped",
+                uri = uri
+            )
+        ) { output ->
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+                val pagesToProcess = pages ?: List(document.numberOfPages) { it }
+
+                pagesToProcess.forEach { pageIndex ->
+                    val page = document.getPage(pageIndex)
+
+                    val baseBox = page.cropBox ?: page.mediaBox
+
+                    val width = baseBox.width
+                    val height = baseBox.height
+
+                    val originX = baseBox.lowerLeftX
+                    val originY = baseBox.lowerLeftY
+
+                    val rotation = page.rotation
+
+                    val cropBox = when (rotation) {
+
+                        90 -> PDRectangle(
+                            originX + top * width,
+                            originY + left * height,
+                            (bottom - top) * width,
+                            (right - left) * height
+                        )
+
+                        180 -> PDRectangle(
+                            originX + (1f - right) * width,
+                            originY + top * height,
+                            (right - left) * width,
+                            (bottom - top) * height
+                        )
+
+                        270 -> PDRectangle(
+                            originX + (1f - bottom) * width,
+                            originY + (1f - right) * height,
+                            (bottom - top) * width,
+                            (right - left) * height
+                        )
+
+                        else -> PDRectangle(
+                            originX + left * width,
+                            originY + (1f - bottom) * height,
+                            (right - left) * width,
+                            (bottom - top) * height
+                        )
+                    }
+
+                    page.cropBox = cropBox
+                }
+
+                document.isAllSecurityToBeRemoved = true
+                document.save(output.outputStream())
+            }
+        }
+    }
+
     override fun createTempName(key: String, uri: String?): String = tempName(
         key = key,
         uri = uri

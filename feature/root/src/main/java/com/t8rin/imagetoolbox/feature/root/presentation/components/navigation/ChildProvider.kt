@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.Mar
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
@@ -84,6 +85,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Compare
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CropPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DeleteExif
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DocumentScanner
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Draw
@@ -218,6 +220,7 @@ internal class ChildProvider @Inject constructor(
     private val repairPdfToolComponentFactory: RepairPdfToolComponent.Factory,
     private val metadataPdfToolComponentFactory: MetadataPdfToolComponent.Factory,
     private val removePagesPdfToolComponentFactory: RemovePagesPdfToolComponent.Factory,
+    private val cropPdfToolComponentFactory: CropPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -665,7 +668,7 @@ internal class ChildProvider @Inject constructor(
                 initialUris = config.uris,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -674,7 +677,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -683,7 +686,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -692,7 +695,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -701,7 +704,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -710,7 +713,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -719,7 +722,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -728,7 +731,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -737,7 +740,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -746,7 +749,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -755,7 +758,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -764,7 +767,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -773,7 +776,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -782,7 +785,7 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
             )
         )
 
@@ -791,7 +794,16 @@ internal class ChildProvider @Inject constructor(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
-                onNavigate = ::navigateTo
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.Crop -> CropPdfTool(
+            cropPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
             )
         )
     }
