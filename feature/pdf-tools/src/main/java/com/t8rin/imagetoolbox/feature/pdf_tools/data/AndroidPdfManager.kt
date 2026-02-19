@@ -775,6 +775,11 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
+    override fun createTempName(key: String, uri: String?): String = tempName(
+        key = key,
+        uri = uri
+    )
+
     private suspend fun unlockPdf(
         uri: String,
         password: String,
@@ -913,9 +918,11 @@ internal class AndroidPdfManager @Inject constructor(
         key: String,
         uri: String? = null
     ): String {
+        val keyFixed = if (key.isBlank()) "_" else "_${key}_"
+
         return uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
-            "${it}_${key}.pdf"
-        } ?: "PDF_${key}_${timestamp()}_${
+            "${it}${keyFixed.removeSuffix("_")}.pdf"
+        } ?: "PDF$keyFixed${timestamp()}_${
             Random(Random.nextInt()).hashCode().toString().take(4)
         }.pdf"
     }

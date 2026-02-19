@@ -137,4 +137,9 @@ interface PdfManager<I> {
         uri: String
     ): List<String>
 
+    fun createTempName(
+        key: String,
+        uri: String? = null
+    ): String
+
 }

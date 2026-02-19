@@ -31,14 +31,24 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Job
-import kotlin.random.Random
 
 abstract class BasePdfToolComponent(
     val onGoBack: () -> Unit,
@@ -105,9 +115,27 @@ abstract class BasePdfToolComponent(
         _isSaving.value = false
     }
 
-    open fun generatePdfFilename(): String {
-        val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
-        return "PDF_$timeStamp.pdf"
+    open fun generatePdfFilename(): String = getKey().let { (key, uri) ->
+        pdfManager.createTempName(
+            key = key,
+            uri = uri?.toString()
+        )
+    }
+
+    private fun getKey(): Pair<String, Uri?> = when (this) {
+        is SplitPdfToolComponent -> "split" to uri
+        is RotatePdfToolComponent -> "rotated" to uri
+        is RearrangePdfToolComponent -> "rearranged" to uri
+        is PageNumbersPdfToolComponent -> "numbered" to uri
+        is WatermarkPdfToolComponent -> "watermarked" to uri
+        is SignaturePdfToolComponent -> "signed" to uri
+        is CompressPdfToolComponent -> "compressed" to uri
+        is GrayscalePdfToolComponent -> "grayscale" to uri
+        is RepairPdfToolComponent -> "repaired" to uri
+        is ProtectPdfToolComponent -> "protected" to uri
+        is UnlockPdfToolComponent -> "unlocked" to uri
+        is MetadataPdfToolComponent -> "metadata" to uri
+        else -> "" to null
     }
 
     abstract fun saveTo(
