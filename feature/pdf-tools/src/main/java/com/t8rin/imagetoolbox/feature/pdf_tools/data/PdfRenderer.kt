@@ -35,9 +35,11 @@ class PdfRenderer(
     val pageCount: Int get() = pDocument.numberOfPages
 
     fun openPage(index: Int): Page = pDocument.getPage(index).let { page ->
+        val baseBox = page.cropBox ?: page.mediaBox
+
         Page(
-            width = page.mediaBox.width.roundToInt(),
-            height = page.mediaBox.height.roundToInt(),
+            width = baseBox.width.roundToInt(),
+            height = baseBox.height.roundToInt(),
             pdPage = page
         )
     }

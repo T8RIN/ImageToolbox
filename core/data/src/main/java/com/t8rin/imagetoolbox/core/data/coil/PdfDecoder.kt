@@ -52,7 +52,7 @@ internal class PdfDecoder(
             val renderer = PDFRenderer(document)
 
             val pageIndex = options.pdfPage.coerceIn(0, document.numberOfPages - 1)
-            val box = document.getPage(pageIndex).mediaBox
+            val box = document.getPage(pageIndex).run { cropBox ?: mediaBox }
 
             val originalWidth = box.width
             val originalHeight = box.height

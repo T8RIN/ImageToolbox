@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -35,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -48,6 +50,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toDp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toPx
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
@@ -140,6 +143,7 @@ fun SignaturePdfToolContent(
                             model = component.signatureImageUri,
                             contentDescription = null,
                             modifier = Modifier
+                                .alpha(params.opacity)
                                 .offset {
                                     IntOffset(
                                         x = offsetXPx.roundToInt(),
@@ -174,6 +178,15 @@ fun SignaturePdfToolContent(
                     component.updateParams(params.copy(pages = it))
                 },
                 pagesCount = pagesCount
+            )
+            Spacer(Modifier.height(8.dp))
+            AlphaSelector(
+                value = params.opacity,
+                onValueChange = {
+                    component.updateParams(params.copy(opacity = it))
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.large
             )
             Spacer(Modifier.height(8.dp))
             EnhancedSliderItem(

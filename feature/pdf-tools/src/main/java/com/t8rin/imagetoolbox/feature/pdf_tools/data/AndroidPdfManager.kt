@@ -69,6 +69,8 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
+import com.tom_roush.pdfbox.rendering.ImageType
+import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -366,8 +368,12 @@ internal class AndroidPdfManager @Inject constructor(
                     val text = labelFormat.replace("{n}", (idx + 1).toString())
                         .replace("{total}", totalPages.toString())
 
-                    val pageWidth = page.mediaBox.width
-                    val pageHeight = page.mediaBox.height
+                    val baseBox = page.cropBox ?: page.mediaBox
+                    val pageWidth = baseBox.width
+                    val pageHeight = baseBox.height
+                    val originX = baseBox.lowerLeftX
+                    val originY = baseBox.lowerLeftY
+
                     val textWidth = font.getStringWidth(text) / 1000f * 12f
 
                     val baseX = when (position) {
@@ -418,6 +424,9 @@ internal class AndroidPdfManager @Inject constructor(
                         else -> baseY
                     }
 
+                    val adjustedXWithOrigin = adjustedX + originX
+                    val adjustedYWithOrigin = adjustedY + originY
+
                     PDPageContentStream(
                         document,
                         page,
@@ -439,7 +448,7 @@ internal class AndroidPdfManager @Inject constructor(
                                 (color.alpha * 255).roundToInt()
                             )
                         )
-                        stream.newLineAtOffset(adjustedX, adjustedY)
+                        stream.newLineAtOffset(adjustedXWithOrigin, adjustedYWithOrigin)
                         stream.showText(text)
                         stream.endText()
                     }
@@ -495,8 +504,13 @@ internal class AndroidPdfManager @Inject constructor(
                             font.getStringWidth(watermarkText) / 1000f * params.fontSize
 
                         val radians = Math.toRadians(-params.rotation.toDouble())
-                        val centerX = page.mediaBox.width / 2f
-                        val centerY = page.mediaBox.height / 2f
+                        val baseBox = page.cropBox ?: page.mediaBox
+
+                        val originX = baseBox.lowerLeftX
+                        val originY = baseBox.lowerLeftY
+
+                        val centerX = originX + baseBox.width / 2f
+                        val centerY = originY + baseBox.height / 2f
 
                         val matrix = Matrix.getRotateInstance(
                             radians,
@@ -529,7 +543,6 @@ internal class AndroidPdfManager @Inject constructor(
             )
         ) { output ->
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
-
                 val pagesToSign =
                     params.pages.ifEmpty { List(document.pages.count) { it } }
 
@@ -542,8 +555,13 @@ internal class AndroidPdfManager @Inject constructor(
                     val page =
                         document.getPage(idx.coerceIn(0 until document.pages.count()))
 
-                    val pageWidth = page.mediaBox.width
-                    val pageHeight = page.mediaBox.height
+                    val baseBox = page.cropBox ?: page.mediaBox
+
+                    val pageWidth = baseBox.width
+                    val pageHeight = baseBox.height
+
+                    val originX = baseBox.lowerLeftX
+                    val originY = baseBox.lowerLeftY
 
                     val targetWidth = pageWidth * params.size
                     val targetHeight = targetWidth / imageAspect
@@ -557,12 +575,21 @@ internal class AndroidPdfManager @Inject constructor(
                     targetX = targetX.coerceIn(0f, pageWidth - targetWidth)
                     targetY = targetY.coerceIn(0f, pageHeight - targetHeight)
 
+                    targetX += originX
+                    targetY += originY
+
                     PDPageContentStream(
                         document,
                         page,
                         PDPageContentStream.AppendMode.APPEND,
                         true
                     ).use { stream ->
+                        val gs = PDExtendedGraphicsState().apply {
+                            nonStrokingAlphaConstant = params.opacity
+                        }
+
+                        stream.setGraphicsStateParameters(gs)
+
                         stream.drawImage(
                             pdImage,
                             targetX,
@@ -867,6 +894,75 @@ internal class AndroidPdfManager @Inject constructor(
 
                 document.isAllSecurityToBeRemoved = true
                 document.save(output.outputStream())
+            }
+        }
+    }
+
+    suspend fun flattenPdf(
+        uri: String,
+        quality: Int
+    ): String = catchPdf {
+
+        val clampedQuality = quality.coerceIn(1, 100)
+        val jpegQuality = clampedQuality / 100f
+
+        val dpi = 72f + (228f * jpegQuality)
+
+        shareProvider.cacheDataOrThrow(
+            filename = createTempName("flattened", uri)
+        ) { output ->
+
+            PDDocument.load(uri.inputStream(), password.orEmpty()).use { source ->
+
+                val renderer = PDFRenderer(source)
+
+                PDDocument().use { target ->
+                    for (pageIndex in 0 until source.numberOfPages) {
+                        val sourcePage = source.getPage(pageIndex)
+                        val cropBox = sourcePage.cropBox ?: sourcePage.mediaBox
+
+                        val image = renderer.renderImageWithDPI(
+                            pageIndex,
+                            dpi,
+                            ImageType.RGB
+                        )
+
+                        val newPage = PDPage(
+                            PDRectangle(
+                                cropBox.width,
+                                cropBox.height
+                            )
+                        )
+
+                        target.addPage(newPage)
+
+                        val pdImage = JPEGFactory.createFromImage(
+                            target,
+                            image,
+                            jpegQuality
+                        )
+
+                        PDPageContentStream(
+                            target,
+                            newPage,
+                            PDPageContentStream.AppendMode.OVERWRITE,
+                            false,
+                            false
+                        ).use { content ->
+                            content.drawImage(
+                                pdImage,
+                                0f,
+                                0f,
+                                cropBox.width,
+                                cropBox.height
+                            )
+                        }
+                    }
+
+                    target.isAllSecurityToBeRemoved = true
+
+                    target.save(output.outputStream())
+                }
             }
         }
     }
