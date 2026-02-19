@@ -482,5 +482,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 82 + PdfTools.options.size
+    override val FEATURES_COUNT = 83 + PdfTools.options.size
 }
