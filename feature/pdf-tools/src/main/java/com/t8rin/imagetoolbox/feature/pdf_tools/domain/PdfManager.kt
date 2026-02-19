@@ -156,4 +156,9 @@ interface PdfManager<I> {
         bottom: Float
     ): String
 
+    suspend fun flattenPdf(
+        uri: String,
+        quality: Float
+    ): String
+
 }

@@ -27,6 +27,7 @@ import androidx.compose.material.icons.outlined.FilterBAndW
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
+import androidx.compose.material.icons.outlined.Panorama
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.QrCode2
@@ -43,6 +44,7 @@ import androidx.compose.material.icons.twotone.FilterBAndW
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
+import androidx.compose.material.icons.twotone.Panorama
 import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.PictureAsPdf
 import androidx.compose.material.icons.twotone.QrCode2
@@ -225,6 +227,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Metadata -> "PdfTools_Metadata"
     is PdfTools.RemovePages -> "PdfTools_RemovePages"
     is PdfTools.Crop -> "PdfTools_Crop"
+    is PdfTools.Flatten -> "PdfTools_Flatten"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -295,6 +298,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Metadata -> Icons.Outlined.TagText
     is PdfTools.RemovePages -> Icons.Outlined.DeleteSweep
     is PdfTools.Crop -> Icons.Rounded.CropSmall
+    is PdfTools.Flatten -> Icons.Outlined.Panorama
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -365,6 +369,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Metadata -> Icons.TwoTone.TagText
     is PdfTools.RemovePages -> Icons.TwoTone.DeleteSweep
     is PdfTools.Crop -> Icons.TwoTone.CropSmall
+    is PdfTools.Flatten -> Icons.TwoTone.Panorama
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

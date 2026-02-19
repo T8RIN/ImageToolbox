@@ -351,6 +351,7 @@ sealed class Screen(
                     Watermark(),
                     Signature(),
                     Compress(),
+                    Flatten(),
                     Grayscale(),
                     Repair(),
                     Protect(),
@@ -503,6 +504,15 @@ sealed class Screen(
             id = 59,
             title = R.string.crop_pdf,
             subtitle = R.string.crop_pdf_sub
+        )
+
+        @Serializable
+        data class Flatten(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 60,
+            title = R.string.flatten_pdf,
+            subtitle = R.string.flatten_pdf_sub
         )
     }
 

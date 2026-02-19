@@ -898,15 +898,11 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    suspend fun flattenPdf(
+    override suspend fun flattenPdf(
         uri: String,
-        quality: Int
+        quality: Float
     ): String = catchPdf {
-
-        val clampedQuality = quality.coerceIn(1, 100)
-        val jpegQuality = clampedQuality / 100f
-
-        val dpi = 72f + (228f * jpegQuality)
+        val dpi = 72f + (228f * quality)
 
         shareProvider.cacheDataOrThrow(
             filename = createTempName("flattened", uri)
@@ -939,7 +935,7 @@ internal class AndroidPdfManager @Inject constructor(
                         val pdImage = JPEGFactory.createFromImage(
                             target,
                             image,
-                            jpegQuality
+                            quality
                         )
 
                         PDPageContentStream(

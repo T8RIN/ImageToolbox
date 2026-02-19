@@ -2184,4 +2184,6 @@
     <string name="manually">Manually</string>
     <string name="crop_pdf">Crop PDF</string>
     <string name="crop_pdf_sub">Crop document pages to any bounds</string>
+    <string name="flatten_pdf">Flatten PDF</string>
+    <string name="flatten_pdf_sub">Make PDF unmodifiable by rastering document pages</string>
 </resources>

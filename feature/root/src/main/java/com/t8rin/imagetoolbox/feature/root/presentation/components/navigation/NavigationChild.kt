@@ -88,6 +88,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPd
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.CropPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.FlattenPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.GrayscalePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
@@ -488,5 +490,10 @@ internal sealed interface NavigationChild {
     class CropPdfTool(private val component: CropPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = CropPdfToolContent(component)
+    }
+
+    class FlattenPdfTool(private val component: FlattenPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = FlattenPdfToolContent(component)
     }
 }
