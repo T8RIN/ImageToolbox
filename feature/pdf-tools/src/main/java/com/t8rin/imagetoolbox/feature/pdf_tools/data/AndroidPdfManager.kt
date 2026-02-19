@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
@@ -270,6 +271,31 @@ internal class AndroidPdfManager @Inject constructor(
                 PDDocument().use { newDoc ->
                     (pages ?: List(document.numberOfPages) { it }).forEach { index ->
                         newDoc.addPage(document.getPage(index))
+                    }
+                    newDoc.save(output.outputStream())
+                }
+            }
+        }
+    }
+
+    override suspend fun removePdfPages(
+        uri: String,
+        pages: List<Int>
+    ): String = catchPdf {
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            if (pages.size >= document.numberOfPages) {
+                throw IllegalArgumentException(getString(R.string.cant_remove_all))
+            }
+
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "removed",
+                    uri = uri
+                )
+            ) { output ->
+                PDDocument().use { newDoc ->
+                    repeat(document.numberOfPages) { index ->
+                        if (index !in pages) newDoc.addPage(document.getPage(index))
                     }
                     newDoc.save(output.outputStream())
                 }

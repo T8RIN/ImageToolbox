@@ -343,6 +343,7 @@ sealed class Screen(
                 listOf(
                     Merge(),
                     Split(),
+                    RemovePages(),
                     Rotate(),
                     Rearrange(),
                     PageNumbers(),
@@ -483,6 +484,15 @@ sealed class Screen(
             id = 57,
             title = R.string.metadata,
             subtitle = R.string.metadata_pdf_sub
+        )
+
+        @Serializable
+        data class RemovePages(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 58,
+            title = R.string.remove_pages_pdf,
+            subtitle = R.string.remove_pages_pdf_sub
         )
     }
 

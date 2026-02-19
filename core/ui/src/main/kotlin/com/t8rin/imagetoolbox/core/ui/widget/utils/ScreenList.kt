@@ -96,6 +96,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() }),
                 Screen.PdfTools.Split(uris.firstOrNull()),
+                Screen.PdfTools.RemovePages(uris.firstOrNull()),
                 Screen.PdfTools.Rotate(uris.firstOrNull()),
                 Screen.PdfTools.Rearrange(uris.firstOrNull()),
                 Screen.PdfTools.PageNumbers(uris.firstOrNull()),

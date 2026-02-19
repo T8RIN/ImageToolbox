@@ -27,25 +27,20 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,29 +52,22 @@ import com.t8rin.imagetoolbox.core.data.coil.PdfImageRequest
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagesPreviewWithSelection
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.PdfPreviewItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 
 @Composable
 fun SplitPdfToolContent(
     component: SplitPdfToolComponent
 ) {
-    val essentials = rememberLocalEssentials()
     val pagesCount by rememberPdfPages(component.uri)
     val selectedPagesSize = component.pages?.size ?: 0
     val isPortrait by isPortraitOrientationAsState()
@@ -186,9 +174,6 @@ fun SplitPdfToolContent(
         showImagePreviewAsStickyHeader = false,
         controls = {
             Spacer(Modifier.height(20.dp))
-            var showSelector by rememberSaveable {
-                mutableStateOf(false)
-            }
 
             component.uri?.let {
                 PdfPreviewItem(
@@ -200,69 +185,13 @@ fun SplitPdfToolContent(
                 Spacer(Modifier.height(16.dp))
             }
 
-            PreferenceItem(
-                title = stringResource(R.string.pages_selection),
-                subtitle = remember(component.pages) {
-                    derivedStateOf {
-                        component.pages?.takeIf { it.isNotEmpty() }
-                            ?.let {
-                                if (it.size == pagesCount) {
-                                    essentials.getString(R.string.all)
-                                } else {
-                                    PagesSelectionParser.formatPageOutput(it)
-                                }
-                            } ?: essentials.getString(R.string.none)
-                    }
-                }.value,
-                onClick = {
-                    showSelector = true
+            PageSelectionItem(
+                value = component.pages,
+                onValueChange = {
+                    component.updatePages(it)
+                    trigger++
                 },
-                modifier = Modifier.fillMaxWidth(),
-                startIcon = Icons.Rounded.Pages,
-                endIcon = Icons.Rounded.MiniEdit
-            )
-            var pages by rememberSaveable(showSelector) {
-                mutableStateOf(component.pages ?: emptyList())
-            }
-            EnhancedAlertDialog(
-                visible = showSelector,
-                onDismissRequest = { showSelector = false },
-                title = {
-                    Text(stringResource(R.string.pages_selection))
-                },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Rounded.Pages,
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    PageInputField(
-                        selectedPages = pages,
-                        onPagesChanged = { pages = it }
-                    )
-                },
-                dismissButton = {
-                    EnhancedButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        onClick = {
-                            showSelector = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.close))
-                    }
-                },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = {
-                            component.updatePages(pages)
-                            trigger++
-                            showSelector = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.apply))
-                    }
-                }
+                pagesCount = pagesCount
             )
             Spacer(Modifier.height(20.dp))
         },

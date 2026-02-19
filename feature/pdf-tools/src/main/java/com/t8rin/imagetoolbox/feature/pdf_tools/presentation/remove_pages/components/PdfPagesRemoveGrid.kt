@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.components
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.components
 
 import android.graphics.drawable.GradientDrawable
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +42,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.RotateRight
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,10 +53,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
@@ -70,35 +74,43 @@ import coil3.compose.AsyncImagePreviewHandler
 import coil3.compose.LocalAsyncImagePreviewHandler
 import coil3.request.ImageRequest
 import coil3.size.pxOrElse
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.utils.animation.lessSpringySpec
+import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputDialog
 
 @Composable
-internal fun PdfPagesRotationGrid(
+internal fun PdfPagesRemoveGrid(
     pages: List<Any>,
     modifier: Modifier = Modifier
         .container(
             shape = ShapeDefaults.extraLarge,
             clip = false
         ),
-    onRotateAll: () -> Unit,
+    onUpdatePages: (List<Int>) -> Unit,
     onClearAll: () -> Unit,
-    rotations: List<Int>,
-    onRotateAt: (Int) -> Unit,
-    title: String = stringResource(R.string.pages),
+    pagesToDelete: List<Int>,
+    onClickPage: (Int) -> Unit,
+    title: String = stringResource(R.string.pages_selection),
     coerceHeight: Boolean = true
 ) {
+    var showPageSelector by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = modifier
             .then(
@@ -132,13 +144,16 @@ internal fun PdfPagesRotationGrid(
                 fontSize = 18.sp,
             )
             Spacer(Modifier.width(16.dp))
+
             EnhancedButton(
-                onClick = onRotateAll,
+                onClick = {
+                    showPageSelector = true
+                },
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentPadding = PaddingValues(
                     start = 8.dp,
-                    end = 12.dp
+                    end = 10.dp
                 ),
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -148,17 +163,16 @@ internal fun PdfPagesRotationGrid(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.RotateRight,
-                        contentDescription = "Rotate 90",
+                        imageVector = Icons.Rounded.Pages,
+                        contentDescription = "manually",
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
-                        stringResource(R.string.all)
+                        stringResource(R.string.manually)
                     )
                 }
             }
-
             EnhancedButton(
                 onClick = onClearAll,
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -212,46 +226,87 @@ internal fun PdfPagesRotationGrid(
                             .fillMaxWidth()
                             .aspectRatio(1f)
                             .container(
-                                color = MaterialTheme.colorScheme.surface,
-                                resultPadding = 8.dp
-                            )
-                            .container(
-                                shape = ShapeDefaults.small,
-                                color = Color.Transparent,
+                                color = MaterialTheme.colorScheme.errorContainer,
                                 resultPadding = 0.dp
                             )
-                            .hapticsClickable {
-                                onRotateAt(index)
-                            }
                     ) {
-                        Picture(
-                            model = uri,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .transparencyChecker()
-                                .rotate(
-                                    animateFloatAsState(
-                                        targetValue = rotations.getOrNull(index)?.toFloat() ?: 0f,
-                                        animationSpec = lessSpringySpec()
-                                    ).value
-                                ),
-                            showTransparencyChecker = false,
-                            shape = RectangleShape,
-                            contentScale = ContentScale.Inside
-                        )
+                        val transition = updateTransition(index in pagesToDelete)
+
                         Box(
                             modifier = Modifier
-                                .matchParentSize()
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceContainer.copy(0.6f)
-                                ),
-                            contentAlignment = Alignment.Center
+                                .padding(
+                                    transition.animateDp {
+                                        if (it) 12.dp else 0.dp
+                                    }.value
+                                )
+                                .container(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    shape = AutoCornersShape(
+                                        transition.animateDp {
+                                            if (it) 8.dp else 16.dp
+                                        }.value
+                                    ),
+                                    resultPadding = 8.dp
+                                )
+                                .container(
+                                    shape = AutoCornersShape(
+                                        transition.animateDp {
+                                            if (it) 4.dp else 12.dp
+                                        }.value
+                                    ),
+                                    color = Color.Transparent,
+                                    resultPadding = 0.dp
+                                )
+                                .hapticsClickable {
+                                    onClickPage(index)
+                                }
                         ) {
-                            Text(
-                                text = "${index + 1}",
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
+                            Picture(
+                                model = uri,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .transparencyChecker(),
+                                showTransparencyChecker = false,
+                                shape = RectangleShape,
+                                contentScale = ContentScale.Inside
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceContainer.copy(0.6f)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "${index + 1}",
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    transition.animateDp {
+                                        if (it) 6.dp else 12.dp
+                                    }.value
+                                )
+                        ) {
+                            MediaCheckBox(
+                                isChecked = transition.targetState,
+                                uncheckedColor = White.copy(0.8f),
+                                checkedColor = MaterialTheme.colorScheme.error,
+                                checkedIcon = Icons.Filled.CheckCircle,
+                                modifier = Modifier
+                                    .clip(ShapeDefaults.circle)
+                                    .background(
+                                        transition.animateColor {
+                                            if (it) MaterialTheme.colorScheme.errorContainer else Color.Transparent
+                                        }.value
+                                    )
                             )
                         }
                     }
@@ -259,6 +314,13 @@ internal fun PdfPagesRotationGrid(
             }
         }
     }
+
+    PageInputDialog(
+        visible = showPageSelector,
+        onDismiss = { showPageSelector = false },
+        value = pagesToDelete,
+        onValueChange = onUpdatePages
+    )
 }
 
 @Composable
@@ -274,7 +336,7 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
 
     var rotations by remember(files) {
         mutableStateOf(
-            List(files.size) { 0 }
+            emptyList<Int>()
         )
     }
     CompositionLocalProvider(
@@ -297,19 +359,17 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
     ) {
         LazyColumn {
             item {
-                PdfPagesRotationGrid(
+                PdfPagesRemoveGrid(
                     pages = files,
-                    rotations = rotations,
-                    onRotateAll = {
-                        rotations = rotations.map { (it + 90) % 360 }
-                    },
+                    pagesToDelete = rotations,
                     onClearAll = {
-                        rotations = rotations.map { 0 }
+                        rotations = emptyList()
                     },
-                    onRotateAt = {
-                        rotations = rotations.toMutableList().apply {
-                            this[it] = (this[it] + 90) % 360
-                        }
+                    onClickPage = {
+                        rotations = rotations.toggle(it)
+                    },
+                    onUpdatePages = {
+                        rotations = it
                     }
                 )
             }

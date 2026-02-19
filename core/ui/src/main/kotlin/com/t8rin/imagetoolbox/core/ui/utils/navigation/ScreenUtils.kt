@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
@@ -222,6 +223,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Grayscale -> "PdfTools_Grayscale"
     is PdfTools.Repair -> "PdfTools_Repair"
     is PdfTools.Metadata -> "PdfTools_Metadata"
+    is PdfTools.RemovePages -> "PdfTools_RemovePages"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -290,6 +292,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Grayscale -> Icons.Outlined.FilterBAndW
     is PdfTools.Repair -> Icons.Outlined.Build
     is PdfTools.Metadata -> Icons.Outlined.TagText
+    is PdfTools.RemovePages -> Icons.Outlined.DeleteSweep
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -358,6 +361,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Grayscale -> Icons.TwoTone.FilterBAndW
     is PdfTools.Repair -> Icons.TwoTone.Build
     is PdfTools.Metadata -> Icons.TwoTone.TagText
+    is PdfTools.RemovePages -> Icons.TwoTone.DeleteSweep
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

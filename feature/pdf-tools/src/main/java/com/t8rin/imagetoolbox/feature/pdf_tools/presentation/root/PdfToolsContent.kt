@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.Pages
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +68,6 @@ import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
-import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -86,7 +84,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -96,8 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageInputField
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PagesSelectionParser
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImagesPreference
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToolsContentImpl
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PreviewPdfPreference
@@ -216,6 +212,7 @@ fun PdfToolsContent(
                                         )
                                     )
 
+                                    is Screen.PdfTools.RemovePages -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Split -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Rotate -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Rearrange -> screen.copy(uri = tempSelectionUri)
@@ -459,71 +456,10 @@ fun PdfToolsContent(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        var showSelector by rememberSaveable {
-                            mutableStateOf(false)
-                        }
-                        PreferenceItem(
-                            title = stringResource(R.string.pages_selection),
-                            subtitle = remember(component.pdfToImageState) {
-                                derivedStateOf {
-                                    component.pdfToImageState?.takeIf { it.selectedPages.isNotEmpty() }
-                                        ?.let {
-                                            if (it.selectedPages.size == it.pagesCount) {
-                                                essentials.getString(R.string.all)
-                                            } else {
-                                                PagesSelectionParser.formatPageOutput(it.selectedPages)
-                                            }
-                                        } ?: essentials.getString(R.string.none)
-                                }
-                            }.value,
-                            onClick = {
-                                showSelector = true
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            startIcon = Icons.Rounded.Pages,
-                            endIcon = Icons.Rounded.MiniEdit
-                        )
-                        var pages by rememberSaveable(showSelector) {
-                            mutableStateOf(component.pdfToImageState?.selectedPages ?: emptyList())
-                        }
-                        EnhancedAlertDialog(
-                            visible = showSelector,
-                            onDismissRequest = { showSelector = false },
-                            title = {
-                                Text(stringResource(R.string.pages_selection))
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.Pages,
-                                    contentDescription = null
-                                )
-                            },
-                            text = {
-                                PageInputField(
-                                    selectedPages = pages,
-                                    onPagesChanged = { pages = it }
-                                )
-                            },
-                            dismissButton = {
-                                EnhancedButton(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    onClick = {
-                                        showSelector = false
-                                    }
-                                ) {
-                                    Text(stringResource(R.string.close))
-                                }
-                            },
-                            confirmButton = {
-                                EnhancedButton(
-                                    onClick = {
-                                        component.updatePdfToImageSelection(pages)
-                                        showSelector = false
-                                    }
-                                ) {
-                                    Text(stringResource(R.string.apply))
-                                }
-                            }
+                        PageSelectionItem(
+                            value = component.pdfToImageState?.selectedPages,
+                            onValueChange = component::updatePdfToImageSelection,
+                            pagesCount = component.pdfToImageState?.pagesCount ?: 0
                         )
                         Spacer(Modifier.height(8.dp))
                         PresetSelector(

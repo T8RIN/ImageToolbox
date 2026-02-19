@@ -68,6 +68,11 @@ interface PdfManager<I> {
         pages: List<Int>?
     ): String
 
+    suspend fun removePdfPages(
+        uri: String,
+        pages: List<Int>
+    ): String
+
     suspend fun rotatePdf(
         uri: String,
         rotations: List<Int>

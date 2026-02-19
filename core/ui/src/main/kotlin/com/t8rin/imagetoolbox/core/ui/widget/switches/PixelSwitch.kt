@@ -23,7 +23,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.animation.PointToPointEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import kotlin.math.roundToInt
 
@@ -107,12 +107,13 @@ fun PixelSwitch(
 
     Box(
         modifier = modifier
-            .clickable(
+            .hapticsClickable(
                 interactionSource = realInteractionSource,
                 indication = null,
                 enabled = enabled,
                 onClickLabel = null,
                 role = Role.Switch,
+                enableHaptics = false,
                 onClick = { onCheckedChange?.invoke(!checked) }
             )
             .draggable(
