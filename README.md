@@ -678,6 +678,9 @@ or click one of the badges below.
     - Protect
     - Unlock
     - Metadata
+    - Remove Pages
+    - Crop
+    - Flatten
     - PDF to Text (OCR)
 - Document Scanning
 - AI tools (95+ ready to use models available)
