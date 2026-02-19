@@ -131,7 +131,7 @@ internal fun ColorMixing(
                             ),
                             onCopy = {
                                 essentials.copyToClipboard(
-                                    text = getFormattedColor(selectedColor),
+                                    text = getFormattedColor(color),
                                     message = R.string.color_copied
                                 )
                             }
