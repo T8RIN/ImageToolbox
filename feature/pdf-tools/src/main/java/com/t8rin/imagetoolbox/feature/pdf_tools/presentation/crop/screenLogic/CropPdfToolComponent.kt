@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
@@ -72,6 +73,16 @@ class CropPdfToolComponent @AssistedInject internal constructor(
     )
     val cropRect by _cropRect
 
+    private val adjustedCropRect: Rect
+        get() = if (isRtl) {
+            cropRect.copy(
+                left = 1f - cropRect.left,
+                right = 1f - cropRect.right
+            )
+        } else {
+            cropRect
+        }
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()
@@ -105,10 +116,7 @@ class CropPdfToolComponent @AssistedInject internal constructor(
                 val processed = pdfManager.cropPdf(
                     uri = _uri.value.toString(),
                     pages = pages,
-                    left = cropRect.left,
-                    top = cropRect.top,
-                    right = cropRect.right,
-                    bottom = cropRect.bottom
+                    rect = adjustedCropRect.toModel()
                 )
 
                 fileController.transferBytes(
@@ -145,10 +153,7 @@ class CropPdfToolComponent @AssistedInject internal constructor(
                         pdfManager.cropPdf(
                             uri = _uri.value.toString(),
                             pages = pages,
-                            left = cropRect.left,
-                            top = cropRect.top,
-                            right = cropRect.right,
-                            bottom = cropRect.bottom
+                            rect = adjustedCropRect.toModel()
                         ).toUri()
                     )
                 )

@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,11 +42,14 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -96,6 +100,19 @@ private fun SimpleCropFrame(
     modifier: Modifier = Modifier,
     cropRect: Rect
 ) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+
+    val cropRect = remember(cropRect, isRtl) {
+        if (isRtl) {
+            cropRect.copy(
+                left = 1f - cropRect.left,
+                right = 1f - cropRect.right
+            )
+        } else {
+            cropRect
+        }
+    }
+
     Canvas(
         modifier = modifier.graphicsLayer {
             compositingStrategy = CompositingStrategy.Offscreen
@@ -140,13 +157,15 @@ private fun SimpleCropFrame(
 @EnPreview
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(true) {
-    CropPreview(
-        "111".toUri(),
-        Rect(
-            left = 0.4f,
-            top = 0.4f,
-            right = 0.9f,
-            bottom = 0.9f
+    LocalLayoutDirection.ProvidesValue(LayoutDirection.Rtl) {
+        CropPreview(
+            "111".toUri(),
+            Rect(
+                left = 0.4f,
+                top = 0.4f,
+                right = 0.9f,
+                bottom = 0.9f
+            )
         )
-    )
+    }
 }

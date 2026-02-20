@@ -67,6 +67,8 @@ abstract class BasePdfToolComponent(
     protected val _showPasswordRequestDialog: MutableState<Boolean> = mutableStateOf(false)
     val showPasswordRequestDialog by _showPasswordRequestDialog
 
+    protected var isRtl = false
+
     open val extraDataType: ExtraDataType = ExtraDataType.Pdf
 
     init {
@@ -86,6 +88,10 @@ abstract class BasePdfToolComponent(
 
     fun hidePasswordRequestDialog() {
         _showPasswordRequestDialog.update { false }
+    }
+
+    fun updateIsRtl(isRtl: Boolean) {
+        this.isRtl = isRtl
     }
 
     fun checkPdf(

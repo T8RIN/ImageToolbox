@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.domain.model.RectModel
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.filename
@@ -831,10 +832,7 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun cropPdf(
         uri: String,
         pages: List<Int>?,
-        left: Float,
-        top: Float,
-        right: Float,
-        bottom: Float
+        rect: RectModel
     ): String = catchPdf {
         shareProvider.cacheDataOrThrow(
             filename = tempName(
@@ -845,51 +843,53 @@ internal class AndroidPdfManager @Inject constructor(
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val pagesToProcess = pages ?: List(document.numberOfPages) { it }
 
-                pagesToProcess.forEach { pageIndex ->
-                    val page = document.getPage(pageIndex)
+                with(rect) {
+                    pagesToProcess.forEach { pageIndex ->
+                        val page = document.getPage(pageIndex)
 
-                    val baseBox = page.cropBox ?: page.mediaBox
+                        val baseBox = page.cropBox ?: page.mediaBox
 
-                    val width = baseBox.width
-                    val height = baseBox.height
+                        val width = baseBox.width
+                        val height = baseBox.height
 
-                    val originX = baseBox.lowerLeftX
-                    val originY = baseBox.lowerLeftY
+                        val originX = baseBox.lowerLeftX
+                        val originY = baseBox.lowerLeftY
 
-                    val rotation = page.rotation
+                        val rotation = page.rotation
 
-                    val cropBox = when (rotation) {
+                        val cropBox = when (rotation) {
 
-                        90 -> PDRectangle(
-                            originX + top * width,
-                            originY + left * height,
-                            (bottom - top) * width,
-                            (right - left) * height
-                        )
+                            90 -> PDRectangle(
+                                originX + top * width,
+                                originY + left * height,
+                                (bottom - top) * width,
+                                (right - left) * height
+                            )
 
-                        180 -> PDRectangle(
-                            originX + (1f - right) * width,
-                            originY + top * height,
-                            (right - left) * width,
-                            (bottom - top) * height
-                        )
+                            180 -> PDRectangle(
+                                originX + (1f - right) * width,
+                                originY + top * height,
+                                (right - left) * width,
+                                (bottom - top) * height
+                            )
 
-                        270 -> PDRectangle(
-                            originX + (1f - bottom) * width,
-                            originY + (1f - right) * height,
-                            (bottom - top) * width,
-                            (right - left) * height
-                        )
+                            270 -> PDRectangle(
+                                originX + (1f - bottom) * width,
+                                originY + (1f - right) * height,
+                                (bottom - top) * width,
+                                (right - left) * height
+                            )
 
-                        else -> PDRectangle(
-                            originX + left * width,
-                            originY + (1f - bottom) * height,
-                            (right - left) * width,
-                            (bottom - top) * height
-                        )
+                            else -> PDRectangle(
+                                originX + left * width,
+                                originY + (1f - bottom) * height,
+                                (right - left) * width,
+                                (bottom - top) * height
+                            )
+                        }
+
+                        page.cropBox = cropBox
                     }
-
-                    page.cropBox = cropBox
                 }
 
                 document.isAllSecurityToBeRemoved = true

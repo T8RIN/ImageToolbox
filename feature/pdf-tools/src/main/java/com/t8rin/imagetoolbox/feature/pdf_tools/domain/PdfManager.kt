@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.domain.model.RectModel
 
 interface PdfManager<I> {
 
@@ -150,10 +151,7 @@ interface PdfManager<I> {
     suspend fun cropPdf(
         uri: String,
         pages: List<Int>? = null,
-        left: Float,
-        top: Float,
-        right: Float,
-        bottom: Float
+        rect: RectModel
     ): String
 
     suspend fun flattenPdf(
