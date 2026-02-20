@@ -300,6 +300,7 @@ internal fun List<Uri>.screenList(
     val settingsState = LocalSettingsState.current
     val favoriteScreens = settingsState.favoriteScreenList
     val hiddenForShareScreens = settingsState.hiddenForShareScreens
+    val screenOrder = settingsState.screenList
 
     return remember(
         favoriteScreens,
@@ -311,7 +312,7 @@ internal fun List<Uri>.screenList(
         hiddenForShareScreens
     ) {
         derivedStateOf {
-            val allScreens = when (extraDataType) {
+            val baseScreens = when (extraDataType) {
                 is ExtraDataType.Backup -> filesAvailableScreens
                 is ExtraDataType.Text -> textAvailableScreens
                 ExtraDataType.Audio -> audioAvailableScreens
@@ -319,7 +320,16 @@ internal fun List<Uri>.screenList(
                 ExtraDataType.Gif -> gifAvailableScreens
                 ExtraDataType.Pdf -> pdfAvailableScreens
                 null -> imageScreens
-            }.sortedWith(compareBy(nullsLast()) { s -> favoriteScreens.find { it == s.id } })
+            }
+
+            val orderIndex = screenOrder.withIndex().associate { it.value to it.index }
+            val favSet = favoriteScreens.toSet()
+
+            val allScreens = baseScreens
+                .sortedWith(
+                    compareByDescending<Screen> { it.id in favSet }
+                        .thenBy { orderIndex[it.id] ?: Int.MAX_VALUE }
+                )
 
             allScreens.partition { it.id !in hiddenForShareScreens }
         }
