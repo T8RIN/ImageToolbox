@@ -21,6 +21,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.provider.MediaStore
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -73,9 +74,14 @@ internal fun rememberDocumentScannerImpl(
                 )
             },
             errorHandler = {
-                essentials.showFailureToast(
-                    throwable = Throwable(it)
-                )
+                if (it.contains(MediaStore.ACTION_IMAGE_CAPTURE)) {
+                    essentials.showToast(
+                        message = context.getString(R.string.camera_failed_to_open),
+                        icon = Icons.Outlined.CameraAlt
+                    )
+                } else {
+                    essentials.showFailureToast(it)
+                }
             }
         )
     }
@@ -90,9 +96,7 @@ internal fun rememberDocumentScannerImpl(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            scanner.apply {
-                scannerLauncher.launch(createDocumentScanIntent())
-            }
+            scannerLauncher.launch(scanner.createDocumentScanIntent())
         } else {
             essentials.showToast(
                 messageSelector = { getString(R.string.grant_camera_permission_to_scan_document_scanner) },

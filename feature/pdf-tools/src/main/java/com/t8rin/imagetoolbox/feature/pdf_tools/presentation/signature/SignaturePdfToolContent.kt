@@ -36,7 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -143,7 +143,6 @@ fun SignaturePdfToolContent(
                             model = component.signatureImageUri,
                             contentDescription = null,
                             modifier = Modifier
-                                .alpha(params.opacity)
                                 .offset {
                                     IntOffset(
                                         x = offsetXPx.roundToInt(),
@@ -151,7 +150,10 @@ fun SignaturePdfToolContent(
                                     )
                                 }
                                 .width(targetWidthPx.toDp())
-                                .aspectRatio(imageAspect),
+                                .aspectRatio(imageAspect)
+                                .graphicsLayer {
+                                    alpha = params.opacity
+                                },
                             contentScale = ContentScale.Fit,
                             onSuccess = {
                                 imageAspect = it.result.image.safeAspectRatio

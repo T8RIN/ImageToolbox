@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.geometry.Rect
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -37,6 +38,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class CropPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
@@ -72,6 +74,16 @@ class CropPdfToolComponent @AssistedInject internal constructor(
         )
     )
     val cropRect by _cropRect
+
+    init {
+        componentScope.launch {
+            snapshotFlow { uri }
+                .distinctUntilChanged()
+                .collect {
+                    _pages.update { null }
+                }
+        }
+    }
 
     private val adjustedCropRect: Rect
         get() = if (isRtl) {

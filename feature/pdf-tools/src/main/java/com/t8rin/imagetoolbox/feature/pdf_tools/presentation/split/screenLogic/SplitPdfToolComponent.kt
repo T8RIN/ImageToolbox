@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -35,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class SplitPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
@@ -60,6 +62,16 @@ class SplitPdfToolComponent @AssistedInject internal constructor(
 
     private val _pages: MutableState<List<Int>?> = mutableStateOf(null)
     val pages by _pages
+
+    init {
+        componentScope.launch {
+            snapshotFlow { uri }
+                .distinctUntilChanged()
+                .collect {
+                    _pages.update { null }
+                }
+        }
+    }
 
     fun setUri(uri: Uri?) {
         if (uri == null) {

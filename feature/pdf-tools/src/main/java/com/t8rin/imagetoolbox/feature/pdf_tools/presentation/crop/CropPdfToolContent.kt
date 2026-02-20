@@ -45,7 +45,7 @@ fun CropPdfToolContent(
 ) {
     val pageCount by rememberPdfPages(component.uri)
 
-    LaunchedEffect(pageCount) {
+    LaunchedEffect(pageCount, component.pages) {
         if (component.pages == null && pageCount > 0) {
             component.updatePages(List(pageCount) { it })
         }

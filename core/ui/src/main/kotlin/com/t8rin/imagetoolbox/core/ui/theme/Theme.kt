@@ -219,10 +219,12 @@ fun ImageToolboxThemeForPreview(
                     AsyncImagePreviewHandler(
                         image = { request: ImageRequest ->
                             GradientDrawable(
-                                GradientDrawable.Orientation.BOTTOM_TOP,
+                                GradientDrawable.Orientation.BL_TR,
                                 listOf(
+                                    Color.Green,
                                     Color.Yellow,
-                                    Color.Red
+                                    Color.Red,
+                                    Color.Cyan,
                                 ).map { it.toArgb() }.toIntArray()
                             ).toBitmap(
                                 request.sizeResolver.size().width.pxOrElse { 0 } - 200,

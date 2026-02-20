@@ -18,6 +18,13 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components
 
 import android.net.Uri
+import androidx.compose.animation.core.InfiniteTransition
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -38,6 +45,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
@@ -46,6 +54,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.Black
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -100,6 +110,9 @@ private fun SimpleCropFrame(
     modifier: Modifier = Modifier,
     cropRect: Rect
 ) {
+    val isNightMode = LocalSettingsState.current.isNightMode
+    val black = Black
+    val white = MaterialTheme.colorScheme.primary
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val cropRect = remember(cropRect, isRtl) {
@@ -113,6 +126,20 @@ private fun SimpleCropFrame(
         }
     }
 
+    val transition: InfiniteTransition = rememberInfiniteTransition()
+
+    val phase = transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 80f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 1000,
+                easing = LinearEasing
+            ),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
     Canvas(
         modifier = modifier.graphicsLayer {
             compositingStrategy = CompositingStrategy.Offscreen
@@ -122,7 +149,7 @@ private fun SimpleCropFrame(
         val canvasHeight = size.height
 
         drawRect(
-            color = Color.Black.copy(alpha = 0.5f),
+            color = black.copy(alpha = if (isNightMode) 0.5f else 0.3f),
             size = size
         )
 
@@ -140,8 +167,14 @@ private fun SimpleCropFrame(
         )
 
         drawRect(
-            color = Color.White,
-            style = Stroke(width = 1.dp.toPx()),
+            color = white,
+            style = Stroke(
+                width = 1.5.dp.toPx(),
+                pathEffect = PathEffect.dashPathEffect(
+                    floatArrayOf(20f, 20f),
+                    phase.value
+                )
+            ),
             topLeft = Offset(
                 x = cropRect.left * canvasWidth,
                 y = cropRect.top * canvasHeight
@@ -156,7 +189,7 @@ private fun SimpleCropFrame(
 
 @EnPreview
 @Composable
-private fun Preview() = ImageToolboxThemeForPreview(true) {
+private fun Preview() = ImageToolboxThemeForPreview(false, keyColor = Color.Green) {
     LocalLayoutDirection.ProvidesValue(LayoutDirection.Rtl) {
         CropPreview(
             "111".toUri(),

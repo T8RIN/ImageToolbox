@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -37,6 +38,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class SignaturePdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
@@ -68,6 +70,16 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
     private val _params: MutableState<PdfSignatureParams> =
         mutableStateOf(PdfSignatureParams())
     val params by _params
+
+    init {
+        componentScope.launch {
+            snapshotFlow { uri }
+                .distinctUntilChanged()
+                .collect {
+                    _params.update { it.copy(pages = emptyList()) }
+                }
+        }
+    }
 
     fun setUri(uri: Uri?) {
         if (uri == null) {

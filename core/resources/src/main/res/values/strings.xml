@@ -2186,4 +2186,5 @@
     <string name="crop_pdf_sub">Crop document pages to any bounds</string>
     <string name="flatten_pdf">Flatten PDF</string>
     <string name="flatten_pdf_sub">Make PDF unmodifiable by rastering document pages</string>
+    <string name="camera_failed_to_open">Could not start the camera. Please check permissions and make sure it\'s not being used by another app.</string>
 </resources>
