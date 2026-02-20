@@ -63,7 +63,7 @@ fun Modifier.dragHandler(
     tapEnabled: Boolean = true
 ): Modifier = this.composed {
     val haptics = LocalHapticFeedback.current
-    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val isRtl = !isVertical && LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
     val autoScrollSpeed: MutableState<Float> = remember { mutableFloatStateOf(0f) }
