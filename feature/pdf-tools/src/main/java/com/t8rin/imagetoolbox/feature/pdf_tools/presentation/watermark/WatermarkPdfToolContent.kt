@@ -30,6 +30,7 @@ import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
@@ -61,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import kotlin.math.roundToInt
 
@@ -69,6 +72,19 @@ fun WatermarkPdfToolContent(
     component: WatermarkPdfToolComponent
 ) {
     val params = component.params
+
+    val pagesCount by rememberPdfPages(component.uri)
+
+    LaunchedEffect(pagesCount, params.pages) {
+        if (pagesCount > 0 && params.pages.isEmpty()) {
+            component.updateParams(
+                params.copy(
+                    pages = List(pagesCount) { it }
+                )
+            )
+        }
+    }
+
     BasePdfToolContent(
         component = component,
         pdfPicker = rememberFilePicker(
@@ -156,6 +172,14 @@ fun WatermarkPdfToolContent(
                 }
             )
             Spacer(Modifier.height(16.dp))
+            PageSelectionItem(
+                value = params.pages,
+                onValueChange = {
+                    component.updateParams(params.copy(pages = it))
+                },
+                pagesCount = pagesCount
+            )
+            Spacer(Modifier.height(8.dp))
             EnhancedSliderItem(
                 value = params.rotation,
                 icon = Icons.Outlined.TextRotationAngleup,

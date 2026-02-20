@@ -173,7 +173,7 @@ fun SignaturePdfToolContent(
                 onValueChange = component::updateSignatureUri,
                 subtitle = stringResource(R.string.will_be_for_signature)
             )
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(16.dp))
             PageSelectionItem(
                 value = params.pages,
                 onValueChange = {

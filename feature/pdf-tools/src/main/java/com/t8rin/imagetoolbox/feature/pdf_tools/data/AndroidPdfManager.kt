@@ -477,7 +477,13 @@ internal class AndroidPdfManager @Inject constructor(
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
                 val font = document.getBaseFont()
 
-                document.pages.forEach { page ->
+                val pages =
+                    params.pages.ifEmpty { List(document.pages.count) { it } }
+
+                pages.forEach { idx ->
+                    val page =
+                        document.getPage(idx.coerceIn(0 until document.pages.count()))
+
                     PDPageContentStream(
                         document,
                         page,
@@ -756,6 +762,7 @@ internal class AndroidPdfManager @Inject constructor(
         ) { output ->
             try {
                 PDDocument.load(uri.inputStream(), password).use { document ->
+                    document.isAllSecurityToBeRemoved = true
                     document.save(output.outputStream())
                 }
             } catch (t: Throwable) {

@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
@@ -38,6 +39,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class WatermarkPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
@@ -68,6 +70,16 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
     private val _params: MutableState<PdfWatermarkParams> =
         mutableStateOf(PdfWatermarkParams(color = Color.Gray.toArgb()))
     val params by _params
+
+    init {
+        componentScope.launch {
+            snapshotFlow { uri }
+                .distinctUntilChanged()
+                .collect {
+                    _params.update { it.copy(pages = emptyList()) }
+                }
+        }
+    }
 
     fun setUri(uri: Uri?) {
         if (uri == null) {
