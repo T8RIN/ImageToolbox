@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
+import com.t8rin.imagetoolbox.core.domain.PDF
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -119,7 +120,7 @@ internal class AndroidPdfManager @Inject constructor(
                 null
             } else {
                 shareProvider.cacheDataOrThrow(
-                    filename = uri.toUri().filename()?.let { "pdf/$it" } ?: tempName(
+                    filename = uri.toUri().filename()?.let { "$PDF$it" } ?: tempName(
                         key = "unlocked",
                         uri = uri
                     )
@@ -1004,7 +1005,7 @@ internal class AndroidPdfManager @Inject constructor(
     override fun createTempName(key: String, uri: String?): String = tempName(
         key = key,
         uri = uri
-    ).removePrefix("pdf/")
+    ).removePrefix(PDF)
 
     override fun clearCache(uri: String?) {
         CoroutineScope(ioDispatcher).launch {
@@ -1018,7 +1019,7 @@ internal class AndroidPdfManager @Inject constructor(
         var hasImages = false
 
         val prefix = uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()
-        val filename = "pdf/${prefix}_extracted.zip"
+        val filename = "$PDF${prefix}_extracted.zip"
 
         val zipPath = PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
             shareProvider.cacheDataOrThrow(
@@ -1220,7 +1221,7 @@ internal class AndroidPdfManager @Inject constructor(
     ): String {
         val keyFixed = if (key.isBlank()) "_" else "_${key}_"
 
-        return "pdf/" + (uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
+        return PDF + (uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
             "${it}${keyFixed.removeSuffix("_")}.pdf"
         } ?: "PDF$keyFixed${timestamp()}_${
             Random(Random.nextInt()).hashCode().toString().take(4)

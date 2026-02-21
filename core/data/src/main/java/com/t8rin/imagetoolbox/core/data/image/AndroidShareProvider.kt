@@ -26,6 +26,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
+import com.t8rin.imagetoolbox.core.domain.PDF
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -238,14 +239,14 @@ internal class AndroidShareProvider @Inject constructor(
     ): String = withContext(ioDispatcher) {
         val imagesFolder = if (filename.startsWith("temp.")) {
             File(context.cacheDir, "temp")
-        } else if (filename.startsWith("pdf/")) {
-            File(context.cacheDir, "pdf/${Random.nextInt()}")
+        } else if (filename.startsWith(PDF)) {
+            File(context.cacheDir, "$PDF${Random.nextInt()}")
         } else {
             File(context.cacheDir, "cache/${Random.nextInt()}")
         }
 
         imagesFolder.mkdirs()
-        val file = File(imagesFolder, filename.removePrefix("pdf/"))
+        val file = File(imagesFolder, filename.removePrefix(PDF))
         FileWriteable(file).use {
             writeData(it)
         }
