@@ -78,7 +78,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.Calendar
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -102,15 +105,20 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
-        unlockPdf(
+        val unlocked = unlockPdf(
             uri = uri,
             password = password.orEmpty(),
             filename = uri.toUri().filename() ?: tempName(
                 key = "unlocked",
                 uri = uri
             )
-        ).takeIf {
-            !password.isNullOrBlank()
+        )
+
+        if (!password.isNullOrBlank()) {
+            unlocked
+        } else {
+            unlocked.let(::File).delete()
+            null
         }
     }
 
@@ -969,6 +977,7 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun detectPdfAutoRotations(
         uri: String
     ): List<Int> = catchPdf {
+        extractImagesFromPdf(uri)
         PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
             val rotations = document.pages.map { page ->
                 ((page.rotation % 360) + 360) % 360
@@ -983,6 +992,49 @@ internal class AndroidPdfManager @Inject constructor(
             rotations.map { rotation ->
                 ((majority - rotation) + 360) % 360
             }
+        }
+    }
+
+    override suspend fun extractImagesFromPdf(
+        uri: String
+    ): String? = catchPdf {
+        var hasImages = false
+
+        val filename =
+            "${uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
+
+        val zipPath = shareProvider.cacheDataOrThrow(
+            filename = filename
+        ) { output ->
+            ZipOutputStream(output.outputStream()).use { zip ->
+                PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+                    var index = 0
+                    document.pages.forEachIndexed { pageIndex, page ->
+                        page.resources?.let { resources ->
+                            resources.xObjectNames?.forEach { name ->
+                                val xObject = resources.getXObject(name)
+                                if (xObject is PDImageXObject) {
+                                    val suffix = xObject.suffix?.lowercase() ?: "png"
+                                    val entryName = "extracted_${pageIndex}_${index++}.$suffix"
+                                    zip.putNextEntry(ZipEntry(entryName))
+                                    xObject.stream.createInputStream().use { input ->
+                                        input.copyTo(zip)
+                                    }
+                                    zip.closeEntry()
+                                    hasImages = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!hasImages) {
+            File(zipPath).delete()
+            null
+        } else {
+            zipPath
         }
     }
 

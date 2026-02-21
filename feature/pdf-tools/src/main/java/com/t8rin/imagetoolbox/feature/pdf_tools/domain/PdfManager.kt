@@ -163,4 +163,8 @@ interface PdfManager<I> {
         uri: String
     ): List<Int>
 
+    suspend fun extractImagesFromPdf(
+        uri: String
+    ): String?
+
 }
