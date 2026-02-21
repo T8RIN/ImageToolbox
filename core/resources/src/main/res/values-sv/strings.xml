@@ -2166,4 +2166,9 @@
     <string name="crop_pdf_sub">Beskär dokumentsidor till valfri gräns</string>
     <string name="flatten_pdf">Platta till PDF</string>
     <string name="flatten_pdf_sub">Gör PDF oföränderlig genom att rastra dokumentsidor</string>
+    <string name="camera_failed_to_open">Kunde inte starta kameran. Kontrollera behörigheter och se till att den inte används av en annan app.</string>
+    <string name="extract_images">Extrahera bilder</string>
+    <string name="extract_images_sub">Extrahera bilder inbäddade i PDF-filer med sin ursprungliga upplösning</string>
+    <string name="pdf_no_embedded">Denna PDF-fil innehåller inga inbäddade bilder</string>
+    <string name="extract_images_info">Det här verktyget skannar varje sida och återställer källbilder i full kvalitet – perfekt för att spara original från dokument</string>
 </resources>

@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">ھۆججەت بەتلىرىنى خالىغانچە كېسىڭ</string>
     <string name="flatten_pdf">تەكشى PDF</string>
     <string name="flatten_pdf_sub">ھۆججەت بەتلىرىنى رەتلەش ئارقىلىق PDF نى ئۆزگەرتكىلى بولمايدۇ</string>
+    <string name="camera_failed_to_open">كامېرانى قوزغىتالمىدى. ئىجازەتنى تەكشۈرۈپ ، ئۇنىڭ باشقا بىر دېتال تەرىپىدىن ئىشلىتىلمىگەنلىكىنى جەزملەشتۈرۈڭ.</string>
+    <string name="extract_images">رەسىملەرنى چىقىرىڭ</string>
+    <string name="extract_images_sub">ئەسلى ئېنىقلىقتىكى PDF لارغا قىستۇرۇلغان رەسىملەرنى چىقىرىڭ</string>
+    <string name="pdf_no_embedded">بۇ PDF ھۆججىتىدە ھېچقانداق قىستۇرما رەسىم يوق</string>
+    <string name="extract_images_info">بۇ قورال ھەر بىر بەتنى سايىلەپ ، تولۇق سۈپەتلىك رەسىملەرنى ئەسلىگە كەلتۈرىدۇ - ئەسلى ھۆججەتلەرنى ھۆججەتلەردىن ساقلاشقا ماس كېلىدۇ</string>
 </resources>

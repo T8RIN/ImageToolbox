@@ -2166,4 +2166,9 @@
     <string name="crop_pdf_sub">ලේඛන පිටු ඕනෑම සීමාවකට කපන්න</string>
     <string name="flatten_pdf">PDF සමතලා කරන්න</string>
     <string name="flatten_pdf_sub">ලේඛන පිටු රාස්ටර් කිරීමෙන් PDF වෙනස් කළ නොහැකි කරන්න</string>
+    <string name="camera_failed_to_open">කැමරාව ආරම්භ කිරීමට නොහැකි විය. කරුණාකර අවසර පරීක්ෂා කර එය වෙනත් යෙදුමක් විසින් භාවිතා නොකරන බවට වග බලා ගන්න.</string>
+    <string name="extract_images">පින්තූර උපුටා ගන්න</string>
+    <string name="extract_images_sub">PDF වල තැන්පත් කර ඇති පින්තූර ඒවායේ මුල් විභේදනයෙන් උපුටා ගන්න</string>
+    <string name="pdf_no_embedded">මෙම PDF ගොනුවේ කිසිදු කාවැද්දූ පින්තූර අඩංගු නොවේ</string>
+    <string name="extract_images_info">මෙම මෙවලම සෑම පිටුවක්ම පරිලෝකනය කර සම්පූර්ණ ගුණාත්මක මූලාශ්‍ර රූප ප්‍රතිසාධන කරයි - ලේඛනවලින් මුල් පිටපත් සුරැකීමට පරිපූර්ණයි</string>
 </resources>

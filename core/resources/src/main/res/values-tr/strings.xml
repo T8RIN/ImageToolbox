@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Belge sayfalarını istediğiniz sınırlara göre kırpın</string>
     <string name="flatten_pdf">PDF\'yi düzleştir</string>
     <string name="flatten_pdf_sub">Belge sayfalarını tarayarak PDF\'yi değiştirilemez hale getirin</string>
+    <string name="camera_failed_to_open">Kamera başlatılamadı. Lütfen izinleri kontrol edin ve başka bir uygulama tarafından kullanılmadığından emin olun.</string>
+    <string name="extract_images">Görüntüleri Çıkart</string>
+    <string name="extract_images_sub">PDF\'lere gömülü görüntüleri orijinal çözünürlüklerinde çıkarın</string>
+    <string name="pdf_no_embedded">Bu PDF dosyası herhangi bir gömülü resim içermiyor</string>
+    <string name="extract_images_info">Bu araç her sayfayı tarar ve tam kalitede kaynak görüntüleri kurtarır; belgelerdeki orijinalleri kaydetmek için mükemmeldir</string>
 </resources>

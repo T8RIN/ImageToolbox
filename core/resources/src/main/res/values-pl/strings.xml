@@ -2167,4 +2167,9 @@
     <string name="crop_pdf_sub">Przytnij strony dokumentu do dowolnych granic</string>
     <string name="flatten_pdf">Spłaszcz plik PDF</string>
     <string name="flatten_pdf_sub">Spraw, aby plik PDF nie był modyfikowalny, rastrując strony dokumentu</string>
+    <string name="camera_failed_to_open">Nie można uruchomić aparatu. Sprawdź uprawnienia i upewnij się, że nie jest używana przez inną aplikację.</string>
+    <string name="extract_images">Wyodrębnij obrazy</string>
+    <string name="extract_images_sub">Wyodrębnij obrazy osadzone w plikach PDF w ich oryginalnej rozdzielczości</string>
+    <string name="pdf_no_embedded">Ten plik PDF nie zawiera żadnych osadzonych obrazów</string>
+    <string name="extract_images_info">To narzędzie skanuje każdą stronę i odzyskuje obrazy źródłowe o pełnej jakości — idealne do zapisywania oryginałów z dokumentów</string>
 </resources>

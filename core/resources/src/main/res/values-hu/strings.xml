@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">A dokumentum oldalainak levágása tetszőleges határig</string>
     <string name="flatten_pdf">PDF lapítása</string>
     <string name="flatten_pdf_sub">A PDF-et módosíthatatlanná teheti a dokumentumoldalak raszterezésével</string>
+    <string name="camera_failed_to_open">Nem sikerült elindítani a kamerát. Kérjük, ellenőrizze az engedélyeket, és győződjön meg arról, hogy más alkalmazás nem használja.</string>
+    <string name="extract_images">Képek kibontása</string>
+    <string name="extract_images_sub">Kivonja a PDF-be ágyazott képeket eredeti felbontásukban</string>
+    <string name="pdf_no_embedded">Ez a PDF-fájl nem tartalmaz beágyazott képeket</string>
+    <string name="extract_images_info">Ez az eszköz minden oldalt beolvas, és teljes minőségű forrásképeket állít vissza – tökéletes az eredeti dokumentumok dokumentumokból való mentéséhez</string>
 </resources>

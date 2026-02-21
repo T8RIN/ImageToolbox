@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Recortar páginas de documentos hasta cualquier límite</string>
     <string name="flatten_pdf">Aplanar PDF</string>
     <string name="flatten_pdf_sub">Haga que el PDF no se pueda modificar rasterizando las páginas del documento</string>
+    <string name="camera_failed_to_open">No se pudo iniciar la cámara. Verifique los permisos y asegúrese de que otra aplicación no los esté utilizando.</string>
+    <string name="extract_images">Extraer imágenes</string>
+    <string name="extract_images_sub">Extraiga imágenes incrustadas en archivos PDF en su resolución original</string>
+    <string name="pdf_no_embedded">Este archivo PDF no contiene ninguna imagen incrustada.</string>
+    <string name="extract_images_info">Esta herramienta escanea cada página y recupera imágenes originales de alta calidad, perfecta para guardar originales de documentos.</string>
 </resources>

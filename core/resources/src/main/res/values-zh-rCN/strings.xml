@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">将文档页面裁剪到任意范围</string>
     <string name="flatten_pdf">拼合PDF</string>
     <string name="flatten_pdf_sub">通过光栅化文档页面使 PDF 不可修改</string>
+    <string name="camera_failed_to_open">无法启动相机。请检查权限并确保它未被其他应用程序使用。</string>
+    <string name="extract_images">提取图像</string>
+    <string name="extract_images_sub">以原始分辨率提取 PDF 中嵌入的图像</string>
+    <string name="pdf_no_embedded">此 PDF 文件不包含任何嵌入图像</string>
+    <string name="extract_images_info">该工具扫描每一页并恢复全质量源图像 - 非常适合保存文档中的原件</string>
 </resources>

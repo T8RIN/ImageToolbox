@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">ドキュメントページを任意の境界にトリミング</string>
     <string name="flatten_pdf">PDF を平坦化する</string>
     <string name="flatten_pdf_sub">文書ページをラスター化して PDF を変更不可能にする</string>
+    <string name="camera_failed_to_open">カメラを起動できませんでした。権限を確認し、別のアプリによって使用されていないことを確認してください。</string>
+    <string name="extract_images">画像の抽出</string>
+    <string name="extract_images_sub">PDFに埋め込まれた画像を元の解像度で抽出します</string>
+    <string name="pdf_no_embedded">この PDF ファイルには埋め込み画像が含まれていません</string>
+    <string name="extract_images_info">このツールはすべてのページをスキャンし、フル品質のソース画像を復元します。ドキュメントからオリジナルを保存するのに最適です。</string>
 </resources>

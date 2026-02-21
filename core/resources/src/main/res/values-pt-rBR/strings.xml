@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Cortar páginas do documento em qualquer limite</string>
     <string name="flatten_pdf">Achatar PDF</string>
     <string name="flatten_pdf_sub">Torne o PDF inalterável rasterizando as páginas do documento</string>
+    <string name="camera_failed_to_open">Não foi possível iniciar a câmera. Verifique as permissões e certifique-se de que não esteja sendo usado por outro aplicativo.</string>
+    <string name="extract_images">Extrair imagens</string>
+    <string name="extract_images_sub">Extraia imagens incorporadas em PDFs em sua resolução original</string>
+    <string name="pdf_no_embedded">Este arquivo PDF não contém imagens incorporadas</string>
+    <string name="extract_images_info">Esta ferramenta digitaliza todas as páginas e recupera imagens originais de qualidade total – perfeita para salvar originais de documentos</string>
 </resources>

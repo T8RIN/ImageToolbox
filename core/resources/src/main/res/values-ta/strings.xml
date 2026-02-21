@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">ஆவணப் பக்கங்களை எந்த எல்லைக்கும் செதுக்குங்கள்</string>
     <string name="flatten_pdf">PDF ஐத் தட்டவும்</string>
     <string name="flatten_pdf_sub">ஆவணப் பக்கங்களை மதிப்பாய்வு செய்வதன் மூலம் PDF ஐ மாற்ற முடியாததாக மாற்றவும்</string>
+    <string name="camera_failed_to_open">கேமராவைத் தொடங்க முடியவில்லை. அனுமதிகளைச் சரிபார்த்து, அது வேறொரு ஆப்ஸால் பயன்படுத்தப்படவில்லை என்பதை உறுதிப்படுத்தவும்.</string>
+    <string name="extract_images">படங்களை பிரித்தெடுக்கவும்</string>
+    <string name="extract_images_sub">PDFகளில் உட்பொதிக்கப்பட்ட படங்களை அவற்றின் அசல் தெளிவுத்திறனில் பிரித்தெடுக்கவும்</string>
+    <string name="pdf_no_embedded">இந்த PDF கோப்பில் உட்பொதிக்கப்பட்ட படங்கள் எதுவும் இல்லை</string>
+    <string name="extract_images_info">இந்தக் கருவி ஒவ்வொரு பக்கத்தையும் ஸ்கேன் செய்து முழுத் தரமான மூலப் படங்களை மீட்டெடுக்கிறது - ஆவணங்களிலிருந்து அசலைச் சேமிப்பதற்கு ஏற்றது</string>
 </resources>

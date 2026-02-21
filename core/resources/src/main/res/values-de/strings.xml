@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Beschneiden Sie Dokumentseiten auf beliebige Grenzen</string>
     <string name="flatten_pdf">PDF reduzieren</string>
     <string name="flatten_pdf_sub">Machen Sie PDFs durch Rastern von Dokumentseiten unveränderbar</string>
+    <string name="camera_failed_to_open">Die Kamera konnte nicht gestartet werden. Bitte überprüfen Sie die Berechtigungen und stellen Sie sicher, dass sie nicht von einer anderen App verwendet wird.</string>
+    <string name="extract_images">Bilder extrahieren</string>
+    <string name="extract_images_sub">Extrahieren Sie in PDFs eingebettete Bilder in ihrer Originalauflösung</string>
+    <string name="pdf_no_embedded">Diese PDF-Datei enthält keine eingebetteten Bilder</string>
+    <string name="extract_images_info">Dieses Tool scannt jede Seite und stellt Quellbilder in voller Qualität wieder her – perfekt zum Speichern von Originalen aus Dokumenten</string>
 </resources>

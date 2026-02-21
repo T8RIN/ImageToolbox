@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">ครอบตัดหน้าเอกสารเป็นขอบเขตใดก็ได้</string>
     <string name="flatten_pdf">แผ่ PDF</string>
     <string name="flatten_pdf_sub">ทำให้ PDF ไม่สามารถแก้ไขได้โดยการแรสเตอร์หน้าเอกสาร</string>
+    <string name="camera_failed_to_open">ไม่สามารถสตาร์ทกล้องได้ โปรดตรวจสอบการอนุญาตและให้แน่ใจว่าแอปอื่นไม่ได้ใช้งานอยู่</string>
+    <string name="extract_images">แยกรูปภาพ</string>
+    <string name="extract_images_sub">แยกภาพที่ฝังอยู่ใน PDF ด้วยความละเอียดดั้งเดิม</string>
+    <string name="pdf_no_embedded">ไฟล์ PDF นี้ไม่มีภาพที่ฝังอยู่</string>
+    <string name="extract_images_info">เครื่องมือนี้จะสแกนทุกหน้าและกู้คืนรูปภาพต้นฉบับคุณภาพเต็ม ซึ่งเหมาะสำหรับการบันทึกต้นฉบับจากเอกสาร</string>
 </resources>

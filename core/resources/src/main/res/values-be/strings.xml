@@ -2167,4 +2167,9 @@
     <string name="crop_pdf_sub">Абрэжце старонкі дакумента да любых межаў</string>
     <string name="flatten_pdf">Звесці PDF</string>
     <string name="flatten_pdf_sub">Зрабіце PDF-файл нязменным, растравіўшы старонкі дакумента</string>
+    <string name="camera_failed_to_open">Не атрымалася запусціць камеру. Калі ласка, праверце дазволы і пераканайцеся, што ён не выкарыстоўваецца іншай праграмай.</string>
+    <string name="extract_images">Выманне малюнкаў</string>
+    <string name="extract_images_sub">Выманне малюнкаў, убудаваных у PDF-файлы, у іх зыходным раздзяленні</string>
+    <string name="pdf_no_embedded">Гэты PDF-файл не змяшчае ўбудаваных малюнкаў</string>
+    <string name="extract_images_info">Гэты інструмент скануе кожную старонку і аднаўляе паўнавартасныя зыходныя выявы — ідэальна падыходзіць для захавання арыгіналаў з дакументаў</string>
 </resources>

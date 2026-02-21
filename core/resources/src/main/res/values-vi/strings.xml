@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">Cắt các trang tài liệu theo bất kỳ giới hạn nào</string>
     <string name="flatten_pdf">Làm phẳng PDF</string>
     <string name="flatten_pdf_sub">Làm cho PDF không thể sửa đổi bằng cách rastering các trang tài liệu</string>
+    <string name="camera_failed_to_open">Không thể khởi động máy ảnh. Vui lòng kiểm tra quyền và đảm bảo rằng nó không được ứng dụng khác sử dụng.</string>
+    <string name="extract_images">Trích xuất hình ảnh</string>
+    <string name="extract_images_sub">Trích xuất hình ảnh được nhúng trong tệp PDF ở độ phân giải gốc</string>
+    <string name="pdf_no_embedded">Tệp PDF này không chứa bất kỳ hình ảnh nhúng nào</string>
+    <string name="extract_images_info">Công cụ này quét mọi trang và khôi phục hình ảnh nguồn có chất lượng đầy đủ — hoàn hảo để lưu bản gốc từ tài liệu</string>
 </resources>

@@ -2167,4 +2167,9 @@
     <string name="crop_pdf_sub">Обрежьте страницы документа до любых границ</string>
     <string name="flatten_pdf">Свести PDF</string>
     <string name="flatten_pdf_sub">Сделайте PDF неизменяемым, растрируя страницы документа</string>
+    <string name="camera_failed_to_open">Не удалось запустить камеру. Пожалуйста, проверьте разрешения и убедитесь, что оно не используется другим приложением.</string>
+    <string name="extract_images">Извлечь изображения</string>
+    <string name="extract_images_sub">Извлекайте изображения, встроенные в PDF-файлы, в исходном разрешении.</string>
+    <string name="pdf_no_embedded">Этот PDF-файл не содержит встроенных изображений.</string>
+    <string name="extract_images_info">Этот инструмент сканирует каждую страницу и восстанавливает исходные изображения в полном качестве — идеально подходит для сохранения оригиналов из документов.</string>
 </resources>

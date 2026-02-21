@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">দস্তাবেজ পৃষ্ঠাগুলিকে যে কোনও সীমা পর্যন্ত কাটুন</string>
     <string name="flatten_pdf">পিডিএফ সমতল করুন</string>
     <string name="flatten_pdf_sub">ডকুমেন্ট পেজ রাস্টার করে পিডিএফকে পরিবর্তনযোগ্য করুন</string>
+    <string name="camera_failed_to_open">ক্যামেরা চালু করা যায়নি। অনুগ্রহ করে অনুমতি পরীক্ষা করুন এবং নিশ্চিত করুন যে এটি অন্য অ্যাপ ব্যবহার করছে না।</string>
+    <string name="extract_images">ইমেজ এক্সট্র্যাক্ট</string>
+    <string name="extract_images_sub">পিডিএফ-এ এমবেড করা ছবিগুলো তাদের আসল রেজোলিউশনে বের করুন</string>
+    <string name="pdf_no_embedded">এই পিডিএফ ফাইলটিতে কোনো এমবেড করা ছবি নেই</string>
+    <string name="extract_images_info">এই টুলটি প্রতিটি পৃষ্ঠা স্ক্যান করে এবং পূর্ণ মানের সোর্স ছবি পুনরুদ্ধার করে — নথি থেকে আসলগুলি সংরক্ষণ করার জন্য উপযুক্ত</string>
 </resources>

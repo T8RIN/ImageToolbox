@@ -2169,4 +2169,9 @@
     <string name="crop_pdf_sub">قص صفحات المستند إلى أي حدود</string>
     <string name="flatten_pdf">تتسطح قوات الدفاع الشعبي</string>
     <string name="flatten_pdf_sub">اجعل ملف PDF غير قابل للتعديل عن طريق تنقيط صفحات المستند</string>
+    <string name="camera_failed_to_open">تعذر تشغيل الكاميرا. يرجى التحقق من الأذونات والتأكد من عدم استخدامها بواسطة تطبيق آخر.</string>
+    <string name="extract_images">استخراج الصور</string>
+    <string name="extract_images_sub">قم باستخراج الصور المضمنة في ملفات PDF بدقةها الأصلية</string>
+    <string name="pdf_no_embedded">لا يحتوي ملف PDF هذا على أي صور مضمنة</string>
+    <string name="extract_images_info">تقوم هذه الأداة بمسح كل صفحة واستعادة الصور المصدرية ذات الجودة الكاملة، وهي مثالية لحفظ النسخ الأصلية من المستندات</string>
 </resources>

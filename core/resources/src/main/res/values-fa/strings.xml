@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">صفحات سند را به هر حدی برش دهید</string>
     <string name="flatten_pdf">PDF را صاف کنید</string>
     <string name="flatten_pdf_sub">PDF را با شطرنجی کردن صفحات سند غیرقابل تغییر کنید</string>
+    <string name="camera_failed_to_open">نمی توان دوربین را راه اندازی کرد. لطفاً مجوزها را بررسی کنید و مطمئن شوید که توسط برنامه دیگری استفاده نمی‌شود.</string>
+    <string name="extract_images">استخراج تصاویر</string>
+    <string name="extract_images_sub">تصاویر جاسازی شده در PDF را با وضوح اصلی خود استخراج کنید</string>
+    <string name="pdf_no_embedded">این فایل PDF حاوی هیچ تصویر تعبیه شده نیست</string>
+    <string name="extract_images_info">این ابزار هر صفحه را اسکن می کند و تصاویر منبع با کیفیت کامل را بازیابی می کند - برای ذخیره نسخه های اصلی از اسناد عالی است</string>
 </resources>

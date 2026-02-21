@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Rajaa asiakirjan sivut mihin tahansa reunaan</string>
     <string name="flatten_pdf">Litistä PDF</string>
     <string name="flatten_pdf_sub">Tee PDF-tiedostosta muokkaamaton rasteroimalla asiakirjan sivut</string>
+    <string name="camera_failed_to_open">Kameraa ei voitu käynnistää. Tarkista käyttöoikeudet ja varmista, että toinen sovellus ei käytä sitä.</string>
+    <string name="extract_images">Pura kuvat</string>
+    <string name="extract_images_sub">Pura PDF-tiedostoihin upotetut kuvat alkuperäisellä tarkkuudellaan</string>
+    <string name="pdf_no_embedded">Tämä PDF-tiedosto ei sisällä upotettuja kuvia</string>
+    <string name="extract_images_info">Tämä työkalu skannaa jokaisen sivun ja palauttaa täysilaatuiset lähdekuvat – täydellinen alkuperäisten tallentamiseen asiakirjoista</string>
 </resources>

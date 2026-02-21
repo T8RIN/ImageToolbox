@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Құжат беттерін кез келген шекке қию</string>
     <string name="flatten_pdf">PDF файлын тегістеңіз</string>
     <string name="flatten_pdf_sub">Құжат беттерін растирлеу арқылы PDF файлын өзгертілмейтін етіңіз</string>
+    <string name="camera_failed_to_open">Камераны іске қосу мүмкін болмады. Рұқсаттарды тексеріп, оны басқа қолданба пайдаланбайтынына көз жеткізіңіз.</string>
+    <string name="extract_images">Суреттерді шығару</string>
+    <string name="extract_images_sub">PDF файлдарына ендірілген кескіндерді бастапқы ажыратымдылығымен шығарып алыңыз</string>
+    <string name="pdf_no_embedded">Бұл PDF файлында ендірілген кескіндер жоқ</string>
+    <string name="extract_images_info">Бұл құрал әрбір бетті сканерлейді және толық сапалы бастапқы кескіндерді қалпына келтіреді — құжаттардан түпнұсқаларды сақтауға өте ыңғайлы</string>
 </resources>

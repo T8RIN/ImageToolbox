@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Kärbi dokumendi lehti suvaliste piirideni</string>
     <string name="flatten_pdf">Lamendada PDF</string>
     <string name="flatten_pdf_sub">Muutke PDF-i muutmatuks, rasterdades dokumendi lehekülgi</string>
+    <string name="camera_failed_to_open">Kaamerat ei saanud käivitada. Kontrollige õigusi ja veenduge, et seda ei kasutaks mõni teine ​​rakendus.</string>
+    <string name="extract_images">Ekstrakti pildid</string>
+    <string name="extract_images_sub">Eraldage PDF-failidesse manustatud pildid nende algse eraldusvõimega</string>
+    <string name="pdf_no_embedded">See PDF-fail ei sisalda manustatud pilte</string>
+    <string name="extract_images_info">See tööriist skannib iga lehekülge ja taastab täiskvaliteediga lähtepildid – ideaalne originaalide salvestamiseks dokumentidest</string>
 </resources>

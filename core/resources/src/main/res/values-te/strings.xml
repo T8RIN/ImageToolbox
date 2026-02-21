@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">డాక్యుమెంట్ పేజీలను ఏదైనా హద్దులకు కత్తిరించండి</string>
     <string name="flatten_pdf">PDFని చదును చేయండి</string>
     <string name="flatten_pdf_sub">డాక్యుమెంట్ పేజీలను రేస్టరింగ్ చేయడం ద్వారా PDFని సవరించలేనిదిగా చేయండి</string>
+    <string name="camera_failed_to_open">కెమెరాను ప్రారంభించడం సాధ్యపడలేదు. దయచేసి అనుమతులను తనిఖీ చేయండి మరియు ఇది మరొక యాప్ ద్వారా ఉపయోగించబడటం లేదని నిర్ధారించుకోండి.</string>
+    <string name="extract_images">చిత్రాలను సంగ్రహించండి</string>
+    <string name="extract_images_sub">PDFలలో పొందుపరిచిన చిత్రాలను వాటి అసలు రిజల్యూషన్‌లో సంగ్రహించండి</string>
+    <string name="pdf_no_embedded">ఈ PDF ఫైల్‌లో పొందుపరిచిన చిత్రాలు ఏవీ లేవు</string>
+    <string name="extract_images_info">ఈ సాధనం ప్రతి పేజీని స్కాన్ చేస్తుంది మరియు పూర్తి-నాణ్యత మూలాధార చిత్రాలను తిరిగి పొందుతుంది - పత్రాల నుండి అసలైన వాటిని సేవ్ చేయడానికి సరైనది</string>
 </resources>

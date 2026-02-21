@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Retalla les pàgines del document fins a qualsevol límit</string>
     <string name="flatten_pdf">Aplanar PDF</string>
     <string name="flatten_pdf_sub">Feu que els PDF no siguin modificables rasteritzant les pàgines del document</string>
+    <string name="camera_failed_to_open">No s\'ha pogut iniciar la càmera. Comproveu els permisos i assegureu-vos que no l\'utilitzi una altra aplicació.</string>
+    <string name="extract_images">Extreu Imatges</string>
+    <string name="extract_images_sub">Extraieu imatges incrustades en PDF amb la seva resolució original</string>
+    <string name="pdf_no_embedded">Aquest fitxer PDF no conté cap imatge incrustada</string>
+    <string name="extract_images_info">Aquesta eina escaneja totes les pàgines i recupera imatges d\'origen de qualitat completa, perfecte per desar originals dels documents</string>
 </resources>

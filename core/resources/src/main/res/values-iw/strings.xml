@@ -2167,4 +2167,9 @@
     <string name="crop_pdf_sub">חתוך דפי מסמכים לכל גבול</string>
     <string name="flatten_pdf">שטח PDF</string>
     <string name="flatten_pdf_sub">הפוך את PDF לבלתי ניתן לשינוי על ידי רסטר דפי מסמכים</string>
+    <string name="camera_failed_to_open">לא ניתן להפעיל את המצלמה. אנא בדוק הרשאות וודא שהיא לא בשימוש על ידי אפליקציה אחרת.</string>
+    <string name="extract_images">חלץ תמונות</string>
+    <string name="extract_images_sub">חלץ תמונות המוטבעות בקובצי PDF ברזולוציה המקורית שלהן</string>
+    <string name="pdf_no_embedded">קובץ PDF זה אינו מכיל תמונות מוטבעות</string>
+    <string name="extract_images_info">כלי זה סורק כל עמוד ומשחזר תמונות מקור באיכות מלאה - מושלם לשמירת מסמכי מקור ממסמכים</string>
 </resources>

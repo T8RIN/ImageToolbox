@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Beskær dokumentsider til enhver grænse</string>
     <string name="flatten_pdf">Udglat PDF</string>
     <string name="flatten_pdf_sub">Gør PDF uændret ved at rastere dokumentsider</string>
+    <string name="camera_failed_to_open">Kunne ikke starte kameraet. Tjek venligst tilladelser og sørg for, at den ikke bliver brugt af en anden app.</string>
+    <string name="extract_images">Uddrag billeder</string>
+    <string name="extract_images_sub">Uddrag billeder indlejret i PDF-filer i deres originale opløsning</string>
+    <string name="pdf_no_embedded">Denne PDF-fil indeholder ingen indlejrede billeder</string>
+    <string name="extract_images_info">Dette værktøj scanner hver side og gendanner kildebilleder i fuld kvalitet - perfekt til at gemme originaler fra dokumenter</string>
 </resources>

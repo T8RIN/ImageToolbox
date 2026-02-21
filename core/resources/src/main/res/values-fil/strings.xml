@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">I-crop ang mga pahina ng dokumento sa anumang mga hangganan</string>
     <string name="flatten_pdf">I-flatte ang PDF</string>
     <string name="flatten_pdf_sub">Gawing hindi nababago ang PDF sa pamamagitan ng pag-raster ng mga pahina ng dokumento</string>
+    <string name="camera_failed_to_open">Hindi masimulan ang camera. Pakisuri ang mga pahintulot at tiyaking hindi ito ginagamit ng ibang app.</string>
+    <string name="extract_images">I-extract ang mga Larawan</string>
+    <string name="extract_images_sub">I-extract ang mga larawang naka-embed sa mga PDF sa orihinal na resolution ng mga ito</string>
+    <string name="pdf_no_embedded">Ang PDF file na ito ay hindi naglalaman ng anumang mga naka-embed na larawan</string>
+    <string name="extract_images_info">Ini-scan ng tool na ito ang bawat pahina at binabawi ang buong kalidad na mga larawan ng pinagmulan — perpekto para sa pag-save ng mga orihinal mula sa mga dokumento</string>
 </resources>

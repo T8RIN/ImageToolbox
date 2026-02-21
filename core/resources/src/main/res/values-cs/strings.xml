@@ -2167,4 +2167,9 @@
     <string name="crop_pdf_sub">Ořízněte stránky dokumentu na libovolné hranice</string>
     <string name="flatten_pdf">Vyrovnat PDF</string>
     <string name="flatten_pdf_sub">Udělejte PDF nemodifikovatelné rastrováním stránek dokumentu</string>
+    <string name="camera_failed_to_open">Fotoaparát nelze spustit. Zkontrolujte prosím oprávnění a ujistěte se, že je nepoužívá jiná aplikace.</string>
+    <string name="extract_images">Extrahovat obrázky</string>
+    <string name="extract_images_sub">Extrahujte obrázky vložené do souborů PDF v původním rozlišení</string>
+    <string name="pdf_no_embedded">Tento soubor PDF neobsahuje žádné vložené obrázky</string>
+    <string name="extract_images_info">Tento nástroj naskenuje každou stránku a obnoví zdrojové obrázky v plné kvalitě – ideální pro ukládání originálů z dokumentů</string>
 </resources>

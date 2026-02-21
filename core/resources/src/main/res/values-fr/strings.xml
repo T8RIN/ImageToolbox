@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Recadrer les pages du document à n\'importe quelle limite</string>
     <string name="flatten_pdf">Aplatir le PDF</string>
     <string name="flatten_pdf_sub">Rendre le PDF non modifiable en pixellisant les pages du document</string>
+    <string name="camera_failed_to_open">Impossible de démarrer la caméra. Veuillez vérifier les autorisations et vous assurer qu\'elle n\'est pas utilisée par une autre application.</string>
+    <string name="extract_images">Extraire des images</string>
+    <string name="extract_images_sub">Extrayez les images intégrées dans des PDF à leur résolution d\'origine</string>
+    <string name="pdf_no_embedded">Ce fichier PDF ne contient aucune image intégrée</string>
+    <string name="extract_images_info">Cet outil numérise chaque page et récupère les images source en pleine qualité – parfait pour enregistrer les originaux des documents</string>
 </resources>

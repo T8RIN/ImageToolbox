@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Snijd documentpagina\'s bij tot de gewenste grenzen</string>
     <string name="flatten_pdf">PDF plat maken</string>
     <string name="flatten_pdf_sub">Maak PDF onaanpasbaar door documentpagina\'s te rasteren</string>
+    <string name="camera_failed_to_open">Kan de camera niet starten. Controleer de rechten en zorg ervoor dat deze niet door een andere app wordt gebruikt.</string>
+    <string name="extract_images">Afbeeldingen extraheren</string>
+    <string name="extract_images_sub">Extraheer afbeeldingen die zijn ingesloten in PDF\'s met hun oorspronkelijke resolutie</string>
+    <string name="pdf_no_embedded">Dit PDF-bestand bevat geen ingesloten afbeeldingen</string>
+    <string name="extract_images_info">Deze tool scant elke pagina en herstelt bronafbeeldingen van volledige kwaliteit – perfect voor het opslaan van originelen uit documenten</string>
 </resources>

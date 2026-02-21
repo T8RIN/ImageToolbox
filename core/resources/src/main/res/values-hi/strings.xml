@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">दस्तावेज़ पृष्ठों को किसी भी सीमा तक काटें</string>
     <string name="flatten_pdf">पीडीएफ को समतल करें</string>
     <string name="flatten_pdf_sub">दस्तावेज़ पृष्ठों को व्यवस्थित करके पीडीएफ को अपरिवर्तनीय बनाएं</string>
+    <string name="camera_failed_to_open">कैमरा प्रारंभ नहीं हो सका. कृपया अनुमतियाँ जांचें और सुनिश्चित करें कि इसका उपयोग किसी अन्य ऐप द्वारा नहीं किया जा रहा है।</string>
+    <string name="extract_images">छवियाँ निकालें</string>
+    <string name="extract_images_sub">पीडीएफ़ में एम्बेड की गई छवियों को उनके मूल रिज़ॉल्यूशन पर निकालें</string>
+    <string name="pdf_no_embedded">इस पीडीएफ फाइल में कोई एम्बेडेड छवि नहीं है</string>
+    <string name="extract_images_info">यह टूल प्रत्येक पृष्ठ को स्कैन करता है और पूर्ण-गुणवत्ता वाली स्रोत छवियां पुनर्प्राप्त करता है - दस्तावेज़ों से मूल को सहेजने के लिए बिल्कुल सही</string>
 </resources>

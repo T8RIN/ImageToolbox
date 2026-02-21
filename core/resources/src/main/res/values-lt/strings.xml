@@ -2168,4 +2168,9 @@
     <string name="crop_pdf_sub">Apkarpykite dokumento puslapius iki bet kokių ribų</string>
     <string name="flatten_pdf">Išlyginti PDF</string>
     <string name="flatten_pdf_sub">Padarykite PDF nekeičiamą rastruodami dokumento puslapius</string>
+    <string name="camera_failed_to_open">Nepavyko paleisti fotoaparato. Patikrinkite leidimus ir įsitikinkite, kad jo nenaudoja kita programa.</string>
+    <string name="extract_images">Ištraukite vaizdus</string>
+    <string name="extract_images_sub">Ištraukite į PDF failus įterptus vaizdus pradine raiška</string>
+    <string name="pdf_no_embedded">Šiame PDF faile nėra įterptų vaizdų</string>
+    <string name="extract_images_info">Šis įrankis nuskaito kiekvieną puslapį ir atkuria visos kokybės šaltinio vaizdus – puikiai tinka išsaugoti originalus iš dokumentų</string>
 </resources>

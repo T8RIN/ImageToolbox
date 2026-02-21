@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Moztu dokumentuaren orriak edozein mugatara</string>
     <string name="flatten_pdf">Laundu PDFa</string>
     <string name="flatten_pdf_sub">Egin PDF aldaezina dokumentu-orriak rasterizatuz</string>
+    <string name="camera_failed_to_open">Ezin izan da kamera abiarazi. Mesedez, egiaztatu baimenak eta ziurtatu beste aplikazio batek ez duela erabiltzen.</string>
+    <string name="extract_images">Irudiak atera</string>
+    <string name="extract_images_sub">Atera PDFetan txertatutako irudiak jatorrizko bereizmenarekin</string>
+    <string name="pdf_no_embedded">PDF fitxategi honek ez du kapsulatutako irudirik</string>
+    <string name="extract_images_info">Tresna honek orrialde guztiak eskaneatzen ditu eta kalitate osoko iturburu-irudiak berreskuratzen ditu - ezin hobea dokumentuetatik jatorrizkoak gordetzeko</string>
 </resources>

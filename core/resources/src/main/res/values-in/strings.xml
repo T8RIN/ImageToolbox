@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">Pangkas halaman dokumen hingga batas apa pun</string>
     <string name="flatten_pdf">Ratakan PDF</string>
     <string name="flatten_pdf_sub">Jadikan PDF tidak dapat dimodifikasi dengan melakukan raster pada halaman dokumen</string>
+    <string name="camera_failed_to_open">Tidak dapat memulai kamera. Silakan periksa izin dan pastikan itu tidak digunakan oleh aplikasi lain.</string>
+    <string name="extract_images">Ekstrak Gambar</string>
+    <string name="extract_images_sub">Ekstrak gambar yang tertanam dalam PDF pada resolusi aslinya</string>
+    <string name="pdf_no_embedded">File PDF ini tidak berisi gambar apa pun yang disematkan</string>
+    <string name="extract_images_info">Alat ini memindai setiap halaman dan memulihkan gambar sumber berkualitas penuh — sempurna untuk menyimpan dokumen asli</string>
 </resources>

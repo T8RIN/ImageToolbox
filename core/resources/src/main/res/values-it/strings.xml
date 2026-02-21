@@ -2165,4 +2165,9 @@
     <string name="crop_pdf_sub">Ritaglia le pagine del documento fino a qualsiasi limite</string>
     <string name="flatten_pdf">Appiattisci PDF</string>
     <string name="flatten_pdf_sub">Rendi il PDF immodificabile rasterizzando le pagine del documento</string>
+    <string name="camera_failed_to_open">Impossibile avviare la fotocamera. Controlla le autorizzazioni e assicurati che non sia utilizzata da un\'altra app.</string>
+    <string name="extract_images">Estrai immagini</string>
+    <string name="extract_images_sub">Estrai le immagini incorporate nei PDF alla loro risoluzione originale</string>
+    <string name="pdf_no_embedded">Questo file PDF non contiene immagini incorporate</string>
+    <string name="extract_images_info">Questo strumento esegue la scansione di ogni pagina e recupera immagini originali di qualità completa, perfette per salvare gli originali dai documenti</string>
 </resources>

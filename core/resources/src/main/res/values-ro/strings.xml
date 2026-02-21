@@ -2166,4 +2166,9 @@
     <string name="crop_pdf_sub">Decupați paginile documentului la orice limite</string>
     <string name="flatten_pdf">Aplatizați PDF</string>
     <string name="flatten_pdf_sub">Faceți PDF nemodificabil prin rasterizarea paginilor documentului</string>
+    <string name="camera_failed_to_open">Camera nu a putut porni. Verificați permisiunile și asigurați-vă că nu este folosit de altă aplicație.</string>
+    <string name="extract_images">Extrage imagini</string>
+    <string name="extract_images_sub">Extrageți imagini încorporate în PDF-uri la rezoluția lor originală</string>
+    <string name="pdf_no_embedded">Acest fișier PDF nu conține nicio imagine încorporată</string>
+    <string name="extract_images_info">Acest instrument scanează fiecare pagină și recuperează imagini sursă de calitate completă - perfect pentru salvarea originalelor din documente</string>
 </resources>

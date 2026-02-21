@@ -2164,4 +2164,9 @@
     <string name="crop_pdf_sub">문서 페이지를 원하는 대로 자르기</string>
     <string name="flatten_pdf">PDF를 병합</string>
     <string name="flatten_pdf_sub">문서 페이지를 래스터링하여 PDF를 수정할 수 없게 만듭니다.</string>
+    <string name="camera_failed_to_open">카메라를 시작할 수 없습니다. 권한을 확인하고 다른 앱에서 사용하고 있지 않은지 확인하세요.</string>
+    <string name="extract_images">이미지 추출</string>
+    <string name="extract_images_sub">PDF에 포함된 이미지를 원래 해상도로 추출</string>
+    <string name="pdf_no_embedded">이 PDF 파일에는 삽입된 이미지가 없습니다.</string>
+    <string name="extract_images_info">이 도구는 모든 페이지를 스캔하고 최고 품질의 소스 이미지를 복구합니다. 문서의 원본을 저장하는 데 적합합니다.</string>
 </resources>
