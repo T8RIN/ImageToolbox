@@ -2191,4 +2191,7 @@
     <string name="extract_images_sub">Extract images embedded in PDFs at their original resolution</string>
     <string name="pdf_no_embedded">This PDF file doesn’t contain any embedded images</string>
     <string name="extract_images_info">This tool scans every page and recovers full-quality source images — perfect for saving originals from documents</string>
+    <string name="draw_signature">Draw Signature</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Use own signature as image to be placed on documents</string>
 </resources>

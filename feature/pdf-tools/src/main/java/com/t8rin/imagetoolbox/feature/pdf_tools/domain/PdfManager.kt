@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import kotlinx.coroutines.flow.StateFlow
 
 interface PdfManager<I> {
 
@@ -168,5 +169,9 @@ interface PdfManager<I> {
     ): String?
 
     fun clearCache(uri: String?)
+
+    suspend fun saveSignature(signature: Any): Boolean
+
+    val savedSignatures: StateFlow<List<String>>
 
 }

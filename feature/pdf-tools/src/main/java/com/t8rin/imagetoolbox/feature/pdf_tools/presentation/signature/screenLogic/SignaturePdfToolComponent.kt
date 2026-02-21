@@ -63,13 +63,15 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _signatureImageUri: MutableState<Uri> =
+    private val _signatureImage: MutableState<Any> =
         mutableStateOf("file:///android_asset/svg/emotions/aasparkles.svg".toUri())
-    val signatureImageUri by _signatureImageUri
+    val signatureImage by _signatureImage
 
     private val _params: MutableState<PdfSignatureParams> =
         mutableStateOf(PdfSignatureParams())
     val params by _params
+
+    val savedSignatures = pdfManager.savedSignatures
 
     init {
         componentScope.launch {
@@ -99,9 +101,18 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
         _params.update { params }
     }
 
-    fun updateSignatureUri(uri: Uri) {
+    fun updateSignature(
+        data: Any,
+        save: Boolean = false
+    ) {
         registerChanges()
-        _signatureImageUri.update { uri }
+        _signatureImage.update { data }
+        if (save) {
+            updateParams(params.copy(opacity = 1f))
+            componentScope.launch {
+                pdfManager.saveSignature(data)
+            }
+        }
     }
 
     override fun saveTo(
@@ -112,7 +123,7 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.addSignature(
                     uri = _uri.value.toString(),
-                    signatureImage = imageGetter.getImage(data = signatureImageUri)!!,
+                    signatureImage = imageGetter.getImage(data = signatureImage)!!,
                     params = params
                 )
 
@@ -149,7 +160,7 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.addSignature(
                             uri = _uri.value.toString(),
-                            signatureImage = imageGetter.getImage(data = signatureImageUri)!!,
+                            signatureImage = imageGetter.getImage(data = signatureImage)!!,
                             params = params
                         ).toUri()
                     )

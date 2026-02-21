@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -59,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.components.SignatureSelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import kotlin.math.roundToInt
 
@@ -79,6 +81,8 @@ fun SignaturePdfToolContent(
             )
         }
     }
+
+    val savedSignatures by component.savedSignatures.collectAsStateWithLifecycle()
 
     BasePdfToolContent(
         component = component,
@@ -140,7 +144,7 @@ fun SignaturePdfToolContent(
                         offsetYPx = offsetYPx.coerceIn(0f, boxHeightPx - targetHeightPx)
 
                         AsyncImage(
-                            model = component.signatureImageUri,
+                            model = component.signatureImage,
                             contentDescription = null,
                             modifier = Modifier
                                 .offset {
@@ -169,8 +173,8 @@ fun SignaturePdfToolContent(
             Spacer(Modifier.height(20.dp))
 
             ImageSelector(
-                value = component.signatureImageUri,
-                onValueChange = component::updateSignatureUri,
+                value = component.signatureImage,
+                onValueChange = component::updateSignature,
                 subtitle = stringResource(R.string.will_be_for_signature)
             )
             Spacer(Modifier.height(16.dp))
@@ -180,6 +184,20 @@ fun SignaturePdfToolContent(
                     component.updateParams(params.copy(pages = it))
                 },
                 pagesCount = pagesCount
+            )
+            Spacer(Modifier.height(8.dp))
+            SignatureSelector(
+                savedSignatures = savedSignatures,
+                onSelect = {
+                    component.updateParams(params.copy(opacity = 1f))
+                    component.updateSignature(it)
+                },
+                onAdd = {
+                    component.updateSignature(
+                        data = it,
+                        save = true
+                    )
+                }
             )
             Spacer(Modifier.height(8.dp))
             AlphaSelector(

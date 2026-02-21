@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.ImageRequest
@@ -37,9 +38,12 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
+import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.PDF
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -83,8 +87,14 @@ import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -103,8 +113,14 @@ internal class AndroidPdfManager @Inject constructor(
     private val imageLoader: ImageLoader,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap>,
+    private val appScope: AppScope,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
+
+    private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
+
+    private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 
     private val pagesCache = hashMapOf<String, List<IntegerSize>>()
 
@@ -1008,10 +1024,45 @@ internal class AndroidPdfManager @Inject constructor(
     ).removePrefix(PDF)
 
     override fun clearCache(uri: String?) {
-        CoroutineScope(ioDispatcher).launch {
+        appScope.launch {
             delete(uri)
         }
     }
+
+    override suspend fun saveSignature(signature: Any): Boolean {
+        return runCatching {
+            val currentSignatures = savedSignatures.value
+
+            if (currentSignatures.size + 1 > 10) {
+                currentSignatures.last().toUri().toFile().delete()
+            }
+
+            File(signaturesDir, "signature_${System.currentTimeMillis()}.png").outputStream()
+                .use { out ->
+                    imageGetter.getImage(signature)?.compress(
+                        Bitmap.CompressFormat.PNG,
+                        100,
+                        out
+                    )
+                }
+            updateFlow.emit(Unit)
+        }.onFailure {
+            it.makeLog("saveSignature")
+        }.isSuccess
+    }
+
+    override val savedSignatures: StateFlow<List<String>> =
+        merge(
+            updateFlow,
+            signaturesDir.observeHasChanges().debounce(100)
+        ).map {
+            signaturesDir.listFiles().orEmpty().sortedByDescending { it.lastModified() }
+                .map { it.toUri().toString() }
+        }.stateIn(
+            scope = appScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
     override suspend fun extractImagesFromPdf(
         uri: String

@@ -17,23 +17,30 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.components
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.LineWeight
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,23 +62,34 @@ import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreviewLandscape
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import kotlin.math.abs
@@ -80,7 +98,7 @@ import kotlin.math.abs
 fun SignatureDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
-    onDone: (bitmap: ImageBitmap) -> Unit
+    onDone: (bitmap: Bitmap) -> Unit
 ) {
     val path = retain(visible) { Path() }
 
@@ -89,22 +107,32 @@ fun SignatureDialog(
     var lastPoint by remember { mutableStateOf<Offset?>(null) }
     var lastMid by remember { mutableStateOf<Offset?>(null) }
 
-    val borderColor = MaterialTheme.colorScheme.outline
+    val borderColor = MaterialTheme.colorScheme.outlineVariant()
 
     var canvasSize by remember {
         mutableStateOf(IntegerSize.Zero)
     }
     var strokeWidth by rememberSaveable(stateSaver = PtSaver) {
-        mutableStateOf(6.pt)
+        mutableStateOf(15.pt)
     }
 
     var drawColor by rememberSaveable(stateSaver = ColorSaver) {
         mutableStateOf(Color.Black)
     }
 
+    var showTuneDialog by remember {
+        mutableStateOf(false)
+    }
+
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
+        icon = {
+            Icon(Icons.Rounded.FreeDraw, null)
+        },
+        title = {
+            Text(stringResource(R.string.draw_signature))
+        },
         confirmButton = {
             EnhancedButton(
                 onClick = {
@@ -129,7 +157,7 @@ fun SignatureDialog(
                         }
                     )
 
-                    onDone(bitmap)
+                    onDone(bitmap.asAndroidBitmap())
 
                     path.reset()
                     redraw++
@@ -172,6 +200,8 @@ fun SignatureDialog(
                                 shape = shape
                             )
                             .clip(shape)
+                            .transparencyChecker()
+                            .background(Color.White.copy(0.6f))
                             .pointerInput(Unit) {
                                 awaitEachGesture {
                                     val down = awaitFirstDown()
@@ -232,12 +262,31 @@ fun SignatureDialog(
 
                     EnhancedIconButton(
                         modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .offset(
+                                x = (-2).dp,
+                                y = 2.dp
+                            ),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.copy(0.8f),
+                        enableAutoShadowAndBorder = false,
+                        onClick = {
+                            showTuneDialog = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Tune,
+                            contentDescription = null
+                        )
+                    }
+
+                    EnhancedIconButton(
+                        modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .offset(
                                 x = 2.dp,
                                 y = 2.dp
                             ),
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.copy(0.8f),
                         enableAutoShadowAndBorder = false,
                         onClick = {
                             path.reset()
@@ -247,7 +296,7 @@ fun SignatureDialog(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.History,
+                            imageVector = Icons.Outlined.Delete,
                             contentDescription = null
                         )
                     }
@@ -260,26 +309,85 @@ fun SignatureDialog(
             )
         } else Modifier
     )
+
+    EnhancedAlertDialog(
+        visible = showTuneDialog,
+        onDismissRequest = { showTuneDialog = false },
+        placeAboveAll = true,
+        icon = {
+            Icon(Icons.Rounded.Tune, null)
+        },
+        title = {
+            Text(stringResource(R.string.pen_params))
+        },
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    showTuneDialog = false
+                },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Text(stringResource(R.string.close))
+            }
+        },
+        text = {
+            Column {
+                ColorRowSelector(
+                    value = drawColor,
+                    onValueChange = { drawColor = it },
+                    modifier = Modifier
+                        .container(
+                            shape = ShapeDefaults.top
+                        ),
+                    title = stringResource(R.string.paint_color),
+                    allowAlpha = false,
+                    icon = Icons.Outlined.BrushColor
+                )
+                Spacer(Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = strokeWidth.value,
+                    icon = Icons.Rounded.LineWeight,
+                    title = stringResource(R.string.line_width),
+                    valueSuffix = " Pt",
+                    sliderModifier = Modifier
+                        .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),
+                    valueRange = 1f..50f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = {
+                        strokeWidth = it.roundToTwoDigits().pt
+                    },
+                    shape = ShapeDefaults.bottom
+                )
+            }
+        }
+    )
 }
 
 @EnPreview
 @EnPreviewLandscape
 @Composable
 private fun Preview() = ImageToolboxThemeForPreview(false) {
-    Spacer(Modifier.fillMaxSize())
-    var image by remember {
-        mutableStateOf<ImageBitmap?>(null)
-    }
-    var visible by remember {
-        mutableStateOf(true)
-    }
-    SignatureDialog(
-        visible = visible,
-        onDismiss = { visible = false },
-        onDone = { bmp -> image = bmp }
-    )
+    Surface {
+        Spacer(Modifier.fillMaxSize())
+        var image by remember {
+            mutableStateOf<Bitmap?>(null)
+        }
+        var visible by remember {
+            mutableStateOf(true)
+        }
+        if (visible) {
+            SignatureDialog(
+                visible = true,
+                onDismiss = { visible = false },
+                onDone = { bmp -> image = bmp }
+            )
+        }
 
-    image?.let {
-        Image(it, null)
+        image?.let {
+            Image(it.asImageBitmap(), null, modifier = Modifier.background(Color.White))
+        }
     }
 }
