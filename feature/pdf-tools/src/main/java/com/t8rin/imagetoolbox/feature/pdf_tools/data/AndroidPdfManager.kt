@@ -291,7 +291,7 @@ internal class AndroidPdfManager @Inject constructor(
             ) { output ->
                 PDDocument().use { newDoc ->
                     (pages ?: List(document.numberOfPages) { it }).forEach { index ->
-                        newDoc.addPage(document.getPage(index))
+                        newDoc.addPage(document.getPageSafe(index))
                     }
                     newDoc.save(output.outputStream())
                 }
@@ -357,7 +357,9 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             ) { output ->
                 PDDocument().use { newDoc ->
-                    newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
+                    newOrder.forEach { pageIndex ->
+                        newDoc.addPage(document.getPageSafe(pageIndex))
+                    }
                     newDoc.save(output.outputStream())
                 }
             }
@@ -380,7 +382,7 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             ) { output ->
                 val font = document.getBaseFont()
-                val totalPages = document.pages.count()
+                val totalPages = document.numberOfPages
 
                 document.pages.forEachIndexed { idx, page ->
                     val text = labelFormat.replace("{n}", (idx + 1).toString())
@@ -495,11 +497,10 @@ internal class AndroidPdfManager @Inject constructor(
                 val font = document.getBaseFont()
 
                 val pages =
-                    params.pages.ifEmpty { List(document.pages.count) { it } }
+                    params.pages.ifEmpty { List(document.numberOfPages) { it } }
 
-                pages.forEach { idx ->
-                    val page =
-                        document.getPage(idx.coerceIn(0 until document.pages.count()))
+                pages.forEach { pageIndex ->
+                    val page = document.getPageSafe(pageIndex)
 
                     PDPageContentStream(
                         document,
@@ -568,16 +569,15 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             ) { output ->
                 val pagesToSign =
-                    params.pages.ifEmpty { List(document.pages.count) { it } }
+                    params.pages.ifEmpty { List(document.numberOfPages) { it } }
 
                 val pdImage = LosslessFactory.createFromImage(document, signatureImage)
 
                 val imageAspect =
                     signatureImage.width.toFloat() / signatureImage.height.toFloat()
 
-                pagesToSign.forEach { idx ->
-                    val page =
-                        document.getPage(idx.coerceIn(0 until document.pages.count()))
+                pagesToSign.forEach { pageIndex ->
+                    val page = document.getPageSafe(pageIndex)
 
                     val baseBox = page.cropBox ?: page.mediaBox
 
@@ -868,7 +868,7 @@ internal class AndroidPdfManager @Inject constructor(
 
                 with(rect) {
                     pagesToProcess.forEach { pageIndex ->
-                        val page = document.getPage(pageIndex)
+                        val page = document.getPageSafe(pageIndex)
 
                         val baseBox = page.cropBox ?: page.mediaBox
 
@@ -934,7 +934,7 @@ internal class AndroidPdfManager @Inject constructor(
                 val renderer = PDFRenderer(source)
 
                 PDDocument().use { target ->
-                    for (pageIndex in 0 until source.numberOfPages) {
+                    repeat(source.numberOfPages) { pageIndex ->
                         val sourcePage = source.getPage(pageIndex)
                         val cropBox = sourcePage.cropBox ?: sourcePage.mediaBox
 
@@ -1240,4 +1240,11 @@ internal class AndroidPdfManager @Inject constructor(
     }.onFailure {
         "failed to delete $uri".makeLog("delete")
     }
+
+    private fun PDDocument.getPageSafe(index: Int): PDPage = getPage(index.coercePage(this))
+
+    private fun Int.coercePage(document: PDDocument) = coerceIn(
+        minimumValue = 0,
+        maximumValue = document.numberOfPages - 1
+    )
 }
