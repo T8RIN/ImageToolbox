@@ -85,7 +85,7 @@ internal fun CropPreview(
         Box(
             modifier = Modifier
                 .aspectRatio(aspectRatio)
-                .clip(MaterialTheme.shapes.medium)
+                .clip(MaterialTheme.shapes.small)
         ) {
             Picture(
                 model = uri,
@@ -97,7 +97,7 @@ internal fun CropPreview(
                 shape = RectangleShape
             )
 
-            SimpleCropFrame(
+            CropFrameBorder(
                 modifier = Modifier.matchParentSize(),
                 cropRect = cropRect
             )
@@ -106,13 +106,13 @@ internal fun CropPreview(
 }
 
 @Composable
-private fun SimpleCropFrame(
+private fun CropFrameBorder(
     modifier: Modifier = Modifier,
     cropRect: Rect
 ) {
     val isNightMode = LocalSettingsState.current.isNightMode
     val black = Black
-    val white = MaterialTheme.colorScheme.primary
+    val colorScheme = MaterialTheme.colorScheme
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val cropRect = remember(cropRect, isRtl) {
@@ -153,21 +153,33 @@ private fun SimpleCropFrame(
             size = size
         )
 
-        drawRect(
-            color = Color.Transparent,
-            blendMode = BlendMode.Clear,
-            topLeft = Offset(
-                x = cropRect.left * canvasWidth,
-                y = cropRect.top * canvasHeight
-            ),
-            size = Size(
-                width = (cropRect.right - cropRect.left) * canvasWidth,
-                height = (cropRect.bottom - cropRect.top) * canvasHeight
-            )
+        val topLeft = Offset(
+            x = cropRect.left * canvasWidth,
+            y = cropRect.top * canvasHeight
+        )
+        val size = Size(
+            width = (cropRect.right - cropRect.left) * canvasWidth,
+            height = (cropRect.bottom - cropRect.top) * canvasHeight
         )
 
         drawRect(
-            color = white,
+            color = Color.Transparent,
+            blendMode = BlendMode.Clear,
+            topLeft = topLeft,
+            size = size
+        )
+
+        drawRect(
+            color = colorScheme.primary,
+            style = Stroke(
+                width = 1.5.dp.toPx()
+            ),
+            topLeft = topLeft,
+            size = size
+        )
+
+        drawRect(
+            color = colorScheme.primaryContainer,
             style = Stroke(
                 width = 1.5.dp.toPx(),
                 pathEffect = PathEffect.dashPathEffect(
@@ -175,22 +187,16 @@ private fun SimpleCropFrame(
                     phase.value
                 )
             ),
-            topLeft = Offset(
-                x = cropRect.left * canvasWidth,
-                y = cropRect.top * canvasHeight
-            ),
-            size = Size(
-                width = (cropRect.right - cropRect.left) * canvasWidth,
-                height = (cropRect.bottom - cropRect.top) * canvasHeight
-            )
+            topLeft = topLeft,
+            size = size
         )
     }
 }
 
 @EnPreview
 @Composable
-private fun Preview() = ImageToolboxThemeForPreview(false, keyColor = Color.Green) {
-    LocalLayoutDirection.ProvidesValue(LayoutDirection.Rtl) {
+private fun Preview() = ImageToolboxThemeForPreview(false) {
+    LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
         CropPreview(
             "111".toUri(),
             Rect(

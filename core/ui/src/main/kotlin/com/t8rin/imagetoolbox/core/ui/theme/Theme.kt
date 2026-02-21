@@ -18,9 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.theme
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -32,41 +30,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.graphics.drawable.toBitmap
-import coil3.asImage
-import coil3.compose.AsyncImagePreviewHandler
-import coil3.compose.LocalAsyncImagePreviewHandler
-import coil3.request.ImageRequest
-import coil3.size.pxOrElse
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
-import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
-import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
-import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
-import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
-import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
-import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
-import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.initAppContext
-import java.util.Locale
 
 @SuppressLint("NewApi")
 @Composable
@@ -136,121 +111,7 @@ fun ImageToolboxThemeSurface(
 }
 
 @Composable
-fun ImageToolboxThemeForPreview(
-    isDarkTheme: Boolean,
-    keyColor: Color? = defaultColorTuple.primary,
-    shapesType: ShapeType = ShapeType.Rounded(),
-    content: @Composable () -> Unit
-) {
-    LocalContext.current.applicationContext.initAppContext()
-
-    DynamicTheme(
-        state = rememberDynamicThemeState(
-            initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)
-        ),
-        dynamicColor = keyColor == null,
-        isDarkTheme = isDarkTheme,
-        defaultColorTuple = ColorTuple(keyColor ?: Color.Transparent),
-        colorAnimationSpec = snap(),
-        content = {
-            CompositionLocalProvider(
-                LocalSettingsState provides SettingsState.Default.toUiState().copy(
-                    shapesType = shapesType
-                ),
-                LocalSimpleSettingsInteractor provides object : SimpleSettingsInteractor {
-                    override suspend fun toggleMagnifierEnabled() = Unit
-                    override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) =
-                        Unit
-
-                    override suspend fun toggleRecentColor(
-                        color: ColorModel,
-                        forceExclude: Boolean
-                    ) = Unit
-
-                    override suspend fun toggleFavoriteColor(
-                        color: ColorModel,
-                        forceExclude: Boolean
-                    ) = Unit
-
-                    override fun isInstalledFromPlayStore(): Boolean = false
-
-                    override suspend fun toggleSettingsGroupVisibility(
-                        key: Int,
-                        value: Boolean
-                    ) = Unit
-
-                    override suspend fun clearRecentColors() = Unit
-
-                    override suspend fun updateFavoriteColors(colors: List<ColorModel>) = Unit
-
-                    override suspend fun setBackgroundColorForNoAlphaFormats(color: ColorModel) =
-                        Unit
-
-                    override suspend fun toggleCustomAsciiGradient(gradient: String) = Unit
-
-                    override suspend fun toggleOverwriteFiles() = Unit
-
-                    override suspend fun setSpotHealMode(mode: Int) = Unit
-                    override suspend fun setBorderWidth(width: Float) = Unit
-                },
-                LocalResourceManager provides object : ResourceManager {
-                    override fun getString(resId: Int): String = appContext.getString(resId)
-
-                    override fun getString(
-                        resId: Int,
-                        vararg formatArgs: Any
-                    ): String = appContext.getString(resId, formatArgs)
-
-                    override fun getStringLocalized(
-                        resId: Int,
-                        language: String
-                    ): String =
-                        appContext.getStringLocalized(resId, Locale.forLanguageTag(language))
-
-                    override fun getStringLocalized(
-                        resId: Int,
-                        language: String,
-                        vararg formatArgs: Any
-                    ): String =
-                        appContext.getStringLocalized(resId, Locale.forLanguageTag(language))
-
-                },
-                LocalAsyncImagePreviewHandler provides remember {
-                    AsyncImagePreviewHandler(
-                        image = { request: ImageRequest ->
-                            GradientDrawable(
-                                GradientDrawable.Orientation.BL_TR,
-                                listOf(
-                                    Color.Green,
-                                    Color.Yellow,
-                                    Color.Red,
-                                    Color.Cyan,
-                                ).map { it.toArgb() }.toIntArray()
-                            ).toBitmap(
-                                request.sizeResolver.size().width.pxOrElse { 0 } - 200,
-                                request.sizeResolver.size().height.pxOrElse { 0 }
-                            ).asImage()
-                        }
-                    )
-                }
-            ) {
-                MaterialTheme(
-                    motionScheme = CustomMotionScheme,
-                    colorScheme = modifiedColorScheme(),
-                    shapes = modifiedShapes(),
-                    content = {
-                        Surface {
-                            content()
-                        }
-                    }
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun modifiedShapes(): Shapes {
+internal fun modifiedShapes(): Shapes {
     val shapes = MaterialTheme.shapes
     val shapesType = LocalSettingsState.current.shapesType
 
@@ -319,7 +180,7 @@ private fun modifiedShapes(): Shapes {
 }
 
 @Composable
-private fun modifiedColorScheme(): ColorScheme {
+internal fun modifiedColorScheme(): ColorScheme {
     val scheme = MaterialTheme.colorScheme
 
     return remember(scheme) {
