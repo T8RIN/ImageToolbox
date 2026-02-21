@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
+import com.t8rin.logger.makeLog
 import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
@@ -76,7 +77,9 @@ import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Calendar
@@ -105,20 +108,20 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
-        val unlocked = unlockPdf(
-            uri = uri,
-            password = password.orEmpty(),
-            filename = uri.toUri().filename() ?: tempName(
-                key = "unlocked",
-                uri = uri
-            )
-        )
-
-        if (!password.isNullOrBlank()) {
-            unlocked
-        } else {
-            unlocked.let(::File).delete()
-            null
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            if (password.isNullOrBlank()) {
+                null
+            } else {
+                shareProvider.cacheDataOrThrow(
+                    filename = uri.toUri().filename()?.let { "pdf/$it" } ?: tempName(
+                        key = "unlocked",
+                        uri = uri
+                    )
+                ) { output ->
+                    document.isAllSecurityToBeRemoved = true
+                    document.save(output.outputStream())
+                }
+            }
         }
     }
 
@@ -257,11 +260,11 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun mergePdfs(uris: List<String>): String = catchPdf {
-        shareProvider.cacheDataOrThrow(filename = tempName("merged")) { output ->
-            PDFMergerUtility().apply {
-                uris.forEach { uri ->
-                    addSource(uri.inputStream())
-                }
+        PDFMergerUtility().run {
+            uris.forEach { uri ->
+                addSource(uri.inputStream())
+            }
+            shareProvider.cacheDataOrThrow(filename = tempName("merged")) { output ->
                 destinationStream = output.outputStream()
                 mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
             }
@@ -318,13 +321,13 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         rotations: List<Int>
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "rotated",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "rotated",
+                    uri = uri
+                )
+            ) { output ->
                 document.pages.forEachIndexed { idx, page ->
                     val angle = rotations.getOrNull(idx) ?: 0
                     page.rotation = (page.rotation + angle) % 360
@@ -339,19 +342,18 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         newOrder: List<Int>
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "rearranged",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "rearranged",
+                    uri = uri
+                )
+            ) { output ->
                 PDDocument().use { newDoc ->
                     newOrder.forEach { idx -> newDoc.addPage(document.getPage(idx)) }
                     newDoc.save(output.outputStream())
                 }
             }
-
         }
     }
 
@@ -363,13 +365,13 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(color)
 
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "numbered",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "numbered",
+                    uri = uri
+                )
+            ) { output ->
                 val font = document.getBaseFont()
                 val totalPages = document.pages.count()
 
@@ -476,13 +478,13 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(params.color)
 
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "watermarked",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "watermarked",
+                    uri = uri
+                )
+            ) { output ->
                 val font = document.getBaseFont()
 
                 val pages =
@@ -551,13 +553,13 @@ internal class AndroidPdfManager @Inject constructor(
         signatureImage: Bitmap,
         params: PdfSignatureParams
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "signed",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "signed",
+                    uri = uri
+                )
+            ) { output ->
                 val pagesToSign =
                     params.pages.ifEmpty { List(document.pages.count) { it } }
 
@@ -625,13 +627,13 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "protected",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), this.password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), this.password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "protected",
+                    uri = uri
+                )
+            ) { output ->
                 val protection = StandardProtectionPolicy(password, password, AccessPermission())
                 protection.encryptionKeyLength = 128
                 document.protect(protection)
@@ -644,14 +646,17 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        unlockPdf(
-            uri = uri,
-            password = password,
-            filename = tempName(
-                key = "unlocked",
-                uri = uri
-            )
-        )
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "unlocked",
+                    uri = uri
+                )
+            ) { output ->
+                document.isAllSecurityToBeRemoved = true
+                document.save(output.outputStream())
+            }
+        }
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
@@ -688,13 +693,13 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         quality: Float
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "compressed",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password).use { document ->
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "compressed",
+                    uri = uri
+                )
+            ) { output ->
                 document.pages.forEach { page ->
                     val resources = page.resources
                     val xObjectNames = resources.xObjectNames
@@ -721,13 +726,13 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun convertToGrayscale(uri: String): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "grayscale",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password).use { document ->
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "grayscale",
+                    uri = uri
+                )
+            ) { output ->
                 document.pages.forEach { page ->
                     val resources = page.resources
                     val xObjectNames = resources.xObjectNames
@@ -762,25 +767,21 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun repairPdf(uri: String): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "repaired",
-                uri = uri
-            )
-        ) { output ->
-            try {
-                PDDocument.load(uri.inputStream(), password).use { document ->
-                    document.isAllSecurityToBeRemoved = true
-                    document.save(output.outputStream())
-                }
-            } catch (t: Throwable) {
-                if (t is InvalidPasswordException) throw t
+        try {
+            PDDocument.load(uri.inputStream(), password)
+        } catch (t: Throwable) {
+            if (t is InvalidPasswordException) throw t
 
-                PDDocument.load(uri.inputStream(), password, MemoryUsageSetting.setupTempFileOnly())
-                    .use { document ->
-                        document.isAllSecurityToBeRemoved = true
-                        document.save(output.outputStream())
-                    }
+            PDDocument.load(uri.inputStream(), password, MemoryUsageSetting.setupTempFileOnly())
+        }.use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "repaired",
+                    uri = uri
+                )
+            ) { output ->
+                document.isAllSecurityToBeRemoved = true
+                document.save(output.outputStream())
             }
         }
     }
@@ -789,13 +790,13 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         metadata: PdfMetadata?
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "metadata",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password).use { document ->
+        PDDocument.load(uri.inputStream(), password).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "metadata",
+                    uri = uri
+                )
+            ) { output ->
                 if (metadata == null) {
                     document.documentInformation = PDDocumentInformation().apply {
                         creationDate = Calendar.getInstance()
@@ -849,13 +850,13 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<Int>?,
         rect: RectModel
     ): String = catchPdf {
-        shareProvider.cacheDataOrThrow(
-            filename = tempName(
-                key = "cropped",
-                uri = uri
-            )
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = tempName(
+                    key = "cropped",
+                    uri = uri
+                )
+            ) { output ->
                 val pagesToProcess = pages ?: List(document.numberOfPages) { it }
 
                 with(rect) {
@@ -919,10 +920,10 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val dpi = 72f + (228f * quality)
 
-        shareProvider.cacheDataOrThrow(
-            filename = createTempName("flattened", uri)
-        ) { output ->
-            PDDocument.load(uri.inputStream(), password.orEmpty()).use { source ->
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { source ->
+            shareProvider.cacheDataOrThrow(
+                filename = createTempName("flattened", uri)
+            ) { output ->
                 val renderer = PDFRenderer(source)
 
                 PDDocument().use { target ->
@@ -977,7 +978,6 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun detectPdfAutoRotations(
         uri: String
     ): List<Int> = catchPdf {
-        extractImagesFromPdf(uri)
         PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
             val rotations = document.pages.map { page ->
                 ((page.rotation % 360) + 360) % 360
@@ -1001,13 +1001,13 @@ internal class AndroidPdfManager @Inject constructor(
         var hasImages = false
 
         val filename =
-            "${uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
+            "pdf/${uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
 
-        val zipPath = shareProvider.cacheDataOrThrow(
-            filename = filename
-        ) { output ->
-            ZipOutputStream(output.outputStream()).use { zip ->
-                PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+        val zipPath = PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = filename
+            ) { output ->
+                ZipOutputStream(output.outputStream()).use { zip ->
                     var index = 0
                     document.pages.forEachIndexed { pageIndex, page ->
                         page.resources?.let { resources ->
@@ -1031,7 +1031,7 @@ internal class AndroidPdfManager @Inject constructor(
         }
 
         if (!hasImages) {
-            File(zipPath).delete()
+            delete(zipPath)
             null
         } else {
             zipPath
@@ -1041,16 +1041,11 @@ internal class AndroidPdfManager @Inject constructor(
     override fun createTempName(key: String, uri: String?): String = tempName(
         key = key,
         uri = uri
-    )
+    ).removePrefix("pdf/")
 
-    private suspend fun unlockPdf(
-        uri: String,
-        password: String,
-        filename: String
-    ) = shareProvider.cacheDataOrThrow(filename = filename) { output ->
-        PDDocument.load(uri.inputStream(), password).use { document ->
-            document.isAllSecurityToBeRemoved = true
-            document.save(output.outputStream())
+    override fun clearCache(uri: String?) {
+        CoroutineScope(ioDispatcher).launch {
+            delete(uri)
         }
     }
 
@@ -1183,13 +1178,23 @@ internal class AndroidPdfManager @Inject constructor(
     ): String {
         val keyFixed = if (key.isBlank()) "_" else "_${key}_"
 
-        return uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
+        return "pdf/" + (uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
             "${it}${keyFixed.removeSuffix("_")}.pdf"
         } ?: "PDF$keyFixed${timestamp()}_${
             Random(Random.nextInt()).hashCode().toString().take(4)
-        }.pdf"
+        }.pdf")
     }
 
     private fun PDDocument.getBaseFont() =
         PDType0Font.load(this, context.resources.openRawResource(R.raw.roboto_bold))
+
+    private fun delete(uri: String?) = runCatching {
+        if (uri.isNullOrBlank()) {
+            File(context.cacheDir, "pdf").deleteRecursively()
+        } else {
+            context.contentResolver.delete(uri.toUri(), null, null)
+        }
+    }.onFailure {
+        "failed to delete $uri".makeLog("delete")
+    }
 }

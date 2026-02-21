@@ -2187,4 +2187,8 @@
     <string name="flatten_pdf">Flatten PDF</string>
     <string name="flatten_pdf_sub">Make PDF unmodifiable by rastering document pages</string>
     <string name="camera_failed_to_open">Could not start the camera. Please check permissions and make sure it\'s not being used by another app.</string>
+    <string name="extract_images">Extract Images</string>
+    <string name="extract_images_sub">Extract images embedded to PDF in original resolution</string>
+    <string name="pdf_no_embedded">PDF file doesn\'t contain any embedded images</string>
+    <string name="extract_images_info">This tool scans every page and recovers full-quality source images. Perfect for saving originals from documents</string>
 </resources>

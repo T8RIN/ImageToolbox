@@ -357,6 +357,7 @@ sealed class Screen(
                     Protect(),
                     Unlock(),
                     Metadata(),
+                    ExtractImages(),
                     OCR()
                 )
             }
@@ -513,6 +514,15 @@ sealed class Screen(
             id = 60,
             title = R.string.flatten_pdf,
             subtitle = R.string.flatten_pdf_sub
+        )
+
+        @Serializable
+        data class ExtractImages(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 61,
+            title = R.string.extract_images,
+            subtitle = R.string.extract_images_sub
         )
     }
 

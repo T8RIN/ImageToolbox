@@ -110,6 +110,7 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.Protect(uris.firstOrNull()),
                 Screen.PdfTools.Unlock(uris.firstOrNull()),
                 Screen.PdfTools.Metadata(uris.firstOrNull()),
+                Screen.PdfTools.ExtractImages(uris.firstOrNull()),
                 Screen.PdfTools.OCR(uris.firstOrNull()),
             ) + filesAvailableScreens
         }

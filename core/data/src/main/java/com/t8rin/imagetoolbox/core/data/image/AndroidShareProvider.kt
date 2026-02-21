@@ -238,12 +238,14 @@ internal class AndroidShareProvider @Inject constructor(
     ): String = withContext(ioDispatcher) {
         val imagesFolder = if (filename.startsWith("temp.")) {
             File(context.cacheDir, "temp")
+        } else if (filename.startsWith("pdf/")) {
+            File(context.cacheDir, "pdf/${Random.nextInt()}")
         } else {
             File(context.cacheDir, "cache/${Random.nextInt()}")
         }
 
         imagesFolder.mkdirs()
-        val file = File(imagesFolder, filename)
+        val file = File(imagesFolder, filename.removePrefix("pdf/"))
         FileWriteable(file).use {
             writeData(it)
         }

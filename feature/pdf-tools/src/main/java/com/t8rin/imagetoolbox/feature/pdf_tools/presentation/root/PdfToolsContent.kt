@@ -227,6 +227,7 @@ fun PdfToolsContent(
                                     is Screen.PdfTools.Protect -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Unlock -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.Metadata -> screen.copy(uri = tempSelectionUri)
+                                    is Screen.PdfTools.ExtractImages -> screen.copy(uri = tempSelectionUri)
                                     is Screen.PdfTools.OCR -> screen.copy(uri = tempSelectionUri)
                                     else -> screen
                                 }

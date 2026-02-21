@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfPasswordRequestDialog
 
 @Composable
@@ -77,8 +78,10 @@ internal fun BasePdfToolContent(
     val saveLauncher = rememberFileCreator(
         mimeType = if (component.extraDataType == ExtraDataType.Pdf) {
             MimeType.Pdf
-        } else {
+        } else if (component is OCRPdfToolComponent) {
             MimeType.Txt
+        } else {
+            MimeType.Zip
         },
         onSuccess = { uri ->
             component.saveTo(

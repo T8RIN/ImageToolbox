@@ -167,4 +167,6 @@ interface PdfManager<I> {
         uri: String
     ): String?
 
+    fun clearCache(uri: String?)
+
 }

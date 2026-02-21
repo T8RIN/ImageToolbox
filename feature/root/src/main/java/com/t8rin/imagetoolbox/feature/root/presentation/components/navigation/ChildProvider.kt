@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.Me
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
@@ -93,6 +94,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EasterEgg
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EditExif
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.EraseBackground
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ExtractImagesPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Filter
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FlattenPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FormatConversion
@@ -224,6 +226,7 @@ internal class ChildProvider @Inject constructor(
     private val removePagesPdfToolComponentFactory: RemovePagesPdfToolComponent.Factory,
     private val cropPdfToolComponentFactory: CropPdfToolComponent.Factory,
     private val flattenPdfToolComponentFactory: FlattenPdfToolComponent.Factory,
+    private val extractImagesPdfToolComponentFactory: ExtractImagesPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -812,6 +815,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.Flatten -> FlattenPdfTool(
             flattenPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ExtractImages -> ExtractImagesPdfTool(
+            extractImagesPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
