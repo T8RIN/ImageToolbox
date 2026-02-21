@@ -68,6 +68,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -81,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreviewLandscape
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -124,15 +126,23 @@ fun SignatureDialog(
         mutableStateOf(false)
     }
 
+    val isPortrait by isPortraitOrientationAsState()
+    val screenHeight = LocalWindowInfo.current.containerDpSize.height
+    val showIconAndTitle = isPortrait || screenHeight > 500.dp
+
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
-        icon = {
-            Icon(Icons.Rounded.FreeDraw, null)
-        },
-        title = {
-            Text(stringResource(R.string.draw_signature))
-        },
+        icon = if (showIconAndTitle) {
+            {
+                Icon(Icons.Rounded.FreeDraw, null)
+            }
+        } else null,
+        title = if (showIconAndTitle) {
+            {
+                Text(stringResource(R.string.draw_signature))
+            }
+        } else null,
         confirmButton = {
             EnhancedButton(
                 onClick = {
@@ -305,7 +315,7 @@ fun SignatureDialog(
         },
         modifier = if (canvasSize != IntegerSize.Zero) {
             Modifier.width(
-                with(LocalDensity.current) { canvasSize.width.toDp() + 48.dp }
+                with(LocalDensity.current) { canvasSize.width.toDp() + 48.dp }.coerceAtLeast(300.dp)
             )
         } else Modifier
     )
@@ -313,7 +323,6 @@ fun SignatureDialog(
     EnhancedAlertDialog(
         visible = showTuneDialog,
         onDismissRequest = { showTuneDialog = false },
-        placeAboveAll = true,
         icon = {
             Icon(Icons.Rounded.Tune, null)
         },
