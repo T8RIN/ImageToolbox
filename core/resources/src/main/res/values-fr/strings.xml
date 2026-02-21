@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Extrayez les images intégrées dans des PDF à leur résolution d\'origine</string>
     <string name="pdf_no_embedded">Ce fichier PDF ne contient aucune image intégrée</string>
     <string name="extract_images_info">Cet outil numérise chaque page et récupère les images source en pleine qualité – parfait pour enregistrer les originaux des documents</string>
+    <string name="draw_signature">Dessiner une signature</string>
+    <string name="pen_params">Paramètres du stylo</string>
+    <string name="draw_signature_sub">Utiliser votre propre signature comme image à placer sur les documents</string>
 </resources>

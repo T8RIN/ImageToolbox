@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">I-extract ang mga larawang naka-embed sa mga PDF sa orihinal na resolution ng mga ito</string>
     <string name="pdf_no_embedded">Ang PDF file na ito ay hindi naglalaman ng anumang mga naka-embed na larawan</string>
     <string name="extract_images_info">Ini-scan ng tool na ito ang bawat pahina at binabawi ang buong kalidad na mga larawan ng pinagmulan — perpekto para sa pag-save ng mga orihinal mula sa mga dokumento</string>
+    <string name="draw_signature">Gumuhit ng Lagda</string>
+    <string name="pen_params">Panulat Params</string>
+    <string name="draw_signature_sub">Gumamit ng sariling pirma bilang imahe na ilalagay sa mga dokumento</string>
 </resources>

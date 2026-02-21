@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">تصاویر جاسازی شده در PDF را با وضوح اصلی خود استخراج کنید</string>
     <string name="pdf_no_embedded">این فایل PDF حاوی هیچ تصویر تعبیه شده نیست</string>
     <string name="extract_images_info">این ابزار هر صفحه را اسکن می کند و تصاویر منبع با کیفیت کامل را بازیابی می کند - برای ذخیره نسخه های اصلی از اسناد عالی است</string>
+    <string name="draw_signature">رسم امضا</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">از امضای خود به عنوان تصویر برای قرار دادن روی اسناد استفاده کنید</string>
 </resources>

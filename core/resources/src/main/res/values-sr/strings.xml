@@ -2171,4 +2171,7 @@
     <string name="extract_images_sub">Извуците слике уграђене у ПДФ-ове у њиховој оригиналној резолуцији</string>
     <string name="pdf_no_embedded">Ова ПДФ датотека не садржи уграђене слике</string>
     <string name="extract_images_info">Овај алат скенира сваку страницу и враћа изворне слике пуног квалитета — савршено за чување оригинала из докумената</string>
+    <string name="draw_signature">Драв Сигнатуре</string>
+    <string name="pen_params">Пен Парамс</string>
+    <string name="draw_signature_sub">Користите сопствени потпис као слику која се поставља на документе</string>
 </resources>

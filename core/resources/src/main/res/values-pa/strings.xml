@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">PDF ਵਿੱਚ ਏਮਬੇਡ ਕੀਤੀਆਂ ਤਸਵੀਰਾਂ ਨੂੰ ਉਹਨਾਂ ਦੇ ਅਸਲ ਰੈਜ਼ੋਲਿਊਸ਼ਨ \'ਤੇ ਐਕਸਟਰੈਕਟ ਕਰੋ</string>
     <string name="pdf_no_embedded">ਇਸ PDF ਫਾਈਲ ਵਿੱਚ ਕੋਈ ਵੀ ਏਮਬੈਡਡ ਚਿੱਤਰ ਸ਼ਾਮਲ ਨਹੀਂ ਹਨ</string>
     <string name="extract_images_info">ਇਹ ਟੂਲ ਹਰ ਪੰਨੇ ਨੂੰ ਸਕੈਨ ਕਰਦਾ ਹੈ ਅਤੇ ਪੂਰੀ-ਗੁਣਵੱਤਾ ਵਾਲੇ ਸਰੋਤ ਚਿੱਤਰਾਂ ਨੂੰ ਮੁੜ ਪ੍ਰਾਪਤ ਕਰਦਾ ਹੈ - ਦਸਤਾਵੇਜ਼ਾਂ ਤੋਂ ਮੂਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਲਈ ਸੰਪੂਰਨ</string>
+    <string name="draw_signature">ਦਸਤਖਤ ਖਿੱਚੋ</string>
+    <string name="pen_params">ਕਲਮ ਪਰਮ</string>
+    <string name="draw_signature_sub">ਦਸਤਾਵੇਜ਼ਾਂ \'ਤੇ ਰੱਖਣ ਲਈ ਚਿੱਤਰ ਵਜੋਂ ਆਪਣੇ ਦਸਤਖਤ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
 </resources>

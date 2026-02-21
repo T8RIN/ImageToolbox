@@ -2172,4 +2172,7 @@
     <string name="extract_images_sub">Извлекайте изображения, встроенные в PDF-файлы, в исходном разрешении.</string>
     <string name="pdf_no_embedded">Этот PDF-файл не содержит встроенных изображений.</string>
     <string name="extract_images_info">Этот инструмент сканирует каждую страницу и восстанавливает исходные изображения в полном качестве — идеально подходит для сохранения оригиналов из документов.</string>
+    <string name="draw_signature">Нарисовать подпись</string>
+    <string name="pen_params">Параметры пера</string>
+    <string name="draw_signature_sub">Использовать собственную подпись в качестве изображения для размещения на документах</string>
 </resources>

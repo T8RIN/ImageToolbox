@@ -2171,4 +2171,7 @@
     <string name="extract_images_sub">PDF मध्ये एम्बेड केलेल्या प्रतिमा त्यांच्या मूळ रिझोल्यूशनवर काढा</string>
     <string name="pdf_no_embedded">या PDF फाइलमध्ये कोणत्याही एम्बेड केलेल्या प्रतिमा नाहीत</string>
     <string name="extract_images_info">हे साधन प्रत्येक पृष्ठ स्कॅन करते आणि पूर्ण-गुणवत्तेच्या स्त्रोत प्रतिमा पुनर्प्राप्त करते — दस्तऐवजांमधून मूळ जतन करण्यासाठी योग्य</string>
+    <string name="draw_signature">स्वाक्षरी काढा</string>
+    <string name="pen_params">पेन परम्स</string>
+    <string name="draw_signature_sub">दस्तऐवजांवर ठेवण्यासाठी प्रतिमा म्हणून स्वतःची स्वाक्षरी वापरा</string>
 </resources>

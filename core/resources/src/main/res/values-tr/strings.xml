@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">PDF\'lere gömülü görüntüleri orijinal çözünürlüklerinde çıkarın</string>
     <string name="pdf_no_embedded">Bu PDF dosyası herhangi bir gömülü resim içermiyor</string>
     <string name="extract_images_info">Bu araç her sayfayı tarar ve tam kalitede kaynak görüntüleri kurtarır; belgelerdeki orijinalleri kaydetmek için mükemmeldir</string>
+    <string name="draw_signature">İmza Çek</string>
+    <string name="pen_params">Kalem Parametreleri</string>
+    <string name="draw_signature_sub">Belgelere yerleştirilecek resim olarak kendi imzanızı kullanın</string>
 </resources>

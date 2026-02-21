@@ -2172,4 +2172,7 @@
     <string name="extract_images_sub">Выманне малюнкаў, убудаваных у PDF-файлы, у іх зыходным раздзяленні</string>
     <string name="pdf_no_embedded">Гэты PDF-файл не змяшчае ўбудаваных малюнкаў</string>
     <string name="extract_images_info">Гэты інструмент скануе кожную старонку і аднаўляе паўнавартасныя зыходныя выявы — ідэальна падыходзіць для захавання арыгіналаў з дакументаў</string>
+    <string name="draw_signature">Намалюйце подпіс</string>
+    <string name="pen_params">Параметры ручкі</string>
+    <string name="draw_signature_sub">Выкарыстоўвайце ўласны подпіс у якасці выявы для размяшчэння на дакументах</string>
 </resources>

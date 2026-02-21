@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Kivonja a PDF-be ágyazott képeket eredeti felbontásukban</string>
     <string name="pdf_no_embedded">Ez a PDF-fájl nem tartalmaz beágyazott képeket</string>
     <string name="extract_images_info">Ez az eszköz minden oldalt beolvas, és teljes minőségű forrásképeket állít vissza – tökéletes az eredeti dokumentumok dokumentumokból való mentéséhez</string>
+    <string name="draw_signature">Aláírás rajzolása</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Használjon saját aláírást képként a dokumentumokon</string>
 </resources>

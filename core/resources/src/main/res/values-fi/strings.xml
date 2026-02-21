@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Pura PDF-tiedostoihin upotetut kuvat alkuperäisellä tarkkuudellaan</string>
     <string name="pdf_no_embedded">Tämä PDF-tiedosto ei sisällä upotettuja kuvia</string>
     <string name="extract_images_info">Tämä työkalu skannaa jokaisen sivun ja palauttaa täysilaatuiset lähdekuvat – täydellinen alkuperäisten tallentamiseen asiakirjoista</string>
+    <string name="draw_signature">Piirrä allekirjoitus</string>
+    <string name="pen_params">Kynäparametrit</string>
+    <string name="draw_signature_sub">Käytä omaa allekirjoitusta kuvana lisättäväksi asiakirjoihin</string>
 </resources>

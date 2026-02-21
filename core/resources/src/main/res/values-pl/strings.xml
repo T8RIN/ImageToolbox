@@ -2172,4 +2172,7 @@
     <string name="extract_images_sub">Wyodrębnij obrazy osadzone w plikach PDF w ich oryginalnej rozdzielczości</string>
     <string name="pdf_no_embedded">Ten plik PDF nie zawiera żadnych osadzonych obrazów</string>
     <string name="extract_images_info">To narzędzie skanuje każdą stronę i odzyskuje obrazy źródłowe o pełnej jakości — idealne do zapisywania oryginałów z dokumentów</string>
+    <string name="draw_signature">Narysuj podpis</string>
+    <string name="pen_params">Parametry pióra</string>
+    <string name="draw_signature_sub">Użyj własnego podpisu jako obrazu do umieszczenia na dokumentach</string>
 </resources>

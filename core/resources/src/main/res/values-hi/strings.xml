@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">पीडीएफ़ में एम्बेड की गई छवियों को उनके मूल रिज़ॉल्यूशन पर निकालें</string>
     <string name="pdf_no_embedded">इस पीडीएफ फाइल में कोई एम्बेडेड छवि नहीं है</string>
     <string name="extract_images_info">यह टूल प्रत्येक पृष्ठ को स्कैन करता है और पूर्ण-गुणवत्ता वाली स्रोत छवियां पुनर्प्राप्त करता है - दस्तावेज़ों से मूल को सहेजने के लिए बिल्कुल सही</string>
+    <string name="draw_signature">हस्ताक्षर बनाएं</string>
+    <string name="pen_params">पेन पैराम्स</string>
+    <string name="draw_signature_sub">दस्तावेज़ों पर लगाने के लिए छवि के रूप में स्वयं के हस्ताक्षर का उपयोग करें</string>
 </resources>

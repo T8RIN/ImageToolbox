@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Atera PDFetan txertatutako irudiak jatorrizko bereizmenarekin</string>
     <string name="pdf_no_embedded">PDF fitxategi honek ez du kapsulatutako irudirik</string>
     <string name="extract_images_info">Tresna honek orrialde guztiak eskaneatzen ditu eta kalitate osoko iturburu-irudiak berreskuratzen ditu - ezin hobea dokumentuetatik jatorrizkoak gordetzeko</string>
+    <string name="draw_signature">Marraztu Sinadura</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Erabili sinadura propioa dokumentuetan jartzeko irudi gisa</string>
 </resources>

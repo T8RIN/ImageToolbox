@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Extraia imagens incorporadas em PDFs em sua resolução original</string>
     <string name="pdf_no_embedded">Este arquivo PDF não contém imagens incorporadas</string>
     <string name="extract_images_info">Esta ferramenta digitaliza todas as páginas e recupera imagens originais de qualidade total – perfeita para salvar originais de documentos</string>
+    <string name="draw_signature">Desenhar Assinatura</string>
+    <string name="pen_params">Parâmetros de caneta</string>
+    <string name="draw_signature_sub">Utilizar assinatura própria como imagem a ser colocada em documentos</string>
 </resources>

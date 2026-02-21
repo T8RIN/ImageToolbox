@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">PDFகளில் உட்பொதிக்கப்பட்ட படங்களை அவற்றின் அசல் தெளிவுத்திறனில் பிரித்தெடுக்கவும்</string>
     <string name="pdf_no_embedded">இந்த PDF கோப்பில் உட்பொதிக்கப்பட்ட படங்கள் எதுவும் இல்லை</string>
     <string name="extract_images_info">இந்தக் கருவி ஒவ்வொரு பக்கத்தையும் ஸ்கேன் செய்து முழுத் தரமான மூலப் படங்களை மீட்டெடுக்கிறது - ஆவணங்களிலிருந்து அசலைச் சேமிப்பதற்கு ஏற்றது</string>
+    <string name="draw_signature">கையொப்பத்தை வரையவும்</string>
+    <string name="pen_params">பேனா பரம்ஸ்</string>
+    <string name="draw_signature_sub">ஆவணங்களில் வைக்கப்படுவதற்கு சொந்த கையொப்பத்தை படமாக பயன்படுத்தவும்</string>
 </resources>

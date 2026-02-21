@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Eraldage PDF-failidesse manustatud pildid nende algse eraldusvõimega</string>
     <string name="pdf_no_embedded">See PDF-fail ei sisalda manustatud pilte</string>
     <string name="extract_images_info">See tööriist skannib iga lehekülge ja taastab täiskvaliteediga lähtepildid – ideaalne originaalide salvestamiseks dokumentidest</string>
+    <string name="draw_signature">Joonista allkiri</string>
+    <string name="pen_params">Pliiatsi parameetrid</string>
+    <string name="draw_signature_sub">Kasutage dokumentidele lisatava pildina enda allkirja</string>
 </resources>

@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Estrai le immagini incorporate nei PDF alla loro risoluzione originale</string>
     <string name="pdf_no_embedded">Questo file PDF non contiene immagini incorporate</string>
     <string name="extract_images_info">Questo strumento esegue la scansione di ogni pagina e recupera immagini originali di qualità completa, perfette per salvare gli originali dai documenti</string>
+    <string name="draw_signature">Disegna firma</string>
+    <string name="pen_params">Parametri penna</string>
+    <string name="draw_signature_sub">Utilizza la propria firma come immagine da inserire sui documenti</string>
 </resources>

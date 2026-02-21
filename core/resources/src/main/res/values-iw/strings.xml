@@ -2172,4 +2172,7 @@
     <string name="extract_images_sub">חלץ תמונות המוטבעות בקובצי PDF ברזולוציה המקורית שלהן</string>
     <string name="pdf_no_embedded">קובץ PDF זה אינו מכיל תמונות מוטבעות</string>
     <string name="extract_images_info">כלי זה סורק כל עמוד ומשחזר תמונות מקור באיכות מלאה - מושלם לשמירת מסמכי מקור ממסמכים</string>
+    <string name="draw_signature">צייר חתימה</string>
+    <string name="pen_params">עט פרמס</string>
+    <string name="draw_signature_sub">השתמש בחתימה משלך כתמונה שתוצב על מסמכים</string>
 </resources>

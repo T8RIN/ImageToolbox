@@ -2169,4 +2169,7 @@
     <string name="extract_images_sub">PDF에 포함된 이미지를 원래 해상도로 추출</string>
     <string name="pdf_no_embedded">이 PDF 파일에는 삽입된 이미지가 없습니다.</string>
     <string name="extract_images_info">이 도구는 모든 페이지를 스캔하고 최고 품질의 소스 이미지를 복구합니다. 문서의 원본을 저장하는 데 적합합니다.</string>
+    <string name="draw_signature">서명 그리기</string>
+    <string name="pen_params">펜 매개변수</string>
+    <string name="draw_signature_sub">자신의 서명을 이미지로 사용하여 문서에 배치</string>
 </resources>

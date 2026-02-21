@@ -2169,4 +2169,7 @@
     <string name="extract_images_sub">以原始分辨率提取 PDF 中嵌入的图像</string>
     <string name="pdf_no_embedded">此 PDF 文件不包含任何嵌入图像</string>
     <string name="extract_images_info">该工具扫描每一页并恢复全质量源图像 - 非常适合保存文档中的原件</string>
+    <string name="draw_signature">签名</string>
+    <string name="pen_params">笔参数</string>
+    <string name="draw_signature_sub">使用自己的签名作为图像放置在文档上</string>
 </resources>

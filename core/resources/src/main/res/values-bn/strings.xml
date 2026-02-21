@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">পিডিএফ-এ এমবেড করা ছবিগুলো তাদের আসল রেজোলিউশনে বের করুন</string>
     <string name="pdf_no_embedded">এই পিডিএফ ফাইলটিতে কোনো এমবেড করা ছবি নেই</string>
     <string name="extract_images_info">এই টুলটি প্রতিটি পৃষ্ঠা স্ক্যান করে এবং পূর্ণ মানের সোর্স ছবি পুনরুদ্ধার করে — নথি থেকে আসলগুলি সংরক্ষণ করার জন্য উপযুক্ত</string>
+    <string name="draw_signature">স্বাক্ষর আঁকুন</string>
+    <string name="pen_params">কলম পরম</string>
+    <string name="draw_signature_sub">নথিতে স্থাপন করার জন্য ছবি হিসাবে নিজের স্বাক্ষর ব্যবহার করুন</string>
 </resources>

@@ -2169,4 +2169,7 @@
     <string name="extract_images_sub">แยกภาพที่ฝังอยู่ใน PDF ด้วยความละเอียดดั้งเดิม</string>
     <string name="pdf_no_embedded">ไฟล์ PDF นี้ไม่มีภาพที่ฝังอยู่</string>
     <string name="extract_images_info">เครื่องมือนี้จะสแกนทุกหน้าและกู้คืนรูปภาพต้นฉบับคุณภาพเต็ม ซึ่งเหมาะสำหรับการบันทึกต้นฉบับจากเอกสาร</string>
+    <string name="draw_signature">วาดลายเซ็น</string>
+    <string name="pen_params">ปากกา พาราม</string>
+    <string name="draw_signature_sub">ใช้ลายเซ็นของตนเองเป็นรูปภาพเพื่อวางบนเอกสาร</string>
 </resources>

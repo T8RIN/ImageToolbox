@@ -2169,4 +2169,7 @@
     <string name="extract_images_sub">PDFに埋め込まれた画像を元の解像度で抽出します</string>
     <string name="pdf_no_embedded">この PDF ファイルには埋め込み画像が含まれていません</string>
     <string name="extract_images_info">このツールはすべてのページをスキャンし、フル品質のソース画像を復元します。ドキュメントからオリジナルを保存するのに最適です。</string>
+    <string name="draw_signature">署名を描く</string>
+    <string name="pen_params">ペンパラメータ</string>
+    <string name="draw_signature_sub">自分の署名を文書に配置する画像として使用する</string>
 </resources>

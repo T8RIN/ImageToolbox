@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Extraieu imatges incrustades en PDF amb la seva resolució original</string>
     <string name="pdf_no_embedded">Aquest fitxer PDF no conté cap imatge incrustada</string>
     <string name="extract_images_info">Aquesta eina escaneja totes les pàgines i recupera imatges d\'origen de qualitat completa, perfecte per desar originals dels documents</string>
+    <string name="draw_signature">Dibuixa la signatura</string>
+    <string name="pen_params">Params de ploma</string>
+    <string name="draw_signature_sub">Utilitzeu la pròpia signatura com a imatge per col·locar als documents</string>
 </resources>

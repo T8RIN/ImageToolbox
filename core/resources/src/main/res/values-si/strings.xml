@@ -2171,4 +2171,7 @@
     <string name="extract_images_sub">PDF වල තැන්පත් කර ඇති පින්තූර ඒවායේ මුල් විභේදනයෙන් උපුටා ගන්න</string>
     <string name="pdf_no_embedded">මෙම PDF ගොනුවේ කිසිදු කාවැද්දූ පින්තූර අඩංගු නොවේ</string>
     <string name="extract_images_info">මෙම මෙවලම සෑම පිටුවක්ම පරිලෝකනය කර සම්පූර්ණ ගුණාත්මක මූලාශ්‍ර රූප ප්‍රතිසාධන කරයි - ලේඛනවලින් මුල් පිටපත් සුරැකීමට පරිපූර්ණයි</string>
+    <string name="draw_signature">අත්සන අඳින්න</string>
+    <string name="pen_params">පෑන් පරාමිති</string>
+    <string name="draw_signature_sub">ලේඛනවල තැබීමට රූපයක් ලෙස තමන්ගේ අත්සන භාවිතා කරන්න</string>
 </resources>

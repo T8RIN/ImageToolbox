@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">PDF файлдарына ендірілген кескіндерді бастапқы ажыратымдылығымен шығарып алыңыз</string>
     <string name="pdf_no_embedded">Бұл PDF файлында ендірілген кескіндер жоқ</string>
     <string name="extract_images_info">Бұл құрал әрбір бетті сканерлейді және толық сапалы бастапқы кескіндерді қалпына келтіреді — құжаттардан түпнұсқаларды сақтауға өте ыңғайлы</string>
+    <string name="draw_signature">Қолтаңбаны салу</string>
+    <string name="pen_params">Қалам параметрлері</string>
+    <string name="draw_signature_sub">Құжаттарға орналастыру үшін сурет ретінде өз қолтаңбасын пайдаланыңыз</string>
 </resources>

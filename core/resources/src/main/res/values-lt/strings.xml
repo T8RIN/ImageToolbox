@@ -2173,4 +2173,7 @@
     <string name="extract_images_sub">Ištraukite į PDF failus įterptus vaizdus pradine raiška</string>
     <string name="pdf_no_embedded">Šiame PDF faile nėra įterptų vaizdų</string>
     <string name="extract_images_info">Šis įrankis nuskaito kiekvieną puslapį ir atkuria visos kokybės šaltinio vaizdus – puikiai tinka išsaugoti originalus iš dokumentų</string>
+    <string name="draw_signature">Piešti parašą</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Naudokite savo parašą kaip vaizdą, kuris bus dedamas ant dokumentų</string>
 </resources>

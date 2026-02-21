@@ -2172,4 +2172,7 @@
     <string name="extract_images_sub">Extrahujte obrázky vložené do souborů PDF v původním rozlišení</string>
     <string name="pdf_no_embedded">Tento soubor PDF neobsahuje žádné vložené obrázky</string>
     <string name="extract_images_info">Tento nástroj naskenuje každou stránku a obnoví zdrojové obrázky v plné kvalitě – ideální pro ukládání originálů z dokumentů</string>
+    <string name="draw_signature">Nakreslit podpis</string>
+    <string name="pen_params">Parametry pera</string>
+    <string name="draw_signature_sub">Použijte vlastní podpis jako obrázek pro umístění na dokumenty</string>
 </resources>

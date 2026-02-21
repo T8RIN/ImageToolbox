@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Uddrag billeder indlejret i PDF-filer i deres originale opløsning</string>
     <string name="pdf_no_embedded">Denne PDF-fil indeholder ingen indlejrede billeder</string>
     <string name="extract_images_info">Dette værktøj scanner hver side og gendanner kildebilleder i fuld kvalitet - perfekt til at gemme originaler fra dokumenter</string>
+    <string name="draw_signature">Tegn signatur</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Brug egen signatur som billede, der skal placeres på dokumenter</string>
 </resources>

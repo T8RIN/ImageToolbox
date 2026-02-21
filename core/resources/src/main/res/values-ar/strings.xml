@@ -2174,4 +2174,7 @@
     <string name="extract_images_sub">قم باستخراج الصور المضمنة في ملفات PDF بدقةها الأصلية</string>
     <string name="pdf_no_embedded">لا يحتوي ملف PDF هذا على أي صور مضمنة</string>
     <string name="extract_images_info">تقوم هذه الأداة بمسح كل صفحة واستعادة الصور المصدرية ذات الجودة الكاملة، وهي مثالية لحفظ النسخ الأصلية من المستندات</string>
+    <string name="draw_signature">رسم التوقيع</string>
+    <string name="pen_params">معلمات القلم</string>
+    <string name="draw_signature_sub">استخدم التوقيع الخاص كصورة لوضعها على المستندات</string>
 </resources>

@@ -2171,4 +2171,7 @@
     <string name="extract_images_sub">Extrahera bilder inbäddade i PDF-filer med sin ursprungliga upplösning</string>
     <string name="pdf_no_embedded">Denna PDF-fil innehåller inga inbäddade bilder</string>
     <string name="extract_images_info">Det här verktyget skannar varje sida och återställer källbilder i full kvalitet – perfekt för att spara original från dokument</string>
+    <string name="draw_signature">Rita signatur</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Använd egen signatur som bild som ska placeras på dokument</string>
 </resources>

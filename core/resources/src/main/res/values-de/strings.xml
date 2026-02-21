@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">Extrahieren Sie in PDFs eingebettete Bilder in ihrer Originalauflösung</string>
     <string name="pdf_no_embedded">Diese PDF-Datei enthält keine eingebetteten Bilder</string>
     <string name="extract_images_info">Dieses Tool scannt jede Seite und stellt Quellbilder in voller Qualität wieder her – perfekt zum Speichern von Originalen aus Dokumenten</string>
+    <string name="draw_signature">Unterschrift zeichnen</string>
+    <string name="pen_params">Stiftparameter</string>
+    <string name="draw_signature_sub">Verwenden Sie Ihre eigene Signatur als Bild, das auf Dokumenten platziert werden soll</string>
 </resources>

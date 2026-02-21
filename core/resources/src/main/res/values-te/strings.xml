@@ -2170,4 +2170,7 @@
     <string name="extract_images_sub">PDFలలో పొందుపరిచిన చిత్రాలను వాటి అసలు రిజల్యూషన్‌లో సంగ్రహించండి</string>
     <string name="pdf_no_embedded">ఈ PDF ఫైల్‌లో పొందుపరిచిన చిత్రాలు ఏవీ లేవు</string>
     <string name="extract_images_info">ఈ సాధనం ప్రతి పేజీని స్కాన్ చేస్తుంది మరియు పూర్తి-నాణ్యత మూలాధార చిత్రాలను తిరిగి పొందుతుంది - పత్రాల నుండి అసలైన వాటిని సేవ్ చేయడానికి సరైనది</string>
+    <string name="draw_signature">సంతకాన్ని గీయండి</string>
+    <string name="pen_params">పెన్ పారామ్స్</string>
+    <string name="draw_signature_sub">పత్రాలపై ఉంచడానికి సొంత సంతకాన్ని చిత్రంగా ఉపయోగించండి</string>
 </resources>

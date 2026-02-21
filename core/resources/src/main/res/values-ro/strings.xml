@@ -2171,4 +2171,7 @@
     <string name="extract_images_sub">Extrageți imagini încorporate în PDF-uri la rezoluția lor originală</string>
     <string name="pdf_no_embedded">Acest fișier PDF nu conține nicio imagine încorporată</string>
     <string name="extract_images_info">Acest instrument scanează fiecare pagină și recuperează imagini sursă de calitate completă - perfect pentru salvarea originalelor din documente</string>
+    <string name="draw_signature">Desenați Semnătura</string>
+    <string name="pen_params">Pen Params</string>
+    <string name="draw_signature_sub">Utilizați propria semnătură ca imagine pentru a fi plasată pe documente</string>
 </resources>
