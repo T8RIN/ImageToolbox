@@ -32,8 +32,10 @@ import coil3.request.ImageRequest
 import coil3.size.Size
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
+import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -43,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
@@ -62,11 +65,13 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
+import com.tom_roush.pdfbox.pdmodel.PDResources
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
 import com.tom_roush.pdfbox.pdmodel.font.PDType0Font
+import com.tom_roush.pdfbox.pdmodel.graphics.form.PDFormXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
@@ -81,6 +86,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.Calendar
 import java.util.zip.ZipEntry
@@ -995,36 +1001,63 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
+    override fun createTempName(key: String, uri: String?): String = tempName(
+        key = key,
+        uri = uri
+    ).removePrefix("pdf/")
+
+    override fun clearCache(uri: String?) {
+        CoroutineScope(ioDispatcher).launch {
+            delete(uri)
+        }
+    }
+
     override suspend fun extractImagesFromPdf(
         uri: String
     ): String? = catchPdf {
         var hasImages = false
 
-        val filename =
-            "pdf/${uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
+        val prefix = uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()
+        val filename = "pdf/${prefix}_extracted.zip"
 
         val zipPath = PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
             shareProvider.cacheDataOrThrow(
                 filename = filename
             ) { output ->
+                val seen = mutableSetOf<Any>()
+                var index = 0
+
                 ZipOutputStream(output.outputStream()).use { zip ->
-                    var index = 0
-                    document.pages.forEachIndexed { pageIndex, page ->
-                        page.resources?.let { resources ->
-                            resources.xObjectNames?.forEach { name ->
-                                val xObject = resources.getXObject(name)
-                                if (xObject is PDImageXObject) {
-                                    val suffix = xObject.suffix?.lowercase() ?: "png"
-                                    val entryName = "extracted_${pageIndex}_${index++}.$suffix"
-                                    zip.putNextEntry(ZipEntry(entryName))
-                                    xObject.stream.createInputStream().use { input ->
-                                        input.copyTo(zip)
-                                    }
-                                    zip.closeEntry()
-                                    hasImages = true
-                                }
+                    document.getAllImages().forEach { xObject ->
+                        if (!seen.add(xObject.cosObject)) return@forEach
+
+                        val suffix = xObject.suffix?.lowercase() ?: "png"
+                        if (suffix == "jpg" || suffix == "jp2" || suffix == "tiff") {
+                            val entryName = "extracted_${index++}.$suffix"
+                            zip.putNextEntry(ZipEntry(entryName))
+                            xObject.stream.createInputStream().use { input ->
+                                input.copyTo(zip)
                             }
+                            zip.closeEntry()
+                        } else {
+                            val data = ByteArrayOutputStream().apply {
+                                use {
+                                    xObject.image.compress(
+                                        Bitmap.CompressFormat.PNG,
+                                        100,
+                                        it
+                                    )
+                                }
+                            }.toByteArray()
+
+                            if (!seen.add(HashingType.MD5.computeFromReadable(ByteArrayReadable(data)))) return@forEach
+
+                            val entryName = "extracted_${index++}.$suffix"
+                            zip.putNextEntry(ZipEntry(entryName))
+                            data.inputStream().copyTo(zip)
+                            zip.closeEntry()
                         }
+                        hasImages = true
                     }
                 }
             }
@@ -1038,15 +1071,24 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override fun createTempName(key: String, uri: String?): String = tempName(
-        key = key,
-        uri = uri
-    ).removePrefix("pdf/")
+    private fun PDDocument.getAllImages(): List<PDImageXObject> {
+        return pages.flatMap { it.getResources().getImages() }
+    }
 
-    override fun clearCache(uri: String?) {
-        CoroutineScope(ioDispatcher).launch {
-            delete(uri)
+    private fun PDResources.getImages(): List<PDImageXObject> {
+        val images: MutableList<PDImageXObject> = mutableListOf()
+
+        for (xObjectName in xObjectNames) {
+            val xObject = getXObject(xObjectName)
+
+            if (xObject is PDFormXObject) {
+                images.addAll(xObject.getResources().getImages())
+            } else if (xObject is PDImageXObject) {
+                images.add(xObject)
+            }
         }
+
+        return images
     }
 
     private suspend inline fun <T> catchPdf(
