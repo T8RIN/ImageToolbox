@@ -79,6 +79,19 @@ class RotatePdfToolComponent @AssistedInject internal constructor(
         _rotations.update { rotations }
     }
 
+    fun autoRotate() {
+        doSharing(
+            action = {
+                updateRotations(
+                    pdfManager.detectPdfAutoRotations(
+                        uri?.toString() ?: return@doSharing
+                    )
+                )
+            },
+            onFailure = {}
+        )
+    }
+
     override fun saveTo(
         uri: Uri,
         onResult: (SaveResult) -> Unit

@@ -90,6 +90,7 @@ fun RotatePdfToolContent(
                 onClearAll = {
                     component.updateRotations(List(pagesCount) { 0 })
                 },
+                onAutoClick = component::autoRotate,
                 onRotateAt = {
                     component.updateRotations(
                         component.rotations.mapIndexed { index, rotation ->

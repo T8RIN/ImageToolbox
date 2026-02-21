@@ -40,6 +40,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.RotateRight
+import androidx.compose.material.icons.rounded.AutoMode
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -83,6 +84,7 @@ internal fun PdfPagesRotationGrid(
             shape = ShapeDefaults.extraLarge,
             clip = false
         ),
+    onAutoClick: () -> Unit,
     onRotateAll: () -> Unit,
     onClearAll: () -> Unit,
     rotations: List<Int>,
@@ -123,6 +125,34 @@ internal fun PdfPagesRotationGrid(
                 fontSize = 18.sp,
             )
             Spacer(Modifier.width(16.dp))
+
+            EnhancedButton(
+                onClick = onAutoClick,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                contentPadding = PaddingValues(
+                    start = 8.dp,
+                    end = 12.dp
+                ),
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .height(30.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.AutoMode,
+                        contentDescription = "auto",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        stringResource(R.string.auto)
+                    )
+                }
+            }
+
             EnhancedButton(
                 onClick = onRotateAll,
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -283,7 +313,8 @@ private fun Preview() = ImageToolboxThemeForPreview(true) {
                     rotations = rotations.toMutableList().apply {
                         this[it] = (this[it] + 90) % 360
                     }
-                }
+                },
+                onAutoClick = {}
             )
         }
 

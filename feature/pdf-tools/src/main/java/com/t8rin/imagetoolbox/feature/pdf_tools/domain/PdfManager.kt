@@ -159,4 +159,8 @@ interface PdfManager<I> {
         quality: Float
     ): String
 
+    suspend fun detectPdfAutoRotations(
+        uri: String
+    ): List<Int>
+
 }

@@ -914,9 +914,7 @@ internal class AndroidPdfManager @Inject constructor(
         shareProvider.cacheDataOrThrow(
             filename = createTempName("flattened", uri)
         ) { output ->
-
             PDDocument.load(uri.inputStream(), password.orEmpty()).use { source ->
-
                 val renderer = PDFRenderer(source)
 
                 PDDocument().use { target ->
@@ -962,10 +960,28 @@ internal class AndroidPdfManager @Inject constructor(
                         }
                     }
 
-                    target.isAllSecurityToBeRemoved = true
-
                     target.save(output.outputStream())
                 }
+            }
+        }
+    }
+
+    override suspend fun detectPdfAutoRotations(
+        uri: String
+    ): List<Int> = catchPdf {
+        PDDocument.load(uri.inputStream(), password.orEmpty()).use { document ->
+            val rotations = document.pages.map { page ->
+                ((page.rotation % 360) + 360) % 360
+            }
+
+            val majority = rotations
+                .groupingBy { it }
+                .eachCount()
+                .maxByOrNull { it.value }
+                ?.key ?: 0
+
+            rotations.map { rotation ->
+                ((majority - rotation) + 360) % 360
             }
         }
     }
