@@ -24,3 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
     locale = "en"
 )
 annotation class EnPreview
+
+@Preview(heightDp = 440, widthDp = 1000, locale = "en")
+annotation class EnPreviewLandscape

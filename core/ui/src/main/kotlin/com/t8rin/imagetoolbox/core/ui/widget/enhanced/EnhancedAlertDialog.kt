@@ -58,11 +58,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.alertDialogBorder
@@ -125,7 +128,7 @@ fun EnhancedAlertDialog(
                 tonalElevation = tonalElevation,
                 // Note that a button content color is provided here from the dialog's token, but in
                 // most cases, TextButtons should be used for dismiss and confirm buttons.
-                // TextButtons will not consume this provided content color value, and will used their
+                // TextButtons will not consume this provided content color value, and will use their
                 // own defined or default colors.
                 buttonContentColor = MaterialTheme.colorScheme.primary,
                 iconContentColor = iconContentColor,
@@ -165,76 +168,91 @@ fun BasicEnhancedAlertDialog(
         }
     }
 
-    if (visibleAnimated) {
-        FullscreenPopup(placeAboveAll = placeAboveAll) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+    val content = @Composable {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            var animateIn by rememberSaveable { mutableStateOf(false) }
+            LaunchedEffect(Unit) { animateIn = true }
+            AnimatedVisibility(
+                visible = animateIn && visible,
+                enter = fadeIn(),
+                exit = fadeOut(),
             ) {
-                var animateIn by rememberSaveable { mutableStateOf(false) }
-                LaunchedEffect(Unit) { animateIn = true }
-                AnimatedVisibility(
-                    visible = animateIn && visible,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    val alpha = 0.5f * animatedScale
+                val alpha = 0.5f * animatedScale
 
-                    Box(
-                        modifier = Modifier
-                            .tappable { onDismissRequest?.invoke() }
-                            .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
-                            .fillMaxSize()
-                    )
-                }
-                AnimatedVisibility(
-                    visible = animateIn && visible,
-                    enter = fadeIn(tween(300)) + scaleIn(
-                        initialScale = .8f,
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            stiffness = Spring.StiffnessMediumLow
-                        )
-                    ),
-                    exit = fadeOut(tween(300)) + scaleOut(
-                        targetScale = .8f,
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            stiffness = Spring.StiffnessMediumLow
-                        )
-                    ),
-                    modifier = Modifier.scale(animatedScale)
-                ) {
-                    Box(
-                        modifier = modifier
-                            .safeDrawingPadding()
-                            .padding(horizontal = 48.dp, vertical = 24.dp),
-                        contentAlignment = Alignment.Center,
-                        content = content
-                    )
-                }
-            }
-
-            DisposableEffect(Unit) {
-                onDispose {
-                    visibleAnimated = false
-                }
-            }
-
-            if (onDismissRequest != null) {
-                PredictiveBackObserver(
-                    onProgress = { progress ->
-                        scale = (1f - progress / 6f).coerceAtLeast(0.85f)
-                    },
-                    onClean = { isCompleted ->
-                        if (isCompleted) {
-                            onDismissRequest()
-                            delay(400)
-                        }
-                        scale = 1f
-                    },
-                    enabled = visible
+                Box(
+                    modifier = Modifier
+                        .tappable { onDismissRequest?.invoke() }
+                        .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
+                        .fillMaxSize()
                 )
+            }
+            AnimatedVisibility(
+                visible = animateIn && visible,
+                enter = fadeIn(tween(300)) + scaleIn(
+                    initialScale = .8f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    )
+                ),
+                exit = fadeOut(tween(300)) + scaleOut(
+                    targetScale = .8f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    )
+                ),
+                modifier = Modifier.scale(animatedScale)
+            ) {
+                Box(
+                    modifier = modifier
+                        .safeDrawingPadding()
+                        .padding(horizontal = 48.dp, vertical = 24.dp),
+                    contentAlignment = Alignment.Center,
+                    content = content
+                )
+            }
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                visibleAnimated = false
+            }
+        }
+
+        if (onDismissRequest != null) {
+            PredictiveBackObserver(
+                onProgress = { progress ->
+                    scale = (1f - progress / 6f).coerceAtLeast(0.85f)
+                },
+                onClean = { isCompleted ->
+                    if (isCompleted) {
+                        onDismissRequest()
+                        delay(400)
+                    }
+                    scale = 1f
+                },
+                enabled = visible
+            )
+        }
+    }
+
+    if (LocalInspectionMode.current) {
+        if (visible) {
+            Dialog(
+                onDismissRequest = { onDismissRequest?.invoke() },
+                properties = DialogProperties(usePlatformDefaultWidth = false)
+            ) {
+                content()
+            }
+        }
+    } else {
+        if (visibleAnimated) {
+            FullscreenPopup(placeAboveAll = placeAboveAll) {
+                content()
             }
         }
     }
