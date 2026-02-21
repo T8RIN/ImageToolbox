@@ -681,6 +681,7 @@ or click one of the badges below.
     - Remove Pages
     - Crop
     - Flatten
+    - Extract Images
     - PDF to Text (OCR)
 - Document Scanning
 - AI tools (95+ ready to use models available)
