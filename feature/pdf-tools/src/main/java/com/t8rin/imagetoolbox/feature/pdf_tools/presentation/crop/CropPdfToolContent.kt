@@ -33,11 +33,11 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
+import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedRangeSliderItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components.CropPreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
 
 @Composable
 fun CropPdfToolContent(

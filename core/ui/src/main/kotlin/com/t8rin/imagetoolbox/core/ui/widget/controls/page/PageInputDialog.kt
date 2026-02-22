@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
+package com.t8rin.imagetoolbox.core.ui.widget.controls.page
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Pages
@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 
 @Composable
-internal fun PageInputDialog(
+fun PageInputDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
     value: List<Int>?,

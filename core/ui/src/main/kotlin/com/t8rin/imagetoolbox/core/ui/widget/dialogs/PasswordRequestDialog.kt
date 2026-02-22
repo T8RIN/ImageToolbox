@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
+package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 
 @Composable
-internal fun PdfPasswordRequestDialog(
+fun PasswordRequestDialog(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     onFillPassword: (String) -> Unit

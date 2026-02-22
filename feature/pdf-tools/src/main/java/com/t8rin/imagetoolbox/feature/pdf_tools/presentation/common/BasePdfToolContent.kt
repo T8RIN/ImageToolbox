@@ -48,13 +48,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.PasswordRequestDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfPasswordRequestDialog
 
 @Composable
 internal fun BasePdfToolContent(
@@ -211,7 +211,7 @@ internal fun BasePdfToolContent(
         visible = showExitDialog
     )
 
-    PdfPasswordRequestDialog(
+    PasswordRequestDialog(
         isVisible = component.showPasswordRequestDialog,
         onDismiss = {
             component.hidePasswordRequestDialog()

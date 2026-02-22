@@ -40,7 +40,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.FileOpen
+import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -77,6 +79,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
+import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -93,10 +96,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PageSelectionItem
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImagesPreference
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToolsContentImpl
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PreviewPdfPreference
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 import kotlinx.coroutines.delay
 
@@ -179,20 +179,26 @@ fun PdfToolsContent(
                 flingBehavior = enhancedFlingBehavior()
             ) {
                 item {
-                    PreviewPdfPreference(
+                    PreferenceItem(
                         onClick = {
                             component.setPdfPreview(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
+                        startIcon = Icons.Rounded.Preview,
+                        title = stringResource(R.string.preview_pdf),
+                        subtitle = stringResource(R.string.preview_pdf_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
                 item {
-                    PdfToImagesPreference(
+                    PreferenceItem(
                         onClick = {
                             component.setPdfToImagesUri(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
+                        startIcon = Icons.Rounded.Collections,
+                        title = stringResource(R.string.pdf_to_images),
+                        subtitle = stringResource(R.string.pdf_to_images_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

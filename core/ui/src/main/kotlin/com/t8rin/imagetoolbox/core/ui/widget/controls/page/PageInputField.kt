@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
+package com.t8rin.imagetoolbox.core.ui.widget.controls.page
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
