@@ -40,7 +40,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
+import com.t8rin.imagetoolbox.core.resources.icons.Signature
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
@@ -65,7 +65,7 @@ fun SignatureSelector(
         onClick = { isDrawingVisible = true },
         title = stringResource(R.string.draw_signature),
         subtitle = stringResource(R.string.draw_signature_sub),
-        startIcon = Icons.Rounded.FreeDraw,
+        startIcon = Icons.Outlined.Signature,
         endIcon = Icons.Rounded.AddCircleOutline,
         modifier = Modifier.fillMaxWidth(),
         bottomContent = if (savedSignatures.isNotEmpty()) {

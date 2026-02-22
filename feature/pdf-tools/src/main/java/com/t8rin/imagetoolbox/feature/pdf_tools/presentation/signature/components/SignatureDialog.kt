@@ -77,7 +77,7 @@ import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.FreeDraw
+import com.t8rin.imagetoolbox.core.resources.icons.Signature
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
@@ -135,7 +135,10 @@ fun SignatureDialog(
         onDismissRequest = onDismiss,
         icon = if (showIconAndTitle) {
             {
-                Icon(Icons.Rounded.FreeDraw, null)
+                Icon(
+                    imageVector = Icons.Outlined.Signature,
+                    contentDescription = null
+                )
             }
         } else null,
         title = if (showIconAndTitle) {
