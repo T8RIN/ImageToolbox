@@ -27,6 +27,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -70,6 +71,7 @@ abstract class BasePdfToolComponent(
     protected var isRtl = false
 
     open val extraDataType: ExtraDataType = ExtraDataType.Pdf
+    open val mimeType: MimeType.Single = MimeType.Pdf
 
     init {
         doOnDestroy {

@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
@@ -312,8 +313,16 @@ fun PdfToolsContent(
                                 onFailure = essentials::showFailureToast
                             )
                         },
-                        dialogTitle = "PDF",
-                        dialogIcon = Icons.Outlined.Pdf
+                        dialogTitle = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                            stringResource(R.string.image)
+                        } else {
+                            "PDF"
+                        },
+                        dialogIcon = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                            Icons.Outlined.Image
+                        } else {
+                            Icons.Outlined.Pdf
+                        }
                     )
 
                     ProcessImagesPreferenceSheet(
@@ -322,7 +331,11 @@ fun PdfToolsContent(
                         onDismiss = {
                             editSheetData = emptyList()
                         },
-                        extraDataType = ExtraDataType.Pdf,
+                        extraDataType = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                            null
+                        } else {
+                            ExtraDataType.Pdf
+                        },
                         onNavigate = component.onNavigate
                     )
                 }

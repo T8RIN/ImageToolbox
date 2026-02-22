@@ -34,8 +34,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
-import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
-import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
@@ -54,7 +52,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 
 @Composable
 internal fun BasePdfToolContent(
@@ -76,13 +73,7 @@ internal fun BasePdfToolContent(
     val showConfetti: () -> Unit = essentials::showConfetti
 
     val saveLauncher = rememberFileCreator(
-        mimeType = if (component.extraDataType == ExtraDataType.Pdf) {
-            MimeType.Pdf
-        } else if (component is OCRPdfToolComponent) {
-            MimeType.Txt
-        } else {
-            MimeType.Zip
-        },
+        mimeType = component.mimeType,
         onSuccess = { uri ->
             component.saveTo(
                 uri = uri,

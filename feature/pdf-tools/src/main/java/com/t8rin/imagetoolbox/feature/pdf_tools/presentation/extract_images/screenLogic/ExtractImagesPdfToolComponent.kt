@@ -27,6 +27,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
@@ -61,6 +62,7 @@ class ExtractImagesPdfToolComponent @AssistedInject internal constructor(
     override val haveChanges: Boolean by _haveChanges
 
     override val extraDataType: ExtraDataType = ExtraDataType.File
+    override val mimeType: MimeType.Single = MimeType.Zip
 
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
