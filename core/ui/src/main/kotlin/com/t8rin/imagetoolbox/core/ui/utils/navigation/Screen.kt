@@ -24,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilePresent
-import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Preview
@@ -34,9 +33,11 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Apng
+import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
+import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
 import kotlinx.serialization.SerialName
@@ -298,8 +299,8 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is ImagesToPdf -> Icons.Outlined.PictureAsPdf
-                    is PdfToImages -> Icons.Outlined.Collections
+                    is ImagesToPdf -> Icons.Outlined.Scanner
+                    is PdfToImages -> Icons.Outlined.ArtTrack
                     is Preview -> Icons.Rounded.Preview
                 }
 

@@ -39,7 +39,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Preview
@@ -70,6 +69,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -313,7 +313,7 @@ fun PdfToolsContent(
                             )
                         },
                         dialogTitle = "PDF",
-                        dialogIcon = Icons.Outlined.PictureAsPdf
+                        dialogIcon = Icons.Outlined.Pdf
                     )
 
                     ProcessImagesPreferenceSheet(

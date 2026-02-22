@@ -1,0 +1,26 @@
+<!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960">
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M40,840v-200h80v120h120v80L40,840ZM720,840v-80h120v-120h80v200L720,840ZM160,720v-480h80v480h-80ZM280,720v-480h40v480h-40ZM400,720v-480h80v480h-80ZM520,720v-480h120v480L520,720ZM680,720v-480h40v480h-40ZM760,720v-480h40v480h-40ZM40,320v-200h200v80L120,200v120L40,320ZM840,320v-120L720,200v-80h200v200h-80Z" />
+</vector>

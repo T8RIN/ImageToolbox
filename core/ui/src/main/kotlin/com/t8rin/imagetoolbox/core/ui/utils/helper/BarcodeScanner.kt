@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ private class BarcodeScannerImpl(
         val config = ScannerConfig.build {
             setBarcodeFormats(listOf(BarcodeFormat.ALL_FORMATS))
             setOverlayStringRes(R.string.scan_barcode)
+            setOverlayDrawableRes(R.drawable.ic_24_barcode_scanner)
             setHapticSuccessFeedback(true)
             setShowTorchToggle(true)
             setShowCloseButton(true)

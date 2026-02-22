@@ -29,8 +29,7 @@ import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Panorama
 import androidx.compose.material.icons.outlined.Photo
-import androidx.compose.material.icons.outlined.PictureAsPdf
-import androidx.compose.material.icons.outlined.QrCode2
+import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Numbers
@@ -47,8 +46,7 @@ import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Panorama
 import androidx.compose.material.icons.twotone.Photo
-import androidx.compose.material.icons.twotone.PictureAsPdf
-import androidx.compose.material.icons.twotone.QrCode2
+import androidx.compose.material.icons.twotone.QrCode
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.material.icons.twotone.Unarchive
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -85,6 +83,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
+import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.Rotate90Cw
 import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
@@ -258,7 +257,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is JxlTools -> Icons.Filled.Jxl
     is LimitResize -> Icons.Outlined.ImageResize
     is LoadNetImage -> Icons.Outlined.ImageDownload
-    is PdfTools -> Icons.Outlined.PictureAsPdf
+    is PdfTools -> Icons.Outlined.Pdf
     is PickColorFromImage -> Icons.Outlined.Eyedropper
     is RecognizeText -> Icons.Outlined.TextSearch
     is ResizeAndConvert -> Icons.Outlined.MultipleImageEdit
@@ -268,7 +267,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
     is DocumentScanner -> Icons.Outlined.DocumentScanner
-    is ScanQrCode -> Icons.Outlined.QrCode2
+    is ScanQrCode -> Icons.Outlined.QrCode
     is ImageStacking -> Icons.Outlined.ImageOverlay
     is ImageSplitting -> Icons.Outlined.SplitAlt
     is ColorTools -> Icons.Outlined.ColorLens
@@ -330,7 +329,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is JxlTools -> Icons.Filled.Jxl
     is LimitResize -> Icons.TwoTone.ImageResize
     is LoadNetImage -> Icons.TwoTone.ImageDownload
-    is PdfTools -> Icons.TwoTone.PictureAsPdf
+    is PdfTools -> Icons.TwoTone.Pdf
     is PickColorFromImage -> Icons.TwoTone.Eyedropper
     is RecognizeText -> Icons.Outlined.TextSearch
     is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
@@ -340,7 +339,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is SvgMaker -> Icons.TwoTone.VectorPolyline
     is FormatConversion -> Icons.TwoTone.ImageConvert
     is DocumentScanner -> Icons.TwoTone.DocumentScanner
-    is ScanQrCode -> Icons.TwoTone.QrCode2
+    is ScanQrCode -> Icons.TwoTone.QrCode
     is ImageStacking -> Icons.TwoTone.ImageOverlay
     is ImageSplitting -> Icons.TwoTone.SplitAlt
     is ColorTools -> Icons.TwoTone.ColorLens

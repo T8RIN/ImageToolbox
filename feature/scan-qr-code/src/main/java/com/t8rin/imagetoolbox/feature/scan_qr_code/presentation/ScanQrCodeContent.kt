@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoFixHigh
-import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.BarcodeScanner
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -226,7 +226,7 @@ fun ScanQrCodeContent(
             }
             BottomButtonsBlock(
                 isNoData = params.content.raw.isEmpty() && isPortrait,
-                secondaryButtonIcon = Icons.Outlined.QrCodeScanner,
+                secondaryButtonIcon = Icons.Outlined.BarcodeScanner,
                 secondaryButtonText = stringResource(R.string.start_scanning),
                 onSecondaryButtonClick = scanner::scan,
                 isPrimaryButtonEnabled = isSaveEnabled,

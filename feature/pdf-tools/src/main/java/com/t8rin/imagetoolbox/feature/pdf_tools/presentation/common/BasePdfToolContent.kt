@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -148,7 +148,7 @@ internal fun BasePdfToolContent(
                     )
                 },
                 dialogTitle = "PDF",
-                dialogIcon = Icons.Outlined.PictureAsPdf
+                dialogIcon = Icons.Outlined.Pdf
             )
 
             ProcessImagesPreferenceSheet(
