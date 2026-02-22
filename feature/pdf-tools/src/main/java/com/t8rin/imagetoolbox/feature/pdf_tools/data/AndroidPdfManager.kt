@@ -124,7 +124,10 @@ internal class AndroidPdfManager @Inject constructor(
             updateFlow,
             signaturesDir.observeHasChanges().debounce(100)
         ).map {
-            signaturesDir.listFiles().orEmpty().sortedByDescending { it.lastModified() }
+            signaturesDir
+                .listFiles()
+                .orEmpty()
+                .sortedByDescending { it.lastModified() }
                 .map { it.toUri().toString() }
         }.stateIn(
             scope = appScope,
