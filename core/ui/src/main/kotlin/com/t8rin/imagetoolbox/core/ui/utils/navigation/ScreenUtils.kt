@@ -22,8 +22,8 @@ import androidx.compose.material.icons.outlined.Album
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.DocumentScanner
-import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.outlined.FilterBAndW
+import androidx.compose.material.icons.outlined.FindInPage
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
@@ -32,15 +32,14 @@ import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.twotone.Album
 import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.ColorLens
 import androidx.compose.material.icons.twotone.Compare
 import androidx.compose.material.icons.twotone.DocumentScanner
-import androidx.compose.material.icons.twotone.FilePresent
 import androidx.compose.material.icons.twotone.FilterBAndW
+import androidx.compose.material.icons.twotone.FindInPage
 import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
+import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
@@ -288,8 +288,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Split -> Icons.Outlined.SplitAlt
     is PdfTools.Rotate -> Icons.Outlined.Rotate90Cw
     is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
-    is PdfTools.PageNumbers -> Icons.Rounded.Numbers
-    is PdfTools.OCR -> Icons.Outlined.FilePresent
+    is PdfTools.PageNumbers -> Icons.Outlined.Counter
+    is PdfTools.OCR -> Icons.Outlined.FindInPage
     is PdfTools.Watermark -> Icons.Outlined.Watermark
     is PdfTools.Signature -> Icons.Outlined.Stylus
     is PdfTools.Protect -> Icons.Outlined.ShieldLock
@@ -360,8 +360,8 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Split -> Icons.TwoTone.SplitAlt
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90Cw
     is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
-    is PdfTools.PageNumbers -> Icons.Rounded.Numbers
-    is PdfTools.OCR -> Icons.TwoTone.FilePresent
+    is PdfTools.PageNumbers -> Icons.TwoTone.Counter
+    is PdfTools.OCR -> Icons.TwoTone.FindInPage
     is PdfTools.Watermark -> Icons.TwoTone.Watermark
     is PdfTools.Signature -> Icons.TwoTone.Stylus
     is PdfTools.Protect -> Icons.TwoTone.ShieldLock
