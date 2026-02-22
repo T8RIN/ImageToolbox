@@ -40,12 +40,12 @@ import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
 import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
+import com.t8rin.imagetoolbox.core.data.coil.TiffDecoder
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.psd.coil.PsdDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
-import com.t8rin.tiff.TiffDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
