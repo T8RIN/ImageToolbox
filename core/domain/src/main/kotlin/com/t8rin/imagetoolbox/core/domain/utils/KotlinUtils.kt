@@ -24,6 +24,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.transform
+import java.io.Closeable
 import kotlin.reflect.KClass
 
 
@@ -87,3 +88,5 @@ fun <T> Flow<T>.throttleLatest(delayMillis: Long): Flow<T> = this
         emit(it)
         delay(delayMillis)
     }
+
+inline fun <T : Closeable?, R> T.applyUse(block: T.() -> R): R = use(block)

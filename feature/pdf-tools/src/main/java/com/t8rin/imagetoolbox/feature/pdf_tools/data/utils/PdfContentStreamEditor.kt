@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.data
+package com.t8rin.imagetoolbox.feature.pdf_tools.data.utils
 
 import android.graphics.Path
 import android.graphics.PointF

@@ -24,4 +24,8 @@ data class PdfMetadata(
     val keywords: String? = null,
     val creator: String? = null,
     val producer: String? = null
-)
+) {
+    companion object {
+        val Empty = PdfMetadata()
+    }
+}

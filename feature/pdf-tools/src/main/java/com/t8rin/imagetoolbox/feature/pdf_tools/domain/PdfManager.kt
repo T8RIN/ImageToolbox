@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface PdfManager<I> {
 
+    val savedSignatures: StateFlow<List<String>>
+
     fun setMasterPassword(
         password: String?
     )
@@ -100,7 +102,7 @@ interface PdfManager<I> {
 
     suspend fun addSignature(
         uri: String,
-        signatureImage: I,
+        signatureImage: Any,
         params: PdfSignatureParams
     ): String
 
@@ -144,11 +146,6 @@ interface PdfManager<I> {
         uri: String
     ): List<String>
 
-    fun createTempName(
-        key: String,
-        uri: String? = null
-    ): String
-
     suspend fun cropPdf(
         uri: String,
         pages: List<Int>? = null,
@@ -168,10 +165,13 @@ interface PdfManager<I> {
         uri: String
     ): String?
 
-    fun clearCache(uri: String?)
-
     suspend fun saveSignature(signature: Any): Boolean
 
-    val savedSignatures: StateFlow<List<String>>
+    fun createTempName(
+        key: String,
+        uri: String? = null
+    ): String
+
+    fun clearPdfCache(uri: String?)
 
 }

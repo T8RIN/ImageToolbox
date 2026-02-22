@@ -113,9 +113,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.PdfRenderer
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.canUseNewPdf
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.createPdfRenderer
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdfRenderer
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

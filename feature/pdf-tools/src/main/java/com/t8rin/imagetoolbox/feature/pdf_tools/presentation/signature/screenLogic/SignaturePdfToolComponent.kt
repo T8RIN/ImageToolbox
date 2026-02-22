@@ -26,7 +26,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -48,7 +47,6 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
     private val pdfManager: PdfManager<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
-    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BasePdfToolComponent(
     onGoBack = onGoBack,
@@ -123,7 +121,7 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.addSignature(
                     uri = _uri.value.toString(),
-                    signatureImage = imageGetter.getImage(data = signatureImage)!!,
+                    signatureImage = signatureImage,
                     params = params
                 )
 
@@ -160,7 +158,7 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.addSignature(
                             uri = _uri.value.toString(),
-                            signatureImage = imageGetter.getImage(data = signatureImage)!!,
+                            signatureImage = signatureImage,
                             params = params
                         ).toUri()
                     )
