@@ -85,8 +85,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.PaletteSwatch
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.resources.icons.Rotate90Cw
-import com.t8rin.imagetoolbox.core.resources.icons.Scissors
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
+import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
@@ -285,14 +285,14 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is AiTools -> Icons.Outlined.Neurology
     is ColorLibrary -> Icons.Outlined.FormatPaintVariant
     is PdfTools.Merge -> Icons.Rounded.ImageCombine
-    is PdfTools.Split -> Icons.Rounded.Scissors
+    is PdfTools.Split -> Icons.Outlined.SplitAlt
     is PdfTools.Rotate -> Icons.Outlined.Rotate90Cw
     is PdfTools.Rearrange -> Icons.Outlined.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.Rounded.Numbers
     is PdfTools.OCR -> Icons.Outlined.FilePresent
     is PdfTools.Watermark -> Icons.Outlined.Watermark
     is PdfTools.Signature -> Icons.Outlined.Stylus
-    is PdfTools.Protect -> Icons.Outlined.Encrypted
+    is PdfTools.Protect -> Icons.Outlined.ShieldLock
     is PdfTools.Unlock -> Icons.Outlined.KeyVariant
     is PdfTools.Compress -> Icons.Outlined.Bolt
     is PdfTools.Grayscale -> Icons.Outlined.FilterBAndW
@@ -357,14 +357,14 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is AiTools -> Icons.TwoTone.Neurology
     is ColorLibrary -> Icons.TwoTone.FormatPaintVariant
     is PdfTools.Merge -> Icons.TwoTone.ImageCombine
-    is PdfTools.Split -> Icons.TwoTone.Scissors
+    is PdfTools.Split -> Icons.TwoTone.SplitAlt
     is PdfTools.Rotate -> Icons.TwoTone.Rotate90Cw
     is PdfTools.Rearrange -> Icons.TwoTone.SwapVerticalCircle
     is PdfTools.PageNumbers -> Icons.Rounded.Numbers
     is PdfTools.OCR -> Icons.TwoTone.FilePresent
     is PdfTools.Watermark -> Icons.TwoTone.Watermark
     is PdfTools.Signature -> Icons.TwoTone.Stylus
-    is PdfTools.Protect -> Icons.TwoTone.Encrypted
+    is PdfTools.Protect -> Icons.TwoTone.ShieldLock
     is PdfTools.Unlock -> Icons.TwoTone.KeyVariant
     is PdfTools.Compress -> Icons.TwoTone.Bolt
     is PdfTools.Grayscale -> Icons.TwoTone.FilterBAndW
