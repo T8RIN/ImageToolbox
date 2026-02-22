@@ -19,21 +19,17 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.createBitmap
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.awxkee.aire.Aire
+import com.awxkee.aire.ResizeFunction
+import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
-import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.PDF
@@ -50,10 +46,10 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
@@ -74,6 +70,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
 import com.t8rin.logger.makeLog
+import com.t8rin.trickle.Trickle
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
@@ -104,7 +101,6 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
-
 
 internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -193,9 +189,12 @@ internal class AndroidPdfManager @Inject constructor(
 
             images.forEachIndexed { index, image ->
                 val bitmap = if (scaleSmallImagesToLarge && image.width != size.width) {
-                    image.createScaledBitmap(
-                        width = size.width,
-                        height = (size.width / image.aspectRatio).toInt()
+                    Aire.scale(
+                        bitmap = image,
+                        dstWidth = size.width,
+                        dstHeight = (size.width / image.aspectRatio).toInt(),
+                        scaleMode = ResizeFunction.Bicubic,
+                        colorSpace = ScaleColorSpace.SRGB
                     )
                 } else image
 
@@ -222,7 +221,7 @@ internal class AndroidPdfManager @Inject constructor(
             shareProvider.cacheData(
                 writeData = newDoc::save,
                 filename = tempFilename
-            ) ?: throw IllegalAccessException("No PDF created")
+            ) ?: error("No PDF created")
         }
     }
 
@@ -236,34 +235,27 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit
     ): Unit = withContext(ioDispatcher) {
-        val pdfRenderer = pdfUri.toUri().createPdfRenderer(
+        pdfUri.toUri().createPdfRenderer(
             password = password ?: masterPassword,
             onFailure = onFailure
-        ) ?: return@withContext onFailure(NullPointerException("File cannot be read"))
+        )?.use { renderer ->
+            onGetPagesCount(pages?.size ?: renderer.pageCount)
 
-        onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
+            for (pageIndex in 0 until renderer.pageCount) {
+                if (pages == null || pages.contains(pageIndex)) {
+                    val bitmap = Trickle.drawColorBehind(
+                        input = renderer.renderImage(
+                            pageIndex,
+                            preset.value / 100f
+                        ),
+                        color = Color.White.toArgb()
+                    )
 
-        for (pageIndex in 0 until pdfRenderer.pageCount) {
-            if (pages == null || pages.contains(pageIndex)) {
-                val bitmap = pdfRenderer.renderImage(
-                    pageIndex,
-                    preset.value / 100f
-                )
-
-                val renderedBitmap = createBitmap(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    config = getSuitableConfig(bitmap)
-                ).applyCanvas {
-                    drawColor(Color.White.toArgb())
-                    drawBitmap(bitmap)
+                    onProgressChange(pageIndex, bitmap)
                 }
-
-                onProgressChange(pageIndex, renderedBitmap)
             }
+            onComplete()
         }
-        onComplete()
-        pdfRenderer.close()
     }
 
     override suspend fun getPdfPages(
@@ -271,11 +263,12 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<Int> = withContext(decodingDispatcher) {
         runCatching {
-            val renderer = uri.toUri().createPdfRenderer(
+            openPdf(
+                uri = uri,
                 password = password ?: masterPassword
-            )
-
-            List(renderer?.pageCount ?: 0) { it }
+            ).applyUse {
+                List(numberOfPages) { it }
+            }
         }.getOrNull() ?: emptyList()
     }
 
@@ -284,16 +277,16 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<IntegerSize> = withContext(decodingDispatcher) {
         pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
-            val renderer = uri.toUri().createPdfRenderer(
+            uri.toUri().createPdfRenderer(
                 password = password ?: masterPassword
-            ) ?: return@withContext emptyList()
-
-            List(renderer.pageCount) {
-                renderer.openPage(it).run {
-                    IntegerSize(width, height)
+            )?.use { renderer ->
+                List(renderer.pageCount) {
+                    renderer.openPage(it).run {
+                        IntegerSize(width, height)
+                    }
+                }.also {
+                    pagesCache[uri] = it
                 }
-            }.also {
-                pagesCache[uri] = it
             }
         }.getOrNull() ?: emptyList()
     }
@@ -337,8 +330,8 @@ internal class AndroidPdfManager @Inject constructor(
         openPdf(uri).use { document ->
             val totalPages = document.numberOfPages
 
-            if (pages.size >= totalPages) {
-                throw IllegalArgumentException(getString(R.string.cant_remove_all))
+            require(pages.size < totalPages) {
+                getString(R.string.cant_remove_all)
             }
 
             createPdf { newDoc ->
@@ -636,29 +629,23 @@ internal class AndroidPdfManager @Inject constructor(
         uri.toUri().createPdfRenderer(
             password = masterPassword,
             onFailure = { throw it }
-        )?.use { pdfRenderer ->
-            (0 until pdfRenderer.pageCount).mapNotNull { pageIndex ->
-                val bitmap = pdfRenderer.renderImage(pageIndex, 1f)
-
-                val renderedBitmap = createBitmap(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    config = getSuitableConfig(bitmap)
-                ).applyCanvas {
-                    drawColor(Color.White.toArgb())
-                    drawBitmap(bitmap)
-                }
+        )?.use { renderer ->
+            (0 until renderer.pageCount).mapNotNull { pageIndex ->
+                val bitmap = Trickle.drawColorBehind(
+                    input = renderer.renderImage(pageIndex, 1f),
+                    color = Color.White.toArgb()
+                )
 
                 shareProvider.cacheImage(
-                    image = renderedBitmap,
+                    image = bitmap,
                     imageInfo = ImageInfo(
-                        width = renderedBitmap.width,
-                        height = renderedBitmap.height,
+                        width = bitmap.width,
+                        height = bitmap.height,
                         imageFormat = ImageFormat.Png.Lossless
                     )
                 )
             }
-        } ?: throw NullPointerException("File cannot be read")
+        } ?: emptyList()
     }
 
     override suspend fun compressPdf(
@@ -669,12 +656,12 @@ internal class AndroidPdfManager @Inject constructor(
             document.pages.forEach { page ->
                 page.resources.apply {
                     for (name in xObjectNames) {
-                        val image = getXObject(name).safeCast<PDImageXObject>()?.image ?: continue
+                        val image = getXObject(name)
+                            .safeCast<PDImageXObject>()
+                            ?.image?.asXObject(document, quality)
+                            ?: continue
 
-                        put(
-                            name,
-                            image.asXObject(document, quality)
-                        )
+                        put(name, image)
                     }
                 }
             }
@@ -693,27 +680,13 @@ internal class AndroidPdfManager @Inject constructor(
             document.pages.forEach { page ->
                 page.resources.apply {
                     for (name in xObjectNames) {
-                        val image = getXObject(name).safeCast<PDImageXObject>()?.image ?: continue
+                        val image = Aire.saturation(
+                            bitmap = getXObject(name).safeCast<PDImageXObject>()?.image ?: continue,
+                            saturation = 0f,
+                            tonemap = false
+                        ).asXObject(document, 0.8f)
 
-                        val grayImage = createBitmap(
-                            width = image.width,
-                            height = image.height
-                        ).applyCanvas {
-                            val paint = Paint().apply {
-                                colorFilter = ColorMatrixColorFilter(
-                                    ColorMatrix().apply {
-                                        setSaturation(0f)
-                                    }
-                                )
-                            }
-
-                            drawBitmap(image, 0f, 0f, paint)
-                        }
-
-                        put(
-                            name,
-                            grayImage.asXObject(document, 0.8f)
-                        )
+                        put(name, image)
                     }
                 }
             }
@@ -929,8 +902,8 @@ internal class AndroidPdfManager @Inject constructor(
                 var index = 0
 
                 ZipOutputStream(output.outputStream()).use { zip ->
-                    document.getAllImages().forEach { xObject ->
-                        if (!seen.add(xObject.cosObject)) return@forEach
+                    for (xObject in document.getAllImages()) {
+                        if (!seen.add(xObject.cosObject)) continue
 
                         val suffix = xObject.suffix?.lowercase() ?: "png"
                         if (suffix == "jpg" || suffix == "jp2" || suffix == "tiff") {
@@ -951,7 +924,7 @@ internal class AndroidPdfManager @Inject constructor(
                                 }
                             }.toByteArray()
 
-                            if (!seen.add(HashingType.MD5.computeFromReadable(ByteArrayReadable(data)))) return@forEach
+                            if (!seen.add(HashingType.MD5.computeFromReadable(ByteArrayReadable(data)))) continue
 
                             val entryName = "extracted_${index++}.$suffix"
                             zip.putNextEntry(ZipEntry(entryName))

@@ -22,7 +22,6 @@ import android.os.Build
 import android.os.ext.SdkExtensions
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.tom_roush.pdfbox.pdmodel.PDDocument
-import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.rendering.PDFRenderer
 import java.lang.AutoCloseable
@@ -34,21 +33,19 @@ class PdfRenderer(
     val pageCount: Int get() = pDocument.numberOfPages
 
     fun openPage(index: Int): Page = pDocument.getPage(index).let { page ->
-        val baseBox = page.cropBox ?: page.mediaBox
-
-        Page(
-            width = baseBox.width.roundToInt(),
-            height = baseBox.height.roundToInt(),
-            pdPage = page
-        )
+        page.cropBox.run {
+            Page(
+                width = width.roundToInt(),
+                height = height.roundToInt()
+            )
+        }
     }
 
     override fun close() = pDocument.close()
 
     class Page(
         val width: Int,
-        val height: Int,
-        val pdPage: PDPage
+        val height: Int
     )
 }
 

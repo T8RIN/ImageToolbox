@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "unused")
 
 package com.t8rin.imagetoolbox.core.data.coil
 
@@ -47,12 +47,11 @@ internal class PdfDecoder(
     override suspend fun decode(): DecodeResult {
         val file = source.file().toFile()
 
-        val image = PDDocument.load(file).use { document ->
-
+        val image = PDDocument.load(file, options.password.orEmpty()).use { document ->
             val renderer = PDFRenderer(document)
 
             val pageIndex = options.pdfPage.coerceIn(0, document.numberOfPages - 1)
-            val box = document.getPage(pageIndex).run { cropBox ?: mediaBox }
+            val box = document.getPage(pageIndex).cropBox
 
             val originalWidth = box.width
             val originalHeight = box.height
@@ -102,10 +101,12 @@ internal class PdfDecoder(
 fun PdfImageRequest(
     data: Any?,
     pdfPage: Int = 0,
+    password: String? = null,
     size: Size? = null
 ): ImageRequest = ImageRequest.Builder(appContext)
     .data(data)
     .pdfPage(pdfPage)
+    .password(password)
     .memoryCacheKey(data.toString() + pdfPage)
     .diskCacheKey(data.toString() + pdfPage)
     .apply {
@@ -113,17 +114,31 @@ fun PdfImageRequest(
     }
     .build()
 
+fun ImageRequest.Builder.password(password: String?) = apply {
+    extras[passwordKey] = password
+}
+
 fun ImageRequest.Builder.pdfPage(pdfPage: Int) = apply {
     extras[pdfPageKey] = pdfPage
 }
 
+val ImageRequest.password: String?
+    get() = getExtra(passwordKey)
+
 val ImageRequest.pdfPage: Int
     get() = getExtra(pdfPageKey)
 
+val Options.password: String?
+    get() = getExtra(passwordKey)
+
 val Options.pdfPage: Int
     get() = getExtra(pdfPageKey)
+
+val Extras.Key.Companion.password: Extras.Key<String?>
+    get() = passwordKey
 
 val Extras.Key.Companion.pdfPage: Extras.Key<Int>
     get() = pdfPageKey
 
 private val pdfPageKey = Extras.Key(default = 0)
+private val passwordKey = Extras.Key<String?>(default = null)
