@@ -28,7 +28,6 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Panorama
-import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.rounded.Compare
@@ -44,7 +43,6 @@ import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Panorama
-import androidx.compose.material.icons.twotone.Photo
 import androidx.compose.material.icons.twotone.QrCode
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.material.icons.twotone.Unarchive
@@ -78,6 +76,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageSaw
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
+import com.t8rin.imagetoolbox.core.resources.icons.Landscape
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -252,7 +251,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PaletteTools -> Icons.Outlined.PaletteSwatch
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
-    is ImagePreview -> Icons.Outlined.Photo
+    is ImagePreview -> Icons.Outlined.Landscape
     is ImageStitching -> Icons.Rounded.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
     is LimitResize -> Icons.Outlined.ImageResize
@@ -324,7 +323,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
-    is ImagePreview -> Icons.TwoTone.Photo
+    is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
     is LimitResize -> Icons.TwoTone.ImageResize

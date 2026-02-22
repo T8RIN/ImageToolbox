@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
-import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -62,6 +61,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterReorderShee
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -203,7 +203,7 @@ internal fun AddEditMaskSheetControls(
                 ).value,
                 onClick = component::togglePreviewMode,
                 checked = component.maskPreviewModeEnabled,
-                startIcon = Icons.Rounded.Preview
+                startIcon = Icons.Outlined.Preview
             )
         }
     }

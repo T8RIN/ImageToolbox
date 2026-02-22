@@ -39,9 +39,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +67,9 @@ import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
+import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -184,7 +184,7 @@ fun PdfToolsContent(
                             component.setPdfPreview(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
-                        startIcon = Icons.Rounded.Preview,
+                        startIcon = Icons.Outlined.Preview,
                         title = stringResource(R.string.preview_pdf),
                         subtitle = stringResource(R.string.preview_pdf_sub),
                         modifier = Modifier.fillMaxWidth()
@@ -196,7 +196,7 @@ fun PdfToolsContent(
                             component.setPdfToImagesUri(tempSelectionUri)
                             showSelectionPdfPicker = false
                         },
-                        startIcon = Icons.Rounded.Collections,
+                        startIcon = Icons.Outlined.ArtTrack,
                         title = stringResource(R.string.pdf_to_images),
                         subtitle = stringResource(R.string.pdf_to_images_sub),
                         modifier = Modifier.fillMaxWidth()

@@ -26,7 +26,6 @@ import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.FilePresent
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Gif
-import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
@@ -301,7 +301,7 @@ sealed class Screen(
                 get() = when (this) {
                     is ImagesToPdf -> Icons.Outlined.Scanner
                     is PdfToImages -> Icons.Outlined.ArtTrack
-                    is Preview -> Icons.Rounded.Preview
+                    is Preview -> Icons.Outlined.Preview
                 }
 
             @Serializable
