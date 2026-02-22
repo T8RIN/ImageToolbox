@@ -1033,7 +1033,7 @@ internal class AndroidPdfManager @Inject constructor(
         return runCatching {
             val currentSignatures = savedSignatures.value
 
-            if (currentSignatures.size + 1 > 10) {
+            if (currentSignatures.size + 1 > 20) {
                 currentSignatures.last().toUri().toFile().delete()
             }
 
