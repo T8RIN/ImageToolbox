@@ -234,6 +234,8 @@ internal class AndroidImageGetter @Inject constructor(
         onFailure: (Throwable) -> Unit = {},
         addSizeToRequest: Boolean = true
     ): Bitmap? = withContext(defaultDispatcher) {
+        if ((size == null || !addSizeToRequest) && data is Bitmap) return@withContext data
+
         val request = ImageRequest
             .Builder(context)
             .data(data)

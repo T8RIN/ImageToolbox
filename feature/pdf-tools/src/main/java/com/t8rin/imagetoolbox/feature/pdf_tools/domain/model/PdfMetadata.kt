@@ -15,25 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.di
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.AndroidPdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface PdfToolsModule {
-
-    @Singleton
-    @Binds
-    fun providePdfManager(
-        manager: AndroidPdfManager
-    ): PdfManager
-
+data class PdfMetadata(
+    val title: String? = null,
+    val author: String? = null,
+    val subject: String? = null,
+    val keywords: String? = null,
+    val creator: String? = null,
+    val producer: String? = null
+) {
+    companion object {
+        val Empty = PdfMetadata()
+    }
 }

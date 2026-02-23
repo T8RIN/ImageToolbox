@@ -15,12 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.domain
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 
-data class PdfSignatureParams(
-    val x: Float = 0.1f,
-    val y: Float = 0.1f,
-    val size: Float = 0.25f,
-    val pages: List<Int> = emptyList(),
-    val opacity: Float = 0.3f
-)
+sealed interface PdfToImagesAction {
+    data class PagesCount(val count: Int) : PdfToImagesAction
+    data class Progress(val index: Int, val image: Any) : PdfToImagesAction
+}

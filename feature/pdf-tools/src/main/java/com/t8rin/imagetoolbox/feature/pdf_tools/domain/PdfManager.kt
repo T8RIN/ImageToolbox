@@ -21,9 +21,14 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface PdfManager<I> {
+interface PdfManager {
 
     val savedSignatures: StateFlow<List<String>>
 
@@ -52,16 +57,12 @@ interface PdfManager<I> {
         quality: Int = 85
     ): String
 
-    suspend fun convertPdfToImages(
+    fun convertPdfToImages(
         pdfUri: String,
         password: String?,
-        onFailure: (Throwable) -> Unit,
         pages: List<Int>?,
-        preset: Preset.Percentage,
-        onGetPagesCount: suspend (Int) -> Unit,
-        onProgressChange: suspend (Int, I) -> Unit,
-        onComplete: suspend () -> Unit = {}
-    )
+        preset: Preset.Percentage
+    ): Flow<PdfToImagesAction>
 
     suspend fun mergePdfs(
         uris: List<String>

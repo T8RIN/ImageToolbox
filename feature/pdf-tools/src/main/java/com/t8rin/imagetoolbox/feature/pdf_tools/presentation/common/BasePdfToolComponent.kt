@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -59,7 +58,7 @@ abstract class BasePdfToolComponent(
     val onNavigate: (Screen) -> Unit,
     dispatchersHolder: DispatchersHolder,
     componentContext: ComponentContext,
-    private val pdfManager: PdfManager<Bitmap>,
+    private val pdfManager: PdfManager,
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)

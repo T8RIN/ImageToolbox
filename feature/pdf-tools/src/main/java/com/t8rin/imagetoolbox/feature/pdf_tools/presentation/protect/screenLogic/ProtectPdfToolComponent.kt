@@ -42,7 +42,7 @@ class ProtectPdfToolComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
-    private val pdfManager: PdfManager<Bitmap>,
+    private val pdfManager: PdfManager,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
     private val randomStringGenerator: RandomStringGenerator,

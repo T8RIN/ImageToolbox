@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.domain
+package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 
 data class PdfWatermarkParams(
     val color: Int = 0x000000,

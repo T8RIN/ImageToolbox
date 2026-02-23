@@ -61,7 +61,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
-    private val pdfManager: PdfManager<Bitmap>,
+    private val pdfManager: PdfManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 

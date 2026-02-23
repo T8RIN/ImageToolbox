@@ -31,7 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -42,7 +42,7 @@ class MetadataPdfToolComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
-    private val pdfManager: PdfManager<Bitmap>,
+    private val pdfManager: PdfManager,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder

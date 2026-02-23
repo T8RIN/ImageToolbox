@@ -57,7 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 
 @Composable
 internal fun MetadataEditor(

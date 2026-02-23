@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.logger.makeLog
 import com.tom_roush.harmony.awt.AWTColor
 import com.tom_roush.pdfbox.io.MemoryUsageSetting

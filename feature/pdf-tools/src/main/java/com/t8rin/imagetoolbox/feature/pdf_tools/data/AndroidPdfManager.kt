@@ -66,9 +66,10 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setColor
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfMetadata
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfSignatureParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfWatermarkParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.logger.makeLog
 import com.t8rin.trickle.Trickle
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
@@ -84,9 +85,11 @@ import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -109,7 +112,7 @@ internal class AndroidPdfManager @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val appScope: AppScope,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, PdfManager<Bitmap> {
+) : DispatchersHolder by dispatchersHolder, PdfManager {
 
     private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
 
@@ -228,21 +231,17 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override suspend fun convertPdfToImages(
+    override fun convertPdfToImages(
         pdfUri: String,
         password: String?,
-        onFailure: (Throwable) -> Unit,
         pages: List<Int>?,
-        preset: Preset.Percentage,
-        onGetPagesCount: suspend (Int) -> Unit,
-        onProgressChange: suspend (Int, Bitmap) -> Unit,
-        onComplete: suspend () -> Unit
-    ): Unit = withContext(ioDispatcher) {
+        preset: Preset.Percentage
+    ): Flow<PdfToImagesAction> = callbackFlow {
         pdfUri.toUri().createPdfRenderer(
             password = password ?: masterPassword,
-            onFailure = onFailure
+            onFailure = { throw it }
         )?.use { renderer ->
-            onGetPagesCount(pages?.size ?: renderer.pageCount)
+            send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
 
             for (pageIndex in 0 until renderer.pageCount) {
                 if (pages == null || pages.contains(pageIndex)) {
@@ -254,11 +253,11 @@ internal class AndroidPdfManager @Inject constructor(
                         color = Color.White.toArgb()
                     )
 
-                    onProgressChange(pageIndex, bitmap)
+                    send(PdfToImagesAction.Progress(pageIndex, bitmap))
                 }
             }
-            onComplete()
         }
+        close()
     }
 
     override suspend fun getPdfPages(

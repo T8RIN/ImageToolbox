@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -47,7 +46,7 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
-    private val pdfManager: PdfManager<Bitmap>,
+    private val pdfManager: PdfManager,
     private val fileController: FileController,
     private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
