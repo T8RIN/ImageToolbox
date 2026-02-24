@@ -21,6 +21,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.ext.SdkExtensions
 import androidx.annotation.ChecksSdkIntAtLeast
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.rendering.PDFRenderer
@@ -46,7 +47,9 @@ class PdfRenderer(
     class Page(
         val width: Int,
         val height: Int
-    )
+    ) {
+        val size = IntegerSize(width, height)
+    }
 }
 
 fun Uri.createPdfRenderer(

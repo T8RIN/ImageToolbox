@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -121,11 +122,11 @@ internal class AndroidPdfManager @Inject constructor(
         private const val SIGNATURES_LIMIT = 20
     }
 
+    private val pagesCache = hashMapOf<String, List<IntegerSize>>()
+
     private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
 
     private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
-
-    private val pagesCache = hashMapOf<String, List<IntegerSize>>()
 
     private var masterPassword: String? = null
 
@@ -145,10 +146,32 @@ internal class AndroidPdfManager @Inject constructor(
             initialValue = emptyList()
         )
 
+    override suspend fun saveSignature(signature: Any): Boolean {
+        return runSuspendCatching {
+            val currentSignatures = savedSignatures.value
+
+            if (currentSignatures.size + 1 > SIGNATURES_LIMIT) {
+                currentSignatures.last().toUri().toFile().delete()
+            }
+
+            File(signaturesDir, "signature_${System.currentTimeMillis()}.png")
+                .outputStream()
+                .use { out ->
+                    imageGetter.getImage(signature)?.compress(
+                        Bitmap.CompressFormat.PNG,
+                        100,
+                        out
+                    )
+                }
+            updateFlow.emit(Unit)
+        }.onFailure {
+            it.makeLog("saveSignature")
+        }.isSuccess
+    }
+
     override fun setMasterPassword(password: String?) {
         masterPassword = password
     }
-
 
     override fun createTempName(key: String, uri: String?): String = tempName(
         key = key,
@@ -192,6 +215,8 @@ internal class AndroidPdfManager @Inject constructor(
             PdfCheckResult.Failure(t)
         }.makeLog("checkPdf")
     }
+
+    // --- Operations ---
 
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
@@ -300,20 +325,24 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String?
     ): List<Int> = withContext(decodingDispatcher) {
-        runCatching {
+        try {
             usePdf(
                 uri = uri,
                 password = password ?: masterPassword,
                 action = PDDocument::pageIndices
             )
-        }.getOrNull() ?: emptyList()
+        } catch (_: Throwable) {
+            emptyList()
+        }
     }
 
     override suspend fun getPdfPageSizes(
         uri: String,
         password: String?
     ): List<IntegerSize> = withContext(decodingDispatcher) {
-        pagesCache[uri]?.takeIf { it.isNotEmpty() } ?: runCatching {
+        pagesCache[uri]?.takeIf { it.isNotEmpty() }?.let { return@withContext it }
+
+        try {
             uri.toUri().createPdfRenderer(
                 password = password ?: masterPassword
             )?.use { renderer ->
@@ -321,11 +350,11 @@ internal class AndroidPdfManager @Inject constructor(
                     renderer.openPage(it).run {
                         IntegerSize(width, height)
                     }
-                }.also {
-                    pagesCache[uri] = it
                 }
-            }
-        }.getOrNull() ?: emptyList()
+            }.orEmpty()
+        } catch (_: Throwable) {
+            emptyList()
+        }.also { pagesCache[uri] = it }
     }
 
     override suspend fun mergePdfs(uris: List<String>): String = catchPdf {
@@ -896,29 +925,6 @@ internal class AndroidPdfManager @Inject constructor(
                 ((majority - rotation) + 360) % 360
             }
         }
-    }
-
-    override suspend fun saveSignature(signature: Any): Boolean {
-        return runCatching {
-            val currentSignatures = savedSignatures.value
-
-            if (currentSignatures.size + 1 > SIGNATURES_LIMIT) {
-                currentSignatures.last().toUri().toFile().delete()
-            }
-
-            File(signaturesDir, "signature_${System.currentTimeMillis()}.png")
-                .outputStream()
-                .use { out ->
-                    imageGetter.getImage(signature)?.compress(
-                        Bitmap.CompressFormat.PNG,
-                        100,
-                        out
-                    )
-                }
-            updateFlow.emit(Unit)
-        }.onFailure {
-            it.makeLog("saveSignature")
-        }.isSuccess
     }
 
     override suspend fun extractImagesFromPdf(

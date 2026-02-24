@@ -33,6 +33,8 @@ interface PdfManager {
 
     val savedSignatures: StateFlow<List<String>>
 
+    suspend fun saveSignature(signature: Any): Boolean
+
     fun setMasterPassword(
         password: String?
     )
@@ -175,8 +177,6 @@ interface PdfManager {
     suspend fun extractImagesFromPdf(
         uri: String
     ): String?
-
-    suspend fun saveSignature(signature: Any): Boolean
 
     suspend fun convertToZip(
         uri: String,
