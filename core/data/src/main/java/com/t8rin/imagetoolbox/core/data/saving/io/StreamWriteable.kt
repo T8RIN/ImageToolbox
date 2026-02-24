@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.logger.makeLog
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -74,5 +75,13 @@ interface StreamWriteable : Writeable {
         operator fun invoke(
             outputStream: OutputStream
         ): StreamWriteable = StreamWriteableImpl(outputStream)
+    }
+}
+
+fun StreamWriteable.shielded(): StreamWriteable = CloseShieldWriteable(this)
+
+private class CloseShieldWriteable(wrapped: StreamWriteable) : StreamWriteable by wrapped {
+    override fun close() {
+        "can't be closed".makeLog("CloseShieldWriteable")
     }
 }

@@ -97,7 +97,7 @@ internal fun PDDocument.setMetadata(value: PdfMetadata?) {
     }
 }
 
-internal val PDDocument.baseFont
+internal val PDDocument.defaultFont
     get() = PDType0Font.load(
         this, appContext.resources.openRawResource(R.raw.roboto_bold)
     )
@@ -108,6 +108,8 @@ internal fun PDDocument.getPageSafe(index: Int): PDPage = getPage(
         maximumValue = numberOfPages - 1
     )
 )
+
+internal val PDDocument.pageIndices: List<Int> get() = List(numberOfPages) { it }
 
 internal fun PDPageContentStream.setAlpha(alpha: Float) {
     val gs = PDExtendedGraphicsState().apply {

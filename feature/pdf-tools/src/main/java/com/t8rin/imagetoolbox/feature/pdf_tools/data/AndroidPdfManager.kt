@@ -29,6 +29,7 @@ import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
+import com.t8rin.imagetoolbox.core.data.saving.io.shielded
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
@@ -47,7 +48,6 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.core.domain.saving.io.shielded
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -56,12 +56,13 @@ import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.baseFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdfRenderer
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.defaultFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getAllImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getPageSafe
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.metadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.safeOpenPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.save
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setAlpha
@@ -113,6 +114,10 @@ internal class AndroidPdfManager @Inject constructor(
     private val appScope: AppScope,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PdfManager {
+
+    companion object {
+        private const val SIGNATURES_LIMIT = 20
+    }
 
     private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
 
@@ -288,7 +293,7 @@ internal class AndroidPdfManager @Inject constructor(
             usePdf(
                 uri = uri,
                 password = password ?: masterPassword,
-                action = { document -> List(document.numberOfPages) { it } }
+                action = PDDocument::pageIndices
             )
         }.getOrNull() ?: emptyList()
     }
@@ -349,15 +354,13 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<Int>
     ): String = catchPdf {
         usePdf(uri) { document ->
-            val totalPages = document.numberOfPages
-
-            require(pages.size < totalPages) {
-                getString(R.string.cant_remove_all)
-            }
-
             createPdf { newDoc ->
-                repeat(totalPages) { index ->
+                document.pageIndices.forEach { index ->
                     if (index !in pages) newDoc.addPage(document.getPage(index))
+                }
+
+                if (newDoc.numberOfPages <= 0) {
+                    error(getString(R.string.cant_remove_all))
                 }
 
                 newDoc.save(
@@ -418,7 +421,7 @@ internal class AndroidPdfManager @Inject constructor(
         val color = Color(color)
 
         usePdf(uri) { document ->
-            val font = document.baseFont
+            val font = document.defaultFont
             val totalPages = document.numberOfPages
 
             document.pages.forEachIndexed { idx, page ->
@@ -511,7 +514,7 @@ internal class AndroidPdfManager @Inject constructor(
         val color = Color(params.color)
 
         usePdf(uri) { document ->
-            val font = document.baseFont
+            val font = document.defaultFont
 
             params.pages.orAll(document).forEach { pageIndex ->
                 val page = document.getPageSafe(pageIndex)
@@ -758,10 +761,10 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun stripText(uri: String): List<String> = catchPdf {
         usePdf(uri) { document ->
             PDFTextStripper().run {
-                (1..document.numberOfPages).map { pageIndex ->
-                    startPage = pageIndex
-                    endPage = pageIndex
-                    getText(document)
+                document.pageIndices.map { pageIndex ->
+                    startPage = pageIndex + 1
+                    endPage = pageIndex + 1
+                    getText(document).trim()
                 }
             }
         }
@@ -833,23 +836,19 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val dpi = 72f + (228f * quality)
 
-        usePdf(uri) { source ->
+        usePdf(uri) { document ->
+            val renderer = PDFRenderer(document)
+
             createPdf { newDoc ->
-                val renderer = PDFRenderer(source)
-
-                repeat(source.numberOfPages) { pageIndex ->
-                    val sourcePage = source.getPage(pageIndex)
-                    val cropBox = sourcePage.cropBox
-
-                    val image = renderer.renderImageWithDPI(
-                        pageIndex,
-                        dpi,
-                        ImageType.RGB
-                    )
+                document.pages.forEachIndexed { index, page ->
+                    val cropBox = page.cropBox
+                    val pdImage = renderer
+                        .renderImageWithDPI(index, dpi, ImageType.RGB)
+                        .asXObject(newDoc, quality)
 
                     newDoc.createPage(PDPage(cropBox)) {
                         drawImage(
-                            image.asXObject(newDoc, quality),
+                            pdImage,
                             0f,
                             0f,
                             cropBox.width,
@@ -892,7 +891,7 @@ internal class AndroidPdfManager @Inject constructor(
         return runCatching {
             val currentSignatures = savedSignatures.value
 
-            if (currentSignatures.size + 1 > 20) {
+            if (currentSignatures.size + 1 > SIGNATURES_LIMIT) {
                 currentSignatures.last().toUri().toFile().delete()
             }
 
@@ -981,7 +980,7 @@ internal class AndroidPdfManager @Inject constructor(
                 var index = 0
 
                 output.outputStream().createZip { zip ->
-                    List(document.numberOfPages) { it }
+                    document.pageIndices
                         .chunked(interval.coerceAtLeast(1))
                         .forEach { pages ->
                             createPdf { newDoc ->
@@ -1068,6 +1067,6 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     private fun List<Int>?.orAll(document: PDDocument) =
-        orEmpty().ifEmpty { List(document.numberOfPages) { it } }
+        orEmpty().ifEmpty { document.pageIndices }
 
 }

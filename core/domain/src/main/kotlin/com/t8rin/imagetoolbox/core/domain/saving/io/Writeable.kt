@@ -22,9 +22,3 @@ interface Writeable : IoCloseable {
     fun writeBytes(byteArray: ByteArray)
 
 }
-
-fun Writeable.shielded(): Writeable = CloseShieldWriteable(this)
-
-private class CloseShieldWriteable(wrapped: Writeable) : Writeable by wrapped {
-    override fun close() = println("CloseShieldWriteable can't be closed")
-}
