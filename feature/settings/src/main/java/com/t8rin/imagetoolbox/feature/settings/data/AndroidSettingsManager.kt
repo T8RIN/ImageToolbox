@@ -57,7 +57,9 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
+import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILENAME
@@ -178,9 +180,6 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
-import java.io.InputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -486,16 +485,14 @@ internal class AndroidSettingsManager @Inject constructor(
 
         shareProvider.get().cacheData(
             writeData = { writeable ->
-                val out = writeable.outputStream()
-
-                ZipOutputStream(out).use { zipOut ->
-                    zipOut.putEntry(
+                writeable.outputStream().createZip { zip ->
+                    zip.putEntry(
                         name = logsFile.name,
-                        inputStream = FileInputStream(logsFile)
+                        input = FileInputStream(logsFile)
                     )
-                    zipOut.putEntry(
+                    zip.putEntry(
                         name = createBackupFilename(),
-                        inputStream = ByteArrayInputStream(settingsFile)
+                        input = ByteArrayInputStream(settingsFile)
                     )
                 }
             },
@@ -880,15 +877,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun createCustomFontsExport(): String? = withContext(ioDispatcher) {
         shareProvider.get().cacheData(
             writeData = { writeable ->
-                ZipOutputStream(writeable.outputStream()).use { zipOut ->
-                    val dir = File(context.filesDir, "customFonts")
-                    dir.listFiles()?.forEach { file ->
-                        FileInputStream(file).use { fis ->
-                            val zipEntry = ZipEntry(file.name)
-                            zipOut.putNextEntry(zipEntry)
-                            fis.copyTo(zipOut)
-                            zipOut.closeEntry()
-                        }
+                writeable.outputStream().createZip { zip ->
+                    File(context.filesDir, "customFonts").listFiles()?.forEach { file ->
+                        zip.putEntry(
+                            name = file.name,
+                            input = FileInputStream(file)
+                        )
                     }
                 }
             },
@@ -983,14 +977,4 @@ internal class AndroidSettingsManager @Inject constructor(
         dataStore.edit(transform)
     }
 
-    private fun ZipOutputStream.putEntry(
-        name: String,
-        inputStream: InputStream
-    ) {
-        inputStream.use {
-            putNextEntry(ZipEntry(name))
-            it.copyTo(this)
-            closeEntry()
-        }
-    }
 }

@@ -46,12 +46,13 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.baseFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
@@ -98,8 +99,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -142,8 +141,28 @@ internal class AndroidPdfManager @Inject constructor(
         masterPassword = password
     }
 
+
+    override fun createTempName(key: String, uri: String?): String = tempName(
+        key = key,
+        uri = uri
+    ).removePrefix(PDF)
+
+    override fun clearPdfCache(uri: String?) {
+        appScope.launch {
+            runCatching {
+                if (uri.isNullOrBlank()) {
+                    File(context.cacheDir, "pdf").deleteRecursively()
+                } else {
+                    context.contentResolver.delete(uri.toUri(), null, null)
+                }
+            }.onFailure {
+                "failed to delete $uri".makeLog("delete")
+            }
+        }
+    }
+
     override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             if (masterPassword.isNullOrBlank()) {
                 null
             } else {
@@ -265,12 +284,11 @@ internal class AndroidPdfManager @Inject constructor(
         password: String?
     ): List<Int> = withContext(decodingDispatcher) {
         runCatching {
-            openPdf(
+            usePdf(
                 uri = uri,
-                password = password ?: masterPassword
-            ).applyUse {
-                List(numberOfPages) { it }
-            }
+                password = password ?: masterPassword,
+                action = { document -> List(document.numberOfPages) { it } }
+            )
         }.getOrNull() ?: emptyList()
     }
 
@@ -309,7 +327,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         pages: List<Int>?
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             createPdf { newDoc ->
                 pages.orAll(document).forEach { index ->
                     newDoc.addPage(document.getPageSafe(index))
@@ -329,7 +347,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         pages: List<Int>
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             val totalPages = document.numberOfPages
 
             require(pages.size < totalPages) {
@@ -355,7 +373,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         rotations: List<Int>
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.pages.forEachIndexed { idx, page ->
                 val angle = rotations.getOrNull(idx) ?: 0
                 page.rotation = (page.rotation + angle) % 360
@@ -374,7 +392,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         newOrder: List<Int>
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             createPdf { newDoc ->
                 newOrder.forEach { pageIndex ->
                     newDoc.addPage(document.getPageSafe(pageIndex))
@@ -398,7 +416,7 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(color)
 
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             val font = document.baseFont
             val totalPages = document.numberOfPages
 
@@ -491,7 +509,7 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val color = Color(params.color)
 
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             val font = document.baseFont
 
             params.pages.orAll(document).forEach { pageIndex ->
@@ -540,7 +558,7 @@ internal class AndroidPdfManager @Inject constructor(
         signatureImage: Any,
         params: PdfSignatureParams
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             val pdImage = imageGetter.getImage(data = signatureImage)!!.asXObject(
                 document = document,
                 quality = 1f
@@ -599,7 +617,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.save(
                 filename = tempName(
                     key = "protected",
@@ -614,17 +632,18 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         password: String
     ): String = catchPdf {
-        openPdf(
+        usePdf(
             uri = uri,
-            password = password
-        ).use { document ->
-            document.save(
-                filename = tempName(
-                    key = "unlocked",
-                    uri = uri
+            password = password,
+            action = { document ->
+                document.save(
+                    filename = tempName(
+                        key = "unlocked",
+                        uri = uri
+                    )
                 )
-            )
-        }
+            }
+        )
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
@@ -654,7 +673,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         quality: Float
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.pages.forEach { page ->
                 page.resources.apply {
                     for (name in xObjectNames) {
@@ -678,7 +697,7 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun convertToGrayscale(uri: String): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.pages.forEach { page ->
                 page.resources.apply {
                     for (name in xObjectNames) {
@@ -703,7 +722,7 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun repairPdf(uri: String): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.save(
                 filename = tempName(
                     key = "repaired",
@@ -717,7 +736,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         metadata: PdfMetadata?
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             document.save(
                 metadata = metadata,
                 filename = tempName(
@@ -729,11 +748,14 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun getPdfMetadata(uri: String): PdfMetadata = catchPdf {
-        openPdf(uri).use(PDDocument::metadata)
+        usePdf(
+            uri = uri,
+            action = PDDocument::metadata
+        )
     }
 
     override suspend fun stripText(uri: String): List<String> = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             PDFTextStripper().run {
                 (1..document.numberOfPages).map { pageIndex ->
                     startPage = pageIndex
@@ -749,7 +771,7 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<Int>?,
         rect: RectModel
     ): String = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             with(rect) {
                 pages.orAll(document).forEach { pageIndex ->
                     val page = document.getPageSafe(pageIndex)
@@ -810,7 +832,7 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         val dpi = 72f + (228f * quality)
 
-        openPdf(uri).use { source ->
+        usePdf(uri) { source ->
             createPdf { newDoc ->
                 val renderer = PDFRenderer(source)
 
@@ -848,7 +870,7 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun detectPdfAutoRotations(
         uri: String
     ): List<Int> = catchPdf {
-        openPdf(uri).use { document ->
+        usePdf(uri) { document ->
             val rotations = document.pages.map { page ->
                 ((page.rotation % 360) + 360) % 360
             }
@@ -896,25 +918,20 @@ internal class AndroidPdfManager @Inject constructor(
         val prefix = uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()
         val filename = "$PDF${prefix}_extracted.zip"
 
-        val zipPath = openPdf(uri).use { document ->
+        val zipPath = usePdf(uri) { document ->
             shareProvider.cacheDataOrThrow(
                 filename = filename
             ) { output ->
                 val seen = mutableSetOf<Any>()
                 var index = 0
 
-                ZipOutputStream(output.outputStream()).use { zip ->
+                output.outputStream().createZip { zip ->
                     for (xObject in document.getAllImages()) {
                         if (!seen.add(xObject.cosObject)) continue
 
                         val suffix = xObject.suffix?.lowercase() ?: "png"
-                        if (suffix == "jpg" || suffix == "jp2" || suffix == "tiff") {
-                            val entryName = "extracted_${index++}.$suffix"
-                            zip.putNextEntry(ZipEntry(entryName))
-                            xObject.stream.createInputStream().use { input ->
-                                input.copyTo(zip)
-                            }
-                            zip.closeEntry()
+                        val stream = if (suffix == "jpg" || suffix == "jp2" || suffix == "tiff") {
+                            xObject.stream.createInputStream()
                         } else {
                             val data = ByteArrayOutputStream().apply {
                                 use {
@@ -928,11 +945,13 @@ internal class AndroidPdfManager @Inject constructor(
 
                             if (!seen.add(HashingType.MD5.computeFromReadable(ByteArrayReadable(data)))) continue
 
-                            val entryName = "extracted_${index++}.$suffix"
-                            zip.putNextEntry(ZipEntry(entryName))
-                            data.inputStream().copyTo(zip)
-                            zip.closeEntry()
+                            data.inputStream()
                         }
+
+                        zip.putEntry(
+                            name = "extracted_${index++}.$suffix",
+                            input = stream
+                        )
                         hasImages = true
                     }
                 }
@@ -947,21 +966,33 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override fun createTempName(key: String, uri: String?): String = tempName(
-        key = key,
-        uri = uri
-    ).removePrefix(PDF)
+    override suspend fun convertToZip(
+        uri: String,
+        interval: Int
+    ): String = catchPdf {
+        val prefix = uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()
+        val filename = "$PDF${prefix}_converted.zip"
 
-    override fun clearPdfCache(uri: String?) {
-        appScope.launch {
-            runCatching {
-                if (uri.isNullOrBlank()) {
-                    File(context.cacheDir, "pdf").deleteRecursively()
-                } else {
-                    context.contentResolver.delete(uri.toUri(), null, null)
+        usePdf(uri) { document ->
+            shareProvider.cacheDataOrThrow(
+                filename = filename
+            ) { output ->
+                var index = 0
+
+                output.outputStream().createZip { zip ->
+                    List(document.numberOfPages) { it }.chunked(interval).forEach { pages ->
+                        createPdf { newDoc ->
+                            for (pageIndex in pages) {
+                                newDoc.addPage(document.getPageSafe(pageIndex))
+                            }
+
+                            zip.putEntry(
+                                name = "${prefix}_${index++}.pdf",
+                                write = newDoc::save
+                            )
+                        }
+                    }
                 }
-            }.onFailure {
-                "failed to delete $uri".makeLog("delete")
             }
         }
     }
@@ -990,6 +1021,15 @@ internal class AndroidPdfManager @Inject constructor(
             Random(Random.nextInt()).hashCode().toString().take(4)
         }.pdf")
     }
+
+    private inline fun <T> usePdf(
+        uri: String,
+        password: String? = masterPassword,
+        action: (PDDocument) -> T
+    ): T = openPdf(
+        uri = uri,
+        password = password
+    ).use(action)
 
     private fun openPdf(
         uri: String,

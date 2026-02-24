@@ -36,6 +36,13 @@ interface PdfManager {
         password: String?
     )
 
+    fun createTempName(
+        key: String,
+        uri: String? = null
+    ): String
+
+    fun clearPdfCache(uri: String?)
+
     suspend fun checkIsPdfEncrypted(uri: String): String?
 
     suspend fun getPdfPages(
@@ -168,11 +175,9 @@ interface PdfManager {
 
     suspend fun saveSignature(signature: Any): Boolean
 
-    fun createTempName(
-        key: String,
-        uri: String? = null
+    suspend fun convertToZip(
+        uri: String,
+        interval: Int
     ): String
-
-    fun clearPdfCache(uri: String?)
 
 }

@@ -29,6 +29,8 @@ import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.createZip
+import com.t8rin.imagetoolbox.core.utils.putEntry
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.DownloadData
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.ImageTextReader
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.OCRLanguage
@@ -51,7 +53,6 @@ import java.io.FileOutputStream
 import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
-import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
@@ -325,23 +326,21 @@ internal class AndroidImageTextReader @Inject constructor(
     }
 
     override suspend fun exportLanguagesToZip(): String? = withContext(ioDispatcher) {
-        val out = ByteArrayOutputStream()
-
-        ZipOutputStream(out).use { zipOut ->
-            RecognitionType.entries.forEach { type ->
-                File(getPathFromMode(type), "tessdata").listFiles()?.forEach { file ->
-                    FileInputStream(file).use { fis ->
-                        val zipEntry = ZipEntry("${type.displayName}/tessdata/${file.name}")
-                        zipOut.putNextEntry(zipEntry)
-                        fis.copyTo(zipOut)
-                        zipOut.closeEntry()
+        val zipBytes = ByteArrayOutputStream().apply {
+            createZip { zip ->
+                RecognitionType.entries.forEach { type ->
+                    File(getPathFromMode(type), "tessdata").listFiles()?.forEach { file ->
+                        zip.putEntry(
+                            name = "${type.displayName}/tessdata/${file.name}",
+                            input = FileInputStream(file)
+                        )
                     }
                 }
             }
-        }
+        }.toByteArray()
 
         shareProvider.cacheByteArray(
-            byteArray = out.toByteArray(),
+            byteArray = zipBytes,
             filename = "exported_languages.zip"
         )
     }
