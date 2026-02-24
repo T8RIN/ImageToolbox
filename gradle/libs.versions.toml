@@ -46,7 +46,7 @@ hilt = "2.58"
 gms = "4.4.4"
 
 ktor = "3.4.0"
-coil = "3.3.0"
+coil = "3.4.0"
 appCompat = "1.7.1"
 androidxCore = "1.18.0-rc01"
 desugaring = "2.1.5"
