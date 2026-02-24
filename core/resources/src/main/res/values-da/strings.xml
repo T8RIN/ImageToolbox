@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Tegn signatur</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Brug egen signatur som billede, der skal placeres på dokumenter</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Opdel dokument med givet interval og pak nye dokumenter i zip-arkiv</string>
+    <string name="interval">Interval</string>
 </resources>

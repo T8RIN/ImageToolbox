@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Aláírás rajzolása</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Használjon saját aláírást képként a dokumentumokon</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Ossza fel a dokumentumot adott időközönként, és csomagolja az új dokumentumokat zip archívumba</string>
+    <string name="interval">Intervallum</string>
 </resources>

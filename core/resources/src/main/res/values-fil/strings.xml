@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Gumuhit ng Lagda</string>
     <string name="pen_params">Panulat Params</string>
     <string name="draw_signature_sub">Gumamit ng sariling pirma bilang imahe na ilalagay sa mga dokumento</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Hatiin ang dokumento sa ibinigay na pagitan at mag-pack ng mga bagong dokumento sa zip archive</string>
+    <string name="interval">Pagitan</string>
 </resources>

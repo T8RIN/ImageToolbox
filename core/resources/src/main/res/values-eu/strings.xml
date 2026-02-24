@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Marraztu Sinadura</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Erabili sinadura propioa dokumentuetan jartzeko irudi gisa</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Zatitu dokumentua emandako tartearekin eta paketatu dokumentu berriak zip artxiboan</string>
+    <string name="interval">Tartea</string>
 </resources>

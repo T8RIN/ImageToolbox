@@ -2172,4 +2172,7 @@
     <string name="draw_signature">署名を描く</string>
     <string name="pen_params">ペンパラメータ</string>
     <string name="draw_signature_sub">自分の署名を文書に配置する画像として使用する</string>
+    <string name="zip_pdf">PDF を圧縮</string>
+    <string name="zip_pdf_sub">指定された間隔でドキュメントを分割し、新しいドキュメントを zip アーカイブに圧縮します</string>
+    <string name="interval">間隔</string>
 </resources>

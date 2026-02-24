@@ -27,6 +27,7 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
 import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
+import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
@@ -46,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.core.domain.saving.io.shielded
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -85,7 +87,6 @@ import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -971,7 +972,7 @@ internal class AndroidPdfManager @Inject constructor(
         interval: Int
     ): String = catchPdf {
         val prefix = uri.toUri().filename()?.substringBeforeLast('.') ?: timestamp()
-        val filename = "$PDF${prefix}_converted.zip"
+        val filename = "$PDF${prefix}.zip"
 
         usePdf(uri) { document ->
             shareProvider.cacheDataOrThrow(
@@ -980,18 +981,22 @@ internal class AndroidPdfManager @Inject constructor(
                 var index = 0
 
                 output.outputStream().createZip { zip ->
-                    List(document.numberOfPages) { it }.chunked(interval).forEach { pages ->
-                        createPdf { newDoc ->
-                            for (pageIndex in pages) {
-                                newDoc.addPage(document.getPageSafe(pageIndex))
-                            }
+                    List(document.numberOfPages) { it }
+                        .chunked(interval.coerceAtLeast(1))
+                        .forEach { pages ->
+                            createPdf { newDoc ->
+                                pages.forEach { pageIndex ->
+                                    newDoc.addPage(document.getPageSafe(pageIndex))
+                                }
 
-                            zip.putEntry(
-                                name = "${prefix}_${index++}.pdf",
-                                write = newDoc::save
-                            )
+                                zip.putEntry(
+                                    name = "${prefix}_${index++}.pdf",
+                                    write = {
+                                        newDoc.save(StreamWriteable(it).shielded())
+                                    }
+                                )
+                            }
                         }
-                    }
                 }
             }
         }
@@ -1004,7 +1009,8 @@ internal class AndroidPdfManager @Inject constructor(
             action()
         } catch (k: InvalidPasswordException) {
             throw SecurityException(k.message)
-        } catch (e: CancellationException) {
+        } catch (e: Throwable) {
+            e.makeLog("catchPdf")
             throw e
         }
     }

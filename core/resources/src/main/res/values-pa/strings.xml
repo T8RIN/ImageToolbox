@@ -2173,4 +2173,7 @@
     <string name="draw_signature">ਦਸਤਖਤ ਖਿੱਚੋ</string>
     <string name="pen_params">ਕਲਮ ਪਰਮ</string>
     <string name="draw_signature_sub">ਦਸਤਾਵੇਜ਼ਾਂ \'ਤੇ ਰੱਖਣ ਲਈ ਚਿੱਤਰ ਵਜੋਂ ਆਪਣੇ ਦਸਤਖਤ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="zip_pdf">ਜ਼ਿਪ PDF</string>
+    <string name="zip_pdf_sub">ਦਿੱਤੇ ਅੰਤਰਾਲ ਦੇ ਨਾਲ ਦਸਤਾਵੇਜ਼ ਨੂੰ ਵੰਡੋ ਅਤੇ ਨਵੇਂ ਦਸਤਾਵੇਜ਼ਾਂ ਨੂੰ ਜ਼ਿਪ ਆਰਕਾਈਵ ਵਿੱਚ ਪੈਕ ਕਰੋ</string>
+    <string name="interval">ਅੰਤਰਾਲ</string>
 </resources>

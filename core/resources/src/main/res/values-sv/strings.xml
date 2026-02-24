@@ -2174,4 +2174,7 @@
     <string name="draw_signature">Rita signatur</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Använd egen signatur som bild som ska placeras på dokument</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Dela dokument med givet intervall och packa nya dokument i zip-arkivet</string>
+    <string name="interval">Intervall</string>
 </resources>

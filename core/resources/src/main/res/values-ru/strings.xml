@@ -2175,4 +2175,7 @@
     <string name="draw_signature">Нарисовать подпись</string>
     <string name="pen_params">Параметры пера</string>
     <string name="draw_signature_sub">Использовать собственную подпись в качестве изображения для размещения на документах</string>
+    <string name="zip_pdf">Почтовый PDF-файл</string>
+    <string name="zip_pdf_sub">Разделить документ с заданным интервалом и упаковать новые документы в zip-архив.</string>
+    <string name="interval">Интервал</string>
 </resources>

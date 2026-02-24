@@ -2172,4 +2172,7 @@
     <string name="draw_signature">Gambar Tanda Tangan</string>
     <string name="pen_params">Param Pena</string>
     <string name="draw_signature_sub">Gunakan tanda tangan sendiri sebagai gambar untuk ditempatkan pada dokumen</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Pisahkan dokumen dengan interval tertentu dan kemas dokumen baru ke dalam arsip zip</string>
+    <string name="interval">Selang</string>
 </resources>

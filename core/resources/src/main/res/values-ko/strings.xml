@@ -2172,4 +2172,7 @@
     <string name="draw_signature">서명 그리기</string>
     <string name="pen_params">펜 매개변수</string>
     <string name="draw_signature_sub">자신의 서명을 이미지로 사용하여 문서에 배치</string>
+    <string name="zip_pdf">PDF 압축</string>
+    <string name="zip_pdf_sub">주어진 간격으로 문서를 분할하고 새 문서를 zip 아카이브로 압축합니다.</string>
+    <string name="interval">간격</string>
 </resources>

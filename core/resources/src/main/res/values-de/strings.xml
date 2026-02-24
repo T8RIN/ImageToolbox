@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Unterschrift zeichnen</string>
     <string name="pen_params">Stiftparameter</string>
     <string name="draw_signature_sub">Verwenden Sie Ihre eigene Signatur als Bild, das auf Dokumenten platziert werden soll</string>
+    <string name="zip_pdf">PDF komprimieren</string>
+    <string name="zip_pdf_sub">Teilen Sie das Dokument in einem bestimmten Intervall auf und packen Sie neue Dokumente in ein ZIP-Archiv</string>
+    <string name="interval">Intervall</string>
 </resources>

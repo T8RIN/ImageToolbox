@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Dibuixa la signatura</string>
     <string name="pen_params">Params de ploma</string>
     <string name="draw_signature_sub">Utilitzeu la pròpia signatura com a imatge per col·locar als documents</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Dividiu el document amb un interval donat i empaqueteu nous documents a l\'arxiu zip</string>
+    <string name="interval">Interval</string>
 </resources>

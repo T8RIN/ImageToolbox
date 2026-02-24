@@ -2172,4 +2172,7 @@
     <string name="draw_signature">签名</string>
     <string name="pen_params">笔参数</string>
     <string name="draw_signature_sub">使用自己的签名作为图像放置在文档上</string>
+    <string name="zip_pdf">压缩 PDF</string>
+    <string name="zip_pdf_sub">以给定的间隔分割文档并将新文档打包到 zip 存档中</string>
+    <string name="interval">间隔</string>
 </resources>

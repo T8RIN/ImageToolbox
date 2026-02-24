@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Joonista allkiri</string>
     <string name="pen_params">Pliiatsi parameetrid</string>
     <string name="draw_signature_sub">Kasutage dokumentidele lisatava pildina enda allkirja</string>
+    <string name="zip_pdf">ZIP PDF</string>
+    <string name="zip_pdf_sub">Tükeldage dokument etteantud intervalliga ja pakkige uued dokumendid ZIP-arhiivi</string>
+    <string name="interval">Intervall</string>
 </resources>

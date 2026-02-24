@@ -122,6 +122,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.UnlockPdfToo
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.WatermarkPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.ZipConvertPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.screenLogic.ZipConvertPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.RecognizeTextContent
@@ -503,5 +505,10 @@ internal sealed interface NavigationChild {
         NavigationChild {
         @Composable
         override fun Content() = ExtractImagesPdfToolContent(component)
+    }
+
+    class ZipConvertPdfTool(private val component: ZipConvertPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ZipConvertPdfToolContent(component)
     }
 }

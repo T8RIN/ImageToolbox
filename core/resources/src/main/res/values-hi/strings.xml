@@ -2173,4 +2173,7 @@
     <string name="draw_signature">हस्ताक्षर बनाएं</string>
     <string name="pen_params">पेन पैराम्स</string>
     <string name="draw_signature_sub">दस्तावेज़ों पर लगाने के लिए छवि के रूप में स्वयं के हस्ताक्षर का उपयोग करें</string>
+    <string name="zip_pdf">ज़िप पीडीएफ</string>
+    <string name="zip_pdf_sub">दिए गए अंतराल के साथ दस्तावेज़ को विभाजित करें और नए दस्तावेज़ों को ज़िप संग्रह में पैक करें</string>
+    <string name="interval">अंतराल</string>
 </resources>

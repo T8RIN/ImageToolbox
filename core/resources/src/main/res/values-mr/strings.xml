@@ -2174,4 +2174,7 @@
     <string name="draw_signature">स्वाक्षरी काढा</string>
     <string name="pen_params">पेन परम्स</string>
     <string name="draw_signature_sub">दस्तऐवजांवर ठेवण्यासाठी प्रतिमा म्हणून स्वतःची स्वाक्षरी वापरा</string>
+    <string name="zip_pdf">झिप पीडीएफ</string>
+    <string name="zip_pdf_sub">दिलेल्या मध्यांतरासह दस्तऐवज विभाजित करा आणि नवीन दस्तऐवज झिप आर्काइव्हमध्ये पॅक करा</string>
+    <string name="interval">मध्यांतर</string>
 </resources>

@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Dessiner une signature</string>
     <string name="pen_params">Paramètres du stylo</string>
     <string name="draw_signature_sub">Utiliser votre propre signature comme image à placer sur les documents</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Divisez le document avec un intervalle donné et regroupez les nouveaux documents dans une archive zip</string>
+    <string name="interval">Intervalle</string>
 </resources>

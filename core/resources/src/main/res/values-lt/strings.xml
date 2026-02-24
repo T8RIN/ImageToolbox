@@ -2176,4 +2176,7 @@
     <string name="draw_signature">Piešti parašą</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Naudokite savo parašą kaip vaizdą, kuris bus dedamas ant dokumentų</string>
+    <string name="zip_pdf">ZIP PDF</string>
+    <string name="zip_pdf_sub">Padalinkite dokumentą nurodytu intervalu ir supakuokite naujus dokumentus į ZIP archyvą</string>
+    <string name="interval">Intervalas</string>
 </resources>

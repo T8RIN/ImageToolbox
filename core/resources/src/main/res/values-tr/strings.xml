@@ -2173,4 +2173,7 @@
     <string name="draw_signature">İmza Çek</string>
     <string name="pen_params">Kalem Parametreleri</string>
     <string name="draw_signature_sub">Belgelere yerleştirilecek resim olarak kendi imzanızı kullanın</string>
+    <string name="zip_pdf">PDF\'yi sıkıştır</string>
+    <string name="zip_pdf_sub">Belgeyi belirli aralıklarla bölün ve yeni belgeleri zip arşivine paketleyin</string>
+    <string name="interval">Aralık</string>
 </resources>

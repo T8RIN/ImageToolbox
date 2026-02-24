@@ -2175,4 +2175,7 @@
     <string name="draw_signature">Narysuj podpis</string>
     <string name="pen_params">Parametry pióra</string>
     <string name="draw_signature_sub">Użyj własnego podpisu jako obrazu do umieszczenia na dokumentach</string>
+    <string name="zip_pdf">Spakuj PDF</string>
+    <string name="zip_pdf_sub">Podziel dokument w określonym przedziale czasu i spakuj nowe dokumenty do archiwum zip</string>
+    <string name="interval">Interwał</string>
 </resources>

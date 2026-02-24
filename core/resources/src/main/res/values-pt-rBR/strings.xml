@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Desenhar Assinatura</string>
     <string name="pen_params">Parâmetros de caneta</string>
     <string name="draw_signature_sub">Utilizar assinatura própria como imagem a ser colocada em documentos</string>
+    <string name="zip_pdf">Compactar PDF</string>
+    <string name="zip_pdf_sub">Divida o documento com determinado intervalo e empacote novos documentos em arquivo zip</string>
+    <string name="interval">Intervalo</string>
 </resources>

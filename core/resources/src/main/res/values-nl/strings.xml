@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Handtekening tekenen</string>
     <string name="pen_params">Penparams</string>
     <string name="draw_signature_sub">Gebruik uw eigen handtekening als afbeelding voor plaatsing op documenten</string>
+    <string name="zip_pdf">Zip-PDF</string>
+    <string name="zip_pdf_sub">Splits het document met een bepaald interval en pak nieuwe documenten in een zip-archief</string>
+    <string name="interval">Interval</string>
 </resources>

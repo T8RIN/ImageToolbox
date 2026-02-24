@@ -2174,4 +2174,7 @@
     <string name="draw_signature">Desenați Semnătura</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">Utilizați propria semnătură ca imagine pentru a fi plasată pe documente</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Împărțiți documentul cu un interval dat și împachetați documente noi în arhiva zip</string>
+    <string name="interval">Interval</string>
 </resources>

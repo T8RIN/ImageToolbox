@@ -2173,4 +2173,7 @@
     <string name="draw_signature">సంతకాన్ని గీయండి</string>
     <string name="pen_params">పెన్ పారామ్స్</string>
     <string name="draw_signature_sub">పత్రాలపై ఉంచడానికి సొంత సంతకాన్ని చిత్రంగా ఉపయోగించండి</string>
+    <string name="zip_pdf">జిప్ PDF</string>
+    <string name="zip_pdf_sub">ఇచ్చిన విరామంతో పత్రాన్ని విభజించి, కొత్త పత్రాలను జిప్ ఆర్కైవ్‌లో ప్యాక్ చేయండి</string>
+    <string name="interval">ఇంటర్వెల్</string>
 </resources>

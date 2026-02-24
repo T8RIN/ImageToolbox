@@ -2173,4 +2173,7 @@
     <string name="draw_signature">ئىمزا سىزىش</string>
     <string name="pen_params">قەلەم پاراملىرى</string>
     <string name="draw_signature_sub">ھۆججەتلەرگە قويماقچى بولغان رەسىمنى رەسىم سۈپىتىدە ئىشلىتىڭ</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">بېرىلگەن ئارىلىق بىلەن ھۆججەتنى پارچىلاپ ، يېڭى ھۆججەتلەرنى zip ئارخىپىغا قاچىلاڭ</string>
+    <string name="interval">ئارىلىق</string>
 </resources>

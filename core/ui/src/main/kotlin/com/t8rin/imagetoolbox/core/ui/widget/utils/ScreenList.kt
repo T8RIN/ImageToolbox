@@ -112,6 +112,7 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.Metadata(uris.firstOrNull()),
                 Screen.PdfTools.ExtractImages(uris.firstOrNull()),
                 Screen.PdfTools.OCR(uris.firstOrNull()),
+                Screen.PdfTools.ZipConvert(uris.firstOrNull()),
             ) + filesAvailableScreens
         }
     }

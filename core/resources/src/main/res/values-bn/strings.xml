@@ -2173,4 +2173,7 @@
     <string name="draw_signature">স্বাক্ষর আঁকুন</string>
     <string name="pen_params">কলম পরম</string>
     <string name="draw_signature_sub">নথিতে স্থাপন করার জন্য ছবি হিসাবে নিজের স্বাক্ষর ব্যবহার করুন</string>
+    <string name="zip_pdf">জিপ পিডিএফ</string>
+    <string name="zip_pdf_sub">প্রদত্ত ব্যবধানে নথি ভাগ করুন এবং জিপ সংরক্ষণাগারে নতুন নথি প্যাক করুন</string>
+    <string name="interval">ব্যবধান</string>
 </resources>

@@ -2172,4 +2172,7 @@
     <string name="draw_signature">Vẽ chữ ký</string>
     <string name="pen_params">Thông số bút</string>
     <string name="draw_signature_sub">Sử dụng chữ ký của chính mình làm hình ảnh để đặt trên tài liệu</string>
+    <string name="zip_pdf">Nén PDF</string>
+    <string name="zip_pdf_sub">Chia tài liệu theo khoảng thời gian nhất định và đóng gói tài liệu mới vào kho lưu trữ zip</string>
+    <string name="interval">Khoảng thời gian</string>
 </resources>

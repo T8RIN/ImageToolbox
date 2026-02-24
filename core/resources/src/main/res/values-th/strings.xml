@@ -2172,4 +2172,7 @@
     <string name="draw_signature">วาดลายเซ็น</string>
     <string name="pen_params">ปากกา พาราม</string>
     <string name="draw_signature_sub">ใช้ลายเซ็นของตนเองเป็นรูปภาพเพื่อวางบนเอกสาร</string>
+    <string name="zip_pdf">ซิป PDF</string>
+    <string name="zip_pdf_sub">แยกเอกสารตามช่วงเวลาที่กำหนดและแพ็คเอกสารใหม่ลงในไฟล์ zip</string>
+    <string name="interval">ช่วงเวลา</string>
 </resources>

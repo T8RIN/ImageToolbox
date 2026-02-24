@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Dibujar firma</string>
     <string name="pen_params">Parámetros de pluma</string>
     <string name="draw_signature_sub">Utilice su propia firma como imagen para colocar en los documentos.</string>
+    <string name="zip_pdf">Comprimir PDF</string>
+    <string name="zip_pdf_sub">Divida el documento con el intervalo determinado y empaquete documentos nuevos en un archivo zip</string>
+    <string name="interval">Intervalo</string>
 </resources>

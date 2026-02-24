@@ -2173,4 +2173,7 @@
     <string name="draw_signature">رسم امضا</string>
     <string name="pen_params">Pen Params</string>
     <string name="draw_signature_sub">از امضای خود به عنوان تصویر برای قرار دادن روی اسناد استفاده کنید</string>
+    <string name="zip_pdf">زیپ PDF</string>
+    <string name="zip_pdf_sub">سند را با فاصله زمانی مشخص تقسیم کنید و اسناد جدید را در بایگانی فشرده قرار دهید</string>
+    <string name="interval">فاصله</string>
 </resources>

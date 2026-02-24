@@ -2173,4 +2173,7 @@
     <string name="draw_signature">கையொப்பத்தை வரையவும்</string>
     <string name="pen_params">பேனா பரம்ஸ்</string>
     <string name="draw_signature_sub">ஆவணங்களில் வைக்கப்படுவதற்கு சொந்த கையொப்பத்தை படமாக பயன்படுத்தவும்</string>
+    <string name="zip_pdf">ஜிப் PDF</string>
+    <string name="zip_pdf_sub">கொடுக்கப்பட்ட இடைவெளியுடன் ஆவணத்தைப் பிரித்து புதிய ஆவணங்களை ஜிப் காப்பகத்தில் பேக் செய்யவும்</string>
+    <string name="interval">இடைவெளி</string>
 </resources>

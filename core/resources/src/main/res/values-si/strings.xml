@@ -2174,4 +2174,7 @@
     <string name="draw_signature">අත්සන අඳින්න</string>
     <string name="pen_params">පෑන් පරාමිති</string>
     <string name="draw_signature_sub">ලේඛනවල තැබීමට රූපයක් ලෙස තමන්ගේ අත්සන භාවිතා කරන්න</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">ලබා දී ඇති පරතරය සමඟ ලේඛනය වෙන් කර නව ලේඛන zip සංරක්ෂිතයට අසුරන්න</string>
+    <string name="interval">අන්තරය</string>
 </resources>

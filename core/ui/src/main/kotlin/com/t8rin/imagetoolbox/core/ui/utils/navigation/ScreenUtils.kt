@@ -229,6 +229,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Crop -> "PdfTools_Crop"
     is PdfTools.Flatten -> "PdfTools_Flatten"
     is PdfTools.ExtractImages -> "PdfTools_ExtractImages"
+    is PdfTools.ZipConvert -> "PdfTools_ZipConvert"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -301,6 +302,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Crop -> Icons.Rounded.CropSmall
     is PdfTools.Flatten -> Icons.Outlined.Panorama
     is PdfTools.ExtractImages -> Icons.Outlined.Unarchive
+    is PdfTools.ZipConvert -> Icons.Outlined.FolderZip
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -373,6 +375,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Crop -> Icons.TwoTone.CropSmall
     is PdfTools.Flatten -> Icons.TwoTone.Panorama
     is PdfTools.ExtractImages -> Icons.TwoTone.Unarchive
+    is PdfTools.ZipConvert -> Icons.TwoTone.FolderZip
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

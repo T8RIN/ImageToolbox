@@ -2177,4 +2177,7 @@
     <string name="draw_signature">رسم التوقيع</string>
     <string name="pen_params">معلمات القلم</string>
     <string name="draw_signature_sub">استخدم التوقيع الخاص كصورة لوضعها على المستندات</string>
+    <string name="zip_pdf">الرمز البريدي PDF</string>
+    <string name="zip_pdf_sub">قم بتقسيم المستند بفاصل زمني محدد وحزم المستندات الجديدة في أرشيف مضغوط</string>
+    <string name="interval">فاصلة</string>
 </resources>

@@ -71,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.screenLogic.ZipConvertPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
@@ -142,6 +143,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WebpTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WeightResize
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Zip
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ZipConvertPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
@@ -227,6 +229,7 @@ internal class ChildProvider @Inject constructor(
     private val cropPdfToolComponentFactory: CropPdfToolComponent.Factory,
     private val flattenPdfToolComponentFactory: FlattenPdfToolComponent.Factory,
     private val extractImagesPdfToolComponentFactory: ExtractImagesPdfToolComponent.Factory,
+    private val zipConvertPdfToolComponentFactory: ZipConvertPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -824,6 +827,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.ExtractImages -> ExtractImagesPdfTool(
             extractImagesPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ZipConvert -> ZipConvertPdfTool(
+            zipConvertPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

@@ -2173,4 +2173,7 @@
     <string name="draw_signature">Piirrä allekirjoitus</string>
     <string name="pen_params">Kynäparametrit</string>
     <string name="draw_signature_sub">Käytä omaa allekirjoitusta kuvana lisättäväksi asiakirjoihin</string>
+    <string name="zip_pdf">Zip PDF</string>
+    <string name="zip_pdf_sub">Jaa asiakirja tietyllä aikavälillä ja pakkaa uudet asiakirjat zip-arkistoon</string>
+    <string name="interval">Intervalli</string>
 </resources>

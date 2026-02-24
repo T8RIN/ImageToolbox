@@ -2174,4 +2174,7 @@
     <string name="draw_signature">Драв Сигнатуре</string>
     <string name="pen_params">Пен Парамс</string>
     <string name="draw_signature_sub">Користите сопствени потпис као слику која се поставља на документе</string>
+    <string name="zip_pdf">Зип ПДФ</string>
+    <string name="zip_pdf_sub">Поделите документ са датим интервалом и спакујте нове документе у зип архиву</string>
+    <string name="interval">Интервал</string>
 </resources>
