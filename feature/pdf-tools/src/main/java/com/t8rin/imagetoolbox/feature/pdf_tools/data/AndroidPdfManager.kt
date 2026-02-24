@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setColor
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
@@ -88,6 +89,7 @@ import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -167,19 +169,28 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
-    override suspend fun checkIsPdfEncrypted(uri: String): String? = catchPdf {
-        usePdf(uri) { document ->
-            if (masterPassword.isNullOrBlank()) {
-                null
-            } else {
-                document.save(
-                    filename = uri.toUri().filename()?.let { "$PDF$it" } ?: tempName(
-                        key = "unlocked",
-                        uri = uri
+    override suspend fun checkPdf(uri: String): PdfCheckResult = withContext(defaultDispatcher) {
+        try {
+            usePdf(uri) { document ->
+                if (masterPassword.isNullOrBlank()) {
+                    PdfCheckResult.Open
+                } else {
+                    PdfCheckResult.Protected.Unlocked(
+                        document.save(
+                            filename = uri.toUri().filename()?.let { "$PDF$it" } ?: tempName(
+                                key = "unlocked",
+                                uri = uri
+                            )
+                        )
                     )
-                )
+                }
             }
-        }
+        } catch (_: InvalidPasswordException) {
+            PdfCheckResult.Protected.NeedsPassword
+        } catch (t: Throwable) {
+            ensureActive()
+            PdfCheckResult.Failure(t)
+        }.makeLog("checkPdf")
     }
 
     override suspend fun convertImagesToPdf(

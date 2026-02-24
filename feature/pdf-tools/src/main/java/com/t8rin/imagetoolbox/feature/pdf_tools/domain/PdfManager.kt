@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
@@ -43,7 +44,9 @@ interface PdfManager {
 
     fun clearPdfCache(uri: String?)
 
-    suspend fun checkIsPdfEncrypted(uri: String): String?
+    suspend fun checkPdf(
+        uri: String
+    ): PdfCheckResult
 
     suspend fun getPdfPages(
         uri: String,
@@ -61,7 +64,7 @@ interface PdfManager {
         scaleSmallImagesToLarge: Boolean,
         preset: Preset.Percentage,
         tempFilename: String,
-        quality: Int = 85
+        quality: Int
     ): String
 
     fun convertPdfToImages(
@@ -156,7 +159,7 @@ interface PdfManager {
 
     suspend fun cropPdf(
         uri: String,
-        pages: List<Int>? = null,
+        pages: List<Int>?,
         rect: RectModel
     ): String
 

@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
@@ -100,21 +101,21 @@ abstract class BasePdfToolComponent(
         onDecrypted: (Uri) -> Unit,
         onSuccess: (Uri) -> Unit = {}
     ) {
-        uri ?: return
+        if (uri == null) return
 
         componentScope.launch {
-            runSuspendCatching {
-                pdfManager.checkIsPdfEncrypted(uri.toString())?.let { decrypted ->
+            when (val result = pdfManager.checkPdf(uri.toString())) {
+                is PdfCheckResult.Open -> onSuccess(uri)
+
+                is PdfCheckResult.Protected.NeedsPassword -> _showPasswordRequestDialog.update { true }
+
+                is PdfCheckResult.Protected.Unlocked -> {
                     pdfManager.setMasterPassword(null)
-                    onDecrypted(decrypted.toUri())
-                    onSuccess(decrypted.toUri())
-                } ?: onSuccess(uri)
-            }.onFailure {
-                if (it is SecurityException) {
-                    _showPasswordRequestDialog.update { true }
-                } else {
-                    it.makeLog("checkPdf")
+                    onDecrypted(result.decryptedUri.toUri())
+                    onSuccess(result.decryptedUri.toUri())
                 }
+
+                is PdfCheckResult.Failure -> result.throwable.makeLog("checkPdf")
             }
         }
     }

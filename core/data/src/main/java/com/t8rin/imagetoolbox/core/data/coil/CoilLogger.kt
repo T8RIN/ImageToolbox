@@ -38,8 +38,13 @@ internal class CoilLogger : Logger {
         message: String?,
         throwable: Throwable?
     ) {
-        message?.takeIf { "NullRequestData" !in it }?.makeLog(tag, level.toLogger())
-        throwable?.takeIf { "The request's data is null" !in it.message.orEmpty() }?.makeLog(tag)
+        message?.takeIf {
+            "NullRequestData" !in it && "PDF" !in it
+        }?.makeLog(tag, level.toLogger())
+
+        throwable?.takeIf {
+            "The request's data is null" !in it.message.orEmpty() && "PDF" !in it.message.orEmpty()
+        }?.makeLog(tag)
 
         delegate.log(
             tag = tag,
