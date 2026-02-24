@@ -682,6 +682,7 @@ or click one of the badges below.
     - Crop
     - Flatten
     - Extract Images
+    - Zip PDF
     - PDF to Text (OCR)
 - Document Scanning
 - AI tools (95+ ready to use models available)
