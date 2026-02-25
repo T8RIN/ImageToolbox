@@ -69,7 +69,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageOrientation
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
@@ -866,43 +865,7 @@ internal class AndroidPdfManager @Inject constructor(
             createPdf { newDoc ->
                 val pagesPerSheet = params.pagesPerSheet.coerceIn(1, 16)
 
-                val gridSize = when (params.orientation) {
-                    PageOrientation.VERTICAL -> when (pagesPerSheet) {
-                        1 -> 1 to 1
-                        2 -> 2 to 1
-                        4 -> 2 to 2
-                        6 -> 3 to 2
-                        8 -> 4 to 2
-                        9 -> 3 to 3
-                        12 -> 4 to 3
-                        16 -> 4 to 4
-                        else -> 1 to 1
-                    }
-
-                    PageOrientation.HORIZONTAL -> when (pagesPerSheet) {
-                        1 -> 1 to 1
-                        2 -> 1 to 2
-                        4 -> 2 to 2
-                        6 -> 2 to 3
-                        8 -> 2 to 4
-                        9 -> 3 to 3
-                        12 -> 3 to 4
-                        16 -> 4 to 4
-                        else -> 1 to 1
-                    }
-
-                    PageOrientation.ORIGINAL -> when (pagesPerSheet) {
-                        1 -> 1 to 1
-                        2 -> 1 to 2
-                        4 -> 2 to 2
-                        6 -> 2 to 3
-                        8 -> 2 to 4
-                        9 -> 3 to 3
-                        12 -> 3 to 4
-                        16 -> 4 to 4
-                        else -> 1 to 1
-                    }
-                }
+                val gridSize = params.gridSize
 
                 val totalPages = document.numberOfPages
                 val sheetsNeeded = (totalPages + pagesPerSheet - 1) / pagesPerSheet
@@ -911,7 +874,7 @@ internal class AndroidPdfManager @Inject constructor(
                     val startPageIndex = sheetIndex * pagesPerSheet
                     val firstPageOnSheet = document.getPage(startPageIndex)
 
-                    val cropBox = params.pageSizeFinal?.let { size ->
+                    val cropBox = params.calculatePageSize(firstPageOnSheet)?.let { size ->
                         PDRectangle(size.width.toFloat(), size.height.toFloat())
                     } ?: firstPageOnSheet.cropBox
 

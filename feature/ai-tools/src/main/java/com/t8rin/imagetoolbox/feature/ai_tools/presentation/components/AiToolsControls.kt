@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Stack
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.OnlyAllowedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -103,11 +104,11 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                 generateSequence(16) { it * 2 }.takeWhile { it <= 128 }.toList()
             }
 
-            PowerSliderItem(
+            OnlyAllowedSliderItem(
                 label = stringResource(id = R.string.chunk_size),
                 icon = Icons.Outlined.Cube,
                 value = component.params.chunkSize,
-                powers = chunkPowers,
+                allowed = chunkPowers,
                 onValueChange = { component.updateParams { copy(chunkSize = it) } }
             )
             AnimatedVisibility(
@@ -127,11 +128,11 @@ internal fun AiToolsControls(component: AiToolsComponent) {
                 }
             }
             Spacer(Modifier.height(8.dp))
-            PowerSliderItem(
+            OnlyAllowedSliderItem(
                 label = stringResource(R.string.overlap_size),
                 icon = Icons.Outlined.Stack,
                 value = component.params.overlap,
-                powers = overlapPowers,
+                allowed = overlapPowers,
                 maxAllowed = component.params.chunkSize,
                 onValueChange = { component.updateParams { copy(overlap = it) } }
             )

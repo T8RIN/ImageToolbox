@@ -2197,4 +2197,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Split document with given interval and pack new docuements into zip archive</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Print PDF</string>
+    <string name="print_pdf_sub">Prepare document for printing with custom page size</string>
+    <string name="pages_per_sheet">Pages Per Sheet</string>
+    <string name="orientation">Orientation</string>
+    <string name="page_size">Page Size</string>
 </resources>

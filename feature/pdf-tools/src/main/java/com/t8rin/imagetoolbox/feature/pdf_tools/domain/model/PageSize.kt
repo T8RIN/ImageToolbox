@@ -23,6 +23,14 @@ data class PageSize(
     val name: String?
 ) {
     companion object {
+        val Auto by lazy {
+            PageSize(
+                width = -100,
+                height = -100,
+                name = null
+            )
+        }
+
         val entries: List<PageSize> by lazy {
             listOf(
                 // ISO A Series

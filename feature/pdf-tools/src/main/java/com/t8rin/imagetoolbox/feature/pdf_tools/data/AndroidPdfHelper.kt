@@ -37,10 +37,13 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.safeOpenPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.save
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageSize
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.logger.makeLog
 import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
@@ -55,6 +58,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 internal class AndroidPdfHelper @Inject constructor(
@@ -258,5 +262,18 @@ internal class AndroidPdfHelper @Inject constructor(
             }
         )
     }
+
+    internal fun PrintPdfParams.calculatePageSize(
+        firstPageOnSheet: PDPage
+    ) = pageSizeFinal
+        ?: copy(
+            pageSize = firstPageOnSheet.cropBox.run {
+                PageSize(
+                    width = width.roundToInt(),
+                    height = height.roundToInt(),
+                    name = "Auto"
+                )
+            }
+        ).pageSizeFinal
 
 }
