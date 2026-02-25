@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import kotlinx.coroutines.flow.Flow
 
 interface PdfManager : PdfHelper {
@@ -144,6 +145,12 @@ interface PdfManager : PdfHelper {
     suspend fun convertToZip(
         uri: String,
         interval: Int
+    ): String
+
+    suspend fun printPdf(
+        uri: String,
+        quality: Float,
+        params: PrintPdfParams
     ): String
 
 }

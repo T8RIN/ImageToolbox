@@ -69,10 +69,12 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageOrientation
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.logger.makeLog
 import com.t8rin.trickle.Trickle
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
@@ -82,7 +84,6 @@ import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
-import com.tom_roush.pdfbox.rendering.ImageType
 import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
@@ -115,12 +116,12 @@ internal class AndroidPdfManager @Inject constructor(
             send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
 
             pages.orAll(renderer.pDocument).forEach { pageIndex ->
-                val bitmap = Trickle.drawColorBehind(
-                    input = renderer.renderImage(pageIndex, scale),
-                    color = Color.White.toArgb()
+                send(
+                    PdfToImagesAction.Progress(
+                        index = pageIndex,
+                        image = renderer.renderImage(pageIndex, scale).whiteBg()
+                    )
                 )
-
-                send(PdfToImagesAction.Progress(pageIndex, bitmap))
             }
         }
         close()
@@ -533,10 +534,7 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
         helper.useRenderer(uri) { renderer ->
             renderer.pageIndices.mapNotNull { pageIndex ->
-                val bitmap = Trickle.drawColorBehind(
-                    input = renderer.renderImage(pageIndex, 1f),
-                    color = Color.White.toArgb()
-                )
+                val bitmap = renderer.renderImage(pageIndex, 1f).whiteBg()
 
                 shareProvider.cacheImage(
                     image = bitmap,
@@ -717,8 +715,10 @@ internal class AndroidPdfManager @Inject constructor(
             createPdf { newDoc ->
                 document.pages.forEachIndexed { index, page ->
                     val cropBox = page.cropBox
+
                     val pdImage = renderer
-                        .renderImageWithDPI(index, dpi, ImageType.RGB)
+                        .renderImageWithDPI(index, dpi)
+                        .whiteBg()
                         .asXObject(newDoc, quality)
 
                     newDoc.createPage(PDPage(cropBox)) {
@@ -853,6 +853,117 @@ internal class AndroidPdfManager @Inject constructor(
         }
     }
 
+    override suspend fun printPdf(
+        uri: String,
+        quality: Float,
+        params: PrintPdfParams
+    ): String = catchPdf {
+        val dpi = 72f + (228f * quality)
+
+        usePdf(uri) { document ->
+            val renderer = PDFRenderer(document)
+
+            createPdf { newDoc ->
+                val pagesPerSheet = params.pagesPerSheet.coerceIn(1, 16)
+
+                val gridSize = when (params.orientation) {
+                    PageOrientation.VERTICAL -> when (pagesPerSheet) {
+                        1 -> 1 to 1
+                        2 -> 2 to 1
+                        4 -> 2 to 2
+                        6 -> 3 to 2
+                        8 -> 4 to 2
+                        9 -> 3 to 3
+                        12 -> 4 to 3
+                        16 -> 4 to 4
+                        else -> 1 to 1
+                    }
+
+                    PageOrientation.HORIZONTAL -> when (pagesPerSheet) {
+                        1 -> 1 to 1
+                        2 -> 1 to 2
+                        4 -> 2 to 2
+                        6 -> 2 to 3
+                        8 -> 2 to 4
+                        9 -> 3 to 3
+                        12 -> 3 to 4
+                        16 -> 4 to 4
+                        else -> 1 to 1
+                    }
+
+                    PageOrientation.ORIGINAL -> when (pagesPerSheet) {
+                        1 -> 1 to 1
+                        2 -> 1 to 2
+                        4 -> 2 to 2
+                        6 -> 2 to 3
+                        8 -> 2 to 4
+                        9 -> 3 to 3
+                        12 -> 3 to 4
+                        16 -> 4 to 4
+                        else -> 1 to 1
+                    }
+                }
+
+                val totalPages = document.numberOfPages
+                val sheetsNeeded = (totalPages + pagesPerSheet - 1) / pagesPerSheet
+
+                for (sheetIndex in 0 until sheetsNeeded) {
+                    val startPageIndex = sheetIndex * pagesPerSheet
+                    val firstPageOnSheet = document.getPage(startPageIndex)
+
+                    val cropBox = params.pageSizeFinal?.let { size ->
+                        PDRectangle(size.width.toFloat(), size.height.toFloat())
+                    } ?: firstPageOnSheet.cropBox
+
+                    newDoc.createPage(PDPage(cropBox)) {
+                        val pageWidth = cropBox.width
+                        val pageHeight = cropBox.height
+
+                        val cellWidth = pageWidth / gridSize.second
+                        val cellHeight = pageHeight / gridSize.first
+
+                        for (i in 0 until pagesPerSheet) {
+                            val pageIndex = startPageIndex + i
+                            if (pageIndex >= totalPages) break
+
+                            val sourcePage = document.getPage(pageIndex)
+                            val sourceWidth = sourcePage.cropBox.width
+                            val sourceHeight = sourcePage.cropBox.height
+
+                            val scale = minOf(
+                                cellWidth / sourceWidth,
+                                cellHeight / sourceHeight
+                            ) * 0.95f
+
+                            val scaledWidth = sourceWidth * scale
+                            val scaledHeight = sourceHeight * scale
+
+                            val col = i % gridSize.second
+                            val row = i / gridSize.second
+
+                            val x = (col * cellWidth) + (cellWidth - scaledWidth) / 2
+                            val y =
+                                pageHeight - ((row + 1) * cellHeight) + (cellHeight - scaledHeight) / 2
+
+                            val pdImage = renderer.renderImageWithDPI(pageIndex, dpi)
+                                .whiteBg()
+                                .asXObject(newDoc, quality)
+
+                            drawImage(pdImage, x, y, scaledWidth, scaledHeight)
+                        }
+                    }
+                }
+
+                newDoc.save(
+                    filename = createTempName(
+                        key = "printed",
+                        uri = uri
+                    )
+                )
+            }
+        }
+    }
+
     private suspend inline fun <T> catchPdf(
         crossinline action: suspend AndroidPdfHelper.() -> T
     ): T = withContext(defaultDispatcher) {
@@ -865,5 +976,10 @@ internal class AndroidPdfManager @Inject constructor(
             throw e
         }
     }
+
+    private fun Bitmap.whiteBg(): Bitmap = Trickle.drawColorBehind(
+        input = this,
+        color = Color.White.toArgb()
+    )
 
 }
