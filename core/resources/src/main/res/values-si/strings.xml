@@ -2177,4 +2177,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">ලබා දී ඇති පරතරය සමඟ ලේඛනය වෙන් කර නව ලේඛන zip සංරක්ෂිතයට අසුරන්න</string>
     <string name="interval">අන්තරය</string>
+    <string name="print_pdf">PDF මුද්‍රණය කරන්න</string>
+    <string name="print_pdf_sub">අභිරුචි පිටු ප්‍රමාණය සමඟ මුද්‍රණය සඳහා ලේඛනය සකස් කරන්න</string>
+    <string name="pages_per_sheet">පත්‍රයකට පිටු</string>
+    <string name="orientation">දිශානතිය</string>
+    <string name="page_size">පිටු ප්‍රමාණය</string>
 </resources>

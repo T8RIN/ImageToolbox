@@ -2175,4 +2175,9 @@
     <string name="zip_pdf">Nén PDF</string>
     <string name="zip_pdf_sub">Chia tài liệu theo khoảng thời gian nhất định và đóng gói tài liệu mới vào kho lưu trữ zip</string>
     <string name="interval">Khoảng thời gian</string>
+    <string name="print_pdf">In PDF</string>
+    <string name="print_pdf_sub">Chuẩn bị tài liệu để in với kích thước trang tùy chỉnh</string>
+    <string name="pages_per_sheet">Số trang trên mỗi tờ</string>
+    <string name="orientation">Định hướng</string>
+    <string name="page_size">Kích thước trang</string>
 </resources>

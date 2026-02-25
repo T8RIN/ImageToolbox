@@ -2176,4 +2176,9 @@
     <string name="zip_pdf">జిప్ PDF</string>
     <string name="zip_pdf_sub">ఇచ్చిన విరామంతో పత్రాన్ని విభజించి, కొత్త పత్రాలను జిప్ ఆర్కైవ్‌లో ప్యాక్ చేయండి</string>
     <string name="interval">ఇంటర్వెల్</string>
+    <string name="print_pdf">PDFని ముద్రించండి</string>
+    <string name="print_pdf_sub">అనుకూల పేజీ పరిమాణంతో ప్రింటింగ్ కోసం పత్రాన్ని సిద్ధం చేయండి</string>
+    <string name="pages_per_sheet">ప్రతి షీట్‌కి పేజీలు</string>
+    <string name="orientation">ఓరియంటేషన్</string>
+    <string name="page_size">పేజీ పరిమాణం</string>
 </resources>

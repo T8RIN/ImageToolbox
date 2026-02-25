@@ -2176,4 +2176,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Hatiin ang dokumento sa ibinigay na pagitan at mag-pack ng mga bagong dokumento sa zip archive</string>
     <string name="interval">Pagitan</string>
+    <string name="print_pdf">Mag-print ng PDF</string>
+    <string name="print_pdf_sub">Maghanda ng dokumento para sa pag-print na may custom na laki ng pahina</string>
+    <string name="pages_per_sheet">Mga Pahina Bawat Sheet</string>
+    <string name="orientation">Oryentasyon</string>
+    <string name="page_size">Laki ng Pahina</string>
 </resources>

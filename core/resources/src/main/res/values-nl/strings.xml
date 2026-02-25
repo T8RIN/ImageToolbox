@@ -2176,4 +2176,9 @@
     <string name="zip_pdf">Zip-PDF</string>
     <string name="zip_pdf_sub">Splits het document met een bepaald interval en pak nieuwe documenten in een zip-archief</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">PDF afdrukken</string>
+    <string name="print_pdf_sub">Document voorbereiden voor afdrukken met aangepast paginaformaat</string>
+    <string name="pages_per_sheet">Pagina\'s per vel</string>
+    <string name="orientation">Oriëntatie</string>
+    <string name="page_size">Paginagrootte</string>
 </resources>

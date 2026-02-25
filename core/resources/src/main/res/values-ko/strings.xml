@@ -2175,4 +2175,9 @@
     <string name="zip_pdf">PDF 압축</string>
     <string name="zip_pdf_sub">주어진 간격으로 문서를 분할하고 새 문서를 zip 아카이브로 압축합니다.</string>
     <string name="interval">간격</string>
+    <string name="print_pdf">PDF 인쇄</string>
+    <string name="print_pdf_sub">사용자 정의 페이지 크기로 인쇄할 문서 준비</string>
+    <string name="pages_per_sheet">시트당 페이지 수</string>
+    <string name="orientation">정위</string>
+    <string name="page_size">페이지 크기</string>
 </resources>

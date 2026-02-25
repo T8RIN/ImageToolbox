@@ -2176,4 +2176,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Dividiu el document amb un interval donat i empaqueteu nous documents a l\'arxiu zip</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Imprimeix PDF</string>
+    <string name="print_pdf_sub">Prepareu el document per imprimir amb una mida de pàgina personalitzada</string>
+    <string name="pages_per_sheet">Pàgines per full</string>
+    <string name="orientation">Orientació</string>
+    <string name="page_size">Mida de la pàgina</string>
 </resources>

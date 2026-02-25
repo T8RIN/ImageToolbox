@@ -2176,4 +2176,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Opdel dokument med givet interval og pak nye dokumenter i zip-arkiv</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Udskriv PDF</string>
+    <string name="print_pdf_sub">Forbered dokumentet til udskrivning med brugerdefineret sidestørrelse</string>
+    <string name="pages_per_sheet">Sider pr. ark</string>
+    <string name="orientation">Orientering</string>
+    <string name="page_size">Sidestørrelse</string>
 </resources>

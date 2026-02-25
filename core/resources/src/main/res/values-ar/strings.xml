@@ -2180,4 +2180,9 @@
     <string name="zip_pdf">الرمز البريدي PDF</string>
     <string name="zip_pdf_sub">قم بتقسيم المستند بفاصل زمني محدد وحزم المستندات الجديدة في أرشيف مضغوط</string>
     <string name="interval">فاصلة</string>
+    <string name="print_pdf">طباعة قوات الدفاع الشعبي</string>
+    <string name="print_pdf_sub">قم بإعداد المستند للطباعة بحجم صفحة مخصص</string>
+    <string name="pages_per_sheet">صفحات لكل ورقة</string>
+    <string name="orientation">توجيه</string>
+    <string name="page_size">حجم الصفحة</string>
 </resources>

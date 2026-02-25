@@ -2175,4 +2175,9 @@
     <string name="zip_pdf">ซิป PDF</string>
     <string name="zip_pdf_sub">แยกเอกสารตามช่วงเวลาที่กำหนดและแพ็คเอกสารใหม่ลงในไฟล์ zip</string>
     <string name="interval">ช่วงเวลา</string>
+    <string name="print_pdf">พิมพ์ PDF</string>
+    <string name="print_pdf_sub">เตรียมเอกสารสำหรับการพิมพ์ด้วยขนาดหน้าที่กำหนดเอง</string>
+    <string name="pages_per_sheet">จำนวนหน้าต่อแผ่น</string>
+    <string name="orientation">ปฐมนิเทศ</string>
+    <string name="page_size">ขนาดหน้า</string>
 </resources>

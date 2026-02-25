@@ -2175,4 +2175,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Pisahkan dokumen dengan interval tertentu dan kemas dokumen baru ke dalam arsip zip</string>
     <string name="interval">Selang</string>
+    <string name="print_pdf">Cetak PDF</string>
+    <string name="print_pdf_sub">Siapkan dokumen untuk dicetak dengan ukuran halaman khusus</string>
+    <string name="pages_per_sheet">Halaman Per Lembar</string>
+    <string name="orientation">Orientasi</string>
+    <string name="page_size">Ukuran Halaman</string>
 </resources>

@@ -2178,4 +2178,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Разделить документ с заданным интервалом и упаковать новые документы в zip-архив.</string>
     <string name="interval">Интервал</string>
+    <string name="print_pdf">Распечатать PDF</string>
+    <string name="print_pdf_sub">Подготовьте документ к печати с нестандартным размером страницы.</string>
+    <string name="pages_per_sheet">Страниц на листе</string>
+    <string name="orientation">Ориентация</string>
+    <string name="page_size">Размер страницы</string>
 </resources>

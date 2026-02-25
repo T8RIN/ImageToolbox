@@ -2178,4 +2178,9 @@
     <string name="zip_pdf">Zip vo formáte PDF</string>
     <string name="zip_pdf_sub">Rozdeľte dokument s daným intervalom a zabaľte nové dokumenty do zip archívu</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Tlač PDF</string>
+    <string name="print_pdf_sub">Pripravte dokument na tlač s vlastnou veľkosťou strany</string>
+    <string name="pages_per_sheet">Počet strán na hárok</string>
+    <string name="orientation">Orientácia</string>
+    <string name="page_size">Veľkosť strany</string>
 </resources>

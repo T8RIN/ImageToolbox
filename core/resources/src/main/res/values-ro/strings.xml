@@ -2177,4 +2177,9 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Împărțiți documentul cu un interval dat și împachetați documente noi în arhiva zip</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Imprimați PDF</string>
+    <string name="print_pdf_sub">Pregătiți documentul pentru imprimare cu dimensiunea paginii personalizată</string>
+    <string name="pages_per_sheet">Pagini pe foaie</string>
+    <string name="orientation">Orientare</string>
+    <string name="page_size">Dimensiunea paginii</string>
 </resources>
