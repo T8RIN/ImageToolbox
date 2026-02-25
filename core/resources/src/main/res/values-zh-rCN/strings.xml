@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -2172,7 +2170,7 @@
     <string name="draw_signature">绘制签名</string>
     <string name="pen_params">笔参数</string>
     <string name="draw_signature_sub">使用自己的签名作为图像放置在文档上</string>
-    <string name="zip_pdf">压缩 PDF</string>
-    <string name="zip_pdf_sub">以给定的间隔分割文档并将新文档打包到 zip 存档中</string>
+    <string name="zip_pdf">压缩PDF</string>
+    <string name="zip_pdf_sub">以给定的间隔分割文档并将新文档打包到zip存档中</string>
     <string name="interval">间隔</string>
 </resources>
