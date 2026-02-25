@@ -43,13 +43,11 @@ interface PdfHelper {
     ): PdfCheckResult
 
     suspend fun getPdfPages(
-        uri: String,
-        password: String?
+        uri: String
     ): List<Int>
 
     suspend fun getPdfPageSizes(
-        uri: String,
-        password: String?
+        uri: String
     ): List<IntegerSize>
 
 }

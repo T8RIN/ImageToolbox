@@ -133,6 +133,8 @@ internal fun PDPageContentStream.setColor(color: Color) {
     )
 }
 
+internal fun PDPageContentStream.setColor(color: Int) = setColor(Color(color))
+
 internal fun <T> PDDocument.createPage(
     page: PDPage,
     graphics: PDPageContentStream.() -> T

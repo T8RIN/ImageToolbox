@@ -75,7 +75,8 @@ internal class AndroidPdfHelper @Inject constructor(
 
     private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 
-    internal var masterPassword: String? = null; private set
+    private var _masterPassword: String? = null
+    val masterPassword: String? get() = _masterPassword
 
     override val savedSignatures: StateFlow<List<String>> =
         merge(
@@ -117,7 +118,7 @@ internal class AndroidPdfHelper @Inject constructor(
     }
 
     override fun setMasterPassword(password: String?) {
-        masterPassword = password
+        _masterPassword = password
     }
 
     override fun createTempName(key: String, uri: String?): String = tempName(
@@ -164,13 +165,12 @@ internal class AndroidPdfHelper @Inject constructor(
     }
 
     override suspend fun getPdfPages(
-        uri: String,
-        password: String?
+        uri: String
     ): List<Int> = withContext(decodingDispatcher) {
         try {
             usePdf(
                 uri = uri,
-                password = password ?: masterPassword,
+                password = masterPassword,
                 action = PDDocument::pageIndices
             )
         } catch (_: Throwable) {
@@ -179,15 +179,14 @@ internal class AndroidPdfHelper @Inject constructor(
     }
 
     override suspend fun getPdfPageSizes(
-        uri: String,
-        password: String?
+        uri: String
     ): List<IntegerSize> = withContext(decodingDispatcher) {
         pagesCache[uri]?.takeIf { it.isNotEmpty() }?.let { return@withContext it }
 
         try {
             PdfRenderer(
                 uri = uri,
-                password = password ?: masterPassword
+                password = masterPassword
             )?.use { renderer ->
                 List(renderer.pageCount) {
                     renderer.openPage(it).run {
@@ -229,6 +228,16 @@ internal class AndroidPdfHelper @Inject constructor(
         uri = uri,
         password = password
     )
+
+    internal inline fun <T> useRenderer(
+        uri: String,
+        password: String? = masterPassword,
+        action: (PdfRenderer) -> T
+    ) = PdfRenderer(
+        uri = uri,
+        password = password,
+        onFailure = { throw it }
+    )?.use(action)
 
     internal suspend fun PDDocument.save(
         filename: String,

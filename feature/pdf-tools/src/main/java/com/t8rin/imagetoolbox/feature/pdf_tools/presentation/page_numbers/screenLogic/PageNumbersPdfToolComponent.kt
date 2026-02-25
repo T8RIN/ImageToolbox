@@ -22,18 +22,16 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
-import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -61,17 +59,8 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _pageNumberPosition: MutableState<Position> =
-        mutableStateOf(Position.BottomCenter)
-    val pageNumberPosition by _pageNumberPosition
-
-    private val _pageNumberFormat: MutableState<String> =
-        mutableStateOf("Page {n} of {total}")
-    val pageNumberFormat by _pageNumberFormat
-
-    private val _pageNumberColor: MutableState<Color> =
-        mutableStateOf(Color.Gray)
-    val pageNumberColor by _pageNumberColor
+    private val _params: MutableState<PageNumbersParams> = mutableStateOf(PageNumbersParams())
+    val params by _params
 
     fun setUri(uri: Uri?) {
         if (uri == null) {
@@ -86,19 +75,9 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updatePageNumberPosition(pageNumberPosition: Position) {
+    fun updateParams(params: PageNumbersParams) {
         registerChanges()
-        _pageNumberPosition.update { pageNumberPosition }
-    }
-
-    fun updatePageNumberFormat(format: String) {
-        registerChanges()
-        _pageNumberFormat.update { format }
-    }
-
-    fun updatePageNumberColor(color: Color) {
-        registerChanges()
-        _pageNumberColor.update { color }
+        _params.update { params }
     }
 
     override fun saveTo(
@@ -109,9 +88,7 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
             action = {
                 val processed = pdfManager.addPageNumbers(
                     uri = _uri.value.toString(),
-                    labelFormat = pageNumberFormat,
-                    position = pageNumberPosition,
-                    color = pageNumberColor.toArgb()
+                    params = params
                 )
 
                 fileController.transferBytes(
@@ -147,9 +124,7 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.addPageNumbers(
                             uri = _uri.value.toString(),
-                            labelFormat = pageNumberFormat,
-                            position = pageNumberPosition,
-                            color = pageNumberColor.toArgb()
+                            params = params
                         ).toUri()
                     )
                 )

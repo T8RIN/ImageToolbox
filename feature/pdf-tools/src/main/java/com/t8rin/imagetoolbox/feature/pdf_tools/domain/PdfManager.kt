@@ -18,8 +18,9 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
-import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
@@ -30,7 +31,6 @@ interface PdfManager : PdfHelper {
 
     fun convertPdfToImages(
         uri: String,
-        password: String?,
         pages: List<Int>?,
         preset: Preset.Percentage
     ): Flow<PdfToImagesAction>
@@ -38,10 +38,7 @@ interface PdfManager : PdfHelper {
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
-        scaleSmallImagesToLarge: Boolean,
-        preset: Preset.Percentage,
-        tempFilename: String,
-        quality: Int
+        params: ImagesToPdfParams
     ): String
 
     suspend fun mergePdfs(
@@ -70,9 +67,7 @@ interface PdfManager : PdfHelper {
 
     suspend fun addPageNumbers(
         uri: String,
-        labelFormat: String,
-        position: Position,
-        color: Int
+        params: PageNumbersParams
     ): String
 
     suspend fun addWatermark(

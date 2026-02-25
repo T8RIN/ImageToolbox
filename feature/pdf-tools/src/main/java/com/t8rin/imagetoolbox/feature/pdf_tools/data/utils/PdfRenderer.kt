@@ -31,6 +31,7 @@ class PdfRenderer(
     val pDocument: PDDocument
 ) : PDFRenderer(pDocument), AutoCloseable {
     val pageCount: Int get() = pDocument.numberOfPages
+    val pageIndices: List<Int> get() = pDocument.pageIndices
 
     fun openPage(index: Int): Page = pDocument.getPage(index).let { page ->
         page.cropBox.run {
