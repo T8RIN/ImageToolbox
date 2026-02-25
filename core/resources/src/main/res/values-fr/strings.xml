@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -1438,7 +1436,7 @@
     <string name="custom_options">Options personnalisées</string>
     <string name="custom_params_info">Les options doivent être saisies en suivant ce modèle : \"--{option_name} {value}\"</string>
     <string name="auto_crop">Recadrage automatique</string>
-    <string name="free_corners">Coins gratuits</string>
+    <string name="free_corners">Coins Libres</string>
     <string name="free_corners_sub">Recadrer l\'image par polygone, cela corrige également la perspective</string>
     <string name="coerce_points_to_image_bounds">Contraindre les points aux limites de l\'image</string>
     <string name="coerce_points_to_image_bounds_sub">Les points ne seront pas limités par les limites de l\'image, ce qui est utile pour une correction de perspective plus précise</string>
