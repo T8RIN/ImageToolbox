@@ -18,47 +18,22 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
-interface PdfManager {
+interface PdfManager : PdfHelper {
 
-    val savedSignatures: StateFlow<List<String>>
-
-    suspend fun saveSignature(signature: Any): Boolean
-
-    fun setMasterPassword(
-        password: String?
-    )
-
-    fun createTempName(
-        key: String,
-        uri: String? = null
-    ): String
-
-    fun clearPdfCache(uri: String?)
-
-    suspend fun checkPdf(
-        uri: String
-    ): PdfCheckResult
-
-    suspend fun getPdfPages(
+    fun convertPdfToImages(
         uri: String,
-        password: String?
-    ): List<Int>
-
-    suspend fun getPdfPageSizes(
-        uri: String,
-        password: String?
-    ): List<IntegerSize>
+        password: String?,
+        pages: List<Int>?,
+        preset: Preset.Percentage
+    ): Flow<PdfToImagesAction>
 
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
@@ -68,13 +43,6 @@ interface PdfManager {
         tempFilename: String,
         quality: Int
     ): String
-
-    fun convertPdfToImages(
-        pdfUri: String,
-        password: String?,
-        pages: List<Int>?,
-        preset: Preset.Percentage
-    ): Flow<PdfToImagesAction>
 
     suspend fun mergePdfs(
         uris: List<String>

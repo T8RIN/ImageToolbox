@@ -115,7 +115,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdfRenderer
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -233,7 +232,8 @@ fun PdfViewer(
                             runCatching {
                                 mutex.withLock {
                                     pagesSize.clear()
-                                    val renderer = uri.createPdfRenderer(
+                                    val renderer = PdfRenderer(
+                                        uri = uri.toString(),
                                         password = pdfPassword,
                                         onFailure = showError,
                                         onPasswordRequest = { showPasswordRequestDialog = true }

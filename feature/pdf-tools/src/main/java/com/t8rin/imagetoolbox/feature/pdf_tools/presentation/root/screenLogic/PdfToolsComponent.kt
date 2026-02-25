@@ -235,7 +235,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         val results = mutableListOf<SaveResult>()
         savingJob = trackProgress {
             pdfManager.convertPdfToImages(
-                pdfUri = _pdfToImageState.value?.uri.toString(),
+                uri = _pdfToImageState.value?.uri.toString(),
                 pages = _pdfToImageState.value?.selectedPages,
                 preset = presetSelected,
                 password = _pdfPassword,
@@ -370,7 +370,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     val uris: MutableList<String?> = mutableListOf()
 
                     pdfManager.convertPdfToImages(
-                        pdfUri = _pdfToImageState.value?.uri.toString(),
+                        uri = _pdfToImageState.value?.uri.toString(),
                         pages = _pdfToImageState.value?.selectedPages,
                         preset = presetSelected,
                         password = _pdfPassword

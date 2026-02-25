@@ -21,7 +21,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.net.toFile
 import androidx.core.net.toUri
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
@@ -32,10 +31,8 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.shielded
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
-import com.t8rin.imagetoolbox.core.data.utils.observeHasChanges
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.PDF
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -48,7 +45,6 @@ import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -56,22 +52,22 @@ import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdfRenderer
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.defaultFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getAllImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getPageSafe
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.metadata
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.orAll
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.safeOpenPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.save
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setAlpha
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setColor
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.setMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
@@ -90,133 +86,54 @@ import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.io.File
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val appScope: AppScope,
+    private val helper: AndroidPdfHelper,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, PdfManager {
+) : DispatchersHolder by dispatchersHolder, PdfManager, PdfHelper by helper {
 
-    companion object {
-        private const val SIGNATURES_LIMIT = 20
-    }
+    private val masterPassword get() = helper.masterPassword
 
-    private val pagesCache = hashMapOf<String, List<IntegerSize>>()
+    override fun convertPdfToImages(
+        uri: String,
+        password: String?,
+        pages: List<Int>?,
+        preset: Preset.Percentage
+    ): Flow<PdfToImagesAction> = callbackFlow {
+        PdfRenderer(
+            uri = uri,
+            password = password ?: masterPassword,
+            onFailure = { throw it }
+        )?.use { renderer ->
+            send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
 
-    private val signaturesDir: File get() = File(context.filesDir, "signatures").apply(File::mkdirs)
-
-    private val updateFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
-
-    private var masterPassword: String? = null
-
-    override val savedSignatures: StateFlow<List<String>> =
-        merge(
-            updateFlow,
-            signaturesDir.observeHasChanges().debounce(100)
-        ).map {
-            signaturesDir
-                .listFiles()
-                .orEmpty()
-                .sortedByDescending { it.lastModified() }
-                .map { it.toUri().toString() }
-        }.stateIn(
-            scope = appScope,
-            started = SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
-
-    override suspend fun saveSignature(signature: Any): Boolean {
-        return runSuspendCatching {
-            val currentSignatures = savedSignatures.value
-
-            if (currentSignatures.size + 1 > SIGNATURES_LIMIT) {
-                currentSignatures.last().toUri().toFile().delete()
-            }
-
-            File(signaturesDir, "signature_${System.currentTimeMillis()}.png")
-                .outputStream()
-                .use { out ->
-                    imageGetter.getImage(signature)?.compress(
-                        Bitmap.CompressFormat.PNG,
-                        100,
-                        out
+            for (pageIndex in 0 until renderer.pageCount) {
+                if (pages == null || pages.contains(pageIndex)) {
+                    val bitmap = Trickle.drawColorBehind(
+                        input = renderer.renderImage(
+                            pageIndex,
+                            preset.value / 100f
+                        ),
+                        color = Color.White.toArgb()
                     )
+
+                    send(PdfToImagesAction.Progress(pageIndex, bitmap))
                 }
-            updateFlow.emit(Unit)
-        }.onFailure {
-            it.makeLog("saveSignature")
-        }.isSuccess
-    }
-
-    override fun setMasterPassword(password: String?) {
-        masterPassword = password
-    }
-
-    override fun createTempName(key: String, uri: String?): String = tempName(
-        key = key,
-        uri = uri
-    ).removePrefix(PDF)
-
-    override fun clearPdfCache(uri: String?) {
-        appScope.launch {
-            runCatching {
-                if (uri.isNullOrBlank()) {
-                    File(context.cacheDir, "pdf").deleteRecursively()
-                } else {
-                    context.contentResolver.delete(uri.toUri(), null, null)
-                }
-            }.onFailure {
-                "failed to delete $uri".makeLog("delete")
             }
         }
+        close()
     }
-
-    override suspend fun checkPdf(uri: String): PdfCheckResult = withContext(defaultDispatcher) {
-        try {
-            usePdf(uri) { document ->
-                if (masterPassword.isNullOrBlank()) {
-                    PdfCheckResult.Open
-                } else {
-                    PdfCheckResult.Protected.Unlocked(
-                        document.save(
-                            filename = uri.toUri().filename()?.let { "$PDF$it" } ?: tempName(
-                                key = "unlocked",
-                                uri = uri
-                            )
-                        )
-                    )
-                }
-            }
-        } catch (_: InvalidPasswordException) {
-            PdfCheckResult.Protected.NeedsPassword
-        } catch (t: Throwable) {
-            ensureActive()
-            PdfCheckResult.Failure(t)
-        }.makeLog("checkPdf")
-    }
-
-    // --- Operations ---
 
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
@@ -290,71 +207,6 @@ internal class AndroidPdfManager @Inject constructor(
                 filename = tempFilename
             ) ?: error("No PDF created")
         }
-    }
-
-    override fun convertPdfToImages(
-        pdfUri: String,
-        password: String?,
-        pages: List<Int>?,
-        preset: Preset.Percentage
-    ): Flow<PdfToImagesAction> = callbackFlow {
-        pdfUri.toUri().createPdfRenderer(
-            password = password ?: masterPassword,
-            onFailure = { throw it }
-        )?.use { renderer ->
-            send(PdfToImagesAction.PagesCount(pages?.size ?: renderer.pageCount))
-
-            for (pageIndex in 0 until renderer.pageCount) {
-                if (pages == null || pages.contains(pageIndex)) {
-                    val bitmap = Trickle.drawColorBehind(
-                        input = renderer.renderImage(
-                            pageIndex,
-                            preset.value / 100f
-                        ),
-                        color = Color.White.toArgb()
-                    )
-
-                    send(PdfToImagesAction.Progress(pageIndex, bitmap))
-                }
-            }
-        }
-        close()
-    }
-
-    override suspend fun getPdfPages(
-        uri: String,
-        password: String?
-    ): List<Int> = withContext(decodingDispatcher) {
-        try {
-            usePdf(
-                uri = uri,
-                password = password ?: masterPassword,
-                action = PDDocument::pageIndices
-            )
-        } catch (_: Throwable) {
-            emptyList()
-        }
-    }
-
-    override suspend fun getPdfPageSizes(
-        uri: String,
-        password: String?
-    ): List<IntegerSize> = withContext(decodingDispatcher) {
-        pagesCache[uri]?.takeIf { it.isNotEmpty() }?.let { return@withContext it }
-
-        try {
-            uri.toUri().createPdfRenderer(
-                password = password ?: masterPassword
-            )?.use { renderer ->
-                List(renderer.pageCount) {
-                    renderer.openPage(it).run {
-                        IntegerSize(width, height)
-                    }
-                }
-            }.orEmpty()
-        } catch (_: Throwable) {
-            emptyList()
-        }.also { pagesCache[uri] = it }
     }
 
     override suspend fun mergePdfs(uris: List<String>): String = catchPdf {
@@ -691,7 +543,8 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     override suspend fun extractPagesFromPdf(uri: String): List<String> = catchPdf {
-        uri.toUri().createPdfRenderer(
+        PdfRenderer(
+            uri = uri,
             password = masterPassword,
             onFailure = { throw it }
         )?.use { renderer ->
@@ -1019,10 +872,10 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
     private suspend inline fun <T> catchPdf(
-        crossinline action: suspend () -> T
+        crossinline action: suspend AndroidPdfHelper.() -> T
     ): T = withContext(defaultDispatcher) {
         try {
-            action()
+            helper.action()
         } catch (k: InvalidPasswordException) {
             throw SecurityException(k.message)
         } catch (e: Throwable) {
@@ -1030,60 +883,5 @@ internal class AndroidPdfManager @Inject constructor(
             throw e
         }
     }
-
-    private fun tempName(
-        key: String,
-        uri: String? = null
-    ): String {
-        val keyFixed = if (key.isBlank()) "_" else "_${key}_"
-
-        return PDF + (uri?.toUri()?.filename()?.substringBeforeLast('.')?.let {
-            "${it}${keyFixed.removeSuffix("_")}.pdf"
-        } ?: "PDF$keyFixed${timestamp()}_${
-            Random(Random.nextInt()).hashCode().toString().take(4)
-        }.pdf")
-    }
-
-    private inline fun <T> usePdf(
-        uri: String,
-        password: String? = masterPassword,
-        action: (PDDocument) -> T
-    ): T = openPdf(
-        uri = uri,
-        password = password
-    ).use(action)
-
-    private fun openPdf(
-        uri: String,
-        password: String? = masterPassword
-    ): PDDocument = safeOpenPdf(
-        uri = uri,
-        password = password
-    )
-
-    private inline fun <T> createPdf(action: (PDDocument) -> T) = PDDocument().use(action)
-
-    private suspend fun PDDocument.save(
-        filename: String,
-        password: String? = null,
-        metadata: PdfMetadata? = PdfMetadata.Empty
-    ): String {
-        if (metadata != PdfMetadata.Empty) {
-            setMetadata(metadata)
-        }
-
-        return shareProvider.cacheDataOrThrow(
-            filename = filename,
-            writeData = {
-                save(
-                    writeable = it,
-                    password = password
-                )
-            }
-        )
-    }
-
-    private fun List<Int>?.orAll(document: PDDocument) =
-        orEmpty().ifEmpty { document.pageIndices }
 
 }
