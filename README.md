@@ -683,6 +683,7 @@ or click one of the badges below.
     - Flatten
     - Extract Images
     - Zip PDF
+    - Print PDF
     - PDF to Text (OCR)
 - Document Scanning
 - AI tools (95+ ready to use models available)
