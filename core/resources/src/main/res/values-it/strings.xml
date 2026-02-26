@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Pagine per foglio</string>
     <string name="orientation">Orientamento</string>
     <string name="page_size">Dimensioni della pagina</string>
+    <string name="margin">Margine</string>
 </resources>

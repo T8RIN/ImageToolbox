@@ -2180,4 +2180,5 @@
     <string name="pages_per_sheet">시트당 페이지 수</string>
     <string name="orientation">정위</string>
     <string name="page_size">페이지 크기</string>
+    <string name="margin">여유</string>
 </resources>

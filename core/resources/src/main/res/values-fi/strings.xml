@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Sivuja per arkki</string>
     <string name="orientation">Suuntautuminen</string>
     <string name="page_size">Sivun koko</string>
+    <string name="margin">Marginaali</string>
 </resources>

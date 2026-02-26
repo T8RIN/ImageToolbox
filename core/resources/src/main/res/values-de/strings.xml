@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Seiten pro Blatt</string>
     <string name="orientation">Orientierung</string>
     <string name="page_size">Seitengröße</string>
+    <string name="margin">Marge</string>
 </resources>

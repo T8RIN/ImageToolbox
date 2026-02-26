@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Старонкі на аркушы</string>
     <string name="orientation">Арыентацыя</string>
     <string name="page_size">Памер старонкі</string>
+    <string name="margin">Маржа</string>
 </resources>

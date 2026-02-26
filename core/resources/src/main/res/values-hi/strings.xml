@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">पत्र के अनुसार पृष्ठों</string>
     <string name="orientation">अभिविन्यास</string>
     <string name="page_size">पृष्ठ का आकार</string>
+    <string name="margin">अंतर</string>
 </resources>

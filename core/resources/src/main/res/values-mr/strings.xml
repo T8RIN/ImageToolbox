@@ -2182,4 +2182,5 @@
     <string name="pages_per_sheet">प्रति पत्रक पृष्ठे</string>
     <string name="orientation">अभिमुखता</string>
     <string name="page_size">पृष्ठ आकार</string>
+    <string name="margin">समास</string>
 </resources>

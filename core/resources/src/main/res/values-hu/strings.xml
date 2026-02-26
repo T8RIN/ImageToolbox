@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Oldalak Laponként</string>
     <string name="orientation">Tájolás</string>
     <string name="page_size">Oldalméret</string>
+    <string name="margin">Margó</string>
 </resources>

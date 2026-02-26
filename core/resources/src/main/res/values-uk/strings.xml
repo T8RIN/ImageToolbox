@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Сторінок на аркуші</string>
     <string name="orientation">Орієнтація</string>
     <string name="page_size">Розмір сторінки</string>
+    <string name="margin">Маржа</string>
 </resources>

@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">ప్రతి షీట్‌కి పేజీలు</string>
     <string name="orientation">ఓరియంటేషన్</string>
     <string name="page_size">పేజీ పరిమాణం</string>
+    <string name="margin">మార్జిన్</string>
 </resources>

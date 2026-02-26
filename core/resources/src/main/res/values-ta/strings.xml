@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">ஒவ்வொரு தாளுக்கும் பக்கங்கள்</string>
     <string name="orientation">நோக்குநிலை</string>
     <string name="page_size">பக்க அளவு</string>
+    <string name="margin">விளிம்பு</string>
 </resources>

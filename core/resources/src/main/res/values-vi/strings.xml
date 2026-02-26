@@ -2180,4 +2180,5 @@
     <string name="pages_per_sheet">Số trang trên mỗi tờ</string>
     <string name="orientation">Định hướng</string>
     <string name="page_size">Kích thước trang</string>
+    <string name="margin">Lề</string>
 </resources>

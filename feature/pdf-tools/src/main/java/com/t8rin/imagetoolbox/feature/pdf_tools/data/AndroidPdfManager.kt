@@ -863,7 +863,7 @@ internal class AndroidPdfManager @Inject constructor(
             val renderer = PDFRenderer(document)
 
             createPdf { newDoc ->
-                val pagesPerSheet = params.pagesPerSheet.coerceIn(1, 16)
+                val pagesPerSheet = params.pagesPerSheet.coerceIn(PrintPdfParams.pageRange)
 
                 val gridSize = params.gridSize
 

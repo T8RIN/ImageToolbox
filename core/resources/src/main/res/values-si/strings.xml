@@ -2182,4 +2182,5 @@
     <string name="pages_per_sheet">පත්‍රයකට පිටු</string>
     <string name="orientation">දිශානතිය</string>
     <string name="page_size">පිටු ප්‍රමාණය</string>
+    <string name="margin">ආන්තිකය</string>
 </resources>

@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Pagina\'s per vel</string>
     <string name="orientation">Oriëntatie</string>
     <string name="page_size">Paginagrootte</string>
+    <string name="margin">Marge</string>
 </resources>

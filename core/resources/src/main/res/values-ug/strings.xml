@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">ھەر بىر بەت</string>
     <string name="orientation">يۆنىلىش</string>
     <string name="page_size">بەت چوڭلۇقى</string>
+    <string name="margin">Margin</string>
 </resources>

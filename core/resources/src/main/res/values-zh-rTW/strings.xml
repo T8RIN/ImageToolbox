@@ -2180,4 +2180,5 @@
     <string name="pages_per_sheet">每张页数</string>
     <string name="orientation">方向</string>
     <string name="page_size">页面尺寸</string>
+    <string name="margin">利润</string>
 </resources>

@@ -2185,4 +2185,5 @@
     <string name="pages_per_sheet">صفحات لكل ورقة</string>
     <string name="orientation">توجيه</string>
     <string name="page_size">حجم الصفحة</string>
+    <string name="margin">هامِش</string>
 </resources>

@@ -2182,4 +2182,5 @@
     <string name="pages_per_sheet">Sidor per ark</string>
     <string name="orientation">Orientering</string>
     <string name="page_size">Sidstorlek</string>
+    <string name="margin">Marginal</string>
 </resources>

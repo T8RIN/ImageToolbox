@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">পত্র প্রতি পাতা</string>
     <string name="orientation">ওরিয়েন্টেশন</string>
     <string name="page_size">পৃষ্ঠার আকার</string>
+    <string name="margin">মার্জিন</string>
 </resources>

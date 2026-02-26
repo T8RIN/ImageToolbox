@@ -2182,4 +2182,5 @@
     <string name="pages_per_sheet">Странице по листу</string>
     <string name="orientation">Оријентација</string>
     <string name="page_size">Величина странице</string>
+    <string name="margin">Маргина</string>
 </resources>

@@ -2182,4 +2182,5 @@
     <string name="pages_per_sheet">Pagini pe foaie</string>
     <string name="orientation">Orientare</string>
     <string name="page_size">Dimensiunea paginii</string>
+    <string name="margin">Marja</string>
 </resources>

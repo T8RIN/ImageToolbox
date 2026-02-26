@@ -2181,4 +2181,5 @@
     <string name="pages_per_sheet">Orrialde bakoitzeko orrialdeak</string>
     <string name="orientation">Orientazioa</string>
     <string name="page_size">Orrialdearen Tamaina</string>
+    <string name="margin">Marjina</string>
 </resources>

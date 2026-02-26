@@ -2180,4 +2180,5 @@
     <string name="pages_per_sheet">จำนวนหน้าต่อแผ่น</string>
     <string name="orientation">ปฐมนิเทศ</string>
     <string name="page_size">ขนาดหน้า</string>
+    <string name="margin">ขอบ</string>
 </resources>

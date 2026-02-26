@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Stránky na list</string>
     <string name="orientation">Orientace</string>
     <string name="page_size">Velikost stránky</string>
+    <string name="margin">Okraj</string>
 </resources>

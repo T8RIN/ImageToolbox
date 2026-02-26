@@ -2184,4 +2184,5 @@
     <string name="pages_per_sheet">Puslapiai lape</string>
     <string name="orientation">Orientacija</string>
     <string name="page_size">Puslapio dydis</string>
+    <string name="margin">Marža</string>
 </resources>

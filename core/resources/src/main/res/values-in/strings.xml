@@ -2180,4 +2180,5 @@
     <string name="pages_per_sheet">Halaman Per Lembar</string>
     <string name="orientation">Orientasi</string>
     <string name="page_size">Ukuran Halaman</string>
+    <string name="margin">Batas</string>
 </resources>

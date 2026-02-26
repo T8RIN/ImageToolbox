@@ -55,5 +55,9 @@ data class PrintPdfParams(
                 16 to (4 to 4)
             )
         }
+
+        val pageRange by lazy {
+            pagesMapping.keys.sorted().run { first()..last() }
+        }
     }
 }

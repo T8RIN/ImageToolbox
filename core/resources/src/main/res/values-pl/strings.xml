@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Strony na arkusz</string>
     <string name="orientation">Orientacja</string>
     <string name="page_size">Rozmiar strony</string>
+    <string name="margin">Margines</string>
 </resources>

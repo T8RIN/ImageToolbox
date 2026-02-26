@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">דפים לגיליון</string>
     <string name="orientation">הִתמַצְאוּת</string>
     <string name="page_size">גודל עמוד</string>
+    <string name="margin">מֶתַח</string>
 </resources>

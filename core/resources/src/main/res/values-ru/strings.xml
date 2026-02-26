@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Страниц на листе</string>
     <string name="orientation">Ориентация</string>
     <string name="page_size">Размер страницы</string>
+    <string name="margin">Допуск</string>
 </resources>

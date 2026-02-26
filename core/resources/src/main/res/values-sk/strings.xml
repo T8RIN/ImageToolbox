@@ -2183,4 +2183,5 @@
     <string name="pages_per_sheet">Počet strán na hárok</string>
     <string name="orientation">Orientácia</string>
     <string name="page_size">Veľkosť strany</string>
+    <string name="margin">Marža</string>
 </resources>
