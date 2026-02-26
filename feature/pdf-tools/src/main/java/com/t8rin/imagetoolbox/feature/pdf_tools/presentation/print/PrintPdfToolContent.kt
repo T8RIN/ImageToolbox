@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.OnlyAllowedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -133,6 +134,21 @@ fun PrintPdfToolContent(
                     )
                 }
             )
+            Spacer(Modifier.height(8.dp))
+            EnhancedSliderItem(
+                value = params.marginPercent,
+                title = stringResource(id = R.string.margin),
+                internalStateTransformation = {
+                    it.roundToInt()
+                },
+                onValueChange = {
+                    component.updateParams(params.copy(marginPercent = it))
+                },
+                valueRange = 0f..50f,
+                shape = ShapeDefaults.large,
+                valueSuffix = "%"
+            )
+
 
             Spacer(Modifier.height(20.dp))
         },

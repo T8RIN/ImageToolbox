@@ -118,7 +118,7 @@ internal class AndroidPdfManager @Inject constructor(
                 send(
                     PdfToImagesAction.Progress(
                         index = pageIndex,
-                        image = renderer.renderImage(pageIndex, scale).whiteBg()
+                        image = renderer.safeRenderDpi(pageIndex, scale).whiteBg()
                     )
                 )
             }
@@ -716,7 +716,7 @@ internal class AndroidPdfManager @Inject constructor(
                     val cropBox = page.cropBox
 
                     val pdImage = renderer
-                        .renderImageWithDPI(index, dpi)
+                        .safeRenderDpi(index, dpi)
                         .whiteBg()
                         .asXObject(newDoc, quality)
 
@@ -882,8 +882,26 @@ internal class AndroidPdfManager @Inject constructor(
                         val pageWidth = cropBox.width
                         val pageHeight = cropBox.height
 
-                        val cellWidth = pageWidth / gridSize.second
-                        val cellHeight = pageHeight / gridSize.first
+                        val rows = gridSize.first
+                        val cols = gridSize.second
+
+                        val cellWidth = pageWidth / cols
+                        val cellHeight = pageHeight / rows
+
+                        val margin = if (params.marginPercent > 0) {
+                            (minOf(
+                                pageWidth,
+                                pageHeight
+                            ) * params.marginPercent / 100f).coerceAtLeast(0f)
+                        } else 0f
+
+                        val availableContentWidth = if (margin > 0) {
+                            (pageWidth - (cols + 1) * margin) / cols
+                        } else cellWidth
+
+                        val availableContentHeight = if (margin > 0) {
+                            (pageHeight - (rows + 1) * margin) / rows
+                        } else cellHeight
 
                         for (i in 0 until pagesPerSheet) {
                             val pageIndex = startPageIndex + i
@@ -894,22 +912,39 @@ internal class AndroidPdfManager @Inject constructor(
                             val sourceHeight = sourcePage.cropBox.height
 
                             val scale = minOf(
-                                cellWidth / sourceWidth,
-                                cellHeight / sourceHeight
-                            ) * 0.95f
+                                availableContentWidth / sourceWidth,
+                                availableContentHeight / sourceHeight
+                            ).coerceAtMost(1f)
 
                             val scaledWidth = sourceWidth * scale
                             val scaledHeight = sourceHeight * scale
 
-                            val col = i % gridSize.second
-                            val row = i / gridSize.second
+                            val col = i % cols
+                            val row = i / cols
 
-                            val x = (col * cellWidth) + (cellWidth - scaledWidth) / 2
-                            val y =
-                                pageHeight - ((row + 1) * cellHeight) + (cellHeight - scaledHeight) / 2
+                            val cellLeft = col * cellWidth
+                            val cellBottom = pageHeight - (row + 1) * cellHeight
 
-                            val pdImage = renderer.renderImageWithDPI(pageIndex, dpi)
-                                .whiteBg()
+                            val x: Float
+                            val y: Float
+
+                            if (margin > 0) {
+                                val contentLeft = cellLeft + margin
+                                val contentBottom = cellBottom + margin
+                                val contentCenterX = contentLeft + availableContentWidth / 2
+                                val contentCenterY = contentBottom + availableContentHeight / 2
+                                x = contentCenterX - scaledWidth / 2
+                                y = contentCenterY - scaledHeight / 2
+                            } else {
+                                x = cellLeft + (cellWidth - scaledWidth) / 2
+                                y = cellBottom + (cellHeight - scaledHeight) / 2
+                            }
+
+                            val pdImage = Trickle
+                                .drawColorBehind(
+                                    input = renderer.safeRenderDpi(pageIndex, dpi),
+                                    color = Color.White.toArgb()
+                                )
                                 .asXObject(newDoc, quality)
 
                             drawImage(pdImage, x, y, scaledWidth, scaledHeight)
@@ -944,5 +979,14 @@ internal class AndroidPdfManager @Inject constructor(
         input = this,
         color = Color.White.toArgb()
     )
+
+    private fun PDFRenderer.safeRenderDpi(
+        pageIndex: Int,
+        dpi: Float
+    ) = try {
+        renderImageWithDPI(pageIndex, dpi)
+    } catch (_: Throwable) {
+        renderImage(pageIndex)
+    }
 
 }

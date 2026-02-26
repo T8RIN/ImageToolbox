@@ -2202,4 +2202,5 @@
     <string name="pages_per_sheet">Pages Per Sheet</string>
     <string name="orientation">Orientation</string>
     <string name="page_size">Page Size</string>
+    <string name="margin">Margin</string>
 </resources>

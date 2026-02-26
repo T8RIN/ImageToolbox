@@ -20,7 +20,8 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
 data class PrintPdfParams(
     val orientation: PageOrientation = PageOrientation.ORIGINAL,
     val pageSize: PageSize = PageSize.Auto,
-    val pagesPerSheet: Int = 1
+    val pagesPerSheet: Int = 1,
+    val marginPercent: Float = 0f
 ) {
     val pageSizeFinal = if (pageSize == PageSize.Auto) {
         null
