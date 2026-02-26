@@ -214,7 +214,7 @@ fun OneTimeSaveLocationSelectionDialog(
                         state = state,
                         revealedContentEnd = {
                             Box(
-                                Modifier
+                                modifier = Modifier
                                     .fillMaxSize()
                                     .container(
                                         color = MaterialTheme.colorScheme.errorContainer,

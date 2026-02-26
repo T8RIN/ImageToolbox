@@ -95,6 +95,6 @@ fun CornersSizeSettingItem(
         internalStateTransformation = {
             it.roundToTwoDigits()
         },
-        valueRange = 0f..1.35f
+        valueRange = 0f..2f
     )
 }

@@ -319,6 +319,10 @@ private fun CornerSize.toAuto(shapeType: ShapeType) = toAuto(shapeType.strength)
 private fun CornerSize.toAuto(strength: Float) =
     if (strength == 1f) {
         this
+    } else if (this is AutoCornerSize) {
+        copy(
+            strength = strength
+        )
     } else {
         AutoCornerSize(
             parent = this,
@@ -328,10 +332,10 @@ private fun CornerSize.toAuto(strength: Float) =
 
 @Stable
 @Immutable
-private class AutoCornerSize(
+private data class AutoCornerSize(
     private val parent: CornerSize,
     private val strength: Float
-) : CornerSize by parent {
+) : CornerSize {
 
     override fun toPx(shapeSize: Size, density: Density): Float =
         (parent.toPx(shapeSize, density) * strength).coerceAtLeast(0f)

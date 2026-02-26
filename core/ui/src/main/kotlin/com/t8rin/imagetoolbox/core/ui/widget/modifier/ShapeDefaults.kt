@@ -309,7 +309,7 @@ internal class AnimatedShape(
             topEnd = CornerSize(topEnd.boundedValue()),
             bottomStart = CornerSize(bottomStart.boundedValue()),
             bottomEnd = CornerSize(bottomEnd.boundedValue()),
-            shapesType = shapesType
+            shapesType = shapesType.copy(1f)
         ).createOutline(
             size = size,
             layoutDirection = layoutDirection,
