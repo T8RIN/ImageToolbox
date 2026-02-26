@@ -2082,8 +2082,8 @@
     <string name="ios_style_sub">Поведение прокрутки, подобное iOS, с повышенным трением</string>
     <string name="smooth_curve_sub">Уникальная кривая сплайна для четкого ощущения прокрутки</string>
     <string name="quick_stop_sub">Точная прокрутка с быстрой остановкой</string>
-    <string name="bouncy_sub">Игривый, отзывчивый, упругий прокрутка</string>
-    <string name="floaty_sub">Длинные скользящие прокрутки для просмотра контента</string>
+    <string name="bouncy_sub">Игривая, отзывчивая, упругая прокрутка</string>
+    <string name="floaty_sub">Длинная скользящая прокрутка для просмотра контента</string>
     <string name="snappy_sub">Быстрая и отзывчивая прокрутка для интерактивных интерфейсов.</string>
     <string name="ultra_smooth_sub">Плавная прокрутка премиум-класса с увеличенным импульсом</string>
     <string name="adaptive_sub">Регулирует физику в зависимости от скорости броска.</string>
@@ -2167,7 +2167,7 @@
     <string name="crop_pdf_sub">Обрежьте страницы документа до любых границ</string>
     <string name="flatten_pdf">Свести PDF</string>
     <string name="flatten_pdf_sub">Сделайте PDF неизменяемым, растрируя страницы документа</string>
-    <string name="camera_failed_to_open">Не удалось запустить камеру. Пожалуйста, проверьте разрешения и убедитесь, что оно не используется другим приложением.</string>
+    <string name="camera_failed_to_open">Не удалось запустить камеру. Пожалуйста, проверьте разрешения и убедитесь, что она не используется другим приложением.</string>
     <string name="extract_images">Извлечь изображения</string>
     <string name="extract_images_sub">Извлекайте изображения, встроенные в PDF-файлы, в исходном разрешении.</string>
     <string name="pdf_no_embedded">Этот PDF-файл не содержит встроенных изображений.</string>
