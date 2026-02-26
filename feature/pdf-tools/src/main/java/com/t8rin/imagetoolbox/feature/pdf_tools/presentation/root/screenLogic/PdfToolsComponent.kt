@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -47,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImageState
 import com.t8rin.logger.makeLog
@@ -76,6 +78,10 @@ class PdfToolsComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialType?.let(::setType)
+        }
+
+        doOnDestroy {
+            pdfManager.setMasterPassword(null)
         }
     }
 
@@ -118,11 +124,16 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(1)
     val left by _left
 
-    private var _pdfPassword: String? = null
-
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
+
+    private val imagesToPdfParams: ImagesToPdfParams
+        get() = ImagesToPdfParams(
+            scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+            preset = _presetSelected.value,
+            quality = _quality.value
+        )
 
     private fun resetCalculatedData() {
         _outputPdfUri.value = null
@@ -188,8 +199,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         componentScope.launch {
             newUri?.let {
                 val pages = pdfManager.getPdfPages(
-                    uri = newUri.toString(),
-                    password = _pdfPassword
+                    uri = newUri.toString()
                 )
 
                 _pdfToImageState.update {
@@ -209,7 +219,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     }
 
     fun updatePdfPassword(password: String?) {
-        _pdfPassword = password
+        pdfManager.setMasterPassword(password)
     }
 
     fun clearAll() {
@@ -221,7 +231,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
         _quality.value = 85
-        _pdfPassword = null
+        pdfManager.setMasterPassword(null)
         resetCalculatedData()
         registerChangesCleared()
     }
@@ -235,10 +245,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
         val results = mutableListOf<SaveResult>()
         savingJob = trackProgress {
             pdfManager.convertPdfToImages(
-                pdfUri = _pdfToImageState.value?.uri.toString(),
+                uri = _pdfToImageState.value?.uri.toString(),
                 pages = _pdfToImageState.value?.selectedPages,
-                preset = presetSelected,
-                password = _pdfPassword,
+                preset = presetSelected
             ).onCompletion {
                 _isSaving.value = false
                 onComplete(results.onSuccess(::registerSave))
@@ -303,10 +312,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                             total = left
                         )
                     },
-                    scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                    preset = _presetSelected.value,
-                    tempFilename = generatePdfFilename(),
-                    quality = _quality.value
+                    params = imagesToPdfParams
                 )
             }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
             registerChanges()
@@ -353,10 +359,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                                     total = left
                                 )
                             },
-                            scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-                            preset = _presetSelected.value,
-                            tempFilename = generatePdfFilename(),
-                            quality = _quality.value
+                            params = imagesToPdfParams
                         ).let {
                             onSuccess(listOf(it.toUri()))
                         }
@@ -370,10 +373,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     val uris: MutableList<String?> = mutableListOf()
 
                     pdfManager.convertPdfToImages(
-                        pdfUri = _pdfToImageState.value?.uri.toString(),
+                        uri = _pdfToImageState.value?.uri.toString(),
                         pages = _pdfToImageState.value?.selectedPages,
-                        preset = presetSelected,
-                        password = _pdfPassword
+                        preset = presetSelected
                     ).onCompletion {
                         _isSaving.value = false
                         onSuccess(uris.mapNotNull { it?.toUri() })
@@ -476,8 +478,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
             runSuspendCatching {
                 _pdfToImageState.value?.let { (uri, _, selectedPages) ->
                     val pagesSize = pdfManager.getPdfPageSizes(
-                        uri = uri.toString(),
-                        password = _pdfPassword
+                        uri = uri.toString()
                     ).filterIndexed { index, _ -> index in selectedPages }
 
                     _showOOMWarning.update {

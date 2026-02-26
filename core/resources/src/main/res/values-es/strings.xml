@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">Comprimir PDF</string>
     <string name="zip_pdf_sub">Divida el documento con el intervalo determinado y empaquete documentos nuevos en un archivo zip</string>
     <string name="interval">Intervalo</string>
+    <string name="print_pdf">Imprimir PDF</string>
+    <string name="print_pdf_sub">Prepare el documento para imprimir con un tamaño de página personalizado</string>
+    <string name="pages_per_sheet">Páginas por hoja</string>
+    <string name="orientation">Orientación</string>
+    <string name="page_size">Tamaño de página</string>
+    <string name="margin">Margen</string>
 </resources>

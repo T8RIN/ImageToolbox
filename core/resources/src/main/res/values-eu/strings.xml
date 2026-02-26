@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Zatitu dokumentua emandako tartearekin eta paketatu dokumentu berriak zip artxiboan</string>
     <string name="interval">Tartea</string>
+    <string name="print_pdf">PDF inprimatu</string>
+    <string name="print_pdf_sub">Prestatu dokumentua orri-tamaina pertsonalizatuarekin inprimatzeko</string>
+    <string name="pages_per_sheet">Orrialde bakoitzeko orrialdeak</string>
+    <string name="orientation">Orientazioa</string>
+    <string name="page_size">Orrialdearen Tamaina</string>
+    <string name="margin">Marjina</string>
 </resources>

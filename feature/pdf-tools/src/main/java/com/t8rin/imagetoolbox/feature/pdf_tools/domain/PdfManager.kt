@@ -18,61 +18,29 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
-interface PdfManager {
+interface PdfManager : PdfHelper {
 
-    val savedSignatures: StateFlow<List<String>>
-
-    fun setMasterPassword(
-        password: String?
-    )
-
-    fun createTempName(
-        key: String,
-        uri: String? = null
-    ): String
-
-    fun clearPdfCache(uri: String?)
-
-    suspend fun checkPdf(
-        uri: String
-    ): PdfCheckResult
-
-    suspend fun getPdfPages(
+    fun convertPdfToImages(
         uri: String,
-        password: String?
-    ): List<Int>
-
-    suspend fun getPdfPageSizes(
-        uri: String,
-        password: String?
-    ): List<IntegerSize>
+        pages: List<Int>?,
+        preset: Preset.Percentage
+    ): Flow<PdfToImagesAction>
 
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
-        scaleSmallImagesToLarge: Boolean,
-        preset: Preset.Percentage,
-        tempFilename: String,
-        quality: Int
+        params: ImagesToPdfParams
     ): String
-
-    fun convertPdfToImages(
-        pdfUri: String,
-        password: String?,
-        pages: List<Int>?,
-        preset: Preset.Percentage
-    ): Flow<PdfToImagesAction>
 
     suspend fun mergePdfs(
         uris: List<String>
@@ -100,9 +68,7 @@ interface PdfManager {
 
     suspend fun addPageNumbers(
         uri: String,
-        labelFormat: String,
-        position: Position,
-        color: Int
+        params: PageNumbersParams
     ): String
 
     suspend fun addWatermark(
@@ -176,11 +142,15 @@ interface PdfManager {
         uri: String
     ): String?
 
-    suspend fun saveSignature(signature: Any): Boolean
-
     suspend fun convertToZip(
         uri: String,
         interval: Int
+    ): String
+
+    suspend fun printPdf(
+        uri: String,
+        quality: Float,
+        params: PrintPdfParams
     ): String
 
 }

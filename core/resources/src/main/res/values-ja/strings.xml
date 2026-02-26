@@ -2175,4 +2175,10 @@
     <string name="zip_pdf">PDF を圧縮</string>
     <string name="zip_pdf_sub">指定された間隔でドキュメントを分割し、新しいドキュメントを zip アーカイブに圧縮します</string>
     <string name="interval">間隔</string>
+    <string name="print_pdf">PDFを印刷する</string>
+    <string name="print_pdf_sub">カスタム ページ サイズで印刷するドキュメントを準備する</string>
+    <string name="pages_per_sheet">シートあたりのページ数</string>
+    <string name="orientation">向き</string>
+    <string name="page_size">ページサイズ</string>
+    <string name="margin">マージン</string>
 </resources>

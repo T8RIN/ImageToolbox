@@ -2177,4 +2177,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Dela dokument med givet intervall och packa nya dokument i zip-arkivet</string>
     <string name="interval">Intervall</string>
+    <string name="print_pdf">Skriv ut PDF</string>
+    <string name="print_pdf_sub">Förbered dokument för utskrift med anpassad sidstorlek</string>
+    <string name="pages_per_sheet">Sidor per ark</string>
+    <string name="orientation">Orientering</string>
+    <string name="page_size">Sidstorlek</string>
+    <string name="margin">Marginal</string>
 </resources>

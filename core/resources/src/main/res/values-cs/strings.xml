@@ -2178,4 +2178,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Rozdělte dokument s daným intervalem a zabalte nové dokumenty do zip archivu</string>
     <string name="interval">Interval</string>
+    <string name="print_pdf">Tisk PDF</string>
+    <string name="print_pdf_sub">Připravte dokument pro tisk s vlastní velikostí stránky</string>
+    <string name="pages_per_sheet">Stránky na list</string>
+    <string name="orientation">Orientace</string>
+    <string name="page_size">Velikost stránky</string>
+    <string name="margin">Okraj</string>
 </resources>

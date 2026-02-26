@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">PDF\'yi sıkıştır</string>
     <string name="zip_pdf_sub">Belgeyi belirli aralıklarla bölün ve yeni belgeleri zip arşivine paketleyin</string>
     <string name="interval">Aralık</string>
+    <string name="print_pdf">PDF\'yi yazdır</string>
+    <string name="print_pdf_sub">Belgeyi özel sayfa boyutunda yazdırmaya hazırlayın</string>
+    <string name="pages_per_sheet">Sayfa Başına Sayfa</string>
+    <string name="orientation">Oryantasyon</string>
+    <string name="page_size">Sayfa Boyutu</string>
+    <string name="margin">Marj</string>
 </resources>

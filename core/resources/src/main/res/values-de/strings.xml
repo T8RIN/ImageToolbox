@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">PDF komprimieren</string>
     <string name="zip_pdf_sub">Teilen Sie das Dokument in einem bestimmten Intervall auf und packen Sie neue Dokumente in ein ZIP-Archiv</string>
     <string name="interval">Intervall</string>
+    <string name="print_pdf">PDF drucken</string>
+    <string name="print_pdf_sub">Bereiten Sie das Dokument zum Drucken mit benutzerdefinierter Seitengröße vor</string>
+    <string name="pages_per_sheet">Seiten pro Blatt</string>
+    <string name="orientation">Orientierung</string>
+    <string name="page_size">Seitengröße</string>
+    <string name="margin">Marge</string>
 </resources>

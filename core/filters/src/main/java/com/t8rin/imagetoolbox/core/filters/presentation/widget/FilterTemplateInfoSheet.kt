@@ -64,7 +64,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.transformations
@@ -392,31 +391,28 @@ internal fun TemplateFilterPreviewItem(
     templateFilter: TemplateFilter
 ) {
     val previewModel = LocalFilterPreviewModelProvider.current.preview
-    val model = remember(templateFilter, previewModel) {
-        ImageRequest.Builder(appContext)
-            .data(previewModel.data)
-            .error(R.drawable.filter_preview_source)
-            .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
-            .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
-            .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
-            .size(300, 300)
-            .build()
-    }
+
     var loading by remember {
         mutableStateOf(false)
     }
-    val painter = rememberAsyncImagePainter(
-        model = model,
+
+    Picture(
+        model = remember(templateFilter, previewModel) {
+            ImageRequest.Builder(appContext)
+                .data(previewModel.data)
+                .error(R.drawable.filter_preview_source)
+                .transformations(templateFilter.filters.map { onRequestFilterMapping(it.toUiFilter()) })
+                .diskCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+                .memoryCacheKey(templateFilter.toString() + previewModel.data.hashCode())
+                .size(300, 300)
+                .build()
+        },
         onLoading = {
             loading = true
         },
         onSuccess = {
             loading = false
-        }
-    )
-
-    Picture(
-        model = painter,
+        },
         contentScale = ContentScale.Crop,
         contentDescription = null,
         modifier = modifier

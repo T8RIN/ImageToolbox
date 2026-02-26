@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">জিপ পিডিএফ</string>
     <string name="zip_pdf_sub">প্রদত্ত ব্যবধানে নথি ভাগ করুন এবং জিপ সংরক্ষণাগারে নতুন নথি প্যাক করুন</string>
     <string name="interval">ব্যবধান</string>
+    <string name="print_pdf">পিডিএফ প্রিন্ট করুন</string>
+    <string name="print_pdf_sub">কাস্টম পৃষ্ঠা আকার সহ মুদ্রণের জন্য নথি প্রস্তুত করুন</string>
+    <string name="pages_per_sheet">পত্র প্রতি পাতা</string>
+    <string name="orientation">ওরিয়েন্টেশন</string>
+    <string name="page_size">পৃষ্ঠার আকার</string>
+    <string name="margin">মার্জিন</string>
 </resources>

@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">ज़िप पीडीएफ</string>
     <string name="zip_pdf_sub">दिए गए अंतराल के साथ दस्तावेज़ को विभाजित करें और नए दस्तावेज़ों को ज़िप संग्रह में पैक करें</string>
     <string name="interval">अंतराल</string>
+    <string name="print_pdf">पीडीएफ प्रिंट करें</string>
+    <string name="print_pdf_sub">कस्टम पेज आकार के साथ मुद्रण के लिए दस्तावेज़ तैयार करें</string>
+    <string name="pages_per_sheet">पत्र के अनुसार पृष्ठों</string>
+    <string name="orientation">अभिविन्यास</string>
+    <string name="page_size">पृष्ठ का आकार</string>
+    <string name="margin">अंतर</string>
 </resources>

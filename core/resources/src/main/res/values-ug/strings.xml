@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">بېرىلگەن ئارىلىق بىلەن ھۆججەتنى پارچىلاپ ، يېڭى ھۆججەتلەرنى zip ئارخىپىغا قاچىلاڭ</string>
     <string name="interval">ئارىلىق</string>
+    <string name="print_pdf">PDF نى بېسىڭ</string>
+    <string name="print_pdf_sub">ئىختىيارى بەت چوڭلۇقى بىلەن بېسىپ چىقىرىش ئۈچۈن ھۆججەت تەييارلاڭ</string>
+    <string name="pages_per_sheet">ھەر بىر بەت</string>
+    <string name="orientation">يۆنىلىش</string>
+    <string name="page_size">بەت چوڭلۇقى</string>
+    <string name="margin">Margin</string>
 </resources>

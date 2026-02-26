@@ -105,6 +105,7 @@ internal fun List<Uri>.screenList(
                 Screen.PdfTools.Signature(uris.firstOrNull()),
                 Screen.PdfTools.Compress(uris.firstOrNull()),
                 Screen.PdfTools.Flatten(uris.firstOrNull()),
+                Screen.PdfTools.Print(uris.firstOrNull()),
                 Screen.PdfTools.Grayscale(uris.firstOrNull()),
                 Screen.PdfTools.Repair(uris.firstOrNull()),
                 Screen.PdfTools.Protect(uris.firstOrNull()),

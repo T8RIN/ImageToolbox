@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.logger.makeLog
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.rendering.PDFRenderer
+import okio.ByteString.Companion.toByteString
 import kotlin.math.roundToInt
 
 internal class PdfDecoder(
@@ -88,12 +89,20 @@ internal class PdfDecoder(
             options: Options,
             imageLoader: ImageLoader
         ): Decoder? {
-            if (!isApplicable(result)) return null
-            return PdfDecoder(result.source, options)
+            return if (isPdf(result)) {
+                PdfDecoder(
+                    source = result.source,
+                    options = options
+                )
+            } else null
         }
 
-        private fun isApplicable(result: SourceFetchResult): Boolean =
-            result.mimeType == "application/pdf"
+        private fun isPdf(result: SourceFetchResult): Boolean {
+            val pdfMagic = byteArrayOf(0x25, 0x50, 0x44, 0x46).toByteString()
+
+            return result.source.source()
+                .rangeEquals(0, pdfMagic) || result.mimeType == "application/pdf"
+        }
     }
 
 }

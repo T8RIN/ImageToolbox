@@ -54,7 +54,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.transformations
@@ -101,35 +100,12 @@ internal fun FilterSelectionItem(
     val essentials = rememberLocalEssentials()
     val previewModel = LocalFilterPreviewModelProvider.current.preview
 
-    val model = remember(filter, previewModel) {
-        ImageRequest.Builder(appContext)
-            .data(previewModel.data)
-            .error(R.drawable.filter_preview_source)
-            .transformations(onRequestFilterMapping(filter))
-            .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-            .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
-            .size(300, 300)
-            .build()
-    }
-
     var isBitmapDark by remember {
         mutableStateOf(true)
     }
     var loading by remember {
         mutableStateOf(false)
     }
-    val painter = rememberAsyncImagePainter(
-        model = model,
-        onLoading = {
-            loading = true
-        },
-        onSuccess = {
-            loading = false
-            essentials.launch {
-                isBitmapDark = calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
-            }
-        }
-    )
 
     var showDownloadDialog by rememberSaveable {
         mutableStateOf(false)
@@ -149,9 +125,28 @@ internal fun FilterSelectionItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
                     Picture(
-                        model = painter,
+                        model = remember(filter, previewModel) {
+                            ImageRequest.Builder(appContext)
+                                .data(previewModel.data)
+                                .error(R.drawable.filter_preview_source)
+                                .transformations(onRequestFilterMapping(filter))
+                                .diskCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                                .memoryCacheKey(filter::class.simpleName + previewModel.data.hashCode())
+                                .size(300, 300)
+                                .build()
+                        },
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
+                        onLoading = {
+                            loading = true
+                        },
+                        onSuccess = {
+                            loading = false
+                            essentials.launch {
+                                isBitmapDark =
+                                    calculateBrightnessEstimate(it.result.image.toBitmap()) < 110
+                            }
+                        },
                         modifier = Modifier
                             .size(48.dp)
                             .scale(1.2f)

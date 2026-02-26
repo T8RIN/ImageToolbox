@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.screenLogic.PrintPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
@@ -149,6 +150,7 @@ abstract class BasePdfToolComponent(
         is RemovePagesPdfToolComponent -> "removed" to uri
         is CropPdfToolComponent -> "cropped" to uri
         is FlattenPdfToolComponent -> "flattened" to uri
+        is PrintPdfToolComponent -> "printed" to uri
         else -> "" to null
     }
 

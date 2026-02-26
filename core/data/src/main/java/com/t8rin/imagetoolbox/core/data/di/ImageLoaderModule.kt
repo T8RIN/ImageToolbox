@@ -23,10 +23,13 @@ import coil3.ComponentRegistry
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
+import coil3.disk.directory
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.imageLoader
 import coil3.memory.MemoryCache
+import coil3.network.DeDupeConcurrentRequestStrategy
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.allowHardware
 import coil3.request.maxBitmapSize
 import coil3.size.Size
@@ -51,7 +54,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
 import oupson.apng.coil.AnimatedPngDecoder
+import java.io.File
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -72,6 +77,7 @@ internal object ImageLoaderModule {
         .maxBitmapSize(Size.ORIGINAL)
         .diskCache {
             DiskCache.Builder()
+                .directory(File(context.cacheDir, "coil").apply(File::mkdirs))
                 .maxSizePercent(0.2)
                 .cleanupCoroutineContext(dispatchersHolder.ioDispatcher)
                 .build()
@@ -89,8 +95,16 @@ internal object ImageLoaderModule {
     fun provideCoilLogger(): Logger = CoilLogger()
 
     @Provides
-    fun provideComponentRegistry(): ComponentRegistry = ComponentRegistry.Builder()
+    fun provideComponentRegistry(
+        client: HttpClient
+    ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
+            add(
+                KtorNetworkFetcherFactory(
+                    httpClient = client,
+                    concurrentRequestStrategy = DeDupeConcurrentRequestStrategy()
+                )
+            )
             add(AnimatedPngDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())
             else {

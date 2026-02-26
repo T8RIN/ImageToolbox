@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">ஜிப் PDF</string>
     <string name="zip_pdf_sub">கொடுக்கப்பட்ட இடைவெளியுடன் ஆவணத்தைப் பிரித்து புதிய ஆவணங்களை ஜிப் காப்பகத்தில் பேக் செய்யவும்</string>
     <string name="interval">இடைவெளி</string>
+    <string name="print_pdf">PDF ஐ அச்சிடவும்</string>
+    <string name="print_pdf_sub">தனிப்பயன் பக்க அளவுடன் அச்சிடுவதற்கு ஆவணத்தைத் தயாரிக்கவும்</string>
+    <string name="pages_per_sheet">ஒவ்வொரு தாளுக்கும் பக்கங்கள்</string>
+    <string name="orientation">நோக்குநிலை</string>
+    <string name="page_size">பக்க அளவு</string>
+    <string name="margin">விளிம்பு</string>
 </resources>

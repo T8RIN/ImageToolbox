@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">ZIP PDF</string>
     <string name="zip_pdf_sub">Tükeldage dokument etteantud intervalliga ja pakkige uued dokumendid ZIP-arhiivi</string>
     <string name="interval">Intervall</string>
+    <string name="print_pdf">Printige PDF</string>
+    <string name="print_pdf_sub">Valmistage dokument ette kohandatud leheformaadiga printimiseks</string>
+    <string name="pages_per_sheet">Lehekülgi lehel</string>
+    <string name="orientation">Orienteerumine</string>
+    <string name="page_size">Lehekülje suurus</string>
+    <string name="margin">Marginaali</string>
 </resources>

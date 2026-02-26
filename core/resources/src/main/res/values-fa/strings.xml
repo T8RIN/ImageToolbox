@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">زیپ PDF</string>
     <string name="zip_pdf_sub">سند را با فاصله زمانی مشخص تقسیم کنید و اسناد جدید را در بایگانی فشرده قرار دهید</string>
     <string name="interval">فاصله</string>
+    <string name="print_pdf">PDF چاپ کنید</string>
+    <string name="print_pdf_sub">سند را برای چاپ با اندازه صفحه سفارشی آماده کنید</string>
+    <string name="pages_per_sheet">صفحات در هر برگه</string>
+    <string name="orientation">جهت گیری</string>
+    <string name="page_size">اندازه صفحه</string>
+    <string name="margin">حاشیه</string>
 </resources>

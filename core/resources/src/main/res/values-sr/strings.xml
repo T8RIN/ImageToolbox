@@ -2177,4 +2177,10 @@
     <string name="zip_pdf">Зип ПДФ</string>
     <string name="zip_pdf_sub">Поделите документ са датим интервалом и спакујте нове документе у зип архиву</string>
     <string name="interval">Интервал</string>
+    <string name="print_pdf">Штампај ПДФ</string>
+    <string name="print_pdf_sub">Припремите документ за штампање са прилагођеном величином странице</string>
+    <string name="pages_per_sheet">Странице по листу</string>
+    <string name="orientation">Оријентација</string>
+    <string name="page_size">Величина странице</string>
+    <string name="margin">Маргина</string>
 </resources>

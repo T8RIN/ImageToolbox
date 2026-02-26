@@ -353,6 +353,7 @@ sealed class Screen(
                     Signature(),
                     Compress(),
                     Flatten(),
+                    Print(),
                     Grayscale(),
                     Repair(),
                     Protect(),
@@ -535,6 +536,16 @@ sealed class Screen(
             title = R.string.zip_pdf,
             subtitle = R.string.zip_pdf_sub
         )
+
+        @Serializable
+        data class Print(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 63,
+            title = R.string.print_pdf,
+            subtitle = R.string.print_pdf_sub
+        )
+
     }
 
     @Serializable

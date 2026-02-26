@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">ZIP PDF</string>
     <string name="zip_pdf_sub">Берілген аралықпен құжатты бөліңіз және жаңа құжаттарды zip мұрағатына салыңыз</string>
     <string name="interval">Аралық</string>
+    <string name="print_pdf">PDF басып шығару</string>
+    <string name="print_pdf_sub">Құжатты бет өлшемімен басып шығаруға дайындаңыз</string>
+    <string name="pages_per_sheet">Парақтағы беттер</string>
+    <string name="orientation">Бағдарлау</string>
+    <string name="page_size">Бет өлшемі</string>
+    <string name="margin">Маржа</string>
 </resources>

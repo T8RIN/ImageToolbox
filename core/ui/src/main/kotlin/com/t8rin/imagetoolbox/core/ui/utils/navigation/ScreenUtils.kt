@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Panorama
+import androidx.compose.material.icons.outlined.Print
 import androidx.compose.material.icons.outlined.QrCode
 import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.rounded.Compare
@@ -43,6 +44,7 @@ import androidx.compose.material.icons.twotone.FolderZip
 import androidx.compose.material.icons.twotone.GifBox
 import androidx.compose.material.icons.twotone.Gradient
 import androidx.compose.material.icons.twotone.Panorama
+import androidx.compose.material.icons.twotone.Print
 import androidx.compose.material.icons.twotone.QrCode
 import androidx.compose.material.icons.twotone.Tag
 import androidx.compose.material.icons.twotone.Unarchive
@@ -230,6 +232,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Flatten -> "PdfTools_Flatten"
     is PdfTools.ExtractImages -> "PdfTools_ExtractImages"
     is PdfTools.ZipConvert -> "PdfTools_ZipConvert"
+    is PdfTools.Print -> "PdfTools_Print"
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
@@ -303,6 +306,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Flatten -> Icons.Outlined.Panorama
     is PdfTools.ExtractImages -> Icons.Outlined.Unarchive
     is PdfTools.ZipConvert -> Icons.Outlined.FolderZip
+    is PdfTools.Print -> Icons.Outlined.Print
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
@@ -376,6 +380,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Flatten -> Icons.TwoTone.Panorama
     is PdfTools.ExtractImages -> Icons.TwoTone.Unarchive
     is PdfTools.ZipConvert -> Icons.TwoTone.FolderZip
+    is PdfTools.Print -> Icons.TwoTone.Print
 }
 
 internal object UriSerializer : KSerializer<AndroidUri> {

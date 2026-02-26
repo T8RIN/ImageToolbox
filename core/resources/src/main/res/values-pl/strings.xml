@@ -2178,4 +2178,10 @@
     <string name="zip_pdf">Spakuj PDF</string>
     <string name="zip_pdf_sub">Podziel dokument w określonym przedziale czasu i spakuj nowe dokumenty do archiwum zip</string>
     <string name="interval">Interwał</string>
+    <string name="print_pdf">Wydrukuj PDF</string>
+    <string name="print_pdf_sub">Przygotuj dokument do druku z niestandardowym rozmiarem strony</string>
+    <string name="pages_per_sheet">Strony na arkusz</string>
+    <string name="orientation">Orientacja</string>
+    <string name="page_size">Rozmiar strony</string>
+    <string name="margin">Margines</string>
 </resources>

@@ -100,72 +100,76 @@ fun Picture(
     size: Int? = null,
     contentPadding: PaddingValues = PaddingValues()
 ) {
-    when (model) {
-        is ImageBitmap -> {
-            Image(
-                bitmap = model,
-                contentDescription = contentDescription,
-                modifier = modifier,
-                alignment = alignment,
-                contentScale = contentScale,
-                alpha = alpha,
-                colorFilter = colorFilter,
-                filterQuality = filterQuality
-            )
-        }
+    CompositionLocalProvider(
+        LocalAsyncImageModelEqualityDelegate provides AsyncImageModelEqualityDelegate.AllProperties
+    ) {
+        when (model) {
+            is ImageBitmap -> {
+                Image(
+                    bitmap = model,
+                    contentDescription = contentDescription,
+                    modifier = modifier,
+                    alignment = alignment,
+                    contentScale = contentScale,
+                    alpha = alpha,
+                    colorFilter = colorFilter,
+                    filterQuality = filterQuality
+                )
+            }
 
-        is Painter -> {
-            Image(
-                painter = model,
-                contentDescription = contentDescription,
-                modifier = modifier,
-                alignment = alignment,
-                contentScale = contentScale,
-                alpha = alpha,
-                colorFilter = colorFilter
-            )
-        }
+            is Painter -> {
+                Image(
+                    painter = model,
+                    contentDescription = contentDescription,
+                    modifier = modifier,
+                    alignment = alignment,
+                    contentScale = contentScale,
+                    alpha = alpha,
+                    colorFilter = colorFilter
+                )
+            }
 
-        is ImageVector -> {
-            Image(
-                imageVector = model,
-                contentDescription = contentDescription ?: model.name,
-                modifier = modifier,
-                alignment = alignment,
-                contentScale = contentScale,
-                alpha = alpha,
-                colorFilter = colorFilter
-            )
-        }
+            is ImageVector -> {
+                Image(
+                    imageVector = model,
+                    contentDescription = contentDescription ?: model.name,
+                    modifier = modifier,
+                    alignment = alignment,
+                    contentScale = contentScale,
+                    alpha = alpha,
+                    colorFilter = colorFilter
+                )
+            }
 
-        else -> {
-            CoilPicture(
-                model = model,
-                modifier = modifier,
-                transformations = transformations,
-                contentDescription = contentDescription,
-                shape = shape,
-                contentScale = contentScale,
-                loading = loading,
-                success = success,
-                error = error,
-                onLoading = onLoading,
-                onSuccess = onSuccess,
-                onError = onError,
-                onState = onState,
-                alignment = alignment,
-                alpha = alpha,
-                colorFilter = colorFilter,
-                filterQuality = filterQuality,
-                shimmerEnabled = shimmerEnabled,
-                crossfadeEnabled = crossfadeEnabled,
-                allowHardware = allowHardware,
-                showTransparencyChecker = showTransparencyChecker,
-                isLoadingFromDifferentPlace = isLoadingFromDifferentPlace,
-                enableUltraHDRSupport = enableUltraHDRSupport,
-                size = size,
-                contentPadding = contentPadding
-            )
+            else -> {
+                CoilPicture(
+                    model = model,
+                    modifier = modifier,
+                    transformations = transformations,
+                    contentDescription = contentDescription,
+                    shape = shape,
+                    contentScale = contentScale,
+                    loading = loading,
+                    success = success,
+                    error = error,
+                    onLoading = onLoading,
+                    onSuccess = onSuccess,
+                    onError = onError,
+                    onState = onState,
+                    alignment = alignment,
+                    alpha = alpha,
+                    colorFilter = colorFilter,
+                    filterQuality = filterQuality,
+                    shimmerEnabled = shimmerEnabled,
+                    crossfadeEnabled = crossfadeEnabled,
+                    allowHardware = allowHardware,
+                    showTransparencyChecker = showTransparencyChecker,
+                    isLoadingFromDifferentPlace = isLoadingFromDifferentPlace,
+                    enableUltraHDRSupport = enableUltraHDRSupport,
+                    size = size,
+                    contentPadding = contentPadding
+                )
+            }
         }
     }
 }
@@ -253,61 +257,57 @@ private fun CoilPicture(
         }
     }
 
-    CompositionLocalProvider(
-        LocalAsyncImageModelEqualityDelegate provides AsyncImageModelEqualityDelegate.AllProperties
-    ) {
-        SubcomposeAsyncImage(
-            model = request,
-            imageLoader = if (LocalInspectionMode.current) {
-                SingletonImageLoader.get(LocalPlatformContext.current)
-            } else imageLoader,
-            contentDescription = contentDescription,
-            modifier = modifier
-                .clip(shape)
-                .then(
-                    if (!LocalInspectionMode.current) {
-                        Modifier
-                            .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-                            .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
-                    } else {
-                        Modifier
-                    }
-                )
-                .padding(contentPadding),
-            contentScale = contentScale,
-            loading = {
-                if (loading != null) loading(it)
-                shimmerVisible = true
-            },
-            success = success,
-            error = error,
-            onSuccess = {
-                if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
-                    context.findActivity()?.window?.colorMode =
-                        if (it.result.image.toBitmap(400, 400).hasGainmap()) {
-                            ActivityInfo.COLOR_MODE_HDR
-                        } else ActivityInfo.COLOR_MODE_DEFAULT
+    SubcomposeAsyncImage(
+        model = request,
+        imageLoader = if (LocalInspectionMode.current) {
+            SingletonImageLoader.get(LocalPlatformContext.current)
+        } else imageLoader,
+        contentDescription = contentDescription,
+        modifier = modifier
+            .clip(shape)
+            .then(
+                if (!LocalInspectionMode.current) {
+                    Modifier
+                        .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
+                        .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier)
+                } else {
+                    Modifier
                 }
-                shimmerVisible = false
-                onSuccess?.invoke(it)
-                onState?.invoke(it)
-            },
-            onLoading = {
-                onLoading?.invoke(it)
-                onState?.invoke(it)
-            },
-            onError = {
-                if (error != null) shimmerVisible = false
-                onError?.invoke(it)
-                onState?.invoke(it)
-                errorOccurred = true
-            },
-            alignment = alignment,
-            alpha = alpha,
-            colorFilter = colorFilter,
-            filterQuality = filterQuality
-        )
-    }
+            )
+            .padding(contentPadding),
+        contentScale = contentScale,
+        loading = {
+            if (loading != null) loading(it)
+            shimmerVisible = true
+        },
+        success = success,
+        error = error,
+        onSuccess = {
+            if (model is ImageRequest && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+                context.findActivity()?.window?.colorMode =
+                    if (it.result.image.toBitmap(400, 400).hasGainmap()) {
+                        ActivityInfo.COLOR_MODE_HDR
+                    } else ActivityInfo.COLOR_MODE_DEFAULT
+            }
+            shimmerVisible = false
+            onSuccess?.invoke(it)
+            onState?.invoke(it)
+        },
+        onLoading = {
+            onLoading?.invoke(it)
+            onState?.invoke(it)
+        },
+        onError = {
+            if (error != null) shimmerVisible = false
+            onError?.invoke(it)
+            onState?.invoke(it)
+            errorOccurred = true
+        },
+        alignment = alignment,
+        alpha = alpha,
+        colorFilter = colorFilter,
+        filterQuality = filterQuality
+    )
 
     //Needed for triggering recomposition
     LaunchedEffect(errorOccurred) {

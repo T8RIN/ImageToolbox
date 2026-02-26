@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Jaa asiakirja tietyllä aikavälillä ja pakkaa uudet asiakirjat zip-arkistoon</string>
     <string name="interval">Intervalli</string>
+    <string name="print_pdf">Tulosta PDF</string>
+    <string name="print_pdf_sub">Valmistele asiakirja tulostusta varten mukautetulla sivukoolla</string>
+    <string name="pages_per_sheet">Sivuja per arkki</string>
+    <string name="orientation">Suuntautuminen</string>
+    <string name="page_size">Sivun koko</string>
+    <string name="margin">Marginaali</string>
 </resources>

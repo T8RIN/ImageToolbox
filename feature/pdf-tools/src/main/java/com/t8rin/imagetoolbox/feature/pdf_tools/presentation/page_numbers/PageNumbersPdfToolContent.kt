@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -61,6 +62,7 @@ fun PageNumbersPdfToolContent(
     component: PageNumbersPdfToolComponent
 ) {
     val pageCount by rememberPdfPages(component.uri)
+    val params = component.params
 
     BasePdfToolContent(
         component = component,
@@ -86,11 +88,11 @@ fun PageNumbersPdfToolContent(
                     mutableFloatStateOf(1f)
                 }
 
-                val previewText = component.pageNumberFormat
+                val previewText = params.labelFormat
                     .replace("{n}", "1")
                     .replace("{total}", pageCount.toString())
 
-                val previewAlignment = when (component.pageNumberPosition) {
+                val previewAlignment = when (params.position) {
                     Position.TopLeft -> Alignment.TopStart
                     Position.TopCenter -> Alignment.TopCenter
                     Position.TopRight -> Alignment.TopEnd
@@ -127,7 +129,7 @@ fun PageNumbersPdfToolContent(
                                 .padding(8.dp),
                             style = MaterialTheme.typography.labelSmall,
                             lineHeight = 11.sp,
-                            color = component.pageNumberColor
+                            color = Color(params.color)
                         )
                     }
                 }
@@ -145,24 +147,42 @@ fun PageNumbersPdfToolContent(
                         shape = MaterialTheme.shapes.large,
                         resultPadding = 8.dp
                     ),
-                value = component.pageNumberFormat,
+                value = params.labelFormat,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 singleLine = false,
-                onValueChange = component::updatePageNumberFormat,
+                onValueChange = {
+                    component.updateParams(
+                        params.copy(
+                            labelFormat = it
+                        )
+                    )
+                },
                 label = {
                     Text(stringResource(R.string.label_format))
                 }
             )
             Spacer(Modifier.height(8.dp))
             PositionSelector(
-                value = component.pageNumberPosition,
-                onValueChange = component::updatePageNumberPosition,
+                value = params.position,
+                onValueChange = {
+                    component.updateParams(
+                        params.copy(
+                            position = it
+                        )
+                    )
+                },
                 color = Color.Unspecified
             )
             Spacer(Modifier.height(8.dp))
             ColorRowSelector(
-                value = component.pageNumberColor,
-                onValueChange = component::updatePageNumberColor,
+                value = Color(params.color),
+                onValueChange = {
+                    component.updateParams(
+                        params.copy(
+                            color = it.toArgb()
+                        )
+                    )
+                },
                 title = stringResource(R.string.text_color),
                 modifier = Modifier.container(
                     shape = ShapeDefaults.large

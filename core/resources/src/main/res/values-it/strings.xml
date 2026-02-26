@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">PDF zippato</string>
     <string name="zip_pdf_sub">Dividi il documento con un determinato intervallo e inserisci i nuovi documenti nell\'archivio zip</string>
     <string name="interval">Intervallo</string>
+    <string name="print_pdf">Stampa PDF</string>
+    <string name="print_pdf_sub">Preparare il documento per la stampa con dimensioni di pagina personalizzate</string>
+    <string name="pages_per_sheet">Pagine per foglio</string>
+    <string name="orientation">Orientamento</string>
+    <string name="page_size">Dimensioni della pagina</string>
+    <string name="margin">Margine</string>
 </resources>

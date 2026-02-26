@@ -2178,4 +2178,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">פצל מסמך עם מרווח נתון וארוז מסמכים חדשים לארכיון zip</string>
     <string name="interval">הַפסָקָה</string>
+    <string name="print_pdf">הדפס PDF</string>
+    <string name="print_pdf_sub">הכן מסמך להדפסה עם גודל עמוד מותאם אישית</string>
+    <string name="pages_per_sheet">דפים לגיליון</string>
+    <string name="orientation">הִתמַצְאוּת</string>
+    <string name="page_size">גודל עמוד</string>
+    <string name="margin">מֶתַח</string>
 </resources>

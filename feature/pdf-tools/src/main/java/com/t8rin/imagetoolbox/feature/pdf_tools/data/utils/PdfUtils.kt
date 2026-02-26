@@ -133,6 +133,8 @@ internal fun PDPageContentStream.setColor(color: Color) {
     )
 }
 
+internal fun PDPageContentStream.setColor(color: Int) = setColor(Color(color))
+
 internal fun <T> PDDocument.createPage(
     page: PDPage,
     graphics: PDPageContentStream.() -> T
@@ -195,6 +197,10 @@ internal fun Bitmap.asXObject(
 
 internal fun PDDocument.getAllImages(): List<PDImageXObject> =
     pages.flatMap { it.getResources().getImages() }
+
+internal inline fun <T> createPdf(action: (PDDocument) -> T) = PDDocument().use(action)
+
+internal fun List<Int>?.orAll(document: PDDocument) = orEmpty().ifEmpty { document.pageIndices }
 
 private fun PDResources.getImages(): List<PDImageXObject> {
     val images: MutableList<PDImageXObject> = mutableListOf()

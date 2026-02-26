@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic
+package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.screenLogic
 
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -31,13 +32,13 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-class PageNumbersPdfToolComponent @AssistedInject internal constructor(
+class PrintPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
     @Assisted componentContext: ComponentContext,
     @Assisted onGoBack: () -> Unit,
@@ -59,7 +60,11 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _params: MutableState<PageNumbersParams> = mutableStateOf(PageNumbersParams())
+    private val _quality: MutableState<Float> = mutableFloatStateOf(0.85f)
+    val quality by _quality
+
+    private val _params: MutableState<PrintPdfParams> =
+        mutableStateOf(PrintPdfParams())
     val params by _params
 
     fun setUri(uri: Uri?) {
@@ -75,7 +80,12 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    fun updateParams(params: PageNumbersParams) {
+    fun updateQuality(quality: Float) {
+        registerChanges()
+        _quality.update { quality }
+    }
+
+    fun updateParams(params: PrintPdfParams) {
         registerChanges()
         _params.update { params }
     }
@@ -86,8 +96,9 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
     ) {
         doSaving(
             action = {
-                val processed = pdfManager.addPageNumbers(
+                val processed = pdfManager.printPdf(
                     uri = _uri.value.toString(),
+                    quality = quality,
                     params = params
                 )
 
@@ -122,8 +133,9 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
             action = {
                 onSuccess(
                     listOf(
-                        pdfManager.addPageNumbers(
+                        pdfManager.printPdf(
                             uri = _uri.value.toString(),
+                            quality = quality,
                             params = params
                         ).toUri()
                     )
@@ -141,6 +153,6 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
-        ): PageNumbersPdfToolComponent
+        ): PrintPdfToolComponent
     }
 }

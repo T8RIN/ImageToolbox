@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">Zip PDF</string>
     <string name="zip_pdf_sub">Ossza fel a dokumentumot adott időközönként, és csomagolja az új dokumentumokat zip archívumba</string>
     <string name="interval">Intervallum</string>
+    <string name="print_pdf">Nyomtatás PDF</string>
+    <string name="print_pdf_sub">Készítse elő a dokumentumot egyéni oldalmérettel történő nyomtatáshoz</string>
+    <string name="pages_per_sheet">Oldalak Laponként</string>
+    <string name="orientation">Tájolás</string>
+    <string name="page_size">Oldalméret</string>
+    <string name="margin">Margó</string>
 </resources>

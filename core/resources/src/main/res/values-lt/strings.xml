@@ -2179,4 +2179,10 @@
     <string name="zip_pdf">ZIP PDF</string>
     <string name="zip_pdf_sub">Padalinkite dokumentą nurodytu intervalu ir supakuokite naujus dokumentus į ZIP archyvą</string>
     <string name="interval">Intervalas</string>
+    <string name="print_pdf">Spausdinti PDF</string>
+    <string name="print_pdf_sub">Paruoškite dokumentą spausdinti pagal pasirinktinį puslapio dydį</string>
+    <string name="pages_per_sheet">Puslapiai lape</string>
+    <string name="orientation">Orientacija</string>
+    <string name="page_size">Puslapio dydis</string>
+    <string name="margin">Marža</string>
 </resources>

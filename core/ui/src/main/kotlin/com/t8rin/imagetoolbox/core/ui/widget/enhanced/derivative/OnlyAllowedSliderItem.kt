@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
+package com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -30,23 +31,25 @@ import kotlinx.collections.immutable.toPersistentMap
 import kotlin.math.roundToInt
 
 @Composable
-internal fun PowerSliderItem(
+fun OnlyAllowedSliderItem(
     label: String,
     icon: ImageVector,
     value: Int,
-    powers: List<Int>,
+    allowed: Collection<Int>,
     maxAllowed: Int = Int.MAX_VALUE,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
+    valueSuffix: String = " px",
+    shape: Shape = ShapeDefaults.large,
 ) {
-    val availablePowers = powers.filter { it < maxAllowed }
-    val effectivePowers = availablePowers.ifEmpty { listOf(powers.first()) }
-    val clampedValue = value.coerceAtMost(effectivePowers.last())
-    var index by remember(clampedValue, effectivePowers) {
-        mutableIntStateOf(effectivePowers.indexOf(clampedValue).coerceAtLeast(0))
+    val availableAllowed = allowed.filter { it < maxAllowed }
+    val effectiveAllowed = availableAllowed.ifEmpty { listOf(allowed.first()) }
+    val clampedValue = value.coerceAtMost(effectiveAllowed.last())
+    var index by remember(clampedValue, effectiveAllowed) {
+        mutableIntStateOf(effectiveAllowed.indexOf(clampedValue).coerceAtLeast(0))
     }
     LaunchedEffect(maxAllowed) {
-        if (value >= maxAllowed && effectivePowers.isNotEmpty()) {
-            onValueChange(effectivePowers.last())
+        if (value >= maxAllowed && effectiveAllowed.isNotEmpty()) {
+            onValueChange(effectiveAllowed.last())
         }
     }
 
@@ -54,26 +57,26 @@ internal fun PowerSliderItem(
         value = index,
         internalStateTransformation = { it.roundToInt() },
         onValueChange = {
-            val newIdx = it.roundToInt().coerceIn(effectivePowers.indices)
+            val newIdx = it.roundToInt().coerceIn(effectiveAllowed.indices)
             if (newIdx != index) {
                 index = newIdx
-                onValueChange(effectivePowers[newIdx])
+                onValueChange(effectiveAllowed[newIdx])
             }
         },
-        valueRange = 0f..(effectivePowers.lastIndex.toFloat().coerceAtLeast(0f)),
-        steps = (effectivePowers.size - 2).coerceAtLeast(0),
-        enabled = effectivePowers.size > 1,
+        valueRange = 0f..(effectiveAllowed.lastIndex.toFloat().coerceAtLeast(0f)),
+        steps = (effectiveAllowed.size - 2).coerceAtLeast(0),
+        enabled = effectiveAllowed.size > 1,
         title = label,
-        valuesPreviewMapping = remember(effectivePowers) {
+        valuesPreviewMapping = remember(effectiveAllowed) {
             buildMap {
-                effectivePowers.forEachIndexed { index, value ->
-                    put(index.toFloat(), "${value}px")
+                effectiveAllowed.forEachIndexed { index, value ->
+                    put(index.toFloat(), "${value}${valueSuffix}")
                 }
             }.toPersistentMap()
         },
         icon = icon,
         isAnimated = false,
         canInputValue = false,
-        shape = ShapeDefaults.large,
+        shape = shape,
     )
 }

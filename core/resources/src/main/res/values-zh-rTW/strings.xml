@@ -2175,4 +2175,10 @@
     <string name="zip_pdf">压缩 PDF</string>
     <string name="zip_pdf_sub">以给定的间隔分割文档并将新文档打包到 zip 存档中</string>
     <string name="interval">间隔</string>
+    <string name="print_pdf">打印 PDF</string>
+    <string name="print_pdf_sub">准备用于使用自定义页面尺寸打印的文档</string>
+    <string name="pages_per_sheet">每张页数</string>
+    <string name="orientation">方向</string>
+    <string name="page_size">页面尺寸</string>
+    <string name="margin">利润</string>
 </resources>

@@ -2176,4 +2176,10 @@
     <string name="zip_pdf">ਜ਼ਿਪ PDF</string>
     <string name="zip_pdf_sub">ਦਿੱਤੇ ਅੰਤਰਾਲ ਦੇ ਨਾਲ ਦਸਤਾਵੇਜ਼ ਨੂੰ ਵੰਡੋ ਅਤੇ ਨਵੇਂ ਦਸਤਾਵੇਜ਼ਾਂ ਨੂੰ ਜ਼ਿਪ ਆਰਕਾਈਵ ਵਿੱਚ ਪੈਕ ਕਰੋ</string>
     <string name="interval">ਅੰਤਰਾਲ</string>
+    <string name="print_pdf">PDF ਪ੍ਰਿੰਟ ਕਰੋ</string>
+    <string name="print_pdf_sub">ਕਸਟਮ ਪੰਨੇ ਦੇ ਆਕਾਰ ਨਾਲ ਪ੍ਰਿੰਟਿੰਗ ਲਈ ਦਸਤਾਵੇਜ਼ ਤਿਆਰ ਕਰੋ</string>
+    <string name="pages_per_sheet">ਪੰਨੇ ਪ੍ਰਤੀ ਸ਼ੀਟ</string>
+    <string name="orientation">ਸਥਿਤੀ</string>
+    <string name="page_size">ਪੰਨਾ ਆਕਾਰ</string>
+    <string name="margin">ਹਾਸ਼ੀਏ</string>
 </resources>
