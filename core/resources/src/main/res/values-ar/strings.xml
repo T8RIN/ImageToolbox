@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا تم تمكين لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -1084,8 +1082,8 @@
     <string name="document_scanner_sub">قم بمسح المستندات ضوئيًا وإنشاء ملف PDF أو فصل الصور عنها</string>
     <string name="click_to_start_scanning">انقر لبدء المسح</string>
     <string name="start_scanning">ابدأ المسح</string>
-    <string name="save_as_pdf">حفظ بصيغة PDF</string>
-    <string name="share_as_pdf">شارك بصيغة PDF</string>
+    <string name="save_as_pdf">احفظ ك PDF</string>
+    <string name="share_as_pdf">شارك ك PDF</string>
     <string name="options_below_is_for_images">الخيارات أدناه مخصصة لحفظ الصور، وليس PDF</string>
     <string name="equalize_histogram_hsv">معادلة الرسم البياني HSV</string>
     <string name="equalize_histogram">معادلة الرسم البياني</string>
