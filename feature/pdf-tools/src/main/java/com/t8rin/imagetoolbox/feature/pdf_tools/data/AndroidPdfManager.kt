@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.asXObject
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPage
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.createPdf
@@ -83,7 +84,6 @@ import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
-import com.tom_roush.pdfbox.rendering.PDFRenderer
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -709,7 +709,7 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f + (228f * quality)
 
         usePdf(uri) { document ->
-            val renderer = PDFRenderer(document)
+            val renderer = PdfRenderer(document)
 
             createPdf { newDoc ->
                 document.pages.forEachIndexed { index, page ->
@@ -860,7 +860,7 @@ internal class AndroidPdfManager @Inject constructor(
         val dpi = 72f + (228f * quality)
 
         usePdf(uri) { document ->
-            val renderer = PDFRenderer(document)
+            val renderer = PdfRenderer(document)
 
             createPdf { newDoc ->
                 val pagesPerSheet = params.pagesPerSheet.coerceIn(PrintPdfParams.pageRange)
@@ -979,14 +979,5 @@ internal class AndroidPdfManager @Inject constructor(
         input = this,
         color = Color.White.toArgb()
     )
-
-    private fun PDFRenderer.safeRenderDpi(
-        pageIndex: Int,
-        dpi: Float
-    ) = try {
-        renderImageWithDPI(pageIndex, dpi)
-    } catch (_: Throwable) {
-        renderImage(pageIndex)
-    }
 
 }
