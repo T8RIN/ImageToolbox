@@ -334,7 +334,7 @@
     <string name="font_scale">Taille de la Police</string>
     <string name="defaultt">Défaut</string>
     <string name="using_large_fonts_warn">L’utilisation de grandes échelles de police peut provoquer des erreurs d’interface utilisateur ainsi que d\'autres problèmes qui ne seront pas corrigés. A utiliser avec précaution.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Àà Ââ Ææ Bb Cc Çç Dd Ee Éé Èè Êê Ëë Ff Gg Hh Ii Îî Ïï Jj Kk Ll Mm Nn Oo Ôô Œœ Pp Qq Rr Ss Tt Uu Ùù Ûû Üü Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Nourriture et Boisson</string>
     <string name="nature_and_animals">Nature et animaux</string>

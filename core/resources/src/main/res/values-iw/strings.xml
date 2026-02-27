@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
     <string name="save">שמור</string>
@@ -343,7 +341,7 @@
     <string name="strength">כוח</string>
     <string name="brush_softness">רכות מברשת</string>
     <string name="activities">פעילויות</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת 0123456789 !?</string>
     <string name="pipette">פיפטה</string>
     <string name="create_issue">דיווח בעיה</string>
     <string name="segmentation_mode_osd_only">כיוון &amp; זיהוי סקריפט בלבד</string>

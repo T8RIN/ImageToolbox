@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
     <string name="loading">Laadin…</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">Fondi skaala</string>
     <string name="defaultt">Vaikimisi</string>
     <string name="using_large_fonts_warn">Suurte fontide kasutamine võib põhjustada kasutajaliidese tõrkeid ja probleeme, mida ei saa parandada. Kasutage ettevaatlikult.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn ​​Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Šš Zz Žž Tt Uu Vv Ww Õõ Ää Öö Üü Xx Yy 0123456789 !?</string>
     <string name="emotions">Emotsioonid</string>
     <string name="food_and_drink">Söök ja jook</string>
     <string name="nature_and_animals">Loodus ja loomad</string>

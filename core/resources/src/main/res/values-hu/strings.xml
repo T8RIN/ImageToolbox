@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -313,7 +311,7 @@
     <string name="font_scale">Betűméret</string>
     <string name="defaultt">Alapértelmezett</string>
     <string name="using_large_fonts_warn">A nagy betűméretek használata UI-hibákat és problémákat okozhat, amelyeket nem javítunk ki. Óvatosan használja.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Áá Bb Cc Cs cs Dd Dz dz Dzs dzs Ee Éé Ff Gg Gy gy Hh Ii Íí Jj Kk Ll Ly ly Mm Nn Ny ny Oo Óó Öö Őő Pp Qq Rr Ss Sz sz Tt Ty ty Uu Úú Üü Űű Vv Ww Xx Yy Zz Zs zs 0123456789 !?</string>
     <string name="emotions">Érzelmek</string>
     <string name="activities">Tevékenységek</string>
     <string name="background_remover">Háttéreltávolító</string>

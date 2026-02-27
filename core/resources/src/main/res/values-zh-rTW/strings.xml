@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -368,7 +366,7 @@
     <string name="wait">請稍候</string>
     <string name="effort_sub">值 %1$s 表示快速的壓縮，會產生相對較大的檔案大小；而值 %2$s 則是較慢的壓縮，可以得到較小的檔案。</string>
     <string name="allow_betas">允許接收測試版本</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">漢字示例 0123456789 !?</string>
     <string name="emotions">情感模式</string>
     <string name="saving_almost_complete">儲存幾乎完成了。若您現在取消，將需要從頭開始儲存</string>
     <string name="enable_emoji">點擊以啟用表情符號</string>

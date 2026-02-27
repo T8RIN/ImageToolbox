@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Đã xảy ra lỗi: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">Tỷ lệ phông chữ</string>
     <string name="defaultt">Mặc định</string>
     <string name="using_large_fonts_warn">Việc sử dụng tỷ lệ phông chữ lớn có thể gây ra trục trặc và sự cố về giao diện người dùng mà sẽ không thể khắc phục được. Sử dụng thận trọng.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Ăă Ââ Bb Cc Dd Đđ Ee Êê Gg Hh Ii Kk Ll Mm Nn Oo Ôô Ơơ Pp Qq Rr Ss Tt Uu Ưư Vv Xx Yy 0123456789 !?</string>
     <string name="emotions">Cảm xúc</string>
     <string name="food_and_drink">Thức ăn và đồ uống</string>
     <string name="nature_and_animals">Thiên nhiên và Động vật</string>

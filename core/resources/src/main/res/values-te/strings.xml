@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -336,7 +334,7 @@
     <string name="font_scale">ఫాంట్ స్కేల్</string>
     <string name="defaultt">డిఫాల్ట్</string>
     <string name="using_large_fonts_warn">పెద్ద ఫాంట్ స్కేల్‌లను ఉపయోగించడం వలన UI గ్లిచ్‌లు మరియు సమస్యలు ఏర్పడవచ్చు, అవి పరిష్కరించబడవు. జాగ్రత్తగా వాడండి.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">అ ఆ ఇ ఈ ఉ ఊ ఋ ఎ ఏ ఐ ఒ ఓ ఔ క ఖ గ ఘ ఙ చ ఛ జ ఝ ఞ ట ఠ డ ఢ ణ త థ ద ధ న ప ఫ బ భ మ య ర ల వ శ ష స హ 0123456789 !?</string>
     <string name="food_and_drink">ఆహారం మరియు పానీయం</string>
     <string name="nature_and_animals">ప్రకృతి మరియు జంతువులు</string>
     <string name="objects">వస్తువులు</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -333,7 +331,7 @@
     <string name="restore">Restaurar</string>
     <string name="trim_image_sub">Los espacios transparentes alrededor de la imagen serán recortados</string>
     <string name="tg_chat_sub">Habla sobre la aplicación y recibe comentarios de otros usuarios. Además, allí puedes conseguir actualizaciones en beta e información.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Ññ Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="erase_background">Borrar fondo</string>
     <string name="restore_image">Restaurar imagen</string>
     <string name="draw_arrows_sub">Si está habilitado, la dirección de dibujo será representada como una flecha apuntando</string>

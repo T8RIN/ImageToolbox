@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -352,7 +350,7 @@
     <string name="delete_color_scheme_title">구성표 삭제</string>
     <string name="font_scale">글꼴 크기</string>
     <string name="using_large_fonts_warn">큰 글꼴 크기를 사용하면 UI 결함 및 문제가 발생할 수 있으며 이는 해결되지 않습니다. 주의해서 사용하세요.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">가 나 다 라 마 바 사 아 자 차 카 타 파 하 0123456789 !?</string>
     <string name="emotions">감정</string>
     <string name="food_and_drink">음식과 음료</string>
     <string name="nature_and_animals">자연과 동물</string>

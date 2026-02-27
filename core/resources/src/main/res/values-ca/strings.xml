@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
     <string name="pick_image">Trieu la imatge per començar</string>
@@ -406,7 +404,7 @@
     <string name="font_scale">Escala de lletra</string>
     <string name="defaultt">Per defecte</string>
     <string name="using_large_fonts_warn">L\'ús de lletres grosses pot provocar errors i problemes a la interfície d\'usuari, i no se solucionaran. Feu-ho servir amb precaució.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Àà Bb Cc Çç Dd Ee Èè Éé Ff Gg Hh Ii Íí Ll L·l Mm Nn Oo Òò Óó Pp Qq Rr Ss Tt Uu Úú Vv Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emocions</string>
     <string name="food_and_drink">Menjar i beguda</string>
     <string name="nature_and_animals">Natura i Animals</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -393,7 +391,7 @@
     <string name="font_scale">Teckensnittsskala</string>
     <string name="defaultt">Standard</string>
     <string name="using_large_fonts_warn">Användning av stora teckensnittsskalor kan orsaka gränssnittsfel och problem som inte kommer att åtgärdas. Använd med försiktighet.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz Åå Ää Öö 0123456789 !?</string>
     <string name="emotions">Känslor</string>
     <string name="food_and_drink">Mat och dryck</string>
     <string name="nature_and_animals">Natur och djur</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -350,7 +348,7 @@
     <string name="blur_radius">Unschärfe-Radius</string>
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Zeichenmodus</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Ää Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Öö Pp Qq Rr Ss ß Tt Uu Üü Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="keep_exif_sub">Die Metadaten des Originalbilds bleiben erhalten</string>
     <string name="background_remover">Hintergrund entfernen</string>
     <string name="background_remover_sub">Entferne den Hintergrund eines Bildes durch zeichnen oder verwende die Automatikfunktion</string>

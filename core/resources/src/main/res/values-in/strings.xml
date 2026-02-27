@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -50,7 +48,7 @@
     <string name="app_closing">Penutupan aplikasi</string>
     <string name="stay">Tetap di sini</string>
     <string name="close">Tutup</string>
-    <string name="reset_image">Mengatur ulang gambar</string>
+    <string name="reset_image">Atur ulang gambar</string>
     <string name="reset_image_sub">Perubahan gambar akan dikembalikan ke semula</string>
     <string name="values_reset">Nilai diatur ulang dengan benar</string>
     <string name="reset">Atur ulang</string>
@@ -895,7 +893,7 @@
     <string name="convert">Konversi</string>
     <string name="add_new_folder">Tambah Folder Baru</string>
     <string name="cupertino_switch_sub">Menggunakan gaya sakelar iOS berdasarkan sistem desain Cupertino</string>
-    <string name="images_to_svg_sub">Lacak gambar yang diberikan ke gambar SVG</string>
+    <string name="images_to_svg_sub">Menjiplak gambar ke gambar SVG</string>
     <string name="use_sampled_palette">Gunakan Palet Sampel</string>
     <string name="use_sampled_palette_sub">Palet kuantisasi akan diambil sampelnya jika opsi ini diaktifkan</string>
     <string name="path_omit">Jalur Hilang</string>
@@ -908,7 +906,7 @@
     <string name="path_scale">Skala Jalur</string>
     <string name="reset_properties">Setel ulang properti</string>
     <string name="reset_properties_sub">Semua properti akan disetel ke nilai default, perhatikan bahwa tindakan ini tidak dapat dibatalkan</string>
-    <string name="detailed">Terperinci</string>
+    <string name="detailed">Berdetail</string>
     <string name="legacy_and_lstm">Warisan &amp;amp; LSTM</string>
     <string name="convert_sub">Konversi kumpulan gambar ke format tertentu</string>
     <string name="tag_bits_per_sample">Bit Per Sampel</string>

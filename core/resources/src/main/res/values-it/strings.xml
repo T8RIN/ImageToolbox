@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -30,7 +28,7 @@
     <string name="explicit">Specifico</string>
     <string name="flexible">Flessibile</string>
     <string name="pick_image_alt">Scegli un\'immagine</string>
-    <string name="app_closing_sub">Sei sicuro di voler chiudere l\'applicazione?</string>
+    <string name="app_closing_sub">Vuoi davvero chiudere l\'applicazione?</string>
     <string name="app_closing">Chiusura dell\'applicazione</string>
     <string name="stay">Rimani</string>
     <string name="close">Chiudi</string>
@@ -324,7 +322,7 @@
     <string name="restore">Ripristina</string>
     <string name="trim_image_sub">Gli spazi trasparenti intorno all\'immagine saranno sbarrati</string>
     <string name="tg_chat_sub">Discuti dell\'app e ricevi feedback da altri utenti. Puoi anche ottenere aggiornamenti e approfondimenti sulla versione beta.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Zz 0123456789 !?</string>
     <string name="erase_background">Cancella sfondo</string>
     <string name="restore_image">Ripristina l\'immagine</string>
     <string name="delete">Elimina</string>
@@ -408,7 +406,7 @@
     <string name="empty">Vuoto</string>
     <string name="suffix">Suffisso</string>
     <string name="search_option">Ricerca</string>
-    <string name="free">Gratuito</string>
+    <string name="free">Libero</string>
     <string name="enhanced_pixelation">Pixelizzazione migliorata</string>
     <string name="stroke_pixelation">Pixelizzazione del tratto</string>
     <string name="enhanced_diamond_pixelation">Pixelazione del diamante migliorata</string>
@@ -667,7 +665,7 @@
     <string name="lasso_sub">Disegna un percorso pieno chiuso in base al percorso specificato</string>
     <string name="double_line_arrow">Freccia a doppia linea</string>
     <string name="draw_path_mode">Modalità traccia percorso</string>
-    <string name="free_drawing">Disegno gratuito</string>
+    <string name="free_drawing">Disegno libero</string>
     <string name="double_arrow">Doppia freccia</string>
     <string name="line_arrow">Freccia di linea</string>
     <string name="arrow">Freccia</string>
