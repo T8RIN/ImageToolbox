@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -338,7 +336,7 @@
     <string name="font_scale">අකුරු පරිමාණය</string>
     <string name="defaultt">පෙරනිමිය</string>
     <string name="using_large_fonts_warn">විශාල අකුරු පරිමාණයන් භාවිතා කිරීමෙන් UI දෝෂ සහ ගැටළු ඇති විය හැක, ඒවා නිවැරදි නොවනු ඇත. පරිස්සමෙන් භාවිතා කරන්න.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn ​​Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">අ ආ ඇ ඈ ඉ ඊ උ ඌ එ ඒ ඔ ඕ ක ග ච ජ ට ඩ ත ද න ප බ ම ය ර ල ව ස හ 0123456789 !?</string>
     <string name="emotions">හැඟීම්</string>
     <string name="food_and_drink">ආහාර සහ බීම</string>
     <string name="nature_and_animals">සොබාදහම සහ සතුන්</string>
