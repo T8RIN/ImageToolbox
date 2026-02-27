@@ -322,7 +322,7 @@
     <string name="restore">Ripristina</string>
     <string name="trim_image_sub">Gli spazi trasparenti intorno all\'immagine saranno sbarrati</string>
     <string name="tg_chat_sub">Discuti dell\'app e ricevi feedback da altri utenti. Puoi anche ottenere aggiornamenti e approfondimenti sulla versione beta.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Zz 0123456789 !?</string>
     <string name="erase_background">Cancella sfondo</string>
     <string name="restore_image">Ripristina l\'immagine</string>
     <string name="delete">Elimina</string>
