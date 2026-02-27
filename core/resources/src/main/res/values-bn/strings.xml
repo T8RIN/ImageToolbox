@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">ফন্ট স্কেল</string>
     <string name="defaultt">ডিফল্ট</string>
     <string name="using_large_fonts_warn">বড় ফন্ট স্কেল ব্যবহার করলে UI সমস্যা এবং সমস্যা হতে পারে, যা ঠিক করা হবে না। সাবধানে ব্যবহার করুন।</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn ​​Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789!?</string>
+    <string name="alphabet_and_numbers">অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ঢ ণ ত থ দ ধ ন প ফ ব ভ ম য র ল শ ষ স হ 0123456789 !?</string>
     <string name="emotions">আবেগ</string>
     <string name="food_and_drink">খাদ্য এবং পানীয়</string>
     <string name="nature_and_animals">প্রকৃতি এবং প্রাণী</string>
