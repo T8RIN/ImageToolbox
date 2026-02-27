@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -282,7 +280,7 @@
     <string name="settings_restored">Налады паспяхова адноўлены</string>
     <string name="reset_settings_sub">Гэта верне вашы налады да значэнняў па змаўчанні. Звярніце ўвагу, што гэта нельга адмяніць без файла рэзервовай копіі, згаданага вышэй.</string>
     <string name="defaultt">Па змаўчанні</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Аа Бб Вв Гг Дд Ее Ёё Жж Зз Іі Йй Кк Лл Мм Нн Оо Пп Рр Сс Тт Уу Ўў Фф Хх Цц Чч Шш Ыы Ьь Ээ Юю Яя 0123456789 !?</string>
     <string name="nature_and_animals">Прырода і жывёлы</string>
     <string name="objects">Аб\'екты</string>
     <string name="symbols">Сімвалы</string>
