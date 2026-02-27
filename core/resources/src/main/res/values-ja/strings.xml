@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -356,7 +354,7 @@
     <string name="delete">削除</string>
     <string name="font_scale">フォントスケール</string>
     <string name="using_large_fonts_warn">大きなフォントスケールを使用すると、UIの不具合や問題が発生する可能性があり、それらは修正されません。慎重に使用してください。</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">あ い う え お か き く け こ さ し す せ そ た ち つ て と な に ぬ ね の は ひ ふ へ ほ ま み む め も や ゆ よ ら り る れ ろ わ を ん 0123456789 !?</string>
     <string name="emotions">感情</string>
     <string name="objects">物体</string>
     <string name="symbols">記号</string>
