@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -353,7 +351,7 @@
     <string name="font_scale">مقیاس قلم</string>
     <string name="defaultt">پیش فرض</string>
     <string name="using_large_fonts_warn">استفاده از مقیاس‌های فونت بزرگ ممکن است باعث اشکالات و مشکلات رابط کاربری شود که رفع نمی‌شوند. با احتیاط استفاده کنید.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">ا ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی 0123456789 !؟</string>
     <string name="emotions">احساسات</string>
     <string name="food_and_drink">غذا و نوشیدنی</string>
     <string name="nature_and_animals">طبیعت و حیوانات</string>
