@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -1019,7 +1017,7 @@
     <string name="compose">Komponovat</string>
     <string name="compose_switch_sub">Materiál pro složení Jetpacku, který přepnete</string>
     <string name="material_you_switch_sub">Materiál, který vyměníte</string>
-    <string name="use_sampled_palette">Použijte ukázkovou paletu</string>
+    <string name="use_sampled_palette">Použít paletu vzorků</string>
     <string name="use_sampled_palette_sub">Pokud je tato možnost povolena, bude vzorkována paleta kvantifikace</string>
     <string name="coordinates_rounding_tolerance">Tolerance zaokrouhlení souřadnic</string>
     <string name="engine_mode">Režim motoru</string>
