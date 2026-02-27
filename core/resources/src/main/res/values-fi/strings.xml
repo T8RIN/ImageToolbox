@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">Fontin koko</string>
     <string name="defaultt">Oletus</string>
     <string name="using_large_fonts_warn">Suurten fontti kokojen käyttö voi aiheuttaa UI virheitä ja ongelmia, mitä ei voi korjata. Käytä varovaisuudella.</string>
-    <string name="alphabet_and_numbers">Aa BB Cc DD Re FF GG HH Ki JJ Kk LL Mm NN Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz Åå Ää Öö 0123456789 !?</string>
     <string name="emotions">Tunteet</string>
     <string name="food_and_drink">Ruoka Ja Juoma</string>
     <string name="nature_and_animals">Luonto Ja Eläimet</string>
