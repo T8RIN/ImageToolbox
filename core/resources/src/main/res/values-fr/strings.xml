@@ -184,7 +184,7 @@
     <string name="color_filter">Filtre de couleur</string>
     <string name="brightness">Luminosité</string>
     <string name="saturation">Saturation</string>
-    <string name="filter_sub">Appliquer des chaînes de filtres aux images</string>
+    <string name="filter_sub">Appliquer des filtres aux images</string>
     <string name="alpha">Alpha</string>
     <string name="white_balance">Balance des blancs</string>
     <string name="temperature">Température</string>
@@ -263,7 +263,7 @@
     <string name="draw_sub">Dessinez sur l\'image comme dans un carnet de croquis, ou dessinez sur l\'arrière-plan lui-même</string>
     <string name="paint_alpha">Peinture alpha</string>
     <string name="draw_on_image">Dessiner sur l’image</string>
-    <string name="draw_on_background">Dessiner en arrière-plan</string>
+    <string name="draw_on_background">Dessiner sur fond uni</string>
     <string name="draw_on_background_sub">Choisissez la couleur de fond et dessinez dessus</string>
     <string name="background_color">Couleur d\'arrière-plan</string>
     <string name="paint_color">Couleur de peinture</string>
@@ -343,7 +343,7 @@
     <string name="enable_emoji">Activer les emoji</string>
     <string name="travels_and_places">Voyages et lieux</string>
     <string name="activities">Activités</string>
-    <string name="background_remover">Suppresseur d\'Arrière-plan</string>
+    <string name="background_remover">Suppresseur d\'arrière-plan</string>
     <string name="background_remover_sub">Supprimer l’arrière-plan de l’image par dessin ou utiliser l’option Auto</string>
     <string name="trim_image">Couper l’image</string>
     <string name="keep_exif_sub">Les métadonnées de l\'image originale seront conservées</string>
@@ -1497,7 +1497,7 @@
     <string name="enable_tonemapping">Activer le mappage de tons</string>
     <string name="enter_percent">Entrer %</string>
     <string name="unknown_host">Impossible d\'accéder au site, essayez d\'utiliser un VPN ou vérifiez si l\'URL est correcte</string>
-    <string name="markup_layers">Couches de balisage</string>
+    <string name="markup_layers">Calques</string>
     <string name="markup_layers_sub">Mode Calques avec possibilité de placer librement des images, du texte et plus encore</string>
     <string name="edit_layer">Modifier le calque</string>
     <string name="layers_on_image">Calques sur l\'image</string>
@@ -1880,8 +1880,8 @@
     <string name="chroma">Chroma</string>
     <string name="pixel_melt">Fusion de pixels</string>
     <string name="max_drop">Chute maximale</string>
-    <string name="ai_tools">Outils d\'IA</string>
-    <string name="ai_tools_sub">Divers outils pour traiter les images via des modèles d\'IA comme la suppression ou le débruitage d\'artefacts</string>
+    <string name="ai_tools">Outils IA</string>
+    <string name="ai_tools_sub">Divers outils pour traiter les images via des modèles IA comme la suppression ou le débruitage d\'artefacts</string>
     <string name="model_anime_undeint">Compression, lignes irrégulières</string>
     <string name="model_broadcast">Dessins animés, compression de diffusion</string>
     <string name="model_rgb_max_denoise_fp16">Compression générale, bruit général</string>
