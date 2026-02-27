@@ -359,7 +359,7 @@
     <string name="something_went_wrong_emphasis">哎呀……软件出错了。你可以使用下面的选项给我留言，我会尽力找到解决办法。</string>
     <string name="resize_and_convert">调整大小和转换</string>
     <string name="resize_and_convert_sub">更改给定图片的大小或将其转换为其他格式。如果选择单个图片，还可以编辑EXIF元数据</string>
-    <string name="alphabet_and_numbers">你好，世界！字体示例Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">汉字示例 0123456789 !?</string>
     <string name="updates">更新</string>
     <string name="max_colors_count">最大颜色数</string>
     <string name="wait">等待</string>
