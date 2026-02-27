@@ -318,7 +318,7 @@
     <string name="font_scale">مقياس الخط</string>
     <string name="restore">استعادة</string>
     <string name="tg_chat_sub">ناقش حول التطبيق واحصل على تعليقات من المستخدمين الآخرين، ويمكنك هنا أيضًا الحصول على تحديثات تجريبية</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">ا أ إ آ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي 0123456789 !؟</string>
     <string name="delete">احذف</string>
     <string name="aspect_ratio">نسبة الأبعاد</string>
     <string name="delete_color_scheme_warn">أنت على وشك حذف نظام الألوان المحدد، لا يمكن التراجع عن هذه العملية</string>
