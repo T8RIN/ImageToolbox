@@ -363,7 +363,7 @@
     <string name="font_scale">Měřítko písma</string>
     <string name="defaultt">Výchozí</string>
     <string name="using_large_fonts_warn">Použití velkých měřítek písem může způsobit závady a problémy uživatelského rozhraní, které nebudou opraveny. Používejte opatrně.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Áá Bb Cc Čč Dd Ďď Ee Éé Ěě Ff Gg Hh Ii Íí Jj Kk Ll Mm Nn Ňň Oo Óó Pp Qq Rr Řř Ss Šš Tt Ťť Uu Úú Ůů Vv Ww Xx Yy Zz Žž 0123456789 !?</string>
     <string name="emotions">Emoce</string>
     <string name="food_and_drink">Jídlo a pití</string>
     <string name="nature_and_animals">Příroda a zvířata</string>
