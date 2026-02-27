@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.plus
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -109,7 +108,9 @@ fun MeshGradientsContent(
                     onNavigate = component.onNavigate,
                     imageFrames = null,
                     onFrameSelectionChange = {},
-                    contentPadding = contentPadding + PaddingValues(12.dp)
+                    contentPadding = PaddingValues(12.dp),
+                    isSelectable = false,
+                    modifier = Modifier.padding(contentPadding)
                 )
             } else {
                 val meshGradientDownloadProgress =

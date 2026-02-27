@@ -88,7 +88,7 @@ import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -108,7 +108,7 @@ internal class AndroidPdfManager @Inject constructor(
         uri: String,
         pages: List<Int>?,
         preset: Preset.Percentage
-    ): Flow<PdfToImagesAction> = callbackFlow {
+    ): Flow<PdfToImagesAction> = channelFlow {
         val scale = preset.value / 100f
 
         helper.useRenderer(uri) { renderer ->

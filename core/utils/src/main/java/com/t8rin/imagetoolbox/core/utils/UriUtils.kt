@@ -34,11 +34,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.sortedByKey
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.logger.makeLog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -265,7 +267,7 @@ fun Uri.tryRequireOriginal(context: Context): Uri {
     } else this
 }
 
-private fun Uri.listFilesInDirectoryAsFlowImpl(): Flow<DirUri> = callbackFlow {
+private fun Uri.listFilesInDirectoryAsFlowImpl(): Flow<DirUri> = channelFlow {
     val rootUri = this@listFilesInDirectoryAsFlowImpl
 
     var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
@@ -315,7 +317,7 @@ private fun Uri.listFilesInDirectoryAsFlowImpl(): Flow<DirUri> = callbackFlow {
         channel.send(DirUri.All(it))
         channel.close()
     }
-}
+}.flowOn(Dispatchers.IO)
 
 private sealed interface DirUri {
     data class Entry(val uri: Uri) : DirUri

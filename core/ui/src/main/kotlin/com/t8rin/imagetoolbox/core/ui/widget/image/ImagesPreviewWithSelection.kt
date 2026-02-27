@@ -112,6 +112,7 @@ fun ImagesPreviewWithSelection(
     endAdditionalItem: (@Composable LazyGridItemScope.() -> Unit)? = null,
     isContentAlignToCenter: Boolean = true,
     contentScale: ContentScale = ContentScale.Crop,
+    enableSelection: Boolean = true,
     modifier: Modifier? = null
 ) {
     val state = rememberLazyGridState()
@@ -248,16 +249,22 @@ fun ImagesPreviewWithSelection(
                 modifier = Modifier
                     .fillMaxSize()
                     .dragHandler(
-                        key = null,
+                        key = enableSelection,
                         lazyGridState = state,
                         isVertical = true,
-                        selectedItems = privateSelectedItems,
+                        selectedItems = if (enableSelection) {
+                            privateSelectedItems
+                        } else {
+                            remember { mutableStateOf(emptySet()) }
+                        },
                         onSelectionChange = {
                             onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
                         tapEnabled = isSelectionMode,
                         onTap = onItemClick,
-                        onLongTap = onItemLongClick
+                        onLongTap = {
+                            if (enableSelection) onItemLongClick(it) else onItemClick(it)
+                        }
                     ),
                 verticalArrangement = Arrangement.spacedBy(
                     space = spacing,

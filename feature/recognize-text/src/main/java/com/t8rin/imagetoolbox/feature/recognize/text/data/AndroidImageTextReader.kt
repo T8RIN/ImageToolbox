@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessConstants
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TessParams
 import com.t8rin.imagetoolbox.feature.recognize.text.domain.TextRecognitionResult
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -272,7 +272,7 @@ internal class AndroidImageTextReader @Inject constructor(
         lang: String,
         onProgress: (DownloadProgress) -> Unit
     ) {
-        callbackFlow {
+        channelFlow {
             downloadManager.download(
                 url = when (type) {
                     RecognitionType.Best -> TessConstants.TESSERACT_DATA_DOWNLOAD_URL_BEST
@@ -284,7 +284,7 @@ internal class AndroidImageTextReader @Inject constructor(
                     languageCode = lang
                 ).absolutePath,
                 onProgress = ::trySend,
-                onFinish = ::close
+                onFinish = { close() }
             )
         }.collect { progress ->
             onProgress(progress)

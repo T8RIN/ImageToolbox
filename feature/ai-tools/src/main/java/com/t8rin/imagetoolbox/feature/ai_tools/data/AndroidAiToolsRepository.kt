@@ -61,7 +61,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -139,7 +139,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     override fun downloadModel(
         model: NeuralModel
-    ): Flow<DownloadProgress> = callbackFlow {
+    ): Flow<DownloadProgress> = channelFlow {
         ensureActive()
 
         if (model.name.contains("u2netp")) {

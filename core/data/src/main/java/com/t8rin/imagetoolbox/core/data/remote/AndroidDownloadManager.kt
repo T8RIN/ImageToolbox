@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.data.remote
 
 import android.content.Context
+import com.t8rin.imagetoolbox.core.data.utils.getWithProgress
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
@@ -26,24 +27,15 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
-import com.t8rin.imagetoolbox.core.domain.utils.withProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.decodeEscaped
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
-import io.ktor.client.request.prepareGet
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.contentLength
+import io.ktor.utils.io.jvm.javaio.copyTo
 import io.ktor.utils.io.jvm.javaio.toInputStream
-import io.ktor.utils.io.readRemaining
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.io.readByteArray
 import java.io.File
 import java.io.FileOutputStream
 import java.util.zip.ZipEntry
@@ -73,70 +65,51 @@ internal class AndroidDownloadManager @Inject constructor(
                 updateOrStart(
                     title = getString(R.string.downloading)
                 )
-            }
+            },
+            onFailure = onFinish
         ) {
-            onStart()
-            url.makeLog("Start Download")
+            channelFlow {
+                onStart()
+                url.makeLog("Start Download")
 
-            val progressChannel = Channel<DownloadProgress>(Channel.BUFFERED)
+                val tmp = File(
+                    File(context.cacheDir, "downloadCache").apply(File::mkdirs),
+                    "${url.substringAfterLast('/').substringBefore('?')}.tmp"
+                )
 
-            launch {
-                progressChannel.receiveAsFlow()
-                    .throttleLatest(50).collect {
-                        updateProgress(
-                            title = getString(R.string.downloading),
-                            done = (it.currentPercent * 100).roundToInt(),
-                            total = 100
+                client.getWithProgress(
+                    url = url,
+                    onFailure = onFinish,
+                    onProgress = { bytesSentTotal, contentLength ->
+                        val progress = contentLength?.let {
+                            bytesSentTotal.toFloat() / contentLength.toFloat()
+                        } ?: 0f
+
+                        onProgress(
+                            DownloadProgress(
+                                currentPercent = progress,
+                                currentTotalSize = contentLength ?: -1
+                            ).also(::trySend)
                         )
-                    }
-            }
-
-            val tmp = File(
-                File(context.cacheDir, "downloadCache").apply(File::mkdirs),
-                "${url.substringAfterLast('/').substringBefore('?')}.tmp"
-            )
-
-            client.prepareGet(url).execute { response ->
-                val total = response.contentLength() ?: -1L
-
-                ensureActive()
-                val channel = response.bodyAsChannel()
-                var downloaded = 0L
-
-                tmp.outputStream().use { fos ->
-                    try {
-                        while (!channel.isClosedForRead) {
-                            ensureActive()
-                            val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                            while (!packet.exhausted()) {
-                                ensureActive()
-                                val bytes = packet.readByteArray()
-                                downloaded += bytes.size
-                                fos.write(bytes)
-                                onProgress(
-                                    DownloadProgress(
-                                        currentPercent = if (total > 0) downloaded.toFloat() / total else 0f,
-                                        currentTotalSize = total
-                                    ).also(progressChannel::trySend)
-                                )
-                            }
-                        }
-
-                        withContext(ioDispatcher) {
+                    },
+                    onOpen = { response ->
+                        tmp.outputStream().use { fos ->
+                            response.copyTo(fos)
                             tmp.renameTo(File(destinationPath))
+                            tmp.delete()
+                            onFinish(null)
                         }
-                        tmp.delete()
-                        onFinish(null)
-                        progressChannel.close()
-                    } catch (e: Throwable) {
-                        tmp.delete()
-                        onFinish(e)
-                        progressChannel.close()
-                    } finally {
-                        tmp.delete()
-                        progressChannel.close()
                     }
-                }
+                )
+
+                tmp.delete()
+                close()
+            }.throttleLatest(50).collect {
+                updateProgress(
+                    title = getString(R.string.downloading),
+                    done = (it.currentPercent * 100).roundToInt(),
+                    total = 100
+                )
             }
         }
     }
@@ -147,7 +120,7 @@ internal class AndroidDownloadManager @Inject constructor(
         onStart: suspend () -> Unit,
         onProgress: (DownloadProgress) -> Unit,
         downloadOnlyNewData: Boolean
-    ) {
+    ): Unit = withContext(defaultDispatcher) {
         keepAliveService.track(
             initial = {
                 updateOrStart(
@@ -156,62 +129,55 @@ internal class AndroidDownloadManager @Inject constructor(
             }
         ) {
             channelFlow {
-                client.prepareGet(url).execute { response ->
-                    val total = response.contentLength() ?: -1L
+                client.getWithProgress(
+                    url = url,
+                    onProgress = { bytesSentTotal, contentLength ->
+                        val progress = contentLength?.let {
+                            bytesSentTotal.toFloat() / contentLength.toFloat()
+                        } ?: 0f
 
-                    trySend(
-                        DownloadProgress(
-                            currentPercent = 0f,
-                            currentTotalSize = total
-                        ).also(onProgress)
-                    )
+                        onProgress(
+                            DownloadProgress(
+                                currentPercent = progress,
+                                currentTotalSize = contentLength ?: -1
+                            ).also(::trySend)
+                        )
+                    },
+                    onOpen = { response ->
+                        ZipInputStream(response.toInputStream()).use { zipIn ->
+                            var entry: ZipEntry?
+                            while (zipIn.nextEntry.also { entry = it } != null) {
+                                entry?.let { zipEntry ->
+                                    val filename = zipEntry.name
 
-                    ensureActive()
-                    val source = response.bodyAsChannel().toInputStream().withProgress(
-                        total = total,
-                        onProgress = { percent ->
-                            trySend(
-                                DownloadProgress(
-                                    currentPercent = percent,
-                                    currentTotalSize = total
-                                ).also(onProgress)
-                            )
-                        }
-                    )
+                                    if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
 
-                    ZipInputStream(source).use { zipIn ->
-                        var entry: ZipEntry?
-                        while (zipIn.nextEntry.also { entry = it } != null) {
-                            entry?.let { zipEntry ->
-                                val filename = zipEntry.name
-
-                                if (filename.isNullOrBlank() || filename.startsWith("__")) return@let
-
-                                val outFile = File(
-                                    destinationPath,
-                                    filename.decodeEscaped()
-                                ).apply {
-                                    delete()
-                                    parentFile?.mkdirs()
-                                    createNewFile()
-                                }
-
-                                if (downloadOnlyNewData) {
-                                    val file = File(destinationPath).listFiles()?.find {
-                                        it.name == filename && it.length() > 0L
+                                    val outFile = File(
+                                        destinationPath,
+                                        filename.decodeEscaped()
+                                    ).apply {
+                                        delete()
+                                        parentFile?.mkdirs()
+                                        createNewFile()
                                     }
 
-                                    if (file != null) return@let
-                                }
+                                    if (downloadOnlyNewData) {
+                                        val file = File(destinationPath).listFiles()?.find {
+                                            it.name == filename && it.length() > 0L
+                                        }
 
-                                FileOutputStream(outFile).use { fos ->
-                                    zipIn.copyTo(fos)
+                                        if (file != null) return@let
+                                    }
+
+                                    FileOutputStream(outFile).use { fos ->
+                                        zipIn.copyTo(fos)
+                                    }
+                                    zipIn.closeEntry()
                                 }
-                                zipIn.closeEntry()
                             }
                         }
                     }
-                }
+                )
 
                 close()
             }.throttleLatest(50).collect {

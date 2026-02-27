@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,9 @@ fun ImagePreviewGrid(
     verticalCellSize: Dp = 120.dp,
     horizontalCellSize: Dp = verticalCellSize,
     contentPadding: PaddingValues? = null,
-    initialShowImagePreviewDialog: Boolean = false
+    isSelectable: Boolean = false,
+    initialShowImagePreviewDialog: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
     val imagePicker = rememberImagePicker { uriList: List<Uri> ->
         val uris = (data ?: emptyList()).toMutableList()
@@ -96,6 +98,7 @@ fun ImagePreviewGrid(
             data?.map { it.toString() } ?: emptyList()
         },
         imageFrames = imageFrames ?: ImageFrames.ManualSelection(emptyList()),
+        modifier = modifier,
         onFrameSelectionChange = {
             if (it.isEmpty()) {
                 isSelectionMode = false
@@ -157,7 +160,8 @@ fun ImagePreviewGrid(
                 }
             }
         } else null,
-        isContentAlignToCenter = false
+        isContentAlignToCenter = false,
+        enableSelection = isSelectable
     )
 
     ImagePager(

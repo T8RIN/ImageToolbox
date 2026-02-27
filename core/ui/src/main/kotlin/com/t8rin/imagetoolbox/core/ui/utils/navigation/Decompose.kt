@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import com.arkivanov.decompose.value.updateAndGet
 import com.arkivanov.essenty.lifecycle.Lifecycle
 import com.arkivanov.essenty.lifecycle.LifecycleOwner
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -43,7 +45,11 @@ val ComponentContext.coroutineScope: CoroutineScope
  * if available on the current platform, or [Dispatchers.Main] otherwise.
  */
 fun LifecycleOwner.coroutineScope(
-    context: CoroutineContext = Dispatchers.Main.immediate + SupervisorJob(),
+    context: CoroutineContext = Dispatchers.Main.immediate + SupervisorJob() + CoroutineExceptionHandler { _, t ->
+        t.makeLog(
+            "Component CRITICAL ISSUE"
+        )
+    },
 ): CoroutineScope =
     CoroutineScope(context = context).withLifecycle(lifecycle)
 

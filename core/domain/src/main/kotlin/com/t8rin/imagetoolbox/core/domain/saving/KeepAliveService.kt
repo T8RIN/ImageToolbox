@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.core.domain.saving
 
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.supervisorScope
 
 interface KeepAliveService {
     fun updateOrStart(
@@ -52,19 +51,13 @@ fun KeepAliveService.updateProgress(
 suspend fun <R> KeepAliveService.track(
     initial: KeepAliveService.() -> Unit = { updateOrStart() },
     onCancel: () -> Unit = {},
-    onFailure: (Throwable) -> Unit = {},
+    onFailure: suspend (Throwable) -> Unit = {},
     onComplete: KeepAliveService.(isSuccess: Boolean) -> Unit = { stop(true) },
     action: suspend KeepAliveService.() -> R
-): R? = coroutineScope {
-    val deferred = async {
+): R? = supervisorScope {
+    try {
         initial()
         action()
-    }
-
-    deferred.invokeOnCompletion { onComplete(true) }
-
-    try {
-        deferred.await()
     } catch (e: CancellationException) {
         onComplete(false)
         onCancel()
