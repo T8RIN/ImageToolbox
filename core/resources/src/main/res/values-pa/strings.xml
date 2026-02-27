@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">ਫੌਂਟ ਸਕੇਲ</string>
     <string name="defaultt">ਡਿਫਾਲਟ</string>
     <string name="using_large_fonts_warn">ਵੱਡੇ ਫੌਂਟ ਸਕੇਲਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨ ਨਾਲ UI ਗੜਬੜੀਆਂ ਅਤੇ ਸਮੱਸਿਆਵਾਂ ਹੋ ਸਕਦੀਆਂ ਹਨ, ਜੋ ਠੀਕ ਨਹੀਂ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ। ਸਾਵਧਾਨੀ ਨਾਲ ਵਰਤੋ.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">ਅ ਆ ਇ ਈ ਉ ਊ ਏ ਐ ਓ ਔ ਕ ਖ ਗ ਘ ਙ ਚ ਛ ਜ ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ ਬ ਭ ਮ ਯ ਰ ਲ ਵ ਸ ਹ 0123456789 !?</string>
     <string name="emotions">ਜਜ਼ਬਾਤ</string>
     <string name="food_and_drink">ਭੋਜਨ ਅਤੇ ਪੀ</string>
     <string name="nature_and_animals">ਕੁਦਰਤ ਅਤੇ ਜਾਨਵਰ</string>
