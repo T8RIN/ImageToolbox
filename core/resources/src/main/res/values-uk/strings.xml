@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -370,7 +368,7 @@
     <string name="wait">Зачекайте</string>
     <string name="effort_sub">Значення %1$s означає швидке стиснення, що призводить до відносно великого розміру файлу. %2$s означає витрачати більше часу на стиснення, в результаті чого менший файл</string>
     <string name="allow_betas">Дозволити бета-версії</string>
-    <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Аа Бб Вв Гг Ґґ Дд Ее Єє Жж Зз Ии Іі Її Йй Кк Лл Мм Нн Оо Пп Рр Сс Тт Уу Фф Хх Цц Чч Шш Щщ Ьь Юю Яя 0123456789 !?</string>
     <string name="saving_almost_complete">Збереження майже завершено, якщо ви скасуєте, що тепер вам потрібно буде почати збереження знову</string>
     <string name="effort">Зусилля</string>
     <string name="allow_betas_sub">Перевірка оновлень включатиме бета-версії застосунків, якщо ввімкнено</string>
