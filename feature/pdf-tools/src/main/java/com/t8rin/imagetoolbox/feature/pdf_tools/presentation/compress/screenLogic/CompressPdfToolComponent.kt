@@ -62,6 +62,8 @@ class CompressPdfToolComponent @AssistedInject internal constructor(
     private val _quality: MutableState<Float> = mutableFloatStateOf(0.8f)
     val quality by _quality
 
+    override fun getKey(): Pair<String, Uri?> = "compressed" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

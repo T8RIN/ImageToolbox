@@ -67,6 +67,8 @@ class PrintPdfToolComponent @AssistedInject internal constructor(
         mutableStateOf(PrintPdfParams())
     val params by _params
 
+    override fun getKey(): Pair<String, Uri?> = "printed" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

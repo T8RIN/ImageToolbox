@@ -63,6 +63,8 @@ class ProtectPdfToolComponent @AssistedInject internal constructor(
     private val _password: MutableState<String> = mutableStateOf("")
     val password by _password
 
+    override fun getKey(): Pair<String, Uri?> = "protected" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

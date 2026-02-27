@@ -71,6 +71,8 @@ class SignaturePdfToolComponent @AssistedInject internal constructor(
 
     val savedSignatures = pdfManager.savedSignatures
 
+    override fun getKey(): Pair<String, Uri?> = "signed" to uri
+
     init {
         componentScope.launch {
             snapshotFlow { uri }

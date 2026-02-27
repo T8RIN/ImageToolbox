@@ -62,6 +62,8 @@ class RearrangePdfToolComponent @AssistedInject internal constructor(
     private val _pages: MutableState<List<PageData>> = mutableStateOf(emptyList())
     internal val pages by _pages
 
+    override fun getKey(): Pair<String, Uri?> = "rearranged" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

@@ -62,6 +62,8 @@ class FlattenPdfToolComponent @AssistedInject internal constructor(
     private val _quality: MutableState<Float> = mutableFloatStateOf(0.85f)
     val quality by _quality
 
+    override fun getKey(): Pair<String, Uri?> = "flattened" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

@@ -81,6 +81,8 @@ class WatermarkPdfToolComponent @AssistedInject internal constructor(
         }
     }
 
+    override fun getKey(): Pair<String, Uri?> = "watermarked" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

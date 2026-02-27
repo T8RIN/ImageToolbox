@@ -62,6 +62,8 @@ class PageNumbersPdfToolComponent @AssistedInject internal constructor(
     private val _params: MutableState<PageNumbersParams> = mutableStateOf(PageNumbersParams())
     val params by _params
 
+    override fun getKey(): Pair<String, Uri?> = "numbered" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

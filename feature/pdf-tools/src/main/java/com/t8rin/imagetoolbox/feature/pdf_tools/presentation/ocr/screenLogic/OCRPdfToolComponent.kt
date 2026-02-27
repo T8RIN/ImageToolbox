@@ -79,7 +79,7 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    override fun generatePdfFilename(): String =
+    override fun createTargetFilename(): String =
         "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.txt"
 
     fun navigateToOcr(
@@ -144,7 +144,7 @@ class OCRPdfToolComponent @AssistedInject internal constructor(
                 val processed = stripText()
 
                 shareProvider.cacheData(
-                    filename = generatePdfFilename(),
+                    filename = createTargetFilename(),
                     writeData = {
                         it.writeBytes(processed)
                     }

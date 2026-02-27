@@ -73,6 +73,8 @@ class SplitPdfToolComponent @AssistedInject internal constructor(
         }
     }
 
+    override fun getKey(): Pair<String, Uri?> = "split" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

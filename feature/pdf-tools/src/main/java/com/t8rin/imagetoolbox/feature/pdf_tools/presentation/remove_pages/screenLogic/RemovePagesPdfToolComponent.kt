@@ -61,6 +61,8 @@ class RemovePagesPdfToolComponent @AssistedInject internal constructor(
     private val _pagesToDelete: MutableState<List<Int>> = mutableStateOf(emptyList())
     val pagesToDelete by _pagesToDelete
 
+    override fun getKey(): Pair<String, Uri?> = "removed" to uri
+
     fun setUri(uri: Uri?) {
         if (uri == null) {
             registerChangesCleared()

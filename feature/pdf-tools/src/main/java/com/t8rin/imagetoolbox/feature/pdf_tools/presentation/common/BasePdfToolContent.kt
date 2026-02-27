@@ -171,7 +171,7 @@ internal fun BasePdfToolContent(
                 secondaryButtonText = stringResource(R.string.pick_file),
                 onSecondaryButtonClick = pdfPicker::pickFile,
                 onPrimaryButtonClick = {
-                    saveLauncher.make(component.generatePdfFilename())
+                    saveLauncher.make(component.createTargetFilename())
                 },
                 actions = {
                     if (isPortrait) actions()

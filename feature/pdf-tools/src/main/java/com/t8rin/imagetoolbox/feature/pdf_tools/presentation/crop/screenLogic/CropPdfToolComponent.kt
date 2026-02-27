@@ -75,6 +75,8 @@ class CropPdfToolComponent @AssistedInject internal constructor(
     )
     val cropRect by _cropRect
 
+    override fun getKey(): Pair<String, Uri?> = "cropped" to uri
+
     init {
         componentScope.launch {
             snapshotFlow { uri }

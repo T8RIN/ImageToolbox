@@ -79,7 +79,7 @@ class ExtractImagesPdfToolComponent @AssistedInject internal constructor(
         )
     }
 
-    override fun generatePdfFilename(): String =
+    override fun createTargetFilename(): String =
         "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}_extracted.zip"
 
     override fun saveTo(

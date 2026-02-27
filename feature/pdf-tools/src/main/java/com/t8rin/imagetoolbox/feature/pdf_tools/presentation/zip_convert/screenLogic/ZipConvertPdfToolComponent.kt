@@ -86,7 +86,7 @@ class ZipConvertPdfToolComponent @AssistedInject internal constructor(
         _interval.update { interval }
     }
 
-    override fun generatePdfFilename(): String =
+    override fun createTargetFilename(): String =
         "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}.zip"
 
     override fun saveTo(
