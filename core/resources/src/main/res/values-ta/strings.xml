@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -362,7 +360,7 @@
     <string name="font_scale">எழுத்துரு அளவு</string>
     <string name="defaultt">இயல்புநிலை</string>
     <string name="using_large_fonts_warn">பெரிய எழுத்துரு அளவுகோல்களைப் பயன்படுத்துவது UI குறைபாடுகள் மற்றும் சிக்கல்களை ஏற்படுத்தலாம், அவை சரி செய்யப்படாது. எச்சரிக்கையுடன் பயன்படுத்தவும்.</string>
-    <string name="alphabet_and_numbers">AA BB CC DD EE FF GG HH II JJ KK LL MM NN OO PP QQ RR SS TT UU VV XX YY ZZ 0123456789!?</string>
+    <string name="alphabet_and_numbers">அ ஆ இ ஈ உ ஊ எ ஏ ஐ ஒ ஓ ஔ க ங ச ஞ ட ண த ந ப ம ய ர ல வ ழ ள ற ன ஃ 0123456789 !?</string>
     <string name="emotions">உணர்ச்சிகள்</string>
     <string name="food_and_drink">உணவு மற்றும் பானம்</string>
     <string name="nature_and_animals">இயற்கை மற்றும் விலங்குகள்</string>
