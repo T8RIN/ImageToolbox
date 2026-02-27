@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -337,7 +335,7 @@
     <string name="font_scale">Yazı tipi ölçeği</string>
     <string name="defaultt">Varsayılan</string>
     <string name="using_large_fonts_warn">Büyük yazı tipi ölçekleri kullanmak, düzeltilmeyecek olan kullanıcı arayüzü hatalarına ve sorunlarına neden olabilir. Dikkatli kullanın.</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Çç Dd Ee Ff Gg Ğğ Hh Ii İi Jj Kk Ll Mm Nn Oo Öö Pp Qq Rr Ss Şş Tt Uu Üü Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Duygular</string>
     <string name="food_and_drink">Yiyecek ve İçecek</string>
     <string name="nature_and_animals">Doğa ve Hayvanlar</string>
