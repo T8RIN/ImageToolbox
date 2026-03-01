@@ -76,11 +76,16 @@ sealed interface LayerType {
         val backgroundColor: Int,
         val text: String,
         val decorations: List<Decoration>,
-        val outline: Outline?
+        val outline: Outline?,
+        val alignment: Alignment
     ) : LayerType {
 
         enum class Decoration {
             Bold, Italic, Underline, LineThrough
+        }
+
+        enum class Alignment {
+            Start, Center, End
         }
 
         companion object {
@@ -93,6 +98,7 @@ sealed interface LayerType {
                     text = "Text",
                     decorations = listOf(),
                     outline = null,
+                    alignment = Alignment.Start,
                 )
             }
         }
