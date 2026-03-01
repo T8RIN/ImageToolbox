@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -95,6 +96,11 @@ internal fun LayerContent(
                             FontStyle.Italic
                         } else {
                             FontStyle.Normal
+                        },
+                        textAlign = when (type.alignment) {
+                            LayerType.Text.Alignment.Start -> TextAlign.Start
+                            LayerType.Text.Alignment.Center -> TextAlign.Center
+                            LayerType.Text.Alignment.End -> TextAlign.End
                         }
                     )
                 }

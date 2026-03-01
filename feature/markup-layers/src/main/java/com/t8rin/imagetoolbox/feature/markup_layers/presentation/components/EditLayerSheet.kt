@@ -33,6 +33,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderColor
+import androidx.compose.material.icons.rounded.FormatAlignCenter
+import androidx.compose.material.icons.rounded.FormatAlignLeft
+import androidx.compose.material.icons.rounded.FormatAlignRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,6 +46,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -193,6 +197,39 @@ internal fun EditLayerSheet(
                         keyboardOptions = KeyboardOptions(),
                         singleLine = false
                     )
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
+                    ) {
+                        LayerType.Text.Alignment.entries.forEach { alignment ->
+                            EnhancedIconButton(
+                                onClick = {
+                                    onUpdateLayer(
+                                        layer.copy(
+                                            type = type.copy(alignment = alignment)
+                                        )
+                                    )
+                                },
+                                containerColor = takeColorFromScheme {
+                                    if (alignment == type.alignment) secondaryContainer else surface
+                                },
+                                contentColor = takeColorFromScheme {
+                                    if (alignment == type.alignment) onSecondaryContainer else onSurface
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = when (alignment) {
+                                        LayerType.Text.Alignment.Start -> Icons.Rounded.FormatAlignLeft
+                                        LayerType.Text.Alignment.Center -> Icons.Rounded.FormatAlignCenter
+                                        LayerType.Text.Alignment.End -> Icons.Rounded.FormatAlignRight
+                                    },
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+
                     Spacer(Modifier.height(8.dp))
                     FontSelector(
                         value = type.font.toUiFont(),
