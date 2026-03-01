@@ -536,6 +536,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
