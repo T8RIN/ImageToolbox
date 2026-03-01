@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
@@ -300,6 +301,17 @@ internal fun Any.toPair(): Pair<String, String>? {
                 backgroundColor.colorInt,
                 isGrayscale,
                 font.asString()
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is BloomParams -> {
+            BloomParams::class.simpleName!! to listOf(
+                threshold,
+                intensity,
+                radius,
+                softKnee,
+                exposure,
+                gamma
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
@@ -634,6 +646,21 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 backgroundColor = backgroundColor.toInt().toColorModel(),
                 isGrayscale = isGrayscale.toBoolean(),
                 font = DomainFontFamily.fromString(font).asFontType()
+            )
+        }
+
+        name == BloomParams::class.simpleName -> {
+            val (threshold, intensity, radius, softKnee, exposure, gamma) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            BloomParams(
+                threshold = threshold.toFloat(),
+                intensity = intensity.toFloat(),
+                radius = radius.toInt(),
+                softKnee = softKnee.toFloat(),
+                exposure = exposure.toFloat(),
+                gamma = gamma.toFloat()
             )
         }
 
