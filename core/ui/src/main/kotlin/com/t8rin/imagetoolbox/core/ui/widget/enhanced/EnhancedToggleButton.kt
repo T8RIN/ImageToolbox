@@ -38,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,6 +51,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun EnhancedToggleButton(
@@ -78,13 +81,19 @@ fun EnhancedToggleButton(
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
 
+    val scope = rememberCoroutineScope()
+
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         Surface(
             checked = checked,
             onCheckedChange = {
-                focus.clearFocus()
                 haptics.longPress()
                 onCheckedChange(it)
+
+                scope.launch {
+                    delay(200)
+                    focus.clearFocus()
+                }
             },
             modifier = modifier.semantics { role = Role.Checkbox },
             enabled = enabled,

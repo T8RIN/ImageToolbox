@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
@@ -367,6 +368,7 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface BlockGlitch : PairFloatFilter
     interface CrtCurvature : TripleFloatFilter
     interface PixelMelt : PairFloatFilter
+    interface Bloom : Filter<BloomParams>
 }
 
 interface SimpleFilter : Filter<Unit>
