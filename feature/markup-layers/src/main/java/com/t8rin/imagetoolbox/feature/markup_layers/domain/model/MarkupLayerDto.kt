@@ -1,12 +1,11 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.domain.model
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
+import com.t8rin.imagetoolbox.core.settings.presentation.model.asDomain
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
-import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
@@ -72,7 +71,7 @@ sealed interface LayerTypeDto {
 
 // --- MAPPING FUNCTIONS ---
 
-@Composable
+
 fun UiMarkupLayer.toDto(assetName: String? = null): MarkupLayerDto = MarkupLayerDto(
     type = type.toDto(assetName),
     position = LayerPositionDto(
@@ -89,13 +88,12 @@ fun UiMarkupLayer.toDto(assetName: String? = null): MarkupLayerDto = MarkupLayer
     coerceToBounds = state.coerceToBounds
 )
 
-@Composable
 fun LayerType.toDto(assetName: String? = null): LayerTypeDto = when (this) {
     is LayerType.Text -> LayerTypeDto.Text(
         color = color,
         size = size,
         fontPath = font?.let {
-            val domainFont = it.toUiFont().asDomain()
+            val domainFont = it.asDomain()
             if (domainFont !is DomainFontFamily.Custom) domainFont.asString() else null
         },
         backgroundColor = backgroundColor,

@@ -490,6 +490,7 @@ or click one of the badges below.
     - [x] Block Glitch
     - [x] Crt Curvature
     - [x] Pixel Melt
+    - [x] Bloom
 
 
   </details>

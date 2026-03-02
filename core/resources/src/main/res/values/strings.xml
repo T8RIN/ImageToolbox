@@ -2203,4 +2203,6 @@
     <string name="orientation">Orientation</string>
     <string name="page_size">Page Size</string>
     <string name="margin">Margin</string>
+    <string name="bloom">Bloom</string>
+    <string name="soft_knee">Soft Knee</string>
 </resources>
