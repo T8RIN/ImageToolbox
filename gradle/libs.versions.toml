@@ -3,6 +3,7 @@ androidMinSdk = "23"
 androidTargetSdk = "36"
 androidCompileSdk = "36"
 
+kotlinxSerializationJson = "1.10.0"
 versionName = "3.7.1"
 versionCode = "212"
 
@@ -85,6 +86,7 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
 [libraries]
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj.flinger:flinger", version.ref = "flinger" }
