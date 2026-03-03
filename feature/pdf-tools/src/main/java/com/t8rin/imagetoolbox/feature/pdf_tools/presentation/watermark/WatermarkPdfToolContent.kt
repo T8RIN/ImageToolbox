@@ -155,8 +155,6 @@ fun WatermarkPdfToolContent(
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             RoundedTextField(
                 modifier = Modifier
                     .container(
@@ -225,8 +223,6 @@ fun WatermarkPdfToolContent(
                 ),
                 allowAlpha = false
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

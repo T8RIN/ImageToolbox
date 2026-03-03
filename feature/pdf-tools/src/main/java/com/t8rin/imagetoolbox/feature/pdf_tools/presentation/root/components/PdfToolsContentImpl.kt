@@ -392,8 +392,7 @@ internal fun PdfToolsContentImpl(
                                 }
                             }
 
-                            if (!isPortrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-                                val direction = LocalLayoutDirection.current
+                            if (!isPortrait) {
                                 Box(
                                     modifier = Modifier
                                         .weight(0.7f)
@@ -403,18 +402,6 @@ internal fun PdfToolsContentImpl(
                                     Column(
                                         modifier = Modifier
                                             .enhancedVerticalScroll(rememberScrollState())
-                                            .then(
-                                                if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-                                                    Modifier.padding(
-                                                        start = WindowInsets
-                                                            .displayCutout
-                                                            .asPaddingValues()
-                                                            .calculateStartPadding(
-                                                                direction
-                                                            )
-                                                    )
-                                                } else Modifier
-                                            )
                                     ) {
                                         controls(pdfType)
                                     }

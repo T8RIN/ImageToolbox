@@ -204,7 +204,7 @@ private class ImagePickerImpl(
 
 @Stable
 @Immutable
-interface ImagePicker {
+interface ImagePicker : FilePicker {
 
     fun pickImage()
 
@@ -212,6 +212,8 @@ interface ImagePicker {
         picker: Picker,
         picturePickerMode: PicturePickerMode
     )
+
+    override fun pickFile() = pickImage()
 
 }
 

@@ -113,7 +113,8 @@ fun AdaptiveLayoutScreen(
         )
     ),
     listState: LazyListState = rememberLazyListState(),
-    placeControlsSeparately: Boolean = false
+    placeControlsSeparately: Boolean = false,
+    portraitTopPadding: Dp = 0.dp
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val settingsState = LocalSettingsState.current
@@ -253,7 +254,7 @@ fun AdaptiveLayoutScreen(
                                         .union(WindowInsets.ime)
                                         .asPaddingValues()
                                         .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
-                                    top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
+                                    top = if (!canShowScreenData || !isPortrait) contentPadding else portraitTopPadding,
                                     start = contentPadding + cutout,
                                     end = contentPadding
                                 ),

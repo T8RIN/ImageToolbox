@@ -72,7 +72,6 @@ fun RearrangePdfToolContent(
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
         controls = {
-            Spacer(Modifier.height(20.dp))
             component.uri?.let {
                 PdfPreviewItem(
                     uri = it,
@@ -86,7 +85,6 @@ fun RearrangePdfToolContent(
                 pages = component.pages,
                 onReorder = component::updatePages
             )
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

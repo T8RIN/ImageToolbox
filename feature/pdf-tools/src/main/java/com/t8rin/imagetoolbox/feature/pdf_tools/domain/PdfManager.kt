@@ -38,7 +38,6 @@ interface PdfManager : PdfHelper {
 
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
-        onProgressChange: suspend (Int) -> Unit,
         params: ImagesToPdfParams
     ): String
 

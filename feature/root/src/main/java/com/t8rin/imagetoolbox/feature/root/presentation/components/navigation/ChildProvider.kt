@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.Cr
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.images_to_pdf.screenLogic.ImagesToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
@@ -236,6 +237,7 @@ internal class ChildProvider @Inject constructor(
     private val zipConvertPdfToolComponentFactory: ZipConvertPdfToolComponent.Factory,
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
     private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
+    private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -861,6 +863,15 @@ internal class ChildProvider @Inject constructor(
         is Screen.PdfTools.Preview -> PreviewPdfTool(
             previewPdfToolComponentFactory(
                 initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ImagesToPdf -> NavigationChild.ImagesToPdfTool(
+            imagesToPdfToolComponentFactory(
+                initialUris = config.uris,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::replaceTo

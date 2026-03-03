@@ -17,12 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
@@ -53,14 +49,12 @@ fun MergePdfToolContent(
                 onSuccess = component::addUris
             )
 
-            Spacer(Modifier.height(20.dp))
             FileReorderVerticalList(
                 files = component.uris,
                 onReorder = component::setUris,
                 onNeedToAddFile = addFilesPicker::pickFile,
                 onNeedToRemoveFileAt = component::removeAt
             )
-            Spacer(Modifier.height(20.dp))
         }
     )
 }

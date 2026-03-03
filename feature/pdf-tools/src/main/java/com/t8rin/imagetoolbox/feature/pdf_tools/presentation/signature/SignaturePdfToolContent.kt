@@ -170,8 +170,6 @@ fun SignaturePdfToolContent(
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             ImageSelector(
                 value = component.signatureImage,
                 onValueChange = component::updateSignature,
@@ -247,8 +245,6 @@ fun SignaturePdfToolContent(
                 valueRange = 0.01f..1f,
                 shape = ShapeDefaults.large
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

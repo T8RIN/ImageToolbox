@@ -171,14 +171,11 @@ class DocumentScannerComponent @AssistedInject internal constructor(
     }
 
     private suspend fun createPdfUri(): Uri? {
-        _done.value = 0
-        _left.value = uris.size
+        _done.update { 0 }
+        _left.update { 0 }
         return runSuspendCatching {
             pdfManager.convertImagesToPdf(
                 imageUris = uris.map { it.toString() },
-                onProgressChange = {
-                    _done.value = it
-                },
                 params = ImagesToPdfParams()
             )
         }.getOrNull()?.toUri()

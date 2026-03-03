@@ -49,8 +49,6 @@ fun MetadataPdfToolContent(
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             component.uri?.let {
                 PdfPreviewItem(
                     uri = it,
@@ -68,8 +66,6 @@ fun MetadataPdfToolContent(
                 onReset = component::resetMetadata,
                 onUpdateDeepClean = component::updateDeepClean
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

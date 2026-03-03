@@ -128,7 +128,6 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
-        onProgressChange: suspend (Int) -> Unit,
         params: ImagesToPdfParams
     ): String = catchPdf {
         createPdf { newDoc ->
@@ -162,7 +161,7 @@ internal class AndroidPdfManager @Inject constructor(
 
             val size = IntegerSize(maxWidth, h)
 
-            images.forEachIndexed { index, image ->
+            images.forEach { image ->
                 val bitmap = if (params.scaleSmallImagesToLarge && image.width != size.width) {
                     Aire.scale(
                         bitmap = image,
@@ -189,8 +188,6 @@ internal class AndroidPdfManager @Inject constructor(
                         bitmap.height.toFloat()
                     )
                 }
-
-                onProgressChange(index)
             }
 
             shareProvider.cacheData(

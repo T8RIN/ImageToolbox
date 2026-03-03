@@ -71,8 +71,6 @@ fun CropPdfToolContent(
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             PageSelectionItem(
                 value = component.pages,
                 onValueChange = component::updatePages,
@@ -116,8 +114,6 @@ fun CropPdfToolContent(
                     )
                 }
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

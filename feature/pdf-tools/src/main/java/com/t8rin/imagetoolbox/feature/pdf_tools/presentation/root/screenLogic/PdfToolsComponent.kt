@@ -42,22 +42,18 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ImagesToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfToImagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToImageState
-import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
-import kotlin.random.Random
 
 class PdfToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -86,9 +82,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _pdfToImageState: MutableState<PdfToImageState?> = mutableStateOf(null)
     val pdfToImageState by _pdfToImageState
 
-    private val _imagesToPdfState: MutableState<List<Uri>?> = mutableStateOf(null)
-    val imagesToPdfState by _imagesToPdfState
-
     private val _pdfType: MutableState<Screen.PdfTools.Type?> = mutableStateOf(null)
     val pdfType: Screen.PdfTools.Type? by _pdfType
 
@@ -107,9 +100,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val _quality: MutableState<Int> = mutableIntStateOf(85)
     val quality by _quality
 
-    private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
-    val scaleSmallImagesToLarge by _scaleSmallImagesToLarge
-
     private val _showOOMWarning: MutableState<Boolean> = mutableStateOf(false)
     val showOOMWarning by _showOOMWarning
 
@@ -123,31 +113,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    private val imagesToPdfParams: ImagesToPdfParams
-        get() = ImagesToPdfParams(
-            scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
-            preset = _presetSelected.value,
-            quality = _quality.value
-        )
-
     private fun resetCalculatedData() {
         _outputPdfUri.value = null
-    }
-
-    fun savePdfTo(
-        uri: Uri,
-        onResult: (SaveResult) -> Unit
-    ) {
-        savingJob = trackProgress {
-            _isSaving.value = true
-            _outputPdfUri.value?.let { pdfUri ->
-                fileController.transferBytes(
-                    fromUri = pdfUri,
-                    toUri = uri.toString()
-                ).also(onResult).onSuccess(::registerSave)
-            }
-            _isSaving.value = false
-        }
     }
 
     fun cancelSaving() {
@@ -158,19 +125,9 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun setType(type: Screen.PdfTools.Type) {
         when (type) {
-            is Screen.PdfTools.Type.ImagesToPdf -> setImagesToPdf(type.imageUris)
             is Screen.PdfTools.Type.PdfToImages -> setPdfToImagesUri(type.pdfUri)
         }
         registerChanges()
-        resetCalculatedData()
-    }
-
-    fun setImagesToPdf(uris: List<Uri>?) {
-        _pdfType.update {
-            it as? Screen.PdfTools.Type.ImagesToPdf ?: Screen.PdfTools.Type.ImagesToPdf(uris)
-        }
-        _imagesToPdfState.update { uris }
-        _pdfToImageState.update { null }
         resetCalculatedData()
     }
 
@@ -195,8 +152,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
                 checkForOOM()
             }
         }
-
-        _imagesToPdfState.update { null }
         resetCalculatedData()
     }
 
@@ -206,7 +161,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun clearAll() {
         _pdfType.update { null }
-        _imagesToPdfState.update { null }
         _pdfToImageState.update { null }
         _presetSelected.update { Preset.Original }
         _showOOMWarning.value = false
@@ -277,36 +231,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
         }
     }
 
-    fun convertImagesToPdf(onComplete: () -> Unit) {
-        _done.value = 0
-        _left.value = 0
-        savingJob = trackProgress {
-            _isSaving.value = true
-            _left.value = imagesToPdfState?.size ?: 0
-            _outputPdfUri.value = runSuspendCatching {
-                pdfManager.convertImagesToPdf(
-                    imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
-                    onProgressChange = {
-                        _done.value = it
-                        updateProgress(
-                            done = done,
-                            total = left
-                        )
-                    },
-                    params = imagesToPdfParams
-                )
-            }.onFailure { it.makeLog("PdfToolsComponent") }.getOrNull()
-            registerChanges()
-            onComplete()
-            _isSaving.value = false
-        }
-    }
-
-    fun generatePdfFilename(): String {
-        val timeStamp = "${timestamp()}_${Random(Random.nextInt()).hashCode().toString().take(4)}"
-        return "PDF_$timeStamp.pdf"
-    }
-
     fun performSharing(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
@@ -327,26 +251,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
         savingJob = trackProgress {
             _isSaving.value = true
             when (_pdfType.value) {
-                is Screen.PdfTools.Type.ImagesToPdf -> {
-                    _isSaving.value = true
-                    _left.value = imagesToPdfState?.size ?: 0
-                    runSuspendCatching {
-                        pdfManager.convertImagesToPdf(
-                            imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
-                            onProgressChange = {
-                                _done.value = it
-                                updateProgress(
-                                    done = done,
-                                    total = left
-                                )
-                            },
-                            params = imagesToPdfParams
-                        ).let {
-                            onSuccess(listOf(it.toUri()))
-                        }
-                    }.onFailure(onFailure)
-                }
-
                 is Screen.PdfTools.Type.PdfToImages -> {
                     _done.value = 0
                     _left.value = 1
@@ -402,37 +306,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
             }
             _isSaving.value = false
         }
-    }
-
-    fun addImagesToPdf(uris: List<Uri>) {
-        _imagesToPdfState.update {
-            it?.plus(uris)?.toSet()?.toList()
-        }
-        registerChanges()
-    }
-
-    fun removeImageToPdfAt(index: Int) {
-        runCatching {
-            _imagesToPdfState.update {
-                it?.toMutableList()?.apply { removeAt(index) }
-            }
-            registerChanges()
-        }
-    }
-
-    fun reorderImagesToPdf(uris: List<Uri>?) {
-        _imagesToPdfState.update { uris }
-        registerChanges()
-    }
-
-    fun toggleScaleSmallImagesToLarge() {
-        _scaleSmallImagesToLarge.update { !it }
-        registerChanges()
-    }
-
-    fun setQuality(quality: Int) {
-        _quality.update { quality }
-        registerChanges()
     }
 
     private var presetSelectionJob: Job? by smartJob()

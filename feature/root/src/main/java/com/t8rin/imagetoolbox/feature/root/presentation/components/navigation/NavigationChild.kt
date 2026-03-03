@@ -94,6 +94,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.FlattenPdfT
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.GrayscalePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.grayscale.screenLogic.GrayscalePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.images_to_pdf.ImagesToPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.images_to_pdf.screenLogic.ImagesToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.MergePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.MergePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.MetadataPdfToolContent
@@ -526,4 +528,8 @@ internal sealed interface NavigationChild {
         override fun Content() = PreviewPdfToolContent(component)
     }
 
+    class ImagesToPdfTool(private val component: ImagesToPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ImagesToPdfToolContent(component)
+    }
 }

@@ -68,8 +68,6 @@ fun PrintPdfToolContent(
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             component.uri?.let {
                 PdfPreviewItem(
                     uri = it,
@@ -148,9 +146,6 @@ fun PrintPdfToolContent(
                 shape = ShapeDefaults.large,
                 valueSuffix = "%"
             )
-
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

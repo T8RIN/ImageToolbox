@@ -18,8 +18,14 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileOpen
@@ -31,9 +37,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FilePicker
@@ -71,7 +81,10 @@ internal fun BasePdfToolContent(
     onFilledPassword: () -> Unit = {},
     forceImagePreviewToMax: Boolean = false,
     placeControlsSeparately: Boolean = false,
-    addHorizontalCutoutPaddingIfNoPreview: Boolean = placeImagePreview && showImagePreviewAsStickyHeader
+    addHorizontalCutoutPaddingIfNoPreview: Boolean = placeImagePreview && showImagePreviewAsStickyHeader,
+    secondaryButtonIcon: ImageVector = Icons.Rounded.FileOpen,
+    secondaryButtonText: String = stringResource(R.string.pick_file),
+    noDataText: String = stringResource(R.string.pick_file_to_start)
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -169,13 +182,28 @@ internal fun BasePdfToolContent(
             }
         },
         imagePreview = imagePreview,
-        controls = controls,
+        controls = controls?.let {
+            {
+                Column(
+                    modifier = if (!placeImagePreview && !isPortrait) {
+                        Modifier.windowInsetsPadding(
+                            WindowInsets.displayCutout.only(WindowInsetsSides.Start)
+                        )
+                    } else {
+                        Modifier
+                    },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    controls(this, it)
+                }
+            }
+        },
         buttons = { actions ->
             BottomButtonsBlock(
                 isNoData = !canShowScreenData,
                 isPrimaryButtonVisible = canSave,
-                secondaryButtonIcon = Icons.Rounded.FileOpen,
-                secondaryButtonText = stringResource(R.string.pick_file),
+                secondaryButtonIcon = secondaryButtonIcon,
+                secondaryButtonText = secondaryButtonText,
                 onSecondaryButtonClick = pdfPicker::pickFile,
                 onPrimaryButtonClick = {
                     saveLauncher.make(component.createTargetFilename())
@@ -187,9 +215,11 @@ internal fun BasePdfToolContent(
         },
         noDataControls = {
             FileNotPickedWidget(
+                text = noDataText,
                 onPickFile = pdfPicker::pickFile
             )
         },
+        portraitTopPadding = 20.dp,
         canShowScreenData = canShowScreenData
     )
 

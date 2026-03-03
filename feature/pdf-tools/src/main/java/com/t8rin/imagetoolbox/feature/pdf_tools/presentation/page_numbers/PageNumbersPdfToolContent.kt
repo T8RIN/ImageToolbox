@@ -138,8 +138,6 @@ fun PageNumbersPdfToolContent(
         placeImagePreview = true,
         showImagePreviewAsStickyHeader = true,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             RoundedTextField(
                 modifier = Modifier
                     .padding(top = 8.dp)
@@ -188,8 +186,6 @@ fun PageNumbersPdfToolContent(
                     shape = ShapeDefaults.large
                 )
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

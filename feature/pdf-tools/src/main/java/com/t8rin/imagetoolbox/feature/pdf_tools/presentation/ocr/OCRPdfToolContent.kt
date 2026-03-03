@@ -55,8 +55,6 @@ fun OCRPdfToolContent(
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
         controls = {
-            Spacer(Modifier.height(20.dp))
-
             component.uri?.let {
                 PdfPreviewItem(
                     uri = it,
@@ -76,8 +74,6 @@ fun OCRPdfToolContent(
                     component.navigateToOcr(essentials::showFailureToast)
                 }
             )
-
-            Spacer(Modifier.height(20.dp))
         },
         onFilledPassword = {
             component.setUri(component.uri)

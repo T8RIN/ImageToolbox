@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
-import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
 import kotlinx.serialization.SerialName
@@ -298,7 +297,6 @@ sealed class Screen(
 
             val icon: ImageVector
                 get() = when (this) {
-                    is ImagesToPdf -> Icons.Outlined.Scanner
                     is PdfToImages -> Icons.Outlined.ArtTrack
                 }
 
@@ -310,19 +308,10 @@ sealed class Screen(
                 subtitle = R.string.pdf_to_images_sub
             )
 
-            @Serializable
-            data class ImagesToPdf(
-                val imageUris: List<Uri>? = null
-            ) : Type(
-                title = R.string.images_to_pdf,
-                subtitle = R.string.images_to_pdf_sub
-            )
-
             companion object {
                 val entries by lazy {
                     listOf(
-                        PdfToImages(),
-                        ImagesToPdf()
+                        PdfToImages()
                     )
                 }
             }
@@ -332,6 +321,7 @@ sealed class Screen(
             val options: List<Screen> by lazy {
                 listOf(
                     Preview(),
+                    ImagesToPdf(),
                     Merge(),
                     Split(),
                     RemovePages(),
@@ -545,6 +535,14 @@ sealed class Screen(
             subtitle = R.string.preview_pdf_sub
         )
 
+        @Serializable
+        data class ImagesToPdf(
+            val uris: List<Uri>? = null
+        ) : Screen(
+            id = 65,
+            title = R.string.images_to_pdf,
+            subtitle = R.string.images_to_pdf_sub
+        )
     }
 
     @Serializable
