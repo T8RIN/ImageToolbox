@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Orientação</string>
     <string name="page_size">Tamanho da página</string>
     <string name="margin">Margem</string>
+    <string name="bloom">Florescer</string>
+    <string name="soft_knee">Joelho macio</string>
+    <string name="model_realesr_animevideo_v3x4">Otimizado para anime e desenhos animados. Aprimoramento rápido com cores naturais aprimoradas e menos artefatos</string>
 </resources>

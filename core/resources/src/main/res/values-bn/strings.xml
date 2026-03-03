@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">ওরিয়েন্টেশন</string>
     <string name="page_size">পৃষ্ঠার আকার</string>
     <string name="margin">মার্জিন</string>
+    <string name="bloom">পুষ্প</string>
+    <string name="soft_knee">নরম হাঁটু</string>
+    <string name="model_realesr_animevideo_v3x4">এনিমে এবং কার্টুন জন্য অপ্টিমাইজ করা. উন্নত প্রাকৃতিক রং এবং কম নিদর্শন সহ দ্রুত আপস্কেলিং</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -2181,4 +2183,7 @@
     <string name="orientation">Оријентација</string>
     <string name="page_size">Величина странице</string>
     <string name="margin">Маргина</string>
+    <string name="bloom">Блоом</string>
+    <string name="soft_knee">Софт Кнее</string>
+    <string name="model_realesr_animevideo_v3x4">Оптимизовано за аниме и цртане филмове. Брзо повећање са побољшаним природним бојама и мање артефаката</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -2179,4 +2181,7 @@
     <string name="orientation">정위</string>
     <string name="page_size">페이지 크기</string>
     <string name="margin">여유</string>
+    <string name="bloom">꽃</string>
+    <string name="soft_knee">소프트니</string>
+    <string name="model_realesr_animevideo_v3x4">애니메이션과 만화에 최적화되어 있습니다. 자연스러운 색상이 향상되고 아티팩트가 적어 빠른 확장이 가능합니다.</string>
 </resources>

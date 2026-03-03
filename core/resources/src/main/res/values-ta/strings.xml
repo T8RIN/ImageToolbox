@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">நோக்குநிலை</string>
     <string name="page_size">பக்க அளவு</string>
     <string name="margin">விளிம்பு</string>
+    <string name="bloom">ப்ளூம்</string>
+    <string name="soft_knee">மென்மையான முழங்கால்</string>
+    <string name="model_realesr_animevideo_v3x4">அனிம் மற்றும் கார்ட்டூன்களுக்கு உகந்ததாக உள்ளது. மேம்படுத்தப்பட்ட இயற்கை வண்ணங்கள் மற்றும் குறைவான கலைப்பொருட்கள் மூலம் விரைவான மேம்பாடு</string>
 </resources>

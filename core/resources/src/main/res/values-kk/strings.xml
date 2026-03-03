@@ -2182,4 +2182,7 @@
     <string name="orientation">Бағдарлау</string>
     <string name="page_size">Бет өлшемі</string>
     <string name="margin">Маржа</string>
+    <string name="bloom">Блум</string>
+    <string name="soft_knee">Жұмсақ тізе</string>
+    <string name="model_realesr_animevideo_v3x4">Аниме және мультфильмдер үшін оңтайландырылған. Жақсартылған табиғи түстермен және аз артефактілермен жылдам үлкейту</string>
 </resources>

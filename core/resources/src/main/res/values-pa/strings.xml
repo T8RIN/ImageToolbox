@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="smth_went_wrong">ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ: %1$s</string>
     <string name="size">ਆਕਾਰ %1$s</string>
     <string name="loading">Loading…</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">ਸਥਿਤੀ</string>
     <string name="page_size">ਪੰਨਾ ਆਕਾਰ</string>
     <string name="margin">ਹਾਸ਼ੀਏ</string>
+    <string name="bloom">ਖਿੜ</string>
+    <string name="soft_knee">ਨਰਮ ਗੋਡਾ</string>
+    <string name="model_realesr_animevideo_v3x4">ਐਨੀਮੇ ਅਤੇ ਕਾਰਟੂਨਾਂ ਲਈ ਅਨੁਕੂਲਿਤ। ਸੁਧਰੇ ਹੋਏ ਕੁਦਰਤੀ ਰੰਗਾਂ ਅਤੇ ਘੱਟ ਕਲਾਕ੍ਰਿਤੀਆਂ ਦੇ ਨਾਲ ਤੇਜ਼ ਅਪਸਕੇਲਿੰਗ</string>
 </resources>

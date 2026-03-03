@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Tamaina %1$s</string>
     <string name="smth_went_wrong">Zerbait gaizki atera da: %1$s</string>
     <string name="loading">Kargatzen…</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Orientazioa</string>
     <string name="page_size">Orrialdearen Tamaina</string>
     <string name="margin">Marjina</string>
+    <string name="bloom">Loraldia</string>
+    <string name="soft_knee">Belauna biguna</string>
+    <string name="model_realesr_animevideo_v3x4">Anime eta marrazki bizidunetarako optimizatua. Azkar igotzea kolore natural hobetuekin eta artefaktu gutxiagorekin</string>
 </resources>

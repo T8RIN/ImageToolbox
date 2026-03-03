@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
     <string name="pick_image">Pumili ng larawan para magsimula</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Oryentasyon</string>
     <string name="page_size">Laki ng Pahina</string>
     <string name="margin">Margin</string>
+    <string name="bloom">Bloom</string>
+    <string name="soft_knee">Malambot na Tuhod</string>
+    <string name="model_realesr_animevideo_v3x4">Na-optimize para sa anime at cartoons. Mabilis na pag-upscale gamit ang pinahusay na natural na mga kulay at mas kaunting artifact</string>
 </resources>

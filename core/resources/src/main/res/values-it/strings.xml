@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Orientamento</string>
     <string name="page_size">Dimensioni della pagina</string>
     <string name="margin">Margine</string>
+    <string name="bloom">Fioritura</string>
+    <string name="soft_knee">Ginocchio morbido</string>
+    <string name="model_realesr_animevideo_v3x4">Ottimizzato per anime e cartoni animati. Upscaling veloce con colori naturali migliorati e meno artefatti</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Oryantasyon</string>
     <string name="page_size">Sayfa Boyutu</string>
     <string name="margin">Marj</string>
+    <string name="bloom">Çiçek açmak</string>
+    <string name="soft_knee">Yumuşak Diz</string>
+    <string name="model_realesr_animevideo_v3x4">Anime ve çizgi filmler için optimize edilmiştir. İyileştirilmiş doğal renkler ve daha az yapaylık ile hızlı ölçeklendirme</string>
 </resources>

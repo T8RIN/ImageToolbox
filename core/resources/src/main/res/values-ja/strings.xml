@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -2179,4 +2181,7 @@
     <string name="orientation">向き</string>
     <string name="page_size">ページサイズ</string>
     <string name="margin">マージン</string>
+    <string name="bloom">咲く</string>
+    <string name="soft_knee">ソフトニー</string>
+    <string name="model_realesr_animevideo_v3x4">アニメや漫画向けに最適化されています。改善された自然な色と少ないアーティファクトによる高速アップスケーリング</string>
 </resources>

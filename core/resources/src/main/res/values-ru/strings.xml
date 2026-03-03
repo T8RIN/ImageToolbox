@@ -2184,4 +2184,7 @@
     <string name="orientation">Ориентация</string>
     <string name="page_size">Размер страницы</string>
     <string name="margin">Допуск</string>
+    <string name="bloom">Цвести</string>
+    <string name="soft_knee">Мягкое колено</string>
+    <string name="model_realesr_animevideo_v3x4">Оптимизирован для аниме и мультфильмов. Быстрое масштабирование с улучшенными естественными цветами и меньшим количеством артефактов.</string>
 </resources>

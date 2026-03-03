@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -2179,4 +2181,7 @@
     <string name="orientation">方向</string>
     <string name="page_size">页面尺寸</string>
     <string name="margin">利润</string>
+    <string name="bloom">盛开</string>
+    <string name="soft_knee">软膝</string>
+    <string name="model_realesr_animevideo_v3x4">针对动漫和卡通进行了优化。快速升级，改善自然色彩并减少伪影</string>
 </resources>

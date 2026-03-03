@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">ගැටලුවක් පවතී: %1$s</string>
     <string name="size">ප්‍රමාණය %1$s</string>
     <string name="loading">මොහොතක් සිටින්න…</string>
@@ -2181,4 +2183,7 @@
     <string name="orientation">දිශානතිය</string>
     <string name="page_size">පිටු ප්‍රමාණය</string>
     <string name="margin">ආන්තිකය</string>
+    <string name="bloom">බ්ලූම්</string>
+    <string name="soft_knee">මෘදු දණහිස</string>
+    <string name="model_realesr_animevideo_v3x4">සජීවිකරණ සහ කාටූන් සඳහා ප්‍රශස්ත කර ඇත. වැඩි දියුණු කළ ස්වභාවික වර්ණ සහ අඩු කෞතුක වස්තු සමඟ වේගවත් ඉහළ නැංවීම</string>
 </resources>

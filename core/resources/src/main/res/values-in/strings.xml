@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -2179,4 +2181,7 @@
     <string name="orientation">Orientasi</string>
     <string name="page_size">Ukuran Halaman</string>
     <string name="margin">Batas</string>
+    <string name="bloom">Bunga</string>
+    <string name="soft_knee">Lutut Lembut</string>
+    <string name="model_realesr_animevideo_v3x4">Dioptimalkan untuk anime dan kartun. Peningkatan cepat dengan peningkatan warna alami dan lebih sedikit artefak</string>
 </resources>

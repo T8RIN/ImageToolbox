@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">काहीतरी चूक झाली: %1$s</string>
     <string name="size">आकार %1$s</string>
     <string name="loading">लोड होत आहे…</string>
@@ -2181,4 +2183,7 @@
     <string name="orientation">अभिमुखता</string>
     <string name="page_size">पृष्ठ आकार</string>
     <string name="margin">समास</string>
+    <string name="bloom">तजेला</string>
+    <string name="soft_knee">मऊ गुडघा</string>
+    <string name="model_realesr_animevideo_v3x4">ॲनिम आणि कार्टूनसाठी ऑप्टिमाइझ केलेले. सुधारित नैसर्गिक रंग आणि कमी कलाकृतींसह जलद अपस्केलिंग</string>
 </resources>

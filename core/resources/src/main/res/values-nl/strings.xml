@@ -2182,4 +2182,7 @@
     <string name="orientation">Oriëntatie</string>
     <string name="page_size">Paginagrootte</string>
     <string name="margin">Marge</string>
+    <string name="bloom">Bloeien</string>
+    <string name="soft_knee">Zachte knie</string>
+    <string name="model_realesr_animevideo_v3x4">Geoptimaliseerd voor anime en tekenfilms. Snel opschalen met verbeterde natuurlijke kleuren en minder artefacten</string>
 </resources>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -2180,4 +2182,7 @@
     <string name="orientation">Suuntautuminen</string>
     <string name="page_size">Sivun koko</string>
     <string name="margin">Marginaali</string>
+    <string name="bloom">Kukinta</string>
+    <string name="soft_knee">Pehmeä polvi</string>
+    <string name="model_realesr_animevideo_v3x4">Optimoitu animeille ja sarjakuville. Nopea skaalaus parannetuilla luonnollisilla väreillä ja vähemmillä esineillä</string>
 </resources>
