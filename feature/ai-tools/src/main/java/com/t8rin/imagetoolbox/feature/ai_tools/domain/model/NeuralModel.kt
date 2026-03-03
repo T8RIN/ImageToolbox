@@ -1027,6 +1027,16 @@ data class NeuralModel(
                     speed = Speed.Normal(13.116f),
                     checksum = "50a7b6fcaad6c4f342c5e1d059916a3e5d48e89d1d311270a476a7ce6a2ea09f"
                 ),
+                NeuralModel(
+                    downloadLink = "https://huggingface.co/T8RIN/ddcolor-onnx/resolve/main/upscalers/RealESR-AnimeVideo-x4v3.onnx?download=true",
+                    name = "RealESR-AnimeVideo-x4v3.onnx",
+                    title = "RealESR AnimeVideo x4v3",
+                    description = R.string.model_realesr_animevideo_v3x4,
+                    type = Type.UPSCALE,
+                    downloadSize = 2495473,
+                    speed = Speed.VeryFast(0.437f),
+                    checksum = "3d2dc0af5e2cdf3a31655c4c673df9ad74f14775d74237bd0dc68fc885bd6841"
+                ),
             ).sortedBy { it.type?.ordinal }
         }
 

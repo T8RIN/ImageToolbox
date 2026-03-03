@@ -2205,4 +2205,5 @@
     <string name="margin">Margin</string>
     <string name="bloom">Bloom</string>
     <string name="soft_knee">Soft Knee</string>
+    <string name="model_realesr_animevideo_v3x4">Optimized for anime and cartoons. Fast upscaling with improved natural colors and fewer artifacts</string>
 </resources>
