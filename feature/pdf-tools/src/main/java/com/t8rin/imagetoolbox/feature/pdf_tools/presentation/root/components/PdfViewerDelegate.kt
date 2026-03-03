@@ -19,6 +19,12 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PixelFormat
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +36,8 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.withScale
+import androidx.core.graphics.withTranslation
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +56,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlin.math.min
 
 @OptIn(ExperimentalPdfApi::class)
 @SuppressLint("RestrictedApi", "VisibleForTests", "PrivateResource")
@@ -161,6 +170,11 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
 
         pdfSearchView.invalidate()
 
+        pdfView.fastScrollVerticalThumbDrawable = createFastScrollDrawable(
+            backgroundColor = colorScheme.surfaceContainerHigh.toArgb(),
+            indicatorColor = colorScheme.onSurfaceVariant.toArgb()
+        )
+
         ContextCompat.getDrawable(requireContext(), R.drawable.page_indicator_background)
             ?.mutate()?.let { pageIndicatorDrawable ->
                 pageIndicatorDrawable.setTint(colorScheme.surfaceContainer.toArgb())
@@ -168,6 +182,88 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
             }
 
         pdfView.invalidate()
+    }
+
+    private fun createFastScrollDrawable(
+        backgroundColor: Int,
+        indicatorColor: Int
+    ): Drawable {
+        val density = requireContext().resources.displayMetrics.density
+        val widthDp = 36f
+        val heightDp = 48f
+
+        return object : Drawable() {
+            private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = backgroundColor
+                style = Paint.Style.FILL
+            }
+
+            private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = indicatorColor
+                style = Paint.Style.FILL
+            }
+
+            private val indicatorPath = Path().apply {
+                moveTo(480f, 880f)
+                lineTo(240f, 640f)
+                lineTo(297f, 583f)
+                lineTo(480f, 766f)
+                lineTo(663f, 583f)
+                lineTo(720f, 640f)
+                lineTo(480f, 880f)
+                close()
+
+                moveTo(298f, 376f)
+                lineTo(240f, 320f)
+                lineTo(480f, 80f)
+                lineTo(720f, 320f)
+                lineTo(662f, 376f)
+                lineTo(480f, 194f)
+                lineTo(298f, 376f)
+                close()
+            }
+
+            override fun draw(canvas: Canvas) {
+                val sizePx = 24 * density
+                val offsetX = 8 * density
+                val left = bounds.left + offsetX
+                val top = bounds.top + (bounds.height() - sizePx) / 2
+                val scale = sizePx / 960f
+
+                canvas.withTranslation(left, top) {
+                    canvas.withTranslation(-12f, -sizePx / 2) {
+                        val cx = bounds.width() / 2f
+                        val cy = bounds.height() / 2f
+                        val radius = min(bounds.width(), bounds.height()) / 2f
+                        canvas.drawCircle(cx, cy, radius + 16, bgPaint)
+                    }
+
+                    canvas.withScale(scale, scale) {
+                        drawPath(indicatorPath, indicatorPaint)
+                    }
+                }
+            }
+
+            override fun setAlpha(alpha: Int) {
+                bgPaint.alpha = alpha
+                indicatorPaint.alpha = alpha
+                invalidateSelf()
+            }
+
+            override fun getAlpha(): Int = bgPaint.alpha
+
+            override fun setColorFilter(colorFilter: ColorFilter?) {
+                bgPaint.colorFilter = colorFilter
+                indicatorPaint.colorFilter = colorFilter
+                invalidateSelf()
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
+
+            override fun getIntrinsicWidth(): Int = (widthDp * density).toInt()
+            override fun getIntrinsicHeight(): Int = (heightDp * density).toInt()
+        }
     }
 
     private val Float.dp: Float
