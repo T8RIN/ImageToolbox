@@ -101,6 +101,7 @@ fun BottomButtonsBlock(
     isScreenHaveNoDataContent: Boolean = false,
     primaryButtonContainerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     primaryButtonContentColor: Color = contentColorFor(primaryButtonContainerColor),
+    enableHorizontalStroke: Boolean = true
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val spacing = 8.dp
@@ -174,7 +175,10 @@ fun BottomButtonsBlock(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .drawHorizontalStroke(true)
+                            .drawHorizontalStroke(
+                                top = true,
+                                enabled = enableHorizontalStroke
+                            )
                             .background(
                                 MaterialTheme.colorScheme.surfaceContainer
                             ),
@@ -189,7 +193,10 @@ fun BottomButtonsBlock(
             }
         } else if (portrait) {
             BottomAppBar(
-                modifier = Modifier.drawHorizontalStroke(true),
+                modifier = Modifier.drawHorizontalStroke(
+                    top = true,
+                    enabled = enableHorizontalStroke
+                ),
                 actions = actions,
                 floatingActionButton = {
                     Row {

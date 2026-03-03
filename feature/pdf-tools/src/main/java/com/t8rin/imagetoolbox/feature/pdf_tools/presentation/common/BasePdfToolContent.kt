@@ -84,7 +84,8 @@ internal fun BasePdfToolContent(
     addHorizontalCutoutPaddingIfNoPreview: Boolean = placeImagePreview && showImagePreviewAsStickyHeader,
     secondaryButtonIcon: ImageVector = Icons.Rounded.FileOpen,
     secondaryButtonText: String = stringResource(R.string.pick_file),
-    noDataText: String = stringResource(R.string.pick_file_to_start)
+    noDataText: String = stringResource(R.string.pick_file_to_start),
+    drawBottomShadow: Boolean = true
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -210,7 +211,8 @@ internal fun BasePdfToolContent(
                 },
                 actions = {
                     if (isPortrait) actions()
-                }
+                },
+                enableHorizontalStroke = drawBottomShadow
             )
         },
         noDataControls = {

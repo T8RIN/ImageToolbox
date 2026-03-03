@@ -25,6 +25,9 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,6 +50,10 @@ fun PreviewPdfToolContent(
 ) {
     val isPortrait by isPortraitOrientationAsState()
 
+    var isSearching by remember(component.uri) {
+        mutableStateOf(false)
+    }
+
     BasePdfToolContent(
         component = component,
         pdfPicker = rememberFilePicker(
@@ -66,7 +73,10 @@ fun PreviewPdfToolContent(
         topAppBarPersistentActions = {
             if (component.uri != null && canUseNewPdf()) {
                 EnhancedIconButton(
-                    onClick = PdfViewerDelegate::toggleSearch
+                    onClick = {
+                        isSearching = !isSearching
+                        PdfViewerDelegate.toggleSearch()
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Search,
@@ -78,6 +88,7 @@ fun PreviewPdfToolContent(
         imagePreview = {},
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
+        drawBottomShadow = !isSearching,
         controls = {
             if (rememberPdfPages(component.uri).value > 0) {
                 PdfViewer(

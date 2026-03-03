@@ -181,7 +181,6 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     suspend fun applyGlobalNightMode() {
         settingsManager.settingsState.collect {
-            applyDynamicColors()
             AppCompatDelegate.setDefaultNightMode(
                 when (it.nightMode) {
                     NightMode.Dark -> AppCompatDelegate.MODE_NIGHT_YES

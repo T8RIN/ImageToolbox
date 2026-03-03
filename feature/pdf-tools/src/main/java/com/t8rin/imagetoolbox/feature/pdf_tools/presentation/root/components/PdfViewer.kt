@@ -19,14 +19,8 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
-import android.annotation.SuppressLint
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.RequiresExtension
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDp
@@ -88,13 +82,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.compose.AndroidFragment
-import androidx.lifecycle.lifecycleScope
-import androidx.pdf.ExperimentalPdfApi
-import androidx.pdf.PdfDocument
-import androidx.pdf.view.PdfView
-import androidx.pdf.viewer.fragment.PdfViewerFragment
 import coil3.Image
 import coil3.asImage
 import coil3.imageLoader
@@ -103,8 +91,6 @@ import coil3.request.ImageRequest
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.flexibleResize
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
-import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -122,11 +108,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -197,7 +178,11 @@ fun PdfViewer(
                     mutableStateOf<PdfViewerDelegate?>(null)
                 }
                 val loadingState = fragmentReference?.loadingState?.collectAsState()?.value
+                val colorScheme = MaterialTheme.colorScheme
 
+                LaunchedEffect(colorScheme, fragmentReference) {
+                    fragmentReference?.setScheme(colorScheme)
+                }
 
                 LaunchedEffect(fragmentReference) {
                     fragmentReference?.apply {
@@ -559,55 +544,6 @@ fun PdfViewer(
 
 enum class PdfViewerOrientation {
     Vertical, Grid
-}
-
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
-internal class PdfViewerDelegate : PdfViewerFragment() {
-    private val _loadingState = MutableStateFlow<Boolean?>(true)
-    val loadingState: StateFlow<Boolean?> = _loadingState
-
-    override fun onLoadDocumentSuccess(document: PdfDocument) {
-        super.onLoadDocumentSuccess(document)
-        _loadingState.value = false
-    }
-
-    @ExperimentalPdfApi
-    @SuppressLint("RestrictedApi")
-    override fun onPdfViewCreated(pdfView: PdfView) {
-        super.onPdfViewCreated(pdfView)
-        pdfContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            leftMargin = 0
-            rightMargin = 0
-        }
-    }
-
-    override fun onLoadDocumentError(error: Throwable) {
-        super.onLoadDocumentError(error)
-        _loadingState.value = null
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        requireActivity().safeCast<ComposeActivity>()?.let { activity ->
-            lifecycleScope.launch {
-                activity.applyGlobalNightMode()
-            }
-        }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    companion object {
-        private val _searchToggle: Channel<Unit> = Channel(Channel.BUFFERED)
-        val searchToggle: Flow<Unit> = _searchToggle.receiveAsFlow()
-
-        fun toggleSearch() {
-            _searchToggle.trySend(Unit)
-        }
-    }
 }
 
 @Composable
