@@ -18,15 +18,8 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
@@ -90,12 +83,7 @@ fun PreviewPdfToolContent(
                 PdfViewer(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(bottom = if (isPortrait) 80.dp else 0.dp)
-                        .windowInsetsPadding(
-                            WindowInsets.navigationBars.union(
-                                WindowInsets.displayCutout.only(WindowInsetsSides.Start)
-                            )
-                        ),
+                        .padding(bottom = if (isPortrait) 104.dp else 0.dp),
                     uriState = component.uri,
                     onForceClearType = component.onGoBack,
                     contentPadding = PaddingValues()

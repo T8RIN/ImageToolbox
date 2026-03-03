@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -87,8 +88,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.compose.AndroidFragment
 import androidx.lifecycle.lifecycleScope
+import androidx.pdf.ExperimentalPdfApi
+import androidx.pdf.PdfDocument
+import androidx.pdf.view.PdfView
 import androidx.pdf.viewer.fragment.PdfViewerFragment
 import coil3.Image
 import coil3.asImage
@@ -561,9 +566,19 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
     private val _loadingState = MutableStateFlow<Boolean?>(true)
     val loadingState: StateFlow<Boolean?> = _loadingState
 
-    override fun onLoadDocumentSuccess() {
-        super.onLoadDocumentSuccess()
+    override fun onLoadDocumentSuccess(document: PdfDocument) {
+        super.onLoadDocumentSuccess(document)
         _loadingState.value = false
+    }
+
+    @ExperimentalPdfApi
+    @SuppressLint("RestrictedApi")
+    override fun onPdfViewCreated(pdfView: PdfView) {
+        super.onPdfViewCreated(pdfView)
+        pdfContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            leftMargin = 0
+            rightMargin = 0
+        }
     }
 
     override fun onLoadDocumentError(error: Throwable) {
@@ -577,12 +592,10 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         requireActivity().safeCast<ComposeActivity>()?.let { activity ->
-            activity.applyDynamicColors()
             lifecycleScope.launch {
                 activity.applyGlobalNightMode()
             }
         }
-
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -637,11 +650,11 @@ private fun PdfPage(
 
                                 val scaleX = targetSize.width / originalWidth.toFloat()
                                 val scaleY = targetSize.height / originalHeight.toFloat()
-                                val scale = minOf(scaleX, scaleY)
+                                val scale = minOf(scaleX, scaleY) * 1.2f
 
                                 bitmap = renderer.renderImage(
                                     index,
-                                    scale.coerceAtMost(2f).makeLog("PdfDecoder, scale")
+                                    scale.coerceAtMost(3f).makeLog("PdfDecoder, scale")
                                 ).asImage()
                             }
                         }
