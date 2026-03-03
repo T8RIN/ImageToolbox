@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
-import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
@@ -70,7 +69,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
     private val pdfManager: PdfManager,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
-    private val filenameCreator: FilenameCreator,
     private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -90,9 +88,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     private val _imagesToPdfState: MutableState<List<Uri>?> = mutableStateOf(null)
     val imagesToPdfState by _imagesToPdfState
-
-    private val _pdfPreviewUri: MutableState<Uri?> = mutableStateOf(null)
-    val pdfPreviewUri by _pdfPreviewUri
 
     private val _pdfType: MutableState<Screen.PdfTools.Type?> = mutableStateOf(null)
     val pdfType: Screen.PdfTools.Type? by _pdfType
@@ -165,19 +160,8 @@ class PdfToolsComponent @AssistedInject internal constructor(
         when (type) {
             is Screen.PdfTools.Type.ImagesToPdf -> setImagesToPdf(type.imageUris)
             is Screen.PdfTools.Type.PdfToImages -> setPdfToImagesUri(type.pdfUri)
-            is Screen.PdfTools.Type.Preview -> setPdfPreview(type.pdfUri)
         }
         registerChanges()
-        resetCalculatedData()
-    }
-
-    fun setPdfPreview(uri: Uri?) {
-        _pdfType.update {
-            it as? Screen.PdfTools.Type.Preview ?: Screen.PdfTools.Type.Preview(uri)
-        }
-        _pdfPreviewUri.update { uri }
-        _imagesToPdfState.update { null }
-        _pdfToImageState.update { null }
         resetCalculatedData()
     }
 
@@ -186,7 +170,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
             it as? Screen.PdfTools.Type.ImagesToPdf ?: Screen.PdfTools.Type.ImagesToPdf(uris)
         }
         _imagesToPdfState.update { uris }
-        _pdfPreviewUri.update { null }
         _pdfToImageState.update { null }
         resetCalculatedData()
     }
@@ -214,7 +197,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
         }
 
         _imagesToPdfState.update { null }
-        _pdfPreviewUri.update { null }
         resetCalculatedData()
     }
 
@@ -224,7 +206,6 @@ class PdfToolsComponent @AssistedInject internal constructor(
 
     fun clearAll() {
         _pdfType.update { null }
-        _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
         _pdfToImageState.update { null }
         _presetSelected.update { Preset.Original }
@@ -345,7 +326,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
     ) {
         savingJob = trackProgress {
             _isSaving.value = true
-            when (val type = _pdfType.value) {
+            when (_pdfType.value) {
                 is Screen.PdfTools.Type.ImagesToPdf -> {
                     _isSaving.value = true
                     _left.value = imagesToPdfState?.size ?: 0
@@ -417,23 +398,7 @@ class PdfToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
-                is Screen.PdfTools.Type.Preview -> {
-                    type.pdfUri?.toString()?.let { uri ->
-                        shareProvider.cacheData(
-                            writeData = { writeable ->
-                                fileController.transferBytes(
-                                    fromUri = uri,
-                                    to = writeable
-                                )
-                            },
-                            filename = filenameCreator.getFilename(uri)
-                        )?.let {
-                            onSuccess(listOf(it.toUri()))
-                        }
-                    }
-                }
-
-                null -> Unit
+                else -> Unit
             }
             _isSaving.value = false
         }

@@ -70,7 +70,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Pdf
-import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -99,7 +98,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfToolsContentImpl
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
-import kotlinx.coroutines.delay
 
 @Composable
 fun PdfToolsContent(
@@ -130,11 +128,6 @@ fun PdfToolsContent(
     val pdfToImagesPicker = rememberFilePicker(
         mimeType = MimeType.Pdf,
         onSuccess = component::setPdfToImagesUri
-    )
-
-    val pdfPreviewPicker = rememberFilePicker(
-        mimeType = MimeType.Pdf,
-        onSuccess = component::setPdfPreview
     )
 
     var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -179,18 +172,6 @@ fun PdfToolsContent(
                 contentPadding = PaddingValues(12.dp),
                 flingBehavior = enhancedFlingBehavior()
             ) {
-                item {
-                    PreferenceItem(
-                        onClick = {
-                            component.setPdfPreview(tempSelectionUri)
-                            showSelectionPdfPicker = false
-                        },
-                        startIcon = Icons.Outlined.Preview,
-                        title = stringResource(R.string.preview_pdf),
-                        subtitle = stringResource(R.string.preview_pdf_sub),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
                 item {
                     PreferenceItem(
                         onClick = {
@@ -260,18 +241,8 @@ fun PdfToolsContent(
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState,
-        canScroll = { (component.pdfType !is Screen.PdfTools.Type.Preview && isPortrait) || component.pdfType == null }
+        state = topAppBarState
     )
-
-    LaunchedEffect(component.pdfType) {
-        while (component.pdfType is Screen.PdfTools.Type.Preview || (component.pdfType != null && !isPortrait)) {
-            topAppBarState.apply {
-                heightOffset = (heightOffset - 10).coerceAtLeast(heightOffsetLimit)
-            }
-            delay(10)
-        }
-    }
 
     Surface(
         modifier = Modifier
@@ -346,28 +317,20 @@ fun PdfToolsContent(
                 when (it) {
                     is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
                     is Screen.PdfTools.Type.PdfToImages -> pdfToImagesPicker.pickFile()
-                    is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
                 }
             },
             onSelectPdf = selectionPdfPicker::pickFile,
             buttons = { pdfType ->
-                val isPreview = pdfType !is Screen.PdfTools.Type.Preview
-
                 EnhancedFloatingActionButton(
                     onClick = {
                         when (pdfType) {
                             is Screen.PdfTools.Type.ImagesToPdf -> imagesToPdfPicker.pickImage()
-                            is Screen.PdfTools.Type.Preview -> pdfPreviewPicker.pickFile()
                             else -> pdfToImagesPicker.pickFile()
                         }
                     },
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    type = if (isPreview) {
-                        if (isPortrait) EnhancedFloatingActionButtonType.SecondaryHorizontal
-                        else EnhancedFloatingActionButtonType.SecondaryVertical
-                    } else {
-                        EnhancedFloatingActionButtonType.Primary
-                    }
+                    type = if (isPortrait) EnhancedFloatingActionButtonType.SecondaryHorizontal
+                    else EnhancedFloatingActionButtonType.SecondaryVertical
                 ) {
                     Icon(
                         imageVector = when (pdfType) {
@@ -377,59 +340,57 @@ fun PdfToolsContent(
                         contentDescription = stringResource(R.string.pick)
                     )
                 }
-                if (isPreview) {
-                    val visible by rememberCanSaveOrShare(
-                        selectedPages = component.pdfToImageState?.selectedPages,
-                        pdfType = pdfType
-                    )
+                val visible by rememberCanSaveOrShare(
+                    selectedPages = component.pdfToImageState?.selectedPages,
+                    pdfType = pdfType
+                )
 
-                    if (visible) {
-                        if (isPortrait) {
-                            Spacer(modifier = Modifier.width(8.dp))
-                        } else {
-                            Spacer(modifier = Modifier.height(8.dp))
-                        }
+                if (visible) {
+                    if (isPortrait) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    } else {
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
+                }
 
-                    AnimatedVisibility(
-                        visible = visible,
-                        enter = fadeIn() + scaleIn() + expandIn(),
-                        exit = fadeOut() + scaleOut() + shrinkOut()
-                    ) {
-                        val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
-                            component.savePdfToImages(
-                                oneTimeSaveLocationUri = it,
-                                onComplete = essentials::parseSaveResults
-                            )
-                        }
-                        var showFolderSelectionDialog by rememberSaveable {
-                            mutableStateOf(false)
-                        }
-                        EnhancedFloatingActionButton(
-                            onClick = {
-                                if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
-                                    component.convertImagesToPdf {
-                                        savePdfLauncher.make(component.generatePdfFilename())
-                                    }
-                                } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-                                    savePdfToImages(null)
-                                }
-                            },
-                            onLongClick = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-                                { showFolderSelectionDialog = true }
-                            } else null
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Save,
-                                contentDescription = stringResource(R.string.save)
-                            )
-                        }
-                        OneTimeSaveLocationSelectionDialog(
-                            visible = showFolderSelectionDialog,
-                            onDismiss = { showFolderSelectionDialog = false },
-                            onSaveRequest = savePdfToImages
+                AnimatedVisibility(
+                    visible = visible,
+                    enter = fadeIn() + scaleIn() + expandIn(),
+                    exit = fadeOut() + scaleOut() + shrinkOut()
+                ) {
+                    val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
+                        component.savePdfToImages(
+                            oneTimeSaveLocationUri = it,
+                            onComplete = essentials::parseSaveResults
                         )
                     }
+                    var showFolderSelectionDialog by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    EnhancedFloatingActionButton(
+                        onClick = {
+                            if (pdfType is Screen.PdfTools.Type.ImagesToPdf && component.imagesToPdfState != null) {
+                                component.convertImagesToPdf {
+                                    savePdfLauncher.make(component.generatePdfFilename())
+                                }
+                            } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                                savePdfToImages(null)
+                            }
+                        },
+                        onLongClick = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                            { showFolderSelectionDialog = true }
+                        } else null
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Save,
+                            contentDescription = stringResource(R.string.save)
+                        )
+                    }
+                    OneTimeSaveLocationSelectionDialog(
+                        visible = showFolderSelectionDialog,
+                        onDismiss = { showFolderSelectionDialog = false },
+                        onSaveRequest = savePdfToImages
+                    )
                 }
             },
             controls = { pdfType ->

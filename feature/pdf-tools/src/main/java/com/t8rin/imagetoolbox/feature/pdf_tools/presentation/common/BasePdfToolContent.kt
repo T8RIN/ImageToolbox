@@ -67,7 +67,11 @@ internal fun BasePdfToolContent(
     showImagePreviewAsStickyHeader: Boolean = true,
     controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
     canSave: Boolean = true,
-    onFilledPassword: () -> Unit = {}
+    canShare: Boolean = canSave,
+    onFilledPassword: () -> Unit = {},
+    forceImagePreviewToMax: Boolean = false,
+    placeControlsSeparately: Boolean = false,
+    addHorizontalCutoutPaddingIfNoPreview: Boolean = placeImagePreview && showImagePreviewAsStickyHeader
 ) {
     val essentials = rememberLocalEssentials()
     val showConfetti: () -> Unit = essentials::showConfetti
@@ -107,6 +111,7 @@ internal fun BasePdfToolContent(
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
         placeImagePreview = placeImagePreview,
+        addHorizontalCutoutPaddingIfNoPreview = addHorizontalCutoutPaddingIfNoPreview,
         showImagePreviewAsStickyHeader = showImagePreviewAsStickyHeader,
         title = {
             TopAppBarTitle(
@@ -116,6 +121,8 @@ internal fun BasePdfToolContent(
                 size = null
             )
         },
+        forceImagePreviewToMax = forceImagePreviewToMax,
+        placeControlsSeparately = placeControlsSeparately,
         onGoBack = onBack,
         actions = {
             var editSheetData by remember {
@@ -123,7 +130,7 @@ internal fun BasePdfToolContent(
             }
 
             ShareButton(
-                enabled = canSave,
+                enabled = canShare,
                 onShare = {
                     component.performSharing(
                         onSuccess = showConfetti,

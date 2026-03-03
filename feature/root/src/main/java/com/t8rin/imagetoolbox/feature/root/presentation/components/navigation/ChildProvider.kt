@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.merge.screenLogic.M
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.metadata.screenLogic.MetadataPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.ocr.screenLogic.OCRPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.page_numbers.screenLogic.PageNumbersPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.print.screenLogic.PrintPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.protect.screenLogic.ProtectPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLogic.RearrangePdfToolComponent
@@ -124,6 +125,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PrintPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ProtectPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RearrangePdfTool
@@ -233,6 +235,7 @@ internal class ChildProvider @Inject constructor(
     private val extractImagesPdfToolComponentFactory: ExtractImagesPdfToolComponent.Factory,
     private val zipConvertPdfToolComponentFactory: ZipConvertPdfToolComponent.Factory,
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
+    private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
 ) {
     fun RootComponent.createChild(
         config: Screen,
@@ -848,6 +851,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.Print -> PrintPdfTool(
             printPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.Preview -> PreviewPdfTool(
+            previewPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

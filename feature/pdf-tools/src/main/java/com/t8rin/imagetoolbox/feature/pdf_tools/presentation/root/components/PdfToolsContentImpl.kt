@@ -57,7 +57,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FileOpen
@@ -84,7 +83,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberLocalEssentials
@@ -102,7 +100,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.PdfToolsComponent
 
 @Composable
@@ -134,13 +131,11 @@ internal fun PdfToolsContentImpl(
                         modifier = Modifier.marquee()
                     ) {
                         AnimatedContent(
-                            targetState = component.pdfType to component.pdfPreviewUri,
+                            targetState = component.pdfType,
                             transitionSpec = { fadeIn() togetherWith fadeOut() }
-                        ) { (pdfType, previewUri) ->
+                        ) { pdfType ->
                             Text(
-                                text = previewUri?.let {
-                                    rememberFilename(it)
-                                } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
+                                text = stringResource(pdfType?.title ?: R.string.pdf_tools),
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -242,21 +237,6 @@ internal fun PdfToolsContentImpl(
                                 }
                             }
                         }
-
-                        if (canUseNewPdf()) {
-                            AnimatedVisibility(
-                                visible = component.pdfType is Screen.PdfTools.Type.Preview
-                            ) {
-                                EnhancedIconButton(
-                                    onClick = PdfViewerDelegate::toggleSearch
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Search,
-                                        contentDescription = stringResource(R.string.search_here)
-                                    )
-                                }
-                            }
-                        }
                     }
                 }
             )
@@ -352,14 +332,14 @@ internal fun PdfToolsContentImpl(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            if (pdfType is Screen.PdfTools.Type.Preview || pdfType is Screen.PdfTools.Type.PdfToImages) {
+                            if (pdfType is Screen.PdfTools.Type.PdfToImages) {
                                 val direction = LocalLayoutDirection.current
                                 Box(
                                     modifier = Modifier
                                         .container(
                                             shape = RectangleShape,
                                             resultPadding = 0.dp,
-                                            color = if (pdfType is Screen.PdfTools.Type.Preview || !isPortrait) {
+                                            color = if (!isPortrait) {
                                                 MaterialTheme.colorScheme.surfaceContainerLow
                                             } else MaterialTheme.colorScheme.surface
                                         )
@@ -367,66 +347,52 @@ internal fun PdfToolsContentImpl(
                                         .clipToBounds(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    if (pdfType is Screen.PdfTools.Type.Preview) {
+                                    Column(
+                                        modifier = if (isPortrait) {
+                                            Modifier
+                                                .fillMaxSize()
+                                                .enhancedVerticalScroll(rememberScrollState())
+                                        } else Modifier,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        val pagesCount =
+                                            component.pdfToImageState?.pagesCount ?: 1
                                         PdfViewer(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            uriState = component.pdfPreviewUri,
-                                            onForceClearType = onForceClearType,
-                                            contentPadding = PaddingValues(
-                                                start = 20.dp + WindowInsets.displayCutout
-                                                    .asPaddingValues()
-                                                    .calculateStartPadding(direction),
-                                                end = 20.dp
-                                            )
-                                        )
-                                    } else {
-                                        Column(
                                             modifier = if (isPortrait) {
                                                 Modifier
-                                                    .fillMaxSize()
-                                                    .enhancedVerticalScroll(rememberScrollState())
-                                            } else Modifier,
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            val pagesCount =
-                                                component.pdfToImageState?.pagesCount ?: 1
-                                            PdfViewer(
-                                                modifier = if (isPortrait) {
-                                                    Modifier
-                                                        .height(
-                                                            (130.dp * pagesCount).coerceAtMost(420.dp)
-                                                        )
-                                                        .fillMaxWidth()
-                                                } else {
-                                                    Modifier.fillMaxWidth()
-                                                }.padding(
-                                                    start = WindowInsets
-                                                        .displayCutout
-                                                        .asPaddingValues()
-                                                        .calculateStartPadding(direction)
-                                                ),
-                                                onGetCorrectPassword = component::updatePdfPassword,
-                                                onForceClearType = onForceClearType,
-                                                onGetPagesCount = component::updatePdfToImagePagesCount,
-                                                uriState = component.pdfToImageState?.uri,
-                                                orientation = PdfViewerOrientation.Grid,
-                                                enableSelection = true,
-                                                selectAllToggle = selectAllToggle,
-                                                deselectAllToggle = deselectAllToggle,
-                                                selectedPages = component.pdfToImageState?.selectedPages
-                                                    ?: emptyList(),
-                                                updateSelectedPages = component::updatePdfToImageSelection,
-                                                spacing = 4.dp
-                                            )
-                                            if (isPortrait) {
-                                                controls(pdfType)
-                                            }
+                                                    .height(
+                                                        (130.dp * pagesCount).coerceAtMost(420.dp)
+                                                    )
+                                                    .fillMaxWidth()
+                                            } else {
+                                                Modifier.fillMaxWidth()
+                                            }.padding(
+                                                start = WindowInsets
+                                                    .displayCutout
+                                                    .asPaddingValues()
+                                                    .calculateStartPadding(direction)
+                                            ),
+                                            onGetCorrectPassword = component::updatePdfPassword,
+                                            onForceClearType = onForceClearType,
+                                            onGetPagesCount = component::updatePdfToImagePagesCount,
+                                            uriState = component.pdfToImageState?.uri,
+                                            orientation = PdfViewerOrientation.Grid,
+                                            enableSelection = true,
+                                            selectAllToggle = selectAllToggle,
+                                            deselectAllToggle = deselectAllToggle,
+                                            selectedPages = component.pdfToImageState?.selectedPages
+                                                ?: emptyList(),
+                                            updateSelectedPages = component::updatePdfToImageSelection,
+                                            spacing = 4.dp
+                                        )
+                                        if (isPortrait) {
+                                            controls(pdfType)
                                         }
                                     }
                                 }
                             }
 
-                            if (pdfType !is Screen.PdfTools.Type.Preview && !isPortrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
+                            if (!isPortrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
                                 val direction = LocalLayoutDirection.current
                                 Box(
                                     modifier = Modifier

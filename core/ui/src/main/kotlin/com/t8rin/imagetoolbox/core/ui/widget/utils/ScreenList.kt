@@ -84,10 +84,8 @@ internal fun List<Uri>.screenList(
     val pdfAvailableScreens by remember(uris) {
         derivedStateOf {
             listOf(
-                Screen.PdfTools(
-                    Screen.PdfTools.Type.Preview(
-                        uris.firstOrNull()
-                    )
+                Screen.PdfTools.Preview(
+                    uris.firstOrNull()
                 ),
                 Screen.PdfTools(
                     Screen.PdfTools.Type.PdfToImages(

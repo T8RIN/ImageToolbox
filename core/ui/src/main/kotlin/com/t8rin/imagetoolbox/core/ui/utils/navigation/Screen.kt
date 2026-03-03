@@ -36,7 +36,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
-import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Webp
@@ -301,16 +300,7 @@ sealed class Screen(
                 get() = when (this) {
                     is ImagesToPdf -> Icons.Outlined.Scanner
                     is PdfToImages -> Icons.Outlined.ArtTrack
-                    is Preview -> Icons.Outlined.Preview
                 }
-
-            @Serializable
-            data class Preview(
-                val pdfUri: Uri? = null
-            ) : Type(
-                title = R.string.preview_pdf,
-                subtitle = R.string.preview_pdf_sub
-            )
 
             @Serializable
             data class PdfToImages(
@@ -331,7 +321,6 @@ sealed class Screen(
             companion object {
                 val entries by lazy {
                     listOf(
-                        Preview(),
                         PdfToImages(),
                         ImagesToPdf()
                     )
@@ -342,6 +331,7 @@ sealed class Screen(
         companion object {
             val options: List<Screen> by lazy {
                 listOf(
+                    Preview(),
                     Merge(),
                     Split(),
                     RemovePages(),
@@ -544,6 +534,15 @@ sealed class Screen(
             id = 63,
             title = R.string.print_pdf,
             subtitle = R.string.print_pdf_sub
+        )
+
+        @Serializable
+        data class Preview(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 64,
+            title = R.string.preview_pdf,
+            subtitle = R.string.preview_pdf_sub
         )
 
     }
