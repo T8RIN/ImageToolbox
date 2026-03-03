@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -48,7 +47,6 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
@@ -177,18 +175,6 @@ abstract class ComposeActivity : AppCompatActivity() {
                 .setContentBasedSource(colorTuple.primary.toArgb())
                 .build()
         )
-    }
-
-    suspend fun applyGlobalNightMode() {
-        settingsManager.settingsState.collect {
-            AppCompatDelegate.setDefaultNightMode(
-                when (it.nightMode) {
-                    NightMode.Dark -> AppCompatDelegate.MODE_NIGHT_YES
-                    NightMode.Light -> AppCompatDelegate.MODE_NIGHT_NO
-                    NightMode.System -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                }
-            )
-        }
     }
 
     private fun updateFirebaseParams() = analyticsManager.apply {

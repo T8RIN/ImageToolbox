@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.canUseNewPdf
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.preview.screenLogic.PreviewPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfViewer
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.components.PdfViewerDelegate
 
 @Composable
 fun PreviewPdfToolContent(
@@ -75,7 +74,6 @@ fun PreviewPdfToolContent(
                 EnhancedIconButton(
                     onClick = {
                         isSearching = !isSearching
-                        PdfViewerDelegate.toggleSearch()
                     }
                 ) {
                     Icon(
@@ -97,7 +95,8 @@ fun PreviewPdfToolContent(
                         .padding(bottom = if (isPortrait) 104.dp else 0.dp),
                     uriState = component.uri,
                     onForceClearType = component.onGoBack,
-                    contentPadding = PaddingValues()
+                    contentPadding = PaddingValues(),
+                    isSearching = isSearching
                 )
             }
         },

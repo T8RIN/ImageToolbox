@@ -27,8 +27,7 @@ import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.text.TextPaint
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresExtension
@@ -40,7 +39,6 @@ import androidx.core.graphics.withScale
 import androidx.core.graphics.withTranslation
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.pdf.ExperimentalPdfApi
 import androidx.pdf.PdfDocument
 import androidx.pdf.R
@@ -48,14 +46,8 @@ import androidx.pdf.view.PdfView
 import androidx.pdf.view.ToolBoxView
 import androidx.pdf.viewer.fragment.PdfViewerFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
-import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import kotlin.math.min
 
 @OptIn(ExperimentalPdfApi::class)
@@ -81,31 +73,6 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
     override fun onLoadDocumentError(error: Throwable) {
         super.onLoadDocumentError(error)
         _loadingState.value = null
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        requireActivity().safeCast<ComposeActivity>()?.let { activity ->
-            activity.applyDynamicColors()
-            lifecycleScope.launch {
-                activity.applyGlobalNightMode()
-            }
-        }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    private fun ToolBoxView.getEditFab(): FloatingActionButton? {
-        return try {
-            val field = ToolBoxView::class.java.getDeclaredField("editButton")
-            field.isAccessible = true
-            field.get(this) as? FloatingActionButton
-        } catch (_: Throwable) {
-            null
-        }
     }
 
     fun setScheme(colorScheme: ColorScheme) {
@@ -177,9 +144,19 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
 
         ContextCompat.getDrawable(requireContext(), R.drawable.page_indicator_background)
             ?.mutate()?.let { pageIndicatorDrawable ->
-                pageIndicatorDrawable.setTint(colorScheme.surfaceContainer.toArgb())
+                pageIndicatorDrawable.setTint(colorScheme.surfaceContainerHigh.toArgb())
                 pdfView.fastScrollPageIndicatorBackgroundDrawable = pageIndicatorDrawable
             }
+
+        pdfView.fastScroller?.fastScrollDrawer?.let {
+            try {
+                val field = it.javaClass.getDeclaredField("textPaint")
+                field.isAccessible = true
+                (field.get(it) as TextPaint).color = colorScheme.onSurface.toArgb()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
 
         pdfView.invalidate()
     }
@@ -266,15 +243,17 @@ internal class PdfViewerDelegate : PdfViewerFragment() {
         }
     }
 
-    private val Float.dp: Float
-        get() = this * requireContext().resources.displayMetrics.density
-
-    companion object {
-        private val _searchToggle: Channel<Unit> = Channel(Channel.BUFFERED)
-        val searchToggle: Flow<Unit> = _searchToggle.receiveAsFlow()
-
-        fun toggleSearch() {
-            _searchToggle.trySend(Unit)
+    private fun ToolBoxView.getEditFab(): FloatingActionButton? {
+        return try {
+            val field = ToolBoxView::class.java.getDeclaredField("editButton")
+            field.isAccessible = true
+            field.get(this) as? FloatingActionButton
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            null
         }
     }
+
+    private val Float.dp: Float
+        get() = this * requireContext().resources.displayMetrics.density
 }

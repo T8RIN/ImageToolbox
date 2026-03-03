@@ -137,7 +137,8 @@ fun PdfViewer(
     spacing: Dp = 8.dp,
     onGetCorrectPassword: (String?) -> Unit = {},
     orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical,
-    contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp)
+    contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp),
+    isSearching: Boolean = false
 ) {
     val essentials = rememberLocalEssentials()
 
@@ -184,13 +185,8 @@ fun PdfViewer(
                     fragmentReference?.setScheme(colorScheme)
                 }
 
-                LaunchedEffect(fragmentReference) {
-                    fragmentReference?.apply {
-                        PdfViewerDelegate.searchToggle.collect {
-                            @Suppress("RestrictedApi")
-                            isTextSearchActive = !isTextSearchActive
-                        }
-                    }
+                LaunchedEffect(fragmentReference, isSearching) {
+                    fragmentReference?.isTextSearchActive = isSearching
                 }
 
                 AndroidFragment<PdfViewerDelegate>(
